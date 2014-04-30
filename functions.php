@@ -1,5 +1,8 @@
 <?php
 
+require_once("core/functions.php");
+require_once("inc/core_customization.php");
+
 /*-----------------------------------------------------------------------------------*/
 /* Start Custom Functions - Please refrain from editing this section */
 /*-----------------------------------------------------------------------------------*/

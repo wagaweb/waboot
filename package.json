@@ -1,0 +1,29 @@
+{
+  "name": "alienship",
+  "version": "1.2.0",
+  "author": "John Parris",
+  "homepage": "http://www.johnparris.com/alienship/",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/mindctrl/alienship.git"
+  },
+  "bugs": {
+    "url" : "https://github.com/mindctrl/alienship/issues"
+  },
+  "licenses": [{
+    "type": "GPL",
+    "url": "http://www.gnu.org/licenses/gpl-2.0.html"
+  }],
+  "engines": {
+    "node": ">= 0.10.0"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-clean": "~0.5.0",
+    "grunt-contrib-jshint": "~0.6.4",
+    "grunt-contrib-uglify": "~0.2.4",
+    "grunt-contrib-watch": "~0.5.3",
+    "grunt-recess": "~0.4.0",
+    "grunt-wp-version": "~0.1.0"
+  }
+}

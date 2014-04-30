@@ -1,10 +1,9 @@
 /*
-Theme Name: WShip
-Description: Child theme for the Alien Ship theme
+Theme Name: Waboot
+Description: Starter theme
 Version: 1.0
 Author: Waga
 Author URI: https://waga.it
-Template: alienship
 */
 
 /*
@@ -19,7 +18,7 @@ http://codex.wordpress.org/Child_Themes
 Uncomment the following line to import Alien Ship's style.css file.
 ---------------------------------------------------------------------
 */
-@import url("../alienship/style.css");
+@import url("core/css/style.css");
 @import url("css/custom.css");
 
 
