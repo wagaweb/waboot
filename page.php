@@ -13,7 +13,11 @@
 
 get_header(); ?>
 
+    <?php if ( current_theme_supports( 'theme-layouts' ) && 'layout-1c' == theme_layouts_get_layout()) : ?>
+    <div id="primary" class="<?php echo apply_filters( 'alienship_primary_container_class', 'content-area col-sm-12' ); ?>">
+    <?php else : ?>
 	<div id="primary" class="<?php echo apply_filters( 'alienship_primary_container_class', 'content-area col-sm-8' ); ?>">
+    <?php endif; ?>
 
 		<?php do_action( 'alienship_main_before' ); ?>
 		<main id="main" class="site-main" role="main">
