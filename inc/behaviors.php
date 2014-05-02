@@ -1,4 +1,13 @@
 <?php
+/**
+ * Behaviors Framework
+ *
+ * @package   Behaviors Framework
+ * @author    Riccardo D'Angelo <me@riccardodangelo.com>
+ * @license   copyrighted
+ * @link      http://www.waga.it
+ * @copyright 2014 Riccardo D'Angelo and WAGA.it
+ */
 
 add_action( 'add_meta_boxes', 'waboot_behavior_create_metabox' );
 add_action( 'save_post', 'waboot_behavior_save_metabox' );
