@@ -17,120 +17,6 @@
 if ( ! isset( $content_width ) )
     $content_width = 940; // pixels
 
-
-if ( ! function_exists( 'waboot_core_setup' ) ):
-    /**
-     * Sets up theme defaults and registers support for various WordPress features.
-     *
-     * Note that this function is hooked into the after_setup_theme hook, which runs
-     * before the init hook. The init hook is too late for some features, such as indicating
-     * support for post thumbnails.
-     * @since Alien Ship 1.0
-     */
-    function waboot_core_setup() {
-
-        // Custom template tags for this theme.
-        locate_template( '/core/inc/template-tags.php', true );
-
-        // Clean up header output
-        locate_template( '/core/inc/cleanup.php', true );
-
-        // Register the navigation menus.
-        locate_template( '/core/inc/menus.php', true );
-        locate_template( '/core/inc/wp_bootstrap_navwalker.php', true );
-
-        // Register sidebars
-        locate_template( '/core/inc/sidebars.php', true );
-
-        // Header image
-        locate_template( '/core/inc/header-image.php', true );
-
-        // Load theme options framework
-        $l = locate_template( '/core/inc/options-panel.php', true );
-
-        // Customizer
-        locate_template( '/core/inc/customizer.php', true );
-
-        // Breadcrumbs
-        if ( of_get_option( 'alienship_breadcrumbs',1) ) {
-            locate_template( '/core/inc/breadcrumb-trail.php', true );
-        }
-
-        // Custom functions that act independently of the theme templates
-        locate_template( '/core/inc/tweaks.php', true );
-
-        // Load the CSS
-        locate_template( '/core/inc/stylesheets.php', true );
-
-        // Load scripts
-        locate_template( '/core/inc/scripts.php', true );
-
-        // Load Theme Layouts extension and add theme support for desired layouts
-        locate_template( '/core/inc/theme-layouts.php', true );
-        add_theme_support( 'theme-layouts', array( '1c', '2c-l', '2c-r' ) );
-
-        /**
-         * Make theme available for translation
-         * Translations can be filed in the /languages/ directory
-         * If you're building a theme based on alienship, use a find and replace
-         * to change 'alienship' to the name of your theme in all the template files
-         */
-        load_theme_textdomain( 'alienship', get_template_directory() . '/languages' );
-
-
-        // Add default posts and comments RSS feed links to head
-        add_theme_support( 'automatic-feed-links' );
-
-        // Add support for custom backgrounds
-        add_theme_support( 'custom-background', array(
-            'default-color' => 'ffffff',
-        ) );
-
-        // Add support for post-thumbnails
-        add_theme_support( 'post-thumbnails' );
-
-        // Add support for post formats. To be styled in later release.
-        add_theme_support( 'post-formats', array( 'aside', 'gallery', 'link', 'image', 'quote', 'status', 'video', 'audio', 'chat' ) );
-
-        // Load Jetpack related support if needed.
-        if ( class_exists( 'Jetpack' ) )
-            locate_template( '/core/inc/jetpack.php', true );
-    }
-endif; // alienship_setup
-add_action( 'after_setup_theme', 'waboot_core_setup' );
-
-
-
-/*
- * Allow "a", "embed" and "script" tags in theme options text boxes
- */
-function optionscheck_change_sanitize() {
-
-    remove_filter( 'of_sanitize_text', 'sanitize_text_field' );
-    add_filter( 'of_sanitize_text', 'custom_sanitize_text' );
-}
-add_action( 'admin_init','optionscheck_change_sanitize', 100 );
-
-
-
-function custom_sanitize_text( $input ) {
-
-    global $allowedposttags;
-
-    $custom_allowedtags["a"] = array(
-        "href"   => array(),
-        "target" => array(),
-        "id"     => array(),
-        "class"  => array()
-    );
-
-    $custom_allowedtags = array_merge( $custom_allowedtags, $allowedposttags );
-    $output = wp_kses( $input, $custom_allowedtags );
-    return $output;
-}
-
-
-
 // Display a notice about menu functionality
 function alienship_admin_notice_menus() {
 
@@ -146,8 +32,6 @@ function alienship_admin_notice_menus() {
 }
 add_action( 'admin_notices', 'alienship_admin_notice_menus' );
 
-
-
 function alienship_admin_notice_menus_ignore() {
 
     global $current_user;
@@ -159,8 +43,6 @@ function alienship_admin_notice_menus_ignore() {
     }
 }
 add_action( 'admin_init', 'alienship_admin_notice_menus_ignore' );
-
-
 
 if ( ! function_exists( 'alienship_locate_template_uri' ) ):
     /**
@@ -194,8 +76,6 @@ if ( ! function_exists( 'alienship_locate_template_uri' ) ):
     }
 endif;
 
-
-
 /**
  * Alien Ship RSS Feed Dashboard Widget
  *
@@ -218,15 +98,11 @@ function alienship_rss_dashboard_widget() {
     echo '</div>';
 }
 
-
-
 function alienship_custom_dashboard_widgets() {
 
     wp_add_dashboard_widget( 'dashboard_custom_feed', 'Alien Ship News', 'alienship_rss_dashboard_widget' );
 }
 add_action('wp_dashboard_setup', 'alienship_custom_dashboard_widgets');
-
-
 
 /**
  * Creates the title based on current view
@@ -256,8 +132,6 @@ function alienship_wp_title( $title, $sep ) {
 }
 add_filter( 'wp_title', 'alienship_wp_title', 10, 2 );
 
-
-
 /**
  * Define theme layouts
  * @since 1.0
@@ -273,8 +147,6 @@ function alienship_layouts_strings() {
     return $strings;
 }
 add_filter( 'theme_layouts_strings', 'alienship_layouts_strings' );
-
-
 
 /**
  * Apply custom stylesheet to the visual editor.

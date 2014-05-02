@@ -1,6 +1,9 @@
 == Change log ==
-Version 1.0 - April 30, 2014
+Version 1.0 - April 30, 2014 -> May 03, 2014
 ---------------------------------
 - Il tema è ora indipendente (versione BETA)
 - Ora lo stile "/css/tinymce.css" viene applicato automaticamente a tinyMCE
 - Sono possibili stili custom per tinymce a seconda del post-type: per esempio /css/tinymce-page.css viene applicato all'editor solo quando si modificano pagine.
+- Creato il file Grunt (per ora gestisce solo i file less)
+- Spostato l'Options Framework Theme è fuori dal "core" (options.php e options-panel.php in "inc", il resto in "admin")
+- Introdotto (ma non attivato) il nuovo modulo "Behavior" per le Theme Options
