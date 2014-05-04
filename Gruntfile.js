@@ -53,6 +53,53 @@ module.exports = function(grunt) {
               }
           }
         },
+        copy:{
+            dev:{
+                files:[
+                {
+                    expand: true,
+                    flatten: true,
+                    cwd: "bower_components/fontawesome",
+                    src: "css/font-awesome.min.css",
+                    dest: "css"
+                },
+                {
+                    expand: true,
+                    flatten: true,
+                    cwd: "bower_components/fontawesome",
+                    src: "fonts/*",
+                    dest: "fonts"
+                },
+                {
+                    expand: true,
+                    flatten: true,
+                    cwd: "bower_components/bootstrap/dist",
+                    src: ["css/*","!css/bootstrap.css","!css/bootstrap-theme.css"],
+                    dest: "css"
+                },
+                {
+                    expand: true,
+                    flatten: true,
+                    cwd: "bower_components/bootstrap/dist",
+                    src: "fonts/*",
+                    dest: "fonts"
+                },
+                {
+                    expand: true,
+                    flatten: true,
+                    cwd: "bower_components/bootstrap/dist",
+                    src: "js/bootstrap.min.js",
+                    dest: "js/"
+                },
+                {
+                    expand: true,
+                    flatten: true,
+                    cwd: "bower_components/html5shiv/dist",
+                    src: "html5shiv.min.js",
+                    dest: "js"
+                }]
+            }
+        },
         watch: {
             less: {
                 files: 'less/*.less',
@@ -62,6 +109,7 @@ module.exports = function(grunt) {
     });
 
     // Register tasks
+    grunt.registerTask('setup', ['bower-install','less:dev','copy:dev']); //Setup task
     grunt.registerTask('default', ['watch']); // Default task
     grunt.registerTask('build', ['recess:production']); // Build task
 
@@ -73,4 +121,15 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-recess');
     grunt.loadNpmTasks('grunt-wp-version');
+    grunt.loadNpmTasks('grunt-contrib-copy');
+
+    // Run bower install
+    grunt.registerTask('bower-install', function() {
+        var exec = require('child_process').exec;
+        var cb = this.async();
+        exec('bower install', function(err, stdout, stderr) {
+            console.log(stdout);
+            cb();
+        });
+    });
 }

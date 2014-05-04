@@ -40,10 +40,10 @@ if ( ! function_exists( 'waboot_setup' ) ):
         locate_template( '/core/inc/tweaks.php', true );
 
         // Load the CSS
-        locate_template( '/core/inc/stylesheets.php', true );
+        locate_template( '/inc/stylesheets.php', true );
 
         // Load scripts
-        locate_template( '/core/inc/scripts.php', true );
+        locate_template( '/inc/scripts.php', true );
 
         // Load Theme Layouts extension and add theme support for desired layouts
         locate_template( '/core/inc/theme-layouts.php', true );
