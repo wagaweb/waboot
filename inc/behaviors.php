@@ -12,6 +12,12 @@
 add_action( 'add_meta_boxes', 'waboot_behavior_create_metabox' );
 add_action( 'save_post', 'waboot_behavior_save_metabox' );
 
+function get_behavior($name){
+    global $post;
+    $current_behavior_value = get_post_meta($post->ID,"_behavior_".$name,waboot_behavior_get_default($name));
+    return $current_behavior_value;
+}
+
 function waboot_behavior_create_metabox(){
     $options = waboot_behavior_import_predefined_options();
     add_meta_box("behavior","Behaviors","waboot_behavior_display_metabox",null,"side","default",array($options));
@@ -159,4 +165,24 @@ function waboot_behavior_import_predefined_options(){
     }
 
     return $predef_behaviors;
+}
+
+function waboot_behavior_get_default($name){
+    //Get the default value specified in files
+    $behaviors = waboot_behavior_get_options();
+    foreach($behaviors as $b){
+        if($b['name'] == $name){
+            if(isset($b['default'])){
+                if($b['type'] == "checkbox"){
+                    $base_default = $b['default'] == 1? true : false;
+                }else{
+                    $base_default = $b['default'];
+                }
+            }
+        }
+    }
+    //Get the default value specified via Theme Options
+    $default = of_get_option("behavior_".$name,$base_default);
+
+    return $default;
 }

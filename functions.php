@@ -23,7 +23,7 @@ if ( ! function_exists( 'waboot_setup' ) ):
         locate_template( '/core/inc/header-image.php', true );
 
         // Load behaviors extension
-        //locate_template( '/inc/behaviors.php', true );
+        locate_template( '/inc/behaviors.php', true );
 
         // Load theme options framework
         locate_template( '/inc/options-panel.php', true );

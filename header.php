@@ -109,7 +109,7 @@ body {
 	<?php endif; ?>
 		
 	<div id="content-wrapper" class="<?php echo of_get_option( 'wship_content_width' ); ?>">
-	<div id="content" class="site-content row">
+	<div id="content" class="site-content row <?php if(get_behavior('layout') == "sidebar-left") echo 'sidebar-left'; ?>">
 
 	<?php if ( function_exists( 'breadcrumb_trail' ) && !is_front_page() )
 		breadcrumb_trail( array(

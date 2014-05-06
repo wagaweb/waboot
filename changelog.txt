@@ -9,5 +9,7 @@ Version 1.0 - April 30, 2014 -> May 06, 2014
 - Sono possibili stili custom per tinymce a seconda del post-type: per esempio /css/tinymce-page.css viene applicato all'editor solo quando si modificano pagine.
 - Spostato l'Options Framework Theme è fuori dal "core" (options.php e options-panel.php in "inc", il resto in "admin")
 - Spostati i file scripts.php e stylesheets.php da core/inc a /inc e modificati per riflettere la struttura delle directory attuale
-- Introdotto (ma non attivato) il nuovo modulo "Behavior" per le Theme Options
+- Introdotto il nuovo modulo "Behavior" per le Theme Options
+- Introdotti, tramite modulo "Behavior", i tre tipi di layout precedentemente presenti in "Theme Layout"
+- Introdotto, tramite modulo "Behavior", la possibilità di nascondere il titolo nelle pagine (inc/core_customization.php)
 - Ora è possibile specificare degli stili custom per le Theme Options (less/optionsframework.less)

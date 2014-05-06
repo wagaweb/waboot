@@ -9,6 +9,15 @@ Author URI: https://waga.it
 /*
 The theme main style. It is imported in style.less. Do not use directly.
 */
+/* Sidebar-left layout: */
+.sidebar-left #primary {
+  float: right;
+}
+.sidebar-left #secondary {
+  float: left;
+  margin-left: 0;
+}
+/* -| Sidebar-left layout; */
 .col-xs-1,
 .col-sm-1,
 .col-md-1,

@@ -13,7 +13,8 @@
 
 get_header(); ?>
 
-    <?php if ( current_theme_supports( 'theme-layouts' ) && 'layout-1c' == theme_layouts_get_layout()) : ?>
+    <?php //if ( current_theme_supports( 'theme-layouts' ) && 'layout-1c' == theme_layouts_get_layout()) : ?>
+    <?php if ( get_behavior( 'layout' ) == "full-width" ) : ?>
     <div id="primary" class="<?php echo apply_filters( 'alienship_primary_container_class', 'content-area col-sm-12' ); ?>">
     <?php else : ?>
 	<div id="primary" class="<?php echo apply_filters( 'alienship_primary_container_class', 'content-area col-sm-8' ); ?>">
