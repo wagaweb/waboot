@@ -156,10 +156,9 @@ add_filter( 'theme_layouts_strings', 'alienship_layouts_strings' );
  * @uses get_stylesheet_uri()
  */
 function waboot_editor_styles() {
-
     add_editor_style( get_stylesheet_uri() );
     add_editor_style( 'css/bootstrap.min.css' );
-    add_editor_style( 'css/tinymce.css' ); //Overwrite some bootstrap stylesheet
+    add_editor_style( 'admin/css/tinymce.css' ); //Overwrite some bootstrap stylesheet
 }
 add_action( 'init', 'waboot_editor_styles' );
 
@@ -173,6 +172,6 @@ function waboot_post_type_editot_styles(){
     global $post;
     $post_type = get_post_type( $post->ID );
     $editor_style = 'tinymce-' . $post_type . '.css';
-    add_editor_style( "css/".$editor_style );
+    add_editor_style( "admin/css/".$editor_style );
 }
 add_action( 'pre_get_posts', 'waboot_post_type_editot_styles' );

@@ -4,7 +4,6 @@ Version: 1.0
 Author: Waga
 Author URI: https://waga.it
 */
-
-body#tinymce{
+body#tinymce {
   padding: 10px;
 }

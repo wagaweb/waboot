@@ -8,8 +8,9 @@ module.exports = function(grunt) {
                 },
                 files:{
                     'css/style.css': 'less/style.less',
-                    'css/tinymce.css': 'less/tinymce.less',
-                    'css/admin.css': 'less/admin.less'
+                    'admin/css/tinymce.css': 'less/tinymce.less',
+                    'admin/css/admin.css': 'less/admin.less',
+                    'admin/css/waboot-optionsframework.css': 'less/optionsframework.less'
                 }
                 //src funziona se non c'è distinzione production\dev, altrimenti funziona files
                 /*src:{
@@ -27,8 +28,9 @@ module.exports = function(grunt) {
                 },
                 files:{
                     'css/style.css': 'less/style.less',
-                    'css/tinymce.css': 'less/tinymce.less',
-                    'css/admin.css': 'less/admin.less'
+                    'admin/css/tinymce.css': 'less/tinymce.less',
+                    'admin/css/admin.css': 'less/admin.less',
+                    'admin/css/waboot-optionsframework.css': 'less/optionsframework.less'
                 }
                 //src funziona se non c'è distinzione production\dev, altrimenti funziona files
                 /*src:{
@@ -48,8 +50,9 @@ module.exports = function(grunt) {
               },
               files:{
                   'css/style.css': 'less/style.less',
-                  'css/tinymce.css': 'less/tinymce.less',
-                  'css/admin.css': 'less/admin.less'
+                  'admin/css/tinymce.css': 'less/tinymce.less',
+                  'admin/css/admin.css': 'less/admin.less',
+                  'admin/css/waboot-optionsframework.css': 'less/optionsframework.less'
               }
           }
         },

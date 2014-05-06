@@ -1,5 +1,5 @@
 == Change log ==
-Version 1.0 - April 30, 2014 -> May 04, 2014
+Version 1.0 - April 30, 2014 -> May 06, 2014
 ---------------------------------
 - Il tema è ora indipendente (versione BETA)
 - Creato il file package.json per gestire i task di Grunt
@@ -10,3 +10,4 @@ Version 1.0 - April 30, 2014 -> May 04, 2014
 - Spostato l'Options Framework Theme è fuori dal "core" (options.php e options-panel.php in "inc", il resto in "admin")
 - Spostati i file scripts.php e stylesheets.php da core/inc a /inc e modificati per riflettere la struttura delle directory attuale
 - Introdotto (ma non attivato) il nuovo modulo "Behavior" per le Theme Options
+- Ora è possibile specificare degli stili custom per le Theme Options (less/optionsframework.less)
