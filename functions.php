@@ -39,6 +39,9 @@ if ( ! function_exists( 'waboot_setup' ) ):
         // Custom functions that act independently of the theme templates
         locate_template( '/core/inc/tweaks.php', true );
 
+        // Email encoder
+        locate_template( '/inc/email_encoder.php', true );
+
         // Load the CSS
         locate_template( '/inc/stylesheets.php', true );
 
