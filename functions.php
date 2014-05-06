@@ -46,8 +46,9 @@ if ( ! function_exists( 'waboot_setup' ) ):
         locate_template( '/inc/scripts.php', true );
 
         // Load Theme Layouts extension and add theme support for desired layouts
-        locate_template( '/core/inc/theme-layouts.php', true );
-        add_theme_support( 'theme-layouts', array( '1c', '2c-l', '2c-r' ) );
+        // @deprecated : Sostituito con il modulo behavior
+        //locate_template( '/core/inc/theme-layouts.php', true );
+        //add_theme_support( 'theme-layouts', array( '1c', '2c-l', '2c-r' ) );
 
         /**
          * Make theme available for translation
