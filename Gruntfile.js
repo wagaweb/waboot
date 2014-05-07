@@ -7,7 +7,7 @@ module.exports = function(grunt) {
                     paths: "less/"
                 },
                 files:{
-                    'css/style.css': 'sources/overrides/waboot.less',
+                    'assets/css/style.css': 'sources/overrides/waboot.less',
                     'admin/css/tinymce.css': 'sources/less/tinymce.less',
                     'admin/css/admin.css': 'sources/less/admin.less',
                     'admin/css/waboot-optionsframework.css': 'sources/less/optionsframework.less'
@@ -27,7 +27,7 @@ module.exports = function(grunt) {
                     cleancss: true
                 },
                 files:{
-                    'css/style.css': 'sources/overrides/waboot.less',
+                    'assets/css/style.css': 'sources/overrides/waboot.less',
                     'admin/css/tinymce.css': 'sources/less/tinymce.less',
                     'admin/css/admin.css': 'sources/less/admin.less',
                     'admin/css/waboot-optionsframework.css': 'sources/less/optionsframework.less'
@@ -49,7 +49,7 @@ module.exports = function(grunt) {
                   compress:true
               },
               files:{
-                  'css/style.css': 'sources/overrides/waboot.less',
+                  'assets/css/style.css': 'sources/overrides/waboot.less',
                   'admin/css/tinymce.css': 'sources/less/tinymce.less',
                   'admin/css/admin.css': 'sources/less/admin.less',
                   'admin/css/waboot-optionsframework.css': 'sources/less/optionsframework.less'
