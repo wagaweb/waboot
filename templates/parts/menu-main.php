@@ -50,7 +50,7 @@
 				'walker'         => new wp_bootstrap_navwalker(),
 				'fallback_cb'    => 'wp_bootstrap_navwalker::fallback'
 				)
-			);			
+			);
 			
 						if ( of_get_option( 'alienship_search_bar', '1' ) ) { ?>
 				<form id="searchform" class="navbar-form navbar-right" role="search" action="<?php echo site_url(); ?>" method="get">
@@ -115,7 +115,7 @@
 				'walker'         => new wp_bootstrap_navwalker(),
 				'fallback_cb'    => 'wp_bootstrap_navwalker::fallback'
 				)
-			);			
+			);
 			
 			if ( of_get_option( 'alienship_search_bar', '1' ) ) { ?>
 				<form id="searchform" class="navbar-form navbar-right" role="search" action="<?php echo site_url(); ?>" method="get">

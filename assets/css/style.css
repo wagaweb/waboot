@@ -1,11 +1,19 @@
-@import "../core/css/style.css";
-/*
-Theme Name: Waboot
-Description: Starter theme
-Version: 1.0
-Author: Waga
-Author URI: https://waga.it
-*/
+@import "../../core/css/style.css";
+/* Custom Variables */
+/* Custom Mixins */
+/* Global Style - no @mediaquery. Apply everywhere */
+body {
+  background-color: #ffffff;
+}
+.jumbotron {
+  background-color: #f36652;
+}
+.entry-content .row {
+  margin-bottom: 20px;
+}
+.btn {
+  margin-bottom: 20px;
+}
 /*
 The theme main style. It is imported in style.less. Do not use directly.
 */
@@ -262,6 +270,9 @@ The theme main style. It is imported in style.less. Do not use directly.
   #masthead .navbar-collapse.collapse {
     display: none !important;
   }
+  #masthead .navbar-collapse.collapse.in {
+    display: block !important;
+  }
   #masthead .navbar-header {
     display: inline-block;
     float: right;
@@ -282,4 +293,28 @@ The theme main style. It is imported in style.less. Do not use directly.
 }
 #wp-admin-bar-appearance #wp-admin-bar-header {
   display: none !important;
+}
+/* Mobile vertical - Default is @media(max-width:480px) { } */
+@media (max-width: 767px) {
+  body {
+    background-color: white;
+  }
+}
+/* Tablet vertical Style - Default is @media(min-width:768px) and (max-width:991px) { } */
+@media (min-width: 768px) and (max-width: 991px) {
+  body {
+    background-color: #c4ff00;
+  }
+}
+/* Tablet horizontal, Notebook, Desktop Style - Default is @media(min-width:992px) and (max-width:1199px) { } */
+@media (min-width: 992px) and (max-width: 1199px) {
+  body {
+    background-color: #ffa700;
+  }
+}
+/* Desktop large Style - Default is @media(min-width:1200px) { } */
+@media (min-width: 1200px) {
+  body {
+    background-color: green;
+  }
 }

@@ -11,9 +11,9 @@ function waboot_theme_styles() {
 	$waboot = wp_get_theme();
 
 	// Load core Bootstrap CSS
-	wp_enqueue_style( 'bootstrap', alienship_locate_template_uri( 'css/bootstrap.min.css' ), array(), $waboot['Version'], 'all' );
+	wp_enqueue_style( 'bootstrap', alienship_locate_template_uri( 'assets/css/bootstrap.min.css' ), array(), $waboot['Version'], 'all' );
 	/* Load theme styles */
-    wp_enqueue_style( 'font-awesome', alienship_locate_template_uri( 'css/font-awesome.min.css' ), array( 'bootstrap' ), $waboot['Version'], 'all' );
+    wp_enqueue_style( 'font-awesome', alienship_locate_template_uri( 'assets/css/font-awesome.min.css' ), array( 'bootstrap' ), $waboot['Version'], 'all' );
 	wp_enqueue_style( 'waboot-style', get_stylesheet_uri(), array( 'bootstrap','font-awesome' ), $waboot['Version'], 'all' );
 }
 add_action( 'wp_enqueue_scripts', 'waboot_theme_styles' );

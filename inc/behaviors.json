@@ -1,12 +1,30 @@
 {
     "behaviors":[
         {
+            "name": "title-position",
+            "title": "Where to show the page title?",
+            "desc": "Show pages title by default?",
+            "type": "select",
+            "options":[
+                {
+                    "name":"Top",
+                    "value":"top"
+                },
+                {
+                    "name":"Bottom",
+                    "value":"bottom"
+                }
+            ],
+            "default":"top",
+            "valid":["page"]
+        },
+        {
             "name": "show-title",
             "title": "Show page title?",
             "desc": "Show pages title by default?",
             "type": "checkbox",
             "default":1,
-            "valid":["page"]
+            "valid":["page","post"]
         },
         {
             "name": "layout",

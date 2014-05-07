@@ -7,10 +7,10 @@ module.exports = function(grunt) {
                     paths: "less/"
                 },
                 files:{
-                    'css/style.css': 'less/style.less',
-                    'admin/css/tinymce.css': 'less/tinymce.less',
-                    'admin/css/admin.css': 'less/admin.less',
-                    'admin/css/waboot-optionsframework.css': 'less/optionsframework.less'
+                    'css/style.css': 'sources/overrides/waboot.less',
+                    'admin/css/tinymce.css': 'sources/less/tinymce.less',
+                    'admin/css/admin.css': 'sources/less/admin.less',
+                    'admin/css/waboot-optionsframework.css': 'sources/less/optionsframework.less'
                 }
                 //src funziona se non c'è distinzione production\dev, altrimenti funziona files
                 /*src:{
@@ -27,10 +27,10 @@ module.exports = function(grunt) {
                     cleancss: true
                 },
                 files:{
-                    'css/style.css': 'less/style.less',
-                    'admin/css/tinymce.css': 'less/tinymce.less',
-                    'admin/css/admin.css': 'less/admin.less',
-                    'admin/css/waboot-optionsframework.css': 'less/optionsframework.less'
+                    'css/style.css': 'sources/overrides/waboot.less',
+                    'admin/css/tinymce.css': 'sources/less/tinymce.less',
+                    'admin/css/admin.css': 'sources/less/admin.less',
+                    'admin/css/waboot-optionsframework.css': 'sources/less/optionsframework.less'
                 }
                 //src funziona se non c'è distinzione production\dev, altrimenti funziona files
                 /*src:{
@@ -49,10 +49,10 @@ module.exports = function(grunt) {
                   compress:true
               },
               files:{
-                  'css/style.css': 'less/style.less',
-                  'admin/css/tinymce.css': 'less/tinymce.less',
-                  'admin/css/admin.css': 'less/admin.less',
-                  'admin/css/waboot-optionsframework.css': 'less/optionsframework.less'
+                  'css/style.css': 'sources/overrides/waboot.less',
+                  'admin/css/tinymce.css': 'sources/less/tinymce.less',
+                  'admin/css/admin.css': 'sources/less/admin.less',
+                  'admin/css/waboot-optionsframework.css': 'sources/less/optionsframework.less'
               }
           }
         },
@@ -64,42 +64,49 @@ module.exports = function(grunt) {
                     flatten: true,
                     cwd: "bower_components/fontawesome",
                     src: "css/font-awesome.min.css",
-                    dest: "css"
+                    dest: "assets/css"
                 },
                 {
                     expand: true,
                     flatten: true,
                     cwd: "bower_components/fontawesome",
                     src: "fonts/*",
-                    dest: "fonts"
+                    dest: "assets/fonts"
                 },
                 {
                     expand: true,
                     flatten: true,
                     cwd: "bower_components/bootstrap/dist",
                     src: ["css/*","!css/bootstrap.css","!css/bootstrap-theme.css"],
-                    dest: "css"
+                    dest: "assets/css"
                 },
                 {
                     expand: true,
                     flatten: true,
                     cwd: "bower_components/bootstrap/dist",
                     src: "fonts/*",
-                    dest: "fonts"
+                    dest: "assets/fonts"
                 },
                 {
                     expand: true,
                     flatten: true,
                     cwd: "bower_components/bootstrap/dist",
                     src: "js/bootstrap.min.js",
-                    dest: "js/"
+                    dest: "assets/js/"
+                },
+                {
+                    expand: true,
+                    flatten: true,
+                    cwd: "bower_components/bootstrap/less",
+                    src: ['mixins.less','variables.less'],
+                    dest: "sources/less/bootstrap/"
                 },
                 {
                     expand: true,
                     flatten: true,
                     cwd: "bower_components/html5shiv/dist",
                     src: "html5shiv.min.js",
-                    dest: "js"
+                    dest: "assets/js"
                 }]
             }
         },
@@ -112,7 +119,7 @@ module.exports = function(grunt) {
     });
 
     // Register tasks
-    grunt.registerTask('setup', ['bower-install','less:dev','copy:dev']); //Setup task
+    grunt.registerTask('setup', ['bower-install','copy:dev','less:dev']); //Setup task
     grunt.registerTask('default', ['watch']); // Default task
     grunt.registerTask('build', ['recess:production']); // Build task
 
