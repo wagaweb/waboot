@@ -24,7 +24,7 @@
             "desc": "Show pages title by default?",
             "type": "checkbox",
             "default":1,
-            "valid":["page","post"]
+            "valid":["page"]
         },
         {
             "name": "layout",
