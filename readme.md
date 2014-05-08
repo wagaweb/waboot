@@ -1,1 +1,4 @@
-READMEHERE
+WABOOT STARTER THEME
+----------
+
+Readme here!
