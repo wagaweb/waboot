@@ -1,7 +1,7 @@
 <?php
 
 require_once("core/functions.php");
-require_once("inc/core_customization.php");
+require_once("inc/global_customizations.php");
 
 if ( ! function_exists( 'waboot_setup' ) ):
     function waboot_setup() {

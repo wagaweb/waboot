@@ -159,7 +159,6 @@ add_action( 'customize_register', 'alienship_customize_register' );
  * Binds JS handlers to make Theme Customizer preview reload changes asynchronously.
  */
 function alienship_customize_preview_js() {
-
-	wp_enqueue_script( 'alienship_customizer', get_template_directory_uri() . '/core/js/customizer.js', array( 'customize-preview' ), '1.2.0', true );
+	wp_enqueue_script( 'alienship_customizer', get_template_directory_uri() . '/admin/js/customizer.js', array( 'customize-preview' ), '1.2.0', true );
 }
 add_action( 'customize_preview_init', 'alienship_customize_preview_js' );
