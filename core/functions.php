@@ -44,7 +44,7 @@ function alienship_admin_notice_menus_ignore() {
 }
 add_action( 'admin_init', 'alienship_admin_notice_menus_ignore' );
 
-if ( ! function_exists( 'alienship_locate_template_uri' ) ):
+if ( ! function_exists( 'waboot_locate_template_uri' ) ):
     /**
      * Snatched from future release code in WordPress repo.
      *
@@ -56,7 +56,7 @@ if ( ! function_exists( 'alienship_locate_template_uri' ) ):
      * @param string|array $template_names Template file(s) to search for, in order.
      * @return string The URI of the file if one is located.
      */
-    function alienship_locate_template_uri( $template_names ) {
+    function waboot_locate_template_uri( $template_names ) {
 
         $located = '';
         foreach ( (array) $template_names as $template_name ) {
@@ -75,78 +75,6 @@ if ( ! function_exists( 'alienship_locate_template_uri' ) ):
         return $located;
     }
 endif;
-
-/**
- * Alien Ship RSS Feed Dashboard Widget
- *
- * Retrieve the latest news from Alien Ship home page
- *
- * @since 1.0
- *
- */
-function alienship_rss_dashboard_widget() {
-
-    echo '<div class="rss-widget">';
-    wp_widget_rss_output( array(
-        'url'          => 'http://www.johnparris.com/alienship/feed',
-        'title'        => 'Alien Ship News',
-        'items'        => 3,
-        'show_summary' => 1,
-        'show_author'  => 0,
-        'show_date'    => 1
-    ) );
-    echo '</div>';
-}
-
-function alienship_custom_dashboard_widgets() {
-
-    wp_add_dashboard_widget( 'dashboard_custom_feed', 'Alien Ship News', 'alienship_rss_dashboard_widget' );
-}
-add_action('wp_dashboard_setup', 'alienship_custom_dashboard_widgets');
-
-/**
- * Creates the title based on current view
- * @since 1.0
- */
-function alienship_wp_title( $title, $sep ) {
-
-    global $paged, $page;
-
-    if ( is_feed() )
-        return $title;
-
-    // Add the site name.
-    $title .= get_bloginfo( 'name', 'display' );
-
-    // Add the site description for the home/front page.
-    $site_description = get_bloginfo( 'description', 'display' );
-
-    if ( $site_description && ( is_home() || is_front_page() ) )
-        $title = "$title $sep $site_description";
-
-    // Add a page number if necessary.
-    if ( $paged >= 2 || $page >= 2 )
-        $title = "$title $sep " . sprintf( __( 'Page %s', 'alienship' ), max( $paged, $page ) );
-
-    return $title;
-}
-add_filter( 'wp_title', 'alienship_wp_title', 10, 2 );
-
-/**
- * Define theme layouts
- * @since 1.0
- */
-function alienship_layouts_strings() {
-
-    $strings = array(
-        'default'           => __( 'Default', 'alienship' ),
-        '2c-l'              => __( 'Content left. Sidebar right.', 'alienship' ),
-        '2c-r'              => __( 'Content right. Sidebar left.', 'alienship' ),
-        '1c'                => __( 'Full width. No sidebar.', 'alienship' ),
-    );
-    return $strings;
-}
-add_filter( 'theme_layouts_strings', 'alienship_layouts_strings' );
 
 /**
  * Apply custom stylesheet to the visual editor.
@@ -175,3 +103,31 @@ function waboot_post_type_editot_styles(){
     add_editor_style( "admin/css/".$editor_style );
 }
 add_action( 'pre_get_posts', 'waboot_post_type_editot_styles' );
+
+/**
+ * Creates the title based on current view
+ * @since 1.0
+ */
+function waboot_wp_title( $title, $sep ) {
+
+    global $paged, $page;
+
+    if ( is_feed() )
+        return $title;
+
+    // Add the site name.
+    $title .= get_bloginfo( 'name', 'display' );
+
+    // Add the site description for the home/front page.
+    $site_description = get_bloginfo( 'description', 'display' );
+
+    if ( $site_description && ( is_home() || is_front_page() ) )
+        $title = "$title $sep $site_description";
+
+    // Add a page number if necessary.
+    if ( $paged >= 2 || $page >= 2 )
+        $title = "$title $sep " . sprintf( __( 'Page %s', 'alienship' ), max( $paged, $page ) );
+
+    return $title;
+}
+add_filter( 'wp_title', 'waboot_wp_title', 10, 2 );

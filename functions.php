@@ -48,11 +48,6 @@ if ( ! function_exists( 'waboot_setup' ) ):
         // Load scripts
         locate_template( '/inc/scripts.php', true );
 
-        // Load Theme Layouts extension and add theme support for desired layouts
-        // @deprecated : Sostituito con il modulo behavior
-        //locate_template( '/core/inc/theme-layouts.php', true );
-        //add_theme_support( 'theme-layouts', array( '1c', '2c-l', '2c-r' ) );
-
         /**
          * Make theme available for translation
          * Translations can be filed in the /languages/ directory
@@ -92,15 +87,6 @@ function optionscheck_change_sanitize() {
 }
 add_action( 'admin_init','optionscheck_change_sanitize', 100 );
 
-/**
- * Theme Options: relocate options.php for a cleaner structure
- * @return array
- */
-function waboot_options_framework_location_override() {
-    return array("inc/options.php");
-}
-add_filter('options_framework_location','waboot_options_framework_location_override');
-
 function custom_sanitize_text( $input ) {
     global $allowedposttags;
 
@@ -115,6 +101,15 @@ function custom_sanitize_text( $input ) {
     $output = wp_kses( $input, $custom_allowedtags );
     return $output;
 }
+
+/**
+ * Theme Options: relocate options.php for a cleaner structure
+ * @return array
+ */
+function waboot_options_framework_location_override() {
+    return array("inc/options.php");
+}
+add_filter('options_framework_location','waboot_options_framework_location_override');
 
 /*-----------------------------------------------------------------------------------*/
 /* Start Custom Functions - Please refrain from editing this section */
@@ -159,7 +154,6 @@ function arphabet_widgets_init() {
 add_action( 'widgets_init', 'arphabet_widgets_init' );
 
 // Add WP Better email support for gravity form
-add_filter('gform_notification', 'change_notification_format', 10, 3);
 function change_notification_format( $notification, $form, $entry ) {
 
 	// is_plugin_active is not availble on front end
@@ -176,6 +170,7 @@ function change_notification_format( $notification, $form, $entry ) {
 
     return $notification;
 }
+add_filter('gform_notification', 'change_notification_format', 10, 3);
 
 /*-----------------------------------------------------------------------------------*/
 /* Don't add any code below here or the sky will fall down */

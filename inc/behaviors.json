@@ -28,8 +28,8 @@
         },
         {
             "name": "layout",
-            "title": "Layout",
-            "desc": "Default layout for posts and pages",
+            "title": "Body layout",
+            "desc": "Default body layout for posts and pages",
             "options":[
                 {
                     "name":"Default",

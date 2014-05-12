@@ -7,6 +7,9 @@
  * @license   copyrighted
  * @link      http://www.waga.it
  * @copyright 2014 Riccardo D'Angelo and WAGA.it
+ * @todo - Realizzare le input mancanti;
+ * @todo - Creare una classe per la gestione del framework (meglio due classi? Una per il Behavior e una per l'opzione singola?)
+ * @todo - Fare in modo che i testi siano traducibili: spostarsi da un file json a un file php?
  */
 
 add_action( 'add_meta_boxes', 'waboot_behavior_create_metabox' );
@@ -20,7 +23,7 @@ function get_behavior($name){
 
 function waboot_behavior_create_metabox(){
     $options = waboot_behavior_import_predefined_options();
-    add_meta_box("behavior","Behaviors","waboot_behavior_display_metabox",null,"side","default",array($options));
+    add_meta_box("behavior","Behaviors","waboot_behavior_display_metabox",null,"advanced","core",array($options));
 }
 
 function waboot_behavior_save_metabox($post_id){
@@ -100,10 +103,15 @@ function waboot_behavior_display_option($option,$post){
     switch($option['type']){
         case 'checkbox':
             ?>
-            <label for="<?php echo $option['name'] ?>" title="<?php echo $option['title'] ?>">
+            <ul>
+            <?php if(isset($option['options']) && is_array($option)) : foreach($option['options'] as $c) : //TODO dare la possibilità di concatenare più checkbox in una sola opzione? ?>
+            <?php endforeach; else : ?><p><strong><?php echo $option['title'] ?></strong></p>
+            <li><label for="<?php echo $option['name'] ?>" title="<?php echo $option['title'] ?>">
                 <input type="checkbox" name="<?php echo $option['name'] ?>" id="<?php echo $option['name'] ?>" value="1" <?php if($std == 1) echo "checked"?>>
-                <?php echo $option['title'] ?>
-            </label>
+                <?php echo __("Enable"); ?>
+            </label></li>
+            <?php endif; ?>
+            </ul>
             <?php
             break;
         case 'select':
