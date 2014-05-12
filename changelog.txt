@@ -1,5 +1,5 @@
 == Change log ==
-Version 1.0 - April 30, 2014 -> May 06, 2014
+Version 1.0 - April 30, 2014 -> May 13, 2014
 ---------------------------------
 - Il tema è ora indipendente (versione BETA)
 - Creato il file package.json per gestire i task di Grunt
