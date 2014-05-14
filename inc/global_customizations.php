@@ -7,7 +7,7 @@
  */
 function waboot_title_toggler($title){
     $show_title = get_behavior("show-title");
-    if(get_behavior("show-title") == "0"){
+    if($show_title == "0"){
         return "";
     }
     return $title;
