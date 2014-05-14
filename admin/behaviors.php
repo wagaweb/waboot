@@ -23,7 +23,7 @@ function waboot_reset_defaults($var){
 function get_behavior($name){
     global $post;
     $current_behavior_value = get_post_meta($post->ID,"_behavior_".$name,waboot_behavior_get_default($name));
-    if($current_behavior_value == "_default")
+    if($current_behavior_value == "_default" || (is_array($current_behavior_value) && $current_behavior_value[0] == "__default"));
         $current_behavior_value = waboot_behavior_get_default($name);
     return $current_behavior_value;
 }

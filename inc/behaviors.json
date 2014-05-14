@@ -1,9 +1,27 @@
 {
     "behaviors":[
         {
+            "name": "show-title",
+            "title": "Display page title",
+            "desc": "Default rendering value for page title",
+            "options":[
+                {
+                    "name":"Yes",
+                    "value":true
+                },
+                {
+                    "name":"No",
+                    "value":false
+                }
+            ],
+            "type": "select",
+            "default":1,
+            "valid":["page"]
+        },
+        {
             "name": "title-position",
-            "title": "Where to show the page title?",
-            "desc": "Show pages title by default?",
+            "title": "Title position",
+            "desc": "Default title positioning in pages",
             "type": "select",
             "options":[
                 {
@@ -19,22 +37,10 @@
             "valid":["page"]
         },
         {
-            "name": "show-title",
-            "title": "Show page title?",
-            "desc": "Show pages title by default?",
-            "type": "checkbox",
-            "default":1,
-            "valid":["page"]
-        },
-        {
             "name": "layout",
             "title": "Body layout",
             "desc": "Default body layout for posts and pages",
             "options":[
-                {
-                    "name":"No rule",
-                    "value":"no-rule"
-                },
                 {
                     "name":"Full width. No sidebar.",
                     "value":"full-width"

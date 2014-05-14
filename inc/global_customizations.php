@@ -6,7 +6,8 @@
  * @todo Rinominare il filtro di Alienship
  */
 function waboot_title_toggler($title){
-    if(!get_behavior("show-title")){
+    $show_title = get_behavior("show-title");
+    if(get_behavior("show-title") == "0"){
         return "";
     }
     return $title;
