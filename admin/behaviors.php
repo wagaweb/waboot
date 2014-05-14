@@ -16,10 +16,6 @@ add_action( 'add_meta_boxes', 'waboot_behavior_create_metabox' );
 add_action( 'save_post', 'waboot_behavior_save_metabox' );
 add_action( 'optionsframework_after_validate','waboot_reset_defaults' );
 
-function waboot_reset_defaults($var){
-    var_dump($var);
-}
-
 function get_behavior($name){
     global $post;
     $current_behavior_value = get_post_meta($post->ID,"_behavior_".$name,waboot_behavior_get_default($name));
