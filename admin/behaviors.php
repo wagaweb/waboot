@@ -14,10 +14,17 @@
 
 add_action( 'add_meta_boxes', 'waboot_behavior_create_metabox' );
 add_action( 'save_post', 'waboot_behavior_save_metabox' );
+add_action( 'optionsframework_after_validate','waboot_reset_defaults' );
+
+function waboot_reset_defaults($var){
+    var_dump($var);
+}
 
 function get_behavior($name){
     global $post;
     $current_behavior_value = get_post_meta($post->ID,"_behavior_".$name,waboot_behavior_get_default($name));
+    if($current_behavior_value == "_default")
+        $current_behavior_value = waboot_behavior_get_default($name);
     return $current_behavior_value;
 }
 
@@ -106,11 +113,16 @@ function waboot_behavior_display_option($option,$post){
             <ul>
             <?php if(isset($option['options']) && is_array($option)) : foreach($option['options'] as $c) : //TODO dare la possibilità di concatenare più checkbox in una sola opzione? ?>
             <?php endforeach; else : ?><p><strong><?php echo $option['title'] ?></strong></p>
-            <li><label for="<?php echo $option['name'] ?>" title="<?php echo $option['title'] ?>">
-                <input type="checkbox" name="<?php echo $option['name'] ?>" id="<?php echo $option['name'] ?>" value="1" <?php if($std == 1) echo "checked"?>>
-                <?php echo __("Enable"); ?>
-            </label></li>
+            <li>
+                <label for="<?php echo $option['name'] ?>" title="<?php echo $option['title'] ?>">
+                    <input type="checkbox" name="<?php echo $option['name'] ?>" id="<?php echo $option['name'] ?>" value="1" <?php if($std == 1) echo "checked"?>>
+                    <?php echo __("Enable"); ?>
+                </label>
+            </li>
             <?php endif; ?>
+            <li>
+                <input type="checkbox" name="<?php echo $option['name'] ?>-default" id="<?php echo $option['name'] ?>-default" value="_default"><?php echo __("Default") ?>
+            </li>
             </ul>
             <?php
             break;
@@ -122,6 +134,7 @@ function waboot_behavior_display_option($option,$post){
                 <?php foreach($option['options'] as $k => $v) : ?>
                     <option value="<?php echo $v['value']; ?>" <?php if($v['value'] == $std) echo "selected"?>><?php echo $v['name']; ?></option>
                 <?php endforeach; ?>
+                <option value="_default" <?php if($current_value == "_default") echo "selected"?>><?php echo __("Default") ?></option>
             </select>
             <?php
             break;

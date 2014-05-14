@@ -82,6 +82,8 @@ class Breadcrumb_Trail {
 		$defaults = array(
 			'container'       => 'div',
 			'separator'       => '&#47;',
+            'wrapper_start'   => "", //by LostCore
+            'wrapper_end'     => "", //by LostCore
 			'before'          => '',
 			'after'           => '',
 			'show_on_front'   => true,
@@ -126,6 +128,9 @@ class Breadcrumb_Trail {
 			/* Open the breadcrumb trail containers. */
 			$breadcrumb = "\n\t\t" . '<' . tag_escape( $this->args['container'] ) . ' class="breadcrumb-trail breadcrumbs" itemprop="breadcrumb">';
 
+            /* Crea Wrapper */
+            $breadcrumb .= !empty( $this->args['wrapper_start'] )? $this->args['wrapper_start'] : "";
+
 			/* If $before was set, wrap it in a container. */
 			$breadcrumb .= ( !empty( $this->args['before'] ) ? "\n\t\t\t" . '<span class="trail-before">' . $this->args['before'] . '</span> ' . "\n\t\t\t" : '' );
 
@@ -148,6 +153,9 @@ class Breadcrumb_Trail {
 
 			/* If $after was set, wrap it in a container. */
 			$breadcrumb .= ( !empty( $this->args['after'] ) ? "\n\t\t\t" . ' <span class="trail-after">' . $this->args['after'] . '</span>' : '' );
+
+            /* Chiude Wrapper */
+            $breadcrumb .= !empty( $this->args['wrapper_end'] )? $this->args['wrapper_end'] : "";
 
 			/* Close the breadcrumb trail containers. */
 			$breadcrumb .= "\n\t\t" . '</' . tag_escape( $this->args['container'] ) . '>';

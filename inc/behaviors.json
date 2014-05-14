@@ -32,8 +32,8 @@
             "desc": "Default body layout for posts and pages",
             "options":[
                 {
-                    "name":"Default",
-                    "value":"as-is"
+                    "name":"No rule",
+                    "value":"no-rule"
                 },
                 {
                     "name":"Full width. No sidebar.",
