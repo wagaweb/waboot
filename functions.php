@@ -1,16 +1,16 @@
 <?php
 
-require_once("core/functions.php");
-require_once("inc/global_customizations.php");
-
 if ( ! function_exists( 'waboot_setup' ) ):
     function waboot_setup() {
 
+        //Global Customization
+        locate_template( '/inc/global_customizations.php', true );
+
+        //Utility
+        locate_template( '/inc/utility.php', true );
+
         // Custom template tags for this theme.
         locate_template( '/core/inc/template-tags.php', true );
-
-        // Clean up header output
-        locate_template( '/core/inc/cleanup.php', true );
 
         // Register the navigation menus.
         locate_template( '/core/inc/menus.php', true );
@@ -20,7 +20,7 @@ if ( ! function_exists( 'waboot_setup' ) ):
         locate_template( '/core/inc/sidebars.php', true );
 
         // Header image
-        locate_template( '/core/inc/header-image.php', true );
+        locate_template( '/inc/header-image.php', true );
 
         // Load behaviors extension
         locate_template( '/admin/behaviors.php', true );

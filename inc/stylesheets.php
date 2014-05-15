@@ -11,10 +11,10 @@ function waboot_theme_styles() {
 	$waboot = wp_get_theme();
 
 	// Load core Bootstrap CSS
-	wp_enqueue_style( 'bootstrap', waboot_locate_template_uri( 'assets/css/bootstrap.min.css' ), array(), $waboot['Version'], 'all' );
+	//wp_enqueue_style( 'bootstrap', waboot_locate_template_uri( 'assets/css/bootstrap.min.css' ), array(), $waboot['Version'], 'all' );
 	/* Load theme styles */
-    wp_enqueue_style( 'font-awesome', waboot_locate_template_uri( 'assets/css/font-awesome.min.css' ), array( 'bootstrap' ), $waboot['Version'], 'all' );
-	wp_enqueue_style( 'waboot-style', get_stylesheet_uri(), array( 'bootstrap','font-awesome' ), $waboot['Version'], 'all' );
+    wp_enqueue_style( 'font-awesome', waboot_locate_template_uri( 'assets/css/font-awesome.min.css' ), $waboot['Version'], 'all' );
+	wp_enqueue_style( 'waboot-style', get_stylesheet_uri(), array( 'font-awesome' ), $waboot['Version'], 'all' );
 }
 add_action( 'wp_enqueue_scripts', 'waboot_theme_styles' );
 
@@ -57,3 +57,45 @@ function waboot_post_type_editor_styles(){
     add_editor_style( "admin/css/".$editor_style );
 }
 add_action( 'pre_get_posts', 'waboot_post_type_editor_styles' );
+
+function waboot_theme_options_header_styles(){
+    ?>
+    <style type="text/css">
+        body {
+            background-color: <?php echo of_get_option( 'wship_body_bgcolor' ); ?> !important;
+            background-image: url(<?php echo of_get_option( 'wship_body_bgimage' ); ?>);
+            background-repeat: <?php echo of_get_option( 'wship_body_bgrepeat' ); ?>;
+            background-position: <?php echo of_get_option( 'wship_body_bgpos' ); ?>;
+            background-attachment: <?php echo of_get_option( 'wship_body_bgattach' ); ?>;
+        }
+        #header-wrapper {
+            background-color: <?php echo of_get_option( 'wship_header_bgcolor' ); ?>;
+        }
+        #banner-wrapper {
+            background-color: <?php echo of_get_option( 'wship_banner_bgcolor' ); ?>;
+        }
+        #content-wrapper {
+            background-color: <?php echo of_get_option( 'wship_content_bgcolor' ); ?>;
+        }
+        #contentbottom-wrapper {
+            background-color: <?php echo of_get_option( 'wship_bottom_bgcolor' ); ?>;
+        }
+        #footer-wrapper {
+            background-color: <?php echo of_get_option( 'wship_footer_bgcolor' ); ?>;
+        }
+        #logo {
+            text-align: <?php echo of_get_option( 'wship_logo_align' ); ?>;
+            float: <?php echo of_get_option( 'wship_logo_align', 'left,right' ); ?>;
+            <?php if ( of_get_option( 'wship_float_navbar', 1 ) ) {?> display: inline-block; <?php } ?>
+        }
+        #page {
+            background-color: <?php echo of_get_option( 'wship_page_bgcolor' ); ?>;
+        }
+        #header-wrapper .navbar-collapse {
+            background-color: <?php echo of_get_option( 'wship_navbar_bgcolor' ); ?>;
+        }
+
+    </style>
+    <?php
+}
+add_action("alienship_head",'waboot_theme_options_header_styles');
