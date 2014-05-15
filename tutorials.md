@@ -85,9 +85,9 @@ Per prima cosa bisogna installare l'interfaccia comandi di Grunt attraverso il g
 
 Dare quindi i seguenti comandi da terminale (assicurandosi di avere i privilegi di admin, per esempio su linux bisogna precedere ogni comando con `sudo`):
 
-    $ npm install -g grunt-cli
+    npm install -g grunt-cli
     
-    $ npm install -g bower
+    npm install -g bower
 
 Il `-g` installa globalmente il pacchetto; se omesso, il pacchetto viene installato nella directory corrente (e non sono necessariamente richiesti i privilegi di admin).
 
