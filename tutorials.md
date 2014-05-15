@@ -11,35 +11,46 @@ GIT URL: https://bitbucket.org/waga/vagrantserver.git
 - Installare VirtualBox e Vagrant scaricando gli installer dai rispettivi siti.
 - La macchina Vagrant si basa sulla box `hashicorp/precise64`; questa deve essere scaricata di avviare la macchina, quindi tramite terminale dare il comando:
 
-        `vagrant box add hashicorp/precise64` (se chiede di scegliere la piattaforma, selezionare VirtualBox)
+        vagrant box add hashicorp/precise64
+        
+    (se chiede di scegliere la piattaforma, selezionare VirtualBox)
 
 - Creare (se non esiste) una directory che sarà la root di tutti i progetti in locale, per esempio: `/<utente>/htdocs` , `c:\localhost\public_html`, ecc...
 - Creare una cartella specifica per la Vagrant Machine, relativamente vicina a quella creata precedentemente, per esempio: `/<utente>/vagrant` , `c:\localhost\vagrant`
 - Posizionarsi in quest'ultima cartella e clonare il repository GIT della macchina (il comando per il terminale è visualizzabile su bitbucket, cliccando su "Clone"):
 
-        esempio: `git clone https://<nome utente>@bitbucket.org/waga/vagrantserver.git`
+    esempio:
+    
+        git clone https://<nome utente>@bitbucket.org/waga/vagrantserver.git
 
 - Ottenuta la macchina, copiare (non rinominare) il file `vagrant_assets/config-sample.yaml` in `vagrant_assets/config.yaml`, aprirlo e configurarlo:
 
 `username`:
+
 riservato per usi futuri
 
 `mac`:
+
 inserire un mac address generato da: `http://www.miniwebtool.com/mac-address-generator/` o altro generatore, il formato deve essere 0010FA6E384A
 
 `ip`:
+
 inserire un ip disponibile nella propria rete locale. Per capire che tipo di indirizzi (192.168.xxx.xxx, 10.0.xxx.xxx, ...) assegna il router della lan è possibile usare i comandi `ifconfig (osx\unix) o `ipconfig` (windows), oppure entrare nell'amministrazione del router.
 
 `name`:
+
 il nome della Virtual Machine
 
 `synced_folder - source`:
+
 il path alla root dei progetti relativamente alla directory in cui è presente il Vagrantfile. Secondo gli esempi di prima sarebbe: `../htdocs` oppure `../public_html`
 
 `synced_folder - target`:
+
 non modificare (è il path per la documentroot di apache sulla virtual machine)
 
 `synced_folder - nfs`:
+
 un file system per la gestione delle cartelle condivise disponibile su sistemi unix. Ancora non funziona bene, quindi lasciare su false.
 
 - Dare il comando `vagrant up` dalla directory dove si trova il `Vagrantfile`: la macchina si inizializzerà e installerà tutto il necessario. Potrebbe chiedere a quale dispositivo di rete attaccarsi (scegliere quello che si utilizza per gestire la lan tra i pc o con il router - di solito Airport per i mac).
