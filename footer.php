@@ -30,7 +30,7 @@
 </div><!-- #page -->
 
 <?php do_action( 'alienship_footer_before' ); ?>
-<footer class="<?php echo of_get_option( 'wship_footer_width' ); ?> site-footer" id="colophon" role="contentinfo">
+<footer class="<?php echo of_get_option( 'wship_footer_width','container' ); ?> site-footer" id="colophon" role="contentinfo">
 	<?php do_action( 'alienship_footer_top' ); ?>
 
 	<div class="container">

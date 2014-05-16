@@ -26,16 +26,17 @@
         <?php if ( of_get_option( 'alienship_show_top_navbar', 1 ) ) : ?>
             <!-- Navbar: Begin -->
             <?php if ( of_get_option( 'wship_boxed_navbar', 1 ) ) : ?>
+                <!-- Boxed Navbar -->
                 <div class="container" style="padding:0;">
                     <?php get_template_part( '/templates/parts/menu', 'top' ); ?>
-                </div>
+                </div><!-- .container : Boxed navbar -->
             <?php else : ?>
                     <?php get_template_part( '/templates/parts/menu', 'top' ); ?>
             <?php endif; ?>
             <!-- Navbar: End -->
         <?php endif; ?>
 
-	    <div id="page" class="<?php echo of_get_option( 'wship_page_width' ); ?> hfeed site">
+	    <div id="page" class="<?php echo of_get_option( 'wship_page_width','container' ); ?> hfeed site">
 		    <?php do_action( 'waboot_header_before' ); ?>
 		    <div id="header-wrapper" class="<?php echo of_get_option( 'wship_header_width' ); ?>">
                 <header id="masthead" class="site-header" role="banner">
