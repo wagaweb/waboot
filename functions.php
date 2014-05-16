@@ -38,7 +38,7 @@ if ( ! function_exists( 'waboot_setup' ) ):
         }
 
         // Custom functions that act independently of the theme templates
-        locate_template( '/core/inc/tweaks.php', true );
+        //locate_template( '/core/inc/tweaks.php', true ); //LostCore: tweaks utili integrati in global_customization
 
         // Email encoder
         locate_template( '/inc/email_encoder.php', true );

@@ -43,6 +43,44 @@ function waboot_wp_title( $title, $sep ) {
 }
 add_filter( 'wp_title', 'waboot_wp_title', 10, 2 );
 
+if ( ! function_exists( 'waboot_comment_reply_link' ) ):
+    /**
+     * Style comment reply links as buttons
+     * @since 1.0
+     */
+    function waboot_comment_reply_link( $link ) {
+
+        return str_replace( 'comment-reply-link', 'btn btn-default btn-xs', $link );
+    }
+    add_filter( 'comment_reply_link', 'waboot_comment_reply_link' );
+endif;
+
+if ( ! function_exists( 'waboot_nice_search_redirect' ) ):
+    /**
+     * Pretty search URL. Changes /?s=foo to /search/foo. http://txfx.net/wordpress-plugins/nice-search/
+     * @since Alien Ship 0.3
+     */
+    function waboot_nice_search_redirect() {
+
+        if ( is_search() && get_option( 'permalink_structure' ) != '' && strpos( $_SERVER['REQUEST_URI'], '/wp-admin/' ) === false && strpos( $_SERVER['REQUEST_URI'], '/search/' ) === false ) {
+            wp_redirect( home_url( '/search/' . str_replace( array( ' ', '%20' ),  array( '+', '+' ), get_query_var( 's' ) ) ) );
+            exit();
+        }
+    }
+    add_action( 'template_redirect', 'waboot_nice_search_redirect' );
+endif;
+
+if ( ! function_exists( 'waboot_excerpt_more') ):
+    /*
+     * Style the excerpt continuation
+     */
+    function waboot_excerpt_more( $more ) {
+
+        return ' ... <a href="'. get_permalink( get_the_ID() ) . '">'. __( 'Continue Reading ', 'alienship' ) .' &raquo;</a>';
+    }
+    add_filter('excerpt_more', 'waboot_excerpt_more');
+endif;
+
 /**
  * Cleanup the head
  * @source http://geoffgraham.me/wordpress-how-to-clean-up-the-header/
