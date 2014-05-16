@@ -18,7 +18,7 @@ get_header(); ?>
 
 			alienship_content_nav( 'nav-above' ); // display content nav above posts?
 
-			do_action( 'alienship_loop_before' );
+			do_action( 'waboot_loop_before' );
 
 			/* Include the Post-Format-specific template for the content.
 			 * If you want to override this in a child theme then include a file
@@ -26,7 +26,7 @@ get_header(); ?>
 			 */
 			get_template_part( '/templates/parts/content', get_post_format() );
 
-			do_action( 'alienship_loop_after' );
+			do_action( 'waboot_loop_after' );
 
 			alienship_content_nav( 'nav-below' ); // display content nav below posts?
 

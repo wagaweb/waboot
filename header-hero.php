@@ -17,7 +17,7 @@
 
 <?php
 wp_head();
-do_action( 'alienship_head' ); ?>
+do_action( 'waboot_head' ); ?>
 </head>
 
 <body <?php body_class(); ?>>

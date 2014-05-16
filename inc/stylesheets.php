@@ -98,4 +98,4 @@ function waboot_theme_options_header_styles(){
     </style>
     <?php
 }
-add_action("alienship_head",'waboot_theme_options_header_styles');
+add_action("waboot_head",'waboot_theme_options_header_styles');

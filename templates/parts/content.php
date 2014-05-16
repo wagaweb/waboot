@@ -11,7 +11,6 @@ do_action( 'alienship_post_before' ); ?>
 	do_action( 'alienship_entry_header' );
 	do_action( 'alienship_entry_content_before' );
 	?>
-    <h2><?php the_title(); ?></h2>
 	<div class="entry-content">
 		<?php
 		// On archive views, display post thumbnail, if available, and excerpt.

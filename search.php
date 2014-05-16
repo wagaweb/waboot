@@ -25,11 +25,11 @@ get_header(); ?>
 			// Start the Loop
 			while ( have_posts() ) : the_post();
 
-				do_action( 'alienship_loop_before' );
+				do_action( 'waboot_loop_before' );
 
 				get_template_part( '/templates/parts/content', 'search' );
 
-				do_action( 'alienship_loop_after' );
+				do_action( 'waboot_loop_after' );
 
 			endwhile;
 
