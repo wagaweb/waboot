@@ -98,7 +98,7 @@ module.exports = function(grunt) {
                     expand: true,
                     flatten: true,
                     cwd: "bower_components/bootstrap/less",
-                    src: ['mixins.less','variables.less'],
+                    src: ['*'],
                     dest: "sources/less/bootstrap/"
                 },
                 {
