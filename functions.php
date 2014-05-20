@@ -2,6 +2,7 @@
 
 define("ENV_DEV",1);
 define("ENV_PRODUCTION",2);
+define("LESS_LIVE_COMPILING",true);
 
 if(!defined("CURRENT_ENV")){
     define("CURRENT_ENV",ENV_PRODUCTION);
@@ -87,6 +88,13 @@ endif;
 add_action( 'after_setup_theme', 'waboot_setup' );
 
 /**
+ * Autocompile less if it is a child theme
+ */
+if(is_child_theme() && LESS_LIVE_COMPILING){
+    waboot_compile_less();
+}
+
+/**
  * Theme Options: allow "a", "embed" and "script" tags in theme options text boxes
  */
 function optionscheck_change_sanitize() {
@@ -163,7 +171,6 @@ add_action( 'widgets_init', 'arphabet_widgets_init' );
 
 // Add WP Better email support for gravity form
 function change_notification_format( $notification, $form, $entry ) {
-
 	// is_plugin_active is not availble on front end
 	if( !is_admin() )
 		include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
@@ -180,6 +187,56 @@ function change_notification_format( $notification, $form, $entry ) {
 }
 add_filter('gform_notification', 'change_notification_format', 10, 3);
 
-/*-----------------------------------------------------------------------------------*/
-/* Don't add any code below here or the sky will fall down */
-/*-----------------------------------------------------------------------------------*/
+function waboot_compile_less(){
+    require_once("inc/vendor/Less.php");
+    try{
+        $theme = wp_get_theme()->stylesheet;
+        $inputFile = get_stylesheet_directory()."/sources/overrides/{$theme}.less";
+        $cachedir = get_stylesheet_directory()."/assets/css/cache";
+        $outputDir = get_stylesheet_directory()."/assets/css";
+        $outputFile = get_stylesheet_directory()."/assets/css/style.css";
+        $parser_options = array(
+            'cache_dir'         => $cachedir,
+            'compress'          => true,
+            'sourceMap'         => true,
+            'sourceMapWriteTo'  => $outputDir.'/style.css.map',
+            'sourceMapURL'      => get_stylesheet_directory_uri().'/assets/css/style.css.map',
+        );
+        $css_file_name = Less_Cache::Get(
+            array(
+                $inputFile => get_stylesheet_directory_uri(),
+            ),
+            $parser_options
+        );
+        $css = file_get_contents( $cachedir.'/'.$css_file_name );
+        file_put_contents($outputFile, $css);
+    }catch (exception $e) {
+        echo "Less Compiler Fatal Error: " . $e->getMessage();
+    }
+}
+
+/*function old_waboot_compile_less(){
+    require_once("vendor/Less.php");
+    require_once("vendor/lessc.inc.php");
+    try{
+        $inputFile = get_stylesheet_directory()."/sources/overrides/waboot.less";
+        $outputFile = get_stylesheet_directory()."/assets/css/style.css";
+        $less = new lessc;
+        $less->setFormatter("compressed");
+
+        $cache = get_option("less_cache");
+        if(!$cache){
+            $cache = $less->cachedCompile($inputFile);
+            add_option("less_cache",$cache);
+            file_put_contents($outputFile, $cache["compiled"]);
+        }else{
+            $last_updated = $cache["updated"];
+            $cache = $less->cachedCompile($inputFile);
+            if ($cache["updated"] > $last_updated) {
+                file_put_contents($outputFile, $cache["compiled"]);
+            }
+        }
+    }catch (exception $e) {
+        echo "Less Compiler Fatal Error: " . $e->getMessage();
+    }
+}*/

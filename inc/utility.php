@@ -1,5 +1,4 @@
 <?php
-
 if ( ! function_exists( 'waboot_locate_template_uri' ) ):
     /**
      * Snatched from future release code in WordPress repo.
