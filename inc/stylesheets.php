@@ -39,7 +39,7 @@ add_action( 'admin_enqueue_scripts', 'waboot_admin_styles' );
  */
 function waboot_editor_styles() {
     add_editor_style( get_stylesheet_uri() );
-    add_editor_style( 'css/bootstrap.min.css' );
+    //add_editor_style( 'css/bootstrap.min.css' ); LostCore: now bootstrap is in style.css
     add_editor_style( 'admin/css/tinymce.css' ); //Overwrite some bootstrap stylesheet
 }
 add_action( 'init', 'waboot_editor_styles' );

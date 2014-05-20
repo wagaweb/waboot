@@ -1,19 +1,19 @@
 <?php
 /**
- * Non visualizza il titolo per post e pagine, utilizzando il modulo behavior e il filtro implementato da Alienship
+ * Nasconde il titolo per post e pagine, utilizzando il modulo behavior
  * @param $title
  * @return string
- * @todo Rinominare il filtro di Alienship
+ * @uses waboot_entry_title_text filter (inc/template_tags.php::waboot_do_entry_title)
  * @since 1.0
  */
 function waboot_title_toggler($title){
     $show_title = get_behavior("show-title");
-    if($show_title == "0"){
+    if(is_singular() && ($show_title == "0" || !$show_title || $show_title == 0)){
         return "";
     }
     return $title;
 }
-add_filter("alienship_entry_title_text","waboot_title_toggler");
+add_filter("waboot_entry_title_text","waboot_title_toggler");
 
 /**
  * Creates the title based on current view

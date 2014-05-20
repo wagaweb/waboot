@@ -19,7 +19,7 @@ do_action( 'alienship_post_before' ); ?>
 	</header><!-- .entry-header -->
 	<?php } else {
 
-		do_action( 'alienship_entry_header' );
+		do_action( 'waboot_entry_header' );
 	}
 	do_action( 'alienship_entry_content_before' );
 	?>
@@ -41,7 +41,7 @@ do_action( 'alienship_post_before' ); ?>
 	</div>
 	<?php
 	do_action( 'alienship_entry_content_after' );
-	do_action( 'alienship_entry_footer' );
+    do_action( 'waboot_entry_footer' );
 	do_action( 'alienship_post_bottom' );
 	?>
 </article><!-- #post-<?php the_ID(); ?> -->

@@ -1,5 +1,12 @@
 <?php
 
+define("ENV_DEV",1);
+define("ENV_PRODUCTION",2);
+
+if(!defined("CURRENT_ENV")){
+    define("CURRENT_ENV",ENV_PRODUCTION);
+}
+
 if ( ! function_exists( 'waboot_setup' ) ):
     function waboot_setup() {
 

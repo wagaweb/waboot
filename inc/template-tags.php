@@ -1,5 +1,8 @@
 <?php
 
+require_once("template_tags/entry-header.php");
+require_once("template_tags/entry-footer.php");
+
 if ( ! function_exists( 'waboot_do_site_title' ) ):
     /**
      * Displays site title at top of page
@@ -23,8 +26,6 @@ if ( ! function_exists( 'waboot_do_site_title' ) ):
     add_action( 'waboot_site_title', 'waboot_do_site_title' );
 endif;
 
-
-
 if( ! function_exists( 'waboot_do_site_description' ) ):
     /**
      * Displays site description at top of page
@@ -44,3 +45,4 @@ if( ! function_exists( 'waboot_do_site_description' ) ):
     }
     add_action( 'waboot_site_description', 'waboot_do_site_description' );
 endif;
+

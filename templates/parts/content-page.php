@@ -9,7 +9,7 @@ do_action( 'alienship_post_before' ); ?>
 <article role="article" id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 	<?php
 	do_action( 'alienship_post_top' );
-	do_action( 'alienship_entry_header' );
+	do_action( 'waboot_entry_header' );
 	do_action( 'alienship_entry_content_before' );
 	?>
 	<div class="entry-content">

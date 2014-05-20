@@ -25,7 +25,7 @@ do_action( 'alienship_post_before' ); ?>
 	</div><!-- .entry-content -->
 	<?php
 	do_action( 'alienship_entry_content_after' );
-	do_action( 'alienship_entry_footer' );
+    do_action( 'waboot_entry_footer' );
 	do_action( 'alienship_post_bottom' );
 	?>
 </article><!-- #post-<?php the_ID(); ?> -->
