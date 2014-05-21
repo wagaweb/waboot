@@ -1,11 +1,13 @@
 <?php
 
+rename_theme_options("waboot");
+
 define("ENV_DEV",1);
 define("ENV_PRODUCTION",2);
 define("LESS_LIVE_COMPILING",true);
 
 if(!defined("CURRENT_ENV")){
-    define("CURRENT_ENV",ENV_PRODUCTION);
+    define("CURRENT_ENV",ENV_DEV);
 }
 
 if ( ! function_exists( 'waboot_setup' ) ):
@@ -91,7 +93,7 @@ add_action( 'after_setup_theme', 'waboot_setup' );
 /**
  * Autocompile less if it is a child theme
  */
-if(is_child_theme() && LESS_LIVE_COMPILING){
+if( (is_child_theme() || CURRENT_ENV == ENV_DEV)  && LESS_LIVE_COMPILING){
     waboot_compile_less();
 }
 
