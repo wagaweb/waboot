@@ -1,6 +1,6 @@
 <?php
 
-rename_theme_options("waboot");
+//rename_theme_options("waboot");
 
 define("ENV_DEV",1);
 define("ENV_PRODUCTION",2);
