@@ -68,7 +68,7 @@ function optionsframework_options() {
     $options[] = array(
       'name' => __( 'Show Top Menu navigation bar?', 'wship' ),
       'desc' => __( 'Displays the top navbar on your site, even if there\'s no menu assigned in Appearance > Menu. Uncheck this box to hide it. Default is enabled.', 'wship' ),
-      'id'   => 'alienship_show_top_navbar',
+      'id'   => 'waboot_show_top_navbar',
       'std'  => '1',
       'type' => 'checkbox'
     );
@@ -76,7 +76,7 @@ function optionsframework_options() {
     $options[] = array(
       'name' => __( 'Show site name in Top Menu navigation bar?', 'wship' ),
       'desc' => __( 'Default is enabled. Uncheck this box to hide site name in Top Menu navigation bar.', 'wship' ),
-      'id'   => 'alienship_name_in_navbar',
+      'id'   => 'waboot_name_in_navbar',
       'std'  => '1',
       'type' => 'checkbox'
     );
@@ -84,7 +84,7 @@ function optionsframework_options() {
     $options[] = array(
       'name' => __( 'Show search bar in Top Menu navigation bar?', 'wship' ),
       'desc' => __( 'Default is enabled. Uncheck this box to turn it off.', 'wship' ),
-      'id'   => 'alienship_search_bar',
+      'id'   => 'waboot_search_bar',
       'std'  => '1',
       'type' => 'checkbox'
     );
@@ -92,7 +92,7 @@ function optionsframework_options() {
     $options[] = array(
       'name' => __( 'Show Breadcrumb Navigation?', 'wship' ),
       'desc' => __( 'Default is show. Uncheck this box to hide breadcrumbs.', 'wship' ),
-      'id'   => 'alienship_breadcrumbs',
+      'id'   => 'waboot_breadcrumbs',
       'std'  => '1',
       'type' => 'checkbox'
     );
@@ -100,7 +100,7 @@ function optionsframework_options() {
     $options[] = array(
       'name' => __( 'Show content navigation above posts?', 'wship' ),
       'desc' => __( 'Displays links to next and previous posts above the current post and above the posts on the index page. Default is hide. Check this box to show content nav above posts.', 'wship' ),
-      'id'   => 'alienship_content_nav_above',
+      'id'   => 'waboot_content_nav_above',
       'std'  => '0',
       'type' => 'checkbox'
     );
@@ -108,7 +108,7 @@ function optionsframework_options() {
     $options[] = array(
       'name' => __( 'Show content navigation below posts?', 'wship' ),
       'desc' => __( 'Displays links to next and previous posts below the current post and below the posts on the index page. Default is show. Uncheck this box to hide content nav above posts.', 'wship' ),
-      'id'   => 'alienship_content_nav_below',
+      'id'   => 'waboot_content_nav_below',
       'std'  => '1',
       'type' => 'checkbox'
     );
@@ -123,7 +123,7 @@ function optionsframework_options() {
     $options[] = array(
       'name' => __( 'Show custom footer text?', 'wship' ),
       'desc' => __( 'Default is disabled. Check this box to use custom footer text. Fill in your text below.', 'wship' ),
-      'id'   => 'alienship_custom_footer_toggle',
+      'id'   => 'waboot_custom_footer_toggle',
       'std'  => '0',
       'type' => 'checkbox'
     );
@@ -131,7 +131,7 @@ function optionsframework_options() {
     $options[] = array(
       'name' => __( 'Custom footer text', 'wship' ),
       'desc' => __( 'Enter the text here that you would like displayed at the bottom of your site. This setting will be ignored if you do not enable "Show custom footer text" above.', 'wship' ),
-      'id'   => 'alienship_custom_footer_text',
+      'id'   => 'waboot_custom_footer_text',
       'std'  => '',
       'type' => 'text'
     );
@@ -145,7 +145,7 @@ function optionsframework_options() {
     $options[] = array(
       'name' => __( 'Show post author?', 'wship' ),
       'desc' => __( 'Displays the post author. Default is show. Uncheck this box to hide the post author.', 'wship' ),
-      'id'   => 'alienship_post_author',
+      'id'   => 'waboot_post_author',
       'std'  => '1',
       'type' => 'checkbox'
     );
@@ -153,7 +153,7 @@ function optionsframework_options() {
     $options[] = array(
       'name' => __( 'Show published date?', 'wship' ),
       'desc' => __( 'Displays the date the article was posted. Default is show. Uncheck this box to hide post published date.', 'wship' ),
-      'id'   => 'alienship_published_date',
+      'id'   => 'waboot_published_date',
       'std'  => '1',
       'type' => 'checkbox'
     );
@@ -161,7 +161,7 @@ function optionsframework_options() {
     $options[] = array(
       'name' => __( 'Show post categories?', 'wship' ),
       'desc' => __( 'Displays the categories in which a post was published. Default is show. Uncheck this box to hide post categories.', 'wship' ),
-      'id'   => 'alienship_post_categories',
+      'id'   => 'waboot_post_categories',
       'std'  => '1',
       'type' => 'checkbox'
     );
@@ -169,7 +169,7 @@ function optionsframework_options() {
     $options[] = array(
       'name' => __( 'Show post tags?', 'wship' ),
       'desc' => __( 'Displays the tags attached to a post. Default is show. Uncheck this box to hide post tags.', 'wship' ),
-      'id'   => 'alienship_post_tags',
+      'id'   => 'waboot_post_tags',
       'std'  => '1',
       'type' => 'checkbox'
     );
@@ -177,7 +177,7 @@ function optionsframework_options() {
     $options[] = array(
       'name' => __( 'Show link for # of comments / Leave a comment?', 'wship' ),
       'desc' => __( 'Displays the number of comments and/or a Leave a comment message on posts. Default is show. Uncheck this box to hide.' ,'wship' ),
-      'id'   => 'alienship_post_comments_link',
+      'id'   => 'waboot_post_comments_link',
       'std'  => '1',
       'type' => 'checkbox'
     );
@@ -197,7 +197,7 @@ function optionsframework_options() {
     $options[] = array(
       'name' => __( 'Enable Featured Posts?', 'wship' ),
       'desc' => __( 'Check this box to turn on featured posts functionality. Set the options below to determine how your featured posts will work. Default is disabled.', 'wship' ),
-      'id'   => 'alienship_featured_posts',
+      'id'   => 'waboot_featured_posts',
       'std'  => '0',
       'type' => 'checkbox'
     );
@@ -205,7 +205,7 @@ function optionsframework_options() {
     $options[] = array(
       'name'    => __( 'Display Featured Posts in a slider or in a grid?', 'wship' ),
       'desc'    => __( 'Displays your featured posts in either a photo slider or a block grid. The default setting is Slider.', 'wship' ),
-      'id'      => 'alienship_featured_posts_display_type',
+      'id'      => 'waboot_featured_posts_display_type',
       'std'     => '1',
       'type'    => 'radio',
       'options' => array(
@@ -217,7 +217,7 @@ function optionsframework_options() {
     $options[] = array(
       'name'    => __( 'Featured Posts Tag', 'wship' ),
       'desc'    => __( 'The tag you select here determines which posts show in the featured posts slider or grid. Example: if you were to select the moo tag, posts tagged with moo would be displayed. Don\'t forget to attach your featured images in the post editor!', 'wship' ),
-      'id'      => 'alienship_featured_posts_tag',
+      'id'      => 'waboot_featured_posts_tag',
       'type'    => 'select',
       'class'   => 'mini',
       'options' => $options_tags
@@ -226,7 +226,7 @@ function optionsframework_options() {
     $options[] = array(
       'name'    => __( 'Maximum # of Featured Posts to display', 'wship' ),
       'desc'    => __( 'Select the maximum number of posts you want to display in the featured posts slider or grid. The default is three. NOTE: The grid displays two posts per row. For best results, select an even number here.', 'wship' ),
-      'id'      => 'alienship_featured_posts_maxnum',
+      'id'      => 'waboot_featured_posts_maxnum',
       'std'     => '3',
       'type'    => 'radio',
       'options' => array(
@@ -242,7 +242,7 @@ function optionsframework_options() {
     $options[] = array(
       'name'    => __( 'Captions' ,'wship' ),
       'desc'    => __( 'Show post titles as captions with slider images. Default is Show.', 'wship' ),
-      'id'      => 'alienship_featured_posts_captions',
+      'id'      => 'waboot_featured_posts_captions',
       'std'     => '1',
       'type'    => 'radio',
       'options' => array(
@@ -254,7 +254,7 @@ function optionsframework_options() {
     $options[] = array(
       'name'    => __( 'Indicators' ,'wship' ),
       'desc'    => __( 'Show indicators at the bottom of the slider that show the current slideshow position and allow for navigation between slides. Default is Hide.', 'wship' ),
-      'id'      => 'alienship_featured_posts_indicators',
+      'id'      => 'waboot_featured_posts_indicators',
       'std'     => '0',
       'type'    => 'radio',
       'options' => array(
@@ -266,7 +266,7 @@ function optionsframework_options() {
     $options[] = array(
       'name'    => __( 'Duplicate featured posts' ,'wship' ),
       'desc'    => __( 'Show posts from the featured content section in the rest of the body. Default is Hide.', 'wship' ),
-      'id'      => 'alienship_featured_posts_show_dupes',
+      'id'      => 'waboot_featured_posts_show_dupes',
       'std'     => '0',
       'type'    => 'radio',
       'options' => array(
@@ -284,7 +284,7 @@ function optionsframework_options() {
     $options[] = array(
       'name'  => __( 'Featured post image width', 'wship' ),
       'desc'  => __( 'Enter the width (in pixels) you want the featured images to be. Default is 850 pixels.', 'wship' ),
-      'id'    => 'alienship_featured_posts_image_width',
+      'id'    => 'waboot_featured_posts_image_width',
       'std'   => '850',
       'class' => 'mini',
       'type'  => 'text'
@@ -293,7 +293,7 @@ function optionsframework_options() {
     $options[] = array(
       'name'  => __( 'Featured post image height', 'wship' ),
       'desc'  => __( 'Enter the height (in pixels) you want the featured images to be. Default is 350 pixels.', 'wship' ),
-      'id'    => 'alienship_featured_posts_image_height',
+      'id'    => 'waboot_featured_posts_image_height',
       'std'   => '350',
       'class' => 'mini',
       'type'  => 'text'
@@ -313,7 +313,7 @@ function optionsframework_options() {
     $options[] = array(
         'name' => __('Body Background Color', 'wship'),
         'desc' => __('Change the body background color.', 'wship'),
-        'id' => 'wship_body_bgcolor',
+        'id' => 'waboot_body_bgcolor',
         'std' => "#ffffff",
         'type' => 'color'
     );
@@ -321,7 +321,7 @@ function optionsframework_options() {
     $options[] = array(
         'name' => __( 'Background Image', 'wship' ),
         'desc' => __( 'Upload a background image, or specify the image address of your image. (http://yoursite.com/image.png)', 'woothemes' ),
-        'id' => 'wship_body_bgimage',
+        'id' => 'waboot_body_bgimage',
         'std' => '',
         'type' => 'upload'
     );
@@ -329,7 +329,7 @@ function optionsframework_options() {
     $options[] = array(
         'name' => __( 'Background Image Repeat', 'wship' ),
         'desc' => __( 'Select how you want your background image to display.', 'wship' ),
-        'id' => 'wship_body_bgrepeat',
+        'id' => 'waboot_body_bgrepeat',
         'type' => 'select',
         'options' => array( 'no-repeat' => 'No Repeat', 'repeat' => 'Repeat','repeat-x' => 'Repeat Horizontally', 'repeat-y' => 'Repeat Vertically' )
     );
@@ -337,7 +337,7 @@ function optionsframework_options() {
     $options[] = array(
         'name' => __( 'Background image position', 'wship' ),
         'desc' => __( 'Select how you would like to position the background', 'wship' ),
-        'id' => 'wship_body_bgpos',
+        'id' => 'waboot_body_bgpos',
         'std' => 'top left',
         'type' => 'select',
         'options' => array(
@@ -350,7 +350,7 @@ function optionsframework_options() {
     $options[] = array(
         'name' => __( 'Background Attachment', 'wship' ),
         'desc' => __( 'Select whether the background should be fixed or move when the user scrolls', 'wship' ),
-        'id' => 'wship_body_bgattach',
+        'id' => 'waboot_body_bgattach',
         'std' => 'scroll',
         'type' => 'select',
         'options' => array( 'scroll' => 'scroll','fixed' => 'fixed' )
@@ -368,14 +368,14 @@ function optionsframework_options() {
     $options[] = array(
         'name' => __( 'Show Logo?', 'wship' ),
         'desc' => __( 'Displays the logo on your site.', 'wship' ),
-        'id'   => 'wship_logo_in_navbar',
+        'id'   => 'waboot_logo_in_navbar',
         'type' => 'upload'
     );
 
     $options[] = array(
         'name' => __( 'Logo Align', 'wship' ),
         'desc' => __( 'Select logo alignment', 'wship' ),
-        'id' => 'wship_logo_align',
+        'id' => 'waboot_logo_align',
         'std' => 'left',
         'type' => 'select',
         'options' => array( 'left' => 'left','center' => 'center','right' => 'right' )
@@ -384,7 +384,7 @@ function optionsframework_options() {
     $options[] = array(
         'name' => __( 'Menu allineato al logo', 'wship' ),
         'desc' => __( 'Allinea il menu principale al logo' ,'wship' ),
-        'id'   => 'wship_float_navbar',
+        'id'   => 'waboot_float_navbar',
         'std'  => '',
         'type' => 'checkbox'
     );
@@ -392,14 +392,14 @@ function optionsframework_options() {
     $options[] = array(
         'name' => __('Navbar Background Color', 'wship'),
         'desc' => __('Change the navbar background color.', 'wship'),
-        'id' => 'wship_navbar_bgcolor',
+        'id' => 'waboot_navbar_bgcolor',
         'type' => 'color'
     );
 
     $options[] = array(
         'name' => __( 'Boxed Top Nav?', 'wship' ),
         'desc' => __( 'Boxed Top Nav' ,'wship' ),
-        'id'   => 'wship_boxed_navbar',
+        'id'   => 'waboot_boxed_navbar',
         'std'  => '',
         'type' => 'checkbox'
     );
@@ -407,7 +407,7 @@ function optionsframework_options() {
     $options[] = array(
         'name' => __( 'Page Width: Fluid or Boxed?', 'wship' ),
         'desc' => __( 'Select page width', 'wship' ),
-        'id' => 'wship_page_width',
+        'id' => 'waboot_page_width',
         'std' => 'container',
         'type' => 'images',
         'options' => array( 'container-fluid' => $imagepath . '1c.png','container' => $imagepath . '3cm.png' )
@@ -416,14 +416,14 @@ function optionsframework_options() {
     $options[] = array(
         'name' => __('Page Background Color', 'wship'),
         'desc' => __('Change the page background color.', 'wship'),
-        'id' => 'wship_page_bgcolor',
+        'id' => 'waboot_page_bgcolor',
         'type' => 'color'
     );
 
     $options[] = array(
         'name' => __( 'Header Width: Fluid or Boxed?', 'wship' ),
         'desc' => __( 'Select header width', 'wship' ),
-        'id' => 'wship_header_width',
+        'id' => 'waboot_header_width',
         'std' => 'container-fluid',
         'type' => 'images',
         'options' => array( 'container-fluid' => $imagepath . '1c.png','container' => $imagepath . '3cm.png' )
@@ -431,14 +431,14 @@ function optionsframework_options() {
     $options[] = array(
         'name' => __('Header Background Color', 'wship'),
         'desc' => __('Change the header background color.', 'wship'),
-        'id' => 'wship_header_bgcolor',
+        'id' => 'waboot_header_bgcolor',
         'type' => 'color'
     );
 
     $options[] = array(
         'name' => __( 'Banner Width: Fluid or Boxed?', 'wship' ),
         'desc' => __( 'Select banner width', 'wship' ),
-        'id' => 'wship_banner_width',
+        'id' => 'waboot_banner_width',
         'std' => 'container-fluid',
         'type' => 'images',
         'options' => array( 'container-fluid' => $imagepath . '1c.png','container' => $imagepath . '3cm.png' )
@@ -446,14 +446,14 @@ function optionsframework_options() {
     $options[] = array(
         'name' => __('Banner Background Color', 'wship'),
         'desc' => __('Change the banner background color.', 'wship'),
-        'id' => 'wship_banner_bgcolor',
+        'id' => 'waboot_banner_bgcolor',
         'type' => 'color'
     );
 
     $options[] = array(
         'name' => __( 'Content Width: Fluid or Boxed?', 'wship' ),
         'desc' => __( 'Select content width', 'wship' ),
-        'id' => 'wship_content_width',
+        'id' => 'waboot_content_width',
         'std' => 'container-fluid',
         'type' => 'images',
         'options' => array( 'container-fluid' => $imagepath . '1c.png','container' => $imagepath . '3cm.png' )
@@ -461,14 +461,14 @@ function optionsframework_options() {
     $options[] = array(
         'name' => __('Content Background Color', 'wship'),
         'desc' => __('Change the content background color.', 'wship'),
-        'id' => 'wship_content_bgcolor',
+        'id' => 'waboot_content_bgcolor',
         'type' => 'color'
     );
 
     $options[] = array(
         'name' => __( 'Content Bottom Width: Fluid or Boxed?', 'wship' ),
         'desc' => __( 'Select content bottom width', 'wship' ),
-        'id' => 'wship_bottom_width',
+        'id' => 'waboot_bottom_width',
         'std' => 'container-fluid',
         'type' => 'images',
         'options' => array( 'container-fluid' => $imagepath . '1c.png','container' => $imagepath . '3cm.png' )
@@ -476,14 +476,14 @@ function optionsframework_options() {
     $options[] = array(
         'name' => __('Banner Content Bottom Color', 'wship'),
         'desc' => __('Change the content bottom background color.', 'wship'),
-        'id' => 'wship_bottom_bgcolor',
+        'id' => 'waboot_bottom_bgcolor',
         'type' => 'color'
     );
 
     $options[] = array(
         'name' => __( 'Footer Width: Fluid or Boxed?', 'wship' ),
         'desc' => __( 'Select footer width', 'wship' ),
-        'id' => 'wship_footer_width',
+        'id' => 'waboot_footer_width',
         'std' => 'container-fluid',
         'type' => 'images',
         'options' => array( 'container-fluid' => $imagepath . '1c.png','container' => $imagepath . '3cm.png' )
@@ -491,7 +491,7 @@ function optionsframework_options() {
     $options[] = array(
         'name' => __('Footer Background Color', 'wship'),
         'desc' => __('Change the footer background color.', 'wship'),
-        'id' => 'wship_footer_bgcolor',
+        'id' => 'waboot_footer_bgcolor',
         'type' => 'color'
     );
 
@@ -528,7 +528,7 @@ function optionsframework_options() {
     $options[] = array(
         'name' => __( 'Social Position', 'wship' ),
         'desc' => __( 'Select the social widget position', 'wship' ),
-        'id' => 'wship_social_position',
+        'id' => 'waboot_social_position',
         'type' => 'select',
         'options' => array(
             'header-right' => 'Header Right',
@@ -541,49 +541,49 @@ function optionsframework_options() {
     $options[] = array(
         'name' => __( 'Facebook', 'wship' ),
         'desc' => __( 'Enter your facebook fan page link', 'wship' ),
-        'id'   => 'wship_social_facebook',
+        'id'   => 'waboot_social_facebook',
         'type' => 'text'
     );
 
     $options[] = array(
         'name' => __( 'Twitter', 'wship' ),
         'desc' => __( 'Enter your twitter page link', 'wship' ),
-        'id'   => 'wship_social_twitter',
+        'id'   => 'waboot_social_twitter',
         'type' => 'text'
     );
 
     $options[] = array(
         'name' => __( 'Google+', 'wship' ),
         'desc' => __( 'Enter your google+ page link', 'wship' ),
-        'id'   => 'wship_social_google',
+        'id'   => 'waboot_social_google',
         'type' => 'text'
     );
 
     $options[] = array(
         'name' => __( 'Pinterest', 'wship' ),
         'desc' => __( 'Enter your pinterest page link', 'wship' ),
-        'id'   => 'wship_social_pinterest',
+        'id'   => 'waboot_social_pinterest',
         'type' => 'text'
     );
 
     $options[] = array(
         'name' => __( 'Linkedin', 'wship' ),
         'desc' => __( 'Enter your linkedin page link', 'wship' ),
-        'id'   => 'wship_social_linkedin',
+        'id'   => 'waboot_social_linkedin',
         'type' => 'text'
     );
 
     $options[] = array(
         'name' => __( 'Instagram', 'wship' ),
         'desc' => __( 'Enter your instagram page link', 'wship' ),
-        'id'   => 'wship_social_instagram',
+        'id'   => 'waboot_social_instagram',
         'type' => 'text'
     );
 
     $options[] = array(
         'name' => __( 'Feed RSS', 'wship' ),
         'desc' => __( 'Enter your feed RSS link', 'wship' ),
-        'id'   => 'wship_social_feedrss',
+        'id'   => 'waboot_social_feedrss',
         'type' => 'text'
     );
 
