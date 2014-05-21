@@ -6,10 +6,10 @@ module.exports = function(grunt) {
                 options:{
                 },
                 files:{
-                    'assets/css/style.css': 'sources/overrides/waboot.less',
-                    'admin/css/tinymce.css': 'sources/less/tinymce.less',
-                    'admin/css/admin.css': 'sources/less/admin.less',
-                    'admin/css/waboot-optionsframework.css': 'sources/less/optionsframework.less'
+                    'assets/css/style.css': 'sources/less/waboot.less',
+                    'admin/css/tinymce.css': 'sources/admin/tinymce.less',
+                    'admin/css/admin.css': 'sources/admin/admin.less',
+                    'admin/css/waboot-optionsframework.css': 'sources/admin/optionsframework.less'
                 }
             },
             production:{
@@ -26,7 +26,7 @@ module.exports = function(grunt) {
                     sourceMapBasepath: "assets/css/"                    
                 },
                 files: {
-                    'assets/css/style.css': 'sources/overrides/waboot.less'
+                    'assets/css/style.css': 'sources/less/waboot.less'
                 }                
             }
         },
