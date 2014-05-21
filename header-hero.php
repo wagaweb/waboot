@@ -24,7 +24,7 @@ do_action( 'waboot_head' ); ?>
 	<!--[if lt IE 9]><p class="browsehappy alert alert-danger">You are using an outdated browser. Please <a class="alert-link" href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p><![endif]-->
 
 	<?php
-	if ( of_get_option( 'alienship_show_top_navbar', 1 ) )
+	if ( of_get_option( 'waboot_show_top_navbar', 1 ) )
 		get_template_part( '/templates/parts/menu', 'top' );
 
 	do_action( 'alienship_content_before' ); ?>

@@ -17,9 +17,9 @@ get_header(); ?>
                         /**
                          * Featured Posts
                          */
-                        if ( of_get_option('alienship_featured_posts') ) {
+                        if ( of_get_option('waboot_featured_posts') ) {
 
-                            if ( of_get_option( 'alienship_featured_posts_display_type', 1 ) == "1" ) {
+                            if ( of_get_option( 'waboot_featured_posts_display_type', 1 ) == "1" ) {
                                 waboot_featured_posts_slider();
                             } else {
                                 waboot_featured_posts_grid();
@@ -29,20 +29,20 @@ get_header(); ?>
                              * Show or hide featured posts in the main post index
                              */
                             // Do not duplicate featured posts in the post index
-                            if ( of_get_option( 'alienship_featured_posts_show_dupes' ) == "0" ) {
+                            if ( of_get_option( 'waboot_featured_posts_show_dupes' ) == "0" ) {
                                 global $wp_query;
-                                $wp_query->set( 'tag__not_in', array( of_get_option( 'alienship_featured_posts_tag' ) ) );
+                                $wp_query->set( 'tag__not_in', array( of_get_option( 'waboot_featured_posts_tag' ) ) );
                                 $wp_query->get_posts();
                             }
 
                             // Duplicate featured posts in the post index
-                            if ( of_get_option( 'alienship_featured_posts_show_dupes' ) == "1" ) {
+                            if ( of_get_option( 'waboot_featured_posts_show_dupes' ) == "1" ) {
                                 global $wp_query;
                                 $wp_query->set( 'post_status', 'publish' );
                                 $wp_query->get_posts();
                             }
 
-                        } // if (of_get_option('alienship_featured_posts') )
+                        } // if (of_get_option('waboot_featured_posts') )
 
                         /**
                          * Loop

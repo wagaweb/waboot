@@ -62,37 +62,37 @@ function waboot_theme_options_header_styles(){
     ?>
     <style type="text/css">
         body {
-            background-color: <?php echo of_get_option( 'wship_body_bgcolor' ); ?> !important;
-            background-image: url(<?php echo of_get_option( 'wship_body_bgimage' ); ?>);
-            background-repeat: <?php echo of_get_option( 'wship_body_bgrepeat' ); ?>;
-            background-position: <?php echo of_get_option( 'wship_body_bgpos' ); ?>;
-            background-attachment: <?php echo of_get_option( 'wship_body_bgattach' ); ?>;
+            background-color: <?php echo of_get_option( 'waboot_body_bgcolor' ); ?> !important;
+            background-image: url(<?php echo of_get_option( 'waboot_body_bgimage' ); ?>);
+            background-repeat: <?php echo of_get_option( 'waboot_body_bgrepeat' ); ?>;
+            background-position: <?php echo of_get_option( 'waboot_body_bgpos' ); ?>;
+            background-attachment: <?php echo of_get_option( 'waboot_body_bgattach' ); ?>;
         }
         #header-wrapper {
-            background-color: <?php echo of_get_option( 'wship_header_bgcolor' ); ?>;
+            background-color: <?php echo of_get_option( 'waboot_header_bgcolor' ); ?>;
         }
         #banner-wrapper {
-            background-color: <?php echo of_get_option( 'wship_banner_bgcolor' ); ?>;
+            background-color: <?php echo of_get_option( 'waboot_banner_bgcolor' ); ?>;
         }
         #content-wrapper {
-            background-color: <?php echo of_get_option( 'wship_content_bgcolor' ); ?>;
+            background-color: <?php echo of_get_option( 'waboot_content_bgcolor' ); ?>;
         }
         #contentbottom-wrapper {
-            background-color: <?php echo of_get_option( 'wship_bottom_bgcolor' ); ?>;
+            background-color: <?php echo of_get_option( 'waboot_bottom_bgcolor' ); ?>;
         }
         #footer-wrapper {
-            background-color: <?php echo of_get_option( 'wship_footer_bgcolor' ); ?>;
+            background-color: <?php echo of_get_option( 'waboot_footer_bgcolor' ); ?>;
         }
         #logo {
-            text-align: <?php echo of_get_option( 'wship_logo_align' ); ?>;
-            float: <?php echo of_get_option( 'wship_logo_align', 'left,right' ); ?>;
-            <?php if ( of_get_option( 'wship_float_navbar', 1 ) ) {?> display: inline-block; <?php } ?>
+            text-align: <?php echo of_get_option( 'waboot_logo_align' ); ?>;
+            float: <?php echo of_get_option( 'waboot_logo_align', 'left,right' ); ?>;
+            <?php if ( of_get_option( 'waboot_float_navbar', 1 ) ) {?> display: inline-block; <?php } ?>
         }
         #page {
-            background-color: <?php echo of_get_option( 'wship_page_bgcolor' ); ?>;
+            background-color: <?php echo of_get_option( 'waboot_page_bgcolor' ); ?>;
         }
         #header-wrapper .navbar-collapse {
-            background-color: <?php echo of_get_option( 'wship_navbar_bgcolor' ); ?>;
+            background-color: <?php echo of_get_option( 'waboot_navbar_bgcolor' ); ?>;
         }
 
     </style>

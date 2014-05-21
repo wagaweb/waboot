@@ -22,9 +22,9 @@
     <body <?php body_class(); ?> >
 	    <!--[if lt IE 9]><p class="browsehappy alert alert-danger">You are using an outdated browser. Please <a class="alert-link" href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p><![endif]-->
 
-        <?php if ( of_get_option( 'alienship_show_top_navbar', 1 ) ) : ?>
+        <?php if ( of_get_option( 'waboot_show_top_navbar', 1 ) ) : ?>
             <!-- Navbar: Begin -->
-            <?php if ( of_get_option( 'wship_boxed_navbar', 1 ) ) : ?>
+            <?php if ( of_get_option( 'waboot_boxed_navbar', 1 ) ) : ?>
                 <!-- Boxed Navbar -->
                 <div class="container" style="padding:0;">
                     <?php get_template_part( '/templates/parts/menu', 'top' ); ?>
@@ -35,9 +35,9 @@
             <!-- Navbar: End -->
         <?php endif; ?>
 
-	    <div id="page" class="<?php echo of_get_option( 'wship_page_width','container' ); ?> hfeed site">
+	    <div id="page" class="<?php echo of_get_option( 'waboot_page_width','container' ); ?> hfeed site">
 		    <?php do_action( 'waboot_header_before' ); ?>
-		    <div id="header-wrapper" class="<?php echo of_get_option( 'wship_header_width' ); ?>">
+		    <div id="header-wrapper" class="<?php echo of_get_option( 'waboot_header_width' ); ?>">
                 <header id="masthead" class="site-header" role="banner">
                 <?php
                     // Header image
@@ -52,14 +52,14 @@
 	        <?php do_action( 'waboot_content_before' ); ?>
 
             <?php if ( is_active_sidebar( 'banner' ) ) : ?>
-                <div id="banner-wrapper" class="<?php echo of_get_option( 'wship_banner_width','container' ); ?>">
+                <div id="banner-wrapper" class="<?php echo of_get_option( 'waboot_banner_width','container' ); ?>">
                     <div id="banner">
                         <?php dynamic_sidebar( 'banner' ); ?>
                     </div>
                 </div>
             <?php endif; ?>
 		
-	        <div id="content-wrapper" class="<?php echo of_get_option( 'wship_content_width','container' ); ?>">
+	        <div id="content-wrapper" class="<?php echo of_get_option( 'waboot_content_width','container' ); ?>">
                 <div id="content" class="site-content row <?php if(get_behavior('layout') == "sidebar-left") echo 'sidebar-left'; ?>">
 
                 <?php if ( function_exists( 'breadcrumb_trail' ) && !is_front_page() ) : ?>

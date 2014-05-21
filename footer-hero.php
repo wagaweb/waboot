@@ -27,8 +27,8 @@ do_action( 'alienship_footer_before' ); ?>
 			</div><!-- .bottom-navigation -->
 			<div class="footer-text col-sm-6 col-sm-pull-6">
 				<?php edit_post_link( __( 'Edit page', 'alienship' ), '<span class="edit-link"><i class="glyphicon glyphicon-pencil"></i>&nbsp;', ' - </span>' );
-				if ( of_get_option('alienship_custom_footer_toggle') ) {
-					echo '' . of_get_option('alienship_custom_footer_text') . '';
+				if ( of_get_option('waboot_custom_footer_toggle') ) {
+					echo '' . of_get_option('waboot_custom_footer_text') . '';
 				} else {
 					echo '&copy; ' . date('Y') . ' ' . get_bloginfo('name'); } ?>
 			</div><!-- .footer-text -->

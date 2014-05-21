@@ -10,8 +10,8 @@ if ( ! function_exists( 'waboot_content_nav' ) ):
     function waboot_content_nav( $nav_id ) {
 
         // Return early if theme options are set to hide nav
-        if ( 'nav-below' == $nav_id && ! of_get_option( 'alienship_content_nav_below', 1 )
-            || 'nav-above' == $nav_id && ! of_get_option( 'alienship_content_nav_above' ) )
+        if ( 'nav-below' == $nav_id && ! of_get_option( 'waboot_content_nav_below', 1 )
+            || 'nav-above' == $nav_id && ! of_get_option( 'waboot_content_nav_above' ) )
             return;
 
         global $wp_query;
@@ -57,8 +57,8 @@ if ( ! function_exists( 'waboot_featured_posts_grid' ) ):
     function waboot_featured_posts_grid() {
 
         $args = array(
-            'tag_id'         => of_get_option( 'alienship_featured_posts_tag' ),
-            'posts_per_page' => of_get_option( 'alienship_featured_posts_maxnum' ),
+            'tag_id'         => of_get_option( 'waboot_featured_posts_tag' ),
+            'posts_per_page' => of_get_option( 'waboot_featured_posts_maxnum' ),
         );
         $featured_query = new WP_Query( $args );
 
@@ -83,8 +83,8 @@ if ( ! function_exists( 'waboot_featured_posts_slider' ) ):
     function waboot_featured_posts_slider() {
 
         $args = array(
-            'tag_id'         => of_get_option( 'alienship_featured_posts_tag' ),
-            'posts_per_page' => of_get_option( 'alienship_featured_posts_maxnum' ),
+            'tag_id'         => of_get_option( 'waboot_featured_posts_tag' ),
+            'posts_per_page' => of_get_option( 'waboot_featured_posts_maxnum' ),
         );
         $featured_query = new WP_Query( $args );
 
@@ -94,7 +94,7 @@ if ( ! function_exists( 'waboot_featured_posts_slider' ) ):
                     <div id="featured-carousel" class="carousel slide">
 
                         <?php // Featured post indicators?
-                        if ( of_get_option( 'alienship_featured_posts_indicators', 0 ) ) { ?>
+                        if ( of_get_option( 'waboot_featured_posts_indicators', 0 ) ) { ?>
                             <ol class="carousel-indicators">
 
                                 <?php

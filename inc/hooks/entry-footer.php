@@ -19,7 +19,7 @@ if ( ! function_exists( 'waboot_do_posted_on' ) ) :
     function waboot_do_posted_on() {
 
         // Return early if theme options are set to hide date
-        if ( ! of_get_option( 'alienship_published_date', 1 ) )
+        if ( ! of_get_option( 'waboot_published_date', 1 ) )
             return;
 
         printf( __( '<span class="published-date"><i class="glyphicon glyphicon-calendar" title="Published date"></i> <a href="%1$s" title="%2$s"><time class="entry-date" datetime="%3$s">%4$s</time></a></span>', 'alienship' ),
@@ -41,7 +41,7 @@ if ( ! function_exists( 'waboot_do_post_author' ) ) :
     function waboot_do_post_author() {
 
         // Return early if theme options are set to hide author
-        if ( ! of_get_option('alienship_post_author', 1 ) )
+        if ( ! of_get_option('waboot_post_author', 1 ) )
             return;
 
         printf( __( '<span class="byline"><i class="glyphicon glyphicon-user"></i> <span class="author vcard"><a class="url fn n" href="%1$s" title="%2$s" rel="author">%3$s</a></span></span>', 'alienship' ),
@@ -61,7 +61,7 @@ if ( ! function_exists( 'waboot_do_post_categories' ) ):
     function waboot_do_post_categories() {
 
         // Return early if theme options are set to hide categories
-        if ( ! of_get_option( 'alienship_post_categories', 1 ) )
+        if ( ! of_get_option( 'waboot_post_categories', 1 ) )
             return;
 
         $post_categories = get_the_category();
@@ -96,7 +96,7 @@ if ( ! function_exists( 'waboot_do_post_tags' ) ):
     function waboot_do_post_tags() {
 
         // Return early if theme options are set to hide tags
-        if ( ! of_get_option( 'alienship_post_tags', 1 ) )
+        if ( ! of_get_option( 'waboot_post_tags', 1 ) )
             return;
 
         $post_tags = get_the_tags();
@@ -132,7 +132,7 @@ if ( ! function_exists( 'waboot_do_post_comments_link' ) ):
     function waboot_do_post_comments_link() {
 
         // Return early if theme options are set to hide comment link
-        if ( ! of_get_option( 'alienship_post_comments_link', 1 ) )
+        if ( ! of_get_option( 'waboot_post_comments_link', 1 ) )
             return;
 
         if ( comments_open() || ( '0' != get_comments_number() && ! comments_open() ) ) { ?>
