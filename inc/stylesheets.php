@@ -91,7 +91,7 @@ function waboot_theme_options_header_styles(){
         #page {
             background-color: <?php echo of_get_option( 'waboot_page_bgcolor' ); ?>;
         }
-        #header-wrapper .navbar-collapse {
+        .navbar.main-navigation .navbar-collapse {
             background-color: <?php echo of_get_option( 'waboot_navbar_bgcolor' ); ?>;
         }
 

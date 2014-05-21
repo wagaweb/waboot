@@ -194,13 +194,13 @@ function waboot_compile_less(){
     require_once("inc/vendor/Less.php");
     try{
         $theme = wp_get_theme()->stylesheet;
-        $inputFile = get_stylesheet_directory()."/sources/overrides/{$theme}.less";
+        $inputFile = get_stylesheet_directory()."/sources/less/{$theme}.less";
         $cachedir = get_stylesheet_directory()."/assets/css/cache";
         $outputDir = get_stylesheet_directory()."/assets/css";
         $outputFile = get_stylesheet_directory()."/assets/css/style.css";
         $parser_options = array(
             'cache_dir'         => $cachedir,
-            'compress'          => true,
+            'compress'          => false,
             'sourceMap'         => true,
             'sourceMapWriteTo'  => $outputDir.'/style.css.map',
             'sourceMapURL'      => get_stylesheet_directory_uri().'/assets/css/style.css.map',
