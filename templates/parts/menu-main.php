@@ -2,7 +2,7 @@
 /**
  * The template used to load the Main Menu in header*.php
  *
- * @package Alien Ship
+ * @package Waboot
  * @since Alien Ship 0.70
  */
 ?>

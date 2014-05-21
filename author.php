@@ -2,15 +2,15 @@
 /**
  * The template for displaying Author Archive pages.
  *
- * @package Alien Ship
+ * @package Waboot
  * @since Alien Ship 0.1
  */
 
 get_header(); ?>
 
-	<section id="primary" class="<?php echo apply_filters( 'alienship_primary_container_class', 'content-area col-sm-8' ); ?>">
+	<section id="primary" class="<?php echo apply_filters( 'waboot_primary_container_class', 'content-area col-sm-8' ); ?>">
 
-		<?php do_action( 'alienship_main_before' ); ?>
+		<?php do_action( 'waboot_main_before' ); ?>
 		<main id="main" class="site-main" role="main">
 
 			<?php if ( have_posts() ) {
@@ -32,7 +32,7 @@ get_header(); ?>
 				 */
 				rewind_posts();
 
-				alienship_content_nav( 'nav-above' ); // display content nav above posts?
+				waboot_content_nav( 'nav-above' ); // display content nav above posts?
 
 				// Start the Loop
 				while ( have_posts() ) : the_post();
@@ -48,7 +48,7 @@ get_header(); ?>
 				endwhile;
 
 				// Show navigation below post content
-				alienship_content_nav( 'nav-below' );
+				waboot_content_nav( 'nav-below' );
 
 			} else {
 
@@ -57,7 +57,7 @@ get_header(); ?>
 
 				} //have_posts ?>
 		</main><!-- #main -->
-		<?php do_action( 'alienship_main_after' ); ?>
+		<?php do_action( 'waboot_main_after' ); ?>
 
 	</section><!-- #primary -->
 <?php

@@ -3,7 +3,7 @@
  * Nasconde il titolo per post e pagine, utilizzando il modulo behavior
  * @param $title
  * @return string
- * @uses waboot_entry_title_text filter (inc/template_tags.php::waboot_do_entry_title)
+ * @uses waboot_entry_title_text filter (inc/hooks.php::waboot_do_entry_title)
  * @since 1.0
  */
 function waboot_title_toggler($title){

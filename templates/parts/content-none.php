@@ -2,7 +2,7 @@
 /**
  * The template used when no results are found. Used in archive.php, author.php, index.php, and search.php
  *
- * @package Alien Ship
+ * @package Waboot
  * @since Alien Ship 0.56
  */
 ?>

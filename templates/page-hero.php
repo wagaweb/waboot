@@ -3,7 +3,7 @@
  * Template Name: Hero
  * The template for displaying full-width Hero pages.
  *
- * @package Alien Ship
+ * @package Waboot
  * @since Alien Ship 0.2
  */
 

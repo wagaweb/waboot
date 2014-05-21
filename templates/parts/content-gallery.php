@@ -1,6 +1,6 @@
 <?php
 /**
- * @package Alien Ship
+ * @package Waboot
  * @since Alien Ship 0.1
  */
 

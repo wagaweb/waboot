@@ -2,7 +2,7 @@
 /**
  * Jetpack Related Features
  *
- * @package Alien Ship
+ * @package Waboot
  * @since 1.0.1
  */
 

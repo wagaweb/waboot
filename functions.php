@@ -19,6 +19,7 @@ if ( ! function_exists( 'waboot_setup' ) ):
 
         // Custom template tags for this theme.
         locate_template( '/core/inc/template-tags.php', true );
+        locate_template( '/inc/hooks.php', true );
         locate_template( '/inc/template-tags.php', true );
 
         // Register the navigation menus.

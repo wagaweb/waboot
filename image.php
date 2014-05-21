@@ -2,7 +2,7 @@
 /**
  * The template for displaying image attachments.
  *
- * @package Alien Ship
+ * @package Waboot
  * @since Alien Ship 0.1
  */
 
@@ -10,7 +10,7 @@ get_header(); ?>
 
 	<div id="primary" class="image-attachment">
 
-		<?php do_action( 'alienship_main_before' ); ?>
+		<?php do_action( 'waboot_main_before' ); ?>
 		<main id="main" class="site-main" role="main">
 
 			<?php while ( have_posts() ) : the_post(); ?>
@@ -90,7 +90,7 @@ get_header(); ?>
 			<?php endwhile; // end of the loop. ?>
 
 		</main><!-- #main -->
-		<?php do_action( 'alienship_main_after' ); ?>
+		<?php do_action( 'waboot_main_after' ); ?>
 
 	</div><!-- #primary -->
 

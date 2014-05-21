@@ -1,7 +1,7 @@
 <?php
 /* Custom Header Support
  *
- * @package Alien Ship
+ * @package Waboot
  * @since .69
  *
  * Credit to WordPress team for code used from Twenty Eleven and P2 themes.

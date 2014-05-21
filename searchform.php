@@ -2,7 +2,7 @@
 /**
  * The template for displaying search forms in Alien Ship
  *
- * @package Alien Ship
+ * @package Waboot
  * @since Alien Ship 0.1
  */
 ?>

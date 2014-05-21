@@ -7,7 +7,7 @@
  * handled by a callback to alienship_comment() which is
  * located in the inc/template-tags.php file.
  *
- * @package Alien Ship
+ * @package Waboot
  */
 
 /*

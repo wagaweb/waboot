@@ -2,21 +2,21 @@
 /**
  * The template for displaying all single posts.
  *
- * @package Alien Ship
+ * @package Waboot
  * @since Alien Ship 0.1
  */
 
 get_header(); ?>
 
-	<div id="primary" class="<?php echo apply_filters( 'alienship_primary_container_class', 'content-area col-sm-8' ); ?>">
+	<div id="primary" class="<?php echo apply_filters( 'waboot_primary_container_class', 'content-area col-sm-8' ); ?>">
 
-		<?php do_action( 'alienship_main_before' ); ?>
+		<?php do_action( 'waboot_main_before' ); ?>
 		<main id="main" role="main" class="site-main">
 
 		<?php
 		while ( have_posts() ) : the_post();
 
-			alienship_content_nav( 'nav-above' ); // display content nav above posts?
+			waboot_content_nav( 'nav-above' ); // display content nav above posts?
 
 			do_action( 'waboot_loop_before' );
 
@@ -28,7 +28,7 @@ get_header(); ?>
 
 			do_action( 'waboot_loop_after' );
 
-			alienship_content_nav( 'nav-below' ); // display content nav below posts?
+			waboot_content_nav( 'nav-below' ); // display content nav below posts?
 
 			// If comments are open or we have at least one comment, load up the comment template
 			if ( comments_open() || '0' != get_comments_number() )
@@ -37,7 +37,7 @@ get_header(); ?>
 			endwhile; ?>
 
 		</main><!-- #main -->
-		<?php do_action( 'alienship_main_after' ); ?>
+		<?php do_action( 'waboot_main_after' ); ?>
 
 	</div><!-- #primary -->
 <?php

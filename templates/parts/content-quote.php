@@ -2,7 +2,7 @@
 /**
  * The template for displaying posts in the Quote post format
  *
- * @package Alien Ship
+ * @package Waboot
  * @since Alien Ship 0.4
  */
 do_action( 'alienship_post_before' ); ?>

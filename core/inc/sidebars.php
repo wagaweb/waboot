@@ -4,7 +4,7 @@ if ( ! function_exists( 'alienship_widgets_init' ) ):
 /**
  * Register widgetized areas and widgets
  *
- * @package Alien Ship
+ * @package Waboot
  * @since Alien Ship 0.1
  */
 function alienship_widgets_init() {

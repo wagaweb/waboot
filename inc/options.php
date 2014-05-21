@@ -316,7 +316,7 @@ function optionsframework_options() {
         'name' => __('Body Background Color', 'wship'),
         'desc' => __('Change the body background color.', 'wship'),
         'id' => 'wship_body_bgcolor',
-        'std' => $background_defaults,
+        'std' => "#ffffff",
         'type' => 'color'
     );
 

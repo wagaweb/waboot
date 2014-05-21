@@ -2,7 +2,7 @@
 /**
  * The template used for displaying page content in page.php
  *
- * @package Alien Ship
+ * @package Waboot
  * @since Alien Ship 0.1
  */
 do_action( 'alienship_post_before' ); ?>

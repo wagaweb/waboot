@@ -2,7 +2,7 @@
 /**
  * The template for displaying posts in the Link post format
  *
- * @package Alien Ship
+ * @package Waboot
  * @since Alien Ship 0.64
  */
 

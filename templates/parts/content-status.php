@@ -2,7 +2,7 @@
 /**
  * The template for displaying posts in the Status post format
  *
- * @package Alien Ship
+ * @package Waboot
  * @since Alien Ship 0.64
  */
 do_action( 'alienship_post_before' ); ?>

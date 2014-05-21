@@ -4,8 +4,8 @@
  *
  * Displays all of the <head> section and everything up to <div id="content">
  *
- * @package Alien Ship
- * @since Alien Ship 0.1
+ * @package Waboot
+ * @since Waboot 1.0
  */
 ?>
 <!DOCTYPE html>
@@ -52,14 +52,14 @@
 	        <?php do_action( 'waboot_content_before' ); ?>
 
             <?php if ( is_active_sidebar( 'banner' ) ) : ?>
-                <div id="banner-wrapper" class="<?php echo of_get_option( 'wship_banner_width' ); ?>">
+                <div id="banner-wrapper" class="<?php echo of_get_option( 'wship_banner_width','container' ); ?>">
                     <div id="banner">
                         <?php dynamic_sidebar( 'banner' ); ?>
                     </div>
                 </div>
             <?php endif; ?>
 		
-	        <div id="content-wrapper" class="<?php echo of_get_option( 'wship_content_width' ); ?>">
+	        <div id="content-wrapper" class="<?php echo of_get_option( 'wship_content_width','container' ); ?>">
                 <div id="content" class="site-content row <?php if(get_behavior('layout') == "sidebar-left") echo 'sidebar-left'; ?>">
 
                 <?php if ( function_exists( 'breadcrumb_trail' ) && !is_front_page() ) : ?>

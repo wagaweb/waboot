@@ -7,7 +7,7 @@
  * and that other 'pages' on your WordPress site will use a
  * different template.
  *
- * @package Alien Ship
+ * @package Waboot
  * @since Alien Ship 0.1
  */
 
@@ -15,12 +15,12 @@ get_header(); ?>
 
     <?php //if ( current_theme_supports( 'theme-layouts' ) && 'layout-1c' == theme_layouts_get_layout()) : ?>
     <?php if ( get_behavior( 'layout' ) == "full-width" ) : ?>
-    <div id="primary" class="<?php echo apply_filters( 'alienship_primary_container_class', 'content-area col-sm-12' ); ?>">
+    <div id="primary" class="<?php echo apply_filters( 'waboot_primary_container_class', 'content-area col-sm-12' ); ?>">
     <?php else : ?>
-	<div id="primary" class="<?php echo apply_filters( 'alienship_primary_container_class', 'content-area col-sm-8' ); ?>">
+	<div id="primary" class="<?php echo apply_filters( 'waboot_primary_container_class', 'content-area col-sm-8' ); ?>">
     <?php endif; ?>
 
-		<?php do_action( 'alienship_main_before' ); ?>
+		<?php do_action( 'waboot_main_before' ); ?>
 		<main id="main" class="site-main" role="main">
 
 			<?php
@@ -38,7 +38,7 @@ get_header(); ?>
 			?>
 
 		</main><!-- #main -->
-		<?php do_action( 'alienship_main_after' ); ?>
+		<?php do_action( 'waboot_main_after' ); ?>
 
 	</div><!-- #primary -->
 <?php

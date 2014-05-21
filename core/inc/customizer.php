@@ -4,7 +4,7 @@
  *
  * Code adapted from Underscores theme (underscores.me) and Otto's great tutorial (ottopress.com)
  *
- * @package Alien Ship
+ * @package Waboot
  * @since 1.2.0
  */
 

@@ -2,7 +2,7 @@
 /**
  * The template used to load meta elements in header*.php
  *
- * @package Alien Ship
+ * @package Waboot
  * @since Alien Ship 0.70
  */
 ?>

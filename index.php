@@ -2,19 +2,19 @@
 /**
  * The main template file.
  *
- * @package Alien Ship
+ * @package Waboot
  * @since Alien Ship 0.1
  */
 
 get_header(); ?>
 
-		<div id="primary" class="<?php echo apply_filters( 'alienship_primary_container_class', 'content-area col-sm-8' ); ?>">
+		<div id="primary" class="<?php echo apply_filters( 'waboot_primary_container_class', 'content-area col-sm-8' ); ?>">
 
-			<?php do_action( 'alienship_main_before' ); ?>
+			<?php do_action( 'waboot_main_before' ); ?>
 			<main id="main" class="site-main" role="main">
 				<?php if ( have_posts() ) {
 
-					alienship_content_nav( 'nav-above' ); // display content nav above posts
+					waboot_content_nav( 'nav-above' ); // display content nav above posts
 
 					/**
 					 * Featured Posts
@@ -22,9 +22,9 @@ get_header(); ?>
 					if ( of_get_option('alienship_featured_posts') ) {
 
 						if ( of_get_option( 'alienship_featured_posts_display_type', 1 ) == "1" ) {
-							alienship_featured_posts_slider();
+							waboot_featured_posts_slider();
 						} else {
-							alienship_featured_posts_grid();
+							waboot_featured_posts_grid();
 						}
 
 						/**
@@ -60,7 +60,7 @@ get_header(); ?>
 					do_action( 'waboot_loop_after' );
 				endwhile;
 
-				alienship_content_nav( 'nav-below' ); // display content nav below posts?
+				waboot_content_nav( 'nav-below' ); // display content nav below posts?
 
 			} else {
 
@@ -69,7 +69,7 @@ get_header(); ?>
 
 			} //have_posts ?>
 		</main><!-- #main -->
-		<?php do_action( 'alienship_main_after' ); ?>
+		<?php do_action( 'waboot_main_after' ); ?>
 
 	</div><!-- #primary -->
 <?php
