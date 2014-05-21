@@ -21,7 +21,7 @@ if ( ! function_exists( 'waboot_do_site_title' ) ):
         $title = '<' . $element . ' id="site-title" class="site-title">' . $site_name . '</' . $element .'>';
 
         // Echo the title
-        echo apply_filters( 'alienship_site_title_content', $title );
+        echo apply_filters( 'waboot_site_title_content', $title );
     }
     add_action( 'waboot_site_title', 'waboot_do_site_title' );
 endif;

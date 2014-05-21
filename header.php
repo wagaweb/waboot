@@ -12,7 +12,7 @@
     <html <?php language_attributes(); ?>>
     <head>
         <?php get_template_part( '/templates/parts/meta' ); ?>
-        <title><?php wp_title( '&#8226;', true, 'right' ); ?></title>
+        <title><?php wp_title( ' | ', true, 'right' ); ?></title>
         <?php
             wp_head();
             do_action( 'waboot_head' );
