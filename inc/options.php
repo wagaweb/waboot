@@ -23,8 +23,6 @@ function optionsframework_option_name() {
  */
 function optionsframework_options() {
 
-    $shortname = "wship";
-
     // Pull all the categories into an array
     $options_categories = array();
     $options_categories_obj = get_categories();

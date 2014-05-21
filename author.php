@@ -3,7 +3,7 @@
  * The template for displaying Author Archive pages.
  *
  * @package Waboot
- * @since Alien Ship 0.1
+ * @since Waboot 1.0
  */
 
 get_header(); ?>
@@ -24,7 +24,7 @@ get_header(); ?>
 				the_post();
 
 				// Display the archive page title
-				do_action( 'alienship_archive_page_title' );
+				do_action( 'waboot_archive_page_title' );
 
 				/* Since we called the_post() above, we need to
 				 * rewind the loop back to the beginning that way

@@ -38,7 +38,7 @@
 
 			<div class="bottom-navigation col-sm-8 col-sm-push-4">
 				<?php if ( of_get_option('wship_social_position') === 'footer' ) { ?>
-					<div class="pull-right"> <?php include 'templates/parts/social-widget.php'; ?> </div>
+					<div class="pull-right"> <?php get_template_part( 'templates/parts/social-widget'); ?></div>
 				<?php } ?>
 				
 				<?php if ( has_nav_menu( 'bottom' ) ) {

@@ -16,15 +16,27 @@ add_action( 'add_meta_boxes', 'waboot_behavior_create_metabox' );
 add_action( 'save_post', 'waboot_behavior_save_metabox' );
 add_action( 'optionsframework_after_validate','waboot_reset_defaults' );
 
-function get_behavior($name){
+function get_behavior($name,$object = false){
     global $post;
     $current_behavior_value = get_post_meta($post->ID,"_behavior_".$name,waboot_behavior_get_default($name));
     if($current_behavior_value == "_default" || (is_array($current_behavior_value) && $current_behavior_value[0] == "__default"))
         $current_behavior_value = waboot_behavior_get_default($name);
+
     if(is_array($current_behavior_value))
-        return $current_behavior_value[0];
-    else
+        $current_behavior_value = $current_behavior_value[0];
+
+    if($object){
+        $behaviors = waboot_behavior_get_options();
+        foreach($behaviors as $b){
+            if($b['name'] == $name){
+                $selected_behavior = $b;
+                $selected_behavior['value'] = $current_behavior_value;
+            }
+        }
+        return $selected_behavior;
+    }else{
         return $current_behavior_value;
+    }
 }
 
 function waboot_behavior_create_metabox(){

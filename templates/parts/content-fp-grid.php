@@ -20,7 +20,7 @@
 
 		<div class="grid-footer">
 			<p class="grid-footer-meta">
-				<?php alienship_do_posted_on(); ?>
+				<?php waboot_do_posted_on(); ?>
 			</p>
 		</div><!-- #grid-footer -->
 	</li>

@@ -3,7 +3,7 @@
  * The template for displaying 404 pages (Not Found).
  *
  * @package Waboot
- * @since Alien Ship 0.1
+ * @since Waboot 1.0
  */
 
 get_header(); ?>

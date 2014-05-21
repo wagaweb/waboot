@@ -4,7 +4,7 @@
  *
  * The area of the page that contains both current comments
  * and the comment form. The actual display of comments is
- * handled by a callback to alienship_comment() which is
+ * handled by a callback to waboot_comment() which is
  * located in the inc/template-tags.php file.
  *
  * @package Waboot
@@ -41,12 +41,12 @@ if ( post_password_required() )
 		<ol class="comment-list">
 		<?php
 			/* Loop through and list the comments. Tell wp_list_comments()
-			 * to use alienship_comment() to format the comments.
+			 * to use waboot_comment() to format the comments.
 			 * If you want to override this in a child theme then you can
-			 * define alienship_comment() and that will be used instead.
-			 * See alienship_comment() in inc/template-tags.php for more.
+			 * define waboot_comment() and that will be used instead.
+			 * See waboot_comment() in inc/template-tags.php for more.
 			 */
-			wp_list_comments( array( 'callback' => 'alienship_comment' ) );
+			wp_list_comments( array( 'callback' => 'waboot_comment' ) );
 		?>
 		</ol><!-- .comment-list -->
 

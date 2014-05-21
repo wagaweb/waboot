@@ -3,7 +3,7 @@
  * The template for displaying Archive pages.
  *
  * @package Waboot
- * @since Alien Ship 0.1
+ * @since Waboot 1.0
  */
 
 get_header(); ?>
@@ -13,8 +13,8 @@ get_header(); ?>
 		<?php do_action( 'waboot_main_before' ); ?>
 		<main id="main" class="site-main" role="main">
 			<?php
-			do_action( 'alienship_archive_page_title' );
-			alienship_archive_sticky_posts(); // sticky post query
+			do_action( 'waboot_archive_page_title' );
+			waboot_archive_sticky_posts(); // sticky post query
 			if ( have_posts() ) {
 
 				rewind_posts();
