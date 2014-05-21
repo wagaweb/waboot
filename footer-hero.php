@@ -8,9 +8,9 @@
  * @since Alien Ship 0.1
  */
 
-do_action( 'alienship_footer_before' ); ?>
+do_action( 'waboot_footer_before' ); ?>
 <footer class="site-footer" id="colophon" role="contentinfo">
-	<?php do_action( 'alienship_footer_top' ); ?>
+	<?php do_action( 'waboot_footer_top' ); ?>
 
 	<div class="container">
 		<div class="row">
@@ -36,14 +36,14 @@ do_action( 'alienship_footer_before' ); ?>
 		</div><!-- .row -->
 	</div><!-- .container -->
 
-	<?php do_action( 'alienship_footer_bottom' ); ?>
+	<?php do_action( 'waboot_footer_bottom' ); ?>
 </footer><!-- #colophon -->
 <?php
-do_action( 'alienship_footer_after' );
+do_action( 'waboot_footer_after' );
 
 wp_footer();
 
-do_action( 'alienship_footer' ); ?>
+do_action( 'waboot_footer' ); ?>
 
 </body>
 </html>

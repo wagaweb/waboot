@@ -21,17 +21,17 @@
 	<?php endif; ?>
 	
 	<div id="footer-wrapper" class="<?php echo of_get_option( 'waboot_footer_width' ); ?>">
-	<?php do_action( 'alienship_content_after' );
+	<?php do_action( 'waboot_content_after' );
 
 	// Footer widgets
-	alienship_do_sidebar( 'footer' ); ?>
+	waboot_do_sidebar( 'footer' ); ?>
 	</div>
 
 </div><!-- #page -->
 
-<?php do_action( 'alienship_footer_before' ); ?>
+<?php do_action( 'waboot_footer_before' ); ?>
 <footer class="<?php echo of_get_option( 'waboot_footer_width','container' ); ?> site-footer" id="colophon" role="contentinfo">
-	<?php do_action( 'alienship_footer_top' ); ?>
+	<?php do_action( 'waboot_footer_top' ); ?>
 
 	<div class="container">
 		<div class="row">
@@ -60,15 +60,15 @@
 		</div><!-- .row -->
 	</div><!-- .container -->
 
-	<?php do_action( 'alienship_footer_bottom' ); ?>
+	<?php do_action( 'waboot_footer_bottom' ); ?>
 </footer><!-- #colophon -->
 
 <?php
-do_action( 'alienship_footer_after' );
+do_action( 'waboot_footer_after' );
 
 wp_footer();
 
-do_action( 'alienship_footer' ); ?>
+do_action( 'waboot_footer' ); ?>
 
 </body>
 </html>

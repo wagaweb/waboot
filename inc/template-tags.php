@@ -244,3 +244,104 @@ if ( ! function_exists( 'waboot_comment' ) ) :
     }
 endif; // ends check for waboot_comment()
 
+/**
+ * Determines the theme layout and active sidebars, and prints the HTML structure
+ * with appropriate grid classes depending on which are activated.
+ *
+ * @since 1.0
+ * @uses alienship_sidebar_class()
+ * @param string $prefix Prefix of the widget to be displayed. Example: "footer" for footer-1, footer-2, etc.
+ */
+function waboot_do_sidebar( $prefix = false ) {
+
+    if ( ! $prefix )
+        _doing_it_wrong( __FUNCTION__, __( 'You must specify a prefix when using alienship_do_sidebar.', 'alienship' ), '1.0' );
+
+        // Get our grid class
+        $sidebar_class = waboot_sidebar_class( $prefix );
+
+        if ( $sidebar_class ): ?>
+
+            <div class="<?php echo $prefix; ?>-sidebar-row row">
+                <?php do_action( 'waboot_sidebar_row_top' );
+
+                if ( is_active_sidebar( $prefix.'-1' ) ): ?>
+                    <aside id="<?php echo $prefix; ?>-sidebar-1" class="sidebar widget<?php echo $sidebar_class; ?>">
+                        <?php dynamic_sidebar( $prefix.'-1' ); ?>
+                    </aside>
+                <?php endif;
+
+
+                if ( is_active_sidebar( $prefix.'-2' ) ): ?>
+                    <aside id="<?php echo $prefix; ?>-sidebar-2" class="sidebar widget<?php echo $sidebar_class; ?>">
+                        <?php dynamic_sidebar( $prefix.'-2' ); ?>
+                    </aside>
+                <?php endif;
+
+
+                if ( is_active_sidebar( $prefix.'-3' ) ): ?>
+                    <aside id="<?php echo $prefix; ?>-sidebar-3" class="sidebar widget<?php echo $sidebar_class; ?>">
+                        <?php dynamic_sidebar( $prefix.'-3' ); ?>
+                    </aside>
+                <?php endif;
+
+
+                if ( is_active_sidebar( $prefix.'-4' ) ): ?>
+                    <aside id="<?php echo $prefix; ?>-sidebar-4" class="sidebar widget<?php echo $sidebar_class; ?>">
+                        <?php dynamic_sidebar( $prefix.'-4' ); ?>
+                    </aside>
+                <?php endif;
+
+                do_action( 'waboot_sidebar_row_bottom' ); ?>
+            </div><!-- .row -->
+
+        <?php endif; //$sidebar_class
+}
+
+/**
+ * Count the number of active widgets to determine dynamic wrapper class
+ * @since 1.0
+ */
+function waboot_sidebar_class( $prefix = false ) {
+
+    if ( ! $prefix )
+        _doing_it_wrong( __FUNCTION__, __( 'You must specify a prefix when using alienship_sidebar_class.', 'alienship' ), '1.0' );
+
+    $count = 0;
+
+    if ( is_active_sidebar( $prefix.'-1' ) )
+        $count++;
+
+    if ( is_active_sidebar( $prefix.'-2' ) )
+        $count++;
+
+    if ( is_active_sidebar( $prefix.'-3' ) )
+        $count++;
+
+    if ( is_active_sidebar( $prefix.'-4' ) )
+        $count++;
+
+    $class = '';
+
+    switch ( $count ) {
+        case '1':
+            $class = ' col-sm-12';
+            break;
+
+        case '2':
+            $class = ' col-sm-6';
+            break;
+
+        case '3':
+            $class = ' col-sm-4';
+            break;
+
+        case '4':
+            $class = ' col-sm-3';
+            break;
+    }
+
+    if ( $class )
+        return $class;
+}
+

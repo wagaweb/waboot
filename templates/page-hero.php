@@ -25,7 +25,7 @@ get_header('hero'); ?>
 <div id="hero-widgets-container" class="widget widget-area container" role="complementary">
 	<?php
 	do_action( 'before_sidebar' );
-	alienship_do_sidebar( 'herowidgets' ); ?>
+	waboot_do_sidebar( 'herowidgets' ); ?>
 </div>
 
 
