@@ -43,12 +43,12 @@ get_header(); ?>
 						</nav>
 					</header>
 
-					<?php do_action( 'alienship_entry_content_before' ); ?>
+					<?php do_action( 'waboot_entry_content_before' ); ?>
 					<div class="entry-content">
 
 						<div class="entry-attachment">
 							<div class="attachment">
-								<?php alienship_the_attached_image(); ?>
+								<?php waboot_the_attached_image(); ?>
 							</div><!-- .attachment -->
 
 							<?php if ( has_excerpt() ) : ?>
@@ -63,7 +63,7 @@ get_header(); ?>
 						wp_link_pages();
 						?>
 					</div><!-- .entry-content -->
-					<?php do_action( 'alienship_entry_content_after' ); ?>
+					<?php do_action( 'waboot_entry_content_after' ); ?>
 
 					<footer class="entry-meta">
 						<?php

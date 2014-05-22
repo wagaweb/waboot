@@ -117,3 +117,18 @@ if ( ! function_exists( 'waboot_do_archive_page_title' ) ):
     <?php }
     add_action( 'waboot_archive_page_title', 'waboot_do_archive_page_title' );
 endif;
+
+if( ! function_exists( 'waboot_do_header_image' ) ):
+    /**
+     * Echoes the header image and accompanying markup
+     *
+     * @since 1.1.1
+     */
+    function waboot_do_header_image() {
+
+        $output = waboot_get_header_image();
+        if ( $output )
+            echo apply_filters( 'waboot_header_image_output', $output['output'] );
+    }
+    add_action( 'waboot_header_image', 'waboot_do_header_image' );
+endif;

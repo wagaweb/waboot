@@ -75,8 +75,6 @@ function waboot_header_style() {
 }
 endif; // waboot_header_style
 
-
-
 if ( ! function_exists( 'waboot_admin_header_style' ) ) :
 /**
  * Styles the header image displayed on the Appearance > Header admin panel.
@@ -151,71 +149,3 @@ function waboot_admin_header_image() { ?>
 	</div>
 <?php }
 endif; // waboot_admin_header_image
-
-if ( ! function_exists( 'waboot_get_header_image' ) ):
-    /**
-     * Returns header image and accompanying markup
-     *
-     * @since 1.1.1
-     * @return array $header_image_attributes (filtered) Header image attributes
-     */
-    function waboot_get_header_image() {
-
-        global $post;
-        $output = '';
-
-        // Get the header image
-        if ( get_header_image() ) {
-
-            $header_image_width = get_theme_support( 'custom-header', 'width' );
-            $header_image_height = get_theme_support( 'custom-header', 'height' );
-
-            $output = '<a href="' . esc_url( home_url( '/' ) ) . '">';
-
-            // Check if this is a post or page, if it has a thumbnail, and if it's a big one
-            if ( is_singular() && has_post_thumbnail( $post->ID )
-                /* $src, $width, $height */
-                && ( $image = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), array( $header_image_width, $header_image_height ) ) )
-                && $image[1] >= $header_image_width ) {
-
-                // We have a LARGE image
-                $featured_header_image = 'yes';
-                $output .= get_the_post_thumbnail( $post->ID, 'post-thumbnail' );
-
-            } else {
-
-                $featured_header_image = 'no';
-                $header_image_width  = get_custom_header()->width;
-                $header_image_height = get_custom_header()->height;
-                $output .= '<img src="' . get_header_image() . '" width="' . $header_image_width . '" height="' . $header_image_height . '" class="header-image" alt="">';
-            }
-            $output .= '</a>';
-
-            $header_image_attributes = array(
-                'width'    => $header_image_width,
-                'height'   => $header_image_height,
-                'featured' => $featured_header_image,
-                'output'   => $output,
-            );
-
-            return apply_filters( 'waboot_header_image_attributes', $header_image_attributes );
-
-        }
-
-    }
-endif;
-
-if( ! function_exists( 'waboot_do_header_image' ) ):
-    /**
-     * Echoes the header image and accompanying markup
-     *
-     * @since 1.1.1
-     */
-    function waboot_do_header_image() {
-
-        $output = waboot_get_header_image();
-        if ( $output )
-            echo apply_filters( 'waboot_header_image_output', $output['output'] );
-    }
-    add_action( 'waboot_header_image', 'waboot_do_header_image' );
-endif;

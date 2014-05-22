@@ -8,7 +8,7 @@
  * different template.
  *
  * @package Waboot
- * @since Alien Ship 0.1
+ * @since 1.0
  */
 
 get_header(); ?>

@@ -1,15 +1,15 @@
 <?php
 /**
  * @package Waboot
- * @since Alien Ship 0.1
+ * @since 1.0
  */
 
-do_action( 'alienship_post_before' ); ?>
+do_action( 'waboot_post_before' ); ?>
 <article role="article" id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 	<?php
-	do_action( 'alienship_post_top' );
+	do_action( 'waboot_post_top' );
 	do_action( 'waboot_entry_header' );
-	do_action( 'alienship_entry_content_before' );
+	do_action( 'waboot_entry_content_before' );
 	?>
 	<div class="entry-content">
 		<?php
@@ -30,8 +30,8 @@ do_action( 'alienship_post_before' ); ?>
 
 		// On singular views, display post thumbnails in the post body if it's not big enough to be a header image
 		else {
-			$header_image = alienship_get_header_image( get_the_ID() );
-			if ( has_post_thumbnail() && 'no' == $header_image['featured'] ) { ?>
+			$header_image = waboot_get_header_image( get_the_ID() );
+			if ( (has_post_thumbnail() && 'no' == $header_image['featured']) || (has_post_thumbnail() && !$header_image) ) { ?>
 
 				<a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( 'Link to %s', 'alienship' ), the_title_attribute( 'echo=0' ) ); ?>">
 					<?php echo get_the_post_thumbnail( $post->ID, 'medium', array( 'class' => 'alignright', 'title' => "" ) ); ?>
@@ -45,9 +45,9 @@ do_action( 'alienship_post_before' ); ?>
 		wp_link_pages(); ?>
 	</div><!-- .entry-content -->
 	<?php
-	do_action( 'alienship_entry_content_after' );
+	do_action( 'waboot_entry_content_after' );
     do_action( 'waboot_entry_footer' );
-	do_action( 'alienship_post_bottom' );
+	do_action( 'waboot_post_bottom' );
 	?>
 </article><!-- #post-<?php the_ID(); ?> -->
-<?php do_action( 'alienship_post_after' ); ?>
+<?php do_action( 'waboot_post_after' ); ?>

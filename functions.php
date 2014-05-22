@@ -18,7 +18,6 @@ if ( ! function_exists( 'waboot_setup' ) ):
         locate_template( '/inc/global_customizations.php', true );
 
         // Custom template tags for this theme.
-        locate_template( '/core/inc/template-tags.php', true );
         locate_template( '/inc/hooks.php', true );
         locate_template( '/inc/template-tags.php', true );
 
@@ -30,7 +29,7 @@ if ( ! function_exists( 'waboot_setup' ) ):
         locate_template( '/core/inc/sidebars.php', true );
 
         // Header image
-        locate_template( '/inc/header-image.php', true );
+        locate_template( '/inc/custom-header.php', true );
 
         // Load behaviors extension
         locate_template( '/admin/behaviors.php', true );
