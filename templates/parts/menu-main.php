@@ -10,17 +10,19 @@
     <?php if (of_get_option('waboot_float_navbar', 1) ) : ?>
 		<nav id="navbar-2" class="<?php echo apply_filters( 'alienship_main_navbar_class' , 'navbar navbar-default main-navigation' ); ?>" role="navigation">
 
+            <div id="logo">
             <?php if ( of_get_option( 'waboot_logo_in_navbar' ) ) : ?>
-                <div id="logo"><a href="<?php echo home_url( '/' ); ?>"><img src="<?php echo of_get_option( 'waboot_logo_in_navbar' ); ?>"> </a></div>
+                <a href="<?php echo home_url( '/' ); ?>"><img src="<?php echo of_get_option( 'waboot_logo_in_navbar' ); ?>"> </a>
             <?php else : ?>
                 <?php
                     do_action( 'alienship_site_title' );
                     do_action( 'alienship_site_description' );
                 ?>
             <?php endif; ?>
+            </div>
 		
-            <?php if ( is_active_sidebar( 'header-right' ) || of_get_option('waboot_social_position', 'header-right') ) : ?>
-            <div class="pull-right">
+            <?php if ( is_active_sidebar( 'header-right' ) || of_get_option('waboot_social_position', 'header-right') == 'header-right' ) : ?>
+            <div id="header-right">
                 <?php if ( of_get_option('waboot_social_position') === 'header-right' ) { include 'social-widget.php'; } ?>
                 <?php dynamic_sidebar( 'header-right' ); ?>
             </div>
@@ -68,21 +70,23 @@
                 </div>
             <?php endif; ?>
 
-            <?php if ( is_active_sidebar( 'header-right' ) or of_get_option('waboot_social_position') === 'header-right' ) : ?>
+            <?php if ( is_active_sidebar( 'header-right' ) or of_get_option('waboot_social_position', 'header-right') === 'header-right' ) : ?>
                 <div id="header-right">
                     <?php if ( of_get_option('waboot_social_position') === 'header-right' ) { include 'social-widget.php'; } ?>
                     <?php dynamic_sidebar( 'header-right' ); ?>
                 </div>
             <?php endif; ?>
 
+			<div id="logo">
 			<?php if ( of_get_option( 'waboot_logo_in_navbar' ) ) : ?>
-			    <div id="logo"><a href="<?php echo home_url( '/' ); ?>"><img src="<?php echo of_get_option( 'waboot_logo_in_navbar' ); ?>"> </a></div>
+			    <a href="<?php echo home_url( '/' ); ?>"><img src="<?php echo of_get_option( 'waboot_logo_in_navbar' ); ?>"> </a>
 		    <?php else : ?>
                 <?php
                     do_action( 'waboot_site_title' );
                     do_action( 'waboot_site_description' );
                 ?>
 		    <?php endif; ?>
+		    </div>
 
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex2-collapse">
