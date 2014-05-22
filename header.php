@@ -39,12 +39,23 @@
 		    <?php do_action( 'waboot_header_before' ); ?>
 		    <div id="header-wrapper" class="<?php echo of_get_option( 'waboot_header_width' ); ?>">
                 <header id="masthead" class="site-header" role="banner">
+                
+                <?php if (of_get_option('waboot_float_navbar', 1) ) : ?>
+                	<?php get_template_part( '/templates/parts/header2' ); ?>
+                <?php else : ?>
+                	<?php get_template_part( '/templates/parts/header1' ); ?>
+                <?php endif; ?>
+                
+                
                 <?php
                     // Header image
-                    do_action( 'waboot_header_image' );
+                    // do_action( 'waboot_header_image' );
                     // Main menu
-                    if ( has_nav_menu('main') ) get_template_part( '/templates/parts/menu', 'main' );
+                    // if ( has_nav_menu('main') ) get_template_part( '/templates/parts/menu', 'main' );
                 ?>
+                
+                
+                
                 </header><!-- #masthead -->
 		    </div><!-- #header-wrapper -->
 		    <?php do_action( 'waboot_header_after' ); ?>
