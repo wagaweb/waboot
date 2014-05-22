@@ -84,21 +84,35 @@ function import_theme_options($exported_options){
 }
 
 /**
- * Live compiling less file
+ * Live compiling less file. If $params is empty sources/less/themeName.less will be compiled in assets/css/style.css
+ * @params (optional) array $params the input\output\mapfile name to use
  * @uses vendor/Less
+ * @usage
+ *  waboot_compile_less()
+ *  OR
+ *  waboot_compile_less(array('input' => 'path\to\input.less', 'output' => 'path\to\output.css', 'map' => 'map file name'))
  * @since 1.0
  */
-function waboot_compile_less(){
+function waboot_compile_less($params = array()){
     require_once("vendor/Less.php");
     require_once("Waboot_Cache.php");
     try{
         $theme = wp_get_theme()->stylesheet;
         if($theme == "wship") $theme = "waboot"; //Brutal compatibility hack :)
 
-        $inputFile = get_stylesheet_directory()."/sources/less/{$theme}.less";
+        if(empty($params)){
+            $inputFile = get_stylesheet_directory()."/sources/less/{$theme}.less";
+            $outputFile = get_stylesheet_directory()."/assets/css/style.css";
+            $mapFileName = "style.css.map";
+        }else{
+            $inputFile = $params['input'];
+            if(!file_exists($inputFile)) throw new Exception("Input file {$inputFile} not found");
+            $outputFile = $params['output'];
+            $mapFileName = $params['map'];
+        }
+
         $cachedir = get_stylesheet_directory()."/assets/css/cache";
         $outputDir = get_stylesheet_directory()."/assets/css";
-        $outputFile = get_stylesheet_directory()."/assets/css/style.css";
 
         $less_files = array(
             $inputFile => get_stylesheet_directory_uri(),
@@ -107,7 +121,7 @@ function waboot_compile_less(){
             'cache_dir'         => $cachedir,
             'compress'          => false,
             'sourceMap'         => true,
-            'sourceMapWriteTo'  => $outputDir.'/style.css.map',
+            'sourceMapWriteTo'  => $outputDir.'/'.$mapFileName,
             'sourceMapURL'      => get_stylesheet_directory_uri().'/assets/css/style.css.map',
         );
 
