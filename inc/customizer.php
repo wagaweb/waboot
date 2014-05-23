@@ -10,6 +10,7 @@
 
 /**
  * todo: [LostCore] Qui Alienship inserisce dei settaggi già inseriti nelle theme options, ma non sembrano essere collegati. E' davvero utile?
+ * Una possibile integrazione è descritta qui: http://wptheming.com/2012/07/options-framework-theme-customizer/
  */
 
 /**

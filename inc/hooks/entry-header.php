@@ -31,6 +31,28 @@ function waboot_do_entry_title() {
 add_action( 'waboot_entry_header', 'waboot_do_entry_title' );
 
 /**
+ * Nasconde il titolo per post e pagine, utilizzando il modulo behavior
+ * @param $title
+ * @return string
+ * @uses waboot_entry_title_text filter (inc/hooks.php::waboot_do_entry_title)
+ * @since 1.0
+ */
+function waboot_title_toggler($title){
+    $show_title = get_behavior("show-title",true);
+
+    if(!in_array(get_post_type(),$show_title['valid'])){
+        return $title;
+    }else{
+        if(is_singular() && ($show_title['value'] == "0" || !$show_title['value'] || $show_title['value'] == 0)){
+            return "";
+        }else{
+            return $title;
+        }
+    }
+}
+add_filter("waboot_entry_title_text","waboot_title_toggler");
+
+/**
  * Print the closing markup for the entry header.
  * @since 1.0
  */
