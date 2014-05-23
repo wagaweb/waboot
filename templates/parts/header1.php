@@ -6,32 +6,30 @@
  * @since Alien Ship 0.70
  */
 ?>
-    <!-- Main menu -->
-   		<nav id="navbar-1" class="<?php echo apply_filters( 'alienship_main_navbar_class' , 'navbar navbar-default main-navigation' ); ?>" role="navigation">
-            <?php if ( is_active_sidebar( 'header-left' ) or of_get_option('waboot_social_position') === 'header-left' ) : ?>
-                <div id="header-left">
-                    <?php if ( of_get_option('waboot_social_position') === 'header-left' ) { include 'social-widget.php'; } ?>
-                    <?php dynamic_sidebar( 'header-left' ); ?>
-                </div>
-            <?php endif; ?>
+<!-- Main menu -->
 
-            <?php if ( is_active_sidebar( 'header-right' ) or of_get_option('waboot_social_position', 'header-right') === 'header-right' ) : ?>
-                <div id="header-right">
-                    <?php if ( of_get_option('waboot_social_position') === 'header-right' ) { include 'social-widget.php'; } ?>
-                    <?php dynamic_sidebar( 'header-right' ); ?>
-                </div>
-            <?php endif; ?>
+<nav id="navbar-1" class="<?php echo apply_filters( 'alienship_main_navbar_class' , 'navbar navbar-default main-navigation' ); ?>" role="navigation">
+    <div class="row">
 
-			<div id="logo">
-			<?php if ( of_get_option( 'waboot_logo_in_navbar' ) ) : ?>
-			    <a href="<?php echo home_url( '/' ); ?>"><img src="<?php echo of_get_option( 'waboot_logo_in_navbar' ); ?>"> </a>
-		    <?php else : ?>
+        <div id="header-left" class="col-md-3 col-xs-6">
+            <?php if ( of_get_option('waboot_social_position') === 'header-left' ) { include 'social-widget.php'; } ?>
+            <?php dynamic_sidebar( 'header-left' ); ?>
+        </div>
+
+        <div id="header-right" class="col-md-3 col-xs-6">
+            <?php if ( of_get_option('waboot_social_position') === 'header-right' ) { include 'social-widget.php'; } ?>
+            <?php dynamic_sidebar( 'header-right' ); ?>
+        </div>
+
+        <div id="logo" class="col-md-6 col-xs-12">
+            <?php if ( of_get_option( 'waboot_logo_in_navbar' ) ) : ?>
+                <a href="<?php echo home_url( '/' ); ?>"><img src="<?php echo of_get_option( 'waboot_logo_in_navbar' ); ?>"> </a>
+            <?php else : ?>
                 <?php
-                    do_action( 'waboot_site_title' );
-                    do_action( 'waboot_site_description' );
+                do_action( 'waboot_site_title' );
+                // do_action( 'waboot_site_description' );
                 ?>
-		    <?php endif; ?>
-		    </div>
+            <?php endif; ?>
 
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex2-collapse">
@@ -45,14 +43,16 @@
                 <?php endif; ?>
             </div>
 
-            <div class="collapse navbar-collapse navbar-ex2-collapse">
+        </div>
+
+        <div class="collapse navbar-collapse navbar-ex2-collapse">
             <?php wp_nav_menu( array(
-                'theme_location' => 'main',
-                'depth'          => 2,
-                'container'      => false,
-                'menu_class'     => 'nav navbar-nav',
-                'walker'         => new waboot_bootstrap_navwalker(),
-                'fallback_cb'    => 'waboot_bootstrap_navwalker::fallback'
+                    'theme_location' => 'main',
+                    'depth'          => 2,
+                    'container'      => false,
+                    'menu_class'     => 'nav navbar-nav',
+                    'walker'         => new waboot_bootstrap_navwalker(),
+                    'fallback_cb'    => 'waboot_bootstrap_navwalker::fallback'
                 )
             );
 
@@ -64,9 +64,9 @@
                     <button id="searchsubmit" type="submit" name="submit" class="btn btn-default">Submit</button>
                 </form>
             <?php endif; ?>
-            </div>
-
         </div>
-	</nav>
 
-    <!-- End Main menu -->
+    </div>
+</nav>
+
+<!-- End Main menu -->

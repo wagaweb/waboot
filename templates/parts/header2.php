@@ -6,9 +6,10 @@
  * @since Alien Ship 0.70
  */
 ?>
-    <!-- Main menu -->
+<!-- Main menu -->
 
-    	<nav id="navbar-2" class="<?php echo apply_filters( 'alienship_main_navbar_class' , 'navbar navbar-default main-navigation' ); ?>" role="navigation">
+<nav id="navbar-2" class="<?php echo apply_filters( 'alienship_main_navbar_class' , 'navbar navbar-default main-navigation' ); ?>" role="navigation">
+    <div class="row">
 
         <div id="header-right" class="col-md-3 col-xs-6">
             <?php if ( of_get_option('waboot_social_position') === 'header-right' ) { include 'social-widget.php'; } ?>
@@ -52,19 +53,20 @@
                     'menu_class'     => 'nav navbar-nav',
                     'walker'         => new waboot_bootstrap_navwalker(),
                     'fallback_cb'    => 'waboot_bootstrap_navwalker::fallback'
-                    )
-                ); ?>
+                )
+            );
 
-                <?php if ( of_get_option( 'waboot_search_bar', '1' ) ) : ?>
-                    <form id="searchform" class="navbar-form navbar-right" role="search" action="<?php echo site_url(); ?>" method="get">
-                        <div class="form-group">
-                            <input id="s" name="s" type="text" class="form-control" placeholder="<?php esc_attr_e( 'Search &hellip;', 'alienship' ); ?>" value="<?php echo esc_attr( get_search_query() ); ?>">
-                        </div>
-                        <button id="searchsubmit" type="submit" name="submit" class="btn btn-default">Submit</button>
-                    </form>
-                <?php endif; ?>
-            </div>
-            
-            </nav>
-	    
-	<!-- End Main menu -->
+            if ( of_get_option( 'waboot_search_bar', '1' ) ) : ?>
+                <form id="searchform" class="navbar-form navbar-right" role="search" action="<?php echo site_url(); ?>" method="get">
+                    <div class="form-group">
+                        <input id="s" name="s" type="text" class="form-control" placeholder="<?php esc_attr_e( 'Search &hellip;', 'alienship' ); ?>" value="<?php echo esc_attr( get_search_query() ); ?>">
+                    </div>
+                    <button id="searchsubmit" type="submit" name="submit" class="btn btn-default">Submit</button>
+                </form>
+            <?php endif; ?>
+        </div>
+
+    </div>
+</nav>
+
+<!-- End Main menu -->
