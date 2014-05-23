@@ -41,13 +41,16 @@
 			</div>
 			
 			<div class="collapse navbar-collapse navbar-ex2-collapse navbar-right">
-				<?php wp_nav_menu( array(
+				<?php
+                locate_template( '/inc/waboot_bootstrap_navwalker.php', true );
+
+                wp_nav_menu( array(
                     'theme_location' => 'main',
                     'depth'          => 2,
                     'container'      => false,
                     'menu_class'     => 'nav navbar-nav',
-                    'walker'         => new wp_bootstrap_navwalker(),
-                    'fallback_cb'    => 'wp_bootstrap_navwalker::fallback'
+                    'walker'         => new waboot_bootstrap_navwalker(),
+                    'fallback_cb'    => 'waboot_bootstrap_navwalker::fallback'
                     )
                 ); ?>
 

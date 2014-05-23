@@ -22,8 +22,9 @@ if ( ! function_exists( 'waboot_setup' ) ):
         locate_template( '/inc/template-tags.php', true );
 
         // Register the navigation menus.
-        locate_template( '/core/inc/menus.php', true );
-        locate_template( '/core/inc/wp_bootstrap_navwalker.php', true );
+        locate_template( '/inc/menus.php', true );
+        locate_template( '/inc/vendor/wp_bootstrap_navwalker.php', true );
+        locate_template( '/inc/waboot_bootstrap_navwalker.php', true );
 
         // Register sidebars
         locate_template( '/core/inc/sidebars.php', true );
@@ -35,18 +36,16 @@ if ( ! function_exists( 'waboot_setup' ) ):
         locate_template( '/admin/behaviors.php', true );
 
         // Load theme options framework
-        locate_template( '/inc/options-panel.php', true );
+        locate_template( '/admin/options-panel.php', true );
 
         // Customizer
-        locate_template( '/core/inc/customizer.php', true );
+        locate_template( '/inc/customizer.php', true );
 
         // Breadcrumbs
-        if ( of_get_option( 'alienship_breadcrumbs',1) ) {
-            locate_template( '/core/inc/breadcrumb-trail.php', true );
+        if ( of_get_option( 'waboot_breadcrumbs',1) ) {
+            locate_template( '/inc/vendor/breadcrumb-trail.php', true );
+            locate_template( '/inc/waboot_breadcrumb-trail.php', true );
         }
-
-        // Custom functions that act independently of the theme templates
-        //locate_template( '/core/inc/tweaks.php', true ); //LostCore: tweaks utili integrati in global_customization
 
         // Email encoder
         locate_template( '/inc/email_encoder.php', true );

@@ -23,7 +23,7 @@
             <?php if ( of_get_option('waboot_social_position') === 'topnav-left' ) : ?>
                 <div class="pull-left"> <?php include 'social-widget.php'; ?> </div><!-- .pull-left -->
             <?php endif; ?>
-            <?php wp_nav_menu( array('theme_location' => 'top','depth' => 2,'container' => false,'menu_class' => 'nav navbar-nav','walker' => new wp_bootstrap_navwalker(),'fallback_cb' => 'wp_bootstrap_navwalker::fallback')); ?>
+            <?php wp_nav_menu( array('theme_location' => 'top','depth' => 2,'container' => false,'menu_class' => 'nav navbar-nav','walker' => new waboot_bootstrap_navwalker(),'fallback_cb' => 'waboot_bootstrap_navwalker::fallback')); ?>
             <?php if ( of_get_option('waboot_social_position') === 'topnav-right' ) : ?>
                 <div class="pull-right"> <?php include 'social-widget.php'; ?> </div><!-- .pull-right -->
             <?php endif; ?>

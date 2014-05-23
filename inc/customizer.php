@@ -5,7 +5,11 @@
  * Code adapted from Underscores theme (underscores.me) and Otto's great tutorial (ottopress.com)
  *
  * @package Waboot
- * @since 1.2.0
+ * @since 1.0
+ */
+
+/**
+ * todo: [LostCore] Qui Alienship inserisce dei settaggi già inseriti nelle theme options, ma non sembrano essere collegati. E' davvero utile?
  */
 
 /**
@@ -13,7 +17,7 @@
  *
  * @param WP_Customize_Manager $wp_customize Theme Customizer object.
  */
-function alienship_customize_register( $wp_customize ) {
+function waboot_customize_register( $wp_customize ) {
 
 	// Add postMessage support for site title and description for the Theme Customizer.
 	$wp_customize->get_setting( 'blogname' )->transport         = 'postMessage';
@@ -151,14 +155,12 @@ function alienship_customize_register( $wp_customize ) {
 		'type'     => 'checkbox',
 	) );
 }
-add_action( 'customize_register', 'alienship_customize_register' );
-
-
+add_action( 'customize_register', 'waboot_customize_register' );
 
 /**
  * Binds JS handlers to make Theme Customizer preview reload changes asynchronously.
  */
-function alienship_customize_preview_js() {
-	wp_enqueue_script( 'alienship_customizer', get_template_directory_uri() . '/admin/js/customizer.js', array( 'customize-preview' ), '1.2.0', true );
+function waboot_customize_preview_js() {
+	wp_enqueue_script( 'waboot_customizer', get_template_directory_uri() . '/admin/js/customizer.js', array( 'customize-preview' ), '1.2.0', true );
 }
-add_action( 'customize_preview_init', 'alienship_customize_preview_js' );
+add_action( 'customize_preview_init', 'waboot_customize_preview_js' );

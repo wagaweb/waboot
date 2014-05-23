@@ -1,6 +1,6 @@
 <?php
 
-require_once("vendor/Cache.php");
+require_once("vendor/Lessphp/Cache.php");
 
 class Waboot_Cache extends Less_Cache{
     /**

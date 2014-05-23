@@ -73,9 +73,9 @@
 	        <div id="content-wrapper" class="<?php echo of_get_option( 'waboot_content_width','container' ); ?>">
                 <div id="content" class="site-content row <?php if(get_behavior('layout') == "sidebar-left") echo 'sidebar-left'; ?>">
 
-                <?php if ( function_exists( 'breadcrumb_trail' ) && !is_front_page() ) : ?>
+                <?php if ( function_exists( 'waboot_breadcrumb_trail' ) && !is_front_page() ) : ?>
                     <?php
-                        breadcrumb_trail( array(
+                        waboot_breadcrumb_trail( array(
                             'container'   => 'div',
                             'separator'   => '/',
                             'show_browse' => false

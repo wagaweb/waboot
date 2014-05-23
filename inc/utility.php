@@ -94,7 +94,7 @@ function import_theme_options($exported_options){
  * @since 1.0
  */
 function waboot_compile_less($params = array()){
-    require_once("vendor/Less.php");
+    require_once("vendor/Lessphp/Less.php");
     require_once("Waboot_Cache.php");
     try{
         $theme = wp_get_theme()->stylesheet;
