@@ -10,41 +10,42 @@
 
     	<nav id="navbar-2" class="<?php echo apply_filters( 'alienship_main_navbar_class' , 'navbar navbar-default main-navigation' ); ?>" role="navigation">
 
-	    	<div id="logo">
-		    <?php if ( of_get_option( 'waboot_logo_in_navbar' ) ) : ?>
-		    		<a href="<?php echo home_url( '/' ); ?>"><img src="<?php echo of_get_option( 'waboot_logo_in_navbar' ); ?>"> </a>
-			<?php else : ?>
-			<?php
-				do_action( 'alienship_site_title' );
-				do_action( 'alienship_site_description' );
-			?>
-			<?php endif; ?>
-			</div>
-			
-			<?php if ( is_active_sidebar( 'header-right' ) || of_get_option('waboot_social_position', 'header-right') == 'header-right' ) : ?>
-			<div id="header-right">
-				<?php if ( of_get_option('waboot_social_position') === 'header-right' ) { include 'social-widget.php'; } ?>
-				<?php dynamic_sidebar( 'header-right' ); ?>
-			</div>
-			<?php endif; ?>
-			
-			<div class="navbar-header">
-				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex2-collapse">
-					<span class="sr-only">Toggle navigation</span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-				</button>
-				<?php if (of_get_option('waboot_name_in_navbar',1) ) : ?>
-					<a class="navbar-brand" href="<?php echo home_url( '/' ); ?>"><?php bloginfo( 'name' ); ?></a>
-				<?php endif; ?>
-			</div>
-			
-			<div class="collapse navbar-collapse navbar-ex2-collapse navbar-right">
-				<?php
-                locate_template( '/inc/waboot_bootstrap_navwalker.php', true );
+        <div id="header-right" class="col-md-3 col-xs-6">
+            <?php if ( of_get_option('waboot_social_position') === 'header-right' ) { include 'social-widget.php'; } ?>
+            <?php dynamic_sidebar( 'header-right' ); ?>
+        </div>
 
-                wp_nav_menu( array(
+        <div id="header-left" class="col-md-3 col-xs-6">
+            <?php if ( of_get_option('waboot_social_position') === 'header-left' ) { include 'social-widget.php'; } ?>
+            <?php dynamic_sidebar( 'header-left' ); ?>
+        </div>
+
+        <div id="logo" class="col-md-6 col-xs-12">
+            <?php if ( of_get_option( 'waboot_logo_in_navbar' ) ) : ?>
+                <a href="<?php echo home_url( '/' ); ?>"><img src="<?php echo of_get_option( 'waboot_logo_in_navbar' ); ?>"> </a>
+            <?php else : ?>
+                <?php
+                do_action( 'waboot_site_title' );
+                // do_action( 'waboot_site_description' );
+                ?>
+            <?php endif; ?>
+
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex2-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <?php if (of_get_option('waboot_name_in_navbar',1) ) : ?>
+                    <a class="navbar-brand" href="<?php echo home_url( '/' ); ?>"><?php bloginfo( 'name' ); ?></a>
+                <?php endif; ?>
+            </div>
+
+        </div>
+
+        <div class="collapse navbar-collapse navbar-ex2-collapse">
+            <?php wp_nav_menu( array(
                     'theme_location' => 'main',
                     'depth'          => 2,
                     'container'      => false,

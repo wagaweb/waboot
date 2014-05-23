@@ -68,6 +68,9 @@ function waboot_theme_options_header_styles(){
             background-position: <?php echo of_get_option( 'waboot_body_bgpos' ); ?>;
             background-attachment: <?php echo of_get_option( 'waboot_body_bgattach' ); ?>;
         }
+        #topnav-wrapper {
+            background-color: <?php echo of_get_option( 'waboot_topnav_bgcolor' ); ?>;
+        }
         #header-wrapper {
             background-color: <?php echo of_get_option( 'waboot_header_bgcolor' ); ?>;
         }
@@ -82,11 +85,6 @@ function waboot_theme_options_header_styles(){
         }
         #footer-wrapper {
             background-color: <?php echo of_get_option( 'waboot_footer_bgcolor' ); ?>;
-        }
-        #logo {
-            text-align: <?php echo of_get_option( 'waboot_logo_align' ); ?>;
-            float: <?php echo of_get_option( 'waboot_logo_align', 'left,right' ); ?>;
-            <?php if ( of_get_option( 'waboot_float_navbar', 1 ) ) {?> display: inline-block; <?php } ?>
         }
         #page {
             background-color: <?php echo of_get_option( 'waboot_page_bgcolor' ); ?>;

@@ -1,8 +1,5 @@
 /* ---------------- WABOOT ---------------- */
 
-
-
-
 /* GRID CHANGES */
 
 /*
@@ -45,6 +42,8 @@ h4, .h4, h5, .h5, h6, .h6 {
 	margin-bottom: 10px;
 }
 
+/* End Typography */
+
 
 /* Container */
 
@@ -73,7 +72,7 @@ h4, .h4, h5, .h5, h6, .h6 {
   margin-left: 0;
 }
 
-/* Fine Sidebar */
+/* End Sidebar */
 
 
 
@@ -83,7 +82,7 @@ h4, .h4, h5, .h5, h6, .h6 {
 	padding: 13px 0;
 }
 
-/* Fine Top Navigation */
+/* End Top Navigation */
 
 
 
@@ -109,26 +108,13 @@ h4, .h4, h5, .h5, h6, .h6 {
 }
 
 .navbar.main-navigation .navbar-collapse {
-	margin: 0 -20px;
+	margin: 0 -10px;
 	padding-left: 20px;
 	padding-right: 20px;
 	clear:both;
 }
 
-.navbar.main-navigation .navbar-collapse.navbar-right,
-.navbar.main-navigation .navbar-collapse.navbar-left {
-	margin: 15px 0 0 0;
-	padding: 0;
-	clear: none;
-	background-color: transparent;
-}
-
-.navbar.main-navigation .navbar-toggle {
-	background-color: #fff;
-	margin: 20px 0;
-}
-
-/* Fine Navbar */
+/* End Navbar */
 
 
 
@@ -138,32 +124,52 @@ h4, .h4, h5, .h5, h6, .h6 {
 	margin: 20px 0px;
 }
 
+#masthead #site-title {
+  margin-bottom: 0;
+  display: inline;
+}
+
+#masthead #logo img {
+  max-width: 100%;
+}
+
 #header-left .widget,
 #header-right .widget {
-	margin:0;
+	margin: 0;
 }
 
-#navbar-2 #header-left {
-	float:left;
-	padding:20px 0;
-	width: 30%;
-}
-
-#navbar-2 #header-right {
-	float:right;
-	padding:20px 0;
-	width: 30%;
-	text-align: right;
-}
-
+#navbar-1 #header-left,
 #navbar-1 #header-right {
-	margin-bottom: 20px;
-	margin-top: 20px;
-	float: right;
-	width: auto;
+  margin-bottom: 20px;
+  margin-top: 20px;
 }
 
-/* Fine Header */
+#navbar-1 #header-right{
+  text-align: right;
+}
+
+#navbar-2 #header-left,
+#navbar-2 #header-right{
+  margin-bottom: 20px;
+  margin-top: 20px;
+  text-align: right;
+  float: right;
+}
+
+#navbar-3 #header-right {
+  float: right;
+  margin-bottom: 0px;
+  margin-top: 32px;
+}
+
+#navbar-3 .navbar-collapse {
+  margin: 20px 0 0 0;
+  padding: 0;
+  clear: none;
+  background-color: transparent;
+}
+
+/* End Header */
 
 
 
@@ -182,7 +188,7 @@ h4, .h4, h5, .h5, h6, .h6 {
 	margin: 0;
 }
 
-/* Fine Banner */
+/* End Banner */
 
 
 
@@ -197,7 +203,7 @@ h4, .h4, h5, .h5, h6, .h6 {
 	margin: 0;
 }
 
-/* Fine Content Bottom */
+/* End Content Bottom */
 
 
 /* Footer */
@@ -206,14 +212,18 @@ h4, .h4, h5, .h5, h6, .h6 {
 	padding: 20px 0;
 }
 
-/* Fine Footer */
+/* End Footer */
 
 
 /* Social Widget */
 
 #social-widget {
-	float: right;
 	margin: 0;
+}
+
+#navbar-1 #header-right #social-widget,
+footer#colophon #social-widget {
+  float: right;
 }
 
 #social-widget a {
@@ -235,7 +245,62 @@ h4, .h4, h5, .h5, h6, .h6 {
 	display: block;
 }
 
-/* Fine Social Widget */
+/* End Social Widget */
+
+
+/* Search  */
+
+#searchsubmit,
+.search-form input[type=submit] {
+  display: none;
+}
+
+/* End Search  */
+
+
+/* Images */
+
+p img {
+  margin-bottom: 0.5em;
+  margin-top: 0.4em;
+}
+#content .gallery .gallery-icon img {
+  border: 1px solid #ddd;
+  height: auto;
+  padding: 6px;
+}
+img.header-image,
+img.wp-post-image,
+img.avatar,
+img[class*="align"],
+img[class*="wp-image-"],
+img[class*="attachment-"],
+.comment-content img,
+.widget img {
+  height: auto;
+  max-width: 100%;
+  padding: 0;
+}
+
+/* Image captions */
+.wp-caption {
+  border: 1px solid #ccc;
+  margin-bottom: 1.5em;
+  max-width: 100%;
+}
+.wp-caption img {
+  display: block;
+  margin: 1.2% auto 0;
+  max-width: 98%;
+}
+.wp-caption .wp-caption-text,
+.gallery-caption {
+  margin: 0.8075em 0;
+  padding-left: 10px;
+}
+
+/* End Images */
+
 
 
 /* Featured Posts */
@@ -264,7 +329,7 @@ h4, .h4, h5, .h5, h6, .h6 {
 	font-size: 1em;
 }
 
-/* Fine Featured Posts */
+/* End Featured Posts */
 
 
 
@@ -287,7 +352,7 @@ h4, .h4, h5, .h5, h6, .h6 {
 	margin-right: 10px;
 }
 
-/* Fine Blog Article */
+/* End Blog Article */
 
 
 /* Comments */
@@ -304,11 +369,11 @@ h4, .h4, h5, .h5, h6, .h6 {
 	padding: 15px;
 }
 #comments cite {
-	font-size: 15px;
+	font-size: 1.1em;
 	font-weight: bold;
 }
 .comment-meta {
-	font-size: 12px;
+	font-size: 0.9em;
 }
 .comment-list {
 	padding-bottom: 7px;
@@ -344,7 +409,7 @@ h4, .h4, h5, .h5, h6, .h6 {
 	width: 35%;
 }
 
-/* Fine Comments */
+/* End Comments */
 
 
 
@@ -352,61 +417,86 @@ h4, .h4, h5, .h5, h6, .h6 {
 
 @media only screen and (max-width: 767px) {
 	
-	.top-navigation {
-		display: none;
-	}
+  .top-navigation {
+    display: none;
+  }
 
-	#header-wrapper .main-navigation {
-    	background-color: transparent;
-    	margin-top: 15px;
-    	/*display: inline;*/
-    	clear: both;
-    }
+  #header-wrapper .main-navigation {
+    background-color: transparent;
+    margin-top: 15px;
+    /*display: inline;*/
+    clear: both;
+  }
 
-    #header-wrapper .navbar {
-    	margin: 0 0px;
-    }
+  #masthead #logo img {
+    max-width: 75%;
+  }
 
-    #header-wrapper .navbar-header {
-    	float: right;
-    }
+  #header-wrapper .navbar {
+    margin: 0 0px;
+  }
 
-    #header-wrapper .main-navigation .navbar-collapse {
-    	clear: both;
-    }
+  #header-wrapper .navbar-header {
+    float: right;
+  }
+
+  #header-wrapper .main-navigation .navbar-collapse {
+    clear: both;
+  }
 	
 }
 
+@media only screen and (min-width: 768px) {
+
+  #navbar-1 #header-right {
+    float: right;
+  }
+
+}
+
+@media only screen and (min-width: 992px) {
+
+  #navbar-1 #logo {
+    text-align: center;
+  }
+
+  #navbar-2 #header-left,
+  #navbar-2 #header-right {
+    width: auto;
+  }
+
+  #navbar-3 #logo {
+    float: left;
+  }
+
+}
 
 @media only screen and (max-width: 991px) {
 
-    #header-left,
-    #header-right {
-        width:50%;
-    }
+  #masthead .navbar-collapse.collapse {
+    display: none !important;
+  }
 
-    #masthead #logo {
-        display: inline-block;
-        float: left;
-        clear: both;
-    }
+  #masthead .navbar-collapse.collapse.in {
+    display: block !important;
+  }
 
-    #masthead .navbar-collapse.collapse {
-        display: none !important;
-    }
+  #masthead .navbar-header {
+    display: inline-block;
+    float: right;
+  }
 
-    #masthead .navbar-collapse.collapse.in {
-        display: block !important;
-    }
+  #masthead .navbar-toggle {
+    display: inline-block;
+  }
 
-    #masthead .navbar-header {
-        display: inline-block;
-        float: right;
-    }
+  #navbar-2 #header-left {
+    text-align: left;
+  }
 
-    #masthead .navbar-toggle {
-        display: inline-block;
-    }
+  #navbar-3 #header-right {
+    display: none;
+  }
 
 }
 
