@@ -373,20 +373,12 @@ function optionsframework_options() {
     );
 
     $options[] = array(
-        'name' => __( 'Logo Align', 'wship' ),
-        'desc' => __( 'Select logo alignment', 'wship' ),
-        'id' => 'waboot_logo_align',
-        'std' => 'left',
-        'type' => 'select',
-        'options' => array( 'left' => 'left','center' => 'center','right' => 'right' )
-    );
-
-    $options[] = array(
-        'name' => __( 'Menu allineato al logo', 'wship' ),
-        'desc' => __( 'Allinea il menu principale al logo' ,'wship' ),
-        'id'   => 'waboot_float_navbar',
-        'std'  => '',
-        'type' => 'checkbox'
+        'name' => __( 'Header', 'wship' ),
+        'desc' => __( 'Select your header layout' ,'wship' ),
+        'id'   => 'waboot_header_layout',
+        'std' => 'header1',
+        'type' => 'images',
+        'options' => array( 'header1' => $imagepath . 'header1.png','header2' => $imagepath . 'header2.png','header3' => $imagepath . 'header3.png' )
     );
 
     $options[] = array(
@@ -397,11 +389,19 @@ function optionsframework_options() {
     );
 
     $options[] = array(
-        'name' => __( 'Boxed Top Nav?', 'wship' ),
-        'desc' => __( 'Boxed Top Nav' ,'wship' ),
-        'id'   => 'waboot_boxed_navbar',
-        'std'  => '',
-        'type' => 'checkbox'
+        'name' => __( 'Top Nav Width: Fluid or Boxed?', 'wship' ),
+        'desc' => __( 'Select Top Nav width', 'wship' ),
+        'id' => 'waboot_topnav_width',
+        'std' => 'container',
+        'type' => 'images',
+        'options' => array( 'container-fluid' => $imagepath . '1c.png','container' => $imagepath . '3cm.png' )
+    );
+
+    $options[] = array(
+        'name' => __('Top Nav Background Color', 'wship'),
+        'desc' => __('Change the Top Nav background color.', 'wship'),
+        'id' => 'waboot_topnav_bgcolor',
+        'type' => 'color'
     );
 
     $options[] = array(

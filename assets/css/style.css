@@ -5819,6 +5819,7 @@ h6,
   margin-top: 0;
   margin-bottom: 10px;
 }
+/* End Typography */
 /* Container */
 #page.container,
 #page.container-fluid {
@@ -5839,12 +5840,12 @@ h6,
   float: left;
   margin-left: 0;
 }
-/* Fine Sidebar */
+/* End Sidebar */
 /* Top Navigation */
 .top-navigation #social-widget {
   padding: 13px 0;
 }
-/* Fine Top Navigation */
+/* End Top Navigation */
 /* Navbar */
 .navbar {
   margin-bottom: 0;
@@ -5862,49 +5863,54 @@ h6,
   background-color: transparent;
 }
 .navbar.main-navigation .navbar-collapse {
-  margin: 0 -20px;
+  margin: 0 -10px;
   padding-left: 20px;
   padding-right: 20px;
   clear: both;
 }
-.navbar.main-navigation .navbar-collapse.navbar-right,
-.navbar.main-navigation .navbar-collapse.navbar-left {
-  margin: 15px 0 0 0;
-  padding: 0;
-  clear: none;
-  background-color: transparent;
-}
-.navbar.main-navigation .navbar-toggle {
-  background-color: #fff;
-  margin: 20px 0;
-}
-/* Fine Navbar */
+/* End Navbar */
 /* Header */
 #masthead #logo {
   margin: 20px 0px;
+}
+#masthead #site-title {
+  margin-bottom: 0;
+  display: inline;
+}
+#masthead #logo img {
+  max-width: 100%;
 }
 #header-left .widget,
 #header-right .widget {
   margin: 0;
 }
-#navbar-2 #header-left {
-  float: left;
-  padding: 20px 0;
-  width: 30%;
-}
-#navbar-2 #header-right {
-  float: right;
-  padding: 20px 0;
-  width: 30%;
-  text-align: right;
-}
+#navbar-1 #header-left,
 #navbar-1 #header-right {
   margin-bottom: 20px;
   margin-top: 20px;
-  float: right;
-  width: auto;
 }
-/* Fine Header */
+#navbar-1 #header-right {
+  text-align: right;
+}
+#navbar-2 #header-left,
+#navbar-2 #header-right {
+  margin-bottom: 20px;
+  margin-top: 20px;
+  text-align: right;
+  float: right;
+}
+#navbar-3 #header-right {
+  float: right;
+  margin-bottom: 0px;
+  margin-top: 32px;
+}
+#navbar-3 .navbar-collapse {
+  margin: 20px 0 0 0;
+  padding: 0;
+  clear: none;
+  background-color: transparent;
+}
+/* End Header */
 /* Banner */
 #banner-wrapper {
   padding: 0;
@@ -5916,7 +5922,7 @@ h6,
 #banner-wrapper #banner .widget {
   margin: 0;
 }
-/* Fine Banner */
+/* End Banner */
 /* Content Bottom */
 #contentbottom-wrapper #contentbottom {
   display: inline-block;
@@ -5925,16 +5931,19 @@ h6,
 #contentbottom-wrapper #contentbottom .widget {
   margin: 0;
 }
-/* Fine Content Bottom */
+/* End Content Bottom */
 /* Footer */
 .site-footer {
   padding: 20px 0;
 }
-/* Fine Footer */
+/* End Footer */
 /* Social Widget */
 #social-widget {
-  float: right;
   margin: 0;
+}
+#navbar-1 #header-right #social-widget,
+footer#colophon #social-widget {
+  float: right;
 }
 #social-widget a {
   float: left;
@@ -5953,7 +5962,13 @@ h6,
   height: 24px;
   display: block;
 }
-/* Fine Social Widget */
+/* End Social Widget */
+/* Search  */
+#searchsubmit,
+.search-form input[type=submit] {
+  display: none;
+}
+/* End Search  */
 /* Featured Posts */
 .carousel-indicators {
   /*bottom: -10px;*/
@@ -5975,7 +5990,7 @@ h6,
   margin: 10px 0;
   font-size: 1em;
 }
-/* Fine Featured Posts */
+/* End Featured Posts */
 /* Blog Article */
 .entry-footer {
   clear: both;
@@ -5991,7 +6006,7 @@ h6,
 .entry-footer .tags-links {
   margin-right: 10px;
 }
-/* Fine Blog Article */
+/* End Blog Article */
 /* Comments */
 #comments {
   border-top: 1px solid #eee;
@@ -6005,11 +6020,11 @@ h6,
   padding: 15px;
 }
 #comments cite {
-  font-size: 15px;
+  font-size: 1.1em;
   font-weight: bold;
 }
 .comment-meta {
-  font-size: 12px;
+  font-size: 0.9em;
 }
 .comment-list {
   padding-bottom: 7px;
@@ -6044,7 +6059,7 @@ h6,
 .input-comment-url {
   width: 35%;
 }
-/* Fine Comments */
+/* End Comments */
 /* Media Query */
 @media only screen and (max-width: 767px) {
   .top-navigation {
@@ -6056,6 +6071,9 @@ h6,
     /*display: inline;*/
     clear: both;
   }
+  #masthead #logo img {
+    max-width: 75%;
+  }
   #header-wrapper .navbar {
     margin: 0 0px;
   }
@@ -6066,16 +6084,24 @@ h6,
     clear: both;
   }
 }
-@media only screen and (max-width: 991px) {
-  #header-left,
-  #header-right {
-    width: 50%;
+@media only screen and (min-width: 768px) {
+  #navbar-1 #header-right {
+    float: right;
   }
-  #masthead #logo {
-    display: inline-block;
+}
+@media only screen and (min-width: 992px) {
+  #navbar-1 #logo {
+    text-align: center;
+  }
+  #navbar-2 #header-left,
+  #navbar-2 #header-right {
+    width: auto;
+  }
+  #navbar-3 #logo {
     float: left;
-    clear: both;
   }
+}
+@media only screen and (max-width: 991px) {
   #masthead .navbar-collapse.collapse {
     display: none !important;
   }
@@ -6088,6 +6114,12 @@ h6,
   }
   #masthead .navbar-toggle {
     display: inline-block;
+  }
+  #navbar-2 #header-left {
+    text-align: left;
+  }
+  #navbar-3 #header-right {
+    display: none;
   }
 }
 /* Remove admin bar menu link to theme customize */

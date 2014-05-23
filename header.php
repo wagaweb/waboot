@@ -24,14 +24,9 @@
 
         <?php if ( of_get_option( 'waboot_show_top_navbar', 1 ) ) : ?>
             <!-- Navbar: Begin -->
-            <?php if ( of_get_option( 'waboot_boxed_navbar', 1 ) ) : ?>
-                <!-- Boxed Navbar -->
-                <div class="container" style="padding:0;">
-                    <?php get_template_part( '/templates/parts/menu', 'top' ); ?>
-                </div><!-- .container : Boxed navbar -->
-            <?php else : ?>
-                    <?php get_template_part( '/templates/parts/menu', 'top' ); ?>
-            <?php endif; ?>
+            <div id="topnav-wrapper" class="<?php echo of_get_option( 'waboot_topnav_width','container-fluid' ); ?> ">
+                <?php get_template_part( '/templates/parts/menu', 'top' ); ?>
+            </div>
             <!-- Navbar: End -->
         <?php endif; ?>
 
@@ -39,9 +34,11 @@
 		    <?php do_action( 'waboot_header_before' ); ?>
 		    <div id="header-wrapper" class="<?php echo of_get_option( 'waboot_header_width' ); ?>">
                 <header id="masthead" class="site-header" role="banner">
-                
-                <?php if (of_get_option('waboot_float_navbar', 1) ) : ?>
-                	<?php get_template_part( '/templates/parts/header2' ); ?>
+
+                <?php if ( of_get_option('waboot_header_layout') === 'header3' ) : ?>
+                	<?php get_template_part( '/templates/parts/header3' ); ?>
+                <?php elseif ( of_get_option('waboot_header_layout') === 'header2' ) : ?>
+                    <?php get_template_part( '/templates/parts/header2' ); ?>
                 <?php else : ?>
                 	<?php get_template_part( '/templates/parts/header1' ); ?>
                 <?php endif; ?>
