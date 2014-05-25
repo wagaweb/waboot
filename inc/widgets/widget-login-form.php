@@ -2,20 +2,20 @@
 /**
  * Creates a widget that allows users to add a login form to a widget area. Credit to Justin Tadlock for this code.
  *
- * @since Alien Ship .55
+ * @since 1.0
  */
 
 /**
  * Login form widget class.
  */
-class alienship_Widget_Login extends WP_Widget {
+class waboot_Widget_Login extends WP_Widget {
 
 	/**
 	 * Set up the widget's unique name, ID, class, description, and other options.
 	 *
-	 * @since 0.1.0
+	 * @since 1.0
 	 */
-	function alienship_Widget_Login() {
+	function waboot_Widget_Login() {
 
 		/* Set up the widget options. */
 		$widget_options = array(
@@ -27,17 +27,17 @@ class alienship_Widget_Login extends WP_Widget {
 		$control_options = array(
 			'width'   => 800,
 			'height'  => 350,
-			'id_base' => 'alienship-widget-login'
+			'id_base' => 'waboot-widget-login'
 		);
 
 		/* Create the widget. */
-		$this->WP_Widget( 'alienship-widget-login', esc_attr__( 'Login Form', 'alienship' ), $widget_options, $control_options );
+		$this->WP_Widget( 'waboot-widget-login', esc_attr__( 'Login Form', 'alienship' ), $widget_options, $control_options );
 	}
 
 	/**
 	 * Outputs the widget based on the arguments input through the widget controls.
 	 *
-	 * @since 0.1.0
+	 * @since 1.0
 	 */
 	function widget( $args, $instance ) {
 		global $user_identity, $user_ID;
@@ -111,7 +111,7 @@ class alienship_Widget_Login extends WP_Widget {
 			<p style="margin-top: 7px;"><?php echo $logged_out_text; ?></p>
 			<?php
 			/* Output the login form. */
-			echo '<div class="alienship-login-form">' . alienship_wp_login_form( $args ) . '</div>';
+			echo '<div class="waboot-login-form">' . alienship_wp_login_form( $args ) . '</div>';
 			wp_register('<span class="register-link-widget">', '</span>');
 		}
 
@@ -122,7 +122,7 @@ class alienship_Widget_Login extends WP_Widget {
 	/**
 	 * Updates the widget control options for the particular instance of the widget.
 	 *
-	 * @since 0.1.0
+	 * @since 1.0
 	 */
 	function update( $new_instance, $old_instance ) {
 		$instance = $old_instance;
@@ -156,7 +156,7 @@ class alienship_Widget_Login extends WP_Widget {
 	/**
 	 * Displays the widget control options in the Widgets admin screen.
 	 *
-	 * @since 0.1.0
+	 * @since 1.0
 	 */
 	function form( $instance ) {
 

@@ -3,7 +3,7 @@
  * Jetpack Related Features
  *
  * @package Waboot
- * @since 1.0.1
+ * @since 1.0
  */
 
 /**
@@ -14,15 +14,13 @@
 add_theme_support( 'infinite-scroll', array(
 	'container' => 'content',
 	'footer'    => false,
-	'render'    => 'alienship_infinite_scroll_init',
+	'render'    => 'waboot_infinite_scroll_init',
 ) );
-
-
 
 /**
  * Loop for Infinite Scroll
  */
-function alienship_infinite_scroll_init() {
+function waboot_infinite_scroll_init() {
 	while ( have_posts() ) :
 		the_post();
 		get_template_part( '/templates/parts/content', get_post_format() );

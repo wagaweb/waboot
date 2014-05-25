@@ -27,7 +27,7 @@ if ( ! function_exists( 'waboot_setup' ) ):
         locate_template( '/inc/waboot_bootstrap_navwalker.php', true );
 
         // Register sidebars
-        locate_template( '/core/inc/sidebars.php', true );
+        locate_template( '/inc/widgets.php', true );
 
         // Header image
         locate_template( '/inc/custom-header.php', true );
@@ -80,7 +80,7 @@ if ( ! function_exists( 'waboot_setup' ) ):
 
         // Load Jetpack related support if needed.
         if ( class_exists( 'Jetpack' ) )
-            locate_template( '/core/inc/jetpack.php', true );
+            locate_template( '/inc/jetpack.php', true );
     }
 endif;
 add_action( 'after_setup_theme', 'waboot_setup' );

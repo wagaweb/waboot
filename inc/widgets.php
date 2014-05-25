@@ -1,13 +1,15 @@
 <?php
 
-if ( ! function_exists( 'alienship_widgets_init' ) ):
+if ( ! function_exists( 'waboot_widgets_init' ) ):
 /**
  * Register widgetized areas and widgets
  *
  * @package Waboot
- * @since Alien Ship 0.1
+ * @since 1.0
  */
-function alienship_widgets_init() {
+function waboot_widgets_init() {
+
+    /* Sidebars */
 
 	register_sidebar( array(
 		'name'          => __( 'Primary Sidebar', 'alienship' ),
@@ -17,36 +19,6 @@ function alienship_widgets_init() {
 		'after_widget'  => '</aside>',
 		'before_title'  => '<h3 class="widget-title">',
 		'after_title'   => '</h3>',
-	) );
-
-	register_sidebar( array(
-		'name'          => __( 'Hero Widgets', 'alienship' ),
-		'description'   => __( 'Displayed on pages created with the Hero template', 'alienship' ),
-		'id'            => 'herowidgets-1',
-		'before_widget' => '',
-		'after_widget'  => '',
-		'before_title'  => '<h2 class="widget-title">',
-		'after_title'   => '</h2>',
-	) );
-
-	register_sidebar( array(
-		'name'          => __( 'Hero Widgets 2', 'alienship' ),
-		'description'   => __( 'Displayed on pages created with the Hero template', 'alienship' ),
-		'id'            => 'herowidgets-2',
-		'before_widget' => '',
-		'after_widget'  => '',
-		'before_title'  => '<h2 class="widget-title">',
-		'after_title'   => '</h2>',
-	) );
-
-	register_sidebar( array(
-		'name'          => __( 'Hero Widgets 3', 'alienship' ),
-		'description'   => __( 'Displayed on pages created with the Hero template', 'alienship' ),
-		'id'            => 'herowidgets-3',
-		'before_widget' => '',
-		'after_widget'  => '',
-		'before_title'  => '<h2 class="widget-title">',
-		'after_title'   => '</h2>',
 	) );
 
 	register_sidebar( array(
@@ -78,37 +50,20 @@ function alienship_widgets_init() {
 		'before_title'  => '<h3 class="widget-title">',
 		'after_title'   => '</h3>',
 	) );
+
+    /* Widgets */
+    locate_template( '/inc/widgets/widget-login-form.php', true );
+    locate_template( '/inc/widgets/widget-nav-stacked-pills-menu.php', true );
+    locate_template( '/inc/widgets/widget-featured-post-slider.php', true );
+    register_widget( 'waboot_Widget_Login' );
+    register_widget( 'Nav_Stacked_Pills_Menu_Widget' );
+    register_widget( 'Waboot_Feaured_Post_Slider' );
 }
-add_action( 'widgets_init', 'alienship_widgets_init' );
+add_action( 'widgets_init', 'waboot_widgets_init' );
 endif;
 
-
-
-/* Register Alien Ship widgets */
-if ( ! function_exists( 'alienship_register_widgets' ) ):
-function alienship_register_widgets() {
-
-	/* Load the login form widget file */
-	locate_template( '/core/inc/widgets/widget-login-form.php', true );
-
-	/* Load the stacked pills menu widget */
-	locate_template( '/core/inc/widgets/widget-nav-stacked-pills-menu.php', true );
-
-	/* Register the login form widget */
-	register_widget( 'alienship_Widget_Login' );
-
-	/* Register the nav list menu widget */
-	register_widget( 'Nav_Stacked_Pills_Menu_Widget' );
-
-}
-add_action( 'widgets_init', 'alienship_register_widgets' );
-endif;
-
-
-
-/* Alien Ship custom login form */
-if ( ! function_exists( 'alienship_wp_login_form' ) ):
-function alienship_wp_login_form( $args = array() ) {
+if ( ! function_exists( 'waboot_wp_login_form' ) ):
+function waboot_wp_login_form( $args = array() ) {
 	$defaults = array(
 		'echo'           => true,
 		'redirect'       => ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'], // Default redirect is back to the current page

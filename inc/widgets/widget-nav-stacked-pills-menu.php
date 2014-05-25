@@ -3,9 +3,9 @@
  * Menu widget with Bootstrap Stacked Pills markup.
  * Credit to Andrey Savchenko for the original version of this widget
  *
- * @package Alien Ship
+ * @package Waboot
  * @subpackage Widgets
- * @since .93
+ * @since 1.0
  */
 class Nav_Stacked_Pills_Menu_Widget extends WP_Nav_Menu_Widget {
 
