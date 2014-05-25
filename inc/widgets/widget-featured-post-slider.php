@@ -12,7 +12,6 @@ class Waboot_Feaured_Post_Slider extends WP_Widget{
     }
 
     function widget( $args, $instance ) {
-
         extract( $args );
 
         $featured_query = new WP_Query( array(
@@ -25,7 +24,7 @@ class Waboot_Feaured_Post_Slider extends WP_Widget{
                 <div class="col-sm-12">
                     <div id="featured-carousel" class="carousel slide">
 
-                        <?php if ( $instance['show_indicators'] ) : ?>
+                        <?php if ( $instance['show_indicators'] == "on" ) : ?>
                             <ol class="carousel-indicators">
                                 <?php
                                 $indicators = $featured_query->post_count;
@@ -39,9 +38,19 @@ class Waboot_Feaured_Post_Slider extends WP_Widget{
                         <?php endif; ?>
 
                         <div class="carousel-inner">
-                            <?php while ( $featured_query->have_posts() ) : $featured_query->the_post();
-                                get_template_part( '/templates/parts/content', 'featured' );
-                            endwhile; ?>
+                            <?php while ( $featured_query->have_posts() ) : $featured_query->the_post(); ?>
+                                <div class="item">
+                                    <a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( 'Link to %s', 'alienship' ), the_title_attribute( 'echo=0' ) ); ?>">
+                                        <?php echo get_the_post_thumbnail( ''. $post->ID .'', array( $instance['images_width'], $instance['images_height'] ), array( 'title' => "" ) ); ?>
+                                    </a>
+                                    <?php // Featured post captions?
+                                    if ( $instance['show_captions'] == "on" ) { ?>
+                                        <div class="carousel-caption">
+                                            <h3><?php the_title(); ?></h3>
+                                        </div><!-- .carousel-caption -->
+                                    <?php } ?>
+                                </div><!-- .item -->
+                            <?php endwhile; ?>
                         </div><!-- .carousel-inner -->
                         <a class="left carousel-control" href="#featured-carousel" data-slide="prev"><span class="icon-prev"></span></a>
                         <a class="right carousel-control" href="#featured-carousel" data-slide="next"><span class="icon-next"></span></a>
@@ -65,7 +74,10 @@ class Waboot_Feaured_Post_Slider extends WP_Widget{
         $defaults = array(
             'tag'    => '',
             'maxnum' => '5',
-            'show_indicators' => 'on'
+            'show_indicators' => 'on',
+            'show_captions' => 'on',
+            'images_width' => '850',
+            'images_height' => '350'
         );
 
         $instance = wp_parse_args( (array) $instance, $defaults);
@@ -92,8 +104,18 @@ class Waboot_Feaured_Post_Slider extends WP_Widget{
             <input type="text" class="widefat code" id="<?php echo $this->get_field_id( 'maxnum' ); ?>" name="<?php echo $this->get_field_name( 'maxnum' ); ?>" value="<?php echo $instance['maxnum']; ?>" />
         </p>
         <p>
+            <label for="<?php echo $this->get_field_id( 'images_width' ); ?>"><?php _e( 'Featured post image width', 'waboot' ); ?></label>
+            <input type="text" class="widefat code" id="<?php echo $this->get_field_id( 'images_width' ); ?>" name="<?php echo $this->get_field_name( 'images_width' ); ?>" value="<?php echo $instance['images_width']; ?>" />
+            <label for="<?php echo $this->get_field_id( 'images_height' ); ?>"><?php _e( 'Featured post image height', 'waboot' ); ?></label>
+            <input type="text" class="widefat code" id="<?php echo $this->get_field_id( 'images_height' ); ?>" name="<?php echo $this->get_field_name( 'images_height' ); ?>" value="<?php echo $instance['images_height']; ?>" />
+        </p>
+        <p>
             <input class="checkbox" type="checkbox" <?php checked( $instance['show_indicators'], 'on' ); ?> id="<?php echo $this->get_field_id( 'show_indicators' ); ?>" name="<?php echo $this->get_field_name( 'show_indicators' ); ?>" />
             <label for="<?php echo $this->get_field_id( 'show_indicators' ); ?>"><?php _e('Display slider indicators?', 'waboot'); ?></label>
+        </p>
+        <p>
+            <input class="checkbox" type="checkbox" <?php checked( $instance['show_captions'], 'on' ); ?> id="<?php echo $this->get_field_id( 'show_captions' ); ?>" name="<?php echo $this->get_field_name( 'show_captions' ); ?>" />
+            <label for="<?php echo $this->get_field_id( 'show_captions' ); ?>"><?php _e('Show post titles as captions with slider images?', 'waboot'); ?></label>
         </p>
         <?php
     }
