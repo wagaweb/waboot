@@ -1,5 +1,5 @@
 jQuery(document).ready(function(){
-    enableDropDown(jQuery,window,200);
+    enableDropDown(jQuery,window,0);
     jQuery('a[data-toggle]').on("click",function(){
         var url = jQuery(this).attr("href");
         console.log(url);

@@ -3,7 +3,7 @@
  * The template used to load the Main Menu in header*.php
  *
  * @package Waboot
- * @since Alien Ship 0.70
+ * @since Waboot 1.0
  */
 ?>
     <!-- Main menu -->
@@ -11,12 +11,12 @@
     <nav id="navbar-3" class="<?php echo apply_filters( 'alienship_main_navbar_class' , 'navbar navbar-default main-navigation' ); ?>" role="navigation">
 
         <div id="logo">
-            <?php if ( of_get_option( 'waboot_logo_in_navbar' ) ) : ?>
+            <?php if ( of_get_option( 'waboot_logo_in_navbar' ) != "" ) : ?>
                 <a href="<?php echo home_url( '/' ); ?>"><img src="<?php echo of_get_option( 'waboot_logo_in_navbar' ); ?>"> </a>
             <?php else : ?>
                 <?php
-                do_action( 'alienship_site_title' );
-                // do_action( 'alienship_site_description' );
+                do_action( 'waboot_site_title' );
+                // do_action( 'waboot_site_description' );
                 ?>
             <?php endif; ?>
 

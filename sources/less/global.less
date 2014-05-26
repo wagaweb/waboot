@@ -33,13 +33,44 @@
 /* Typography */
 
 h1, .h1, h2, .h2, h3, .h3 {
-	margin-top: 0;
-	margin-bottom: 20px;
+  margin-top: 0;
+  margin-bottom: 20px;
+  word-wrap: break-word;
 }
 
 h4, .h4, h5, .h5, h6, .h6 {
-	margin-top: 0;
-	margin-bottom: 10px;
+  margin-top: 0;
+  margin-bottom: 10px;
+  word-wrap: break-word;
+}
+
+p {
+  margin-bottom: 15px;
+  word-wrap: break-word;
+}
+
+ul, ol {
+  padding-left: 20px;
+  margin-bottom: 15px;
+  word-wrap: break-word;
+}
+
+span {
+  word-wrap: break-word;
+}
+
+table {
+  border-right: 1px solid #ddd;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  margin: 20px 0;
+  width: 100%;
+}
+
+table th,
+table td {
+  border-left: 1px solid #ddd;
+  border-top: 1px solid #ddd;
 }
 
 /* End Typography */
@@ -56,7 +87,8 @@ h4, .h4, h5, .h5, h6, .h6 {
 #page #content-wrapper,
 #page #contentbottom-wrapper,
 #page #footer-wrapper {
-	padding: 0 20px;
+  padding-left: 20px;
+  padding-right: 20px;
 }
 
 /* End Container */
@@ -127,6 +159,7 @@ h4, .h4, h5, .h5, h6, .h6 {
 #masthead #site-title {
   margin-bottom: 0;
   display: inline;
+  font-size: 36px;
 }
 
 #masthead #logo img {
@@ -190,6 +223,26 @@ h4, .h4, h5, .h5, h6, .h6 {
 
 /* End Banner */
 
+
+/* Content */
+
+#content-wrapper{
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+article {
+  margin-bottom: 20px;
+  overflow: auto;
+}
+
+.page-header {
+  border-bottom: 1px solid #EEEEEE;
+  margin: 0 0 20px 0;
+  padding: 0;
+}
+
+/* End Content */
 
 
 /* Content Bottom */
@@ -282,7 +335,6 @@ img[class*="attachment-"],
   padding: 0;
 }
 
-/* Image captions */
 .wp-caption {
   border: 1px solid #ccc;
   margin-bottom: 1.5em;
@@ -301,6 +353,28 @@ img[class*="attachment-"],
 
 /* End Images */
 
+
+/* Miscellaneous */
+
+.browsehappy {
+  margin-bottom: 0;
+  text-align: center;
+}
+.browsehappy .alert-link {
+  text-decoration: underline;
+}
+
+mark,
+ins {
+  background: #fff9c0;
+  text-decoration: none;
+}
+
+.alert strong {
+  font-size: 1.15em;
+}
+
+/* End Miscellaneous */
 
 
 /* Featured Posts */
@@ -335,13 +409,31 @@ img[class*="attachment-"],
 
 /* Blog Article */
 
+.blog article,
+.archive article,
+.category article{
+  border-bottom: 1px solid #eee;
+  padding-bottom: 20px;
+}
+
+.entry-content {
+  overflow: auto;
+}
+
 .entry-footer {
-	clear: both;
-	text-transform: uppercase;
+  clear: both;
+  text-transform: uppercase;
+  font-size: 0.9em;
+}
+
+.single .entry-footer {
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+  padding: 10px 0;
 }
 
 .entry-footer .glyphicon {
-	margin-right: 5px;
+  margin-right: 5px;
 }
 
 .entry-footer .byline,
@@ -349,10 +441,39 @@ img[class*="attachment-"],
 .entry-footer .comments-link,
 .entry-footer .published-date,
 .entry-footer .tags-links {
-	margin-right: 10px;
+  margin-right: 10px;
+}
+
+#nav-below {
+  clear: both;
 }
 
 /* End Blog Article */
+
+
+/* Post formats  */
+
+.format-quote {
+  background: url("img/quote.png") no-repeat scroll left top;
+  background-size: 20px 20px;
+  margin-top: 15px;
+  padding: 10px 0 0;
+}
+
+.format-quote cite {
+  font-style: italic;
+}
+
+.format-quote blockquote {
+  border-left: 0;
+  margin: 0 0 18px 15px;
+}
+
+.format-quote blockquote p {
+  font-style: italic;
+}
+
+/* End Post formats  */
 
 
 /* Comments */
@@ -376,7 +497,8 @@ img[class*="attachment-"],
 	font-size: 0.9em;
 }
 .comment-list {
-	padding-bottom: 7px;
+  list-style-type: none;
+  padding: 0;
 }
 .comment-author {
 	margin-bottom: 7px;

@@ -35,12 +35,12 @@
 		    <div id="header-wrapper" class="<?php echo of_get_option( 'waboot_header_width' ); ?>">
                 <header id="masthead" class="site-header" role="banner">
 
-                <?php if ( of_get_option('waboot_header_layout') === 'header3' ) : ?>
-                	<?php get_template_part( '/templates/parts/header3' ); ?>
+                <?php if ( of_get_option('waboot_header_layout', 'header1') === 'header3' ) : ?>
+                    <?php get_template_part( '/templates/parts/header3' ); ?>
                 <?php elseif ( of_get_option('waboot_header_layout') === 'header2' ) : ?>
                     <?php get_template_part( '/templates/parts/header2' ); ?>
                 <?php else : ?>
-                	<?php get_template_part( '/templates/parts/header1' ); ?>
+                    <?php get_template_part( '/templates/parts/header1' ); ?>
                 <?php endif; ?>
                 
                 

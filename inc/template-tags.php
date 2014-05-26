@@ -5,7 +5,7 @@ if ( ! function_exists( 'waboot_content_nav' ) ):
      * Display navigation to next/previous pages when applicable
      *
      * @since 1.0
-     * @from Alienship
+     * @from Waboot
      */
     function waboot_content_nav( $nav_id ) {
 
@@ -23,7 +23,6 @@ if ( ! function_exists( 'waboot_content_nav' ) ):
         ?>
 
         <nav id="<?php echo $nav_id; ?>" class="<?php echo $nav_class; ?>">
-            <h3 class="screen-reader-text"><?php _e( 'Post navigation', 'alienship' ); ?></h3>
             <ul class="pager">
                 <?php
                 if ( is_single() ) : // navigation links for single posts
@@ -52,7 +51,7 @@ if ( ! function_exists( 'waboot_featured_posts_grid' ) ):
     /**
      * Display featured posts in a grid
      * @since 1.0
-     * @from Alienship
+     * @from Waboot
      */
     function waboot_featured_posts_grid() {
 
@@ -78,7 +77,7 @@ if ( ! function_exists( 'waboot_featured_posts_slider' ) ):
     /**
      * Display featured posts in a slider
      * @since 1.0
-     * @from Alienship
+     * @from Waboot
      */
     function waboot_featured_posts_slider() {
 
@@ -140,7 +139,7 @@ if ( ! function_exists( 'waboot_archive_sticky_posts' ) ):
     /**
      * Display sticky posts on archive pages
      * @since 1.0
-     * @from Alienship
+     * @from Waboot
      */
     function waboot_archive_sticky_posts() {
 
