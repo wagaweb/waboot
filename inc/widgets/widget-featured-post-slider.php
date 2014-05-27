@@ -12,6 +12,7 @@ class Waboot_Feaured_Post_Slider extends WP_Widget{
     }
 
     function widget( $args, $instance ) {
+        global $post,$wp_query;
         extract( $args );
 
         $featured_query = new WP_Query( array(
@@ -38,6 +39,7 @@ class Waboot_Feaured_Post_Slider extends WP_Widget{
                         <?php endif; ?>
 
                         <div class="carousel-inner">
+                            <?php $temp_query = clone $wp_query; ?>
                             <?php while ( $featured_query->have_posts() ) : $featured_query->the_post(); ?>
                                 <div class="item">
                                     <a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( 'Link to %s', 'alienship' ), the_title_attribute( 'echo=0' ) ); ?>">
@@ -51,6 +53,7 @@ class Waboot_Feaured_Post_Slider extends WP_Widget{
                                     <?php } ?>
                                 </div><!-- .item -->
                             <?php endwhile; ?>
+                            <?php $wp_query = clone $temp_query; ?>
                         </div><!-- .carousel-inner -->
                         <a class="left carousel-control" href="#featured-carousel" data-slide="prev"><span class="icon-prev"></span></a>
                         <a class="right carousel-control" href="#featured-carousel" data-slide="next"><span class="icon-next"></span></a>
@@ -126,6 +129,9 @@ class Waboot_Feaured_Post_Slider extends WP_Widget{
         $instance['tag'] = strip_tags( $new_instance['tag'] );
         $instance['maxnum'] = strip_tags( $new_instance['maxnum'] );
         $instance['show_indicators'] = strip_tags( $new_instance['show_indicators'] );
+        $instance['show_captions'] = strip_tags( $new_instance['show_captions'] );
+        $instance['images_width'] = strip_tags( $new_instance['images_width'] );
+        $instance['images_height'] = strip_tags( $new_instance['images_height'] );
 
         return $instance;
     }

@@ -512,7 +512,7 @@ function optionsframework_options() {
 
 
     // Featured Posts tab
-    $options[] = array(
+    /*$options[] = array(
         'name' => __( 'Featured Posts', 'waboot' ),
         'type' => 'heading'
     );
@@ -626,7 +626,7 @@ function optionsframework_options() {
         'std'   => '350',
         'class' => 'mini',
         'type'  => 'text'
-    );
+    );*/
 
     return $options;
 }
