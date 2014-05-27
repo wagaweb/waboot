@@ -47,7 +47,7 @@ function optionsframework_options() {
     }
 
     // If using image radio buttons, define a directory path
-    $imagepath =  get_bloginfo('stylesheet_directory') . '/assets/img/';
+    $imagepath =  get_template_directory_uri() . '/assets/img/';
 
     $options = array();
 
