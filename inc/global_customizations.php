@@ -99,46 +99,6 @@ function waboot_head_cleanup() {
 add_action('init', 'waboot_head_cleanup');
 
 /**
- * Register our sidebars and widgetized areas
- */
-function arphabet_widgets_init() {
-
-    register_sidebar( array(
-        'name' => 'Banner',
-        'id' => 'banner',
-        'before_widget' => '<div id="%1$s" class="widget %2$s">',
-        'after_widget' => '</div>',
-        'before_title' => '<h2 class="rounded">',
-        'after_title' => '</h2>',
-    ) );
-    register_sidebar( array(
-        'name' => 'Content Bottom',
-        'id' => 'contentbottom',
-        'before_widget' => '<div id="%1$s" class="widget %2$s">',
-        'after_widget' => '</div>',
-        'before_title' => '<h2 class="rounded">',
-        'after_title' => '</h2>',
-    ) );
-    register_sidebar( array(
-        'name' => 'Header Left',
-        'id' => 'header-left',
-        'before_widget' => '<div id="%1$s" class="widget %2$s">',
-        'after_widget' => '</div>',
-        'before_title' => '<h2 class="rounded">',
-        'after_title' => '</h2>',
-    ) );
-    register_sidebar( array(
-        'name' => 'Header Right',
-        'id' => 'header-right',
-        'before_widget' => '<div id="%1$s" class="widget %2$s">',
-        'after_widget' => '</div>',
-        'before_title' => '<h2 class="rounded">',
-        'after_title' => '</h2>',
-    ) );
-}
-add_action( 'widgets_init', 'arphabet_widgets_init' );
-
-/**
  * Add WP Better email support for gravity form
  * @param $notification
  * @param $form

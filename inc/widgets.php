@@ -51,6 +51,51 @@ function waboot_widgets_init() {
 		'after_title'   => '</h3>',
 	) );
 
+    register_sidebar( array(
+        'name' => 'Tob Bar',
+        'id' => 'topbar',
+        'before_widget' => '<div id="%1$s" class="widget %2$s">',
+        'after_widget' => '</div>',
+        'before_title' => '<h2 class="rounded">',
+        'after_title' => '</h2>',
+    ) );
+
+    register_sidebar( array(
+        'name' => 'Banner',
+        'id' => 'banner',
+        'before_widget' => '<div id="%1$s" class="widget %2$s">',
+        'after_widget' => '</div>',
+        'before_title' => '<h2 class="rounded">',
+        'after_title' => '</h2>',
+    ) );
+
+    register_sidebar( array(
+        'name' => 'Content Bottom',
+        'id' => 'contentbottom',
+        'before_widget' => '<div id="%1$s" class="widget %2$s">',
+        'after_widget' => '</div>',
+        'before_title' => '<h2 class="rounded">',
+        'after_title' => '</h2>',
+    ) );
+
+    register_sidebar( array(
+        'name' => 'Header Left',
+        'id' => 'header-left',
+        'before_widget' => '<div id="%1$s" class="widget %2$s">',
+        'after_widget' => '</div>',
+        'before_title' => '<h2 class="rounded">',
+        'after_title' => '</h2>',
+    ) );
+
+    register_sidebar( array(
+        'name' => 'Header Right',
+        'id' => 'header-right',
+        'before_widget' => '<div id="%1$s" class="widget %2$s">',
+        'after_widget' => '</div>',
+        'before_title' => '<h2 class="rounded">',
+        'after_title' => '</h2>',
+    ) );
+
     /* Widgets */
     locate_template( '/inc/widgets/widget-login-form.php', true );
     locate_template( '/inc/widgets/widget-nav-stacked-pills-menu.php', true );

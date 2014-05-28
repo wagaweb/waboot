@@ -20,12 +20,25 @@
     </head>
 
     <body <?php body_class(); ?> >
-	    <!--[if lt IE 9]><p class="browsehappy alert alert-danger">You are using an outdated browser. Please <a class="alert-link" href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p><![endif]-->
+	    <!--[if lt IE 8]><p class="browsehappy alert alert-danger">You are using an outdated browser. Please <a class="alert-link" href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p><![endif]-->
 
-        <?php if ( of_get_option( 'waboot_show_top_navbar', 1 ) ) : ?>
+        <?php if ( is_active_sidebar( 'topbar' ) || (of_get_option('waboot_social_position') == 'topnav-right' || of_get_option('waboot_social_position') == 'topnav-left' ) || has_nav_menu( 'top' )) : ?>
             <!-- Navbar: Begin -->
             <div id="topnav-wrapper" class="<?php echo of_get_option( 'waboot_topnav_width','container-fluid' ); ?> ">
-                <?php get_template_part( '/templates/parts/menu', 'top' ); ?>
+                <?php dynamic_sidebar( 'topbar' ); ?>
+
+                <?php
+                    if(has_nav_menu( 'top' ))
+                        get_template_part( '/templates/parts/menu', 'top' );
+                ?>
+
+                <?php if ( of_get_option('waboot_social_position') == 'topnav-left' ) : ?>
+                    <div class="pull-left"> <?php get_template_part('/templates/parts/social-widget'); ?> </div><!-- .pull-left -->
+                <?php endif; ?>
+                <?php if ( of_get_option('waboot_social_position') == 'topnav-right' ) : ?>
+                    <div class="pull-right"> <?php get_template_part('/templates/parts/social-widget'); ?> </div><!-- .pull-right -->
+                <?php endif; ?>
+
             </div>
             <!-- Navbar: End -->
         <?php endif; ?>
@@ -46,8 +59,6 @@
                         get_template_part( '/templates/parts/header1' );
                         break;
                 }
-                // Main menu
-                // if ( has_nav_menu('main') ) get_template_part( '/templates/parts/menu', 'main' );
                 ?>
                 </header><!-- #masthead -->
 		    </div><!-- #header-wrapper -->
