@@ -205,7 +205,7 @@ function waboot_behavior_import_predefined_options(){
         $child_behavior_file = get_stylesheet_directory()."/inc/behaviors.json";
         if(file_exists($child_behavior_file)){
             $child_behaviors = json_decode(file_get_contents($child_behavior_file, true),true);
-            $predef_behaviors = array_merge($predef_behaviors,$child_behaviors);
+            $predef_behaviors = array_replace_recursive($predef_behaviors,$child_behaviors);
         }
     }
 
