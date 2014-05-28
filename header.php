@@ -68,10 +68,14 @@
 
                 <?php if ( function_exists( 'waboot_breadcrumb_trail' ) && !is_front_page() ) : ?>
                     <?php
-                        waboot_breadcrumb_trail( array(
-                            'container'   => 'div',
-                            'separator'   => '/',
-                            'show_browse' => false
-                        ));
+                        $my_type = get_post_type();
+                        $bc_locations = of_get_option( 'waboot_breadcrumbs_locations', array('post','page') );
+                        if(array_key_exists($my_type,$bc_locations) && $bc_locations[$my_type] == 1){
+                            waboot_breadcrumb_trail( array(
+                                'container'   => 'div',
+                                'separator'   => '/',
+                                'show_browse' => false
+                            ));
+                        }
                     ?>
                 <?php endif; ?>

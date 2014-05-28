@@ -5772,6 +5772,21 @@ button.close {
     display: none !important;
   }
 }
+@-webkit-viewport {
+  width: device-width;
+}
+@-moz-viewport {
+  width: device-width;
+}
+@-ms-viewport {
+  width: device-width;
+}
+@-o-viewport {
+  width: device-width;
+}
+@viewport {
+  width: device-width;
+}
 /* Custom Mixins */
 /* Custom Variables */
 /* ---------------- WABOOT ---------------- */
@@ -6126,7 +6141,7 @@ ins {
 /* End Blog Article */
 /* Post formats  */
 .format-quote {
-  background: url("http://10.0.0.32/waboot/wp-content/themes/waboot/img/quote.png") no-repeat scroll left top;
+  background: url("http://10.0.0.31/waboot/wp-content/themes/waboot/img/quote.png") no-repeat scroll left top;
   background-size: 20px 20px;
   margin-top: 15px;
   padding: 10px 0 0;
@@ -6507,4 +6522,4 @@ fieldset[disabled] .gform_button.active {
 /* Tablet vertical Style - Default is @media(min-width:768px) and (max-width:991px) { } */
 /* Tablet horizontal, Notebook, Desktop Style - Default is @media(min-width:992px) and (max-width:1199px) { } */
 /* Desktop large Style - Default is @media(min-width:1200px) { } */
-/*# sourceMappingURL=http://10.0.0.32/waboot/wp-content/themes/waboot/assets/css/style.css.map */
+/*# sourceMappingURL=http://10.0.0.31/waboot/wp-content/themes/waboot/assets/css/style.css.map */

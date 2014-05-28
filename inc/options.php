@@ -291,6 +291,28 @@ function optionsframework_options() {
         'type' => 'checkbox'
     );
 
+    $options[] = array(
+        'name' => __( 'Show Breadcrumb Navigation?', 'waboot' ),
+        'desc' => __( 'Default is show. Uncheck this box to hide breadcrumbs.', 'waboot' ),
+        'id'   => 'waboot_breadcrumbs',
+        'std'  => '1',
+        'type' => 'checkbox'
+    );
+
+    $breadcrumb_location_posttypes = get_post_types();
+
+    $options[] = array(
+        'id' => 'waboot_breadcrumbs_locations',
+        'name' => __('Breadcrumb Location','waboot'),
+        'desc' => __('Where to show breadcrumb', 'waboot'),
+        'type' => 'multicheck',
+        'options' => $breadcrumb_location_posttypes,
+        'std' => array(
+            'post' => 1,
+            'page' => 1
+        )
+    );
+
     /*
     * HEADER TAB
     */

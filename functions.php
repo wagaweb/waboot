@@ -46,7 +46,7 @@ if ( ! function_exists( 'waboot_setup' ) ):
         // Breadcrumbs
         if ( of_get_option( 'waboot_breadcrumbs',1) ) {
             locate_template( '/inc/vendor/breadcrumb-trail.php', true );
-            locate_template( '/inc/waboot_breadcrumb-trail.php', true );
+            locate_template( '/inc/waboot-breadcrumb-trail.php', true );
         }
 
         // Email encoder
