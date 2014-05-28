@@ -48,11 +48,10 @@
         <div class="collapse navbar-collapse navbar-ex2-collapse">
             <?php wp_nav_menu( array(
                     'theme_location' => 'main',
-                    'depth'          => 2,
+                    'depth'          => 0,
                     'container'      => false,
                     'menu_class'     => 'nav navbar-nav',
-                    'walker'         => new waboot_bootstrap_navwalker(),
-                    'fallback_cb'    => 'waboot_bootstrap_navwalker::fallback'
+                    'walker'	     => new WabootNavMenuWalker()
                 )
             );
 

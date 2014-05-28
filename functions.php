@@ -2,7 +2,7 @@
 
 define("ENV_DEV",1);
 define("ENV_PRODUCTION",2);
-define("LESS_LIVE_COMPILING",false);
+define("LESS_LIVE_COMPILING",true);
 
 if(!defined("CURRENT_ENV")){
     define("CURRENT_ENV",ENV_DEV);
@@ -23,8 +23,10 @@ if ( ! function_exists( 'waboot_setup' ) ):
 
         // Register the navigation menus.
         locate_template( '/inc/menus.php', true );
+        locate_template( '/inc/vendor/BootstrapNavMenuWalker.php', true );
         locate_template( '/inc/vendor/wp_bootstrap_navwalker.php', true );
         locate_template( '/inc/waboot_bootstrap_navwalker.php', true );
+        locate_template( '/inc/WabootNavMenuWalker.php', true );
 
         // Register sidebars
         locate_template( '/inc/widgets.php', true );
