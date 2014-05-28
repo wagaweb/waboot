@@ -13,36 +13,26 @@ do_action( 'waboot_post_before' ); ?>
 	?>
 	<div class="entry-content">
 		<?php
-		// On archive views, display post thumbnail, if available, and excerpt.
-		if ( ! is_singular() ) {
-
-			if ( has_post_thumbnail() ) { ?>
-
+			if(has_post_thumbnail()) : ?>
 				<a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( 'Link to %s', 'alienship' ), the_title_attribute( 'echo=0' ) ); ?>">
-					<?php echo get_the_post_thumbnail( $post->ID, 'thumbnail', array( 'class' => 'alignleft', 'title' => "" ) ); ?>
+                    <?php
+                        if(is_singular()){
+                            echo get_the_post_thumbnail( $post->ID, 'medium', array( 'class' => 'alignright', 'title' => "" ) );
+                        }else{
+                            echo get_the_post_thumbnail( $post->ID, 'thumbnail', array( 'class' => 'alignleft', 'title' => "" ) );
+                        }
+                    ?>
 				</a>
-			<?php
-			} // has_post_thumbnail()
+			<?php endif;
 
-			the_excerpt();
+            if(is_singular()){
+                the_content();
+            }else{
+                the_excerpt();
+            }
 
-		} // if ( ! is_singular() )
-
-		// On singular views, display post thumbnails in the post body if it's not big enough to be a header image
-		else {
-			$header_image = waboot_get_header_image( get_the_ID() );
-			if ( (has_post_thumbnail() && 'no' == $header_image['featured']) || (has_post_thumbnail() && !$header_image) ) { ?>
-
-				<a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( 'Link to %s', 'alienship' ), the_title_attribute( 'echo=0' ) ); ?>">
-					<?php echo get_the_post_thumbnail( $post->ID, 'medium', array( 'class' => 'alignright', 'title' => "" ) ); ?>
-				</a>
-			<?php
-			}
-
-			the_content();
-		}
-
-		wp_link_pages(); ?>
+		    wp_link_pages();
+        ?>
 	</div><!-- .entry-content -->
 	<?php
 	do_action( 'waboot_entry_content_after' );

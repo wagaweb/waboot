@@ -2,7 +2,7 @@
 
 define("ENV_DEV",1);
 define("ENV_PRODUCTION",2);
-define("LESS_LIVE_COMPILING",true);
+define("LESS_LIVE_COMPILING",false);
 
 if(!defined("CURRENT_ENV")){
     define("CURRENT_ENV",ENV_DEV);

@@ -34,25 +34,21 @@
 		    <?php do_action( 'waboot_header_before' ); ?>
 		    <div id="header-wrapper" class="<?php echo of_get_option( 'waboot_header_width' ); ?>">
                 <header id="masthead" class="site-header" role="banner">
-
-                <?php if ( of_get_option('waboot_header_layout', 'header1') === 'header3' ) : ?>
-                    <?php get_template_part( '/templates/parts/header3' ); ?>
-                <?php elseif ( of_get_option('waboot_header_layout') === 'header2' ) : ?>
-                    <?php get_template_part( '/templates/parts/header2' ); ?>
-                <?php else : ?>
-                    <?php get_template_part( '/templates/parts/header1' ); ?>
-                <?php endif; ?>
-                
-                
                 <?php
-                    // Header image
-                    // do_action( 'waboot_header_image' );
-                    // Main menu
-                    // if ( has_nav_menu('main') ) get_template_part( '/templates/parts/menu', 'main' );
+                switch(of_get_option('waboot_header_layout', 'header1')){
+                    case 'header3':
+                        get_template_part( '/templates/parts/header3' );
+                        break;
+                    case 'header2':
+                        get_template_part( '/templates/parts/header2' );
+                        break;
+                    default:
+                        get_template_part( '/templates/parts/header1' );
+                        break;
+                }
+                // Main menu
+                // if ( has_nav_menu('main') ) get_template_part( '/templates/parts/menu', 'main' );
                 ?>
-                
-                
-                
                 </header><!-- #masthead -->
 		    </div><!-- #header-wrapper -->
 		    <?php do_action( 'waboot_header_after' ); ?>
