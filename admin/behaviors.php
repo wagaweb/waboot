@@ -195,10 +195,18 @@ function waboot_behavior_get_options(){
 }
 
 function waboot_behavior_import_predefined_options(){
+
     $behavior_file = get_theme_root()."/".get_template()."/inc/behaviors.json";
     if (file_exists($behavior_file)) {
         $predef_behaviors = json_decode(file_get_contents($behavior_file, true),true);
-        $predef_behaviors = $predef_behaviors['behaviors'];
+    }
+
+    if(is_child_theme()){
+        $child_behavior_file = get_stylesheet_directory()."/inc/behaviors.json";
+        if(file_exists($child_behavior_file)){
+            $child_behaviors = json_decode(file_get_contents($child_behavior_file, true),true);
+            $predef_behaviors = array_merge($predef_behaviors,$child_behaviors);
+        }
     }
 
     return $predef_behaviors;
