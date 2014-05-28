@@ -15,7 +15,7 @@ class Nav_Stacked_Pills_Menu_Widget extends WP_Nav_Menu_Widget {
 
 		WP_Widget::__construct(
 			'nav_stacked_pills_menu',
-			__( 'Custom Menu: Stacked Pills', 'waboot' ),
+			__( 'Waboot: Custom Menu: Stacked Pills', 'waboot' ),
 			array(
 				'description' => __( 'Custom menu widget using Nav Stacked Pills styling', 'waboot' )
 			)

@@ -31,7 +31,7 @@ class waboot_Widget_Login extends WP_Widget {
 		);
 
 		/* Create the widget. */
-		$this->WP_Widget( 'waboot-widget-login', esc_attr__( 'Login Form', 'waboot' ), $widget_options, $control_options );
+		$this->WP_Widget( 'waboot-widget-login', esc_attr__( 'Waboot: Login Form', 'waboot' ), $widget_options, $control_options );
 	}
 
 	/**

@@ -4,7 +4,7 @@ class Waboot_Feaured_Post_Slider extends WP_Widget{
 
     function __construct() {
         parent::__construct('waboot_featured_post_slider',
-            __( 'Post Slider', 'waboot' ),
+            __( 'Waboot: Post Slider', 'waboot' ),
             array(
                 'description' => __( 'Featured posts displayed in a slider', 'waboot' )
             )
