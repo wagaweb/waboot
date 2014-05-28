@@ -3,12 +3,12 @@
  * The template used to load the Main Menu in header*.php
  *
  * @package Waboot
- * @since Alien Ship 0.70
+ * @since Waboot 1.0
  */
 ?>
 <!-- Main menu -->
 
-<nav id="navbar-2" class="<?php echo apply_filters( 'alienship_main_navbar_class' , 'navbar navbar-default main-navigation' ); ?>" role="navigation">
+<nav id="navbar-2" class="<?php echo apply_filters( 'waboot_main_navbar_class' , 'navbar navbar-default main-navigation' ); ?>" role="navigation">
     <div class="row">
 
         <div id="header-right" class="col-md-3 col-xs-6">
@@ -59,7 +59,7 @@
             if ( of_get_option( 'waboot_search_bar', '1' ) ) : ?>
                 <form id="searchform" class="navbar-form navbar-right" role="search" action="<?php echo site_url(); ?>" method="get">
                     <div class="form-group">
-                        <input id="s" name="s" type="text" class="form-control" placeholder="<?php esc_attr_e( 'Search &hellip;', 'alienship' ); ?>" value="<?php echo esc_attr( get_search_query() ); ?>">
+                        <input id="s" name="s" type="text" class="form-control" placeholder="<?php esc_attr_e( 'Search &hellip;', 'waboot' ); ?>" value="<?php echo esc_attr( get_search_query() ); ?>">
                     </div>
                     <button id="searchsubmit" type="submit" name="submit" class="btn btn-default">Submit</button>
                 </form>

@@ -23,7 +23,7 @@ function waboot_wp_title( $title, $sep ) {
 
     // Add a page number if necessary.
     if ( $paged >= 2 || $page >= 2 )
-        $title = "$title $sep " . sprintf( __( 'Page %s', 'alienship' ), max( $paged, $page ) );
+        $title = "$title $sep " . sprintf( __( 'Page %s', 'waboot' ), max( $paged, $page ) );
 
     return $title;
 }
@@ -44,7 +44,7 @@ endif;
 if ( ! function_exists( 'waboot_nice_search_redirect' ) ):
     /**
      * Pretty search URL. Changes /?s=foo to /search/foo. http://txfx.net/wordpress-plugins/nice-search/
-     * @since Alien Ship 0.3
+     * @since 1.0
      */
     function waboot_nice_search_redirect() {
 
@@ -62,7 +62,7 @@ if ( ! function_exists( 'waboot_excerpt_more') ):
      */
     function waboot_excerpt_more( $more ) {
 
-        return ' ... <a href="'. get_permalink( get_the_ID() ) . '">'. __( 'Continue Reading ', 'alienship' ) .' &raquo;</a>';
+        return ' ... <a href="'. get_permalink( get_the_ID() ) . '">'. __( 'Continue Reading ', 'waboot' ) .' &raquo;</a>';
     }
     add_filter('excerpt_more', 'waboot_excerpt_more');
 endif;

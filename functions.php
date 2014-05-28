@@ -59,10 +59,10 @@ if ( ! function_exists( 'waboot_setup' ) ):
         /**
          * Make theme available for translation
          * Translations can be filed in the /languages/ directory
-         * If you're building a theme based on alienship, use a find and replace
-         * to change 'alienship' to the name of your theme in all the template files
+         * If you're building a theme based on waboot, use a find and replace
+         * to change 'waboot' to the name of your theme in all the template files
          */
-        load_theme_textdomain( 'alienship', get_template_directory() . '/languages' );
+        load_theme_textdomain( 'waboot', get_template_directory() . '/languages' );
 
         // Add default posts and comments RSS feed links to head
         add_theme_support( 'automatic-feed-links' );

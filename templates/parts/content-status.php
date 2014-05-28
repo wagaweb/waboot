@@ -3,7 +3,7 @@
  * The template for displaying posts in the Status post format
  *
  * @package Waboot
- * @since Alien Ship 0.64
+ * @since Waboot 1.0
  */
 do_action( 'waboot_post_before' ); ?>
 <article role="article" id="post-<?php the_ID(); ?>" <?php post_class(); ?>>

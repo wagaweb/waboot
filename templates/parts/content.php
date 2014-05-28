@@ -1,7 +1,7 @@
 <?php
 /**
  * @package Waboot
- * @since 1.0
+ * @since Waboot 1.0
  */
 
 do_action( 'waboot_post_before' ); ?>
@@ -14,7 +14,7 @@ do_action( 'waboot_post_before' ); ?>
 	<div class="entry-content">
 		<?php
 			if(has_post_thumbnail()) : ?>
-				<a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( 'Link to %s', 'alienship' ), the_title_attribute( 'echo=0' ) ); ?>">
+				<a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( 'Link to %s', 'waboot' ), the_title_attribute( 'echo=0' ) ); ?>">
                     <?php
                         if(is_singular()){
                             echo get_the_post_thumbnail( $post->ID, 'medium', array( 'class' => 'alignright', 'title' => "" ) );

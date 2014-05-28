@@ -12,7 +12,7 @@ function waboot_bootstrap_js_loader() {
 
 	// Waboot Scripts
 	if(CURRENT_ENV == ENV_DEV){
-		wp_enqueue_script( 'alienship-helper.js', waboot_locate_template_uri( 'sources/js/alienship-helper.js' ), array('jquery'),'1.0.0', true);
+		wp_enqueue_script( 'waboot-helper.js', waboot_locate_template_uri( 'sources/js/waboot-helper.js' ), array('jquery'),'1.0.0', true);
 		wp_enqueue_script( 'dropdown-toggle.js', waboot_locate_template_uri( 'sources/js/dropdown-toggle.js' ), array('jquery'),'1.0.0', true);
 	}else{
 		wp_enqueue_script( 'waboot.js', waboot_locate_template_uri( 'assets/js/waboot.min.js' ), array('jquery'),'1.0.0', true);

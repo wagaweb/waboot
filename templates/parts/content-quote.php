@@ -3,7 +3,7 @@
  * The template for displaying posts in the Quote post format
  *
  * @package Waboot
- * @since Alien Ship 0.4
+ * @since Waboot 1.0
  */
 do_action( 'waboot_post_before' ); ?>
 <article role="article" id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
@@ -14,7 +14,7 @@ do_action( 'waboot_post_before' ); ?>
 
 	<div class="entry-content">
 		<blockquote>
-			<?php the_content( __( 'Continue Reading &raquo;', 'alienship' ) ); ?>
+			<?php the_content( __( 'Continue Reading &raquo;', 'waboot' ) ); ?>
 		</blockquote>
 	</div>
 	<?php

@@ -8,7 +8,7 @@
  * different template.
  *
  * @package Waboot
- * @since 1.0
+ * @since Waboot 1.0
  */
 
 get_header(); ?>

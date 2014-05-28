@@ -27,17 +27,17 @@ if ( ! function_exists( 'waboot_content_nav' ) ):
                 <?php
                 if ( is_single() ) : // navigation links for single posts
 
-                    previous_post_link( '<li class="previous">%link</li>', '<span class="meta-nav">' . _x( '&laquo;', 'Previous post link', 'alienship' ) . '</span> %title' );
-                    next_post_link( '<li class="next">%link</li>', '%title <span class="meta-nav">' . _x( '&raquo;', 'Next post link', 'alienship' ) . '</span>' );
+                    previous_post_link( '<li class="previous">%link</li>', '<span class="meta-nav">' . _x( '&laquo;', 'Previous post link', 'waboot' ) . '</span> %title' );
+                    next_post_link( '<li class="next">%link</li>', '%title <span class="meta-nav">' . _x( '&raquo;', 'Next post link', 'waboot' ) . '</span>' );
 
                 elseif ( $wp_query->max_num_pages > 1 && ( is_home() || is_archive() || is_search() ) ) : // navigation links for home, archive, and search pages
 
                     if ( get_next_posts_link() ) : ?>
-                        <li class="pull-right"><?php next_posts_link( __( 'Next page <span class="meta-nav">&raquo;</span>', 'alienship' ) ); ?></li>
+                        <li class="pull-right"><?php next_posts_link( __( 'Next page <span class="meta-nav">&raquo;</span>', 'waboot' ) ); ?></li>
                     <?php endif;
 
                     if ( get_previous_posts_link() ) : ?>
-                        <li class="pull-left"><?php previous_posts_link( __( '<span class="meta-nav">&laquo;</span> Previous page', 'alienship' ) ); ?></li>
+                        <li class="pull-left"><?php previous_posts_link( __( '<span class="meta-nav">&laquo;</span> Previous page', 'waboot' ) ); ?></li>
                     <?php endif;
 
                 endif; ?>
@@ -108,7 +108,7 @@ if ( ! function_exists( 'waboot_comment' ) ) :
 
             <li id="comment-<?php comment_ID(); ?>" <?php comment_class(); ?>>
             <div class="comment-body">
-                <?php _e( 'Pingback:', 'alienship' ); ?> <?php comment_author_link(); ?> <?php edit_comment_link( __( 'Edit', 'alienship' ), '<span class="edit-link">', '</span>' ); ?>
+                <?php _e( 'Pingback:', 'waboot' ); ?> <?php comment_author_link(); ?> <?php edit_comment_link( __( 'Edit', 'waboot' ), '<span class="edit-link">', '</span>' ); ?>
             </div>
 
         <?php else : ?>
@@ -118,20 +118,20 @@ if ( ! function_exists( 'waboot_comment' ) ) :
                 <footer class="comment-meta">
                     <div class="comment-author vcard">
                         <?php if ( 0 != $args['avatar_size'] ) echo get_avatar( $comment, $args['avatar_size'] ); ?>
-                        <?php printf( __( '%s <span class="says">says:</span>', 'alienship' ), sprintf( '<cite class="fn">%s</cite>', get_comment_author_link() ) ); ?>
+                        <?php printf( __( '%s <span class="says">says:</span>', 'waboot' ), sprintf( '<cite class="fn">%s</cite>', get_comment_author_link() ) ); ?>
                     </div><!-- .comment-author -->
 
                     <div class="comment-metadata">
                         <a href="<?php echo esc_url( get_comment_link( $comment->comment_ID ) ); ?>">
                             <time datetime="<?php comment_time( 'c' ); ?>">
-                                <?php printf( _x( '%1$s at %2$s', '1: date, 2: time', 'alienship' ), get_comment_date(), get_comment_time() ); ?>
+                                <?php printf( _x( '%1$s at %2$s', '1: date, 2: time', 'waboot' ), get_comment_date(), get_comment_time() ); ?>
                             </time>
                         </a>
-                        <?php edit_comment_link( __( 'Edit', 'alienship' ), '<span class="edit-link">', '</span>' ); ?>
+                        <?php edit_comment_link( __( 'Edit', 'waboot' ), '<span class="edit-link">', '</span>' ); ?>
                     </div><!-- .comment-metadata -->
 
                     <?php if ( '0' == $comment->comment_approved ) : ?>
-                        <p class="comment-awaiting-moderation"><?php _e( 'Your comment is awaiting moderation.', 'alienship' ); ?></p>
+                        <p class="comment-awaiting-moderation"><?php _e( 'Your comment is awaiting moderation.', 'waboot' ); ?></p>
                     <?php endif; ?>
                 </footer><!-- .comment-meta -->
 
@@ -160,13 +160,13 @@ endif; // ends check for waboot_comment()
  * with appropriate grid classes depending on which are activated.
  *
  * @since 1.0
- * @uses alienship_sidebar_class()
+ * @uses waboot_sidebar_class()
  * @param string $prefix Prefix of the widget to be displayed. Example: "footer" for footer-1, footer-2, etc.
  */
 function waboot_do_sidebar( $prefix = false ) {
 
     if ( ! $prefix )
-        _doing_it_wrong( __FUNCTION__, __( 'You must specify a prefix when using alienship_do_sidebar.', 'alienship' ), '1.0' );
+        _doing_it_wrong( __FUNCTION__, __( 'You must specify a prefix when using waboot_do_sidebar.', 'waboot' ), '1.0' );
 
         // Get our grid class
         $sidebar_class = waboot_sidebar_class( $prefix );
@@ -216,7 +216,7 @@ function waboot_do_sidebar( $prefix = false ) {
 function waboot_sidebar_class( $prefix = false ) {
 
     if ( ! $prefix )
-        _doing_it_wrong( __FUNCTION__, __( 'You must specify a prefix when using alienship_sidebar_class.', 'alienship' ), '1.0' );
+        _doing_it_wrong( __FUNCTION__, __( 'You must specify a prefix when using waboot_sidebar_class.', 'waboot' ), '1.0' );
 
     $count = 0;
 
@@ -261,14 +261,14 @@ if ( ! function_exists( 'waboot_link_format_helper' ) ) :
      * Returns the first post link and/or post content without the link.
      * Used for the "Link" post format.
      *
-     * @since 1.0.1
+     * @since 1.0
      * @param string $output "link" or "post_content"
      * @return string Link or Post Content without link.
      */
     function waboot_link_format_helper( $output = false ) {
 
         if ( ! $output )
-            _doing_it_wrong( __FUNCTION__, __( 'You must specify the output you want - either "link" or "post_content".', 'alienship' ), '1.0.1' );
+            _doing_it_wrong( __FUNCTION__, __( 'You must specify the output you want - either "link" or "post_content".', 'waboot' ), '1.0.1' );
 
         $post_content = get_the_content();
         $link_start = stristr( $post_content, "http" );
@@ -299,7 +299,7 @@ if ( ! function_exists( 'waboot_the_attached_image' ) ) :
     function waboot_the_attached_image() {
 
         $post                = get_post();
-        $attachment_size     = apply_filters( 'alienship_attachment_size', array( 1200, 1200 ) );
+        $attachment_size     = apply_filters( 'waboot_attachment_size', array( 1200, 1200 ) );
         $next_attachment_url = wp_get_attachment_url();
 
         /**

@@ -3,7 +3,7 @@
  * Register and enqueue the front end CSS
  *
  * @package Waboot
- * @since 1.0.0
+ * @since 1.0
  */
 
 // Load frontend theme styles

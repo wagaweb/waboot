@@ -15,9 +15,9 @@ class Nav_Stacked_Pills_Menu_Widget extends WP_Nav_Menu_Widget {
 
 		WP_Widget::__construct(
 			'nav_stacked_pills_menu',
-			__( 'Custom Menu: Stacked Pills', 'alienship' ),
+			__( 'Custom Menu: Stacked Pills', 'waboot' ),
 			array(
-				'description' => __( 'Custom menu widget using Nav Stacked Pills styling', 'alienship' )
+				'description' => __( 'Custom menu widget using Nav Stacked Pills styling', 'waboot' )
 			)
 		);
 	}
@@ -63,7 +63,7 @@ class Nav_Stacked_Pills_Menu_Widget extends WP_Nav_Menu_Widget {
 
 		?>
 		<p>
-			<label for="<?php echo $this->get_field_id( 'well' ); ?>"><?php echo __( '"well" Container', 'alienship' ); ?></label>
+			<label for="<?php echo $this->get_field_id( 'well' ); ?>"><?php echo __( '"well" Container', 'waboot' ); ?></label>
 			<input type="checkbox" id="<?php echo $this->get_field_id( 'well' ); ?>" name="<?php echo $this->get_field_name( 'well' ); ?>" <?php checked( $well )  ?> />
 		</p>
 		<?php

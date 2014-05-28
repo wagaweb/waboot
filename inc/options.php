@@ -261,7 +261,7 @@ function optionsframework_options() {
 
     $options[] = array(
         'name' => __( 'Show Top Menu navigation bar?', 'waboot' ),
-        'desc' => __( 'Displays the top navbar on your site, even if there\'s no menu assigned in Appearance > Menu. Uncheck this box to hide it. Default is enabled.', 'wship' ),
+        'desc' => __( 'Displays the top navbar on your site, even if there\'s no menu assigned in Appearance > Menu. Uncheck this box to hide it. Default is enabled.', 'waboot' ),
         'id'   => 'waboot_show_top_navbar',
         'std'  => '1',
         'type' => 'checkbox'

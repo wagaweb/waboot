@@ -14,11 +14,11 @@ get_header(); ?>
 
 			<section class="post error-404 not-found">
 				<header class="entry-header">
-					<h1 class="entry-title"><?php _e( 'Oops! That page can&rsquo;t be found.', 'alienship' ); ?></h1>
+					<h1 class="entry-title"><?php _e( 'Oops! That page can&rsquo;t be found.', 'waboot' ); ?></h1>
 				</header>
 
 				<div class="entry-content">
-					<p><?php _e( 'It looks like nothing was found at this location. Maybe try a search or one of the links below?', 'alienship' ); ?></p>
+					<p><?php _e( 'It looks like nothing was found at this location. Maybe try a search or one of the links below?', 'waboot' ); ?></p>
 
 					<?php
 					get_search_form();
@@ -26,7 +26,7 @@ get_header(); ?>
 					?>
 
 					<div class="widget">
-						<h2 class="widget-title"><?php _e( 'Most Used Categories', 'alienship' ); ?></h2>
+						<h2 class="widget-title"><?php _e( 'Most Used Categories', 'waboot' ); ?></h2>
 						<ul>
 							<?php wp_list_categories( array( 'orderby' => 'count', 'order' => 'DESC', 'show_count' => 1, 'title_li' => '', 'number' => 10 ) ); ?>
 						</ul>
@@ -34,7 +34,7 @@ get_header(); ?>
 
 					<?php
 					/* translators: %1$s: smiley */
-					$archive_content = '<p>' . sprintf( __( 'Try looking in the monthly archives. %1$s', 'alienship' ), convert_smilies( ':)' ) ) . '</p>';
+					$archive_content = '<p>' . sprintf( __( 'Try looking in the monthly archives. %1$s', 'waboot' ), convert_smilies( ':)' ) ) . '</p>';
 					the_widget( 'WP_Widget_Archives', 'dropdown=1', "after_title=</h2>$archive_content" );
 					the_widget( 'WP_Widget_Tag_Cloud' );
 					?>

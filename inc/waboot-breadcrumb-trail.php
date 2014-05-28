@@ -6,7 +6,7 @@ require_once("vendor/breadcrumb-trail.php");
  * Shows a breadcrumb for all types of pages.  This is a wrapper function for the Breadcrumb_Trail class,
  * which should be used in theme templates.
  *
- * @since  0.1.0
+ * @since  1.0
  * @access public
  * @param  array $args Arguments to pass to Breadcrumb_Trail.
  * @return void
@@ -25,7 +25,7 @@ class Waboot_Breadcrumb_Trail extends Breadcrumb_Trail{
     /**
      * Formats and outputs the breadcrumb trail.
      *
-     * @since  0.6.0
+     * @since  1.0
      * @access public
      * @return string
      */

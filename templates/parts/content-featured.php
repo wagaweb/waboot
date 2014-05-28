@@ -1,11 +1,11 @@
 <?php
 /**
  * Featured listings
- * @since Alien Ship 0.4
+ * @since Waboot 1.0
  */
 ?>
 	<div class="item">
-		<a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( 'Link to %s', 'alienship' ), the_title_attribute( 'echo=0' ) ); ?>">
+		<a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( 'Link to %s', 'waboot' ), the_title_attribute( 'echo=0' ) ); ?>">
 			<?php echo get_the_post_thumbnail( ''. $post->ID .'', array( of_get_option( 'waboot_featured_posts_image_width' ), of_get_option( 'waboot_featured_posts_image_height' ) ), array( 'title' => "" ) ); ?>
 		</a>
 		<?php // Featured post captions?

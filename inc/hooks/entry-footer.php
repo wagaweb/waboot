@@ -22,7 +22,7 @@ if ( ! function_exists( 'waboot_do_posted_on' ) ) :
         if ( ! of_get_option( 'waboot_published_date', 1 ) )
             return;
 
-        printf( __( '<span class="published-date"><i class="glyphicon glyphicon-calendar" title="Published date"></i> <a href="%1$s" title="%2$s"><time class="entry-date" datetime="%3$s">%4$s</time></a></span>', 'alienship' ),
+        printf( __( '<span class="published-date"><i class="glyphicon glyphicon-calendar" title="Published date"></i> <a href="%1$s" title="%2$s"><time class="entry-date" datetime="%3$s">%4$s</time></a></span>', 'waboot' ),
             esc_url( get_permalink() ),
             esc_attr( get_the_time() ),
             esc_attr( get_the_date( 'c' ) ),
@@ -44,9 +44,9 @@ if ( ! function_exists( 'waboot_do_post_author' ) ) :
         if ( ! of_get_option('waboot_post_author', 1 ) )
             return;
 
-        printf( __( '<span class="byline"><i class="glyphicon glyphicon-user"></i> <span class="author vcard"><a class="url fn n" href="%1$s" title="%2$s" rel="author">%3$s</a></span></span>', 'alienship' ),
+        printf( __( '<span class="byline"><i class="glyphicon glyphicon-user"></i> <span class="author vcard"><a class="url fn n" href="%1$s" title="%2$s" rel="author">%3$s</a></span></span>', 'waboot' ),
             esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ),
-            esc_attr( sprintf( __( 'View all posts by %s', 'alienship' ), get_the_author() ) ),
+            esc_attr( sprintf( __( 'View all posts by %s', 'waboot' ), get_the_author() ) ),
             esc_html( get_the_author() )
         );
     }
@@ -138,7 +138,7 @@ if ( ! function_exists( 'waboot_do_post_comments_link' ) ):
         if ( comments_open() || ( '0' != get_comments_number() && ! comments_open() ) ) { ?>
             <span class="comments-link">
 			<i class="glyphicon glyphicon-comment"></i>
-                <?php comments_popup_link( __( ' Leave a comment', 'alienship' ), __( ' 1 Comment', 'alienship' ), __( ' % Comments', 'alienship' ) ); ?>
+                <?php comments_popup_link( __( ' Leave a comment', 'waboot' ), __( ' 1 Comment', 'waboot' ), __( ' % Comments', 'waboot' ) ); ?>
 		</span>
         <?php }
     }

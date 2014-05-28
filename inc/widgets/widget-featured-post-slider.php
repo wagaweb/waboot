@@ -60,7 +60,7 @@ class Waboot_Feaured_Post_Slider extends WP_Widget{
                             <?php $temp_query = clone $wp_query; ?>
                             <?php while ( $featured_query->have_posts() ) : $featured_query->the_post(); ?>
                                 <div class="item">
-                                    <a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( 'Link to %s', 'alienship' ), the_title_attribute( 'echo=0' ) ); ?>">
+                                    <a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( 'Link to %s', 'waboot' ), the_title_attribute( 'echo=0' ) ); ?>">
                                         <?php echo get_the_post_thumbnail( ''. $post->ID .'', array( $instance['images_width'], $instance['images_height'] ), array( 'title' => "" ) ); ?>
                                     </a>
                                     <?php // Featured post captions?

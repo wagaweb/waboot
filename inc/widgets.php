@@ -12,8 +12,8 @@ function waboot_widgets_init() {
     /* Sidebars */
 
 	register_sidebar( array(
-		'name'          => __( 'Primary Sidebar', 'alienship' ),
-		'description'   => __( 'The main widget area displayed in the sidebar.', 'alienship' ),
+		'name'          => __( 'Primary Sidebar', 'waboot' ),
+		'description'   => __( 'The main widget area displayed in the sidebar.', 'waboot' ),
 		'id'            => 'sidebar-1',
 		'before_widget' => '<aside id="%1$s" class="widget %2$s">',
 		'after_widget'  => '</aside>',
@@ -22,8 +22,8 @@ function waboot_widgets_init() {
 	) );
 
 	register_sidebar( array(
-		'name'          => __( 'Footer 1', 'alienship' ),
-		'description'   => __( 'The footer widget area displayed after all content.', 'alienship' ),
+		'name'          => __( 'Footer 1', 'waboot' ),
+		'description'   => __( 'The footer widget area displayed after all content.', 'waboot' ),
 		'id'            => 'footer-1',
 		'before_widget' => '',
 		'after_widget'  => '',
@@ -32,8 +32,8 @@ function waboot_widgets_init() {
 	) );
 
 	register_sidebar( array(
-		'name'          => __( 'Footer 2', 'alienship' ),
-		'description'   => __( 'The second footer widget area, displayed below the Footer widget area.', 'alienship' ),
+		'name'          => __( 'Footer 2', 'waboot' ),
+		'description'   => __( 'The second footer widget area, displayed below the Footer widget area.', 'waboot' ),
 		'id'            => 'footer-2',
 		'before_widget' => '',
 		'after_widget'  => '',
@@ -42,8 +42,8 @@ function waboot_widgets_init() {
 	) );
 
 	register_sidebar( array(
-		'name'          => __( 'Footer 3', 'alienship' ),
-		'description'   => __( 'The third footer widget area, displayed below the Footer widget area.', 'alienship' ),
+		'name'          => __( 'Footer 3', 'waboot' ),
+		'description'   => __( 'The third footer widget area, displayed below the Footer widget area.', 'waboot' ),
 		'id'            => 'footer-3',
 		'before_widget' => '',
 		'after_widget'  => '',
@@ -68,10 +68,10 @@ function waboot_wp_login_form( $args = array() ) {
 		'echo'           => true,
 		'redirect'       => ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'], // Default redirect is back to the current page
 		'form_id'        => 'loginform',
-		'label_username' => __( 'Username', 'alienship' ),
-		'label_password' => __( 'Password', 'alienship' ),
-		'label_remember' => __( 'Remember Me', 'alienship' ),
-		'label_log_in'   => __( 'Log In', 'alienship' ),
+		'label_username' => __( 'Username', 'waboot' ),
+		'label_password' => __( 'Password', 'waboot' ),
+		'label_remember' => __( 'Remember Me', 'waboot' ),
+		'label_log_in'   => __( 'Log In', 'waboot' ),
 		'id_username'    => 'user_login',
 		'id_password'    => 'user_pass',
 		'id_remember'    => 'rememberme',

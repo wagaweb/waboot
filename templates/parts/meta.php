@@ -3,7 +3,7 @@
  * The template used to load meta elements in header*.php
  *
  * @package Waboot
- * @since Alien Ship 0.70
+ * @since Waboot 1.0
  */
 ?>
 <meta charset="<?php bloginfo( 'charset' ); ?>" />

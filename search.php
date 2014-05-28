@@ -3,7 +3,7 @@
  * The template for displaying Search Results pages.
  *
  * @package Waboot
- * @since Alien Ship 0.1
+ * @since Waboot 1.0
  */
 
 get_header(); ?>
@@ -16,7 +16,7 @@ get_header(); ?>
 		<?php if ( have_posts() ) { ?>
 
 			<header id="search-results-header" class="page-header">
-				<h1 id="search-results-title" class="page-title"><?php printf( __( 'Search Results for: %s', 'alienship' ), '<span>' . get_search_query() . '</span>' ); ?></h1>
+				<h1 id="search-results-title" class="page-title"><?php printf( __( 'Search Results for: %s', 'waboot' ), '<span>' . get_search_query() . '</span>' ); ?></h1>
 			</header>
 
 			<?php

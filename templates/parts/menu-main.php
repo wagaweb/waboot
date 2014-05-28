@@ -3,20 +3,20 @@
  * The template used to load the Main Menu in header*.php
  *
  * @package Waboot
- * @since Alien Ship 0.70
+ * @since Waboot 1.0
  */
 ?>
     <!-- Main menu -->
     <?php if (of_get_option('waboot_float_navbar', 1) ) : ?>
-		<nav id="navbar-2" class="<?php echo apply_filters( 'alienship_main_navbar_class' , 'navbar navbar-default main-navigation' ); ?>" role="navigation">
+		<nav id="navbar-2" class="<?php echo apply_filters( 'waboot_main_navbar_class' , 'navbar navbar-default main-navigation' ); ?>" role="navigation">
 
             <div id="logo">
             <?php if ( of_get_option( 'waboot_logo_in_navbar' ) ) : ?>
                 <a href="<?php echo home_url( '/' ); ?>"><img src="<?php echo of_get_option( 'waboot_logo_in_navbar' ); ?>"> </a>
             <?php else : ?>
                 <?php
-                    do_action( 'alienship_site_title' );
-                    do_action( 'alienship_site_description' );
+                    do_action( 'waboot_site_title' );
+                    do_action( 'waboot_site_description' );
                 ?>
             <?php endif; ?>
             </div>
@@ -54,7 +54,7 @@
                 <?php if ( of_get_option( 'waboot_search_bar', '1' ) ) : ?>
                     <form id="searchform" class="navbar-form navbar-right" role="search" action="<?php echo site_url(); ?>" method="get">
                         <div class="form-group">
-                            <input id="s" name="s" type="text" class="form-control" placeholder="<?php esc_attr_e( 'Search &hellip;', 'alienship' ); ?>" value="<?php echo esc_attr( get_search_query() ); ?>">
+                            <input id="s" name="s" type="text" class="form-control" placeholder="<?php esc_attr_e( 'Search &hellip;', 'waboot' ); ?>" value="<?php echo esc_attr( get_search_query() ); ?>">
                         </div>
                         <button id="searchsubmit" type="submit" name="submit" class="btn btn-default">Submit</button>
                     </form>
@@ -62,7 +62,7 @@
             </div>
 	    </nav>
     <?php else : ?>
-		<nav id="navbar-1" class="<?php echo apply_filters( 'alienship_main_navbar_class' , 'navbar navbar-default main-navigation' ); ?>" role="navigation">
+		<nav id="navbar-1" class="<?php echo apply_filters( 'waboot_main_navbar_class' , 'navbar navbar-default main-navigation' ); ?>" role="navigation">
             <?php if ( is_active_sidebar( 'header-left' ) or of_get_option('waboot_social_position') === 'header-left' ) : ?>
                 <div id="header-left">
                     <?php if ( of_get_option('waboot_social_position') === 'header-left' ) { include 'social-widget.php'; } ?>
@@ -114,7 +114,7 @@
 			if ( of_get_option( 'waboot_search_bar', '1' ) ) : ?>
 				<form id="searchform" class="navbar-form navbar-right" role="search" action="<?php echo site_url(); ?>" method="get">
 					<div class="form-group">
-						<input id="s" name="s" type="text" class="form-control" placeholder="<?php esc_attr_e( 'Search &hellip;', 'alienship' ); ?>" value="<?php echo esc_attr( get_search_query() ); ?>">
+						<input id="s" name="s" type="text" class="form-control" placeholder="<?php esc_attr_e( 'Search &hellip;', 'waboot' ); ?>" value="<?php echo esc_attr( get_search_query() ); ?>">
 					</div>
 					<button id="searchsubmit" type="submit" name="submit" class="btn btn-default">Submit</button>
 				</form>

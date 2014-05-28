@@ -20,7 +20,7 @@ class waboot_Widget_Login extends WP_Widget {
 		/* Set up the widget options. */
 		$widget_options = array(
 			'classname'   => 'login',
-			'description' => esc_html__( 'A widget that allows users to log into your site.', 'alienship' )
+			'description' => esc_html__( 'A widget that allows users to log into your site.', 'waboot' )
 		);
 
 		/* Set up the widget control options. */
@@ -31,7 +31,7 @@ class waboot_Widget_Login extends WP_Widget {
 		);
 
 		/* Create the widget. */
-		$this->WP_Widget( 'waboot-widget-login', esc_attr__( 'Login Form', 'alienship' ), $widget_options, $control_options );
+		$this->WP_Widget( 'waboot-widget-login', esc_attr__( 'Login Form', 'waboot' ), $widget_options, $control_options );
 	}
 
 	/**
@@ -111,7 +111,7 @@ class waboot_Widget_Login extends WP_Widget {
 			<p style="margin-top: 7px;"><?php echo $logged_out_text; ?></p>
 			<?php
 			/* Output the login form. */
-			echo '<div class="waboot-login-form">' . alienship_wp_login_form( $args ) . '</div>';
+			echo '<div class="waboot-login-form">' . waboot_wp_login_form( $args ) . '</div>';
 			wp_register('<span class="register-link-widget">', '</span>');
 		}
 
@@ -162,11 +162,11 @@ class waboot_Widget_Login extends WP_Widget {
 
 		/* Set up the default form values. */
 		$defaults = array(
-			'title'           => esc_attr__( 'Log In', 'alienship' ),
-			'label_username'  => esc_attr__( 'Username', 'alienship' ),
-			'label_password'  => esc_attr__( 'Password', 'alienship' ),
-			'label_log_in'    => esc_attr__( 'Log In', 'alienship' ),
-			'label_remember'  => esc_attr__( 'Remember Me', 'alienship' ),
+			'title'           => esc_attr__( 'Log In', 'waboot' ),
+			'label_username'  => esc_attr__( 'Username', 'waboot' ),
+			'label_password'  => esc_attr__( 'Password', 'waboot' ),
+			'label_log_in'    => esc_attr__( 'Log In', 'waboot' ),
+			'label_remember'  => esc_attr__( 'Remember Me', 'waboot' ),
 			'form_id'         => 'loginform',
 			'id_username'     => 'user_login',
 			'id_password'     => 'user_pass',
@@ -176,8 +176,8 @@ class waboot_Widget_Login extends WP_Widget {
 			'value_remember'  => false,
 			'value_username'  => '',
 			'show_avatar'     => true,
-			'logged_out_text' => esc_html__( 'Please log into the site.', 'alienship' ),
-			'logged_in_text'  => esc_html__( 'Logged in as', 'alienship' )
+			'logged_out_text' => esc_html__( 'Please log into the site.', 'waboot' ),
+			'logged_in_text'  => esc_html__( 'Logged in as', 'waboot' )
 		);
 
 		/* Merge the user-selected arguments with the defaults. */
@@ -189,7 +189,7 @@ class waboot_Widget_Login extends WP_Widget {
 		<div style="float: left; width: 31%; margin-right: 3.5%;">
 
 		<p>
-			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php esc_html_e( 'Title:', 'alienship' ); ?></label>
+			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php esc_html_e( 'Title:', 'waboot' ); ?></label>
 			<input type="text" class="widefat code" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" value="<?php echo $instance['title']; ?>" />
 		</p>
 		<p>
@@ -239,23 +239,23 @@ class waboot_Widget_Login extends WP_Widget {
 
 		<p>
 			<input class="checkbox" type="checkbox" <?php checked( $instance['remember'], true ); ?> id="<?php echo $this->get_field_id( 'remember' ); ?>" name="<?php echo $this->get_field_name( 'remember' ); ?>" />
-			<label for="<?php echo $this->get_field_id( 'remember' ); ?>"><?php _e( '"Remember me" checkbox?', 'alienship' ); ?> <code>remember</code></label>
+			<label for="<?php echo $this->get_field_id( 'remember' ); ?>"><?php _e( '"Remember me" checkbox?', 'waboot' ); ?> <code>remember</code></label>
 		</p>
 		<p>
 			<input class="checkbox" type="checkbox" <?php checked( $instance['value_remember'], true ); ?> id="<?php echo $this->get_field_id( 'value_remember' ); ?>" name="<?php echo $this->get_field_name( 'value_remember' ); ?>" />
-			<label for="<?php echo $this->get_field_id( 'value_remember' ); ?>"><?php _e( 'Check "remember me"?', 'alienship' ); ?> <code>value_remember</code></label>
+			<label for="<?php echo $this->get_field_id( 'value_remember' ); ?>"><?php _e( 'Check "remember me"?', 'waboot' ); ?> <code>value_remember</code></label>
 		</p>
 		<p>
 			<label for="<?php echo $this->get_field_id( 'show_avatar' ); ?>">
-			<input class="checkbox" type="checkbox" <?php checked( $instance['show_avatar'], true ); ?> id="<?php echo $this->get_field_id( 'show_avatar' ); ?>" name="<?php echo $this->get_field_name( 'show_avatar' ); ?>" /> <?php _e('Display avatar?', 'alienship'); ?></label>
+			<input class="checkbox" type="checkbox" <?php checked( $instance['show_avatar'], true ); ?> id="<?php echo $this->get_field_id( 'show_avatar' ); ?>" name="<?php echo $this->get_field_name( 'show_avatar' ); ?>" /> <?php _e('Display avatar?', 'waboot'); ?></label>
 		</p>
 		<p>
-			<label for="<?php echo $this->get_field_id( 'logged_out_text' ); ?>"><?php _e( 'Logged out text:', 'alienship' ); ?></label>
+			<label for="<?php echo $this->get_field_id( 'logged_out_text' ); ?>"><?php _e( 'Logged out text:', 'waboot' ); ?></label>
 			<textarea class="widefat" rows="2" cols="20" id="<?php echo $this->get_field_id( 'logged_out_text' ); ?>" name="<?php echo $this->get_field_name('logged_out_text'); ?>" style="width:100%;"><?php echo $logged_out_text; ?></textarea>
 		</p>
 
 		<p>
-			<label for="<?php echo $this->get_field_id( 'logged_in_text' ); ?>"><?php _e( 'Logged in text:', 'alienship' ); ?></label>
+			<label for="<?php echo $this->get_field_id( 'logged_in_text' ); ?>"><?php _e( 'Logged in text:', 'waboot' ); ?></label>
 			<textarea class="widefat" rows="2" cols="20" id="<?php echo $this->get_field_id( 'logged_in_text' ); ?>" name="<?php echo $this->get_field_name('logged_in_text'); ?>" style="width:100%;"><?php echo $logged_in_text; ?></textarea>
 		</p>
 

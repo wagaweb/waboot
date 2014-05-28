@@ -7,7 +7,7 @@ if ( ! function_exists( 'waboot_do_site_title' ) ):
     /**
      * Displays site title at top of page
      *
-     * @since 1.1.1
+     * @since 1.0
      */
     function waboot_do_site_title() {
 
@@ -30,7 +30,7 @@ if( ! function_exists( 'waboot_do_site_description' ) ):
     /**
      * Displays site description at top of page
      *
-     * @since 1.1.1
+     * @since 1.0
      */
     function waboot_do_site_description() {
 
@@ -41,7 +41,7 @@ if( ! function_exists( 'waboot_do_site_description' ) ):
         $description = '<' . $element . ' id="site-description" class="site-description">' . esc_html( get_bloginfo( 'description' ) ) . '</' . $element . '>';
 
         // Echo the description
-        echo apply_filters( 'alienship_site_description_content', $description );
+        echo apply_filters( 'waboot_site_description_content', $description );
     }
     add_action( 'waboot_site_description', 'waboot_do_site_description' );
 endif;
@@ -63,46 +63,46 @@ if ( ! function_exists( 'waboot_do_archive_page_title' ) ):
                     single_tag_title();
 
                 } elseif ( is_author() ) {
-                    printf( __( 'Author: %s', 'alienship' ), '<span class="vcard"><a class="url fn n" href="' . get_author_posts_url( get_the_author_meta( "ID" ) ) . '" title="' . esc_attr( get_the_author() ) . '" rel="me">' . get_the_author() . '</a></span>' );
+                    printf( __( 'Author: %s', 'waboot' ), '<span class="vcard"><a class="url fn n" href="' . get_author_posts_url( get_the_author_meta( "ID" ) ) . '" title="' . esc_attr( get_the_author() ) . '" rel="me">' . get_the_author() . '</a></span>' );
 
                 } elseif ( is_day() ) {
-                    printf( __( 'Day: %s', 'alienship' ), '<span>' . get_the_date() . '</span>' );
+                    printf( __( 'Day: %s', 'waboot' ), '<span>' . get_the_date() . '</span>' );
 
                 } elseif ( is_month() ) {
-                    printf( __( 'Month: %s', 'alienship' ), '<span>' . get_the_date( 'F Y' ) . '</span>' );
+                    printf( __( 'Month: %s', 'waboot' ), '<span>' . get_the_date( 'F Y' ) . '</span>' );
 
                 } elseif ( is_year() ) {
-                    printf( __( 'Year: %s', 'alienship' ), '<span>' . get_the_date( 'Y' ) . '</span>' );
+                    printf( __( 'Year: %s', 'waboot' ), '<span>' . get_the_date( 'Y' ) . '</span>' );
 
                 } elseif ( is_tax( 'post_format', 'post-format-aside' ) ) {
-                    _e( 'Asides', 'alienship' );
+                    _e( 'Asides', 'waboot' );
 
                 } elseif ( is_tax( 'post_format', 'post-format-gallery' ) ) {
-                    _e( 'Galleries', 'alienship');
+                    _e( 'Galleries', 'waboot');
 
                 } elseif ( is_tax( 'post_format', 'post-format-image' ) ) {
-                    _e( 'Images', 'alienship');
+                    _e( 'Images', 'waboot');
 
                 } elseif ( is_tax( 'post_format', 'post-format-video' ) ) {
-                    _e( 'Videos', 'alienship' );
+                    _e( 'Videos', 'waboot' );
 
                 } elseif ( is_tax( 'post_format', 'post-format-quote' ) ) {
-                    _e( 'Quotes', 'alienship' );
+                    _e( 'Quotes', 'waboot' );
 
                 } elseif ( is_tax( 'post_format', 'post-format-link' ) ) {
-                    _e( 'Links', 'alienship' );
+                    _e( 'Links', 'waboot' );
 
                 } elseif ( is_tax( 'post_format', 'post-format-status' ) ) {
-                    _e( 'Statuses', 'alienship' );
+                    _e( 'Statuses', 'waboot' );
 
                 } elseif ( is_tax( 'post_format', 'post-format-audio' ) ) {
-                    _e( 'Audios', 'alienship' );
+                    _e( 'Audios', 'waboot' );
 
                 } elseif ( is_tax( 'post_format', 'post-format-chat' ) ) {
-                    _e( 'Chats', 'alienship' );
+                    _e( 'Chats', 'waboot' );
 
                 } else {
-                    _e( 'Archives', 'alienship' );
+                    _e( 'Archives', 'waboot' );
 
                 } ?>
             </h1>

@@ -1,7 +1,7 @@
 <?php
 /**
  * @package Waboot
- * @since Alien Ship 0.1
+ * @since Waboot 1.0
  */
 
 do_action( 'waboot_post_before' ); ?>

@@ -5,7 +5,7 @@
  * Contains the closing of the id=main div and all content after
  *
  * @package Waboot
- * @since Alien Ship 0.1
+ * @since Waboot 1.0
  */
 ?>
 

@@ -8,7 +8,7 @@
 ?>
     <!-- Main menu -->
 
-    <nav id="navbar-3" class="<?php echo apply_filters( 'alienship_main_navbar_class' , 'navbar navbar-default main-navigation' ); ?>" role="navigation">
+    <nav id="navbar-3" class="<?php echo apply_filters( 'waboot_main_navbar_class' , 'navbar navbar-default main-navigation' ); ?>" role="navigation">
 
         <div id="logo">
             <?php if ( of_get_option( 'waboot_logo_in_navbar' ) != "" ) : ?>
@@ -55,7 +55,7 @@
             <?php if ( of_get_option( 'waboot_search_bar', '1' ) ) : ?>
                 <form id="searchform" class="navbar-form navbar-right" role="search" action="<?php echo site_url(); ?>" method="get">
                     <div class="form-group">
-                        <input id="s" name="s" type="text" class="form-control" placeholder="<?php esc_attr_e( 'Search &hellip;', 'alienship' ); ?>" value="<?php echo esc_attr( get_search_query() ); ?>">
+                        <input id="s" name="s" type="text" class="form-control" placeholder="<?php esc_attr_e( 'Search &hellip;', 'waboot' ); ?>" value="<?php echo esc_attr( get_search_query() ); ?>">
                     </div>
                     <button id="searchsubmit" type="submit" name="submit" class="btn btn-default">Submit</button>
                 </form>

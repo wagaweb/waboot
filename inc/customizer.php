@@ -38,7 +38,7 @@ function waboot_customize_register( $wp_customize ) {
 
 	$wp_customize->add_control( 'alienship_show_top_navbar', array(
 		'settings' => 'optionsframework_alienship[alienship_show_top_navbar]',
-		'label'    => __( 'Display the Top Menu navigation bar, even if there\'s no menu assigned.', 'alienship' ),
+		'label'    => __( 'Display the Top Menu navigation bar, even if there\'s no menu assigned.', 'waboot' ),
 		'section'  => 'nav',
 		'type'     => 'checkbox',
 	) );
@@ -53,7 +53,7 @@ function waboot_customize_register( $wp_customize ) {
 	// Add search bar control to nav section
 	$wp_customize->add_control( 'alienship_search_bar', array(
 		'settings' => 'optionsframework_alienship[alienship_search_bar]',
-		'label'    => __( 'Display search box in the Top Menu', 'alienship' ),
+		'label'    => __( 'Display search box in the Top Menu', 'waboot' ),
 		'section'  => 'nav',
 		'type'     => 'checkbox',
 	) );
@@ -64,7 +64,7 @@ function waboot_customize_register( $wp_customize ) {
 	 * Miscellaneous
 	 */
 	$wp_customize->add_section( 'alienship_misc_options', array(
-		'title'    => __( 'Miscellaneous', 'alienship' ),
+		'title'    => __( 'Miscellaneous', 'waboot' ),
 		'priority' => 120,
 	) );
 
@@ -79,7 +79,7 @@ function waboot_customize_register( $wp_customize ) {
 	// Add published date control
 	$wp_customize->add_control( 'alienship_published_date', array(
 		'settings' => 'optionsframework_alienship[alienship_published_date]',
-		'label'    => __( 'Display published date under each post', 'alienship' ),
+		'label'    => __( 'Display published date under each post', 'waboot' ),
 		'section'  => 'alienship_misc_options',
 		'type'     => 'checkbox',
 	) );
@@ -97,7 +97,7 @@ function waboot_customize_register( $wp_customize ) {
 	// Add post author control
 	$wp_customize->add_control( 'alienship_post_author', array(
 		'settings' => 'optionsframework_alienship[alienship_post_author]',
-		'label'    => __( 'Display post author name under each post', 'alienship' ),
+		'label'    => __( 'Display post author name under each post', 'waboot' ),
 		'section'  => 'alienship_misc_options',
 		'type'     => 'checkbox',
 	) );
@@ -115,7 +115,7 @@ function waboot_customize_register( $wp_customize ) {
 	// Add post category control
 	$wp_customize->add_control( 'alienship_post_categories', array(
 		'settings' => 'optionsframework_alienship[alienship_post_categories]',
-		'label'    => __( 'Display post categories under each post', 'alienship' ),
+		'label'    => __( 'Display post categories under each post', 'waboot' ),
 		'section'  => 'alienship_misc_options',
 		'type'     => 'checkbox',
 	) );
@@ -133,7 +133,7 @@ function waboot_customize_register( $wp_customize ) {
 	// Add post tags control
 	$wp_customize->add_control( 'alienship_post_tags', array(
 		'settings' => 'optionsframework_alienship[alienship_post_tags]',
-		'label'    => __( 'Display post tags under each post', 'alienship' ),
+		'label'    => __( 'Display post tags under each post', 'waboot' ),
 		'section'  => 'alienship_misc_options',
 		'type'     => 'checkbox',
 	) );
@@ -151,7 +151,7 @@ function waboot_customize_register( $wp_customize ) {
 	// Add post comments link control
 	$wp_customize->add_control( 'alienship_post_comments_link', array(
 		'settings' => 'optionsframework_alienship[alienship_post_comments_link]',
-		'label'    => __( 'Display "Leave a Comment" text under each post', 'alienship' ),
+		'label'    => __( 'Display "Leave a Comment" text under each post', 'waboot' ),
 		'section'  => 'alienship_misc_options',
 		'type'     => 'checkbox',
 	) );
