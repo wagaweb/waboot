@@ -52,9 +52,11 @@ add_action( 'init', 'waboot_editor_styles' );
  */
 function waboot_post_type_editor_styles(){
     global $post;
-    $post_type = get_post_type( $post->ID );
-    $editor_style = 'tinymce-' . $post_type . '.css'; //Es: tinymce-post.css
-    add_editor_style( "admin/css/".$editor_style );
+    if(isset($post->ID)){
+        $post_type = get_post_type( $post->ID );
+        $editor_style = 'tinymce-' . $post_type . '.css'; //Es: tinymce-post.css
+        add_editor_style( "admin/css/".$editor_style );
+    }
 }
 add_action( 'pre_get_posts', 'waboot_post_type_editor_styles' );
 

@@ -9,7 +9,7 @@
 class BootstrapNavMenuWalker extends Walker_Nav_Menu {
 
 
-    function start_lvl( &$output, $depth ) {
+    function start_lvl( &$output, $depth = 0, $args = array() ) {
 
         $indent = str_repeat( "\t", $depth );
         $submenu = ($depth > 0) ? ' sub-menu' : '';

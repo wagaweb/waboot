@@ -4,7 +4,7 @@ require_once("vendor/BootstrapNavMenuWalker.php");
 
 class WabootNavMenuWalker extends BootstrapNavMenuWalker {
 
-    function start_lvl( &$output, $depth ) {
+    function start_lvl( &$output, $depth = 0, $args = array() ) {
 
         $padding = 10 * $depth;
         $padding_output = "style='margin-left:{$padding}px'";
@@ -51,7 +51,7 @@ class WabootNavMenuWalker extends BootstrapNavMenuWalker {
         $id = apply_filters( 'nav_menu_item_id', 'menu-item-'. $item->ID, $item, $args );
         $id = strlen( $id ) ? ' id="' . esc_attr( $id ) . '"' : '';
 
-        $output .= $indent . '<li' . $id . $value . $class_names . $li_attributes . $padding_output . '>';
+        $output .= $indent . '<li' . $id . $value . $class_names . $li_attributes . '>';
 
         $attributes  = ! empty( $item->attr_title ) ? ' title="'  . esc_attr( $item->attr_title ) .'"' : '';
         $attributes .= ! empty( $item->target )     ? ' target="' . esc_attr( $item->target     ) .'"' : '';
