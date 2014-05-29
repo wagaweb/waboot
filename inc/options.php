@@ -260,14 +260,6 @@ function optionsframework_options() {
     );
 
     $options[] = array(
-        'name' => __( 'Show Top Menu navigation bar?', 'waboot' ),
-        'desc' => __( 'Displays the top navbar on your site, even if there\'s no menu assigned in Appearance > Menu. Uncheck this box to hide it. Default is enabled.', 'waboot' ),
-        'id'   => 'waboot_show_top_navbar',
-        'std'  => '1',
-        'type' => 'checkbox'
-    );
-
-    $options[] = array(
         'name' => __( 'Show site name in Top Menu navigation bar?', 'waboot' ),
         'desc' => __( 'Default is enabled. Uncheck this box to hide site name in Top Menu navigation bar.', 'waboot' ),
         'id'   => 'waboot_name_in_navbar',
@@ -279,22 +271,6 @@ function optionsframework_options() {
         'name' => __( 'Show search bar in Top Menu navigation bar?', 'waboot' ),
         'desc' => __( 'Default is enabled. Uncheck this box to turn it off.', 'waboot' ),
         'id'   => 'waboot_search_bar',
-        'std'  => '1',
-        'type' => 'checkbox'
-    );
-
-    $options[] = array(
-        'name' => __( 'Show Breadcrumb Navigation?', 'waboot' ),
-        'desc' => __( 'Default is show. Uncheck this box to hide breadcrumbs.', 'waboot' ),
-        'id'   => 'waboot_breadcrumbs',
-        'std'  => '1',
-        'type' => 'checkbox'
-    );
-
-    $options[] = array(
-        'name' => __( 'Show Breadcrumb Navigation?', 'waboot' ),
-        'desc' => __( 'Default is show. Uncheck this box to hide breadcrumbs.', 'waboot' ),
-        'id'   => 'waboot_breadcrumbs',
         'std'  => '1',
         'type' => 'checkbox'
     );
