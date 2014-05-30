@@ -52,7 +52,7 @@ function waboot_widgets_init() {
 	) );
 
     register_sidebar( array(
-        'name' => 'Tob Bar',
+        'name' => 'Top Bar',
         'id' => 'topbar',
         'before_widget' => '<div id="%1$s" class="widget %2$s">',
         'after_widget' => '</div>',

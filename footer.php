@@ -36,11 +36,11 @@
 	<div class="container">
 		<div class="row">
 
-			<div class="bottom-navigation col-sm-8 col-sm-push-4">
+			<div class="bottom-navigation col-sm-6 col-sm-push-6">
 				<?php if ( of_get_option('waboot_social_position') === 'footer' ) { ?>
 					<?php get_template_part( 'templates/parts/social-widget'); ?>
 				<?php } ?>
-				
+
 				<?php if ( has_nav_menu( 'bottom' ) ) {
 					wp_nav_menu( array(
 						'theme_location' => 'bottom',
@@ -49,8 +49,9 @@
 						)
 					);
 				} ?>
+
 			</div><!-- .bottom-navigation -->
-			<div class="footer-text col-sm-4 col-sm-pull-8">
+			<div class="footer-text col-sm-6 col-sm-pull-6">
 				<?php if ( of_get_option('waboot_custom_footer_toggle') ) {
 					echo '' . of_get_option('waboot_custom_footer_text') . '';
 				} else {

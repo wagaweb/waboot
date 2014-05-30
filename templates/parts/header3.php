@@ -27,9 +27,6 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <?php if (of_get_option('waboot_name_in_navbar',1) ) : ?>
-                    <a class="navbar-brand" href="<?php echo home_url( '/' ); ?>"><?php bloginfo( 'name' ); ?></a>
-                <?php endif; ?>
             </div>
 
         </div>
