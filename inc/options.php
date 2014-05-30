@@ -7,13 +7,13 @@
  */
 function optionsframework_option_name() {
 
-  // This gets the theme name from the stylesheet
-  $themename = get_option( 'stylesheet' );
-  $themename = preg_replace("/\W/", "_", strtolower($themename) );
+    // This gets the theme name from the stylesheet
+    $themename = get_option( 'stylesheet' );
+    $themename = preg_replace("/\W/", "_", strtolower($themename) );
 
-  $optionsframework_settings = get_option('optionsframework');
-  $optionsframework_settings['id'] = $themename;
-  update_option('optionsframework', $optionsframework_settings);
+    $optionsframework_settings = get_option('optionsframework');
+    $optionsframework_settings['id'] = $themename;
+    update_option('optionsframework', $optionsframework_settings);
 }
 
 /**
@@ -27,7 +27,7 @@ function optionsframework_options() {
     $options_categories = array();
     $options_categories_obj = get_categories();
     foreach ($options_categories_obj as $category) {
-      $options_categories[$category->cat_ID] = $category->cat_name;
+        $options_categories[$category->cat_ID] = $category->cat_name;
     }
 
     // Pull all the tags into an array
@@ -35,7 +35,7 @@ function optionsframework_options() {
     $options_tags_obj = get_tags( array('hide_empty' => false) );
     $options_tags[''] = __( 'Select a tag:', 'waboot' );
     foreach ($options_tags_obj as $tag) {
-      $options_tags[$tag->term_id] = $tag->name;
+        $options_tags[$tag->term_id] = $tag->name;
     }
 
     // Pull all the pages into an array
@@ -43,7 +43,7 @@ function optionsframework_options() {
     $options_pages_obj = get_pages('sort_column=post_parent,menu_order');
     $options_pages[''] = __( 'Select a page:', 'waboot' );
     foreach ($options_pages_obj as $page) {
-      $options_pages[$page->ID] = $page->post_title;
+        $options_pages[$page->ID] = $page->post_title;
     }
 
     // If using image radio buttons, define a directory path
@@ -54,9 +54,9 @@ function optionsframework_options() {
     // WABOOT SETTINGS TABS
 
 
-     /*
-     * LAYOUT TAB
-     */
+    /*
+    * LAYOUT TAB
+    */
 
     $options[] = array(
         'name' => __( 'Layout', 'waboot' ),
@@ -260,19 +260,13 @@ function optionsframework_options() {
     );
 
     $options[] = array(
-        'name' => __( 'Show site name in Top Menu navigation bar?', 'waboot' ),
-        'desc' => __( 'Default is enabled. Uncheck this box to hide site name in Top Menu navigation bar.', 'waboot' ),
-        'id'   => 'waboot_name_in_navbar',
-        'std'  => '1',
-        'type' => 'checkbox'
-    );
-
-    $options[] = array(
-        'name' => __( 'Show search bar in Top Menu navigation bar?', 'waboot' ),
-        'desc' => __( 'Default is enabled. Uncheck this box to turn it off.', 'waboot' ),
-        'id'   => 'waboot_search_bar',
-        'std'  => '1',
-        'type' => 'checkbox'
+        'name' => __( 'Top Nav Menu Position', 'waboot' ),
+        'desc' => __( 'Select the Top Nav Menu position', 'waboot' ),
+        'id' => 'waboot_topnavmenu_position',
+        'type' => 'select',
+        'options' => array(
+            'left' => 'Left',
+            'right' => 'Right')
     );
 
     $breadcrumb_location_posttypes = get_post_types();
@@ -312,6 +306,14 @@ function optionsframework_options() {
         'std' => 'header1',
         'type' => 'images',
         'options' => array( 'header1' => $imagepath . 'header1.png','header2' => $imagepath . 'header2.png','header3' => $imagepath . 'header3.png' )
+    );
+
+    $options[] = array(
+        'name' => __( 'Show search bar in Header?', 'waboot' ),
+        'desc' => __( 'Default is enabled. Uncheck this box to turn it off.', 'waboot' ),
+        'id'   => 'waboot_search_bar',
+        'std'  => '1',
+        'type' => 'checkbox'
     );
 
 
@@ -504,127 +506,6 @@ function optionsframework_options() {
         'id'   => 'waboot_social_feedrss',
         'type' => 'text'
     );
-
-
-
-
-
-    // Featured Posts tab
-    /*$options[] = array(
-        'name' => __( 'Featured Posts', 'waboot' ),
-        'type' => 'heading'
-    );
-
-    $options[] = array(
-        'name' => __( 'Featured Posts Information', 'waboot' ),
-        'desc' => __( 'This feature displays certain posts in a photo slider or in a block grid at the top of your post index. This is a good way to make special content stand out. You can feature any post here, according to the criteria you choose below. Don\'t forget to assign featured images to your posts in the post editor!', 'waboot' ),
-        'type' => 'info'
-    );
-
-    $options[] = array(
-        'name' => __( 'Enable Featured Posts?', 'waboot' ),
-        'desc' => __( 'Check this box to turn on featured posts functionality. Set the options below to determine how your featured posts will work. Default is disabled.', 'waboot' ),
-        'id'   => 'waboot_featured_posts',
-        'std'  => '0',
-        'type' => 'checkbox'
-    );
-
-    $options[] = array(
-        'name'    => __( 'Display Featured Posts in a slider or in a grid?', 'waboot' ),
-        'desc'    => __( 'Displays your featured posts in either a photo slider or a block grid. The default setting is Slider.', 'waboot' ),
-        'id'      => 'waboot_featured_posts_display_type',
-        'std'     => '1',
-        'type'    => 'radio',
-        'options' => array(
-            '1' => __( 'Slider', 'waboot' ),
-            '0' => __( 'Grid', 'waboot' )
-        )
-    );
-
-    $options[] = array(
-        'name'    => __( 'Featured Posts Tag', 'waboot' ),
-        'desc'    => __( 'The tag you select here determines which posts show in the featured posts slider or grid. Example: if you were to select the moo tag, posts tagged with moo would be displayed. Don\'t forget to attach your featured images in the post editor!', 'waboot' ),
-        'id'      => 'waboot_featured_posts_tag',
-        'type'    => 'select',
-        'class'   => 'mini',
-        'options' => $options_tags
-    );
-
-    $options[] = array(
-        'name'    => __( 'Maximum # of Featured Posts to display', 'waboot' ),
-        'desc'    => __( 'Select the maximum number of posts you want to display in the featured posts slider or grid. The default is three. NOTE: The grid displays two posts per row. For best results, select an even number here.', 'waboot' ),
-        'id'      => 'waboot_featured_posts_maxnum',
-        'std'     => '3',
-        'type'    => 'radio',
-        'options' => array(
-            '1' => __( 'One', 'waboot' ),
-            '2' => __( 'Two', 'waboot' ),
-            '3' => __( 'Three', 'waboot' ),
-            '4' => __( 'Four', 'waboot' ),
-            '5' => __( 'Five', 'waboot' ),
-            '6' => __( 'Six', 'waboot' )
-        )
-    );
-
-    $options[] = array(
-        'name'    => __( 'Captions' ,'waboot' ),
-        'desc'    => __( 'Show post titles as captions with slider images. Default is Show.', 'waboot' ),
-        'id'      => 'waboot_featured_posts_captions',
-        'std'     => '1',
-        'type'    => 'radio',
-        'options' => array(
-            '1' => __( 'Show slide captions', 'waboot' ),
-            '0' => __( 'Hide slide captions', 'waboot' )
-        )
-    );
-
-    $options[] = array(
-        'name'    => __( 'Indicators' ,'waboot' ),
-        'desc'    => __( 'Show indicators at the bottom of the slider that show the current slideshow position and allow for navigation between slides. Default is Hide.', 'waboot' ),
-        'id'      => 'waboot_featured_posts_indicators',
-        'std'     => '0',
-        'type'    => 'radio',
-        'options' => array(
-            '1' => __( 'Show slide indicators', 'waboot' ),
-            '0' => __( 'Hide slide indicators', 'waboot' )
-        )
-    );
-
-    $options[] = array(
-        'name'    => __( 'Duplicate featured posts' ,'waboot' ),
-        'desc'    => __( 'Show posts from the featured content section in the rest of the body. Default is Hide.', 'waboot' ),
-        'id'      => 'waboot_featured_posts_show_dupes',
-        'std'     => '0',
-        'type'    => 'radio',
-        'options' => array(
-            '1' => __( 'Show duplicate posts', 'waboot' ),
-            '0' => __( 'Hide duplicate posts', 'waboot' )
-        )
-    );
-
-    $options[] = array(
-        'name' => __( 'Featured Posts Images', 'waboot' ),
-        'desc' => __( 'A note about images: For best results, all of your images should be the same size (preferably the size you set below). If they are not the same size, your content will not look as good. For example: the photo slider will display images of varying sizes, but when it does the slider resizes itself between each slide. The grid will not display evenly if images are different sizes.', 'waboot' ),
-        'type' => 'info'
-    );
-
-    $options[] = array(
-        'name'  => __( 'Featured post image width', 'waboot' ),
-        'desc'  => __( 'Enter the width (in pixels) you want the featured images to be. Default is 850 pixels.', 'waboot' ),
-        'id'    => 'waboot_featured_posts_image_width',
-        'std'   => '850',
-        'class' => 'mini',
-        'type'  => 'text'
-    );
-
-    $options[] = array(
-        'name'  => __( 'Featured post image height', 'waboot' ),
-        'desc'  => __( 'Enter the height (in pixels) you want the featured images to be. Default is 350 pixels.', 'waboot' ),
-        'id'    => 'waboot_featured_posts_image_height',
-        'std'   => '350',
-        'class' => 'mini',
-        'type'  => 'text'
-    );*/
 
     return $options;
 }

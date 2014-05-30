@@ -25,12 +25,6 @@
         <?php if ( is_active_sidebar( 'topbar' ) || (of_get_option('waboot_social_position') == 'topnav-right' || of_get_option('waboot_social_position') == 'topnav-left' ) || has_nav_menu( 'top' )) : ?>
             <!-- Navbar: Begin -->
             <div id="topnav-wrapper" class="<?php echo of_get_option( 'waboot_topnav_width','container-fluid' ); ?> ">
-                <?php dynamic_sidebar( 'topbar' ); ?>
-
-                <?php
-                    if(has_nav_menu( 'top' ))
-                        get_template_part( '/templates/parts/menu', 'top' );
-                ?>
 
                 <?php if ( of_get_option('waboot_social_position') == 'topnav-left' ) : ?>
                     <div class="pull-left"> <?php get_template_part('/templates/parts/social-widget'); ?> </div><!-- .pull-left -->
@@ -38,6 +32,19 @@
                 <?php if ( of_get_option('waboot_social_position') == 'topnav-right' ) : ?>
                     <div class="pull-right"> <?php get_template_part('/templates/parts/social-widget'); ?> </div><!-- .pull-right -->
                 <?php endif; ?>
+
+                <?php if ( of_get_option('waboot_topnavmenu_position') == 'left' ) : ?>
+                    <div class="pull-left">
+                        <?php if(has_nav_menu( 'top' )) get_template_part( '/templates/parts/menu', 'top' ); ?>
+                    </div>
+                <?php endif; ?>
+                <?php if ( of_get_option('waboot_topnavmenu_position') == 'right' ) : ?>
+                    <div class="pull-right">
+                        <?php if(has_nav_menu( 'top' )) get_template_part( '/templates/parts/menu', 'top' ); ?>
+                    </div>
+                <?php endif; ?>
+
+                <?php dynamic_sidebar( 'topbar' ); ?>
 
             </div>
             <!-- Navbar: End -->

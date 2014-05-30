@@ -55,6 +55,22 @@ ul, ol {
   word-wrap: break-word;
 }
 
+a:link {
+  text-decoration: none;
+}
+
+a:visited {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+a:active {
+  text-decoration: none;
+}
+
 span {
   word-wrap: break-word;
 }
@@ -110,7 +126,11 @@ table td {
 
 /* Top Navigation */
 
-.top-navigation #social-widget {
+#topnav-wrapper > .widget {
+    float: left;
+}
+
+#topnav-wrapper #social-widget {
 	padding: 13px 0;
 }
 
@@ -124,6 +144,10 @@ table td {
 	margin-bottom: 0;
 	border: 0;
 	border-radius: 0;
+}
+
+.navbar .navbar-toggle {
+  margin-right: 0;
 }
 
 .navbar .navbar-brand {
@@ -189,6 +213,11 @@ table td {
   float: right;
 }
 
+#navbar-2 #header-left .widget,
+#navbar-2 #header-right .widget {
+  float: right;
+}
+
 #navbar-3 #header-right {
   float: right;
   margin-bottom: 0px;
@@ -231,6 +260,11 @@ table td {
   padding-bottom: 20px;
 }
 
+.breadcrumb-trail {
+  margin-bottom: 15px;
+  font-size: 0.9em;
+}
+
 article {
   margin-bottom: 20px;
 }
@@ -260,6 +294,11 @@ article {
 
 /* Footer */
 
+#footer-wrapper {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
 .site-footer {
 	padding: 20px 0;
 }
@@ -275,11 +314,11 @@ article {
 
 #navbar-1 #header-right #social-widget,
 footer#colophon #social-widget {
-  float: right;
+  text-align: right;
 }
 
 #social-widget a {
-	float: left;
+	display: inline-block;
 	margin: 0px 5px;
 	width: 24px;
 	height: 24px;
@@ -533,8 +572,13 @@ ins {
 /* Media Query */
 
 @media only screen and (max-width: 767px) {
-	
-  .top-navigation {
+
+  #topnav-wrapper .pull-left,
+  #topnav-wrapper .pull-right {
+    float: none !important;
+  }
+
+  #topnav-wrapper .navbar {
     display: none;
   }
 
@@ -559,6 +603,11 @@ ins {
 
   #header-wrapper .main-navigation .navbar-collapse {
     clear: both;
+  }
+
+  footer#colophon #social-widget {
+    text-align: center;
+    margin-bottom: 20px;
   }
 	
 }
@@ -605,6 +654,14 @@ ins {
 
   #masthead .navbar-toggle {
     display: inline-block;
+  }
+
+  #navbar-1 #header-left,
+  #navbar-1 #header-right,
+  #navbar-2 #header-left,
+  #navbar-2 #header-right{
+    margin-bottom: 0px;
+    margin-top: 0px;
   }
 
   #navbar-2 #header-left {

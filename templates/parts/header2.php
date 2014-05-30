@@ -21,6 +21,7 @@
             <?php dynamic_sidebar( 'header-left' ); ?>
         </div>
 
+
         <div id="logo" class="col-md-6 col-xs-12">
             <?php if ( of_get_option( 'waboot_logo_in_navbar' ) ) : ?>
                 <a href="<?php echo home_url( '/' ); ?>"><img src="<?php echo of_get_option( 'waboot_logo_in_navbar' ); ?>"> </a>
@@ -38,9 +39,6 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <?php if (of_get_option('waboot_name_in_navbar',1) ) : ?>
-                    <a class="navbar-brand" href="<?php echo home_url( '/' ); ?>"><?php bloginfo( 'name' ); ?></a>
-                <?php endif; ?>
             </div>
 
         </div>
