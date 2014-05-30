@@ -42,4 +42,10 @@ class Waboot_Cache extends Less_Cache{
 
         return 'lessphp_'.sha1(json_encode($temp)).'.css';
     }
+
+    public static function checkAjax(){
+        echo "ciao";
+        exit;
+    }
 }
+

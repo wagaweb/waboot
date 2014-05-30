@@ -7,7 +7,6 @@ jQuery(document).ready(function($) {
 
     jQuery('a[data-toggle]').on("click",function(){
         var url = jQuery(this).attr("href");
-        console.log(url);
         window.location = url;
     });
 });

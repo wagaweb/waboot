@@ -117,3 +117,20 @@ if ( ! function_exists( 'waboot_do_archive_page_title' ) ):
     <?php }
     add_action( 'waboot_archive_page_title', 'waboot_do_archive_page_title' );
 endif;
+
+function waboot_add_compile_sets($sets){
+    $theme = wp_get_theme()->stylesheet;
+    if($theme == "wship") $theme = "waboot"; //Brutal compatibility hack :)
+
+    return array_merge_recursive($sets,array(
+        "theme_frontend" => array(
+            "input" => get_stylesheet_directory()."/sources/less/{$theme}.less",
+            "output" => get_stylesheet_directory()."/assets/css/style.css",
+            "map" => get_stylesheet_directory()."/assets/css/style.css.map",
+            "map_url" => get_stylesheet_directory_uri().'/assets/css/style.css.map',
+            "cache" => get_stylesheet_directory()."/assets/css/cache",
+            "import_url" => get_stylesheet_directory_uri()
+        )
+    ));
+}
+add_filter('waboot_compile_sets','waboot_add_compile_sets');

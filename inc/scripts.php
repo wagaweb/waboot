@@ -15,6 +15,7 @@ function waboot_bootstrap_js_loader() {
 		wp_enqueue_script( 'waboot-helper.js', waboot_locate_template_uri( 'sources/js/waboot-helper.js' ), array('jquery'),'1.0.0', true);
 		wp_enqueue_script( 'dropdown-toggle.js', waboot_locate_template_uri( 'sources/js/dropdown-toggle.js' ), array('jquery'),'1.0.0', true);
 		wp_enqueue_script( 'ie-compatibility.js', waboot_locate_template_uri( 'sources/js/ie-compatibility.js' ),'1.0.0', true);
+		//wp_enqueue_script( 'waboot-less-compiler.js', waboot_locate_template_uri( 'sources/js/waboot-less-compiler.js' ),'1.0.0', true);
 	}else{
 		wp_enqueue_script( 'waboot.js', waboot_locate_template_uri( 'assets/js/waboot.min.js' ), array('jquery'),'1.0.0', true);
 	}

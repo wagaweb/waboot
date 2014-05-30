@@ -95,5 +95,16 @@ if( (is_child_theme() || CURRENT_ENV == ENV_DEV)  && LESS_LIVE_COMPILING){
     //waboot_compile_less();
 }
 
+/**
+ * Autocompile less if it is a child theme
+ */
+/*if( (is_child_theme() || CURRENT_ENV == ENV_DEV)  && LESS_LIVE_COMPILING){
+    locate_template( 'inc/Waboot_Less_Compiler.php', true );
 
+    add_action('wp_ajax_waboot_needs_to_compile', 'checkCompile');
+    add_action('wp_ajax_nopriv_waboot_needs_to_compile', 'checkCompile');
+
+    add_action('wp_ajax_waboot_compile', 'compileLess');
+    add_action('wp_ajax_nopriv_waboot_compile', 'compileLess');
+}*/
 

@@ -5,6 +5,6 @@ if (navigator.userAgent.match(/IEMobile\/10\.0/)) {
         document.createTextNode(
             '@-ms-viewport{width:auto!important}'
         )
-    )
-    document.querySelector('head').appendChild(msViewportStyle)
+    );
+    document.querySelector('head').appendChild(msViewportStyle);
 }
