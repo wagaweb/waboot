@@ -107,4 +107,3 @@ if( (is_child_theme() || CURRENT_ENV == ENV_DEV)  && LESS_LIVE_COMPILING){
     add_action('wp_ajax_waboot_compile', 'compileLess');
     add_action('wp_ajax_nopriv_waboot_compile', 'compileLess');
 }*/
-
