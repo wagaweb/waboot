@@ -1,13 +1,10 @@
-jQuery(document).ready(function() {
-    // Style form controls
-    jQuery(type = "select").addClass('form-control input-sm');
-    jQuery('input#submit').addClass('btn btn-default');
-    // Tables
-    jQuery('table').addClass('table');
-});
+jQuery(document).ready(function($) {
+    jQuery('ul.nav li.dropdown, ul.nav li.dropdown-submenu').hover(function() {
+        jQuery(this).find(' > .dropdown-menu').stop(true, true).delay(200).fadeIn();
+    }, function() {
+        jQuery(this).find(' > .dropdown-menu').stop(true, true).delay(200).fadeOut();
+    });
 
-jQuery(document).ready(function() {
-    enableDropDown(jQuery, window, 200);
     jQuery('a[data-toggle]').on("click", function() {
         var url = jQuery(this).attr("href");
         console.log(url);
@@ -56,3 +53,22 @@ function enableDropDown($, window, delay) {
             }, delay);
         });
 }
+
+//http://getbootstrap.com/getting-started/#support
+if (navigator.userAgent.match(/IEMobile\/10\.0/)) {
+    var msViewportStyle = document.createElement('style')
+    msViewportStyle.appendChild(
+        document.createTextNode(
+            '@-ms-viewport{width:auto!important}'
+        )
+    )
+    document.querySelector('head').appendChild(msViewportStyle)
+}
+
+jQuery(document).ready(function() {
+    // Style form controls
+    jQuery(type = "select").addClass('form-control input-sm');
+    jQuery('input#submit').addClass('btn btn-default');
+    // Tables
+    jQuery('table').addClass('table');
+});
