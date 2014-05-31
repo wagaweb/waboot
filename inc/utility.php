@@ -125,17 +125,23 @@ function waboot_compile_less($params = array()){
             'sourceMapURL'      => get_stylesheet_directory_uri().'/assets/css/style.css.map',
         );
 
-        if(Waboot_Cache::needs_to_compile($less_files,$cachedir)){
+        if(Waboot_Cache::needs_to_compile($less_files,$cachedir) && get_option('waboot_compiling_less_flag',false) != true){
+            update_option('waboot_compiling_less_flag',true) or add_option('waboot_compiling_less_flag',true,'',true);
             $css_file_name = Less_Cache::Get(
                 $less_files,
                 $parser_options
             );
             $css = file_get_contents( $cachedir.'/'.$css_file_name );
             file_put_contents($outputFile, $css);
-            echo '<div class="alert alert-success"><p>Less files compiled successfully</p></div>';
+            update_option('waboot_compiling_less_flag',false);
+            if ( current_user_can( 'manage_options' ) ) {
+                echo '<div class="alert alert-success"><p>Less files compiled successfully</p></div>';
+            }
         }
     }catch (exception $e) {
         $wpe = new WP_Error( 'less-compile-failed', $e->getMessage() );
-        echo '<div class="alert alert-warning"><p>'.$wpe->get_error_message().'</p></div>';
+        if ( current_user_can( 'manage_options' ) ) {
+            echo '<div class="alert alert-warning"><p>'.$wpe->get_error_message().'</p></div>';
+        }
     }
 }
