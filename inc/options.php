@@ -269,19 +269,28 @@ function optionsframework_options() {
             'right' => 'Right')
     );
 
-    $breadcrumb_location_posttypes = get_post_types();
+    $post_types = get_post_types();
+    $post_types_blacklist = array('attachment','revision','nav_menu_item','ml-slider');
+    foreach($post_types as $pt){
+        if(!in_array($pt,$post_types_blacklist)){
+            $pt_obj = get_post_type_object($pt);
+            $bd_locs[$pt_obj->name] = $pt_obj->label;
+        }
+    }
 
-    $options[] = array(
-        'id' => 'waboot_breadcrumbs_locations',
-        'name' => __('Breadcrumb Location','waboot'),
-        'desc' => __('Where to show breadcrumb', 'waboot'),
-        'type' => 'multicheck',
-        'options' => $breadcrumb_location_posttypes,
-        'std' => array(
-            'post' => 1,
-            'page' => 1
-        )
-    );
+    if(isset($bd_locs)){
+        $options[] = array(
+            'id' => 'waboot_breadcrumb_locations',
+            'name' => __('Breadcrumb Locations','waboot'),
+            'desc' => __('Where to show breadcrumb', 'waboot'),
+            'type' => 'multicheck',
+            'options' => $bd_locs,
+            'std' => array(
+                'post' => 1,
+                'page' => 1
+            )
+        );
+    }
 
     /*
     * HEADER TAB
