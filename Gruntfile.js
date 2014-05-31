@@ -7,6 +7,7 @@ module.exports = function(grunt) {
                 },
                 files:{
                     'assets/css/style.css': 'sources/less/waboot.less',
+                    'style.css': 'sources/less/waboot.less',
                     'admin/css/tinymce.css': 'sources/admin/tinymce.less',
                     'admin/css/admin.css': 'sources/admin/admin.less',
                     'admin/css/waboot-optionsframework.css': 'sources/admin/optionsframework.less'
@@ -22,11 +23,11 @@ module.exports = function(grunt) {
                 options:{
                     cleancss: true,
                     sourceMap: true,
-                    sourceMapFilename: "assets/css/style.css.map",
-                    sourceMapBasepath: "assets/css/"                    
+                    sourceMapFilename: "style.css.map",
+                    sourceMapBasepath: ""
                 },
                 files: {
-                    'assets/css/style.css': 'sources/less/waboot.less'
+                    'style.css': 'sources/less/waboot.less'
                 }                
             }
         },
@@ -128,6 +129,13 @@ module.exports = function(grunt) {
                         flatten: true,
                         cwd: "bower_components/html5shiv/dist",
                         src: "html5shiv.min.js",
+                        dest: "assets/js"
+                    },
+                    {
+                        expand: true,
+                        flatten: true,
+                        cwd: "bower_components/respond/dest",
+                        src: "respond.min.js",
                         dest: "assets/js"
                     }
                 ]

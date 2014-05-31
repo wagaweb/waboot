@@ -102,7 +102,7 @@ function waboot_compile_less($params = array()){
 
         if(empty($params)){
             $inputFile = get_stylesheet_directory()."/sources/less/{$theme}.less";
-            $outputFile = get_stylesheet_directory()."/assets/css/style.css";
+            $outputFile = get_stylesheet_directory()."/style.css"; //precedente: "/assets/css/style.css", modificato per far funzionare respond.js\css3mediaqueries
             $mapFileName = "style.css.map";
         }else{
             $inputFile = $params['input'];
