@@ -119,8 +119,7 @@ if ( ! function_exists( 'waboot_do_archive_page_title' ) ):
 endif;
 
 function waboot_add_compile_sets($sets){
-    $theme = wp_get_theme()->stylesheet;
-    if($theme == "wship") $theme = "waboot"; //Brutal compatibility hack :)
+    $theme = apply_filters("waboot_stylesheet_name",wp_get_theme()->stylesheet);
 
     return array_merge_recursive($sets,array(
         "theme_frontend" => array(
@@ -134,3 +133,16 @@ function waboot_add_compile_sets($sets){
     ));
 }
 add_filter('waboot_compile_sets','waboot_add_compile_sets');
+
+function waboot_set_stylesheet_name($name){
+
+    /*$theme = wp_get_theme()->stylesheet;
+    if($theme == "wship") $theme = "waboot"; //Brutal compatibility hack :)*/
+
+    if(is_child_theme()){
+        return "waboot-child";
+    }else{
+        return "waboot";
+    }
+}
+add_filter('waboot_stylesheet_name','waboot_set_stylesheet_name');

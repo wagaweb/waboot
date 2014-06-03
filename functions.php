@@ -1,12 +1,9 @@
 <?php
 
-define("ENV_DEV",1);
-define("ENV_PRODUCTION",2);
-define("LESS_LIVE_COMPILING",true);
-
-if(!defined("CURRENT_ENV")){
-    define("CURRENT_ENV",ENV_DEV);
-}
+if(!defined("ENV_DEV")) define("ENV_DEV",1);
+if(!defined("ENV_PRODUCTION")) define("ENV_PRODUCTION",2);
+if(!defined("LESS_LIVE_COMPILING")) define("LESS_LIVE_COMPILING",true);
+if(!defined("CURRENT_ENV")) define("CURRENT_ENV",ENV_DEV);
 
 //Utility
 locate_template( '/inc/utility.php', true );

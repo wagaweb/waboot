@@ -6,8 +6,7 @@ module.exports = function(grunt) {
                 options:{
                 },
                 files:{
-                    'assets/css/style.css': 'sources/less/waboot.less',
-                    'style.css': 'sources/less/waboot.less',
+                    'assets/css/waboot.css': 'sources/less/waboot.less',
                     'admin/css/tinymce.css': 'sources/admin/tinymce.less',
                     'admin/css/admin.css': 'sources/admin/admin.less',
                     'admin/css/waboot-optionsframework.css': 'sources/admin/optionsframework.less'
@@ -23,11 +22,11 @@ module.exports = function(grunt) {
                 options:{
                     cleancss: true,
                     sourceMap: true,
-                    sourceMapFilename: "style.css.map",
-                    sourceMapBasepath: ""
+                    sourceMapFilename: "assets/css/waboot.css.map",
+                    sourceMapBasepath: "assets/css"
                 },
                 files: {
-                    'style.css': 'sources/less/waboot.less'
+                    'assets/css/waboot.css': 'sources/less/waboot.less'
                 }                
             }
         },
@@ -143,7 +142,7 @@ module.exports = function(grunt) {
         },
         watch: {
             less: {
-                files: 'sources/overrides/**/*.less',
+                files: 'sources/less/*.less',
                 tasks: ['less:dev']
             },
             scripts:{

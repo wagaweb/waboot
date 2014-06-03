@@ -2,4 +2,6 @@ node_modules
 bower_components
 npm-debug.log
 assets/cache/*.*
+assets/css/waboot.css
+assets/css/waboot.css.map
 *.bat

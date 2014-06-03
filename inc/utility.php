@@ -97,8 +97,7 @@ function waboot_compile_less($params = array()){
     require_once("vendor/Lessphp/Less.php");
     require_once("Waboot_Cache.php");
     try{
-        $theme = wp_get_theme()->stylesheet;
-        if($theme == "wship") $theme = "waboot"; //Brutal compatibility hack :)
+        $theme = apply_filters("waboot_stylesheet_name",wp_get_theme()->stylesheet);
 
         if(empty($params)){
             $inputFile = get_stylesheet_directory()."/sources/less/{$theme}.less";

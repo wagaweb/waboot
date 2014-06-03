@@ -12,11 +12,15 @@ function waboot_bootstrap_js_loader() {
 
 	// Waboot Scripts
 	if(CURRENT_ENV == ENV_DEV){
-		wp_enqueue_script( 'waboot-helper.js', waboot_locate_template_uri( 'sources/js/waboot-helper.js' ), array('jquery'),'1.0.0', true);
-		wp_enqueue_script( 'dropdown-toggle.js', waboot_locate_template_uri( 'sources/js/dropdown-toggle.js' ), array('jquery'),'1.0.0', true);
-		//wp_enqueue_script( 'waboot-less-compiler.js', waboot_locate_template_uri( 'sources/js/waboot-less-compiler.js' ),'1.0.0', true);
+		wp_enqueue_script( 'waboot-helper.js', waboot_locate_template_uri( 'sources/js/waboot-helper.js' ), array('jquery'),false, true);
+		wp_enqueue_script( 'dropdown-toggle.js', waboot_locate_template_uri( 'sources/js/dropdown-toggle.js' ), array('jquery'),false, true);
 	}else{
-		wp_enqueue_script( 'waboot.js', waboot_locate_template_uri( 'assets/js/waboot.min.js' ), array('jquery'),'1.0.0', true);
+		wp_enqueue_script( 'waboot.js', waboot_locate_template_uri( 'assets/js/waboot.min.js' ), array('jquery'),false, true);
+        if(is_child_theme()){
+            $child_js = waboot_locate_template_uri( 'assets/js/waboot-child.min.js' );
+            if($child_js != "")
+                wp_enqueue_script( 'waboot-child.js', $child_js, array('jquery'),false, true);
+        }
 	}
 	
 	// Comment reply script
@@ -37,3 +41,8 @@ function waboot_ie_compatibility(){
     <?php
 }
 add_action("wp_head",'waboot_ie_compatibility');
+
+function waboot_less_compiler_js(){
+    wp_enqueue_script( 'waboot-less-compiler.js', waboot_locate_template_uri( 'sources/js/waboot-less-compiler.js' ),'1.0.0', true);
+}
+//add_action( 'wp_enqueue_scripts', 'waboot_less_compiler_js' );
