@@ -9,7 +9,7 @@
     <!-- Top Menu -->
 	<nav class="navbar top-navigation" role="navigation">
 		<div class="collapse navbar-collapse navbar-ex1-collapse">
-            <?php wp_nav_menu( array('theme_location' => 'top','depth' => 0,'container' => false,'menu_class' => 'nav navbar-nav','walker' => new waboot_bootstrap_navwalker(),'fallback_cb' => 'waboot_bootstrap_navwalker::fallback')); ?>
+            <?php wp_nav_menu( array('theme_location' => 'top','depth' => 0,'container' => false,'menu_class' => 'nav navbar-nav','walker' => new WabootNavMenuWalker())); ?>
 		</div><!-- .collapse navbar-collapse navbar-ex1-collapse -->
 	</nav>
     <!-- End Top Menu -->

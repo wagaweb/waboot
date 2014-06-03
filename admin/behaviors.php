@@ -18,24 +18,35 @@ add_action( 'optionsframework_after_validate','waboot_reset_defaults' );
 
 function get_behavior($name,$object = false){
     global $post;
-    $current_behavior_value = get_post_meta($post->ID,"_behavior_".$name,waboot_behavior_get_default($name));
-    if($current_behavior_value == "_default" || (is_array($current_behavior_value) && $current_behavior_value[0] == "__default"))
-        $current_behavior_value = waboot_behavior_get_default($name);
 
-    if(is_array($current_behavior_value))
-        $current_behavior_value = $current_behavior_value[0];
-
-    if($object){
-        $behaviors = waboot_behavior_get_options();
-        foreach($behaviors as $b){
-            if($b['name'] == $name){
-                $selected_behavior = $b;
-                $selected_behavior['value'] = $current_behavior_value;
-            }
+    $behaviors = waboot_behavior_get_options();
+    $selected_behavior = array();
+    foreach($behaviors as $b){
+        if($b['name'] == $name){
+            $selected_behavior = $b;
         }
-        return $selected_behavior;
+    }
+
+    if(!empty($selected_behavior)){
+        $current_behavior_value = get_post_meta($post->ID,"_behavior_".$name,waboot_behavior_get_default($name));
+
+        if($current_behavior_value == "" && ($selected_behavior->type != "textarea" || $selected_behavior->type != "input"))
+            $current_behavior_value = "_default";
+
+        if($current_behavior_value == "_default" || (is_array($current_behavior_value) && $current_behavior_value[0] == "__default"))
+            $current_behavior_value = waboot_behavior_get_default($name);
+
+        if(is_array($current_behavior_value))
+            $current_behavior_value = $current_behavior_value[0];
+
+        if($object){
+            $selected_behavior['value'] = $current_behavior_value;
+            return $selected_behavior;
+        }else{
+            return $current_behavior_value;
+        }
     }else{
-        return $current_behavior_value;
+        return false;
     }
 }
 
