@@ -1,5 +1,5 @@
 node_modules
 bower_components
 npm-debug.log
-assets/css/cache/*.*
+assets/cache/*.*
 *.bat

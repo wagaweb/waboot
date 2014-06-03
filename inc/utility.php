@@ -102,8 +102,8 @@ function waboot_compile_less($params = array()){
 
         if(empty($params)){
             $inputFile = get_stylesheet_directory()."/sources/less/{$theme}.less";
-            $outputFile = get_stylesheet_directory()."/style.css"; //precedente: "/assets/css/style.css", modificato per far funzionare respond.js\css3mediaqueries
-            $mapFileName = "style.css.map";
+            $outputFile = get_stylesheet_directory()."/assets/css/{$theme}.css"; //precedente: "/assets/css/style.css", modificato per far funzionare respond.js\css3mediaqueries
+            $mapFileName = "{$theme}.css.map";
         }else{
             $inputFile = $params['input'];
             if(!file_exists($inputFile)) throw new Exception("Input file {$inputFile} not found");
@@ -111,8 +111,7 @@ function waboot_compile_less($params = array()){
             $mapFileName = $params['map'];
         }
 
-        $cachedir = get_stylesheet_directory()."/assets/css/cache";
-        $outputDir = get_stylesheet_directory()."/assets/css";
+        $cachedir = get_stylesheet_directory()."/assets/cache";
 
         $less_files = array(
             $inputFile => get_stylesheet_directory_uri(),
@@ -121,11 +120,11 @@ function waboot_compile_less($params = array()){
             'cache_dir'         => $cachedir,
             'compress'          => false,
             'sourceMap'         => true,
-            'sourceMapWriteTo'  => $outputDir.'/'.$mapFileName,
-            'sourceMapURL'      => get_stylesheet_directory_uri().'/assets/css/style.css.map',
+            'sourceMapWriteTo'  => get_stylesheet_directory().'/assets/css/'.$mapFileName,
+            'sourceMapURL'      => get_stylesheet_directory_uri().'/assets/css/'.$mapFileName,
         );
 
-        if(Waboot_Cache::needs_to_compile($less_files,$cachedir) && (get_option('waboot_compiling_less_flag',0) != 1 || get_option('waboot_compiling_less_flag',0) != true)){
+        if(Waboot_Cache::needs_to_compile($less_files,$cachedir)){
             update_option('waboot_compiling_less_flag',1) or add_option('waboot_compiling_less_flag',1,'',true);
             $css_file_name = Less_Cache::Get(
                 $less_files,

@@ -5803,6 +5803,7 @@ button.close {
     display: none !important;
   }
 }
+/* Custom Variables */
 @-webkit-viewport {
   width: device-width;
 }
@@ -5819,7 +5820,6 @@ button.close {
   width: device-width;
 }
 /* Custom Mixins */
-/* Custom Variables */
 /* ---------------- WABOOT ---------------- */
 /* GRID CHANGES */
 /*
@@ -6039,6 +6039,10 @@ article {
 }
 /* End Content */
 /* Content Bottom */
+#contentbottom-wrapper {
+  padding-top: 30px;
+  padding-bottom: 20px;
+}
 #contentbottom-wrapper #contentbottom {
   display: inline-block;
   width: 100%;
@@ -6644,4 +6648,4 @@ fieldset[disabled] .gform_button.active {
 /* Tablet vertical Style - Default is @media(min-width:768px) and (max-width:991px) { } */
 /* Tablet horizontal, Notebook, Desktop Style - Default is @media(min-width:992px) and (max-width:1199px) { } */
 /* Desktop large Style - Default is @media(min-width:1200px) { } */
-/*# sourceMappingURL=http://10.0.0.31/waboot/wp-content/themes/waboot/assets/css/style.css.map */
+/*# sourceMappingURL=http://10.0.0.31/waboot/wp-content/themes/waboot/assets/css/waboot.css.map */
