@@ -49,8 +49,7 @@
                     'depth'          => 2,
                     'container'      => false,
                     'menu_class'     => 'nav navbar-nav',
-                    'walker'         => new waboot_bootstrap_navwalker(),
-                    'fallback_cb'    => 'waboot_bootstrap_navwalker::fallback'
+                    'walker'	     => new WabootNavMenuWalker()
                 )
             );
 
