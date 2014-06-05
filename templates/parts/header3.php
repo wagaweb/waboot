@@ -41,7 +41,7 @@
         <div class="collapse navbar-collapse navbar-ex2-collapse navbar-right">
             <?php wp_nav_menu( array(
                     'theme_location' => 'main',
-                    'depth'          => 2,
+                    'depth'          => 0,
                     'container'      => false,
                     'menu_class'     => 'nav navbar-nav',
                     'walker'	     => new WabootNavMenuWalker()

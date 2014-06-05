@@ -10,22 +10,25 @@
 ?>
 
 	</div><!-- #content -->
-	</div><!-- #content-wrapper -->
+	</div><!-- #content-inner -->
+    </div><!-- #content-wrapper -->
 	
 	<?php if ( is_active_sidebar( 'contentbottom' ) ) : ?>
-		<div id="contentbottom-wrapper" class="<?php echo of_get_option( 'waboot_bottom_width' ); ?>">
-		<div id="contentbottom">
-			<?php dynamic_sidebar( 'contentbottom' ); ?>
-		</div>
+        <div id="contentbottom-wrapper">
+            <div id="contentbottom" class="<?php echo of_get_option( 'waboot_bottom_width','container' ); ?>">
+			    <?php dynamic_sidebar( 'contentbottom' ); ?>
+		    </div>
 		</div>
 	<?php endif; ?>
-	
-	<div id="footer-wrapper" class="<?php echo of_get_option( 'waboot_footer_width' ); ?>">
-	<?php do_action( 'waboot_content_after' );
 
-	// Footer widgets
-	waboot_do_sidebar( 'footer' ); ?>
-	</div>
+    <div id="footer-wrapper">
+        <div id="footer-inner" class="<?php echo of_get_option( 'waboot_footer_width','container' ); ?>">
+	        <?php do_action( 'waboot_content_after' );
+
+	        // Footer widgets
+	        waboot_do_sidebar( 'footer' ); ?>
+	    </div>
+    </div>
 
 </div><!-- #page -->
 

@@ -24,7 +24,8 @@
 
         <?php if ( is_active_sidebar( 'topbar' ) || (of_get_option('waboot_social_position') == 'topnav-right' || of_get_option('waboot_social_position') == 'topnav-left' ) || has_nav_menu( 'top' )) : ?>
             <!-- Navbar: Begin -->
-            <div id="topnav-wrapper" class="<?php echo of_get_option( 'waboot_topnav_width','container-fluid' ); ?> ">
+            <div id="topnav-wrapper">
+                <div id="topnav-inner" class="<?php echo of_get_option( 'waboot_topnav_width','container-fluid' ); ?> ">
 
                 <?php if ( of_get_option('waboot_social_position') == 'topnav-left' ) : ?>
                     <div class="pull-left"> <?php get_template_part('/templates/parts/social-widget'); ?> </div><!-- .pull-left -->
@@ -45,29 +46,31 @@
                 <?php endif; ?>
 
                 <?php dynamic_sidebar( 'topbar' ); ?>
-
+                </div>
             </div>
             <!-- Navbar: End -->
         <?php endif; ?>
 
 	    <div id="page" class="<?php echo of_get_option( 'waboot_page_width','container' ); ?> hfeed site">
 		    <?php do_action( 'waboot_header_before' ); ?>
-		    <div id="header-wrapper" class="<?php echo of_get_option( 'waboot_header_width' ); ?>">
-                <header id="masthead" class="site-header" role="banner">
-                <?php
-                switch(of_get_option('waboot_header_layout', 'header1')){
-                    case 'header3':
-                        get_template_part( '/templates/parts/header3' );
-                        break;
-                    case 'header2':
-                        get_template_part( '/templates/parts/header2' );
-                        break;
-                    default:
-                        get_template_part( '/templates/parts/header1' );
-                        break;
-                }
-                ?>
-                </header><!-- #masthead -->
+            <div id="header-wrapper">
+                <div id="header-inner" class="<?php echo of_get_option( 'waboot_header_width' ); ?>">
+                    <header id="masthead" class="site-header" role="banner">
+                    <?php
+                    switch(of_get_option('waboot_header_layout', 'header1')){
+                        case 'header3':
+                            get_template_part( '/templates/parts/header3' );
+                            break;
+                        case 'header2':
+                            get_template_part( '/templates/parts/header2' );
+                            break;
+                        default:
+                            get_template_part( '/templates/parts/header1' );
+                            break;
+                    }
+                    ?>
+                    </header><!-- #masthead -->
+                </div>
 		    </div><!-- #header-wrapper -->
 		    <?php do_action( 'waboot_header_after' ); ?>
 
@@ -80,20 +83,21 @@
                     </div>
                 </div>
             <?php endif; ?>
-		
-	        <div id="content-wrapper" class="<?php echo of_get_option( 'waboot_content_width','container' ); ?>">
-                <div id="content" class="site-content row <?php if(get_behavior('layout') == "sidebar-left") echo 'sidebar-left'; ?>">
 
-                <?php if ( function_exists( 'waboot_breadcrumb_trail' ) && !is_front_page() ) : ?>
-                    <?php
-                        $my_type = get_post_type();
-                        $bc_locations = of_get_option( 'waboot_breadcrumbs_locations', array('post','page') );
-                        if(array_key_exists($my_type,$bc_locations) && $bc_locations[$my_type] == 1){
-                            waboot_breadcrumb_trail( array(
-                                'container'   => 'div',
-                                'separator'   => '/',
-                                'show_browse' => false
-                            ));
-                        }
-                    ?>
-                <?php endif; ?>
+            <div id="content-wrapper">
+                <div id="content-inner" class="<?php echo of_get_option( 'waboot_content_width','container' ); ?>">
+                    <div id="content" class="site-content row <?php if(get_behavior('layout') == "sidebar-left") echo 'sidebar-left'; ?>">
+
+                    <?php if ( function_exists( 'waboot_breadcrumb_trail' ) && !is_front_page() ) : ?>
+                        <?php
+                            $my_type = get_post_type();
+                            $bc_locations = of_get_option( 'waboot_breadcrumbs_locations', array('post','page') );
+                            if(array_key_exists($my_type,$bc_locations) && $bc_locations[$my_type] == 1){
+                                waboot_breadcrumb_trail( array(
+                                    'container'   => 'div',
+                                    'separator'   => '/',
+                                    'show_browse' => false
+                                ));
+                            }
+                        ?>
+                    <?php endif; ?>
