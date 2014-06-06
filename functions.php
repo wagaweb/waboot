@@ -2,7 +2,7 @@
 
 if(!defined("ENV_DEV")) define("ENV_DEV",1);
 if(!defined("ENV_PRODUCTION")) define("ENV_PRODUCTION",2);
-if(!defined("LESS_LIVE_COMPILING")) define("LESS_LIVE_COMPILING",true);
+if(!defined("LESS_LIVE_COMPILING")) define("LESS_LIVE_COMPILING",false);
 if(!defined("CURRENT_ENV")) define("CURRENT_ENV",ENV_DEV);
 
 //Utility
@@ -87,15 +87,14 @@ add_action( 'after_setup_theme', 'waboot_setup' );
 /**
  * Autocompile less if it is a child theme
  */
-/*if( (is_child_theme() || CURRENT_ENV == ENV_DEV)  && LESS_LIVE_COMPILING){
+if( (is_child_theme() || CURRENT_ENV == ENV_DEV)  && LESS_LIVE_COMPILING){
     add_action("waboot_head","waboot_compile_less");
-    //waboot_compile_less();
-}*/
+}
 
 /**
  * Autocompile less if it is a child theme
  */
-if( (is_child_theme() || CURRENT_ENV == ENV_DEV)  && LESS_LIVE_COMPILING){
+/*if( (is_child_theme() || CURRENT_ENV == ENV_DEV)  && LESS_LIVE_COMPILING){
     add_action('wp_ajax_waboot_needs_to_compile', 'checkCompile');
     add_action('wp_ajax_nopriv_waboot_needs_to_compile', 'checkCompile');
 
@@ -119,9 +118,10 @@ function compileLess(){
     $waboot_less_compiler = new Waboot_Less_Compiler($compile_sets);
     echo $waboot_less_compiler->compile();
     die();
-}
+}*/
+
 // WP Update Server
-require 'inc/theme-updates/theme-update-checker.php';
+require_once 'inc/theme-updates/theme-update-checker.php';
 $WabootThemeUpdateChecker = new ThemeUpdateChecker(
     'waboot', //Theme slug. Usually the same as the name of its directory.
     'http://wpserver.wagahost.com/?action=get_metadata&slug=waboot' //Metadata URL.
