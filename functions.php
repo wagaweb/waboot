@@ -120,3 +120,9 @@ function compileLess(){
     echo $waboot_less_compiler->compile();
     die();
 }
+// WP Update Server
+require 'inc/theme-updates/theme-update-checker.php';
+$WabootThemeUpdateChecker = new ThemeUpdateChecker(
+    'waboot', //Theme slug. Usually the same as the name of its directory.
+    'http://wpserver.wagahost.com/?action=get_metadata&slug=waboot' //Metadata URL.
+);
