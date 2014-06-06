@@ -35,7 +35,7 @@ endif;
  * Replace the $old_prefix with $new_prefix in Theme Options id
  * @param $old_prefix
  * @param $new_prefix
- * @since 1.0
+ * @since 0.1.0
  */
 function prefix_theme_options($old_prefix,$new_prefix){
     $options_field = get_option( 'optionsframework' );
@@ -62,7 +62,7 @@ function prefix_theme_options($old_prefix,$new_prefix){
  * @param string $from_theme theme the name of the theme from which export
  * @param (optional) null string $to_theme the name of the theme into which import (current theme if null)
  * @totest
- * @since 1.0
+ * @since 0.1.0
  */
 function transfer_theme_options($from_theme,$to_theme = null){
     $from_theme_options = get_option($from_theme);
@@ -76,7 +76,7 @@ function transfer_theme_options($from_theme,$to_theme = null){
  * Copy a theme options array into current theme options option. Old theme options will be replaced.
  * @param array $exported_options
  * @totest
- * @since 1.0
+ * @since 0.1.0
  */
 function import_theme_options($exported_options){
     $options_field = get_option( 'optionsframework' );
@@ -91,7 +91,7 @@ function import_theme_options($exported_options){
  *  waboot_compile_less()
  *  OR
  *  waboot_compile_less(array('input' => 'path\to\input.less', 'output' => 'path\to\output.css', 'map' => 'map file name'))
- * @since 1.0
+ * @since 0.1.0
  */
 function waboot_compile_less($params = array()){
     require_once("vendor/Lessphp/Less.php");

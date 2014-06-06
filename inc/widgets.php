@@ -5,7 +5,7 @@ if ( ! function_exists( 'waboot_widgets_init' ) ):
  * Register widgetized areas and widgets
  *
  * @package Waboot
- * @since 1.0
+ * @since 0.1.0
  */
 function waboot_widgets_init() {
 

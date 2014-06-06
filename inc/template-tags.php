@@ -4,7 +4,7 @@ if ( ! function_exists( 'waboot_content_nav' ) ):
     /**
      * Display navigation to next/previous pages when applicable
      *
-     * @since 1.0
+     * @since 0.1.0
      * @from Waboot
      */
     function waboot_content_nav( $nav_id ) {
@@ -50,7 +50,7 @@ endif; // waboot_content_nav
 if ( ! function_exists( 'waboot_archive_sticky_posts' ) ):
     /**
      * Display sticky posts on archive pages
-     * @since 1.0
+     * @since 0.1.0
      * @from Waboot
      */
     function waboot_archive_sticky_posts() {
@@ -159,7 +159,7 @@ endif; // ends check for waboot_comment()
  * Determines the theme layout and active sidebars, and prints the HTML structure
  * with appropriate grid classes depending on which are activated.
  *
- * @since 1.0
+ * @since 0.1.0
  * @uses waboot_sidebar_class()
  * @param string $prefix Prefix of the widget to be displayed. Example: "footer" for footer-1, footer-2, etc.
  */
@@ -211,7 +211,7 @@ function waboot_do_sidebar( $prefix = false ) {
 
 /**
  * Count the number of active widgets to determine dynamic wrapper class
- * @since 1.0
+ * @since 0.1.0
  */
 function waboot_sidebar_class( $prefix = false ) {
 
@@ -261,7 +261,7 @@ if ( ! function_exists( 'waboot_link_format_helper' ) ) :
      * Returns the first post link and/or post content without the link.
      * Used for the "Link" post format.
      *
-     * @since 1.0
+     * @since 0.1.0
      * @param string $output "link" or "post_content"
      * @return string Link or Post Content without link.
      */
@@ -348,7 +348,7 @@ endif;
 if ( ! function_exists( 'waboot_archive_get_posts' ) ):
     /**
      * Display archive posts and exclude sticky posts
-     * @since 1.0
+     * @since 0.1.0
      * @unused
      */
     function waboot_archive_get_posts() {

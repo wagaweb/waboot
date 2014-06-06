@@ -7,7 +7,7 @@ if ( ! function_exists( 'waboot_do_site_title' ) ):
     /**
      * Displays site title at top of page
      *
-     * @since 1.0
+     * @since 0.1.0
      */
     function waboot_do_site_title() {
 
@@ -30,7 +30,7 @@ if( ! function_exists( 'waboot_do_site_description' ) ):
     /**
      * Displays site description at top of page
      *
-     * @since 1.0
+     * @since 0.1.0
      */
     function waboot_do_site_description() {
 
@@ -49,7 +49,7 @@ endif;
 if ( ! function_exists( 'waboot_do_archive_page_title' ) ):
     /**
      * Display page title on archive pages
-     * @since 1.0
+     * @since 0.1.0
      */
     function waboot_do_archive_page_title() { ?>
 

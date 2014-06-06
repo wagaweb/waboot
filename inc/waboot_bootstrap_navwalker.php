@@ -5,7 +5,7 @@ require_once("vendor/wp_bootstrap_navwalker.php");
 class waboot_bootstrap_navwalker extends wp_bootstrap_navwalker {
     /**
      * @see Walker::start_lvl()
-     * @since 1.0
+     * @since 0.1.0
      *
      * @param string $output Passed by reference. Used to append additional content.
      * @param int $depth Depth of page. Used for padding.
@@ -17,7 +17,7 @@ class waboot_bootstrap_navwalker extends wp_bootstrap_navwalker {
 
     /**
      * @see Walker::start_el()
-     * @since 1.0
+     * @since 0.1.0
      *
      * @param string $output Passed by reference. Used to append additional content.
      * @param object $item Menu item data object.

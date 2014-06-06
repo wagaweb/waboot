@@ -2,7 +2,7 @@
 /**
  * Print the opening markup for the entry footer.
  *
- * @since 1.0
+ * @since 0.1.0
  *
  */
 function waboot_entry_footer_markup_open() {
@@ -14,7 +14,7 @@ if ( ! function_exists( 'waboot_do_posted_on' ) ) :
     /**
      * Prints HTML with date posted information for the current post.
      *
-     * @since 1.0
+     * @since 0.1.0
      */
     function waboot_do_posted_on() {
 
@@ -36,7 +36,7 @@ if ( ! function_exists( 'waboot_do_post_author' ) ) :
     /**
      * Prints HTML with meta information for the current post's author.
      *
-     * @since 1.0
+     * @since 0.1.0
      */
     function waboot_do_post_author() {
 
@@ -56,7 +56,7 @@ endif;
 if ( ! function_exists( 'waboot_do_post_categories' ) ):
     /**
      * Customize the list of categories displayed on index and on a post
-     * @since 1.0
+     * @since 0.1.0
      */
     function waboot_do_post_categories() {
 
@@ -91,7 +91,7 @@ endif;
 if ( ! function_exists( 'waboot_do_post_tags' ) ):
     /**
      * Customize the list of tags displayed on index and on a post
-     * @since 1.0
+     * @since 0.1.0
      */
     function waboot_do_post_tags() {
 
@@ -127,7 +127,7 @@ endif;
 if ( ! function_exists( 'waboot_do_post_comments_link' ) ):
     /**
      * Display the "Leave a comment" message
-     * @since 1.0
+     * @since 0.1.0
      */
     function waboot_do_post_comments_link() {
 
@@ -147,7 +147,7 @@ endif;
 
 /**
  * Print the closing markup for the entry header.
- * @since 1.0
+ * @since 0.1.0
  */
 function waboot_entry_footer_markup_close() {
     echo '</footer>';

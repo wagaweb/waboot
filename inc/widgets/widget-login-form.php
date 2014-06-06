@@ -2,7 +2,7 @@
 /**
  * Creates a widget that allows users to add a login form to a widget area. Credit to Justin Tadlock for this code.
  *
- * @since 1.0
+ * @since 0.1.0
  */
 
 /**
@@ -13,7 +13,7 @@ class waboot_Widget_Login extends WP_Widget {
 	/**
 	 * Set up the widget's unique name, ID, class, description, and other options.
 	 *
-	 * @since 1.0
+	 * @since 0.1.0
 	 */
 	function waboot_Widget_Login() {
 
@@ -37,7 +37,7 @@ class waboot_Widget_Login extends WP_Widget {
 	/**
 	 * Outputs the widget based on the arguments input through the widget controls.
 	 *
-	 * @since 1.0
+	 * @since 0.1.0
 	 */
 	function widget( $args, $instance ) {
 		global $user_identity, $user_ID;
@@ -122,7 +122,7 @@ class waboot_Widget_Login extends WP_Widget {
 	/**
 	 * Updates the widget control options for the particular instance of the widget.
 	 *
-	 * @since 1.0
+	 * @since 0.1.0
 	 */
 	function update( $new_instance, $old_instance ) {
 		$instance = $old_instance;
@@ -156,7 +156,7 @@ class waboot_Widget_Login extends WP_Widget {
 	/**
 	 * Displays the widget control options in the Widgets admin screen.
 	 *
-	 * @since 1.0
+	 * @since 0.1.0
 	 */
 	function form( $instance ) {
 

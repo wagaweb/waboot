@@ -5,7 +5,7 @@
  * Code adapted from Underscores theme (underscores.me) and Otto's great tutorial (ottopress.com)
  *
  * @package Waboot
- * @since 1.0
+ * @since 0.1.0
  */
 
 /**

@@ -3,7 +3,7 @@
  * Load Bootstrap javascript modules
  *
  * @package Waboot
- * @since 1.0.0
+ * @since 0.1.0.0
  */
 function waboot_bootstrap_js_loader() {
 
