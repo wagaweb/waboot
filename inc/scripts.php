@@ -52,4 +52,4 @@ function waboot_less_compiler_js(){
 
     wp_enqueue_script( 'waboot-less-compiler.js');
 }
-add_action( 'wp_enqueue_scripts', 'waboot_less_compiler_js' );
+//add_action( 'wp_enqueue_scripts', 'waboot_less_compiler_js' );
