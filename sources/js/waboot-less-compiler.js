@@ -19,18 +19,19 @@ jQuery(document).ready(function(){
                                 "action" : "waboot_compile"
                             },
                             success: function(data, textStatus, jqXHR){
-                                console.log("Ris: "+data);
+                                console.log("Ris: "+data+" | "+textStatus+" | "+jqXHR);
                                 jQuery("#less-overlay-content").html('<p>Completed!</p><p><a href="#" onclick="location.reload();">Click here to reload</a></p>');
                             },
                             error: function(jqXHR, textStatus, errorThrown){
-                                console.log("errore!");
+                                console.log("Errore: "+jqXHR+" | "+textStatus+" | "+errorThrown);
+                                jQuery("#less-overlay-content").html('<p>Error!</p><p>'+errorThrown+'</p>');
                             }
                         }
                     );
                 }
             },
             error: function(jqXHR, textStatus, errorThrown){
-                console.log("errore!");
+                console.log("Errore: "+jqXHR+" | "+textStatus+" | "+errorThrown);
             }
         }
     );
