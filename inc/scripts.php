@@ -45,4 +45,4 @@ add_action("wp_head",'waboot_ie_compatibility');
 function waboot_less_compiler_js(){
     wp_enqueue_script( 'waboot-less-compiler.js', waboot_locate_template_uri( 'sources/js/waboot-less-compiler.js' ),'1.0.0', true);
 }
-//add_action( 'wp_enqueue_scripts', 'waboot_less_compiler_js' );
+add_action( 'wp_enqueue_scripts', 'waboot_less_compiler_js' );

@@ -124,10 +124,10 @@ function waboot_add_compile_sets($sets){
     return array_merge_recursive($sets,array(
         "theme_frontend" => array(
             "input" => get_stylesheet_directory()."/sources/less/{$theme}.less",
-            "output" => get_stylesheet_directory()."/assets/css/style.css",
-            "map" => get_stylesheet_directory()."/assets/css/style.css.map",
-            "map_url" => get_stylesheet_directory_uri().'/assets/css/style.css.map',
-            "cache" => get_stylesheet_directory()."/assets/css/cache",
+            "output" => get_stylesheet_directory()."/assets/css/{$theme}.css",
+            "map" => get_stylesheet_directory()."/assets/css/{$theme}.css.map",
+            "map_url" => get_stylesheet_directory_uri()."/assets/css/{$theme}.css.map",
+            "cache" => get_stylesheet_directory()."/assets/cache",
             "import_url" => get_stylesheet_directory_uri()
         )
     ));
