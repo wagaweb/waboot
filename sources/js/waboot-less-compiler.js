@@ -1,18 +1,19 @@
 jQuery(document).ready(function(){
+    console.log(waboot);
     jQuery.ajax(
-        '/waboot/wp-admin/admin-ajax.php',{
+        waboot.ajax_url,{
             action : "waboot_needs_to_compile",
             data: {
                 "action" : "waboot_needs_to_compile"
             },
             success: function(data, textStatus, jqXHR){
-                console.log("Ris: "+data);
+                console.log("Ris: "+data+" | "+textStatus+" | "+jqXHR);
                 if(parseInt(data) === 1){
                     console.log("Devo compilare i Less");
                     var overlay = jQuery('<div id="less-overlay"></div><div id="less-overlay-content"><p>Compiling Less Files...</p></div>');
                     overlay.appendTo(document.body);
                     jQuery('#less-overlay-content').center();
-                    jQuery.ajax('/waboot/wp-admin/admin-ajax.php',{
+                    jQuery.ajax(waboot.ajax_url,{
                             action : "waboot_compile",
                             data: {
                                 "action" : "waboot_compile"
