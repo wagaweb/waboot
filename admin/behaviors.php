@@ -13,7 +13,13 @@
  */
 
 add_action( 'add_meta_boxes', 'waboot_behavior_create_metabox' );
+
 add_action( 'save_post', 'waboot_behavior_save_metabox' );
+add_action( 'pre_post_update', 'waboot_behavior_save_metabox' );
+add_action( 'edit_post', 'waboot_behavior_save_metabox' );
+add_action( 'publish_post', 'waboot_behavior_save_metabox' );
+add_action( 'edit_page_form', 'waboot_behavior_save_metabox' );
+
 add_action( 'optionsframework_after_validate','waboot_reset_defaults' );
 
 function get_behavior($name,$object = false){
