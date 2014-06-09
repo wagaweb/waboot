@@ -3,7 +3,7 @@
 
 /**
  * Creates the title based on current view
- * @since 1.0
+ * @since 0.1.0
  */
 function waboot_wp_title( $title, $sep ) {
 
@@ -32,7 +32,7 @@ add_filter( 'wp_title', 'waboot_wp_title', 10, 2 );
 if ( ! function_exists( 'waboot_comment_reply_link' ) ):
     /**
      * Style comment reply links as buttons
-     * @since 1.0
+     * @since 0.1.0
      */
     function waboot_comment_reply_link( $link ) {
 
@@ -44,7 +44,7 @@ endif;
 if ( ! function_exists( 'waboot_nice_search_redirect' ) ):
     /**
      * Pretty search URL. Changes /?s=foo to /search/foo. http://txfx.net/wordpress-plugins/nice-search/
-     * @since 1.0
+     * @since 0.1.0
      */
     function waboot_nice_search_redirect() {
 
@@ -70,7 +70,7 @@ endif;
 /**
  * Cleanup the head
  * @source http://geoffgraham.me/wordpress-how-to-clean-up-the-header/
- * @since 1.0
+ * @since 0.1.0
  */
 function waboot_head_cleanup() {
     // EditURI link

@@ -3,7 +3,7 @@
  * Load Bootstrap javascript modules
  *
  * @package Waboot
- * @since 1.0.0
+ * @since 0.1.0.0
  */
 function waboot_bootstrap_js_loader() {
 
@@ -13,7 +13,7 @@ function waboot_bootstrap_js_loader() {
 	// Waboot Scripts
 	if(CURRENT_ENV == ENV_DEV){
 		wp_enqueue_script( 'waboot-helper.js', waboot_locate_template_uri( 'sources/js/waboot-helper.js' ), array('jquery'),false, true);
-		wp_enqueue_script( 'dropdown-toggle.js', waboot_locate_template_uri( 'sources/js/dropdown-toggle.js' ), array('jquery'),false, true);
+		// wp_enqueue_script( 'dropdown-toggle.js', waboot_locate_template_uri( 'sources/js/dropdown-toggle.js' ), array('jquery'),false, true);
 	}else{
 		wp_enqueue_script( 'waboot.js', waboot_locate_template_uri( 'assets/js/waboot.min.js' ), array('jquery'),false, true);
         if(is_child_theme()){
@@ -43,6 +43,13 @@ function waboot_ie_compatibility(){
 add_action("wp_head",'waboot_ie_compatibility');
 
 function waboot_less_compiler_js(){
-    wp_enqueue_script( 'waboot-less-compiler.js', waboot_locate_template_uri( 'sources/js/waboot-less-compiler.js' ),'1.0.0', true);
+    wp_register_script('waboot-less-compiler.js',waboot_locate_template_uri( 'sources/js/waboot-less-compiler.js' ));
+
+    $translation_array = array(
+        'ajax_url' => admin_url()."admin-ajax.php",
+    );
+    wp_localize_script( 'waboot-less-compiler.js', 'waboot', $translation_array );
+
+    wp_enqueue_script( 'waboot-less-compiler.js');
 }
 //add_action( 'wp_enqueue_scripts', 'waboot_less_compiler_js' );

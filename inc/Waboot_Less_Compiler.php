@@ -2,20 +2,6 @@
 
 require_once("Waboot_Cache.php");
 
-function checkCompile(){
-    $compile_sets = apply_filters('waboot_compile_sets',array());
-    $waboot_less_compiler = new Waboot_Less_Compiler($compile_sets);
-    echo $waboot_less_compiler->needs_to_compile("theme_frontend");
-    die();
-}
-
-function compileLess(){
-    $compile_sets = apply_filters('waboot_compile_sets',array());
-    $waboot_less_compiler = new Waboot_Less_Compiler($compile_sets);
-    echo $waboot_less_compiler->compile();
-    die();
-}
-
 class Waboot_Less_Compiler{
     public $compile_sets = array();
     private $compiling_flags;

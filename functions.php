@@ -2,7 +2,7 @@
 
 if(!defined("ENV_DEV")) define("ENV_DEV",1);
 if(!defined("ENV_PRODUCTION")) define("ENV_PRODUCTION",2);
-if(!defined("LESS_LIVE_COMPILING")) define("LESS_LIVE_COMPILING",true);
+if(!defined("LESS_LIVE_COMPILING")) define("LESS_LIVE_COMPILING",false);
 if(!defined("CURRENT_ENV")) define("CURRENT_ENV",ENV_DEV);
 
 //Utility
@@ -89,18 +89,40 @@ add_action( 'after_setup_theme', 'waboot_setup' );
  */
 if( (is_child_theme() || CURRENT_ENV == ENV_DEV)  && LESS_LIVE_COMPILING){
     add_action("waboot_head","waboot_compile_less");
-    //waboot_compile_less();
 }
 
 /**
  * Autocompile less if it is a child theme
  */
 /*if( (is_child_theme() || CURRENT_ENV == ENV_DEV)  && LESS_LIVE_COMPILING){
-    locate_template( 'inc/Waboot_Less_Compiler.php', true );
-
     add_action('wp_ajax_waboot_needs_to_compile', 'checkCompile');
     add_action('wp_ajax_nopriv_waboot_needs_to_compile', 'checkCompile');
 
     add_action('wp_ajax_waboot_compile', 'compileLess');
     add_action('wp_ajax_nopriv_waboot_compile', 'compileLess');
+}
+
+function checkCompile(){
+    require_once("inc/Waboot_Less_Compiler.php");
+
+    $compile_sets = apply_filters('waboot_compile_sets',array());
+    $waboot_less_compiler = new Waboot_Less_Compiler($compile_sets);
+    echo $waboot_less_compiler->needs_to_compile("theme_frontend");
+    die();
+}
+
+function compileLess(){
+    require_once("inc/Waboot_Less_Compiler.php");
+
+    $compile_sets = apply_filters('waboot_compile_sets',array());
+    $waboot_less_compiler = new Waboot_Less_Compiler($compile_sets);
+    echo $waboot_less_compiler->compile();
+    die();
 }*/
+
+// WP Update Server
+require_once 'inc/theme-updates/theme-update-checker.php';
+$WabootThemeUpdateChecker = new ThemeUpdateChecker(
+    'waboot', //Theme slug. Usually the same as the name of its directory.
+    'http://wpserver.wagahost.com/?action=get_metadata&slug=waboot' //Metadata URL.
+);

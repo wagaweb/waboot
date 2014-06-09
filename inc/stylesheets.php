@@ -3,7 +3,7 @@
  * Register and enqueue the front end CSS
  *
  * @package Waboot
- * @since 1.0
+ * @since 0.1.0
  */
 
 // Load frontend theme styles
@@ -23,7 +23,7 @@ add_action( 'wp_enqueue_scripts', 'waboot_theme_styles' );
  * Apply custom stylesheet to admin panel
  *
  * @param $page
- * @since 1.0
+ * @since 0.1.0
  * @uses waboot_locate_template_uri()
  */
 function waboot_admin_styles($page) {
@@ -39,7 +39,7 @@ add_action( 'admin_enqueue_scripts', 'waboot_admin_styles' );
 /**
  * Apply custom stylesheet to the wordpress visual editor.
  *
- * @since 1.0
+ * @since 0.1.0
  * @uses add_editor_style()
  * @uses get_stylesheet_uri()
  */
@@ -53,7 +53,7 @@ add_action( 'init', 'waboot_editor_styles' );
 
 /**
  * Apply "post-type relative" custom stylesheet to visual editor
- * @since 1.0
+ * @since 0.1.0
  * @uses add_editor_style()
  * @uses get_post_type()
  */

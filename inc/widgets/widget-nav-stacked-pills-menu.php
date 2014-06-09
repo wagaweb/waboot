@@ -5,7 +5,7 @@
  *
  * @package Waboot
  * @subpackage Widgets
- * @since 1.0
+ * @since 0.1.0
  */
 class Nav_Stacked_Pills_Menu_Widget extends WP_Nav_Menu_Widget {
 
