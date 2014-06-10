@@ -2,17 +2,19 @@
 
 if(!defined("ENV_DEV")) define("ENV_DEV",1);
 if(!defined("ENV_PRODUCTION")) define("ENV_PRODUCTION",2);
-if(!defined("LESS_LIVE_COMPILING")) define("LESS_LIVE_COMPILING",false);
+if(!defined("LESS_LIVE_COMPILING")) define("LESS_LIVE_COMPILING",true);
 if(!defined("CURRENT_ENV")) define("CURRENT_ENV",ENV_DEV);
 
-//Utility
-locate_template( '/inc/utility.php', true );
+spl_autoload_register('waboot_autoloader');
 
 if ( ! function_exists( 'waboot_setup' ) ):
     function waboot_setup() {
 
         //Global Customization
         locate_template( '/inc/global_customizations.php', true );
+
+        //Utility
+        locate_template( '/inc/utility.php', true );
 
         // Custom template tags for this theme.
         locate_template( '/inc/hooks.php', true );
@@ -87,8 +89,13 @@ add_action( 'after_setup_theme', 'waboot_setup' );
 /**
  * Autocompile less if it is a child theme
  */
-if( (is_child_theme() || CURRENT_ENV == ENV_DEV)  && LESS_LIVE_COMPILING){
+/*if( (is_child_theme() || CURRENT_ENV == ENV_DEV)  && LESS_LIVE_COMPILING){
     add_action("waboot_head","waboot_compile_less");
+}*/
+
+if( (is_child_theme() || CURRENT_ENV == ENV_DEV)  && (isset($_GET['compile']) && $_GET['compile'] == true)){
+    locate_template( '/inc/compiler/less-php/compiler.php', true );
+    waboot_compile_less();
 }
 
 /**
@@ -121,8 +128,41 @@ function compileLess(){
 }*/
 
 // WP Update Server
-require_once 'inc/theme-updates/theme-update-checker.php';
 $WabootThemeUpdateChecker = new ThemeUpdateChecker(
     'waboot', //Theme slug. Usually the same as the name of its directory.
     'http://wpserver.wagahost.com/?action=get_metadata&slug=waboot' //Metadata URL.
 );
+
+/**
+ * Waboot autoloader
+ * @param $class
+ * @since 0.1.4
+ */
+function waboot_autoloader($class) {
+    switch($class){
+        case "Waboot_Cache":
+            locate_template('inc/compiler/less-php/Waboot_Cache.php',true);
+            break;
+        case "Waboot_Less_Compiler":
+            locate_template('inc/compiler/less-php/Waboot_Less_Compiler.php',true);
+            break;
+        case "Less_Cache":
+            locate_template('inc/compiler/less-php/vendor/Lessphp/Cache.php',true);
+            break;
+        case "Less_Parser":
+            locate_template('inc/compiler/less-php/vendor/Lessphp/Less.php',true);
+            break;
+        case "lessc":
+            locate_template('inc/compiler/less-php/vendor/Lessphp/lessc.inc.php',true);
+            break;
+        case "Less_Version":
+            locate_template('inc/compiler/less-php/vendor/Lessphp/Version.php',true);
+            break;
+        case "BootstrapNavMenuWalker":
+            locate_template('inc/vendor/BootstrapNavMenuWalker.php',true);
+            break;
+        case "ThemeUpdateChecker":
+            require_once 'inc/theme-updates/theme-update-checker.php';
+            break;
+    }
+}

@@ -1,7 +1,5 @@
 <?php
 
-require_once("vendor/Lessphp/Cache.php");
-
 class Waboot_Cache extends Less_Cache{
     /**
      * Check if less files needs to be compiled [Added by LostCore]

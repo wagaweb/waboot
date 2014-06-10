@@ -146,3 +146,21 @@ function waboot_set_stylesheet_name($name){
     }
 }
 add_filter('waboot_stylesheet_name','waboot_set_stylesheet_name');
+
+/**
+ * Add a "Compile Less" button to the toolbar
+ * @param $wp_admin_bar
+ * @since 0.1.1
+ */
+function waboot_add_admin_compile_button($wp_admin_bar){
+    global $post;
+
+    $args = array(
+        'id'    => 'waboot_compile',
+        'title' => 'Compile Less',
+        'href'  => add_query_arg('compile','true'),
+        'meta'  => array( 'class' => 'toolbar-compile-less-button' )
+    );
+    $wp_admin_bar->add_node( $args );
+}
+add_action( 'admin_bar_menu', 'waboot_add_admin_compile_button', 999 );

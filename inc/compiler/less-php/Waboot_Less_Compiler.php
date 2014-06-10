@@ -60,6 +60,8 @@ class Waboot_Less_Compiler{
     }
 
     function compile_set($name,$args){
+        global $wp_filesystem;
+
         try{
             $less_files = array(
                 $args['input'] => $args['import_url'],
@@ -73,6 +75,10 @@ class Waboot_Less_Compiler{
                 'sourceMapURL'      => $args['map_url'],
             );
 
+            if(!is_writable($args['cache'])){
+                throw new Exception("Cache dir ({$args['cache']}) is not writeable");
+            }
+
             if(Waboot_Cache::needs_to_compile($less_files,$args['cache']) && $this->can_compile($name)){
                 //todo: forse sarebbe meglio un while che fa attendere il processo finché non può compilare?
                 $this->set_compiling_flag($name,true);
@@ -82,12 +88,19 @@ class Waboot_Less_Compiler{
                 );
 
                 $css = file_get_contents( $args['cache'].'/'.$css_file_name );
-                file_put_contents($args['output'], $css);
+
+                if(!is_writable($args['output'])){
+                    throw new Exception("Output dir ({$args['output']}) is not writeable");
+                }
+
+                $wp_filesystem->put_contents( $args['output'], $css, FS_CHMOD_FILE );
+                //file_put_contents($args['output'], $css);
+
                 $this->set_compiling_flag($name,false);
             }
 
             return true;
-        }catch(exception $e){
+        }catch(Exception $e){
             throw $e;
         }
     }
