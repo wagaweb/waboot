@@ -101,7 +101,7 @@ table td {
 
 #page #header-inner,
 #page #content-inner,
-#page #contentbottom,
+#page #contentbottom-inner,
 #page #footer-inner {
   padding-left: 20px;
   padding-right: 20px;
@@ -241,12 +241,12 @@ table td {
 	padding: 0;
 }
 
-#banner-wrapper #banner {
-	display: inline-block;
-	width: 100%;
+#banner-wrapper #banner-inner {
+  /*display: inline-block;
+  width: 100%;*/
 }
 
-#banner-wrapper #banner .widget {
+#banner-wrapper #banner-inner .widget {
 	margin: 0;
 }
 
@@ -255,7 +255,7 @@ table td {
 
 /* Content */
 
-#content-wrapper{
+#content-inner {
   padding-top: 20px;
   padding-bottom: 20px;
 }
@@ -280,17 +280,12 @@ article {
 
 /* Content Bottom */
 
-#contentbottom-wrapper {
+#contentbottom-inner {
   padding-top: 20px;
   padding-bottom: 20px;
 }
-/*
-#contentbottom-wrapper #contentbottom {
-	display: inline-block;
-	width: 100%;
-}
-*/
-#contentbottom-wrapper #contentbottom .widget {
+
+#contentbottom-wrapper #contentbottom-inner .widget {
 	margin: 0;
 }
 
@@ -299,7 +294,7 @@ article {
 
 /* Footer */
 
-#footer-wrapper {
+#footer-inner {
   padding-top: 20px;
   padding-bottom: 20px;
 }

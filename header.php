@@ -78,7 +78,7 @@
 
             <?php if ( is_active_sidebar( 'banner' ) ) : ?>
                 <div id="banner-wrapper" class="<?php echo of_get_option( 'waboot_banner_width','container' ); ?>">
-                    <div id="banner">
+                    <div id="banner-inner">
                         <?php dynamic_sidebar( 'banner' ); ?>
                     </div>
                 </div>

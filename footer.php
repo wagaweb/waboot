@@ -15,7 +15,7 @@
 	
 	<?php if ( is_active_sidebar( 'contentbottom' ) ) : ?>
         <div id="contentbottom-wrapper">
-            <div id="contentbottom" class="<?php echo of_get_option( 'waboot_bottom_width','container' ); ?>">
+            <div id="contentbottom-inner" class="<?php echo of_get_option( 'waboot_bottom_width','container' ); ?>">
 			    <?php dynamic_sidebar( 'contentbottom' ); ?>
 		    </div>
 		</div>
