@@ -45,12 +45,21 @@ function waboot_compile_less($params = array()){
             'sourceMapURL'      => get_stylesheet_directory_uri().'/assets/css/'.$mapFileName,
         );
 
+        if(!is_dir($cachedir)){
+            if(!mkdir($cachedir)){
+                throw new Exception("Cannot create ({$cachedir})");
+            }
+        }
+
         if(!is_writable($cachedir)){
-            throw new Exception("Cache dir ({$cachedir}) is not writeable");
+            if(!chmod($cachedir,0777)){
+                throw new Exception("Cache dir ({$cachedir}) is not writeable");
+            }
         }
 
         if(Waboot_Cache::needs_to_compile($less_files,$cachedir)){
             update_option('waboot_compiling_less_flag',1) or add_option('waboot_compiling_less_flag',1,'',true);
+
             $css_file_name = Less_Cache::Get(
                 $less_files,
                 $parser_options
@@ -59,10 +68,10 @@ function waboot_compile_less($params = array()){
             $css = file_get_contents( $cachedir.'/'.$css_file_name );
 
             if(!is_writable($outputFile)){
-                throw new Exception("Output file ({($outputFile}) is not writeable");
+                if(!chmod($outputFile,0777))
+                    throw new Exception("Output file ({($outputFile}) is not writeable");
             }
 
-            //$wp_filesystem->put_contents( $outputFile, $css, FS_CHMOD_FILE );
             file_put_contents($outputFile, $css);
 
             update_option('waboot_compiling_less_flag',0);
