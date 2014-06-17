@@ -48,7 +48,8 @@
                     'depth'          => 0,
                     'container'      => false,
                     'menu_class'     => 'nav navbar-nav',
-                    'walker'	     => new WabootNavMenuWalker()
+                    'walker'	     => new WabootNavMenuWalker(),
+                    'fallback'       => WabootNavMenuWalker::fallback()
                 )
             );
 

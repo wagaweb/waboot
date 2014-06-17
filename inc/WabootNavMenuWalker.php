@@ -92,4 +92,19 @@ class WabootNavMenuWalker extends BootstrapNavMenuWalker {
 
         $output .= apply_filters( 'walker_nav_menu_start_el', $item_output, $item, $depth, $args );
     }
+
+    /**
+     * Menu Fallback
+     * =============
+     * If this function is assigned to the wp_nav_menu's fallback_cb variable
+     * and a manu has not been assigned to the theme location in the WordPress
+     * menu manager the function with display nothing to a non-logged in user,
+     * and will add a link to the WordPress menu manager if logged in as an admin.
+     *
+     */
+    public static function fallback() {
+        if(current_user_can( 'manage_options')){
+            echo '<div class=\'empty-menu\'><a href="' . admin_url( 'nav-menus.php' ) . '">Add a menu</a></div>';
+        }
+    }
 }
