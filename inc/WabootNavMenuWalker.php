@@ -102,9 +102,72 @@ class WabootNavMenuWalker extends BootstrapNavMenuWalker {
      * and will add a link to the WordPress menu manager if logged in as an admin.
      *
      */
-    public static function fallback() {
-        if(current_user_can( 'manage_options')){
-            echo '<div class=\'empty-menu\'><a href="' . admin_url( 'nav-menus.php' ) . '">Add a menu</a></div>';
+    public static function fallback($args = null) {
+        if ( ! current_user_can( 'manage_options' ) )
+        {
+            return;
         }
+
+        // see wp-includes/nav-menu-template.php for available arguments
+        extract( $args );
+
+        $link = $link_before
+            . '<a href="' .admin_url( 'nav-menus.php' ) . '">' . $before . 'Add a menu' . $after . '</a>'
+            . $link_after;
+
+        // We have a list
+        if ( FALSE !== stripos( $items_wrap, '<ul' )
+            or FALSE !== stripos( $items_wrap, '<ol' )
+        )
+        {
+            $link = "<li>$link</li>";
+        }
+
+        $output = sprintf( $items_wrap, $menu_id, $menu_class, $link );
+        if ( ! empty ( $container ) )
+        {
+            $output  = "<$container class='$container_class' id='$container_id'>$output</$container>";
+        }
+
+        if ( $echo )
+        {
+            echo $output;
+        }
+
+        return $output;
     }
+}
+
+function waboot_nav_menu_fallback($args){
+    if ( ! current_user_can( 'manage_options' ) )
+    {
+        return false;
+    }
+
+    extract( $args ); // see wp-includes/nav-menu-template.php for available arguments
+
+    $link = $link_before
+        . '<a href="' .admin_url( 'nav-menus.php' ) . '">' . $before . 'Add a menu' . $after . '</a>'
+        . $link_after;
+
+    // We have a list
+    if ( FALSE !== stripos( $items_wrap, '<ul' )
+        or FALSE !== stripos( $items_wrap, '<ol' )
+    )
+    {
+        $link = "<li>$link</li>";
+    }
+
+    $output = sprintf( $items_wrap, $menu_id, $menu_class, $link );
+    if ( ! empty ( $container ) )
+    {
+        $output  = "<$container class='$container_class' id='$container_id'>$output</$container>";
+    }
+
+    if ( $echo )
+    {
+        echo $output;
+    }
+
+    return $output;
 }

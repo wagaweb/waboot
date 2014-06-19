@@ -49,7 +49,7 @@
                     'container'      => false,
                     'menu_class'     => 'nav navbar-nav',
                     'walker'	     => new WabootNavMenuWalker(),
-                    'fallback'       => WabootNavMenuWalker::fallback()
+                    'fallback_cb' => 'waboot_nav_menu_fallback'
                 )
             );
 
