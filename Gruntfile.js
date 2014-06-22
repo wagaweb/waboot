@@ -1,4 +1,8 @@
 module.exports = function(grunt) {
+
+    // load all tasks
+    require('load-grunt-tasks')(grunt, {scope: 'devDependencies'});
+
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         less: {
@@ -76,6 +80,33 @@ module.exports = function(grunt) {
             }
         },
         copy:{
+            all:{
+                files:[
+                    '<%= copy.fontawesome.files %>',
+                    '<%= copy.bootstrapDist.files %>',
+                    {
+                        expand: true,
+                        flatten: true,
+                        cwd: "bower_components/bootstrap/less",
+                        src: ['*'],
+                        dest: "sources/bootstrap/"
+                    },
+                    {
+                        expand: true,
+                        flatten: true,
+                        cwd: "bower_components/html5shiv/dist",
+                        src: "html5shiv.min.js",
+                        dest: "assets/js"
+                    },
+                    {
+                        expand: true,
+                        flatten: true,
+                        cwd: "bower_components/respond/dest",
+                        src: "respond.min.js",
+                        dest: "assets/js"
+                    }
+                ]
+            },
             fontawesome:{
                 files:[
                     {
@@ -112,30 +143,28 @@ module.exports = function(grunt) {
                     }
                 ]
             },
-            setupAll:{
+            dist:{
                 files:[
-                    '<%= copy.fontawesome.files %>',
-                    '<%= copy.bootstrapDist.files %>',
                     {
                         expand: true,
-                        flatten: true,
-                        cwd: "bower_components/bootstrap/less",
-                        src: ['*'],
-                        dest: "sources/bootstrap/"
-                    },
+                        cwd: "./",
+                        src: ["**/*","!.*","!Gruntfile.js","!package.json","!bower.json","!builds/**","!node_modules/**","!bower_components/**","!assets/cache/**","!_bak/**"],
+                        dest: "builds/waboot-<%= pkg.version %>/"
+                    }
+                ]
+            }
+        },
+        compress:{
+            build:{
+                options:{
+                    archive: "builds/waboot-<%= pkg.version %>.zip"
+                },
+                files:[
                     {
                         expand: true,
-                        flatten: true,
-                        cwd: "bower_components/html5shiv/dist",
-                        src: "html5shiv.min.js",
-                        dest: "assets/js"
-                    },
-                    {
-                        expand: true,
-                        flatten: true,
-                        cwd: "bower_components/respond/dest",
-                        src: "respond.min.js",
-                        dest: "assets/js"
+                        cwd: "./",
+                        src: '<%= copy.dist.files.0.src %>',
+                        dest: "waboot/"
                     }
                 ]
             }
@@ -153,20 +182,11 @@ module.exports = function(grunt) {
     });
 
     // Register tasks
-    grunt.registerTask('setup', ['bower-install','copy:setupAll','less:dev']); //Setup task
+    grunt.registerTask('setup', ['bower-install','copy:all','less:dev']); //Setup task
     grunt.registerTask('default', ['watch']); // Default task
-    grunt.registerTask('build', ['less:production','less:waboot','concat','jsbeautifier','uglify']); // Build task
-    grunt.registerTask('js', ['concat','jsbeautifier']); // Build task
-    grunt.registerTask('jsmin', ['concat','jsbeautifier','uglify']); // Build task
-
-    // Load up tasks
-    grunt.loadNpmTasks('grunt-contrib-watch');
-    grunt.loadNpmTasks('grunt-contrib-less');
-    grunt.loadNpmTasks('grunt-contrib-jshint');
-    grunt.loadNpmTasks('grunt-contrib-uglify');
-    grunt.loadNpmTasks('grunt-contrib-concat');
-    grunt.loadNpmTasks('grunt-contrib-copy');
-    grunt.loadNpmTasks('grunt-jsbeautifier');
+    grunt.registerTask('build', ['less:production','less:waboot','concat','jsbeautifier','uglify','compress:build']); // Build task
+    grunt.registerTask('js', ['concat','jsbeautifier']); // Concat and beautify js
+    grunt.registerTask('jsmin', ['concat','jsbeautifier','uglify']); // Concat, beautify and minify js
 
     // Run bower install
     grunt.registerTask('bower-install', function() {
