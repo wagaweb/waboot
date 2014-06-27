@@ -33,10 +33,10 @@
 </div><!-- #page -->
 
 <?php do_action( 'waboot_footer_before' ); ?>
-<footer class="<?php echo of_get_option( 'waboot_footer_width','container' ); ?> site-footer" id="colophon" role="contentinfo">
+<footer class="site-footer" id="colophon" role="contentinfo">
 	<?php do_action( 'waboot_footer_top' ); ?>
 
-	<div class="container">
+	<div class="<?php echo of_get_option( 'waboot_footer_width','container' ); ?>">
 		<div class="row">
 
 			<div class="bottom-navigation col-sm-6 col-sm-push-6">
