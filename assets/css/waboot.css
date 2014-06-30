@@ -6191,7 +6191,7 @@ ins {
 /* End Blog Article */
 /* Post formats  */
 .format-quote {
-  background: url("http://10.0.0.32/waboot/wp-content/themes/waboot/img/quote.png") no-repeat scroll left top;
+  background: url("img/quote.png") no-repeat scroll left top;
   background-size: 20px 20px;
   margin-top: 15px;
   padding: 10px 0 0;
@@ -6307,10 +6307,10 @@ ins {
   .pull-right-sm {
     float: right;
   }
-  ul.navbar-nav li:hover > ul.dropdown-menu {
-    /* Disable click on submenu */
+  /* Disable click on submenu */
+  /* ul.navbar-nav li:hover > ul.dropdown-menu {
     display: block;
-  }
+  }*/
   .navbar-nav > li > .dropdown-menu {
     border-radius: 0;
   }
@@ -6461,22 +6461,22 @@ Gravity Forms
 .ginput_container input:-moz-placeholder,
 .ginput_container select:-moz-placeholder,
 .ginput_container textarea:-moz-placeholder {
-  color: #999;
+  color: #999999;
 }
 .ginput_container input::-moz-placeholder,
 .ginput_container select::-moz-placeholder,
 .ginput_container textarea::-moz-placeholder {
-  color: #999;
+  color: #999999;
 }
 .ginput_container input:-ms-input-placeholder,
 .ginput_container select:-ms-input-placeholder,
 .ginput_container textarea:-ms-input-placeholder {
-  color: #999;
+  color: #999999;
 }
 .ginput_container input::-webkit-input-placeholder,
 .ginput_container select::-webkit-input-placeholder,
 .ginput_container textarea::-webkit-input-placeholder {
-  color: #999;
+  color: #999999;
 }
 .ginput_container input:focus,
 .ginput_container select:focus,
@@ -6496,7 +6496,7 @@ fieldset[disabled] .ginput_container input,
 fieldset[disabled] .ginput_container select,
 fieldset[disabled] .ginput_container textarea {
   cursor: not-allowed;
-  background-color: #eee;
+  background-color: #eeeeee;
 }
 textarea.ginput_container input,
 textarea.ginput_container select,
@@ -6708,4 +6708,3 @@ fieldset[disabled] .gform_button.active {
 /* Tablet vertical Style - Default is @media(min-width:768px) and (max-width:991px) { } */
 /* Tablet horizontal, Notebook, Desktop Style - Default is @media(min-width:992px) and (max-width:1199px) { } */
 /* Desktop large Style - Default is @media(min-width:1200px) { } */
-/*# sourceMappingURL=http://10.0.0.32/waboot/wp-content/themes/waboot/assets/css/waboot.css.map */
