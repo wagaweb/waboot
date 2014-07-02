@@ -1,9 +1,12 @@
 <?php
 
-if(!defined("ENV_DEV")) define("ENV_DEV",1);
-if(!defined("ENV_PRODUCTION")) define("ENV_PRODUCTION",2);
-if(!defined("LESS_LIVE_COMPILING")) define("LESS_LIVE_COMPILING",true);
-if(!defined("CURRENT_ENV")) define("CURRENT_ENV",ENV_DEV);
+if(!defined('WABOOT_ENV')){
+    define('WABOOT_ENV','production');
+}
+
+if(!defined('LESS_LIVE_COMPILING')){
+    define('LESS_LIVE_COMPILING',false);
+}
 
 spl_autoload_register('waboot_autoloader');
 
@@ -93,7 +96,10 @@ add_action( 'after_setup_theme', 'waboot_setup' );
     add_action("waboot_head","waboot_compile_less");
 }*/
 
-if( (is_child_theme() || CURRENT_ENV == ENV_DEV)  && (isset($_GET['compile']) && $_GET['compile'] == true)){
+/**
+ * Autocompile less if it is a child theme
+ */
+if( (is_child_theme() || WABOOT_ENV == 'dev') || (isset($_GET['compile']) && $_GET['compile'] == true)){
     locate_template( '/inc/compiler/less-php/compiler.php', true );
     waboot_compile_less();
 }

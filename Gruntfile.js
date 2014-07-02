@@ -58,7 +58,7 @@ module.exports = function(grunt) {
             },
             dist: {
                 // the files to concatenate
-                src: ['sources/js/*.js'],
+                src: ['sources/js/*.js','!sources/js/unused/*.js'],
                 // the location of the resulting JS file
                 dest: 'assets/js/waboot.js'
             }

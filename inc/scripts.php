@@ -11,7 +11,7 @@ function waboot_bootstrap_js_loader() {
 	wp_enqueue_script( 'bootstrap.js', waboot_locate_template_uri( 'assets/js/bootstrap.min.js' ), array( 'jquery' ), '3.0.2', true );
 
 	// Waboot Scripts
-	if(CURRENT_ENV == ENV_DEV){
+	if(WABOOT_ENV == "dev"){
 		wp_enqueue_script( 'waboot-helper.js', waboot_locate_template_uri( 'sources/js/waboot-helper.js' ), array('jquery'),false, true);
 		// wp_enqueue_script( 'dropdown-toggle.js', waboot_locate_template_uri( 'sources/js/dropdown-toggle.js' ), array('jquery'),false, true);
 	}else{
@@ -30,7 +30,7 @@ function waboot_bootstrap_js_loader() {
 add_action( 'wp_enqueue_scripts', 'waboot_bootstrap_js_loader' );
 
 function waboot_ie_compatibility(){
-    if(CURRENT_ENV == ENV_DEV){
+    if(WABOOT_ENV == "dev"){
         wp_enqueue_script( 'ie-compatibility.js', waboot_locate_template_uri( 'sources/js/ie-compatibility.js' ),'1.0.0', true);
     }
     ?>

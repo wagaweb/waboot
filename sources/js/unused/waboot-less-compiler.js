@@ -1,5 +1,4 @@
 jQuery(document).ready(function(){
-    console.log(waboot);
     jQuery.ajax(
         waboot.ajax_url,{
             action : "waboot_needs_to_compile",

@@ -163,4 +163,22 @@ function waboot_add_admin_compile_button($wp_admin_bar){
     );
     $wp_admin_bar->add_node( $args );
 }
-add_action( 'admin_bar_menu', 'waboot_add_admin_compile_button', 999 );
+add_action( 'admin_bar_menu', 'waboot_add_admin_compile_button', 990 );
+
+/**
+ * Add env notice to thr admin bar
+ * @param $wp_admin_bar
+ * @since 0.2.0
+ */
+function waboot_add_env_notice($wp_admin_bar){
+    global $post;
+
+    $args = array(
+        'id'    => 'env_notice',
+        'title' => '['.WABOOT_ENV."]",
+        'href'  => "#",
+        'meta'  => array( 'class' => 'toolbar-env-notice' )
+    );
+    $wp_admin_bar->add_node( $args );
+}
+add_action( 'admin_bar_menu', 'waboot_add_env_notice', 980 );
