@@ -14,12 +14,12 @@ function waboot_compile_less($params = array()){
     @ini_set( 'memory_limit', apply_filters( 'admin_memory_limit', WP_MAX_MEMORY_LIMIT ) );
 
     try{
-        //$theme = apply_filters("waboot_stylesheet_name",wp_get_theme()->stylesheet);
-        if(is_child_theme()){
+        $theme = apply_filters("waboot_compiled_stylesheet_name",wp_get_theme()->stylesheet);
+        /*if(is_child_theme()){
             $theme = "waboot-child";
         }else{
             $theme = "waboot";
-        }
+        }*/
 
         if(empty($params)){
             $inputFile = get_stylesheet_directory()."/sources/less/{$theme}.less";
@@ -39,7 +39,7 @@ function waboot_compile_less($params = array()){
         );
         $parser_options = array(
             'cache_dir'         => $cachedir,
-            'compress'          => false,
+            'compress'          => defined(WABOOT_ENV) && WABOOT_ENV == "dev" ? false : true,
             'sourceMap'         => true,
             'sourceMapWriteTo'  => get_stylesheet_directory().'/assets/css/'.$mapFileName,
             'sourceMapURL'      => get_stylesheet_directory_uri().'/assets/css/'.$mapFileName,
@@ -57,7 +57,7 @@ function waboot_compile_less($params = array()){
             }
         }
 
-        if(Waboot_Cache::needs_to_compile($less_files,$cachedir)){
+        //if(Waboot_Cache::needs_to_compile($less_files,$cachedir)){ //since we use the "Compile" button, we dont need this check anymore
             update_option('waboot_compiling_less_flag',1) or add_option('waboot_compiling_less_flag',1,'',true);
 
             $css_file_name = Less_Cache::Get(
@@ -78,7 +78,7 @@ function waboot_compile_less($params = array()){
             if ( current_user_can( 'manage_options' ) ) {
                 echo '<div class="alert alert-success"><p>Less files compiled successfully</p></div>';
             }
-        }
+        //}
     }catch (exception $e) {
         $wpe = new WP_Error( 'less-compile-failed', $e->getMessage() );
         if ( current_user_can( 'manage_options' ) ) {

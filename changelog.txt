@@ -1,5 +1,5 @@
 == Change log ==
-Version 1.0 - April 30, 2014 -> May 13, 2014
+Version 0.1 - April 30, 2014 -> May 13, 2014
 ---------------------------------
 - Il tema è ora indipendente (versione BETA)
 - Creato il file package.json per gestire i task di Grunt
@@ -14,3 +14,16 @@ Version 1.0 - April 30, 2014 -> May 13, 2014
 - Introdotto, tramite modulo "Behavior", la possibilità di nascondere il titolo nelle pagine (inc/core_customization.php)
 - Ora è possibile specificare degli stili custom per le Theme Options (less/optionsframework.less)
 - Integrato il plugin "Email address encoder" di Till Krüss
+- ...
+
+[....]
+
+Version 0.2.1 - 07/14/2014
+---------------------------------
+- Ora il compilatore non controlla più se i file sono da compilare (il link "Compile Less" forza la compilazione.)
+- "Compile Less" compila solo se viene cliccato da un admin.
+- "Compile Less" e la notifica dell'ambiente di sviluppo nella admin bar sono ora visualizzabili solo dagli admin.
+- Il compilatore minimizza correttamente il css compilato se è in ambiente di produzione.
+- In /inc/stylesheets.php e nel compilatore (/inc/compiler/less-php/compiler.php) viene ora utilizzato il filtro "waboot_compiled_stylesheet_name" (in hooks.php) per ottenere il nome dello stile less da compilare\compilato nella cartella assets/css
+- TODO: autocompilazione alla prima installazione del tema.
+

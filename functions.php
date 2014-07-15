@@ -90,22 +90,18 @@ endif;
 add_action( 'after_setup_theme', 'waboot_setup' );
 
 /**
- * Autocompile less if it is a child theme
+ * Less compiling
  */
-/*if( (is_child_theme() || CURRENT_ENV == ENV_DEV)  && LESS_LIVE_COMPILING){
-    add_action("waboot_head","waboot_compile_less");
-}*/
-
-/**
- * Autocompile less if it is a child theme
- */
-if( (is_child_theme() || WABOOT_ENV == 'dev') || (isset($_GET['compile']) && $_GET['compile'] == true)){
-    locate_template( '/inc/compiler/less-php/compiler.php', true );
-    waboot_compile_less();
+if(isset($_GET['compile']) && $_GET['compile'] == true){
+    if ( current_user_can( 'manage_options' ) ) {
+        //old method: add_action("waboot_head","waboot_compile_less");
+        locate_template( '/inc/compiler/less-php/compiler.php', true );
+        waboot_compile_less();
+    }
 }
 
 /**
- * Autocompile less if it is a child theme
+ * Less compiling (ajax)
  */
 /*if( (is_child_theme() || CURRENT_ENV == ENV_DEV)  && LESS_LIVE_COMPILING){
     add_action('wp_ajax_waboot_needs_to_compile', 'checkCompile');

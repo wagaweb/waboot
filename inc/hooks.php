@@ -119,7 +119,7 @@ if ( ! function_exists( 'waboot_do_archive_page_title' ) ):
 endif;
 
 function waboot_add_compile_sets($sets){
-    $theme = apply_filters("waboot_stylesheet_name",wp_get_theme()->stylesheet);
+    $theme = apply_filters("waboot_compiled_stylesheet_name",wp_get_theme()->stylesheet);
 
     return array_merge_recursive($sets,array(
         "theme_frontend" => array(
@@ -134,7 +134,7 @@ function waboot_add_compile_sets($sets){
 }
 add_filter('waboot_compile_sets','waboot_add_compile_sets');
 
-function waboot_set_stylesheet_name($name){
+function waboot_set_compiled_stylesheet_name($name){
 
     /*$theme = wp_get_theme()->stylesheet;
     if($theme == "wship") $theme = "waboot"; //Brutal compatibility hack :)*/
@@ -145,7 +145,7 @@ function waboot_set_stylesheet_name($name){
         return "waboot";
     }
 }
-add_filter('waboot_stylesheet_name','waboot_set_stylesheet_name');
+add_filter('waboot_compiled_stylesheet_name','waboot_set_compiled_stylesheet_name');
 
 /**
  * Add a "Compile Less" button to the toolbar
@@ -155,13 +155,15 @@ add_filter('waboot_stylesheet_name','waboot_set_stylesheet_name');
 function waboot_add_admin_compile_button($wp_admin_bar){
     global $post;
 
-    $args = array(
-        'id'    => 'waboot_compile',
-        'title' => 'Compile Less',
-        'href'  => add_query_arg('compile','true'),
-        'meta'  => array( 'class' => 'toolbar-compile-less-button' )
-    );
-    $wp_admin_bar->add_node( $args );
+    if ( current_user_can( 'manage_options' ) ) {
+        $args = array(
+            'id'    => 'waboot_compile',
+            'title' => 'Compile Less',
+            'href'  => add_query_arg('compile','true'),
+            'meta'  => array( 'class' => 'toolbar-compile-less-button' )
+        );
+        $wp_admin_bar->add_node( $args );
+    }
 }
 add_action( 'admin_bar_menu', 'waboot_add_admin_compile_button', 990 );
 
@@ -173,12 +175,14 @@ add_action( 'admin_bar_menu', 'waboot_add_admin_compile_button', 990 );
 function waboot_add_env_notice($wp_admin_bar){
     global $post;
 
-    $args = array(
-        'id'    => 'env_notice',
-        'title' => '['.WABOOT_ENV."]",
-        'href'  => "#",
-        'meta'  => array( 'class' => 'toolbar-env-notice' )
-    );
-    $wp_admin_bar->add_node( $args );
+    if ( current_user_can( 'manage_options' ) ) {
+        $args = array(
+            'id'    => 'env_notice',
+            'title' => '['.WABOOT_ENV."]",
+            'href'  => "#",
+            'meta'  => array( 'class' => 'toolbar-env-notice' )
+        );
+        $wp_admin_bar->add_node( $args );
+    }
 }
 add_action( 'admin_bar_menu', 'waboot_add_env_notice', 980 );
