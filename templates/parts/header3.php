@@ -21,7 +21,7 @@
             <?php endif; ?>
 
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex2-collapse">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-mobile-collapse">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
@@ -38,7 +38,7 @@
             </div>
         <?php endif; ?>
 
-        <div class="collapse navbar-collapse navbar-ex2-collapse navbar-right">
+        <div class="collapse navbar-collapse navbar-main-collapse navbar-right">
             <?php wp_nav_menu( array(
                     'theme_location' => 'main',
                     'depth'          => 0,
@@ -58,6 +58,8 @@
                 </form>
             <?php endif; ?>
         </div>
+
+        <?php if ( wp_is_mobile() ) { get_template_part('/templates/parts/mobile-nav'); } ?>
 
     </nav>
 

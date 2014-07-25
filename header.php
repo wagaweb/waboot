@@ -69,6 +69,7 @@
                             break;
                     }
                     ?>
+
                     </header><!-- #masthead -->
                 </div>
 		    </div><!-- #header-wrapper -->

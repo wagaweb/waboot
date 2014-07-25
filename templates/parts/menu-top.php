@@ -8,7 +8,7 @@
 ?>
     <!-- Top Menu -->
 	<nav class="navbar top-navigation" role="navigation">
-		<div class="collapse navbar-collapse navbar-ex1-collapse">
+		<div class="collapse navbar-collapse navbar-top-collapse">
             <?php wp_nav_menu( array(
                 'theme_location' => 'top',
                 'depth' => 0,
