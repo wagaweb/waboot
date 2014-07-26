@@ -25,11 +25,20 @@ add_action( 'optionsframework_after_validate','waboot_reset_defaults' );
 function get_behavior($name,$object = false){
     global $post;
 
-    $behaviors = waboot_behavior_get_options();
+    $behaviors = waboot_behavior_get_options(); //retrive all behaviours
     $selected_behavior = array();
-    foreach($behaviors as $b){
+    foreach($behaviors as $b){ //find the desidered behaviour
         if($b['name'] == $name){
             $selected_behavior = $b;
+            $selected_behavior['default'] = waboot_behavior_get_default($name); //here we have the "default" specified in file, but it could has been modified via theme options, so we reassign it
+        }
+    }
+
+    if($post->ID == 0){
+        if($object == false){
+            return waboot_behavior_get_default($name);
+        }else{
+            return $selected_behavior;
         }
     }
 
@@ -117,8 +126,8 @@ function waboot_behavior_display_metabox($post,$options){
     <?php $opt_n=0; foreach($options as $opt) : ?>
         <?php if(in_array($post_type,$opt['valid'])) : ?>
             <?php
-                $opt_n++;
-                waboot_behavior_display_option($opt,$post);
+            $opt_n++;
+            waboot_behavior_display_option($opt,$post);
             ?>
         <?php endif; ?>
     <?php endforeach; ?>
@@ -144,18 +153,18 @@ function waboot_behavior_display_option($option,$post){
         case 'checkbox':
             ?>
             <ul>
-            <?php if(isset($option['options']) && is_array($option)) : foreach($option['options'] as $c) : //TODO dare la possibilità di concatenare più checkbox in una sola opzione? ?>
-            <?php endforeach; else : ?><p><strong><?php echo $option['title'] ?></strong></p>
-            <li>
-                <label for="<?php echo $option['name'] ?>" title="<?php echo $option['title'] ?>">
-                    <input type="checkbox" name="<?php echo $option['name'] ?>" id="<?php echo $option['name'] ?>" value="1" <?php if($current_value == 1) echo "checked"?>>
-                    <?php echo __("Enable"); ?>
-                </label>
-            </li>
-            <?php endif; ?>
-            <li>
-                <input type="checkbox" name="<?php echo $option['name'] ?>-default" id="<?php echo $option['name'] ?>-default" value="_default" <?php if($current_value == "_default") echo "checked"?>><?php echo __("Default") ?>
-            </li>
+                <?php if(isset($option['options']) && is_array($option)) : foreach($option['options'] as $c) : //TODO dare la possibilità di concatenare più checkbox in una sola opzione? ?>
+                <?php endforeach; else : ?><p><strong><?php echo $option['title'] ?></strong></p>
+                    <li>
+                        <label for="<?php echo $option['name'] ?>" title="<?php echo $option['title'] ?>">
+                            <input type="checkbox" name="<?php echo $option['name'] ?>" id="<?php echo $option['name'] ?>" value="1" <?php if($current_value == 1) echo "checked"?>>
+                            <?php echo __("Enable"); ?>
+                        </label>
+                    </li>
+                <?php endif; ?>
+                <li>
+                    <input type="checkbox" name="<?php echo $option['name'] ?>-default" id="<?php echo $option['name'] ?>-default" value="_default" <?php if($current_value == "_default") echo "checked"?>><?php echo __("Default") ?>
+                </li>
             </ul>
             <?php
             break;
