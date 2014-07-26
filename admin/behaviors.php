@@ -34,7 +34,7 @@ function get_behavior($name,$object = false){
         }
     }
 
-    if($post->ID == 0){
+    if(!isset($post) || $post->ID == 0){
         if($object == false){
             return waboot_behavior_get_default($name);
         }else{
