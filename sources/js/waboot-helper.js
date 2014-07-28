@@ -10,13 +10,13 @@ jQuery(document).ready(function(){
 
 });
 
-// Attach fastclick to body
+// Inizialize fastclick to body
 jQuery(function() {
     FastClick.attach(document.body);
 });
 
 
-// Swipe top to close menu
+// Inizialize touchSwipe
 jQuery(function($) {
     //Enable swiping...
     $("body").swipe( {

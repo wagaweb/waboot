@@ -195,6 +195,10 @@ table td {
 	margin: 0;
 }
 
+#navbar-1 #logo {
+  text-align: center;
+}
+
 #navbar-1 #header-left,
 #navbar-1 #header-right {
   margin-bottom: 20px;
@@ -604,11 +608,92 @@ ins {
   #masthead .navbar-header {
     display: inline-block;
     float: right;
+    position: absolute;
+    right: 0;
   }
 
   #masthead .navbar-toggle {
     display: inline-block;
   }
+
+  /* ------ Mobile Menu ------ */
+
+  html {
+    background-color: #444;
+  }
+
+  #masthead .main-navigation .navbar-mobile-collapse {
+    background-color: #444;
+    border: 0;
+    width: 240px;
+    height: auto;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    padding-top: 13px;
+    overflow-y: auto;
+    position: fixed;
+    z-index: 1030;
+    /* -webkit-box-shadow:inset 3px 0 3px 0 rgba(0,0,0,0.5);
+    box-shadow:inset 3px 0 6px 0 rgba(0,0,0,0.5); */
+  }
+
+  #masthead .main-navigation .navbar-mobile-collapse .navbar-nav a {
+    border-bottom: 1px solid #555;
+    color: #ccc;
+    font-size: 1.2em;
+    text-align: left;
+    background-color: #444;
+  }
+
+  #masthead .main-navigation .navbar-mobile-collapse .navbar-nav a:hover {
+    background-color: #333;
+  }
+
+  #masthead .main-navigation .navbar-mobile-collapse .navbar-nav a:before {
+    content: "\f105";
+    font-family: "FontAwesome";
+    color: #848484;
+    margin-right: 10px;
+  }
+
+  #masthead .main-navigation .navbar-mobile-collapse .navbar-nav .current-menu-item a {
+    background-color: #333;
+  }
+
+  #masthead .main-navigation .navbar-mobile-collapse .navbar-nav>.open>a,
+  #masthead .main-navigation .navbar-mobile-collapse .navbar-nav>.open>a:hover,
+  #masthead .main-navigation .navbar-mobile-collapse .navbar-nav>.open>a:focus {
+    background-color: #333;
+    color: #ccc;
+  }
+
+  #masthead .main-navigation .navbar-mobile-collapse .navbar-nav .open .dropdown-menu>li>a {
+    line-height: 30px;
+    background-color: #333;
+  }
+
+  .navbar-nav .dropdown-menu {
+    padding: 0px;
+  }
+
+  .caret {
+    float: right;
+    margin-top: 8px;
+  }
+
+  #masthead .main-navigation .navbar-mobile-collapse .navbar-nav {
+    margin-bottom: 25px;
+  }
+
+  #masthead .main-navigation .navbar-mobile-collapse .logo-menu {
+    width: 200px;
+    margin-left: 10px;
+    margin-top: 12px;
+    margin-bottom: 18px;
+  }
+
+  /* ------ End Mobile Menu ------ */
 	
 }
 
@@ -707,10 +792,6 @@ ins {
   .navbar-toggle {
     margin-bottom: 0;
     margin-top: 0;
-  }
-
-  #navbar-1 #logo {
-    text-align: center;
   }
 
   #navbar-1 #header-left,
