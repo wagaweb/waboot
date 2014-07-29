@@ -20,7 +20,7 @@ add_action( 'edit_post', 'waboot_behavior_save_metabox' );
 add_action( 'publish_post', 'waboot_behavior_save_metabox' );
 add_action( 'edit_page_form', 'waboot_behavior_save_metabox' );
 
-add_action( 'optionsframework_after_validate','waboot_reset_defaults' );
+//add_action( 'optionsframework_after_validate','waboot_reset_defaults' );
 
 function get_behavior($name,$object = false){
     global $post;
