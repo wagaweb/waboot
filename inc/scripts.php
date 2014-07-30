@@ -8,16 +8,17 @@
 function waboot_bootstrap_js_loader() {
 
 	// Bootstrap JS components - Drop a custom build in your child theme's 'js' folder to override this one.
-	wp_enqueue_script( 'bootstrap.js', waboot_locate_template_uri( 'assets/js/bootstrap.min.js' ), array( 'jquery' ), '3.0.2', true );
+	wp_enqueue_script( 'bootstrap.js', waboot_locate_template_uri( 'assets/js/bootstrap.min.js' ), array( 'jquery' ), false, true );
 
 	// Waboot Scripts
 	if(WABOOT_ENV == "dev"){
-		wp_enqueue_script( 'waboot-helper.js', waboot_locate_template_uri( 'sources/js/waboot-helper.js' ), array('jquery'),false, true);
-		wp_enqueue_script( 'offcanvas.js', waboot_locate_template_uri( 'sources/js/offcanvas.js' ), array('jquery'),false, true);
-        wp_enqueue_script( 'fastclick.js', waboot_locate_template_uri( 'sources/js/fastclick.js' ), array('jquery'),false, true);
-        wp_enqueue_script( 'jquery.touchSwipe.js', waboot_locate_template_uri( 'sources/js/jquery.touchSwipe.js' ), array('jquery'),false, true);
+		wp_enqueue_script( 'waboot-helper', waboot_locate_template_uri( 'sources/js/waboot-helper.js' ), array('jquery','offcavas','fastclick','touchSwipe'),false, true);
+		wp_enqueue_script( 'offcanvas', waboot_locate_template_uri( 'sources/js/vendor/offcanvas.js' ), array('jquery'),false, true);
+        wp_enqueue_script( 'fastclick', waboot_locate_template_uri( 'sources/js/vendor/fastclick.js' ), array('jquery'),false, true);
+        wp_enqueue_script( 'touchSwipe', waboot_locate_template_uri( 'sources/js/vendor/jquery.touchSwipe.js' ), array('jquery'),false, true);
 	}else{
-		wp_enqueue_script( 'waboot.js', waboot_locate_template_uri( 'assets/js/waboot.min.js' ), array('jquery'),false, true);
+		wp_enqueue_script( 'waboot', waboot_locate_template_uri( 'assets/js/waboot.min.js' ), array('jquery','waboot-plugins'),false, true);
+		wp_enqueue_script( 'waboot-plugins', waboot_locate_template_uri( 'assets/js/plugins.min.js' ), array('jquery'),false, true);
         if(is_child_theme()){
             $child_js = waboot_locate_template_uri( 'assets/js/waboot-child.min.js' );
             if($child_js != "")

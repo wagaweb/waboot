@@ -57,10 +57,10 @@ module.exports = function(grunt) {
                 separator: '\n'
             },
             dist: {
-                // the files to concatenate
-                src: ['sources/js/*.js','!sources/js/unused/*.js'],
-                // the location of the resulting JS file
-                dest: 'assets/js/waboot.js'
+                files:{
+                    'assets/js/waboot.js': ['sources/js/*.js','!sources/js/unused/*.js'],
+                    'assets/js/plugins.js': ['sources/js/vendor/*.js']
+                }
             }
         },
         uglify: {
@@ -70,12 +70,13 @@ module.exports = function(grunt) {
             },
             dist: {
                 files: {
-                    'assets/js/waboot.min.js': ['<%= concat.dist.dest %>']
+                    'assets/js/waboot.min.js': ['assets/js/waboot.js'],
+                    'assets/js/plugins.min.js': ['assets/js/plugins.js']
                 }
             }
         },
         "jsbeautifier" : {
-            files : ['<%= concat.dist.dest %>'],
+            files : ['assets/js/*.js'],
             options : {
             }
         },
@@ -83,14 +84,7 @@ module.exports = function(grunt) {
             all:{
                 files:[
                     '<%= copy.fontawesome.files %>',
-                    '<%= copy.bootstrapDist.files %>',
-                    {
-                        expand: true,
-                        flatten: true,
-                        cwd: "bower_components/bootstrap/less",
-                        src: ['*'],
-                        dest: "sources/bootstrap/"
-                    },
+                    '<%= copy.bootstrap.files %>',
                     {
                         expand: true,
                         flatten: true,
@@ -125,7 +119,7 @@ module.exports = function(grunt) {
                     }
                 ]
             },
-            bootstrapDist:{
+            bootstrap:{
                 files:[
                     {
                         expand: true,
@@ -140,6 +134,13 @@ module.exports = function(grunt) {
                         cwd: "bower_components/bootstrap/dist",
                         src: "js/bootstrap.min.js",
                         dest: "assets/js/"
+                    },
+                    {
+                        expand: true,
+                        flatten: true,
+                        cwd: "bower_components/bootstrap/less",
+                        src: ['**/*'],
+                        dest: "sources/bootstrap/"
                     }
                 ]
             },

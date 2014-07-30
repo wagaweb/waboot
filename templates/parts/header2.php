@@ -33,7 +33,7 @@
             <?php endif; ?>
 
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-mobile-collapse">
+                <button type="button" class="navbar-toggle" data-toggle="offcanvas" data-target=".navbar-mobile-collapse">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
@@ -64,7 +64,7 @@
             <?php endif; ?>
         </div>
 
-        <?php if ( wp_is_mobile() ) { get_template_part('/templates/parts/mobile-nav'); } ?>
+        <?php get_template_part('/templates/parts/mobile-nav'); ?>
 
     </div>
 </nav>

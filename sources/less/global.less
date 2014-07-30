@@ -628,14 +628,18 @@ ins {
     width: 240px;
     height: auto;
     top: 0;
-    right: 0;
+    right: -240px;
     bottom: 0;
-    padding-top: 13px;
+    padding: 10px 0;
     overflow-y: auto;
     position: fixed;
     z-index: 1030;
     /* -webkit-box-shadow:inset 3px 0 3px 0 rgba(0,0,0,0.5);
     box-shadow:inset 3px 0 6px 0 rgba(0,0,0,0.5); */
+  }
+
+  #masthead .main-navigation .navbar-mobile-collapse .navbar-nav {
+    margin: 0;
   }
 
   #masthead .main-navigation .navbar-mobile-collapse .navbar-nav a {
@@ -661,20 +665,24 @@ ins {
     background-color: #333;
   }
 
-  #masthead .main-navigation .navbar-mobile-collapse .navbar-nav>.open>a,
-  #masthead .main-navigation .navbar-mobile-collapse .navbar-nav>.open>a:hover,
-  #masthead .main-navigation .navbar-mobile-collapse .navbar-nav>.open>a:focus {
+  #masthead .main-navigation .navbar-mobile-collapse .navbar-nav > .open > a,
+  #masthead .main-navigation .navbar-mobile-collapse .navbar-nav > .open > a:hover,
+  #masthead .main-navigation .navbar-mobile-collapse .navbar-nav > .open > a:focus {
     background-color: #333;
     color: #ccc;
   }
 
-  #masthead .main-navigation .navbar-mobile-collapse .navbar-nav .open .dropdown-menu>li>a {
-    line-height: 30px;
+  #masthead .main-navigation .navbar-mobile-collapse .navbar-nav .open .dropdown-menu > li > a {
     background-color: #333;
+    line-height: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
   }
 
   .navbar-nav .dropdown-menu {
     padding: 0px;
+    position: relative;
+    width: 100%;
   }
 
   .caret {
@@ -689,8 +697,8 @@ ins {
   #masthead .main-navigation .navbar-mobile-collapse .logo-menu {
     width: 200px;
     margin-left: 10px;
-    margin-top: 12px;
-    margin-bottom: 18px;
+    margin-top: 16px;
+    margin-bottom: 16px;
   }
 
   /* ------ End Mobile Menu ------ */
@@ -771,10 +779,6 @@ ins {
 
   #navbar-1 #header-right {
     float: right;
-  }
-
-  .navbar-collapse.collapse.navbar-mobile-collapse {
-    display: none !important;
   }
 
 }

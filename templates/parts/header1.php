@@ -63,7 +63,7 @@
             <?php endif; ?>
         </div>
 
-        <?php if ( wp_is_mobile() ) { get_template_part('/templates/parts/mobile-nav'); } ?>
+        <?php get_template_part('/templates/parts/mobile-nav'); ?>
 
     </div>
 </nav>
