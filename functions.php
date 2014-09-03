@@ -42,6 +42,9 @@ if ( ! function_exists( 'waboot_setup' ) ):
         // Load theme options framework
         locate_template( '/admin/options-panel.php', true );
 
+        // Load components framework
+        locate_template( '/admin/waboot-components-framework.php', true );
+
         // Customizer
         locate_template( '/inc/customizer.php', true );
 
@@ -85,6 +88,10 @@ if ( ! function_exists( 'waboot_setup' ) ):
         // Load Jetpack related support if needed.
         if ( class_exists( 'Jetpack' ) )
             locate_template( '/inc/jetpack.php', true );
+
+        //Loads components
+        Waboot_ComponentsManager::init();
+        Waboot_ComponentsManager::setupRegisteredComponents();
     }
 endif;
 add_action( 'after_setup_theme', 'waboot_setup' );
