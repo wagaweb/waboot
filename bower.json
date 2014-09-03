@@ -1,9 +1,0 @@
-{
-    "name": "Waboot",
-    "version": "1.0.0",
-    "dependencies": {
-        "bootstrap": "",
-        "fontawesome": "",
-        "html5shiv": ""
-    }
-}
