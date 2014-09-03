@@ -1,0 +1,29 @@
+== Change log ==
+Version 0.1 - April 30, 2014 -> May 13, 2014
+---------------------------------
+- Il tema è ora indipendente (versione BETA)
+- Creato il file package.json per gestire i task di Grunt
+- Creato il file bower.json e .bowerrc per gestire gli script vendor (bootstrap,html5shiv,fontawesome)
+- Creato il file Grunt (per ora gestisce la compilazione dei file less e copia i file di bootstrap e fontawesome nelle directory css e js della root)
+- Ora lo stile "/css/tinymce.css" viene applicato automaticamente a tinyMCE
+- Sono possibili stili custom per tinymce a seconda del post-type: per esempio /css/tinymce-page.css viene applicato all'editor solo quando si modificano pagine.
+- Spostato l'Options Framework Theme è fuori dal "core" (options.php e options-panel.php in "inc", il resto in "admin")
+- Spostati i file scripts.php e stylesheets.php da core/inc a /inc e modificati per riflettere la struttura delle directory attuale
+- Introdotto il nuovo modulo "Behavior" per le Theme Options
+- Introdotti, tramite modulo "Behavior", i tre tipi di layout precedentemente presenti in "Theme Layout"
+- Introdotto, tramite modulo "Behavior", la possibilità di nascondere il titolo nelle pagine (inc/core_customization.php)
+- Ora è possibile specificare degli stili custom per le Theme Options (less/optionsframework.less)
+- Integrato il plugin "Email address encoder" di Till Krüss
+- ...
+
+[....]
+
+Version 0.2.1 - 07/14/2014
+---------------------------------
+- Ora il compilatore non controlla più se i file sono da compilare (il link "Compile Less" forza la compilazione.)
+- "Compile Less" compila solo se viene cliccato da un admin.
+- "Compile Less" e la notifica dell'ambiente di sviluppo nella admin bar sono ora visualizzabili solo dagli admin.
+- Il compilatore minimizza correttamente il css compilato se è in ambiente di produzione.
+- In /inc/stylesheets.php e nel compilatore (/inc/compiler/less-php/compiler.php) viene ora utilizzato il filtro "waboot_compiled_stylesheet_name" (in hooks.php) per ottenere il nome dello stile less da compilare\compilato nella cartella assets/css
+- TODO: autocompilazione alla prima installazione del tema.
+

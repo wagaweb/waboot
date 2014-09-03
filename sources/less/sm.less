@@ -1,0 +1,51 @@
+/* Tablet vertical Style - Default is @media(min-width:768px) and (max-width:991px) { } */
+
+@media (min-width: @screen-sm-min) and (max-width: @screen-sm-max) {
+
+  /* Responsive Typography  */
+
+  @font-size-base:          14px;  // Change this value only
+
+  @font-size-large:         ceil((@font-size-base * 1.25)); // ~18px
+  @font-size-small:         ceil((@font-size-base * 0.85)); // ~12px
+
+  @font-size-h1:            floor((@font-size-base * 2.6)); // ~36px
+  @font-size-h2:            floor((@font-size-base * 2.15)); // ~30px
+  @font-size-h3:            ceil((@font-size-base * 1.7)); // ~24px
+  @font-size-h4:            ceil((@font-size-base * 1.25)); // ~18px
+  @font-size-h5:            @font-size-base;
+  @font-size-h6:            ceil((@font-size-base * 0.85)); // ~12px
+
+  body { font-size: @font-size-base; }
+
+  h1, .h1 { font-size: @font-size-h1; }
+  h2, .h2 { font-size: @font-size-h2; }
+  h3, .h3 { font-size: @font-size-h3; }
+  h4, .h4 { font-size: @font-size-h4; }
+  h5, .h5 { font-size: @font-size-h5; }
+  h6, .h6 { font-size: @font-size-h6; }
+
+  /* End of Responsive Typography  */
+
+
+  /* Mobile Menu  */
+
+  .navbar-nav,
+  .navbar-nav li {
+    width: 100%;
+  }
+
+  .dropdown-menu {
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+  }
+
+  #masthead .main-navigation .navbar-mobile-collapse .navbar-nav .open .dropdown-menu > li > a {
+    padding-top: 15px;
+    padding-bottom: 15px;
+  }
+
+  /* End Mobile Menu  */
+
+}

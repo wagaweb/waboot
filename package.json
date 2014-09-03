@@ -1,0 +1,34 @@
+{
+  "name": "Waboot",
+  "version": "0.2.8",
+  "author": "Waga",
+  "homepage": "http://www.waga.it/",
+  "repository": {
+    "type": "git",
+    "url": "https://bitbucket.org/waga/waboot"
+  },
+  "bugs": {
+    "url": "https://bitbucket.org/waga/waboot/issues?status=new&status=open"
+  },
+  "licenses": [
+    {
+      "type": "GPL",
+      "url": "http://www.gnu.org/licenses/gpl-2.0.html"
+    }
+  ],
+  "engines": {
+    "node": ">= 0.10.0"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-copy": "~0.5.0",
+    "grunt-contrib-jshint": "~0.10.0",
+    "grunt-contrib-less": "~0.11.0",
+    "grunt-contrib-uglify": "~0.4.0",
+    "grunt-contrib-watch": "~0.6.1",
+    "grunt-contrib-concat": "~0.4.0",
+    "grunt-jsbeautifier": "~0.2.7",
+    "load-grunt-tasks": "~0.5.0",
+    "grunt-contrib-compress": "~0.9.1"
+  }
+}

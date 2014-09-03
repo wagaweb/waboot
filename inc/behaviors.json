@@ -1,0 +1,60 @@
+{
+    "show-title":{
+        "name": "show-title",
+        "title": "Display page title",
+        "desc": "Default rendering value for page title",
+        "options":[
+            {
+                "name":"Yes",
+                "value":1
+            },
+            {
+                "name":"No",
+                "value":0
+            }
+        ],
+        "type": "select",
+        "default":1,
+        "valid":["page"]
+    },
+    "title-position":{
+        "name": "title-position",
+        "title": "Title position",
+        "desc": "Default title positioning in pages",
+        "type": "select",
+        "options":[
+            {
+                "name":"Top",
+                "value":"top"
+            },
+            {
+                "name":"Bottom",
+                "value":"bottom"
+            }
+        ],
+        "default":"top",
+        "valid":["page"]
+    },
+    "layout":{
+        "name": "layout",
+        "title": "Body layout",
+        "desc": "Default body layout for posts and pages",
+        "options":[
+            {
+                "name":"Full width. No sidebar.",
+                "value":"full-width"
+            },
+            {
+                "name":"Sidebar right",
+                "value":"sidebar-right"
+            },
+            {
+                "name":"Sidebar left",
+                "value":"sidebar-left"
+            }
+        ],
+        "type": "select",
+        "default":"sidebar-right",
+        "valid":["post","page"]
+    }
+}
