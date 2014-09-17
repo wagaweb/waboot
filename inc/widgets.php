@@ -52,6 +52,16 @@ function waboot_widgets_init() {
 	) );
 
     register_sidebar( array(
+        'name'          => __( 'Footer 4', 'waboot' ),
+        'description'   => __( 'The fourth footer widget area, displayed below the Footer widget area.', 'waboot' ),
+        'id'            => 'footer-4',
+        'before_widget' => '',
+        'after_widget'  => '',
+        'before_title'  => '<h3 class="widget-title">',
+        'after_title'   => '</h3>',
+    ) );
+
+    register_sidebar( array(
         'name' => 'Top Bar',
         'id' => 'topbar',
         'before_widget' => '<div id="%1$s" class="widget %2$s">',
