@@ -81,7 +81,8 @@ class WabootNavMenuWalker extends BootstrapNavMenuWalker {
         $item_output = $args->before;
         $item_output .= '<a'. $attributes .'>';
         $item_output .= $args->link_before . apply_filters( 'the_title', $item->title, $item->ID ) . $args->link_after;
-        $item_output .= '<br /><span class="menudescription">' . $item->description . '</span>';
+        if(!empty($item->description))
+            $item_output .= '<span class="menudescription">' . $item->description . '</span>';
         if($args->has_children && $depth == 0){
             $item_output .= '<b class="caret"></b></a>'; //first level <li><a> with submenus
         }elseif($args->has_children && $depth > 0){
