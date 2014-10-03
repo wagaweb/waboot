@@ -14,7 +14,7 @@ if ( ! function_exists( 'waboot_setup' ) ):
     function waboot_setup() {
 
         //Global Customization
-        locate_template( '/inc/global_customizations.php', true );
+        locate_template( '/inc/global-customizations.php', true );
 
         //Utility
         locate_template( '/inc/utility.php', true );
@@ -27,8 +27,7 @@ if ( ! function_exists( 'waboot_setup' ) ):
         locate_template( '/inc/menus.php', true );
         locate_template( '/inc/vendor/BootstrapNavMenuWalker.php', true );
         locate_template( '/inc/vendor/wp_bootstrap_navwalker.php', true );
-        locate_template( '/inc/waboot_bootstrap_navwalker.php', true );
-        locate_template( '/inc/WabootNavMenuWalker.php', true );
+        locate_template( '/inc/waboot-menu-navwalker.php', true );
 
         // Register sidebars
         locate_template( '/inc/widgets.php', true );
@@ -55,7 +54,7 @@ if ( ! function_exists( 'waboot_setup' ) ):
         }
 
         // Email encoder
-        locate_template( '/inc/email_encoder.php', true );
+        locate_template( '/inc/email-encoder.php', true );
 
         // Load the CSS
         locate_template( '/inc/stylesheets.php', true );
