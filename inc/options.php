@@ -269,16 +269,9 @@ function optionsframework_options() {
             'right' => 'Right')
     );
 
-    $post_types = get_post_types();
-    $post_types_blacklist = array('attachment','revision','nav_menu_item','ml-slider');
-    foreach($post_types as $pt){
-        if(!in_array($pt,$post_types_blacklist)){
-            $pt_obj = get_post_type_object($pt);
-            $bd_locs[$pt_obj->name] = $pt_obj->label;
-        }
-    }
+    $bd_locs = wp_get_filtered_post_types();
 
-    if(isset($bd_locs)){
+    if(!empty($bd_locs)){
         $options[] = array(
             'id' => 'waboot_breadcrumb_locations',
             'name' => __('Breadcrumb Locations','waboot'),

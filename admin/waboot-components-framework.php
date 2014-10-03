@@ -30,13 +30,18 @@ class Waboot_ComponentsManager {
         }
     }
 
+	static function getAllComponents(){
+		$core_components = self::get_waboot_registered_components();
+		$child_components = is_child_theme()? self::get_child_registered_components() : array();
+		$components = array_merge($core_components,$child_components);
+		return $components;
+	}
+
     /**
      * Exec the setup() method on registered components
      */
     static function setupRegisteredComponents(){
-        $core_components = self::get_waboot_registered_components();
-        $child_components = is_child_theme()? self::get_child_registered_components() : array();
-        $components = array_merge($core_components,$child_components);
+        $components = self::getAllComponents();
         foreach($components as $c){
                 if(self::is_active($c)){
                 require_once($c['file']);
@@ -46,6 +51,64 @@ class Waboot_ComponentsManager {
             }
         }
     }
+
+	/**
+	 * Exec scripts() and styles() methods on registered components
+	 */
+	static function enqueueRegisteredComponent(){
+		$components = self::getAllComponents();
+		foreach($components as $c){
+			if(self::is_active($c)){
+				require_once($c['file']);
+				$className = ucfirst($c['nicename'])."Component";
+				$oComponent = new $className($c);
+				if(self::is_enable_for_current_page($oComponent)){
+					$oComponent->scripts();
+					$oComponent->styles();
+				}
+			}
+		}
+	}
+
+	static function is_enable_for_current_page(Waboot_Component $c){
+		global $post;
+
+		if(is_admin()) return false;
+
+		if(of_get_option($c->name."_selective_disable","0") == 1){
+			return false;
+		}
+
+		if(of_get_option($c->name."_enabled_for_all_pages","1") == 1){
+			return true;
+		}else{
+			$allowed_post_types = of_get_option($c->name."_load_locations",array());
+			if(is_front_page()){
+				if($allowed_post_types['front'] == 1){
+					return true;
+				}else{
+					return false;
+				}
+			}elseif(is_home()){
+				if($allowed_post_types['home'] == 1){
+					return true;
+				}else{
+					return false;
+				}
+			}else{
+				$current_post_type = get_post_type($post->ID);
+				if(isset($allowed_post_types[$current_post_type])){
+					if($allowed_post_types[$current_post_type] == 1){
+						return true;
+					}else{
+						return false;
+					}
+				}else{
+					return false;
+				}
+			}
+		}
+	}
 
     static function _detect_components($components_directory,$child_theme = false){
         $registered_components = $child_theme? self::get_child_registered_components() : self::get_waboot_registered_components();
@@ -293,8 +356,49 @@ class Waboot_Component {
      * Metodo che verrà automaticamente chiamato per ogni componente registrato durante l'init
      */
     public function setup(){
-
+	    add_filter("of_options",array($this,"theme_options"));
     }
+
+	public function theme_options($options){
+		$options[] = array(
+			'name' => $this->name." Component",
+			'type' => 'heading'
+		);
+
+		$options[] = array(
+			'name' => __( 'Global Filters', 'waboot' ),
+			'desc' => __( 'Specify how this component will be used for current theme', 'waboot' ),
+			'type' => 'info'
+		);
+
+		$options[] = array(
+			'name' => __( 'Disable component', 'waboot' ),
+			'desc' => __( 'Check this box to turn off the component for this theme only.', 'waboot' ),
+			'id'   => $this->name.'_selective_disable',
+			'std'  => '0',
+			'type' => 'checkbox'
+		);
+
+		$options[] = array(
+			'name' => __( 'Enable on all pages', 'waboot' ),
+			'desc' => __( 'Check this box to load the component in every page (load locations will be ignored).', 'waboot' ),
+			'id'   => $this->name.'_enabled_for_all_pages',
+			'std'  => '1',
+			'type' => 'checkbox'
+		);
+
+		$filter_locs = array_merge(array("front"=>"Frontpage","home"=>"Blog"),wp_get_filtered_post_types());
+
+		$options[] = array(
+			'id' => $this->name.'_load_locations',
+			'name' => __('Load location','waboot'),
+			'desc' => __('Where to load the component', 'waboot'),
+			'type' => 'multicheck',
+			'options' => $filter_locs
+		);
+
+		return $options;
+	}
 
     /**
      * Metodo da eseguire (via ajax) all'attivazione del componente
