@@ -9,7 +9,7 @@ class Waboot_ComponentsManager {
      * Funzione che creerà la pagina dei componenti e detecta i componenti nella cartella components
      */
     static function init(){
-        add_management_page( __("Waboot Components","waboot"), __("Waboot Components","waboot"), "activate_plugins", "waboot_components", "Waboot_ComponentsManager::components_admin_page" );
+        add_menu_page( __("Waboot Components","waboot"), __("Components","waboot"), "activate_plugins", "waboot_components", "Waboot_ComponentsManager::components_admin_page", "", 66 );
         /** Detect components in main theme **/
         $registered_components = self::_detect_components(get_template_directory()."/components");
         /** Detect components in child theme **/
