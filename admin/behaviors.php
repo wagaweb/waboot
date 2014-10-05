@@ -22,7 +22,13 @@ add_action( 'edit_page_form', 'waboot_behavior_save_metabox' );
 
 //add_action( 'optionsframework_after_validate','waboot_reset_defaults' );
 
-function get_behavior($name,$object = false){
+/**
+ * Get a behaviour.
+ * @param $name
+ * @param string $return (value OR array)
+ * @return array|bool|mixed|string
+ */
+function get_behavior($name,$return = "value"){
     global $post;
 
     $behaviors = waboot_behavior_get_options(); //retrive all behaviours
@@ -35,7 +41,7 @@ function get_behavior($name,$object = false){
     }
 
     if(!isset($post) || $post->ID == 0){
-        if($object == false){
+        if($return == "value"){
             return waboot_behavior_get_default($name);
         }else{
             return $selected_behavior;
@@ -45,7 +51,7 @@ function get_behavior($name,$object = false){
     if(!empty($selected_behavior)){
         $current_behavior_value = get_post_meta($post->ID,"_behavior_".$name,waboot_behavior_get_default($name));
 
-        if($current_behavior_value == "" && ($selected_behavior->type != "textarea" || $selected_behavior->type != "input"))
+        if($current_behavior_value == "" && ($selected_behavior['type'] != "textarea" || $selected_behavior['type'] != "input"))
             $current_behavior_value = "_default";
 
         if($current_behavior_value == "_default" || (is_array($current_behavior_value) && $current_behavior_value[0] == "__default"))
@@ -54,7 +60,7 @@ function get_behavior($name,$object = false){
         if(is_array($current_behavior_value))
             $current_behavior_value = $current_behavior_value[0];
 
-        if($object){
+        if($return == "array"){
             $selected_behavior['value'] = $current_behavior_value;
             return $selected_behavior;
         }else{
@@ -101,7 +107,6 @@ function waboot_behavior_save_metabox($post_id){
     }
 
     // Then save behaviors...
-
 
     $behaviors = waboot_behavior_get_options();
     foreach($behaviors as $b){
