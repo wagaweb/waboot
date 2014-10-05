@@ -38,7 +38,7 @@ add_action( 'waboot_entry_header', 'waboot_do_entry_title' );
  * @since 0.1.0
  */
 function waboot_title_toggler($title){
-    $show_title = get_behavior("show-title",true);
+    $show_title = get_behavior("show-title","array");
 
     if(!in_array(get_post_type(),$show_title['valid'])){
         return $title;
