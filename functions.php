@@ -13,8 +13,11 @@ spl_autoload_register('waboot_autoloader');
 if ( ! function_exists( 'waboot_setup' ) ):
     function waboot_setup() {
 
+	    //Global Utilities
+	    locate_template( '/inc/vendor/lostpress-utils.php', true );
+
         //Global Customization
-        locate_template( '/inc/global_customizations.php', true );
+        locate_template( '/inc/global-customizations.php', true );
 
         //Utility
         locate_template( '/inc/utility.php', true );
@@ -27,8 +30,7 @@ if ( ! function_exists( 'waboot_setup' ) ):
         locate_template( '/inc/menus.php', true );
         locate_template( '/inc/vendor/BootstrapNavMenuWalker.php', true );
         locate_template( '/inc/vendor/wp_bootstrap_navwalker.php', true );
-        locate_template( '/inc/waboot_bootstrap_navwalker.php', true );
-        locate_template( '/inc/WabootNavMenuWalker.php', true );
+        locate_template( '/inc/waboot-menu-navwalker.php', true );
 
         // Register sidebars
         locate_template( '/inc/widgets.php', true );
@@ -42,6 +44,9 @@ if ( ! function_exists( 'waboot_setup' ) ):
         // Load theme options framework
         locate_template( '/admin/options-panel.php', true );
 
+        // Load components framework
+        locate_template( '/admin/waboot-components-framework.php', true );
+
         // Customizer
         locate_template( '/inc/customizer.php', true );
 
@@ -52,7 +57,7 @@ if ( ! function_exists( 'waboot_setup' ) ):
         }
 
         // Email encoder
-        locate_template( '/inc/email_encoder.php', true );
+        locate_template( '/inc/email-encoder.php', true );
 
         // Load the CSS
         locate_template( '/inc/stylesheets.php', true );
@@ -85,9 +90,18 @@ if ( ! function_exists( 'waboot_setup' ) ):
         // Load Jetpack related support if needed.
         if ( class_exists( 'Jetpack' ) )
             locate_template( '/inc/jetpack.php', true );
+
+        //Loads components
+        Waboot_ComponentsManager::init();
+        Waboot_ComponentsManager::setupRegisteredComponents();
     }
 endif;
 add_action( 'after_setup_theme', 'waboot_setup' );
+
+function waboot_component_enqueue(){
+	Waboot_ComponentsManager::enqueueRegisteredComponent();
+}
+add_action( 'wp_enqueue_scripts', 'waboot_component_enqueue' );
 
 /**
  * Less compiling
