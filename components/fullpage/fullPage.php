@@ -1,7 +1,6 @@
 <?php
-
 /**
-Plugin Name: FullPage Addon
+Component Name: FullPage Addon
 Description: Enable full page layouts
 Version: 1.0
 Author: WAGA Team <dev@waga.it>

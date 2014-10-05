@@ -3,18 +3,6 @@
  * WABOOT COMPONENT FRAMEWORK
  */
 
-function enableComponent(){
-    //chiamo Waboot_ComponentsManager::enable() passando come parametro il nome del componente
-}
-function disableComponent(){
-    //chiamo Waboot_ComponentsManager::disable() passando come parametro il nome del componente
-}
-
-add_action("wp_ajax_enable_component","enableComponent");
-add_action("wp_ajax__nopriv_enable_component","enableComponent");
-add_action("wp_ajax_disable_component","disableComponent");
-add_action("wp_ajax__nopriv_disable_component","disableComponent");
-
 class Waboot_ComponentsManager {
 
     /**
@@ -30,6 +18,30 @@ class Waboot_ComponentsManager {
         }
     }
 
+    /**
+     * Get the component metadata from the beginning of the file. Mimics the get_plugin_data() WP funtion.
+     * @param $component_file
+     * @return array
+     */
+    static function get_component_data($component_file){
+        $default_headers = array(
+            'Name' => 'Component Name',
+            'Version' => 'Version',
+            'Description' => 'Description',
+            'Author' => 'Author',
+            'AuthorURI' => 'Author URI',
+            'ComponentURI' => 'Component URI',
+        );
+
+        $component_data = get_file_data( $component_file, $default_headers);
+
+        return $component_data;
+    }
+
+    /**
+     * Returns and array of components (Waboot_Component)
+     * @return array
+     */
 	static function getAllComponents(){
 		$core_components = self::get_waboot_registered_components();
 		$child_components = is_child_theme()? self::get_child_registered_components() : array();
@@ -70,51 +82,49 @@ class Waboot_ComponentsManager {
 		}
 	}
 
+    /**
+     * Checks if the component is allowed for the page\post being displayed
+     * @param Waboot_Component $c
+     * @return bool
+     */
 	static function is_enable_for_current_page(Waboot_Component $c){
 		global $post;
 
 		if(is_admin()) return false;
 
-		if(of_get_option($c->name."_selective_disable","0") == 1){
+		if(empty($c->filters)){
 			return false;
 		}
 
-		if(of_get_option($c->name."_enabled_for_all_pages","1") == 1){
+		if($c->filters['node_id'] == "*"){
 			return true;
 		}else{
-			$allowed_post_types = of_get_option($c->name."_load_locations",array());
-			if(is_front_page()){
-				if($allowed_post_types['front'] == 1){
-					return true;
-				}else{
-					return false;
-				}
-			}elseif(is_home()){
-				if($allowed_post_types['home'] == 1){
-					return true;
-				}else{
-					return false;
-				}
-			}else{
-				$current_post_type = get_post_type($post->ID);
-				if(isset($allowed_post_types[$current_post_type])){
-					if($allowed_post_types[$current_post_type] == 1){
-						return true;
-					}else{
-						return false;
-					}
-				}else{
-					return false;
-				}
-			}
+            $current_post_type = get_post_type($post->ID);
+            if(is_home()){
+                $current_post_id = get_option("page_for_posts");
+            }else{
+                $current_post_id = $post->ID;
+            }
+            if(in_array($current_post_id,$c->filters['node_id']) || in_array($current_post_type,$c->filters['post_type'])){
+                return true;
+            }else{
+                return false;
+            }
 		}
 	}
 
+    /**
+     * Detect the components in the their directory and update the registered component WP option
+     * @param $components_directory
+     * @param bool $child_theme
+     * @return mixed|void
+     */
     static function _detect_components($components_directory,$child_theme = false){
         $registered_components = $child_theme? self::get_child_registered_components() : self::get_waboot_registered_components();
         $components_files = listFolderFiles($components_directory);
         foreach($components_files as $file) {
-            $component_data = get_plugin_data($file);
+            //$component_data = get_plugin_data($file);
+            $component_data = self::get_component_data($file);
             if($component_data['Name'] != ""){
                 //The component is valid, now checks if is already in registered list
                 $component_name = basename(dirname($file));
@@ -133,15 +143,18 @@ class Waboot_ComponentsManager {
             }
         }
         if(!$child_theme)
-            self::update_waboot_registered_components($registered_components);
+            self::update_waboot_registered_components($registered_components); //update the WP Option of registered component
         else
-            self::update_child_registered_components($registered_components);
+            self::update_child_registered_components($registered_components); //update the WP Option of registered component
 
         return $registered_components;
     }
 
     /**
-     * Funzione chiamata via ajax qnd un componente viene attivato
+     * Enable a component or throw an error
+     * @param $component_name
+     * @param bool $child_component
+     * @throws Exception
      */
     static function enable($component_name,$child_component = false){
         //chiamo onActivate() del componente
@@ -156,15 +169,22 @@ class Waboot_ComponentsManager {
                 $oComponent->active = true;
                 $registered_components[$component_name]['enabled'] = true;
                 if(!$child_component)
-                    self::update_waboot_registered_components($registered_components);
+                    self::update_waboot_registered_components($registered_components); //update the WP Option of registered component
                 else
-                    self::update_child_registered_components($registered_components);
+                    self::update_child_registered_components($registered_components); //update the WP Option of registered component
+            }else{
+                throw new Exception("Component class not defined. Unable to activate the component.","waboot");
             }
+        }else{
+            throw new Exception("Component not found among registered components. Unable to activate the component.","waboot");
         }
     }
 
     /**
-     * Funzione chiamata via ajax qnd un componente viene disattivato
+     * Disable a component ot throw an error
+     * @param $component_name
+     * @param bool $child_component
+     * @throws Exception
      */
     static function disable($component_name,$child_component = false){
         //chiamo onDeactivate() del componente
@@ -177,12 +197,14 @@ class Waboot_ComponentsManager {
                 $oComponent = new $className($component);
                 $oComponent->onDeactivate();
                 $oComponent->active = false;
-                $registered_components[$component_name]['enabled'] = false;
-                if(!$child_component)
-                    self::update_waboot_registered_components($registered_components);
-                else
-                    self::update_child_registered_components($registered_components);
             }
+            $registered_components[$component_name]['enabled'] = false; //If there is no class defined (eg. due to an previous error), then simply disable the component
+            if(!$child_component)
+                self::update_waboot_registered_components($registered_components); //update the WP Option of registered component
+            else
+                self::update_child_registered_components($registered_components); //update the WP Option of registered component
+        }else{
+            throw new Exception("Component not found among registered components. Unable to deactivate the component.","waboot");
         }
     }
 
@@ -190,10 +212,26 @@ class Waboot_ComponentsManager {
 
         if(isset($_GET['enable'])){
             $component_name = $_GET['enable'];
-            self::enable($component_name);
+            try{
+                self::enable($component_name);
+            }catch(Exception $e){
+                ?>
+                <div class="error">
+                    <p><?php echo $e->getMessage(); ?></p>
+                </div>
+                <?php
+            }
         }elseif(isset($_GET['disable'])){
             $component_name = $_GET['disable'];
-            self::disable($component_name);
+            try{
+                self::disable($component_name);
+            }catch(Exception $e){
+                ?>
+                <div class="error">
+                    <p><?php echo $e->getMessage(); ?></p>
+                </div>
+                <?php
+            }
         }
 
         ?>
@@ -217,17 +255,12 @@ class Waboot_ComponentsManager {
                         </tr>
                     </tfoot>
                     <tbody id="the-list">
-                        <?php
-                            $registered_components = self::get_waboot_registered_components();
-                            if(is_child_theme()){
-                                $child_registered_components = self::get_child_registered_components();
-                                $registered_components = array_merge($registered_components,$child_registered_components);
-                            }
-                        ?>
+                        <?php $registered_components = self::getAllComponents(); ?>
                         <?php foreach($registered_components as $comp_data) : ?>
                         <tr id="<?php echo $comp_data['nicename']; ?>" <class="<?php if(self::is_active($comp_data)) echo "active"; else echo "inactive"; ?>">
                             <?php
-                                $data = get_plugin_data($comp_data['file']);
+                                //$data = get_plugin_data($comp_data['file']);
+                                $data = self::get_component_data($comp_data['file']);
                             ?>
                             <th></th>
                             <th class="component-title">
@@ -261,7 +294,7 @@ class Waboot_ComponentsManager {
                                         $component_meta[] = sprintf( __( 'By %s' ), $author );
                                     }
                                     if ( ! empty( $plugin_data['PluginURI'] ) )
-                                        $component_meta[] = '<a href="' . $data['PluginURI'] . '" title="' . esc_attr__( 'Visit plugin site' ) . '">' . __( 'Visit plugin site' ) . '</a>';
+                                        $component_meta[] = '<a href="' . $data['ComponentURI'] . '" title="' . esc_attr__( 'Visit plugin site' ) . '">' . __( 'Visit plugin site' ) . '</a>';
 
                                     echo implode( ' | ', $component_meta );
 
@@ -298,24 +331,43 @@ class Waboot_ComponentsManager {
         return false;
     }
 
+    /**
+     * Get the value of "waboot_registered_components" option (default to empty array)
+     * @return mixed|void
+     */
     static function get_waboot_registered_components(){
         return get_option("waboot_registered_components",array());
     }
 
+    /**
+     * Get the value of "{$template_name}_registered_components" option (default to empty array). $template_name is the current active template.
+     * @return mixed|void
+     */
     static function get_child_registered_components(){
         $template_name = basename(get_stylesheet_directory_uri());
         return get_option("{$template_name}_registered_components",array());
     }
 
+    /**
+     * Update the "waboot_registered_components" option
+     * @param $registered_components
+     */
     static function update_waboot_registered_components($registered_components){
         update_option( "waboot_registered_components", $registered_components );
     }
 
+    /**
+     * Update the "{$template_name}_registered_components" option, where $template_name is the current active template.
+     * @param $registered_components
+     */
     static function update_child_registered_components($registered_components){
         $template_name = basename(get_stylesheet_directory_uri());
         update_option( "{$template_name}_registered_components", $registered_components );
     }
 
+    /**
+     * Delete the options which stores the registere components
+     */
     static function reset_registered_components(){
         delete_option("waboot_registered_components");
         if(is_child_theme()){
@@ -336,8 +388,7 @@ class Waboot_Component {
     //Se il filtro è su * il componente viene caricato sempre, altrimenti solo nelle robe specificate
     var $filters = array(
         'post_type' => '*',
-        'page_id' => '*',
-        'post_id' => '*'
+        'node_id' => '*'
     );
 
     public function __construct($component){
@@ -350,6 +401,35 @@ class Waboot_Component {
         }else{
             $this->directory_uri = waboot_get_root_components_directory_uri()."/".$this->name;
         }
+
+        //Detect the filters
+        if(of_get_option($this->name."_selective_disable","0") == 1){
+            $this->filters = array();
+        }elseif(of_get_option($this->name."_enabled_for_all_pages","1") == 1){
+            $this->filters = array(
+                'post_type' => '*',
+                'node_id' => '*'
+            );
+        }else{
+            $this->filters = array(
+                'post_type' => array(),
+                'node_id' => array()
+            );
+            $allowed_post_types = of_get_option($this->name."_load_locations",array());
+            if($allowed_post_types['front'] == 1){
+                array_push($this->filters['node_id'],get_option("page_on_front"));
+                unset($allowed_post_types['front']);
+            }
+            if($allowed_post_types['home'] == 1){
+                array_push($this->filters['node_id'],get_option("page_for_posts"));
+                unset($allowed_post_types['home']);
+            }
+            foreach($allowed_post_types as $k => $val){
+                if($val == 1){
+                    array_push($this->filters['post_type'],$k);
+                }
+            }
+        }
     }
 
     /**
@@ -358,6 +438,10 @@ class Waboot_Component {
     public function setup(){
 	    add_filter("of_options",array($this,"theme_options"));
     }
+
+    public function scripts(){}
+
+    public function styles(){}
 
 	public function theme_options($options){
 		$options[] = array(
@@ -400,18 +484,40 @@ class Waboot_Component {
 		return $options;
 	}
 
-    /**
-     * Metodo da eseguire (via ajax) all'attivazione del componente
-     */
     public function onActivate(){
-        echo "Attivato: $this->name";
+        //echo "Attivato: $this->name";
+        add_action( 'admin_notices', array($this,'activationNotice') );
+        ?>
+        <div class="updated">
+            <p><?php _e( sprintf("Activated: %s",$this->name), 'waboot' ); ?></p>
+        </div>
+        <?php
     }
 
-    /**
-     * Metodo da eseguire (via ajax) alla disattivazione del componente
-     */
     public function onDeactivate(){
-        echo "Disattivato: $this->name";
+        //echo "Disattivato: $this->name";
+        add_action( 'admin_notices', array($this,'deactivationNotice') );
+        ?>
+        <div class="updated">
+            <p><?php _e( sprintf("Deactivated: %s",$this->name), 'waboot' ); ?></p>
+        </div>
+        <?php
+    }
+
+    public function activationNotice(){
+        ?>
+        <div class="updated">
+            <p><?php _e( sprintf("Activated: %s",$this->name), 'waboot' ); ?></p>
+        </div>
+        <?php
+    }
+
+    public function deactivationNotice(){
+        ?>
+        <div class="updated">
+            <p><?php _e( sprintf("Deactivated: %s",$this->name), 'waboot' ); ?></p>
+        </div>
+        <?php
     }
 }
 
@@ -423,10 +529,4 @@ function waboot_get_root_components_directory_uri(){
 
 function waboot_get_child_components_directory_uri(){
     return get_stylesheet_directory_uri()."/components/";
-}
-
-function listFolderFiles($dir){
-    $files_in_root = glob($dir."/*.php");
-    $files = glob($dir."/*/*.php");
-    return array_merge($files_in_root,$files);
 }

@@ -1,7 +1,6 @@
 <?php
-
 /**
-Plugin Name: Sample Component
+Component Name: Sample Component
 Description: Its a sample component
 Version: 1.0
 Author: WAGA Team <dev@waga.it>

@@ -151,6 +151,14 @@ if ( !function_exists("formatBytes") ) :
 	}
 endif;
 
+if ( !function_exists("listFolderFiles") ) :
+function listFolderFiles($dir,$extension = "php"){
+    $files_in_root = glob($dir."/*.{$extension}");
+    $files = glob($dir."/*/*.{$extension}");
+    return array_merge($files_in_root,$files);
+}
+endif;
+
 if ( !function_exists("createdir") ) :
 	function createdir($path){
 		if(!is_dir($path)){
