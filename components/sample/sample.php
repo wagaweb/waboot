@@ -40,8 +40,15 @@ class SampleComponent extends Waboot_Component{
         //Do stuff...
         $options[] = array(
             'name' => __( 'Sample Info Box', 'waboot' ),
-            'desc' => __( 'This a sample infobox', 'waboot' ),
+            'desc' => __( 'This is a sample infobox', 'waboot' ),
             'type' => 'info'
+        );
+        $options[] = array(
+            'name' => __( 'Sample check box', 'waboot' ),
+            'desc' => __( 'This is a sample checkbox.', 'waboot' ),
+            'id'   => $this->name.'_sample_checkbox',
+            'std'  => '0', //not enabled by default
+            'type' => 'checkbox'
         );
         return $options;
     }
