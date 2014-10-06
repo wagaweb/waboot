@@ -9,6 +9,9 @@ Author URI: http://www.waga.it
 
 class SampleComponent extends Waboot_Component{
 
+    /**
+     * This method will be executed at Wordpress startup (every page load)
+     */
     public function setup(){
         parent::setup();
         //Do stuff...
@@ -16,10 +19,20 @@ class SampleComponent extends Waboot_Component{
 
     public function scripts(){
         //Enqueue scripts
+        /**
+         * wp_enqueue_script('sample-script',$this->directory_uri . '/sample.min.js',array('jquery'),false,false);
+         * ...
+         * ....
+         */
     }
 
     public function styles(){
         //Enqueue styles
+        /**
+         * wp_enqueue_style('sample-style',$this->directory_uri . '/sample.css');
+         * ...
+         * ....
+         */
     }
 
     public function theme_options($options){
