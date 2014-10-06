@@ -3,6 +3,9 @@
  * WABOOT COMPONENT FRAMEWORK
  */
 
+$GLOBALS['loaded_components'] = array();
+$GLOBALS['registered_components'] = array();
+
 class Waboot_ComponentsManager {
 
     /**
@@ -43,10 +46,16 @@ class Waboot_ComponentsManager {
      * @return array
      */
 	static function getAllComponents(){
-		$core_components = self::get_waboot_registered_components();
-		$child_components = is_child_theme()? self::get_child_registered_components() : array();
-		$components = array_merge($core_components,$child_components);
-		return $components;
+        global $registered_components;
+        if(!empty($registered_components)){
+            return $registered_components;
+        }else{
+            $core_components = self::get_waboot_registered_components();
+            $child_components = is_child_theme()? self::get_child_registered_components() : array();
+            $components = array_merge($core_components,$child_components);
+            $registered_components = $components;
+            return $components;
+        }
 	}
 
     /**
@@ -65,9 +74,9 @@ class Waboot_ComponentsManager {
     }
 
 	/**
-	 * Exec scripts() and styles() methods on registered components
+	 * Exec onInit(), scripts() and styles() methods on registered components
 	 */
-	static function enqueueRegisteredComponent(){
+	static function enqueueRegisteredComponent($action){
 		$components = self::getAllComponents();
 		foreach($components as $c){
 			if(self::is_active($c)){
@@ -75,12 +84,27 @@ class Waboot_ComponentsManager {
 				$className = ucfirst($c['nicename'])."Component";
 				$oComponent = new $className($c);
 				if(self::is_enable_for_current_page($oComponent)){
-					$oComponent->scripts();
-					$oComponent->styles();
+                    self::addLoadedComponent($oComponent);
+                    switch($action){
+                        case "wp":
+                            $oComponent->onInit();
+                            break;
+                        case "wp_enqueue_scripts":
+                            $oComponent->scripts();
+                            $oComponent->styles();
+                            break;
+                    }
 				}
 			}
 		}
 	}
+
+    static function addLoadedComponent(Waboot_Component $c){
+        global $loaded_components;
+        if(!in_array($c->name,$loaded_components)){
+            $loaded_components[$c->name] = $c;
+        }
+    }
 
     /**
      * Checks if the component is allowed for the page\post being displayed
@@ -446,6 +470,8 @@ class Waboot_Component {
     public function setup(){
 	    add_filter("of_options",array($this,"theme_options"));
     }
+
+    public function onInit(){}
 
     public function scripts(){}
 

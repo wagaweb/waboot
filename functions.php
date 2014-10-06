@@ -98,10 +98,8 @@ if ( ! function_exists( 'waboot_setup' ) ):
 endif;
 add_action( 'after_setup_theme', 'waboot_setup' );
 
-function waboot_component_enqueue(){
-	Waboot_ComponentsManager::enqueueRegisteredComponent();
-}
-add_action( 'wp_enqueue_scripts', 'waboot_component_enqueue' );
+//Components hooks
+locate_template( '/admin/waboot-components-hooks.php', true );
 
 /**
  * Less compiling

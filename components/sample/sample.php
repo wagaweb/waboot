@@ -17,6 +17,14 @@ class SampleComponent extends Waboot_Component{
         //Do stuff...
     }
 
+    /**
+     * This method will be executed on the "wp" action in pages where the component must be loaded
+     */
+    public function onInit(){
+        parent::onInit();
+        //Do stuff...
+    }
+
     public function scripts(){
         //Enqueue scripts
         /**
