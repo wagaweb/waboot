@@ -39,7 +39,7 @@ class Waboot_ComponentsManager {
     }
 
     /**
-     * Returns and array of components (Waboot_Component)
+     * Returns and array of components data (aka in array mode, this do not retrive Waboot_Component)
      * @return array
      */
 	static function getAllComponents(){
@@ -121,6 +121,14 @@ class Waboot_ComponentsManager {
      */
     static function _detect_components($components_directory,$child_theme = false){
         $registered_components = $child_theme? self::get_child_registered_components() : self::get_waboot_registered_components();
+
+        //Unset deleted components
+        foreach($registered_components as $name => $data){
+            if(!is_file($data['file'])){
+                unset($registered_components[$name]);
+            }
+        }
+
         $components_files = listFolderFiles($components_directory);
         foreach($components_files as $file) {
             //$component_data = get_plugin_data($file);
@@ -173,10 +181,10 @@ class Waboot_ComponentsManager {
                 else
                     self::update_child_registered_components($registered_components); //update the WP Option of registered component
             }else{
-                throw new Exception("Component class not defined. Unable to activate the component.","waboot");
+                throw new Exception(__("Component class not defined. Unable to activate the component.","waboot"));
             }
         }else{
-            throw new Exception("Component not found among registered components. Unable to activate the component.","waboot");
+            throw new Exception(__("Component not found among registered components. Unable to activate the component.","waboot"));
         }
     }
 
@@ -204,7 +212,7 @@ class Waboot_ComponentsManager {
             else
                 self::update_child_registered_components($registered_components); //update the WP Option of registered component
         }else{
-            throw new Exception("Component not found among registered components. Unable to deactivate the component.","waboot");
+            throw new Exception(__("Component not found among registered components. Unable to deactivate the component.","waboot"));
         }
     }
 

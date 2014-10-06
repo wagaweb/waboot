@@ -1,13 +1,13 @@
 <?php
 /**
-Component Name: Sample
+Component Name: Sample 01
 Description: Sample component
 Version: 1.0
 Author: WAGA Team <dev@waga.it>
 Author URI: http://www.waga.it
 */
 
-class FullpageComponent extends Waboot_Component{
+class SampleComponent extends Waboot_Component{
 
     public function setup(){
         parent::setup();
@@ -25,6 +25,11 @@ class FullpageComponent extends Waboot_Component{
     public function theme_options($options){
         $options = parent::theme_options($options);
         //Do stuff...
+        $options[] = array(
+            'name' => __( 'Sample Info Box', 'waboot' ),
+            'desc' => __( 'This a sample infobox', 'waboot' ),
+            'type' => 'info'
+        );
         return $options;
     }
 
