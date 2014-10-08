@@ -52,7 +52,22 @@ class Waboot_ComponentsManager {
         }else{
             $core_components = self::get_waboot_registered_components();
             $child_components = is_child_theme()? self::get_child_registered_components() : array();
-            $components = array_merge($core_components,$child_components);
+            if(is_child_theme()){
+                foreach($core_components as $name => $comp){
+                    if(array_key_exists($name,$child_components)){
+                        $child_components[$name]['override'] = true;
+                        //unset($child_components[$name]); //todo: per ora, non permettere la sovrascrizione
+                    }
+                }
+                $components = array_merge($core_components,$child_components); //this will override core_components with child_components with same name
+            }else{
+                /*foreach($core_components as $name => $comp){
+                    if(in_array($name,$child_components)){
+                        unset($child_components[$name]);
+                    }
+                }*/
+                $components = $core_components;
+            }
             $registered_components = $components;
             return $components;
         }
@@ -311,6 +326,13 @@ class Waboot_ComponentsManager {
                                     <?php if(self::is_child_component($comp_data)) : ?>
                                         <p class="child-component-notice">
                                             <?php _e("This is a component of the current child theme","waboot"); ?>
+                                            <?php
+                                                if(isset($comp_data['override'])){
+                                                    if($comp_data['override']){
+                                                        _e(", and <strong>override a core component</strong>","waboot");
+                                                    }
+                                                }
+                                            ?>
                                         </p>
                                     <?php endif; ?>
                                 </div>
@@ -414,6 +436,7 @@ class Waboot_Component {
     var $name;
     var $active;
     var $file;
+    var $files;
     var $is_child_component;
     var $directory_uri;
 
@@ -568,6 +591,22 @@ class Waboot_Component {
             <p><?php _e( sprintf("Deactivated: %s",$this->name), 'waboot' ); ?></p>
         </div>
         <?php
+    }
+
+    /**
+     * Retrive a file from component directory
+     * @param $filepath
+     * @return string
+     */
+    public function file($filepath){
+        if(is_child_theme()){
+            $child_file = waboot_get_child_components_directory_uri().$this->name."/".$filepath;
+            $child_file_path = url_to_path($child_file);
+            if(is_file($child_file_path)){
+                return $child_file;
+            }
+        }
+        return $this->directory_uri."/".$filepath;
     }
 }
 
