@@ -191,6 +191,20 @@ if ( !function_exists("deltree") ) :
 	}
 endif;
 
+if ( !function_exists("url_to_path") ) :
+    function url_to_path($url){
+        $blogurl = get_bloginfo("url");
+        $blogurl = preg_replace("(https?://)", "", $blogurl );
+        //$result = preg_match("/^https?:\/\/$blogurl\/([[:space:]a-zA-Z0-9\/_.-]+)/", $url, $matches);
+        $result = preg_replace("|^https?://$blogurl|", ABSPATH, $url);
+        //$blogpath = ABSPATH;
+
+        //$filepath = $blogpath."/".$matches[1];
+        //return $filepath;
+        return $result;
+    }
+endif;
+
 if ( !function_exists("count_digit") ) :
 	function count_digit($number){
 		$digit = 0;
