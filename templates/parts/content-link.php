@@ -16,8 +16,8 @@
 		</h2>
 	</header><!-- .entry-header -->
 	<div class="entry-content">
-		<?php echo waboot_link_format_helper( 'post_content' ); // displays post content without the link. See inc/template-tags.php.
-		wp_link_pages(); ?>
+		<?php echo waboot_link_format_helper( 'post_content' ); // displays post content without the link. See inc/template-tags.php. ?>
+		<?php wp_link_pages(); ?>
 	</div><!-- .entry-content -->
 	<?php do_action( 'waboot_entry_footer' ); ?>
 </article><!-- #post-<?php the_ID(); ?> -->

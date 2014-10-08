@@ -19,20 +19,17 @@
         <?php do_action( 'waboot_entry_header' ); ?>
 	<?php endif; ?>
 	<div class="entry-content">
-		<?php if ( has_post_thumbnail() && ! has_post_format( 'gallery' ) ) { ?>
+		<?php if ( has_post_thumbnail() && ! has_post_format( 'gallery' ) ) : ?>
 			<a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( 'Link to %s', 'waboot' ), the_title_attribute( 'echo=0' ) ); ?>"><?php echo get_the_post_thumbnail( $post->ID, 'thumbnail', array( 'class' => 'alignleft', 'title' => "" ) ); ?></a>
-		<?php }
-
-		// Show full content on certain post formats if it doesn't have an excerpt.
+		<?php endif; ?>
+        <?php
 		if ( has_post_format( array( 'image', 'gallery', 'video', 'audio' ) )  && ! has_excerpt() ) {
-			the_content( __( 'Continue Reading &raquo;', 'waboot' ) );
-
-		// Show only excerpt on the rest.
-		} else {
-			the_excerpt(); ?>
-		<?php }
-
-		wp_link_pages(); ?>
+			the_content( __( 'Continue Reading &raquo;', 'waboot' ) ); // Show full content on certain post formats if it doesn't have an excerpt.
+		}else{
+            the_excerpt(); // Show only excerpt on the rest.
+		}
+        ?>
+		<?php wp_link_pages(); ?>
 	</div>
 	<?php do_action( 'waboot_entry_footer' ); ?>
 </article><!-- #post-<?php the_ID(); ?> -->
