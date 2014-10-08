@@ -461,6 +461,15 @@ class Waboot_Component {
                     array_push($this->filters['post_type'],$k);
                 }
             }
+            $specific_ids = of_get_option($this->name."_load_locations_ids",array());
+            if(!empty($specific_ids)){
+                $specific_ids = explode(',',trim($specific_ids));
+                foreach($specific_ids as $id){
+                    $id = trim($id);
+                    if(!in_array($id,$this->filters['node_id']))
+                        array_push($this->filters['node_id'],$id);
+                }
+            }
         }
     }
 
@@ -509,11 +518,18 @@ class Waboot_Component {
 
 		$options[] = array(
 			'id' => $this->name.'_load_locations',
-			'name' => __('Load location','waboot'),
+			'name' => __('Load locations','waboot'),
 			'desc' => __('Where to load the component', 'waboot'),
 			'type' => 'multicheck',
 			'options' => $filter_locs
 		);
+
+        $options[] = array(
+            'id' => $this->name.'_load_locations_ids',
+            'name' => __('Load locations by ID','waboot'),
+            'desc' => __('You can load the component for specific pages by enter here the respective ids (comma separated)'),
+            'type' => 'text'
+        );
 
 		return $options;
 	}
