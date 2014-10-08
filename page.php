@@ -20,12 +20,17 @@ get_header(); ?>
 	<div id="primary" class="<?php echo apply_filters( 'waboot_primary_container_class', 'content-area col-sm-8' ); ?>">
     <?php endif; ?>
 
+		<?php do_action( 'waboot_main_before' ); ?>
 		<main id="main" class="site-main" role="main">
 
 			<?php
 			while ( have_posts() ) : the_post();
 
+				do_action( 'waboot_loop_before' );
+
 				get_template_part( '/templates/parts/content', 'page' );
+
+				do_action( 'waboot_loop_after' );
 
 				comments_template( '', true );
 
@@ -33,6 +38,7 @@ get_header(); ?>
 			?>
 
 		</main><!-- #main -->
+		<?php do_action( 'waboot_main_after' ); ?>
 
 	</div><!-- #primary -->
 <?php

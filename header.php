@@ -52,7 +52,6 @@
         <?php endif; ?>
 
 	    <div id="page" class="<?php echo of_get_option( 'waboot_page_width','container' ); ?> hfeed site">
-		    <?php do_action( 'waboot_header_before' ); ?>
             <div id="header-wrapper">
                 <div id="header-inner" class="<?php echo of_get_option( 'waboot_header_width' ); ?>">
                     <header id="masthead" class="site-header" role="banner">
@@ -73,9 +72,6 @@
                     </header><!-- #masthead -->
                 </div>
 		    </div><!-- #header-wrapper -->
-		    <?php do_action( 'waboot_header_after' ); ?>
-
-	        <?php do_action( 'waboot_content_before' ); ?>
 
             <?php if ( is_active_sidebar( 'banner' ) ) : ?>
                 <div id="banner-wrapper" class="<?php echo of_get_option( 'waboot_banner_width','container' ); ?>">

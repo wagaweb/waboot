@@ -10,6 +10,7 @@ get_header(); ?>
 
 	<div id="primary" class="image-attachment">
 
+		<?php do_action( 'waboot_main_before' ); ?>
 		<main id="main" class="site-main" role="main">
 
 			<?php while ( have_posts() ) : the_post(); ?>
@@ -41,8 +42,6 @@ get_header(); ?>
 							</ul>
 						</nav>
 					</header>
-
-					<?php do_action( 'waboot_entry_content_before' ); ?>
 					<div class="entry-content">
 
 						<div class="entry-attachment">
@@ -62,7 +61,6 @@ get_header(); ?>
 						wp_link_pages();
 						?>
 					</div><!-- .entry-content -->
-					<?php do_action( 'waboot_entry_content_after' ); ?>
 
 					<footer class="entry-meta">
 						<?php
@@ -89,6 +87,7 @@ get_header(); ?>
 			<?php endwhile; // end of the loop. ?>
 
 		</main><!-- #main -->
+		<?php do_action( 'waboot_main_after' ); ?>
 
 	</div><!-- #primary -->
 

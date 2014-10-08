@@ -23,19 +23,15 @@
 
     <div id="footer-wrapper">
         <div id="footer-inner" class="<?php echo of_get_option( 'waboot_footer_width','container' ); ?>">
-	        <?php do_action( 'waboot_content_after' );
-
-	        // Footer widgets
-	        waboot_do_sidebar( 'footer' ); ?>
+	        <?php
+                // Footer widgets
+                waboot_do_sidebar( 'footer' );
+            ?>
 	    </div>
     </div>
 
 </div><!-- #page -->
-
-<?php do_action( 'waboot_footer_before' ); ?>
 <footer class="site-footer" id="colophon" role="contentinfo">
-	<?php do_action( 'waboot_footer_top' ); ?>
-
 	<div class="<?php echo of_get_option( 'waboot_footer_width','container' ); ?>">
 		<div class="row">
 
@@ -63,16 +59,10 @@
 
 		</div><!-- .row -->
 	</div><!-- .container -->
-
-	<?php do_action( 'waboot_footer_bottom' ); ?>
 </footer><!-- #colophon -->
-
 <?php
-do_action( 'waboot_footer_after' );
-
-wp_footer();
-
-do_action( 'waboot_footer' ); ?>
-
+    wp_footer();
+    do_action( 'waboot_footer' );
+?>
 </body>
 </html>
