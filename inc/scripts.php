@@ -26,21 +26,22 @@ function waboot_js_loader() {
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) )
 		wp_enqueue_script( 'comment-reply' );
 }
-add_action( 'wp_enqueue_scripts', 'waboot_js_loader' );
+add_action( 'wp_enqueue_scripts', 'waboot_js_loader', 90 );
 
 function waboot_mobile_js_loader() {
     if(wb_is_mobile()){
         if(WABOOT_ENV == "dev"){
+            wp_enqueue_script( 'waboot-helper-mobile', waboot_locate_template_uri( 'sources/js/waboot-helper-mobile.js' ), array('jquery','waboot-helper','offcanvas','fastclick','touchSwipe'),false, true);
             wp_enqueue_script( 'offcanvas', waboot_locate_template_uri( 'sources/js/vendor-mobile/offcanvas.js' ), array('jquery'),false, true);
             wp_enqueue_script( 'fastclick', waboot_locate_template_uri( 'sources/js/vendor-mobile/fastclick.js' ), array('jquery'),false, true);
             wp_enqueue_script( 'touchSwipe', waboot_locate_template_uri( 'sources/js/vendor-mobile/jquery.touchSwipe.js' ), array('jquery'),false, true);
         }else{
-            wp_enqueue_script( 'waboot-mobile', waboot_locate_template_uri( 'assets/js/waboot-mobile.min.js' ), array('jquery','waboot-mobile-plugins'),false, true);
+            wp_enqueue_script( 'waboot-mobile', waboot_locate_template_uri( 'assets/js/waboot-mobile.min.js' ), array('jquery','waboot','waboot-plugins','waboot-mobile-plugins'),false, true);
             wp_enqueue_script( 'waboot-mobile-plugins', waboot_locate_template_uri( 'assets/js/plugins-mobile.min.js' ), array('jquery'),false, true);
         }
     }
 }
-add_action( 'wp_enqueue_scripts', 'waboot_mobile_js_loader' );
+add_action( 'wp_enqueue_scripts', 'waboot_mobile_js_loader', 91 );
 
 function waboot_ie_compatibility(){
     ?>
