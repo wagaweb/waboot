@@ -11,25 +11,24 @@ class HeadhesiveComponent extends Waboot_Component{
     public function scripts(){
         wp_enqueue_script(
             'headhesive-script',
-            $this->directory_uri . '/headhesive.js',
+            $this->file('headhesive.js'),
             array('jquery'),
             '1.0.0',
             'false'
         );
         wp_enqueue_script(
             'custom-headhesive-script',
-            $this->directory_uri . '/headhesive-custom.js',
+            $this->file('headhesive-custom.js'),
             array('jquery'),
             '1.0.0',
             'false'
         );
     }
-
     public function styles(){
         //Enqueue styles
         wp_enqueue_style(
             'headhesive-style',
-            $this->directory_uri . '/headhesive.css'
+            $this->file('headhesive.css')
         );
     }
 }

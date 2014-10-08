@@ -14,6 +14,6 @@ class FullpageComponent extends Waboot_Component{
         wp_enqueue_script('slimscroll-script',$this->directory_uri . '/jquery.slimscroll.min.js',array('jquery'),false,false);
     }
 	function styles(){
-		wp_enqueue_style('fullpage-style',$this->directory_uri . '/jquery.fullPage.css');
+		wp_enqueue_style($this->file('/jquery.fullPage.css'));
 	}
 }
