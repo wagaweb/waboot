@@ -383,3 +383,97 @@ if ( ! function_exists( 'waboot_archive_get_posts' ) ):
     }
 endif;
 
+/***************************************************************
+ * MOBILE DETECT FUNCTIONS
+ ***************************************************************/
+
+if(!function_exists("wb_is_mobile")):
+    function wb_is_mobile() {
+        global $md;
+        return($md->isMobile());
+    }
+endif;
+
+if(!function_exists("wb_is_tablet")):
+    function wb_is_tablet(){
+        global $md;
+        return($md->isTablet());
+    }
+endif;
+
+if(!function_exists("wb_is_ios")):
+    function wb_is_ios() {
+        global $md;
+        return($md->isiOS());
+    }
+endif;
+
+if(!function_exists("wb_is_android")):
+    function wb_is_android() {
+        global $md;
+        return($md->isAndroidOS());
+    }
+endif;
+
+if(!function_exists("wb_is_windows_mobile")):
+    function wb_is_windows_mobile() {
+        global $md;
+        return($md->is('WindowsMobileOS') || $md->is('WindowsPhoneOS'));
+    }
+endif;
+
+if(!function_exists("wb_is_iphone")):
+    function wb_is_iphone() {
+        global $md;
+        return($md->isIphone());
+    }
+endif;
+
+if(!function_exists("wb_is_ipad")):
+    function is_ipad() {
+        global $md;
+        return($md->isIpad());
+    }
+endif;
+
+if(!function_exists("wb_is_samsung")):
+    function wb_is_samsung() {
+        global $md;
+        return($md->is('Samsung'));
+    }
+endif;
+
+if(!function_exists("wb_is_samsung_tablet")):
+    function wb_is_samsung_tablet() {
+        global $md;
+        return($md->is('SamsungTablet'));
+    }
+endif;
+
+if(!function_exists("wb_is_kindle")):
+    function wb_is_kindle() {
+        global $md;
+        return($md->is('Kindle'));
+    }
+endif;
+
+if(!function_exists("wb_android_version")):
+    function wb_android_version(){
+        global $md;
+        return $md->version('Android');
+    }
+endif;
+
+if(!function_exists("wb_iphone_version")):
+    function wb_iphone_version(){
+        global $md;
+        return $md->version('iPhone');
+    }
+endif;
+
+if(!function_exists("wb_ipad_version")):
+    function wb_ipad_version(){
+        global $md;
+        return $md->version('iPad');
+    }
+endif;

@@ -58,8 +58,10 @@ module.exports = function(grunt) {
             },
             dist: {
                 files:{
-                    'assets/js/waboot.js': ['sources/js/*.js','!sources/js/unused/*.js'],
-                    'assets/js/plugins.js': ['sources/js/vendor/*.js']
+                    'assets/js/waboot.js': ['sources/js/waboot-helper.js'],
+                    'assets/js/waboot-mobile.js': ['sources/js/waboot-helper-mobile.js'],
+                    'assets/js/plugins.js': ['sources/js/vendor/*.js'],
+                    'assets/js/plugins-mobile.js': ['sources/js/vendor-mobile/*.js']
                 }
             }
         },
@@ -71,7 +73,9 @@ module.exports = function(grunt) {
             dist: {
                 files: {
                     'assets/js/waboot.min.js': ['assets/js/waboot.js'],
-                    'assets/js/plugins.min.js': ['assets/js/plugins.js']
+                    'assets/js/waboot-mobile.min.js': ['assets/js/waboot-mobile.js'],
+                    'assets/js/plugins.min.js': ['assets/js/plugins.js'],
+                    'assets/js/plugins-mobile.min.js': ['assets/js/plugins-mobile.js']
                 }
             }
         },

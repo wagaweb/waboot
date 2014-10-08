@@ -168,7 +168,7 @@ function waboot_add_admin_compile_button($wp_admin_bar){
 add_action( 'admin_bar_menu', 'waboot_add_admin_compile_button', 990 );
 
 /**
- * Add env notice to thr admin bar
+ * Add env notice to the admin bar
  * @param $wp_admin_bar
  * @since 0.2.0
  */
@@ -186,3 +186,37 @@ function waboot_add_env_notice($wp_admin_bar){
     }
 }
 add_action( 'admin_bar_menu', 'waboot_add_env_notice', 980 );
+
+if(!is_admin() && !function_exists("waboot_mobile_body_class")):
+/**
+ * Adds mobile classes to body
+ */
+function waboot_mobile_body_class($classes){
+    global $md;
+    if($md->isMobile()){
+        $classes[] = "mobile";
+        if($md->is_ios()) $classes[] = "mobile-ios";
+        if($md->is_android()){
+            $classes[] = "mobile-android";
+            $classes[] = "mobile-android-".$md->version('Android');
+        }
+        if($md->is_windows_mobile()) $classes[] = "mobile-windows";
+        if($md->isTablet()) $classes[] = "mobile-tablet";
+        if($md->isIphone()){
+            $classes[] = "mobile-iphone";
+            $classes[] = "mobile-iphone-".$md->version('IPhone');
+        }
+        if($md->isIpad()){
+            $classes[] = "mobile-ipad";
+            $classes[] = "mobile-ipad-".$md->version('IPad');
+        }
+        if($md->is('Kindle')) $classes[] = "mobile-kindle";
+        if($md->is('Samsung')) $classes[] = "mobile-samsung";
+        if($md->is('SamsungTablet')) $classes[] = "mobile-samsungtablet";
+    }else{
+        $classes[] = "desktop";
+    }
+    return $classes;
+}
+add_filter('body_class','waboot_mobile_body_class');
+endif;

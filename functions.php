@@ -10,6 +10,9 @@ if(!defined('LESS_LIVE_COMPILING')){
 
 spl_autoload_register('waboot_autoloader');
 
+$md = new Mobile_Detect();
+$md->setDetectionType('extended');
+
 if ( ! function_exists( 'waboot_setup' ) ):
     function waboot_setup() {
 
@@ -177,6 +180,9 @@ function waboot_autoloader($class) {
             break;
         case "ThemeUpdateChecker":
             require_once 'inc/theme-updates/theme-update-checker.php';
+            break;
+        case "Mobile_Detect":
+            require_once 'inc/vendor/Mobile_Detect.php';
             break;
     }
 }
