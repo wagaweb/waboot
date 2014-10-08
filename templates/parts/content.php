@@ -5,7 +5,6 @@
  */
 ?>
     <article role="article" id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-        <?php /* do_action( 'waboot_entry_header' ); */ ?>
         <?php if(is_singular()) : ?>
             <?php do_action( 'waboot_entry_header' ); ?>
             <div class="entry-content row">
@@ -20,8 +19,8 @@
                     <?php
                         the_content();
                         wp_link_pages();
-                        do_action( 'waboot_entry_footer' );
                     ?>
+                    <?php do_action( 'waboot_entry_footer' ); ?>
                 </div>
             </div><!-- .entry-content -->
         <?php else : ?>
@@ -39,17 +38,17 @@
                         <?php
                             the_excerpt();
                             wp_link_pages();
-                            do_action( 'waboot_entry_footer' );
                         ?>
+                        <?php do_action( 'waboot_entry_footer' ); ?>
                     </div>
                 <?php else : ?>
                     <div class="col-sm-12">
+                        <?php do_action( 'waboot_entry_header' ); ?>
                         <?php
-                            do_action( 'waboot_entry_header' );
                             the_excerpt();
                             wp_link_pages();
-                            do_action( 'waboot_entry_footer' );
                         ?>
+                        <?php do_action( 'waboot_entry_footer' ); ?>
                     </div>
                 <?php endif; ?>
             </div><!-- .entry-content -->

@@ -12,7 +12,5 @@
 			<?php the_content( __( 'Continue Reading &raquo;', 'waboot' ) ); ?>
 		</blockquote>
 	</div>
-	<?php
-    do_action( 'waboot_entry_footer' );
-	?>
+	<?php do_action( 'waboot_entry_footer' ); ?>
 </article><!-- #post -->

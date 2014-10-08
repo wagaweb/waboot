@@ -10,7 +10,5 @@
 	<div class="entry-content">
 		<?php the_content(); ?>
 	</div>
-	<?php
-    do_action( 'waboot_entry_footer' );
-	?>
+	<?php do_action( 'waboot_entry_footer' ); ?>
 </article><!-- #post -->

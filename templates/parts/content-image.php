@@ -20,7 +20,5 @@
 		wp_link_pages();
     ?>
 	</div><!-- .entry-content -->
-	<?php
-    do_action( 'waboot_entry_footer' );
-	?>
+	<?php do_action( 'waboot_entry_footer' ); ?>
 </article><!-- #post-<?php the_ID(); ?> -->
