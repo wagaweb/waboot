@@ -155,6 +155,10 @@ if ( !function_exists("listFolderFiles") ) :
 function listFolderFiles($dir,$extension = "php"){
     $files_in_root = glob($dir."/*.{$extension}");
     $files = glob($dir."/*/*.{$extension}");
+
+    if(!$files_in_root) $files_in_root = array();
+    if(!$files) $files = array();
+
     return array_merge($files_in_root,$files);
 }
 endif;
