@@ -113,9 +113,9 @@ class Behavior{
 
 		if(isset($args['default'])){
 			$base_default = $args['default'];
-			$this->default = of_get_option("behavior_".$args['name'],$base_default);
+			$this->default = of_get_option($this->optionname,$base_default);
 		}else{
-			$this->default = of_get_option("behavior_".$args['name'],"");
+			$this->default = of_get_option($this->optionname,"");
 		}
 
 		if(isset($args['valid'])){
@@ -158,10 +158,10 @@ class Behavior{
 		}else{
 			$current_behavior_value = get_post_meta($node->ID,$this->metaname,$this->default);
 
-			if($current_behavior_value == "" && ($this->type != "textarea" || $this->type != "input"))
+			if($current_behavior_value == "" && ($this->type != "textarea" || $this->type != "text"))
 				$current_behavior_value = "_default";
 
-			if($current_behavior_value == "_default" || (is_array($current_behavior_value) && $current_behavior_value[0] == "__default"))
+			if($current_behavior_value == "_default" || (is_array($current_behavior_value) && $current_behavior_value[0] == "__default") )
 				$current_behavior_value = $this->default;
 
 			if(is_array($current_behavior_value))
@@ -198,6 +198,10 @@ class Behavior{
 		);
 
 		switch($this->type){
+			case 'text':
+			case 'textarea':
+				$option['std'] = $this->default;
+				break;
 			case 'select':
 				$select_options = array();
 				foreach($this->possible_values as $o){
@@ -223,10 +227,41 @@ class Behavior{
 
 	function print_metabox($post_id){
 		$current_value = $this->get_meta($post_id);
-		if($current_value == "")
-			$current_value = "_default";
+		if($current_value == ""){
+			if($this->type == "select" || $this->type == "radio"){
+				$current_value = "_default";
+			}
+		}
+
+		if($current_value == "_default"){
+			if($this->type == "text" || $this->type == "textarea"){
+				$current_value = "";
+				$check_predefined = true;
+			}
+		}
 
 		switch($this->type){
+			case "text":
+				?>
+				<p><strong><?php echo $this->title ?></strong></p>
+				<label class="screen-reader-text" for="<?php echo $this->metaname ?>"><?php echo $this->title ?></label>
+				<input type="text" name="<?php echo $this->metaname ?>" id="<?php echo $this->metaname ?>" value="<?php echo $current_value; ?>" placeholder="<?php echo $this->default; ?>" />
+				<input type="checkbox" name="<?php echo $this->metaname ?>_default" id="<?php echo $this->metaname ?>_default" value="1" <?php if(isset($check_predefined)) echo "checked"; ?>><?php _e("Usa valore predefinito","waboot"); ?>
+				<?php
+				break;
+			case "textarea":
+				?>
+				<p><strong><?php echo $this->title ?></strong></p>
+				<label class="screen-reader-text" for="<?php echo $this->metaname ?>"><?php echo $this->title ?></label>
+				<textarea name="<?php echo $this->metaname ?>" id="<?php echo $this->metaname ?>" placeholder="<?php echo $this->default; ?>"><?php echo $current_value; ?></textarea>
+				<br />
+				<input type="checkbox" name="<?php echo $this->metaname ?>_default" id="<?php echo $this->metaname ?>_default" value="1" <?php if(isset($check_predefined)) echo "checked"; ?>><?php _e("Usa valore predefinito","waboot"); ?>
+				<?php
+				break;
+			case "radio":
+				?>
+				<?php
+				break;
 			case "checkbox":
 				?>
 				<ul>
@@ -347,7 +382,11 @@ function waboot_behavior_save_metabox($post_id){
 	        }
 
 	        if(isset($_POST[$metaname])){
-		        $b->set_value($_POST[$metaname]);
+		        if(isset($_POST[$metaname."_default"])){
+			        $b->set_value("_default");
+		        }else{
+			        $b->set_value($_POST[$metaname]);
+		        }
 		        $b->save_meta($post_id);
 	        }
 	    }
