@@ -355,7 +355,7 @@ function optionsframework_options() {
     * BEHAVIOUR TAB
     */
 
-    if(function_exists("waboot_behavior_get_options")) :
+    if(class_exists("BehaviorsManager")) :
 
         $options[] = array(
             'name' => __( 'Behaviour', 'waboot' ),
@@ -363,10 +363,11 @@ function optionsframework_options() {
         );
 
         //get predefined options
-        $predef_behavior = waboot_behavior_get_options();
+        //$predef_behavior = waboot_behavior_get_options();
+        $predef_behavior = BehaviorsManager::getAll();
 
         foreach($predef_behavior as $b){
-            $option = waboot_behavior_generate_option($b);
+            $option = $b->generate_of_option();
             $options[] = $option;
         }
 

@@ -28,10 +28,10 @@ add_action( 'waboot_entry_header', 'waboot_print_entry_header' );
 function waboot_title_toggler($title){
     $show_title = get_behavior("show-title","array");
 
-    if(!in_array(get_post_type(),$show_title['valid'])){
+    if(!$show_title->is_enabled_for_current_node()){
         return $title;
     }else{
-        if(is_singular() && ($show_title['value'] == "0" || !$show_title['value'] || $show_title['value'] == 0)){
+        if(is_singular() && ($show_title->value == "0" || !$show_title->value || $show_title->value == 0)){
             return "";
         }else{
             return $title;
