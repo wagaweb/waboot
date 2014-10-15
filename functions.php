@@ -42,7 +42,8 @@ if ( ! function_exists( 'waboot_setup' ) ):
         locate_template( '/inc/custom-header.php', true );
 
         // Load behaviors extension
-        locate_template( '/admin/behaviors.php', true );
+        locate_template( '/admin/waboot-behaviors-framework.php', true );
+        locate_template( '/inc/behaviors.php', true );
 
         // Load theme options framework
         locate_template( '/admin/options-panel.php', true );

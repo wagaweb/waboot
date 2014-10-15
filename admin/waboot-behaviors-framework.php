@@ -35,6 +35,9 @@ class BehaviorsManager{
 	}
 
 	static function importPredefined(){
+		$predef_behaviors = array();
+
+		//Get behaviors from .json files
 		$behavior_file = get_theme_root()."/".get_template()."/inc/behaviors.json";
 		if (file_exists($behavior_file)) {
 			$predef_behaviors = json_decode(file_get_contents($behavior_file, true),true);
@@ -47,6 +50,9 @@ class BehaviorsManager{
 				$predef_behaviors = array_replace_recursive($predef_behaviors,$child_behaviors);
 			}
 		}
+
+		//Get from filters
+		$predef_behaviors = apply_filters("waboot_add_behaviors",$predef_behaviors);
 
 		return $predef_behaviors;
 	}
