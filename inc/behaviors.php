@@ -29,11 +29,11 @@ function waboot_behaviors($behaviors){
         "type" => "select",
         "options" => array(
             array(
-	            "name" => "Top",
+	            "name" => "Above primary",
                 "value" => "top"
 			),
             array(
-	            "name" => "Bottom",
+	            "name" => "Below primary",
                 "value" => "bottom"
 			)
 		),
