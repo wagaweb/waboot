@@ -107,19 +107,24 @@ class Behavior{
 		if(isset($args['desc'])) $this->description = $args['desc']; else $this->description = "";
 		if(isset($args['type'])) $this->type = $args['type']; else $this->type = "";
 
-		switch($args['type']){
-			case 'select':
-				if(isset($args['options'])){
-					$this->possible_values = $args['options'];
-				} else{
-					$this->possible_values = "";
-				}
-				break;
-		}
+        if(isset($args['options'])){
+            $this->possible_values = $args['options'];
+        }else{
+            $this->possible_values = "";
+        }
 
 		if(isset($args['default'])){
 			$base_default = $args['default'];
-			$this->default = of_get_option($this->optionname,$base_default);
+			$option_default = of_get_option($this->optionname,$base_default);
+            if(is_array($option_default)){
+                if($this->type == "checkbox"){
+                    foreach($option_default as $name => $v){
+                        $this->default[] = $name;
+                    }
+                }
+            }else{
+                $this->default = $option_default;
+            }
 		}else{
 			$this->default = of_get_option($this->optionname,"");
 		}
@@ -137,15 +142,20 @@ class Behavior{
 	}
 
 	function set_value($value){
-		$this->value = sanitize_text_field($value);
+		$this->value = $value;
 	}
 
 	function save_meta($post_id){
-		update_post_meta($post_id,$this->metaname,$this->value);
+        if(is_array($this->value))
+		    update_post_meta($post_id,$this->metaname,serialize($this->value));
+        else
+            update_post_meta($post_id,$this->metaname,$this->value);
 	}
 
 	function get_meta($post_id){
-		return get_post_meta($post_id,$this->metaname,true);
+		$result = get_post_meta($post_id,$this->metaname,true);
+        if(is_serialized($result)) $result = unserialize($result);
+        return $result;
 	}
 
 	function get_value($node = false){
@@ -179,6 +189,22 @@ class Behavior{
 		}
 	}
 
+    function get_choices(){
+        if($this->has_multiple_choices()){
+            return $this->possible_values;
+        }
+
+        return array();
+    }
+
+    function has_multiple_choices(){
+        if(isset($this->possible_values) && !empty($this->possible_values)){
+            return true;
+        }
+
+        return false;
+    }
+
 	function is_enable_for_node($id){
 		$post_type = get_post_type($id);
 
@@ -196,24 +222,53 @@ class Behavior{
 	}
 
 	function generate_of_option(){
+
+        if($this->type == "checkbox" && $this->has_multiple_choices()) $type = "multicheck";
+        else $type = $this->type;
+
 		$option = array(
 			'name' => $this->title,
 			'desc' => $this->description,
 			'id' => "behavior_".$this->name,
-			'type' => $this->type,
+			'type' => $type,
 		);
 
-		switch($this->type){
+		switch($type){
 			case 'text':
 			case 'textarea':
 				$option['std'] = $this->default;
 				break;
+            case 'checkbox':
+                if($this->default == '0')
+                    $option['std'] = '0';
+                else
+                    $option['std'] = '1';
+                break;
+            case 'multicheck':
+                //values
+                $multicheck_options = array();
+                foreach($this->possible_values as $o){
+                    $multicheck_options[$o['value']] = $o['name'];
+                }
+                $option['options'] = $multicheck_options;
+                //defaults
+                $default = array();
+                if(!is_array($this->default)) $default = array($this->default => 1);
+                else{
+                    foreach($this->default as $d){
+                        $default[$d] = 1;
+                    }
+                }
+                $option['std'] = $default;
+                break;
 			case 'select':
+                //values
 				$select_options = array();
 				foreach($this->possible_values as $o){
 					$select_options[$o['value']] = $o['name'];
 				}
 				$option['options'] = $select_options;
+                //defaults
 				if(isset($this->default)){
 					$select_default = array();
 					if(is_array($this->default)){
@@ -237,6 +292,11 @@ class Behavior{
 			if($this->type == "select" || $this->type == "radio"){
 				$current_value = "_default";
 			}
+            if($this->type == "checkbox"){
+                if($this->has_multiple_choices()){
+                    $current_value = array("_default");
+                }
+            }
 		}
 
 		if($current_value == "_default"){
@@ -261,7 +321,7 @@ class Behavior{
 				<label class="screen-reader-text" for="<?php echo $this->metaname ?>"><?php echo $this->title ?></label>
 				<textarea name="<?php echo $this->metaname ?>" id="<?php echo $this->metaname ?>" placeholder="<?php echo $this->default; ?>"><?php echo $current_value; ?></textarea>
 				<br />
-				<input type="checkbox" name="<?php echo $this->metaname ?>_default" id="<?php echo $this->metaname ?>_default" value="1" <?php if(isset($check_predefined)) echo "checked"; ?>><?php _e("Usa valore predefinito","waboot"); ?>
+				<input type="checkbox" name="<?php echo $this->metaname ?>_default" id="<?php echo $this->metaname ?>_default" value="1" <?php if(isset($check_predefined)) echo "checked"; ?>><?php _e("Use default value","waboot"); ?>
 				<?php
 				break;
 			case "radio":
@@ -270,18 +330,21 @@ class Behavior{
 				break;
 			case "checkbox":
 				?>
+                <p><strong><?php echo $this->title ?></strong></p>
 				<ul>
-					<?php if(isset($this->possible_values)) : foreach($this->possible_values as $c) : //TODO dare la possibilità di concatenare più checkbox in una sola opzione? ?>
-					<?php endforeach; else : ?><p><strong><?php echo $this->title ?></strong></p>
-						<li>
-							<label for="<?php echo $this->metaname ?>" title="<?php echo $this->title ?>">
-								<input type="checkbox" name="<?php echo $this->metaname ?>" id="<?php echo $this->metaname ?>" value="1" <?php if($current_value == 1) echo "checked"?>>
-								<?php echo __("Enable"); ?>
-							</label>
-						</li>
-					<?php endif; ?>
+                    <?php if($this->has_multiple_choices()) : $values = $this->get_choices(); ?>
+                        <?php foreach($values as $c) : ?>
+                            <li>
+                                <input type="checkbox" name="<?php echo $this->metaname ?>[]" id="<?php echo $this->metaname ?>" value="<?php echo $c['value']; ?>" <?php if(in_array($c['name'],(array)$current_value)) echo "checked"?>><?php echo $c['name']; ?>
+                            </li>
+                        <?php endforeach; ?>
+                    <?php else : ?>
+                        <li>
+                            <input type="checkbox" name="<?php echo $this->metaname ?>" id="<?php echo $this->metaname ?>" value="1" <?php if($current_value == 1) echo "checked"?>><?php _e("Enable","waboot") ?>
+                        </li>
+                    <?php endif; ?>
 					<li>
-						<input type="checkbox" name="<?php echo $this->metaname ?>-default" id="<?php echo $this->metaname ?>-default" value="_default" <?php if($current_value == "_default") echo "checked"?>><?php echo __("Default") ?>
+						<input type="checkbox" name="<?php echo $this->metaname ?>_default" id="<?php echo $this->metaname ?>_default" value="_default" <?php if($current_value == "_default") echo "checked"?>><?php _e("Use default value","waboot"); ?>
 					</li>
 				</ul>
 				<?php
@@ -383,12 +446,15 @@ function waboot_behavior_save_metabox($post_id){
 	    if($b->is_enable_for_node($post_id)){
 	        if(!isset($_POST[$metaname])){
 		        if($b->type == "checkbox"){
-			        $_POST[$metaname] = "0";
+                    if($b->has_multiple_choices())
+                        $_POST[$metaname] = array();
+                    else
+			            $_POST[$metaname] = "0";
 		        }
 	        }
 
 	        if(isset($_POST[$metaname])){
-		        if(isset($_POST[$metaname."_default"])){
+		        if(isset($_POST[$metaname."_default"]) || (is_array($_POST[$metaname]) && in_array("_default",$_POST[$metaname]))){
 			        $b->set_value("_default");
 		        }else{
 			        $b->set_value($_POST[$metaname]);

@@ -64,23 +64,57 @@ function waboot_behaviors($behaviors){
         "valid" => array("post","page")
 	);
 
-	$behaviors[] = array(
+    /**
+     * SINGLE CHECKBOX
+     */
+    /*$behaviors[] = array(
+        "name" => "testcheck",
+        "title" => "Test Checkboxes",
+        "desc" => "This is a test checkbox",
+        "type" => "checkbox",
+        "default" => "1",
+        "valid" => array("post","page")
+    );*/
+
+    /**
+     * MULTIPLE CHECKBOX
+     */
+    /*$behaviors[] = array(
+        "name" => "testcheck",
+        "title" => "Test Checkboxes",
+        "desc" => "This is a test checkbox",
+        "type" => "checkbox",
+        "options" => array(
+            array(
+                "name" => "test1",
+                "value" => "test1"
+            ),
+            array(
+                "name" => "test2",
+                "value" => "test2"
+            ),
+        ),
+        "default" => "test1",
+        "valid" => array("post","page")
+    );/*
+
+	/*$behaviors[] = array(
 		"name" => "testinput",
         "title" => "Test Input",
         "desc" => "This is a test input",
         "type" => "text",
         "default" => "testme!",
         "valid" => array("post","page")
-	);
+	);*/
 
-	$behaviors[] = array(
+	/*$behaviors[] = array(
 		"name" => "testarea",
         "title" => "Test Input",
         "desc" => "This is a test textarea",
         "type" => "textarea",
         "default" => "testme!",
         "valid" => array("post","page")
-	);
+	);*/
 
 	return $behaviors;
 }
