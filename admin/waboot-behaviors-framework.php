@@ -7,9 +7,6 @@
  * @license   copyrighted
  * @link      http://www.waga.it
  * @copyright 2014 Riccardo D'Angelo and WAGA.it
- * @todo - Realizzare le input mancanti;
- * @todo - Creare una classe per la gestione del framework (meglio due classi? Una per il Behavior e una per l'opzione singola?)
- * @todo - Fare in modo che i testi siano traducibili: spostarsi da un file json a un file php?
  */
 
 add_action( 'add_meta_boxes', 'waboot_behavior_create_metabox' );
@@ -74,6 +71,16 @@ class BehaviorsManager{
 			return false;
 		}
 	}
+
+    static function debug($post_id){
+        $behaviors = self::getAll();
+        echo "<div style='border: 1px solid #ccc;'><pre>";
+        foreach($behaviors as $b){
+            echo $b->name.": ";
+            var_dump($b->get_value($post_id));
+        }
+        echo "</div></pre>";
+    }
 }
 
 class Behavior{
@@ -158,6 +165,44 @@ class Behavior{
         return $result;
 	}
 
+    /**
+     * Get the current RAW value of the behavior: this mean that the value can be "_default"
+     */
+    function get_raw_value($post_id = null){
+        if(!isset($post_id)){
+            global $post;
+            $post_id = $post->ID;
+        }
+
+        $current_value = $this->get_meta($post_id);
+
+        if($current_value == "" || $current_value == "_default"){
+            switch($this->type){
+                case 'text':
+                case 'textarea':
+                    $current_value = "";
+                    break;
+                case 'select':
+                case 'radio':
+                    $current_value = "_default";
+                    break;
+                case 'checkbox':
+                    $current_value = "_default";
+                    if($this->has_multiple_choices()){
+                        $current_value = array("_default");
+                    }
+                    break;
+            }
+        }
+
+        return $current_value;
+    }
+
+    /**
+     * Get the current value of the behavior: this mean that "_default" value will be translated to a real value
+     * @param bool $node the id of post or page
+     * @return array|bool|mixed|string
+     */
 	function get_value($node = false){
 		global $post;
 
@@ -177,7 +222,7 @@ class Behavior{
 			if($current_behavior_value == "" && ($this->type != "textarea" || $this->type != "text"))
 				$current_behavior_value = "_default";
 
-			if($current_behavior_value == "_default" || (is_array($current_behavior_value) && $current_behavior_value[0] == "__default") )
+			if($current_behavior_value == "_default" || (is_array($current_behavior_value) && $current_behavior_value[0] == "_default") )
 				$current_behavior_value = $this->default;
 
 			if(is_array($current_behavior_value))
@@ -261,6 +306,7 @@ class Behavior{
                 }
                 $option['std'] = $default;
                 break;
+            case 'radio':
 			case 'select':
                 //values
 				$select_options = array();
@@ -287,24 +333,8 @@ class Behavior{
 	}
 
 	function print_metabox($post_id){
-		$current_value = $this->get_meta($post_id);
-		if($current_value == ""){
-			if($this->type == "select" || $this->type == "radio"){
-				$current_value = "_default";
-			}
-            if($this->type == "checkbox"){
-                if($this->has_multiple_choices()){
-                    $current_value = array("_default");
-                }
-            }
-		}
-
-		if($current_value == "_default"){
-			if($this->type == "text" || $this->type == "textarea"){
-				$current_value = "";
-				$check_predefined = true;
-			}
-		}
+		$current_value = $this->get_raw_value($post_id);
+        if($current_value == "" && ($this->type == "text" || $this->type == "textarea")) $check_predefined = true;
 
 		switch($this->type){
 			case "text":
@@ -312,7 +342,7 @@ class Behavior{
 				<p><strong><?php echo $this->title ?></strong></p>
 				<label class="screen-reader-text" for="<?php echo $this->metaname ?>"><?php echo $this->title ?></label>
 				<input type="text" name="<?php echo $this->metaname ?>" id="<?php echo $this->metaname ?>" value="<?php echo $current_value; ?>" placeholder="<?php echo $this->default; ?>" />
-				<input type="checkbox" name="<?php echo $this->metaname ?>_default" id="<?php echo $this->metaname ?>_default" value="1" <?php if(isset($check_predefined)) echo "checked"; ?>><?php _e("Usa valore predefinito","waboot"); ?>
+				<input type="checkbox" name="<?php echo $this->metaname ?>_default" id="<?php echo $this->metaname ?>_default" value="1" <?php if(isset($check_predefined)) echo "checked"; ?>><?php _e("Use default value","waboot"); ?>
 				<?php
 				break;
 			case "textarea":
@@ -322,10 +352,6 @@ class Behavior{
 				<textarea name="<?php echo $this->metaname ?>" id="<?php echo $this->metaname ?>" placeholder="<?php echo $this->default; ?>"><?php echo $current_value; ?></textarea>
 				<br />
 				<input type="checkbox" name="<?php echo $this->metaname ?>_default" id="<?php echo $this->metaname ?>_default" value="1" <?php if(isset($check_predefined)) echo "checked"; ?>><?php _e("Use default value","waboot"); ?>
-				<?php
-				break;
-			case "radio":
-				?>
 				<?php
 				break;
 			case "checkbox":
@@ -344,11 +370,21 @@ class Behavior{
                         </li>
                     <?php endif; ?>
 					<li>
-						<input type="checkbox" name="<?php echo $this->metaname ?>_default" id="<?php echo $this->metaname ?>_default" value="_default" <?php if($current_value == "_default") echo "checked"?>><?php _e("Use default value","waboot"); ?>
+						<input type="checkbox" name="<?php echo $this->metaname ?>_default" id="<?php echo $this->metaname ?>_default" value="_default" <?php if($current_value == "_default" || in_array("_default",(array)$current_value)) echo "checked"?>><?php _e("Use default value","waboot"); ?>
 					</li>
 				</ul>
 				<?php
 				break;
+            case "radio":
+                ?>
+                <p><strong><?php echo $this->title ?></strong></p>
+                <label class="screen-reader-text" for="<?php echo $this->metaname ?>"><?php echo $this->title ?></label>
+                <?php foreach($this->possible_values as $k => $v) : ?>
+                    <input type="radio" name="<?php echo $this->metaname ?>" value="<?php echo $v['name']; ?>" <?php if($v['value'] == $current_value) echo "checked"?> /><?php echo $v['value']; ?><br />
+                <?php endforeach; ?>
+                <input type="radio" name="<?php echo $this->metaname ?>" value="_default" <?php if($current_value == "_default") echo "checked"?>/><?php _e("Default"); ?>
+                <?php
+                break;
 			case "select":
 				?>
 				<p><strong><?php echo $this->title ?></strong></p>
