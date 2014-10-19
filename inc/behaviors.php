@@ -5,15 +5,15 @@ function waboot_behaviors($behaviors){
 
 	$behaviors[] = array(
 		"name" => "show-title",
-        "title" => "Display page title",
-        "desc" => "Default rendering value for page title",
+        "title" => __("Display page title","waboot"),
+        "desc" => __("Default rendering value for page title","waboot"),
         "options" => array(
             array(
-	            "name" => "Yes",
+	            "name" => __("Yes"),
                 "value" => 1
             ),
             array(
-	            "name" => "No",
+	            "name" => __("No"),
                 "value" => 0
             )
         ),
@@ -24,16 +24,16 @@ function waboot_behaviors($behaviors){
 
 	$behaviors[] = array(
 		"name" => "title-position",
-        "title" => "Title position",
-        "desc" => "Default title positioning in pages",
+        "title" => __("Title position","waboot"),
+        "desc" => __("Default title positioning in pages","waboot"),
         "type" => "select",
         "options" => array(
             array(
-	            "name" => "Above primary",
+	            "name" => __("Above primary","waboot"),
                 "value" => "top"
 			),
             array(
-	            "name" => "Below primary",
+	            "name" => __("Below primary","waboot"),
                 "value" => "bottom"
 			)
 		),
@@ -43,19 +43,19 @@ function waboot_behaviors($behaviors){
 
 	$behaviors[] = array(
 		"name" => "layout",
-        "title" => "Body layout",
-        "desc" => "Default body layout for posts and pages",
+        "title" => __("Body layout","waboot"),
+        "desc" => __("Default body layout for posts and pages","waboot"),
         "options" => array(
             array(
-	            "name" => "Full width. No sidebar.",
+	            "name" => __("Full width. No sidebar.","waboot"),
                 "value" => "full-width"
             ),
             array(
-	            "name" => "Sidebar right",
+	            "name" => __("Sidebar right","waboot"),
                 "value" => "sidebar-right"
             ),
             array(
-	            "name" => "Sidebar left",
+	            "name" => __("Sidebar left","waboot"),
                 "value" => "sidebar-left"
 			)
 		),
@@ -63,6 +63,10 @@ function waboot_behaviors($behaviors){
         "default" => "sidebar-right",
         "valid" => array("post","page")
 	);
+
+    /***********************************************
+     ***************** SAMPLES *********************
+     ***********************************************/
 
     /**
      * SINGLE CHECKBOX
@@ -80,7 +84,7 @@ function waboot_behaviors($behaviors){
      * MULTIPLE CHECKBOX
      */
     /*$behaviors[] = array(
-        "name" => "testcheck",
+        "name" => "testmulticheck",
         "title" => "Test Checkboxes",
         "desc" => "This is a test checkbox",
         "type" => "checkbox",
@@ -96,8 +100,33 @@ function waboot_behaviors($behaviors){
         ),
         "default" => "test1",
         "valid" => array("post","page")
-    );/*
+    );*/
 
+    /**
+     * RADIO
+     */
+    /*$behaviors[] = array(
+		"name" => "testradio",
+        "title" => "Test Radio",
+        "desc" => "This is a test radio",
+        "type" => "radio",
+        "options" => array(
+            array(
+                "name" => "test1",
+                "value" => "test1"
+            ),
+            array(
+                "name" => "test2",
+                "value" => "test2"
+            ),
+        ),
+        "default" => "test2",
+        "valid" => array("post","page")
+	);*/
+
+    /**
+     * TEXT
+     */
 	/*$behaviors[] = array(
 		"name" => "testinput",
         "title" => "Test Input",
@@ -107,6 +136,9 @@ function waboot_behaviors($behaviors){
         "valid" => array("post","page")
 	);*/
 
+    /**
+     * TEXTAREA
+     */
 	/*$behaviors[] = array(
 		"name" => "testarea",
         "title" => "Test Input",
