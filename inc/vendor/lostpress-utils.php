@@ -1,44 +1,10 @@
 <?php
 
-if ( !function_exists("images_url") ) :
-	function images_url(){
-		echo get_images_url();
-	}
-endif;
-
-if ( !function_exists("get_images_url") ) :
-	function get_images_url(){
-		return get_bloginfo("template_url")."/assets/images";
-	}
-endif;
-
-if ( !function_exists("the_slug") ) :
-	function the_slug(){
-		echo get_the_slug();
-	}
-endif;
-
-if ( !function_exists("get_the_slug") ) :
-	function get_the_slug(){
-		global $post;
-		$post_data = get_post($post->ID,ARRAY_A);
-		$slug  = $post_data['post_name'];
-		return $slug;
-	}
-endif;
-
 if ( !function_exists("get_post_thumbnail_src") ) :
 	function get_post_thumbnail_src($post_id,$size=null){
 		$post_thumbnail_id = get_post_thumbnail_id($post_id);
 		$thumbnail = wp_get_attachment_image_src($post_thumbnail_id,$size);
 		return $thumbnail[0];
-	}
-endif;
-
-if(!function_exists("is_plugin_active")) :
-	function is_plugin_active($plugin){
-		include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
-		return is_plugin_active($plugin);
 	}
 endif;
 

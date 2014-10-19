@@ -1,5 +1,21 @@
 <?php
 
+if ( !function_exists("images_url") ) :
+    function images_url(){
+        echo get_images_url();
+    }
+endif;
+
+if ( !function_exists("get_images_url") ) :
+    function get_images_url(){
+        $base_dir = get_template_directory_uri();
+        if(is_child_theme()){
+            $base_dir = get_stylesheet_directory_uri();
+        }
+        return apply_filters("waboot_images_url",$base_dir."/assets/images");
+    }
+endif;
+
 if ( ! function_exists( 'waboot_content_nav' ) ):
     /**
      * Display navigation to next/previous pages when applicable
