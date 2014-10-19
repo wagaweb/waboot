@@ -9,16 +9,20 @@ $GLOBALS['registered_components'] = array();
 class Waboot_ComponentsManager {
 
     /**
-     * Funzione che creerà la pagina dei componenti e detecta i componenti nella cartella components
+     * Detect components into components directory and updates relative options
      */
     static function init(){
-        add_menu_page( __("Waboot Components","waboot"), __("Components","waboot"), "activate_plugins", "waboot_components", "Waboot_ComponentsManager::components_admin_page", "", 66 );
         /** Detect components in main theme **/
-        $registered_components = self::_detect_components(get_template_directory()."/components");
+        self::_detect_components(get_template_directory()."/components");
         /** Detect components in child theme **/
         if(is_child_theme()){
-            $child_registered_components = self::_detect_components(get_stylesheet_directory()."/components",true);
+            self::_detect_components(get_stylesheet_directory()."/components",true);
         }
+        add_action( 'admin_menu', 'Waboot_ComponentsManager::add_menu' );
+    }
+
+    static function add_menu(){
+        add_menu_page( __("Waboot Components","waboot"), __("Components","waboot"), "activate_plugins", "waboot_components", "Waboot_ComponentsManager::components_admin_page", "", 66 );
     }
 
     /**
