@@ -21,6 +21,25 @@ add_action( 'edit_page_form', 'waboot_behavior_save_metabox' );
 
 class BehaviorsManager{
 
+    static function get($name, $post_id)
+    {
+        $behaviors = self::getAll(); //retrive all behaviours
+        $selected_behavior = new stdClass();
+
+        foreach ($behaviors as $b) { //find the desidered behaviour
+            if ($b->name == $name) {
+                $selected_behavior = $b;
+            }
+        }
+
+        if ($selected_behavior instanceof Behavior) {
+            $current_behavior_value = $selected_behavior->get_value($post_id);
+            return $selected_behavior;
+        } else {
+            return false;
+        }
+    }
+
 	static function getAll(){
 		$imported_behaviors = self::importPredefined(); //per ora si possono specificare solo via file...
 		$behaviors = array();
@@ -52,24 +71,6 @@ class BehaviorsManager{
 		$predef_behaviors = apply_filters("waboot_add_behaviors",$predef_behaviors);
 
 		return $predef_behaviors;
-	}
-
-	static function get($name){
-		$behaviors = self::getAll(); //retrive all behaviours
-		$selected_behavior = new stdClass();
-
-		foreach($behaviors as $b){ //find the desidered behaviour
-			if($b->name == $name){
-				$selected_behavior = $b;
-			}
-		}
-
-		if($selected_behavior instanceof Behavior){
-			$current_behavior_value = $selected_behavior->get_value();
-			return $selected_behavior;
-		}else{
-			return false;
-		}
 	}
 
     static function debug($post_id){
@@ -148,98 +149,138 @@ class Behavior{
 		}
 	}
 
-	function set_value($value){
-		$this->value = $value;
-	}
-
-	function save_meta($post_id){
-        if(is_array($this->value))
-		    update_post_meta($post_id,$this->metaname,serialize($this->value));
+    function save_meta($post_id)
+    {
+        if (is_array($this->value))
+            update_post_meta($post_id, $this->metaname, serialize($this->value));
         else
-            update_post_meta($post_id,$this->metaname,$this->value);
+            update_post_meta($post_id, $this->metaname, $this->value);
 	}
-
-	function get_meta($post_id){
-		$result = get_post_meta($post_id,$this->metaname,true);
-        if(is_serialized($result)) $result = unserialize($result);
-        return $result;
-	}
-
-    /**
-     * Get the current RAW value of the behavior: this mean that the value can be "_default"
-     */
-    function get_raw_value($post_id = null){
-        if(!isset($post_id)){
-            global $post;
-            $post_id = $post->ID;
-        }
-
-        $current_value = $this->get_meta($post_id);
-
-        if($current_value == "" || $current_value == "_default"){
-            switch($this->type){
-                case 'text':
-                case 'textarea':
-                    $current_value = "";
-                    break;
-                case 'select':
-                case 'radio':
-                    $current_value = "_default";
-                    break;
-                case 'checkbox':
-                    $current_value = "_default";
-                    if($this->has_multiple_choices()){
-                        $current_value = array("_default");
-                    }
-                    break;
-            }
-        }
-
-        return $current_value;
-    }
 
     /**
      * Get the current value of the behavior: this mean that "_default" value will be translated to a real value
-     * @param bool $node the id of post or page
+     * @param bool $node_id
+     * @internal param bool $node the id of post or page
      * @return array|bool|mixed|string
      */
-	function get_value($node = false){
-		global $post;
-
-		if(!$node){
-			global $post;
-			$node = $post;
-		}else{
-			$node = get_post(intval($node));
-		}
-
-		if(!isset($node) || $node->ID == 0 || !$node instanceof WP_Post){
-			$this->value = $this->default;
-			return $this->value;
-		}else{
-			$current_behavior_value = get_post_meta($node->ID,$this->metaname,$this->default);
-
-			if($current_behavior_value == "" && ($this->type != "textarea" || $this->type != "text"))
-				$current_behavior_value = "_default";
-
-			if($current_behavior_value == "_default" || (is_array($current_behavior_value) && $current_behavior_value[0] == "_default") )
-				$current_behavior_value = $this->default;
-
-			if(is_array($current_behavior_value))
-				$current_behavior_value = $current_behavior_value[0];
-
-			$this->value = $current_behavior_value;
-
-			return $this->value;
-		}
-	}
-
-    function get_choices(){
-        if($this->has_multiple_choices()){
-            return $this->possible_values;
+    function get_value($node_id = false)
+    {
+        if (!$node_id) {
+            global $post;
+            $node = $post;
+        } else {
+            $node = get_post(intval($node_id));
         }
 
-        return array();
+        if (!isset($node) || $node->ID == 0 || !$node instanceof WP_Post) {
+            $this->value = $this->default;
+            return $this->value;
+        } else {
+            $current_behavior_value = get_post_meta($node->ID, $this->metaname, $this->default);
+
+            if ($current_behavior_value == "" && ($this->type != "textarea" || $this->type != "text"))
+                $current_behavior_value = "_default";
+
+            if ($current_behavior_value == "_default" || (is_array($current_behavior_value) && $current_behavior_value[0] == "_default"))
+                $current_behavior_value = $this->default;
+
+            if (is_array($current_behavior_value))
+                $current_behavior_value = $current_behavior_value[0];
+
+            $this->value = $current_behavior_value;
+
+            return $this->value;
+        }
+	}
+
+    function set_value($value)
+    {
+        $this->value = $value;
+	}
+
+    function is_enabled_for_current_node()
+    {
+        global $post;
+
+        return $this->is_enable_for_node($post->ID);
+    }
+
+    function is_enable_for_node($id)
+    {
+        $post_type = get_post_type($id);
+
+        if (in_array($post_type, $this->filters['post_type']) || $this->filters['post_type'] == "*") {
+            return true;
+		}
+
+        return false;
+    }
+
+    function generate_of_option()
+    {
+
+        if ($this->type == "checkbox" && $this->has_multiple_choices()) $type = "multicheck";
+        else $type = $this->type;
+
+        $option = array(
+            'name' => $this->title,
+            'desc' => $this->description,
+            'id' => "behavior_" . $this->name,
+            'type' => $type,
+        );
+
+        switch ($type) {
+            case 'text':
+            case 'textarea':
+                $option['std'] = $this->default;
+                break;
+            case 'checkbox':
+                if ($this->default == '0')
+                    $option['std'] = '0';
+                else
+                    $option['std'] = '1';
+                break;
+            case 'multicheck':
+                //values
+                $multicheck_options = array();
+                foreach ($this->possible_values as $o) {
+                    $multicheck_options[$o['value']] = $o['name'];
+                }
+                $option['options'] = $multicheck_options;
+                //defaults
+                $default = array();
+                if (!is_array($this->default)) $default = array($this->default => 1);
+                else {
+                    foreach ($this->default as $d) {
+                        $default[$d] = 1;
+                    }
+                }
+                $option['std'] = $default;
+                break;
+            case 'radio':
+            case 'select':
+                //values
+                $select_options = array();
+                foreach ($this->possible_values as $o) {
+                    $select_options[$o['value']] = $o['name'];
+                }
+                $option['options'] = $select_options;
+                //defaults
+                if (isset($this->default)) {
+                    $select_default = array();
+                    if (is_array($this->default)) {
+                        foreach ($this->default as $d) {
+                            $select_default[$d] = 1;
+                        }
+                    } else {
+                        $select_default = $this->default;
+                    }
+                    $option['std'] = $select_default;
+                }
+                break;
+		}
+
+        return $option;
     }
 
     function has_multiple_choices(){
@@ -250,155 +291,141 @@ class Behavior{
         return false;
     }
 
-	function is_enable_for_node($id){
-		$post_type = get_post_type($id);
+    function print_metabox($post_id)
+    {
+        $current_value = $this->get_raw_value($post_id);
+        if ($current_value == "" && ($this->type == "text" || $this->type == "textarea")) $check_predefined = true;
 
-		if(in_array($post_type,$this->filters['post_type']) || $this->filters['post_type'] == "*"){
-			return true;
-		}
-
-		return false;
-	}
-
-	function is_enabled_for_current_node(){
-		global $post;
-
-		return $this->is_enable_for_node($post->ID);
-	}
-
-	function generate_of_option(){
-
-        if($this->type == "checkbox" && $this->has_multiple_choices()) $type = "multicheck";
-        else $type = $this->type;
-
-		$option = array(
-			'name' => $this->title,
-			'desc' => $this->description,
-			'id' => "behavior_".$this->name,
-			'type' => $type,
-		);
-
-		switch($type){
-			case 'text':
-			case 'textarea':
-				$option['std'] = $this->default;
-				break;
-            case 'checkbox':
-                if($this->default == '0')
-                    $option['std'] = '0';
-                else
-                    $option['std'] = '1';
-                break;
-            case 'multicheck':
-                //values
-                $multicheck_options = array();
-                foreach($this->possible_values as $o){
-                    $multicheck_options[$o['value']] = $o['name'];
-                }
-                $option['options'] = $multicheck_options;
-                //defaults
-                $default = array();
-                if(!is_array($this->default)) $default = array($this->default => 1);
-                else{
-                    foreach($this->default as $d){
-                        $default[$d] = 1;
-                    }
-                }
-                $option['std'] = $default;
-                break;
-            case 'radio':
-			case 'select':
-                //values
-				$select_options = array();
-				foreach($this->possible_values as $o){
-					$select_options[$o['value']] = $o['name'];
-				}
-				$option['options'] = $select_options;
-                //defaults
-				if(isset($this->default)){
-					$select_default = array();
-					if(is_array($this->default)){
-						foreach($this->default as $d){
-							$select_default[$d] = 1;
-						}
-					}else{
-						$select_default = $this->default;
-					}
-					$option['std'] = $select_default;
-				}
-				break;
-		}
-
-		return $option;
-	}
-
-	function print_metabox($post_id){
-		$current_value = $this->get_raw_value($post_id);
-        if($current_value == "" && ($this->type == "text" || $this->type == "textarea")) $check_predefined = true;
-
-		switch($this->type){
-			case "text":
-				?>
-				<p><strong><?php echo $this->title ?></strong></p>
-				<label class="screen-reader-text" for="<?php echo $this->metaname ?>"><?php echo $this->title ?></label>
-				<input type="text" name="<?php echo $this->metaname ?>" id="<?php echo $this->metaname ?>" value="<?php echo $current_value; ?>" placeholder="<?php echo $this->default; ?>" />
-				<input type="checkbox" name="<?php echo $this->metaname ?>_default" id="<?php echo $this->metaname ?>_default" value="1" <?php if(isset($check_predefined)) echo "checked"; ?>><?php _e("Use default value","waboot"); ?>
-				<?php
-				break;
-			case "textarea":
-				?>
-				<p><strong><?php echo $this->title ?></strong></p>
-				<label class="screen-reader-text" for="<?php echo $this->metaname ?>"><?php echo $this->title ?></label>
-				<textarea name="<?php echo $this->metaname ?>" id="<?php echo $this->metaname ?>" placeholder="<?php echo $this->default; ?>"><?php echo $current_value; ?></textarea>
-				<br />
-				<input type="checkbox" name="<?php echo $this->metaname ?>_default" id="<?php echo $this->metaname ?>_default" value="1" <?php if(isset($check_predefined)) echo "checked"; ?>><?php _e("Use default value","waboot"); ?>
-				<?php
-				break;
-			case "checkbox":
-				?>
+        switch ($this->type) {
+            case "text":
+                ?>
                 <p><strong><?php echo $this->title ?></strong></p>
-				<ul>
-                    <?php if($this->has_multiple_choices()) : $values = $this->get_choices(); ?>
-                        <?php foreach($values as $c) : ?>
+                <label class="screen-reader-text" for="<?php echo $this->metaname ?>"><?php echo $this->title ?></label>
+                <input type="text" name="<?php echo $this->metaname ?>" id="<?php echo $this->metaname ?>"
+                       value="<?php echo $current_value; ?>" placeholder="<?php echo $this->default; ?>"/>
+                <input type="checkbox" name="<?php echo $this->metaname ?>_default"
+                       id="<?php echo $this->metaname ?>_default"
+                       value="1" <?php if (isset($check_predefined)) echo "checked"; ?>><?php _e("Use default value", "waboot"); ?>
+                <?php
+                break;
+            case "textarea":
+                ?>
+                <p><strong><?php echo $this->title ?></strong></p>
+                <label class="screen-reader-text" for="<?php echo $this->metaname ?>"><?php echo $this->title ?></label>
+                <textarea name="<?php echo $this->metaname ?>" id="<?php echo $this->metaname ?>"
+                          placeholder="<?php echo $this->default; ?>"><?php echo $current_value; ?></textarea>
+                <br/>
+                <input type="checkbox" name="<?php echo $this->metaname ?>_default"
+                       id="<?php echo $this->metaname ?>_default"
+                       value="1" <?php if (isset($check_predefined)) echo "checked"; ?>><?php _e("Use default value", "waboot"); ?>
+                <?php
+                break;
+            case "checkbox":
+                ?>
+                <p><strong><?php echo $this->title ?></strong></p>
+                <ul>
+                    <?php if ($this->has_multiple_choices()) : $values = $this->get_choices(); ?>
+                        <?php foreach ($values as $c) : ?>
                             <li>
-                                <input type="checkbox" name="<?php echo $this->metaname ?>[]" id="<?php echo $this->metaname ?>" value="<?php echo $c['value']; ?>" <?php if(in_array($c['name'],(array)$current_value)) echo "checked"?>><?php echo $c['name']; ?>
+                                <input type="checkbox" name="<?php echo $this->metaname ?>[]"
+                                       id="<?php echo $this->metaname ?>"
+                                       value="<?php echo $c['value']; ?>" <?php if (in_array($c['name'], (array)$current_value)) echo "checked" ?>><?php echo $c['name']; ?>
                             </li>
                         <?php endforeach; ?>
                     <?php else : ?>
                         <li>
-                            <input type="checkbox" name="<?php echo $this->metaname ?>" id="<?php echo $this->metaname ?>" value="1" <?php if($current_value == 1) echo "checked"?>><?php _e("Enable","waboot") ?>
+                            <input type="checkbox" name="<?php echo $this->metaname ?>"
+                                   id="<?php echo $this->metaname ?>"
+                                   value="1" <?php if ($current_value == 1) echo "checked" ?>><?php _e("Enable", "waboot") ?>
                         </li>
                     <?php endif; ?>
-					<li>
-						<input type="checkbox" name="<?php echo $this->metaname ?>_default" id="<?php echo $this->metaname ?>_default" value="_default" <?php if($current_value == "_default" || in_array("_default",(array)$current_value)) echo "checked"?>><?php _e("Use default value","waboot"); ?>
-					</li>
-				</ul>
-				<?php
-				break;
+                    <li>
+                        <input type="checkbox" name="<?php echo $this->metaname ?>_default"
+                               id="<?php echo $this->metaname ?>_default"
+                               value="_default" <?php if ($current_value == "_default" || in_array("_default", (array)$current_value)) echo "checked" ?>><?php _e("Use default value", "waboot"); ?>
+                    </li>
+                </ul>
+                <?php
+                break;
             case "radio":
                 ?>
                 <p><strong><?php echo $this->title ?></strong></p>
                 <label class="screen-reader-text" for="<?php echo $this->metaname ?>"><?php echo $this->title ?></label>
-                <?php foreach($this->possible_values as $k => $v) : ?>
-                    <input type="radio" name="<?php echo $this->metaname ?>" value="<?php echo $v['name']; ?>" <?php if($v['value'] == $current_value) echo "checked"?> /><?php echo $v['value']; ?><br />
-                <?php endforeach; ?>
-                <input type="radio" name="<?php echo $this->metaname ?>" value="_default" <?php if($current_value == "_default") echo "checked"?>/><?php _e("Default"); ?>
+                <?php foreach ($this->possible_values as $k => $v) : ?>
+                <input type="radio" name="<?php echo $this->metaname ?>"
+                       value="<?php echo $v['name']; ?>" <?php if ($v['value'] == $current_value) echo "checked" ?> /><?php echo $v['value']; ?>
+                <br/>
+            <?php endforeach; ?>
+                <input type="radio" name="<?php echo $this->metaname ?>"
+                       value="_default" <?php if ($current_value == "_default") echo "checked" ?>/><?php _e("Default"); ?>
                 <?php
                 break;
-			case "select":
-				?>
-				<p><strong><?php echo $this->title ?></strong></p>
-				<label class="screen-reader-text" for="<?php echo $this->metaname ?>"><?php echo $this->title ?></label>
-				<select name="<?php echo $this->metaname ?>" id="<?php echo $this->metaname ?>">
-					<?php foreach($this->possible_values as $k => $v) : ?>
-						<option value="<?php echo $v['value']; ?>" <?php if($v['value'] == $current_value) echo "selected"?>><?php echo $v['name']; ?></option>
-					<?php endforeach; ?>
-					<option value="_default" <?php if($current_value == "_default") echo "selected"?>><?php echo __("Default") ?></option>
-				</select>
-				<?php
-				break;
+            case "select":
+                ?>
+                <p><strong><?php echo $this->title ?></strong></p>
+                <label class="screen-reader-text" for="<?php echo $this->metaname ?>"><?php echo $this->title ?></label>
+                <select name="<?php echo $this->metaname ?>" id="<?php echo $this->metaname ?>">
+                    <?php foreach ($this->possible_values as $k => $v) : ?>
+                        <option
+                            value="<?php echo $v['value']; ?>" <?php if ($v['value'] == $current_value) echo "selected" ?>><?php echo $v['name']; ?></option>
+                    <?php endforeach; ?>
+                    <option
+                        value="_default" <?php if ($current_value == "_default") echo "selected" ?>><?php echo __("Default") ?></option>
+                </select>
+                <?php
+                break;
 		}
 	}
+
+    /**
+     * Get the current RAW value of the behavior: this mean that the value can be "_default"
+     */
+    function get_raw_value($post_id = null)
+    {
+        if (!isset($post_id)) {
+            global $post;
+            $post_id = $post->ID;
+        }
+
+        $current_value = $this->get_meta($post_id);
+
+        if ($current_value == "" || $current_value == "_default") {
+            switch ($this->type) {
+                case 'text':
+                case 'textarea':
+                    $current_value = "";
+                    break;
+                case 'select':
+                case 'radio':
+                    $current_value = "_default";
+                    break;
+                case 'checkbox':
+                    $current_value = "_default";
+                    if ($this->has_multiple_choices()) {
+                        $current_value = array("_default");
+                    }
+                    break;
+            }
+        }
+
+        return $current_value;
+    }
+
+    function get_meta($post_id)
+    {
+        $result = get_post_meta($post_id, $this->metaname, true);
+        if (is_serialized($result)) $result = unserialize($result);
+        return $result;
+	}
+
+    function get_choices()
+    {
+        if ($this->has_multiple_choices()) {
+            return $this->possible_values;
+        }
+
+        return array();
+    }
 }
 
 /**
@@ -407,10 +434,14 @@ class Behavior{
  * @param string $return (value OR array)
  * @return array|bool|mixed|string
  */
-function get_behavior($name,$return = "value"){
-    global $post;
+function get_behavior($name, $post_id = 0, $return = "value")
+{
+    if ($post_id == 0) {
+        global $post;
+        $post_id = $post->ID;
+    }
 
-	$b = BehaviorsManager::get($name);
+    $b = BehaviorsManager::get($name, $post_id);
 
 	if($return == "value"){
 		return $b->value;
