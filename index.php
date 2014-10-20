@@ -11,7 +11,7 @@ get_header(); ?>
 <?php else : ?>
     <div id="primary" class="<?php echo apply_filters( 'waboot_primary_container_class', 'content-area col-sm-8' ); ?>">
 <?php endif; ?>
-    <h1 class="entry-title"><?php single_post_title(); ?></h1>
+<?php waboot_index_title(); ?>
         <main id="main" class="site-main" role="main">
             <?php if ( have_posts() ) : ?>
                 <?php waboot_content_nav( 'nav-above' ); // display content nav above posts ?>
