@@ -5,17 +5,19 @@
  * @since 0.1.0
  */
 function waboot_entry_title(){
-	$title = get_the_title();
+    if(get_behavior('show-title') == "0") return "";
 
-	if(0 === mb_strlen($title))
-		return;
-	if(is_singular() ) {
-		$str = sprintf( '<h1 class="entry-title">%s</h1>', $title );
-	}else{
-		$str = sprintf( '<h2 class="entry-title"><a class="entry-title" title="%s" rel="bookmark" href="%s">%s</a></h2>', the_title_attribute( 'echo=0' ), get_permalink(), $title );
-	}
+    $title = get_the_title();
 
-	return $str;
+    if(0 === mb_strlen($title))
+        return "";
+    if(is_singular() ) {
+        $str = sprintf( '<h1 class="entry-title">%s</h1>', $title );
+    }else{
+        $str = sprintf( '<h2 class="entry-title"><a class="entry-title" title="%s" rel="bookmark" href="%s">%s</a></h2>', the_title_attribute( 'echo=0' ), get_permalink(), $title );
+    }
+
+    return $str;
 }
 
 function waboot_print_entry_header() {
