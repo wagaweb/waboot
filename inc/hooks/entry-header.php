@@ -3,11 +3,16 @@
 /**
  * Set title to H1 if in single view, otherwise set it to H2
  * @since 0.1.0
+ * @param null $post
+ * @return mixed|void
  */
-function waboot_entry_title(){
-    global $post;
+function waboot_entry_title($post = null)
+{
+    if (!isset($post)) {
+        global $post;
+    }
 
-    if(get_behavior('show-title') == "0") return "";
+    if (get_behavior('show-title', $post->ID) == "0") return "";
 
     $title = get_the_title($post->ID);
 
@@ -34,11 +39,11 @@ function waboot_print_entry_header() {
 }
 add_action( 'waboot_entry_header', 'waboot_print_entry_header' );
 
-function waboot_index_title($display = true)
+function waboot_index_title($prefix = "", $suffix = "", $display = true)
 {
     $_post = get_queried_object();
     if (get_behavior('show-title', $_post->ID) == "1") {
-        $title = apply_filters('waboot_index_title_text', single_post_title('', false));
+        $title = $prefix . apply_filters('waboot_index_title_text', single_post_title('', false)) . $suffix;
     } else {
         $title = "";
     }
@@ -48,13 +53,6 @@ function waboot_index_title($display = true)
     }
     return $title;
 }
-
-function waboot_index_title_wrapper($title)
-{
-    return "<h1 class='entry-header'>" . $title . "</h1>";
-}
-
-add_filter('waboot_index_title_text', 'waboot_index_title_wrapper');
 
 /**
  * Apply the "show-title" behavior to the entry header.
