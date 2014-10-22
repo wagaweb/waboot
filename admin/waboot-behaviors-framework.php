@@ -443,6 +443,8 @@ function get_behavior($name, $post_id = 0, $return = "value")
 
     $b = BehaviorsManager::get($name, $post_id);
 
+    if(!$b->is_enable_for_node($post_id)) return null;
+
 	if($return == "value"){
 		return $b->value;
 	}else{
