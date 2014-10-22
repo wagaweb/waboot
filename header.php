@@ -82,6 +82,7 @@
             <?php endif; ?>
 
             <div id="content-wrapper">
+				<?php do_action("waboot_before_inner"); ?>
                 <div id="content-inner" class="<?php echo of_get_option( 'waboot_content_width','container' ); ?>">
                     <div id="content" class="site-content row <?php if(get_behavior('layout') == "sidebar-left") echo 'sidebar-left'; ?>">
 

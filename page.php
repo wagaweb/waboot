@@ -12,9 +12,6 @@
  */
 
 get_header(); ?>
-<?php if( get_behavior('title-position') == "top" ) : ?>
-	<?php echo waboot_entry_title(); ?>
-<?php endif; ?>
 <?php if ( get_behavior( 'layout' ) == "full-width" ) : ?>
     <div id="primary" class="<?php echo apply_filters( 'waboot_primary_container_class', 'content-area col-sm-12' ); ?>">
 <?php else : ?>

@@ -55,21 +55,17 @@ function waboot_index_title($prefix = "", $suffix = "", $display = true)
 }
 
 /**
- * Apply the "show-title" behavior to the entry header.
- * @param $title
- * @return string
- * @since 0.1.0
- * @deprecated
+ * Actions for printing the title of post\page outsite the "content-inner"
  */
-function waboot_entries_title_toggler($title)
-{
-    if (get_behavior('title-position') == "top") return "";
-    $show_title = get_behavior("show-title", 0, "object");
-    if($show_title->is_enabled_for_current_node()){
-        if(is_singular() && ($show_title->value == "0" || !$show_title->value || $show_title->value == 0)){
-            return "";
-        }
-    }
-    return $title;
+add_action("waboot_before_inner","waboot_print_entry_title_before_inner");
+function waboot_print_entry_title_before_inner(){
+	global $post;
+	if( is_singular() && get_behavior('title-position') == "top" ){
+		add_filter("waboot_entry_title_text_singular","waboot_entry_title_before_inner_markup");
+		echo waboot_entry_title();
+	}
 }
-//add_filter("waboot_entry_header_text","waboot_entries_title_toggler");
+
+function waboot_entry_title_before_inner_markup($markup){
+	return "<div class='title-wrapper'><div class='container'><h1 class='entry-title'>%s</h1></div></div>";
+}
