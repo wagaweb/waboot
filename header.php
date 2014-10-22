@@ -82,22 +82,21 @@
             <?php endif; ?>
 
             <div id="content-wrapper">
+                <?php if ( function_exists( 'waboot_breadcrumb_trail' ) && !is_front_page() ) : ?>
+                    <?php
+                    $my_type = get_post_type();
+                    if($my_type != false){ //this happens in 404 pages
+                        $bc_locations = of_get_option( 'waboot_breadcrumb_locations', array('post','page') );
+                        if(array_key_exists($my_type,$bc_locations) && $bc_locations[$my_type] == 1){
+                            waboot_breadcrumb_trail( array(
+                                'container'   => 'div',
+                                'separator'   => '/',
+                                'show_browse' => false
+                            ));
+                        }
+                    }
+                    ?>
+                <?php endif; ?>
 				<?php do_action("waboot_before_inner"); ?>
                 <div id="content-inner" class="<?php echo of_get_option( 'waboot_content_width','container' ); ?>">
                     <div id="content" class="site-content row <?php if(get_behavior('layout') == "sidebar-left") echo 'sidebar-left'; ?>">
-
-                    <?php if ( function_exists( 'waboot_breadcrumb_trail' ) && !is_front_page() ) : ?>
-                        <?php
-                            $my_type = get_post_type();
-                            if($my_type != false){ //this happens in 404 pages
-                                $bc_locations = of_get_option( 'waboot_breadcrumb_locations', array('post','page') );
-                                if(array_key_exists($my_type,$bc_locations) && $bc_locations[$my_type] == 1){
-                                    waboot_breadcrumb_trail( array(
-                                        'container'   => 'div',
-                                        'separator'   => '/',
-                                        'show_browse' => false
-                                    ));
-                                }
-                            }
-                        ?>
-                    <?php endif; ?>

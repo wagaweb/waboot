@@ -37,7 +37,7 @@ class Waboot_Breadcrumb_Trail extends Breadcrumb_Trail{
         if ( !empty( $this->items ) && is_array( $this->items ) ) {
 
             /* Open the breadcrumb trail containers. */
-            $breadcrumb = "\n\t\t" . '<' . tag_escape( $this->args['container'] ) . ' class="col-sm-12 breadcrumb-trail breadcrumbs" itemprop="breadcrumb">';
+            $breadcrumb = "\n\t\t" . '<' . tag_escape( $this->args['container'] ) . ' class="breadcrumb-trail breadcrumbs" itemprop="breadcrumb">';
 
             /* Crea Wrapper */
             $breadcrumb .= !empty( $this->args['wrapper_start'] )? $this->args['wrapper_start'] : "";
