@@ -264,7 +264,7 @@ class Waboot_ComponentsManager {
         if(isset($_GET['enable'])){
             $component_name = $_GET['enable'];
             try{
-                self::enable($component_name);
+                self::enable($component_name,Waboot_ComponentsManager::is_child_component($component_name));
             }catch(Exception $e){
                 ?>
                 <div class="error">
@@ -275,7 +275,7 @@ class Waboot_ComponentsManager {
         }elseif(isset($_GET['disable'])){
             $component_name = $_GET['disable'];
             try{
-                self::disable($component_name);
+                self::disable($component_name,Waboot_ComponentsManager::is_child_component($component_name));
             }catch(Exception $e){
                 ?>
                 <div class="error">
@@ -383,9 +383,19 @@ class Waboot_ComponentsManager {
     }
 
     static function is_child_component($registered_component){
-        if($registered_component['child_component'] == true){
-            return true;
+        if(is_array($registered_component)){
+            if($registered_component['child_component'] == true){
+                return true;
+            }
+        }else{
+            $components = Waboot_ComponentsManager::getAllComponents();
+            foreach($components as $name => $c){
+                if($name == $registered_component){
+                    if($c['child_component'] == true) return true;
+                }
+            }
         }
+
         return false;
     }
 
