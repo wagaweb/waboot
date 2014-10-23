@@ -6,9 +6,13 @@ require_once("vendor/breadcrumb-trail.php");
  * Shows a breadcrumb for all types of pages.  This is a wrapper function for the Breadcrumb_Trail class,
  * which should be used in theme templates.
  *
- * @since  1.0
+ * @since  0.1.0
  * @access public
  * @param  array $args Arguments to pass to Breadcrumb_Trail.
+ *                     The available options are the default ones for Breadcrumb_Trail (https://github.com/justintadlock/breadcrumb-trail#parameters), plus:
+ *                     - wrapper_start: a wrapper open tag (it wraps all the content of the container)
+ *                     - wrapper_end: the wrapper close tag
+ *                     - additional_classes: a string (space separated) of classes to add to breadcrumb container (since 0.3.10)
  * @return void
  */
 function waboot_breadcrumb_trail( $args = array() ) {
@@ -36,8 +40,11 @@ class Waboot_Breadcrumb_Trail extends Breadcrumb_Trail{
         /* Connect the breadcrumb trail if there are items in the trail. */
         if ( !empty( $this->items ) && is_array( $this->items ) ) {
 
+            /* Make sure we have a unique array of items. */
+            $this->items = array_unique($this->items);
+
             /* Open the breadcrumb trail containers. */
-            $breadcrumb = "\n\t\t" . '<' . tag_escape( $this->args['container'] ) . ' class="breadcrumb-trail breadcrumbs" itemprop="breadcrumb">';
+            $breadcrumb = "\n\t\t" . '<' . tag_escape($this->args['container']) . ' class="breadcrumb-trail breadcrumbs ' . $this->args['additional_classes'] . '" itemprop="breadcrumb">';
 
             /* Crea Wrapper */
             $breadcrumb .= !empty( $this->args['wrapper_start'] )? $this->args['wrapper_start'] : "";
