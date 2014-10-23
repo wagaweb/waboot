@@ -102,6 +102,13 @@ if ( ! function_exists( 'waboot_setup' ) ):
 endif;
 add_action( 'after_setup_theme', 'waboot_setup' );
 
+if ( ! function_exists( 'waboot_init' ) ):
+	function waboot_init() {
+		locate_template( '/inc/waboot-debug.php', true );
+	}
+endif;
+add_action( 'init', 'waboot_init' );
+
 //Components hooks
 locate_template( '/admin/waboot-components-hooks.php', true );
 
