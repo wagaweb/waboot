@@ -432,6 +432,39 @@ if (!function_exists("waboot_breadcrumb")):
     }
 endif;
 
+if (!function_exists("waboot_topnav_wrapper")):
+    function waboot_topnav_wrapper()
+    {
+        $social_position = of_get_option('waboot_social_position');
+        $social_position_class = $social_position == "topnav-left" ? "pull-left" : "pull-right";
+        $topnavmenu_position = of_get_option('waboot_topnavmenu_position');
+        $topnavmenu_position_class = $topnavmenu_position == "left" ? "pull-left" : "pull-right";
+        $has_menu = has_nav_menu('top');
+        $must_display_topnav = (is_active_sidebar('topbar') || ($social_position == 'topnav-right' || $social_position == 'topnav-left') || $has_menu) ? true : false;
+
+        if ($must_display_topnav):
+            ?>
+            <!-- Navbar: Begin -->
+            <div id="topnav-wrapper">
+                <div id="topnav-inner" class="<?php echo of_get_option('waboot_topnav_width', 'container-fluid'); ?> ">
+
+                    <div class="<?php echo $social_position_class; ?>">
+                        <?php get_template_part('/templates/parts/social-widget'); ?>
+                    </div>
+
+                    <div class="<?php echo $topnavmenu_position_class; ?>">
+                        <?php if ($has_menu) get_template_part('/templates/parts/menu', 'top'); ?>
+                    </div>
+
+                    <?php dynamic_sidebar('topbar'); ?>
+                </div>
+            </div>
+            <!-- Navbar: End -->
+        <?php
+        endif;
+    }
+endif;
+
 /***************************************************************
  * MOBILE DETECT FUNCTIONS
  ***************************************************************/
