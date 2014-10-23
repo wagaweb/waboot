@@ -55,6 +55,10 @@ ul, ol {
   word-wrap: break-word;
 }
 
+a {
+  outline: 0;
+}
+
 a:link {
   text-decoration: none;
 }
@@ -89,6 +93,14 @@ table td {
   border-top: 1px solid #ddd;
 }
 
+.title-wrapper {
+  margin-bottom: 20px;
+}
+
+.title-wrapper h1 {
+  margin-bottom: 0px;
+}
+
 /* End Typography */
 
 
@@ -100,9 +112,12 @@ table td {
 }
 
 #page #header-inner,
+#page .breadcrumb-trail .container,
+#page .title-wrapper .container,
 #page #content-inner,
 #page #contentbottom-inner,
-#page #footer-inner {
+#page #footer-inner,
+.site-footer .container {
   padding-left: 20px;
   padding-right: 20px;
 }

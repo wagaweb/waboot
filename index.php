@@ -8,18 +8,15 @@
 get_header();
 $indexPage = get_queried_object();
 ?>
-<?php if (get_behavior('title-position', $indexPage->ID) == "top") : ?>
-    <?php waboot_index_title('<h1 class=\'entry-header\'>', '</h1>'); ?>
-<?php endif; ?>
 <?php if ( get_behavior( 'layout' ) == "full-width" ) : ?>
     <div id="primary" class="<?php echo apply_filters( 'waboot_primary_container_class', 'content-area col-sm-12' ); ?>">
 <?php else : ?>
     <div id="primary" class="<?php echo apply_filters( 'waboot_primary_container_class', 'content-area col-sm-8' ); ?>">
 <?php endif; ?>
-<?php if (get_behavior('title-position', $indexPage->ID) == "bottom") : ?>
-    <?php waboot_index_title('<h1 class=\'entry-header\'>', '</h1>'); ?>
-<?php endif; ?>
         <main id="main" class="site-main" role="main">
+            <?php if (get_behavior('title-position', $indexPage->ID) == "bottom") : ?>
+                <?php waboot_index_title('<h1 class=\'entry-header\'>', '</h1>'); ?>
+            <?php endif; ?>
             <?php if ( have_posts() ) : ?>
                 <?php waboot_content_nav( 'nav-above' ); // display content nav above posts ?>
                 <?php
