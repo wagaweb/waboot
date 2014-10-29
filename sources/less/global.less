@@ -93,6 +93,36 @@ table td {
   border-top: 1px solid #ddd;
 }
 
+.vcenter {
+  display: inline-block;
+  float: none;
+  vertical-align: middle;
+}
+
+.sticky {
+  display: block;
+}
+
+.alignright {
+  display: inline;
+  float: right;
+  margin-left: 15px;
+}
+
+.alignleft {
+  display: inline;
+  float: left;
+  margin-right: 15px;
+}
+
+.aligncenter {
+  clear: both;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
 .title-wrapper {
   margin-bottom: 20px;
 }
@@ -635,6 +665,8 @@ ins {
     float: right;
     position: absolute;
     right: 0;
+    top: 50%;
+    margin-top: -17px;
   }
 
   #masthead .navbar-toggle {

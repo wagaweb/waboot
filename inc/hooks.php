@@ -12,7 +12,7 @@ if ( ! function_exists( 'waboot_do_site_title' ) ):
     function waboot_do_site_title() {
 
         // Use H1 on home, paragraph elsewhere
-        $element = is_front_page() || is_home() ? 'h1' : 'p';
+        $element = 'h1';
 
         // Title content that goes inside wrapper
         $site_name = sprintf( '<a href="%s" title="%s" rel="home">%s</a>', trailingslashit( home_url() ), esc_attr( get_bloginfo( 'name' ) ), get_bloginfo( 'name' ) );
@@ -35,7 +35,7 @@ if( ! function_exists( 'waboot_do_site_description' ) ):
     function waboot_do_site_description() {
 
         // Use H2 on home, paragraph elsewhere
-        $element = is_front_page() || is_home() ? 'h2' : 'p';
+        $element = 'h2';
 
         // Put it all together
         $description = '<' . $element . ' id="site-description" class="site-description">' . esc_html( get_bloginfo( 'description' ) ) . '</' . $element . '>';

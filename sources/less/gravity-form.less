@@ -2,101 +2,66 @@
 Gravity Forms
 ---------------------------------------*/
 
-
-.gform_wrapper form input[type=text],
-.gform_wrapper form input[type=url],
-.gform_wrapper form input[type=email],
-.gform_wrapper form input[type=tel],
-.gform_wrapper form input[type=number],
-.gform_wrapper form input[type=password],
-.gform_wrapper form textarea {
-  font-size: 1em;
-}
-
 .gform_wrapper {
   max-width: 100% !important;
-  margin: 10px 0 !important;
-}
-
-.gform_wrapper form {
-  margin: 0px;
+  margin: 0px 0px !important;
 }
 
 .gform_wrapper form ul.gform_fields {
-  padding-left: 0;
-  list-style: none;
-  margin: 0 -10px  !important;
+  margin: 0 -10px !important;
 }
 
 .gform_wrapper form ul.gform_fields li {
-  margin-bottom: 15px;
+  margin-bottom: 10px;
   padding: 0 10px;
-}
-
-.gform_wrapper form ul.gform_fields li.gfield.gf_left_half,
-.gform_wrapper form ul.gform_fields li.gfield.gf_right_half {
-  margin: 0 0 10px 0;
-  padding: 0 10px;
-  width: 50%;
-}
-
-.gform_wrapper li.gfield .ginput_container input.medium,
-.gform_wrapper li.gfield .ginput_container select.medium {
-  margin: 0 0 10px;
-  padding: 0 10px;
-  width: 50%;
-}
-
-.gform_wrapper form ul.gform_fields input,
-.gform_wrapper form ul.gform_fields select,
-.gform_wrapper form ul.gform_fields input.large,
-.gform_wrapper form ul.gform_fields select.large,
-.gform_wrapper form ul.gform_fields textarea.textarea,
-.gform_wrapper form ul.gform_fields li.gfield.gf_left_half input.medium,
-.gform_wrapper form ul.gform_fields li.gfield.gf_left_half input.large,
-.gform_wrapper form ul.gform_fields li.gfield.gf_left_half select.medium,
-.gform_wrapper form ul.gform_fields li.gfield.gf_left_half select.large,
-.gform_wrapper form ul.gform_fields li.gfield.gf_right_half input.medium,
-.gform_wrapper form ul.gform_fields li.gfield.gf_right_half input.large,
-.gform_wrapper form ul.gform_fields li.gfield.gf_right_half select.medium,
-.gform_wrapper form ul.gform_fields li.gfield.gf_right_half select.large {
-  width: 100%;
 }
 
 .gform_wrapper form ul.gform_fields li input,
 .gform_wrapper form ul.gform_fields li select {
-  display: block;
-  width: 100%;
-  height: 34px;
-  padding: 6px 12px;
-  font-size: 1em;
-  line-height: 1.428571429;
-  color: #555;
-  vertical-align: middle;
-  background-color: #fff;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
-  box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
-  -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
-  transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+  margin: 0 0 10px;
+  padding: 0 10px;
 }
 
 .gform_wrapper form ul.gform_fields li textarea {
-  display: block;
-  width: 100%;
-  padding: 6px 12px;
-  font-size: 1em;
-  line-height: 1.428571429;
-  color: #555;
-  vertical-align: middle;
-  background-color: #fff;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
-  box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
-  -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
-  transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+  margin: 0 0 10px;
+  padding: 10px;
+}
+
+.gform_wrapper form ul.gform_fields li input.medium,
+.gform_wrapper form ul.gform_fields li select.medium {
+  width: 50%;
+}
+
+.gform_wrapper li.gfield .ginput_container ul.gfield_checkbox li input[type="checkbox"] {
+  height: auto !important;
+  margin-top: 3px;
+}
+
+.gform_wrapper li.gfield .ginput_container ul.gfield_radio li input[type="radio"] {
+  height: auto !important;
+  margin-top: 2px;
+}
+
+.gform_wrapper form .ginput_container ul.gfield_checkbox li,
+.gform_wrapper form .ginput_container ul.gfield_radio li {
+  margin-bottom: 10px;
+}
+
+.gform_wrapper form .ginput_container ul.gfield_checkbox li input,
+.gform_wrapper form .ginput_container ul.gfield_radio li input {
+  height: auto;
+}
+
+.gform_wrapper form .ginput_container ul.gfield_radio li input[type="radio"] {
+  width: 16px !important;
+}
+
+.gform_wrapper form .ginput_container ul.gfield_checkbox li label,
+.gform_wrapper form .ginput_container ul.gfield_radio li label {
+  line-height: 1.42857;
+  font-size: 0.9em;
+  font-weight: normal;
+  margin: 0 0 0 20px;
 }
 
 .gform_wrapper form ul.gform_fields li textarea.small {
@@ -124,27 +89,110 @@ Gravity Forms
   color:#999;
 }
 
-.gform_wrapper form ul.gform_fields li input:focus,
-.gform_wrapper form ul.gform_fields li select:focus,
-.gform_wrapper form ul.gform_fields li textarea:focus {
-  border-color: #66afe9; outline: 0;
-  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075), 0 0 8px rgba(102,175,233,0.6);
-  box-shadow: inset 0 1px 1px rgba(0,0,0,0.075), 0 0 8px rgba(102,175,233,0.6);
+/* Start Field Half */
+
+.gform_wrapper form ul.gform_fields li.gfield.gf_left_half,
+.gform_wrapper form ul.gform_fields li.gfield.gf_right_half {
+  margin-bottom: 10px;
+  width: 50%;
 }
 
-.gform_wrapper form ul.gform_fields li input[disabled],
-.gform_wrapper form ul.gform_fields li select[disabled],
-.gform_wrapper form ul.gform_fields li textarea[disabled],
-.gform_wrapper form ul.gform_fields li input[readonly],
-.gform_wrapper form ul.gform_fields li select[readonly],
-.gform_wrapper form ul.gform_fields li textarea[readonly],
-fieldset[disabled] ul.gform_fields li input,
-fieldset[disabled] ul.gform_fields li select,
-fieldset[disabled] ul.gform_fields li textarea {
-  cursor: not-allowed;
-  background-color: #eee;
+.gform_wrapper form ul.gform_fields input,
+.gform_wrapper form ul.gform_fields select,
+.gform_wrapper form ul.gform_fields input.large,
+.gform_wrapper form ul.gform_fields select.large,
+.gform_wrapper form ul.gform_fields textarea.textarea,
+.gform_wrapper form ul.gform_fields li.gfield.gf_left_half input.medium,
+.gform_wrapper form ul.gform_fields li.gfield.gf_left_half input.large,
+.gform_wrapper form ul.gform_fields li.gfield.gf_left_half select.medium,
+.gform_wrapper form ul.gform_fields li.gfield.gf_left_half select.large,
+.gform_wrapper form ul.gform_fields li.gfield.gf_right_half input.medium,
+.gform_wrapper form ul.gform_fields li.gfield.gf_right_half input.large,
+.gform_wrapper form ul.gform_fields li.gfield.gf_right_half select.medium,
+.gform_wrapper form ul.gform_fields li.gfield.gf_right_half select.large {
+  width: 100%;
 }
 
+/* End Field Half */
+
+/* Start Error Field */
+
+.gform_wrapper form ul.gform_fields li.gfield.gfield_error {
+  width: 100%;
+  margin: 0 0 10px 0 !important;
+  padding: 0 10px !important;
+  background-color: transparent !important;
+  border: 0 !important;
+}
+
+.gform_wrapper form ul.gform_fields li.gfield.gfield_error .ginput_container {
+  max-width: 100%;
+}
+
+.gform_wrapper form li.gfield.gfield_error.gfield_contains_required label.gfield_label {
+  margin-top: 10px;
+}
+
+.gform_wrapper form li.gfield.gfield_error.gfield_contains_required div.ginput_container {
+  margin-top: 0px;
+}
+
+.gform_wrapper form ul.gform_fields .gfield_description.validation_message {
+  padding: 0 !important;
+}
+
+.gform_wrapper li.gfield_error input[type="text"],
+.gform_wrapper li.gfield_error input[type="url"],
+.gform_wrapper li.gfield_error input[type="email"],
+.gform_wrapper li.gfield_error input[type="tel"],
+.gform_wrapper li.gfield_error input[type="number"],
+.gform_wrapper li.gfield_error input[type="password"],
+.gform_wrapper li.gfield_error textarea {
+  border-color: #ebccd1 !important;
+}
+
+.gform_wrapper form ul.gform_fields li.gfield.gfield_error.gf_left_half,
+.gform_wrapper form ul.gform_fields li.gfield.gfield_error.gf_right_half {
+  width: 50%;
+}
+
+.gform_wrapper form ul.gform_fields li.gfield.gfield_error.gf_right_half {
+  margin-right: 0;
+}
+
+.gform_wrapper form ul.gform_fields li.gfield.gfield_error .gfield_label {
+  color: #b94a48;
+}
+
+.gform_wrapper .gfield_error input,
+.gform_wrapper .gfield_error select,
+.gform_wrapper .gfield_error textarea {
+  color: #b94a48;
+  background-color: #f2dede;
+  border-color: #eed3d7;
+}
+
+/* End Error Field */
+
+/* Start Font Size */
+
+.gform_wrapper form input[type=text],
+.gform_wrapper form input[type=url],
+.gform_wrapper form input[type=email],
+.gform_wrapper form input[type=tel],
+.gform_wrapper form input[type=number],
+.gform_wrapper form input[type=password],
+.gform_wrapper form textarea {
+  font-size: 1em;
+}
+
+.gform_wrapper form ul.gform_fields .gfield_label {
+  font-size: 1em;
+}
+
+/* End Font Size */
+
+/*
 textarea.ginput_container input,
 textarea.ginput_container select,
 textarea.ginput_container textarea {
@@ -159,7 +207,11 @@ textarea.ginput_container textarea {
   padding-left: 1px;
   color: #b94a48;
 }
+*/
 
+/* Start Button */
+
+/*
 .gform_button {
   display: inline-block;
   padding: 6px 12px;
@@ -250,32 +302,13 @@ fieldset[disabled] .gform_button.active {
   background-color: #428bca;
   border-color: #357ebd;
 }
+*/
 
-.gform_wrapper .gfield_error .gfield_label {
-  color: #b94a48;
-}
+/* End Button */
 
-.gfield_label {
-  font-size: 1em;
-}
+/* Start Validation */
 
-.gform_wrapper .gfield_error input,
-.gform_wrapper .gfield_error select,
-.gform_wrapper .gfield_error textarea {
-  color: #b94a48;
-  background-color: #f2dede;
-  border-color: #eed3d7;
-}
-
-.gform_wrapper .gfield_error input:focus,
-.gform_wrapper .gfield_error select:focus,
-.gform_wrapper .gfield_error textarea:focus {
-  border-color: #b94a48;
-  outline: 0;
-  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075), 0 0 8px rgba(185,74,72,0.6);
-  box-shadow: inset 0 1px 1px rgba(0,0,0,0.075), 0 0 8px rgba(185,74,72,0.6);
-}
-
+/*
 .validation_error {
   padding: 15px;
   margin-bottom: 20px;
@@ -295,8 +328,8 @@ fieldset[disabled] .gform_button.active {
   font-weight: bold;
 }
 
-.validation_error>p,
-.validation_error>ul {
+.validation_error > p,
+.validation_error > ul {
   margin-bottom: 0;
 }
 
@@ -311,7 +344,9 @@ fieldset[disabled] .gform_button.active {
 .validation_error .alert-link {
   color: #953b39;
 }
+*/
 
+/*
 #gforms_confirmation_message {
   padding: 15px;
   margin-bottom: 20px;
@@ -328,46 +363,18 @@ fieldset[disabled] .gform_button.active {
   font-weight: bold;
 }
 
-#gforms_confirmation_message>p,
-#gforms_confirmation_message>ul {
+#gforms_confirmation_message > p,
+#gforms_confirmation_message > ul {
   margin-bottom: 0;
 }
 
-#gforms_confirmation_message>p+p {
+#gforms_confirmation_message > p+p {
   margin-top: 5px;
 }
+*/
 
-.gform_wrapper li.gfield .ginput_container ul.gfield_checkbox li input[type="checkbox"] {
-  height: auto !important;
-  margin-top: 3px;
-}
+/* End Validation */
 
-.gform_wrapper li.gfield .ginput_container ul.gfield_radio li input[type="radio"] {
-  height: auto !important;
-  margin-top: 2px;
-}
-
-.gform_wrapper form .ginput_container ul.gfield_checkbox li,
-.gform_wrapper form .ginput_container ul.gfield_radio li {
-  margin-bottom: 10px;
-}
-
-.gform_wrapper form .ginput_container ul.gfield_checkbox li input,
-.gform_wrapper form .ginput_container ul.gfield_radio li input {
-  height: auto;
-}
-
-.gform_wrapper form .ginput_container ul.gfield_radio li input[type="radio"] {
-  width: 16px !important;
-}
-
-.gform_wrapper form .ginput_container ul.gfield_checkbox li label,
-.gform_wrapper form .ginput_container ul.gfield_radio li label {
-  line-height: 1.6em;
-  font-size: 0.9em;
-  font-weight: normal;
-  margin: 0 0 0 20px;
-}
 
 /* ------------------------------------
 End of Gravity Forms

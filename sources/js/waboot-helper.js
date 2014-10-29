@@ -2,13 +2,15 @@ jQuery(document).ready(function($){
     /**
      * Bootstrapping html elements
      */
-    $("input[type=text]").addClass( 'form-control' );
-	$("input[type=select]").addClass( 'form-control' );
-    $("textarea").addClass( 'form-control' );
-	$("input#submit").addClass( 'btn btn-primary' );
-    $(".gform_button").addClass( 'btn btn-primary btn-lg' );
+    $('input[type=text]').addClass('form-control');
+    $('input[type=select]').addClass('form-control');
+    $('textarea').addClass('form-control');
+    $('input#submit').addClass('btn btn-primary');
+    $('.gform_button').addClass('btn btn-primary btn-lg').removeClass('gform_button button');
+    $('.validation_error').addClass('alert alert-danger').removeClass('validation_error');
+    $('.gform_confirmation_wrapper').addClass('alert alert-success').removeClass('gform_confirmation_wrapper');
 	// Tables
-	$("table").addClass( 'table' );
+    $('table').addClass('table');
 
     /**
      * These will make any element that has data-wbShow\wbHide="<selector>" act has visibily toggle for <selector>

@@ -21,14 +21,16 @@
 		</div>
 	<?php endif; ?>
 
+<?php if (waboot_has_sidebar('footer')) : ?>
     <div id="footer-wrapper">
-        <div id="footer-inner" class="<?php echo of_get_option( 'waboot_footer_width','container' ); ?>">
-	        <?php
-                // Footer widgets
-                waboot_do_sidebar( 'footer' );
+        <div id="footer-inner" class="<?php echo of_get_option('waboot_footer_width', 'container'); ?>">
+            <?php
+            // Footer widgets
+            waboot_do_sidebar('footer');
             ?>
-	    </div>
+        </div>
     </div>
+<?php endif; ?>
 
 </div><!-- #page -->
 <footer class="site-footer" id="colophon" role="contentinfo">

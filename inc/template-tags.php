@@ -171,6 +171,19 @@ if ( ! function_exists( 'waboot_comment' ) ) :
     }
 endif; // ends check for waboot_comment()
 
+function waboot_has_sidebar($prefix)
+{
+    $has_sidebar = false;
+
+    for ($i = 1; $i <= 4; $i++) {
+        if (is_active_sidebar($prefix . "-" . $i)) {
+            $has_sidebar = true;
+        }
+    }
+
+    return $has_sidebar;
+}
+
 /**
  * Determines the theme layout and active sidebars, and prints the HTML structure
  * with appropriate grid classes depending on which are activated.
