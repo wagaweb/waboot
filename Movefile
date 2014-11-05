@@ -1,12 +1,12 @@
 local:
   vhost: "http://10.0.0.34/waboot"
-  wordpress_path: "/Users/waga/htdocs/waboot" # use an absolute path here
+  wordpress_path: "/var/www/waboot" # use an absolute path here
 
   database:
     name: "waboot"
     user: "root"
     password: "root"
-    host: "10.0.0.34"
+    host: "localhost"
 
 staging:
   vhost: "http://waboot.dev.wagahost.net"
@@ -16,7 +16,7 @@ staging:
     name: "wagahnet_dev_waboot"
     user: "wagahnet_boot"
     password: "cJ1kWU622xH6nr"
-    host: "host"
+    host: "localhost"
     # port: "3308" # Use just in case you have exotic server config
 
   exclude:
@@ -31,7 +31,7 @@ staging:
     - "wp-content/*.sql"
     
   ftp:
-    user: "dev@wagahost.com"
-    password: "AeNTfg7cHCAZpr"
+    user: "dev@wagahost.net"
+    password: "CETG3eE4402C"
     host: "ftp.wagahost.net"
     passive: true
