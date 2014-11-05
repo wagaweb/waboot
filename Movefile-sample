@@ -1,6 +1,6 @@
 local:
-  vhost: "http://10.0.0.34/waboot"
-  wordpress_path: "/var/www/waboot" # use an absolute path here
+  vhost: "http://10.0.0.34/waboot" # inserire l'url locale
+  wordpress_path: "/var/www/waboot" # use an absolute path here (tutti i path alla cartella di vagrant iniziano con "/var/www")
 
   database:
     name: "waboot"
