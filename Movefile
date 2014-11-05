@@ -1,0 +1,37 @@
+local:
+  vhost: "http://10.0.0.34/waboot"
+  wordpress_path: "/Users/waga/htdocs/waboot" # use an absolute path here
+
+  database:
+    name: "waboot"
+    user: "root"
+    password: "root"
+    host: "10.0.0.34"
+
+staging:
+  vhost: "http://waboot.dev.wagahost.net"
+  wordpress_path: "/public_html/dev/waboot" # use an absolute path here
+
+  database:
+    name: "wagahnet_dev_waboot"
+    user: "wagahnet_boot"
+    password: "cJ1kWU622xH6nr"
+    host: "host"
+    # port: "3308" # Use just in case you have exotic server config
+
+  exclude:
+    - ".git/"
+    - ".gitignore"
+    - ".sass-cache/"
+    - "bin/"
+    - "tmp/*"
+    - "Gemfile*"
+    - "Movefile"
+    - "wp-config.php"
+    - "wp-content/*.sql"
+    
+  ftp:
+    user: "dev@wagahost.com"
+    password: "AeNTfg7cHCAZpr"
+    host: "ftp.wagahost.net"
+    passive: true
