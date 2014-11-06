@@ -4,6 +4,7 @@ builds/
 npm-debug.log
 assets/cache/*.*
 !assets/cache/.gitkeep
+Movefile
 
 ############
 ## IDEs
