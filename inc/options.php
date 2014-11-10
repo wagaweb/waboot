@@ -244,6 +244,13 @@ function optionsframework_options() {
         'type' => 'color'
     );
 
+	$options[] = array(
+		'name' => __( 'Custom CSS', 'waboot' ),
+		'desc' => __( 'Apply custom css to the theme.', 'waboot' ),
+		'id'   => 'waboot_custom_css',
+		'type' => 'csseditor'
+	);
+
     /*
      * TOP NAV TAB
      */

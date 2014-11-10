@@ -42,6 +42,7 @@ function optionsframework_init() {
 	require plugin_dir_path( __FILE__ ) . 'includes/class-options-interface.php';
 	require plugin_dir_path( __FILE__ ) . 'includes/class-waboot-options-interface.php';
 	require plugin_dir_path( __FILE__ ) . 'includes/class-options-media-uploader.php';
+	require plugin_dir_path( __FILE__ ) . 'includes/class-options-waboot-code-editor.php'; //[WABOOT MOD]
 	require plugin_dir_path( __FILE__ ) . 'includes/class-options-sanitization.php';
 
 	// Instantiate the main plugin class.
@@ -56,6 +57,9 @@ function optionsframework_init() {
 	$options_framework_media_uploader = new Options_Framework_Media_Uploader;
 	$options_framework_media_uploader->init();
 
+	// Instantiate the code editor class [WABOOT MOD]
+	$options_framework_waboot_code_editor = new Options_Framework_Waboot_Code_Editor;
+	$options_framework_waboot_code_editor->init();
 }
 
 add_action( 'init', 'optionsframework_init', 20 );

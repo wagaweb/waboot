@@ -3,7 +3,7 @@
 if ( ! class_exists( "FirePHP" ) ) {
 	require_once "vendor/firephp/FirePHP.class.php";
 }
-waboot_debug_init();
+//waboot_debug_init();
 
 function waboot_debug_init() {
 	$GLOBALS['wbdebug'] = FirePHP::getInstance( true );

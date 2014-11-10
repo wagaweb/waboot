@@ -20,6 +20,16 @@ function waboot_theme_styles() {
     wp_enqueue_style( 'font-awesome', waboot_locate_template_uri( 'assets/css/font-awesome.min.css' ), $theme['Version'], 'all' );
     wp_enqueue_style( 'main-style', waboot_locate_template_uri( "assets/css/{$compiled_stylesheet}.css" ), array( 'font-awesome' ), $theme['Version'], 'all' );
 	wp_enqueue_style( 'core-style', get_stylesheet_uri(), array( 'font-awesome' ), $theme['Version'], 'all' ); //style.css
+
+	//Enqueue theme-options custom style
+	$customcss = waboot_of_custom_css();
+	if ( $customcss ) {
+		wp_enqueue_style( 'custom-style', $customcss, array(
+				'font-awesome',
+				'main-style',
+				'core-style'
+			), $theme['Version'], 'all' );
+	}
 }
 add_action( 'wp_enqueue_scripts', 'waboot_theme_styles' );
 
