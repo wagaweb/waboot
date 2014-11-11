@@ -68,9 +68,29 @@ class Options_Framework_Waboot_Code_Editor {
 		//Modes
 		wp_register_script( 'codemirror-mode-css', OPTIONS_FRAMEWORK_DIRECTORY . 'includes/vendor/codemirror/mode/css/css.js', array( 'codemirror' ) );
 
+		//Addons
+		wp_register_script( 'codemirror-addon-hint', OPTIONS_FRAMEWORK_DIRECTORY . 'includes/vendor/codemirror/addon/hint/show-hint.js' );
+		wp_register_style( 'codemirror-addon-hint-style', OPTIONS_FRAMEWORK_DIRECTORY . 'includes/vendor/codemirror/addon/hint/show-hint.css' );
+		wp_register_script( 'codemirror-addon-hint-css', OPTIONS_FRAMEWORK_DIRECTORY . 'includes/vendor/codemirror/addon/hint/css-hint.js', array(
+				'codemirror',
+				'codemirror-addon-hint'
+			) );
+
+		//Themes
+		wp_register_style( 'codemirror-theme-ambiance', OPTIONS_FRAMEWORK_DIRECTORY . 'includes/vendor/codemirror/theme/ambiance.css' );
+
+		/**
+		 * Enqueues
+		 */
 		wp_enqueue_script( 'codemirror' );
 		wp_enqueue_style( 'codemirror-css' );
+
 		wp_enqueue_script( 'codemirror-mode-css' );
+		wp_enqueue_script( 'codemirror-addon-hint' );
+		wp_enqueue_style( 'codemirror-addon-hint-style' );
+		wp_enqueue_script( 'codemirror-addon-hint-css' );
+		wp_enqueue_style( 'codemirror-theme-ambiance' );
+
 		wp_enqueue_script( 'of-waboot-codeditor' );
 	}
 

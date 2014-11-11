@@ -46,8 +46,10 @@ jQuery(document).ready(function ($) {
         var my_options_group_link = $("a#" + my_option_group.attr("id") + "-tab");
         var my_mode = $(this).attr("data-lang");
         var editor = $(this).codemirror({
-            mode: my_mode,
-            lineNumbers: true
+            mode: {name: my_mode, globalVars: true},
+            lineNumbers: true,
+            theme: "ambiance",
+            extraKeys: {"Ctrl-Space": "autocomplete"}
         });
         editors.push(editor);
         my_options_group_link.bind("click", function () {

@@ -246,7 +246,7 @@ function optionsframework_options() {
 
 	$options[] = array(
 		'name' => __( 'Custom CSS', 'waboot' ),
-		'desc' => __( 'Apply custom css to the theme.', 'waboot' ),
+		'desc' => __( 'Insert custom css to apply to the theme (hit CTRL-SPACE for suggestion).', 'waboot' ),
 		'id'   => 'waboot_custom_css',
 		'type' => 'csseditor'
 	);

@@ -495,6 +495,16 @@ if ( ! function_exists( "waboot_of_custom_css" ) ): /**
 }
 endif;
 
+if ( ! function_exists( "waboot_admin_show_message" ) ) :
+	function waboot_admin_show_message( $m, $type ) {
+		?>
+		<div class="<?php echo $type; ?>">
+			<p><?php echo $m; ?></p>
+		</div>
+	<?php
+	}
+endif;
+
 /***************************************************************
  * MOBILE DETECT FUNCTIONS
  ***************************************************************/
