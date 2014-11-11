@@ -5,7 +5,7 @@
  * @author    Riccardo D'Angelo <me@riccardodangelo.com>
  */
 class Options_Framework_Waboot_Code_Editor {
-	static function optionsframework_codeditor( $_id, $_value, $_desc = '', $_name = '' ) {
+	static function optionsframework_codeditor( $_id, $_value, $_desc = '', $_name = '', $_lang = 'css' ) {
 		$optionsframework_settings = get_option( 'optionsframework' );
 
 		// Gets the unique option id
@@ -33,7 +33,7 @@ class Options_Framework_Waboot_Code_Editor {
 
 		$class = "of-input codemirror";
 
-		$output .= "<textarea id='$id' class='$class' name='$name' data-codestyle='css' rows='8'>$value</textarea>";
+		$output .= "<textarea id='$id' class='$class' name='$name' data-lang='$_lang' rows='8'>$value</textarea>";
 
 		/*$output .= "<script>
 		var editor = CodeMirror.fromTextArea(document.getElementById('{$id}'), {
@@ -59,9 +59,10 @@ class Options_Framework_Waboot_Code_Editor {
 
 		wp_register_script( 'codemirror', OPTIONS_FRAMEWORK_DIRECTORY . 'includes/vendor/codemirror/lib/codemirror.js' );
 		wp_register_style( 'codemirror-css', OPTIONS_FRAMEWORK_DIRECTORY . 'includes/vendor/codemirror/lib/codemirror.css' );
-		wp_register_script( 'of-waboot-codeditor', OPTIONS_FRAMEWORK_DIRECTORY . 'js/css-editor.js', array(
+		wp_register_script( 'of-waboot-codeditor', OPTIONS_FRAMEWORK_DIRECTORY . 'js/code-editor.js', array(
 				'jquery',
-				'codemirror'
+			'codemirror',
+			'underscore'
 			), Options_Framework::VERSION );
 
 		//Modes

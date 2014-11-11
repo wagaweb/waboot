@@ -1,4 +1,5 @@
 (function ($) {
+    "use strict";
     $.fn.codemirror = function (options) {
 
         var result = this;
@@ -37,9 +38,26 @@
 })(jQuery);
 
 jQuery(document).ready(function ($) {
-    var target_area = $("textarea.codemirror[data-codestyle='css']");
-    var editor = target_area.codemirror({
-        mode: "css",
-        lineNumbers: true
+    "use strict";
+    var editors = [];
+    var targets = $("textarea.codemirror[data-lang]");
+    targets.each(function (index) {
+        var my_option_group = $(this).closest(".group");
+        var my_options_group_link = $("a#" + my_option_group.attr("id") + "-tab");
+        var my_mode = $(this).attr("data-lang");
+        var editor = $(this).codemirror({
+            mode: my_mode,
+            lineNumbers: true
+        });
+        editors.push(editor);
+        my_options_group_link.bind("click", function () {
+            editor.refresh();
+        });
     });
+
+    /*$("a#options-group-2-tab").on("click",function(){
+     _.each(editors,function(element,index,list){
+     element.refresh();
+     });
+     });*/
 });
