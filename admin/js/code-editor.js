@@ -56,7 +56,7 @@ jQuery(document).ready(function ($) {
                 theme: "ambiance",
                 extraKeys: (function () {
                     if (isMac) {
-                        return {"Cmd-Space": "autocomplete"};
+                        return {"Ctrl-F": "autocomplete"};
                     } else {
                         return {"Ctrl-Space": "autocomplete"};
                     }
