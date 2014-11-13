@@ -1,1 +1,297 @@
-div#optionsframework-wrap{margin:0 auto}div#optionsframework-wrap div.optionsframework-content-wrapper:before,div#optionsframework-wrap div.optionsframework-content-wrapper:after{content:" ";display:table}div#optionsframework-wrap div.optionsframework-content-wrapper:after{clear:both}div#optionsframework-wrap div.nav-tab-wrapper{float:left;width:15%}div#optionsframework-wrap div.nav-tab-wrapper ul{margin-top:10px}div#optionsframework-wrap div.nav-tab-wrapper .nav-tab{margin:auto!important;width:100%;height:26px;border:1px solid #ccc!important}div#optionsframework-wrap div#optionsframework-metabox{float:right;width:85%}
+/*
+Custom style for Theme Options panel
+Version: 1.0
+Author: Waga
+Author URI: https://waga.it
+*/
+div#optionsframework-wrap {
+    margin: 0px auto;
+}
+
+div#optionsframework-wrap div.optionsframework-content-wrapper:before,
+div#optionsframework-wrap div.optionsframework-content-wrapper:after {
+    content: " ";
+    display: table;
+}
+
+div#optionsframework-wrap div.optionsframework-content-wrapper:after {
+    clear: both;
+}
+
+div#optionsframework-wrap div.nav-tab-wrapper {
+    float: left;
+    width: 15%;
+    padding: 0;
+    margin: 0;
+}
+
+div#optionsframework-wrap div.nav-tab-wrapper ul {
+    margin-top: 64px;
+}
+
+div#optionsframework-wrap div.nav-tab-wrapper .nav-tab {
+    font-size: 14px;
+    font-weight: bold;
+    width: 100%;
+    padding: 15px 15px 15px 40px;
+    border-top: 1px solid #ddd !important;
+    border-bottom: 1px solid #ddd !important;
+    border-left: 1px solid #ddd !important;
+    border-right: none !important;
+    box-sizing: border-box;
+    background-color: #f1f1f1;
+    background-position: 10px center;
+    background-repeat: no-repeat;
+}
+
+div#optionsframework-wrap div.nav-tab-wrapper #options-group-1-tab {
+    background-image: url("../images/layout-icon.svg");
+}
+
+div#optionsframework-wrap div.nav-tab-wrapper #options-group-2-tab {
+    background-image: url("../images/style-icon.svg");
+}
+
+div#optionsframework-wrap div.nav-tab-wrapper #options-group-3-tab {
+    background-image: url("../images/top-nav-icon.svg");
+}
+
+div#optionsframework-wrap div.nav-tab-wrapper #options-group-4-tab {
+    background-image: url("../images/header-icon.svg");
+}
+
+div#optionsframework-wrap div.nav-tab-wrapper #options-group-5-tab {
+    background-image: url("../images/closure-icon.svg");
+}
+
+div#optionsframework-wrap div.nav-tab-wrapper #options-group-6-tab {
+    background-image: url("../images/behaviour-icon.svg");
+}
+
+div#optionsframework-wrap div.nav-tab-wrapper #options-group-7-tab {
+    background-image: url("../images/posts-icon.svg");
+}
+
+div#optionsframework-wrap div.nav-tab-wrapper #options-group-8-tab {
+    background-image: url("../images/social-icon.svg");
+}
+
+div#optionsframework-wrap div.nav-tab-wrapper .nav-tab-active {
+    background-color: #fff;
+}
+
+div#optionsframework-wrap div#optionsframework-metabox {
+    float: right;
+    width: 85%;
+}
+
+.metabox-holder h3 {
+    font-size: 24px;
+}
+
+#optionsframework {
+    /* Layout */
+    /* Top Nav */
+    /* Header */
+    /* Checkbox Switch */
+}
+
+#optionsframework .group {
+    overflow: auto;
+}
+
+#optionsframework .section {
+    width: 50%;
+    min-height: 225px;
+    box-sizing: border-box;
+    padding: 25px;
+    float: left;
+    border-bottom: 1px solid #ddd;
+}
+
+#optionsframework .section:nth-child(2n+2) {
+    border-right: 1px solid #ddd;
+}
+
+#optionsframework #section-waboot_page_width,
+#optionsframework #section-waboot_custom_css {
+    width: 100%;
+    border-right: none;
+}
+
+#optionsframework .section-info {
+    width: 100%;
+    border-right: none;
+    clear: both;
+    min-height: 0;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    margin: 0;
+}
+
+#optionsframework .section-info h4 {
+    font-size: 22px;
+    margin-bottom: 10px;
+}
+
+#optionsframework #options-group-1 .section:nth-child(2n+2) {
+    border-right: none;
+}
+
+#optionsframework #options-group-1 .section:nth-child(2n+1) {
+    border-right: 1px solid #ddd;
+}
+
+#optionsframework #options-group-1 #section-waboot_page_width {
+    border-right: none;
+}
+
+#optionsframework #options-group-3 .section:nth-child(2n+2) {
+    border-right: none;
+}
+
+#optionsframework #options-group-3 .section:nth-child(2n+1) {
+    border-right: 1px solid #ddd;
+}
+
+#optionsframework #options-group-3 .section-info {
+    border-right: none;
+}
+
+#optionsframework #options-group-4 .section {
+    width: 100%;
+    border-right: none;
+}
+
+#optionsframework .heading {
+    font-size: 18px;
+    text-align: center;
+    width: 100%;
+}
+
+#optionsframework .explain {
+    width: 100%;
+    max-width: 100% !important;
+    text-align: center;
+    display: block;
+    float: none;
+    margin-bottom: 15px;
+}
+
+#optionsframework .controls {
+    width: 100% !important;
+    min-width: 100% !important;
+    text-align: center;
+    padding: 15px;
+    box-sizing: border-box;
+}
+
+#optionsframework .controls img {
+    display: inline-block !important;
+    text-align: center;
+    float: none !important;
+}
+
+#optionsframework .section p {
+    text-align: center;
+}
+
+#optionsframework .controls .of-radio-img-selected {
+    border: 3px solid #666;
+}
+
+#optionsframework #section-waboot_custom_css .controls {
+    text-align: left !important;
+}
+
+#optionsframework .onoffswitch {
+    position: relative;
+    width: 90px !important;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    float: none;
+    padding-right: 0;
+    min-width: 0 !important;
+    padding: 0px;
+    margin: 0 auto 10px;
+}
+
+#optionsframework .onoffswitch-checkbox {
+    display: none;
+}
+
+#optionsframework .onoffswitch-label {
+    display: block;
+    overflow: hidden;
+    cursor: pointer;
+    border: 1px solid #999999;
+    border-radius: 20px;
+}
+
+#optionsframework .onoffswitch-inner {
+    display: block;
+    width: 200%;
+    margin-left: -100%;
+    -moz-transition: margin 0.3s ease-in 0s;
+    -webkit-transition: margin 0.3s ease-in 0s;
+    -o-transition: margin 0.3s ease-in 0s;
+    transition: margin 0.3s ease-in 0s;
+}
+
+#optionsframework .onoffswitch-inner:before,
+#optionsframework .onoffswitch-inner:after {
+    display: block;
+    float: left;
+    width: 50%;
+    height: 30px;
+    padding: 0;
+    line-height: 30px;
+    font-size: 14px;
+    color: white;
+    font-family: Trebuchet, Arial, sans-serif;
+    font-weight: bold;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+#optionsframework .onoffswitch-inner:before {
+    content: "ON";
+    padding-left: 10px;
+    background-color: #34A7C1;
+    color: #FFFFFF;
+}
+
+#optionsframework .onoffswitch-inner:after {
+    content: "OFF";
+    padding-right: 10px;
+    background-color: #EEEEEE;
+    color: #999999;
+    text-align: right;
+}
+
+#optionsframework .onoffswitch-switch {
+    display: block;
+    width: 18px;
+    margin: 6px;
+    background: #FFFFFF;
+    border: 1px solid #999999;
+    border-radius: 20px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 56px;
+    -moz-transition: all 0.3s ease-in 0s;
+    -webkit-transition: all 0.3s ease-in 0s;
+    -o-transition: all 0.3s ease-in 0s;
+    transition: all 0.3s ease-in 0s;
+}
+
+#optionsframework .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
+    margin-left: 0;
+}
+
+#optionsframework .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
+    right: 0px;
+}

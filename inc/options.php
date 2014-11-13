@@ -64,21 +64,21 @@ function optionsframework_options() {
     );
 
     $options[] = array(
-        'name' => __( 'Top Nav', 'waboot' ),
-        'desc' => __( 'Select Top Nav width. Fluid or Boxed?', 'waboot' ),
-        'id' => 'waboot_topnav_width',
-        'std' => 'container',
-        'type' => 'images',
-        'options' => array( 'container-fluid' => $imagepath . '1c.png','container' => $imagepath . '3cm.png' )
-    );
-
-    $options[] = array(
-        'name' => __( 'Page', 'waboot' ),
-        'desc' => __( 'Select page width. Fluid or Boxed?', 'waboot' ),
+        'name' => __('Page', 'waboot'),
+        'desc' => __('Select page width. Fluid or Boxed?', 'waboot'),
         'id' => 'waboot_page_width',
         'std' => 'container',
         'type' => 'images',
-        'options' => array( 'container-fluid' => $imagepath . '1c.png','container' => $imagepath . '3cm.png' )
+        'options' => array('container-fluid' => $imagepath . 'layout/page-boxed.png', 'container' => $imagepath . 'layout/page-fluid.png')
+    );
+
+    $options[] = array(
+        'name' => __('Top Nav', 'waboot'),
+        'desc' => __('Select Top Nav width. Fluid or Boxed?', 'waboot'),
+        'id' => 'waboot_topnav_width',
+        'std' => 'container',
+        'type' => 'images',
+        'options' => array('container-fluid' => $imagepath . 'layout/top-nav-boxed.png', 'container' => $imagepath . 'layout/top-nav-fluid.png')
     );
 
     $options[] = array(
@@ -87,7 +87,7 @@ function optionsframework_options() {
         'id' => 'waboot_header_width',
         'std' => 'container-fluid',
         'type' => 'images',
-        'options' => array( 'container-fluid' => $imagepath . '1c.png','container' => $imagepath . '3cm.png' )
+        'options' => array('container-fluid' => $imagepath . 'layout/header-boxed.png', 'container' => $imagepath . 'layout/header-fluid.png')
     );
 
     $options[] = array(
@@ -96,7 +96,7 @@ function optionsframework_options() {
         'id' => 'waboot_banner_width',
         'std' => 'container-fluid',
         'type' => 'images',
-        'options' => array( 'container-fluid' => $imagepath . '1c.png','container' => $imagepath . '3cm.png' )
+        'options' => array('container-fluid' => $imagepath . 'layout/banner-boxed.png', 'container' => $imagepath . 'layout/banner-fluid.png')
     );
 
     $options[] = array(
@@ -105,7 +105,7 @@ function optionsframework_options() {
         'id' => 'waboot_content_width',
         'std' => 'container-fluid',
         'type' => 'images',
-        'options' => array( 'container-fluid' => $imagepath . '1c.png','container' => $imagepath . '3cm.png' )
+        'options' => array('container-fluid' => $imagepath . 'layout/content-boxed.png', 'container' => $imagepath . 'layout/content-fluid.png')
     );
 
     $options[] = array(
@@ -114,7 +114,7 @@ function optionsframework_options() {
         'id' => 'waboot_bottom_width',
         'std' => 'container-fluid',
         'type' => 'images',
-        'options' => array( 'container-fluid' => $imagepath . '1c.png','container' => $imagepath . '3cm.png' )
+        'options' => array('container-fluid' => $imagepath . 'layout/content-bottom-boxed.png', 'container' => $imagepath . 'layout/content-bottom-fluid.png')
     );
 
     $options[] = array(
@@ -123,7 +123,7 @@ function optionsframework_options() {
         'id' => 'waboot_footer_width',
         'std' => 'container-fluid',
         'type' => 'images',
-        'options' => array( 'container-fluid' => $imagepath . '1c.png','container' => $imagepath . '3cm.png' )
+        'options' => array('container-fluid' => $imagepath . 'layout/footer-boxed.png', 'container' => $imagepath . 'layout/footer-fluid.png')
     );
 
 
