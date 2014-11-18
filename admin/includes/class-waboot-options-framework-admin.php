@@ -10,11 +10,25 @@ class Waboot_Options_Framework_Admin extends Options_Framework_Admin{
 		add_action( 'admin_menu', array( $this, 'add_man_page' ) );
 	}
 
+	/**
+	 * Add a subpage called "Theme Options" to the Waboot Menu
+	 */
+	function add_options_page() {
+		$menu = parent::menu_settings();
+		$this->options_screen = add_submenu_page( "waboot_options", $menu['page_title'], $menu['menu_title'], $menu['capability'], $menu['menu_slug'], array(
+				$this,
+				'options_page'
+			) );
+	}
+
+	/**
+	 * Add "Manage Theme Options" subpage to Waboot Menu
+	 */
 	public function add_man_page() {
-		add_management_page( __( "Theme Options Manager", "waboot" ), __( "Manage Theme Options", "waboot" ), "edit_theme_options", "themeoptions-manager", array(
+		add_submenu_page( "waboot_options", __( "Theme Options Manager", "waboot" ), __( "Backup and Restore Theme Options", "waboot" ), "edit_theme_options", "themeoptions-manager", array(
 				$this,
 				'do_man_page'
-			) );
+		) );
 	}
 
 	/**
@@ -247,6 +261,29 @@ class Waboot_Options_Framework_Admin extends Options_Framework_Admin{
 		return $output;
 	}
 
+	/**
+	 * Loads the required javascript
+	 *
+	 * @since 1.7.0
+	 */
+	function enqueue_admin_scripts( $hook ) {
+
+		$menu = $this->menu_settings();
+
+		if ( 'waboot_page_' . $menu['menu_slug'] != $hook ) {
+			return;
+		}
+
+		// Enqueue custom option panel JS
+		wp_enqueue_script( 'options-custom', OPTIONS_FRAMEWORK_DIRECTORY . 'js/options-custom.js', array(
+				'jquery',
+				'wp-color-picker'
+			), Options_Framework::VERSION );
+
+		// Inline scripts from options-interface.php
+		add_action( 'admin_head', array( $this, 'of_admin_head' ) );
+	}
+
     /**
      * Builds out the options panel.
      *
@@ -268,7 +305,7 @@ class Waboot_Options_Framework_Admin extends Options_Framework_Admin{
                 <h2><?php echo esc_html( $menu['page_title'] ); ?></h2>
 
 	            <p>
-		            <a href="<?php echo get_bloginfo( "url" ) . "/wp-admin/tools.php?page=themeoptions-manager" ?>"
+		            <a href="<?php echo get_bloginfo( "url" ) . "/wp-admin/admin.php?page=themeoptions-manager" ?>"
 		               title="<?php _e( "Backup or restore Theme Options" ); ?>" rel="bookmark">
 			            <?php _e( "Backup or restore Theme Options" ); ?>
 		            </a>

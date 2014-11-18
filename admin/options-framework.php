@@ -38,10 +38,11 @@ function optionsframework_init() {
 	// Loads the required Options Framework classes.
 	require plugin_dir_path( __FILE__ ) . 'includes/class-options-framework.php';
 	require plugin_dir_path( __FILE__ ) . 'includes/class-options-framework-admin.php';
-	require plugin_dir_path( __FILE__ ) . 'includes/class-waboot-options-framework-admin.php';
+	require plugin_dir_path( __FILE__ ) . 'includes/class-waboot-options-framework-admin.php';  //[WABOOT MOD]
 	require plugin_dir_path( __FILE__ ) . 'includes/class-options-interface.php';
-	require plugin_dir_path( __FILE__ ) . 'includes/class-waboot-options-interface.php';
+	require plugin_dir_path( __FILE__ ) . 'includes/class-waboot-options-interface.php';  //[WABOOT MOD]
 	require plugin_dir_path( __FILE__ ) . 'includes/class-options-media-uploader.php';
+	require plugin_dir_path( __FILE__ ) . 'includes/class-waboot-options-media-uploader.php'; //[WABOOT MOD]
 	require plugin_dir_path( __FILE__ ) . 'includes/class-options-waboot-code-editor.php'; //[WABOOT MOD]
 	require plugin_dir_path( __FILE__ ) . 'includes/class-options-sanitization.php';
 
@@ -50,11 +51,11 @@ function optionsframework_init() {
 	$options_framework->init();
 
 	// Instantiate the options page.
-	$options_framework_admin = new Waboot_Options_Framework_Admin;
+	$options_framework_admin = new Waboot_Options_Framework_Admin;  //[WABOOT MOD]
 	$options_framework_admin->init();
 
 	// Instantiate the media uploader class
-	$options_framework_media_uploader = new Options_Framework_Media_Uploader;
+	$options_framework_media_uploader = new Waboot_Options_Framework_Media_Uploader; //[WABOOT MOD]
 	$options_framework_media_uploader->init();
 
 	// Instantiate the code editor class [WABOOT MOD]
