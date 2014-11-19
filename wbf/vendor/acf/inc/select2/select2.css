@@ -327,7 +327,6 @@ html[dir="rtl"] .select2-search input {
     border-left: none;
     filter: none;
 }
-
 html[dir="rtl"] .select2-dropdown-open .select2-choice .select2-arrow {
     border-right: none;
 }
@@ -461,7 +460,6 @@ disabled look for disabled choices in the results dropdown
     display: list-item;
     cursor: default;
 }
-
 .select2-results .select2-disabled {
     background: #f4f4f4;
     display: list-item;
@@ -504,6 +502,7 @@ disabled look for disabled choices in the results dropdown
     display: none;
 }
 
+
 /* multiselect */
 
 .select2-container-multi .select2-choices {
@@ -543,7 +542,6 @@ html[dir="rtl"] .select2-container-multi .select2-choices {
     -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, .3);
     box-shadow: 0 0 5px rgba(0, 0, 0, .3);
 }
-
 .select2-container-multi .select2-choices li {
     float: left;
     list-style: none;
@@ -552,7 +550,6 @@ html[dir="rtl"] .select2-container-multi .select2-choices {
 html[dir="rtl"] .select2-container-multi .select2-choices li {
     float: right;
 }
-
 .select2-container-multi .select2-choices .select2-search-field {
     margin: 0;
     padding: 0;
@@ -616,11 +613,9 @@ html[dir="rtl"] .select2-container-multi .select2-choices .select2-search-choice
     margin: 3px 5px 3px 0;
     padding: 3px 18px 3px 5px;
 }
-
 .select2-container-multi .select2-choices .select2-search-choice .select2-chosen {
     cursor: default;
 }
-
 .select2-container-multi .select2-choices .select2-search-choice-focus {
     background: #d4d4d4;
 }
@@ -637,7 +632,6 @@ html[dir="rtl"] .select2-container-multi .select2-choices .select2-search-choice
     outline: none;
     background: url('select2.png') right top no-repeat;
 }
-
 html[dir="rtl"] .select2-search-choice-close {
     right: auto;
     left: 3px;
@@ -655,7 +649,6 @@ html[dir="rtl"] .select2-container-multi .select2-search-choice-close {
 .select2-container-multi .select2-choices .select2-search-choice .select2-search-choice-close:hover {
     background-position: right -11px;
 }
-
 .select2-container-multi .select2-choices .select2-search-choice-focus .select2-search-choice-close {
     background-position: right -11px;
 }
@@ -679,7 +672,6 @@ html[dir="rtl"] .select2-container-multi .select2-search-choice-close {
     display: none;
     background: none;
 }
-
 /* end multiselect */
 
 .select2-result-selectable .select2-match,

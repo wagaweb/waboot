@@ -23,7 +23,6 @@
 #minor-publishing {
     border-bottom: 0 none;
 }
-
 #misc-pub-section {
     border-bottom: 0 none;
 }
@@ -31,6 +30,7 @@
 #misc-publishing-actions .misc-pub-section {
     border-bottom-color: #F5F5F5;
 }
+
 
 /*---------------------------------------------------------------------------------------------
 *
@@ -69,6 +69,7 @@
     width: 25%;
 }
 
+
 .acf-field-list-wrap {
     border: #DFDFDF solid 1px;
 }
@@ -85,6 +86,7 @@
 .acf-field-list a:focus {
     outline: none;
 }
+
 
 .acf-field-list .field {
     border-top: #F0F0F0 solid 1px;
@@ -188,6 +190,7 @@
     border-color: #fff;
 }
 
+
 .acf-field-list .field[data-key="acfcloneindex"] {
     display: none !important;
 }
@@ -195,6 +198,7 @@
 .acf-field-list .field .location-groups {
     margin-top: 10px;
 }
+
 
 /* field keys */
 .acf-field-list .pre-field_key {
@@ -224,6 +228,7 @@
 #acf-field-group-fields.show-field-keys .li-field_label {
     width: 26%;
 }
+
 
 /*---------------------------------------------------------------------------------------------
 *
@@ -268,10 +273,12 @@
     display: block;
 }
 
+
 /* Don't allow user to delete the first field group */
 .location-groups .location-group:first-child tr:first-child .location-remove-rule {
     display: none !important;
 }
+
 
 /*---------------------------------------------------------------------------------------------
 *
@@ -293,7 +300,7 @@
 
 #acf_fields select optgroup option:first-child,
 #acf-field-group-locations select optgroup option:first-child {
-
+	
 }
 
 #acf_fields select option,
@@ -310,6 +317,7 @@
 #acf-field-group-locations select optgroup:nth-child(2n) {
     background: #F9F9F9;
 }
+
 
 /*---------------------------------------------------------------------------------------------
 *

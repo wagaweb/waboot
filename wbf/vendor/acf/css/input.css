@@ -9,7 +9,7 @@
 .acf-field input[type="number"],
 .acf-field input[type="search"],
 .acf-field input[type="email"],
-.acf-field input[type="url"],
+.acf-field input[type="url"], 
 .acf-field textarea,
 .acf-field select {
     width: 100%;
@@ -26,6 +26,7 @@
     resize: vertical;
     line-height: 1.4em;
 }
+
 
 /*---------------------------------------------------------------------------------------------
 *
@@ -78,6 +79,7 @@ input.acf-is-appended {
 input.acf-is-prepended.acf-is-appended {
     border-radius: 0 !important;
 }
+
 
 /*---------------------------------------------------------------------------------------------
 *
@@ -251,6 +253,7 @@ ul.acf-checkbox-list li label {
     margin: 0 5px;
 }
 
+
 /*--------------------------------------------------------------------------
 *
 *	Relationship
@@ -399,6 +402,7 @@ ul.acf-checkbox-list li label {
     display: block;
 }
 
+
 /* disabled */
 .acf-relationship .acf-rel-item.disabled {
     opacity: 0.5;
@@ -410,6 +414,7 @@ ul.acf-checkbox-list li label {
     color: #333;
     cursor: default;
 }
+
 
 /*--------------------------------------------------------------------------
 *
@@ -433,6 +438,7 @@ ul.acf-checkbox-list li label {
 #mce_fullscreen_container {
     z-index: 150005 !important;
 }
+
 
 /*---------------------------------------------------------------------------------------------
 *
@@ -475,7 +481,7 @@ ul.acf-checkbox-list li label {
 
 }
 
-.acf-tab-group li a:hover,
+.acf-tab-group li a:hover, 
 .acf-tab-group li.active a {
     background: #FFFFFF;
     outline: none;
@@ -522,6 +528,7 @@ ul.acf-checkbox-list li label {
     background: #FFFFFF;
 }
 
+
 /*
 *  Box (label left)
 */
@@ -543,6 +550,7 @@ ul.acf-checkbox-list li label {
     margin-bottom: 10px;
     padding-left: 0;
 }
+
 
 /*--------------------------------------------------------------------------------------------
 *
@@ -698,6 +706,7 @@ ul.acf-checkbox-list li label {
     display: none;
 }
 
+
 /*--------------------------------------------------------------------------------------------
 *
 *	Image
@@ -740,8 +749,9 @@ ul.acf-checkbox-list li label {
         width: auto;
         max-width: 100%;
     }
-
+	
 }
+
 
 /*
 *  Hover
@@ -756,6 +766,7 @@ ul.acf-checkbox-list li label {
 .acf-image-uploader .acf-soh-target li {
     margin: 0 0 0 4px;
 }
+
 
 /*--------------------------------------------------------------------------------------------
 *
@@ -810,6 +821,7 @@ ul.acf-checkbox-list li label {
     margin: 0 !important;
 }
 
+
 /*
 *  Hover
 */
@@ -833,6 +845,7 @@ ul.acf-checkbox-list li label {
 .acf-ui-datepicker .ui-datepicker {
     z-index: 999999999 !important;
 }
+
 
 /*---------------------------------------------------------------------------------------------
 *
@@ -868,29 +881,27 @@ ul.acf-checkbox-list li label {
     padding-left: 18px;
 }
 
+
 /*---------------------------------------------------------------------------------------------
 *
 *  Media Model
 *
 *---------------------------------------------------------------------------------------------*/
 
-.media-modal {
-
+.media-modal { 
+	
 }
 
 /* WP sets tables to act as divs. ACF uses tables, so these muct be reset */
 .media-modal .compat-attachment-fields td.acf-input table {
     display: table;
 }
-
 .media-modal .compat-attachment-fields td.acf-input table tbody {
     display: table-row-group;
 }
-
 .media-modal .compat-attachment-fields td.acf-input table tr {
     display: table-row;
 }
-
 .media-modal .compat-attachment-fields td.acf-input table td,
 .media-modal .compat-attachment-fields td.acf-input table th {
     display: table-cell;
@@ -949,6 +960,7 @@ ul.acf-checkbox-list li label {
     display: none;
 }
 
+
 /* Expand / Collapse views */
 .media-modal .media-toolbar,
 .media-modal .attachments,
@@ -971,21 +983,22 @@ ul.acf-checkbox-list li label {
     width: 667px;
 }
 
+
 /* Sidebar: Collapse */
 .media-modal .compat-item .label {
     margin: 0;
 }
 
-.media-modal .media-sidebar .setting span,
+.media-modal .media-sidebar .setting span, 
 .media-modal .compat-item label span,
-.media-modal .media-sidebar .setting input,
+.media-modal .media-sidebar .setting input, 
 .media-modal .media-sidebar .setting textarea,
 .media-modal .compat-item .field {
     min-height: 0;
     margin: 5px 0 0;
 }
 
-.media-modal .media-sidebar .setting span,
+.media-modal .media-sidebar .setting span, 
 .media-modal .compat-item label span {
     padding-top: 7px;
 }
@@ -994,6 +1007,7 @@ ul.acf-checkbox-list li label {
     margin-top: 0;
     margin-right: 3%;
 }
+
 
 /* Sidebar: Expand */
 .media-modal.acf-expanded .attachment-info .thumbnail {
@@ -1010,12 +1024,13 @@ ul.acf-checkbox-list li label {
     min-width: 20%;
 }
 
-.media-modal.acf-expanded .media-sidebar .setting input,
+.media-modal.acf-expanded .media-sidebar .setting input, 
 .media-modal.acf-expanded .media-sidebar .setting textarea,
 .media-modal.acf-expanded .compat-item .field,
 .media-modal.acf-expanded .compat-item .acf-input {
     width: 77%;
 }
+
 
 /* Create gallery fix */
 .media-modal .media-sidebar .collection-settings .setting span {
@@ -1030,6 +1045,7 @@ ul.acf-checkbox-list li label {
     bottom: -6px;
     margin: 0 10px 0 0;
 }
+
 
 /*---------------------------------------------------------------------------------------------
 *
@@ -1084,7 +1100,7 @@ ul.acf-checkbox-list li label {
         left: 10%;
         right: 10%;
     }
-
+	
 }
 
 @media (max-width: 760px) {
@@ -1108,7 +1124,7 @@ ul.acf-checkbox-list li label {
     .media-modal.acf-expanded .compat-item .acf-input {
         width: 100%;
     }
-
+	
 }
 
 .acf-media-modal .media-sidebar {
@@ -1189,7 +1205,7 @@ body.acf-wp-4 .media-modal.acf-media-modal .media-frame-content {
 
 .media-modal.acf-media-modal .media-frame-title,
 .media-modal.acf-media-modal .media-frame-router,
-.media-modal.acf-media-modal .media-frame-toolbar,
+.media-modal.acf-media-modal .media-frame-toolbar, 
 .media-modal.acf-media-modal .media-frame-content {
     left: 0;
 }

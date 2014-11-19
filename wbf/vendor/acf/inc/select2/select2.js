@@ -90,7 +90,7 @@
                 if (e.metaKey) return true;
 
                 return false;
-            },
+        },
             isFunctionKey: function (k) {
                 k = k.which ? k.which : k;
                 return k >= 112 && k <= 123;
@@ -1135,7 +1135,6 @@
         event.preventDefault();
         event.stopPropagation();
     }
-
     function killEventImmediately(event) {
         event.preventDefault();
         event.stopImmediatePropagation();
@@ -2698,8 +2697,8 @@
                                         return equal(self.id(this), self.id(def));
                                     }).length === 0) {
                                 this.opts.createSearchChoicePosition(data.results, def);
-                            }
                         }
+                    }
                     }
 
                     if (data.results.length === 0 && checkFormatter(opts.formatNoMatches, "formatNoMatches")) {
