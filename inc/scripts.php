@@ -21,8 +21,8 @@ function waboot_js_loader() {
                 wp_enqueue_script( 'waboot-child.js', $child_js, array('jquery'),false, true);
         }
 	}
-	
-	// Comment reply script
+
+    // Comment reply script
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) )
 		wp_enqueue_script( 'comment-reply' );
 }
@@ -52,15 +52,3 @@ function waboot_ie_compatibility(){
     <?php
 }
 add_action("wp_head",'waboot_ie_compatibility');
-
-function waboot_less_compiler_js(){
-    wp_register_script('waboot-less-compiler.js',waboot_locate_template_uri( 'sources/js/waboot-less-compiler.js' ));
-
-    $translation_array = array(
-        'ajax_url' => admin_url()."admin-ajax.php",
-    );
-    wp_localize_script( 'waboot-less-compiler.js', 'waboot', $translation_array );
-
-    wp_enqueue_script( 'waboot-less-compiler.js');
-}
-//add_action( 'wp_enqueue_scripts', 'waboot_less_compiler_js' );

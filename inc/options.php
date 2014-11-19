@@ -47,7 +47,7 @@ function optionsframework_options() {
     }
 
     // If using image radio buttons, define a directory path
-    $imagepath =  get_template_directory_uri() . '/admin/images/';
+    $imagepath = get_template_directory_uri() . '/wbf/admin/images/';
 
     $options = array();
 

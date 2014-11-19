@@ -11,9 +11,9 @@ module.exports = function(grunt) {
                 },
                 files:{
                     'assets/css/waboot.css': 'sources/less/waboot.less',
-                    'admin/css/tinymce.css': 'sources/admin/tinymce.less',
-                    'admin/css/admin.css': 'sources/admin/admin.less',
-                    'admin/css/waboot-optionsframework.css': 'sources/admin/optionsframework.less'
+                    'wbf/admin/css/tinymce.css': 'sources/admin/tinymce.less',
+                    'wbf/admin/css/admin.css': 'sources/admin/admin.less',
+                    'wbf/admin/css/waboot-optionsframework.css': 'sources/admin/optionsframework.less'
                 }
             },
             production:{
