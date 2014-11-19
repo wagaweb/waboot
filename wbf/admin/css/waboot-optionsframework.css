@@ -1,37 +1,30 @@
-/*
-Custom style for Theme Options panel
-Version: 1.0
-Author: Waga
-Author URI: https://waga.it
-*/
 div#optionsframework-wrap {
-    margin: 0px auto;
+    margin: 0 auto
 }
 
-div#optionsframework-wrap div.optionsframework-content-wrapper:before,
-div#optionsframework-wrap div.optionsframework-content-wrapper:after {
+div#optionsframework-wrap div.optionsframework-content-wrapper:before, div#optionsframework-wrap div.optionsframework-content-wrapper:after {
     content: " ";
-    display: table;
+    display: table
 }
 
 div#optionsframework-wrap div.optionsframework-content-wrapper:after {
-    clear: both;
+    clear: both
 }
 
 div#optionsframework-wrap div.nav-tab-wrapper {
     float: left;
     width: 15%;
     padding: 0;
-    margin: 0;
+    margin: 0
 }
 
 div#optionsframework-wrap div.nav-tab-wrapper ul {
-    margin-top: 64px;
+    margin-top: 64px
 }
 
 div#optionsframework-wrap div.nav-tab-wrapper .nav-tab {
     font-size: 14px;
-    font-weight: bold;
+    font-weight: 700;
     width: 100%;
     padding: 15px 15px 15px 40px;
     border-top: 1px solid #ddd !important;
@@ -41,63 +34,56 @@ div#optionsframework-wrap div.nav-tab-wrapper .nav-tab {
     box-sizing: border-box;
     background-color: #f1f1f1;
     background-position: 10px center;
-    background-repeat: no-repeat;
+    background-repeat: no-repeat
 }
 
 div#optionsframework-wrap div.nav-tab-wrapper #options-group-1-tab {
-    background-image: url("../images/layout-icon.svg");
+    background-image: url(../images/layout-icon.svg)
 }
 
 div#optionsframework-wrap div.nav-tab-wrapper #options-group-2-tab {
-    background-image: url("../images/style-icon.svg");
+    background-image: url(../images/style-icon.svg)
 }
 
 div#optionsframework-wrap div.nav-tab-wrapper #options-group-3-tab {
-    background-image: url("../images/top-nav-icon.svg");
+    background-image: url(../images/top-nav-icon.svg)
 }
 
 div#optionsframework-wrap div.nav-tab-wrapper #options-group-4-tab {
-    background-image: url("../images/header-icon.svg");
+    background-image: url(../images/header-icon.svg)
 }
 
 div#optionsframework-wrap div.nav-tab-wrapper #options-group-5-tab {
-    background-image: url("../images/closure-icon.svg");
+    background-image: url(../images/closure-icon.svg)
 }
 
 div#optionsframework-wrap div.nav-tab-wrapper #options-group-6-tab {
-    background-image: url("../images/behaviour-icon.svg");
+    background-image: url(../images/behaviour-icon.svg)
 }
 
 div#optionsframework-wrap div.nav-tab-wrapper #options-group-7-tab {
-    background-image: url("../images/posts-icon.svg");
+    background-image: url(../images/posts-icon.svg)
 }
 
 div#optionsframework-wrap div.nav-tab-wrapper #options-group-8-tab {
-    background-image: url("../images/social-icon.svg");
+    background-image: url(../images/social-icon.svg)
 }
 
 div#optionsframework-wrap div.nav-tab-wrapper .nav-tab-active {
-    background-color: #fff;
+    background-color: #fff
 }
 
 div#optionsframework-wrap div#optionsframework-metabox {
     float: right;
-    width: 85%;
+    width: 85%
 }
 
 .metabox-holder h3 {
-    font-size: 24px;
-}
-
-#optionsframework {
-    /* Layout */
-    /* Top Nav */
-    /* Header */
-    /* Checkbox Switch */
+    font-size: 24px
 }
 
 #optionsframework .group {
-    overflow: auto;
+    overflow: auto
 }
 
 #optionsframework .section {
@@ -106,17 +92,16 @@ div#optionsframework-wrap div#optionsframework-metabox {
     box-sizing: border-box;
     padding: 25px;
     float: left;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid #ddd
 }
 
 #optionsframework .section:nth-child(2n+2) {
-    border-right: 1px solid #ddd;
+    border-right: 1px solid #ddd
 }
 
-#optionsframework #section-waboot_page_width,
-#optionsframework #section-waboot_custom_css {
+#optionsframework #section-waboot_page_width, #optionsframework #section-waboot_custom_css {
     width: 100%;
-    border-right: none;
+    border-right: none
 }
 
 #optionsframework .section-info {
@@ -126,47 +111,47 @@ div#optionsframework-wrap div#optionsframework-metabox {
     min-height: 0;
     border-top: 1px solid #ddd;
     border-bottom: 1px solid #ddd;
-    margin: 0;
+    margin: 0
 }
 
 #optionsframework .section-info h4 {
     font-size: 22px;
-    margin-bottom: 10px;
+    margin-bottom: 10px
 }
 
 #optionsframework #options-group-1 .section:nth-child(2n+2) {
-    border-right: none;
+    border-right: none
 }
 
 #optionsframework #options-group-1 .section:nth-child(2n+1) {
-    border-right: 1px solid #ddd;
+    border-right: 1px solid #ddd
 }
 
 #optionsframework #options-group-1 #section-waboot_page_width {
-    border-right: none;
+    border-right: none
 }
 
 #optionsframework #options-group-3 .section:nth-child(2n+2) {
-    border-right: none;
+    border-right: none
 }
 
 #optionsframework #options-group-3 .section:nth-child(2n+1) {
-    border-right: 1px solid #ddd;
+    border-right: 1px solid #ddd
 }
 
 #optionsframework #options-group-3 .section-info {
-    border-right: none;
+    border-right: none
 }
 
 #optionsframework #options-group-4 .section {
     width: 100%;
-    border-right: none;
+    border-right: none
 }
 
 #optionsframework .heading {
     font-size: 18px;
     text-align: center;
-    width: 100%;
+    width: 100%
 }
 
 #optionsframework .explain {
@@ -175,7 +160,7 @@ div#optionsframework-wrap div#optionsframework-metabox {
     text-align: center;
     display: block;
     float: none;
-    margin-bottom: 15px;
+    margin-bottom: 15px
 }
 
 #optionsframework .controls {
@@ -183,25 +168,25 @@ div#optionsframework-wrap div#optionsframework-metabox {
     min-width: 100% !important;
     text-align: center;
     padding: 15px;
-    box-sizing: border-box;
+    box-sizing: border-box
 }
 
 #optionsframework .controls img {
     display: inline-block !important;
     text-align: center;
-    float: none !important;
+    float: none !important
 }
 
 #optionsframework .section p {
-    text-align: center;
+    text-align: center
 }
 
 #optionsframework .controls .of-radio-img-selected {
-    border: 3px solid #666;
+    border: 3px solid #666
 }
 
 #optionsframework #section-waboot_custom_css .controls {
-    text-align: left !important;
+    text-align: left !important
 }
 
 #optionsframework .onoffswitch {
@@ -213,34 +198,33 @@ div#optionsframework-wrap div#optionsframework-metabox {
     float: none;
     padding-right: 0;
     min-width: 0 !important;
-    padding: 0px;
-    margin: 0 auto 10px;
+    padding: 0;
+    margin: 0 auto 10px
 }
 
 #optionsframework .onoffswitch-checkbox {
-    display: none;
+    display: none
 }
 
 #optionsframework .onoffswitch-label {
     display: block;
     overflow: hidden;
     cursor: pointer;
-    border: 1px solid #999999;
-    border-radius: 20px;
+    border: 1px solid #999;
+    border-radius: 20px
 }
 
 #optionsframework .onoffswitch-inner {
     display: block;
     width: 200%;
     margin-left: -100%;
-    -moz-transition: margin 0.3s ease-in 0s;
-    -webkit-transition: margin 0.3s ease-in 0s;
-    -o-transition: margin 0.3s ease-in 0s;
-    transition: margin 0.3s ease-in 0s;
+    -moz-transition: margin .3s ease-in 0s;
+    -webkit-transition: margin .3s ease-in 0s;
+    -o-transition: margin .3s ease-in 0s;
+    transition: margin .3s ease-in 0s
 }
 
-#optionsframework .onoffswitch-inner:before,
-#optionsframework .onoffswitch-inner:after {
+#optionsframework .onoffswitch-inner:before, #optionsframework .onoffswitch-inner:after {
     display: block;
     float: left;
     width: 50%;
@@ -248,50 +232,50 @@ div#optionsframework-wrap div#optionsframework-metabox {
     padding: 0;
     line-height: 30px;
     font-size: 14px;
-    color: white;
+    color: #fff;
     font-family: Trebuchet, Arial, sans-serif;
-    font-weight: bold;
+    font-weight: 700;
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
-    box-sizing: border-box;
+    box-sizing: border-box
 }
 
 #optionsframework .onoffswitch-inner:before {
     content: "ON";
     padding-left: 10px;
     background-color: #34A7C1;
-    color: #FFFFFF;
+    color: #FFF
 }
 
 #optionsframework .onoffswitch-inner:after {
     content: "OFF";
     padding-right: 10px;
-    background-color: #EEEEEE;
-    color: #999999;
-    text-align: right;
+    background-color: #EEE;
+    color: #999;
+    text-align: right
 }
 
 #optionsframework .onoffswitch-switch {
     display: block;
     width: 18px;
     margin: 6px;
-    background: #FFFFFF;
-    border: 1px solid #999999;
+    background: #FFF;
+    border: 1px solid #999;
     border-radius: 20px;
     position: absolute;
     top: 0;
     bottom: 0;
     right: 56px;
-    -moz-transition: all 0.3s ease-in 0s;
-    -webkit-transition: all 0.3s ease-in 0s;
-    -o-transition: all 0.3s ease-in 0s;
-    transition: all 0.3s ease-in 0s;
+    -moz-transition: all .3s ease-in 0s;
+    -webkit-transition: all .3s ease-in 0s;
+    -o-transition: all .3s ease-in 0s;
+    transition: all .3s ease-in 0s
 }
 
 #optionsframework .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
-    margin-left: 0;
+    margin-left: 0
 }
 
 #optionsframework .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
-    right: 0px;
+    right: 0
 }

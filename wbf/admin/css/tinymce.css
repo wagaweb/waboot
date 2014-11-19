@@ -1,13 +1,7 @@
-/*
-Custom style for Tinymce editor
-Version: 1.0
-Author: Waga
-Author URI: https://waga.it
-*/
 html {
-    background-color: #ffffff;
+    background-color: #fff
 }
 
 body#tinymce {
-    margin: 10px;
+    margin: 10px
 }

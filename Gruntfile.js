@@ -11,9 +11,9 @@ module.exports = function(grunt) {
                 },
                 files:{
                     'assets/css/waboot.css': 'sources/less/waboot.less',
-                    'wbf/admin/css/tinymce.css': 'sources/admin/tinymce.less',
-                    'wbf/admin/css/admin.css': 'sources/admin/admin.less',
-                    'wbf/admin/css/waboot-optionsframework.css': 'sources/admin/optionsframework.less'
+                    'wbf/admin/css/tinymce.css': 'wbf/sources/less/tinymce.less',
+                    'wbf/admin/css/admin.css': 'wbf/sources/less/admin.less',
+                    'wbf/admin/css/waboot-optionsframework.css': 'wbf/sources/less/optionsframework.less'
                 }
             },
             production:{
@@ -153,7 +153,7 @@ module.exports = function(grunt) {
                     {
                         expand: true,
                         cwd: "./",
-                        src: ["**/*","!.*","!Gruntfile.js","!package.json","!bower.json","!builds/**","!node_modules/**","!bower_components/**","!assets/cache/**","!_bak/**"],
+                        src: ["**/*", "!.*", "!Gruntfile.js", "!package.json", "!wbf/Gruntfile.js", "!wbf/package.json", "!bower.json", "!builds/**", "!node_modules/**", "!bower_components/**", "!assets/cache/**", "!_bak/**"],
                         dest: "builds/waboot-<%= pkg.version %>/"
                     }
                 ]

@@ -1,17 +1,11 @@
-/*
-Custom style for admin panel
-Version: 1.0
-Author: Waga
-Author URI: https://waga.it
-*/
 #optionsframework .group .section {
-    padding: 10px 10px 25px;
+    padding: 10px 10px 25px
 }
 
 .section .heading {
-    font-size: 1.1em;
+    font-size: 1.1em
 }
 
 .section-info .heading {
-    font-size: 1.4em;
+    font-size: 1.4em
 }
