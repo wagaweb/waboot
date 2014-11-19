@@ -32,6 +32,24 @@ class WBF
         return $md;
     }
 
+    static function get_behavior($name, $post_id = 0, $return = "value")
+    {
+        if ($post_id == 0) {
+            global $post;
+            $post_id = $post->ID;
+        }
+
+        $b = get_post_meta("_behavior_" . $post_id, $name, true);
+
+        if ($b) {
+            return $b;
+        } else {
+            $config = get_option('optionsframework');
+            $b = of_get_option($config['id'] . "_behavior_" . $name);
+            return $b;
+        }
+    }
+
     function after_setup_theme()
     {
         //Global Customization
@@ -39,6 +57,7 @@ class WBF
 
         //Utility
         locate_template('/wbf/public/utility.php', true);
+        locate_template('/wbf/vendor/lostpress-utils.php', true);
 
         // Email encoder
         locate_template('/wbf/public/email-encoder.php', true);
@@ -81,6 +100,15 @@ class WBF
         //The debugger
         locate_template('/wbf/public/waboot-debug.php', true);
         //waboot_debug_init();
+    }
+}
+
+function get_behavior($name, $post_id = 0, $return = "value")
+{
+    if (class_exists("BehaviorsManager")) {
+        return wbf_get_behavior($name, $post_id = 0, $return = "value");
+    } else {
+        return WBF::get_behavior($name, $post_id = 0, $return = "value");
     }
 }
 

@@ -434,7 +434,7 @@ class Behavior{
  * @param string $return (value OR array)
  * @return array|bool|mixed|string
  */
-function get_behavior($name, $post_id = 0, $return = "value")
+function wbf_get_behavior($name, $post_id = 0, $return = "value")
 {
     if ($post_id == 0) {
         global $post;

@@ -276,20 +276,22 @@ function optionsframework_options() {
             'right' => 'Right')
     );
 
-    $bd_locs = wp_get_filtered_post_types();
+    if (class_exists("BehaviorsManager")) {
+        $bd_locs = wp_get_filtered_post_types();
 
-    if(!empty($bd_locs)){
-        $options[] = array(
-            'id' => 'waboot_breadcrumb_locations',
-            'name' => __('Breadcrumb Locations','waboot'),
-            'desc' => __('Where to show breadcrumb', 'waboot'),
-            'type' => 'multicheck',
-            'options' => $bd_locs,
-            'std' => array(
-                'post' => 1,
-                'page' => 1
-            )
-        );
+        if (!empty($bd_locs)) {
+            $options[] = array(
+                'id' => 'waboot_breadcrumb_locations',
+                'name' => __('Breadcrumb Locations', 'waboot'),
+                'desc' => __('Where to show breadcrumb', 'waboot'),
+                'type' => 'multicheck',
+                'options' => $bd_locs,
+                'std' => array(
+                    'post' => 1,
+                    'page' => 1
+                )
+            );
+        }
     }
 
     /*
