@@ -96,7 +96,7 @@ class Waboot_Options_Code_Editor
 	}
 
 	function optionsframework_codeditor_save( $option, $old_value, $value ) {
-		if ( array_key_exists( "waboot_custom_css", $value ) ) {
+        if (is_array($value) && array_key_exists("waboot_custom_css", $value)) {
 			$content = $value['waboot_custom_css'];
 			$filename = "client-custom.css"; //todo: make file name customizable
 			$filepath = get_stylesheet_directory() . "/assets/css/" . $filename;

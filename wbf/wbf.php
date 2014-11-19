@@ -103,6 +103,10 @@ class WBF
     }
 }
 
+//ACF INTEGRATION
+//locate_template('/wbf/admin/acf-integration.php', true);
+//locate_template('/wbf/vendor/advanced-custom-fields-pro/acf.php', true);
+
 function get_behavior($name, $post_id = 0, $return = "value")
 {
     if (class_exists("BehaviorsManager")) {

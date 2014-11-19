@@ -46,3 +46,82 @@ if ( ! function_exists( 'waboot_setup' ) ):
     }
 endif;
 add_action('after_setup_theme', 'waboot_setup', 11);
+
+/** ACF TEST */
+
+//add_action('init', 'cptui_register_my_cpt_gallery');
+function cptui_register_my_cpt_gallery()
+{
+    register_post_type('gallery', array(
+        'label' => 'Galleries',
+        'description' => 'Add a new Gallery',
+        'public' => true,
+        'show_ui' => true,
+        'show_in_menu' => true,
+        'capability_type' => 'post',
+        'map_meta_cap' => true,
+        'hierarchical' => false,
+        'rewrite' => array('slug' => 'gallery', 'with_front' => true),
+        'query_var' => true,
+        'supports' => array('title', 'editor', 'excerpt', 'revisions', 'thumbnail', 'author', 'page-attributes'),
+        'labels' => array(
+            'name' => 'Galleries',
+            'singular_name' => 'Gallery',
+            'menu_name' => 'Galleries',
+            'add_new' => 'Add Gallery',
+            'add_new_item' => 'Add New Gallery',
+            'edit' => 'Edit',
+            'edit_item' => 'Edit Gallery',
+            'new_item' => 'New Gallery',
+            'view' => 'View Gallery',
+            'view_item' => 'View Gallery',
+            'search_items' => 'Search Galleries',
+            'not_found' => 'No Galleries Found',
+            'not_found_in_trash' => 'No Galleries Found in Trash',
+            'parent' => 'Parent Gallery',
+        )
+    ));
+}
+
+if (function_exists('register_field_group')):
+    /*register_field_group(array (
+        'key' => 'group_546b8401907bd',
+        'title' => 'Gallery Fields',
+        'fields' => array (
+            array (
+                'key' => 'field_546b8410a1a30',
+                'label' => 'Photos',
+                'name' => 'photos',
+                'prefix' => '',
+                'type' => 'gallery',
+                'instructions' => '',
+                'required' => 1,
+                'conditional_logic' => 0,
+                'wrapper' => array (
+                    'width' => '',
+                    'class' => '',
+                    'id' => '',
+                ),
+                'min' => '',
+                'max' => '',
+                'preview_size' => 'thumbnail',
+                'library' => 'uploadedTo',
+            ),
+        ),
+        'location' => array (
+            array (
+                array (
+                    'param' => 'post_type',
+                    'operator' => '==',
+                    'value' => 'gallery',
+                ),
+            ),
+        ),
+        'menu_order' => 0,
+        'position' => 'acf_after_title',
+        'style' => 'default',
+        'label_placement' => 'top',
+        'instruction_placement' => 'label',
+        'hide_on_screen' => '',
+    ));*/
+endif;
