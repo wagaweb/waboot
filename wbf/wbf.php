@@ -127,7 +127,7 @@ $WabootThemeUpdateChecker = new ThemeUpdateChecker(
  */
 if (isset($_GET['compile']) && $_GET['compile'] == true) {
     if (current_user_can('manage_options')) {
-        locate_template('/inc/compiler/less-php/compiler.php', true);
+        locate_template('/wbf/compiler/less-php/compiler.php', true);
         waboot_compile_less();
     }
 }
