@@ -145,30 +145,6 @@ function waboot_options_page() {
 }
 
 /**
- * Theme Options: allow "a", "embed" and "script" tags in theme options text boxes
- */
-function optionscheck_change_sanitize() {
-    remove_filter( 'of_sanitize_text', 'sanitize_text_field' );
-    add_filter( 'of_sanitize_text', 'custom_sanitize_text' );
-}
-add_action( 'admin_init','optionscheck_change_sanitize', 100 );
-
-function custom_sanitize_text( $input ) {
-    global $allowedposttags;
-
-    $custom_allowedtags["a"] = array(
-        "href"   => array(),
-        "target" => array(),
-        "id"     => array(),
-        "class"  => array()
-    );
-
-    $custom_allowedtags = array_merge( $custom_allowedtags, $allowedposttags );
-    $output = wp_kses( $input, $custom_allowedtags );
-    return $output;
-}
-
-/**
  * Theme Options: relocate options.php for a cleaner structure
  * @return array
  */
