@@ -25,10 +25,6 @@ function of_sanitize_textarea(  $input) {
 
 add_filter( 'of_sanitize_textarea', 'of_sanitize_textarea' );
 
-/* Waboot Editors [WABOOT MOD] */
-
-add_filter( 'of_sanitize_csseditor', 'of_sanitize_textarea' );
-
 /* Select */
 
 add_filter( 'of_sanitize_select', 'of_sanitize_enum', 10, 2);

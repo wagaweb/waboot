@@ -9,7 +9,6 @@ spl_autoload_register('waboot_autoloader');
  */
 function waboot_autoloader($class)
 {
-
     //Load Options Framework Classes
     if (preg_match("/^Options_Framework_/", $class)) {
         $filename = "class-" . strtolower(preg_replace("/_/", "-", $class)) . ".php";
