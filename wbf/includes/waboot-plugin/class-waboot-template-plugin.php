@@ -8,6 +8,7 @@ interface Waboot_Template_Plugin_Interface {
 
 class Waboot_Template_Plugin extends Waboot_Plugin implements Waboot_Template_Plugin_Interface {
 	protected $templates;
+	protected $ctp_templates;
 	protected $templates_paths;
 
 	public function __construct( $plugin_name, $dir, $version ) {
@@ -27,6 +28,13 @@ class Waboot_Template_Plugin extends Waboot_Plugin implements Waboot_Template_Pl
 		$current_wp_templates                    = array_merge( $current_wp_templates, $this->templates );
 
 		return $this->templates;
+	}
+
+	public function add_cpt_template( $template_name, $path ) {
+		$this->ctp_templates[]                   = $template_name;
+		$this->templates_paths[ $template_name ] = $path;
+
+		return $this->ctp_templates;
 	}
 
 	/**
@@ -80,6 +88,31 @@ class Waboot_Template_Plugin extends Waboot_Plugin implements Waboot_Template_Pl
 		}
 
 		$required_tpl = get_post_meta( $post->ID, '_wp_page_template', true );
+
+		if ( $required_tpl == "" ) {
+			//Check if plugin has a template for current post\page
+			$tpl_filename = basename( $template );
+			if ( in_array( $tpl_filename, $this->ctp_templates ) ) {
+				$file = $this->templates_paths[ $tpl_filename ];
+
+				return $file;
+			}
+			$post_type          = get_post_type( $post->ID );
+			$possible_templates = array(
+				"attachment.php",
+				"single-" . $post_type . ".php",
+				"single-post.php",
+				$post_type . ".php",
+				"single-" . $post->ID . ".php"
+			);
+			foreach ( $possible_templates as $tpl_filename ) {
+				if ( in_array( $tpl_filename, $this->ctp_templates ) ) {
+					$file = $this->templates_paths[ $tpl_filename ];
+
+					return $file;
+				}
+			}
+		}
 
 		if ( ! isset( $this->templates[ $required_tpl ] ) ) {
 			return $template;
