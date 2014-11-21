@@ -148,12 +148,11 @@ class WBF {
 		update_option( "wbf_url", WBF_URL );
 	}
 
-    function init()
-    {
-        //The debugger
-        locate_template('/wbf/public/waboot-debug.php', true);
-        //waboot_debug_init();
-    }
+	function init() {
+		//The debugger
+		locate_template( '/wbf/public/waboot-debug.php', true );
+		//waboot_debug_init();
+	}
 
 	function deactivation() {
 		delete_option( "wbf_installed" );
