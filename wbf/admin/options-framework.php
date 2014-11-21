@@ -35,7 +35,7 @@ function optionsframework_init() {
 	if ( ! current_user_can( 'edit_theme_options' ) )
 		return;
 
-	require OPTIONS_FRAMEWORK_URL . '/class-options-sanitization.php';
+	require WBF_DIRECTORY . '/vendor/options-framework/class-options-sanitization.php';
 	require "waboot-options-sanitization.php";
 
 	// Instantiate the main plugin class.
