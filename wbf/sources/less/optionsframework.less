@@ -6,7 +6,11 @@ Author URI: https://waga.it
 */
 @import "../../../sources/bootstrap/mixins";
 
-div#optionsframework-wrap{
+/* General rules */
+
+
+
+div#optionsframework-wrap {
   margin: 0px auto;
 
   div.optionsframework-header{
@@ -15,6 +19,8 @@ div#optionsframework-wrap{
   div.optionsframework-content-wrapper{
     .clearfix();
   }
+
+  /* Vertical Tabbed Navigation */
 
   div.nav-tab-wrapper{
     float: left;
@@ -47,22 +53,28 @@ div#optionsframework-wrap{
       background-image: url("../images/style-icon.svg");
     }
     #options-group-3-tab {
-      background-image: url("../images/top-nav-icon.svg");
+      background-image: url("../images/typography-icon.svg");
     }
     #options-group-4-tab {
-      background-image: url("../images/header-icon.svg");
+      background-image: url("../images/top-nav-icon.svg");
     }
     #options-group-5-tab {
-      background-image: url("../images/closure-icon.svg");
+      background-image: url("../images/header-icon.svg");
     }
     #options-group-6-tab {
-      background-image: url("../images/behaviour-icon.svg");
+      background-image: url("../images/closure-icon.svg");
     }
     #options-group-7-tab {
-      background-image: url("../images/posts-icon.svg");
+      background-image: url("../images/behaviour-icon.svg");
     }
     #options-group-8-tab {
+      background-image: url("../images/posts-icon.svg");
+    }
+    #options-group-9-tab {
       background-image: url("../images/social-icon.svg");
+    }
+    #options-group-10-tab {
+      background-image: url("../images/custom-css.svg");
     }
 
     .nav-tab-active {
@@ -77,11 +89,16 @@ div#optionsframework-wrap{
   }
 }
 
+
 .metabox-holder h3 {
   font-size: 24px;
 }
 
+
+
 #optionsframework {
+
+  /* General Rules */
 
   .group {
     overflow: auto;
@@ -93,16 +110,13 @@ div#optionsframework-wrap{
     padding: 25px;
     float: left;
     border-bottom: 1px solid #ddd;
+    background-position: right center;
+    background-repeat: no-repeat;
   }
   .section:nth-child(2n+2) {
     border-right: 1px solid #ddd;
   }
 
-  #section-waboot_page_width,
-  #section-waboot_custom_css {
-    width: 100%;
-    border-right: none;
-  }
   .section-info {
     width: 100%;
     border-right: none;
@@ -112,35 +126,125 @@ div#optionsframework-wrap{
     border-bottom: 1px solid #ddd;
     margin: 0;
   }
+
   .section-info h4 {
     font-size: 22px;
     margin-bottom: 10px;
   }
 
+  .section-color .heading,
+  .section-color .explain {
+    text-align: left;
+    margin-left: 15px;
+  }
+
+  .wp-picker-holder {
+    position: absolute;
+    z-index: 99;
+  }
+  .wp-picker-container {
+    float: left;
+  }
+
+  .screenshot {
+    margin: 20px 0 0;
+    width: 100%;
+  }
+
+  .screenshot .remove-image {
+    display: none;
+  }
+
   /* Layout */
+
   #options-group-1 .section:nth-child(2n+2) {
     border-right: none;
   }
+
   #options-group-1 .section:nth-child(2n+1) {
     border-right: 1px solid #ddd;
   }
+
   #options-group-1 #section-waboot_page_width {
     border-right: none;
   }
 
-  /* Top Nav */
-  #options-group-3 .section:nth-child(2n+2) {
+  #section-waboot_page_width {
+    width: 100%;
     border-right: none;
   }
-  #options-group-3 .section:nth-child(2n+1) {
+
+  #section-waboot_breadcrumb_locations {
+    background-image: url("../images/topnav/breadcrumb.png");
+  }
+
+  /* Style */
+
+  #options-group-2 .section:nth-child(2n+2) {
+    border-right: none;
+  }
+
+  #options-group-2 .section:nth-child(2n+1) {
     border-right: 1px solid #ddd;
   }
-  #options-group-3 .section-info {
+
+  #section-waboot_body_bgimage {
+    width: 100%;
+  }
+
+  #section-waboot_body_bgcolor {
+    background-image: url("../images/style/body-background-color.png");
+  }
+
+  #section-waboot_page_bgcolor {
+    background-image: url("../images/style/page-color.png");
+  }
+
+  #section-waboot_topnav_bgcolor {
+    background-image: url("../images/style/top-nav-color.png");
+  }
+
+  #section-waboot_header_bgcolor {
+    background-image: url("../images/style/header-color.png");
+  }
+
+  #section-waboot_navbar_bgcolor {
+    background-image: url("../images/style/navbar-color.png");
+  }
+
+  #section-waboot_banner_bgcolor {
+    background-image: url("../images/style/banner-color.png");
+  }
+
+  #section-waboot_content_bgcolor {
+    background-image: url("../images/style/content-color.png");
+  }
+
+  #section-waboot_bottom_bgcolor {
+    background-image: url("../images/style/content-bottom-color.png");
+  }
+
+  #section-waboot_footer_bgcolor {
+    background-image: url("../images/style/footer-color.png");
+  }
+
+
+
+  /* Top Nav */
+
+  #options-group-4 .section:nth-child(2n+2) {
+    border-right: none;
+  }
+  #options-group-4 .section:nth-child(2n+1) {
+    border-right: 1px solid #ddd;
+  }
+  #options-group-4 .section-info {
     border-right: none;
   }
 
   /* Header */
-  #options-group-4 .section {
+
+  #options-group-5 .section {
     width: 100%;
     border-right: none;
   }
@@ -180,7 +284,70 @@ div#optionsframework-wrap{
     text-align: left !important;
   }
 
+  /* Footer */
+
+  #section-waboot_custom_footer_toggle {
+    width: 100%;
+  }
+
+  #section-waboot_custom_footer_text {
+    width: 100%;
+  }
+
+  /* Pages */
+
+  #section-behavior_layout {
+    width: 100%;
+  }
+
+
+  /* Posts */
+
+
+  /* Social */
+
+  #options-group-9 .section:nth-child(2n+2) {
+    border-right: none;
+  }
+  #options-group-9 .section:nth-child(2n+1) {
+    border-right: 1px solid #ddd;
+  }
+
+  #section-waboot_social_position {
+    width: 100%;
+  }
+
+  #options-group-9 .section {
+    background-position: 35px 40px;
+  }
+
+  #options-group-9 .section .heading,
+  #options-group-9 .section .explain {
+    text-align: left;
+    margin-left: 80px;
+  }
+
+  #section-waboot_social_facebook {
+    background-image: url("../images/social/facebook.png");
+  }
+
+
+  /* Custom CSS */
+
+  #section-waboot_custom_css {
+    width: 100%;
+    border-right: none;
+  }
+
+
+
+
+
+
+
+
   /* Checkbox Switch */
+
   .onoffswitch {
     position: relative;
     width: 90px !important;
@@ -230,7 +397,7 @@ div#optionsframework-wrap{
   .onoffswitch-inner:before {
     content: "ON";
     padding-left: 10px;
-    background-color: #34A7C1;
+    background-color: #2EA2CC;
     color: #FFFFFF;
   }
   .onoffswitch-inner:after {
@@ -264,4 +431,3 @@ div#optionsframework-wrap{
   }
 
 }
-

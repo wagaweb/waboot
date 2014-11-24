@@ -17,13 +17,13 @@
  * limitations under the License.
  * ======================================================================== */
 
-+function ($) {
++ function($) {
     "use strict";
 
     // OFFCANVAS PUBLIC CLASS DEFINITION
     // =================================
 
-    var OffCanvas = function (element, options) {
+    var OffCanvas = function(element, options) {
         this.$element = $(element)
         this.options = $.extend({}, OffCanvas.DEFAULTS, options)
         this.state = null
@@ -53,7 +53,7 @@
         disableScrolling: true
     }
 
-    OffCanvas.prototype.offset = function () {
+    OffCanvas.prototype.offset = function() {
         switch (this.placement) {
             case 'left':
             case 'right':
@@ -64,7 +64,7 @@
         }
     }
 
-    OffCanvas.prototype.calcPlacement = function () {
+    OffCanvas.prototype.calcPlacement = function() {
         if (this.options.placement !== 'auto') {
             this.placement = this.options.placement
             return
@@ -96,7 +96,7 @@
         }
     }
 
-    OffCanvas.prototype.opposite = function (placement) {
+    OffCanvas.prototype.opposite = function(placement) {
         switch (placement) {
             case 'top':
                 return 'bottom'
@@ -109,18 +109,18 @@
         }
     }
 
-    OffCanvas.prototype.getCanvasElements = function () {
+    OffCanvas.prototype.getCanvasElements = function() {
         // Return a set containing the canvas plus all fixed elements
         var canvas = this.options.canvas ? $(this.options.canvas) : this.$element
 
-        var fixed_elements = canvas.find('*').filter(function () {
+        var fixed_elements = canvas.find('*').filter(function() {
             return $(this).css('position') === 'fixed'
         }).not(this.options.exclude)
 
         return canvas.add(fixed_elements)
     }
 
-    OffCanvas.prototype.slide = function (elements, offset, callback) {
+    OffCanvas.prototype.slide = function(elements, offset, callback) {
         // Use jQuery animation if CSS transitions aren't supported
         if (!$.support.transition) {
             var anim = {}
@@ -131,7 +131,7 @@
         var placement = this.placement
         var opposite = this.opposite(placement)
 
-        elements.each(function () {
+        elements.each(function() {
             if ($(this).css(placement) !== 'auto')
                 $(this).css(placement, (parseInt($(this).css(placement), 10) || 0) + offset)
 
@@ -144,7 +144,7 @@
             .emulateTransitionEnd(350)
     }
 
-    OffCanvas.prototype.disableScrolling = function () {
+    OffCanvas.prototype.disableScrolling = function() {
         var bodyWidth = $('body').width()
         var prop = 'padding-' + this.opposite(this.placement)
 
@@ -157,13 +157,13 @@
         if ($('body').width() > bodyWidth) {
             var padding = parseInt($('body').css(prop), 10) + $('body').width() - bodyWidth
 
-            setTimeout(function () {
+            setTimeout(function() {
                 $('body').css(prop, padding)
             }, 1)
         }
     }
 
-    OffCanvas.prototype.show = function () {
+    OffCanvas.prototype.show = function() {
         if (this.state) return
 
         var startEvent = $.Event('show.bs.offcanvas')
@@ -184,7 +184,7 @@
             this.$element.css(placement); // Workaround: Need to get the CSS property for it to be applied before the next line of code
         }
 
-        elements.addClass('canvas-sliding').each(function () {
+        elements.addClass('canvas-sliding').each(function() {
             if ($(this).data('offcanvas-style') === undefined) $(this).data('offcanvas-style', $(this).attr('style') || '')
             if ($(this).css('position') === 'static') $(this).css('position', 'relative')
             if (($(this).css(placement) === 'auto' || $(this).css(placement) === '0px') &&
@@ -195,7 +195,7 @@
 
         if (this.options.disableScrolling) this.disableScrolling()
 
-        var complete = function () {
+        var complete = function() {
             if (this.state != 'slide-in') return
 
             this.state = 'slid'
@@ -204,13 +204,13 @@
             this.$element.trigger('shown.bs.offcanvas')
         }
 
-        setTimeout($.proxy(function () {
+        setTimeout($.proxy(function() {
             this.$element.addClass('in')
             this.slide(elements, offset, $.proxy(complete, this))
         }, this), 1)
     }
 
-    OffCanvas.prototype.hide = function (fast) {
+    OffCanvas.prototype.hide = function(fast) {
         if (this.state !== 'slid') return
 
         var startEvent = $.Event('hide.bs.offcanvas')
@@ -223,7 +223,7 @@
         var placement = this.placement
         var offset = -1 * this.offset()
 
-        var complete = function () {
+        var complete = function() {
             if (this.state != 'slide-out') return
 
             this.state = null
@@ -232,7 +232,7 @@
             this.$element.removeClass('in')
 
             elements.removeClass('canvas-sliding')
-            elements.add(this.$element).add('body').each(function () {
+            elements.add(this.$element).add('body').each(function() {
                 $(this).attr('style', $(this).data('offcanvas-style')).removeData('offcanvas-style')
             })
 
@@ -241,24 +241,24 @@
 
         elements.removeClass('canvas-slid').addClass('canvas-sliding')
 
-        setTimeout($.proxy(function () {
+        setTimeout($.proxy(function() {
             this.slide(elements, offset, $.proxy(complete, this))
         }, this), 1)
     }
 
-    OffCanvas.prototype.toggle = function () {
+    OffCanvas.prototype.toggle = function() {
         if (this.state === 'slide-in' || this.state === 'slide-out') return
         this[this.state === 'slid' ? 'hide' : 'show']()
     }
 
-    OffCanvas.prototype.calcClone = function () {
+    OffCanvas.prototype.calcClone = function() {
         this.$calcClone = this.$element.clone()
             .html('')
             .addClass('offcanvas-clone').removeClass('in')
             .appendTo($('body'))
     }
 
-    OffCanvas.prototype.recalc = function () {
+    OffCanvas.prototype.recalc = function() {
         if (this.$calcClone.css('display') === 'none' || (this.state !== 'slid' && this.state !== 'slide-in')) return
 
         this.state = null
@@ -268,12 +268,12 @@
         this.$element.removeClass('in')
 
         elements.removeClass('canvas-slid')
-        elements.add(this.$element).add('body').each(function () {
+        elements.add(this.$element).add('body').each(function() {
             $(this).attr('style', $(this).data('offcanvas-style')).removeData('offcanvas-style')
         })
     }
 
-    OffCanvas.prototype.autohide = function (e) {
+    OffCanvas.prototype.autohide = function(e) {
         if ($(e.target).closest(this.$element).length === 0) this.hide()
     }
 
@@ -282,8 +282,8 @@
 
     var old = $.fn.offcanvas
 
-    $.fn.offcanvas = function (option) {
-        return this.each(function () {
+    $.fn.offcanvas = function(option) {
+        return this.each(function() {
             var $this = $(this)
             var data = $this.data('bs.offcanvas')
             var options = $.extend({}, OffCanvas.DEFAULTS, $this.data(), typeof option === 'object' && option)
@@ -299,7 +299,7 @@
     // OFFCANVAS NO CONFLICT
     // ====================
 
-    $.fn.offcanvas.noConflict = function () {
+    $.fn.offcanvas.noConflict = function() {
         $.fn.offcanvas = old
         return this
     }
@@ -308,7 +308,7 @@
     // OFFCANVAS DATA-API
     // =================
 
-    $(document).on('click.bs.offcanvas.data-api', '[data-toggle=offcanvas]', function (e) {
+    $(document).on('click.bs.offcanvas.data-api', '[data-toggle=offcanvas]', function(e) {
         var $this = $(this),
             href
         var target = $this.attr('data-target') || e.preventDefault() || (href = $this.attr('href')) && href.replace(/.*(?=#[^\s]+$)/, '') //strip for ie7

@@ -223,3 +223,55 @@ if (!function_exists("wb_ipad_version")):
         return $md->version('iPad');
     }
 endif;
+
+
+
+/** Typography */
+
+/**
+ * Returns an array of system fonts
+ * Feel free to edit this, update the font fallbacks, etc.
+ */
+
+function options_typography_get_os_fonts() {
+    // OS Font Defaults
+    $os_faces = array(
+        'Arial, sans-serif' => 'Arial',
+        '"Avant Garde", sans-serif' => 'Avant Garde',
+        'Cambria, Georgia, serif' => 'Cambria',
+        'Copse, sans-serif' => 'Copse',
+        'Garamond, "Hoefler Text", Times New Roman, Times, serif' => 'Garamond',
+        'Georgia, serif' => 'Georgia',
+        '"Helvetica Neue", Helvetica, sans-serif' => 'Helvetica Neue',
+        'Tahoma, Geneva, sans-serif' => 'Tahoma'
+    );
+    return $os_faces;
+}
+
+
+/**
+ * Returns a select list of Google fonts
+ * Feel free to edit this, update the fallbacks, etc.
+ */
+
+function options_typography_get_google_fonts() {
+    // Google Font Defaults
+    $google_faces = array(
+        'Arvo, serif' => 'Arvo',
+        'Copse, sans-serif' => 'Copse',
+        'Droid Sans, sans-serif' => 'Droid Sans',
+        'Droid Serif, serif' => 'Droid Serif',
+        'Lobster, cursive' => 'Lobster',
+        'Nobile, sans-serif' => 'Nobile',
+        'Open Sans, sans-serif' => 'Open Sans',
+        'Oswald, sans-serif' => 'Oswald',
+        'Pacifico, cursive' => 'Pacifico',
+        'Rokkitt, serif' => 'Rokkit',
+        'PT Sans, sans-serif' => 'PT Sans',
+        'Quattrocento, serif' => 'Quattrocento',
+        'Raleway, cursive' => 'Raleway',
+        'Ubuntu, sans-serif' => 'Ubuntu',
+        'Yanone Kaffeesatz, sans-serif' => 'Yanone Kaffeesatz'
+    );
+    return $google_faces;
+}

@@ -137,19 +137,19 @@ function optionsframework_options() {
     );
 
     $options[] = array(
-        'name' => __('Body Background Color', 'waboot'),
-        'desc' => __('Change the body background color.', 'waboot'),
-        'id' => 'waboot_body_bgcolor',
-        'std' => "#ffffff",
-        'type' => 'color'
-    );
-
-    $options[] = array(
         'name' => __( 'Body Background Image', 'waboot' ),
         'desc' => __( 'Upload a background image, or specify the image address of your image. (http://yoursite.com/image.png)', 'waboot' ),
         'id' => 'waboot_body_bgimage',
         'std' => '',
         'type' => 'upload'
+    );
+
+    $options[] = array(
+        'name' => __('Body Background Color', 'waboot'),
+        'desc' => __('Change the body background color.', 'waboot'),
+        'id' => 'waboot_body_bgcolor',
+        'std' => "#ffffff",
+        'type' => 'color'
     );
 
     $options[] = array(
@@ -189,16 +189,16 @@ function optionsframework_options() {
     );
 
     $options[] = array(
-        'name' => __('Top Nav', 'waboot'),
-        'desc' => __('Change the Top Nav background color.', 'waboot'),
-        'id' => 'waboot_topnav_bgcolor',
+        'name' => __('Page', 'waboot'),
+        'desc' => __('Change the page background color.', 'waboot'),
+        'id' => 'waboot_page_bgcolor',
         'type' => 'color'
     );
 
     $options[] = array(
-        'name' => __('Page', 'waboot'),
-        'desc' => __('Change the page background color.', 'waboot'),
-        'id' => 'waboot_page_bgcolor',
+        'name' => __('Top Nav', 'waboot'),
+        'desc' => __('Change the Top Nav background color.', 'waboot'),
+        'id' => 'waboot_topnav_bgcolor',
         'type' => 'color'
     );
 
@@ -244,12 +244,51 @@ function optionsframework_options() {
         'type' => 'color'
     );
 
-	$options[] = array(
-		'name' => __( 'Custom CSS', 'waboot' ),
-		'desc' => __( 'Enter custom css to apply to the theme (press CTRL-SPACE on Windows, or CTRL-F on Mac for suggestions).', 'waboot' ),
-		'id'   => 'waboot_custom_css',
-		'type' => 'csseditor'
-	);
+    /*
+     * TYPOGRAPHY
+     */
+
+    /** Typography Array Merge */
+
+    $typography_mixed_fonts = array_merge( options_typography_get_os_fonts() , options_typography_get_google_fonts() );
+    asort($typography_mixed_fonts);
+
+
+    $options[] = array(
+        'name' => __( 'Typography', 'waboot' ),
+        'type' => 'heading'
+    );
+
+    $options[] = array( 'name' => 'Selected Google Fonts',
+        'desc' => 'Fifteen of the top google fonts.',
+        'id' => 'google_font',
+        'std' => array( 'size' => '36px', 'face' => 'Rokkitt, serif', 'color' => '#00bc96'),
+        'type' => 'typography',
+        'options' => array(
+            'faces' => options_typography_get_google_fonts(),
+            'styles' => false )
+    );
+
+    $options[] = array( 'name' => 'System Fonts and Google Fonts Mixed',
+        'desc' => 'Google fonts mixed with system fonts.',
+        'id' => 'google_mixed',
+        'std' => array( 'size' => '32px', 'face' => 'Georgia, serif', 'color' => '#f15081'),
+        'type' => 'typography',
+        'options' => array(
+            'faces' => $typography_mixed_fonts,
+            'styles' => false )
+    );
+
+    $options[] = array( 'name' => 'System Fonts and Google Fonts Mixed (2)',
+        'desc' => 'Google fonts mixed with system fonts.',
+        'id' => 'google_mixed_2',
+        'std' => array( 'size' => '28px', 'face' => 'Arvo, serif', 'color' => '#ee9f23'),
+        'type' => 'typography',
+        'options' => array(
+            'faces' => $typography_mixed_fonts,
+            'styles' => false )
+    );
+
 
     /*
      * TOP NAV TAB
@@ -267,14 +306,14 @@ function optionsframework_options() {
     );
 
     $options[] = array(
-        'name' => __( 'Top Nav Menu Position', 'waboot' ),
-        'desc' => __( 'Select the Top Nav Menu position', 'waboot' ),
+        'name' => __('Top Nav Menu Position', 'waboot'),
+        'desc' => __('Select the Top Nav Menu position', 'waboot'),
         'id' => 'waboot_topnavmenu_position',
-        'type' => 'select',
-        'options' => array(
-            'left' => 'Left',
-            'right' => 'Right')
+        'std' => 'left',
+        'type' => 'images',
+        'options' => array('left' => $imagepath . 'topnav/top-nav-left.png', 'right' => $imagepath . 'topnav/top-nav-right.png')
     );
+
 
     if (class_exists("BehaviorsManager")) {
         $bd_locs = wp_get_filtered_post_types();
@@ -316,7 +355,7 @@ function optionsframework_options() {
         'id'   => 'waboot_header_layout',
         'std' => 'header1',
         'type' => 'images',
-        'options' => array( 'header1' => $imagepath . 'header1.png','header2' => $imagepath . 'header2.png','header3' => $imagepath . 'header3.png' )
+        'options' => array( 'header1' => $imagepath . 'header/header-1.png','header2' => $imagepath . 'header/header-2.png','header3' => $imagepath . 'header/header-3.png' )
     );
 
     $options[] = array(
@@ -338,12 +377,6 @@ function optionsframework_options() {
     );
 
     $options[] = array(
-        'name' => __( 'Miscellaneous Text', 'waboot' ),
-        'desc' => __( 'Miscellaneous text options.', 'waboot' ),
-        'type' => 'info'
-    );
-
-    $options[] = array(
         'name' => __( 'Show custom footer text?', 'waboot' ),
         'desc' => __( 'Default is disabled. Check this box to use custom footer text. Fill in your text below.', 'waboot' ),
         'id'   => 'waboot_custom_footer_toggle',
@@ -361,13 +394,13 @@ function optionsframework_options() {
 
 
     /*
-    * BEHAVIOUR TAB
+    * PAGES TAB
     */
 
     if(class_exists("BehaviorsManager")) :
 
         $options[] = array(
-            'name' => __( 'Behaviour', 'waboot' ),
+            'name' => __( 'Pages', 'waboot' ),
             'type' => 'heading'
         );
 
@@ -517,6 +550,22 @@ function optionsframework_options() {
         'desc' => __( 'Enter your feed RSS link', 'waboot' ),
         'id'   => 'waboot_social_feedrss',
         'type' => 'text'
+    );
+
+    /*
+     * CUSTOM CSS TAB
+     */
+
+    $options[] = array(
+        'name' => __( 'Custom CSS', 'waboot' ),
+        'type' => 'heading'
+    );
+
+    $options[] = array(
+        'name' => __( 'Custom CSS', 'waboot' ),
+        'desc' => __( 'Enter custom css to apply to the theme (press CTRL-SPACE on Windows, or CTRL-F on Mac for suggestions).', 'waboot' ),
+        'id'   => 'waboot_custom_css',
+        'type' => 'csseditor'
     );
 
     return $options;
