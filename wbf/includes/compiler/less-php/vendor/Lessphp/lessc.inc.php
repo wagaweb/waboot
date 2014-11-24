@@ -97,6 +97,57 @@ class lessc{
         }
     }
 
+	public function compileFile( $fname, $outFname = null ) {
+		if ( ! is_readable( $fname ) ) {
+			throw new Exception( 'load error: failed to find ' . $fname );
+		}
+
+		$pi = pathinfo( $fname );
+
+		$oldImport = $this->importDir;
+
+		$this->importDir   = (array) $this->importDir;
+		$this->importDir[] = realpath( $pi['dirname'] ) . '/';
+
+		$this->allParsedFiles = array();
+		$this->addParsedFile( $fname );
+
+		$parser = new Less_Parser();
+		$parser->SetImportDirs( $this->getImportDirs() );
+		if ( count( $this->registeredVars ) ) {
+			$parser->ModifyVars( $this->registeredVars );
+		}
+		$parser->parseFile( $fname );
+		$out = $parser->getCss();
+
+		$parsed = Less_Parser::AllParsedFiles();
+		foreach ( $parsed as $file ) {
+			$this->addParsedFile( $file );
+		}
+
+		$this->importDir = $oldImport;
+
+		if ( $outFname !== null ) {
+			return file_put_contents( $outFname, $out );
+		}
+
+		return $out;
+	}
+
+	protected function addParsedFile( $file ) {
+		$this->allParsedFiles[ realpath( $file ) ] = filemtime( $file );
+	}
+
+	protected function getImportDirs() {
+		$dirs_ = (array) $this->importDir;
+		$dirs  = array();
+		foreach ( $dirs_ as $dir ) {
+			$dirs[ $dir ] = '';
+		}
+
+		return $dirs;
+	}
+
     public function allParsedFiles()
     {
         return $this->allParsedFiles;
@@ -136,63 +187,49 @@ class lessc{
                 break;
         }
 
-        $parser = new Less_Parser($options);
-        $parser->setImportDirs($this->getImportDirs());
-        if( count( $this->registeredVars ) ) $parser->ModifyVars( $this->registeredVars );
-        $parser->parse($buffer);
+	    $parser = new Less_Parser( $options );
+	    $parser->setImportDirs( $this->getImportDirs() );
+	    if ( count( $this->registeredVars ) ) {
+		    $parser->ModifyVars( $this->registeredVars );
+	    }
+	    $parser->parse( $buffer );
 
-        return $parser->getCss();
+	    return $parser->getCss();
     }
 
-    public function setVariables($variables)
-    {
-        foreach ($variables as $name => $value) {
-            $this->setVariable($name, $value);
+	public function setVariables( $variables ) {
+		foreach ( $variables as $name => $value ) {
+			$this->setVariable( $name, $value);
         }
-    }
+	}
 
-    public function setVariable($name, $value)
-    {
-        $this->registeredVars[$name] = $value;
-    }
+	public function setVariable( $name, $value) {
+		$this->registeredVars[ $name ] = $value;
+	}
 
-    protected function getImportDirs(){
-        $dirs_ = (array)$this->importDir;
-        $dirs = array();
-        foreach($dirs_ as $dir) {
-            $dirs[$dir] = '';
-        }
-        return $dirs;
-    }
+	public function compile( $string, $name = null ) {
 
-    public function compile($string, $name = null){
+		$oldImport       = $this->importDir;
+		$this->importDir = (array) $this->importDir;
 
-        $oldImport = $this->importDir;
-        $this->importDir = (array)$this->importDir;
+		$this->allParsedFiles = array();
 
-        $this->allParsedFiles = array();
+		$parser = new Less_Parser();
+		$parser->SetImportDirs( $this->getImportDirs() );
+		if ( count( $this->registeredVars ) ) {
+			$parser->ModifyVars( $this->registeredVars );
+		}
+		$parser->parse( $string );
+		$out = $parser->getCss();
 
-        $parser = new Less_Parser();
-        $parser->SetImportDirs($this->getImportDirs());
-        if( count( $this->registeredVars ) ){
-            $parser->ModifyVars( $this->registeredVars );
-        }
-        $parser->parse($string);
-        $out = $parser->getCss();
+		$parsed = Less_Parser::AllParsedFiles();
+		foreach ( $parsed as $file ) {
+			$this->addParsedFile( $file );
+		}
 
-        $parsed = Less_Parser::AllParsedFiles();
-        foreach( $parsed as $file ){
-            $this->addParsedFile($file);
-        }
+		$this->importDir = $oldImport;
 
-        $this->importDir = $oldImport;
-
-        return $out;
-    }
-
-    protected function addParsedFile($file)
-    {
-        $this->allParsedFiles[realpath($file)] = filemtime($file);
+		return $out;
     }
 
     public function ccompile($in, $out, $less = null)
@@ -210,40 +247,5 @@ class lessc{
             return true;
         }
         return false;
-    }
-
-    public function compileFile($fname, $outFname = null) {
-        if (!is_readable($fname)) {
-            throw new Exception('load error: failed to find '.$fname);
-        }
-
-        $pi = pathinfo($fname);
-
-        $oldImport = $this->importDir;
-
-        $this->importDir = (array)$this->importDir;
-        $this->importDir[] = realpath($pi['dirname']).'/';
-
-        $this->allParsedFiles = array();
-        $this->addParsedFile($fname);
-
-        $parser = new Less_Parser();
-        $parser->SetImportDirs($this->getImportDirs());
-        if( count( $this->registeredVars ) ) $parser->ModifyVars( $this->registeredVars );
-        $parser->parseFile($fname);
-        $out = $parser->getCss();
-
-        $parsed = Less_Parser::AllParsedFiles();
-        foreach ($parsed as $file) {
-            $this->addParsedFile($file);
-        }
-
-        $this->importDir = $oldImport;
-
-        if ($outFname !== null) {
-            return file_put_contents($outFname, $out);
-        }
-
-        return $out;
     }
 }
