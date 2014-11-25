@@ -70,14 +70,13 @@ if ( !function_exists( 'wbf_options_typography_google_fonts' ) ) {
     function wbf_options_typography_google_fonts() {
         $all_google_fonts = array_keys( options_typography_get_google_fonts() );
         // Define all the options that possibly have a unique Google font
-        $google_font = of_get_option('google_font', 'Rokkitt, serif');
-        $google_mixed = of_get_option('google_mixed', false);
-        $google_mixed_2 = of_get_option('google_mixed_2', 'Arvo, serif');
+          $primary_font = of_get_option('primary_font', 'Lato, sans-serif');
+          $secondary_font = of_get_option('secondary_font', false);
+        // $google_mixed_2 = of_get_option('google_mixed_2', 'Arvo, serif');
         // Get the font face for each option and put it in an array
         $selected_fonts = array(
-            $google_font['face'],
-            $google_mixed['face'],
-            $google_mixed_2['face'] );
+            $primary_font['face'],
+            $secondary_font['face']);
         // Remove any duplicates in the list
         $selected_fonts = array_unique($selected_fonts);
         // Check each of the unique fonts against the defined Google fonts
@@ -90,7 +89,7 @@ if ( !function_exists( 'wbf_options_typography_google_fonts' ) ) {
     }
 }
 
-add_action( 'wp_enqueue_scripts', 'options_typography_google_fonts' );
+add_action( 'wp_enqueue_scripts', 'wbf_options_typography_google_fonts' );
 
 
 /**
@@ -105,7 +104,7 @@ function options_typography_enqueue_google_font($font) {
     if ( $font == 'Raleway' )
         $font = 'Raleway:100';
     $font = str_replace(" ", "+", $font);
-    wp_enqueue_style( "options_typography_$font", "http://fonts.googleapis.com/css?family=$font", false, null, 'all' );
+    wp_enqueue_style( "options_typography_$font", "//fonts.googleapis.com/css?family=$font", false, null, 'all' );
 }
 
 
@@ -113,13 +112,15 @@ function options_typography_enqueue_google_font($font) {
  * Outputs the selected option panel styles inline into the <head>
  */
 
-function options_typography_styles() {
+/** Primary Font Family */
+
+function options_typography_primary_styles() {
     $output = '';
     $input = '';
 
-    if ( of_get_option( 'google_font' ) ) {
-        $input = of_get_option( 'google_font' );
-        $output .= options_typography_font_styles( of_get_option( 'google_font' ) , '.google-font');
+    if ( of_get_option( 'primary_font' ) ) {
+        $input = of_get_option( 'primary_font' );
+        $output .= options_typography_font_styles( of_get_option( 'primary_font' ) , 'body, p, ul, li');
     }
 
     if ( $output != '' ) {
@@ -127,7 +128,26 @@ function options_typography_styles() {
         echo $output;
     }
 }
-add_action('wp_head', 'options_typography_styles');
+add_action('wp_head', 'options_typography_primary_styles');
+
+
+/** Secondary Font Family */
+
+function options_typography_secondary_styles() {
+    $output = '';
+    $input = '';
+
+    if ( of_get_option( 'secondary_font' ) ) {
+        $input = of_get_option( 'secondary_font' );
+        $output .= options_typography_font_styles( of_get_option( 'secondary_font' ) , 'h1, h2, h3, h4, h5, h6');
+    }
+
+    if ( $output != '' ) {
+        $output = "\n<style>\n" . $output . "</style>\n";
+        echo $output;
+    }
+}
+add_action('wp_head', 'options_typography_secondary_styles');
 
 
 /**
@@ -138,8 +158,9 @@ function options_typography_font_styles($option, $selectors) {
     $output = $selectors . ' {';
     $output .= ' color:' . $option['color'] .'; ';
     $output .= 'font-family:' . $option['face'] . '; ';
-    $output .= 'font-weight:' . $option['style'] . '; ';
-    $output .= 'font-size:' . $option['size'] . '; ';
+    $output .= 'font-weight:' . $option['weight'] . '; ';
+    $output .= 'font-style:' . $option['fstyle'] . '; ';
+   // $output .= 'font-size:' . $option['size'] . '; ';
     $output .= '}';
     $output .= "\n";
     return $output;

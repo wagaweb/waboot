@@ -80,10 +80,18 @@ div#optionsframework-wrap div#optionsframework-metabox {
 .metabox-holder h3 {
   font-size: 24px;
 }
+.optionsframework-header h2 {
+  font-size: 28px;
+  font-weight: bold;
+  margin-left: 15%;
+  margin-top: 15px;
+  margin-bottom: 10px;
+}
 #optionsframework {
   /* General Rules */
   /* Layout */
   /* Style */
+  /* Typography */
   /* Top Nav */
   /* Header */
   /* Footer */
@@ -92,6 +100,27 @@ div#optionsframework-wrap div#optionsframework-metabox {
   /* Social */
   /* Custom CSS */
   /* Checkbox Switch */
+}
+#optionsframework * {
+  box-sizing: border-box;
+}
+#optionsframework .wp-picker-holder,
+#optionsframework .wp-picker-holder *,
+#optionsframework .wp-picker-container,
+#optionsframework .wp-picker-container * {
+  box-sizing: content-box;
+}
+#optionsframework .section-typography .wp-picker-container {
+  margin-left: 5px;
+  margin-top: 3px;
+}
+#optionsframework .controls .of-typography-weight {
+  width: 100px;
+  margin-left: 5px;
+  float: left;
+}
+#optionsframework .controls .of-typography-face {
+  width: 200px;
 }
 #optionsframework .group {
   overflow: auto;
@@ -102,19 +131,17 @@ div#optionsframework-wrap div#optionsframework-metabox {
   box-sizing: border-box;
   padding: 25px;
   float: left;
-  border-bottom: 1px solid #ddd;
   background-position: right center;
   background-repeat: no-repeat;
 }
-#optionsframework .section:nth-child(2n+2) {
-  border-right: 1px solid #ddd;
+#optionsframework .section h4 {
+  margin-bottom: 10px;
 }
 #optionsframework .section-info {
   width: 100%;
   border-right: none;
   clear: both;
   min-height: 0;
-  border-top: 1px solid #ddd;
   border-bottom: 1px solid #ddd;
   margin: 0;
 }
@@ -125,7 +152,12 @@ div#optionsframework-wrap div#optionsframework-metabox {
 #optionsframework .section-color .heading,
 #optionsframework .section-color .explain {
   text-align: left;
-  margin-left: 15px;
+  padding-left: 15px;
+}
+#optionsframework .section-typography .heading,
+#optionsframework .section-typography .explain {
+  text-align: left;
+  padding-left: 15px;
 }
 #optionsframework .wp-picker-holder {
   position: absolute;
@@ -141,11 +173,13 @@ div#optionsframework-wrap div#optionsframework-metabox {
 #optionsframework .screenshot .remove-image {
   display: none;
 }
-#optionsframework #options-group-1 .section:nth-child(2n+2) {
-  border-right: none;
-}
-#optionsframework #options-group-1 .section:nth-child(2n+1) {
+#optionsframework #options-group-1 .section:nth-child(odd) {
   border-right: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+}
+#optionsframework #options-group-1 .section:nth-child(even) {
+  border-right: none;
+  border-bottom: 1px solid #ddd;
 }
 #optionsframework #options-group-1 #section-waboot_page_width {
   border-right: none;
@@ -157,11 +191,31 @@ div#optionsframework-wrap div#optionsframework-metabox {
 #optionsframework #section-waboot_breadcrumb_locations {
   background-image: url("../images/topnav/breadcrumb.png");
 }
-#optionsframework #options-group-2 .section:nth-child(2n+2) {
+#optionsframework #options-group-2 .section:nth-child(2) {
   border-right: none;
+  border-bottom: 1px solid #ddd;
 }
-#optionsframework #options-group-2 .section:nth-child(2n+1) {
+#optionsframework #options-group-2 .section:nth-child(3),
+#optionsframework #options-group-2 .section:nth-child(5),
+#optionsframework #options-group-2 .section:nth-child(8),
+#optionsframework #options-group-2 .section:nth-child(10),
+#optionsframework #options-group-2 .section:nth-child(12),
+#optionsframework #options-group-2 .section:nth-child(14) {
   border-right: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+}
+#optionsframework #options-group-2 .section:nth-child(4),
+#optionsframework #options-group-2 .section:nth-child(6),
+#optionsframework #options-group-2 .section:nth-child(9),
+#optionsframework #options-group-2 .section:nth-child(11),
+#optionsframework #options-group-2 .section:nth-child(13),
+#optionsframework #options-group-2 .section:nth-child(15) {
+  border-right: none;
+  border-bottom: 1px solid #ddd;
+}
+#optionsframework #options-group-2 .section:nth-child(7) {
+  border-right: none;
+  border-bottom: 1px solid #ddd;
 }
 #optionsframework #section-waboot_body_bgimage {
   width: 100%;
@@ -193,18 +247,28 @@ div#optionsframework-wrap div#optionsframework-metabox {
 #optionsframework #section-waboot_footer_bgcolor {
   background-image: url("../images/style/footer-color.png");
 }
-#optionsframework #options-group-4 .section:nth-child(2n+2) {
-  border-right: none;
+#optionsframework #options-group-3 .section {
+  width: 100%;
+  border-bottom: 1px solid #ddd;
 }
-#optionsframework #options-group-4 .section:nth-child(2n+1) {
+#optionsframework #options-group-4 .section:nth-child(2),
+#optionsframework #options-group-4 .section:nth-child(4) {
+  border-right: none;
+  border-bottom: 1px solid #ddd;
+}
+#optionsframework #options-group-4 .section:nth-child(3) {
   border-right: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+}
+#optionsframework #options-group-4 #section-waboot_breadcrumb_locations {
+  min-height: 317px;
 }
 #optionsframework #options-group-4 .section-info {
   border-right: none;
 }
 #optionsframework #options-group-5 .section {
   width: 100%;
-  border-right: none;
+  border-bottom: 1px solid #ddd;
 }
 #optionsframework .heading {
   font-size: 18px;
@@ -240,34 +304,73 @@ div#optionsframework-wrap div#optionsframework-metabox {
 #optionsframework #section-waboot_custom_css .controls {
   text-align: left !important;
 }
-#optionsframework #section-waboot_custom_footer_toggle {
-  width: 100%;
+#optionsframework #section-waboot_search_bar {
+  background-image: url("../images/header/searchbar.png");
+  background-position: bottom center;
+  background-repeat: no-repeat;
 }
-#optionsframework #section-waboot_custom_footer_text {
+#optionsframework #options-group-6 .section {
   width: 100%;
+  border-bottom: 1px solid #ddd;
 }
 #optionsframework #section-behavior_layout {
   width: 100%;
 }
-#optionsframework #options-group-9 .section:nth-child(2n+2) {
-  border-right: none;
-}
-#optionsframework #options-group-9 .section:nth-child(2n+1) {
+#optionsframework #options-group-8 .section:nth-child(even) {
   border-right: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+}
+#optionsframework #options-group-8 .section:nth-child(odd) {
+  border-right: none;
+  border-bottom: 1px solid #ddd;
+}
+#optionsframework #options-group-9 .section:nth-child(odd) {
+  border-right: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+}
+#optionsframework #options-group-9 .section:nth-child(even) {
+  border-right: none;
+  border-bottom: 1px solid #ddd;
 }
 #optionsframework #section-waboot_social_position {
   width: 100%;
 }
 #optionsframework #options-group-9 .section {
-  background-position: 35px 40px;
+  background-position: 35px 35px;
+}
+#optionsframework #options-group-9 .controls {
+  text-align: left;
+  padding-left: 80px;
+}
+#optionsframework #options-group-9 #section-waboot_social_position .controls {
+  text-align: center;
+  padding-left: 0;
 }
 #optionsframework #options-group-9 .section .heading,
 #optionsframework #options-group-9 .section .explain {
   text-align: left;
-  margin-left: 80px;
+  padding-left: 80px;
 }
 #optionsframework #section-waboot_social_facebook {
   background-image: url("../images/social/facebook.png");
+}
+#optionsframework #section-waboot_social_twitter {
+  background-image: url("../images/social/twitter.png");
+}
+#optionsframework #section-waboot_social_google {
+  background-image: url("../images/social/googleplus.png");
+}
+#optionsframework #section-waboot_social_pinterest {
+  background-image: url("../images/social/pinterest.png");
+}
+#optionsframework #section-waboot_social_linkedin {
+  background-image: url("../images/social/linkedin.png");
+}
+#optionsframework #section-waboot_social_instagram {
+  background-image: url("../images/social/instagram.png");
+}
+#optionsframework #section-waboot_social_feedrss {
+  background-image: url("../images/social/rss.png");
 }
 #optionsframework #section-waboot_custom_css {
   width: 100%;

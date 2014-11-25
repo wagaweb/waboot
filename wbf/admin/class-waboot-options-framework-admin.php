@@ -23,7 +23,7 @@ class Waboot_Options_Framework_Admin extends Options_Framework_Admin{
 	 * Add "Manage Theme Options" subpage to Waboot Menu
 	 */
 	public function add_man_page() {
-		add_submenu_page( "waboot_options", __( "Theme Options Manager", "waboot" ), __( "Backup and Restore Theme Options", "waboot" ), "edit_theme_options", "themeoptions-manager", array(
+		add_submenu_page( "waboot_options", __( "Theme Options Manager", "waboot" ), __( "Import/Export", "waboot" ), "edit_theme_options", "themeoptions-manager", array(
 				$this,
 				'do_man_page'
 		) );
@@ -301,13 +301,6 @@ class Waboot_Options_Framework_Admin extends Options_Framework_Admin{
 
             <div class="optionsframework-header">
                 <h2><?php echo esc_html( $menu['page_title'] ); ?></h2>
-
-	            <p>
-		            <a href="<?php echo get_bloginfo( "url" ) . "/wp-admin/admin.php?page=themeoptions-manager" ?>"
-		               title="<?php _e( "Backup or restore Theme Options" ); ?>" rel="bookmark">
-			            <?php _e( "Backup or restore Theme Options" ); ?>
-		            </a>
-	            </p>
             </div>
 
             <div id="optionsframework-content-wrapper">

@@ -259,36 +259,36 @@ function optionsframework_options() {
         'type' => 'heading'
     );
 
-    $options[] = array( 'name' => 'Selected Google Fonts',
-        'desc' => 'Fifteen of the top google fonts.',
-        'id' => 'google_font',
-        'std' => array( 'size' => '36px', 'face' => 'Rokkitt, serif', 'color' => '#00bc96'),
-        'type' => 'typography',
-        'options' => array(
-            'faces' => options_typography_get_google_fonts(),
-            'styles' => false )
-    );
-
-    $options[] = array( 'name' => 'System Fonts and Google Fonts Mixed',
-        'desc' => 'Google fonts mixed with system fonts.',
-        'id' => 'google_mixed',
-        'std' => array( 'size' => '32px', 'face' => 'Georgia, serif', 'color' => '#f15081'),
+    $options[] = array( 'name' => 'Primary font (body, p, ul, li)',
+        'desc' => 'Select your primary font face.',
+        'id' => 'primary_font',
+        'std' => array( 'size' => '', 'style' => 'normal', 'weight' => 'normal' , 'face' => 'Lato, sans-serif', 'color' => '#333333'),
         'type' => 'typography',
         'options' => array(
             'faces' => $typography_mixed_fonts,
             'styles' => false )
     );
 
+    $options[] = array( 'name' => 'Secondary font (h1, h2, h3, h4, h5, h6)',
+        'desc' => 'Select your secondary font face.',
+        'id' => 'secondary_font',
+        'std' => array( 'size' => '', 'style' => 'normal', 'weight' => 'normal' ,'face' => 'Lato, sans-serif', 'color' => '#333333'),
+        'type' => 'typography',
+        'options' => array(
+            'faces' => $typography_mixed_fonts,
+            'styles' => false )
+    );
+/*
     $options[] = array( 'name' => 'System Fonts and Google Fonts Mixed (2)',
         'desc' => 'Google fonts mixed with system fonts.',
         'id' => 'google_mixed_2',
-        'std' => array( 'size' => '28px', 'face' => 'Arvo, serif', 'color' => '#ee9f23'),
+        'std' => array( 'size' => '28px', 'face' => 'Arvo, serif', 'color' => '#333333'),
         'type' => 'typography',
         'options' => array(
             'faces' => $typography_mixed_fonts,
             'styles' => false )
     );
-
+*/
 
     /*
      * TOP NAV TAB
@@ -494,13 +494,14 @@ function optionsframework_options() {
         'name' => __( 'Social Position', 'waboot' ),
         'desc' => __( 'Select the social widget position', 'waboot' ),
         'id' => 'waboot_social_position',
-        'type' => 'select',
+        'type' => 'images',
+        'std'  => 'footer',
         'options' => array(
-            'header-right' => 'Header Right',
-            'header-left' => 'Header Left',
-            'topnav-right' => 'TopNav Right',
-            'topnav-left' => 'TopNav Left',
-            'footer' => 'Footer')
+            'footer' => $imagepath . 'social/footer.png',
+            'header-right' => $imagepath . 'social/header-right.png',
+            'header-left' => $imagepath . 'social/header-left.png',
+            'topnav-right' => $imagepath . 'social/topnav-right.png',
+            'topnav-left' => $imagepath . 'social/topnav-left.png')
     );
 
     $options[] = array(
