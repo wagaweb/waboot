@@ -26,22 +26,22 @@ function waboot_autoloader($class)
 
     switch ($class) {
         case "Waboot_Cache":
-            locate_template('wbf/compiler/less-php/Waboot_Cache.php', true);
+	        locate_template( 'wbf/includes/compiler/less-php/Waboot_Cache.php', true );
             break;
         case "Waboot_Less_Compiler":
-            locate_template('wbf/compiler/less-php/Waboot_Less_Compiler.php', true);
+	        locate_template( 'wbf/includes/compiler/less-php/Waboot_Less_Compiler.php', true );
             break;
         case "Less_Cache":
-            locate_template('wbf/compiler/less-php/vendor/Lessphp/Cache.php', true);
+	        locate_template( 'wbf/includes/compiler/less-php/vendor/Lessphp/Cache.php', true );
             break;
         case "Less_Parser":
-            locate_template('wbf/compiler/less-php/vendor/Lessphp/Less.php', true);
+	        locate_template( 'wbf/includes/compiler/less-php/vendor/Lessphp/Less.php', true );
             break;
         case "lessc":
-            locate_template('wbf/compiler/less-php/vendor/Lessphp/lessc.inc.php', true);
+	        locate_template( 'wbf/includes/compiler/less-php/vendor/Lessphp/lessc.inc.php', true );
             break;
         case "Less_Version":
-            locate_template('wbf/compiler/less-php/vendor/Lessphp/Version.php', true);
+	        locate_template( 'wbf/includes/compiler/less-php/vendor/Lessphp/Version.php', true );
             break;
         case "BootstrapNavMenuWalker":
             locate_template('wbf/vendor/BootstrapNavMenuWalker.php', true);
@@ -50,7 +50,7 @@ function waboot_autoloader($class)
             locate_template('wbf/vendor/wp_bootstrap_navwalker.php', true);
             break;
         case "WabootNavMenuWalker":
-            locate_template('wbf/public/waboot-menu-navwalker.php', true);
+	        locate_template( 'wbf/public/menu-navwalker.php', true );
             break;
         case "ThemeUpdate":
         case "ThemeUpdateChecker":

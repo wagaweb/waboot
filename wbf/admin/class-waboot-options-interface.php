@@ -205,21 +205,23 @@ class Waboot_Options_Interface extends Options_Framework_Interface
                 // Typography
                 case 'typography':
 
-                    unset($font_size, $font_style, $font_face, $font_color);
+                    unset(/* $font_size, */ $font_face, $font_weight, $font_style, $font_color);
 
                     $typography_defaults = array(
-                        'size' => '',
+                       // 'size' => '',
                         'face' => '',
-                        'style' => '',
+                        'weight' => '',
+                        'fstyle' => '',
                         'color' => ''
                     );
 
                     $typography_stored = wp_parse_args($val, $typography_defaults);
 
                     $typography_options = array(
-                        'sizes' => of_recognized_font_sizes(),
+                      //  'sizes' => of_recognized_font_sizes(),
                         'faces' => of_recognized_font_faces(),
-                        'styles' => of_recognized_font_styles(),
+                        'weights' => of_recognized_font_weight(),
+                        'fstyles' => of_recognized_font_styles(),
                         'color' => true
                     );
 
@@ -228,7 +230,7 @@ class Waboot_Options_Interface extends Options_Framework_Interface
                     }
 
                     // Font Size
-                    if ($typography_options['sizes']) {
+                /*    if ($typography_options['sizes']) {
                         $font_size = '<select class="of-typography of-typography-size" name="' . esc_attr($option_name . '[' . $value['id'] . '][size]') . '" id="' . esc_attr($value['id'] . '_size') . '">';
                         $sizes = $typography_options['sizes'];
                         foreach ($sizes as $i) {
@@ -236,7 +238,7 @@ class Waboot_Options_Interface extends Options_Framework_Interface
                             $font_size .= '<option value="' . esc_attr($size) . '" ' . selected($typography_stored['size'], $size, false) . '>' . esc_html($size) . '</option>';
                         }
                         $font_size .= '</select>';
-                    }
+                    } */
 
                     // Font Face
                     if ($typography_options['faces']) {
@@ -248,12 +250,22 @@ class Waboot_Options_Interface extends Options_Framework_Interface
                         $font_face .= '</select>';
                     }
 
+                    // Font Weight
+                    if ($typography_options['weights']) {
+                        $font_weight = '<select class="of-typography of-typography-weight" name="' . $option_name . '[' . $value['id'] . '][weight]" id="' . $value['id'] . '_weight">';
+                        $weights = $typography_options['weights'];
+                        foreach ($weights as $key => $weight) {
+                            $font_weight .= '<option value="' . esc_attr($key) . '" ' . selected($typography_stored['weight'], $key, false) . '>' . $weight . '</option>';
+                        }
+                        $font_weight .= '</select>';
+                    }
+
                     // Font Styles
-                    if ($typography_options['styles']) {
-                        $font_style = '<select class="of-typography of-typography-style" name="' . $option_name . '[' . $value['id'] . '][style]" id="' . $value['id'] . '_style">';
-                        $styles = $typography_options['styles'];
+                    if ($typography_options['fstyles']) {
+                        $font_style = '<select class="of-typography of-typography-style" name="' . $option_name . '[' . $value['id'] . '][fstyle]" id="' . $value['id'] . '_style">';
+                        $styles = $typography_options['fstyles'];
                         foreach ($styles as $key => $style) {
-                            $font_style .= '<option value="' . esc_attr($key) . '" ' . selected($typography_stored['style'], $key, false) . '>' . $style . '</option>';
+                            $font_style .= '<option value="' . esc_attr($key) . '" ' . selected($typography_stored['fstyle'], $key, false) . '>' . $style . '</option>';
                         }
                         $font_style .= '</select>';
                     }
@@ -266,11 +278,11 @@ class Waboot_Options_Interface extends Options_Framework_Interface
                                 $default_color = ' data-default-color="' . $value['std']['color'] . '" ';
                             }
                         }
-                        $font_color = '<input name="' . esc_attr($option_name . '[' . $value['id'] . '][color]') . '" id="' . esc_attr($value['id'] . '_color') . '" class="of-color of-typography-color  type="text" value="' . esc_attr($typography_stored['color']) . '"' . $default_color . ' />';
+                        $font_color = '<input name="' . esc_attr($option_name . '[' . $value['id'] . '][color]') . '" id="' . esc_attr($value['id'] . '_color') . '" class="of-color of-typography-color"  type="text" value="' . esc_attr($typography_stored['color']) . '"' . $default_color . ' />';
                     }
 
                     // Allow modification/injection of typography fields
-                    $typography_fields = compact('font_size', 'font_face', 'font_style', 'font_color');
+                    $typography_fields = compact(/* 'font_size', */'font_face', 'font_weight', 'font_style', 'font_color');
                     $typography_fields = apply_filters('of_typography_fields', $typography_fields, $typography_stored, $option_name, $value);
                     $output .= implode('', $typography_fields);
 

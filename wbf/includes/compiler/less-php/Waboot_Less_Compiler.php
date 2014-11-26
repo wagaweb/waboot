@@ -1,6 +1,6 @@
 <?php
 
-require_once("Waboot_Cache.php");
+require_once( "Waboot_Cache.php" );
 
 class Waboot_Less_Compiler{
     public $compile_sets = array();

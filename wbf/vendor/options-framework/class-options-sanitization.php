@@ -180,6 +180,7 @@ function of_sanitize_typography( $input, $option ) {
 	$output = wp_parse_args( $input, array(
 		'size'  => '',
 		'face'  => '',
+        'weight' => '',
 		'style' => '',
 		'color' => ''
 	) );
@@ -194,7 +195,8 @@ function of_sanitize_typography( $input, $option ) {
 	}
 
 	$output['size']  = apply_filters( 'of_font_size', $output['size'] );
-	$output['style'] = apply_filters( 'of_font_style', $output['style'] );
+	$output['weight'] = apply_filters( 'of_font_weight', $output['weight'] );
+    $output['style'] = apply_filters( 'of_font_style', $output['style'] );
 	$output['color'] = apply_filters( 'of_sanitize_color', $output['color'] );
 	return $output;
 }
@@ -219,6 +221,16 @@ function of_sanitize_font_style( $value ) {
 	return apply_filters( 'of_default_font_style', current( $recognized ) );
 }
 add_filter( 'of_font_style', 'of_sanitize_font_style' );
+
+
+function of_sanitize_font_weight( $value ) {
+    $recognized = of_recognized_font_weight();
+    if ( array_key_exists( $value, $recognized ) ) {
+        return $value;
+    }
+    return apply_filters( 'of_default_font_weight', current( $recognized ) );
+}
+add_filter( 'of_font_weight', 'of_sanitize_font_weight' );
 
 
 function of_sanitize_font_face( $value ) {
@@ -350,12 +362,43 @@ function of_recognized_font_faces() {
  */
 function of_recognized_font_styles() {
 	$default = array(
-		'normal'      => __( 'Normal', 'textdomain' ),
-		'italic'      => __( 'Italic', 'textdomain' ),
-		'bold'        => __( 'Bold', 'textdomain' ),
-		'bold italic' => __( 'Bold Italic', 'textdomain' )
+		'normal'  => __( 'normal', 'textdomain' ),
+		'italic'  => __( 'italic', 'textdomain' ),
+		'oblique' => __( 'oblique', 'textdomain' ),
+		'inherit' => __( 'inherit', 'textdomain' )
 		);
 	return apply_filters( 'of_recognized_font_styles', $default );
+}
+
+
+/**
+ * Get recognized font weigth.
+ *
+ * Returns an array of all recognized font styles.
+ * Keys are intended to be stored in the database
+ * while values are ready for display in in html.
+ *
+ * @return   array
+ *
+ */
+function of_recognized_font_weight() {
+    $default = array(
+        'normal' => __( 'normal', 'textdomain' ),
+        'bold' => __( 'bold', 'textdomain' ),
+        'lighter' => __( 'lighter', 'textdomain' ),
+        'bolder' => __( 'bolder', 'textdomain' ),
+        '100' => __( '100', 'textdomain' ),
+        '200' => __( '200', 'textdomain' ),
+        '300' => __( '300', 'textdomain' ),
+        '400' => __( '400', 'textdomain' ),
+        '500' => __( '500', 'textdomain' ),
+        '600' => __( '600', 'textdomain' ),
+        '700' => __( '700', 'textdomain' ),
+        '800' => __( '800', 'textdomain' ),
+        '900' => __( '900', 'textdomain' ),
+        'inherit' => __( 'inherit', 'textdomain' )
+    );
+    return apply_filters( 'of_recognized_font_weigth', $default );
 }
 
 /**

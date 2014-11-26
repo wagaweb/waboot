@@ -80,10 +80,10 @@ class WBF {
 	    self::maybe_add_option();
 
         //Global Customization
-        locate_template('/wbf/public/global-customizations.php', true);
+	    locate_template( '/wbf/public/theme-customs.php', true );
 
         //Utility
-        locate_template('/wbf/public/utility.php', true);
+	    locate_template( '/wbf/public/utilities.php', true );
         locate_template('/wbf/vendor/lostpress-utils.php', true);
 
         // Email encoder
@@ -93,8 +93,8 @@ class WBF {
         load_theme_textdomain('waboot', get_template_directory() . '/languages');
 
         // Load the CSS
-        locate_template('/wbf/public/styles.php', true);
-        locate_template('/wbf/admin/styles.php', true);
+	    locate_template( '/wbf/public/public-styles.php', true );
+	    locate_template( '/wbf/admin/adm-styles.php', true );
 
         // Load scripts
         //locate_template( '/wbf/public/scripts.php', true );
@@ -105,20 +105,20 @@ class WBF {
 	    locate_template( '/wbf/admin/acf-integration.php', true );
 
         // Load behaviors extension
-        locate_template('/wbf/admin/waboot-behaviors-framework.php', true);
+	    locate_template( '/wbf/admin/behaviors-framework.php', true );
         locate_template('/inc/behaviors.php', true);
 
         // Load theme options framework
         locate_template('/wbf/admin/options-panel.php', true);
 
         // Load components framework
-        locate_template('/wbf/admin/waboot-components-framework.php', true);
-        locate_template('/wbf/admin/waboot-components-hooks.php', true); //Components hooks
+	    locate_template( '/wbf/admin/components-framework.php', true );
+	    locate_template( '/wbf/admin/components-hooks.php', true ); //Components hooks
 
         // Breadcrumbs
         if (of_get_option('waboot_breadcrumbs', 1)) {
             locate_template('/wbf/vendor/breadcrumb-trail.php', true);
-            locate_template('/wbf/public/waboot-breadcrumb-trail.php', true);
+	        locate_template( '/wbf/public/breadcrumb-trail.php', true );
         }
 
         //Loads components
@@ -150,7 +150,7 @@ class WBF {
 
 	function init() {
 		//The debugger
-		locate_template( '/wbf/public/waboot-debug.php', true );
+		locate_template( '/wbf/public/debug.php', true );
 		//waboot_debug_init();
 	}
 
@@ -191,7 +191,7 @@ $WabootThemeUpdateChecker = new ThemeUpdateChecker(
  */
 if (isset($_GET['compile']) && $_GET['compile'] == true) {
     if (current_user_can('manage_options')) {
-        locate_template('/wbf/compiler/less-php/compiler.php', true);
+	    locate_template( '/wbf/includes/compiler/less-php/compiler.php', true );
         waboot_compile_less();
     }
 }

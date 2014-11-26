@@ -240,6 +240,7 @@ class Behavior{
                 else
                     $option['std'] = '1';
                 break;
+            case 'images':
             case 'multicheck':
                 //values
                 $multicheck_options = array();
