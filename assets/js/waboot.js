@@ -5,6 +5,7 @@ jQuery(document).ready(function($) {
     $('input[type=text]').addClass('form-control');
     $('input[type=select]').addClass('form-control');
     $('textarea').addClass('form-control');
+    $('select').addClass('form-control');
     $('input#submit').addClass('btn btn-primary');
     $('.gform_button').addClass('btn btn-primary btn-lg').removeClass('gform_button button');
     $('.validation_error').addClass('alert alert-danger').removeClass('validation_error');

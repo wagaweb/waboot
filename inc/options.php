@@ -569,5 +569,22 @@ function optionsframework_options() {
         'type' => 'csseditor'
     );
 
+    /*
+     * CUSTOM BOOTSTRAP VARIABLES TAB
+     */
+/**
+    $options[] = array(
+        'name' => __( 'Bootstrap', 'waboot' ),
+        'type' => 'heading'
+    );
+
+    $options[] = array(
+        'name' => __('@brand-primary', 'waboot'),
+        'desc' => __('Change the color of @brand-primary.', 'waboot'),
+        'id' => 'waboot_brand_primary',
+        'std' => "#428bca",
+        'type' => 'color'
+    );
+*/
     return $options;
 }
