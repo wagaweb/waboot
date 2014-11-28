@@ -1,6 +1,6 @@
 <?php
 /**
- * Live compiling less file. If $params is empty sources/less/themeName.less will be compiled in assets/css/style.css
+ * Live compiling less file. If $params is empty sources/less/themeName.less will be compiled in assets/css/themeName.css
  * @params (optional) array $params the input\output\mapfile name to use
  * @uses vendor/Less
  * @usage
@@ -22,7 +22,7 @@ function waboot_compile_less($params = array()){
         }*/
 
         if(empty($params)){
-            $inputFile = get_stylesheet_directory()."/sources/less/{$theme}.less";
+            $inputFile = parse_input_file(get_stylesheet_directory()."/sources/less/{$theme}.less");
             $outputFile = get_stylesheet_directory()."/assets/css/{$theme}.css"; //precedente: "/assets/css/style.css", modificato per far funzionare respond.js\css3mediaqueries
             $mapFileName = "{$theme}.css.map";
         }else{
@@ -33,17 +33,6 @@ function waboot_compile_less($params = array()){
         }
 
         $cachedir = get_stylesheet_directory()."/assets/cache";
-
-        $less_files = array(
-            $inputFile => get_stylesheet_directory_uri(),
-        );
-        $parser_options = array(
-            'cache_dir'         => $cachedir,
-            'compress'          => defined(WABOOT_ENV) && WABOOT_ENV == "dev" ? false : true,
-            'sourceMap'         => true,
-            'sourceMapWriteTo'  => get_stylesheet_directory().'/assets/css/'.$mapFileName,
-            'sourceMapURL'      => get_stylesheet_directory_uri().'/assets/css/'.$mapFileName,
-        );
 
         if(!is_dir($cachedir)){
             if(!mkdir($cachedir)){
@@ -56,6 +45,17 @@ function waboot_compile_less($params = array()){
                 throw new Exception("Cache dir ({$cachedir}) is not writeable");
             }
         }
+
+	    $less_files = array(
+		    $inputFile => get_stylesheet_directory_uri(),
+	    );
+	    $parser_options = array(
+		    'cache_dir'         => $cachedir,
+		    'compress'          => defined(WABOOT_ENV) && WABOOT_ENV == "dev" ? false : true,
+		    'sourceMap'         => true,
+		    'sourceMapWriteTo'  => get_stylesheet_directory().'/assets/css/'.$mapFileName,
+		    'sourceMapURL'      => get_stylesheet_directory_uri().'/assets/css/'.$mapFileName,
+	    );
 
         //if(Waboot_Cache::needs_to_compile($less_files,$cachedir)){ //since we use the "Compile" button, we dont need this check anymore
             update_option('waboot_compiling_less_flag',1) or add_option('waboot_compiling_less_flag',1,'',true);
@@ -76,13 +76,70 @@ function waboot_compile_less($params = array()){
 
             update_option('waboot_compiling_less_flag',0);
             if ( current_user_can( 'manage_options' ) ) {
-                echo '<div class="alert alert-success"><p>Less files compiled successfully</p></div>';
+	            if(is_admin()){
+		            add_action( 'admin_notices', 'less_compiled_admin_notice' );
+	            }else{
+                    echo '<div class="alert alert-success"><p>Less files compiled successfully</p></div>';
+	            }
             }
         //}
     }catch (exception $e) {
         $wpe = new WP_Error( 'less-compile-failed', $e->getMessage() );
         if ( current_user_can( 'manage_options' ) ) {
-            echo '<div class="alert alert-warning"><p>'.$wpe->get_error_message().'</p></div>';
+	        if(is_admin()){
+		        add_action( 'admin_notices', 'less_compile_error_admin_notice' );
+	        }else{
+		        echo '<div class="alert alert-warning"><p>'.$wpe->get_error_message().'</p></div>';
+	        }
         }
     }
+}
+
+function less_compiled_admin_notice() {
+	?>
+	<div class="updated">
+		<p><?php _e( 'Less Compiled Successfully!', 'wbf' ); ?></p>
+	</div>
+	<?php
+}
+
+function less_compile_error_admin_notice() {
+	?>
+	<div class="error">
+		<p><?php _e( 'Less files not compiled!', 'wbf' ); ?></p>
+	</div>
+<?php
+}
+
+/**
+ * Generate a temp file parsing commented include tags in the $filepath less file.
+ *
+ * @param $filepath
+ *
+ * @return string filepath to temp file
+ *
+ * @since 0.7.0
+ */
+function parse_input_file($filepath){
+	$inputFile = new SplFileInfo($filepath);
+	if($inputFile->isReadable()){
+		$inputFileObj = $inputFile->openFile();
+		$tmpFile = new SplFileInfo($inputFile->getPath()."/tmp_".$inputFile->getFilename());
+		$tmpFileObj = $tmpFile->openFile("w+");
+		if($tmpFileObj->isWritable()){
+			while (!$inputFileObj->eof()) {
+				$line = $inputFileObj->fgets();
+				if(preg_match("|\{@import '([a-zA-Z0-9\-_.]+)'\}|",$line,$matches)){
+					$fileToImport = new SplFileInfo(dirname($filepath)."/".$matches[1]);
+					if($fileToImport->isFile() && $fileToImport->isReadable()){
+						$line = "@import '{$fileToImport->getFilename()}';\n";
+					}
+				}
+				$tmpFileObj->fwrite($line);
+			}
+			$filepath = $tmpFile->getRealPath();
+		}
+	}
+
+	return $filepath;
 }

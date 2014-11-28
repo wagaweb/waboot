@@ -1,0 +1,39 @@
+body {
+  background-color: //{of_get_option('waboot_body_bgcolor')} !important;
+  background-image: //{of_get_option('waboot_body_bgimage')};
+  background-repeat: //{of_get_option('waboot_body_bgrepeat')};
+  background-position: //{of_get_option('waboot_body_bgpos')};
+  background-attachment: //{of_get_option('waboot_body_bgattach')};
+}
+
+#topnav-wrapper {
+  background-color: //{of_get_option('waboot_topnav_bgcolor')};
+}
+
+#header-wrapper {
+  background-color: //{of_get_option('waboot_header_bgcolor')};
+}
+
+#banner-wrapper {
+  background-color: //{of_get_option('waboot_banner_bgcolor')};
+}
+
+#content-wrapper {
+  background-color: //{of_get_option('waboot_content_bgcolor')};
+}
+
+#contentbottom-wrapper {
+  background-color: //{of_get_option('waboot_bottom_bgcolor')};
+}
+
+#footer-wrapper {
+  background-color: //{of_get_option('waboot_footer_bgcolor')};
+}
+
+#page {
+  background-color: //{of_get_option('waboot_page_bgcolor')};
+}
+
+.navbar.main-navigation .navbar-collapse {
+  background-color: //{of_get_option('waboot_navbar_bgcolor')};
+}

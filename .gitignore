@@ -5,12 +5,15 @@ npm-debug.log
 assets/cache/*.*
 assets/css/client-custom.css
 !assets/cache/.gitkeep
-admin/includes/vendor/codemirror/bin
-admin/includes/vendor/codemirror/demo
-admin/includes/vendor/codemirror/doc
-admin/includes/vendor/codemirror/test
-admin/includes/vendor/codemirror/*.*
-!admin/includes/vendor/codemirror/package.json
+wbf/includes/vendor/codemirror/bin
+wbf/vendor/codemirror/demo
+wbf/vendor/codemirror/doc
+wbf/vendor/codemirror/test
+wbf/vendor/codemirror/*.*
+!wbf/vendor/codemirror/package.json
+sources/less/tmp_*.*
+sources/less/theme-options-generated.less
+wbf/sources/less/tmp_*.*
 Movefile
 
 ############

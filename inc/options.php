@@ -261,7 +261,7 @@ function optionsframework_options() {
 
     $options[] = array( 'name' => 'Primary font (body, p, ul, li)',
         'desc' => 'Select your primary font face.',
-        'id' => 'primary_font',
+        'id' => 'waboot_primary_font',
         'std' => array( 'size' => '', 'style' => 'normal', 'weight' => 'normal' , 'face' => 'Lato, sans-serif', 'color' => '#333333'),
         'type' => 'typography',
         'options' => array(
@@ -271,7 +271,7 @@ function optionsframework_options() {
 
     $options[] = array( 'name' => 'Secondary font (h1, h2, h3, h4, h5, h6)',
         'desc' => 'Select your secondary font face.',
-        'id' => 'secondary_font',
+        'id' => 'waboot_secondary_font',
         'std' => array( 'size' => '', 'style' => 'normal', 'weight' => 'normal' ,'face' => 'Lato, sans-serif', 'color' => '#333333'),
         'type' => 'typography',
         'options' => array(

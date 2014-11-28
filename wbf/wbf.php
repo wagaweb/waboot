@@ -19,8 +19,10 @@ $md = WBF::get_mobile_detect();
 
 add_action( "after_switch_theme", "WBF::activation" );
 add_action( "switch_theme", "WBF::deactivation" );
-add_action("after_setup_theme", "WBF::after_setup_theme");
-add_action("init", "WBF::init");
+add_action( "after_setup_theme", "WBF::after_setup_theme" );
+add_action( "init", "WBF::init" );
+add_action( "updated_option", "WBF::of_style_options_save", 11, 3 );
+add_action( "updated_option", "WBF::compile_less_on_theme_options_save", 9999, 3 );
 
 class WBF {
 	/**
@@ -126,6 +128,50 @@ class WBF {
         Waboot_ComponentsManager::setupRegisteredComponents();
     }
 
+	function init() {
+		//The debugger
+		locate_template( '/wbf/public/debug.php', true );
+		//waboot_debug_init();
+	}
+
+	function of_style_options_save($option, $old_value, $value){
+		$config = get_option( 'optionsframework' );
+		if($option == $config['id']){
+			$tmpFile = new SplFileInfo(get_stylesheet_directory()."/sources/less/_theme-options-generated.less.cmp");
+			$parsedFile = new SplFileInfo(get_stylesheet_directory()."/sources/less/theme-options-generated.less");
+			if($tmpFile->isFile() && $tmpFile->isWritable()){
+				$findRegExp = "~//{of_get_option\('([a-zA-Z0-9\-_]+)'\)}~";
+
+				$tmpFileObj = $tmpFile->openFile("r");
+				$parsedFileObj = $parsedFile->openFile("w+");
+
+				while (!$tmpFileObj->eof()) {
+					$line = $tmpFileObj->fgets();
+					if(preg_match($findRegExp,$line,$matches)){
+						if(array_key_exists($matches[1],$value)){
+							if($value[$matches[1]] != ""){
+								$line = preg_replace($findRegExp,$value[$matches[1]],$line);
+							}else{
+								$line = "//{$matches[1]} is empty\n";
+							}
+						}else{
+							$line = "//{$matches[1]} not found\n";
+						}
+					}
+					$parsedFileObj->fwrite($line);
+				}
+			}
+		}
+	}
+
+	function compile_less_on_theme_options_save($option, $old_value, $value){
+		$config = get_option( 'optionsframework' );
+		if($option == $config['id']){
+			locate_template( '/wbf/includes/compiler/less-php/compiler.php', true );
+			waboot_compile_less();
+		}
+	}
+
 	/**
 	 *
 	 *
@@ -146,12 +192,6 @@ class WBF {
 		update_option( "wbf_installed", true );
 		update_option( "wbf_path", WBF_DIRECTORY );
 		update_option( "wbf_url", WBF_URL );
-	}
-
-	function init() {
-		//The debugger
-		locate_template( '/wbf/public/debug.php', true );
-		//waboot_debug_init();
 	}
 
 	function deactivation() {

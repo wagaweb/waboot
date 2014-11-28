@@ -8,9 +8,9 @@
 
 /**
  * Apply custom in-line styles in header
+ * @deprecated
  */
-function waboot_theme_options_header_styles()
-{
+function waboot_theme_options_header_styles(){
     ?>
     <style type="text/css">
         body {
@@ -56,9 +56,7 @@ function waboot_theme_options_header_styles()
     </style>
 <?php
 }
-
-add_action("waboot_head", 'waboot_theme_options_header_styles');
-
+//add_action("waboot_head", 'waboot_theme_options_header_styles');
 
 /**
  * Checks font options to see if a Google font is selected.
