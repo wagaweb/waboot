@@ -132,7 +132,7 @@ function optionsframework_options() {
      */
 
     $options[] = array(
-        'name' => __( 'Style', 'waboot' ),
+        'name' => __( 'Backgrounds', 'waboot' ),
         'type' => 'heading'
     );
 
@@ -241,6 +241,95 @@ function optionsframework_options() {
         'name' => __('Footer', 'waboot'),
         'desc' => __('Change the footer background color.', 'waboot'),
         'id' => 'waboot_footer_bgcolor',
+        'type' => 'color'
+    );
+
+    /*
+     * BOOTSTRAP VARIABLES TAB
+     */
+
+    $options[] = array(
+        'name' => __( 'Style', 'waboot' ),
+        'type' => 'heading'
+    );
+
+    $options[] = array(
+        'name' => __('Primary color', 'waboot'),
+        'desc' => __('Change the color of @brand-primary.', 'waboot'),
+        'id' => 'waboot_brand_primary',
+        'std' => "#428bca",
+        'type' => 'color'
+    );
+
+    $options[] = array(
+        'name' => __('Text color', 'waboot'),
+        'desc' => __('Change the color of @text-color.', 'waboot'),
+        'id' => 'waboot_text_color',
+        'std' => "#333333",
+        'type' => 'color'
+    );
+
+    $options[] = array(
+        'name' => __('Info color', 'waboot'),
+        'desc' => __('Change the color of @brand-info.', 'waboot'),
+        'id' => 'waboot_brand_info',
+        'std' => "#5bc0de",
+        'type' => 'color'
+    );
+
+    $options[] = array(
+        'name' => __('Success color', 'waboot'),
+        'desc' => __('Change the color of @brand-success.', 'waboot'),
+        'id' => 'waboot_brand_success',
+        'std' => "#5cb85c",
+        'type' => 'color'
+    );
+
+    $options[] = array(
+        'name' => __('Warning color', 'waboot'),
+        'desc' => __('Change the color of @brand-warning.', 'waboot'),
+        'id' => 'waboot_brand_warning',
+        'std' => "#f0ad4e",
+        'type' => 'color'
+    );
+
+    $options[] = array(
+        'name' => __('Danger color', 'waboot'),
+        'desc' => __('Change the color of @brand-danger.', 'waboot'),
+        'id' => 'waboot_brand_danger',
+        'std' => "#d9534f",
+        'type' => 'color'
+    );
+
+    $options[] = array(
+        'name' => __('Border radius base', 'waboot'),
+        'desc' => __('Change the width in pixel of @border-radius-base.', 'waboot'),
+        'id' => 'waboot_border_radius_base',
+        'std' => "4",
+        'type' => 'text'
+    );
+
+    $options[] = array(
+        'name' => __('Border radius large', 'waboot'),
+        'desc' => __('Change the width in pixel of @border-radius-large.', 'waboot'),
+        'id' => 'waboot_border_radius_lg',
+        'std' => "6",
+        'type' => 'text'
+    );
+
+    $options[] = array(
+        'name' => __('Border radius small', 'waboot'),
+        'desc' => __('Change the width in pixel of @border-radius-small.', 'waboot'),
+        'id' => 'waboot_border_radius_sm',
+        'std' => "3",
+        'type' => 'text'
+    );
+
+    $options[] = array(
+        'name' => __('Well background', 'waboot'),
+        'desc' => __('Change the color of @well-bg.', 'waboot'),
+        'id' => 'waboot_well_bg',
+        'std' => "#f5f5f5",
         'type' => 'color'
     );
 
@@ -569,22 +658,5 @@ function optionsframework_options() {
         'type' => 'csseditor'
     );
 
-    /*
-     * CUSTOM BOOTSTRAP VARIABLES TAB
-     */
-/**
-    $options[] = array(
-        'name' => __( 'Bootstrap', 'waboot' ),
-        'type' => 'heading'
-    );
-
-    $options[] = array(
-        'name' => __('@brand-primary', 'waboot'),
-        'desc' => __('Change the color of @brand-primary.', 'waboot'),
-        'id' => 'waboot_brand_primary',
-        'std' => "#428bca",
-        'type' => 'color'
-    );
-*/
     return $options;
 }

@@ -1,5 +1,16 @@
+@brand-primary:         //{of_get_option('waboot_brand_primary')};
+@brand-info:            //{of_get_option('waboot_brand_info')};
+@brand-success:         //{of_get_option('waboot_brand_success')};
+@brand-warning:         //{of_get_option('waboot_brand_warning')};
+@brand-danger:          //{of_get_option('waboot_brand_danger')};
+@body-bg:               //{of_get_option('waboot_body_bgcolor')};
+@text-color:            //{of_get_option('waboot_text_color')};
+@border-radius-base:    //{of_get_option('waboot_border_radius_base')}px;
+@border-radius-large:   //{of_get_option('waboot_border_radius_lg')}px;
+@border-radius-small:   //{of_get_option('waboot_border_radius_sm')}px;
+@well-bg:               //{of_get_option('waboot_well_bg')};
+
 body {
-  background-color: //{of_get_option('waboot_body_bgcolor')} !important;
   background-image: //{of_get_option('waboot_body_bgimage')};
   background-repeat: //{of_get_option('waboot_body_bgrepeat')};
   background-position: //{of_get_option('waboot_body_bgpos')};
