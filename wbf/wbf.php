@@ -138,6 +138,9 @@ class WBF {
 		$config = get_option( 'optionsframework' );
 		if($option == $config['id']){
 			$tmpFile = new SplFileInfo(get_stylesheet_directory()."/sources/less/_theme-options-generated.less.cmp");
+			if(!$tmpFile->isFile() || !$tmpFile->isWritable()){
+				$tmpFile = new SplFileInfo(get_template_directory()."/sources/less/_theme-options-generated.less.cmp");
+			}
 			$parsedFile = new SplFileInfo(get_stylesheet_directory()."/sources/less/theme-options-generated.less");
 			if($tmpFile->isFile() && $tmpFile->isWritable()){
 				$findRegExp = "~//{of_get_option\('([a-zA-Z0-9\-_]+)'\)}~";
