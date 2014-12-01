@@ -114,7 +114,7 @@ function less_compile_error_admin_notice() {
 /**
  * Generate a temp file parsing commented include tags in the $filepath less file.
  *
- * @param $filepath
+ * @param $filepath (the absolute path to the file to parse (usually waboot.less or waboot-child.less)
  *
  * @return string filepath to temp file
  *
@@ -129,11 +129,19 @@ function parse_input_file($filepath){
 		if($tmpFileObj->isWritable()){
 			while (!$inputFileObj->eof()) {
 				$line = $inputFileObj->fgets();
-				if(preg_match("|\{@import '([a-zA-Z0-9\-_.]+)'\}|",$line,$matches)){
+				if(preg_match("|\{@import '([a-zA-Z0-9\-/_.]+)'\}|",$line,$matches)){
 					$fileToImport = new SplFileInfo(dirname($filepath)."/".$matches[1]);
 					if($fileToImport->isFile() && $fileToImport->isReadable()){
-						$line = "@import '{$fileToImport->getFilename()}';\n";
-					}
+						$line = "@import '{$fileToImport->getRealPath()}';\n";
+					}/*else{
+						//If we are in the child theme, search the file into parent directory
+						if(is_child_theme()){
+							$fileToImport = new SplFileInfo(get_template_directory()."/sources/less/".$matches[1]);
+							if($fileToImport->isFile() && $fileToImport->isReadable()){
+								$line = "@import '{$fileToImport->getFilename()}';\n";
+							}
+						}
+					}*/
 				}
 				$tmpFileObj->fwrite($line);
 			}
