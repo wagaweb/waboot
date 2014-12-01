@@ -57,7 +57,8 @@ function waboot_compile_less($params = array()){
 		    'sourceMapURL'      => get_stylesheet_directory_uri().'/assets/css/'.$mapFileName,
 	    );
 
-        //if(Waboot_Cache::needs_to_compile($less_files,$cachedir)){ //since we use the "Compile" button, we dont need this check anymore
+        if(can_compile()){
+            //if(Waboot_Cache::needs_to_compile($less_files,$cachedir)){ //since we use the "Compile" button, we dont need this check anymore
             update_option('waboot_compiling_less_flag',1) or add_option('waboot_compiling_less_flag',1,'',true);
 
             $css_file_name = Less_Cache::Get(
@@ -86,7 +87,10 @@ function waboot_compile_less($params = array()){
                     echo '<div class="alert alert-success"><p>'.__('Less files compiled successfully.', 'wbf').'</p></div>';
 	            }
             }
-        //}
+            //}
+        }else{
+	        throw new Exception("The compiler is busy.");
+        }
     }catch (exception $e) {
         $wpe = new WP_Error( 'less-compile-failed', $e->getMessage() );
         if ( current_user_can( 'manage_options' ) ) {
@@ -117,6 +121,18 @@ function less_compile_error_admin_notice() {
 		<p><?php _e( 'Less files not compiled!', 'wbf' ); ?></p>
 	</div>
 <?php
+}
+
+/**
+ * Check if the compiler is not already busy
+ */
+function can_compile(){
+	$busyflag = get_option("waboot_compiling_less_flag",true);
+	if($busyflag && $busyflag != 0){
+		return false;
+	}
+
+	return true;
 }
 
 /**
