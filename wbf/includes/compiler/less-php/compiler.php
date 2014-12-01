@@ -77,9 +77,13 @@ function waboot_compile_less($params = array()){
             update_option('waboot_compiling_less_flag',0);
             if ( current_user_can( 'manage_options' ) ) {
 	            if(is_admin()){
-		            add_action( 'admin_notices', 'less_compiled_admin_notice' );
+		            if(isset($GLOBALS['option_page']) && $GLOBALS['option_page'] == 'optionsframework'){
+			            add_settings_error('options-framework', 'save_options', __('Less files compiled successfully.', 'wbf'), 'updated fade');
+		            }else{
+		                add_action( 'admin_notices', 'less_compiled_admin_notice');
+		            }
 	            }else{
-                    echo '<div class="alert alert-success"><p>Less files compiled successfully</p></div>';
+                    echo '<div class="alert alert-success"><p>'.__('Less files compiled successfully.', 'wbf').'</p></div>';
 	            }
             }
         //}
@@ -87,7 +91,11 @@ function waboot_compile_less($params = array()){
         $wpe = new WP_Error( 'less-compile-failed', $e->getMessage() );
         if ( current_user_can( 'manage_options' ) ) {
 	        if(is_admin()){
-		        add_action( 'admin_notices', 'less_compile_error_admin_notice' );
+		        if(isset($GLOBALS['option_page']) && $GLOBALS['option_page'] == 'optionsframework'){
+			        add_settings_error('options-framework', 'save_options', $wpe->get_error_message(), 'error fade');
+		        }else{
+		            add_action( 'admin_notices', 'less_compile_error_admin_notice');
+		        }
 	        }else{
 		        echo '<div class="alert alert-warning"><p>'.$wpe->get_error_message().'</p></div>';
 	        }
