@@ -121,34 +121,3 @@ function change_notification_format( $notification, $form, $entry ) {
     return $notification;
 }
 add_filter('gform_notification', 'change_notification_format', 10, 3);
-
-/** Create Waboot Section in administration */
-function waboot_add_admin_section() {
-	global $menu;
-	$menu['58']     = $menu['59']; //move the separator before "Appearance" one position up
-	$waboot_menu    = add_menu_page( "Waboot", "Waboot", "edit_theme_options", "waboot_options", "waboot_options_page", "", 59 );
-	$waboot_options = add_submenu_page( "waboot_options", __( "Waboot Options", "waboot" ), __( "Waboot Options", "waboot" ), "edit_theme_options", "waboot_options", "waboot_options_page", "", 59 );
-}
-
-add_action( 'admin_menu', 'waboot_add_admin_section' );
-
-function waboot_options_page() {
-	?>
-	<div class="wrap">
-		<h2><?php _e( "Waboot Options", "waboot" ); ?></h2>
-
-		<p>
-			--- Placeholder ---
-		</p>
-	</div>
-<?php
-}
-
-/**
- * Theme Options: relocate options.php for a cleaner structure
- * @return array
- */
-function waboot_options_framework_location_override() {
-    return array("inc/options.php");
-}
-add_filter('options_framework_location','waboot_options_framework_location_override');
