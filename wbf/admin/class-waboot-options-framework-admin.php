@@ -344,4 +344,21 @@ class Waboot_Options_Framework_Admin extends Options_Framework_Admin{
         </div> <!-- / .wrap -->
     <?php
     }
+
+	/**
+	 * Add options menu item to admin bar
+	 */
+
+	function optionsframework_admin_bar() {
+
+		$menu = $this->menu_settings();
+		global $wp_admin_bar;
+
+		$wp_admin_bar->add_menu( array(
+			'parent' => 'appearance',
+			'id' => 'of_theme_options',
+			'title' => __( 'Theme Options', 'waboot' ),
+			'href' => admin_url( 'admin.php?page=' . $menu['menu_slug'] )
+		) );
+	}
 }
