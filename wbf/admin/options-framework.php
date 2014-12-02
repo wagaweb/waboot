@@ -43,9 +43,8 @@ function optionsframework_init() {
 	$options_framework->init();
 
 	// Instantiate the options page.
-	$GLOBALS['options_framework_admin'] = new Waboot_Options_Framework_Admin;  //[WABOOT MOD]
-	//$options_framework_admin = new Waboot_Options_Framework_Admin;  //[WABOOT MOD]
-	$GLOBALS['options_framework_admin']->init();
+	$options_framework_admin = new Waboot_Options_Framework_Admin;  //[WABOOT MOD]
+	$options_framework_admin->init();
 
 	// Instantiate the media uploader class
     $options_framework_media_uploader = new Waboot_Options_Media_Uploader; //[WABOOT MOD]

@@ -7,9 +7,9 @@ class Waboot_Options_Media_Uploader extends Options_Framework_Media_Uploader
 	 */
 	function optionsframework_media_scripts( $hook ) {
 
-		$menu = Options_Framework_Admin::menu_settings();
+		$menu = Waboot_Options_Framework_Admin::menu_settings();
 
-		if ( 'waboot_page_' . $menu['menu_slug'] != $hook ) {
+		if ( 'toplevel_page_' . $menu['menu_slug'] != $hook ) {
 			return;
 		}
 
