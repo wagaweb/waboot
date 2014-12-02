@@ -2,17 +2,30 @@
 
 class Waboot_Options_Framework_Admin extends Options_Framework_Admin{
 
+	static function menu_settings() {
+
+		$menu = array(
+			'page_title' => __('Theme Options', 'waboot'),
+			'menu_title' => __('Theme Options', 'waboot'),
+			'capability' => 'edit_theme_options',
+			'old_menu_slug' => 'options-framework',
+			'menu_slug' => 'waboot_options'
+		);
+
+		return apply_filters('optionsframework_menu', $menu);
+	}
+
 	public function init() {
 		parent::init();
-
-		add_action( 'admin_menu', array( $this, 'add_man_page' ) );
+		//remove_action( 'admin_menu', array( $this, 'add_options_page' ) );
+		add_action( 'admin_menu', array( $this, 'add_man_page' ), 11 );
 	}
 
 	/**
 	 * Add a subpage called "Theme Options" to the Waboot Menu
 	 */
 	function add_options_page() {
-		$menu = parent::menu_settings();
+		$menu = $this->menu_settings();
 		$this->options_screen = add_submenu_page( "waboot_options", $menu['page_title'], $menu['menu_title'], $menu['capability'], $menu['menu_slug'], array(
 				$this,
 				'options_page'
@@ -265,21 +278,22 @@ class Waboot_Options_Framework_Admin extends Options_Framework_Admin{
 	 * @since 1.7.0
 	 */
 	function enqueue_admin_scripts( $hook ) {
-
 		$menu = $this->menu_settings();
-
-		if ( 'waboot_page_' . $menu['menu_slug'] != $hook ) {
-			return;
-		}
-
-		// Enqueue custom option panel JS
-		wp_enqueue_script( 'options-custom', OPTIONS_FRAMEWORK_DIRECTORY . 'js/options-custom.js', array(
+		if ( $hook == 'waboot_page_' . $menu['old_menu_slug'] || $hook == 'toplevel_page_' . $menu['menu_slug']) {
+			// Enqueue custom option panel JS
+			wp_enqueue_script( 'options-custom', OPTIONS_FRAMEWORK_DIRECTORY . 'js/options-custom.js', array(
 				'jquery',
 				'wp-color-picker'
 			), Options_Framework::VERSION );
-
-		// Inline scripts from options-interface.php
-		add_action( 'admin_head', array( $this, 'of_admin_head' ) );
+			// Enqueue custom CSS
+			$stylesheet = waboot_locate_template_uri('wbf/admin/css/waboot-optionsframework.css');
+			if ($stylesheet != "")
+				wp_enqueue_style('waboot-theme-options-style', $stylesheet, array('optionsframework'), '1.0.0', 'all'); //Custom Theme Options CSS
+			// Inline scripts from options-interface.php
+			add_action( 'admin_head', array( $this, 'of_admin_head' ) );
+		}else{
+			return;
+		}
 	}
 
     /**

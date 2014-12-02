@@ -18,7 +18,7 @@ class Waboot_ComponentsManager {
         if(is_child_theme()){
             self::_detect_components(get_stylesheet_directory()."/components",true);
         }
-        add_action( 'admin_menu', 'Waboot_ComponentsManager::add_menu' );
+        add_action( 'admin_menu', 'Waboot_ComponentsManager::add_menu', 12 );
     }
 
 	/**

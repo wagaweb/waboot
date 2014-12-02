@@ -23,6 +23,10 @@ add_action( "after_setup_theme", "WBF::after_setup_theme" );
 add_action( "init", "WBF::init" );
 add_action( "updated_option", "WBF::of_style_options_save", 11, 3 );
 add_action( "updated_option", "WBF::compile_less_on_theme_options_save", 9999, 3 );
+add_action( 'admin_menu', 'WBF::admin_menu' );
+add_action( 'admin_bar_menu', 'WBF::add_env_notice', 980 );
+add_action( 'admin_bar_menu', 'WBF::add_admin_compile_button', 990 );
+add_filter('options_framework_location','WBF::of_location_override');
 
 class WBF {
 	/**
@@ -134,6 +138,55 @@ class WBF {
 		//waboot_debug_init();
 	}
 
+	function admin_menu(){
+		global $menu,$options_framework_admin;
+		$menu['58']     = $menu['59']; //move the separator before "Appearance" one position up
+		$waboot_menu    = add_menu_page( "Waboot", "Waboot", "edit_theme_options", "waboot_options", "waboot_options_page", "", 59 );
+		//$waboot_options = add_submenu_page( "waboot_options", __( "Theme options", "waboot" ), __( "Theme Options", "waboot" ), "edit_theme_options", "waboot_options", array($options_framework_admin,"options_page") );
+	}
+
+	/**
+	 * Add env notice to the admin bar
+	 * @param $wp_admin_bar
+	 * @since 0.2.0
+	 */
+	function add_env_notice($wp_admin_bar){
+		global $post;
+
+		if ( current_user_can( 'manage_options' ) ) {
+			$args = array(
+				'id'    => 'env_notice',
+				'title' => '['.WABOOT_ENV."]",
+				'href'  => "#",
+				'meta'  => array( 'class' => 'toolbar-env-notice' )
+			);
+			$wp_admin_bar->add_node( $args );
+		}
+	}
+
+	/**
+	 * Add a "Compile Less" button to the toolbar
+	 * @param $wp_admin_bar
+	 * @since 0.1.1
+	 */
+	function add_admin_compile_button($wp_admin_bar){
+		global $post;
+
+		if ( current_user_can( 'manage_options' ) ) {
+			$args = array(
+				'id'    => 'waboot_compile',
+				'title' => 'Compile Less',
+				'href'  => add_query_arg('compile','true'),
+				'meta'  => array( 'class' => 'toolbar-compile-less-button' )
+			);
+			$wp_admin_bar->add_node( $args );
+		}
+	}
+
+	function of_location_override(){
+		return array("inc/options.php");
+	}
+
 	function of_style_options_save($option, $old_value, $value){
 		$config = get_option( 'optionsframework' );
 		if($option == $config['id']){
@@ -220,6 +273,58 @@ function get_behavior( $name, $post_id = 0, $return = "value" ) {
 	    return WBF::get_behavior( $name, $post_id = 0, $return = "value" ); //call the backup function
     }
 }
+
+/**
+ * Waboot options page for further uses
+ */
+function waboot_options_page() {
+	/*$options_framework_admin = new Waboot_Options_Framework_Admin;
+	$options_framework_admin->options_page();*/
+	return true;
+	?>
+	<div class="wrap">
+		<h2><?php _e( "Waboot Options", "waboot" ); ?></h2>
+
+		<p>
+			--- Placeholder ---
+		</p>
+	</div>
+<?php
+}
+
+if(!is_admin() && !function_exists("waboot_mobile_body_class")):
+	/**
+	 * Adds mobile classes to body
+	 */
+	function waboot_mobile_body_class($classes){
+		$md = WBF::get_mobile_detect();
+		if($md->isMobile()){
+			$classes[] = "mobile";
+			if($md->is_ios()) $classes[] = "mobile-ios";
+			if($md->is_android()){
+				$classes[] = "mobile-android";
+				$classes[] = "mobile-android-".$md->version('Android');
+			}
+			if($md->is_windows_mobile()) $classes[] = "mobile-windows";
+			if($md->isTablet()) $classes[] = "mobile-tablet";
+			if($md->isIphone()){
+				$classes[] = "mobile-iphone";
+				$classes[] = "mobile-iphone-".$md->version('IPhone');
+			}
+			if($md->isIpad()){
+				$classes[] = "mobile-ipad";
+				$classes[] = "mobile-ipad-".$md->version('IPad');
+			}
+			if($md->is('Kindle')) $classes[] = "mobile-kindle";
+			if($md->is('Samsung')) $classes[] = "mobile-samsung";
+			if($md->is('SamsungTablet')) $classes[] = "mobile-samsungtablet";
+		}else{
+			$classes[] = "desktop";
+		}
+		return $classes;
+	}
+	add_filter('body_class','waboot_mobile_body_class');
+endif;
 
 /**
  * WP UPDATE SERVER
