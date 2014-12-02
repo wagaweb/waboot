@@ -278,22 +278,21 @@ class Waboot_Options_Framework_Admin extends Options_Framework_Admin{
 	 * @since 1.7.0
 	 */
 	function enqueue_admin_scripts( $hook ) {
-		$menu = $this->menu_settings();
-		if ( $hook == 'waboot_page_' . $menu['old_menu_slug'] || $hook == 'toplevel_page_' . $menu['menu_slug']) {
-			// Enqueue custom option panel JS
-			wp_enqueue_script( 'options-custom', OPTIONS_FRAMEWORK_DIRECTORY . 'js/options-custom.js', array(
-				'jquery',
-				'wp-color-picker'
-			), Options_Framework::VERSION );
-			// Enqueue custom CSS
-			$stylesheet = waboot_locate_template_uri('wbf/admin/css/waboot-optionsframework.css');
-			if ($stylesheet != "")
-				wp_enqueue_style('waboot-theme-options-style', $stylesheet, array('optionsframework'), '1.0.0', 'all'); //Custom Theme Options CSS
-			// Inline scripts from options-interface.php
-			add_action( 'admin_head', array( $this, 'of_admin_head' ) );
-		}else{
+		if(!wbf_is_admin_of_page($hook)){
 			return;
 		}
+
+		// Enqueue custom option panel JS
+		wp_enqueue_script( 'options-custom', OPTIONS_FRAMEWORK_DIRECTORY . 'js/options-custom.js', array(
+			'jquery',
+			'wp-color-picker'
+		), Options_Framework::VERSION );
+		// Enqueue custom CSS
+		$stylesheet = waboot_locate_template_uri('wbf/admin/css/waboot-optionsframework.css');
+		if ($stylesheet != "")
+			wp_enqueue_style('waboot-theme-options-style', $stylesheet, array('optionsframework'), '1.0.0', 'all'); //Custom Theme Options CSS
+		// Inline scripts from options-interface.php
+		add_action( 'admin_head', array( $this, 'of_admin_head' ) );
 	}
 
     /**

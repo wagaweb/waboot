@@ -87,3 +87,19 @@ function of_get_option( $name, $default = false ) {
 }
 
 endif;
+
+/**
+ * Check if current admin page is the options framework page
+ * @param $hook
+ *
+ * @return bool
+ */
+function wbf_is_admin_of_page($hook){
+	$menu = Waboot_Options_Framework_Admin::menu_settings();
+
+	if ( $hook == 'waboot_page_' . $menu['old_menu_slug'] || $hook == 'toplevel_page_' . $menu['menu_slug']) {
+		return true;
+	}
+
+	return false;
+}

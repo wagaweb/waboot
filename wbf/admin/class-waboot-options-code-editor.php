@@ -52,9 +52,7 @@ class Waboot_Options_Code_Editor
 	}
 
 	function optionsframework_codeditor_scripts( $hook ) {
-		$menu = Waboot_Options_Framework_Admin::menu_settings();
-
-		if ( 'toplevel_page_' . $menu['menu_slug'] != $hook ) {
+		if(!wbf_is_admin_of_page($hook)){
 			return;
 		}
 
