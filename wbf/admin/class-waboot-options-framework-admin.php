@@ -18,8 +18,14 @@ class Waboot_Options_Framework_Admin extends Options_Framework_Admin{
 	public function init() {
 		parent::init();
 		//remove_action( 'admin_menu', array( $this, 'add_options_page' ) );
-		add_action( 'admin_menu', array( $this, 'add_man_page' ), 11 );
+		add_action( 'admin_menu', array( $this, 'add_man_page' ), 12 );
+		//add_action( 'admin_menu', array( $this, 'add_additional_appearance_link' ) );
 	}
+
+    /*function add_additional_appearance_link(){
+        $menu = $this->menu_settings();
+        $this->of_app_screen = add_theme_page($menu['page_title'],$menu['menu_title'],$menu['capability'],$menu['menu_slug']);
+    }*/
 
 	/**
 	 * Add a subpage called "Theme Options" to the Waboot Menu
