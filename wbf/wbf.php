@@ -14,6 +14,7 @@ define("WBF_ADMIN_DIRECTORY", __DIR__ . "/admin");
 define("WBF_PUBLIC_DIRECTORY", __DIR__ . "/public");
 
 require_once("wbf-autoloader.php");
+include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 
 $md = WBF::get_mobile_detect();
 
@@ -107,8 +108,10 @@ class WBF {
         //locate_template( '/wbf/admin/scripts.php', true );
 
 	    //ACF INTEGRATION
-	    locate_template( '/wbf/vendor/acf/acf.php', true );
-	    locate_template( '/wbf/admin/acf-integration.php', true );
+        if(!is_plugin_active("advanced-custom-fields-pro/acf.php") && !is_plugin_active("advanced-custom-fields/acf.php")){
+            locate_template( '/wbf/vendor/acf/acf.php', true );
+            locate_template( '/wbf/admin/acf-integration.php', true );
+        }
 
         // Load behaviors extension
 	    locate_template( '/wbf/admin/behaviors-framework.php', true );
