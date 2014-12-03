@@ -489,7 +489,7 @@ function optionsframework_options() {
     if(class_exists("BehaviorsManager")) :
 
         $options[] = array(
-            'name' => __( 'Pages', 'waboot' ),
+            'name' => __( 'Behaviors', 'waboot' ),
             'type' => 'heading'
         );
 

@@ -257,6 +257,7 @@ function options_typography_get_os_fonts() {
 function options_typography_get_google_fonts() {
     // Google Font Defaults
     $google_faces = array(
+        '' => 'Select',
         'Abril Fatface, serif' => 'Abril Fatface',
         'Actor, sans-serif' => 'Actor',
         'Amaranth, sans-serif' => 'Amaranth',

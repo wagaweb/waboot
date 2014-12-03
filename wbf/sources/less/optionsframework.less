@@ -68,8 +68,8 @@ div#optionsframework-wrap {
     .footer-tab {
       background-image: url("../images/closure-icon.svg");
     }
-    .pages-tab {
-      background-image: url("../images/pages-icon.svg");
+    .behaviors-tab {
+      background-image: url("../images/behaviour-icon.svg");
     }
     .posts-tab {
       background-image: url("../images/posts-icon.svg");
@@ -396,8 +396,28 @@ div#optionsframework-wrap {
 
   /* Pages */
 
-  #section-behavior_layout {
+  .behaviors .section-info {
     width: 100%;
+    border-right: none;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .behaviors .section:nth-child(3) {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .behaviors .section:nth-child(5),
+  .behaviors .section:nth-child(6) {
+    width: 33.3333%;
+    border-right: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+  }
+  .behaviors .section:nth-child(7) {
+    width: 33.3333%;
+    border-right: none;
+    border-bottom: 1px solid #ddd;
   }
 
   /* Posts */
@@ -502,7 +522,6 @@ div#optionsframework-wrap {
     -moz-user-select: none;
     -ms-user-select: none;
     float: none;
-    padding-right: 0;
     min-width: 0 !important;
     padding: 0px;
     margin: 0 auto 10px;
