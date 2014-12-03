@@ -23,7 +23,8 @@ class BehaviorsManager{
 
     static function get($name, $post_id)
     {
-        $behaviors = self::getAll(); //retrive all behaviours
+        $current_post_type = get_post_type($post_id);
+        $behaviors = self::getAll($current_post_type); //retrive all behaviours
         $selected_behavior = new stdClass();
 
         foreach ($behaviors as $b) { //find the desidered behaviour
@@ -40,10 +41,11 @@ class BehaviorsManager{
         }
     }
 
-	static function getAll(){
+	static function getAll($post_type = null){
 		$imported_behaviors = self::importPredefined(); //per ora si possono specificare solo via file...
 		$behaviors = array();
 		foreach($imported_behaviors as $b){
+            if(isset($post_type)) $b['get_for_posttype'] = $post_type;
 			$behaviors[] = new Behavior($b);
 		}
 
@@ -88,6 +90,7 @@ class Behavior{
 	var $name;
 	var $metaname;
 	var $optionname;
+    var $posttypes_values;
 	var $title;
 	var $description;
 	var $type;
@@ -106,6 +109,11 @@ class Behavior{
 			$this->name = $args['name'];
 			$this->metaname = "_behavior_".$args['name'];
 			$this->optionname = "behavior_".$args['name'];
+            $post_types = wp_get_filtered_post_types();
+            foreach($post_types as $s => $l){
+                $this->posttypes_values[$s]['metaname'] = "_behavior_".$s."_".$args['name'];
+                $this->posttypes_values[$s]['optionname'] = "behavior_".$s."_".$args['name'];
+            }
 		} else{
 			$this->name = "";
 			$this->metaname = "";
@@ -123,7 +131,11 @@ class Behavior{
 
 		if(isset($args['default'])){
 			$base_default = $args['default'];
-			$option_default = of_get_option($this->optionname,$base_default);
+            if(isset($args['get_for_posttype'])){
+                $option_default = of_get_option($this->posttypes_values[$args['get_for_posttype']]['optionname'],$base_default);
+            }else{
+			    $option_default = of_get_option($this->optionname,$base_default);
+            }
             if(is_array($option_default)){
                 if($this->type == "checkbox"){
                     foreach($option_default as $name => $v){
@@ -134,7 +146,11 @@ class Behavior{
                 $this->default = $option_default;
             }
 		}else{
-			$this->default = of_get_option($this->optionname,"");
+            if(isset($args['get_for_posttype'])){
+                $this->default = of_get_option($this->posttypes_values[$args['get_for_posttype']]['optionname'],"");
+            }else{
+                $this->default = of_get_option($this->optionname,"");
+            }
 		}
 
 		if(isset($args['valid'])){
@@ -216,7 +232,15 @@ class Behavior{
         return false;
     }
 
-    function generate_of_option()
+    function is_enabled_for_post_type($post_type){
+        if (in_array($post_type, $this->filters['post_type']) || $this->filters['post_type'] == "*") {
+            return true;
+        }
+
+        return false;
+    }
+
+    function generate_of_option($prefix = "")
     {
 
         if ($this->type == "checkbox" && $this->has_multiple_choices()) $type = "multicheck";
@@ -225,7 +249,7 @@ class Behavior{
         $option = array(
             'name' => $this->title,
             'desc' => $this->description,
-            'id' => "behavior_" . $this->name,
+            'id' => !empty($prefix) ? "behavior_" . $prefix . "_" . $this->name : "behavior_" . $this->name,
             'type' => $type,
         );
 
