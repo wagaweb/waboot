@@ -68,8 +68,8 @@ if ( !function_exists( 'wbf_options_typography_google_fonts' ) ) {
     function wbf_options_typography_google_fonts() {
         $all_google_fonts = array_keys( options_typography_get_google_fonts() );
         // Define all the options that possibly have a unique Google font
-          $primary_font = of_get_option('primary_font', 'Lato, sans-serif');
-          $secondary_font = of_get_option('secondary_font', false);
+          $primary_font = of_get_option('waboot_primary_font', 'Lato, sans-serif');
+          $secondary_font = of_get_option('waboot_secondary_font', false);
         // $google_mixed_2 = of_get_option('google_mixed_2', 'Arvo, serif');
         // Get the font face for each option and put it in an array
         $selected_fonts = array(
@@ -116,9 +116,9 @@ function options_typography_primary_styles() {
     $output = '';
     $input = '';
 
-    if ( of_get_option( 'primary_font' ) ) {
-        $input = of_get_option( 'primary_font' );
-        $output .= options_typography_font_styles( of_get_option( 'primary_font' ) , 'body, p, ul, li');
+    if ( of_get_option( 'waboot_primary_font' ) ) {
+        $input = of_get_option( 'waboot_primary_font' );
+        $output .= options_typography_font_styles( of_get_option( 'waboot_primary_font' ) , 'body, p, ul, li');
     }
 
     if ( $output != '' ) {
@@ -135,9 +135,9 @@ function options_typography_secondary_styles() {
     $output = '';
     $input = '';
 
-    if ( of_get_option( 'secondary_font' ) ) {
-        $input = of_get_option( 'secondary_font' );
-        $output .= options_typography_font_styles( of_get_option( 'secondary_font' ) , 'h1, h2, h3, h4, h5, h6');
+    if ( of_get_option( 'waboot_secondary_font' ) ) {
+        $input = of_get_option( 'waboot_secondary_font' );
+        $output .= options_typography_font_styles( of_get_option( 'waboot_secondary_font' ) , 'h1, h2, h3, h4, h5, h6');
     }
 
     if ( $output != '' ) {
