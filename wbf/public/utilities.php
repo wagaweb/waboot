@@ -283,6 +283,7 @@ function options_typography_get_google_fonts() {
         'Lato, sans-serif' => 'Lato',
         'Ledger Regular, sans-serif' => 'Ledger Regular',
         'Lobster, cursive' => 'Lobster',
+        'Montserrat, sans-serif' => 'Montserrat',
         'Nobile, sans-serif' => 'Nobile',
         'Old Standard TT, serif' => 'Old Standard TT',
         'Open Sans, sans-serif' => 'Open Sans',

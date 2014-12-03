@@ -141,7 +141,7 @@ class WBF {
 	function admin_menu(){
 		global $menu,$options_framework_admin;
 		$menu['58']     = $menu['59']; //move the separator before "Appearance" one position up
-		$waboot_menu    = add_menu_page( "Waboot", "Waboot", "edit_theme_options", "waboot_options", "waboot_options_page", "", 59 );
+		$waboot_menu    = add_menu_page( "Waboot", "Waboot", "edit_theme_options", "waboot_options", "waboot_options_page", "dashicons-text", 59 );
 		//$waboot_options = add_submenu_page( "waboot_options", __( "Theme options", "waboot" ), __( "Theme Options", "waboot" ), "edit_theme_options", "waboot_options", array($options_framework_admin,"options_page") );
 	}
 
