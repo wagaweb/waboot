@@ -493,17 +493,28 @@ function optionsframework_options() {
             'type' => 'heading'
         );
 
+        //Get post types
+        $post_types = wp_get_filtered_post_types();
         //get predefined options
         //$predef_behavior = waboot_behavior_get_options();
         $predef_behavior = BehaviorsManager::getAll();
 
-        foreach($predef_behavior as $b){
-            $option = $b->generate_of_option();
-            $options[] = $option;
+        foreach($post_types as $ptSlug => $ptLabel){
+            $options[] = array(
+                'name' => $ptLabel,
+                'desc' => sprintf(__( 'Edit default options for "%s" post type', 'waboot' ),strtolower($ptLabel)),
+                'type' => 'info'
+            );
+
+            foreach($predef_behavior as $b){
+                if($b->is_enabled_for_post_type($ptSlug)){
+                    $option = $b->generate_of_option($ptSlug);
+                    $options[] = $option;
+                }
+            }
         }
 
     endif;
-
 
     /*
      * POSTS TAB
