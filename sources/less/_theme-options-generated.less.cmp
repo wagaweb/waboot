@@ -11,7 +11,7 @@
 @well-bg:               //{of_get_option('waboot_well_bg')};
 
 body {
-  background-image: //{of_get_option('waboot_body_bgimage')};
+  background-image: url("//{of_get_option('waboot_body_bgimage')}");
   background-repeat: //{of_get_option('waboot_body_bgrepeat')};
   background-position: //{of_get_option('waboot_body_bgpos')};
   background-attachment: //{of_get_option('waboot_body_bgattach')};
