@@ -6,64 +6,28 @@
  * @since 0.1.0
  */
 
-/**
- * Apply custom in-line styles in header
- * @deprecated
- */
-function waboot_theme_options_header_styles(){
-    ?>
-    <style type="text/css">
-        body {
-            background-color: <?php echo of_get_option( 'waboot_body_bgcolor' ); ?> !important;
-            background-image: url(<?php echo of_get_option( 'waboot_body_bgimage' ); ?>);
-            background-repeat: <?php echo of_get_option( 'waboot_body_bgrepeat' ); ?>;
-            background-position: <?php echo of_get_option( 'waboot_body_bgpos' ); ?>;
-            background-attachment: <?php echo of_get_option( 'waboot_body_bgattach' ); ?>;
-        }
-
-        #topnav-wrapper {
-            background-color: <?php echo of_get_option( 'waboot_topnav_bgcolor' ); ?>;
-        }
-
-        #header-wrapper {
-            background-color: <?php echo of_get_option( 'waboot_header_bgcolor' ); ?>;
-        }
-
-        #banner-wrapper {
-            background-color: <?php echo of_get_option( 'waboot_banner_bgcolor' ); ?>;
-        }
-
-        #content-wrapper {
-            background-color: <?php echo of_get_option( 'waboot_content_bgcolor' ); ?>;
-        }
-
-        #contentbottom-wrapper {
-            background-color: <?php echo of_get_option( 'waboot_bottom_bgcolor' ); ?>;
-        }
-
-        #footer-wrapper {
-            background-color: <?php echo of_get_option( 'waboot_footer_bgcolor' ); ?>;
-        }
-
-        #page {
-            background-color: <?php echo of_get_option( 'waboot_page_bgcolor' ); ?>;
-        }
-
-        .navbar.main-navigation .navbar-collapse {
-            background-color: <?php echo of_get_option( 'waboot_navbar_bgcolor' ); ?>;
-        }
-
-    </style>
-<?php
-}
+add_action( 'wp_enqueue_scripts', 'wbf_add_client_custom_css', 99 );
+add_action( 'wp_enqueue_scripts', 'wbf_options_typography_google_fonts' );
+add_action('wp_head', 'options_typography_primary_styles');
+add_action('wp_head', 'options_typography_secondary_styles');
 //add_action("waboot_head", 'waboot_theme_options_header_styles');
+
+/**
+ * Adds client custom CSS
+ */
+function wbf_add_client_custom_css(){
+	$client_custom_css = waboot_of_custom_css();
+
+	if($client_custom_css){
+		wp_enqueue_style('client-custom',$client_custom_css);
+	}
+}
 
 /**
  * Checks font options to see if a Google font is selected.
  * If so, options_typography_enqueue_google_font is called to enqueue the font.
  * Ensures that each Google font is only enqueued once.
  */
-
 if ( !function_exists( 'wbf_options_typography_google_fonts' ) ) {
     function wbf_options_typography_google_fonts() {
         $all_google_fonts = array_keys( options_typography_get_google_fonts() );
@@ -87,13 +51,9 @@ if ( !function_exists( 'wbf_options_typography_google_fonts' ) ) {
     }
 }
 
-add_action( 'wp_enqueue_scripts', 'wbf_options_typography_google_fonts' );
-
-
 /**
  * Enqueues the Google $font that is passed
  */
-
 function options_typography_enqueue_google_font($font) {
     $font = explode(',', $font);
     $font = $font[0];
@@ -105,13 +65,11 @@ function options_typography_enqueue_google_font($font) {
     wp_enqueue_style( "options_typography_$font", "//fonts.googleapis.com/css?family=$font", false, null, 'all' );
 }
 
-
 /**
  * Outputs the selected option panel styles inline into the <head>
  */
 
 /** Primary Font Family */
-
 function options_typography_primary_styles() {
     $output = '';
     $input = '';
@@ -126,11 +84,8 @@ function options_typography_primary_styles() {
         echo $output;
     }
 }
-add_action('wp_head', 'options_typography_primary_styles');
-
 
 /** Secondary Font Family */
-
 function options_typography_secondary_styles() {
     $output = '';
     $input = '';
@@ -145,13 +100,10 @@ function options_typography_secondary_styles() {
         echo $output;
     }
 }
-add_action('wp_head', 'options_typography_secondary_styles');
-
 
 /**
  * Returns a typography option in a format that can be outputted as inline CSS
  */
-
 function options_typography_font_styles($option, $selectors) {
     $output = $selectors . ' {';
     $output .= ' color:' . $option['color'] .'; ';
@@ -162,4 +114,55 @@ function options_typography_font_styles($option, $selectors) {
     $output .= '}';
     $output .= "\n";
     return $output;
+}
+
+/**
+ * Apply custom in-line styles in header
+ * @deprecated
+ */
+function waboot_theme_options_header_styles(){
+	?>
+	<style type="text/css">
+		body {
+			background-color: <?php echo of_get_option( 'waboot_body_bgcolor' ); ?> !important;
+			background-image: url(<?php echo of_get_option( 'waboot_body_bgimage' ); ?>);
+			background-repeat: <?php echo of_get_option( 'waboot_body_bgrepeat' ); ?>;
+			background-position: <?php echo of_get_option( 'waboot_body_bgpos' ); ?>;
+			background-attachment: <?php echo of_get_option( 'waboot_body_bgattach' ); ?>;
+		}
+
+		#topnav-wrapper {
+			background-color: <?php echo of_get_option( 'waboot_topnav_bgcolor' ); ?>;
+		}
+
+		#header-wrapper {
+			background-color: <?php echo of_get_option( 'waboot_header_bgcolor' ); ?>;
+		}
+
+		#banner-wrapper {
+			background-color: <?php echo of_get_option( 'waboot_banner_bgcolor' ); ?>;
+		}
+
+		#content-wrapper {
+			background-color: <?php echo of_get_option( 'waboot_content_bgcolor' ); ?>;
+		}
+
+		#contentbottom-wrapper {
+			background-color: <?php echo of_get_option( 'waboot_bottom_bgcolor' ); ?>;
+		}
+
+		#footer-wrapper {
+			background-color: <?php echo of_get_option( 'waboot_footer_bgcolor' ); ?>;
+		}
+
+		#page {
+			background-color: <?php echo of_get_option( 'waboot_page_bgcolor' ); ?>;
+		}
+
+		.navbar.main-navigation .navbar-collapse {
+			background-color: <?php echo of_get_option( 'waboot_navbar_bgcolor' ); ?>;
+		}
+
+	</style>
+<?php
 }
