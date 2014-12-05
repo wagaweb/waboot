@@ -73,9 +73,41 @@
                 </div>
 		    </div><!-- #header-wrapper -->
 
-            <?php if ( is_active_sidebar( 'banner' ) ) : ?>
+            <?php if ( is_active_sidebar( 'banner' ) || get_field('slideshow_images', 'option') ) : ?>
                 <div id="banner-wrapper" class="<?php echo of_get_option( 'waboot_banner_width','container' ); ?>">
                     <div id="banner-inner">
+
+                        <?php if(get_field('slideshow_images', 'option')): ?>
+                            <div class="waboot-slideshow">
+                                <?php
+                                $images = get_field('slideshow_images', 'option');
+                                if( $images ):
+                                    ?>
+                                    <div class="owl-carousel">
+                                        <?php foreach( $images as $image ): ?>
+                                            <div style="background-image: url('<?php echo $image['sizes']['large']; ?>'); height:<?php
+                                                    if (wb_is_mobile()) { echo get_field('slideshow_height_mobile', 'option'); }
+                                                    else { echo get_field('slideshow_height', 'option'); }
+                                            ?>px">
+                                                <span class="slideshow-caption"><?php echo $image['caption']; ?></span>
+                                            </div>
+                                        <?php endforeach; ?>
+                                    </div>
+                                <?php endif; ?>
+                            </div>
+                            <script type="text/javascript">
+                                jQuery(document).ready(function(){
+                                    jQuery(".owl-carousel").owlCarousel({
+                                        items: <?php echo get_field('slideshow_items', 'option'); ?>,
+                                        loop: <?php echo get_field('slideshow_loop', 'option'); ?>,
+                                        nav: <?php echo get_field('slideshow_navigation', 'option'); ?>,
+                                        navText: ['<i class="fa fa-chevron-left"></i>','<i class="fa fa-chevron-right"></i>'],
+                                        dots: <?php echo get_field('slideshow_dots', 'option'); ?>
+                                    });
+                                });
+                            </script>
+                        <?php endif; ?>
+
                         <?php dynamic_sidebar( 'banner' ); ?>
                     </div>
                 </div>
