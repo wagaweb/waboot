@@ -27,6 +27,7 @@ add_action( "updated_option", "WBF::compile_less_on_theme_options_save", 9999, 3
 add_action( 'admin_menu', 'WBF::admin_menu' );
 add_action( 'admin_bar_menu', 'WBF::add_env_notice', 980 );
 add_action( 'admin_bar_menu', 'WBF::add_admin_compile_button', 990 );
+add_action( 'wp_enqueue_scripts', 'WBF::register_libs' );
 add_filter('options_framework_location','WBF::of_location_override');
 
 class WBF {
@@ -72,6 +73,14 @@ class WBF {
 
 			return $b;
 		}
+	}
+
+	static function component_is_loaded($name){
+		if(class_exists("Waboot_ComponentsManager") && array_key_exists($name,$GLOBALS['loaded_components'])) {
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
@@ -133,235 +142,6 @@ class WBF {
         //Loads components
         Waboot_ComponentsManager::init();
         Waboot_ComponentsManager::setupRegisteredComponents();
-
-        // Slideshow Fields
-        if( function_exists('register_field_group') ):
-            register_field_group(array (
-                'key' => 'group_wb_slideshow',
-                'title' => 'Campi Slideshow',
-                'fields' => array (
-                    array (
-                        'key' => 'field_wb_slideshow',
-                        'label' => 'Immagini Slideshow',
-                        'name' => 'slideshow_images',
-                        'prefix' => '',
-                        'type' => 'gallery',
-                        'instructions' => '',
-                        'required' => 1,
-                        'conditional_logic' => 0,
-                        'wrapper' => array (
-                            'width' => '',
-                            'class' => '',
-                            'id' => '',
-                        ),
-                        'min' => '',
-                        'max' => '',
-                        'preview_size' => 'thumbnail',
-                        'library' => 'uploadedTo',
-                    ),
-                ),
-                'location' => array (
-                    array (
-                        array (
-                            'param' => 'options_page',
-                            'operator' => '==',
-                            'value' => 'slideshow-settings',
-                        ),
-                    ),
-                ),
-                'menu_order' => 0,
-                'position' => 'acf_after_title',
-                'style' => 'default',
-                'label_placement' => 'top',
-                'instruction_placement' => 'label',
-                'hide_on_screen' => '',
-            ));
-            register_field_group(array (
-                'key' => 'group_wb_slideshow_options',
-                'title' => 'Opzioni Slideshow',
-                'fields' => array (
-                    array (
-                        'key' => 'field_wb_slideshow_height',
-                        'label' => 'Slideshow Height',
-                        'name' => 'slideshow_height',
-                        'prefix' => '',
-                        'type' => 'number',
-                        'instructions' => '',
-                        'required' => 0,
-                        'conditional_logic' => 0,
-                        'wrapper' => array (
-                            'width' => '',
-                            'class' => '',
-                            'id' => '',
-                        ),
-                        'default_value' => 400,
-                        'placeholder' => '',
-                        'prepend' => '',
-                        'append' => '',
-                        'min' => '',
-                        'max' => '',
-                        'step' => '',
-                        'readonly' => 0,
-                        'disabled' => 0,
-                    ),
-                    array (
-                        'key' => 'field_wb_slideshow_height_mobile',
-                        'label' => 'Slideshow Height Mobile',
-                        'name' => 'slideshow_height_mobile',
-                        'prefix' => '',
-                        'type' => 'number',
-                        'instructions' => '',
-                        'required' => 0,
-                        'conditional_logic' => 0,
-                        'wrapper' => array (
-                            'width' => '',
-                            'class' => '',
-                            'id' => '',
-                        ),
-                        'default_value' => 400,
-                        'placeholder' => '',
-                        'prepend' => '',
-                        'append' => '',
-                        'min' => '',
-                        'max' => '',
-                        'step' => '',
-                        'readonly' => 0,
-                        'disabled' => 0,
-                    ),
-                    array (
-                        'key' => 'field_wb_slideshow_items',
-                        'label' => 'Items',
-                        'name' => 'slideshow_items',
-                        'prefix' => '',
-                        'type' => 'number',
-                        'instructions' => '',
-                        'required' => 0,
-                        'conditional_logic' => 0,
-                        'wrapper' => array (
-                            'width' => '',
-                            'class' => '',
-                            'id' => '',
-                        ),
-                        'default_value' => 1,
-                        'placeholder' => '',
-                        'prepend' => '',
-                        'append' => '',
-                        'min' => '',
-                        'max' => '',
-                        'step' => '',
-                        'readonly' => 0,
-                        'disabled' => 0,
-                    ),
-                    array (
-                        'key' => 'field_wb_slideshow_nav',
-                        'label' => 'Navigation',
-                        'name' => 'slideshow_navigation',
-                        'prefix' => '',
-                        'type' => 'select',
-                        'instructions' => '',
-                        'required' => 1,
-                        'conditional_logic' => 0,
-                        'wrapper' => array (
-                            'width' => '',
-                            'class' => '',
-                            'id' => '',
-                        ),
-                        'choices' => array (
-                            'true' => 'True',
-                            'false' => 'False',
-                        ),
-                        'default_value' => array (
-                            'true' => 'True',
-                        ),
-                        'allow_null' => 0,
-                        'multiple' => 0,
-                        'ui' => 0,
-                        'ajax' => 0,
-                        'placeholder' => '',
-                        'disabled' => 0,
-                        'readonly' => 0,
-                    ),
-                    array (
-                        'key' => 'field_wb_slideshow_dots',
-                        'label' => 'Dots',
-                        'name' => 'slideshow_dots',
-                        'prefix' => '',
-                        'type' => 'select',
-                        'instructions' => '',
-                        'required' => 1,
-                        'conditional_logic' => 0,
-                        'wrapper' => array (
-                            'width' => '',
-                            'class' => '',
-                            'id' => '',
-                        ),
-                        'choices' => array (
-                            'true' => 'True',
-                            'false' => 'False',
-                        ),
-                        'default_value' => array (
-                            'false' => 'False',
-                        ),
-                        'allow_null' => 0,
-                        'multiple' => 0,
-                        'ui' => 0,
-                        'ajax' => 0,
-                        'placeholder' => '',
-                        'disabled' => 0,
-                        'readonly' => 0,
-                    ),
-                    array (
-                        'key' => 'field_wb_slideshow_loop',
-                        'label' => 'Loop',
-                        'name' => 'slideshow_loop',
-                        'prefix' => '',
-                        'type' => 'select',
-                        'instructions' => '',
-                        'required' => 1,
-                        'conditional_logic' => 0,
-                        'wrapper' => array (
-                            'width' => '',
-                            'class' => '',
-                            'id' => '',
-                        ),
-                        'choices' => array (
-                            'true' => 'True',
-                            'false' => 'False',
-                        ),
-                        'default_value' => array (
-                            'true' => 'True',
-                        ),
-                        'allow_null' => 0,
-                        'multiple' => 0,
-                        'ui' => 0,
-                        'ajax' => 0,
-                        'placeholder' => '',
-                        'disabled' => 0,
-                        'readonly' => 0,
-                    ),
-                ),
-                'location' => array (
-                    array (
-                        array (
-                            'param' => 'options_page',
-                            'operator' => '==',
-                            'value' => 'slideshow-settings',
-                        ),
-                    ),
-                ),
-                'menu_order' => 0,
-                'position' => 'side',
-                'style' => 'default',
-                'label_placement' => 'top',
-                'instruction_placement' => 'label',
-                'hide_on_screen' => '',
-            ));
-
-        endif;
-
-        // Load Owl Carousel
-        locate_template('/wbf/includes/owlcarousel.php', true);
-
     }
 
 	function init() {
@@ -370,19 +150,15 @@ class WBF {
 		//waboot_debug_init();
 	}
 
+	function register_libs(){
+		wp_register_script("owlcarousel-js",WBF_URL."/vendor/owlcarousel/owl.carousel.min.js",array("jquery"),null,true);
+		wp_register_style("owlcarousel-css",WBF_URL."/vendor/owlcarousel/assets/owl.carousel.css");
+	}
+
 	function admin_menu(){
 		global $menu,$options_framework_admin;
 		$menu['58']     = $menu['59']; //move the separator before "Appearance" one position up
 		$waboot_menu    = add_menu_page( "Waboot", "Waboot", "edit_theme_options", "waboot_options", "waboot_options_page", "dashicons-text", 59 );
-        if( function_exists('acf_add_options_sub_page') )
-        {
-            acf_add_options_sub_page(array(
-                'title' => 'Slideshow',
-                'slug' => 'slideshow-settings',
-                'parent' => 'waboot_options',
-                'capability' => 'edit_theme_options'
-            ));
-        }
 		//$waboot_options = add_submenu_page( "waboot_options", __( "Theme options", "waboot" ), __( "Theme Options", "waboot" ), "edit_theme_options", "waboot_options", array($options_framework_admin,"options_page") );
 	}
 
