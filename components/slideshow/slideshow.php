@@ -258,9 +258,17 @@ class SlideshowComponent extends Waboot_Component{
 		wp_enqueue_style('owlcarousel-css');
 	}
 
+	static function has_images(){
+		if(get_field('slideshow_images', 'option')){
+			return true;
+
+		}
+		return false;
+	}
+
 	static function display_slideshow(){
 		?>
-		<?php if(get_field('slideshow_images', 'option')): ?>
+		<?php if(self::has_images()): ?>
 			<div class="waboot-slideshow">
 				<?php
 				$images = get_field('slideshow_images', 'option');

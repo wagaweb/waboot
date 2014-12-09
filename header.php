@@ -73,7 +73,7 @@
                 </div>
 		    </div><!-- #header-wrapper -->
 
-            <?php if ( is_active_sidebar( 'banner' ) || get_field('slideshow_images', 'option') ) : ?>
+            <?php if ( is_active_sidebar( 'banner' ) || (WBF::component_is_loaded("slideshow") && SlideshowComponent::has_images()) ) : ?>
                 <div id="banner-wrapper" class="<?php echo of_get_option( 'waboot_banner_width','container' ); ?>">
                     <div id="banner-inner">
 	                    <?php
