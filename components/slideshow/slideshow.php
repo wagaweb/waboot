@@ -276,17 +276,6 @@ class SlideshowComponent extends Waboot_Component{
         }
         $slideshow_post = get_post($post_id);
         ?>
-        <script type="text/javascript">
-            jQuery(document).ready(function(){
-                jQuery("#owl-<?php echo $slideshow_post->post_name; ?>").owlCarousel({
-                    items: <?php echo get_field('slideshow_items', $post_id); ?>,
-                    loop: <?php echo get_field('slideshow_loop', $post_id); ?>,
-                    nav: <?php echo get_field('slideshow_navigation', $post_id); ?>,
-                    navText: ['<i class="fa fa-chevron-left"></i>','<i class="fa fa-chevron-right"></i>'],
-                    dots: <?php echo get_field('slideshow_dots', $post_id); ?>
-                });
-            });
-        </script>
 		<?php if(self::has_images($post_id)): ?>
 			<div class="waboot-slideshow">
 				<?php
@@ -305,6 +294,17 @@ class SlideshowComponent extends Waboot_Component{
 					</div>
 				<?php endif; ?>
 			</div>
+            <script type="text/javascript">
+                jQuery(document).ready(function(){
+                    jQuery("#owl-<?php echo $slideshow_post->post_name; ?>").owlCarousel({
+                        items: <?php echo get_field('slideshow_items', $post_id); ?>,
+                        loop: <?php echo get_field('slideshow_loop', $post_id); ?>,
+                        nav: <?php echo get_field('slideshow_navigation', $post_id); ?>,
+                        navText: ['<i class="fa fa-chevron-left"></i>','<i class="fa fa-chevron-right"></i>'],
+                        dots: <?php echo get_field('slideshow_dots', $post_id); ?>
+                    });
+                });
+            </script>
 		<?php endif; ?>
 		<?php
 	}
