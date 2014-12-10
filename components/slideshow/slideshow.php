@@ -11,6 +11,13 @@ class SlideshowComponent extends Waboot_Component{
 
 	public function setup(){
 		parent::setup();
+        // Register post type
+        register_post_type('slideshow', array(
+            'public' => true,
+            'label'  => __("Slideshows","waboot"),
+            'supports' => array('title','revisions','author')
+        ));
+
 		// Slideshow Fields
 		if( function_exists('register_field_group') ):
 			register_field_group(array (
@@ -40,9 +47,9 @@ class SlideshowComponent extends Waboot_Component{
 				'location' => array (
 					array (
 						array (
-							'param' => 'options_page',
+							'param' => 'post_type',
 							'operator' => '==',
-							'value' => 'slideshow-settings',
+							'value' => 'slideshow',
 						),
 					),
 				),
@@ -220,9 +227,9 @@ class SlideshowComponent extends Waboot_Component{
 				'location' => array (
 					array (
 						array (
-							'param' => 'options_page',
-							'operator' => '==',
-							'value' => 'slideshow-settings',
+                            'param' => 'post_type',
+                            'operator' => '==',
+                            'value' => 'slideshow',
 						),
 					),
 				),
@@ -236,19 +243,12 @@ class SlideshowComponent extends Waboot_Component{
 
 		endif;
 
-		add_action("admin_menu",array($this,"add_menu"));
+        add_action( 'widgets_init', array($this,'register_widget') );
 	}
 
-	public function add_menu(){
-		if( function_exists('acf_add_options_sub_page') ) {
-			acf_add_options_sub_page(array(
-				'title' => 'Slideshow',
-				'slug' => 'slideshow-settings',
-				'parent' => 'waboot_options',
-				'capability' => 'edit_theme_options'
-			));
-		}
-	}
+    public function register_widget(){
+        register_widget("WabootSlideshowWidget");
+    }
 
 	public function scripts(){
 		wp_enqueue_script('owlcarousel-custom-script', $this->directory_uri . '/owl.carousel-custom.js', array('jquery','owlcarousel-js'), false, false);
@@ -258,27 +258,46 @@ class SlideshowComponent extends Waboot_Component{
 		wp_enqueue_style('owlcarousel-css');
 	}
 
-	static function has_images(){
-		if(get_field('slideshow_images', 'option')){
+	static function has_images($post_id = 0){
+        global $post;
+        if($post_id == 0){
+            $post_id = $post->ID;
+        }
+		if(get_field('slideshow_images', $post_id)){
 			return true;
-
 		}
 		return false;
 	}
 
-	static function display_slideshow(){
-		?>
-		<?php if(self::has_images()): ?>
+	static function display_slideshow($post_id = 0){
+		global $post;
+        if($post_id == 0){
+            $post_id = $post->ID;
+        }
+        $slideshow_post = get_post($post_id);
+        ?>
+        <script type="text/javascript">
+            jQuery(document).ready(function(){
+                jQuery("#owl-<?php echo $slideshow_post->post_name; ?>").owlCarousel({
+                    items: <?php echo get_field('slideshow_items', $post_id); ?>,
+                    loop: <?php echo get_field('slideshow_loop', $post_id); ?>,
+                    nav: <?php echo get_field('slideshow_navigation', $post_id); ?>,
+                    navText: ['<i class="fa fa-chevron-left"></i>','<i class="fa fa-chevron-right"></i>'],
+                    dots: <?php echo get_field('slideshow_dots', $post_id); ?>
+                });
+            });
+        </script>
+		<?php if(self::has_images($post_id)): ?>
 			<div class="waboot-slideshow">
 				<?php
-				$images = get_field('slideshow_images', 'option');
+				$images = get_field('slideshow_images', $post_id);
 				if( $images ):
 					?>
-					<div class="owl-carousel">
+					<div id="owl-<?php echo $slideshow_post->post_name; ?>" class="owl-carousel">
 						<?php foreach( $images as $image ): ?>
 							<div style="background-image: url('<?php echo $image['sizes']['large']; ?>'); height:<?php
-							if (wb_is_mobile()) { echo get_field('slideshow_height_mobile', 'option'); }
-							else { echo get_field('slideshow_height', 'option'); }
+							if (wb_is_mobile()) { echo get_field('slideshow_height_mobile', $post_id); }
+							else { echo get_field('slideshow_height', $post_id); }
 							?>px">
 								<span class="slideshow-caption"><?php echo $image['caption']; ?></span>
 							</div>
@@ -286,18 +305,56 @@ class SlideshowComponent extends Waboot_Component{
 					</div>
 				<?php endif; ?>
 			</div>
-			<script type="text/javascript">
-				jQuery(document).ready(function(){
-					jQuery(".owl-carousel").owlCarousel({
-						items: <?php echo get_field('slideshow_items', 'option'); ?>,
-						loop: <?php echo get_field('slideshow_loop', 'option'); ?>,
-						nav: <?php echo get_field('slideshow_navigation', 'option'); ?>,
-						navText: ['<i class="fa fa-chevron-left"></i>','<i class="fa fa-chevron-right"></i>'],
-						dots: <?php echo get_field('slideshow_dots', 'option'); ?>
-					});
-				});
-			</script>
 		<?php endif; ?>
 		<?php
 	}
+}
+
+class WabootSlideshowWidget extends WP_Widget{
+    function WabootSlideshowWidget() {
+        // Instantiate the parent object
+        parent::__construct( false, 'Waboot Slideshow Widget' );
+    }
+
+    function widget( $args, $instance ) {
+        if(SlideshowComponent::has_images($instance['post_id'])){
+            SlideshowComponent::display_slideshow($instance['post_id']);
+        }
+    }
+
+    function update( $new_instance, $old_instance ) {
+        $instance = $old_instance;
+        $instance['post_id'] = strip_tags( $new_instance['post_id'] );
+        return $instance;
+    }
+
+    function form( $instance ) {
+        /* Set up the default form values. */
+        $defaults = array(
+            'post_id' => '0',
+        );
+        /* Merge the user-selected arguments with the defaults. */
+        $instance = wp_parse_args( (array) $instance, $defaults );
+        $all_slideshows = get_posts(array(
+            "post_type" => "slideshow",
+            "posts_per_page" => -1
+        ));
+        ?>
+        <?php if(!empty($all_slideshows)) : ?>
+        <p>
+            <label for="<?php echo $this->get_field_id( 'post_id' ); ?>"><?php _e( 'Choose the slideshow to display:', 'waboot' ); ?></label>
+            <select id="<?php echo $this->get_field_id( 'post_id' ); ?>" name="<?php echo $this->get_field_name( 'post_id' ); ?>" class="select">
+                <option value="0" <?php selected( $instance['post_id'], '0' ); ?>><?php _e( 'Select a slideshow:', 'waboot' ); ?></option>
+                <?php foreach($all_slideshows as $k=>$v) : ?>
+                    <option value="<?php echo $v->ID; ?>" <?php selected( $instance['post_id'], $v->ID ); ?>><?php echo $v->post_title; ?></option>
+                <?php endforeach; ?>
+            </select>
+        </p>
+        <?php else: ?>
+        <p>
+           <?php _e("No slideshow defined"); ?>
+        </p>
+        <?php endif; ?>
+        <?php
+    }
 }

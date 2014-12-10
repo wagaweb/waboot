@@ -73,14 +73,9 @@
                 </div>
 		    </div><!-- #header-wrapper -->
 
-            <?php if ( is_active_sidebar( 'banner' ) || (WBF::component_is_loaded("slideshow") && SlideshowComponent::has_images()) ) : ?>
+            <?php if ( is_active_sidebar( 'banner' ) ) : ?>
                 <div id="banner-wrapper" class="<?php echo of_get_option( 'waboot_banner_width','container' ); ?>">
                     <div id="banner-inner">
-	                    <?php
-		                    if(WBF::component_is_loaded("slideshow")) {
-			                    SlideshowComponent::display_slideshow();
-		                    }
-	                    ?>
                         <?php dynamic_sidebar( 'banner' ); ?>
                     </div>
                 </div>
