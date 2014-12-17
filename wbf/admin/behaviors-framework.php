@@ -271,7 +271,10 @@ class Behavior{
     }
 
     function is_enabled_for_post_type($post_type){
-        if ( (in_array($post_type, $this->filters['post_type']) && !in_array("-$post_type", $this->filters['post_type'])) || $this->filters['post_type'] == "*") {
+        if($this->filters['post_type'] == "*" || $this->filters['post_type'] == $post_type){
+            return true;
+        }
+        elseif(in_array($post_type, $this->filters['post_type']) && !in_array("-$post_type", $this->filters['post_type'])){
             return true;
         }
 

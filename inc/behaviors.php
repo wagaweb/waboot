@@ -52,6 +52,32 @@ function waboot_behaviors($behaviors){
         "valid" => array("page","post","-{home}","{cpt}"),
 	);
 
+    $behaviors[] = array(
+        'name' => 'sidebar-size',
+        'title' => __("Sidebar width","waboot"),
+        'desc' => __("Choose the sidebar width","waboot"),
+        'type' => "select",
+        'options' => array(
+            array(
+                "name" => __("1/2","waboot"),
+                "value" => "1/2"
+            ),
+            array(
+                "name" => __("2/3","waboot"),
+                "value" => "2/3"
+            ),
+            array(
+                "name" => __("1/4","waboot"),
+                "value" => "1/4"
+            ),
+            array(
+                "name" => __("1/6","waboot"),
+                "value" => "1/6"
+            )
+        ),
+        "default" => "2/3"
+    );
+
     /***********************************************
      ***************** SAMPLES *********************
      ***********************************************/

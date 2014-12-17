@@ -7,11 +7,7 @@
  */
 
 get_header(); ?>
-    <?php if ( get_behavior( 'layout' ) == "full-width" ) : ?>
-    <div id="primary" class="<?php echo apply_filters( 'waboot_primary_container_class', 'content-area col-sm-12' ); ?>">
-    <?php else : ?>
     <div id="primary" class="<?php echo apply_filters( 'waboot_primary_container_class', 'content-area col-sm-8' ); ?>">
-    <?php endif; ?>
         <main id="main" role="main" class="site-main">
             <?php while ( have_posts() ) : the_post();  ?>
                 <?php waboot_content_nav( 'nav-above' ); // display content nav above posts? ?>

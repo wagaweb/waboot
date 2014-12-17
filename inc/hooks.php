@@ -118,6 +118,84 @@ if ( ! function_exists( 'waboot_do_archive_page_title' ) ):
     add_action( 'waboot_archive_page_title', 'waboot_do_archive_page_title' );
 endif;
 
+function waboot_primary_container_class($classes){
+    $classes_array = explode(" ",$classes);
+    if(waboot_get_sidebar_layout() == "full-width"){
+        //Remove all col- classes
+        foreach($classes_array as $k => $v){
+            if(preg_match("/col-/",$v)){
+                unset($classes_array[$k]);
+            }
+        }
+        $classes_array[] = "col-sm-12";
+    }else{
+        if(get_behavior('sidebar-size')){
+            //Remove all col- classes
+            foreach($classes_array as $k => $v){
+                if(preg_match("/col-/",$v)){
+                    unset($classes_array[$k]);
+                }
+            }
+            switch(get_behavior('sidebar-size')){
+                case '1/2':
+                    $classes_array[] = "col-sm-6";
+                    break;
+                case '2/3':
+                    $classes_array[] = "col-sm-8";
+                    break;
+                case '1/4':
+                    $classes_array[] = "col-sm-9";
+                    break;
+                case '1/6':
+                    $classes_array[] = "col-sm-10";
+                    break;
+            }
+        }
+    }
+
+    $classes = implode(" ",$classes_array);
+    return $classes;
+}
+add_filter("waboot_primary_container_class","waboot_primary_container_class");
+
+function waboot_secondary_container_class($classes){
+    $classes_array = explode(" ",$classes);
+
+    if(get_behavior('sidebar-size')){
+        //Remove all col- classes
+        foreach($classes_array as $k => $v){
+            if(preg_match("/col-/",$v)){
+                unset($classes_array[$k]);
+            }
+        }
+        switch(get_behavior('sidebar-size')){
+            case '1/2':
+                $classes_array[] = "col-sm-6";
+                break;
+            case '2/3':
+                $classes_array[] = "col-sm-4";
+                break;
+            case '1/4':
+                $classes_array[] = "col-sm-3";
+                break;
+            case '1/6':
+                $classes_array[] = "col-sm-2";
+                break;
+        }
+    }
+
+    $classes = implode(" ",$classes_array);
+    return $classes;
+}
+add_filter("waboot_secondary_container_class","waboot_secondary_container_class");
+
+function waboot_behaviors_cpts_blacklist($blacklist){
+    $blacklist[] = "metaslider";
+
+    return $blacklist;
+}
+add_filter("waboot_behaviors_cpts_blacklist","waboot_behaviors_cpts_blacklist");
+
 function waboot_add_compile_sets($sets){
     $theme = apply_filters("waboot_compiled_stylesheet_name",wp_get_theme()->stylesheet);
 
@@ -146,10 +224,3 @@ function waboot_set_compiled_stylesheet_name($name){
     }
 }
 add_filter('waboot_compiled_stylesheet_name','waboot_set_compiled_stylesheet_name');
-
-function waboot_behaviors_cpts_blacklist($blacklist){
-    $blacklist[] = "metaslider";
-
-    return $blacklist;
-}
-add_filter("waboot_behaviors_cpts_blacklist","waboot_behaviors_cpts_blacklist");

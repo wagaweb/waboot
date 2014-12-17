@@ -7,11 +7,7 @@
 
 get_header();
 ?>
-<?php if ( waboot_get_sidebar_layout() == "full-width" ) : ?>
-    <div id="primary" class="<?php echo apply_filters( 'waboot_primary_container_class', 'content-area col-sm-12' ); ?>">
-<?php else : ?>
     <div id="primary" class="<?php echo apply_filters( 'waboot_primary_container_class', 'content-area col-sm-8' ); ?>">
-<?php endif; ?>
         <main id="main" class="site-main" role="main">
             <?php if (of_get_option('waboot_blogpage_title_position') == "bottom") : ?>
                 <?php waboot_index_title('<h1 class=\'entry-header\'>', '</h1>'); ?>
