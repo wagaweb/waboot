@@ -171,16 +171,13 @@ if ( ! function_exists( 'waboot_comment' ) ) :
     }
 endif; // ends check for waboot_comment()
 
-function waboot_has_sidebar($prefix)
-{
+function waboot_has_sidebar($prefix){
     $has_sidebar = false;
-
     for ($i = 1; $i <= 4; $i++) {
         if (is_active_sidebar($prefix . "-" . $i)) {
             $has_sidebar = true;
         }
     }
-
     return $has_sidebar;
 }
 
@@ -193,7 +190,6 @@ function waboot_has_sidebar($prefix)
  * @param string $prefix Prefix of the widget to be displayed. Example: "footer" for footer-1, footer-2, etc.
  */
 function waboot_do_sidebar( $prefix = false ) {
-
     if ( ! $prefix )
         _doing_it_wrong( __FUNCTION__, __( 'You must specify a prefix when using waboot_do_sidebar.', 'waboot' ), '1.0' );
 
@@ -243,7 +239,6 @@ function waboot_do_sidebar( $prefix = false ) {
  * @since 0.1.0
  */
 function waboot_sidebar_class( $prefix = false ) {
-
     if ( ! $prefix )
         _doing_it_wrong( __FUNCTION__, __( 'You must specify a prefix when using waboot_sidebar_class.', 'waboot' ), '1.0' );
 
@@ -446,8 +441,7 @@ if (!function_exists("waboot_breadcrumb")):
 endif;
 
 if (!function_exists("waboot_topnav_wrapper")):
-    function waboot_topnav_wrapper()
-    {
+    function waboot_topnav_wrapper(){
         $social_position = of_get_option('waboot_social_position');
         $social_position_class = $social_position == "topnav-left" ? "pull-left" : "pull-right";
         $topnavmenu_position = of_get_option('waboot_topnavmenu_position');
@@ -477,3 +471,33 @@ if (!function_exists("waboot_topnav_wrapper")):
         endif;
     }
 endif;
+
+if(!function_exists("waboot_get_sidebar_layout")):
+    function waboot_get_sidebar_layout(){
+        if(is_home()){
+            return of_get_option('waboot_blogpage_sidebar_layout');
+        }else{
+            return get_behavior('layout');
+        }
+    }
+endif;
+
+if(!function_exists("waboot_get_sidebar_layouts")){
+    function waboot_get_sidebar_layouts(){
+        return apply_filters("waboot_sidebar_layouts",array(
+            array(
+                "name" => __("Full width. No sidebar.","waboot"),
+                "value" => "full-width"
+            ),
+            array(
+                "name" => __("Sidebar right","waboot"),
+                "value" => "sidebar-right"
+            ),
+            array(
+                "name" => __("Sidebar left","waboot"),
+                "value" => "sidebar-left"
+            ),
+            '_default' => 'sidebar-right'
+        ));
+    }
+}
