@@ -563,6 +563,15 @@ function optionsframework_options() {
         'type' => 'checkbox'
     );
 
+    $options[] = array(
+        'name' => __('Title position', 'waboot'),
+        'desc' => __('Select where to display page title', 'waboot'),
+        'id' => 'waboot_blogpage_title_position',
+        'std' => 'top',
+        'type' => 'select',
+        'options' => array('top' => __("Above primary","waboot"), 'bottom' => __("Below primary","waboot"))
+    );
+
     /*$options[] = array(
         'name' => __( 'Display slideshow', 'waboot' ),
         'desc' => __( 'Check this box to display the slideshow selected below.', 'waboot' ),

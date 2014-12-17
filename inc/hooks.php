@@ -146,3 +146,10 @@ function waboot_set_compiled_stylesheet_name($name){
     }
 }
 add_filter('waboot_compiled_stylesheet_name','waboot_set_compiled_stylesheet_name');
+
+function waboot_behaviors_cpts_blacklist($blacklist){
+    $blacklist[] = "metaslider";
+
+    return $blacklist;
+}
+add_filter("waboot_behaviors_cpts_blacklist","waboot_behaviors_cpts_blacklist");

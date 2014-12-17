@@ -161,6 +161,11 @@ class Behavior{
                     if(preg_match("/^-([\{\}a-zA-Z0-9_]+)/",$filter,$matches)){
                         if($matches[1] == "{home}"){
                             array_push($this->filters['node_id'],"-".get_option( 'page_for_posts' ));
+                        }elseif($matches[1] == "{cpt}"){
+                            $cpts = wp_get_filtered_post_types(apply_filters("waboot_behaviors_cpts_blacklist",array()));
+                            foreach($cpts as $k => $v){
+                                array_push($this->filters['post_type'],"-".$k);
+                            }
                         }elseif(is_numeric($matches[1])){
                             array_push($this->filters['node_id'],"-".$matches[1]);
                         }else{
@@ -169,6 +174,11 @@ class Behavior{
                     }else{
                         if($filter == "{home}"){
                             array_push($this->filters['node_id'],get_option( 'page_for_posts' ));
+                        }elseif($filter == "{cpt}"){
+                            $cpts = wp_get_filtered_post_types(apply_filters("waboot_behaviors_cpts_blacklist",array()));
+                            foreach($cpts as $k => $v){
+                                array_push($this->filters['post_type'],$k);
+                            }
                         }elseif(is_numeric($filter)){
                             array_push($this->filters['node_id'],$filter);
                         }else{
@@ -249,11 +259,11 @@ class Behavior{
             return false;
         }
 
-        if(in_array($post_type, $this->filters['post_type'])){
+        if(in_array($post_type, $this->filters['post_type']) || $this->filters['post_type'] == "*"){
             return true;
         }
 
-        if(in_array("$id",$this->filters['node_id'])){
+        if(in_array("$id",$this->filters['node_id']) || $this->filters['node_id'] == "*"){
             return true;
         }
 
