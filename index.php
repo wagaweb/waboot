@@ -6,15 +6,14 @@
  */
 
 get_header();
-$indexPage = get_queried_object();
 ?>
-<?php if ( get_behavior( 'layout' ) == "full-width" ) : ?>
+<?php if ( waboot_get_sidebar_layout() == "full-width" ) : ?>
     <div id="primary" class="<?php echo apply_filters( 'waboot_primary_container_class', 'content-area col-sm-12' ); ?>">
 <?php else : ?>
     <div id="primary" class="<?php echo apply_filters( 'waboot_primary_container_class', 'content-area col-sm-8' ); ?>">
 <?php endif; ?>
         <main id="main" class="site-main" role="main">
-            <?php if (get_behavior('title-position', $indexPage->ID) == "bottom") : ?>
+            <?php if (get_behavior('title-position') == "bottom") : ?>
                 <?php waboot_index_title('<h1 class=\'entry-header\'>', '</h1>'); ?>
             <?php endif; ?>
             <?php if ( have_posts() ) : ?>
@@ -26,7 +25,18 @@ $indexPage = get_queried_object();
                      * If you want to override this in a child theme then include a file
                      * called content-___.php (where ___ is the Post Format name) and that will be used instead.
                      */
-                    get_template_part( '/templates/parts/content', get_post_format() );
+                    switch(of_get_option("waboot_blogpage_layout")){
+                        case 'timeline':
+                            get_template_part( '/templates/parts/content', "blog-timeline" );
+                            break;
+                        case 'masonry':
+                            get_template_part( '/templates/parts/content', "blog-masonry" );
+                            break;
+                        case 'blog':
+                        default:
+                            get_template_part( '/templates/parts/content', get_post_format() );
+                            break;
+                    }
                 }
                 ?>
                 <?php waboot_content_nav( 'nav-below' ); // display content nav below posts? ?>
