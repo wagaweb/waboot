@@ -13,7 +13,7 @@ get_header();
     <div id="primary" class="<?php echo apply_filters( 'waboot_primary_container_class', 'content-area col-sm-8' ); ?>">
 <?php endif; ?>
         <main id="main" class="site-main" role="main">
-            <?php if (get_behavior('title-position') == "bottom") : ?>
+            <?php if (of_get_option('waboot_blogpage_title_position') == "bottom") : ?>
                 <?php waboot_index_title('<h1 class=\'entry-header\'>', '</h1>'); ?>
             <?php endif; ?>
             <?php if ( have_posts() ) : ?>

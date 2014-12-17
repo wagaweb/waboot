@@ -19,7 +19,7 @@ function waboot_behaviors($behaviors){
         ),
         "type" => "select",
         "default" => 1,
-        "valid" => array("page","-{home}")
+        "valid" => array("page","post","-{home}","{cpt}")
 	);
 
 	$behaviors[] = array(
@@ -38,7 +38,7 @@ function waboot_behaviors($behaviors){
 			)
 		),
         "default" => "top",
-        "valid" => array("page")
+        "valid" => array("page","post","-{home}","{cpt}")
 	);
 
     $body_layouts = wbf_sanitize_of_array_values(waboot_get_sidebar_layouts());
@@ -49,7 +49,7 @@ function waboot_behaviors($behaviors){
         "options" => $body_layouts['values'],
         "type" => "select",
         "default" => $body_layouts['default'],
-        "valid" => array("post","page","-{home}"),
+        "valid" => array("page","post","-{home}","{cpt}"),
 	);
 
     /***********************************************
