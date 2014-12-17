@@ -155,12 +155,30 @@ class Behavior{
 
 		if(isset($args['valid'])){
 			$this->filters['post_type'] = array();
+            $this->filters['node_id'] = array();
 			if(is_array($args['valid'])){
-				foreach($args['valid'] as $pt){
-					array_push($this->filters['post_type'],$pt);
+				foreach($args['valid'] as $filter){
+                    if(preg_match("/^-([\{\}a-zA-Z0-9_]+)/",$filter,$matches)){
+                        if($matches[1] == "{home}"){
+                            array_push($this->filters['node_id'],"-".get_option( 'page_for_posts' ));
+                        }elseif(is_numeric($matches[1])){
+                            array_push($this->filters['node_id'],"-".$matches[1]);
+                        }else{
+                            array_push($this->filters['post_type'],"-".$matches[1]);
+                        }
+                    }else{
+                        if($filter == "{home}"){
+                            array_push($this->filters['node_id'],get_option( 'page_for_posts' ));
+                        }elseif(is_numeric($filter)){
+                            array_push($this->filters['node_id'],$filter);
+                        }else{
+                            array_push($this->filters['post_type'],$filter);
+                        }
+                    }
 				}
 			}else{
 				array_push($this->filters['post_type'],$args['valid']);
+				//todo: manca di compilare node_id
 			}
 		}
 	}
@@ -214,26 +232,36 @@ class Behavior{
         $this->value = $value;
 	}
 
-    function is_enabled_for_current_node()
-    {
+    function is_enabled_for_current_node(){
         global $post;
 
         return $this->is_enable_for_node($post->ID);
     }
 
-    function is_enable_for_node($id)
-    {
+    function is_enable_for_node($id){
         $post_type = get_post_type($id);
 
-        if (in_array($post_type, $this->filters['post_type']) || $this->filters['post_type'] == "*") {
+        if($this->filters['post_type'] == "*" && $this->filters['node_id'] == "*"){
             return true;
-		}
+        }
+
+        if(in_array("-$post_type",$this->filters['post_type']) || in_array("-$id",$this->filters['node_id'])){
+            return false;
+        }
+
+        if(in_array($post_type, $this->filters['post_type'])){
+            return true;
+        }
+
+        if(in_array("$id",$this->filters['node_id'])){
+            return true;
+        }
 
         return false;
     }
 
     function is_enabled_for_post_type($post_type){
-        if (in_array($post_type, $this->filters['post_type']) || $this->filters['post_type'] == "*") {
+        if ( (in_array($post_type, $this->filters['post_type']) && !in_array("-$post_type", $this->filters['post_type'])) || $this->filters['post_type'] == "*") {
             return true;
         }
 
@@ -462,8 +490,14 @@ class Behavior{
 function wbf_get_behavior($name, $post_id = 0, $return = "value")
 {
     if ($post_id == 0) {
-        global $post;
-        $post_id = $post->ID;
+
+        if(is_home()){
+            $post_id = get_queried_object_id();
+        }else{
+            global $post;
+            $post_id = $post->ID;
+        }
+
     }
 
     $b = BehaviorsManager::get($name, $post_id);
