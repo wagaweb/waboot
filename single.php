@@ -7,7 +7,11 @@
  */
 
 get_header(); ?>
+    <?php if ( get_behavior( 'layout' ) == "full-width" ) : ?>
+    <div id="primary" class="<?php echo apply_filters( 'waboot_primary_container_class', 'content-area col-sm-12' ); ?>">
+    <?php else : ?>
     <div id="primary" class="<?php echo apply_filters( 'waboot_primary_container_class', 'content-area col-sm-8' ); ?>">
+    <?php endif; ?>
         <main id="main" role="main" class="site-main">
             <?php while ( have_posts() ) : the_post();  ?>
                 <?php waboot_content_nav( 'nav-above' ); // display content nav above posts? ?>
@@ -16,10 +20,7 @@ get_header(); ?>
                  * If you want to override this in a child theme then include a file
                  * called content-___.php (where ___ is the Post Format name) and that will be used instead.
                  */
-                if(isset($post_format))
-                    get_template_part( '/templates/parts/content', $post_format);
-                else
-                    get_template_part( '/templates/parts/content');
+                get_template_part( '/templates/parts/content', get_post_format() );
                 ?>
                 <?php waboot_content_nav( 'nav-below' ); // display content nav below posts? ?>
                 <?php // If comments are open or we have at least one comment, load up the comment template
