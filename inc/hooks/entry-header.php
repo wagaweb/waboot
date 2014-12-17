@@ -61,8 +61,7 @@ add_action("waboot_before_inner","waboot_print_entry_title_before_inner");
 function waboot_print_entry_title_before_inner(){
 	global $post;
     if( is_home() ){
-        $indexPage = get_queried_object();
-        if ( get_behavior('title-position', $indexPage->ID) == "top" ) {
+        if ( of_get_option('waboot_blogpage_title_position') == "top" ) {
             add_filter("waboot_entry_title_text_singular", "waboot_entry_title_before_inner_markup");
             waboot_index_title('<div class="title-wrapper"><div class="container"><h1 class=\'entry-header\'>', '</h1></div></div>');
         }
