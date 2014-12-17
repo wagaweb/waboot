@@ -19,7 +19,7 @@ function waboot_behaviors($behaviors){
         ),
         "type" => "select",
         "default" => 1,
-        "valid" => array("page")
+        "valid" => array("page","-{home}")
 	);
 
 	$behaviors[] = array(
@@ -41,27 +41,15 @@ function waboot_behaviors($behaviors){
         "valid" => array("page")
 	);
 
+    $body_layouts = wbf_sanitize_of_array_values(waboot_get_sidebar_layouts());
 	$behaviors[] = array(
 		"name" => "layout",
         "title" => __("Body layout","waboot"),
         "desc" => __("Default body layout for posts and pages","waboot"),
-        "options" => array(
-            array(
-	            "name" => __("Full width. No sidebar.","waboot"),
-                "value" => "full-width"
-            ),
-            array(
-	            "name" => __("Sidebar right","waboot"),
-                "value" => "sidebar-right"
-            ),
-            array(
-	            "name" => __("Sidebar left","waboot"),
-                "value" => "sidebar-left"
-			)
-		),
+        "options" => $body_layouts['values'],
         "type" => "select",
-        "default" => "sidebar-right",
-        "valid" => array("post","page")
+        "default" => $body_layouts['default'],
+        "valid" => array("post","page","-{home}"),
 	);
 
     /***********************************************
