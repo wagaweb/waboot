@@ -77,6 +77,18 @@ if ( !function_exists("array_neighbor") ) :
 	}
 endif;
 
+if ( !function_exists("recursive_array_search") ) :
+function recursive_array_search($needle,$haystack) {
+    foreach($haystack as $key=>$value) {
+        $current_key=$key;
+        if($needle===$value OR (is_array($value) && recursive_array_search($needle,$value) !== false)) {
+            return $current_key;
+        }
+    }
+    return false;
+}
+endif;
+
 if ( !function_exists("remote_file_size") ) :
 	/**
 	 * Get Remote File Size
