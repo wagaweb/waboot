@@ -85,4 +85,4 @@
                 <?php waboot_breadcrumb(null, 'before_inner', array('wrapper_start'=>'<div class="container">','wrapper_end'=>'</div>')); ?>
 				<?php do_action("waboot_before_inner"); ?>
                 <div id="content-inner" class="<?php echo of_get_option( 'waboot_content_width','container' ); ?>">
-                    <div id="content" class="site-content row <?php if(get_behavior('layout') == "sidebar-left") echo 'sidebar-left'; ?>">
+                    <div id="content" class="site-content row <?php if(waboot_get_sidebar_layout() == "sidebar-left") echo 'sidebar-left'; ?>">
