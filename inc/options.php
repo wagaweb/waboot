@@ -483,7 +483,7 @@ function optionsframework_options() {
 
 
     /*
-    * PAGES TAB
+    * BEHAVIORS TAB
     */
 
     if(class_exists("BehaviorsManager")) :
@@ -515,6 +515,61 @@ function optionsframework_options() {
         }
 
     endif;
+
+    /*
+     * BLOG PAGE TAB
+     */
+
+    $options[] = array(
+        'name' => __( 'Blog page', 'waboot' ),
+        'type' => 'heading'
+    );
+
+    $blogpage_layouts = wbf_sanitize_of_array_values(apply_filters("waboot_blogpage_layout",array(
+        'blog' => $imagepath . 'topnav/top-nav-left.png',
+        'timeline' => $imagepath . 'topnav/top-nav-right.png',
+        'masonry' => $imagepath . 'topnav/top-nav-right.png',
+        '_default' => 'blog'
+    )));
+
+    $options[] = array(
+        'name' => __('Layout', 'waboot'),
+        'desc' => __('Select blog page layout', 'waboot'),
+        'id' => 'waboot_blogpage_layout',
+        'std' => $blogpage_layouts['default'],
+        'type' => 'images',
+        'options' => $blogpage_layouts['values']
+    );
+
+    $sidebar_layouts = wbf_sanitize_of_array_values(waboot_get_sidebar_layouts());
+    foreach($sidebar_layouts['values'] as $k => $v){
+        $final_sidebar_layouts[$v['value']] = $v['name'];
+    }
+
+    $options[] = array(
+        'name' => __('Sidebar layout', 'waboot'),
+        'desc' => __('Select blog page sidebar layout', 'waboot'),
+        'id' => 'waboot_blogpage_sidebar_layout',
+        'std' => $sidebar_layouts['default'],
+        'type' => 'select',
+        'options' => $final_sidebar_layouts
+    );
+
+    $options[] = array(
+        'name' => __( 'Display page title', 'waboot' ),
+        'desc' => __( 'Check this box to show page title.', 'waboot' ),
+        'id'   => 'waboot_blogpage_displaytitle',
+        'std'  => '1',
+        'type' => 'checkbox'
+    );
+
+    /*$options[] = array(
+        'name' => __( 'Display slideshow', 'waboot' ),
+        'desc' => __( 'Check this box to display the slideshow selected below.', 'waboot' ),
+        'id'   => 'waboot_blogpage_displayslideshow',
+        'std'  => '1',
+        'type' => 'checkbox'
+    );*/
 
     /*
      * POSTS TAB
