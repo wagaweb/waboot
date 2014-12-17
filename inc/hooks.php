@@ -6,20 +6,15 @@ require_once("hooks/entry-footer.php");
 if ( ! function_exists( 'waboot_do_site_title' ) ):
     /**
      * Displays site title at top of page
-     *
      * @since 0.1.0
      */
     function waboot_do_site_title() {
-
-        // Use H1 on home, paragraph elsewhere
+        // Use H1
         $element = 'h1';
-
         // Title content that goes inside wrapper
         $site_name = sprintf( '<a href="%s" title="%s" rel="home">%s</a>', trailingslashit( home_url() ), esc_attr( get_bloginfo( 'name' ) ), get_bloginfo( 'name' ) );
-
         // Put it all together
         $title = '<' . $element . ' id="site-title" class="site-title">' . $site_name . '</' . $element .'>';
-
         // Echo the title
         echo apply_filters( 'waboot_site_title_content', $title );
     }
@@ -29,17 +24,13 @@ endif;
 if( ! function_exists( 'waboot_do_site_description' ) ):
     /**
      * Displays site description at top of page
-     *
      * @since 0.1.0
      */
     function waboot_do_site_description() {
-
-        // Use H2 on home, paragraph elsewhere
+        // Use H2
         $element = 'h2';
-
         // Put it all together
         $description = '<' . $element . ' id="site-description" class="site-description">' . esc_html( get_bloginfo( 'description' ) ) . '</' . $element . '>';
-
         // Echo the description
         echo apply_filters( 'waboot_site_description_content', $description );
     }
@@ -52,7 +43,6 @@ if ( ! function_exists( 'waboot_do_archive_page_title' ) ):
      * @since 0.1.0
      */
     function waboot_do_archive_page_title() { ?>
-
         <header class="page-header">
             <h1 class="page-title">
                 <?php
@@ -118,17 +108,62 @@ if ( ! function_exists( 'waboot_do_archive_page_title' ) ):
     add_action( 'waboot_archive_page_title', 'waboot_do_archive_page_title' );
 endif;
 
-function waboot_primary_container_class($classes){
-    $classes_array = explode(" ",$classes);
-    if(waboot_get_sidebar_layout() == "full-width"){
-        //Remove all col- classes
-        foreach($classes_array as $k => $v){
-            if(preg_match("/col-/",$v)){
-                unset($classes_array[$k]);
+if ( ! function_exists( 'waboot_primary_container_class' ) ):
+    /**
+     * Prepare the classes for primary container
+     * @param $classes
+     * @return string
+     */
+    function waboot_primary_container_class($classes){
+        $classes_array = explode(" ",$classes);
+        if(waboot_get_sidebar_layout() == "full-width"){
+            //Remove all col- classes
+            foreach($classes_array as $k => $v){
+                if(preg_match("/col-/",$v)){
+                    unset($classes_array[$k]);
+                }
+            }
+            $classes_array[] = "col-sm-12";
+        }else{
+            if(get_behavior('sidebar-size')){
+                //Remove all col- classes
+                foreach($classes_array as $k => $v){
+                    if(preg_match("/col-/",$v)){
+                        unset($classes_array[$k]);
+                    }
+                }
+                switch(get_behavior('sidebar-size')){
+                    case '1/2':
+                        $classes_array[] = "col-sm-6";
+                        break;
+                    case '2/3':
+                        $classes_array[] = "col-sm-8";
+                        break;
+                    case '1/4':
+                        $classes_array[] = "col-sm-9";
+                        break;
+                    case '1/6':
+                        $classes_array[] = "col-sm-10";
+                        break;
+                }
             }
         }
-        $classes_array[] = "col-sm-12";
-    }else{
+
+        $classes = implode(" ",$classes_array);
+        return $classes;
+    }
+    add_filter("waboot_primary_container_class","waboot_primary_container_class");
+endif;
+
+if ( ! function_exists( 'waboot_secondary_container_class' ) ):
+    /**
+     * Prepare the classes for secondary container (the sidebar)
+     * @param $classes
+     * @return string
+     */
+    function waboot_secondary_container_class($classes){
+        $classes_array = explode(" ",$classes);
+
         if(get_behavior('sidebar-size')){
             //Remove all col- classes
             foreach($classes_array as $k => $v){
@@ -141,60 +176,35 @@ function waboot_primary_container_class($classes){
                     $classes_array[] = "col-sm-6";
                     break;
                 case '2/3':
-                    $classes_array[] = "col-sm-8";
+                    $classes_array[] = "col-sm-4";
                     break;
                 case '1/4':
-                    $classes_array[] = "col-sm-9";
+                    $classes_array[] = "col-sm-3";
                     break;
                 case '1/6':
-                    $classes_array[] = "col-sm-10";
+                    $classes_array[] = "col-sm-2";
                     break;
             }
         }
+
+        $classes = implode(" ",$classes_array);
+        return $classes;
     }
+    add_filter("waboot_secondary_container_class","waboot_secondary_container_class");
+endif;
 
-    $classes = implode(" ",$classes_array);
-    return $classes;
-}
-add_filter("waboot_primary_container_class","waboot_primary_container_class");
-
-function waboot_secondary_container_class($classes){
-    $classes_array = explode(" ",$classes);
-
-    if(get_behavior('sidebar-size')){
-        //Remove all col- classes
-        foreach($classes_array as $k => $v){
-            if(preg_match("/col-/",$v)){
-                unset($classes_array[$k]);
-            }
-        }
-        switch(get_behavior('sidebar-size')){
-            case '1/2':
-                $classes_array[] = "col-sm-6";
-                break;
-            case '2/3':
-                $classes_array[] = "col-sm-4";
-                break;
-            case '1/4':
-                $classes_array[] = "col-sm-3";
-                break;
-            case '1/6':
-                $classes_array[] = "col-sm-2";
-                break;
-        }
+if ( ! function_exists( 'waboot_behaviors_cpts_blacklist' ) ):
+    /**
+     * Puts some custom post types into blacklist (in these post types the behavior will never be displayed)
+     * @param $blacklist
+     * @return array
+     */
+    function waboot_behaviors_cpts_blacklist($blacklist){
+        $blacklist[] = "metaslider";
+        return $blacklist;
     }
-
-    $classes = implode(" ",$classes_array);
-    return $classes;
-}
-add_filter("waboot_secondary_container_class","waboot_secondary_container_class");
-
-function waboot_behaviors_cpts_blacklist($blacklist){
-    $blacklist[] = "metaslider";
-
-    return $blacklist;
-}
-add_filter("waboot_behaviors_cpts_blacklist","waboot_behaviors_cpts_blacklist");
+    add_filter("waboot_behaviors_cpts_blacklist","waboot_behaviors_cpts_blacklist");
+endif;
 
 function waboot_add_compile_sets($sets){
     $theme = apply_filters("waboot_compiled_stylesheet_name",wp_get_theme()->stylesheet);

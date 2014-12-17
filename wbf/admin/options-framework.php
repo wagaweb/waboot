@@ -104,6 +104,42 @@ function wbf_is_admin_of_page($hook){
 	return false;
 }
 
+/**
+ * Takes an array of options and returns the values themselves and the default value
+ * @usage
+ *
+ * A typical array should be like this:
+ *
+ * array(
+ *       array(
+ *           "name" => __("Full width. No sidebar.","waboot"),
+ *           "value" => "full-width"
+ *       ),
+ *       array(
+ *           "name" => __("Sidebar right","waboot"),
+ *           "value" => "sidebar-right"
+ *       ),
+ *       array(
+ *           "name" => __("Sidebar left","waboot"),
+ *           "value" => "sidebar-left"
+ *       ),
+ *       '_default' => 'sidebar-right'
+ * )
+ *
+ * OR (more general):
+ *
+ * array(
+ *       'opt1'
+ *       'opt2,
+ *       'opt2,
+ *       '_default' => 'opt1'
+ * )
+ *
+ * IF '_default' is not set or does not exists in the array, the function returns the first value (ore the 'value' field of the first key)
+ *
+ * @param $values
+ * @return array
+ */
 function wbf_sanitize_of_array_values($values){
     $default = false;
 
