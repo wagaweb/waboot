@@ -103,3 +103,34 @@ function wbf_is_admin_of_page($hook){
 
 	return false;
 }
+
+function wbf_sanitize_of_array_values($values){
+    $default = false;
+
+    if(isset($values['_default'])){
+        if(array_key_exists($values['_default'],$values)){
+            $default = $values['_default'];
+        }else{
+            foreach($values as $v){
+                if(is_array($v)){
+                    if($v['value'] == $values['_default']){
+                        $default = $values['_default'];
+                    }
+                }
+            }
+        }
+    }
+    if(!isset($values['_default']) || $default == false){
+        reset($values);
+        $default = key($values);
+        if(is_array($values[$default])){
+            $default = $values[$default]['value'];
+        }
+    }
+    if(isset($values['_default'])) unset($values['_default']);
+
+    return array(
+        'values' => $values,
+        'default' => $default
+    );
+}
