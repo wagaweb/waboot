@@ -42,7 +42,7 @@ add_action( 'waboot_entry_header', 'waboot_print_entry_header' );
 function waboot_index_title($prefix = "", $suffix = "", $display = true)
 {
     $_post = get_queried_object();
-    if (get_behavior('show-title', $_post->ID) == "1") {
+    if (of_get_option('waboot_blogpage_displaytitle') == "1") {
         $title = $prefix . apply_filters('waboot_index_title_text', single_post_title('', false)) . $suffix;
     } else {
         $title = "";
