@@ -11,6 +11,8 @@ class SlideshowComponent extends Waboot_Component{
 
 	public function setup(){
 		parent::setup();
+		// Banner Preset Image
+		add_image_size('banner', 1280, 500, array('center', 'center') ); // (cropped)
         // Register post type
         register_post_type('slideshow', array(
             'public' => true,
@@ -223,6 +225,35 @@ class SlideshowComponent extends Waboot_Component{
 						'disabled' => 0,
 						'readonly' => 0,
 					),
+					array (
+						'key' => 'field_wb_slideshow_type',
+						'label' => 'Slideshow Type',
+						'name' => 'slideshow_type',
+						'prefix' => '',
+						'type' => 'select',
+						'instructions' => '',
+						'required' => 1,
+						'conditional_logic' => 0,
+						'wrapper' => array (
+							'width' => '',
+							'class' => '',
+							'id' => '',
+						),
+						'choices' => array (
+							'fixed' => 'Fixed',
+							'fluid' => 'Fluid',
+						),
+						'default_value' => array (
+							'fixed' => 'Fixed',
+						),
+						'allow_null' => 0,
+						'multiple' => 0,
+						'ui' => 0,
+						'ajax' => 0,
+						'placeholder' => '',
+						'disabled' => 0,
+						'readonly' => 0,
+					),
 				),
 				'location' => array (
 					array (
@@ -281,7 +312,10 @@ class SlideshowComponent extends Waboot_Component{
 				<?php
 				$images = get_field('slideshow_images', $post_id);
 				if( $images ):
-					?>
+				?>
+
+					<?php if (get_field('slideshow_type', $post_id) == 'fixed') : ?>
+
 					<div id="owl-<?php echo $slideshow_post->post_name; ?>" class="owl-carousel">
 						<?php foreach( $images as $image ): ?>
 							<div style="background-image: url('<?php echo $image['sizes']['large']; ?>'); height:<?php
@@ -292,6 +326,23 @@ class SlideshowComponent extends Waboot_Component{
 							</div>
 						<?php endforeach; ?>
 					</div>
+
+					<?php elseif (get_field('slideshow_type', $post_id) == 'fluid') : ?>
+
+					<div id="owl-<?php echo $slideshow_post->post_name; ?>" class="owl-carousel">
+						<?php foreach( $images as $image ): ?>
+							<div style="overflow:hidden; max-height:<?php
+							if (wb_is_mobile()) { echo get_field('slideshow_height_mobile', $post_id); }
+							else { echo get_field('slideshow_height', $post_id); }
+							?>px">
+								<img src="<?php echo $image['sizes']['banner']; ?>" />
+								<span class="slideshow-caption"><?php echo $image['caption']; ?></span>
+							</div>
+						<?php endforeach; ?>
+					</div>
+
+					<?php endif; ?>
+
 				<?php endif; ?>
 			</div>
             <script type="text/javascript">
