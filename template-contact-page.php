@@ -1,6 +1,6 @@
 <?php
 /*
-Template Name: Contact Page
+/* Template DISABLED Name: Contact Page
 */
 ?>
 
