@@ -59,7 +59,7 @@ function waboot_compile_less($params = array()){
 
         if(can_compile()){
             //if(Waboot_Cache::needs_to_compile($less_files,$cachedir)){ //since we use the "Compile" button, we dont need this check anymore
-            update_option('waboot_compiling_less_flag',1) or add_option('waboot_compiling_less_flag',1,'',true);
+            update_option('waboot_compiling_less_flag',1) or add_option('waboot_compiling_less_flag',1,'',true); //lock the compiler
 
             $css_file_name = Less_Cache::Get(
                 $less_files,
@@ -75,7 +75,7 @@ function waboot_compile_less($params = array()){
 
             file_put_contents($outputFile, $css);
 
-            update_option('waboot_compiling_less_flag',0);
+            update_option('waboot_compiling_less_flag',0); //release the compiler
             if ( current_user_can( 'manage_options' ) ) {
 	            if(is_admin()){
 		            if(isset($GLOBALS['option_page']) && $GLOBALS['option_page'] == 'optionsframework'){
@@ -89,9 +89,10 @@ function waboot_compile_less($params = array()){
             }
             //}
         }else{
-	        throw new Exception("The compiler is busy.");
+	        throw new WabootCompilerBusyException();
         }
-    }catch (exception $e) {
+    }catch (Exception $e) {
+	    if(!$e instanceof WabootCompilerBusyException) update_option('waboot_compiling_less_flag',0); //release the compiler
         $wpe = new WP_Error( 'less-compile-failed', $e->getMessage() );
         if ( current_user_can( 'manage_options' ) ) {
 	        if(is_admin()){
@@ -174,4 +175,13 @@ function parse_input_file($filepath){
 	}
 
 	return $filepath;
+}
+
+class WabootCompilerBusyException extends Exception{
+	public function __construct($message = null, $code = 0, Exception $previous = null) {
+		if(!isset($message)){
+			$message = __("The compiler is busy","waboot");
+		}
+		parent::__construct($message, $code, $previous);
+	}
 }
