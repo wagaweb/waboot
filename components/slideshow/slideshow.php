@@ -19,7 +19,6 @@ class SlideshowComponent extends Waboot_Component{
             'label'  => __("Slideshows","waboot"),
             'supports' => array('title','revisions','author')
         ));
-
 		// Slideshow Fields
 		if( function_exists('register_field_group') ):
 			register_field_group(array (
@@ -273,12 +272,35 @@ class SlideshowComponent extends Waboot_Component{
 			));
 
 		endif;
-
+        // Register widget
         add_action( 'widgets_init', array($this,'register_widget') );
+        // Register shortcode
+        add_shortcode( "wbslideshow" , array($this,'shortcode') );
+        // Add metabox for shortcode usage
+        add_action( 'add_meta_boxes_slideshow', array($this,'register_metabox') );
 	}
 
     public function register_widget(){
         register_widget("WabootSlideshowWidget");
+    }
+
+    public function shortcode($atts){
+        if(isset($atts['id'])){
+            $this->display_slideshow($atts['id']);
+        }
+    }
+
+    public function register_metabox(){
+        add_meta_box( 'wbslieshow-usage', __("Usage","waboot"), array($this,"usage_metabox"), "slideshow", "side", "low");
+    }
+
+    public function usage_metabox($post){
+        ?>
+        <p><?php _e("Copy & paste the shortcode directly into any WordPress post or page.","waboot"); ?></p>
+        <p>
+            <code>[wbslideshow id=<?php echo $post->ID; ?>]</code>
+        </p>
+        <?php
     }
 
 	public function scripts(){
@@ -306,6 +328,8 @@ class SlideshowComponent extends Waboot_Component{
             $post_id = $post->ID;
         }
         $slideshow_post = get_post($post_id);
+        $slideshow_type = get_field('slideshow_type', $post_id);
+        if(!isset($slideshow_type)) $slideshow_type = "fixed";
         ?>
 		<?php if(self::has_images($post_id)): ?>
 			<div class="waboot-slideshow">
@@ -314,7 +338,7 @@ class SlideshowComponent extends Waboot_Component{
 				if( $images ):
 				?>
 
-					<?php if (get_field('slideshow_type', $post_id) == 'fixed') : ?>
+					<?php if ($slideshow_type == 'fixed') : ?>
 
 					<div id="owl-<?php echo $slideshow_post->post_name; ?>" class="owl-carousel">
 						<?php foreach( $images as $image ): ?>
@@ -327,7 +351,7 @@ class SlideshowComponent extends Waboot_Component{
 						<?php endforeach; ?>
 					</div>
 
-					<?php elseif (get_field('slideshow_type', $post_id) == 'fluid') : ?>
+					<?php elseif ($slideshow_type == 'fluid') : ?>
 
 					<div id="owl-<?php echo $slideshow_post->post_name; ?>" class="owl-carousel">
 						<?php foreach( $images as $image ): ?>
