@@ -60,6 +60,7 @@ function waboot_compile_less($params = array()){
         if(can_compile()){
             //if(Waboot_Cache::needs_to_compile($less_files,$cachedir)){ //since we use the "Compile" button, we dont need this check anymore
             update_option('waboot_compiling_less_flag',1) or add_option('waboot_compiling_less_flag',1,'',true); //lock the compiler
+            update_option('waboot_compiling_less_last_attempt',time()) or add_option('waboot_compiling_less_last_attempt',time(),'',true); //keep note of the current time
 
             $css_file_name = Less_Cache::Get(
                 $less_files,
@@ -108,6 +109,42 @@ function waboot_compile_less($params = array()){
     }
 }
 
+function waboot_clear_less_cache(){
+    update_option('waboot_compiling_less_flag',0); //release the compiler
+    $cachedir = get_stylesheet_directory()."/assets/cache";
+    if(is_dir($cachedir)){
+        $files = glob($cachedir."/*");
+        foreach($files as $file){ // iterate files
+            if(is_file($file))
+                unlink($file); // delete file
+        }
+        if(is_admin()){
+            add_action( 'admin_notices', 'cache_cleared_admin_notice');
+        }else{
+            echo '<div class="alert alert-success"><p>'.__('Theme cache cleared successfully!', 'wbf').'</p></div>';
+        }
+    }
+}
+
+/**
+ * Releases the compiler lock if is passed too much time since last compilation attempt
+ * @param int $timelimit (in minutes)
+ */
+function waboot_maybe_release_compiler_lock($timelimit = 10){
+    if(!can_compile()){
+        $last_attempt = get_option("waboot_compiling_less_last_attempt");
+        if(!$last_attempt){
+            update_option('waboot_compiling_less_flag',0); //release the compiler just to be sure
+        }else{
+            $current_time = time();
+            $time_diff = ($current_time - $last_attempt)/60;
+            if($time_diff > $timelimit){ //10 minutes
+                update_option('waboot_compiling_less_flag',0); //release the compiler
+            }
+        }
+    }
+}
+
 function less_compiled_admin_notice() {
 	?>
 	<div class="updated">
@@ -124,11 +161,19 @@ function less_compile_error_admin_notice() {
 <?php
 }
 
+function cache_cleared_admin_notice() {
+    ?>
+    <div class="updated">
+        <p><?php _e( 'Theme cache cleared successfully!', 'wbf' ); ?></p>
+    </div>
+<?php
+}
+
 /**
  * Check if the compiler is not already busy
  */
 function can_compile(){
-	$busyflag = get_option("waboot_compiling_less_flag",true);
+	$busyflag = get_option("waboot_compiling_less_flag",0);
 	if($busyflag && $busyflag != 0){
 		return false;
 	}

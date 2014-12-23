@@ -15,6 +15,7 @@ define("WBF_PUBLIC_DIRECTORY", __DIR__ . "/public");
 
 require_once("wbf-autoloader.php");
 include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+locate_template( '/wbf/includes/compiler/less-php/compiler.php', true );
 
 $md = WBF::get_mobile_detect();
 
@@ -352,11 +353,23 @@ $WabootThemeUpdateChecker = new ThemeUpdateChecker(
 );
 
 /**
+ * Releasing the compiler lock if is passed too much time since last compilation attempt
+ */
+waboot_maybe_release_compiler_lock();
+/**
  * Less compiling
  */
 if (isset($_GET['compile']) && $_GET['compile'] == true) {
     if (current_user_can('manage_options')) {
-	    locate_template( '/wbf/includes/compiler/less-php/compiler.php', true );
+        waboot_compile_less();
+    }
+}
+/**
+ * Clearing Compiler Cache
+ */
+if (isset($_GET['clear_cache'])) {
+    if (current_user_can('manage_options')) {
+        waboot_clear_less_cache();
         waboot_compile_less();
     }
 }
