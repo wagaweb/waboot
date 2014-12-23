@@ -19,7 +19,7 @@ function waboot_behaviors($behaviors){
         ),
         "type" => "select",
         "default" => 1,
-        "valid" => array("page","post","-{home}","{cpt}")
+        "valid" => array("page","post","-{home}","{cpt}","-slideshow")
 	);
 
 	$behaviors[] = array(
@@ -38,7 +38,7 @@ function waboot_behaviors($behaviors){
 			)
 		),
         "default" => "top",
-        "valid" => array("page","post","-{home}","{cpt}")
+        "valid" => array("page","post","-{home}","{cpt}","-slideshow")
 	);
 
     $body_layouts = wbf_sanitize_of_array_values(waboot_get_sidebar_layouts());
@@ -49,7 +49,7 @@ function waboot_behaviors($behaviors){
         "options" => $body_layouts['values'],
         "type" => "select",
         "default" => $body_layouts['default'],
-        "valid" => array("page","post","-{home}","{cpt}"),
+        "valid" => array("page","post","-{home}","{cpt}","-slideshow"),
 	);
 
     $behaviors[] = array(
@@ -75,7 +75,8 @@ function waboot_behaviors($behaviors){
                 "value" => "1/6"
             )
         ),
-        "default" => "2/3"
+        "default" => "2/3",
+        "valid" => array('*','-slideshow')
     );
 
     /***********************************************
