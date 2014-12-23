@@ -255,6 +255,10 @@ class Behavior{
             return true;
         }
 
+        if((in_array("*",$this->filters['post_type']) && !in_array("-$post_type",$this->filters['post_type'])) || (in_array("*",$this->filters['node_id']) && !in_array("-$id",$this->filters['node_id'])) ){
+            return true;
+        }
+
         if(in_array("-$post_type",$this->filters['post_type']) || in_array("-$id",$this->filters['node_id'])){
             return false;
         }
