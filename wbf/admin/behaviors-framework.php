@@ -52,6 +52,18 @@ class BehaviorsManager{
 		return $behaviors;
 	}
 
+    static function count_behaviors_for_post_type($slug){
+        $behaviors = self::getAll();
+        $count = 0;
+        foreach($behaviors as $b){
+            if($b->is_enabled_for_post_type($slug)){
+                $count++;
+            }
+        }
+
+        return $count;
+    }
+
 	static function importPredefined(){
 		$predef_behaviors = array();
 
