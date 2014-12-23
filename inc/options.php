@@ -533,8 +533,8 @@ function optionsframework_options() {
 
     $blogpage_layouts = wbf_sanitize_of_array_values(apply_filters("waboot_blogpage_layout",array(
         'blog' => $imagepath . 'blog/default-blog.png',
-        'timeline' => $imagepath . 'blog/masonry-blog.png',
-        'masonry' => $imagepath . 'blog/timeline-blog.png',
+        'masonry' => $imagepath . 'blog/masonry-blog.png',
+        'timeline' => $imagepath . 'blog/timeline-blog.png',
         '_default' => 'blog'
     )));
 
