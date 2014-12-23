@@ -104,7 +104,7 @@ class Waboot_Options_Framework_Admin extends Options_Framework_Admin{
 
 			<h3><?php _e( "Export or Backup Theme Options", "waboot" ); ?></h3>
 
-			<form action="tools.php?page=themeoptions-manager" method="POST" id="export-themeoptions">
+			<form action="admin.php?page=themeoptions-manager" method="POST" id="export-themeoptions">
 				<p><label><input type="radio" name="option"
 				                 value="backup"> <?php _e( "Backup current Theme Options on the disk" ); ?></label></p>
 
@@ -114,7 +114,7 @@ class Waboot_Options_Framework_Admin extends Options_Framework_Admin{
 
 			<h3><?php _e( "Import or Restore Theme Options", "waboot" ); ?></h3>
 
-			<form action="tools.php?page=themeoptions-manager" method="POST" enctype="multipart/form-data"
+			<form action="admin.php?page=themeoptions-manager" method="POST" enctype="multipart/form-data"
 			      id="export-themeoptions">
 				<p><?php _e( "Select a file to restore, or upload one:" ); ?></p>
 				<?php if ( ! empty( $backup_files ) ) : ?>
