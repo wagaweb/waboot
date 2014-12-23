@@ -3,6 +3,8 @@ bower_components/
 builds/
 npm-debug.log
 assets/cache/*.*
+assets/css/waboot.css
+assets/css/waboot.css.map
 assets/css/client-custom.css
 !assets/cache/.gitkeep
 wbf/includes/vendor/codemirror/bin
