@@ -337,6 +337,9 @@ function optionsframework_options() {
      * TYPOGRAPHY
      */
 
+    //global $wbf_gfont_retriever;
+    //$fonts = $wbf_gfont_retriever->get_webfonts();
+
     /** Typography Array Merge */
 
     $typography_mixed_fonts = array_merge( options_typography_get_os_fonts() , options_typography_get_google_fonts() );
