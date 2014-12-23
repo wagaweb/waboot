@@ -17,7 +17,8 @@ class SlideshowComponent extends Waboot_Component{
         register_post_type('slideshow', array(
             'public' => true,
             'label'  => __("Slideshows","waboot"),
-            'supports' => array('title','revisions','author')
+            'supports' => array('title','revisions','author'),
+            'menu_icon' => 'dashicons-format-image'
         ));
 		// Slideshow Fields
 		if( function_exists('register_field_group') ):
