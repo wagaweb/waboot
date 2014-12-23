@@ -145,6 +145,7 @@ class WBF {
         }
 
         //Loads components
+        Waboot_ComponentsManager::toggle_components(); //enable or disable components if necessary
         Waboot_ComponentsManager::init();
         Waboot_ComponentsManager::setupRegisteredComponents();
     }

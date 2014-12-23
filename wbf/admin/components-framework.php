@@ -8,6 +8,8 @@ $GLOBALS['registered_components'] = array();
 
 class Waboot_ComponentsManager {
 
+    static $last_error = "";
+
     /**
      * Detect components into components directory and updates relative options
      */
@@ -154,29 +156,39 @@ class Waboot_ComponentsManager {
 		if ( ! empty( $registered_components ) ) {
 			return $registered_components;
 		} else {
-			$core_components  = self::get_waboot_registered_components();
-			$child_components = is_child_theme() ? self::get_child_registered_components() : array();
-			if ( is_child_theme() ) {
-				foreach ( $core_components as $name => $comp ) {
-					if ( array_key_exists( $name, $child_components ) ) {
-						$child_components[ $name ]['override'] = true;
-						//unset($child_components[$name]); //todo: per ora, non permettere la sovrascrizione
-					}
-				}
-				$components = array_merge( $core_components, $child_components ); //this will override core_components with child_components with same name
-			} else {
-				/*foreach($core_components as $name => $comp){
-					if(in_array($name,$child_components)){
-						unset($child_components[$name]);
-					}
-				}*/
-				$components = $core_components;
-			}
-			$registered_components = $components;
-
+            $components = self::retrieve_components();
+            self::update_global_components_vars();
 			return $components;
 		}
 	}
+
+    static function update_global_components_vars(){
+        global $registered_components;
+        $registered_components = self::retrieve_components();
+    }
+
+    static function retrieve_components(){
+        $core_components  = self::get_waboot_registered_components();
+        $child_components = is_child_theme() ? self::get_child_registered_components() : array();
+        if ( is_child_theme() ) {
+            foreach ( $core_components as $name => $comp ) {
+                if ( array_key_exists( $name, $child_components ) ) {
+                    $child_components[ $name ]['override'] = true;
+                    //unset($child_components[$name]); //todo: per ora, non permettere la sovrascrizione
+                }
+            }
+            $components = array_merge( $core_components, $child_components ); //this will override core_components with child_components with same name
+        } else {
+            /*foreach($core_components as $name => $comp){
+                if(in_array($name,$child_components)){
+                    unset($child_components[$name]);
+                }
+            }*/
+            $components = $core_components;
+        }
+
+        return $components;
+    }
 
 	/**
 	 * Controlla se il componente registrato è attivo (in questo caso $registered_component è una chiave dell'array ottenuto da get_option("waboot_registered_components")
@@ -256,9 +268,41 @@ class Waboot_ComponentsManager {
 		}
 	}
 
+    /**
+     * Enable or disable components if necessary
+     */
+    static function toggle_components(){
+        global $plugin_page;
+        if(is_admin() && isset($_GET['page']) && $_GET['page'] == "waboot_components"){
+            if ( isset( $_GET['enable'] ) ) {
+                $component_name = $_GET['enable'];
+                try {
+                    self::enable( $component_name, Waboot_ComponentsManager::is_child_component( $component_name ) );
+                } catch ( Exception $e ) {
+                    self::$last_error = $e->getMessage();
+                }
+            } elseif ( isset( $_GET['disable'] ) ) {
+                $component_name = $_GET['disable'];
+                try {
+                    self::disable( $component_name, Waboot_ComponentsManager::is_child_component( $component_name ) );
+                } catch ( Exception $e ) {
+                    self::$last_error = $e->getMessage();
+                }
+            }
+        }
+    }
+
 	static function components_admin_page() {
 
-		if ( isset( $_GET['enable'] ) ) {
+        if( (isset($_GET['enable']) || isset($_GET['disable'])) && !empty(self::$last_error) ){
+            ?>
+            <div class="error">
+                <p><?php echo self::$last_error; ?></p>
+            </div>
+            <?php
+        }
+
+		/*if ( isset( $_GET['enable'] ) ) {
 			$component_name = $_GET['enable'];
 			try {
 				self::enable( $component_name, Waboot_ComponentsManager::is_child_component( $component_name ) );
@@ -280,7 +324,7 @@ class Waboot_ComponentsManager {
 				</div>
 			<?php
             }
-		}
+		}*/
 
 		?>
 		<div class="wrap">
@@ -404,7 +448,7 @@ class Waboot_ComponentsManager {
 			if ( class_exists( $className ) ) {
 				$oComponent = new $className( $component );
 				$oComponent->onActivate();
-				$oComponent->active                                  = true;
+				$oComponent->active = true;
 				$registered_components[ $component_name ]['enabled'] = true;
 				if ( ! $child_component ) {
 					self::update_waboot_registered_components( $registered_components );
@@ -412,6 +456,7 @@ class Waboot_ComponentsManager {
 				else {
 					self::update_child_registered_components( $registered_components );
 				} //update the WP Option of registered component
+                self::update_global_components_vars();
 			} else {
 				throw new Exception( __( "Component class not defined. Unable to activate the component.", "waboot" ) );
 			}
@@ -464,6 +509,7 @@ class Waboot_ComponentsManager {
 			else {
 				self::update_child_registered_components( $registered_components );
 			} //update the WP Option of registered component
+            self::update_global_components_vars();
 		} else {
 			throw new Exception( __( "Component not found among registered components. Unable to deactivate the component.","waboot"));
         }
@@ -610,21 +656,11 @@ class Waboot_Component {
     public function onActivate(){
         //echo "Attivato: $this->name";
         add_action( 'admin_notices', array($this,'activationNotice') );
-        ?>
-        <div class="updated">
-            <p><?php _e( sprintf("Activated: %s",$this->name), 'waboot' ); ?></p>
-        </div>
-        <?php
     }
 
     public function onDeactivate(){
         //echo "Disattivato: $this->name";
         add_action( 'admin_notices', array($this,'deactivationNotice') );
-        ?>
-        <div class="updated">
-            <p><?php _e( sprintf("Deactivated: %s",$this->name), 'waboot' ); ?></p>
-        </div>
-        <?php
     }
 
     public function activationNotice(){
