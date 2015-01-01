@@ -14,7 +14,7 @@ function waboot_theme_styles() {
      * We pass that name into the "waboot_compiled_stylesheet_name" filter which change its value according to one compiled from less.
      * See /inc/hooks.php at waboot_set_compiled_stylesheet_name($name)
      */
-    $compiled_stylesheet = apply_filters("waboot_compiled_stylesheet_name",wp_get_theme()->stylesheet);
+    $compiled_stylesheet = waboot_get_compiled_stylesheet_name();
 
 	/* Load theme styles */
     wp_enqueue_style( 'font-awesome', waboot_locate_template_uri( 'assets/css/font-awesome.min.css' ), $theme['Version'], 'all' );

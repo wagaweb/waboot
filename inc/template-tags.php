@@ -501,3 +501,9 @@ if(!function_exists("waboot_get_sidebar_layouts")){
         ));
     }
 }
+
+if(!function_exists("waboot_get_compiled_stylesheet_name")):
+	function waboot_get_compiled_stylesheet_name(){
+		return apply_filters("waboot_compiled_stylesheet_name",wp_get_theme()->stylesheet);
+	}
+endif;

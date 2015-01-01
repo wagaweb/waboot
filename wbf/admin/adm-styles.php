@@ -20,7 +20,7 @@ add_action('admin_enqueue_scripts', 'waboot_admin_styles');
  * @uses get_stylesheet_uri()
  */
 function waboot_editor_styles() {
-    $theme_name = apply_filters("waboot_compiled_stylesheet_name", wp_get_theme()->stylesheet);
+    $theme_name = waboot_get_compiled_stylesheet_name();
 
     add_editor_style(waboot_locate_template_uri("assets/css/{$theme_name}.css"));
     add_editor_style('wbf/admin/css/tinymce.css');

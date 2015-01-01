@@ -207,7 +207,7 @@ if ( ! function_exists( 'waboot_behaviors_cpts_blacklist' ) ):
 endif;
 
 function waboot_add_compile_sets($sets){
-    $theme = apply_filters("waboot_compiled_stylesheet_name",wp_get_theme()->stylesheet);
+    $theme = waboot_get_compiled_stylesheet_name();
 
     return array_merge_recursive($sets,array(
         "theme_frontend" => array(
