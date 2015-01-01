@@ -2,8 +2,6 @@
 
 /**
  * Class Waboot_Cache
- * @deprecated
- * @neverused
  */
 class Waboot_Cache extends Less_Cache{
     /**
