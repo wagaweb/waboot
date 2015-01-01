@@ -1,12 +1,13 @@
 <?php
 
 locate_template('/wbf/wbf.php', true);
+locate_template('/inc/template-tags.php', true);
+init_style_compiler();
 
 if ( ! function_exists( 'waboot_setup' ) ):
     function waboot_setup() {
-        // Custom template tags for this theme.
+        // Custom hooks.
         locate_template( '/inc/hooks.php', true );
-        locate_template( '/inc/template-tags.php', true );
 
         // Register the navigation menus.
         locate_template( '/inc/menus.php', true );
@@ -46,3 +47,20 @@ if ( ! function_exists( 'waboot_setup' ) ):
     }
 endif;
 add_action('after_setup_theme', 'waboot_setup', 11);
+
+/**
+ * INIT STYLES COMPILER
+ */
+function init_style_compiler(){
+	$theme = waboot_get_compiled_stylesheet_name();
+	$GLOBALS['waboot_styles_compiler'] = new Waboot_Styles_Compiler(array(
+		"theme_frontend" => array(
+			"input" => get_stylesheet_directory()."/sources/less/{$theme}.less",
+			"output" => get_stylesheet_directory()."/assets/css/{$theme}.css",
+			"map" => get_stylesheet_directory()."/assets/css/{$theme}.css.map",
+			"map_url" => get_stylesheet_directory_uri()."/assets/css/{$theme}.css.map",
+			"cache" => get_stylesheet_directory()."/assets/cache",
+			"import_url" => get_stylesheet_directory_uri()
+		)
+	));
+}

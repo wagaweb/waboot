@@ -25,6 +25,9 @@ function waboot_autoloader($class)
     }
 
     switch ($class) {
+	    case "Waboot_Styles_Compiler":
+		    locate_template( 'wbf/includes/compiler/class-waboot-styles-compiler.php', true );
+		    break;
         case "Waboot_Cache":
 	        locate_template( 'wbf/includes/compiler/less-php/Waboot_Cache.php', true );
             break;

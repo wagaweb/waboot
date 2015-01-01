@@ -1,4 +1,9 @@
 <?php
+
+/**
+ * THIS FILE IS DEPRECATED, NOW WE USE class-waboot-styles-compiler.php
+ */
+
 /**
  * Live compiling less file. If $params is empty sources/less/themeName.less will be compiled in assets/css/themeName.css
  * @params (optional) array $params the input\output\mapfile name to use

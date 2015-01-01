@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Class Waboot_Cache
+ * @deprecated
+ * @neverused
+ */
 class Waboot_Cache extends Less_Cache{
     /**
      * Check if less files needs to be compiled [Added by LostCore]

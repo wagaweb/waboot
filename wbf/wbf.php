@@ -15,7 +15,7 @@ define("WBF_PUBLIC_DIRECTORY", __DIR__ . "/public");
 
 require_once("wbf-autoloader.php");
 include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
-locate_template( '/wbf/includes/compiler/less-php/compiler.php', true );
+//locate_template( '/wbf/includes/compiler/less-php/compiler.php', true );
 
 $md = WBF::get_mobile_detect();
 
@@ -246,8 +246,10 @@ class WBF {
 	function compile_less_on_theme_options_save($option, $old_value, $value){
 		$config = get_option( 'optionsframework' );
 		if($option == $config['id']){
-			locate_template( '/wbf/includes/compiler/less-php/compiler.php', true );
-			waboot_compile_less();
+			if(isset($GLOBALS['waboot_styles_compiler'])){
+				global $waboot_styles_compiler;
+				$waboot_styles_compiler->compile();
+			}
 		}
 	}
 
@@ -356,25 +358,3 @@ $WabootThemeUpdateChecker = new ThemeUpdateChecker(
     'waboot', //Theme slug. Usually the same as the name of its directory.
     'http://wpserver.wagahost.com/?action=get_metadata&slug=waboot' //Metadata URL.
 );
-
-/**
- * Releasing the compiler lock if is passed too much time since last compilation attempt
- */
-waboot_maybe_release_compiler_lock();
-/**
- * Less compiling
- */
-if (isset($_GET['compile']) && $_GET['compile'] == true) {
-    if (current_user_can('manage_options')) {
-        waboot_compile_less();
-    }
-}
-/**
- * Clearing Compiler Cache
- */
-if (isset($_GET['clear_cache'])) {
-    if (current_user_can('manage_options')) {
-        waboot_clear_less_cache();
-        waboot_compile_less();
-    }
-}
