@@ -28,8 +28,8 @@ function waboot_autoloader($class)
 	    case "Waboot_Styles_Compiler":
 		    locate_template( 'wbf/includes/compiler/class-waboot-styles-compiler.php', true );
 		    break;
-        case "Waboot_Cache":
-	        locate_template( 'wbf/includes/compiler/less-php/Waboot_Cache.php', true );
+        case "Waboot_Less_Cache":
+	        locate_template( 'wbf/includes/compiler/less-php/Waboot_Less_Cache.php', true );
             break;
         case "Waboot_Less_Compiler":
 	        locate_template( 'wbf/includes/compiler/less-php/Waboot_Less_Compiler.php', true );
