@@ -53,6 +53,10 @@ function optionsframework_init() {
 	// Instantiate the code editor class [WABOOT MOD]
     $options_framework_waboot_code_editor = new Waboot_Options_Code_Editor;
 	$options_framework_waboot_code_editor->init();
+
+	// Instantiate the gfont selector class [WABOOT MOD]
+	$options_framework_waboot_gfont_selector = new Waboot_Options_GFont_Selector;
+	$options_framework_waboot_gfont_selector->init();
 }
 
 add_action( 'init', 'optionsframework_init', 20 );

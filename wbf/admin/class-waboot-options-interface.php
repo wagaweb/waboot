@@ -107,6 +107,11 @@ class Waboot_Options_Interface extends Options_Framework_Interface
                     $output .= Waboot_Options_Code_Editor::optionsframework_codeditor($value['id'], $val, null);
                     break;
 
+	            // Waboot GFont Selector [WABOOT MOD]
+	            case "gfont":
+					$output .= Waboot_Options_GFont_Selector::output($value['id'], $val, null);
+					break;
+
                 // Textarea
                 case 'textarea':
                     $rows = '8';
