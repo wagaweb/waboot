@@ -337,11 +337,6 @@ function optionsframework_options() {
      * TYPOGRAPHY
      */
 
-    //global $wbf_gfont_retriever;
-    //$fonts = $wbf_gfont_retriever->get_webfonts();
-	//$gfontFetcher = new \WBF\WBF_GoogleFontsRetriever();
-
-
     /** Typography Array Merge */
 
     $typography_mixed_fonts = array_merge( options_typography_get_os_fonts() , options_typography_get_google_fonts() );
@@ -363,17 +358,17 @@ function optionsframework_options() {
             'styles' => false )
     );
 
-	/*$options[] = array(
+	$options[] = array(
 		'name' => 'Primary font (body, p, ul, li)',
 		'id' => 'waboot_primary_gfont',
 		'std' => array(
 			'family' => 'Lato',
 			'style'  => 'regular',
 			'charset' => 'latin',
-			'color'  => ''
+			'color'  => '#444444'
 		),
 		'type' => 'gfont'
-	);*/
+	);
 
     $options[] = array( 'name' => 'Secondary font (h1, h2, h3, h4, h5, h6)',
         'desc' => 'Select your secondary font face.',

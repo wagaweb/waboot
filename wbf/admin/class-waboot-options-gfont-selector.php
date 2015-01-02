@@ -15,10 +15,10 @@ class Waboot_Options_GFont_Selector
 	/**
 	 * @param string $_id - A token to identify this field (the name).
 	 * @param string $_value - The value of the field, if present.
-	 * @param $_desc - An optional description of the field.
+	 * @param string $_desc - An optional description of the field.
 	 * @param string $_name
 	 */
-	static function output($_id, $_value, $_desc = '', $_name = ''){
+	static function output($_id, $_value, $_defaults, $_desc = '', $_name = ''){
 		global $wbf_gfont_fetcher;
 		$optionsframework_settings = get_option( 'optionsframework' );
 
@@ -30,6 +30,7 @@ class Waboot_Options_GFont_Selector
 		$class = '';
 		$int = '';
 		$value = '';
+		$defaults = $_defaults;
 		$name = '';
 
 		$id = strip_tags( strtolower( $_id ) );
@@ -96,8 +97,14 @@ class Waboot_Options_GFont_Selector
 		/**
 		 * COLOR
 		 */
-		$default_color = '';
-		$output .= "<input name='".self::fontColor_OptName($option_name,$id)."' class='of-color' type='text' value='$default_color' />";
+		$current_color = '';
+		$default_color = ' data-default-color="' . $defaults['color'] . '" ';
+		if(isset($value['color']) && $value['color'] != "") {
+			$current_color = $value['color'];
+		}else{
+			$current_color = $defaults['color'];
+		}
+		$output .= '<input name="' . self::fontColor_OptName($option_name,$id) . '" id="' . $id . '" class="of-color"  type="text" value="' . esc_attr($current_color) . '"' . $default_color . ' />';
 
 		return $output;
 	}
