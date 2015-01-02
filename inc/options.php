@@ -358,7 +358,7 @@ function optionsframework_options() {
             'styles' => false )
     );
 
-	$options[] = array(
+	/*$options[] = array(
 		'name' => 'Primary font (body, p, ul, li)',
 		'id' => 'waboot_primary_gfont',
 		'std' => array(
@@ -368,7 +368,7 @@ function optionsframework_options() {
 			'color'  => '#444444'
 		),
 		'type' => 'gfont'
-	);
+	);*/
 
     $options[] = array( 'name' => 'Secondary font (h1, h2, h3, h4, h5, h6)',
         'desc' => 'Select your secondary font face.',

@@ -124,8 +124,8 @@ class WBF {
         }
 
         // Google Fonts
-        locate_template('/wbf/includes/google-fonts-retriever.php', true);
-        $GLOBALS['wbf_gfont_fetcher'] = new WBF\GoogleFontsRetriever();
+        //locate_template('/wbf/includes/google-fonts-retriever.php', true);
+        //$GLOBALS['wbf_gfont_fetcher'] = new WBF\GoogleFontsRetriever();
 
         // Load behaviors extension
 	    locate_template( '/wbf/admin/behaviors-framework.php', true );

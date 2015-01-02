@@ -15,8 +15,11 @@ class Waboot_Options_GFont_Selector
 	/**
 	 * @param string $_id - A token to identify this field (the name).
 	 * @param string $_value - The value of the field, if present.
+	 * @param string $_defaults - The defaults value of the field..
 	 * @param string $_desc - An optional description of the field.
 	 * @param string $_name
+	 *
+	 * @return string
 	 */
 	static function output($_id, $_value, $_defaults, $_desc = '', $_name = ''){
 		global $wbf_gfont_fetcher;
