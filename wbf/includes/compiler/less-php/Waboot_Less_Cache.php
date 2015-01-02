@@ -1,9 +1,7 @@
 <?php
 
-/**
- * Class Waboot_Cache
- */
-class Waboot_Cache extends Less_Cache{
+class Waboot_Less_Cache extends Less_Cache{
+
     /**
      * Check if less files needs to be compiled [Added by LostCore]
      * @param $less_files
@@ -30,7 +28,7 @@ class Waboot_Cache extends Less_Cache{
     }
 
     /**
-     * Clone of parent CompiledName
+     * Clone of parent CompiledName() method (which is private and cannot be used here unless redefined)
      * @param $files
      * @return string
      */
@@ -42,11 +40,6 @@ class Waboot_Cache extends Less_Cache{
         }
 
         return 'lessphp_'.sha1(json_encode($temp)).'.css';
-    }
-
-    public static function checkAjax(){
-        echo "ciao";
-        exit;
     }
 }
 

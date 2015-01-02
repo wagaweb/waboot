@@ -63,7 +63,7 @@ function waboot_compile_less($params = array()){
 	    );
 
         if(can_compile()){
-            //if(Waboot_Cache::needs_to_compile($less_files,$cachedir)){ //since we use the "Compile" button, we dont need this check anymore
+            //if(Waboot_Less_Cache::needs_to_compile($less_files,$cachedir)){ //since we use the "Compile" button, we dont need this check anymore
             update_option('waboot_compiling_less_flag',1) or add_option('waboot_compiling_less_flag',1,'',true); //lock the compiler
             update_option('waboot_compiling_less_last_attempt',time()) or add_option('waboot_compiling_less_last_attempt',time(),'',true); //keep note of the current time
 

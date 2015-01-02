@@ -128,7 +128,7 @@ function compiled_admin_notice() {
 	<div class="updated">
 		<p><?php _e( 'Theme style files compiled successfully!', 'wbf' ); ?></p>
 	</div>
-<?php
+	<?php
 }
 
 function compile_error_admin_notice() {
@@ -136,7 +136,7 @@ function compile_error_admin_notice() {
 	<div class="error">
 		<p><?php _e( 'Theme style files not compiled!', 'wbf' ); ?></p>
 	</div>
-<?php
+	<?php
 }
 
 function cache_cleared_admin_notice() {
@@ -144,5 +144,5 @@ function cache_cleared_admin_notice() {
 	<div class="updated">
 		<p><?php _e( 'Theme cache cleared successfully!', 'wbf' ); ?></p>
 	</div>
-<?php
+	<?php
 }
