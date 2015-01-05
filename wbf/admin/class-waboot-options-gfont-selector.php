@@ -1,15 +1,23 @@
 <?php
 
+add_action("wp_ajax_gfontfetcher_getFonts",'Waboot_Options_GFont_Selector::getFonts');
+add_action("wp_ajax_nopriv_gfontfetcher_getFonts",'Waboot_Options_GFont_Selector::getFonts');
+add_action("wp_ajax_gfontfetcher_getFontInfo",'Waboot_Options_GFont_Selector::getFontInfo');
+add_action("wp_ajax_nopriv_gfontfetcher_getFontInfo",'Waboot_Options_GFont_Selector::getFontInfo');
+
 class Waboot_Options_GFont_Selector
 {
 	public function init(){
-
+		add_action('admin_enqueue_scripts',array($this, 'scripts'));
 	}
 
 	function scripts( $hook ) {
 		if ( ! wbf_is_admin_of_page( $hook ) ) {
 			return;
 		}
+
+		wp_register_script('font-selector', WBF_URL . '/admin/js/font-selector.js',array('jquery'));
+		wp_enqueue_script('font-selector');
 	}
 
 	/**
@@ -56,7 +64,7 @@ class Waboot_Options_GFont_Selector
 		/**
 		 * FAMILY
 		 */
-		$output .= "<select name='".self::fontFamily_OptName($option_name,$id)."'>";
+		$output .= "<select class='font-family-selector' name='".self::fontFamily_OptName($option_name,$id)."'>";
 		foreach($fonts->items as $font){
 			if(!empty($value) && $value['family'] == $font->family){
 				$output .= "<option value='$font->family' selected>$font->family</option>";
@@ -76,7 +84,7 @@ class Waboot_Options_GFont_Selector
 		/**
 		 * VARIANTS
 		 */
-		$output .= "<select name='".self::fontStyles_OptName($option_name,$id)."'>";
+		$output .= "<select class='font-style-selector' name='".self::fontStyles_OptName($option_name,$id)."'>";
 		foreach($selected_font_props->variants as $variant){
 			if(!empty($value) && $value['style'] == $variant){
 				$output .= "<option value='$variant' selected>$variant</option>";
@@ -85,10 +93,11 @@ class Waboot_Options_GFont_Selector
 			}
 		}
 		$output .= "</select>";
+
 		/**
 		 * SUBSETS
 		 */
-		$output .= "<select name='".self::fontCharset_OptName($option_name,$id)."'>";
+		$output .= "<select class='font-charset-selector' name='".self::fontCharset_OptName($option_name,$id)."'>";
 		foreach($selected_font_props->subsets as $subset){
 			if(!empty($value) && $value['charset'] == $subset){
 				$output .= "<option value='$subset' selected>$subset</option>";
@@ -97,6 +106,7 @@ class Waboot_Options_GFont_Selector
 			}
 		}
 		$output .= "</select>";
+
 		/**
 		 * COLOR
 		 */
@@ -107,9 +117,44 @@ class Waboot_Options_GFont_Selector
 		}else{
 			$current_color = $defaults['color'];
 		}
-		$output .= '<input name="' . self::fontColor_OptName($option_name,$id) . '" id="' . $id . '" class="of-color"  type="text" value="' . esc_attr($current_color) . '"' . $default_color . ' />';
+		$output .= '<input name="' . self::fontColor_OptName($option_name,$id) . '" id="' . $id . '" class="of-color font-color-selector"  type="text" value="' . esc_attr($current_color) . '"' . $default_color . ' />';
 
 		return $output;
+	}
+
+	static function getFonts(){
+		$gfontfetcher = \WBF\GoogleFontsRetriever::getInstance();
+		return $gfontfetcher->cached_fonts;
+	}
+
+	static function getFontInfo($familyname = ""){
+		if(empty($familyname)){
+			if(isset($_POST['family'])){
+				$familyname = $_POST['family'];
+			}
+			else{
+				if(DOING_AJAX){
+					echo "0";
+					die();
+				}
+				else return false;
+			}
+		}
+		$gfontfetcher = \WBF\GoogleFontsRetriever::getInstance();
+		if(DOING_AJAX){
+			$font_info = $gfontfetcher->get_properties_of($familyname);
+			if(!$font_info) echo "0";
+			else{
+				echo json_encode(array(
+					'family' => $font_info->family,
+					'variants' => $font_info->variants,
+					'subsets' => $font_info->subsets
+				));
+				die();
+			}
+		}else{
+			return $gfontfetcher->get_properties_of($familyname);
+		}
 	}
 
 	private static function fontFamily_OptName($theme_name,$opt_id){

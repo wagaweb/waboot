@@ -2,17 +2,22 @@
 
 namespace WBF;
 
-add_action("wp_ajax_pagebuilder_get_block",'\Waboot\Pagebuilder\Manager::get_block');
-add_action("wp_ajax_no_priv_pagebuilder_get_block",'\Waboot\Pagebuilder\Manager::get_block');
-
 class GoogleFontsRetriever{
     const api_url = "https://www.googleapis.com/webfonts/v1/webfonts";
-    var $api_key = "AIzaSyDXgT0NYjLhDmUzdcxC5RITeEDimRmpq3s";
+    private $api_key = "AIzaSyDXgT0NYjLhDmUzdcxC5RITeEDimRmpq3s";
     var $last_error = "";
     var $cache_file_name = "wbf_font_cache.php";
 	var $cached_fonts;
 
-    public function __construct($api_key = null){
+	public static function getInstance(){
+		static $instance = null;
+		if (null === $instance) {
+			$instance = new static();
+		}
+		return $instance;
+	}
+
+	protected function __construct($api_key = null){
         if(isset($api_key)){
             $this->api_key = $api_key;
         }
@@ -103,6 +108,9 @@ class GoogleFontsRetriever{
         }
         return $fonts_json;
     }
+
+	private function __clone(){}
+	private function __wakeup(){}
 }
 
 class GoogleFontsRetrieverException extends \Exception{
