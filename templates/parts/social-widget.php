@@ -8,6 +8,9 @@
     <?php if (of_get_option('waboot_social_google') ) : ?>
         <a href="<?php echo of_get_option( 'waboot_social_google' ); ?>"><i class="fa fa-google-plus"></i></a>
     <?php endif; ?>
+    <?php if (of_get_option('waboot_social_youtube') ) : ?>
+        <a href="<?php echo of_get_option( 'waboot_social_youtube' ); ?>"><i class="fa fa-youtube"></i></a>
+    <?php endif; ?>
     <?php if (of_get_option('waboot_social_pinterest') ) : ?>
         <a href="<?php echo of_get_option( 'waboot_social_pinterest' ); ?>"><i class="fa fa-pinterest"></i></a>
     <?php endif; ?>

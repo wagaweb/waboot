@@ -21,50 +21,49 @@
 		</div>
 	<?php endif; ?>
 
-<?php if (waboot_has_sidebar('footer')) : ?>
-    <div id="footer-wrapper">
-        <div id="footer-inner" class="<?php echo of_get_option('waboot_footer_width', 'container'); ?>">
-            <?php
-            // Footer widgets
-            waboot_do_sidebar('footer');
-            ?>
-        </div>
-    </div>
-<?php endif; ?>
+	<?php if (waboot_has_sidebar('footer')) : ?>
+		<div id="footer-wrapper">
+			<div id="footer-inner" class="<?php echo of_get_option('waboot_footer_width', 'container'); ?>">
+				<?php
+				// Footer widgets
+				waboot_do_sidebar('footer');
+				?>
+			</div>
+		</div>
+	<?php endif; ?>
 
-</div><!-- #page -->
-<footer class="site-footer" id="colophon" role="contentinfo">
-	<div class="<?php echo of_get_option( 'waboot_footer_width','container' ); ?>">
-		<div class="row">
+	<footer class="site-footer closure" id="colophon" role="contentinfo">
+		<div id="closure-inner" class="<?php echo of_get_option( 'waboot_closure_width','container' ); ?>">
 
-			<div class="bottom-navigation col-sm-6 col-sm-push-6">
-				<?php if ( of_get_option('waboot_social_position') === 'footer' ) { ?>
-					<?php get_template_part( 'templates/parts/social-widget'); ?>
-				<?php } ?>
-
-				<?php if ( has_nav_menu( 'bottom' ) ) {
-					wp_nav_menu( array(
-						'theme_location' => 'bottom',
-						'container'      => false,
-						'menu_class'     => 'footer-nav mobile'
-						)
-					);
-				} ?>
-
-			</div><!-- .bottom-navigation -->
-			<div class="footer-text col-sm-6 col-sm-pull-6">
+			<div class="footer-text">
 				<?php if ( of_get_option('waboot_custom_footer_toggle') ) {
 					echo '' . of_get_option('waboot_custom_footer_text') . '';
 				} else {
 					echo '&copy; ' . date('Y') . ' ' . get_bloginfo('name'); } ?>
-			</div><!-- .footer-text -->
+			</div>
 
-		</div><!-- .row -->
-	</div><!-- .container -->
-</footer><!-- #colophon -->
-<?php
-    wp_footer();
-    do_action( 'waboot_footer' );
-?>
+			<div class="bottom-navigation">
+				<?php if ( has_nav_menu( 'bottom' ) ) {
+					wp_nav_menu( array(
+							'theme_location' => 'bottom',
+							'container'      => false,
+							'menu_class'     => 'footer-nav mobile'
+						)
+					);
+				} ?>
+			</div>
+
+			<?php if ( of_get_option('waboot_social_position') === 'footer' ) : ?>
+				<?php get_template_part( 'templates/parts/social-widget'); ?>
+			<?php endif; ?>
+
+		</div><!-- #closure-inner -->
+	</footer><!-- .closure -->
+	<?php
+		wp_footer();
+		do_action( 'waboot_footer' );
+	?>
+
+</div><!-- #page -->
 </body>
 </html>

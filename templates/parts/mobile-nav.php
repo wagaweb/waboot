@@ -10,6 +10,7 @@
 <!-- Mobile menu -->
 <div class="collapse navbar-collapse navbar-mobile-collapse offcanvas">
 
+    <?php if ( of_get_option( 'waboot_logo_mobilenav', '1' ) ) : ?>
     <div class="logo-menu">
         <?php if ( of_get_option( 'waboot_logo_in_navbar' ) != "" ) : ?>
             <a href="<?php echo home_url( '/' ); ?>"><img src="<?php echo of_get_option( 'waboot_logo_in_navbar' ); ?>" class="img-responsive" /></a>
@@ -20,6 +21,7 @@
             ?>
         <?php endif; ?>
     </div>
+    <?php endif; ?>
 
     <?php wp_nav_menu( array(
         'theme_location' => 'main',

@@ -41,6 +41,10 @@ body {
   background-color: //{of_get_option('waboot_footer_bgcolor')};
 }
 
+.closure {
+  background-color: //{of_get_option('waboot_closure_bgcolor')};
+}
+
 #page {
   background-color: //{of_get_option('waboot_page_bgcolor')};
 }

@@ -126,6 +126,15 @@ function optionsframework_options() {
         'options' => array('container-fluid' => $imagepath . 'layout/footer-fluid.png', 'container' => $imagepath . 'layout/footer-boxed.png')
     );
 
+    $options[] = array(
+        'name' => __( 'Closure', 'waboot' ),
+        'desc' => __( 'Select closure width. Fluid or Boxed?', 'waboot' ),
+        'id' => 'waboot_closure_width',
+        'std' => 'container-fluid',
+        'type' => 'images',
+        'options' => array('container-fluid' => $imagepath . 'layout/closure-fluid.png', 'container' => $imagepath . 'layout/closure-boxed.png')
+    );
+
 
     /*
      * STYLE TAB
@@ -241,6 +250,13 @@ function optionsframework_options() {
         'name' => __('Footer', 'waboot'),
         'desc' => __('Change the footer background color.', 'waboot'),
         'id' => 'waboot_footer_bgcolor',
+        'type' => 'color'
+    );
+
+    $options[] = array(
+        'name' => __('Closure', 'waboot'),
+        'desc' => __('Change the closure background color.', 'waboot'),
+        'id' => 'waboot_closure_bgcolor',
         'type' => 'color'
     );
 
@@ -444,6 +460,15 @@ function optionsframework_options() {
     );
 
     $options[] = array(
+        'name' => __( 'Header', 'waboot' ),
+        'desc' => __( 'Select your header layout' ,'waboot' ),
+        'id'   => 'waboot_header_layout',
+        'std' => 'header1',
+        'type' => 'images',
+        'options' => array( 'header1' => $imagepath . 'header/header-1.png','header2' => $imagepath . 'header/header-2.png','header3' => $imagepath . 'header/header-3.png' )
+    );
+
+    $options[] = array(
         'name' => __( 'Show Logo?', 'waboot' ),
         'desc' => __( 'Displays the logo on your site.', 'waboot' ),
         'id'   => 'waboot_logo_in_navbar',
@@ -451,12 +476,11 @@ function optionsframework_options() {
     );
 
     $options[] = array(
-        'name' => __( 'Header', 'waboot' ),
-        'desc' => __( 'Select your header layout' ,'waboot' ),
-        'id'   => 'waboot_header_layout',
-        'std' => 'header1',
-        'type' => 'images',
-        'options' => array( 'header1' => $imagepath . 'header/header-1.png','header2' => $imagepath . 'header/header-2.png','header3' => $imagepath . 'header/header-3.png' )
+        'name' => __( 'Show Logo in Mobile Nav?', 'waboot' ),
+        'desc' => __( 'Default is enabled. Uncheck this box to turn it off.', 'waboot' ),
+        'id'   => 'waboot_logo_mobilenav',
+        'std'  => '1',
+        'type' => 'checkbox'
     );
 
     $options[] = array(
@@ -701,6 +725,13 @@ function optionsframework_options() {
         'name' => __( 'Google+', 'waboot' ),
         'desc' => __( 'Enter your google+ page link', 'waboot' ),
         'id'   => 'waboot_social_google',
+        'type' => 'text'
+    );
+
+    $options[] = array(
+        'name' => __( 'YouTube', 'waboot' ),
+        'desc' => __( 'Enter your youtube page link', 'waboot' ),
+        'id'   => 'waboot_social_youtube',
         'type' => 'text'
     );
 

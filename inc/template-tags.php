@@ -419,7 +419,7 @@ if (!function_exists("waboot_breadcrumb")):
     {
         global $post;
         if (function_exists('waboot_breadcrumb_trail')) {
-            if (is_front_page()) return;
+            if (is_front_page() || is_404() ) return;
 
             $post_id = isset($post_id) ? $post_id : $post->ID;
             $current_post_type = get_post_type($post_id);
