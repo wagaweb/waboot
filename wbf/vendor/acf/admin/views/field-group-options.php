@@ -1,20 +1,3 @@
-<?php 
-
-// global
-global $post;
-
-
-// vars
-$field_group = acf_get_field_group( $post );
-
-
-// field key
-if( !acf_is_field_group_key( $field_group['key']) )
-{
-	$field_group['key'] = uniqid('group_');
-}
-
-?>
 <div class="acf-hidden">
 	<input type="hidden" name="acf_field_group[key]" value="<?php echo $field_group['key']; ?>" />
 </div>

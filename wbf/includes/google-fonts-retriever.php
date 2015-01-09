@@ -21,14 +21,15 @@ class GoogleFontsRetriever{
         if(isset($api_key)){
             $this->api_key = $api_key;
         }
-	    $this->download_webfonts();
+        $this->read_font_cache_file();
+	    //$this->download_webfonts();
     }
 
     function get_webfonts(){
         $fonts_json = false;
 
-        $fonts_json = $this->read_font_cache_file();
-        if(!$fonts_json){
+        $fonts_json = json_encode($this->cached_fonts);
+        if(!$fonts_json || $fonts_json == "{}"){
             $fonts_json = $this->download_webfonts();
         }
 
@@ -84,7 +85,9 @@ class GoogleFontsRetriever{
         if(!$fonts_json){
             $fonts_json = $this->do_download_webfonts(self::api_url."?key=".$this->api_key);
         }
-	    $this->write_font_cache_file($fonts_json);
+        if($fonts_json != false){
+	        $this->write_font_cache_file($fonts_json);
+        }
 
         return $fonts_json;
     }

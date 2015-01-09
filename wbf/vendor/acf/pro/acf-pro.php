@@ -219,7 +219,7 @@ class acf_pro {
 	/*
 	*  update_field
 	*
-	*  description
+	*  This function will attempt to modify the $field's parent value from a field_key into a post_id
 	*
 	*  @type	function
 	*  @date	4/11/2013
@@ -231,20 +231,60 @@ class acf_pro {
 	
 	function update_field( $field ) {
 		
-		// don't use acf_get_field. Instead, keep a global record of ID from each update_field and use this to get the parent ID => key 
-		if( $field['parent'] ) {
-		
-			if( acf_is_field_key($field['parent']) ) {
+		// bail ealry if not relevant
+		if( !$field['parent'] || !acf_is_field_key($field['parent']) ) {
 			
-				$parent = acf_get_field( $field['parent'] );
+			return $field;
 				
-				$field['parent'] = $parent['ID'];
-				
-			}
+		}
+			
+		// vars
+		$ref = 0;
+		
+		
+		// create reference
+		if( empty($this->ref) ) {
+			
+			$this->ref = array();
 			
 		}
 		
+		
+		if( isset($this->ref[ $field['parent'] ]) ) {
+			
+			$ref = $this->ref[ $field['parent'] ];
+			
+		} else {
+			
+			// get parent without caching (important not to cache as parent $field will now contain new sub fields)
+			$parent = acf_get_field( $field['parent'], true );
+			
+			
+			// bail ealry if no parent
+			if( !$parent ) {
+				
+				return $field;
+				
+			}
+			
+			
+			// get ref
+			$ref = $parent['ID'] ? $parent['ID'] : $parent['key'];
+			
+			
+			// update ref
+			$this->ref[ $field['parent'] ] = $ref;
+			
+		}
+		
+		
+		// update field's parent
+		$field['parent'] = $ref;
+		
+		
+		// return
 		return $field;
+		
 	}
 	
 	

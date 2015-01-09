@@ -1018,6 +1018,11 @@ class acf_field_flexible_content extends acf_field {
 							
 							$v = $row[ $sub_field['name'] ];
 							
+						} else {
+							
+							// input is not set (hidden by conditioanl logic)
+							continue;
+							
 						}
 						
 						

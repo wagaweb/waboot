@@ -140,8 +140,8 @@
 			if( $parent.exists() ) {
 				
 				// vars
-				var id = $parent.attr('data-id'),
-					key = $parent.attr('data-key');
+				var id = acf.get_data($parent, 'id'),
+					key = acf.get_data($parent, 'key');
 					
 				
 				// set val
@@ -150,7 +150,7 @@
 				
 				// if field has an ID, use that
 				if( id ) {
-				
+					
 					val = id;
 					
 				}

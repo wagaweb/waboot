@@ -107,6 +107,11 @@ http://support.advancedcustomfields.com/
 
 == Changelog ==
 
+= 5.1.5 =
+* Taxonomy field: Fixed bug where values would not appear selected
+* Core: Added new JSON synchronisation functionality
+* Core: Minor fixes and improvements
+
 = 5.1.4 =
 * Taxonomy field: Major improvement to save/load setting allowing for different values on multiple sub fields
 * Google Map field: Fixed render glitch on sub fields when shown by a tab field

@@ -17,7 +17,18 @@ class Waboot_Options_GFont_Selector
 			return;
 		}
 
-		wp_register_script('font-selector', WBF_URL . '/admin/js/font-selector.js',array('jquery'));
+        wp_register_script('gfont_loader','http://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js');
+		wp_register_script('font-selector', WBF_URL . '/admin/js/font-selector.js',array('jquery','gfont_loader'));
+        $fonts_to_load = $this->geFontsToLoad();
+        $families = array();
+        $i = 0;
+        foreach($fonts_to_load as $name => $props){
+            $name = preg_replace("/\+/"," ",$name);
+            $families[] = $name;
+        }
+        wp_localize_script('font-selector','wbfOfFonts',array(
+            'families' => $families
+        ));
 		wp_enqueue_script('font-selector');
 	}
 
@@ -25,6 +36,15 @@ class Waboot_Options_GFont_Selector
      * Loads the fonts into wordpress head
      */
     function loadFonts(){
+        $fonts_to_load = $this->geFontsToLoad();
+        foreach($fonts_to_load as $name => $props){
+            if(!self::isOSFont(preg_replace("/ /","+",$name))){
+                echo $this->buildFontString($name,$props);
+            }
+        }
+    }
+
+    function geFontsToLoad(){
         $options_names = apply_filters("wbf_of_gfonts_options",array()); //the name of the options that the theme uses for gfonts
         $fonts_to_load = array();
         foreach($options_names as $opt_name){
@@ -36,6 +56,8 @@ class Waboot_Options_GFont_Selector
                     'subsets' => array()
                 );
             }
+            if($value['style'] == "") $value['style'] = array();
+            if($value['charset'] == "") $value['charset'] = array();
             foreach($value['style'] as $style){
                 if(!in_array($style,$fonts_to_load[$font_name]['styles']))
                     $fonts_to_load[$font_name]['styles'][] = $style;
@@ -45,30 +67,34 @@ class Waboot_Options_GFont_Selector
                     $fonts_to_load[$font_name]['subsets'][] = $charset;
             }
         }
-        foreach($fonts_to_load as $name => $props){
-            $font_string = $name;
-            if(isset($props['styles'])) $font_string .= ":";
+        return $fonts_to_load;
+    }
+
+    function buildFontString($name,$props,$return = "css"){
+        $font_string = $name;
+        if(isset($props['styles'])) $font_string .= ":";
+        $i = 0;
+        foreach($props['styles'] as $style){
+            $font_string .= $style;
+            if($i != count($props['styles']) - 1)
+                $font_string .= ",";
+            $i++;
+        }
+        if(isset($props['subsets'])){
+            $font_string .= "&subset:";
             $i = 0;
-            foreach($props['styles'] as $style){
-                $font_string .= $style;
-                if($i != count($props['styles']) - 1)
+            foreach($props['subsets'] as $subset){
+                $font_string .= $subset;
+                if($i != count($props['subsets']) - 1)
                     $font_string .= ",";
                 $i++;
             }
-            if(isset($props['subsets'])){
-                $font_string .= "&subset:";
-                $i = 0;
-                foreach($props['subsets'] as $subset){
-                    $font_string .= $subset;
-                    if($i != count($props['subsets']) - 1)
-                        $font_string .= ",";
-                    $i++;
-                }
-            }
-            ?>
-            <link rel='stylesheet' id="options_gfont_<?php echo $name; ?>" href='http://fonts.googleapis.com/css?family=<?php echo $font_string ?>' type='text/css' media="all">
-            <?php
         }
+        $css = "<link rel='stylesheet' id='options_gfont_$name' href='http://fonts.googleapis.com/css?family=$font_string' type='text/css' media='all'>";
+        if($return == "css")
+            return $css;
+        else
+            return $font_string;
     }
 
 	/**
@@ -114,13 +140,19 @@ class Waboot_Options_GFont_Selector
 
 		$class = "of-input gfont";
 
-		$fonts = $wbf_gfont_fetcher->get_webfonts();
+        $os_fonts = self::getOSFonts();
+        $g_fonts = $wbf_gfont_fetcher->get_webfonts();
+        if(!$g_fonts){
+            $g_fonts = new stdClass();
+            $g_fonts->items = array();
+        }
+        $fonts = array_merge($os_fonts,$g_fonts->items);
 
 		/**
 		 * FAMILY
 		 */
 		$output .= "<select class='font-family-selector' name='".self::fontFamily_OptName($option_name,$id)."'>";
-		foreach($fonts->items as $font){
+		foreach($fonts as $font){
 			if(!empty($value) && $value['family'] == $font->family){
 				$output .= "<option value='$font->family' selected>$font->family</option>";
 			}else{
@@ -131,9 +163,9 @@ class Waboot_Options_GFont_Selector
 
 		if(!empty($value)){
 			$selected_font_props = $wbf_gfont_fetcher->get_properties_of($value['family']);
-			if(!$selected_font_props) $selected_font_props = $fonts->items[0];
+			if(!$selected_font_props) $selected_font_props = $fonts[0];
 		}else{
-			$selected_font_props = $fonts->items[0];
+			$selected_font_props = $fonts[0];
 		}
         $selected_font_props->family_slug = preg_replace("/ /","-",$selected_font_props->family);
 
@@ -143,12 +175,12 @@ class Waboot_Options_GFont_Selector
         $output .= "<div class='font-style-selector'>";
 		foreach($selected_font_props->variants as $variant){
 			if(!empty($value) && in_array($variant,$value['style'])){
-                $output .= "<input type=\"checkbox\" id=\"$selected_font_props->family_slug-$variant\" name=\"".self::fontStyles_OptName($option_name,$id)."[]\" value=\"$variant\" class=\"check $selected_font_props->family_slug\" checked>$variant";
+                $output .= "<input type=\"checkbox\" name=\"".self::fontStyles_OptName($option_name,$id)."[]\" value=\"$variant\" class=\"check $selected_font_props->family_slug\" checked>$variant";
 			}elseif(empty($value) && in_array($variant,$defaults['style'])){
-                $output .= "<input type=\"checkbox\" id=\"$selected_font_props->family_slug-$variant\" name=\"".self::fontStyles_OptName($option_name,$id)."[]\" value=\"$variant\" class=\"check $selected_font_props->family_slug\" checked>$variant";
+                $output .= "<input type=\"checkbox\" name=\"".self::fontStyles_OptName($option_name,$id)."[]\" value=\"$variant\" class=\"check $selected_font_props->family_slug\" checked>$variant";
             }
             else{
-                $output .= "<input type=\"checkbox\" id=\"$selected_font_props->family_slug-$variant\" name=\"".self::fontStyles_OptName($option_name,$id)."[]\" value=\"$variant\" class=\"check $selected_font_props->family_slug\">$variant";
+                $output .= "<input type=\"checkbox\" name=\"".self::fontStyles_OptName($option_name,$id)."[]\" value=\"$variant\" class=\"check $selected_font_props->family_slug\">$variant";
 			}
 		}
         $output .= "</div>";
@@ -159,12 +191,12 @@ class Waboot_Options_GFont_Selector
         $output .= "<div class='font-charset-selector'>";
 		foreach($selected_font_props->subsets as $subset){
 			if(!empty($value) && in_array($subset,$value['charset'])){
-                $output .= "<input type=\"checkbox\" id=\"$selected_font_props->family_slug-$subset\" name=\"".self::fontCharset_OptName($option_name,$id)."[]\" value=\"$subset\" class=\"check $selected_font_props->family_slug\" checked>$subset";
+                $output .= "<input type=\"checkbox\" name=\"".self::fontCharset_OptName($option_name,$id)."[]\" value=\"$subset\" class=\"check\" checked>$subset";
 			}elseif(empty($value) && in_array($subset,$defaults['charset'])){
-                $output .= "<input type=\"checkbox\" id=\"$selected_font_props->family_slug-$subset\" name=\"".self::fontCharset_OptName($option_name,$id)."[]\" value=\"$subset\" class=\"check $selected_font_props->family_slug\" checked>$subset";
+                $output .= "<input type=\"checkbox\" name=\"".self::fontCharset_OptName($option_name,$id)."[]\" value=\"$subset\" class=\"check\" checked>$subset";
             }
             else{
-                $output .= "<input type=\"checkbox\" id=\"$selected_font_props->family_slug-$subset\" name=\"".self::fontCharset_OptName($option_name,$id)."[]\" value=\"$subset\" class=\"check $selected_font_props->family_slug\">$subset";
+                $output .= "<input type=\"checkbox\" name=\"".self::fontCharset_OptName($option_name,$id)."[]\" value=\"$subset\" class=\"check\">$subset";
 			}
 		}
         $output .= "</div>";
@@ -186,6 +218,14 @@ class Waboot_Options_GFont_Selector
          */
         $category = isset($value['category']) && !empty($value['category'])? $value['category'] : "";
         $output .= "<input class='font-category-selector' type='hidden' name='".self::fontCategory_OptName($option_name,$id)."' value='".$category."' />";
+
+        /*$value['family']."',".$value['category']
+         * PREVIEW
+         */
+        $ff = "'".$value['family']."',".$value['category'];
+        $output .= "<div class='font-preview'>
+        <p style=\"font-family: ".$ff."; \">Lorem ipsum dolor sit <strong>amet</strong>, consectetur adipiscing <em>elit</em>, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+        </div>";
 
 		return $output;
 	}
@@ -210,21 +250,125 @@ class Waboot_Options_GFont_Selector
 		}
 		$gfontfetcher = \WBF\GoogleFontsRetriever::getInstance();
 		if(DOING_AJAX){
-			$font_info = $gfontfetcher->get_properties_of($familyname);
+            if(self::isOSFont($familyname)){
+                $font_info = self::getOSFontProps($familyname);
+            }else{
+                $font_info = $gfontfetcher->get_properties_of($familyname);
+            }
 			if(!$font_info) echo "0";
 			else{
 				echo json_encode(array(
 					'family' => $font_info->family,
 					'variants' => $font_info->variants,
 					'subsets' => $font_info->subsets,
-                    'category' => $font_info->category
+                    'category' => $font_info->category,
+                    'kind' => $font_info->kind
 				));
 				die();
 			}
 		}else{
-			return $gfontfetcher->get_properties_of($familyname);
+            if(self::isOSFont($familyname)){
+                return self::getOSFontProps($familyname);
+            }else{
+                return $gfontfetcher->get_properties_of($familyname);
+            }
 		}
 	}
+
+    static function isOSFont($familyname){
+        $osFonts = self::getOSFonts();
+        foreach($osFonts as $font){
+            if($font->family == $familyname){
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    static function getOSFontProps($familyname){
+        $osFonts = self::getOSFonts();
+        foreach($osFonts as $font){
+            if($font->family == $familyname){
+                return $font;
+            }
+        }
+        return false;
+    }
+
+    static public function getOSFonts(){
+        $osFonts = array(
+            array(
+                'kind' => 'osfonts#osfont',
+                'family' => 'Arial',
+                'category' => 'sans-serif',
+                'variants' => array('regular'),
+                'subsets' => array('latin'),
+            ),
+            array(
+                'kind' => 'osfonts#osfont',
+                'family' => 'Avant Garde',
+                'category' => 'sans-serif',
+                'variants' => array('regular'),
+                'subsets' => array('latin'),
+            ),
+            array(
+                'kind' => 'osfonts#osfont',
+                'family' => 'Cambria, Georgia',
+                'category' => 'serif',
+                'variants' => array('regular'),
+                'subsets' => array('latin'),
+            ),
+            array(
+                'kind' => 'osfonts#osfont',
+                'family' => 'Copse',
+                'category' => 'sans-serif',
+                'variants' => array('regular'),
+                'subsets' => array('latin'),
+            ),
+            array(
+                'kind' => 'osfonts#osfont',
+                'family' => 'Garamond, Hoefler Text, Times New Roman, Times',
+                'category' => 'serif',
+                'variants' => array('regular'),
+                'subsets' => array('latin'),
+            ),
+            array(
+                'kind' => 'osfonts#osfont',
+                'family' => 'Georgia',
+                'category' => 'serif',
+                'variants' => array('regular'),
+                'subsets' => array('latin'),
+            ),
+            array(
+                'kind' => 'osfonts#osfont',
+                'family' => 'Helvetica Neue, Helvetica',
+                'category' => 'sans-serif',
+                'variants' => array('regular'),
+                'subsets' => array('latin'),
+            ),
+            array(
+                'kind' => 'osfonts#osfont',
+                'family' => 'Tahoma, Geneva',
+                'category' => 'sans-serif',
+                'variants' => array('regular'),
+                'subsets' => array('latin'),
+            ),
+        );
+        $osFonts = apply_filters("wbf_of_typography_osFonts",$osFonts);
+        $result = array();
+        foreach($osFonts as $font){
+            $fontObj = new stdClass();
+            $fontObj->kind = $font['kind'];
+            $fontObj->family = $font['family'];
+            $fontObj->category = $font['category'];
+            $fontObj->variants = $font['variants'];
+            $fontObj->subsets = $font['subsets'];
+            array_push($result,$fontObj);
+        }
+
+        return $result;
+    }
 
 	private static function fontFamily_OptName($theme_name,$opt_id){
 		return $theme_name.'['.$opt_id.'][family]';
