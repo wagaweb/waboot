@@ -32,14 +32,14 @@ function of_sanitize_typography( $input, $option ) {
 
 	$output = wp_parse_args( $input, array(
 		'family'  => '',
-		'style'  => '',
-		'charset' => '',
+		'style'  => array(),
+		'charset' => array(),
 		'color' => ''
 	) );
 
-	$output['family'] = apply_filters( 'of_sanitize_text', $output['family'] );
+	/*$output['family'] = apply_filters( 'of_sanitize_text', $output['family'] );
 	$output['style'] = apply_filters( 'of_sanitize_text', $output['style'] );
-	$output['charset'] = apply_filters( 'of_sanitize_text', $output['charset'] );
+	$output['charset'] = apply_filters( 'of_sanitize_text', $output['charset'] );*/
 	$output['color'] = apply_filters( 'of_sanitize_color', $output['color'] );
 
 	return $output;

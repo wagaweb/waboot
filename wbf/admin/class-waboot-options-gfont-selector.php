@@ -17,7 +17,18 @@ class Waboot_Options_GFont_Selector
 			return;
 		}
 
-		wp_register_script('font-selector', WBF_URL . '/admin/js/font-selector.js',array('jquery'));
+        wp_register_script('gfont_loader','http://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js');
+		wp_register_script('font-selector', WBF_URL . '/admin/js/font-selector.js',array('jquery','gfont_loader'));
+        $fonts_to_load = $this->geFontsToLoad();
+        $families = array();
+        $i = 0;
+        foreach($fonts_to_load as $name => $props){
+            $name = preg_replace("/\+/"," ",$name);
+            $families[] = $name;
+        }
+        wp_localize_script('font-selector','wbfOfFonts',array(
+            'families' => $families
+        ));
 		wp_enqueue_script('font-selector');
 	}
 
@@ -25,6 +36,13 @@ class Waboot_Options_GFont_Selector
      * Loads the fonts into wordpress head
      */
     function loadFonts(){
+        $fonts_to_load = $this->geFontsToLoad();
+        foreach($fonts_to_load as $name => $props){
+            echo $this->buildFontString($name,$props);
+        }
+    }
+
+    function geFontsToLoad(){
         $options_names = apply_filters("wbf_of_gfonts_options",array()); //the name of the options that the theme uses for gfonts
         $fonts_to_load = array();
         foreach($options_names as $opt_name){
@@ -36,6 +54,8 @@ class Waboot_Options_GFont_Selector
                     'subsets' => array()
                 );
             }
+            if($value['style'] == "") $value['style'] = array();
+            if($value['charset'] == "") $value['charset'] = array();
             foreach($value['style'] as $style){
                 if(!in_array($style,$fonts_to_load[$font_name]['styles']))
                     $fonts_to_load[$font_name]['styles'][] = $style;
@@ -45,30 +65,34 @@ class Waboot_Options_GFont_Selector
                     $fonts_to_load[$font_name]['subsets'][] = $charset;
             }
         }
-        foreach($fonts_to_load as $name => $props){
-            $font_string = $name;
-            if(isset($props['styles'])) $font_string .= ":";
+        return $fonts_to_load;
+    }
+
+    function buildFontString($name,$props,$return = "css"){
+        $font_string = $name;
+        if(isset($props['styles'])) $font_string .= ":";
+        $i = 0;
+        foreach($props['styles'] as $style){
+            $font_string .= $style;
+            if($i != count($props['styles']) - 1)
+                $font_string .= ",";
+            $i++;
+        }
+        if(isset($props['subsets'])){
+            $font_string .= "&subset:";
             $i = 0;
-            foreach($props['styles'] as $style){
-                $font_string .= $style;
-                if($i != count($props['styles']) - 1)
+            foreach($props['subsets'] as $subset){
+                $font_string .= $subset;
+                if($i != count($props['subsets']) - 1)
                     $font_string .= ",";
                 $i++;
             }
-            if(isset($props['subsets'])){
-                $font_string .= "&subset:";
-                $i = 0;
-                foreach($props['subsets'] as $subset){
-                    $font_string .= $subset;
-                    if($i != count($props['subsets']) - 1)
-                        $font_string .= ",";
-                    $i++;
-                }
-            }
-            ?>
-            <link rel='stylesheet' id="options_gfont_<?php echo $name; ?>" href='http://fonts.googleapis.com/css?family=<?php echo $font_string ?>' type='text/css' media="all">
-            <?php
         }
+        $css = "<link rel='stylesheet' id='options_gfont_$name' href='http://fonts.googleapis.com/css?family=$font_string' type='text/css' media='all'>";
+        if($return == "css")
+            return $css;
+        else
+            return $font_string;
     }
 
 	/**
@@ -186,6 +210,14 @@ class Waboot_Options_GFont_Selector
          */
         $category = isset($value['category']) && !empty($value['category'])? $value['category'] : "";
         $output .= "<input class='font-category-selector' type='hidden' name='".self::fontCategory_OptName($option_name,$id)."' value='".$category."' />";
+
+        /*$value['family']."',".$value['category']
+         * PREVIEW
+         */
+        $ff = "'".$value['family']."',".$value['category'];
+        $output .= "<div class='font-preview'>
+        <p style=\"font-family: ".$ff."; \">Lorem ipsum dolor sit <strong>amet</strong>, consectetur adipiscing <em>elit</em>, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+        </div>";
 
 		return $output;
 	}

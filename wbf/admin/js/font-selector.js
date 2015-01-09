@@ -1,3 +1,5 @@
+loadGFont(wbfOfFonts.families);
+
 jQuery(document).ready(function ($) {
     "use strict";
     $(".font-family-selector").on("change",function(){
@@ -5,6 +7,7 @@ jQuery(document).ready(function ($) {
         var $styleSelector = $(this).siblings(".font-style-selector");
         var $charsetSelector = $(this).siblings(".font-charset-selector");
         var $categoryInput = $(this).siblings(".font-category-selector");
+        var $fontPreview = $(this).siblings(".font-preview");
         var request = $.ajax({
             url: ajaxurl,
             type: "POST",
@@ -21,6 +24,9 @@ jQuery(document).ready(function ($) {
         });
         request.done(function(data, textStatus, jqXHR){
             console.log(data);
+            //Load GFonts and set the preview
+            loadGFont([$familySeletor.val()]);
+            $fontPreview.find("p").css("font-family","'"+data.family+"',"+data.category);
             //Assign new styles to the html select
             $styleSelector.html((function(){
                 var output = "";
@@ -50,3 +56,11 @@ jQuery(document).ready(function ($) {
         });
     });
 });
+
+function loadGFont(families){
+    WebFont.load({
+        google: {
+            families: families
+        }
+    });
+}
