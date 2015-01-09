@@ -298,6 +298,8 @@ if ( ! function_exists( 'waboot_link_format_helper' ) ) :
         $link_start = stristr( $post_content, "http" );
         $link_end = stristr( $link_start, "\n" );
 
+        $link = preg_match( '/<a\s[^>]*?href=[\'"](.+?)[\'"]/is', $post_content, $matches );
+
         if ( ! strlen( $link_end ) == 0 ) {
             $link_url = substr( $link_start, 0, -( strlen( $link_end ) + 1 ) );
         } else {
@@ -307,8 +309,13 @@ if ( ! function_exists( 'waboot_link_format_helper' ) ) :
         $post_content = substr( $post_content, strlen( $link_url ) );
 
         // Return the first link in the post content
-        if ( 'link' == $output )
-            return $link_url;
+        if ( 'link' == $output ){
+            if($link){
+                return $matches[1];
+            }else{
+                return "";
+            }
+        }
 
         // Return the post content without the first link
         if ( 'post_content' == $output )
