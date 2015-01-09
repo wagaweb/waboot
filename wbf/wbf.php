@@ -124,8 +124,8 @@ class WBF {
         }
 
         // Google Fonts
-        //locate_template('/wbf/includes/google-fonts-retriever.php', true);
-        //$GLOBALS['wbf_gfont_fetcher'] = WBF\GoogleFontsRetriever::getInstance();
+        locate_template('/wbf/includes/google-fonts-retriever.php', true);
+        $GLOBALS['wbf_gfont_fetcher'] = WBF\GoogleFontsRetriever::getInstance();
 
         // Load behaviors extension
 	    locate_template( '/wbf/admin/behaviors-framework.php', true );
@@ -210,6 +210,12 @@ class WBF {
 		return array("inc/options.php");
 	}
 
+    /**
+     * Replace {of_get_option} tags in _theme-options-generated.less.cmp; It is called during "update_option" and only for of theme options.
+     * @param string $option option name
+     * @param $old_value old value of the option
+     * @param $value new value of the option
+     */
 	function of_style_options_save($option, $old_value, $value){
 		$config = get_option( 'optionsframework' );
 		if($option == $config['id']){
@@ -219,17 +225,19 @@ class WBF {
 			}
 			$parsedFile = new SplFileInfo(get_stylesheet_directory()."/sources/less/theme-options-generated.less");
 			if($tmpFile->isFile() && $tmpFile->isWritable()){
-				$findRegExp = "~//{of_get_option\('([a-zA-Z0-9\-_]+)'\)}~";
+				$genericOptionfindRegExp = "~//{of_get_option\('([a-zA-Z0-9\-_]+)'\)}~";
+				$fontOptionfindRegExp = "~//{of_get_font\('([a-zA-Z0-9\-_]+)'\)}~";
 
 				$tmpFileObj = $tmpFile->openFile("r");
 				$parsedFileObj = $parsedFile->openFile("w+");
 
 				while (!$tmpFileObj->eof()) {
 					$line = $tmpFileObj->fgets();
-					if(preg_match($findRegExp,$line,$matches)){
+					//Replace a generic of option
+                    if(preg_match($genericOptionfindRegExp,$line,$matches)){
 						if(array_key_exists($matches[1],$value)){
 							if($value[$matches[1]] != ""){
-								$line = preg_replace($findRegExp,$value[$matches[1]],$line);
+								$line = preg_replace($genericOptionfindRegExp,$value[$matches[1]],$line);
 							}else{
 								$line = "//{$matches[1]} is empty\n";
 							}
@@ -237,6 +245,30 @@ class WBF {
 							$line = "//{$matches[1]} not found\n";
 						}
 					}
+                    //Replace a font option
+                    if(preg_match($fontOptionfindRegExp,$line,$matches)){
+                        $line = "//{$matches[1]} is empty\n";
+                        if(array_key_exists($matches[1],$value)){
+                            if($value[$matches[1]] != ""){
+                                $attr = $value[$matches[1]];
+                                $fontString = "font-family: '".$attr['family']."', ".$attr['category'].";";
+                                if(preg_match("/([0-9]+)([a-z]+)/",$attr['style'],$style_matches)){
+                                    if($style_matches[1] == 'regular') $style_matches[1] = "normal";
+                                    $fontString .= "font-weight: ".$style_matches[1].";";
+                                    $fontString .= "font-style: ".$style_matches[2].";";
+                                }else{
+                                    if($attr['style'] == 'regular') $attr['style'] = "normal";
+                                    $fontString .= "font-weight: ".$attr['style'].";";
+                                }
+                                $fontString .= "color: ".$attr['color'].";";
+                                $line = $fontString;
+                            }else{
+                                $line = "//{$matches[1]} is empty\n";
+                            }
+                        }else{
+                            $line = "//{$matches[1]} not found\n";
+                        }
+                    }
 					$parsedFileObj->fwrite($line);
 				}
 			}

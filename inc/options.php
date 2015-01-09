@@ -364,7 +364,7 @@ function optionsframework_options() {
         'type' => 'heading'
     );
 
-    $options[] = array( 'name' => 'Primary font (body, p, ul, li)',
+    /*$options[] = array( 'name' => 'Primary font (body, p, ul, li)',
         'desc' => 'Select your primary font face.',
         'id' => 'waboot_primary_font',
         'std' => array( 'size' => '', 'style' => 'normal', 'weight' => 'normal' , 'face' => 'Lato, sans-serif', 'color' => ''),
@@ -372,9 +372,9 @@ function optionsframework_options() {
         'options' => array(
             'faces' => $typography_mixed_fonts,
             'styles' => false )
-    );
+    );*/
 
-	/*$options[] = array(
+	$options[] = array(
 		'name' => 'Primary font (body, p, ul, li)',
 		'id' => 'waboot_primary_gfont',
 		'std' => array(
@@ -384,9 +384,9 @@ function optionsframework_options() {
 			'color'  => '#444444'
 		),
 		'type' => 'gfont'
-	);*/
+	);
 
-    $options[] = array( 'name' => 'Secondary font (h1, h2, h3, h4, h5, h6)',
+    /*$options[] = array( 'name' => 'Secondary font (h1, h2, h3, h4, h5, h6)',
         'desc' => 'Select your secondary font face.',
         'id' => 'waboot_secondary_font',
         'std' => array( 'size' => '', 'style' => 'normal', 'weight' => 'normal' ,'face' => 'Lato, sans-serif', 'color' => ''),
@@ -394,6 +394,18 @@ function optionsframework_options() {
         'options' => array(
             'faces' => $typography_mixed_fonts,
             'styles' => false )
+    );*/
+
+    $options[] = array(
+        'name' => 'Secondary font (h1, h2, h3, h4, h5, h6)',
+        'id' => 'waboot_secondary_gfont',
+        'std' => array(
+            'family' => 'Lato',
+            'style'  => 'bold',
+            'charset' => 'latin',
+            'color'  => '#444444'
+        ),
+        'type' => 'gfont'
     );
 /*
     $options[] = array( 'name' => 'System Fonts and Google Fonts Mixed (2)',

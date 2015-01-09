@@ -52,3 +52,11 @@ body {
 .navbar.main-navigation .navbar-collapse {
   background-color: //{of_get_option('waboot_navbar_bgcolor')};
 }
+
+body, p, ul, li {
+    //{of_get_font('waboot_primary_gfont')}
+}
+
+h1, h2, h3, h4, h5, h6 {
+    //{of_get_font('waboot_secondary_gfont')}
+}

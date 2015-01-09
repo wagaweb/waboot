@@ -6492,10 +6492,10 @@
     "latin-ext",
     "latin"
    ],
-   "version": "v11",
-   "lastModified": "2014-10-21",
+   "version": "v12",
+   "lastModified": "2015-01-06",
    "files": {
-    "regular": "http://fonts.gstatic.com/s/lobster/v11/9LpJGtNuM1D8FAZ2BkJH2Q.ttf"
+    "regular": "http://fonts.gstatic.com/s/lobster/v12/9LpJGtNuM1D8FAZ2BkJH2Q.ttf"
    }
   },
   {
@@ -8935,6 +8935,23 @@
   },
   {
    "kind": "webfonts#webfont",
+   "family": "Peddana",
+   "category": "serif",
+   "variants": [
+    "regular"
+   ],
+   "subsets": [
+    "telugu",
+    "latin"
+   ],
+   "version": "v4",
+   "lastModified": "2015-01-08",
+   "files": {
+    "regular": "http://fonts.gstatic.com/s/peddana/v4/zaSZuj_GhmC8AOTugOROnA.ttf"
+   }
+  },
+  {
+   "kind": "webfonts#webfont",
    "family": "Peralta",
    "category": "display",
    "variants": [
@@ -9737,6 +9754,23 @@
    "lastModified": "2014-12-10",
    "files": {
     "regular": "http://fonts.gstatic.com/s/ramabhadra/v5/JyhxLXRVQChLDGADS_c5MPesZW2xOQ-xsNqO47m55DA.ttf"
+   }
+  },
+  {
+   "kind": "webfonts#webfont",
+   "family": "Ramaraja",
+   "category": "serif",
+   "variants": [
+    "regular"
+   ],
+   "subsets": [
+    "telugu",
+    "latin"
+   ],
+   "version": "v1",
+   "lastModified": "2015-01-08",
+   "files": {
+    "regular": "http://fonts.gstatic.com/s/ramaraja/v1/XIqzxFapVczstBedHdQTiw.ttf"
    }
   },
   {
@@ -11651,6 +11685,23 @@
    "lastModified": "2014-08-28",
    "files": {
     "regular": "http://fonts.gstatic.com/s/telex/v4/24-3xP9ywYeHOcFU3iGk8A.ttf"
+   }
+  },
+  {
+   "kind": "webfonts#webfont",
+   "family": "Tenali Ramakrishna",
+   "category": "sans-serif",
+   "variants": [
+    "regular"
+   ],
+   "subsets": [
+    "telugu",
+    "latin"
+   ],
+   "version": "v3",
+   "lastModified": "2015-01-08",
+   "files": {
+    "regular": "http://fonts.gstatic.com/s/tenaliramakrishna/v3/M0nTmDqv2M7AGoGh-c946BZak5pSBHqWX6uyVMiMFoA.ttf"
    }
   },
   {

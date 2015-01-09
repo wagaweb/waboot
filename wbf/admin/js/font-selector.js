@@ -4,6 +4,7 @@ jQuery(document).ready(function ($) {
         var $familySeletor = $(this);
         var $styleSelector = $(this).siblings(".font-style-selector");
         var $charsetSelector = $(this).siblings(".font-charset-selector");
+        var $categoryInput = $(this).siblings(".font-category-selector");
         var request = $.ajax({
             url: ajaxurl,
             type: "POST",
@@ -36,6 +37,8 @@ jQuery(document).ready(function ($) {
                 });
                 return output;
             })());
+            //Assign new category to the html input
+            $categoryInput.val(data.category);
         });
         request.fail(function(jqXHR, textStatus, errorThrown){
             console.log(errorThrown);

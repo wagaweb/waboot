@@ -193,6 +193,16 @@ if ( ! function_exists( 'waboot_secondary_container_class' ) ):
     add_filter("waboot_secondary_container_class","waboot_secondary_container_class");
 endif;
 
+if( ! function_exists('waboot_load_gfonts') ):
+    function waboot_load_gfonts($options){
+        $options[] = "waboot_primary_gfont";
+        $options[] = "waboot_secondary_gfont";
+
+        return $options;
+    }
+    add_filter("wbf_of_gfonts_options","waboot_load_gfonts");
+endif;
+
 if ( ! function_exists( 'waboot_behaviors_cpts_blacklist' ) ):
     /**
      * Puts some custom post types into blacklist (in these post types the behavior will never be displayed)
