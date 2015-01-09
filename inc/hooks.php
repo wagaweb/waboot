@@ -195,8 +195,8 @@ endif;
 
 if( ! function_exists('waboot_load_gfonts') ):
     function waboot_load_gfonts($options){
-        $options[] = "waboot_primary_gfont";
-        $options[] = "waboot_secondary_gfont";
+        $options[] = "waboot_primary_font";
+        $options[] = "waboot_secondary_font";
 
         return $options;
     }

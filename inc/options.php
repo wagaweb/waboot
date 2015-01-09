@@ -376,14 +376,14 @@ function optionsframework_options() {
 
 	$options[] = array(
 		'name' => 'Primary font (body, p, ul, li)',
-		'id' => 'waboot_primary_gfont',
+		'id' => 'waboot_primary_font',
 		'std' => array(
 			'family' => 'Lato',
 			'style'  => 'regular',
 			'charset' => 'latin',
 			'color'  => '#444444'
 		),
-		'type' => 'gfont'
+		'type' => 'typography'
 	);
 
     /*$options[] = array( 'name' => 'Secondary font (h1, h2, h3, h4, h5, h6)',
@@ -398,14 +398,14 @@ function optionsframework_options() {
 
     $options[] = array(
         'name' => 'Secondary font (h1, h2, h3, h4, h5, h6)',
-        'id' => 'waboot_secondary_gfont',
+        'id' => 'waboot_secondary_font',
         'std' => array(
             'family' => 'Lato',
             'style'  => 'bold',
             'charset' => 'latin',
             'color'  => '#444444'
         ),
-        'type' => 'gfont'
+        'type' => 'typography'
     );
 /*
     $options[] = array( 'name' => 'System Fonts and Google Fonts Mixed (2)',
