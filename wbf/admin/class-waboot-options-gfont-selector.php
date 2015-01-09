@@ -49,22 +49,24 @@ class Waboot_Options_GFont_Selector
         $fonts_to_load = array();
         foreach($options_names as $opt_name){
             $value = of_get_option($opt_name);
-            $font_name = preg_replace("/ /","+",$value['family']);
-            if(!isset($fonts_to_load[$font_name])){
-                $fonts_to_load[$font_name] = array(
-                    'styles' => array(),
-                    'subsets' => array()
-                );
-            }
-            if($value['style'] == "") $value['style'] = array();
-            if($value['charset'] == "") $value['charset'] = array();
-            foreach($value['style'] as $style){
-                if(!in_array($style,$fonts_to_load[$font_name]['styles']))
-                    $fonts_to_load[$font_name]['styles'][] = $style;
-            }
-            foreach($value['charset'] as $charset){
-                if(!in_array($charset,$fonts_to_load[$font_name]['subsets']))
-                    $fonts_to_load[$font_name]['subsets'][] = $charset;
+            if($value){
+                $font_name = preg_replace("/ /","+",$value['family']);
+                if(!isset($fonts_to_load[$font_name])){
+                    $fonts_to_load[$font_name] = array(
+                        'styles' => array(),
+                        'subsets' => array()
+                    );
+                }
+                if($value['style'] == "") $value['style'] = array();
+                if($value['charset'] == "") $value['charset'] = array();
+                foreach($value['style'] as $style){
+                    if(!in_array($style,$fonts_to_load[$font_name]['styles']))
+                        $fonts_to_load[$font_name]['styles'][] = $style;
+                }
+                foreach($value['charset'] as $charset){
+                    if(!in_array($charset,$fonts_to_load[$font_name]['subsets']))
+                        $fonts_to_load[$font_name]['subsets'][] = $charset;
+                }
             }
         }
         return $fonts_to_load;
@@ -130,6 +132,8 @@ class Waboot_Options_GFont_Selector
 			$value = $_value;
             if($value['style'] == "") $value['style'] = array();
             if($value['charset'] == "") $value['charset'] = array();
+            if(!is_array($value['style'])) $value['style'] = array($value['style']);
+            if(!is_array($value['charset'])) $value['charset'] = array($value['charset']);
 		}
 
 		if ( $_name != '' ) {

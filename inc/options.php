@@ -376,7 +376,7 @@ function optionsframework_options() {
 
 	$options[] = array(
 		'name' => 'Primary font (body, p, ul, li)',
-		'id' => 'waboot_primary_font',
+		'id' => 'waboot_primaryfont',
 		'std' => array(
 			'family' => 'Lato',
 			'style'  => 'regular',
@@ -398,7 +398,7 @@ function optionsframework_options() {
 
     $options[] = array(
         'name' => 'Secondary font (h1, h2, h3, h4, h5, h6)',
-        'id' => 'waboot_secondary_font',
+        'id' => 'waboot_secondaryfont',
         'std' => array(
             'family' => 'Lato',
             'style'  => 'bold',
