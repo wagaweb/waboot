@@ -2,7 +2,7 @@
     "name": "Waboot",
     "version": "1.0",
     "dependencies": {
-        "bootstrap": "3.2.*",
+        "bootstrap": "3.3.*",
         "fontawesome": "",
         "html5shiv": "",
         "respond": ""
