@@ -175,7 +175,7 @@ add_filter( 'of_background_attachment', 'of_sanitize_background_attachment' );
 
 /* Typography */
 
-function of_sanitize_typography( $input, $option ) {
+/*function of_sanitize_typography( $input, $option ) {
 
 	$output = wp_parse_args( $input, array(
 		'size'  => '',
@@ -199,8 +199,8 @@ function of_sanitize_typography( $input, $option ) {
     $output['style'] = apply_filters( 'of_font_style', $output['style'] );
 	$output['color'] = apply_filters( 'of_sanitize_color', $output['color'] );
 	return $output;
-}
-add_filter( 'of_sanitize_typography', 'of_sanitize_typography', 10, 2 );
+}*/
+//add_filter( 'of_sanitize_typography', 'of_sanitize_typography', 10, 2 );
 
 function of_sanitize_font_size( $value ) {
 	$recognized = of_recognized_font_sizes();

@@ -4,7 +4,7 @@
  * Allow sanitization of csseditor
  */
 add_filter( 'of_sanitize_csseditor', 'of_sanitize_textarea' );
-add_filter( 'of_sanitize_gfont', 'of_sanitize_gfont' );
+add_filter( 'of_sanitize_typography', 'of_sanitize_typography' );
 
 /**
  * Allow "a", "embed" and "script" tags in theme options text boxes
@@ -28,7 +28,7 @@ function custom_sanitize_text( $input ) {
 	return $output;
 }
 
-function of_sanitize_gfont( $input, $option ) {
+function of_sanitize_typography( $input, $option ) {
 
 	$output = wp_parse_args( $input, array(
 		'family'  => '',

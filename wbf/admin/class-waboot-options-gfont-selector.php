@@ -36,10 +36,14 @@ class Waboot_Options_GFont_Selector
                     'subsets' => array()
                 );
             }
-            if(!in_array($value['style'],$fonts_to_load[$font_name]['styles']))
-                $fonts_to_load[$font_name]['styles'][] = $value['style'];
-            if(!in_array($value['charset'],$fonts_to_load[$font_name]['subsets']))
-                $fonts_to_load[$font_name]['subsets'][] = $value['charset'];
+            foreach($value['style'] as $style){
+                if(!in_array($style,$fonts_to_load[$font_name]['styles']))
+                    $fonts_to_load[$font_name]['styles'][] = $style;
+            }
+            foreach($value['charset'] as $charset){
+                if(!in_array($charset,$fonts_to_load[$font_name]['subsets']))
+                    $fonts_to_load[$font_name]['subsets'][] = $charset;
+            }
         }
         foreach($fonts_to_load as $name => $props){
             $font_string = $name;
@@ -89,6 +93,8 @@ class Waboot_Options_GFont_Selector
 		$int = '';
 		$value = '';
 		$defaults = $_defaults;
+        if(!is_array($defaults['style'])) $defaults['style'] = array($defaults['style']);
+        if(!is_array($defaults['charset'])) $defaults['charset'] = array($defaults['charset']);
 		$name = '';
 
 		$id = strip_tags( strtolower( $_id ) );
@@ -96,6 +102,8 @@ class Waboot_Options_GFont_Selector
 		// If a value is passed and we don't have a stored value, use the value that's passed through.
 		if ( $_value != '' && $value == '' ) {
 			$value = $_value;
+            if($value['style'] == "") $value['style'] = array();
+            if($value['charset'] == "") $value['charset'] = array();
 		}
 
 		if ( $_name != '' ) {
@@ -127,32 +135,39 @@ class Waboot_Options_GFont_Selector
 		}else{
 			$selected_font_props = $fonts->items[0];
 		}
+        $selected_font_props->family_slug = preg_replace("/ /","-",$selected_font_props->family);
 
 		/**
 		 * VARIANTS
 		 */
-		$output .= "<select class='font-style-selector' name='".self::fontStyles_OptName($option_name,$id)."'>";
+        $output .= "<div class='font-style-selector'>";
 		foreach($selected_font_props->variants as $variant){
-			if(!empty($value) && $value['style'] == $variant){
-				$output .= "<option value='$variant' selected>$variant</option>";
-			}else{
-				$output .= "<option value='$variant'>$variant</option>";
+			if(!empty($value) && in_array($variant,$value['style'])){
+                $output .= "<input type=\"checkbox\" id=\"$selected_font_props->family_slug-$variant\" name=\"".self::fontStyles_OptName($option_name,$id)."[]\" value=\"$variant\" class=\"check $selected_font_props->family_slug\" checked>$variant";
+			}elseif(empty($value) && in_array($variant,$defaults['style'])){
+                $output .= "<input type=\"checkbox\" id=\"$selected_font_props->family_slug-$variant\" name=\"".self::fontStyles_OptName($option_name,$id)."[]\" value=\"$variant\" class=\"check $selected_font_props->family_slug\" checked>$variant";
+            }
+            else{
+                $output .= "<input type=\"checkbox\" id=\"$selected_font_props->family_slug-$variant\" name=\"".self::fontStyles_OptName($option_name,$id)."[]\" value=\"$variant\" class=\"check $selected_font_props->family_slug\">$variant";
 			}
 		}
-		$output .= "</select>";
+        $output .= "</div>";
 
 		/**
 		 * SUBSETS
 		 */
-		$output .= "<select class='font-charset-selector' name='".self::fontCharset_OptName($option_name,$id)."'>";
+        $output .= "<div class='font-charset-selector'>";
 		foreach($selected_font_props->subsets as $subset){
-			if(!empty($value) && $value['charset'] == $subset){
-				$output .= "<option value='$subset' selected>$subset</option>";
-			}else{
-				$output .= "<option value='$subset'>$subset</option>";
+			if(!empty($value) && in_array($subset,$value['charset'])){
+                $output .= "<input type=\"checkbox\" id=\"$selected_font_props->family_slug-$subset\" name=\"".self::fontCharset_OptName($option_name,$id)."[]\" value=\"$subset\" class=\"check $selected_font_props->family_slug\" checked>$subset";
+			}elseif(empty($value) && in_array($subset,$defaults['charset'])){
+                $output .= "<input type=\"checkbox\" id=\"$selected_font_props->family_slug-$subset\" name=\"".self::fontCharset_OptName($option_name,$id)."[]\" value=\"$subset\" class=\"check $selected_font_props->family_slug\" checked>$subset";
+            }
+            else{
+                $output .= "<input type=\"checkbox\" id=\"$selected_font_props->family_slug-$subset\" name=\"".self::fontCharset_OptName($option_name,$id)."[]\" value=\"$subset\" class=\"check $selected_font_props->family_slug\">$subset";
 			}
 		}
-		$output .= "</select>";
+        $output .= "</div>";
 
 		/**
 		 * COLOR

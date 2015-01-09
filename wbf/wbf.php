@@ -252,14 +252,14 @@ class WBF {
                             if($value[$matches[1]] != ""){
                                 $attr = $value[$matches[1]];
                                 $fontString = "font-family: '".$attr['family']."', ".$attr['category'].";";
-                                if(preg_match("/([0-9]+)([a-z]+)/",$attr['style'],$style_matches)){
+                                /*if(preg_match("/([0-9]+)([a-z]+)/",$attr['style'],$style_matches)){
                                     if($style_matches[1] == 'regular') $style_matches[1] = "normal";
                                     $fontString .= "font-weight: ".$style_matches[1].";";
                                     $fontString .= "font-style: ".$style_matches[2].";";
                                 }else{
                                     if($attr['style'] == 'regular') $attr['style'] = "normal";
                                     $fontString .= "font-weight: ".$attr['style'].";";
-                                }
+                                }*/
                                 $fontString .= "color: ".$attr['color'].";";
                                 $line = $fontString;
                             }else{

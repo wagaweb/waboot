@@ -15,8 +15,8 @@ jQuery(document).ready(function ($) {
             dataType: "json",
             beforeSend: function(){
                 $familySeletor.attr("disabled","disabled");
-                $styleSelector.attr("disabled","disabled");
-                $charsetSelector.attr("disabled","disabled");
+                $styleSelector.addClass("disabled");
+                $charsetSelector.addClass("disabled");
             }
         });
         request.done(function(data, textStatus, jqXHR){
@@ -25,7 +25,7 @@ jQuery(document).ready(function ($) {
             $styleSelector.html((function(){
                 var output = "";
                 $.each(data.variants,function(){
-                    output += "<option value='"+this+"'>"+this+"</option>";
+                    output += "<input type='checkbox' value='"+this+"' />"+this;
                 });
                 return output;
             })());
@@ -33,7 +33,7 @@ jQuery(document).ready(function ($) {
             $charsetSelector.html((function(){
                 var output = "";
                 $.each(data.subsets,function(){
-                    output += "<option value='"+this+"'>"+this+"</option>";
+                    output += "<input type='checkbox' value='"+this+"' />"+this;
                 });
                 return output;
             })());
@@ -45,8 +45,8 @@ jQuery(document).ready(function ($) {
         });
         request.always(function(result, textStatus, returned){
            $familySeletor.removeAttr("disabled");
-           $styleSelector.removeAttr("disabled");
-           $charsetSelector.removeAttr("disabled");
+           $styleSelector.removeClass("disabled");
+           $charsetSelector.removeClass("disabled");
         });
     });
 });
