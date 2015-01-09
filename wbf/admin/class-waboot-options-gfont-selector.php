@@ -138,13 +138,19 @@ class Waboot_Options_GFont_Selector
 
 		$class = "of-input gfont";
 
-		$fonts = $wbf_gfont_fetcher->get_webfonts();
+        $os_fonts = self::getOSFonts();
+        $g_fonts = $wbf_gfont_fetcher->get_webfonts();
+        if(!$g_fonts){
+            $g_fonts = new stdClass();
+            $g_fonts->items = array();
+        }
+        $fonts = array_merge($os_fonts,$g_fonts->items);
 
 		/**
 		 * FAMILY
 		 */
 		$output .= "<select class='font-family-selector' name='".self::fontFamily_OptName($option_name,$id)."'>";
-		foreach($fonts->items as $font){
+		foreach($fonts as $font){
 			if(!empty($value) && $value['family'] == $font->family){
 				$output .= "<option value='$font->family' selected>$font->family</option>";
 			}else{
@@ -155,9 +161,9 @@ class Waboot_Options_GFont_Selector
 
 		if(!empty($value)){
 			$selected_font_props = $wbf_gfont_fetcher->get_properties_of($value['family']);
-			if(!$selected_font_props) $selected_font_props = $fonts->items[0];
+			if(!$selected_font_props) $selected_font_props = $fonts[0];
 		}else{
-			$selected_font_props = $fonts->items[0];
+			$selected_font_props = $fonts[0];
 		}
         $selected_font_props->family_slug = preg_replace("/ /","-",$selected_font_props->family);
 
@@ -242,21 +248,118 @@ class Waboot_Options_GFont_Selector
 		}
 		$gfontfetcher = \WBF\GoogleFontsRetriever::getInstance();
 		if(DOING_AJAX){
-			$font_info = $gfontfetcher->get_properties_of($familyname);
+            if(self::isOSFont($familyname)){
+                $font_info = self::getOSFontProps($familyname);
+            }else{
+                $font_info = $gfontfetcher->get_properties_of($familyname);
+            }
 			if(!$font_info) echo "0";
 			else{
 				echo json_encode(array(
 					'family' => $font_info->family,
 					'variants' => $font_info->variants,
 					'subsets' => $font_info->subsets,
-                    'category' => $font_info->category
+                    'category' => $font_info->category,
+                    'kind' => $font_info->kind
 				));
 				die();
 			}
 		}else{
-			return $gfontfetcher->get_properties_of($familyname);
+            if(self::isOSFont($familyname)){
+                return self::getOSFontProps($familyname);
+            }else{
+                return $gfontfetcher->get_properties_of($familyname);
+            }
 		}
 	}
+
+    static function isOSFont($familyname){
+        $osFonts = self::getOSFonts();
+        foreach($osFonts as $font){
+            if($font->family == $familyname){
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    static function getOSFontProps($familyname){
+        $osFonts = self::getOSFonts();
+        foreach($osFonts as $font){
+            if($font->family == $familyname){
+                return $font;
+            }
+        }
+        return false;
+    }
+
+    static public function getOSFonts(){
+        $osFonts = array(
+            array(
+                'kind' => 'osfonts#osfont',
+                'family' => 'Arial',
+                'category' => 'sans-serif',
+                'variants' => array('regular'),
+                'subsets' => array('latin'),
+            ),
+            array(
+                'kind' => 'osfonts#osfont',
+                'family' => 'Avant Garde',
+                'category' => 'sans-serif',
+                'variants' => array('regular'),
+                'subsets' => array('latin'),
+            ),
+            array(
+                'kind' => 'osfonts#osfont',
+                'family' => 'Cambria',
+                'category' => 'serif',
+                'variants' => array('regular'),
+                'subsets' => array('latin'),
+            ),
+            array(
+                'kind' => 'osfonts#osfont',
+                'family' => 'Garamond',
+                'category' => 'serif',
+                'variants' => array('regular'),
+                'subsets' => array('latin'),
+            ),
+            array(
+                'kind' => 'osfonts#osfont',
+                'family' => 'Georgia',
+                'category' => 'serif',
+                'variants' => array('regular'),
+                'subsets' => array('latin'),
+            ),
+            array(
+                'kind' => 'osfonts#osfont',
+                'family' => 'Helvetica Neue',
+                'category' => 'sans-serif',
+                'variants' => array('regular'),
+                'subsets' => array('latin'),
+            ),
+            array(
+                'kind' => 'osfonts#osfont',
+                'family' => 'Tahoma',
+                'category' => 'sans-serif',
+                'variants' => array('regular'),
+                'subsets' => array('latin'),
+            ),
+        );
+        $osFonts = apply_filters("wbf_of_typography_osFonts",$osFonts);
+        $result = array();
+        foreach($osFonts as $font){
+            $fontObj = new stdClass();
+            $fontObj->kind = $font['kind'];
+            $fontObj->family = $font['family'];
+            $fontObj->category = $font['category'];
+            $fontObj->variants = $font['variants'];
+            $fontObj->subsets = $font['subsets'];
+            array_push($result,$fontObj);
+        }
+
+        return $result;
+    }
 
 	private static function fontFamily_OptName($theme_name,$opt_id){
 		return $theme_name.'['.$opt_id.'][family]';

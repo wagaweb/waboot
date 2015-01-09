@@ -25,7 +25,9 @@ jQuery(document).ready(function ($) {
         request.done(function(data, textStatus, jqXHR){
             console.log(data);
             //Load GFonts and set the preview
-            loadGFont([$familySeletor.val()]);
+            if(data.kind == "webfonts#webfont"){
+                loadGFont([$familySeletor.val()]);
+            }
             $fontPreview.find("p").css("font-family","'"+data.family+"',"+data.category);
             //Assign new styles to the html select
             $styleSelector.html((function(){
