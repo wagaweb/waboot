@@ -11,7 +11,7 @@
 	<header class="entry-header">
 		<h2 class="entry-title">
 			<a class="entry-title" title="<?php printf( esc_attr__( 'Link to %s', 'waboot' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark" href="<?php echo waboot_link_format_helper( 'link' ); ?>">
-				<?php the_title(); ?>&rarr;
+				<?php the_title(); ?> &rarr;
 			</a>
 		</h2>
 	</header><!-- .entry-header -->
