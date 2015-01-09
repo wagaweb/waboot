@@ -38,7 +38,9 @@ class Waboot_Options_GFont_Selector
     function loadFonts(){
         $fonts_to_load = $this->geFontsToLoad();
         foreach($fonts_to_load as $name => $props){
-            echo $this->buildFontString($name,$props);
+            if(!self::isOSFont(preg_replace("/ /","+",$name))){
+                echo $this->buildFontString($name,$props);
+            }
         }
     }
 
@@ -173,12 +175,12 @@ class Waboot_Options_GFont_Selector
         $output .= "<div class='font-style-selector'>";
 		foreach($selected_font_props->variants as $variant){
 			if(!empty($value) && in_array($variant,$value['style'])){
-                $output .= "<input type=\"checkbox\" id=\"$selected_font_props->family_slug-$variant\" name=\"".self::fontStyles_OptName($option_name,$id)."[]\" value=\"$variant\" class=\"check $selected_font_props->family_slug\" checked>$variant";
+                $output .= "<input type=\"checkbox\" name=\"".self::fontStyles_OptName($option_name,$id)."[]\" value=\"$variant\" class=\"check $selected_font_props->family_slug\" checked>$variant";
 			}elseif(empty($value) && in_array($variant,$defaults['style'])){
-                $output .= "<input type=\"checkbox\" id=\"$selected_font_props->family_slug-$variant\" name=\"".self::fontStyles_OptName($option_name,$id)."[]\" value=\"$variant\" class=\"check $selected_font_props->family_slug\" checked>$variant";
+                $output .= "<input type=\"checkbox\" name=\"".self::fontStyles_OptName($option_name,$id)."[]\" value=\"$variant\" class=\"check $selected_font_props->family_slug\" checked>$variant";
             }
             else{
-                $output .= "<input type=\"checkbox\" id=\"$selected_font_props->family_slug-$variant\" name=\"".self::fontStyles_OptName($option_name,$id)."[]\" value=\"$variant\" class=\"check $selected_font_props->family_slug\">$variant";
+                $output .= "<input type=\"checkbox\" name=\"".self::fontStyles_OptName($option_name,$id)."[]\" value=\"$variant\" class=\"check $selected_font_props->family_slug\">$variant";
 			}
 		}
         $output .= "</div>";
@@ -189,12 +191,12 @@ class Waboot_Options_GFont_Selector
         $output .= "<div class='font-charset-selector'>";
 		foreach($selected_font_props->subsets as $subset){
 			if(!empty($value) && in_array($subset,$value['charset'])){
-                $output .= "<input type=\"checkbox\" id=\"$selected_font_props->family_slug-$subset\" name=\"".self::fontCharset_OptName($option_name,$id)."[]\" value=\"$subset\" class=\"check $selected_font_props->family_slug\" checked>$subset";
+                $output .= "<input type=\"checkbox\" name=\"".self::fontCharset_OptName($option_name,$id)."[]\" value=\"$subset\" class=\"check\" checked>$subset";
 			}elseif(empty($value) && in_array($subset,$defaults['charset'])){
-                $output .= "<input type=\"checkbox\" id=\"$selected_font_props->family_slug-$subset\" name=\"".self::fontCharset_OptName($option_name,$id)."[]\" value=\"$subset\" class=\"check $selected_font_props->family_slug\" checked>$subset";
+                $output .= "<input type=\"checkbox\" name=\"".self::fontCharset_OptName($option_name,$id)."[]\" value=\"$subset\" class=\"check\" checked>$subset";
             }
             else{
-                $output .= "<input type=\"checkbox\" id=\"$selected_font_props->family_slug-$subset\" name=\"".self::fontCharset_OptName($option_name,$id)."[]\" value=\"$subset\" class=\"check $selected_font_props->family_slug\">$subset";
+                $output .= "<input type=\"checkbox\" name=\"".self::fontCharset_OptName($option_name,$id)."[]\" value=\"$subset\" class=\"check\">$subset";
 			}
 		}
         $output .= "</div>";

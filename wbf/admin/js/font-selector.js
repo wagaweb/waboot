@@ -5,7 +5,9 @@ jQuery(document).ready(function ($) {
     $(".font-family-selector").on("change",function(){
         var $familySeletor = $(this);
         var $styleSelector = $(this).siblings(".font-style-selector");
+        var styleOptName = $styleSelector.find('input:first').attr("name");
         var $charsetSelector = $(this).siblings(".font-charset-selector");
+        var charsetOptName = $charsetSelector.find('input:first').attr("name");
         var $categoryInput = $(this).siblings(".font-category-selector");
         var $fontPreview = $(this).siblings(".font-preview");
         var request = $.ajax({
@@ -33,7 +35,7 @@ jQuery(document).ready(function ($) {
             $styleSelector.html((function(){
                 var output = "";
                 $.each(data.variants,function(){
-                    output += "<input type='checkbox' value='"+this+"' />"+this;
+                    output += "<input name='"+styleOptName+"' type='checkbox' value='"+this+"' />"+this;
                 });
                 return output;
             })());
@@ -41,7 +43,7 @@ jQuery(document).ready(function ($) {
             $charsetSelector.html((function(){
                 var output = "";
                 $.each(data.subsets,function(){
-                    output += "<input type='checkbox' value='"+this+"' />"+this;
+                    output += "<input name='"+charsetOptName+"' type='checkbox' value='"+this+"' />"+this;
                 });
                 return output;
             })());
