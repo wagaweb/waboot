@@ -295,23 +295,18 @@ if ( ! function_exists( 'waboot_link_format_helper' ) ) :
             _doing_it_wrong( __FUNCTION__, __( 'You must specify the output you want - either "link" or "post_content".', 'waboot' ), '1.0.1' );
 
         $post_content = get_the_content();
-        $link_start = stristr( $post_content, "http" );
-        $link_end = stristr( $link_start, "\n" );
 
-        $link = preg_match( '/<a\s[^>]*?href=[\'"](.+?)[\'"]/is', $post_content, $matches );
-
-        if ( ! strlen( $link_end ) == 0 ) {
-            $link_url = substr( $link_start, 0, -( strlen( $link_end ) + 1 ) );
-        } else {
-            $link_url = $link_start;
+        $link = preg_match( '/<a\s[^>]*?href=[\'"](.+?)[\'"][^>]*>[^>]*>/is', $post_content, $matches );
+        if($link){
+            $link_url = $matches[1];
+            $post_content = substr( $post_content, strlen( $matches[0] ) );
+            if(!$post_content) $post_content = "";
         }
-
-        $post_content = substr( $post_content, strlen( $link_url ) );
 
         // Return the first link in the post content
         if ( 'link' == $output ){
             if($link){
-                return $matches[1];
+                return $link_url;
             }else{
                 return "";
             }
