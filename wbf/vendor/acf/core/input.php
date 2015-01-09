@@ -109,28 +109,11 @@ class acf_input {
 	function admin_enqueue_scripts() {
 
 		// scripts
-		wp_enqueue_script(array(
-			'jquery',
-			'jquery-ui-core',
-			'jquery-ui-tabs',
-			'jquery-ui-sortable',
-			'jquery-ui-resizable',
-			'wp-color-picker',
-			'thickbox',
-			'media-upload',
-			'acf-input',
-			'acf-datepicker',	
-		));
+		wp_enqueue_script('acf-input');
 		
 		
 		// styles
-		wp_enqueue_style(array(
-			'thickbox',
-			'wp-color-picker',
-			'acf-global',
-			'acf-input',
-			'acf-datepicker',	
-		));
+		wp_enqueue_style('acf-input');
 		
 	}
 	

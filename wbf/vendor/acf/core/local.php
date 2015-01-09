@@ -11,7 +11,8 @@ class acf_local {
 		
 	function __construct() {
 		
-		add_action('acf/get_field_groups', array($this, 'get_field_groups'), 10, 1);
+		add_filter('acf/get_field_groups', array($this, 'get_field_groups'), 10, 1);
+		add_action('acf/delete_field', 	array($this, 'delete_field'), 10, 1);
 		
 	}
 	
@@ -41,21 +42,16 @@ class acf_local {
 		
 		// vars
 		$ignore = array();
+		$added = false;
 		
 		
-		// overrride field groups and populate ignore list
+		// populate ignore list
 		if( !empty($field_groups) ) {
 			
 			foreach( $field_groups as $k => $group ) {
-				
-				// override
-				if( acf_is_local_field_group( $group['key'] ) ) {
-					
-					$field_groups[ $k ] = acf_get_local_field_group( $group['key'] );
-					
-				}
-				
+
 				$ignore[] = $group['key'];
+				
 			}
 			
 		}
@@ -69,6 +65,7 @@ class acf_local {
 			if( !in_array($group['key'], $ignore) ) {
 				
 				$field_groups[] = $group;
+				$added = true;
 				
 			}
 			
@@ -76,22 +73,46 @@ class acf_local {
 		
 		
 		// order field groups based on menu_order, title
-		$menu_order = array();
-		$title = array();
-		
-		foreach( $field_groups as $key => $row ) {
+		if( $added ) {
 			
-		    $menu_order[ $key ] = $row['menu_order'];
-		    $title[ $key ] = $row['title'];
+			$menu_order = array();
+			$title = array();
+			
+			foreach( $field_groups as $key => $row ) {
+				
+			    $menu_order[ $key ] = $row['menu_order'];
+			    $title[ $key ] = $row['title'];
+			}
+			
+			
+			// sort the array with menu_order ascending
+			array_multisort( $menu_order, SORT_ASC, $title, SORT_ASC, $field_groups );
+				
 		}
-		
-		
-		// sort the array with menu_order ascending
-		array_multisort( $menu_order, SORT_ASC, $title, SORT_ASC, $field_groups );
 		
 		
 		// return
 		return $field_groups;
+		
+	}
+	
+	
+	/*
+	*  delete_field
+	*
+	*  description
+	*
+	*  @type	function
+	*  @date	10/12/2014
+	*  @since	5.1.5
+	*
+	*  @param	$post_id (int)
+	*  @return	$post_id (int)
+	*/
+	
+	function delete_field( $field ) {
+		
+		$this->remove_field( $field['key'] );
 		
 	}
 	
@@ -123,6 +144,14 @@ class acf_local {
 		}
 		
 		
+		// add local
+		if( empty($field_group['local']) ) {
+			
+			$field_group['local'] = 'php';
+			
+		}
+		
+		
 		// remove fields
 		$fields = acf_extract_var($field_group, 'fields');
 		
@@ -144,10 +173,6 @@ class acf_local {
 				$field['parent'] = $field_group['key'];
 				
 			}
-			
-			
-			// add field group reference
-			//$field['field_group'] = $field_group['key'];
 			
 			
 			// add field
@@ -174,53 +199,108 @@ class acf_local {
 	function add_field( $field ) {
 		
 		// validate
-		$field = acf_get_valid_field($field);
+		$field = acf_get_valid_field( $field );
 		
 		
-		// don't allow overrides
-		// edit: some manually created fields (via .php) used duplicate keys (copy of origional field).
-		/*
-if( acf_is_local_field($field['key']) ) {
-			
-			return;	
-			
-		}
-*/
-
-		
-		
-		// vars
-		$parent = $field['parent'];
-		
-		
-		// append $parents
-		$this->parents[ $parent ][] = $field['key'];
+		// add parent reference
+		$this->add_parent_reference( $field['parent'], $field['key'] );
 		
 		
 		// add in menu order
-		$field['menu_order'] = count( $this->parents[ $parent ] ) - 1;
+		$field['menu_order'] = count( $this->parents[ $field['parent'] ] ) - 1;
 		
-		
-		// find ancestors
-		//$field['ancestors'] = array();
-		
-		
-		while( acf_is_local_field($parent) ) {
-		
-			//$field['ancestors'][] = $parent;
-			
-			$parent = acf_get_local_field( $parent );
-			$parent = $parent['parent'];
-			
-		}
-		
-		//$field['ancestors'][] = $field['field_group'];
-
 		
 		// add field
 		$this->fields[ $field['key'] ] = $field;
 		
+		
+		// clear cache
+		wp_cache_delete( "load_field/key={$field['key']}", 'acf' );
+		wp_cache_delete( "fields/parent={$field['parent']}", 'acf' );
+		
 	}
+	
+	
+	/*
+	*  remove_field
+	*
+	*  This function will remove a $field to the local placeholder
+	*
+	*  @type	function
+	*  @date	10/03/2014
+	*  @since	5.0.0
+	*
+	*  @param	$key (string)
+	*  @return	n/a
+	*/
+	
+	function remove_field( $key ) {
+		
+		// get field
+		$field = acf_get_field( $key );
+		
+		
+		// remove parent reference
+		$this->remove_parent_reference( $field['parent'], $field['key'] );
+		
+		
+		// remove field
+		unset( $this->fields[ $key ] );
+		
+		
+		// remove children
+		if( acf_have_local_fields( $key) ) {
+			
+			acf_remove_local_fields( $key );
+			
+		}
+		
+	}
+	
+	
+	function add_parent_reference( $parent_key, $field_key ) {
+		
+		// create array
+		if( !isset($this->parents[ $parent_key ]) ) {
+			
+			$this->parents[ $parent_key ] = array();
+			
+		} elseif( in_array($field_key, $this->parents[ $parent_key ]) ) {
+			
+			// bail early if already in array
+			return false;
+			
+		}
+		
+		
+		// append
+		$this->parents[ $parent_key ][] = $field_key;
+		
+		
+		// return
+		return true;
+		
+	}
+	
+	
+	function remove_parent_reference( $parent_key, $field_key ) {
+		
+		// bail early if no parent
+		if( !isset($this->parents[ $parent_key ]) ) {
+			
+			return false;
+			
+		}
+		
+		
+		// remove
+		$this->parents[ $parent_key ] = array_diff($this->parents[ $parent_key ], array($field_key));
+		
+		
+		// return
+		return true;
+	}
+
 	
 }
 
@@ -328,6 +408,51 @@ function acf_is_local_enabled() {
 	
 	// return
 	return true;
+	
+}
+
+
+/*
+*  acf_count_local_field_groups
+*
+*  This function will return the number of local field groups
+*
+*  @type	function
+*  @date	3/12/2014
+*  @since	5.1.5
+*
+*  @param	$type (string) specify the type. eg. 'json'
+*  @return	(int)
+*/
+
+function acf_count_local_field_groups( $type = '' ) {
+	
+	// vars
+	$count = 0;
+	
+	
+	// check for groups
+	if( !empty(acf_local()->groups) ) {
+		
+		// acf_local
+		foreach( acf_local()->groups as $group ) {
+			
+			// ignore if not specific type
+			if( $type && $group['local'] != $type ) {
+				
+				continue;
+				
+			}
+			
+			$count++;
+			
+		}
+		
+	}
+	
+	
+	// return
+	return $count;
 	
 }
 
@@ -500,6 +625,26 @@ function acf_add_local_field( $field ) {
 
 
 /*
+*  acf_remove_local_field
+*
+*  This function will remove a $field to the local placeholder
+*
+*  @type	function
+*  @date	10/03/2014
+*  @since	5.0.0
+*
+*  @param	$post_id (int)
+*  @return	$post_id (int)
+*/
+
+function acf_remove_local_field( $key ) {
+	
+	acf_local()->remove_field( $key );
+	
+}
+
+
+/*
 *  acf_is_local_field
 *
 *  This function will return true if the field has been added as local
@@ -557,6 +702,35 @@ function acf_get_local_field( $key ) {
 
 
 /*
+*  acf_count_local_fields
+*
+*  This function will return the number of local fields for a parent
+*
+*  @type	function
+*  @date	3/12/2014
+*  @since	5.1.5
+*
+*  @param	n/a
+*  @return	(int)
+*/
+
+function acf_count_local_fields( $key ) {
+	
+	// check for fields
+	if( !empty(acf_local()->parents[ $key ]) ) {
+		
+		return count( acf_local()->parents[ $key ] );
+		
+	}
+	
+	
+	// return
+	return 0;
+	
+}
+
+
+/*
 *  acf_have_local_fields
 *
 *  This function will return true if fields exist for a given 'parent' key (field group key or field key)
@@ -606,11 +780,11 @@ function acf_have_local_fields( $key ) {
 *  @return	(bolean)
 */
 
-function acf_get_local_fields( $key ) {
-
+function acf_get_local_fields( $parent ) {
+	
 	$fields = array();
 	
-	foreach( acf_local()->parents[ $key ] as $key ) {
+	foreach( acf_local()->parents[ $parent ] as $key ) {
 		
 		$fields[] = acf_get_field( $key );
 		
@@ -618,6 +792,41 @@ function acf_get_local_fields( $key ) {
 	
 	return $fields;
 	
+}
+
+
+/*
+*  acf_remove_local_fields
+*
+*  This function will remove the field reference for a field group
+*
+*  @type	function
+*  @date	10/03/2014
+*  @since	5.0.0
+*
+*  @param	$key (string)
+*  @return	(bolean)
+*/
+
+function acf_remove_local_fields( $parent ) {
+	
+	// bail early if no reference
+	if( empty( acf_local()->parents[ $parent ] ) ) {
+		
+		return false;
+		
+	}
+	
+	
+	foreach( acf_local()->parents[ $parent ] as $key ) {
+		
+		acf_remove_local_field( $key );
+	
+	}
+	
+	
+	// return
+	return true;
 }
 
 ?>

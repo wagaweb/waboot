@@ -184,6 +184,10 @@
 			}
 			
 			
+			// reset trigger
+			this.$trigger = null;
+			
+			
 			// vars
 			var $first_field = null;
 			
@@ -267,56 +271,21 @@
 			});
 			
 			
-			// click save
-			if( $('#save-post').exists() ) {
+			// ignore validation
+			$(document).on('click', '#save-post, #post-preview', function(){
 				
-				$('#save-post').on('click', function(){
+				self.ignore = 1;
+				self.$trigger = $(this);
 				
-					self.ignore = 1;
-					self.$trigger = $(this);
-					
-				});
-				
-			}
+			});
 			
 			
-			
-			// click preview
-			if( $('#post-preview').exists() ) {
+			// save trigger
+			$(document).on('click', 'input[type="submit"]', function(){
 				
-				$('#post-preview').on('click', function(){
+				self.$trigger = $(this);
 				
-					self.ignore = 1;
-					self.$trigger = $(this);
-					
-				});
-				
-			}
-						
-			
-			// click submit
-			if( $('#submit').exists() ) {
-				
-				$('#submit').on('click', function(){
-				
-					self.$trigger = $(this);
-					
-				});
-				
-			}
-			
-			
-			// click publish
-			if( $('#publish').exists() ) {
-				
-				$('#publish').on('click', function(){
-				
-					self.$trigger = $(this);
-					
-				});
-				
-			}
-			
+			});
 			
 			
 			// submit

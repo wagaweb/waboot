@@ -27,7 +27,7 @@
 		init : function(){
 			
 			// reference
-			var _this = this;
+			var self = this;
 			
 			
 			// $el
@@ -43,19 +43,19 @@
 		
 			
 			// sortable
-			_this.sort_fields( this.$fields.find('.acf-field-list:first') );
+			this.sort_fields( this.$fields.find('.acf-field-list:first') );
 			
 			
 			// events
 			$(document).on('submit', '#post', function(){
 				
-				return _this.submit();
+				return self.submit();
 				
 			});
 			
 			$(document).on('click', '#submitdiv .submitdelete', function(){
 					
-				return _this.trash();
+				return self.trash();
 				
 			});
 			
@@ -63,7 +63,7 @@
 				
 				e.preventDefault();
 				
-				_this.edit_field( $(this).closest('.field') );
+				self.edit_field( $(this).closest('.field') );
 				
 			});
 			
@@ -71,7 +71,7 @@
 				
 				e.preventDefault();
 				
-				_this.duplicate_field( $(this).closest('.field') );
+				self.duplicate_field( $(this).closest('.field') );
 				
 			});
 			
@@ -79,7 +79,7 @@
 				
 				e.preventDefault();
 				
-				_this.move_field( $(this).closest('.field') );
+				self.move_field( $(this).closest('.field') );
 				
 			});
 			
@@ -87,7 +87,7 @@
 				
 				e.preventDefault();
 				
-				_this.delete_field( $(this).closest('.field') );
+				self.delete_field( $(this).closest('.field') );
 				
 			});
 			
@@ -95,43 +95,43 @@
 				
 				e.preventDefault();
 				
-				_this.add_field( $(this).closest('.acf-field-list-wrap').children('.acf-field-list') );
+				self.add_field( $(this).closest('.acf-field-list-wrap').children('.acf-field-list') );
 				
 			});
 			
 			this.$fields.on('change', 'tr[data-name="type"] select', function(){
 				
-				_this.change_field_type( $(this) );
+				self.change_field_type( $(this) );
 				
 			});
 			
 			this.$fields.on('blur', 'tr[data-name="label"] input', function( e ){
 				
-				_this.change_field_label( $(this).closest('.field') );
+				self.change_field_label( $(this).closest('.field') );
 				
 			});
 			
 			this.$fields.on('blur', 'tr[data-name="name"] input', function( e ){
 				
-				_this.change_field_name( $(this).closest('.field') );
+				self.change_field_name( $(this).closest('.field') );
 				
 			});
 			
 			this.$fields.on('keyup', 'tr[data-name="label"] input, tr[data-name="name"] input', function( e ){
 				
-				_this.render_field( $(this).closest('.field') );
+				self.render_field( $(this).closest('.field') );
 				
 			});
 			
 			this.$fields.on('change', 'input, textarea, select', function( e ){
 				
-				_this.save_field( $(this).closest('.field') );
+				self.save_field( $(this).closest('.field') );
 				
 			});
 			
 			$(document).on('change', '#adv-settings input[name="show_field_keys"]', function(){
 				
-				_this.toggle_field_keys( $(this).val() );
+				self.toggle_field_keys( $(this).val() );
 				
 			});
 			
@@ -436,7 +436,7 @@
 		submit : function(){
 			
 			// reference
-			var _this = this;
+			var self = this;
 			
 			
 			// vars
@@ -475,11 +475,11 @@
 			
 			
 			// close / delete fields
-			_this.$fields.find('.field').each(function(){
+			self.$fields.find('.field').each(function(){
 				
 				// vars
-				var save = _this.get_field_meta( $(this), 'save'),
-					ID = _this.get_field_meta( $(this), 'ID'),
+				var save = self.get_field_meta( $(this), 'save'),
+					ID = self.get_field_meta( $(this), 'ID'),
 					open = $(this).hasClass('open');
 				
 				
@@ -495,7 +495,7 @@
 				// close
 				if( open ) {
 					
-					_this.close_field( $(this) );
+					self.close_field( $(this) );
 					
 				}
 				
@@ -503,7 +503,7 @@
 				// remove unnecessary inputs
 				if( save == 'settings' ) {
 					
-					// do nothing
+					// allow all settings to save (new field, changed field)
 					
 				} else if( save == 'meta' ) {
 					
@@ -596,7 +596,7 @@
 		render_fields : function(){
 			
 			// reference
-			var _this = this;
+			var self = this;
 			
 			
 			// update order numbers
@@ -610,7 +610,7 @@
 				$fields.each(function( i ){
 					
 					// update meta
-					_this.update_field_meta( $(this), 'menu_order', i );
+					self.update_field_meta( $(this), 'menu_order', i );
 					
 					
 					// update icon number
@@ -938,15 +938,14 @@
 		move_field : function( $field ){
 			
 			// reference
-			var _this = this;
+			var self = this;
 			
 			
 			// AJAX data
-			var ajax_data = {
+			var ajax_data = acf.prepare_for_ajax({
 				'action'	: 'acf/field_group/move_field',
-				'nonce'		: acf.get('nonce'),
-				'field_id'	: this.get_field_meta($field, 'ID')
-			};
+				'field_id'	: $field.data('id')
+			});
 			
 			
 			// vars
@@ -957,38 +956,35 @@
 			// validate
 			if( !ajax_data.field_id ) {
 				
+				// Case: field not saved to DB
 				warning = true;
 				
-			}
-			
-			
-			// look for changes in current field
-			if( this.get_field_meta( $field, 'save' ) == 'settings' ) {
+			} else if( this.get_field_meta( $field, 'save' ) == 'settings' ) {
 				
+				// Case: field's settings have changed
 				warning = true;
 				
+			} else {
+				
+				// Case: sub field's settings have changed
+				$field.find('.field').not('[data-id="acfcloneindex"]').each(function(){
+					
+					if( !$(this).data('id') ) {
+						
+						// Case: field not saved to DB
+						warning = true;
+						return false;
+						
+					} else if( self.get_field_meta( $(this), 'save' ) == 'settings' ) {
+						
+						// Case: field's settings have changed
+						warning = true;
+						
+					}
+					
+				});
+				
 			}
-			
-			
-			// look for changes in sub fields
-			$field.find('.field').not('[data-id="acfcloneindex"]').each(function(){
-				
-				// if no ID
-				if( ! _this.get_field_meta( $(this), 'ID' ) ) {
-					
-					warning = true;
-					
-				}
-				
-				
-				// if settings change
-				if( _this.get_field_meta( $(this), 'save' ) == 'settings' ) {
-					
-					warning = true;
-					
-				}
-				
-			});
 			
 			
 			if( warning ) {
@@ -1015,7 +1011,7 @@
 				dataType: 'html',
 				success: function(html){
 				
-					acf.field_group.move_field_confirm( $field, html );
+					self.move_field_confirm( $field, html );
 					
 				}
 			});
@@ -1584,71 +1580,71 @@
 			
 			
 			// reference
-			var _this = this;
+			var self = this;
 			
 			
 			// events
 			acf.add_action('open_field', function($field){
 				
 				// render conditions for this field
-				_this.render( $field );
+				self.render( $field );
 			
 			});
 			
 			acf.add_action('change_field_label change_field_type', function( $el ){
 				
 				// render conditions for all open fields
-				_this.$el.find('.field.open').each(function(){
+				self.$el.find('.field.open').each(function(){
 					
-					_this.render( $(this) );
+					self.render( $(this) );
 					
 				});
 				
 			});
 			
-			_this.$el.on('change', 'tr[data-name="conditional_logic"] input[type="radio"]', function( e ){
+			self.$el.on('change', 'tr[data-name="conditional_logic"] input[type="radio"]', function( e ){
 				
 				e.preventDefault();
 				
-				_this.change_toggle( $(this) );
+				self.change_toggle( $(this) );
 				
 			});
 	
-			_this.$el.on('change', '.conditional-logic-field', function( e ){
+			self.$el.on('change', '.conditional-logic-field', function( e ){
 				
 				e.preventDefault();
 				
-				_this.change_trigger( $(this) );
+				self.change_trigger( $(this) );
 				
 			});
 			
 			
 			// add rule
-			_this.$el.on('click', '.location-add-rule', function( e ){
+			self.$el.on('click', '.location-add-rule', function( e ){
 				
 				e.preventDefault();
 				
-				_this.add_rule( $(this).closest('tr') );
+				self.add_rule( $(this).closest('tr') );
 								
 			});
 			
 			
 			// remove rule
-			_this.$el.on('click', '.location-remove-rule', function( e ){
+			self.$el.on('click', '.location-remove-rule', function( e ){
 					
 				e.preventDefault();
 						
-				_this.remove_rule( $(this).closest('tr') );
+				self.remove_rule( $(this).closest('tr') );
 								
 			});
 			
 			
 			// add group
-			_this.$el.on('click', '.location-add-group', function( e ){
+			self.$el.on('click', '.location-add-group', function( e ){
 				
 				e.preventDefault();
 							
-				_this.add_group( $(this).closest('.location-groups') );
+				self.add_group( $(this).closest('.location-groups') );
 								
 			});
 			
@@ -1738,7 +1734,7 @@
 		render : function( $field ){
 			
 			// reference
-			var _this = this;
+			var self = this;
 			
 			
 			// vars
@@ -1803,9 +1799,9 @@
 			// create select fields
 			$tr.find('.conditional-logic-field').each(function(){
 				
-				_this.update_select( $(this), choices );
+				self.update_select( $(this), choices );
 				
-				_this.change_trigger( $(this) );
+				self.change_trigger( $(this) );
 				
 			});
 			
@@ -2105,43 +2101,43 @@
 			
 			
 			// reference
-			var _this = this;
+			var self = this;
 			
 			
 			// add rule
-			_this.$el.on('click', '.location-add-rule', function( e ){
+			self.$el.on('click', '.location-add-rule', function( e ){
 				
 				e.preventDefault();
 				
-				_this.add_rule( $(this).closest('tr') );
+				self.add_rule( $(this).closest('tr') );
 								
 			});
 			
 			
 			// remove rule
-			_this.$el.on('click', '.location-remove-rule', function( e ){
+			self.$el.on('click', '.location-remove-rule', function( e ){
 					
 				e.preventDefault();
 						
-				_this.remove_rule( $(this).closest('tr') );
+				self.remove_rule( $(this).closest('tr') );
 								
 			});
 			
 			
 			// add group
-			_this.$el.on('click', '.location-add-group', function( e ){
+			self.$el.on('click', '.location-add-group', function( e ){
 				
 				e.preventDefault();
 							
-				_this.add_group();
+				self.add_group();
 								
 			});
 			
 			
 			// change rule
-			_this.$el.on('change', '.param select', function(){
+			self.$el.on('change', '.param select', function(){
 					
-				_this.change_rule( $(this) );
+				self.change_rule( $(this) );
 					
 				
 			});

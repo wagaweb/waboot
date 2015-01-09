@@ -1,33 +1,3 @@
-<?php 
-
-// global
-global $post;
-
-
-// vars
-$field_group = acf_get_field_group( $post );
-
-
-// UI needs at lease 1 location rule
-if( empty($field_group['location']) )
-{
-	$field_group['location'] = array(
-		
-		// group 0
-		array(
-			
-			// rule 0
-			array(
-				'param'		=>	'post_type',
-				'operator'	=>	'==',
-				'value'		=>	'post',
-			)
-		)
-		
-	);
-}
-
-?>
 <table class="acf-table">
 	<tbody>
 		<tr class="acf-field">

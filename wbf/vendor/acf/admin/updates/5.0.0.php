@@ -215,6 +215,14 @@ function _migrate_field_500( $field ) {
 	$field['menu_order'] = acf_extract_var( $field, 'order_no' );
 	
 	
+	// correct very old field keys
+	if( substr($field['key'], 0, 6) !== 'field_' ) {
+	
+		$field['key'] = 'field_' . str_replace('field', '', $field['key']);
+		
+	}
+	
+	
 	// get valid field
 	$field = acf_get_valid_field( $field );
 	

@@ -75,11 +75,12 @@
 				// Scrolled to bottom
 				if( $(this).scrollTop() + $(this).innerHeight() >= $(this).get(0).scrollHeight ) {
 					
-					var paged = parseInt( $el.attr('data-paged') );
+					// get paged
+					var paged = $el.data('paged') || 1;
 					
 					
 					// update paged
-					$el.attr('data-paged', (paged + 1) );
+					$el.data('paged', (paged+1) );
 					
 					
 					// fetch
@@ -143,21 +144,27 @@ var scroll_timer = null;
 			this.$el.addClass('is-loading');
 			
 			
-			// vars
-			var data = acf.prepare_for_ajax({
-				action:		'acf/fields/relationship/query',
-				field_key:	$field.data('key'),
-				post_id:	acf.get('post_id'),
-			});
+			// abort XHR if this field is already loading AJAX data
+			if( this.o.xhr ) {
+			
+				this.o.xhr.abort();
+				this.o.xhr = false;
+				
+			}
 			
 			
-			// merge in wrap data
-			// don't use this.o becuase they are outdated
-			$.extend(data, acf.get_data( this.$el ));
+			// add to this.o
+			this.o.action = 'acf/fields/relationship/query';
+			this.o.field_key = $field.data('key');
+			this.o.post_id = acf.get('post_id');
+			
+			
+			// ready for ajax
+			var ajax_data = acf.prepare_for_ajax( this.o );
 			
 			
 			// clear html if is new query
-			if( data.paged == 1 ) {
+			if( ajax_data.paged == 1 ) {
 				
 				this.$choices.children('.list').html('')
 				
@@ -166,14 +173,6 @@ var scroll_timer = null;
 			
 			// add message
 			this.$choices.children('.list').append('<p>' + acf._e('relationship', 'loading') + '...</p>');
-
-			
-			// abort XHR if this field is already loading AJAX data
-			if( this.$el.data('xhr') ) {
-			
-				this.$el.data('xhr').abort();
-				
-			}
 			
 			
 			// get results
@@ -182,7 +181,7 @@ var scroll_timer = null;
 		    	url:		acf.get('ajaxurl'),
 				dataType:	'json',
 				type:		'post',
-				data:		data,
+				data:		ajax_data,
 				
 				success: function( json ){
 					
@@ -238,9 +237,7 @@ var scroll_timer = null;
 			// apply .disabled to left li's
 			this.$values.find('.acf-rel-item').each(function(){
 				
-				var id = $(this).attr('data-id');
-				
-				$new.find('.acf-rel-item[data-id="' + id + '"]').addClass('disabled');
+				$new.find('.acf-rel-item[data-id="' +  $(this).data('id') + '"]').addClass('disabled');
 				
 			});
 			
@@ -347,11 +344,11 @@ var scroll_timer = null;
 			
 			// vars
 			var val = e.$el.val(),
-				filter = e.$el.attr('data-filter');
+				filter = e.$el.data('filter');
 				
 			
 			// Bail early if filter has not changed
-			if( this.$el.attr('data-' + filter) == val ) {
+			if( this.$el.data(filter) == val ) {
 			
 				return;
 				
@@ -359,11 +356,11 @@ var scroll_timer = null;
 			
 			
 			// update attr
-			this.$el.attr('data-' + filter, val);
+			this.$el.data(filter, val);
 			
 			
 			// reset paged
-			this.$el.attr('data-paged', 1);
+			this.$el.data('paged', 1);
 		    
 		    
 		    // fetch
@@ -402,8 +399,8 @@ var scroll_timer = null;
 			// template
 			var html = [
 				'<li>',
-					'<input type="hidden" name="' + this.$input.attr('name') + '[]" value="' + e.$el.attr('data-id') + '" />',
-					'<span data-id="' + e.$el.attr('data-id') + '" class="acf-rel-item">' + e.$el.html(),
+					'<input type="hidden" name="' + this.$input.attr('name') + '[]" value="' + e.$el.data('id') + '" />',
+					'<span data-id="' + e.$el.data('id') + '" class="acf-rel-item">' + e.$el.html(),
 						'<a href="#" class="acf-icon small dark" data-name="remove_item"><i class="acf-sprite-remove"></i></a>',
 					'</span>',
 				'</li>'].join('');
@@ -426,7 +423,7 @@ var scroll_timer = null;
 			
 			// vars
 			var $span = e.$el.parent(),
-				id = $span.attr('data-id');
+				id = $span.data('id');
 			
 			
 			// remove

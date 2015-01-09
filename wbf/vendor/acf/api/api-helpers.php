@@ -2781,6 +2781,62 @@ function acf_update_nested_array( &$array, $ancestors, $value ) {
 
 
 /*
+*  acf_is_screen
+*
+*  This function will return true if all args are matched for the current screen
+*
+*  @type	function
+*  @date	9/12/2014
+*  @since	5.1.5
+*
+*  @param	$post_id (int)
+*  @return	$post_id (int)
+*/
+
+function acf_is_screen( $id = '' ) {
+	
+	// vars
+	$current_screen = get_current_screen();
+	
+	
+	// return
+	return ($id === $current_screen->id);
+	
+}
+
+
+/*
+*  acf_maybe_get
+*
+*  This function will return a var if it exists in an array
+*
+*  @type	function
+*  @date	9/12/2014
+*  @since	5.1.5
+*
+*  @param	$array (array) the array to look within
+*  @param	$key (key) the array key to look for
+*  @param	$default (mixed) the value returned if not found
+*  @return	$post_id (int)
+*/
+
+function acf_maybe_get( $array, $key, $default = null ) {
+	
+	// check if exists
+	if( isset($array[ $key ]) ) {
+		
+		return $array[ $key ];
+		
+	}
+	
+	
+	// return
+	return $default;
+	
+}
+
+
+/*
 *  Hacks
 *
 *  description

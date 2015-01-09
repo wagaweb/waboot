@@ -151,8 +151,17 @@
 				},
 				results: function(data, page){
 					
+					// allow null return
+					if( !data ) {
+						
+						data = [];
+						
+					}
+					
+					
+					// return
 					return {
-						results	: data || {}
+						results	: data
 					};
 					
 				}
@@ -164,22 +173,31 @@
 					
 					var i = 0;
 					
-					$.each(data, function(k, v){
+					// allow null return
+					if( !data ) {
 						
-						l = 1;
+						data = [];
 						
-						if( typeof v.children !== 'undefined' ) {
+					} else {
+						
+						$.each(data, function(k, v){
 							
-							l = v.children.length;
+							l = 1;
 							
-						}
+							if( typeof v.children !== 'undefined' ) {
+								
+								l = v.children.length;
+								
+							}
+							
+							i += l;
+							
+						});
 						
-						i += l;
-						
-					});
+					}
 					
 					
-					// vars
+					// return
 					return {
 						results	: data,
 						more	: (i >= 20)

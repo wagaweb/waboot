@@ -7,7 +7,7 @@ global $post;
 extract( $args );
 
 
-// vars
+// add prefix
 $field['prefix'] = "acf_fields[{$field['ID']}]";
 
 $atts = array(
@@ -159,7 +159,7 @@ $metas = array(
 								'name'			=> 'width',
 								'prefix'		=> $field['prefix'] . '[wrapper]',
 								'value'			=> $field['wrapper']['width'],
-								'prepend'		=> 'width',
+								'prepend'		=> __('width', 'acf'),
 								'append'		=> '%',
 								//'placeholder'	=> '100',
 							));
@@ -174,7 +174,7 @@ $metas = array(
 								'name'			=> 'class',
 								'prefix'		=> $field['prefix'] . '[wrapper]',
 								'value'			=> $field['wrapper']['class'],
-								'prepend'		=> 'class',
+								'prepend'		=> __('class', 'acf'),
 							));
 							
 							?>
@@ -187,7 +187,7 @@ $metas = array(
 								'name'			=> 'id',
 								'prefix'		=> $field['prefix'] . '[wrapper]',
 								'value'			=> $field['wrapper']['id'],
-								'prepend'		=> 'id',
+								'prepend'		=> __('id', 'acf'),
 							));
 							
 							?>

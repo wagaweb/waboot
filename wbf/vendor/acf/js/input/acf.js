@@ -512,67 +512,22 @@ var acf;
 		*  @return	(mixed)
 		*/
 		
-		get_data : function( $el, name ){
+		get_data: function( $el, name ){
 			
 			//console.log('get_data(%o, %o)', name, $el);
-			// defaults
-			name = name || false;
 			
 			
-			// vars
-			var self = this,
-				data = false;
-			
-			
-			// specific data-name
-			if( name ) {
-			
-				data = $el.attr('data-' + name)
+			// get all datas
+			if( typeof name === 'undefined' ) {
 				
-				// convert ints (don't worry about floats. I doubt these would ever appear in data atts...)
-        		if( $.isNumeric(data) ) {
-        			
-        			if( data.match(/[^0-9]/) ) {
-	        			
-	        			// leave value if it contains such characters: . + - e
-	        			
-        			} else {
-	        			
-	        			data = parseInt(data);
-	        			
-        			}
-	        		
-        		}
-        		
-			} else {
+				return $el.data();
 				
-				// all data-names
-				data = {};
-				
-				$.each( $el[0].attributes, function( i, attr ) {
-			        
-			        // bail early if not data-
-		        	if( attr.name.substr(0, 5) !== 'data-' ) {
-		        	
-		        		return;
-		        		
-		        	}
-		        	
-		        	
-		        	// vars
-		        	name = attr.name.replace('data-', '');
-		        	
-		        	
-		        	// add to atts
-		        	data[ name ] = self.get_data( $el, name );
-		        	
-		        });
 			}
 			
 			
 			// return
-	        return data;
-				
+			return $el.data(name);
+							
 		},
 		
 		

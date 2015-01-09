@@ -321,7 +321,7 @@ class acf_field_taxonomy extends acf_field {
 			
 			
 			// get current ID's
-			$term_ids = wp_get_object_terms($post_id, $field['taxonomy'], array('fields' => 'tt_ids', 'orderby' => 'none'));
+			$term_ids = wp_get_object_terms($post_id, $field['taxonomy'], array('fields' => 'ids', 'orderby' => 'none'));
 			
 			
 			// case

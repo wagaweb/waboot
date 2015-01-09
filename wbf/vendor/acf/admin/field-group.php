@@ -66,53 +66,20 @@ class acf_admin_field_group {
 		$messages['acf-field-group'] = array(
 			0 => '', // Unused. Messages start at index 1.
 			1 => __('Field group updated.', 'acf'),
-			2 => __('Custom field updated.', 'acf'),
-			3 => __('Custom field deleted.', 'acf'),
+			2 => __('Field group updated.', 'acf'),
+			3 => __('Field group deleted.', 'acf'),
 			4 => __('Field group updated.', 'acf'),
 			5 => false, // field group does not support revisions
 			6 => __('Field group published.', 'acf'),
 			7 => __('Field group saved.', 'acf'),
 			8 => __('Field group submitted.', 'acf'),
 			9 => __('Field group scheduled for.', 'acf'),
-			10 => __('Field group draft updated.', 'acf'),
+			10 => __('Field group draft updated.', 'acf')
 		);
 		
 		
 		// return
 		return $messages;
-	}
-	
-	
-	/*
-	*  validate_screen
-	*
-	*  This function will check if the current screen is correct for this class
-	*
-	*  @type	function
-	*  @date	23/06/12
-	*  @since	3.1.8
-	*
-	*  @param	$current_screen (object)
-	*  @return	(boolean)
-	*/
-	
-	function validate_screen( $current_screen ) {
-		
-		// vars
-		$allowed_base = array('post', 'post-new');
-		$allowed_type = array('acf-field-group');
-		
-		
-		// validate base and type
-		if( in_array($current_screen->base, $allowed_base) && in_array($current_screen->post_type, $allowed_type) ) {
-			
-			return true;
-			
-		}
-		
-		
-		// return
-		return false;
 	}
 	
 	
@@ -131,8 +98,8 @@ class acf_admin_field_group {
 	
 	function current_screen( $current_screen ) {
 		
-		// validate page
-		if( !$this->validate_screen($current_screen) ) {
+		// validate screen
+		if( !acf_is_screen('acf-field-group') ) {
 		
 			return;
 			
@@ -485,6 +452,23 @@ class acf_admin_field_group {
 	
 	function mb_options() {
 		
+		// global
+		global $post;
+
+		
+		// vars
+		$field_group = acf_get_field_group( $post );
+		
+		
+		// field key (leave in for compatibility)
+		if( !acf_is_field_group_key( $field_group['key']) ) {
+			
+			$field_group['key'] = uniqid('group_');
+			
+		}
+		
+		
+		// don't use view because we need access to $this context
 		include( acf_get_path('admin/views/field-group-options.php') );
 		
 	}
@@ -505,6 +489,35 @@ class acf_admin_field_group {
 	
 	function mb_locations() {
 		
+		// global
+		global $post;
+
+		
+		// vars
+		$field_group = acf_get_field_group( $post );
+		
+		
+		// UI needs at lease 1 location rule
+		if( empty($field_group['location']) ) {
+			
+			$field_group['location'] = array(
+				
+				// group 0
+				array(
+					
+					// rule 0
+					array(
+						'param'		=>	'post_type',
+						'operator'	=>	'==',
+						'value'		=>	'post',
+					)
+				)
+				
+			);
+		}
+		
+		
+		// don't use view because we need access to $this context
 		include( acf_get_path('admin/views/field-group-locations.php') );
 		
 	}

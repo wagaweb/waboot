@@ -51,7 +51,7 @@ class acf_settings_export {
 		
 		
 		// add page
-		$page = add_submenu_page('edit.php?post_type=acf-field-group', __('Import / Export','acf'), __('Import/Export','acf'), 'manage_options','acf-settings-export', array($this,'html') );
+		$page = add_submenu_page('edit.php?post_type=acf-field-group', __('Import / Export','acf'), __('Import / Export','acf'), 'manage_options','acf-settings-export', array($this,'html') );
 		
 		
 		// actions
@@ -318,10 +318,6 @@ class acf_settings_export {
 					$field['parent'] = $ref[ $field['parent'] ];
 						
 				}
-				
-				
-				// add field group reference
-				//$field['field_group'] = $field_group['key'];
 				
 				
 				// add field menu_order
