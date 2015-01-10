@@ -1,9 +1,9 @@
 <?php
 
-add_action("wp_ajax_gfontfetcher_getFonts",'Waboot_Options_GFont_Selector::getFonts');
-add_action("wp_ajax_nopriv_gfontfetcher_getFonts",'Waboot_Options_GFont_Selector::getFonts');
-add_action("wp_ajax_gfontfetcher_getFontInfo",'Waboot_Options_GFont_Selector::getFontInfo');
-add_action("wp_ajax_nopriv_gfontfetcher_getFontInfo",'Waboot_Options_GFont_Selector::getFontInfo');
+add_action("wp_ajax_gfontfetcher_getFonts",'Waboot_Options_Font_Selector::getFonts');
+add_action("wp_ajax_nopriv_gfontfetcher_getFonts",'Waboot_Options_Font_Selector::getFonts');
+add_action("wp_ajax_gfontfetcher_getFontInfo",'Waboot_Options_Font_Selector::getFontInfo');
+add_action("wp_ajax_nopriv_gfontfetcher_getFontInfo",'Waboot_Options_Font_Selector::getFontInfo');
 
 class Waboot_Options_Font_Selector
 {
@@ -84,7 +84,7 @@ class Waboot_Options_Font_Selector
                 $font_string .= ",";
             $i++;
         }
-        if(isset($props['subsets'])){
+        if(isset($props['subsets']) && !empty($props['subsets'])){
             $font_string .= "&subset:";
             $i = 0;
             foreach($props['subsets'] as $subset){

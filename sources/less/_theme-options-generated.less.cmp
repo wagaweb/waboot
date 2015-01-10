@@ -54,9 +54,9 @@ body {
 }
 
 body, p, ul, li {
-    //{of_get_font('waboot_primary_font')}
+    //{of_get_font('waboot_primaryfont')}
 }
 
 h1, h2, h3, h4, h5, h6 {
-    //{of_get_font('waboot_secondary_font')}
+    //{of_get_font('waboot_secondaryfont')}
 }
