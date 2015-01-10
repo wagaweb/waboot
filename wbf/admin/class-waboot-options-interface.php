@@ -111,7 +111,7 @@ class Waboot_Options_Interface extends Options_Framework_Interface
 	            // Waboot GFont Selector [WABOOT MOD]
                 case 'typography':
                 case "gfont":
-					$output .= Waboot_Options_GFont_Selector::output($value['id'], $val, $value['std']);
+					$output .= Waboot_Options_Font_Selector::output($value['id'], $val, $value['std']);
 					break;
 
                 // Textarea

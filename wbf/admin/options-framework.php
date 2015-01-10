@@ -55,7 +55,7 @@ function optionsframework_init() {
 	$options_framework_waboot_code_editor->init();
 
 	// Instantiate the gfont selector class [WABOOT MOD]
-	$options_framework_waboot_gfont_selector = new Waboot_Options_GFont_Selector;
+	$options_framework_waboot_gfont_selector = new Waboot_Options_Font_Selector;
 	$options_framework_waboot_gfont_selector->init();
 }
 
@@ -76,6 +76,18 @@ if ( ! function_exists( 'of_get_option' ) ) :
 
 function of_get_option( $name, $default = false ) {
 	$config = get_option( 'optionsframework' );
+
+	//[WABOOT MOD] Tries to return the default value sets into $options array if $default is false
+	if(!$default){
+		$options = Options_Framework::_optionsframework_options();
+		foreach($options as $opt){
+			if(isset($opt['id']) && $opt['id'] == $name){
+				if(isset($opt['std'])){
+					$default = $opt['std'];
+				}
+			}
+		}
+	}
 
 	if ( ! isset( $config['id'] ) ) {
 		return $default;

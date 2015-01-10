@@ -1,4 +1,4 @@
-loadGFont(wbfOfFonts.families);
+loadWebFonts(wbfOfFonts.families);
 
 jQuery(document).ready(function ($) {
     "use strict";
@@ -61,10 +61,12 @@ jQuery(document).ready(function ($) {
     });
 });
 
-function loadGFont(families){
-    WebFont.load({
-        google: {
-            families: families
-        }
-    });
+function loadWebFonts(families){
+    if(!_.isEmpty(families)){
+        WebFont.load({
+            google: {
+                families: families
+            }
+        });
+    }
 }
