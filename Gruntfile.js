@@ -143,7 +143,7 @@ module.exports = function(grunt) {
                         expand: true,
                         flatten: true,
                         cwd: "bower_components/bootstrap/less",
-                        src: ['**/*'],
+                        src: ['**/*','.csscomb.json','.csslintrc'],
                         dest: "sources/bootstrap/"
                     }
                 ]
