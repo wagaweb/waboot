@@ -166,6 +166,13 @@ class Waboot_Options_Font_Selector
 		$output .= "</select>";
 
 		/**
+		 * COLOR
+		 */
+		$current_color = $selected_font->color;
+		$default_color = ' data-default-color="' . $defaults['color'] . '" ';
+		$output .= '<input name="' . self::fontColor_OptName($option_name,$id) . '" id="' . $id . '" class="of-color font-color-selector"  type="text" value="' . esc_attr($current_color) . '"' . $default_color . ' />';
+
+		/**
 		 * VARIANTS
 		 */
         $output .= "<div class='font-style-selector'>";
@@ -196,13 +203,6 @@ class Waboot_Options_Font_Selector
 			}
 		}
         $output .= "</div>";
-
-		/**
-		 * COLOR
-		 */
-		$current_color = $selected_font->color;
-		$default_color = ' data-default-color="' . $defaults['color'] . '" ';
-		$output .= '<input name="' . self::fontColor_OptName($option_name,$id) . '" id="' . $id . '" class="of-color font-color-selector"  type="text" value="' . esc_attr($current_color) . '"' . $default_color . ' />';
 
         /*
          * Category
