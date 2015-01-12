@@ -21,7 +21,11 @@ function parse_input_file($filepath){
 				if(preg_match("|\{@import '([a-zA-Z0-9\-/_.]+)'\}|",$line,$matches)){
 					$fileToImport = new SplFileInfo(dirname($filepath)."/".$matches[1]);
 					if($fileToImport->isFile() && $fileToImport->isReadable()){
-						$line = "@import '{$fileToImport->getRealPath()}';\n";
+						if($inputFile->getPath() == $fileToImport->getPath()){
+							$line = "@import '{$fileToImport->getBasename()}';\n";
+						}else{
+							$line = "@import '{$fileToImport->getRealPath()}';\n";
+						}
 					}/*else{
 						//If we are in the child theme, search the file into parent directory
 						if(is_child_theme()){

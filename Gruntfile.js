@@ -2,6 +2,7 @@ module.exports = function(grunt) {
 
     // load all tasks
     require('load-grunt-tasks')(grunt, {scope: 'devDependencies'});
+    var fs = require('fs');
 
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
@@ -10,7 +11,12 @@ module.exports = function(grunt) {
                 options:{
                 },
                 files:{
-                    'assets/css/waboot.css': 'sources/less/waboot.less',
+                    'assets/css/waboot.css': (function(){
+                        if(fs.existsSync('sources/less/tmp_waboot.less')){
+                            return 'sources/less/tmp_waboot.less';
+                        }
+                        return 'sources/less/waboot.less';
+                    })(),
                     'wbf/admin/css/tinymce.css': 'wbf/sources/less/tinymce.less',
                     'wbf/admin/css/admin.css': 'wbf/sources/less/admin.less',
                     'wbf/admin/css/waboot-optionsframework.css': 'wbf/sources/less/optionsframework.less'

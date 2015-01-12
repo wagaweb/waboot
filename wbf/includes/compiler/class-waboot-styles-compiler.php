@@ -98,7 +98,7 @@ class Waboot_Styles_Compiler{
 	 * Releases the compiler lock if is passed too much time since last compilation attempt
 	 * @param int $timelimit (in minutes)
 	 */
-	function maybe_release_lock($timelimit = 10){
+	function maybe_release_lock($timelimit = 7){
 		if(!$this->can_compile()){
 			$last_attempt = get_option("waboot_compiling_last_attempt");
 			if(!$last_attempt){
@@ -106,7 +106,7 @@ class Waboot_Styles_Compiler{
 			}else{
 				$current_time = time();
 				$time_diff = ($current_time - $last_attempt)/60;
-				if($time_diff > $timelimit){ //10 minutes
+				if($time_diff > $timelimit){ //7 minutes
 					update_option('waboot_compiling_flag',0); //release the compiler
 				}
 			}
