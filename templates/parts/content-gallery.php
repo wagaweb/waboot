@@ -8,7 +8,7 @@
 	<?php do_action( 'waboot_entry_header' ); ?>
 	<div class="entry-content">
 		<?php waboot_gallery_format(); ?>
-		<?php the_content(); ?>
+		<?php the_excerpt(); ?>
 		<?php wp_link_pages(); ?>
 	</div><!-- .entry-content -->
 	<?php do_action( 'waboot_entry_footer' ); ?>
