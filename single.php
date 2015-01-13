@@ -7,7 +7,7 @@
  */
 
 get_header(); ?>
-    <div id="primary" class="<?php echo apply_filters( 'waboot_primary_container_class', 'content-area col-sm-8' ); ?>">
+    <div id="main-wrap" class="<?php echo apply_filters( 'waboot_mainwrap_container_class', 'content-area col-sm-8' ); ?>">
         <main id="main" role="main" class="site-main">
             <?php while ( have_posts() ) : the_post();  ?>
                 <?php waboot_content_nav( 'nav-above' ); // display content nav above posts? ?>
@@ -25,7 +25,7 @@ get_header(); ?>
                 ?>
             <?php endwhile; ?>
         </main><!-- #main -->
-    </div><!-- #primary -->
+    </div><!-- #main-wrap -->
 <?php
 get_sidebar();
 get_footer(); ?>

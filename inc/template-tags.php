@@ -613,6 +613,10 @@ if(!function_exists("waboot_get_sidebar_layouts")){
                 "name" => __("Sidebar left","waboot"),
                 "value" => "sidebar-left"
             ),
+            array(
+                "name" => __("Two Sidebars","waboot"),
+                "value" => "two-sidebars"
+            ),
             '_default' => 'sidebar-right'
         ));
     }

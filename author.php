@@ -8,7 +8,7 @@
 
 get_header(); ?>
 
-	<section id="primary" class="<?php echo apply_filters( 'waboot_primary_container_class', 'content-area col-sm-8' ); ?>">
+	<section id="main-wrap" class="<?php echo apply_filters( 'waboot_mainwrap_container_class', 'content-area col-sm-8' ); ?>">
 
 		<main id="main" class="site-main" role="main">
 
@@ -54,7 +54,7 @@ get_header(); ?>
 				} //have_posts ?>
 		</main><!-- #main -->
 
-	</section><!-- #primary -->
+	</section><!-- #main-wrap -->
 <?php
 get_sidebar();
 get_footer(); ?>

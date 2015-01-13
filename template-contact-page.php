@@ -30,7 +30,7 @@ if( isset($_POST['action']) && $_POST['action']=='contact-form' )
 
 <?php get_header(); ?>
 
-    <div id="primary" class="<?php echo apply_filters( 'waboot_primary_container_class', 'content-area col-sm-8' ); ?>">
+    <div id="main-wrap" class="<?php echo apply_filters( 'waboot_mainwrap_container_class', 'content-area col-sm-8' ); ?>">
         <main id="main" class="site-main" role="main">
 
             <?php the_content(); ?>
@@ -71,7 +71,7 @@ if( isset($_POST['action']) && $_POST['action']=='contact-form' )
             </div>
 
         </main><!-- #main -->
-    </div><!-- #primary -->
+    </div><!-- #main-wrap -->
 <?php
 get_sidebar();
 get_footer();

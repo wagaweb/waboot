@@ -7,7 +7,7 @@
 
 get_header();
 ?>
-    <div id="primary" class="<?php echo apply_filters( 'waboot_primary_container_class', 'content-area col-sm-8' ); ?>">
+    <div id="main-wrap" class="<?php echo apply_filters( 'waboot_mainwrap_container_class', 'content-area col-sm-8' ); ?>">
         <main id="main" class="site-main" role="main">
             <?php if (of_get_option('waboot_blogpage_title_position') == "bottom") : ?>
                 <?php waboot_index_title('<h1 class=\'entry-header\'>', '</h1>'); ?>
@@ -40,7 +40,7 @@ get_header();
                 <?php get_template_part('/templates/parts/content', 'none'); // No results ?>
             <?php endif; //have_posts ?>
         </main><!-- #main -->
-    </div><!-- #primary -->
+    </div><!-- #main-wrap -->
 <?php
 get_sidebar();
 get_footer();

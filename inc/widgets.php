@@ -22,6 +22,16 @@ function waboot_widgets_init() {
 	) );
 
 	register_sidebar( array(
+		'name'          => __( 'Secondary Sidebar', 'waboot' ),
+		'description'   => __( 'The main widget area displayed in the sidebar.', 'waboot' ),
+		'id'            => 'sidebar-2',
+		'before_widget' => '<aside id="%1$s" class="widget %2$s">',
+		'after_widget'  => '</aside>',
+		'before_title'  => '<h3 class="widget-title">',
+		'after_title'   => '</h3>',
+	) );
+
+	register_sidebar( array(
 		'name'          => __( 'Footer 1', 'waboot' ),
 		'description'   => __( 'The footer widget area displayed after all content.', 'waboot' ),
 		'id'            => 'footer-1',

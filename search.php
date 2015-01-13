@@ -7,7 +7,7 @@
  */
 
 get_header(); ?>
-	<section id="primary" class="<?php echo apply_filters( 'waboot_primary_container_class', 'content-area col-sm-8' ); ?>">
+	<section id="main-wrap" class="<?php echo apply_filters( 'waboot_mainwrap_container_class', 'content-area col-sm-8' ); ?>">
 		<main id="main" role="main" class="site-main">
 		<?php if ( have_posts() ) : ?>
 			<header id="search-results-header" class="page-header">
@@ -28,7 +28,7 @@ get_header(); ?>
         ?>
         <?php endif; ?>
 		</main><!-- #main -->
-	</section><!-- #primary -->
+	</section><!-- #main-wrap -->
 <?php
 get_sidebar();
 get_footer();
