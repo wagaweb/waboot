@@ -592,7 +592,7 @@ function optionsframework_options() {
         'options' => $blogpage_layouts['values']
     );
 
-    $sidebar_layouts = wbf_sanitize_of_array_values(waboot_get_sidebar_layouts());
+    $sidebar_layouts = wbf_sanitize_of_array_values(waboot_get_available_body_layouts());
     foreach($sidebar_layouts['values'] as $k => $v){
         $final_sidebar_layouts[$v['value']] = $v['name'];
     }
