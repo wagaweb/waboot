@@ -106,6 +106,14 @@ function _get_cols_sizes(){
 	return array("main"=>12);
 }
 
+if(!function_exists("waboot_layout_body_class")) :
+	function waboot_layout_body_class($classes){
+		$classes[] = waboot_get_body_layout();
+		return $classes;
+	}
+	add_filter('body_class','waboot_layout_body_class');
+endif;
+
 /**
  * Removes "col-" string values from an array
  * @param array $classes_array
