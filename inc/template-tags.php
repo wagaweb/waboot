@@ -588,8 +588,8 @@ if (!function_exists("waboot_topnav_wrapper")):
     }
 endif;
 
-if(!function_exists("waboot_get_sidebar_layout")):
-    function waboot_get_sidebar_layout(){
+if(!function_exists( "waboot_get_body_layout" )):
+    function waboot_get_body_layout(){
         if(is_home()){
             return of_get_option('waboot_blogpage_sidebar_layout');
         }else{
@@ -598,9 +598,20 @@ if(!function_exists("waboot_get_sidebar_layout")):
     }
 endif;
 
-if(!function_exists("waboot_get_sidebar_layouts")){
-    function waboot_get_sidebar_layouts(){
-        return apply_filters("waboot_sidebar_layouts",array(
+if(!function_exists( "waboot_body_layout_has_two_sidebars" )):
+	function waboot_body_layout_has_two_sidebars(){
+		$body_layout = waboot_get_body_layout();
+		if(in_array($body_layout,array("two-sidebars","two-sidebars-right","two-sidebars-left"))){
+			return true;
+		}else{
+			return false;
+		}
+	}
+endif;
+
+if(!function_exists( "waboot_get_available_body_layouts" )){
+    function waboot_get_available_body_layouts(){
+        return apply_filters("waboot_body_layouts",array(
             array(
                 "name" => __("Full width. No sidebar.","waboot"),
                 "value" => "full-width"
@@ -617,6 +628,14 @@ if(!function_exists("waboot_get_sidebar_layouts")){
                 "name" => __("Two Sidebars","waboot"),
                 "value" => "two-sidebars"
             ),
+	        array(
+		        "name" => __("Two Sidebars (right)","waboot"),
+		        "value" => "two-sidebars-right"
+	        ),
+	        array(
+		        "name" => __("Two Sidebars (left)","waboot"),
+		        "value" => "two-sidebars-left"
+	        ),
             '_default' => 'sidebar-right'
         ));
     }
