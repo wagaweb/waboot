@@ -41,7 +41,7 @@ function waboot_behaviors($behaviors){
         "valid" => array("page","post","-{home}","{cpt}","-slideshow")
 	);
 
-    $body_layouts = wbf_sanitize_of_array_values(waboot_get_sidebar_layouts());
+    $body_layouts = wbf_sanitize_of_array_values(waboot_get_available_body_layouts());
 	$behaviors[] = array(
 		"name" => "layout",
         "title" => __("Body layout","waboot"),
@@ -53,9 +53,9 @@ function waboot_behaviors($behaviors){
 	);
 
     $behaviors[] = array(
-        'name' => 'sidebar-size',
-        'title' => __("Sidebar width","waboot"),
-        'desc' => __("Choose the sidebar width","waboot"),
+        'name' => 'primary-sidebar-size',
+        'title' => __("Primary Sidebar width","waboot"),
+        'desc' => __("Choose the primary sidebar width","waboot"),
         'type' => "select",
         'options' => array(
             array(
@@ -78,6 +78,33 @@ function waboot_behaviors($behaviors){
         "default" => "2/3",
         "valid" => array('*','-slideshow')
     );
+
+	$behaviors[] = array(
+		'name' => 'secondary-sidebar-size',
+		'title' => __("Secondary Sidebar width","waboot"),
+		'desc' => __("Choose the secondary sidebar width","waboot"),
+		'type' => "select",
+		'options' => array(
+			array(
+				"name" => __("1/2","waboot"),
+				"value" => "1/2"
+			),
+			array(
+				"name" => __("2/3","waboot"),
+				"value" => "2/3"
+			),
+			array(
+				"name" => __("1/4","waboot"),
+				"value" => "1/4"
+			),
+			array(
+				"name" => __("1/6","waboot"),
+				"value" => "1/6"
+			)
+		),
+		"default" => "2/3",
+		"valid" => array('*','-slideshow')
+	);
 
     /***********************************************
      ***************** SAMPLES *********************
