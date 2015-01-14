@@ -20,7 +20,7 @@ class Waboot_Options_Interface extends Options_Framework_Interface
         };
 
         $settings = get_option($option_name);
-        $options = &Options_Framework::_optionsframework_options();
+        $options = &Waboot_Options_Framework::_optionsframework_options();
 
         $counter = 0;
         $menu = '';
@@ -353,7 +353,7 @@ class Waboot_Options_Interface extends Options_Framework_Interface
      */
     static function optionsframework_tabs() {
         $counter = 0;
-        $options = & Options_Framework::_optionsframework_options();
+        $options = & Waboot_Options_Framework::_optionsframework_options();
         $menu = '';
 
         foreach ( $options as $value ) {

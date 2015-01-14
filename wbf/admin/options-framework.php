@@ -39,7 +39,7 @@ function optionsframework_init() {
 	require "waboot-options-sanitization.php";
 
 	// Instantiate the main plugin class.
-	$options_framework = new Options_Framework;
+	$options_framework = new Waboot_Options_Framework;
 	$options_framework->init();
 
 	// Instantiate the options page.
@@ -79,7 +79,7 @@ function of_get_option( $name, $default = false ) {
 
 	//[WABOOT MOD] Tries to return the default value sets into $options array if $default is false
 	if(!$default){
-		$options = Options_Framework::_optionsframework_options();
+		$options = Waboot_Options_Framework::_optionsframework_options();
 		foreach($options as $opt){
 			if(isset($opt['id']) && $opt['id'] == $name){
 				if(isset($opt['std'])){

@@ -10,15 +10,14 @@ Author URI: http://www.waga.it
 class ColorboxComponent extends Waboot_Component{
 
     public function scripts(){
-        wp_enqueue_script('colorbox-script',$this->directory_uri . '/jquery.colorbox-min.js',array('jquery'),false,false);
-        wp_enqueue_script('colorbox-custom-script',$this->directory_uri . '/colorbox-custom.js',array('jquery'),false,false);
+        wp_enqueue_script('component-colorbox',$this->directory_uri . '/jquery.colorbox-min.js',array('jquery'),false,false);
+        wp_enqueue_script('component-colorbox-custom',$this->directory_uri . '/colorbox-custom.js',array('jquery','component-colorbox'),false,false);
     }  
     
     public function styles(){
-        wp_enqueue_style('colorbox-style',$this->directory_uri . '/colorbox.css');
+        wp_enqueue_style('component-colorbox-style',$this->directory_uri . '/colorbox.css');
     }
-    
-	/*
+
 	public function theme_options($options){
         $options = parent::theme_options($options);
         $options[] = array(
@@ -33,7 +32,4 @@ class ColorboxComponent extends Waboot_Component{
         );
         return $options;
     }
-    */
-    
-
 }

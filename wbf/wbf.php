@@ -131,12 +131,14 @@ class WBF {
 	    locate_template( '/wbf/admin/behaviors-framework.php', true );
         locate_template('/inc/behaviors.php', true);
 
+        // Load components framework
+        locate_template( '/wbf/admin/components-framework.php', true );
+        locate_template( '/wbf/admin/components-hooks.php', true ); //Components hooks
+        Waboot_ComponentsManager::toggle_components(); //enable or disable components if necessary
+        Waboot_ComponentsManager::init();
+
         // Load theme options framework
         locate_template('/wbf/admin/options-panel.php', true);
-
-        // Load components framework
-	    locate_template( '/wbf/admin/components-framework.php', true );
-	    locate_template( '/wbf/admin/components-hooks.php', true ); //Components hooks
 
         // Breadcrumbs
         if (of_get_option('waboot_breadcrumbs', 1)) {
@@ -144,10 +146,7 @@ class WBF {
 	        locate_template( '/wbf/public/breadcrumb-trail.php', true );
         }
 
-        //Loads components
-        Waboot_ComponentsManager::toggle_components(); //enable or disable components if necessary
-        Waboot_ComponentsManager::init();
-        Waboot_ComponentsManager::setupRegisteredComponents();
+        Waboot_ComponentsManager::setupRegisteredComponents(); //Loads components
     }
 
 	function init() {

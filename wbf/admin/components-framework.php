@@ -147,6 +147,18 @@ class Waboot_ComponentsManager {
 		}
 	}
 
+    static function addRegisteredComponentOptions(){
+        $components = self::getAllComponents();
+        foreach ( $components as $c ) {
+            if ( self::is_active( $c ) ) {
+                require_once( $c['file'] );
+                $className  = ucfirst( $c['nicename'] ) . "Component";
+                $oComponent = new $className( $c );
+                $oComponent->register_options();
+            }
+        }
+    }
+
 	/**
 	 * Returns and array of components data (aka in array mode, this do not retrive Waboot_Component)
 	 * @return array
@@ -595,8 +607,10 @@ class Waboot_Component {
     /**
      * Metodo che verrà automaticamente chiamato per ogni componente registrato durante l'init
      */
-    public function setup(){
-	    add_filter("of_options",array($this,"theme_options"));
+    public function setup(){}
+
+    public function register_options(){
+        add_filter("of_options",array($this,"theme_options"));
     }
 
     public function onInit(){}
@@ -617,13 +631,13 @@ class Waboot_Component {
 			'type' => 'info'
 		);
 
-		$options[] = array(
+		/*$options[] = array(
 			'name' => __( 'Disable component', 'waboot' ),
 			'desc' => __( 'Check this box to turn off the component for this theme only.', 'waboot' ),
 			'id'   => $this->name.'_selective_disable',
 			'std'  => '0',
 			'type' => 'checkbox'
-		);
+		);*/
 
 		$options[] = array(
 			'name' => __( 'Enable on all pages', 'waboot' ),
