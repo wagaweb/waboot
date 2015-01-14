@@ -8,12 +8,15 @@ Author URI: https://waga.it
 
 /* General rules */
 
-
-
 div#optionsframework-wrap {
   margin: 0px auto;
 
-  div.optionsframework-header{
+  .optionsframework-header h2 {
+    font-size: 28px;
+    font-weight: bold;
+    margin-left: 15%;
+    margin-top: 15px;
+    margin-bottom: 10px;
   }
 
   div.optionsframework-content-wrapper{
@@ -90,25 +93,11 @@ div#optionsframework-wrap {
 
   }
 
-  div#optionsframework-metabox{
+  #optionsframework-metabox{
     float: right;
     width: 85%;
   }
 }
-
-
-.metabox-holder h3 {
-  font-size: 24px;
-}
-
-.optionsframework-header h2 {
-  font-size: 28px;
-  font-weight: bold;
-  margin-left: 15%;
-  margin-top: 15px;
-  margin-bottom: 10px;
-}
-
 
 
 #optionsframework {
@@ -122,6 +111,7 @@ div#optionsframework-wrap {
   h3 {
     background-color: #222222;
     color: #f1f1f1;
+    font-size: 24px;
   }
 
   .wp-picker-holder,
@@ -162,8 +152,59 @@ div#optionsframework-wrap {
     background-repeat: no-repeat;
   }
 
+  .section p {
+    text-align: center;
+  }
+
   .section h4 {
     margin-bottom: 10px;
+  }
+
+  .section .heading {
+    font-size: 18px;
+    text-align: center;
+    width: 100%;
+  }
+
+  .section .explain {
+    width: 100%;
+    max-width: 100% !important;
+    text-align: center;
+    display: block;
+    float: none;
+    margin-bottom: 15px;
+  }
+
+  .section .controls {
+    width: 100% !important;
+    min-width: 100% !important;
+    text-align: center;
+    padding: 4px 15px 0;
+    box-sizing: border-box;
+  }
+  .section .controls .option-wrap {
+    display: inline-block !important;
+  }
+  .section .controls .option-wrap span {
+    line-height: 2em;
+    text-transform: capitalize;
+    display: block;
+    background-color: #f9f9f9;
+    margin: 0 3px;
+  }
+  .section .controls .option-wrap img {
+    margin: 0 3px 10px;
+  }
+  .section .controls img {
+    display: inline-block !important;
+    text-align: center;
+    float: none !important;
+  }
+  .section .controls .of-radio-img-selected {
+    border: 3px solid #666;
+  }
+  #section-waboot_custom_css .controls {
+    text-align: left !important;
   }
 
   .section-info {
@@ -173,7 +214,7 @@ div#optionsframework-wrap {
     min-height: 0;
     border-bottom: 1px solid #ddd;
     margin: 0;
-
+    padding: 10px 10px 25px;
     background-color: #666;
     color: #fff;
   }
@@ -415,54 +456,6 @@ div#optionsframework-wrap {
     border-bottom: 1px solid #ddd;
   }
 
-  .heading {
-    font-size: 18px;
-    text-align: center;
-    width: 100%;
-  }
-  .explain {
-    width: 100%;
-    max-width: 100% !important;
-    text-align: center;
-    display: block;
-    float: none;
-    margin-bottom: 15px;
-  }
-  .controls,
-  .section .controls {
-    width: 100% !important;
-    min-width: 100% !important;
-    text-align: center;
-    padding: 4px 15px 0;
-    box-sizing: border-box;
-  }
-  .controls .option-wrap {
-     display: inline-block !important;
-  }
-  .controls .option-wrap span {
-    line-height: 2em;
-    text-transform: capitalize;
-    display: block;
-    background-color: #f9f9f9;
-    margin: 0 3px;
-  }
-  .controls .option-wrap img {
-    margin: 0 3px 10px;
-  }
-  .controls img {
-    display: inline-block !important;
-    text-align: center;
-    float: none !important;
-  }
-  .section p {
-    text-align: center;
-  }
-  .controls .of-radio-img-selected {
-    border: 3px solid #666;
-  }
-  #section-waboot_custom_css .controls {
-    text-align: left !important;
-  }
 
   /* Footer */
 
