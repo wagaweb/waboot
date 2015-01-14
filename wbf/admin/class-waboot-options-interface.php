@@ -157,9 +157,20 @@ class Waboot_Options_Interface extends Options_Framework_Interface
                         if ($val != '' && ($val == $key)) {
                             $selected = ' of-radio-img-selected';
                         }
+
+                        if(is_array($option)){
+                            $option_value = $option['value'];
+                        }else{
+                            $option_value = $option;
+                        }
+
                         $output .= '<input type="radio" id="' . esc_attr($value['id'] . '_' . $key) . '" class="of-radio-img-radio" value="' . esc_attr($key) . '" name="' . esc_attr($name) . '" ' . checked($val, $key, false) . ' />';
                         $output .= '<div class="of-radio-img-label">' . esc_html($key) . '</div>';
-                        $output .= '<div class="option-wrap"> <span>' . esc_attr($key) . '</span> <img src="' . esc_url($option) . '" alt="' . $option . '" class="of-radio-img-img' . $selected . '" onclick="document.getElementById(\'' . esc_attr($value['id'] . '_' . $key) . '\').checked=true;" /></div>';
+                        $output .= '<div class="option-wrap">';
+                        if(is_array($option) && isset($option['label'])){
+                            $output .= '<span>'. esc_attr($option['label']) . '</span>';
+                        }
+                        $output .= '<img src="' . esc_url($option_value) . '" alt="' . $option_value . '" class="of-radio-img-img' . $selected . '" onclick="document.getElementById(\'' . esc_attr($value['id'] . '_' . $key) . '\').checked=true;" /></div>';
                     }
                     break;
 

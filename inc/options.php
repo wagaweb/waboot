@@ -477,7 +477,14 @@ function optionsframework_options() {
         'id'   => 'waboot_header_layout',
         'std' => 'header1',
         'type' => 'images',
-        'options' => array( 'header1' => $imagepath . 'header/header-1.png','header2' => $imagepath . 'header/header-2.png','header3' => $imagepath . 'header/header-3.png' )
+        'options' => array(
+            'header1' => array(
+                'label' => 'header1',
+                'value' => $imagepath . 'header/header-1.png'
+            ),
+            'header2' => $imagepath . 'header/header-2.png',
+            'header3' => $imagepath . 'header/header-3.png'
+        )
     );
 
     $options[] = array(
