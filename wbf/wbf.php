@@ -134,7 +134,6 @@ class WBF {
         // Load components framework
         locate_template( '/wbf/admin/components-framework.php', true );
         locate_template( '/wbf/admin/components-hooks.php', true ); //Components hooks
-        Waboot_ComponentsManager::toggle_components(); //enable or disable components if necessary
         Waboot_ComponentsManager::init();
 
         // Load theme options framework
@@ -146,6 +145,7 @@ class WBF {
 	        locate_template( '/wbf/public/breadcrumb-trail.php', true );
         }
 
+        Waboot_ComponentsManager::toggle_components(); //enable or disable components if necessary
         Waboot_ComponentsManager::setupRegisteredComponents(); //Loads components
     }
 

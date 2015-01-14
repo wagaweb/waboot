@@ -6,7 +6,7 @@ class Waboot_Options_Interface extends Options_Framework_Interface
     /**
      * Generates the options fields that are used in the form.
      */
-    static function optionsframework_fields()
+    static function optionsframework_fields($options = null)
     {
 
         global $allowedtags;
@@ -20,7 +20,8 @@ class Waboot_Options_Interface extends Options_Framework_Interface
         };
 
         $settings = get_option($option_name);
-        $options = &Waboot_Options_Framework::_optionsframework_options();
+        if(!isset($options))
+            $options = &Waboot_Options_Framework::_optionsframework_options();
 
         $counter = 0;
         $menu = '';

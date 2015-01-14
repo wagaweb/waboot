@@ -28,7 +28,7 @@ function custom_sanitize_text( $input ) {
 	return $output;
 }
 
-function of_sanitize_typography( $input, $option ) {
+function of_sanitize_typography( $input ) {
 
 	$output = wp_parse_args( $input, array(
 		'family'  => '',
