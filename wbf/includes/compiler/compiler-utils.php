@@ -36,6 +36,13 @@ function parse_input_file($filepath){
 						}
 					}*/
 				}
+
+                if(preg_match("/(\{baseurl\})/",$line,$matches)){
+                    $baseurl = get_stylesheet_directory();
+                    $line = preg_replace("/(\{baseurl\})/",$baseurl,$line);
+                    $line = preg_replace("/^\/\//","",$line);
+                }
+
 				$tmpFileObj->fwrite($line);
 			}
 			$filepath = $tmpFile->getRealPath();
