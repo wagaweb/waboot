@@ -483,7 +483,10 @@ function optionsframework_options() {
                 'value' => $imagepath . 'header/header-1.png'
             ),
             'header2' => $imagepath . 'header/header-2.png',
-            'header3' => $imagepath . 'header/header-3.png'
+            'header3' => array(
+                'label' => 'header3',
+                'value' => $imagepath . 'header/header-3.png'
+            )
         )
     );
 
