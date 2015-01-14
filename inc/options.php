@@ -69,7 +69,16 @@ function optionsframework_options() {
         'id' => 'waboot_page_width',
         'std' => 'container',
         'type' => 'images',
-        'options' => array('container-fluid' => $imagepath . 'layout/page-fluid.png', 'container' => $imagepath . 'layout/page-boxed.png')
+        'options' => array(
+            'container-fluid' => array (
+                'label' => 'Fluid',
+                'value' => $imagepath . 'layout/page-fluid.png'
+            ),
+            'container' => array (
+                'label' => 'Boxed',
+                'value' => $imagepath . 'layout/page-boxed.png'
+            )
+        )
     );
 
     $options[] = array(
@@ -78,7 +87,16 @@ function optionsframework_options() {
         'id' => 'waboot_topnav_width',
         'std' => 'container',
         'type' => 'images',
-        'options' => array('container-fluid' => $imagepath . 'layout/top-nav-fluid.png', 'container' => $imagepath . 'layout/top-nav-boxed.png')
+        'options' => array(
+            'container-fluid' => array (
+                'label' => 'Fluid',
+                'value' => $imagepath . 'layout/top-nav-fluid.png'
+            ),
+            'container' => array (
+                'label' => 'Boxed',
+                'value' => $imagepath . 'layout/top-nav-boxed.png'
+            )
+        )
     );
 
     $options[] = array(
@@ -87,7 +105,16 @@ function optionsframework_options() {
         'id' => 'waboot_header_width',
         'std' => 'container-fluid',
         'type' => 'images',
-        'options' => array('container-fluid' => $imagepath . 'layout/header-fluid.png', 'container' => $imagepath . 'layout/header-boxed.png')
+        'options' => array(
+            'container-fluid' => array (
+                'label' => 'Fluid',
+                'value' => $imagepath . 'layout/header-fluid.png'
+            ),
+            'container' => array (
+                'label' => 'Boxed',
+                'value' => $imagepath . 'layout/header-boxed.png'
+            )
+        )
     );
 
     $options[] = array(
@@ -96,7 +123,16 @@ function optionsframework_options() {
         'id' => 'waboot_banner_width',
         'std' => 'container-fluid',
         'type' => 'images',
-        'options' => array('container-fluid' => $imagepath . 'layout/banner-fluid.png', 'container' => $imagepath . 'layout/banner-boxed.png')
+        'options' => array(
+            'container-fluid' => array (
+                'label' => 'Fluid',
+                'value' => $imagepath . 'layout/banner-fluid.png'
+            ),
+            'container' => array (
+                'label' => 'Boxed',
+                'value' => $imagepath . 'layout/banner-boxed.png'
+            )
+        )
     );
 
     $options[] = array(
@@ -105,7 +141,16 @@ function optionsframework_options() {
         'id' => 'waboot_content_width',
         'std' => 'container-fluid',
         'type' => 'images',
-        'options' => array('container-fluid' => $imagepath . 'layout/content-fluid.png', 'container' => $imagepath . 'layout/content-boxed.png')
+        'options' => array(
+            'container-fluid' => array (
+                'label' => 'Fluid',
+                'value' => $imagepath . 'layout/content-fluid.png'
+            ),
+            'container' => array (
+                'label' => 'Boxed',
+                'value' => $imagepath . 'layout/content-boxed.png'
+            )
+        )
     );
 
     $options[] = array(
@@ -114,7 +159,16 @@ function optionsframework_options() {
         'id' => 'waboot_bottom_width',
         'std' => 'container-fluid',
         'type' => 'images',
-        'options' => array('container-fluid' => $imagepath . 'layout/content-bottom-fluid.png', 'container' => $imagepath . 'layout/content-bottom-boxed.png')
+        'options' => array(
+            'container-fluid' => array (
+                'label' => 'Fluid',
+                'value' => $imagepath . 'layout/content-bottom-fluid.png'
+            ),
+            'container' => array (
+                'label' => 'Boxed',
+                'value' => $imagepath . 'layout/content-bottom-boxed.png'
+            )
+        )
     );
 
     $options[] = array(
@@ -123,7 +177,16 @@ function optionsframework_options() {
         'id' => 'waboot_footer_width',
         'std' => 'container-fluid',
         'type' => 'images',
-        'options' => array('container-fluid' => $imagepath . 'layout/footer-fluid.png', 'container' => $imagepath . 'layout/footer-boxed.png')
+        'options' => array(
+            'container-fluid' => array (
+                'label' => 'Fluid',
+                'value' => $imagepath . 'layout/footer-fluid.png'
+            ),
+            'container' => array (
+                'label' => 'Boxed',
+                'value' => $imagepath . 'layout/footer-boxed.png'
+            )
+        )
     );
 
     $options[] = array(
@@ -132,7 +195,16 @@ function optionsframework_options() {
         'id' => 'waboot_closure_width',
         'std' => 'container-fluid',
         'type' => 'images',
-        'options' => array('container-fluid' => $imagepath . 'layout/closure-fluid.png', 'container' => $imagepath . 'layout/closure-boxed.png')
+        'options' => array(
+            'container-fluid' => array (
+                'label' => 'Fluid',
+                'value' => $imagepath . 'layout/closure-fluid.png'
+            ),
+            'container' => array (
+                'label' => 'Boxed',
+                'value' => $imagepath . 'layout/closure-boxed.png'
+            )
+        )
     );
 
 
@@ -440,7 +512,16 @@ function optionsframework_options() {
         'id' => 'waboot_topnavmenu_position',
         'std' => 'left',
         'type' => 'images',
-        'options' => array('left' => $imagepath . 'topnav/top-nav-left.png', 'right' => $imagepath . 'topnav/top-nav-right.png')
+        'options' => array(
+            'left' => array (
+                'label' => 'Left',
+                'value' => $imagepath . 'topnav/top-nav-left.png'
+            ),
+            'right' => array (
+                'label' => 'Right',
+                'value' => $imagepath . 'topnav/top-nav-right.png'
+            )
+        )
     );
 
 
@@ -482,7 +563,10 @@ function optionsframework_options() {
                 'label' => 'header1',
                 'value' => $imagepath . 'header/header-1.png'
             ),
-            'header2' => $imagepath . 'header/header-2.png',
+            'header2' => array(
+                'label' => 'header2',
+                'value' => $imagepath . 'header/header-2.png'
+            ),
             'header3' => array(
                 'label' => 'header3',
                 'value' => $imagepath . 'header/header-3.png'
@@ -587,9 +671,18 @@ function optionsframework_options() {
     );
 
     $blogpage_layouts = wbf_sanitize_of_array_values(apply_filters("waboot_blogpage_layout",array(
-        'blog' => $imagepath . 'blog/default-blog.png',
-        'masonry' => $imagepath . 'blog/masonry-blog.png',
-        'timeline' => $imagepath . 'blog/timeline-blog.png',
+        'blog' =>  array(
+            'label' => 'Blog',
+            'value' => $imagepath . 'blog/default-blog.png'
+        ),
+        'masonry' =>  array(
+            'label' => 'Masonry',
+            'value' => $imagepath . 'blog/masonry-blog.png'
+        ),
+        'timeline' =>  array(
+            'label' => 'Timeline',
+            'value' => $imagepath . 'blog/timeline-blog.png'
+        ),
         '_default' => 'blog'
     )));
 
@@ -722,11 +815,27 @@ function optionsframework_options() {
         'type' => 'images',
         'std'  => 'footer',
         'options' => array(
-            'footer' => $imagepath . 'social/footer.png',
-            'header-right' => $imagepath . 'social/header-right.png',
-            'header-left' => $imagepath . 'social/header-left.png',
-            'topnav-right' => $imagepath . 'social/topnav-right.png',
-            'topnav-left' => $imagepath . 'social/topnav-left.png')
+            'footer' =>  array(
+                'label' => 'Footer',
+                'value' => $imagepath . 'social/footer.png'
+            ),
+            'header-right' =>  array(
+                'label' => 'Header Right',
+                'value' => $imagepath . 'social/header-right.png'
+            ),
+            'header-left' =>  array(
+                'label' => 'Header Left',
+                'value' => $imagepath . 'social/header-left.png'
+            ),
+            'topnav-right' =>  array(
+                'label' => 'Topnav Right',
+                'value' => $imagepath . 'social/topnav-right.png'
+            ),
+            'topnav-left' =>  array(
+                'label' => 'Topnav Left',
+                'value' => $imagepath . 'social/topnav-left.png'
+            )
+        )
     );
 
     $options[] = array(
