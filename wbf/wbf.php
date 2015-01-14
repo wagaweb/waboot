@@ -26,6 +26,7 @@ add_action( "init", "WBF::init" );
 add_action( "updated_option", "WBF::of_style_options_save", 11, 3 );
 add_action( "updated_option", "WBF::compile_less_on_theme_options_save", 9999, 3 );
 add_action( 'admin_menu', 'WBF::admin_menu' );
+add_action( 'admin_menu', 'WBF\admin\License_Manager::admin_license_menu_item', 30 );
 add_action( 'admin_bar_menu', 'WBF::add_env_notice', 980 );
 add_action( 'admin_bar_menu', 'WBF::add_admin_compile_button', 990 );
 add_action( 'wp_enqueue_scripts', 'WBF::register_libs' );
@@ -385,7 +386,9 @@ endif;
 /**
  * WP UPDATE SERVER
  */
-$WabootThemeUpdateChecker = new ThemeUpdateChecker(
-    'waboot', //Theme slug. Usually the same as the name of its directory.
-    'http://wpserver.wagahost.com/?action=get_metadata&slug=waboot' //Metadata URL.
-);
+if(\WBF\admin\License_Manager::get_license_status() == "Active"){
+    $WabootThemeUpdateChecker = new ThemeUpdateChecker(
+        'waboot', //Theme slug. Usually the same as the name of its directory.
+        'http://wpserver.wagahost.com/?action=get_metadata&slug=waboot' //Metadata URL.
+    );
+}
