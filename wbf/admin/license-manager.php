@@ -84,6 +84,9 @@ class License_Manager{
             case "Suspended":
                 echo "<span class='license-suspended'>$status</span>";
                 break;
+	        case "no-license":
+		        echo "<span class='license-suspended'>".__("No license provided","wbf")."</span>";
+		        break;
             default:
                 echo "<span class='license-unk'>Unknown status</span>";
                 break;
