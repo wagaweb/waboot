@@ -1,13 +1,13 @@
 <?php
 /**
-Component Name: Isotope
-Description: Isotope component
+Component Name: Shuffle
+Description: Shuffle component
 Version: 1.0
 Author: WAGA Team <dev@waga.it>
 Author URI: http://www.waga.it
 */
 
-class IsotopeComponent extends Waboot_Component{
+class ShuffleComponent extends Waboot_Component{
 
     public function scripts(){
         wp_enqueue_script('isotope-script',$this->directory_uri . '/isotope.pkgd.js',array('jquery'),false,false);
