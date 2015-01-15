@@ -386,9 +386,7 @@ endif;
 /**
  * WP UPDATE SERVER
  */
-//if(\WBF\admin\License_Manager::get_license_status() == "Active"){
-    $WabootThemeUpdateChecker = new ThemeUpdateChecker(
-        'waboot', //Theme slug. Usually the same as the name of its directory.
-        'http://wpserver.wagahost.com/?action=get_metadata&slug=waboot' //Metadata URL.
-    );
-//}
+$WabootThemeUpdateChecker = new \WBF\includes\Theme_Update_Checker(
+    'waboot', //Theme slug. Usually the same as the name of its directory.
+    'http://wpserver.wagahost.com/?action=get_metadata&slug=waboot' //Metadata URL.
+);

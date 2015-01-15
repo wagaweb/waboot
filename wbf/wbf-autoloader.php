@@ -28,6 +28,9 @@ function waboot_autoloader($class)
         case "WBF\admin\License_Manager":
             locate_template( 'wbf/admin/license-manager.php', true );
             break;
+	    case "WBF\includes\Theme_Update_Checker":
+		    locate_template( 'wbf/includes/theme-update-checker.php', true );
+		    break;
 	    case "Waboot_Styles_Compiler":
 		    locate_template( 'wbf/includes/compiler/class-waboot-styles-compiler.php', true );
 		    break;
