@@ -658,7 +658,8 @@ class Waboot_Component {
 	public function theme_options($options){
 		$options[] = array(
 			'name' => $this->name." Component",
-			'type' => 'heading'
+			'type' => 'heading',
+			'component' => true
 		);
 
 		$options[] = array(
@@ -692,6 +693,7 @@ class Waboot_Component {
     public function onActivate(){
         //echo "Attivato: $this->name";
         add_action( 'admin_notices', array($this,'activationNotice') );
+	    $this->register_options();
     }
 
     public function onDeactivate(){
