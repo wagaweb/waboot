@@ -359,7 +359,7 @@ class Waboot_Options_Interface extends Options_Framework_Interface
 
         foreach ( $options as $value ) {
             // Heading for Navigation
-            if ( $value['type'] == "heading" ) {
+            if ( $value['type'] == "heading" && (!isset($value['component'])) ) {
                 $counter++;
                 $class = '';
                 $class = ! empty( $value['id'] ) ? $value['id'] : $value['name'];
