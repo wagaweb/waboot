@@ -311,6 +311,25 @@ class Waboot_ComponentsManager {
                 } catch ( Exception $e ) {
                     self::$last_error = $e->getMessage();
                 }
+            } elseif( isset( $_POST['submit-components-options']) ){
+				$registered_components = self::getAllComponents();
+	            $registered_components_status = isset($_POST['components_status']) ? $_POST['components_status'] : array();
+	            foreach($registered_components as $component_name => $component_data){
+		            if(!array_key_exists($component_name,$registered_components_status)){
+			            $registered_components_status[$component_name] = "off";
+		            }
+	            }
+	            foreach($registered_components_status as $component_name => $component_status){
+					if($component_status == "on" ){
+						if(!self::is_active($registered_components[$component_name])){
+							self::enable( $component_name, Waboot_ComponentsManager::is_child_component( $component_name ) );
+						}
+					}else{
+						if(self::is_active($registered_components[$component_name])){
+							self::disable( $component_name, Waboot_ComponentsManager::is_child_component( $component_name ) );
+						}
+					}
+				}
             }
         }
     }
@@ -325,18 +344,27 @@ class Waboot_ComponentsManager {
             <?php
         }
 
+		$registered_components = self::getAllComponents();
+
         if(isset($_POST['submit-components-options'])){
             $of_config = get_option( 'optionsframework' );
             $of_options = get_option( $of_config['id'] );
+	        $must_update = false;
             if(isset($_POST[$of_config['id']])){
                 foreach($_POST[$of_config['id']] as $opt_name => $opt_value){
-                    $of_options[$opt_name] = $opt_value;
+	                preg_match("/^([a-zA-Z0-9]+)_/",$opt_name,$matches);
+	                $component_name = $matches[1];
+	                $component_data = $registered_components[$component_name];
+	                if($component_data && self::is_active($component_data)){
+		                $of_options[$opt_name] = $opt_value;
+		                $must_update = true;
+	                }
                 }
             }
-            update_option($of_config['id'],$of_options);
+	        if($must_update)
+                update_option($of_config['id'],$of_options);
         }
 
-        $registered_components = self::getAllComponents();
         $components_options = apply_filters("wbf_components_options",array());
         $compiled_components_options = array();
         $current_element = "";
@@ -375,7 +403,7 @@ class Waboot_ComponentsManager {
                                     <th scope="col" id="name"
                                         class="manage-column column-name"><?php _e( "Component", "waboot" ) ?></th>
                                     <th scope="col" id="description"
-                                        class="manage-column column-description"><?php _e( "Description" ) ?></th>
+                                        class="manage-column column-description"><?php _e( "Enable\Disable", "waboot" ) ?></th>
                                 </tr>
                                 </thead>
                                 <tfoot>
@@ -384,80 +412,72 @@ class Waboot_ComponentsManager {
                                     <th scope="col" id="name"
                                         class="manage-column column-name"><?php _e( "Component", "waboot" ) ?></th>
                                     <th scope="col" id="description"
-                                        class="manage-column column-description"><?php _e( "Description" ) ?></th>
+                                        class="manage-column column-description"><?php _e( "Enable\Disable", "waboot" ) ?></th>
                                 </tr>
                                 </tfoot>
                                 <tbody id="the-list">
-                                <?php foreach ( $registered_components as $comp_data ) : ?>
-                                    <tr id="<?php echo $comp_data['nicename']; ?>" <class="<?php if ( self::is_active( $comp_data ) ) {
-                                        echo "active";
-                                    } else {
-                                        echo "inactive";
-                                    } ?>">
+                                <?php $i=1; foreach ( $registered_components as $comp_data ) : ?>
+                                    <tr id="<?php echo $comp_data['nicename']; ?>" <class="<?php print_component_status( $comp_data ); ?> <?php if($i%2 == 0) echo "even"; else echo "odd"; ?>">
                                         <?php
                                             //$data = get_plugin_data($comp_data['file']);
                                             $data = self::get_component_data( $comp_data['file'] );
                                         ?>
                                         <th></th>
-                                        <th class="component-title">
+                                        <th class="component-data column-description desc">
                                             <strong><?php echo $data['Name']; ?></strong>
+	                                        <div class="component-description">
+		                                        <?php echo $data['Description']; ?>
+		                                        <?php if ( self::is_child_component( $comp_data ) ) : ?>
+			                                        <p class="child-component-notice">
+				                                        <?php _e( "This is a component of the current child theme", "waboot" ); ?>
+				                                        <?php
+				                                        if ( isset( $comp_data['override'] ) ) {
+					                                        if ( $comp_data['override'] ) {
+						                                        _e( ", and <strong>override a core component</strong>", "waboot" );
+					                                        }
+				                                        }
+				                                        ?>
+			                                        </p>
+		                                        <?php endif; ?>
+	                                        </div>
+	                                        <div class="<?php print_component_status($comp_data); ?> second plugin-version-author-uri">
+		                                        <?php
+		                                        $component_meta = array();
+		                                        if ( ! empty( $data['Version'] ) ) {
+			                                        $component_meta[] = sprintf( __( 'Version %s' ), $data['Version'] );
+		                                        }
+		                                        if ( ! empty( $data['Author'] ) ) {
+			                                        $author = $data['Author'];
+			                                        if ( ! empty( $data['AuthorURI'] ) ) {
+				                                        $author = '<a href="' . $data['AuthorURI'] . '" title="' . esc_attr__( 'Visit author homepage' ) . '">' . $data['Author'] . '</a>';
+			                                        }
+			                                        $component_meta[] = sprintf( __( 'By %s' ), $author );
+		                                        }
+		                                        if ( ! empty( $plugin_data['PluginURI'] ) ) {
+			                                        $component_meta[] = '<a href="' . $data['ComponentURI'] . '" title="' . esc_attr__( 'Visit plugin site' ) . '">' . __( 'Visit plugin site' ) . '</a>';
+		                                        }
 
-                                            <div class="row-actions visible">
-                                                <?php if ( ! self::is_active( $comp_data ) ) : ?>
-                                                    <span class="activate"><a
-                                                            href="admin.php?page=waboot_components&enable=<?php echo $comp_data['nicename']; ?>"
-                                                            title="Attiva questo plugin" class="edit">Attivare</a></span>
-                                                <?php else: ?>
-                                                    <span class="deactivate"><a
-                                                            href="admin.php?page=waboot_components&disable=<?php echo $comp_data['nicename']; ?>"
-                                                            title="Disattiva questo plugin" class="edit">Disattivare</a></span>
-                                                <?php endif; ?>
-                                            </div>
+		                                        echo implode( ' | ', $component_meta );
+
+		                                        ?>
+	                                        </div>
                                         </th>
-                                        <th class="column-description desc">
-                                            <div class="component-description">
-                                                <?php echo $data['Description']; ?>
-                                                <?php if ( self::is_child_component( $comp_data ) ) : ?>
-                                                    <p class="child-component-notice">
-                                                        <?php _e( "This is a component of the current child theme", "waboot" ); ?>
-                                                        <?php
-                                                        if ( isset( $comp_data['override'] ) ) {
-                                                            if ( $comp_data['override'] ) {
-                                                                _e( ", and <strong>override a core component</strong>", "waboot" );
-                                                            }
-                                                        }
-                                                        ?>
-                                                    </p>
-                                                <?php endif; ?>
-                                            </div>
-                                            <div class="<?php if ( self::is_active( $comp_data ) ) {
-                                                echo "active";
-                                            } else {
-                                                echo "inactive";
-                                            } ?> second plugin-version-author-uri">
-                                                <?php
-                                                $component_meta = array();
-                                                if ( ! empty( $data['Version'] ) ) {
-                                                    $component_meta[] = sprintf( __( 'Version %s' ), $data['Version'] );
-                                                }
-                                                if ( ! empty( $data['Author'] ) ) {
-                                                    $author = $data['Author'];
-                                                    if ( ! empty( $data['AuthorURI'] ) ) {
-                                                        $author = '<a href="' . $data['AuthorURI'] . '" title="' . esc_attr__( 'Visit author homepage' ) . '">' . $data['Author'] . '</a>';
-                                                    }
-                                                    $component_meta[] = sprintf( __( 'By %s' ), $author );
-                                                }
-                                                if ( ! empty( $plugin_data['PluginURI'] ) ) {
-                                                    $component_meta[] = '<a href="' . $data['ComponentURI'] . '" title="' . esc_attr__( 'Visit plugin site' ) . '">' . __( 'Visit plugin site' ) . '</a>';
-                                                }
-
-                                                echo implode( ' | ', $component_meta );
-
-                                                ?>
-                                            </div>
+                                        <th class="component-actions">
+	                                        <div class="row-actions visible">
+		                                        <div class="onoffswitch">
+		                                            <?php if ( ! self::is_active( $comp_data ) ) : ?>
+			                                        <input id="<?php echo $comp_data['nicename']; ?>_status" class="checkbox of-input onoffswitch-checkbox" type="checkbox" name="components_status[<?php echo $comp_data['nicename']; ?>]" >
+		                                            <?php else: ?>
+			                                        <input id="<?php echo $comp_data['nicename']; ?>_status" class="checkbox of-input onoffswitch-checkbox" type="checkbox" name="components_status[<?php echo $comp_data['nicename']; ?>]" checked="checked">
+		                                            <?php endif; ?>
+			                                        <label class="onoffswitch-label" for="<?php echo $comp_data['nicename']; ?>_status"><span class="onoffswitch-inner"></span>
+				                                        <span class="onoffswitch-switch"></span>
+			                                        </label>
+		                                        </div>
+	                                        </div>
                                         </th>
                                     </tr>
-                                <?php endforeach; ?>
+                                <?php $i++; endforeach; ?>
                                 </tbody>
                             </table>
                         </div>
@@ -742,4 +762,12 @@ function waboot_get_root_components_directory_uri(){
 
 function waboot_get_child_components_directory_uri(){
     return get_stylesheet_directory_uri()."/components/";
+}
+
+function print_component_status($comp_data){
+	if ( Waboot_ComponentsManager::is_active( $comp_data ) ) {
+		echo "active";
+	} else {
+		echo "inactive";
+	}
 }
