@@ -367,4 +367,74 @@ class Waboot_Options_Framework_Admin extends Options_Framework_Admin{
 			'href' => admin_url( 'admin.php?page=' . $menu['menu_slug'] )
 		) );
 	}
+
+	/**
+	 * Validate Options.
+	 *
+	 * This runs after the submit/reset button has been clicked and
+	 * validates the inputs.
+	 *
+	 * @uses $_POST['reset'] to restore default options
+	 */
+	function validate_options( $input ) {
+
+		/*
+		 * Restore Defaults.
+		 *
+		 * In the event that the user clicked the "Restore Defaults"
+		 * button, the options defined in the theme's options.php
+		 * file will be added to the option for the active theme.
+		 */
+
+		if ( isset( $_POST['reset'] ) ) {
+			add_settings_error( 'options-framework', 'restore_defaults', __( 'Default options restored.', 'textdomain' ), 'updated fade' );
+			return $this->get_default_values();
+		}
+
+		/*
+		 * Update Settings
+		 *
+		 * This used to check for $_POST['update'], but has been updated
+		 * to be compatible with the theme customizer introduced in WordPress 3.4
+		 */
+
+		$clean = array();
+		$options = & Options_Framework::_optionsframework_options();
+		foreach ( $options as $option ) {
+
+			if ( ! isset( $option['id'] ) ) {
+				continue;
+			}
+
+			if ( ! isset( $option['type'] ) ) {
+				continue;
+			}
+
+			$id = preg_replace( '/[^a-zA-Z0-9._\-]/', '', strtolower( $option['id'] ) );
+
+			// Set checkbox to false if it wasn't sent in the $_POST
+			if ( 'checkbox' == $option['type'] && ! isset( $input[$id] ) ) {
+				$input[$id] = false;
+			}
+
+			// Set each item in the multicheck to false if it wasn't sent in the $_POST
+			if ( 'multicheck' == $option['type'] && ! isset( $input[$id] ) ) {
+				foreach ( $option['options'] as $key => $value ) {
+					$input[$id][$key] = false;
+				}
+			}
+
+			// For a value to be submitted to database it must pass through a sanitization filter
+			if ( has_filter( 'of_sanitize_' . $option['type'] ) ) {
+				if(isset($input[$id])){
+					$clean[$id] = apply_filters( 'of_sanitize_' . $option['type'], $input[$id], $option );
+				}
+			}
+		}
+
+		// Hook to run after validation
+		do_action( 'optionsframework_after_validate', $clean );
+
+		return $clean;
+	}
 }
