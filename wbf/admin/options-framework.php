@@ -32,8 +32,8 @@ if ( ! function_exists( 'optionsframework_init' ) ) :
 function optionsframework_init() {
 
 	//  If user can't edit theme options, exit
-	if ( ! current_user_can( 'edit_theme_options' ) )
-		return;
+	/*if ( ! current_user_can( 'edit_theme_options' ) )
+		return;*/
 
 	require WBF_DIRECTORY . '/vendor/options-framework/class-options-sanitization.php';
 	require "waboot-options-sanitization.php";
