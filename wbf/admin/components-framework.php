@@ -25,7 +25,8 @@ class Waboot_ComponentsManager {
     }
 
     static function scripts($hook){
-        if($hook == "waboot_page_waboot_components"){
+		global $plugin_page;
+		if($plugin_page == "waboot_components"){
             // Enqueue custom CSS
             $stylesheet = waboot_locate_template_uri('wbf/admin/css/waboot-componentsframework.css');
             if ($stylesheet != "")
