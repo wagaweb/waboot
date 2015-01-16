@@ -426,7 +426,7 @@ class Waboot_Options_Framework_Admin extends Options_Framework_Admin{
 
 			// For a value to be submitted to database it must pass through a sanitization filter
 			if ( has_filter( 'of_sanitize_' . $option['type'] ) ) {
-				if(isset($input[$id])){
+				if(isset($input[$id])){ //[WABOOT MOD]
 					$clean[$id] = apply_filters( 'of_sanitize_' . $option['type'], $input[$id], $option );
 				}
 			}

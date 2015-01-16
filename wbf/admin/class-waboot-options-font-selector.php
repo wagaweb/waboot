@@ -76,9 +76,9 @@ class Waboot_Options_Font_Selector
 
     function buildFontString($name,$props,$return = "css"){
         $font_string = $name;
-        if(isset($props['styles'])) $font_string .= ":";
         $i = 0;
         foreach($props['styles'] as $style){
+	        if($i==0) $font_string .= ":";
             $font_string .= $style;
             if($i != count($props['styles']) - 1)
                 $font_string .= ",";
