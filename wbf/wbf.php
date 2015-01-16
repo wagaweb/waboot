@@ -31,7 +31,7 @@ add_action( 'admin_bar_menu', 'WBF::add_env_notice', 980 );
 add_action( 'admin_bar_menu', 'WBF::add_admin_compile_button', 990 );
 add_action( 'wp_enqueue_scripts', 'WBF::register_libs' );
 add_filter('options_framework_location','WBF::of_location_override');
-add_filter('site_transient_update_plugins', 'WBF::unset_unwanted_updates');
+add_filter('site_transient_update_plugins', 'WBF::unset_unwanted_updates', 999);
 
 class WBF {
 	/**
@@ -200,7 +200,13 @@ class WBF {
 	}
 
 	function unset_unwanted_updates($value){
-		return $value; //nothing for now
+		$acf_update_path = preg_replace("/^\//","",WBF_DIRECTORY.'/vendor/acf/acf.php');
+
+		if(isset($value->response[$acf_update_path])){
+			unset($value->response[$acf_update_path]);
+		}
+
+		return $value;
 	}
 
 	/**
