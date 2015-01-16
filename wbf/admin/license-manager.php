@@ -4,17 +4,6 @@ namespace WBF\admin;
 
 class License_Manager{
 
-    private static $localkey = '9tjIxIzNwgDMwIjI6gjOztjIlRXYkt2Ylh2YioTO6M3OicmbpNnblNWasx1cyVmdyV2ccNXZsVHZv1GX
-    zNWbodHXlNmc192czNWbodHXzN2bkRHacBFUNFEWcNHduVWb1N2bExFd0FWTcNnclNXVcpzQioDM4ozc
-    7ISey9GdjVmcpRGZpxWY2JiO0EjOztjIx4CMuAjL3ITMioTO6M3OiAXaklGbhZnI6cjOztjI0N3boxWY
-    j9Gbuc3d3xCdz9GasF2YvxmI6MjM6M3Oi4Wah12bkRWasFmdioTMxozc7ISeshGdu9WTiozN6M3OiUGb
-    jl3Yn5WasxWaiJiOyEjOztjI3ATL4ATL4ADMyIiOwEjOztjIlRXYkVWdkRHel5mI6ETM6M3OicDMtcDM
-    tgDMwIjI6ATM6M3OiUGdhR2ZlJnI6cjOztjIlNXYlxEI5xGa052bNByUD1ESXJiO5EjOztjIl1WYuR3Y
-    1R2byBnI6ETM6M3OicjI6EjOztjIklGdjVHZvJHcioTO6M3Oi02bj5ycj1Ga3BEd0FWbioDNxozc7ICb
-    pFWblJiO1ozc7IyUD1ESXBCd0FWTioDMxozc7ISZtFmbkVmclR3cpdWZyJiO0EjOztjIlZXa0NWQiojN
-    6M3OiMXd0FGdzJiO2ozc7pjMxoTY8baca0885830a33725148e94e693f3f073294c0558d38e31f844
-    c5e399e3c16a';
-
     function admin_license_menu_item(){
         $waboot_license = add_submenu_page( "waboot_options", __( "Waboot License", "waboot" ), __( "License", "waboot" ), "edit_theme_options", "waboot_license", "WBF\admin\License_Manager::license_page" );
     }
@@ -98,7 +87,7 @@ class License_Manager{
         if($license != ""){
             $localkey = get_option("waboot_license_localkey",false);
             if(!$localkey){
-                $results = self::check_license($license,self::$localkey);
+                $results = self::check_license($license);
             }else{
                 $results = self::check_license($license,$localkey);
                 if(isset($results['localkey'])){
