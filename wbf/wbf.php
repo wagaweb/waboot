@@ -187,7 +187,7 @@ class WBF {
 
 		//Check if must display reb bubble warning
 		$updates_state = get_option($WabootThemeUpdateChecker->optionName,null);
-		if(!is_null($updates_state))
+		if(!is_null($updates_state->update))
 			$warning_count = 1;
 		else
 			$warning_count = 0;

@@ -28,6 +28,7 @@ class Theme_Update_Checker extends \ThemeUpdateChecker{
 				update_option("wbf_unable_to_update",true);
 				add_action( 'admin_notices', array($this,'update_available_notice') );
 			}
+			$this->update_state_option($state);
 			$this->automaticCheckDone = true;
 		}
 	}
@@ -40,5 +41,20 @@ class Theme_Update_Checker extends \ThemeUpdateChecker{
 			<?php echo sprintf(__( 'A new version of Waboot is available! <a href="%s" title="Enter a valid license">Enter a valid license</a> to get latest updates.', 'wbf' ),"admin.php?page=waboot_license"); ?>
 		</div>
 		<?php endif;
+	}
+
+	public function update_state_option($new_state){
+		$state = get_option($this->optionName);
+		if ( empty($state) ){
+			$state = new StdClass;
+			$state->lastCheck = 0;
+			$state->checkedVersion = '';
+			$state->update = null;
+		}
+
+		$state->lastCheck = time();
+		$state->checkedVersion = $this->getInstalledVersion();
+		$state->update = $new_state;
+		update_option($this->optionName, $state);
 	}
 }
