@@ -27,10 +27,25 @@ class Theme_Update_Checker extends \ThemeUpdateChecker{
 			if(!is_null($state) && !$this->automaticCheckDone){
 				update_option("wbf_unable_to_update",true);
 				add_action( 'admin_notices', array($this,'update_available_notice') );
+				//Insert our fake update info into the update list maintained by WP.
+				add_filter('site_transient_update_themes', array($this,'injectFakeUpdate'));
 			}
 			$this->update_state_option($state);
 			$this->automaticCheckDone = true;
 		}
+	}
+
+	public function injectFakeUpdate($updates){
+		$state = get_option($this->optionName);
+
+		//Is there an update to insert?
+		if ( !empty($state) && isset($state->update) && !empty($state->update) ){
+			$response = $state->update->toWpFormat();
+			$response['package'] = "";
+			$updates->response[$this->theme] = $response;
+		}
+
+		return $updates;
 	}
 
 	public function update_available_notice(){
