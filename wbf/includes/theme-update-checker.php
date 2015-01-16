@@ -3,6 +3,7 @@
 namespace WBF\includes;
 
 class Theme_Update_Checker extends \ThemeUpdateChecker{
+	var $optionName = '';      //Where to store update info.
 	/**
 	 * Class constructor.
 	 *
@@ -33,7 +34,7 @@ class Theme_Update_Checker extends \ThemeUpdateChecker{
 
 	public function update_available_notice(){
 		$unable_to_update = get_option("wbf_unable_to_update",false);
-		if($unable_to_update) :
+		if($unable_to_update && \WBF::is_wbf_admin_page()) :
 		?>
 		<div class="waboot-upgrade-notice update-nag">
 			<?php echo sprintf(__( 'A new version of Waboot is available! <a href="%s" title="Enter a valid license">Enter a valid license</a> to get latest updates.', 'wbf' ),"admin.php?page=waboot_license"); ?>

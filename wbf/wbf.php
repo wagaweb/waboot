@@ -31,6 +31,7 @@ add_action( 'admin_bar_menu', 'WBF::add_env_notice', 980 );
 add_action( 'admin_bar_menu', 'WBF::add_admin_compile_button', 990 );
 add_action( 'wp_enqueue_scripts', 'WBF::register_libs' );
 add_filter('options_framework_location','WBF::of_location_override');
+add_filter('site_transient_update_plugins', 'WBF::unset_unwanted_updates');
 
 class WBF {
 	/**
@@ -49,6 +50,26 @@ class WBF {
 		}
 
 		return $md;
+	}
+
+	/**
+	 * Checks if current admin page is part of WBF
+	 * @return bool
+	 */
+	static function is_wbf_admin_page(){
+		global $plugin_page;
+		$valid_pages = array(
+			'waboot_options',
+			'waboot_components',
+			'themeoptions_manager',
+			'waboot_license'
+		);
+
+		if(in_array($plugin_page,$valid_pages)){
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
@@ -162,10 +183,24 @@ class WBF {
 	}
 
 	function admin_menu(){
-		global $menu,$options_framework_admin;
+		global $menu,$options_framework_admin,$WabootThemeUpdateChecker;
+
+		//Check if must display reb bubble warning
+		$updates_state = get_option($WabootThemeUpdateChecker->optionName,null);
+		if(!is_null($updates_state))
+			$warning_count = 1;
+		else
+			$warning_count = 0;
+
+		$menu_label = sprintf( __( 'Waboot %s' ), "<span class='update-plugins count-$warning_count' title='".__("Update available","wbf")."'><span class='update-count'>" . number_format_i18n($warning_count) . "</span></span>" );
+
 		$menu['58']     = $menu['59']; //move the separator before "Appearance" one position up
-		$waboot_menu    = add_menu_page( "Waboot", "Waboot", "edit_theme_options", "waboot_options", "waboot_options_page", "dashicons-text", 59 );
+		$waboot_menu    = add_menu_page( "Waboot", $menu_label, "edit_theme_options", "waboot_options", "waboot_options_page", "dashicons-text", 59 );
 		//$waboot_options = add_submenu_page( "waboot_options", __( "Theme options", "waboot" ), __( "Theme Options", "waboot" ), "edit_theme_options", "waboot_options", array($options_framework_admin,"options_page") );
+	}
+
+	function unset_unwanted_updates($value){
+		return $value; //nothing for now
 	}
 
 	/**
@@ -386,7 +421,7 @@ endif;
 /**
  * WP UPDATE SERVER
  */
-$WabootThemeUpdateChecker = new \WBF\includes\Theme_Update_Checker(
-    'waboot', //Theme slug. Usually the same as the name of its directory.
-    'http://wpserver.wagahost.com/?action=get_metadata&slug=waboot' //Metadata URL.
+$GLOBALS['WabootThemeUpdateChecker'] = new \WBF\includes\Theme_Update_Checker(
+	'waboot', //Theme slug. Usually the same as the name of its directory.
+	'http://wpserver.wagahost.com/?action=get_metadata&slug=waboot' //Metadata URL.
 );
