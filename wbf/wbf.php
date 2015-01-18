@@ -34,6 +34,9 @@ add_filter('options_framework_location','WBF::of_location_override');
 add_filter('site_transient_update_plugins', 'WBF::unset_unwanted_updates', 999);
 
 class WBF {
+
+	const version = "0.8.2";
+
 	/**
 	 *
 	 *
@@ -70,6 +73,18 @@ class WBF {
 		}
 
 		return false;
+	}
+
+	static function print_copyright(){
+		$theme = wp_get_theme();
+		if($theme->stylesheet != "waboot" && $theme->template == "waboot"){
+			$theme = wp_get_theme("waboot");
+		}
+		$output = "<span class=\"wbf-copy\">Powered by <em>WB Framework ".self::version."</em>";
+		if($theme->template == "waboot")
+			$output .= " and <em>".$theme->name." ".$theme->version."<em/>";
+		$output .= "</span>";
+		echo $output;
 	}
 
 	/**
@@ -118,18 +133,18 @@ class WBF {
     {
 	    self::maybe_add_option();
 
-        //Global Customization
+	    // Make framework available for translation.
+        load_theme_textdomain( 'wbf', WBF_DIRECTORY . '/languages' );
+
+        // Global Customization
 	    locate_template( '/wbf/public/theme-customs.php', true );
 
-        //Utility
+        // Utility
 	    locate_template( '/wbf/public/utilities.php', true );
         locate_template('/wbf/vendor/lostpress-utils.php', true);
 
         // Email encoder
         locate_template('/wbf/public/email-encoder.php', true);
-
-        // Load waboot textdomain
-        load_theme_textdomain('waboot', get_template_directory() . '/languages');
 
         // Load the CSS
 	    locate_template( '/wbf/public/public-styles.php', true );
@@ -139,7 +154,7 @@ class WBF {
         //locate_template( '/wbf/public/scripts.php', true );
         //locate_template( '/wbf/admin/scripts.php', true );
 
-	    //ACF INTEGRATION
+	    // ACF INTEGRATION
         if(!is_plugin_active("advanced-custom-fields-pro/acf.php") && !is_plugin_active("advanced-custom-fields/acf.php")){
             locate_template( '/wbf/vendor/acf/acf.php', true );
             locate_template( '/wbf/admin/acf-integration.php', true );
@@ -172,7 +187,7 @@ class WBF {
     }
 
 	function init() {
-		//The debugger
+		// The debugger
 		locate_template( '/wbf/public/debug.php', true );
 		//waboot_debug_init();
 	}
