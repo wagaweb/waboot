@@ -495,7 +495,7 @@ class Waboot_ComponentsManager {
                     </div>
                 </div><!-- #componentframework-content -->
             </div><!-- #componentframework-wrap -->
-
+			<?php WBF::print_copyright(); ?>
 		</div><!-- .wrap: end -->
 	<?php
 	}
