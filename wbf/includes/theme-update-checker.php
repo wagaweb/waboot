@@ -61,7 +61,7 @@ class Theme_Update_Checker extends \ThemeUpdateChecker{
 	public function update_state_option($new_state){
 		$state = get_option($this->optionName);
 		if ( empty($state) ){
-			$state = new StdClass;
+			$state = new \StdClass;
 			$state->lastCheck = 0;
 			$state->checkedVersion = '';
 			$state->update = null;
