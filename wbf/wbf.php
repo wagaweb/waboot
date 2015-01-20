@@ -74,13 +74,18 @@ class WBF {
 
 	static function print_copyright(){
 		$theme = wp_get_theme();
+		if($theme->stylesheet == "waboot"){
+			$version = $theme->version;
+		}
 		if($theme->stylesheet != "waboot" && $theme->template == "waboot"){
 			$theme = wp_get_theme("waboot");
+			$version = $theme->version;
 		}
-		$output = "<span class=\"wbf-copy\">Powered by <em>WB Framework ".self::version."</em>";
-		if($theme->template == "waboot")
-			$output .= " and <em>".$theme->name." ".$theme->version."<em/>";
-		$output .= "</span>";
+		if($theme->stylesheet != "waboot" && $theme->template != "waboot"){
+			$version = self::version;
+		}
+		$output = "<div class=\"wbf-copy\"><span><em>Waboot ".$version."</em>";
+		$output .= "</span></div>";
 		echo $output;
 	}
 
