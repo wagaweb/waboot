@@ -12,7 +12,8 @@ function waboot_entry_title($post = null)
         global $post;
     }
 
-    if (get_behavior('show-title', $post->ID) == "0") return "";
+	if(!is_archive())
+        if (get_behavior('show-title', $post->ID) == "0") return "";
 
     $title = get_the_title($post->ID);
 
@@ -32,7 +33,7 @@ function waboot_print_entry_header() {
 	$str .= waboot_entry_title();
 	$str .= '</header>';
 
-    if (get_behavior('title-position') == "top" || get_behavior("show-title") == "0")
+    if (!is_archive() && (get_behavior('title-position') == "top" || get_behavior("show-title") == "0"))
         echo "";
     else
         echo apply_filters('waboot_entry_header_text', $str);
