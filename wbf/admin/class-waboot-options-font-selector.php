@@ -178,12 +178,12 @@ class Waboot_Options_Font_Selector
         $output .= "<div class='font-style-selector'>";
 		foreach($selected_font->variants as $variant){
 			if(!empty($value) && in_array($variant,$value['style'])){
-                $output .= "<input type=\"checkbox\" name=\"".self::fontStyles_OptName($option_name,$id)."[]\" value=\"$variant\" class=\"check $selected_font->family_slug\" checked>$variant";
+                $output .= "<div class='check-wrapper'><input type=\"checkbox\" name=\"".self::fontStyles_OptName($option_name,$id)."[]\" value=\"$variant\" class=\"check $selected_font->family_slug\" checked>$variant</div>";
 			}elseif(empty($value) && in_array($variant,$defaults['style'])){
-                $output .= "<input type=\"checkbox\" name=\"".self::fontStyles_OptName($option_name,$id)."[]\" value=\"$variant\" class=\"check $selected_font->family_slug\" checked>$variant";
+                $output .= "<div class='check-wrapper'><input type=\"checkbox\" name=\"".self::fontStyles_OptName($option_name,$id)."[]\" value=\"$variant\" class=\"check $selected_font->family_slug\" checked>$variant</div>";
             }
             else{
-                $output .= "<input type=\"checkbox\" name=\"".self::fontStyles_OptName($option_name,$id)."[]\" value=\"$variant\" class=\"check $selected_font->family_slug\">$variant";
+                $output .= "<div class='check-wrapper'><input type=\"checkbox\" name=\"".self::fontStyles_OptName($option_name,$id)."[]\" value=\"$variant\" class=\"check $selected_font->family_slug\">$variant</div>";
 			}
 		}
         $output .= "</div>";
@@ -194,12 +194,12 @@ class Waboot_Options_Font_Selector
         $output .= "<div class='font-charset-selector'>";
 		foreach($selected_font->subsets as $subset){
 			if(!empty($value) && in_array($subset,$value['charset'])){
-                $output .= "<input type=\"checkbox\" name=\"".self::fontCharset_OptName($option_name,$id)."[]\" value=\"$subset\" class=\"check\" checked>$subset";
+                $output .= "<div class='check-wrapper'><input type=\"checkbox\" name=\"".self::fontCharset_OptName($option_name,$id)."[]\" value=\"$subset\" class=\"check\" checked>$subset</div>";
 			}elseif(empty($value) && in_array($subset,$defaults['charset'])){
-                $output .= "<input type=\"checkbox\" name=\"".self::fontCharset_OptName($option_name,$id)."[]\" value=\"$subset\" class=\"check\" checked>$subset";
+                $output .= "<div class='check-wrapper'><input type=\"checkbox\" name=\"".self::fontCharset_OptName($option_name,$id)."[]\" value=\"$subset\" class=\"check\" checked>$subset</div>";
             }
             else{
-                $output .= "<input type=\"checkbox\" name=\"".self::fontCharset_OptName($option_name,$id)."[]\" value=\"$subset\" class=\"check\">$subset";
+                $output .= "<div class='check-wrapper'><input type=\"checkbox\" name=\"".self::fontCharset_OptName($option_name,$id)."[]\" value=\"$subset\" class=\"check\">$subset</div>";
 			}
 		}
         $output .= "</div>";

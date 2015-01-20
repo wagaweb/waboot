@@ -146,7 +146,7 @@ class Waboot_Options_Interface extends Options_Framework_Interface
                     $name = $option_name . '[' . $value['id'] . ']';
                     foreach ($value['options'] as $key => $option) {
                         $id = $option_name . '-' . $value['id'] . '-' . $key;
-                        $output .= '<input class="of-input of-radio" type="radio" name="' . esc_attr($name) . '" id="' . esc_attr($id) . '" value="' . esc_attr($key) . '" ' . checked($val, $key, false) . ' /><label for="' . esc_attr($id) . '">' . esc_html($option) . '</label>';
+                        $output .= '<div class="radio-wrapper"><input class="of-input of-radio" type="radio" name="' . esc_attr($name) . '" id="' . esc_attr($id) . '" value="' . esc_attr($key) . '" ' . checked($val, $key, false) . ' /><label for="' . esc_attr($id) . '">' . esc_html($option) . '</label></div>';
                     }
                     break;
 
@@ -178,9 +178,8 @@ class Waboot_Options_Interface extends Options_Framework_Interface
                 // Checkbox
                 case "checkbox":
                     $output .= '<div class="onoffswitch">';
-                    $output .= '<input id="' . esc_attr($value['id']) . '" class="checkbox of-input onoffswitch-checkbox" type="checkbox" name="' . esc_attr($option_name . '[' . $value['id'] . ']') . '" ' . checked($val, 1, false) . ' />';
-                    $output .= '<label class="onoffswitch-label" for="' . esc_attr($value['id']) . '"><span class="onoffswitch-inner"></span>
-        <span class="onoffswitch-switch"></span></label>';
+                    $output .= '<div class="check_wrapper"><input id="' . esc_attr($value['id']) . '" class="checkbox of-input onoffswitch-checkbox" type="checkbox" name="' . esc_attr($option_name . '[' . $value['id'] . ']') . '" ' . checked($val, 1, false) . ' />';
+                    $output .= '<label class="onoffswitch-label" for="' . esc_attr($value['id']) . '"><span class="onoffswitch-inner"></span><span class="onoffswitch-switch"></span></label></div>';
                     $output .= '</div>';
                     $output .= '<span class="explain">' . wp_kses($explain_value, $allowedtags) . '</span>';
                     break;
@@ -199,7 +198,7 @@ class Waboot_Options_Interface extends Options_Framework_Interface
                             $checked = checked($val[$option], 1, false);
                         }
 
-                        $output .= '<input id="' . esc_attr($id) . '" class="checkbox of-input" type="checkbox" name="' . esc_attr($name) . '" ' . $checked . ' /><label for="' . esc_attr($id) . '">' . esc_html($label) . '</label>';
+                        $output .= '<div class="check-wrapper"><input id="' . esc_attr($id) . '" class="checkbox of-input" type="checkbox" name="' . esc_attr($name) . '" ' . $checked . ' /><label for="' . esc_attr($id) . '">' . esc_html($label) . '</label></div>';
                     }
                     break;
 
