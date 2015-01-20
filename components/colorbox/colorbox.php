@@ -14,11 +14,9 @@ class ColorboxComponent extends Waboot_Component{
         wp_register_script('component-colorbox-custom',$this->directory_uri . '/colorbox-custom.js',array('jquery','component-colorbox'),false,true);
 
 	    $cbox_elements = of_get_option($this->name.'_element');
-	    if($cbox_elements == "custom"){
-		    $cbox_custom_elements = of_get_option($this->name.'_custom_element');
-		    if($cbox_custom_elements == "") $cbox_custom_elements = false;
-	    }
 	    if($cbox_elements == "") $cbox_elements = false;
+	    $cbox_custom_elements = of_get_option($this->name.'_custom_element');
+	    if($cbox_custom_elements == "") $cbox_custom_elements = false;
 
 	    wp_localize_script('component-colorbox-custom', 'wabootCbox', array(
 		    'elements' => $cbox_elements,
@@ -34,16 +32,6 @@ class ColorboxComponent extends Waboot_Component{
 
 	public function theme_options($options){
         $options = parent::theme_options($options);
-        $options[] = array(
-            'name' => __( 'Width Column', 'waboot' ),
-            'id'   => $this->name.'_column_width',
-            'std' => 'col-sm-4',
-			'type' => 'select',
-	        'options' => array(
-	            'col-sm-4' => 'col-sm-4',
-	            'col-sm-3' => 'col-sm-3'
-	        )
-        );
 		$options[] = array(
 			'name' => __('Colorbox elements', 'waboot'),
 			'id' => $this->name.'_element',
@@ -51,8 +39,7 @@ class ColorboxComponent extends Waboot_Component{
 			'type' => 'radio',
 			'options' => array(
 				'all-images' => __("All images","waboot"),
-				'galleries' => __("Galleries only","waboot"),
-				'custom' => __("Custom selector","waboot"),
+				'galleries' => __("Galleries only","waboot")
 			),
 			'std' => 'all-images'
 		);
