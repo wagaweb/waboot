@@ -222,7 +222,8 @@ function optionsframework_options() {
         'desc' => __( 'Upload a background image, or specify the image address of your image. (http://yoursite.com/image.png)', 'waboot' ),
         'id' => 'waboot_body_bgimage',
         'std' => '',
-        'type' => 'upload'
+        'type' => 'upload',
+        'recompile_styles' => true
     );
 
     $options[] = array(
@@ -230,7 +231,8 @@ function optionsframework_options() {
         'desc' => __('Change the body background color.', 'waboot'),
         'id' => 'waboot_body_bgcolor',
         'std' => "#ffffff",
-        'type' => 'color'
+        'type' => 'color',
+	    'recompile_styles' => true
     );
 
     $options[] = array(
@@ -238,7 +240,8 @@ function optionsframework_options() {
         'desc' => __( 'Select how you want your background image to display.', 'waboot' ),
         'id' => 'waboot_body_bgrepeat',
         'type' => 'select',
-        'options' => array( 'no-repeat' => 'No Repeat', 'repeat' => 'Repeat','repeat-x' => 'Repeat Horizontally', 'repeat-y' => 'Repeat Vertically' )
+        'options' => array( 'no-repeat' => 'No Repeat', 'repeat' => 'Repeat','repeat-x' => 'Repeat Horizontally', 'repeat-y' => 'Repeat Vertically' ),
+        'recompile_styles' => true
     );
 
     $options[] = array(
@@ -251,7 +254,8 @@ function optionsframework_options() {
             'top left' => 'top left', 'top center' => 'top center', 'top right' => 'top right',
             'center left' => 'center left', 'center center' => 'center center', 'center right' => 'center right',
             'bottom left' => 'bottom left', 'bottom center' => 'bottom center', 'bottom right' => 'bottom right'
-        )
+        ),
+        'recompile_styles' => true
     );
 
     $options[] = array(
@@ -260,7 +264,8 @@ function optionsframework_options() {
         'id' => 'waboot_body_bgattach',
         'std' => 'scroll',
         'type' => 'select',
-        'options' => array( 'scroll' => 'scroll','fixed' => 'fixed' )
+        'options' => array( 'scroll' => 'scroll','fixed' => 'fixed' ),
+        'recompile_styles' => true
     );
 
     $options[] = array(
@@ -273,63 +278,72 @@ function optionsframework_options() {
         'name' => __('Page', 'waboot'),
         'desc' => __('Change the page background color.', 'waboot'),
         'id' => 'waboot_page_bgcolor',
-        'type' => 'color'
+        'type' => 'color',
+        'recompile_styles' => true
     );
 
     $options[] = array(
         'name' => __('Top Nav', 'waboot'),
         'desc' => __('Change the Top Nav background color.', 'waboot'),
         'id' => 'waboot_topnav_bgcolor',
-        'type' => 'color'
+        'type' => 'color',
+        'recompile_styles' => true
     );
 
     $options[] = array(
         'name' => __('Header', 'waboot'),
         'desc' => __('Change the header background color.', 'waboot'),
         'id' => 'waboot_header_bgcolor',
-        'type' => 'color'
+        'type' => 'color',
+        'recompile_styles' => true
     );
 
     $options[] = array(
         'name' => __('Navbar', 'waboot'),
         'desc' => __('Change the navbar background color.', 'waboot'),
         'id' => 'waboot_navbar_bgcolor',
-        'type' => 'color'
+        'type' => 'color',
+        'recompile_styles' => true
     );
 
     $options[] = array(
         'name' => __('Banner', 'waboot'),
         'desc' => __('Change the banner background color.', 'waboot'),
         'id' => 'waboot_banner_bgcolor',
-        'type' => 'color'
+        'type' => 'color',
+        'recompile_styles' => true
     );
 
     $options[] = array(
         'name' => __('Content', 'waboot'),
         'desc' => __('Change the content background color.', 'waboot'),
         'id' => 'waboot_content_bgcolor',
-        'type' => 'color'
+        'type' => 'color',
+        'recompile_styles' => true
     );
 
     $options[] = array(
         'name' => __('Content Bottom', 'waboot'),
         'desc' => __('Change the content bottom background color.', 'waboot'),
         'id' => 'waboot_bottom_bgcolor',
-        'type' => 'color'
+        'type' => 'color',
+        'recompile_styles' => true
     );
 
     $options[] = array(
         'name' => __('Footer', 'waboot'),
         'desc' => __('Change the footer background color.', 'waboot'),
         'id' => 'waboot_footer_bgcolor',
-        'type' => 'color'
+        'type' => 'color',
+        'recompile_styles' => true
     );
 
     $options[] = array(
         'name' => __('Closure', 'waboot'),
         'desc' => __('Change the closure background color.', 'waboot'),
         'id' => 'waboot_closure_bgcolor',
-        'type' => 'color'
+        'type' => 'color',
+        'recompile_styles' => true
     );
 
     /*
@@ -346,7 +360,8 @@ function optionsframework_options() {
         'desc' => __('Change the color of @brand-primary.', 'waboot'),
         'id' => 'waboot_brand_primary',
         'std' => "#428bca",
-        'type' => 'color'
+        'type' => 'color',
+	    'recompile_styles' => true
     );
 
     $options[] = array(
@@ -354,7 +369,8 @@ function optionsframework_options() {
         'desc' => __('Change the color of @text-color.', 'waboot'),
         'id' => 'waboot_text_color',
         'std' => "#333333",
-        'type' => 'color'
+        'type' => 'color',
+        'recompile_styles' => true
     );
 
     $options[] = array(
@@ -362,7 +378,8 @@ function optionsframework_options() {
         'desc' => __('Change the color of @brand-info.', 'waboot'),
         'id' => 'waboot_brand_info',
         'std' => "#5bc0de",
-        'type' => 'color'
+        'type' => 'color',
+        'recompile_styles' => true
     );
 
     $options[] = array(
@@ -370,7 +387,8 @@ function optionsframework_options() {
         'desc' => __('Change the color of @brand-success.', 'waboot'),
         'id' => 'waboot_brand_success',
         'std' => "#5cb85c",
-        'type' => 'color'
+        'type' => 'color',
+        'recompile_styles' => true
     );
 
     $options[] = array(
@@ -378,7 +396,8 @@ function optionsframework_options() {
         'desc' => __('Change the color of @brand-warning.', 'waboot'),
         'id' => 'waboot_brand_warning',
         'std' => "#f0ad4e",
-        'type' => 'color'
+        'type' => 'color',
+        'recompile_styles' => true
     );
 
     $options[] = array(
@@ -386,7 +405,8 @@ function optionsframework_options() {
         'desc' => __('Change the color of @brand-danger.', 'waboot'),
         'id' => 'waboot_brand_danger',
         'std' => "#d9534f",
-        'type' => 'color'
+        'type' => 'color',
+        'recompile_styles' => true
     );
 
     $options[] = array(
@@ -394,7 +414,8 @@ function optionsframework_options() {
         'desc' => __('Change the width in pixel of @border-radius-base.', 'waboot'),
         'id' => 'waboot_border_radius_base',
         'std' => "4",
-        'type' => 'text'
+        'type' => 'text',
+        'recompile_styles' => true
     );
 
     $options[] = array(
@@ -402,7 +423,8 @@ function optionsframework_options() {
         'desc' => __('Change the width in pixel of @border-radius-large.', 'waboot'),
         'id' => 'waboot_border_radius_lg',
         'std' => "6",
-        'type' => 'text'
+        'type' => 'text',
+        'recompile_styles' => true
     );
 
     $options[] = array(
@@ -410,7 +432,8 @@ function optionsframework_options() {
         'desc' => __('Change the width in pixel of @border-radius-small.', 'waboot'),
         'id' => 'waboot_border_radius_sm',
         'std' => "3",
-        'type' => 'text'
+        'type' => 'text',
+        'recompile_styles' => true
     );
 
     $options[] = array(
@@ -418,7 +441,8 @@ function optionsframework_options() {
         'desc' => __('Change the color of @well-bg.', 'waboot'),
         'id' => 'waboot_well_bg',
         'std' => "#f5f5f5",
-        'type' => 'color'
+        'type' => 'color',
+        'recompile_styles' => true
     );
 
     /*
@@ -455,7 +479,8 @@ function optionsframework_options() {
 			'charset' => 'latin',
 			'color'  => '#444444'
 		),
-		'type' => 'typography'
+		'type' => 'typography',
+		'recompile_styles' => true
 	);
 
     /*$options[] = array( 'name' => 'Secondary font (h1, h2, h3, h4, h5, h6)',
@@ -477,7 +502,8 @@ function optionsframework_options() {
             'charset' => 'latin',
             'color'  => '#444444'
         ),
-        'type' => 'typography'
+        'type' => 'typography',
+        'recompile_styles' => true
     );
 /*
     $options[] = array( 'name' => 'System Fonts and Google Fonts Mixed (2)',
