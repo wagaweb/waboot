@@ -39,7 +39,8 @@ class ColorboxComponent extends Waboot_Component{
 			'type' => 'radio',
 			'options' => array(
 				'all-images' => __("All images","waboot"),
-				'galleries' => __("Galleries only","waboot")
+				'galleries' => __("Galleries","waboot"),
+				'custom' => __("Custom only","waboot"),
 			),
 			'std' => 'all-images'
 		);

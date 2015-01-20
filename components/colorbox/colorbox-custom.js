@@ -11,6 +11,9 @@ jQuery(document).ready(function($){
     };
     if(wabootCbox.elements !== false){
         switch(wabootCbox.elements){
+            case "custom":
+                //Do nothing :)
+                break;
             case "galleries":
                 elements = ".gallery-item a";
                 cboxProps.rel = "gallery";
