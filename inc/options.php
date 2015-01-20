@@ -670,7 +670,7 @@ function optionsframework_options() {
         'type' => 'heading'
     );
 
-    $blogpage_layouts = wbf_sanitize_of_array_values(apply_filters("waboot_blogpage_layout",array(
+    $blogpage_layouts = of_add_default_key(apply_filters("waboot_blogpage_layout",array(
         'blog' =>  array(
             'label' => 'Blog',
             'value' => $imagepath . 'blog/default-blog.png'
@@ -692,10 +692,11 @@ function optionsframework_options() {
         'id' => 'waboot_blogpage_layout',
         'std' => $blogpage_layouts['default'],
         'type' => 'images',
-        'options' => $blogpage_layouts['values']
+        'options' => $blogpage_layouts['values'],
+	    'deps' => array("timeline" => array('components'=>array('timeline')))
     );
 
-    $sidebar_layouts = wbf_sanitize_of_array_values(waboot_get_available_body_layouts());
+    $sidebar_layouts = of_add_default_key(waboot_get_available_body_layouts());
     foreach($sidebar_layouts['values'] as $k => $v){
         $final_sidebar_layouts[$v['value']] = $v['name'];
     }

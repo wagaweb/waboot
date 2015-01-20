@@ -13,7 +13,7 @@ class Waboot_Options_Font_Selector
 	}
 
 	function scripts( $hook ) {
-		if ( ! wbf_is_admin_of_page( $hook ) ) {
+		if ( ! of_is_admin_framework_page( $hook ) ) {
 			return;
 		}
 

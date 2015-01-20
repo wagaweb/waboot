@@ -41,7 +41,7 @@ function waboot_behaviors($behaviors){
         "valid" => array("page","post","-{home}","{cpt}","-slideshow")
 	);
 
-    $body_layouts = wbf_sanitize_of_array_values(waboot_get_available_body_layouts());
+    $body_layouts = of_add_default_key(waboot_get_available_body_layouts());
 	$behaviors[] = array(
 		"name" => "layout",
         "title" => __("Body layout","waboot"),

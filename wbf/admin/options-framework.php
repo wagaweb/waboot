@@ -1,40 +1,24 @@
 <?php
 /**
- * Options Framework
- *
- * @package   Options Framework
- * @author    Devin Price <devin@wptheming.com>
- * @license   GPL-2.0+
- * @link      http://wptheming.com
- * @copyright 2013 WP Theming
- *
- * @wordpress-plugin
- * Plugin Name: Options Framework
- * Plugin URI:  http://wptheming.com
- * Description: A framework for building theme options.
- * Version:     1.7.1
- * Author:      Devin Price
- * Author URI:  http://wptheming.com
- * License:     GPL-2.0+
- * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
- * Text Domain: optionsframework
- * Domain Path: /languages
+ * Options Framework WBF Edition
  */
 
 // If this file is called directly, abort.
-if ( ! defined( 'WPINC' ) ) {
-	die;
+if ( ! defined( 'WPINC' ) ) die;
+
+if ( STYLESHEETPATH == TEMPLATEPATH ) {
+	define('OPTIONS_FRAMEWORK_URL', TEMPLATEPATH . '/wbf/vendor/options-framework/');
+	define('OPTIONS_FRAMEWORK_DIRECTORY', get_bloginfo('template_directory') . '/wbf/vendor/options-framework/');
+} else {
+	define('OPTIONS_FRAMEWORK_URL', STYLESHEETPATH . '/wbf/vendor/options-framework/');
+	define('OPTIONS_FRAMEWORK_DIRECTORY', get_bloginfo('template_directory') . '/wbf/vendor/options-framework/');
 }
 
-// Don't load if optionsframework_init is already defined
-if ( ! function_exists( 'optionsframework_init' ) ) :
+add_action( 'init', 'optionsframework_init', 20 );
+add_action( "updated_option", "of_style_options_save", 11, 3 );
+add_action( "updated_option", "of_compile_less_on_save", 9999, 3 );
 
 function optionsframework_init() {
-
-	//  If user can't edit theme options, exit
-	/*if ( ! current_user_can( 'edit_theme_options' ) )
-		return;*/
-
 	require WBF_DIRECTORY . '/vendor/options-framework/class-options-sanitization.php';
 	require "waboot-options-sanitization.php";
 
@@ -59,58 +43,130 @@ function optionsframework_init() {
 	$options_framework_waboot_gfont_selector->init();
 }
 
-add_action( 'init', 'optionsframework_init', 20 );
-
-endif;
-
-
-/**
- * Helper function to return the theme option value.
- * If no value has been saved, it returns $default.
- * Needed because options are saved as serialized strings.
- *
- * Not in a class to support backwards compatibility in themes.
- */
-
 if ( ! function_exists( 'of_get_option' ) ) :
+	/**
+	 * Helper function to return the theme option value.
+	 * If no value has been saved, it returns $default.
+	 * Needed because options are saved as serialized strings.
+	 *
+	 * Not in a class to support backwards compatibility in themes.
+	 */
+	function of_get_option( $name, $default = false ) {
+		$config = get_option( 'optionsframework' );
 
-function of_get_option( $name, $default = false ) {
-	$config = get_option( 'optionsframework' );
-
-	//[WABOOT MOD] Tries to return the default value sets into $options array if $default is false
-	if(!$default){
-		$options = Waboot_Options_Framework::_optionsframework_options();
-		foreach($options as $opt){
-			if(isset($opt['id']) && $opt['id'] == $name){
-				if(isset($opt['std'])){
-					$default = $opt['std'];
+		//[WABOOT MOD] Tries to return the default value sets into $options array if $default is false
+		if(!$default){
+			$options = Waboot_Options_Framework::_optionsframework_options();
+			foreach($options as $opt){
+				if(isset($opt['id']) && $opt['id'] == $name){
+					if(isset($opt['std'])){
+						$default = $opt['std'];
+					}
 				}
 			}
 		}
-	}
 
-	if ( ! isset( $config['id'] ) ) {
+		if ( ! isset( $config['id'] ) ) {
+			return $default;
+		}
+
+		$options = get_option( $config['id'] );
+
+		if ( isset( $options[$name] ) ) {
+			return $options[$name];
+		}
+
 		return $default;
 	}
+endif;
 
-	$options = get_option( $config['id'] );
+/**
+ * Replace {of_get_option} tags in _theme-options-generated.less.cmp; It is called during "update_option" and only for of theme options.
+ * @param string $option option name
+ * @param $old_value old value of the option
+ * @param $value new value of the option
+ */
+function of_style_options_save($option, $old_value, $value){
+	$config = get_option( 'optionsframework' );
+	if($option == $config['id']){
+		$tmpFile = new SplFileInfo(get_stylesheet_directory()."/sources/less/_theme-options-generated.less.cmp");
+		if(!$tmpFile->isFile() || !$tmpFile->isWritable()){
+			$tmpFile = new SplFileInfo(get_template_directory()."/sources/less/_theme-options-generated.less.cmp");
+		}
+		$parsedFile = new SplFileInfo(get_stylesheet_directory()."/sources/less/theme-options-generated.less");
+		if($tmpFile->isFile() && $tmpFile->isWritable()){
+			$genericOptionfindRegExp = "~//{of_get_option\('([a-zA-Z0-9\-_]+)'\)}~";
+			$fontOptionfindRegExp = "~//{of_get_font\('([a-zA-Z0-9\-_]+)'\)}~";
 
-	if ( isset( $options[$name] ) ) {
-		return $options[$name];
+			$tmpFileObj = $tmpFile->openFile("r");
+			$parsedFileObj = $parsedFile->openFile("w+");
+
+			while (!$tmpFileObj->eof()) {
+				$line = $tmpFileObj->fgets();
+				//Replace a generic of option
+				if(preg_match($genericOptionfindRegExp,$line,$matches)){
+					if(array_key_exists($matches[1],$value)){
+						if($value[$matches[1]] != ""){
+							$line = preg_replace($genericOptionfindRegExp,$value[$matches[1]],$line);
+						}else{
+							$line = "//{$matches[1]} is empty\n";
+						}
+					}else{
+						$line = "//{$matches[1]} not found\n";
+					}
+				}
+				//Replace a font option
+				if(preg_match($fontOptionfindRegExp,$line,$matches)){
+					$line = "//{$matches[1]} is empty\n";
+					if(array_key_exists($matches[1],$value)){
+						if($value[$matches[1]] != ""){
+							$attr = $value[$matches[1]];
+							$fontString = "font-family: '".$attr['family']."', ".$attr['category'].";";
+							/*if(preg_match("/([0-9]+)([a-z]+)/",$attr['style'],$style_matches)){
+								if($style_matches[1] == 'regular') $style_matches[1] = "normal";
+								$fontString .= "font-weight: ".$style_matches[1].";";
+								$fontString .= "font-style: ".$style_matches[2].";";
+							}else{
+								if($attr['style'] == 'regular') $attr['style'] = "normal";
+								$fontString .= "font-weight: ".$attr['style'].";";
+							}*/
+							$fontString .= "color: ".$attr['color'].";";
+							$line = $fontString;
+						}else{
+							$line = "//{$matches[1]} is empty\n";
+						}
+					}else{
+						$line = "//{$matches[1]} not found\n";
+					}
+				}
+				$parsedFileObj->fwrite($line);
+			}
+		}
 	}
-
-	return $default;
 }
 
-endif;
+/**
+ * Compile LESS when theme options are saved. Called during "update_option"
+ * @param $option
+ * @param $old_value
+ * @param $value
+ */
+function of_compile_less_on_save($option, $old_value, $value){
+	$config = get_option( 'optionsframework' );
+	if($option == $config['id']){
+		if(isset($GLOBALS['waboot_styles_compiler'])){
+			global $waboot_styles_compiler;
+			$waboot_styles_compiler->compile();
+		}
+	}
+}
 
 /**
  * Check if current admin page is the options framework page
  * @param $hook
- *
  * @return bool
  */
-function wbf_is_admin_of_page($hook){
+function of_is_admin_framework_page($hook){
 	$menu = Waboot_Options_Framework_Admin::menu_settings();
 
 	if ( $hook == 'waboot_page_' . $menu['old_menu_slug'] || $hook == 'toplevel_page_' . $menu['menu_slug']) {
@@ -156,7 +212,7 @@ function wbf_is_admin_of_page($hook){
  * @param $values
  * @return array
  */
-function wbf_sanitize_of_array_values($values){
+function of_add_default_key($values){
     $default = false;
 
     if(isset($values['_default'])){

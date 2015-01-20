@@ -284,7 +284,7 @@ class Waboot_Options_Framework_Admin extends Options_Framework_Admin{
 	 * @since 1.7.0
 	 */
 	function enqueue_admin_scripts( $hook ) {
-		if(!wbf_is_admin_of_page($hook)){
+		if(!of_is_admin_framework_page($hook)){
 			return;
 		}
 

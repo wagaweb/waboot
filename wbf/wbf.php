@@ -15,7 +15,6 @@ define("WBF_PUBLIC_DIRECTORY", __DIR__ . "/public");
 
 require_once("wbf-autoloader.php");
 include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
-//locate_template( '/wbf/includes/compiler/less-php/compiler.php', true );
 
 $md = WBF::get_mobile_detect();
 
@@ -23,19 +22,17 @@ add_action( "after_switch_theme", "WBF::activation" );
 add_action( "switch_theme", "WBF::deactivation" );
 add_action( "after_setup_theme", "WBF::after_setup_theme" );
 add_action( "init", "WBF::init" );
-add_action( "updated_option", "WBF::of_style_options_save", 11, 3 );
-add_action( "updated_option", "WBF::compile_less_on_theme_options_save", 9999, 3 );
 add_action( 'admin_menu', 'WBF::admin_menu' );
 add_action( 'admin_menu', 'WBF\admin\License_Manager::admin_license_menu_item', 30 );
 add_action( 'admin_bar_menu', 'WBF::add_env_notice', 980 );
 add_action( 'admin_bar_menu', 'WBF::add_admin_compile_button', 990 );
 add_action( 'wp_enqueue_scripts', 'WBF::register_libs' );
-add_filter('options_framework_location','WBF::of_location_override');
-add_filter('site_transient_update_plugins', 'WBF::unset_unwanted_updates', 999);
+add_filter( 'options_framework_location','WBF::of_location_override' );
+add_filter( 'site_transient_update_plugins', 'WBF::unset_unwanted_updates', 999 );
 
 class WBF {
 
-	const version = "0.8.2";
+	const version = "0.8.3";
 
 	/**
 	 *
@@ -174,7 +171,9 @@ class WBF {
         Waboot_ComponentsManager::init();
 
         // Load theme options framework
-        locate_template('/wbf/admin/options-panel.php', true);
+	    if(!function_exists( 'optionsframework_init')){ // Don't load if optionsframework_init is already defined
+	        locate_template('/wbf/admin/options-framework.php', true);
+	    }
 
         // Breadcrumbs
         if (of_get_option('waboot_breadcrumbs', 1)) {
@@ -264,81 +263,6 @@ class WBF {
 
 	function of_location_override(){
 		return array("inc/options.php");
-	}
-
-    /**
-     * Replace {of_get_option} tags in _theme-options-generated.less.cmp; It is called during "update_option" and only for of theme options.
-     * @param string $option option name
-     * @param $old_value old value of the option
-     * @param $value new value of the option
-     */
-	function of_style_options_save($option, $old_value, $value){
-		$config = get_option( 'optionsframework' );
-		if($option == $config['id']){
-			$tmpFile = new SplFileInfo(get_stylesheet_directory()."/sources/less/_theme-options-generated.less.cmp");
-			if(!$tmpFile->isFile() || !$tmpFile->isWritable()){
-				$tmpFile = new SplFileInfo(get_template_directory()."/sources/less/_theme-options-generated.less.cmp");
-			}
-			$parsedFile = new SplFileInfo(get_stylesheet_directory()."/sources/less/theme-options-generated.less");
-			if($tmpFile->isFile() && $tmpFile->isWritable()){
-				$genericOptionfindRegExp = "~//{of_get_option\('([a-zA-Z0-9\-_]+)'\)}~";
-				$fontOptionfindRegExp = "~//{of_get_font\('([a-zA-Z0-9\-_]+)'\)}~";
-
-				$tmpFileObj = $tmpFile->openFile("r");
-				$parsedFileObj = $parsedFile->openFile("w+");
-
-				while (!$tmpFileObj->eof()) {
-					$line = $tmpFileObj->fgets();
-					//Replace a generic of option
-                    if(preg_match($genericOptionfindRegExp,$line,$matches)){
-						if(array_key_exists($matches[1],$value)){
-							if($value[$matches[1]] != ""){
-								$line = preg_replace($genericOptionfindRegExp,$value[$matches[1]],$line);
-							}else{
-								$line = "//{$matches[1]} is empty\n";
-							}
-						}else{
-							$line = "//{$matches[1]} not found\n";
-						}
-					}
-                    //Replace a font option
-                    if(preg_match($fontOptionfindRegExp,$line,$matches)){
-                        $line = "//{$matches[1]} is empty\n";
-                        if(array_key_exists($matches[1],$value)){
-                            if($value[$matches[1]] != ""){
-                                $attr = $value[$matches[1]];
-                                $fontString = "font-family: '".$attr['family']."', ".$attr['category'].";";
-                                /*if(preg_match("/([0-9]+)([a-z]+)/",$attr['style'],$style_matches)){
-                                    if($style_matches[1] == 'regular') $style_matches[1] = "normal";
-                                    $fontString .= "font-weight: ".$style_matches[1].";";
-                                    $fontString .= "font-style: ".$style_matches[2].";";
-                                }else{
-                                    if($attr['style'] == 'regular') $attr['style'] = "normal";
-                                    $fontString .= "font-weight: ".$attr['style'].";";
-                                }*/
-                                $fontString .= "color: ".$attr['color'].";";
-                                $line = $fontString;
-                            }else{
-                                $line = "//{$matches[1]} is empty\n";
-                            }
-                        }else{
-                            $line = "//{$matches[1]} not found\n";
-                        }
-                    }
-					$parsedFileObj->fwrite($line);
-				}
-			}
-		}
-	}
-
-	function compile_less_on_theme_options_save($option, $old_value, $value){
-		$config = get_option( 'optionsframework' );
-		if($option == $config['id']){
-			if(isset($GLOBALS['waboot_styles_compiler'])){
-				global $waboot_styles_compiler;
-				$waboot_styles_compiler->compile();
-			}
-		}
 	}
 
 	/**
