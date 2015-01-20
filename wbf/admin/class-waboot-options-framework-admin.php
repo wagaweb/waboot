@@ -20,6 +20,7 @@ class Waboot_Options_Framework_Admin extends Options_Framework_Admin{
 		//remove_action( 'admin_menu', array( $this, 'add_options_page' ) );
 		add_action( 'admin_menu', array( $this, 'add_man_page' ), 12 );
 		//add_action( 'admin_menu', array( $this, 'add_additional_appearance_link' ) );
+		add_action( 'optionsframework_after', array( $this, 'add_copy_in_admin_page' ));
 	}
 
     /*function add_additional_appearance_link(){
@@ -36,6 +37,10 @@ class Waboot_Options_Framework_Admin extends Options_Framework_Admin{
 				$this,
 				'options_page'
 			) );
+	}
+
+	function add_copy_in_admin_page(){
+		WBF::print_copyright();
 	}
 
 	/**
@@ -136,6 +141,7 @@ class Waboot_Options_Framework_Admin extends Options_Framework_Admin{
 				<p class="submit"><input type="submit" name="submit-restore" id="submit" class="button button-primary"
 				                         value="<?php _e( "Import" ) ?>"></p>
 			</form>
+			<?php WBF::print_copyright(); ?>
 		</div>
 	<?php
 	}

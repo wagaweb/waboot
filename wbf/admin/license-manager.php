@@ -55,6 +55,7 @@ class License_Manager{
                 <?php wp_nonce_field('submit_licence_nonce','license_nonce_field'); ?>
             </form>
             </p>
+	        <?php \WBF::print_copyright(); ?>
         </div>
     <?php
     }
