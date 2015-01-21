@@ -557,7 +557,7 @@ class Waboot_ComponentsManager {
                         <?php endif; endforeach; ?>
                         <div id="componentframework-submit">
                             <input type="submit" name="submit-components-options" id="submit" class="button button-primary" value="Save Changes">
-                            <input type="submit" class="reset-button button-secondary" name="reset" value="<?php esc_attr_e( 'Restore Defaults', 'wbf' ); ?>" onclick="return confirm( '<?php print esc_js( __( 'Click OK to reset. Any theme settings will be lost!', 'wbf' ) ); ?>' );" />
+                            <input type="submit" class="reset-button button-secondary" name="reset" value="<?php esc_attr_e( 'Restore default component activation state', 'wbf' ); ?>" onclick="return confirm( '<?php print esc_js( __( 'Click OK to reset. Any theme settings will be lost!', 'wbf' ) ); ?>' );" />
                         </div>
                         </form>
                     </div>
