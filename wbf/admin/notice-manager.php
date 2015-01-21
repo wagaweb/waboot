@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: wagadev
- * Date: 21/01/15
- * Time: 11.11
- */
 
 namespace WBF\admin;
 
