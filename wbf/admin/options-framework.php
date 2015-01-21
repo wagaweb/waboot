@@ -167,7 +167,7 @@ function of_options_save($option, $old_value, $value){
                 foreach($deps_to_achieve['components'] as $c_name){
                     if(!Waboot_ComponentsManager::is_active($c_name)){
                         if(Waboot_ComponentsManager::is_present($c_name)){
-                            Waboot_ComponentsManager::enable($c_name);
+                            Waboot_ComponentsManager::enable($c_name, Waboot_ComponentsManager::is_child_component( $c_name ));
                         }else{
                             //Register new notice that tells that the component is not present
                             $message = __("An option requires the component <strong>$c_name</strong>, but it is not present","wbf");

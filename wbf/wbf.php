@@ -89,6 +89,31 @@ class WBF {
 		echo $output;
 	}
 
+    static function enable_default_components(){
+        if(class_exists("Waboot_ComponentsManager")){
+            $theme = wp_get_theme();
+            $components_already_saved = (array) get_option( "wbf_components_saved_once", array() );
+            if(!in_array($theme->get_stylesheet(),$components_already_saved)){
+                $default_components = apply_filters("wbf_default_components",array());
+                foreach($default_components as $c_name){
+                    Waboot_ComponentsManager::ensure_enabled($c_name);
+                }
+            }
+        }
+    }
+
+    static function reset_components_state(){
+        if(!class_exists("Waboot_ComponentsManager")) return;
+        $default_components = apply_filters("wbf_default_components",array());
+        $registered_components = Waboot_ComponentsManager::getAllComponents();
+        foreach($registered_components as $c_name => $c_data){
+            Waboot_ComponentsManager::disable($c_name);
+        }
+        foreach($default_components as $c_name){
+            Waboot_ComponentsManager::ensure_enabled($c_name);
+        }
+    }
+
 	/**
 	 *
 	 *
@@ -166,7 +191,7 @@ class WBF {
 
         // Google Fonts
         locate_template('/wbf/includes/google-fonts-retriever.php', true);
-        $GLOBALS['wbf_gfont_fetcher'] = WBF\GoogleFontsRetriever::getInstance();
+        if(class_exists("WBF\GoogleFontsRetriever")) $GLOBALS['wbf_gfont_fetcher'] = WBF\GoogleFontsRetriever::getInstance();
 
         // Load behaviors extension
 	    locate_template( '/wbf/admin/behaviors-framework.php', true );
@@ -175,7 +200,7 @@ class WBF {
         // Load components framework
         locate_template( '/wbf/admin/components-framework.php', true );
         locate_template( '/wbf/admin/components-hooks.php', true ); //Components hooks
-        Waboot_ComponentsManager::init();
+        if(class_exists("Waboot_ComponentsManager")) Waboot_ComponentsManager::init();
 
         // Load theme options framework
 	    if(!function_exists( 'optionsframework_init')){ // Don't load if optionsframework_init is already defined
@@ -188,15 +213,19 @@ class WBF {
 	        locate_template( '/wbf/public/breadcrumb-trail.php', true );
         }
 
-        Waboot_ComponentsManager::toggle_components(); //enable or disable components if necessary
-        Waboot_ComponentsManager::setupRegisteredComponents(); //Loads components
+        if(class_exists("Waboot_ComponentsManager")){
+            Waboot_ComponentsManager::toggle_components(); //enable or disable components if necessary
+            Waboot_ComponentsManager::setupRegisteredComponents(); //Loads components
+        }
 
-        of_check_options_deps();
+        if(function_exists("of_check_options_deps")) of_check_options_deps(); //Check if theme options dependencies are met
         $GLOBALS['wbf_notice_manager']->enqueue_notices(); //Display notices
     }
 
 	function init() {
-		// The debugger
+		/*
+		 * The debugger
+		 */
 		locate_template( '/wbf/public/debug.php', true );
 		//waboot_debug_init();
 	}
@@ -295,12 +324,15 @@ class WBF {
 		update_option( "wbf_installed", true );
 		update_option( "wbf_path", WBF_DIRECTORY );
 		update_option( "wbf_url", WBF_URL );
+		update_option( "wbf_components_saved_once", false );
+        self::enable_default_components();
 	}
 
 	function deactivation() {
 		delete_option( "wbf_installed" );
 		delete_option( "wbf_path" );
 		delete_option( "wbf_url" );
+		delete_option( "wbf_components_saved_once" );
 	}
 }
 

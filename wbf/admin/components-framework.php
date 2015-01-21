@@ -402,6 +402,10 @@ class Waboot_ComponentsManager {
             <?php
         }
 
+        if(isset($_POST['reset'])){
+            WBF::reset_components_state();
+        }
+
 		$registered_components = self::getAllComponents();
 
         if(isset($_POST['submit-components-options'])){
@@ -421,6 +425,12 @@ class Waboot_ComponentsManager {
             }
 	        if($must_update)
                 update_option($of_config['id'],$of_options);
+
+            //Set the flag that tells that the components was saved at least once
+            $theme = wp_get_theme();
+            $components_already_saved = (array) get_option( "wbf_components_saved_once", array() );
+            $components_already_saved[] = $theme->get_stylesheet();
+            update_option("wbf_components_saved_once", $components_already_saved);
         }
 
         $components_options = apply_filters("wbf_components_options",array());
@@ -547,6 +557,7 @@ class Waboot_ComponentsManager {
                         <?php endif; endforeach; ?>
                         <div id="componentframework-submit">
                             <input type="submit" name="submit-components-options" id="submit" class="button button-primary" value="Save Changes">
+                            <input type="submit" class="reset-button button-secondary" name="reset" value="<?php esc_attr_e( 'Restore Defaults', 'wbf' ); ?>" onclick="return confirm( '<?php print esc_js( __( 'Click OK to reset. Any theme settings will be lost!', 'wbf' ) ); ?>' );" />
                         </div>
                         </form>
                     </div>
@@ -556,6 +567,19 @@ class Waboot_ComponentsManager {
 		</div><!-- .wrap: end -->
 	<?php
 	}
+
+    /**
+     * Force enable a component
+     * @param $component_name
+     * @throws Exception
+     */
+    static function ensure_enabled( $component_name ){
+        if(self::is_present($component_name)){
+            if(!self::is_active($component_name)){
+                self::enable($component_name, Waboot_ComponentsManager::is_child_component( $component_name ));
+            }
+        }
+    }
 
 	/**
 	 * Enable a component or throw an error
@@ -590,25 +614,6 @@ class Waboot_ComponentsManager {
 		}
 	}
 
-	static function is_child_component( $registered_component ) {
-		if ( is_array( $registered_component ) ) {
-			if ( $registered_component['child_component'] == true ) {
-				return true;
-			}
-		} else {
-			$components = Waboot_ComponentsManager::getAllComponents();
-			foreach ( $components as $name => $c ) {
-				if ( $name == $registered_component ) {
-					if ( $c['child_component'] == true ) {
-						return true;
-					}
-				}
-			}
-		}
-
-		return false;
-	}
-
 	/**
 	 * Disable a component ot throw an error
 	 * @param $component_name
@@ -638,6 +643,25 @@ class Waboot_ComponentsManager {
 		} else {
 			throw new Exception( __( "Component not found among registered components. Unable to deactivate the component.","waboot"));
         }
+    }
+
+    static function is_child_component( $registered_component ) {
+        if ( is_array( $registered_component ) ) {
+            if ( $registered_component['child_component'] == true ) {
+                return true;
+            }
+        } else {
+            $components = Waboot_ComponentsManager::getAllComponents();
+            foreach ( $components as $name => $c ) {
+                if ( $name == $registered_component ) {
+                    if ( $c['child_component'] == true ) {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
     }
 
     /**
