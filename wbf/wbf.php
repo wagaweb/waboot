@@ -19,7 +19,7 @@ include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 $md = WBF::get_mobile_detect();
 
 add_action( "after_switch_theme", "WBF::activation" );
-add_action( "switch_theme", "WBF::deactivation" );
+add_action( "switch_theme", "WBF::deactivation", 4 );
 add_action( "after_setup_theme", "WBF::after_setup_theme" );
 add_action( "init", "WBF::init" );
 add_action( 'admin_menu', 'WBF::admin_menu' );
@@ -328,11 +328,22 @@ class WBF {
         self::enable_default_components();
 	}
 
-	function deactivation() {
+	function deactivation($template) {
 		delete_option( "wbf_installed" );
 		delete_option( "wbf_path" );
 		delete_option( "wbf_url" );
-		delete_option( "wbf_components_saved_once" );
+        $theme_switched = get_option( 'theme_switched', "" );
+        if(!empty($theme_switched)){
+            $wbf_components_saved_once = (array) get_option("wbf_components_saved_once", array());
+            if(($key = array_search($theme_switched, $wbf_components_saved_once)) !== false) {
+                unset($wbf_components_saved_once[$key]);
+            }
+            if(empty($wbf_components_saved_once)){
+                delete_option( "wbf_components_saved_once" );
+            }else{
+                update_option( "wbf_components_saved_once", $wbf_components_saved_once );
+            }
+        }
 	}
 }
 
