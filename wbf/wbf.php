@@ -362,7 +362,7 @@ function waboot_options_page() {
 	return true;
 	?>
 	<div class="wrap">
-		<h2><?php _e( "Waboot Options", "waboot" ); ?></h2>
+		<h2><?php _e( "Waboot Options", "wbf" ); ?></h2>
 
 		<p>
 			--- Placeholder ---

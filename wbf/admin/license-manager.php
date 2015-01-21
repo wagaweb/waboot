@@ -19,11 +19,11 @@ class License_Manager{
                             update_option("waboot_license",$license);
                             ?>
                             <div class="updated">
-                                <p><?php _e( 'License Updated!', 'waboot' ); ?></p>
+                                <p><?php _e( 'License Updated!', "wbf" ); ?></p>
                             </div>
                         <?php
                         }else{
-                            throw new LicenseException(_( 'Unable to update the license!', 'waboot' ));
+                            throw new LicenseException(_( 'Unable to update the license!', "wbf" ));
                         }
                     }
                 }
@@ -41,10 +41,10 @@ class License_Manager{
 
         ?>
         <div class="wrap">
-            <h2><?php _e( "Waboot License", "waboot" ); ?></h2>
+            <h2><?php _e( "Waboot License", "wbf" ); ?></h2>
             <p>
             <form method="post" action="admin.php?page=waboot_license" >
-                <p><?php _e("Here you can enter your license:"); ?></p>
+                <p><?php _e("Here you can enter your license:", "wbf"); ?></p>
                 <input type="text" value="<?php echo $current_license; ?>" name="license_code" />
                 <p class="submit">
                     <input type="submit" name="submit-license" id="submit" class="button button-primary" value="Validate License">

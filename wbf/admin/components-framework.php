@@ -469,18 +469,18 @@ class Waboot_ComponentsManager {
                                 <tr>
                                     <th scope="col"></th>
                                     <th scope="col" id="name"
-                                        class="manage-column column-name"><?php _e( "Component", "waboot" ) ?></th>
+                                        class="manage-column column-name"><?php _e( "Component", "wbf" ) ?></th>
                                     <th scope="col" id="description"
-                                        class="manage-column column-description"><?php _e( "Enable\Disable", "waboot" ) ?></th>
+                                        class="manage-column column-description"><?php _e( "Enable\Disable", "wbf" ) ?></th>
                                 </tr>
                                 </thead>
                                 <tfoot>
                                 <tr>
                                     <th scope="col"></th>
                                     <th scope="col" id="name"
-                                        class="manage-column column-name"><?php _e( "Component", "waboot" ) ?></th>
+                                        class="manage-column column-name"><?php _e( "Component", "wbf" ) ?></th>
                                     <th scope="col" id="description"
-                                        class="manage-column column-description"><?php _e( "Enable\Disable", "waboot" ) ?></th>
+                                        class="manage-column column-description"><?php _e( "Enable\Disable", "wbf" ) ?></th>
                                 </tr>
                                 </tfoot>
                                 <tbody id="the-list">
@@ -497,11 +497,11 @@ class Waboot_ComponentsManager {
 		                                        <?php echo $data['Description']; ?>
 		                                        <?php if ( self::is_child_component( $comp_data ) ) : ?>
 			                                        <p class="child-component-notice">
-				                                        <?php _e( "This is a component of the current child theme", "waboot" ); ?>
+				                                        <?php _e( "This is a component of the current child theme", "wbf" ); ?>
 				                                        <?php
 				                                        if ( isset( $comp_data['override'] ) ) {
 					                                        if ( $comp_data['override'] ) {
-						                                        _e( ", and <strong>override a core component</strong>", "waboot" );
+						                                        _e( ", and <strong>override a core component</strong>", "wbf" );
 					                                        }
 				                                        }
 				                                        ?>
@@ -551,7 +551,7 @@ class Waboot_ComponentsManager {
                         </div>
                         <?php foreach($registered_components as $comp_data): if(self::is_active($comp_data)) : ?>
                         <div id="component-<?php echo $comp_data['nicename']; ?>" class="group" style="display: none;">
-                            <h3><?php _e(sprintf("%s Component Settings",ucfirst($comp_data['nicename'])),"waboot"); ?></h3>
+                            <h3><?php _e(sprintf("%s Component Settings",ucfirst($comp_data['nicename'])),"wbf"); ?></h3>
                             <?php Waboot_Options_Interface::optionsframework_fields($compiled_components_options[$comp_data['nicename']]); ?>
                         <!-- </div> not necessary (for some reason) -->
                         <?php endif; endforeach; ?>
@@ -806,7 +806,7 @@ class Waboot_Component {
     public function activationNotice(){
         ?>
         <div class="updated">
-            <p><?php _e( sprintf("Activated: %s",$this->name), 'waboot' ); ?></p>
+            <p><?php _e( sprintf("Activated: %s",$this->name), "wbf" ); ?></p>
         </div>
         <?php
     }
@@ -814,7 +814,7 @@ class Waboot_Component {
     public function deactivationNotice(){
         ?>
         <div class="updated">
-            <p><?php _e( sprintf("Deactivated: %s",$this->name), 'waboot' ); ?></p>
+            <p><?php _e( sprintf("Deactivated: %s",$this->name), "wbf" ); ?></p>
         </div>
         <?php
     }

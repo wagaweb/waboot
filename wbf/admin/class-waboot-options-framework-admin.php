@@ -105,16 +105,13 @@ class Waboot_Options_Framework_Admin extends Options_Framework_Admin{
 			}
 			$backup_files = $this->get_backupFiles();
 			?>
-			<h2><?php _e( "Theme Options Manager", "waboot" ); ?></h2>
+			<h2><?php _e( "Theme Options Manager", "wbf" ); ?></h2>
 
-			<h3><?php _e( "Export or Backup Theme Options", "waboot" ); ?></h3>
+			<h3><?php _e( "Export or Backup Theme Options", "wbf" ); ?></h3>
 
 			<form action="admin.php?page=themeoptions-manager" method="POST" id="export-themeoptions">
-				<p><label><input type="radio" name="option"
-				                 value="backup"> <?php _e( "Backup current Theme Options on the disk" ); ?></label></p>
-
-				<p class="submit"><input type="submit" name="submit-backup" id="submit" class="button button-primary"
-				                         value="<?php _e( "Backup" ) ?>"></p>
+				<p><label><input type="radio" name="option" value="backup"> <?php _e( "Backup current Theme Options on the disk", "wbf" ); ?></label></p>
+				<p class="submit"><input type="submit" name="submit-backup" id="submit" class="button button-primary" value="<?php _e( "Backup" ) ?>"></p>
 			</form>
 
 			<h3><?php _e( "Import or Restore Theme Options", "waboot" ); ?></h3>
@@ -124,13 +121,10 @@ class Waboot_Options_Framework_Admin extends Options_Framework_Admin{
 				<p><?php _e( "Select a file to restore, or upload one:" ); ?></p>
 				<?php if ( ! empty( $backup_files ) ) : ?>
 					<?php foreach ( $backup_files as $file ): ?>
-						<p><label><input type="radio" name="local-backup-file"
-						                 value="<?php echo $file['path'] ?>"><?php echo $file['name'] ?></label>&nbsp;<a
-								href='<?php echo $file['url']; ?>' target="_blank"
-								title="<?php _e( "Download: " . $file['name'] ); ?>">[<?php _e( "download" ) ?>]</a></p>
+						<p><label><input type="radio" name="local-backup-file" value="<?php echo $file['path'] ?>"><?php echo $file['name'] ?></label>&nbsp;<a href='<?php echo $file['url']; ?>' target="_blank" title="<?php _e( "Download: " . $file['name'] ); ?>">[<?php _e( "download" ) ?>]</a></p>
 					<?php endforeach; ?>
 				<?php else: ?>
-					<p><?php _e( "No backup files available at the moment.", "waboot" ); ?></p>
+					<p><?php _e( "No backup files available at the moment.", "wbf" ); ?></p>
 				<?php endif; ?>
 				<p>
 					<label>
@@ -138,8 +132,7 @@ class Waboot_Options_Framework_Admin extends Options_Framework_Admin{
 					</label>
 				</p>
 
-				<p class="submit"><input type="submit" name="submit-restore" id="submit" class="button button-primary"
-				                         value="<?php _e( "Import" ) ?>"></p>
+				<p class="submit"><input type="submit" name="submit-restore" id="submit" class="button button-primary" value="<?php _e( "Import" ) ?>"></p>
 			</form>
 			<?php WBF::print_copyright(); ?>
 		</div>
@@ -343,9 +336,9 @@ class Waboot_Options_Framework_Admin extends Options_Framework_Admin{
                             <?php settings_fields( 'optionsframework' ); ?>
                             <?php Waboot_Options_Interface::optionsframework_fields(); /* Settings */ ?>
                             <div id="optionsframework-submit">
-                                <input type="submit" class="button-primary" name="update" value="<?php esc_attr_e( 'Save Options', 'waboot' ); ?>" />
+                                <input type="submit" class="button-primary" name="update" value="<?php esc_attr_e( 'Save Options', "wbf" ); ?>" />
                                 <input type="submit" class="reset-button button-secondary" name="reset" value="<?php esc_attr_e( 'Restore Defaults', 'waboot' ); ?>" onclick="return confirm( '<?php print esc_js( __( 'Click OK to reset. Any theme settings will be lost!', 'waboot' ) ); ?>' );" />
-                                <a href="admin.php?page=waboot_options&amp;clear_cache" class="clearcache-button button-secondary"><?php esc_attr_e( 'Clear Theme Cache', 'waboot' ); ?></a>
+                                <a href="admin.php?page=waboot_options&amp;clear_cache" class="clearcache-button button-secondary"><?php esc_attr_e( 'Clear Theme Cache', "wbf" ); ?></a>
                                 <div class="clear"></div>
                             </div>
                         </form>

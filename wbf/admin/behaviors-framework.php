@@ -390,7 +390,7 @@ class Behavior{
                        value="<?php echo $current_value; ?>" placeholder="<?php echo $this->default; ?>"/>
                 <input type="checkbox" name="<?php echo $this->metaname ?>_default"
                        id="<?php echo $this->metaname ?>_default"
-                       value="1" <?php if (isset($check_predefined)) echo "checked"; ?>><?php _e("Use default value", "waboot"); ?>
+                       value="1" <?php if (isset($check_predefined)) echo "checked"; ?>><?php _e("Use default value", "wbf"); ?>
                 <?php
                 break;
             case "textarea":
@@ -402,7 +402,7 @@ class Behavior{
                 <br/>
                 <input type="checkbox" name="<?php echo $this->metaname ?>_default"
                        id="<?php echo $this->metaname ?>_default"
-                       value="1" <?php if (isset($check_predefined)) echo "checked"; ?>><?php _e("Use default value", "waboot"); ?>
+                       value="1" <?php if (isset($check_predefined)) echo "checked"; ?>><?php _e("Use default value", "wbf"); ?>
                 <?php
                 break;
             case "checkbox":
@@ -421,13 +421,13 @@ class Behavior{
                         <li>
                             <input type="checkbox" name="<?php echo $this->metaname ?>"
                                    id="<?php echo $this->metaname ?>"
-                                   value="1" <?php if ($current_value == 1) echo "checked" ?>><?php _e("Enable", "waboot") ?>
+                                   value="1" <?php if ($current_value == 1) echo "checked" ?>><?php _e("Enable", "wbf") ?>
                         </li>
                     <?php endif; ?>
                     <li>
                         <input type="checkbox" name="<?php echo $this->metaname ?>_default"
                                id="<?php echo $this->metaname ?>_default"
-                               value="_default" <?php if ($current_value == "_default" || in_array("_default", (array)$current_value)) echo "checked" ?>><?php _e("Use default value", "waboot"); ?>
+                               value="_default" <?php if ($current_value == "_default" || in_array("_default", (array)$current_value)) echo "checked" ?>><?php _e("Use default value", "wbf"); ?>
                     </li>
                 </ul>
                 <?php
