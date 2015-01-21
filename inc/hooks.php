@@ -132,6 +132,21 @@ if ( ! function_exists( 'waboot_behaviors_cpts_blacklist' ) ):
     add_filter("waboot_behaviors_cpts_blacklist","waboot_behaviors_cpts_blacklist");
 endif;
 
+if ( ! function_exists( 'waboot_set_default_components' ) ):
+    /**
+     * Set the default components
+     * @param $components
+     * @return array
+     */
+    function waboot_set_default_components($components){
+        $components[] = "slideshow";
+        $components[] = "colorbox";
+
+        return $components;
+    }
+    add_filter("wbf_default_components","waboot_set_default_components");
+endif;
+
 function waboot_add_compile_sets($sets){
     $theme = waboot_get_compiled_stylesheet_name();
 
