@@ -79,6 +79,38 @@ if ( ! function_exists( 'of_get_option' ) ) :
 	}
 endif;
 
+/**
+ * Checks if the dependencies of theme options are met
+ */
+function of_check_options_deps(){
+    $deps_to_achieve = _of_get_theme_options_deps();
+    if(!empty($deps_to_achieve)){
+        global $wbf_notice_manager;
+        if(!empty($deps_to_achieve['components'])){
+            $wbf_notice_manager->clear_notices("theme_opt_component_deps_everyrun");
+            foreach($deps_to_achieve['components'] as $c_name){
+                if(!Waboot_ComponentsManager::is_active($c_name)){
+                    //Register new notice that tells that the component is not present
+                    $message = __("An option requires the component <strong>$c_name</strong>, but it is not active.","wbf");
+                    $wbf_notice_manager->add_notice($c_name."_not_active",$message,"error","theme_opt_component_deps_everyrun");
+                }else{
+                    $wbf_notice_manager->remove_notice($c_name."_not_active");
+                }
+            }
+        }else{
+            $wbf_notice_manager->clear_notices("theme_opt_component_deps_everyrun");
+        }
+    }
+}
+
+/**
+ * Performs actions during Theme Option saving (called during "update_option")
+ * @param $option
+ * @param $old_value
+ * @param $value
+ * @uses _of_generate_less_file()
+ * @throws Exception
+ */
 function of_options_save($option, $old_value, $value){
     global $wbf_notice_manager;
 	$config = get_option( 'optionsframework' );
@@ -91,9 +123,15 @@ function of_options_save($option, $old_value, $value){
 		//Doing actions with modified options
 		foreach($all_options as $k => $opt_data){
 			if(isset($opt_data['id']) && array_key_exists($opt_data['id'],$diff)){ //True if the current option has been modified
-				if(isset($opt_data['recompile_styles']) && $opt_data['recompile_styles']){
+				/*
+				 * Check if must recompile
+				 */
+                if(isset($opt_data['recompile_styles']) && $opt_data['recompile_styles']){
 					$must_recompile_flag = true;
 				}
+                /*
+                 * Check theme options dependencies
+                 */
 				if(isset($opt_data['deps'])){
 					if(isset($opt_data['deps']['_global'])){
 						if(isset($opt_data['deps']['_global']['components']))
@@ -120,7 +158,7 @@ function of_options_save($option, $old_value, $value){
 		}
 
         if(!empty($deps_to_achieve)){
-            $wbf_notice_manager->clear_notices("component_not_present");
+            $wbf_notice_manager->clear_notices("theme_opt_component_deps");
             if(!empty($deps_to_achieve['components'])){
                 //Try to enable all the required components
                 $registered_components = Waboot_ComponentsManager::getAllComponents();
@@ -130,18 +168,20 @@ function of_options_save($option, $old_value, $value){
                             Waboot_ComponentsManager::enable($c_name);
                         }else{
                             //Register new notice that tells that the component is not present
-                            $message = __("An option requires the component $c_name but it is not present","wbf");
-                            $wbf_notice_manager->add_notice("component_not_present",$message,"error","FileIsPresent",Waboot_ComponentsManager::generate_component_mainfile_path($c_name));
+                            $message = __("An option requires the component <strong>$c_name</strong>, but it is not present","wbf");
+                            $wbf_notice_manager->add_notice($c_name."_component_not_present",$message,"error","theme_opt_component_deps","FileIsPresent",Waboot_ComponentsManager::generate_component_mainfile_path($c_name));
                         }
                     }
                 }
             }
+        }else{
+            $wbf_notice_manager->clear_notices("theme_opt_component_deps");
         }
 	}
 }
 
 /**
- * Replace {of_get_option} and {of_get_font} tags in _theme-options-generated.less.cmp; It is called during "update_option" and only for of theme options.
+ * Replace {of_get_option} and {of_get_font} tags in _theme-options-generated.less.cmp; It is called during "update_option" via of_options_save()
  * @param $value values of the options
  */
 function _of_generate_less_file($value){
@@ -198,6 +238,36 @@ function _of_generate_less_file($value){
 			$parsedFileObj->fwrite( $line );
 		}
 	}
+}
+
+/**
+ * Returns an array with the dependencies of theme options
+ * @param null $all_options
+ * @return array
+ */
+function _of_get_theme_options_deps($all_options = null){
+    $deps_to_achieve = array();
+    if(!isset($all_options)) $all_options = Waboot_Options_Framework::_optionsframework_options();
+    foreach($all_options as $k => $opt_data){
+        if(isset($opt_data['id'])){
+            $current_opt_name = $opt_data['id'];
+            $current_value = of_get_option($current_opt_name);
+            if(isset($opt_data['deps'])){
+                if(isset($opt_data['deps']['_global'])){
+                    if(isset($opt_data['deps']['_global']['components']))
+                        $deps_to_achieve['components'][] = $opt_data['deps']['_global']['components'];
+                }
+                unset($opt_data['deps']['_global']);
+                foreach($opt_data['deps'] as $v => $deps){
+                    if($current_value == $v){ //true the option has the value specified into deps array
+                        //Then set the deps to achieve
+                        if(isset($deps['components'])) $deps_to_achieve['components'] = $deps['components'];
+                    }
+                }
+            }
+        }
+    }
+    return $deps_to_achieve;
 }
 
 /**

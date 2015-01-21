@@ -191,6 +191,7 @@ class WBF {
         Waboot_ComponentsManager::toggle_components(); //enable or disable components if necessary
         Waboot_ComponentsManager::setupRegisteredComponents(); //Loads components
 
+        of_check_options_deps();
         $GLOBALS['wbf_notice_manager']->enqueue_notices(); //Display notices
     }
 
