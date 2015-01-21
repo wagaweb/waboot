@@ -28,11 +28,11 @@ class Notice_Manager {
         }
     }
 
-    function clear_notices($id = null){
+    function clear_notices($category = null){
         $notices = $this->get_notices();
-        if(isset($id)){
+        if(isset($category)){
             foreach($notices as $k => $notice){
-                if($k == $id){
+                if($notice['category'] == $category){
                     unset($notices[$k]);
                 }
             }
@@ -81,11 +81,12 @@ class Notice_Manager {
         return $notices;
     }
 
-    function add_notice($id,$message,$level,$condition = null, $cond_args = null){
+    function add_notice($id,$message,$level,$category = 'base',$condition = null, $cond_args = null){
         $notices = $this->get_notices();
         $notices[$id] = array(
             'message' => $message,
             'level'   => $level,
+            'category' => $category,
             'condition' => $condition,
             'condition_args' => $cond_args
         );
