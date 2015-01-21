@@ -83,9 +83,9 @@ endif;
  * Checks if the dependencies of theme options are met
  */
 function of_check_options_deps(){
+    global $wbf_notice_manager;
     $deps_to_achieve = _of_get_theme_options_deps();
     if(!empty($deps_to_achieve)){
-        global $wbf_notice_manager;
         if(!empty($deps_to_achieve['components'])){
             $wbf_notice_manager->clear_notices("theme_opt_component_deps_everyrun");
             foreach($deps_to_achieve['components'] as $c_name){
@@ -100,6 +100,8 @@ function of_check_options_deps(){
         }else{
             $wbf_notice_manager->clear_notices("theme_opt_component_deps_everyrun");
         }
+    }else{
+        $wbf_notice_manager->clear_notices("theme_opt_component_deps_everyrun");
     }
 }
 
