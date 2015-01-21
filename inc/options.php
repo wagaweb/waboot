@@ -719,7 +719,10 @@ function optionsframework_options() {
         'std' => $blogpage_layouts['default'],
         'type' => 'images',
         'options' => $blogpage_layouts['values'],
-	    'deps' => array("timeline" => array('components'=>array('timeline')))
+	    'deps' => array(
+          "timeline" => array('components'=>array('timeline')),
+          "masonry" => array('components'=>array('masonry'))
+        )
     );
 
     $sidebar_layouts = of_add_default_key(waboot_get_available_body_layouts());
