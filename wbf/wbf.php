@@ -138,6 +138,8 @@ class WBF {
 	    // Make framework available for translation.
         load_theme_textdomain( 'wbf', WBF_DIRECTORY . '/languages' );
 
+        $GLOBALS['wbf_notice_manager'] = new WBF\admin\Notice_Manager(); // Loads notice manager
+
         // Global Customization
 	    locate_template( '/wbf/public/theme-customs.php', true );
 
@@ -188,6 +190,8 @@ class WBF {
 
         Waboot_ComponentsManager::toggle_components(); //enable or disable components if necessary
         Waboot_ComponentsManager::setupRegisteredComponents(); //Loads components
+
+        $GLOBALS['wbf_notice_manager']->enqueue_notices(); //Display notices
     }
 
 	function init() {

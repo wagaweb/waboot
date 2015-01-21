@@ -24,9 +24,18 @@ function waboot_autoloader($class)
         locate_template('wbf/admin/' . $filename, true);
     }
 
+    if (preg_match("/conditions/", $class)) {
+        $childclass = explode('\\', $class);
+        $name = end($childclass);
+        locate_template( 'wbf/admin/conditions/'.$name.'.php', true );
+    }
+
     switch ($class) {
         case "WBF\admin\License_Manager":
             locate_template( 'wbf/admin/license-manager.php', true );
+            break;
+        case "WBF\admin\Notice_Manager":
+            locate_template( 'wbf/admin/notice-manager.php', true );
             break;
 	    case "WBF\includes\Theme_Update_Checker":
 		    locate_template( 'wbf/includes/theme-update-checker.php', true );
