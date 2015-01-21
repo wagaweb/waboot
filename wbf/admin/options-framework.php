@@ -80,6 +80,7 @@ if ( ! function_exists( 'of_get_option' ) ) :
 endif;
 
 function of_options_save($option, $old_value, $value){
+    global $wbf_notice_manager;
 	$config = get_option( 'optionsframework' );
 	if($option == $config['id']){
 		$must_recompile_flag = false;
@@ -93,12 +94,19 @@ function of_options_save($option, $old_value, $value){
 				if(isset($opt_data['recompile_styles']) && $opt_data['recompile_styles']){
 					$must_recompile_flag = true;
 				}
-				/*if(isset($opt_data['deps'])){
+				if(isset($opt_data['deps'])){
 					if(isset($opt_data['deps']['_global'])){
-						if($opt_data['deps']['_global']['components'])
+						if(isset($opt_data['deps']['_global']['components']))
 							$deps_to_achieve['components'][] = $opt_data['deps']['_global']['components'];
 					}
-				}*/
+                    unset($opt_data['deps']['_global']);
+                    foreach($opt_data['deps'] as $v => $deps){
+                        if(array_key_exists($opt_data['id'],$value) && $value[$opt_data['id']] == $v){ //true the option has the value specified into deps array
+                            //Then set the deps to achieve
+                            if(isset($deps['components'])) $deps_to_achieve['components'] = $deps['components'];
+                        }
+                    }
+				}
 			}
 		}
 
@@ -110,6 +118,25 @@ function of_options_save($option, $old_value, $value){
 				$waboot_styles_compiler->compile();
 			}
 		}
+
+        if(!empty($deps_to_achieve)){
+            $wbf_notice_manager->clear_notices("component_not_present");
+            if(!empty($deps_to_achieve['components'])){
+                //Try to enable all the required components
+                $registered_components = Waboot_ComponentsManager::getAllComponents();
+                foreach($deps_to_achieve['components'] as $c_name){
+                    if(!Waboot_ComponentsManager::is_active($c_name)){
+                        if(Waboot_ComponentsManager::is_present($c_name)){
+                            Waboot_ComponentsManager::enable($c_name);
+                        }else{
+                            //Register new notice that tells that the component is not present
+                            $message = __("An option requires the component $c_name but it is not present","wbf");
+                            $wbf_notice_manager->add_notice("component_not_present",$message,"error","FileIsPresent",Waboot_ComponentsManager::generate_component_mainfile_path($c_name));
+                        }
+                    }
+                }
+            }
+        }
 	}
 }
 
