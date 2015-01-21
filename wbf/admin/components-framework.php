@@ -122,6 +122,23 @@ class Waboot_ComponentsManager {
 		return $component_data;
 	}
 
+    /**
+     * Get the possibile paths for a component named $c_name. The component does not have to exists.
+     * @param $c_name
+     * @return array
+     */
+    static function generate_component_mainfile_path($c_name){
+        $core_dir = waboot_get_root_components_directory();
+        $child_dir = waboot_get_child_components_directory();
+
+        $c_name = strtolower($c_name);
+
+        return array(
+            'core' => $core_dir.$c_name."/$c_name.php",
+            'child' => $core_dir.$c_name."/$c_name.php"
+        );
+    }
+
 	/**
 	 * Update the "waboot_registered_components" option
 	 *
@@ -186,6 +203,23 @@ class Waboot_ComponentsManager {
 		}
 	}
 
+    /**
+     * Gets all registered components (in array mode). Maybe this is a duplicate of getAllComponents()
+     * @return array
+     */
+    static function getRegisteredComponents(){
+        $registered_components = array();
+
+        $main_components = self::get_waboot_registered_components();
+        $registered_components = array_merge($registered_components,$main_components);
+        if(is_child_theme()){
+            $child_components = self::get_child_registered_components();
+            $registered_components = array_merge($child_components,$main_components);
+        }
+
+        return $registered_components;
+    }
+
     static function update_global_components_vars(){
         global $registered_components;
         $registered_components = self::retrieve_components();
@@ -215,17 +249,40 @@ class Waboot_ComponentsManager {
     }
 
 	/**
-	 * Controlla se il componente registrato è attivo (in questo caso $registered_component è una chiave dell'array ottenuto da get_option("waboot_registered_components")
-	 * @param $registered_component
+	 * Check if the registered component is active (the component must exists)
+	 * @param String|Array $component (l'array può essere ottenuto da get_option("waboot_registered_components"))
 	 * @return bool
 	 */
-	static function is_active( $registered_component ) {
-		if ( $registered_component['enabled'] == true ) {
-			return true;
-		}
+	static function is_active( $component ) {
+
+        if(is_array($component)){
+            if ( $component['enabled'] == true ) {
+                return true;
+            }
+        }else{
+            $registered_components = self::getAllComponents();
+            if(isset($registered_components[$component]) && $registered_components[$component]['enabled']){
+                return true;
+            }
+        }
 
 		return false;
 	}
+
+    /**
+     * Checks if the main file of the $component is present
+     * @param $component
+     * @return bool
+     */
+    static function is_present( $component ){
+        if(is_array($component)){
+            if(is_file($component['file'])) return true;
+        }else{
+            $registered_components = self::getAllComponents();
+            if(isset($registered_components[$component]) && is_file($registered_components[$component]['file'])) return true;
+        }
+        return false;
+    }
 
 	/**
 	 * Exec onInit(), scripts() and styles() methods on registered components
@@ -763,6 +820,14 @@ function waboot_get_root_components_directory_uri(){
 
 function waboot_get_child_components_directory_uri(){
     return get_stylesheet_directory_uri()."/components/";
+}
+
+function waboot_get_root_components_directory(){
+    return get_template_directory()."/components/";
+}
+
+function waboot_get_child_components_directory(){
+    return get_stylesheet_directory()."/components/";
 }
 
 function print_component_status($comp_data){
