@@ -12,7 +12,7 @@ add_action( 'wp_enqueue_scripts', 'wbf_add_client_custom_css', 99 );
  * Adds client custom CSS
  */
 function wbf_add_client_custom_css(){
-	$client_custom_css = waboot_of_custom_css();
+	$client_custom_css = Waboot_Options_Code_Editor::custom_css_exists();
 
 	if($client_custom_css){
 		wp_enqueue_style('client-custom',$client_custom_css);
