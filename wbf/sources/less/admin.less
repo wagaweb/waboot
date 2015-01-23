@@ -5,6 +5,8 @@ Author: Waga
 Author URI: https://waga.it
 */
 
+@import "../../../sources/bootstrap/mixins";
+
 #optionsframework .group .section {
   padding: 10px 10px 25px;
 }
@@ -16,4 +18,27 @@ Author URI: https://waga.it
 }
 .wp-core-ui .clearcache-button {
   margin-left: 10px;
+}
+
+/**********************************
+ * BEHAVIORS METABOX
+ **********************************/
+
+div#behavior.postbox{
+  .behavior-images-options{
+    .clearfix();
+  }
+  .option-wrap{
+    float: left;
+    img.behavior-metabox-image-selected {
+      border: 3px solid #666;
+    }
+    span {
+      line-height: 2em;
+      text-transform: capitalize;
+      display: block;
+      background-color: #f9f9f9;
+      margin: 0 3px;
+    }
+  }
 }

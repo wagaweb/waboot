@@ -181,7 +181,7 @@ class WBF {
 
         // Load scripts
         //locate_template( '/wbf/public/scripts.php', true );
-        //locate_template( '/wbf/admin/scripts.php', true );
+        locate_template( '/wbf/admin/adm-scripts.php', true );
 
 	    // ACF INTEGRATION
         if(!is_plugin_active("advanced-custom-fields-pro/acf.php") && !is_plugin_active("advanced-custom-fields/acf.php")){
