@@ -82,7 +82,7 @@ class BehaviorsManager{
 		}
 
 		//Get from filters
-		$predef_behaviors = apply_filters("waboot_add_behaviors",$predef_behaviors);
+		$predef_behaviors = apply_filters("wbf_add_behaviors",$predef_behaviors);
 
 		return $predef_behaviors;
 	}
@@ -306,6 +306,8 @@ class Behavior{
         if ($this->type == "checkbox" && $this->has_multiple_choices()) $type = "multicheck";
         else $type = $this->type;
 
+	    if($this->has_thumbnails()) $type = "images";
+
         $option = array(
             'name' => $this->title,
             'desc' => $this->description,
@@ -325,6 +327,20 @@ class Behavior{
                     $option['std'] = '1';
                 break;
             case 'images':
+	            //values
+		        $images_options = array();
+	            foreach ($this->possible_values as $o) {
+		            if(isset($o['name'])){
+			            $images_options[$o['value']]['value'] = $o['thumb'];
+			            $images_options[$o['value']]['label'] = $o['name'];
+		            }else{
+			            $images_options[$o['value']] = $o['thumb'];
+		            }
+	            }
+	            $option['options'] = $images_options;
+	            //defaults
+	            $option['std'] = $this->default;
+		        break;
             case 'multicheck':
                 //values
                 $multicheck_options = array();
@@ -376,33 +392,42 @@ class Behavior{
         return false;
     }
 
+	function has_thumbnails(){
+		if(isset($this->possible_values) && !empty($this->possible_values)){
+			foreach($this->possible_values as $v){
+				if(isset($v['thumb'])){
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
+
     function print_metabox($post_id)
     {
         $current_value = $this->get_raw_value($post_id);
         if ($current_value == "" && ($this->type == "text" || $this->type == "textarea")) $check_predefined = true;
 
-        switch ($this->type) {
+	    $type = $this->type;
+	    if($this->has_thumbnails()) $type = "images";
+
+        switch ($type) {
             case "text":
                 ?>
                 <p><strong><?php echo $this->title ?></strong></p>
                 <label class="screen-reader-text" for="<?php echo $this->metaname ?>"><?php echo $this->title ?></label>
-                <input type="text" name="<?php echo $this->metaname ?>" id="<?php echo $this->metaname ?>"
-                       value="<?php echo $current_value; ?>" placeholder="<?php echo $this->default; ?>"/>
-                <input type="checkbox" name="<?php echo $this->metaname ?>_default"
-                       id="<?php echo $this->metaname ?>_default"
-                       value="1" <?php if (isset($check_predefined)) echo "checked"; ?>><?php _e("Use default value", "wbf"); ?>
+                <input type="text" name="<?php echo $this->metaname ?>" id="<?php echo $this->metaname ?>" value="<?php echo $current_value; ?>" placeholder="<?php echo $this->default; ?>"/>
+                <input type="checkbox" name="<?php echo $this->metaname ?>_default" id="<?php echo $this->metaname ?>_default" value="1" <?php if (isset($check_predefined)) echo "checked"; ?>><?php _e("Use default value", "wbf"); ?>
                 <?php
                 break;
             case "textarea":
                 ?>
                 <p><strong><?php echo $this->title ?></strong></p>
                 <label class="screen-reader-text" for="<?php echo $this->metaname ?>"><?php echo $this->title ?></label>
-                <textarea name="<?php echo $this->metaname ?>" id="<?php echo $this->metaname ?>"
-                          placeholder="<?php echo $this->default; ?>"><?php echo $current_value; ?></textarea>
+                <textarea name="<?php echo $this->metaname ?>" id="<?php echo $this->metaname ?>" placeholder="<?php echo $this->default; ?>"><?php echo $current_value; ?></textarea>
                 <br/>
-                <input type="checkbox" name="<?php echo $this->metaname ?>_default"
-                       id="<?php echo $this->metaname ?>_default"
-                       value="1" <?php if (isset($check_predefined)) echo "checked"; ?>><?php _e("Use default value", "wbf"); ?>
+                <input type="checkbox" name="<?php echo $this->metaname ?>_default" id="<?php echo $this->metaname ?>_default" value="1" <?php if (isset($check_predefined)) echo "checked"; ?>><?php _e("Use default value", "wbf"); ?>
                 <?php
                 break;
             case "checkbox":
@@ -412,37 +437,46 @@ class Behavior{
                     <?php if ($this->has_multiple_choices()) : $values = $this->get_choices(); ?>
                         <?php foreach ($values as $c) : ?>
                             <li>
-                                <input type="checkbox" name="<?php echo $this->metaname ?>[]"
-                                       id="<?php echo $this->metaname ?>"
-                                       value="<?php echo $c['value']; ?>" <?php if (in_array($c['name'], (array)$current_value)) echo "checked" ?>><?php echo $c['name']; ?>
+                                <input type="checkbox" name="<?php echo $this->metaname ?>[]" id="<?php echo $this->metaname ?>" value="<?php echo $c['value']; ?>" <?php if (in_array($c['name'], (array)$current_value)) echo "checked" ?>><?php echo $c['name']; ?>
                             </li>
                         <?php endforeach; ?>
                     <?php else : ?>
                         <li>
-                            <input type="checkbox" name="<?php echo $this->metaname ?>"
-                                   id="<?php echo $this->metaname ?>"
-                                   value="1" <?php if ($current_value == 1) echo "checked" ?>><?php _e("Enable", "wbf") ?>
+                            <input type="checkbox" name="<?php echo $this->metaname ?>" id="<?php echo $this->metaname ?>" value="1" <?php if ($current_value == 1) echo "checked" ?>><?php _e("Enable", "wbf") ?>
                         </li>
                     <?php endif; ?>
                     <li>
-                        <input type="checkbox" name="<?php echo $this->metaname ?>_default"
-                               id="<?php echo $this->metaname ?>_default"
-                               value="_default" <?php if ($current_value == "_default" || in_array("_default", (array)$current_value)) echo "checked" ?>><?php _e("Use default value", "wbf"); ?>
+                        <input type="checkbox" name="<?php echo $this->metaname ?>_default" id="<?php echo $this->metaname ?>_default" value="_default" <?php if ($current_value == "_default" || in_array("_default", (array)$current_value)) echo "checked" ?>><?php _e("Use default value", "wbf"); ?>
                     </li>
                 </ul>
                 <?php
                 break;
+	        case "images":
+		        //This is a special type of radio
+				?>
+		        <p><strong><?php echo $this->title ?></strong></p>
+		        <label class="screen-reader-text" for="<?php echo $this->metaname ?>"><?php echo $this->title ?></label>
+		        <?php foreach ($this->possible_values as $k => $v) : ?>
+		        <input type="radio" id="<?php echo $this->metaname ?>-<?php echo $v['value'] ?>" name="<?php echo $this->metaname ?>" value="<?php echo $v['name']; ?>" <?php if ($v['value'] == $current_value) echo "checked" ?> style="display:none;" />
+		        <div class="option-wrap">
+			        <?php if(isset($v['name'])) echo "<span>{$v['name']}</span>"; ?>
+			        <?php if(isset($v['thumb'])) : ?>
+			            <img src="<?php echo $v['thumb'] ?>" alt="<?php echo $v['value'] ?>" class="behavior-metabox-image <?php if ($v['value'] == $current_value) echo "behavior-metabox-image-selected" ?>" onclick="console.log('Ciao'); document.getElementById('<?php echo $this->metaname ?>-<?php echo $v['value'] ?>').checked=true;" />
+			        <?php endif; ?>
+		        </div>
+	            <?php endforeach; ?>
+		        <input type="radio" name="<?php echo $this->metaname ?>" value="_default" <?php if ($current_value == "_default") echo "checked" ?>/><?php _e("Default"); ?>
+		        <?php
+		        break;
             case "radio":
                 ?>
                 <p><strong><?php echo $this->title ?></strong></p>
                 <label class="screen-reader-text" for="<?php echo $this->metaname ?>"><?php echo $this->title ?></label>
                 <?php foreach ($this->possible_values as $k => $v) : ?>
-                <input type="radio" name="<?php echo $this->metaname ?>"
-                       value="<?php echo $v['name']; ?>" <?php if ($v['value'] == $current_value) echo "checked" ?> /><?php echo $v['value']; ?>
+                <input type="radio" name="<?php echo $this->metaname ?>" value="<?php echo $v['name']; ?>" <?php if ($v['value'] == $current_value) echo "checked" ?> /><?php echo $v['value']; ?>
                 <br/>
-            <?php endforeach; ?>
-                <input type="radio" name="<?php echo $this->metaname ?>"
-                       value="_default" <?php if ($current_value == "_default") echo "checked" ?>/><?php _e("Default"); ?>
+                <?php endforeach; ?>
+                <input type="radio" name="<?php echo $this->metaname ?>" value="_default" <?php if ($current_value == "_default") echo "checked" ?>/><?php _e("Default"); ?>
                 <?php
                 break;
             case "select":
@@ -451,11 +485,9 @@ class Behavior{
                 <label class="screen-reader-text" for="<?php echo $this->metaname ?>"><?php echo $this->title ?></label>
                 <select name="<?php echo $this->metaname ?>" id="<?php echo $this->metaname ?>">
                     <?php foreach ($this->possible_values as $k => $v) : ?>
-                        <option
-                            value="<?php echo $v['value']; ?>" <?php if ($v['value'] == $current_value) echo "selected" ?>><?php echo $v['name']; ?></option>
+                        <option value="<?php echo $v['value']; ?>" <?php if ($v['value'] == $current_value) echo "selected" ?>><?php echo $v['name']; ?></option>
                     <?php endforeach; ?>
-                    <option
-                        value="_default" <?php if ($current_value == "_default") echo "selected" ?>><?php echo __("Default") ?></option>
+                    <option value="_default" <?php if ($current_value == "_default") echo "selected" ?>><?php echo __("Default") ?></option>
                 </select>
                 <?php
                 break;

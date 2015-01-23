@@ -1,7 +1,9 @@
 <?php
 
-add_filter("waboot_add_behaviors","waboot_behaviors");
+add_filter("wbf_add_behaviors","waboot_behaviors");
 function waboot_behaviors($behaviors){
+
+	$imagepath = get_template_directory_uri() . '/wbf/admin/images/';
 
 	$behaviors[] = array(
 		"name" => "show-title",
@@ -60,19 +62,23 @@ function waboot_behaviors($behaviors){
         'options' => array(
             array(
                 "name" => __("1/2","waboot"),
-                "value" => "1/2"
+                "value" => "1/2",
+	            "thumb"   => $imagepath . "blog/default-blog.png"
             ),
             array(
                 "name" => __("2/3","waboot"),
-                "value" => "2/3"
+                "value" => "2/3",
+                "thumb"   => $imagepath . "blog/default-blog.png"
             ),
             array(
                 "name" => __("1/4","waboot"),
-                "value" => "1/4"
+                "value" => "1/4",
+                "thumb"   => $imagepath . "blog/default-blog.png"
             ),
             array(
                 "name" => __("1/6","waboot"),
-                "value" => "1/6"
+                "value" => "1/6",
+                "thumb"   => $imagepath . "blog/default-blog.png"
             )
         ),
         "default" => "2/3",
