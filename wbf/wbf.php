@@ -169,7 +169,7 @@ class WBF {
 	    locate_template( '/wbf/public/theme-customs.php', true );
 
         // Utility
-	    locate_template( '/wbf/public/utilities.php', true );
+	    locate_template( '/wbf/includes/utilities.php', true );
         locate_template('/wbf/vendor/lostpress-utils.php', true);
 
         // Email encoder
