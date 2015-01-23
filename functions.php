@@ -47,6 +47,8 @@ if ( ! function_exists( 'waboot_setup' ) ):
         // Load Jetpack related support if needed.
         if ( class_exists( 'Jetpack' ) )
             locate_template( '/inc/jetpack.php', true );
+
+	    init_style_compiler();
     }
 endif;
 add_action('after_setup_theme', 'waboot_setup', 11);
@@ -69,5 +71,3 @@ function init_style_compiler(){
 	));
 }
 endif;
-
-init_style_compiler();

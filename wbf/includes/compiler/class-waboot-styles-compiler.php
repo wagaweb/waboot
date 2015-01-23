@@ -123,6 +123,10 @@ class WabootCompilerBusyException extends Exception{
 	}
 }
 
+/*function wbf_get_compiled_stylesheet_name(){
+	return apply_filters("wbf_compiled_stylesheet_name",wp_get_theme()->stylesheet);
+}*/
+
 function compiled_admin_notice() {
 	?>
 	<div class="updated">

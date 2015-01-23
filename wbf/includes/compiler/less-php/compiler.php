@@ -19,7 +19,7 @@ function waboot_compile_less($params = array()){
     @ini_set( 'memory_limit', apply_filters( 'admin_memory_limit', WP_MAX_MEMORY_LIMIT ) );
 
     try{
-        $theme = waboot_get_compiled_stylesheet_name();
+        $theme = wbf_get_compiled_stylesheet_name();
         /*if(is_child_theme()){
             $theme = "waboot-child";
         }else{

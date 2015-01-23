@@ -643,6 +643,12 @@ if(!function_exists( "waboot_get_available_body_layouts" )){
 
 if(!function_exists("waboot_get_compiled_stylesheet_name")):
 	function waboot_get_compiled_stylesheet_name(){
-		return apply_filters("waboot_compiled_stylesheet_name",wp_get_theme()->stylesheet);
+		/*$theme = wp_get_theme()->stylesheet;
+		if($theme == "wship") $theme = "waboot"; //Brutal compatibility hack :)*/
+		if(is_child_theme()){
+			return "waboot-child";
+		}else{
+			return "waboot";
+		}
 	}
 endif;

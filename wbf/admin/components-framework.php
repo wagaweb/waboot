@@ -28,7 +28,7 @@ class Waboot_ComponentsManager {
 		global $plugin_page;
 		if($plugin_page == "waboot_components"){
             // Enqueue custom CSS
-            $stylesheet = waboot_locate_template_uri('wbf/admin/css/waboot-componentsframework.css');
+            $stylesheet = wbf_locate_template_uri('wbf/admin/css/waboot-componentsframework.css');
             if ($stylesheet != "")
                 wp_enqueue_style('waboot-theme-components-style', $stylesheet, array(), '1.0.0', 'all'); //Custom Theme Options CSS
             wp_enqueue_script('component-page-script',WBF_URL."/admin/js/components-page.js",array('jquery'));

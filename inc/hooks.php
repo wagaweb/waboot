@@ -147,31 +147,13 @@ if ( ! function_exists( 'waboot_set_default_components' ) ):
     add_filter("wbf_default_components","waboot_set_default_components");
 endif;
 
-function waboot_add_compile_sets($sets){
-    $theme = waboot_get_compiled_stylesheet_name();
-
-    return array_merge_recursive($sets,array(
-        "theme_frontend" => array(
-            "input" => get_stylesheet_directory()."/sources/less/{$theme}.less",
-            "output" => get_stylesheet_directory()."/assets/css/{$theme}.css",
-            "map" => get_stylesheet_directory()."/assets/css/{$theme}.css.map",
-            "map_url" => get_stylesheet_directory_uri()."/assets/css/{$theme}.css.map",
-            "cache" => get_stylesheet_directory()."/assets/cache",
-            "import_url" => get_stylesheet_directory_uri()
-        )
-    ));
-}
-add_filter('waboot_compile_sets','waboot_add_compile_sets');
-
-function waboot_set_compiled_stylesheet_name($name){
-
-    /*$theme = wp_get_theme()->stylesheet;
-    if($theme == "wship") $theme = "waboot"; //Brutal compatibility hack :)*/
-
+/*function waboot_set_compiled_stylesheet_name($name){
+    //$theme = wp_get_theme()->stylesheet;
+    //if($theme == "wship") $theme = "waboot"; //Brutal compatibility hack :)
     if(is_child_theme()){
         return "waboot-child";
     }else{
         return "waboot";
     }
 }
-add_filter('waboot_compiled_stylesheet_name','waboot_set_compiled_stylesheet_name');
+add_filter('wbf_compiled_stylesheet_name','waboot_set_compiled_stylesheet_name');*/
