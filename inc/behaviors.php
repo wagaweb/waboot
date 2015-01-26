@@ -62,23 +62,19 @@ function waboot_behaviors($behaviors){
         'options' => array(
             array(
                 "name" => __("1/2","waboot"),
-                "value" => "1/2",
-	            "thumb"   => $imagepath . "blog/default-blog.png"
+                "value" => "1/2"
             ),
             array(
                 "name" => __("2/3","waboot"),
-                "value" => "2/3",
-                "thumb"   => $imagepath . "blog/default-blog.png"
+                "value" => "2/3"
             ),
             array(
                 "name" => __("1/4","waboot"),
-                "value" => "1/4",
-                "thumb"   => $imagepath . "blog/default-blog.png"
+                "value" => "1/4"
             ),
             array(
                 "name" => __("1/6","waboot"),
-                "value" => "1/6",
-                "thumb"   => $imagepath . "blog/default-blog.png"
+                "value" => "1/6"
             )
         ),
         "default" => "2/3",

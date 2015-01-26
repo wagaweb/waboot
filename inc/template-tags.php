@@ -611,30 +611,37 @@ endif;
 
 if(!function_exists( "waboot_get_available_body_layouts" )){
     function waboot_get_available_body_layouts(){
+        $imagepath = get_template_directory_uri() . '/wbf/admin/images/';
         return apply_filters("waboot_body_layouts",array(
             array(
-                "name" => __("Full width. No sidebar.","waboot"),
-                "value" => "full-width"
+                "name" => __("No sidebar","waboot"),
+                "value" => "full-width",
+                "thumb"   => $imagepath . "behaviour/no-sidebar.png"
             ),
             array(
                 "name" => __("Sidebar right","waboot"),
-                "value" => "sidebar-right"
+                "value" => "sidebar-right",
+                "thumb"   => $imagepath . "behaviour/sidebar-right.png"
             ),
             array(
                 "name" => __("Sidebar left","waboot"),
-                "value" => "sidebar-left"
+                "value" => "sidebar-left",
+                "thumb"   => $imagepath . "behaviour/sidebar-left.png"
             ),
             array(
-                "name" => __("Two Sidebars","waboot"),
-                "value" => "two-sidebars"
+                "name" => __("2 Sidebars","waboot"),
+                "value" => "two-sidebars",
+                "thumb"   => $imagepath . "behaviour/sidebar-left-right.png"
             ),
 	        array(
-		        "name" => __("Two Sidebars (right)","waboot"),
-		        "value" => "two-sidebars-right"
+		        "name" => __("2 Sidebars right","waboot"),
+		        "value" => "two-sidebars-right",
+                "thumb"   => $imagepath . "behaviour/sidebar-right-2.png"
 	        ),
 	        array(
-		        "name" => __("Two Sidebars (left)","waboot"),
-		        "value" => "two-sidebars-left"
+		        "name" => __("2 Sidebars left","waboot"),
+		        "value" => "two-sidebars-left",
+                "thumb"   => $imagepath . "behaviour/sidebar-left-2.png"
 	        ),
             '_default' => 'sidebar-right'
         ));

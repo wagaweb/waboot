@@ -43,7 +43,7 @@ class SlideshowComponent extends Waboot_Component{
 						'min' => '',
 						'max' => '',
 						'preview_size' => 'thumbnail',
-						'library' => 'uploadedTo',
+						'library' => 'all',
 					),
 				),
 				'location' => array (

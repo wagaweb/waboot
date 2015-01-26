@@ -725,11 +725,11 @@ function optionsframework_options() {
         )
     );
 
+
     $sidebar_layouts = of_add_default_key(waboot_get_available_body_layouts());
     foreach($sidebar_layouts['values'] as $k => $v){
         $final_sidebar_layouts[$v['value']] = $v['name'];
     }
-
     $options[] = array(
         'name' => __('Sidebar layout', 'waboot'),
         'desc' => __('Select blog page sidebar layout', 'waboot'),
