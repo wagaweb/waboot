@@ -192,40 +192,38 @@ class WBF {
         // Google Fonts
         locate_template('/wbf/includes/google-fonts-retriever.php', true);
         if(class_exists("WBF\GoogleFontsRetriever")) $GLOBALS['wbf_gfont_fetcher'] = WBF\GoogleFontsRetriever::getInstance();
-
-        // Load behaviors extension
-	    locate_template( '/wbf/admin/behaviors-framework.php', true );
-        locate_template('/inc/behaviors.php', true);
-
-        // Load components framework
-        locate_template( '/wbf/admin/components-framework.php', true );
-        locate_template( '/wbf/admin/components-hooks.php', true ); //Components hooks
-        if(class_exists("Waboot_ComponentsManager")) Waboot_ComponentsManager::init();
-
-        // Load theme options framework
-	    if(!function_exists( 'optionsframework_init')){ // Don't load if optionsframework_init is already defined
-	        locate_template('/wbf/admin/options-framework.php', true);
-	    }
-
-        // Breadcrumbs
-        if (of_get_option('waboot_breadcrumbs', 1)) {
-            locate_template('/wbf/vendor/breadcrumb-trail.php', true);
-	        locate_template( '/wbf/public/breadcrumb-trail.php', true );
-        }
-
-        if(class_exists("Waboot_ComponentsManager")){
-            Waboot_ComponentsManager::toggle_components(); //enable or disable components if necessary
-            Waboot_ComponentsManager::setupRegisteredComponents(); //Loads components
-        }
-
-        if(function_exists("of_check_options_deps")) of_check_options_deps(); //Check if theme options dependencies are met
-        $GLOBALS['wbf_notice_manager']->enqueue_notices(); //Display notices
     }
 
 	function init() {
-		/*
-		 * The debugger
-		 */
+		// Load behaviors extension
+		locate_template( '/wbf/admin/behaviors-framework.php', true );
+		locate_template('/inc/behaviors.php', true);
+
+		// Load components framework
+		locate_template( '/wbf/admin/components-framework.php', true );
+		locate_template( '/wbf/admin/components-hooks.php', true ); //Components hooks
+		if(class_exists("Waboot_ComponentsManager")) Waboot_ComponentsManager::init();
+
+		// Load theme options framework
+		if(!function_exists( 'optionsframework_init')){ // Don't load if optionsframework_init is already defined
+			locate_template('/wbf/admin/options-framework.php', true);
+		}
+
+		// Breadcrumbs
+		if (of_get_option('waboot_breadcrumbs', 1)) {
+			locate_template('/wbf/vendor/breadcrumb-trail.php', true);
+			locate_template( '/wbf/public/breadcrumb-trail.php', true );
+		}
+
+		if(class_exists("Waboot_ComponentsManager")){
+			Waboot_ComponentsManager::toggle_components(); //enable or disable components if necessary
+			Waboot_ComponentsManager::setupRegisteredComponents(); //Loads components
+		}
+
+		if(function_exists("of_check_options_deps")) of_check_options_deps(); //Check if theme options dependencies are met
+		$GLOBALS['wbf_notice_manager']->enqueue_notices(); //Display notices
+
+		//The debugger
 		locate_template( '/wbf/public/debug.php', true );
 		//waboot_debug_init();
 	}
