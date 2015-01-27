@@ -517,57 +517,7 @@ function optionsframework_options() {
     );
 */
 
-    /*
-     * TOP NAV TAB
-     */
 
-    $options[] = array(
-        'name' => __( 'Top Nav', 'waboot' ),
-        'type' => 'heading'
-    );
-
-    $options[] = array(
-        'name' => __( 'Navigation Elements', 'waboot' ),
-        'desc' => __( 'Top navbar, breadcrumb navigation, and content navigation design options', 'waboot' ),
-        'type' => 'info'
-    );
-
-    $options[] = array(
-        'name' => __('Top Nav Menu Position', 'waboot'),
-        'desc' => __('Select the Top Nav Menu position', 'waboot'),
-        'id' => 'waboot_topnavmenu_position',
-        'std' => 'left',
-        'type' => 'images',
-        'options' => array(
-            'left' => array (
-                'label' => 'Left',
-                'value' => $imagepath . 'topnav/top-nav-left.png'
-            ),
-            'right' => array (
-                'label' => 'Right',
-                'value' => $imagepath . 'topnav/top-nav-right.png'
-            )
-        )
-    );
-
-
-    if (class_exists("BehaviorsManager")) {
-        $bd_locs = wp_get_filtered_post_types();
-
-        if (!empty($bd_locs)) {
-            $options[] = array(
-                'id' => 'waboot_breadcrumb_locations',
-                'name' => __('Breadcrumb Locations', 'waboot'),
-                'desc' => __('Where to show breadcrumb', 'waboot'),
-                'type' => 'multicheck',
-                'options' => $bd_locs,
-                'std' => array(
-                    'post' => 1,
-                    'page' => 1
-                )
-            );
-        }
-    }
 
     /*
     * HEADER TAB
@@ -623,6 +573,42 @@ function optionsframework_options() {
         'type' => 'checkbox'
     );
 
+    $options[] = array(
+        'name' => __('Top Nav Menu Position', 'waboot'),
+        'desc' => __('Select the Top Nav Menu position', 'waboot'),
+        'id' => 'waboot_topnavmenu_position',
+        'std' => 'left',
+        'type' => 'images',
+        'options' => array(
+            'left' => array (
+                'label' => 'Left',
+                'value' => $imagepath . 'topnav/top-nav-left.png'
+            ),
+            'right' => array (
+                'label' => 'Right',
+                'value' => $imagepath . 'topnav/top-nav-right.png'
+            )
+        )
+    );
+
+    if (class_exists("BehaviorsManager")) {
+        $bd_locs = wp_get_filtered_post_types();
+
+        if (!empty($bd_locs)) {
+            $options[] = array(
+                'id' => 'waboot_breadcrumb_locations',
+                'name' => __('Breadcrumb Locations', 'waboot'),
+                'desc' => __('Where to show breadcrumb', 'waboot'),
+                'type' => 'multicheck',
+                'options' => $bd_locs,
+                'std' => array(
+                    'post' => 1,
+                    'page' => 1
+                )
+            );
+        }
+    }
+
 
     /*
     * FOOTER TAB
@@ -657,7 +643,7 @@ function optionsframework_options() {
     if(class_exists("BehaviorsManager")) :
 
         $options[] = array(
-            'name' => __( 'Behaviors', 'waboot' ),
+            'name' => __( 'Posts & Pages', 'waboot' ),
             'type' => 'heading'
         );
 
@@ -692,13 +678,13 @@ function optionsframework_options() {
      */
 
     $options[] = array(
-        'name' => __( 'Blog page', 'waboot' ),
+        'name' => __( 'Blog', 'waboot' ),
         'type' => 'heading'
     );
 
     $blogpage_layouts = of_add_default_key(apply_filters("waboot_blogpage_layout",array(
         'blog' =>  array(
-            'label' => 'Blog',
+            'label' => 'Classic',
             'value' => $imagepath . 'blog/default-blog.png'
         ),
         'masonry' =>  array(
@@ -713,8 +699,8 @@ function optionsframework_options() {
     )));
 
     $options[] = array(
-        'name' => __('Layout', 'waboot'),
-        'desc' => __('Select blog page layout', 'waboot'),
+        'name' => __('Blog Style', 'waboot'),
+        'desc' => __('Select blog page style', 'waboot'),
         'id' => 'waboot_blogpage_layout',
         'std' => $blogpage_layouts['default'],
         'type' => 'images',
@@ -740,8 +726,8 @@ function optionsframework_options() {
 		}
 	}
     $options[] = array(
-        'name' => __('Sidebar layout', 'waboot'),
-        'desc' => __('Select blog page sidebar layout', 'waboot'),
+        'name' => __('Blog Layout', 'waboot'),
+        'desc' => __('Select blog page layout', 'waboot'),
         'id' => 'waboot_blogpage_sidebar_layout',
         'std' => $sidebar_layouts['default'],
         'type' => $opt_type,
@@ -749,7 +735,7 @@ function optionsframework_options() {
     );
 
     $options[] = array(
-        'name' => __( 'Display page title', 'waboot' ),
+        'name' => __( 'Display Blog page title', 'waboot' ),
         'desc' => __( 'Check this box to show page title.', 'waboot' ),
         'id'   => 'waboot_blogpage_displaytitle',
         'std'  => '1',
@@ -774,11 +760,11 @@ function optionsframework_options() {
     );*/
 
     /*
-     * POSTS TAB
+     * POST META TAB
      */
 
     $options[] = array(
-        'name' => __( 'Posts', 'waboot' ),
+        'name' => __( 'Post Meta', 'waboot' ),
         'type' => 'heading'
     );
 
