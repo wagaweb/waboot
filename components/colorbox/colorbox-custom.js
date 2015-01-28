@@ -20,7 +20,19 @@ jQuery(document).ready(function($){
                 $(""+elements+"").colorbox(cboxProps);
                 break;
             case "all-images":
-                //Add colorbox to images
+                //Add colorbox to all link that target an image
+                $("a").each(function(){
+                    var my_href = $(this).attr("href");
+                    if(/\.(?:jpg|jpeg|gif|png)/i.test(my_href)){
+                        $(this).colorbox(cboxProps);
+                    }else{
+                        var my_img = $(this).find("img");
+                        if(my_img.lenght > 0 && my_img.hasClass("img-colorbox")){ //Add colorbox to all images with class img-colorbox
+                            $(this).colorbox(cboxProps);
+                        }
+                    }
+                });
+                //Add colorbox to all link that has class img-colorbox
                 elements = "a.img-colorbox";
                 cboxProps.rel = "cboximg";
                 $(""+elements+"").colorbox(cboxProps);
