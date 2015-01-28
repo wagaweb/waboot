@@ -161,7 +161,7 @@ class WBF {
 	    self::maybe_add_option();
 
 	    // Make framework available for translation.
-        load_theme_textdomain( 'wbf', WBF_DIRECTORY . '/languages' );
+        load_textdomain( 'wbf', WBF_DIRECTORY . '/languages/wbf-'.get_locale().".mo");
 
         $GLOBALS['wbf_notice_manager'] = new WBF\admin\Notice_Manager(); // Loads notice manager
 

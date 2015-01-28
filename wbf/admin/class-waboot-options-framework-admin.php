@@ -47,7 +47,7 @@ class Waboot_Options_Framework_Admin extends Options_Framework_Admin{
 	 * Add "Manage Theme Options" subpage to Waboot Menu
 	 */
 	public function add_man_page() {
-		add_submenu_page( "waboot_options", __( "Theme Options Manager", "waboot" ), __( "Import/Export", "waboot" ), "edit_theme_options", "themeoptions-manager", array(
+		add_submenu_page( "waboot_options", __( "Theme Options Manager", "wbf" ), __( "Import/Export", "wbf" ), "edit_theme_options", "themeoptions-manager", array(
 				$this,
 				'do_man_page'
 		) );
@@ -68,13 +68,13 @@ class Waboot_Options_Framework_Admin extends Options_Framework_Admin{
 					case 'backup':
 						try {
 							$file = $this->_backup_options();
-							waboot_admin_show_message( __( "Backup successfully created!", "waboot" ), "updated" );
+							waboot_admin_show_message( __( "Backup successfully created!", "wbf" ), "updated" );
 						} catch ( Exception $e ) {
 							waboot_admin_show_message( $e->getMessage(), "error" );
 						}
 						break;
 					default:
-						waboot_admin_show_message( __( "Invalid option selected", "waboot" ), "error" );
+						waboot_admin_show_message( __( "Invalid option selected", "wbf" ), "error" );
 						break;
 				}
 			}
@@ -84,23 +84,23 @@ class Waboot_Options_Framework_Admin extends Options_Framework_Admin{
 					if ( $file['error'] == UPLOAD_ERR_OK && is_uploaded_file( $file['tmp_name'] ) ) {
 						try {
 							$this->_restore_options_from_file( $file );
-							waboot_admin_show_message( __( "Backup successfully restored!", "waboot" ), "updated" );
+							waboot_admin_show_message( __( "Backup successfully restored!", "wbf" ), "updated" );
 						} catch ( Exception $e ) {
 							waboot_admin_show_message( $e->getMessage(), "error" );
 						}
 					} else {
-						waboot_admin_show_message( __( "Unable to upload the file.", "waboot" ), "error" );
+						waboot_admin_show_message( __( "Unable to upload the file.", "wbf" ), "error" );
 					}
 				} elseif ( isset( $_POST['local-backup-file'] ) ) {
 					$file = $_POST['local-backup-file'];
 					try {
 						$this->_restore_options_from_file( $file );
-						waboot_admin_show_message( __( "Backup successfully restored!", "waboot" ), "updated" );
+						waboot_admin_show_message( __( "Backup successfully restored!", "wbf" ), "updated" );
 					} catch ( Exception $e ) {
 						waboot_admin_show_message( $e->getMessage(), "error" );
 					}
 				} else {
-					waboot_admin_show_message( __( "No backup file provided.", "waboot" ), "error" );
+					waboot_admin_show_message( __( "No backup file provided.", "wbf" ), "error" );
 				}
 			}
 			$backup_files = $this->get_backupFiles();
@@ -114,7 +114,7 @@ class Waboot_Options_Framework_Admin extends Options_Framework_Admin{
 				<p class="submit"><input type="submit" name="submit-backup" id="submit" class="button button-primary" value="<?php _e( "Backup" ) ?>"></p>
 			</form>
 
-			<h3><?php _e( "Import or Restore Theme Options", "waboot" ); ?></h3>
+			<h3><?php _e( "Import or Restore Theme Options", "wbf" ); ?></h3>
 
 			<form action="admin.php?page=themeoptions-manager" method="POST" enctype="multipart/form-data"
 			      id="export-themeoptions">
@@ -210,23 +210,23 @@ class Waboot_Options_Framework_Admin extends Options_Framework_Admin{
 			if ( isset( $file['tmp_name'] ) && is_uploaded_file( $file['tmp_name'] ) ) {
 				$settings = $this->_get_backup_file_content( $file['tmp_name'] );
 			} else {
-				throw new Exception( __( "Invalid backup file provided", "waboot" ) );
+				throw new Exception( __( "Invalid backup file provided", "wbf" ) );
 			}
 		} else {
 			//we have a file on disk
 			if ( is_file( $file ) ) {
 				$settings = $this->_get_backup_file_content( $file );
 			} else {
-				throw new Exception( __( "Invalid backup file provided", "waboot" ) );
+				throw new Exception( __( "Invalid backup file provided", "wbf" ) );
 			}
 		}
 		//Restore the settings
 		if ( $settings && ! empty( $settings ) ) {
 			if ( ! update_option( $optionsframework_settings['id'], $settings ) ) {
-				throw new Exception( __( "The backup file and the current settings are identical", "waboot" ) );
+				throw new Exception( __( "The backup file and the current settings are identical", "wbf" ) );
 			}
 		} else {
-			throw new Exception( __( "Invalid backup file provided", "waboot" ) );
+			throw new Exception( __( "Invalid backup file provided", "wbf" ) );
 		}
 
 		return true;
@@ -337,7 +337,7 @@ class Waboot_Options_Framework_Admin extends Options_Framework_Admin{
                             <?php Waboot_Options_Interface::optionsframework_fields(); /* Settings */ ?>
                             <div id="optionsframework-submit">
                                 <input type="submit" class="button-primary" name="update" value="<?php esc_attr_e( 'Save Options', "wbf" ); ?>" />
-                                <input type="submit" class="reset-button button-secondary" name="reset" value="<?php esc_attr_e( 'Restore Defaults', 'waboot' ); ?>" onclick="return confirm( '<?php print esc_js( __( 'Click OK to reset. Any theme settings will be lost!', 'waboot' ) ); ?>' );" />
+                                <input type="submit" class="reset-button button-secondary" name="reset" value="<?php esc_attr_e( 'Restore Defaults', 'wbf' ); ?>" onclick="return confirm( '<?php print esc_js( __( 'Click OK to reset. Any theme settings will be lost!', 'wbf' ) ); ?>' );" />
                                 <a href="admin.php?page=waboot_options&amp;clear_cache" class="clearcache-button button-secondary"><?php esc_attr_e( 'Clear Theme Cache', "wbf" ); ?></a>
                                 <div class="clear"></div>
                             </div>

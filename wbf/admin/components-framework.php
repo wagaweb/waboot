@@ -164,7 +164,7 @@ class Waboot_ComponentsManager {
 	}
 
 	static function add_menu() {
-		add_submenu_page( "waboot_options", __( "Waboot Components", "waboot" ), __( "Components", "waboot" ), "activate_plugins", "waboot_components", "Waboot_ComponentsManager::components_admin_page", "", 66 );
+		add_submenu_page( "waboot_options", __( "Waboot Components", "wbf" ), __( "Components", "wbf" ), "activate_plugins", "waboot_components", "Waboot_ComponentsManager::components_admin_page", "", 66 );
     }
 
 	/**
@@ -454,7 +454,7 @@ class Waboot_ComponentsManager {
 		?>
 		<div id="componentframework-wrapper" class="wrap">
             <div class="componentframework-header">
-                <h2><?php _e( "Components", "waboot" ); ?></h2>
+                <h2><?php _e( "Components", "wbf" ); ?></h2>
             </div>
 
             <div id="componentframework-content-wrapper">
@@ -613,10 +613,10 @@ class Waboot_ComponentsManager {
 				} //update the WP Option of registered component
                 self::update_global_components_vars();
 			} else {
-				throw new Exception( __( "Component class not defined. Unable to activate the component.", "waboot" ) );
+				throw new Exception( __( "Component class not defined. Unable to activate the component.", "wbf" ) );
 			}
 		} else {
-			throw new Exception( __( "Component not found among registered components. Unable to activate the component.","waboot" ) );
+			throw new Exception( __( "Component not found among registered components. Unable to activate the component.","wbf" ) );
 		}
 	}
 
@@ -647,7 +647,7 @@ class Waboot_ComponentsManager {
 			} //update the WP Option of registered component
             self::update_global_components_vars();
 		} else {
-			throw new Exception( __( "Component not found among registered components. Unable to deactivate the component.","waboot"));
+			throw new Exception( __( "Component not found among registered components. Unable to deactivate the component.","wbf"));
         }
     }
 

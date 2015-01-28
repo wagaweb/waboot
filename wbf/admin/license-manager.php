@@ -5,7 +5,7 @@ namespace WBF\admin;
 class License_Manager{
 
     function admin_license_menu_item(){
-        $waboot_license = add_submenu_page( "waboot_options", __( "Waboot License", "waboot" ), __( "License", "waboot" ), "edit_theme_options", "waboot_license", "WBF\admin\License_Manager::license_page" );
+        $waboot_license = add_submenu_page( "waboot_options", __( "Waboot License", "wbf" ), __( "License", "wbf" ), "edit_theme_options", "waboot_license", "WBF\admin\License_Manager::license_page" );
     }
 
     function license_page(){

@@ -117,7 +117,7 @@ class Waboot_Styles_Compiler{
 class WabootCompilerBusyException extends Exception{
 	public function __construct($message = null, $code = 0, Exception $previous = null) {
 		if(!isset($message)){
-			$message = __("The compiler is busy","waboot");
+			$message = __("The compiler is busy","wbf");
 		}
 		parent::__construct($message, $code, $previous);
 	}

@@ -1,0 +1,329 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: WabootFramework 0.8.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-01-28 11:23+0100\n"
+"PO-Revision-Date: 2015-01-28 12:16+0100\n"
+"Last-Translator: LostCore <dev@waga.it>\n"
+"Language-Team: WAGA <dev@waga.it>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.4\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"Language: Italiano\n"
+
+#: admin/behaviors-framework.php:422 admin/behaviors-framework.php:431
+#: admin/behaviors-framework.php:450
+msgid "Use default value"
+msgstr ""
+
+#: admin/behaviors-framework.php:446
+msgid "Enable"
+msgstr ""
+
+#: admin/behaviors-framework.php:472 admin/behaviors-framework.php:484
+#: admin/behaviors-framework.php:495
+msgid "Default"
+msgstr ""
+
+#: admin/class-waboot-options-framework-admin.php:8
+#: admin/class-waboot-options-framework-admin.php:9
+#: admin/class-waboot-options-framework-admin.php:365
+msgid "Theme Options"
+msgstr ""
+
+#: admin/class-waboot-options-framework-admin.php:50
+#: admin/class-waboot-options-framework-admin.php:108
+msgid "Theme Options Manager"
+msgstr "Manager Opzioni del Tema"
+
+#: admin/class-waboot-options-framework-admin.php:50
+msgid "Import/Export"
+msgstr "Importa/Esporta"
+
+#: admin/class-waboot-options-framework-admin.php:61
+msgid "You do not have sufficient permissions to access this page."
+msgstr ""
+
+#: admin/class-waboot-options-framework-admin.php:71
+msgid "Backup successfully created!"
+msgstr ""
+
+#: admin/class-waboot-options-framework-admin.php:77
+msgid "Invalid option selected"
+msgstr ""
+
+#: admin/class-waboot-options-framework-admin.php:87
+#: admin/class-waboot-options-framework-admin.php:98
+msgid "Backup successfully restored!"
+msgstr ""
+
+#: admin/class-waboot-options-framework-admin.php:92
+msgid "Unable to upload the file."
+msgstr ""
+
+#: admin/class-waboot-options-framework-admin.php:103
+msgid "No backup file provided."
+msgstr ""
+
+#: admin/class-waboot-options-framework-admin.php:110
+msgid "Export or Backup Theme Options"
+msgstr ""
+
+#: admin/class-waboot-options-framework-admin.php:113
+msgid "Backup current Theme Options on the disk"
+msgstr ""
+
+#: admin/class-waboot-options-framework-admin.php:114
+msgid "Backup"
+msgstr ""
+
+#: admin/class-waboot-options-framework-admin.php:117
+msgid "Import or Restore Theme Options"
+msgstr "Importa o Ripristina Opzioni del tema"
+
+#: admin/class-waboot-options-framework-admin.php:121
+msgid "Select a file to restore, or upload one:"
+msgstr ""
+
+#: admin/class-waboot-options-framework-admin.php:124
+msgid "Download: "
+msgstr ""
+
+#: admin/class-waboot-options-framework-admin.php:124
+msgid "download"
+msgstr ""
+
+#: admin/class-waboot-options-framework-admin.php:127
+msgid "No backup files available at the moment."
+msgstr ""
+
+#: admin/class-waboot-options-framework-admin.php:135
+msgid "Import"
+msgstr ""
+
+#: admin/class-waboot-options-framework-admin.php:158
+msgid "Unable to create the backup file: "
+msgstr ""
+
+#: admin/class-waboot-options-framework-admin.php:213
+#: admin/class-waboot-options-framework-admin.php:220
+#: admin/class-waboot-options-framework-admin.php:229
+msgid "Invalid backup file provided"
+msgstr ""
+
+#: admin/class-waboot-options-framework-admin.php:226
+msgid "The backup file and the current settings are identical"
+msgstr ""
+
+#: admin/class-waboot-options-framework-admin.php:339
+msgid "Save Options"
+msgstr "Salva Opzioni"
+
+#: admin/class-waboot-options-framework-admin.php:340
+msgid "Restore Defaults"
+msgstr "Ripristina valori di partenza"
+
+#: admin/class-waboot-options-framework-admin.php:340
+#: admin/components-framework.php:566
+msgid "Click OK to reset. Any theme settings will be lost!"
+msgstr ""
+
+#: admin/class-waboot-options-framework-admin.php:341
+msgid "Clear Theme Cache"
+msgstr ""
+
+#: admin/class-waboot-options-framework-admin.php:389
+msgid "Default options restored."
+msgstr ""
+
+#: admin/class-waboot-options-media-uploader.php:23
+msgid "Upload"
+msgstr ""
+
+#: admin/class-waboot-options-media-uploader.php:24
+msgid "Remove"
+msgstr ""
+
+#: admin/components-framework.php:167
+msgid "Waboot Components"
+msgstr "Componenti Waboot"
+
+#: admin/components-framework.php:167 admin/components-framework.php:457
+msgid "Components"
+msgstr ""
+
+#: admin/components-framework.php:478 admin/components-framework.php:487
+msgid "Component"
+msgstr ""
+
+#: admin/components-framework.php:480 admin/components-framework.php:489
+msgid "Enable\\Disable"
+msgstr ""
+
+#: admin/components-framework.php:506
+msgid "This is a component of the current child theme"
+msgstr ""
+
+#: admin/components-framework.php:510
+msgid ", and <strong>override a core component</strong>"
+msgstr ""
+
+#: admin/components-framework.php:521
+#, php-format
+msgid "Version %s"
+msgstr ""
+
+#: admin/components-framework.php:526
+msgid "Visit author homepage"
+msgstr ""
+
+#: admin/components-framework.php:528
+#, php-format
+msgid "By %s"
+msgstr ""
+
+#: admin/components-framework.php:531
+msgid "Visit plugin site"
+msgstr ""
+
+#: admin/components-framework.php:566
+msgid "Restore default component activation state"
+msgstr ""
+
+#: admin/components-framework.php:616
+msgid "Component class not defined. Unable to activate the component."
+msgstr ""
+
+#: admin/components-framework.php:619
+msgid ""
+"Component not found among registered components. Unable to activate the "
+"component."
+msgstr ""
+
+#: admin/components-framework.php:650
+msgid ""
+"Component not found among registered components. Unable to deactivate the "
+"component."
+msgstr ""
+
+#: admin/components-framework.php:774
+msgid "Enable on all pages"
+msgstr ""
+
+#: admin/components-framework.php:775
+msgid ""
+"Check this box to load the component in every page (load locations will be "
+"ignored)."
+msgstr ""
+
+#: admin/components-framework.php:785
+msgid "Load locations"
+msgstr ""
+
+#: admin/components-framework.php:786
+msgid "Where to load the component"
+msgstr ""
+
+#: admin/components-framework.php:793
+msgid "Load locations by ID"
+msgstr ""
+
+#: admin/components-framework.php:794
+msgid ""
+"You can load the component for specific pages by enter here the respective "
+"ids (comma separated)"
+msgstr ""
+
+#: admin/license-manager.php:8 admin/license-manager.php:44
+msgid "Waboot License"
+msgstr ""
+
+#: admin/license-manager.php:8
+msgid "License"
+msgstr ""
+
+#: admin/license-manager.php:22
+msgid "License Updated!"
+msgstr ""
+
+#: admin/license-manager.php:26
+msgid "Unable to update the license!"
+msgstr ""
+
+#: admin/license-manager.php:47
+msgid "Here you can enter your license:"
+msgstr ""
+
+#: admin/license-manager.php:78
+msgid "No license provided"
+msgstr ""
+
+#: includes/compiler/class-waboot-styles-compiler.php:43
+#: includes/compiler/less-php/compiler.php:88
+#: includes/compiler/less-php/compiler.php:93
+msgid "Less files compiled successfully."
+msgstr ""
+
+#: includes/compiler/class-waboot-styles-compiler.php:48
+msgid "Theme styles files compiled successfully."
+msgstr ""
+
+#: includes/compiler/class-waboot-styles-compiler.php:82
+#: includes/compiler/class-waboot-styles-compiler.php:149
+#: includes/compiler/less-php/compiler.php:129
+#: includes/compiler/less-php/compiler.php:172
+msgid "Theme cache cleared successfully!"
+msgstr ""
+
+#: includes/compiler/class-waboot-styles-compiler.php:120
+#: includes/compiler/less-php/compiler.php:233
+msgid "The compiler is busy"
+msgstr ""
+
+#: includes/compiler/class-waboot-styles-compiler.php:133
+msgid "Theme style files compiled successfully!"
+msgstr ""
+
+#: includes/compiler/class-waboot-styles-compiler.php:141
+msgid "Theme style files not compiled!"
+msgstr ""
+
+#: includes/compiler/less-php/compiler.php:156
+msgid "Less Compiled Successfully!"
+msgstr "File Less compilati con successo!"
+
+#: includes/compiler/less-php/compiler.php:164
+msgid "Less files not compiled!"
+msgstr ""
+
+#: includes/google-fonts-retriever.php:100
+msgid "Unable to connect to Google API"
+msgstr ""
+
+#: includes/google-fonts-retriever.php:107
+#, php-format
+msgid "Google API Notice: %s. %s"
+msgstr ""
+
+#: includes/theme-update-checker.php:56
+#, php-format
+msgid ""
+"A new version of Waboot is available! <a href=\"%s\" title=\"Enter a valid "
+"license\">Enter a valid license</a> to get latest updates."
+msgstr ""
+
+#: public/theme-customs.php:26
+#, php-format
+msgid "Page %s"
+msgstr "Pagina %s"
+
+#: public/theme-customs.php:65
+msgid "Continue Reading "
+msgstr ""
