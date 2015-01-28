@@ -82,7 +82,11 @@ module.exports = function(grunt) {
                     'assets/js/waboot.min.js': ['assets/js/waboot.js'],
                     'assets/js/waboot-mobile.min.js': ['assets/js/waboot-mobile.js'],
                     'assets/js/plugins.min.js': ['assets/js/plugins.js'],
-                    'assets/js/plugins-mobile.min.js': ['assets/js/plugins-mobile.js']
+                    'assets/js/plugins-mobile.min.js': ['assets/js/plugins-mobile.js'],
+                    'wbf/admin/js/admin.min.js': ['wbf/sources/js/admin/admin.js'],
+                    'wbf/admin/js/code-editor.min.js': ['wbf/sources/js/admin/code-editor.js'],
+                    'wbf/admin/js/components-page.min.js': ['wbf/sources/js/admin/components-page.js'],
+                    'wbf/admin/js/font-selector.min.js': ['wbf/sources/js/admin/font-selector.js']
                 }
             }
         },
@@ -188,7 +192,7 @@ module.exports = function(grunt) {
                 ]
             },
             files:{
-                src: ['**/*.php'],
+                src: ['*.php','components/**/*.php','inc/**/*.php','templates/**/*.php'],
                 expand: true
             }
         },
