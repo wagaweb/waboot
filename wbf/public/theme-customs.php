@@ -23,7 +23,7 @@ function waboot_wp_title( $title, $sep ) {
 
     // Add a page number if necessary.
     if ( $paged >= 2 || $page >= 2 )
-        $title = "$title $sep " . sprintf( __( 'Page %s', 'waboot' ), max( $paged, $page ) );
+        $title = "$title $sep " . sprintf( __( 'Page %s', 'wbf' ), max( $paged, $page ) );
 
     return $title;
 }
@@ -62,7 +62,7 @@ if ( ! function_exists( 'waboot_excerpt_more') ):
      */
     function waboot_excerpt_more( $more ) {
 
-        return ' ... <a href="'. get_permalink( get_the_ID() ) . '">'. __( 'Continue Reading ', 'waboot' ) .' &raquo;</a>';
+        return ' ... <a href="'. get_permalink( get_the_ID() ) . '">'. __( 'Continue Reading ', 'wbf' ) .' &raquo;</a>';
     }
     add_filter('excerpt_more', 'waboot_excerpt_more');
 endif;

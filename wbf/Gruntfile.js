@@ -79,7 +79,7 @@ module.exports = function (grunt) {
                 ]
             },
             files: {
-                src: ['admin/**/*.php','includes/**/*.php','public/**/*.php'],
+                src: ['*.php','admin/**/*.php','includes/**/*.php','public/**/*.php'],
                 expand: true
             }
         },

@@ -5,8 +5,8 @@ class Waboot_Options_Framework_Admin extends Options_Framework_Admin{
 	static function menu_settings() {
 
 		$menu = array(
-			'page_title' => __('Theme Options', 'waboot'),
-			'menu_title' => __('Theme Options', 'waboot'),
+			'page_title' => __('Theme Options', 'wbf'),
+			'menu_title' => __('Theme Options', 'wbf'),
 			'capability' => 'edit_theme_options',
 			'old_menu_slug' => 'options-framework',
 			'menu_slug' => 'waboot_options'
@@ -362,7 +362,7 @@ class Waboot_Options_Framework_Admin extends Options_Framework_Admin{
 		$wp_admin_bar->add_menu( array(
 			'parent' => 'appearance',
 			'id' => 'of_theme_options',
-			'title' => __( 'Theme Options', 'waboot' ),
+			'title' => __( 'Theme Options', 'wbf' ),
 			'href' => admin_url( 'admin.php?page=' . $menu['menu_slug'] )
 		) );
 	}

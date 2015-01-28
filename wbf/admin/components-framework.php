@@ -771,8 +771,8 @@ class Waboot_Component {
 		);
 
 		$options[] = array(
-			'name' => __( 'Enable on all pages', 'waboot' ),
-			'desc' => __( 'Check this box to load the component in every page (load locations will be ignored).', 'waboot' ),
+			'name' => __( 'Enable on all pages', 'wbf' ),
+			'desc' => __( 'Check this box to load the component in every page (load locations will be ignored).', 'wbf' ),
 			'id'   => $this->name.'_enabled_for_all_pages',
 			'std'  => '1',
 			'type' => 'checkbox'
@@ -782,16 +782,16 @@ class Waboot_Component {
 
 		$options[] = array(
 			'id' => $this->name.'_load_locations',
-			'name' => __('Load locations','waboot'),
-			'desc' => __('Where to load the component', 'waboot'),
+			'name' => __('Load locations','wbf'),
+			'desc' => __('You can load the component only into one ore more page types by selecting them from the list below', 'wbf'),
 			'type' => 'multicheck',
 			'options' => $filter_locs
 		);
 
         $options[] = array(
             'id' => $this->name.'_load_locations_ids',
-            'name' => __('Load locations by ID','waboot'),
-            'desc' => __('You can load the component for specific pages by enter here the respective ids (comma separated)'),
+            'name' => __('Load locations by ID','wbf'),
+            'desc' => __('You can load the component for specific pages by enter here the respective ids (comma separated)', 'wbf'),
             'type' => 'text'
         );
 

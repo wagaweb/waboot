@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WabootFramework 0.8.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-01-28 11:23+0100\n"
+"POT-Creation-Date: 2015-01-28 12:49+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,6 +16,19 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+#: wbf.php:246
+#, php-format
+msgid "Waboot %s"
+msgstr ""
+
+#: wbf.php:246
+msgid "Update available"
+msgstr ""
+
+#: wbf.php:374
+msgid "Waboot Options"
+msgstr ""
 
 #: admin/behaviors-framework.php:422 admin/behaviors-framework.php:431
 #: admin/behaviors-framework.php:450
@@ -227,7 +240,9 @@ msgid "Load locations"
 msgstr ""
 
 #: admin/components-framework.php:786
-msgid "Where to load the component"
+msgid ""
+"You can load the component only into one ore more page types by selecting "
+"them from the list below"
 msgstr ""
 
 #: admin/components-framework.php:793
