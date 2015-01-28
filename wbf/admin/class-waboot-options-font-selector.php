@@ -18,7 +18,11 @@ class Waboot_Options_Font_Selector
 		}
 
         wp_register_script('gfont_loader','http://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js');
-		wp_register_script('font-selector', WBF_URL . '/admin/js/font-selector.js',array('jquery','gfont_loader','underscore'));
+        if(WABOOT_ENV == "dev"){
+            wp_register_script('font-selector', WBF_URL . '/sources/js/admin/font-selector.js',array('jquery','gfont_loader','underscore'));
+        }else{
+            wp_register_script('font-selector', WBF_URL . '/admin/js/font-selector.min.js',array('jquery','gfont_loader','underscore'));
+        }
         $fonts_to_load = $this->getWebFontsToLoad();
         $families = array();
         $i = 0;

@@ -29,9 +29,15 @@ class Waboot_ComponentsManager {
 		if($plugin_page == "waboot_components"){
             // Enqueue custom CSS
             $stylesheet = wbf_locate_template_uri('wbf/admin/css/waboot-componentsframework.css');
-            if ($stylesheet != "")
+            if ($stylesheet != ""){
                 wp_enqueue_style('waboot-theme-components-style', $stylesheet, array(), '1.0.0', 'all'); //Custom Theme Options CSS
-            wp_enqueue_script('component-page-script',WBF_URL."/admin/js/components-page.js",array('jquery'));
+            }
+            if(WABOOT_ENV == "dev"){
+                wp_register_script('component-page-script',WBF_URL."/sources/js/admin/components-page.js",array('jquery'));
+            }else{
+                wp_register_script('component-page-script',WBF_URL."/admin/js/components-page.min.js",array('jquery'));
+            }
+            wp_enqueue_script('component-page-script');
         }
     }
 

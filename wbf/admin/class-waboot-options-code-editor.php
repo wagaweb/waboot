@@ -57,12 +57,11 @@ class Waboot_Options_Code_Editor {
 
         wp_register_script('codemirror', WBF_URL . '/vendor/codemirror/lib/codemirror.js');
         wp_register_style('codemirror-css', WBF_URL . '/vendor/codemirror/lib/codemirror.css');
-        wp_register_script('of-waboot-codeditor', WBF_URL . '/admin/js/code-editor.js', array(
-				'jquery',
-			'codemirror',
-			'underscore'
-			), Options_Framework::VERSION );
-
+        if(WABOOT_ENV == "dev"){
+            wp_register_script('of-waboot-codeditor', WBF_URL . '/sources/js/admin/code-editor.js', array('jquery', 'codemirror', 'underscore'), Options_Framework::VERSION );
+        }else{
+            wp_register_script('of-waboot-codeditor', WBF_URL . '/admin/js/code-editor.min.js', array('jquery', 'codemirror', 'underscore'), Options_Framework::VERSION );
+        }
 		//Modes
         wp_register_script('codemirror-mode-css', WBF_URL . '/vendor/codemirror/mode/css/css.js', array('codemirror'));
 
