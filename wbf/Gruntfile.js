@@ -11,7 +11,8 @@ module.exports = function (grunt) {
                 files: {
                     'admin/css/tinymce.css': 'sources/admin/tinymce.less',
                     'admin/css/admin.css': 'sources/admin/admin.less',
-                    'admin/css/waboot-optionsframework.css': 'sources/admin/optionsframework.less'
+                    'admin/css/waboot-optionsframework.css': 'sources/admin/optionsframework.less',
+                    'admin/css/waboot-componentsframework.css': 'sources/admin/componentsframework.less'
                 }
             },
             production: {
@@ -45,7 +46,10 @@ module.exports = function (grunt) {
             },
             dist: {
                 files: {
-                    'admin/js/code-editor.min.js': ['admin/js/code-editor.js']
+                    'admin/js/admin.min.js': ['sources/js/admin/admin.js'],
+                    'admin/js/code-editor.min.js': ['sources/js/admin/code-editor.js'],
+                    'admin/js/components-page.min.js': ['sources/js/admin/components-page.js'],
+                    'admin/js/font-selector.min.js': ['sources/js/admin/font-selector.js']
                 }
             }
         },
@@ -55,7 +59,7 @@ module.exports = function (grunt) {
         },
         pot: {
             options: {
-                text_domain: 'waboot',
+                text_domain: 'wbf',
                 dest: 'languages/',
                 keywords: [
                     '__:1',
@@ -75,7 +79,7 @@ module.exports = function (grunt) {
                 ]
             },
             files: {
-                src: ['**/*.php'],
+                src: ['admin/**/*.php','includes/**/*.php','public/**/*.php'],
                 expand: true
             }
         },
