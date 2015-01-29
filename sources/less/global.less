@@ -111,7 +111,7 @@ table td {
 #page #content-inner,
 #page #contentbottom-inner,
 #page #footer-inner,
-.site-footer .container {
+#page #closure-inner {
   padding-left: 20px;
   padding-right: 20px;
 }
@@ -186,6 +186,14 @@ table td {
    font-size: 0.9em;
    color: #999;
    display: block;
+}
+
+.dropdown-menu {
+  font-size: 1em;
+}
+
+.dropdown-menu > li > a {
+  padding: 5px 15px;
 }
 
 /* End Navbar */
@@ -439,19 +447,20 @@ article {
 }
 
 #social-widget a {
-	display: inline-block;
-	margin: 0px 5px;
-	width: 30px;
-	height: 30px;
-	line-height: 30px;
-	text-align: center;
-	border-radius: 50%;
-	background-color: #666;
-	color: #fff;
+  display: inline-block;
+  margin: 0px 5px;
+  width: 24px;
+  height: 24px;
+  line-height: 24px;
+  font-size: 0.8em;
+  text-align: center;
+  border-radius: 50%;
+  background-color: #666;
+  color: #fff;
 }
 
 #social-widget a i {
-  line-height: 30px;
+  line-height: 24px;
 }
 
 .main-navigation #social-widget {
@@ -459,7 +468,7 @@ article {
 }
 
 .main-navigation #social-widget a {
-  margin: 10px 5px;
+  margin: 13px 5px;
 }
 
 #header-1 #header-right #social-widget,
@@ -987,8 +996,34 @@ ins {
     display: none;
   }
 
+  #header-3 .navbar.main-navigation {
+    display: table;
+    width: 100%;
+  }
+
+  #header-3 .navbar.main-navigation .navbar-header {
+    display: table-cell !important;
+    vertical-align: middle;
+    float: none;
+    /*width: 100%;*/
+  }
+
+  #header-3 .navbar.main-navigation .navbar-main-collapse {
+    display: table-cell !important;
+    vertical-align: middle;
+    float: none;
+    width: 100%;
+    padding: 0;
+  }
+
   #header-3 .navbar-brand {
     height: auto;
+    float: none;
+    display: inline-block;
+    font-size: 1em;
+    padding-bottom: 15px;
+    padding-top: 15px;
+    margin-right: 15px;
   }
 
   #masthead #header-3 .navbar-brand img {
@@ -1019,6 +1054,9 @@ ins {
     float: left;
   }
 */
+  .navbar-main-collapse {
+    padding: 0;
+  }
 }
 
 

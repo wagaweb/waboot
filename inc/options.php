@@ -558,14 +558,6 @@ function optionsframework_options() {
     );
 
     $options[] = array(
-        'name' => __( 'Show Logo in Mobile Nav?', 'waboot' ),
-        'desc' => __( 'Default is enabled. Uncheck this box to turn it off.', 'waboot' ),
-        'id'   => 'waboot_logo_mobilenav',
-        'std'  => '1',
-        'type' => 'checkbox'
-    );
-
-    $options[] = array(
         'name' => __( 'Mobile Nav Style', 'waboot' ),
         'desc' => __( 'Select your mobile nav style' ,'waboot' ),
         'id'   => 'waboot_mobilenav_style',
@@ -574,13 +566,21 @@ function optionsframework_options() {
         'options' => array(
             'bootstrap' => array(
                 'label' => 'Bootstrap',
-                'value' => $imagepath . 'header/header-1.png'
+                'value' => $imagepath . 'mobile/nav-bootstrap.png'
             ),
             'offcanvas' => array(
                 'label' => 'OffCanvas',
-                'value' => $imagepath . 'header/header-3.png'
+                'value' => $imagepath . 'mobile/nav-offcanvas.png'
             )
         )
+    );
+
+    $options[] = array(
+        'name' => __( 'Show Logo in Mobile Nav?', 'waboot' ),
+        'desc' => __( 'Default is enabled. Uncheck this box to turn it off.', 'waboot' ),
+        'id'   => 'waboot_logo_mobilenav',
+        'std'  => '1',
+        'type' => 'checkbox'
     );
 
     $options[] = array(
