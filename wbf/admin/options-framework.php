@@ -120,7 +120,25 @@ function of_options_save($option, $old_value, $value){
 		$must_recompile_flag = false;
 		$deps_to_achieve = array();
 		$all_options = Waboot_Options_Framework::_optionsframework_options();
+
+		/*
+		 * Check differences beetween new values and old value
+		 */
+		$multidimensional_options = array();
+		foreach($all_options as $k => $opt){
+			if(isset($opt['std']) && is_array($opt['std'])){
+				$multidimensional_options[$opt['id']] = $opt;
+			}
+		}
 		$diff = array_diff_assoc($old_value,$value);
+		foreach($multidimensional_options as $id => $opt){
+			if(isset($old_value[$id]) && isset($value[$id])){
+				$tdiff = array_diff_assoc($old_value[$id],$value[$id]);
+				if(is_array($tdiff) && !empty($tdiff)){
+					$diff[$id] = $tdiff;
+				}
+			}
+		}
 
 		//Doing actions with modified options
 		foreach($all_options as $k => $opt_data){
