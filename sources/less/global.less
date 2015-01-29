@@ -174,14 +174,14 @@ table td {
 .navbar.main-navigation {
 	background-color: transparent;
 }
-
+/*
 .navbar.main-navigation .navbar-main-collapse {
 	margin: 0 -10px;
 	padding-left: 20px;
 	padding-right: 20px;
 	clear:both;
 }
-
+*/
 .navbar.main-navigation .menudescription {
    font-size: 0.9em;
    color: #999;
@@ -213,48 +213,72 @@ table td {
 	margin: 0;
 }
 
-#navbar-1 #logo {
+#header-1 #logo {
   text-align: center;
 }
 
-#navbar-1 #header-left,
-#navbar-1 #header-right {
+#header-1 #header-left,
+#header-1 #header-right {
   margin-bottom: 20px;
   margin-top: 20px;
 }
 
-#navbar-1 #header-right{
+#header-1 #header-right{
   text-align: right;
 }
 
-#navbar-2 #header-left,
-#navbar-2 #header-right{
+#header-1 .main-navigation,
+#header-2 .main-navigation {
+  margin-right: -10px;
+  margin-left: -10px;
+}
+
+#header-2 #header-left,
+#header-2 #header-right{
   margin-bottom: 20px;
   margin-top: 20px;
   text-align: right;
-  float: right;
+  /*float: right;*/
 }
 
-#navbar-2 #header-left .widget,
-#navbar-2 #header-right .widget {
+#header-2 #header-left .widget,
+#header-2 #header-right .widget {
   float: right;
 }
-
-#navbar-3 #logo {
+/*
+#header-3 #logo {
   float: left;
 }
 
-#navbar-3 #header-right {
+#header-3 #header-right {
   float: right;
   margin-bottom: 0px;
   margin-top: 32px;
 }
 
-#navbar-3 .navbar-main-collapse {
+#header-3 .navbar-main-collapse {
   margin: 20px 0 0 0;
   padding: 0;
   clear: none;
   background-color: transparent;
+}
+
+#masthead .navbar-header {
+  display: inline-block;
+  width: 100%;
+  float: right;
+  position: absolute;
+  right: 0;
+  top: -54px;
+  margin: 0px;
+}
+*/
+#masthead .navbar-brand {
+  padding: 10px 0;
+}
+
+#masthead .navbar-brand img {
+  height: 30px;
 }
 
 /* End Header */
@@ -414,11 +438,6 @@ article {
   display: inline-block;
 }
 
-#navbar-1 #header-right #social-widget,
-footer#colophon #social-widget {
-  text-align: right;
-}
-
 #social-widget a {
 	display: inline-block;
 	margin: 0px 5px;
@@ -433,6 +452,19 @@ footer#colophon #social-widget {
 
 #social-widget a i {
   line-height: 30px;
+}
+
+.main-navigation #social-widget {
+  float: right;
+}
+
+.main-navigation #social-widget a {
+  margin: 10px 5px;
+}
+
+#header-1 #header-right #social-widget,
+footer#colophon #social-widget {
+  text-align: right;
 }
 
 /* End Social Widget */
@@ -701,25 +733,34 @@ ins {
 /* Media Query */
 
 @media only screen and (max-width: @screen-sm-max) {
+/*
+  #masthead #logo {
+    height: 60px;
+  }
 
   #masthead #logo img {
     max-width: 75%;
+    max-height: 60px;
   }
-
+*/
   #header-wrapper .navbar {
     margin: 0 0px;
   }
-
+/*
   #header-wrapper .navbar-header {
     float: right;
   }
-
+*/
   #header-wrapper .main-navigation .navbar-main-collapse {
     clear: both;
   }
 
   #header-wrapper .main-navigation .navbar-main-collapse #menu-primary-menu {
     margin: 0;
+  }
+
+  #header-wrapper .main-navigation #social-widget {
+    display: none;
   }
 
   #masthead .navbar-main-collapse.collapse {
@@ -730,18 +771,23 @@ ins {
     display: block !important;
   }
 
-  #masthead .navbar-header {
-    display: inline-block;
-    float: right;
-    position: absolute;
-    right: 0;
-    top: 50%;
-    margin-top: -17px;
-  }
-
   #masthead .navbar-toggle {
     display: inline-block;
+    height: 50px;
+    padding: 10px;
+    margin: 0;
+    border:0;
   }
+
+  #masthead .navbar-toggle:hover {
+    background-color: transparent;
+  }
+
+  #masthead .navbar-toggle .icon-bar {
+    height: 3px;
+  }
+
+
 
   /* ------ Mobile Menu ------ */
 
@@ -909,11 +955,11 @@ ins {
   .navbar-right .dropdown-menu > li > a {
     text-align: right;
   }
-
-  #navbar-1 #header-right {
+/*
+  #header-1 #header-right {
     float: right;
   }
-
+*/
   .footer-text,
   .footer-nav {
     float: left;
@@ -936,6 +982,19 @@ ins {
     float: right;
   }
 
+  #header-1 .navbar-header,
+  #header-2 .navbar-header{
+    display: none;
+  }
+
+  #header-3 .navbar-brand {
+    height: auto;
+  }
+
+  #masthead #header-3 .navbar-brand img {
+    height: auto;
+  }
+
 }
 
 @media only screen and (max-width: @screen-md) {
@@ -944,26 +1003,22 @@ ins {
     display: none;
   }
 
-  .navbar-toggle {
-    margin-bottom: 0;
-    margin-top: 0;
-  }
-
-  #navbar-1 #header-left,
-  #navbar-1 #header-right {
+  #header-1 #header-left,
+  #header-1 #header-right {
     margin-bottom: 0px;
     margin-top: 0px;
+    display: none;
   }
 
-  #navbar-2 #header-left,
-  #navbar-2 #header-right {
+  #header-2 #header-left,
+  #header-2 #header-right {
     width: auto;
   }
-
-  #navbar-3 #logo {
+/*
+  #header-3 #logo {
     float: left;
   }
-
+*/
 }
 
 

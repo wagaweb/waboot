@@ -566,6 +566,24 @@ function optionsframework_options() {
     );
 
     $options[] = array(
+        'name' => __( 'Mobile Nav Style', 'waboot' ),
+        'desc' => __( 'Select your mobile nav style' ,'waboot' ),
+        'id'   => 'waboot_mobilenav_style',
+        'std' => 'bootstrap',
+        'type' => 'images',
+        'options' => array(
+            'bootstrap' => array(
+                'label' => 'Bootstrap',
+                'value' => $imagepath . 'header/header-1.png'
+            ),
+            'offcanvas' => array(
+                'label' => 'OffCanvas',
+                'value' => $imagepath . 'header/header-3.png'
+            )
+        )
+    );
+
+    $options[] = array(
         'name' => __( 'Show search bar in Header?', 'waboot' ),
         'desc' => __( 'Default is enabled. Uncheck this box to turn it off.', 'waboot' ),
         'id'   => 'waboot_search_bar',
@@ -859,6 +877,10 @@ function optionsframework_options() {
             'topnav-left' =>  array(
                 'label' => 'Topnav Left',
                 'value' => $imagepath . 'social/topnav-left.png'
+            ),
+            'navigation' =>  array(
+                'label' => 'Navigation',
+                'value' => $imagepath . 'social/nav.png'
             )
         )
     );

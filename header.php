@@ -36,12 +36,12 @@
 
                 <?php if ( of_get_option('waboot_topnavmenu_position') == 'left' ) : ?>
                     <div class="pull-left">
-                        <?php if(has_nav_menu( 'top' )) get_template_part( '/templates/parts/menu', 'top' ); ?>
+                        <?php if(has_nav_menu( 'top' )) get_template_part( '/templates/parts/nav', 'top' ); ?>
                     </div>
                 <?php endif; ?>
                 <?php if ( of_get_option('waboot_topnavmenu_position') == 'right' ) : ?>
                     <div class="pull-right">
-                        <?php if(has_nav_menu( 'top' )) get_template_part( '/templates/parts/menu', 'top' ); ?>
+                        <?php if(has_nav_menu( 'top' )) get_template_part( '/templates/parts/nav', 'top' ); ?>
                     </div>
                 <?php endif; ?>
 
