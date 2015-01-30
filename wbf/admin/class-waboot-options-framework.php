@@ -46,7 +46,7 @@ class Waboot_Options_Framework extends Options_Framework {
                 }
             }
 
-            Waboot_ComponentsManager::addRegisteredComponentOptions();
+            Waboot_ComponentsManager::addRegisteredComponentOptions(); //todo: maybe use the filter instead?
 
             // Allow setting/manipulating options via filters
             $options = apply_filters( 'of_options', $options );
