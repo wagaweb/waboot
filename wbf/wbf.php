@@ -183,6 +183,16 @@ class WBF {
         //locate_template( '/wbf/public/scripts.php', true );
         locate_template( '/wbf/admin/adm-scripts.php', true );
 
+	    /*
+		 * Load components framework
+		 */
+	    locate_template( '/wbf/admin/components-framework.php', true );
+	    if(class_exists("Waboot_ComponentsManager")){
+		    Waboot_ComponentsManager::init();
+		    Waboot_ComponentsManager::toggle_components(); //enable or disable components if necessary (manage the disable\enable actions sent by admin page)
+		    locate_template( '/wbf/admin/components-hooks.php', true ); //Setup the components hooks
+	    }
+
 	    // ACF INTEGRATION
         if(!is_plugin_active("advanced-custom-fields-pro/acf.php") && !is_plugin_active("advanced-custom-fields/acf.php")){
             locate_template( '/wbf/vendor/acf/acf.php', true );
@@ -199,25 +209,21 @@ class WBF {
 		locate_template( '/wbf/admin/behaviors-framework.php', true );
 		locate_template('/inc/behaviors.php', true);
 
-		// Load components framework
-		locate_template( '/wbf/admin/components-framework.php', true );
-		locate_template( '/wbf/admin/components-hooks.php', true ); //Components hooks
-		if(class_exists("Waboot_ComponentsManager")) Waboot_ComponentsManager::init();
-
 		// Load theme options framework
 		if(!function_exists( 'optionsframework_init')){ // Don't load if optionsframework_init is already defined
 			locate_template('/wbf/admin/options-framework.php', true);
+		}
+
+		//Setup registered components
+		if(class_exists("Waboot_ComponentsManager")){
+			Waboot_ComponentsManager::setupComponentsFilters();
+			Waboot_ComponentsManager::setupRegisteredComponents(); //Loads setup() methods of components
 		}
 
 		// Breadcrumbs
 		if (of_get_option('waboot_breadcrumbs', 1)) {
 			locate_template('/wbf/vendor/breadcrumb-trail.php', true);
 			locate_template( '/wbf/public/breadcrumb-trail.php', true );
-		}
-
-		if(class_exists("Waboot_ComponentsManager")){
-			Waboot_ComponentsManager::toggle_components(); //enable or disable components if necessary
-			Waboot_ComponentsManager::setupRegisteredComponents(); //Loads components
 		}
 
 		if(function_exists("of_check_options_deps")) of_check_options_deps(); //Check if theme options dependencies are met
