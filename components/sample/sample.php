@@ -20,8 +20,8 @@ class SampleComponent extends Waboot_Component{
     /**
      * This method will be executed on the "wp" action in pages where the component must be loaded
      */
-    public function onInit(){
-        parent::onInit();
+    public function run(){
+        parent::run();
         //Do stuff...
     }
 
@@ -42,6 +42,10 @@ class SampleComponent extends Waboot_Component{
          * ....
          */
     }
+
+	public function widgets(){
+		//register_widget("sampleWidget");
+	}
 
     public function theme_options($options){
         $options = parent::theme_options($options);
@@ -71,3 +75,9 @@ class SampleComponent extends Waboot_Component{
         //Do stuff...
     }
 }
+
+/*
+class sampleWidget extends WP_Widget{
+	...
+}
+*/
