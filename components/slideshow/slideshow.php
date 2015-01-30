@@ -273,15 +273,13 @@ class SlideshowComponent extends Waboot_Component{
 			));
 
 		endif;
-        // Register widget
-        add_action( 'widgets_init', array($this,'register_widget') );
         // Register shortcode
         add_shortcode( "wbslideshow" , array($this,'shortcode') );
         // Add metabox for shortcode usage
         add_action( 'add_meta_boxes_slideshow', array($this,'register_metabox') );
 	}
 
-    public function register_widget(){
+    public function widgets(){
         register_widget("WabootSlideshowWidget");
     }
 
