@@ -177,7 +177,8 @@ class Waboot_ComponentsManager {
 				require_once( $c['file'] );
 				$className  = ucfirst( $c['nicename'] ) . "Component";
 				$oComponent = new $className( $c );
-				$oComponent->detectFilters();
+				if(method_exists($oComponent,"detectFilters"))
+					$oComponent->detectFilters();
 			}
 		}
 	}
@@ -215,7 +216,7 @@ class Waboot_ComponentsManager {
 	}
 
 	/**
-	 * Exec onInit()\run(), scripts(), styles(), widgets() methods on active components AND ONLY into the pages that support them.
+	 * Exec onInit()\run(), scripts(), styles() methods on active components; ONLY into the pages that support them.
 	 * See components-hooks.php.
 	 */
 	static function enqueueRegisteredComponent( $action ) {
@@ -230,7 +231,7 @@ class Waboot_ComponentsManager {
 					switch ( $action ) {
 						case "wp":
 							if(method_exists($oComponent,"onInit")){
-								$oComponent->onInit(); //deprected
+								$oComponent->onInit(); //deprecated
 							}else{
 								if(method_exists($oComponent,"run")){
 									$oComponent->run();
