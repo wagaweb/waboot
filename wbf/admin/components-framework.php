@@ -168,7 +168,22 @@ class Waboot_ComponentsManager {
     }
 
 	/**
-	 * Exec the setup() method on registered components
+	 * Exec detectFilters() method on active components.
+	 */
+	static function setupComponentsFilters(){
+		$components = self::getAllComponents();
+		foreach ( $components as $c ) {
+			if ( self::is_active( $c ) ) {
+				require_once( $c['file'] );
+				$className  = ucfirst( $c['nicename'] ) . "Component";
+				$oComponent = new $className( $c );
+				$oComponent->detectFilters();
+			}
+		}
+	}
+
+	/**
+	 * Exec the setup() method on active components (called during "init" action)
 	 */
 	static function setupRegisteredComponents() {
 		$components = self::getAllComponents();
@@ -177,12 +192,67 @@ class Waboot_ComponentsManager {
 				require_once( $c['file'] );
 				$className  = ucfirst( $c['nicename'] ) . "Component";
 				$oComponent = new $className( $c );
-				$oComponent->setup();
+				if(method_exists($oComponent,"setup"))
+					$oComponent->setup();
             }
 		}
 	}
 
-    static function addRegisteredComponentOptions(){
+	/**
+	 * Exec widgets() method on active components (during widgets_init action)
+	 */
+	static function registerComponentsWidgets(){
+		$components = self::getAllComponents();
+		foreach ( $components as $c ) {
+			if ( self::is_active( $c ) ) {
+				require_once( $c['file'] );
+				$className  = ucfirst( $c['nicename'] ) . "Component";
+				$oComponent = new $className( $c );
+				if(method_exists($oComponent,"widgets"))
+					$oComponent->widgets();
+			}
+		}
+	}
+
+	/**
+	 * Exec onInit()\run(), scripts(), styles(), widgets() methods on active components AND ONLY into the pages that support them.
+	 * See components-hooks.php.
+	 */
+	static function enqueueRegisteredComponent( $action ) {
+		$components = self::getAllComponents();
+		foreach ( $components as $c ) {
+			if ( self::is_active( $c ) ) {
+				require_once( $c['file'] );
+				$className  = ucfirst( $c['nicename'] ) . "Component";
+				$oComponent = new $className( $c );
+				if ( self::is_enable_for_current_page( $oComponent ) ) {
+					self::addLoadedComponent( $oComponent );
+					switch ( $action ) {
+						case "wp":
+							if(method_exists($oComponent,"onInit")){
+								$oComponent->onInit(); //deprected
+							}else{
+								if(method_exists($oComponent,"run")){
+									$oComponent->run();
+								}
+							}
+							break;
+						case "wp_enqueue_scripts":
+							if(method_exists($oComponent,"scripts"))
+								$oComponent->scripts();
+							if(method_exists($oComponent,"styles"))
+								$oComponent->styles();
+							break;
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * Exec register_options method on active components (Hardcoded into &_optionsframework_options())
+	 */
+	static function addRegisteredComponentOptions(){
         $components = self::getAllComponents();
         foreach ( $components as $c ) {
             if ( self::is_active( $c ) ) {
@@ -289,32 +359,6 @@ class Waboot_ComponentsManager {
         }
         return false;
     }
-
-	/**
-	 * Exec onInit(), scripts() and styles() methods on registered components
-	 */
-	static function enqueueRegisteredComponent( $action ) {
-		$components = self::getAllComponents();
-		foreach ( $components as $c ) {
-			if ( self::is_active( $c ) ) {
-				require_once( $c['file'] );
-				$className  = ucfirst( $c['nicename'] ) . "Component";
-				$oComponent = new $className( $c );
-				if ( self::is_enable_for_current_page( $oComponent ) ) {
-					self::addLoadedComponent( $oComponent );
-					switch ( $action ) {
-						case "wp":
-							$oComponent->onInit();
-							break;
-						case "wp_enqueue_scripts":
-							$oComponent->scripts();
-							$oComponent->styles();
-							break;
-					}
-				}
-			}
-		}
-	}
 
 	/**
 	 * Checks if the component is allowed for the page\post being displayed
@@ -707,61 +751,89 @@ class Waboot_Component {
         }else{
             $this->directory_uri = waboot_get_root_components_directory_uri()."/".$this->name;
         }
-
-        //Detect the filters
-        if(of_get_option($this->name."_selective_disable","0") == 1){
-            $this->filters = array();
-        }elseif(of_get_option($this->name."_enabled_for_all_pages","1") == 1){
-            $this->filters = array(
-                'post_type' => '*',
-                'node_id' => '*'
-            );
-        }else{
-            $this->filters = array(
-                'post_type' => array(),
-                'node_id' => array()
-            );
-            $allowed_post_types = of_get_option($this->name."_load_locations",array());
-            if($allowed_post_types['front'] == 1){
-                array_push($this->filters['node_id'],get_option("page_on_front"));
-                unset($allowed_post_types['front']);
-            }
-            if($allowed_post_types['home'] == 1){
-                array_push($this->filters['node_id'],get_option("page_for_posts"));
-                unset($allowed_post_types['home']);
-            }
-            foreach($allowed_post_types as $k => $val){
-                if($val == 1){
-                    array_push($this->filters['post_type'],$k);
-                }
-            }
-            $specific_ids = of_get_option($this->name."_load_locations_ids",array());
-            if(!empty($specific_ids)){
-                $specific_ids = explode(',',trim($specific_ids));
-                foreach($specific_ids as $id){
-                    $id = trim($id);
-                    if(!in_array($id,$this->filters['node_id']))
-                        array_push($this->filters['node_id'],$id);
-                }
-            }
-        }
     }
 
+	/**
+	 * Register the component $filters
+	 */
+	public function detectFilters(){
+		//Detect the filters
+		if(of_get_option($this->name."_selective_disable","0") == 1){
+			$this->filters = array();
+		}elseif(of_get_option($this->name."_enabled_for_all_pages","1") == 1){
+			$this->filters = array(
+				'post_type' => '*',
+				'node_id' => '*'
+			);
+		}else{
+			$this->filters = array(
+				'post_type' => array(),
+				'node_id' => array()
+			);
+			$allowed_post_types = of_get_option($this->name."_load_locations",array());
+			if($allowed_post_types['front'] == 1){
+				array_push($this->filters['node_id'],get_option("page_on_front"));
+				unset($allowed_post_types['front']);
+			}
+			if($allowed_post_types['home'] == 1){
+				array_push($this->filters['node_id'],get_option("page_for_posts"));
+				unset($allowed_post_types['home']);
+			}
+			foreach($allowed_post_types as $k => $val){
+				if($val == 1){
+					array_push($this->filters['post_type'],$k);
+				}
+			}
+			$specific_ids = of_get_option($this->name."_load_locations_ids",array());
+			if(!empty($specific_ids)){
+				$specific_ids = explode(',',trim($specific_ids));
+				foreach($specific_ids as $id){
+					$id = trim($id);
+					if(!in_array($id,$this->filters['node_id']))
+						array_push($this->filters['node_id'],$id);
+				}
+			}
+		}
+	}
+
     /**
-     * Metodo che verrà automaticamente chiamato per ogni componente registrato durante l'init
+     * Method called on "init" action for each active components
      */
     public function setup(){}
 
-    public function register_options(){
+	/**
+	 * Method called from &_optionsframework_options() by addRegisteredComponentOptions()
+	 */
+	public function register_options(){
         add_filter("of_options",array($this,"theme_options"));
         add_filter("wbf_components_options",array($this,"theme_options"));
     }
 
-    public function onInit(){}
+	/**
+	 * Method called on "wp" action for each active components that is enabled for current displayed page
+	 * @deprecated, use run() instead
+	 */
+	public function onInit(){}
 
-    public function scripts(){}
+	/**
+	 * Method called on "wp" action for each active components that is enabled for current displayed page
+	 */
+	public function run(){}
 
-    public function styles(){}
+	/**
+	 * Method called on "wp_enqueue_scripts" action for each active components that is enabled for current displayed page
+	 */
+	public function scripts(){}
+
+	/**
+	 * Method called on "wp_enqueue_scripts" action for each active components that is enabled for current displayed page
+	 */
+	public function styles(){}
+
+	/**
+	 * Method called on "widgets_init" action for each active components that is enabled for current displayed page
+	 */
+	public function widgets(){}
 
 	public function theme_options($options){
 		$options[] = array(
