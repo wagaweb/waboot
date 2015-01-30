@@ -37,7 +37,12 @@ module.exports = function(grunt) {
                     sourceMapBasepath: "assets/css"
                 },
                 files: {
-                    'assets/css/waboot.css': 'sources/less/waboot.less'
+                    'assets/css/waboot.css': (function(){
+                        if(fs.existsSync('sources/less/tmp_waboot.less')){
+                            return 'sources/less/tmp_waboot.less';
+                        }
+                        return 'sources/less/waboot.less';
+                    })()
                 }                
             }
         },
