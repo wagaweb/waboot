@@ -1,7 +1,7 @@
 jQuery(document).ready(function($){
     "use strict";
 
-    //$ ('ul.timeline li:odd').addClass('timeline-inverted');
+    $ ('div.timeline article:odd').addClass('timeline-inverted');
 
     var my_posts = $("[rel=tooltip]");
     var size = $(window).width();

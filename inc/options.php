@@ -529,6 +529,13 @@ function optionsframework_options() {
     );
 
     $options[] = array(
+        'name' => __( 'Show Logo?', 'waboot' ),
+        'desc' => __( 'Displays the logo on your site.', 'waboot' ),
+        'id'   => 'waboot_logo_in_navbar',
+        'type' => 'upload'
+    );
+
+    $options[] = array(
         'name' => __( 'Header', 'waboot' ),
         'desc' => __( 'Select your header layout' ,'waboot' ),
         'id'   => 'waboot_header_layout',
@@ -551,10 +558,20 @@ function optionsframework_options() {
     );
 
     $options[] = array(
-        'name' => __( 'Show Logo?', 'waboot' ),
-        'desc' => __( 'Displays the logo on your site.', 'waboot' ),
-        'id'   => 'waboot_logo_in_navbar',
-        'type' => 'upload'
+        'name' => __('Navbar Align', 'waboot'),
+        'desc' => __('Select align of navbar', 'waboot'),
+        'id' => 'waboot_navbar_align',
+        'std' => 'navbar-left',
+        'type' => 'select',
+        'options' => array('navbar-left' => __("Left","waboot"), 'navbar-right' => __("Right","waboot"), 'navbar-center' => __("Center","waboot"))
+    );
+
+    $options[] = array(
+        'name' => __( 'Show search bar in Header?', 'waboot' ),
+        'desc' => __( 'Default is enabled. Uncheck this box to turn it off.', 'waboot' ),
+        'id'   => 'waboot_search_bar',
+        'std'  => '1',
+        'type' => 'checkbox'
     );
 
     $options[] = array(
@@ -576,22 +593,6 @@ function optionsframework_options() {
     );
 
     $options[] = array(
-        'name' => __( 'Show Logo in Mobile Nav?', 'waboot' ),
-        'desc' => __( 'Default is enabled. Uncheck this box to turn it off.', 'waboot' ),
-        'id'   => 'waboot_logo_mobilenav',
-        'std'  => '1',
-        'type' => 'checkbox'
-    );
-
-    $options[] = array(
-        'name' => __( 'Show search bar in Header?', 'waboot' ),
-        'desc' => __( 'Default is enabled. Uncheck this box to turn it off.', 'waboot' ),
-        'id'   => 'waboot_search_bar',
-        'std'  => '1',
-        'type' => 'checkbox'
-    );
-
-    $options[] = array(
         'name' => __('Top Nav Menu Position', 'waboot'),
         'desc' => __('Select the Top Nav Menu position', 'waboot'),
         'id' => 'waboot_topnavmenu_position',
@@ -608,6 +609,15 @@ function optionsframework_options() {
             )
         )
     );
+
+    $options[] = array(
+        'name' => __( 'Show Logo in Mobile Nav?', 'waboot' ),
+        'desc' => __( 'Default is enabled. Uncheck this box to turn it off.', 'waboot' ),
+        'id'   => 'waboot_logo_mobilenav',
+        'std'  => '1',
+        'type' => 'checkbox'
+    );
+
 
     if (class_exists("BehaviorsManager")) {
         $bd_locs = wp_get_filtered_post_types();

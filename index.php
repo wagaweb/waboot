@@ -15,26 +15,41 @@ get_header();
             <?php if ( have_posts() ) : ?>
                 <?php waboot_content_nav( 'nav-above' ); // display content nav above posts ?>
                 <?php
-                while ( have_posts() ) {
-                    the_post();
-                    /* Include the Post-Format-specific template for the content.
-                     * If you want to override this in a child theme then include a file
-                     * called content-___.php (where ___ is the Post Format name) and that will be used instead.
-                     */
                     switch(of_get_option("waboot_blogpage_layout")){
                         case 'timeline':
-                            get_template_part( '/templates/parts/content', "blog-timeline" );
+                            echo '<div class="timeline">';
                             break;
                         case 'masonry':
-                            get_template_part( '/templates/parts/content', "blog-masonry" );
+                            echo '<div class="blog-masonry">';
                             break;
                         case 'blog':
                         default:
-                            get_template_part( '/templates/parts/content', get_post_format() );
+                            echo '<div class="blog-classic">';
                             break;
                     }
-                }
                 ?>
+                    <?php
+                    while ( have_posts() ) {
+                        the_post();
+                        /* Include the Post-Format-specific template for the content.
+                         * If you want to override this in a child theme then include a file
+                         * called content-___.php (where ___ is the Post Format name) and that will be used instead.
+                         */
+                        switch(of_get_option("waboot_blogpage_layout")){
+                            case 'timeline':
+                                get_template_part( '/templates/parts/content', "blog-timeline" );
+                                break;
+                            case 'masonry':
+                                get_template_part( '/templates/parts/content', "blog-masonry" );
+                                break;
+                            case 'blog':
+                            default:
+                                get_template_part( '/templates/parts/content', get_post_format() );
+                                break;
+                        }
+                    }
+                    ?>
+                </div>
                 <?php waboot_content_nav( 'nav-below' ); // display content nav below posts? ?>
             <?php else: ?>
                 <?php get_template_part('/templates/parts/content', 'none'); // No results ?>

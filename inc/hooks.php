@@ -147,13 +147,12 @@ if ( ! function_exists( 'waboot_set_default_components' ) ):
     add_filter("wbf_default_components","waboot_set_default_components");
 endif;
 
-/*function waboot_set_compiled_stylesheet_name($name){
-    //$theme = wp_get_theme()->stylesheet;
-    //if($theme == "wship") $theme = "waboot"; //Brutal compatibility hack :)
-    if(is_child_theme()){
-        return "waboot-child";
-    }else{
-        return "waboot";
+if ( ! function_exists( 'waboot_mainnav_class' ) ):
+    function waboot_mainnav_class($classes){
+        $options = of_get_option( 'waboot_navbar_align' );
+        $classes[] = $options;
+
+        return implode(' ', $classes);
     }
-}
-add_filter('wbf_compiled_stylesheet_name','waboot_set_compiled_stylesheet_name');*/
+    add_filter("waboot_mainnav_class","waboot_mainnav_class");
+endif;

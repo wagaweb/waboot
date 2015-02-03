@@ -1,6 +1,6 @@
 jQuery(document).ready(function($) {
 	// Initialize Set options
-	$('#container-masonry').masonry({
+	$('.blog-masonry').masonry({
 		// gutter: 20,
 		itemSelector: '.item'
 	});

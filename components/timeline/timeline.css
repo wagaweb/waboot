@@ -21,35 +21,37 @@
   margin-left: -1.5px;
 }
 
-.timeline > li {
+.timeline > article {
   margin-bottom: 20px;
+  padding-bottom: 0 !important;
+  border:0 !important;
   position: relative;
   width: 50%;
   float: left;
   clear: left;
 }
 
-.timeline > li:before,
-.timeline > li:after {
+.timeline > article:before,
+.timeline > article:after {
   content: " ";
   display: table;
 }
 
-.timeline > li:after {
+.timeline > article:after {
   clear: both;
 }
 
-.timeline > li:before,
-.timeline > li:after {
+.timeline > article:before,
+.timeline > article:after {
   content: " ";
   display: table;
 }
 
-.timeline > li:after {
+.timeline > article:after {
   clear: both;
 }
 
-.timeline > li > .timeline-panel {
+.timeline > article > .timeline-panel {
   width: 95%;
   float: left;
   border: 1px solid #d4d4d4;
@@ -57,7 +59,7 @@
   position: relative;
 }
 
-.timeline > li > .timeline-panel:before {
+.timeline > article > .timeline-panel:before {
   position: absolute;
   top: 9px;
   right: -15px;
@@ -69,7 +71,7 @@
   content: " ";
 }
 
-.timeline > li > .timeline-panel:after {
+.timeline > article > .timeline-panel:after {
   position: absolute;
   top: 10px;
   right: -14px;
@@ -81,7 +83,7 @@
   content: " ";
 }
 
-.timeline > li > .timeline-badge {
+.timeline > article > .timeline-badge {
   color: #fff;
   width: 24px;
   height: 24px;
@@ -101,18 +103,18 @@
   */
 }
 
-.timeline > li.timeline-inverted > .timeline-panel {
+.timeline > article.timeline-inverted > .timeline-panel {
   float: right;
 }
 
-.timeline > li.timeline-inverted > .timeline-panel:before {
+.timeline > article.timeline-inverted > .timeline-panel:before {
   border-left-width: 0;
   border-right-width: 15px;
   left: -15px;
   right: auto;
 }
 
-.timeline > li.timeline-inverted > .timeline-panel:after {
+.timeline > article.timeline-inverted > .timeline-panel:after {
   border-left-width: 0;
   border-right-width: 14px;
   left: -14px;
@@ -174,58 +176,6 @@
 
 .timeline-body > p + p {
   margin-top: 5px;
-}
-
-.timeline-body .event-image img {
-	max-width: 100%;
-}
-
-.timeline-body .event-info {
-	padding: 10px 0;
-	display: table;
-	width: 100%;
-	vertical-align: middle;
-}
-
-.timeline-body .event-info div {
-	display: table-cell;
-	vertical-align: middle;
-	padding: 0 10px;
-}
-
-.timeline-body .event-info .em-booking,
-.timeline-body .event-info .em-booking-buttons {
-	padding: 0;
-	margin: 0;
-	float: right;
-}
-
-.timeline-body .event-info .em-booking p {
-	margin: 0;
-}
-
-.timeline-body .event-info .em-booking-form-details {
-	width: auto;
-	float: right;
-	padding: 0;
-	margin: 0;
-}
-
-.timeline-body .event-info .em-booking-form-details p {
-	display: none;
-	margin: 0;
-}
-
-.timeline-body .event-info input.em-booking-submit,
-.timeline-body .event-info a {
-	display: inline-block;
-	font-weight: 400;
-	text-align: center;
-	padding: 6px 12px;
-	border-radius: 4px;
-	border: 0;
-	background-color: #2F4986;
-	color: #fff;
 }
 
 .timeline-footer{
@@ -312,16 +262,16 @@
     width:0;
     height:0;
 }
-.timeline > li.timeline-inverted{
+.timeline > article.timeline-inverted{
   float: right; 
   clear: right;
   margin-top: 30px;
   margin-bottom: 30px;
 }
-.timeline > li:nth-child(2){
+.timeline > article:nth-child(2){
   margin-top: 60px;
 }
-.timeline > li.timeline-inverted > .timeline-badge{
+.timeline > article.timeline-inverted > .timeline-badge{
   left: -12px;
 }
 
@@ -331,62 +281,56 @@
 
 @media (max-width: 767px) {
     
-    ul.timeline:before {
+    .timeline:before {
         left: 20px;
     }
 
-    ul.timeline > li {
+    .timeline > article {
       margin-bottom: 20px;
       position: relative;
       width:100%;
       float: left;
       clear: left;
     }
-    ul.timeline > li > .timeline-panel {
+    .timeline > article > .timeline-panel {
         width: calc(100% - 45px);
         width: -moz-calc(100% - 45px);
         width: -webkit-calc(100% - 45px);
     }
 
-    ul.timeline > li > .timeline-badge {
+    .timeline > article > .timeline-badge {
         left: 8px;
         margin-left: 0;
         top: 2px;
     }
 
-    ul.timeline > li > .timeline-panel {
+    .timeline > article > .timeline-panel {
         float: right;
     }
 
-    ul.timeline > li > .timeline-panel:before {
+    .timeline > article > .timeline-panel:before {
         border-left-width: 0;
         border-right-width: 15px;
         left: -15px;
         right: auto;
     }
 
-    ul.timeline > li > .timeline-panel:after {
+    .timeline > article > .timeline-panel:after {
         border-left-width: 0;
         border-right-width: 14px;
         left: -14px;
         right: auto;
     }
     
-	.timeline > li.timeline-inverted{
+	.timeline > article.timeline-inverted{
 	  float: left; 
 	  clear: left;
 	  margin-top: 0px;
 	  margin-bottom: 20px;
 	}
 	
-	.timeline > li.timeline-inverted > .timeline-badge{
+	.timeline > article.timeline-inverted > .timeline-badge{
 	  left: 8px;
-	}
-	
-	.timeline-body .event-info div {
-		display: block;
-		padding: 10px 10px 0;
-		text-align: center;
 	}
 
 }

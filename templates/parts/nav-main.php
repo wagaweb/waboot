@@ -48,7 +48,7 @@
             'theme_location' => 'main',
             'depth'          => 0,
             'container'      => false,
-            'menu_class'     => 'nav navbar-nav',
+            'menu_class'     => apply_filters('waboot_mainnav_class', array('nav', 'navbar-nav')),
             'walker'	     => new WabootNavMenuWalker(),
             'fallback_cb' => 'waboot_nav_menu_fallback'
         )

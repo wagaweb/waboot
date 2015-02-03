@@ -1,4 +1,4 @@
-<li>
+<article>
     <div class="timeline-badge primary">
         <a><i class="glyphicon glyphicon-record" rel="tooltip" title="<?php the_date(); ?>"></i></a>
     </div>
@@ -23,4 +23,4 @@
             </div>
         </div>
     </div>
-</li>
+</article>
