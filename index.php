@@ -15,19 +15,10 @@ get_header();
             <?php if ( have_posts() ) : ?>
                 <?php waboot_content_nav( 'nav-above' ); // display content nav above posts ?>
                 <?php
-                    switch(of_get_option("waboot_blogpage_layout")){
-                        case 'timeline':
-                            echo '<div class="timeline">';
-                            break;
-                        case 'masonry':
-                            echo '<div class="blog-masonry">';
-                            break;
-                        case 'blog':
-                        default:
-                            echo '<div class="blog-classic">';
-                            break;
-                    }
+                    $blog_style = of_get_option("waboot_blogpage_layout");
+                    if (!$blog_style || $blog_style == "") $blog_style = "blog-classic";
                 ?>
+                <div class="blog-<?php echo $blog_style; ?>">
                     <?php
                     while ( have_posts() ) {
                         the_post();
@@ -35,7 +26,7 @@ get_header();
                          * If you want to override this in a child theme then include a file
                          * called content-___.php (where ___ is the Post Format name) and that will be used instead.
                          */
-                        switch(of_get_option("waboot_blogpage_layout")){
+                        switch($blog_style){
                             case 'timeline':
                                 get_template_part( '/templates/parts/content', "blog-timeline" );
                                 break;

@@ -303,11 +303,13 @@ class SlideshowComponent extends Waboot_Component{
     }
 
 	public function scripts(){
-		wp_enqueue_script('owlcarousel-custom-script', $this->directory_uri . '/owl.carousel-custom.js', array('jquery','owlcarousel-js'), false, false);
+		wp_register_script('owlcarousel-custom-script', $this->directory_uri . '/owl.carousel-custom.js', array('jquery','owlcarousel-js'), false, false);
+		wp_enqueue_script('owlcarousel-custom-script');
 	}
 
 	public function styles(){
 		wp_enqueue_style('owlcarousel-css');
+		wp_enqueue_style('slideshow-style', $this->directory_uri . '/slideshow.css');
 	}
 
 	static function has_images($post_id = 0){
@@ -370,13 +372,26 @@ class SlideshowComponent extends Waboot_Component{
 			</div>
             <script type="text/javascript">
                 jQuery(document).ready(function(){
-                    jQuery("#owl-<?php echo $slideshow_post->post_name; ?>").owlCarousel({
-                        items: <?php echo get_field('slideshow_items', $post_id); ?>,
-                        loop: <?php echo get_field('slideshow_loop', $post_id); ?>,
-                        nav: <?php echo get_field('slideshow_navigation', $post_id); ?>,
-                        navText: ['<i class="fa fa-chevron-left"></i>','<i class="fa fa-chevron-right"></i>'],
-                        dots: <?php echo get_field('slideshow_dots', $post_id); ?>
-                    });
+					if(owlcarousel_params["<?php echo $slideshow_post->post_name; ?>"]){
+						owlcarousel_params["<?php echo $slideshow_post->post_name; ?>"] = jQuery.extend(owlcarousel_params["<?php echo $slideshow_post->post_name; ?>"],{
+							items: <?php echo get_field('slideshow_items', $post_id); ?>,
+							loop: <?php echo get_field('slideshow_loop', $post_id); ?>,
+							nav: <?php echo get_field('slideshow_navigation', $post_id); ?>,
+							navText: ['<i class="fa fa-chevron-left"></i>','<i class="fa fa-chevron-right"></i>'],
+							dots: <?php echo get_field('slideshow_dots', $post_id); ?>
+						});
+					}else{
+						owlcarousel_params["<?php echo $slideshow_post->post_name; ?>"] = {
+							items: <?php echo get_field('slideshow_items', $post_id); ?>,
+							loop: <?php echo get_field('slideshow_loop', $post_id); ?>,
+							nav: <?php echo get_field('slideshow_navigation', $post_id); ?>,
+							navText: ['<i class="fa fa-chevron-left"></i>','<i class="fa fa-chevron-right"></i>'],
+							dots: <?php echo get_field('slideshow_dots', $post_id); ?>
+						};
+					}
+                    jQuery("#owl-<?php echo $slideshow_post->post_name; ?>").owlCarousel(
+						owlcarousel_params["<?php echo $slideshow_post->post_name; ?>"]
+					);
                 });
             </script>
 		<?php endif; ?>

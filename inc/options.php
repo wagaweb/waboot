@@ -711,7 +711,7 @@ function optionsframework_options() {
     );
 
     $blogpage_layouts = of_add_default_key(apply_filters("waboot_blogpage_layout",array(
-        'blog' =>  array(
+        'classic' =>  array(
             'label' => 'Classic',
             'value' => $imagepath . 'blog/default-blog.png'
         ),
@@ -723,7 +723,7 @@ function optionsframework_options() {
             'label' => 'Timeline',
             'value' => $imagepath . 'blog/timeline-blog.png'
         ),
-        '_default' => 'blog'
+        '_default' => 'classic'
     )));
 
     $options[] = array(

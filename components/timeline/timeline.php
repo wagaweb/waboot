@@ -10,11 +10,11 @@ Author URI: http://www.waga.it
 class TimelineComponent extends Waboot_Component{
 
     public function scripts(){
-        wp_enqueue_script('timeline-script',$this->directory_uri . '/timeline.js',array('jquery'),false,false);
+        wp_enqueue_script('timeline-script', $this->directory_uri . '/timeline.js', array('jquery'), false, false);
     }
     
     public function styles(){
-        wp_enqueue_style('timeline-style',$this->directory_uri . '/timeline.css');
+        wp_enqueue_style('timeline-style', $this->directory_uri . '/timeline.css');
     }
 
 }

@@ -1,7 +1,7 @@
 /* Timeline events */
 
 
-.timeline {
+.blog-timeline {
   list-style: none;
   padding: 0px 0;
   position: relative;
@@ -10,7 +10,7 @@
   width: 100%;
 }
 
-.timeline:before {
+.blog-timeline:before {
   top: 0;
   bottom: 0;
   position: absolute;
@@ -21,7 +21,7 @@
   margin-left: -1.5px;
 }
 
-.timeline > article {
+.blog-timeline > article {
   margin-bottom: 20px;
   padding-bottom: 0 !important;
   border:0 !important;
@@ -31,27 +31,27 @@
   clear: left;
 }
 
-.timeline > article:before,
-.timeline > article:after {
+.blog-timeline > article:before,
+.blog-timeline > article:after {
   content: " ";
   display: table;
 }
 
-.timeline > article:after {
+.blog-timeline > article:after {
   clear: both;
 }
 
-.timeline > article:before,
-.timeline > article:after {
+.blog-timeline > article:before,
+.blog-timeline > article:after {
   content: " ";
   display: table;
 }
 
-.timeline > article:after {
+.blog-timeline > article:after {
   clear: both;
 }
 
-.timeline > article > .timeline-panel {
+.blog-timeline > article > .timeline-panel {
   width: 95%;
   float: left;
   border: 1px solid #d4d4d4;
@@ -59,7 +59,7 @@
   position: relative;
 }
 
-.timeline > article > .timeline-panel:before {
+.blog-timeline > article > .timeline-panel:before {
   position: absolute;
   top: 9px;
   right: -15px;
@@ -71,7 +71,7 @@
   content: " ";
 }
 
-.timeline > article > .timeline-panel:after {
+.blog-timeline > article > .timeline-panel:after {
   position: absolute;
   top: 10px;
   right: -14px;
@@ -83,7 +83,7 @@
   content: " ";
 }
 
-.timeline > article > .timeline-badge {
+.blog-timeline > article > .timeline-badge {
   color: #fff;
   width: 24px;
   height: 24px;
@@ -103,18 +103,18 @@
   */
 }
 
-.timeline > article.timeline-inverted > .timeline-panel {
+.blog-timeline > article.timeline-inverted > .timeline-panel {
   float: right;
 }
 
-.timeline > article.timeline-inverted > .timeline-panel:before {
+.blog-timeline > article.timeline-inverted > .timeline-panel:before {
   border-left-width: 0;
   border-right-width: 15px;
   left: -15px;
   right: auto;
 }
 
-.timeline > article.timeline-inverted > .timeline-panel:after {
+.blog-timeline > article.timeline-inverted > .timeline-panel:after {
   border-left-width: 0;
   border-right-width: 14px;
   left: -14px;
@@ -262,16 +262,16 @@
     width:0;
     height:0;
 }
-.timeline > article.timeline-inverted{
+.blog-timeline > article.timeline-inverted{
   float: right; 
   clear: right;
   margin-top: 30px;
   margin-bottom: 30px;
 }
-.timeline > article:nth-child(2){
+.blog-timeline > article:nth-child(2){
   margin-top: 60px;
 }
-.timeline > article.timeline-inverted > .timeline-badge{
+.blog-timeline > article.timeline-inverted > .timeline-badge{
   left: -12px;
 }
 
@@ -281,55 +281,55 @@
 
 @media (max-width: 767px) {
     
-    .timeline:before {
+    .blog-timeline:before {
         left: 20px;
     }
 
-    .timeline > article {
+    .blog-timeline > article {
       margin-bottom: 20px;
       position: relative;
       width:100%;
       float: left;
       clear: left;
     }
-    .timeline > article > .timeline-panel {
+    .blog-timeline > article > .timeline-panel {
         width: calc(100% - 45px);
         width: -moz-calc(100% - 45px);
         width: -webkit-calc(100% - 45px);
     }
 
-    .timeline > article > .timeline-badge {
+    .blog-timeline > article > .timeline-badge {
         left: 8px;
         margin-left: 0;
         top: 2px;
     }
 
-    .timeline > article > .timeline-panel {
+    .blog-timeline > article > .timeline-panel {
         float: right;
     }
 
-    .timeline > article > .timeline-panel:before {
+    .blog-timeline > article > .timeline-panel:before {
         border-left-width: 0;
         border-right-width: 15px;
         left: -15px;
         right: auto;
     }
 
-    .timeline > article > .timeline-panel:after {
+    .blog-timeline > article > .timeline-panel:after {
         border-left-width: 0;
         border-right-width: 14px;
         left: -14px;
         right: auto;
     }
     
-	.timeline > article.timeline-inverted{
+	.blog-timeline > article.timeline-inverted{
 	  float: left; 
 	  clear: left;
 	  margin-top: 0px;
 	  margin-bottom: 20px;
 	}
 	
-	.timeline > article.timeline-inverted > .timeline-badge{
+	.blog-timeline > article.timeline-inverted > .timeline-badge{
 	  left: 8px;
 	}
 
