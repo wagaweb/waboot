@@ -531,27 +531,29 @@ if (!function_exists("waboot_breadcrumb")):
      * @param array $args settings for breadcrumb (see: waboot_breadcrumb_trail() documentation)
      * @since 0.3.10
      */
-    function waboot_breadcrumb($post_id = null, $current_location = "", $args = array())
-    {
+    function waboot_breadcrumb($post_id = null, $current_location = "", $args = array()) {
         global $post;
         if (function_exists('waboot_breadcrumb_trail')) {
-            if (is_front_page() || is_404() ) return;
+            if(is_front_page() || is_404()) return;
 
-            $post_id = isset($post_id) ? $post_id : $post->ID;
-            $current_post_type = get_post_type($post_id);
-            $args = wp_parse_args($args, array(
-                'container' => "div",
-                'separator' => "/",
-                'show_browse' => false,
-                'additional_classes' => ""
-            ));
+	        $args = wp_parse_args($args, array(
+		        'container' => "div",
+		        'separator' => "/",
+		        'show_browse' => false,
+		        'additional_classes' => ""
+	        ));
 
-            if (!isset($post_id) || $post_id == 0 || !$current_post_type) return;
-
-            $bc_locations = of_get_option('waboot_breadcrumb_locations', array('post', 'page'));
-            if (array_key_exists($current_post_type, $bc_locations) && $bc_locations[$current_post_type] == 1) {
-                waboot_breadcrumb_trail($args);
-            }
+	        if(!is_archive()){
+		        $post_id = isset($post_id) ? $post_id : $post->ID;
+		        $current_post_type = get_post_type($post_id);
+		        if (!isset($post_id) || $post_id == 0 || !$current_post_type) return;
+		        $bc_locations = of_get_option('waboot_breadcrumb_locations', array('post', 'page'));
+		        if (array_key_exists($current_post_type, $bc_locations) && $bc_locations[$current_post_type] == 1) {
+			        waboot_breadcrumb_trail($args);
+		        }
+	        }else{
+		        waboot_breadcrumb_trail($args); //todo: fare dei check per le pagine di archivio
+	        }
         }
     }
 endif;
