@@ -82,6 +82,10 @@ class Waboot_Less_Compiler implements Waboot_Base_Compiler{
 
             $css = file_get_contents( $args['cache'].'/'.$css_file_name );
 
+	        if(!is_file($args['output'])){
+		        fclose(fopen($args['output'],"w"));
+	        }
+
             if(!is_writable($args['output'])){
 	            if(!chmod($args['output'],0777))
 	                throw new Exception("Output dir ({$args['output']}) is not writeable");
