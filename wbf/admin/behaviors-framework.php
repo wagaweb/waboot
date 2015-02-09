@@ -560,6 +560,8 @@ function wbf_get_behavior($name, $post_id = 0, $return = "value")
 {
     if ($post_id == 0) {
 
+	    if(is_archive()) return null; //todo: Behavior per gli archivi?
+
         if(is_home() || is_404()){
             $post_id = get_queried_object_id();
         }else{
