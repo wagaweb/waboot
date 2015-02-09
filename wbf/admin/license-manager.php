@@ -215,7 +215,7 @@ class License_Manager{
             }
             if (!$data) {
                 $localexpiry = date("Ymd", mktime(0, 0, 0, date("m"), date("d") - ($localkeydays + $allowcheckfaildays), date("Y")));
-                if ($originalcheckdate > $localexpiry) {
+                if ( isset($originalcheckdate) && $originalcheckdate > $localexpiry) {
                     $results = $localkeyresults;
                 } else {
                     $results = array();
