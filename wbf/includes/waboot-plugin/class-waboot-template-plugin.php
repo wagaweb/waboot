@@ -87,24 +87,51 @@ class Waboot_Template_Plugin extends Waboot_Plugin implements Waboot_Template_Pl
 			return $template;
 		}
 
-		$required_tpl = get_post_meta( $post->ID, '_wp_page_template', true );
+		$required_tpl = get_post_meta( $post->ID, '_wp_page_template', true ); //Get the template set via wp editor
 
+		//If it is empty it means we have to check the wp template hierarchy...
 		if ( $required_tpl == "" ) {
 			//Check if plugin has a template for current post\page
 			$tpl_filename = basename( $template );
 			if ( in_array( $tpl_filename, $this->ctp_templates ) ) {
 				$file = $this->templates_paths[ $tpl_filename ];
-
 				return $file;
 			}
-			$post_type          = get_post_type( $post->ID );
-			$possible_templates = array(
-				"attachment.php",
-				"single-" . $post_type . ".php",
-				"single-post.php",
-				$post_type . ".php",
-				"single-" . $post->ID . ".php"
-			);
+
+			if(is_archive()){
+				$q_obj = get_queried_object();
+				if(is_category()){
+					$possible_templates = array(
+						"category-{$q_obj->slug}",
+						"category-{$q_obj->term_id}.php"
+					);
+				}elseif(is_tag()){
+					$possible_templates = array(
+						"tag-{$q_obj->slug}",
+						"tag-{$q_obj->term_id}.php"
+					);
+				}elseif(is_tax()){
+					$possible_templates = array(
+						"taxonomy-{$q_obj->taxonomy}-{$q_obj->slug}.php",
+						"taxonomy-{$q_obj->taxonomy}.php"
+					);
+				}else{
+					$post_type = get_post_type( $post->ID );
+					$possible_templates = array(
+						"archive-{$post_type}.php"
+					);
+				}
+			}else{
+				$post_type = get_post_type( $post->ID );
+				$possible_templates = array(
+					"attachment.php",
+					"single-" . $post_type . ".php",
+					"single-post.php",
+					$post_type . ".php",
+					"single-" . $post->ID . ".php"
+				);
+			}
+
 			foreach ( $possible_templates as $tpl_filename ) {
 				if ( in_array( $tpl_filename, $this->ctp_templates ) ) {
 					$file = $this->templates_paths[ $tpl_filename ];
