@@ -82,6 +82,21 @@ function optionsframework_options() {
     );
 
     $options[] = array(
+        'name' => __('Background Page', 'waboot'),
+        'desc' => __('Change the page background color.', 'waboot'),
+        'id' => 'waboot_page_bgcolor',
+        'type' => 'color',
+        'recompile_styles' => true
+    );
+
+
+    $options[] = array(
+        'name' => __( 'Sections Inner', 'waboot' ),
+        'desc' => __( 'Define Inner Sections width and background color', 'waboot' ),
+        'type' => 'info'
+    );
+
+    $options[] = array(
         'name' => __('Top Nav', 'waboot'),
         'desc' => __('Select Top Nav width. Fluid or Boxed?', 'waboot'),
         'id' => 'waboot_topnav_width',
@@ -118,6 +133,40 @@ function optionsframework_options() {
     );
 
     $options[] = array(
+        'name' => __('Background Top Nav', 'waboot'),
+        'desc' => __('Change the Top Nav background color.', 'waboot'),
+        'id' => 'waboot_topnav_bgcolor',
+        'type' => 'color',
+        'recompile_styles' => true
+    );
+
+    $options[] = array(
+        'name' => __('Background Header', 'waboot'),
+        'desc' => __('Change the header background color.', 'waboot'),
+        'id' => 'waboot_header_bgcolor',
+        'type' => 'color',
+        'recompile_styles' => true
+    );
+
+    $options[] = array(
+        'name' => __( 'Navbar', 'waboot' ),
+        'desc' => __( 'Select navbar width. Fluid or Boxed?', 'waboot' ),
+        'id' => 'waboot_navbar_width',
+        'std' => 'container-fluid',
+        'type' => 'images',
+        'options' => array(
+            'container-fluid' => array (
+                'label' => 'Fluid',
+                'value' => $imagepath . 'layout/header-fluid.png'
+            ),
+            'container' => array (
+                'label' => 'Boxed',
+                'value' => $imagepath . 'layout/header-boxed.png'
+            )
+        )
+    );
+
+    $options[] = array(
         'name' => __( 'Banner', 'waboot' ),
         'desc' => __( 'Select banner width. Fluid or Boxed?', 'waboot' ),
         'id' => 'waboot_banner_width',
@@ -136,7 +185,23 @@ function optionsframework_options() {
     );
 
     $options[] = array(
-        'name' => __( 'Content', 'waboot' ),
+        'name' => __('Background Navbar', 'waboot'),
+        'desc' => __('Change the navbar background color.', 'waboot'),
+        'id' => 'waboot_navbar_bgcolor',
+        'type' => 'color',
+        'recompile_styles' => true
+    );
+
+    $options[] = array(
+        'name' => __('Background Banner', 'waboot'),
+        'desc' => __('Change the banner background color.', 'waboot'),
+        'id' => 'waboot_banner_bgcolor',
+        'type' => 'color',
+        'recompile_styles' => true
+    );
+
+    $options[] = array(
+        'name' => __( 'Background Content', 'waboot' ),
         'desc' => __( 'Select content width. Fluid or Boxed?', 'waboot' ),
         'id' => 'waboot_content_width',
         'std' => 'container-fluid',
@@ -169,6 +234,22 @@ function optionsframework_options() {
                 'value' => $imagepath . 'layout/content-bottom-boxed.png'
             )
         )
+    );
+
+    $options[] = array(
+        'name' => __('Background Content', 'waboot'),
+        'desc' => __('Change the content background color.', 'waboot'),
+        'id' => 'waboot_content_bgcolor',
+        'type' => 'color',
+        'recompile_styles' => true
+    );
+
+    $options[] = array(
+        'name' => __('Background Content Bottom', 'waboot'),
+        'desc' => __('Change the content bottom background color.', 'waboot'),
+        'id' => 'waboot_bottom_bgcolor',
+        'type' => 'color',
+        'recompile_styles' => true
     );
 
     $options[] = array(
@@ -205,6 +286,22 @@ function optionsframework_options() {
                 'value' => $imagepath . 'layout/closure-boxed.png'
             )
         )
+    );
+
+    $options[] = array(
+        'name' => __('Background Footer', 'waboot'),
+        'desc' => __('Change the footer background color.', 'waboot'),
+        'id' => 'waboot_footer_bgcolor',
+        'type' => 'color',
+        'recompile_styles' => true
+    );
+
+    $options[] = array(
+        'name' => __('Background Closure', 'waboot'),
+        'desc' => __('Change the closure background color.', 'waboot'),
+        'id' => 'waboot_closure_bgcolor',
+        'type' => 'color',
+        'recompile_styles' => true
     );
 
 
@@ -265,84 +362,6 @@ function optionsframework_options() {
         'std' => 'scroll',
         'type' => 'select',
         'options' => array( 'scroll' => 'scroll','fixed' => 'fixed' ),
-        'recompile_styles' => true
-    );
-
-    $options[] = array(
-        'name' => __( 'Background Color', 'waboot' ),
-        'desc' => __( 'Define background color', 'waboot' ),
-        'type' => 'info'
-    );
-
-    $options[] = array(
-        'name' => __('Page', 'waboot'),
-        'desc' => __('Change the page background color.', 'waboot'),
-        'id' => 'waboot_page_bgcolor',
-        'type' => 'color',
-        'recompile_styles' => true
-    );
-
-    $options[] = array(
-        'name' => __('Top Nav', 'waboot'),
-        'desc' => __('Change the Top Nav background color.', 'waboot'),
-        'id' => 'waboot_topnav_bgcolor',
-        'type' => 'color',
-        'recompile_styles' => true
-    );
-
-    $options[] = array(
-        'name' => __('Header', 'waboot'),
-        'desc' => __('Change the header background color.', 'waboot'),
-        'id' => 'waboot_header_bgcolor',
-        'type' => 'color',
-        'recompile_styles' => true
-    );
-
-    $options[] = array(
-        'name' => __('Navbar', 'waboot'),
-        'desc' => __('Change the navbar background color.', 'waboot'),
-        'id' => 'waboot_navbar_bgcolor',
-        'type' => 'color',
-        'recompile_styles' => true
-    );
-
-    $options[] = array(
-        'name' => __('Banner', 'waboot'),
-        'desc' => __('Change the banner background color.', 'waboot'),
-        'id' => 'waboot_banner_bgcolor',
-        'type' => 'color',
-        'recompile_styles' => true
-    );
-
-    $options[] = array(
-        'name' => __('Content', 'waboot'),
-        'desc' => __('Change the content background color.', 'waboot'),
-        'id' => 'waboot_content_bgcolor',
-        'type' => 'color',
-        'recompile_styles' => true
-    );
-
-    $options[] = array(
-        'name' => __('Content Bottom', 'waboot'),
-        'desc' => __('Change the content bottom background color.', 'waboot'),
-        'id' => 'waboot_bottom_bgcolor',
-        'type' => 'color',
-        'recompile_styles' => true
-    );
-
-    $options[] = array(
-        'name' => __('Footer', 'waboot'),
-        'desc' => __('Change the footer background color.', 'waboot'),
-        'id' => 'waboot_footer_bgcolor',
-        'type' => 'color',
-        'recompile_styles' => true
-    );
-
-    $options[] = array(
-        'name' => __('Closure', 'waboot'),
-        'desc' => __('Change the closure background color.', 'waboot'),
-        'id' => 'waboot_closure_bgcolor',
-        'type' => 'color',
         'recompile_styles' => true
     );
 

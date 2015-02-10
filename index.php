@@ -23,8 +23,11 @@ $blog_style = waboot_get_blog_layout();
                          * If you want to override this in a child theme then include a file
                          * called content-___.php (where ___ is the Post Format name) and that will be used instead.
                          */
-                        if($blog_style != "classic" && $blog_style != "blog"){
-	                        get_template_part( '/templates/parts/content', "blog-{$blog_style}" );
+                        if($blog_style == "masonry"){
+	                        get_template_part( '/templates/parts/content', "blog-masonry" );
+                        }
+                        elseif($blog_style == "timeline"){
+                            get_template_part( '/templates/parts/content', "blog-timeline" );
                         }else{
 	                        get_template_part( '/templates/parts/content', get_post_format() );
                         }

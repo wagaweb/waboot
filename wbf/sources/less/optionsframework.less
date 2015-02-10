@@ -261,14 +261,43 @@ div#optionsframework-wrap {
 
   /* Layout */
 
-  .layout .section:nth-child(odd) {
-    border-right: 1px solid #ddd;
+  .layout .section {
+    min-height: 0;
   }
 
   .layout .section:nth-child(even) {
     border-right: none;
   }
 
+  .layout .section:nth-child(odd) {
+    border-right: 1px solid #ddd;
+    clear: both;
+  }
+
+  .layout #section-waboot_page_width,
+  .layout #section-waboot_page_bgcolor {
+    border-right: none;
+    width: 100%;
+  }
+
+  .layout .section-images {
+    border-bottom: 0;
+  }
+
+  .layout .section-color .heading,
+  .layout .section-color .explain {
+    text-align: center;
+    padding-left: 0;
+  }
+
+  .layout .section-color .heading {
+    display: none;
+  }
+
+  .layout .section-color .wp-picker-container {
+    float: none;
+  }
+  /*
   .layout #section-waboot_page_width {
     border-right: none;
   }
@@ -277,6 +306,45 @@ div#optionsframework-wrap {
     width: 100%;
     border-right: none;
   }
+  */
+
+  /*
+  #section-waboot_page_bgcolor {
+    background-image: url("../images/style/page-color.png");
+  }
+
+  #section-waboot_topnav_bgcolor {
+    background-image: url("../images/style/top-nav-color.png");
+  }
+
+  #section-waboot_header_bgcolor {
+    background-image: url("../images/style/header-color.png");
+  }
+
+  #section-waboot_navbar_bgcolor {
+    background-image: url("../images/style/navbar-color.png");
+  }
+
+  #section-waboot_banner_bgcolor {
+    background-image: url("../images/style/banner-color.png");
+  }
+
+  #section-waboot_content_bgcolor {
+    background-image: url("../images/style/content-color.png");
+  }
+
+  #section-waboot_bottom_bgcolor {
+    background-image: url("../images/style/content-bottom-color.png");
+  }
+
+  #section-waboot_footer_bgcolor {
+    background-image: url("../images/style/footer-color.png");
+  }
+
+  #section-waboot_closure_bgcolor {
+    background-image: url("../images/style/closure-color.png");
+  }
+  */
 
   /* Backgrounds */
 
@@ -314,42 +382,6 @@ div#optionsframework-wrap {
 
   #section-waboot_body_bgcolor {
     background-image: url("../images/style/body-background-color.png");
-  }
-
-  #section-waboot_page_bgcolor {
-    background-image: url("../images/style/page-color.png");
-  }
-
-  #section-waboot_topnav_bgcolor {
-    background-image: url("../images/style/top-nav-color.png");
-  }
-
-  #section-waboot_header_bgcolor {
-    background-image: url("../images/style/header-color.png");
-  }
-
-  #section-waboot_navbar_bgcolor {
-    background-image: url("../images/style/navbar-color.png");
-  }
-
-  #section-waboot_banner_bgcolor {
-    background-image: url("../images/style/banner-color.png");
-  }
-
-  #section-waboot_content_bgcolor {
-    background-image: url("../images/style/content-color.png");
-  }
-
-  #section-waboot_bottom_bgcolor {
-    background-image: url("../images/style/content-bottom-color.png");
-  }
-
-  #section-waboot_footer_bgcolor {
-    background-image: url("../images/style/footer-color.png");
-  }
-
-  #section-waboot_closure_bgcolor {
-    background-image: url("../images/style/closure-color.png");
   }
 
   /* Bootstrap */
