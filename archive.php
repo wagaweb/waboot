@@ -12,7 +12,7 @@ $blog_style = waboot_get_blog_layout();
 ?>
 	<section id="main-wrap" class="<?php echo apply_filters( 'waboot_mainwrap_container_class', 'content-area col-sm-8' ); ?>">
 		<main id="main" class="site-main" role="main">
-			<?php if (of_get_option('waboot_blogpage_title_position') == "bottom") : ?>
+			<?php if (of_get_option('waboot_blogpage_title_position') == "bottom" && of_get_option('waboot_blogpage_displaytitle') == "1") : ?>
 				<header class="page-header">
 				<?php
 					do_action( 'waboot_archive_page_title', "<h1 class=\"page-title\">", "</h1>" );

@@ -65,8 +65,12 @@ endif; // waboot_content_nav
 
 if(!function_exists("waboot_archive_page_title")):
 	function waboot_archive_page_title($prefix = "", $suffix = "", $display = true){
-		$output = waboot_get_archive_page_title();
-		$output = $prefix.$output.$suffix;
+		if (of_get_option('waboot_blogpage_displaytitle') == "1") {
+			$output = waboot_get_archive_page_title();
+			$output = $prefix.$output.$suffix;
+		}else{
+			$output = "";
+		}
 		if($display){
 			echo $output;
 		}
