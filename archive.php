@@ -7,6 +7,7 @@
  */
 
 global $wp_query;
+$paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
 get_header();
 $blog_style = waboot_get_blog_layout();
 ?>
@@ -34,7 +35,7 @@ $blog_style = waboot_get_blog_layout();
 						$args = array(
 							'cat'                 => $cat_ID,
 							'post_status'         => 'publish',
-							'post__not_in'        => array_merge( get_option( 'sticky_posts' ) ),
+							'post__not_in'        => get_option( 'sticky_posts' ),
 							'paged'               => $paged
 						);
 						$wp_query = new WP_Query($args);
@@ -44,7 +45,7 @@ $blog_style = waboot_get_blog_layout();
 						$args = array(
 							'tag_id'              => $current_tag,
 							'post_status'         => 'publish',
-							'post__not_in'        => array_merge( get_option( 'sticky_posts' ) ),
+							'post__not_in'        => get_option( 'sticky_posts' ),
 							'paged'               => $paged
 						);
 						$wp_query = new WP_Query($args);
