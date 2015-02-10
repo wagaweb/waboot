@@ -63,6 +63,57 @@ if ( ! function_exists( 'waboot_content_nav' ) ):
     }
 endif; // waboot_content_nav
 
+if(!function_exists("waboot_archive_page_title")):
+	function waboot_archive_page_title($prefix = "", $suffix = "", $display = true){
+		$output = waboot_get_archive_page_title();
+		$output = $prefix.$output.$suffix;
+		if($display){
+			echo $output;
+		}
+		return $output;
+	}
+endif;
+
+if(!function_exists("waboot_get_archive_page_title")):
+	function waboot_get_archive_page_title(){
+		global $post;
+	    if ( is_category() ) {
+	        return single_cat_title('',false);
+	    } elseif ( is_tag() ) {
+	        return single_tag_title('',false);
+	    } elseif ( is_author() ) {
+			$author_name = get_the_author_meta("display_name",$post->post_author);
+	        return sprintf( __( 'Author: %s', 'waboot' ), '<span class="vcard"><a class="url fn n" href="' . get_author_posts_url( $post->post_author ) . '" title="' . esc_attr( $author_name ) . '" rel="me">' . $author_name . '</a></span>' );
+	    } elseif ( is_day() ) {
+	        return sprintf( __( 'Day: %s', 'waboot' ), '<span>' . get_the_date('', $post->ID) . '</span>' );
+	    } elseif ( is_month() ) {
+	        return sprintf( __( 'Month: %s', 'waboot' ), '<span>' . get_the_date('F Y', $post->ID ) . '</span>' );
+	    } elseif ( is_year() ) {
+	        return printf( __( 'Year: %s', 'waboot' ), '<span>' . get_the_date('Y', $post->ID ) . '</span>' );
+	    } elseif ( is_tax( 'post_format', 'post-format-aside' ) ) {
+	        return __( 'Asides', 'waboot' );
+	    } elseif ( is_tax( 'post_format', 'post-format-gallery' ) ) {
+		    return __( 'Galleries', 'waboot');
+	    } elseif ( is_tax( 'post_format', 'post-format-image' ) ) {
+		    return __( 'Images', 'waboot');
+	    } elseif ( is_tax( 'post_format', 'post-format-video' ) ) {
+		    return __( 'Videos', 'waboot' );
+	    } elseif ( is_tax( 'post_format', 'post-format-quote' ) ) {
+		    return __( 'Quotes', 'waboot' );
+	    } elseif ( is_tax( 'post_format', 'post-format-link' ) ) {
+		    return __( 'Links', 'waboot' );
+	    } elseif ( is_tax( 'post_format', 'post-format-status' ) ) {
+		    return __( 'Statuses', 'waboot' );
+	    } elseif ( is_tax( 'post_format', 'post-format-audio' ) ) {
+		    return __( 'Audios', 'waboot' );
+	    } elseif ( is_tax( 'post_format', 'post-format-chat' ) ) {
+		    return __( 'Chats', 'waboot' );
+	    } else {
+		    return __( 'Archives', 'waboot' );
+	    }
+	}
+endif;
+
 if ( ! function_exists( 'waboot_archive_sticky_posts' ) ):
     /**
      * Display sticky posts on archive pages

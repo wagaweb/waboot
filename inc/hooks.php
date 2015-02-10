@@ -43,70 +43,10 @@ if ( ! function_exists( 'waboot_do_archive_page_title' ) ):
      * Display page title on archive pages
      * @since 0.1.0
      */
-    function waboot_do_archive_page_title() { ?>
-        <header class="page-header">
-            <h1 class="page-title">
-                <?php
-                if ( is_category() ) {
-                    single_cat_title();
-
-                } elseif ( is_tag() ) {
-                    single_tag_title();
-
-                } elseif ( is_author() ) {
-                    printf( __( 'Author: %s', 'waboot' ), '<span class="vcard"><a class="url fn n" href="' . get_author_posts_url( get_the_author_meta( "ID" ) ) . '" title="' . esc_attr( get_the_author() ) . '" rel="me">' . get_the_author() . '</a></span>' );
-
-                } elseif ( is_day() ) {
-                    printf( __( 'Day: %s', 'waboot' ), '<span>' . get_the_date() . '</span>' );
-
-                } elseif ( is_month() ) {
-                    printf( __( 'Month: %s', 'waboot' ), '<span>' . get_the_date( 'F Y' ) . '</span>' );
-
-                } elseif ( is_year() ) {
-                    printf( __( 'Year: %s', 'waboot' ), '<span>' . get_the_date( 'Y' ) . '</span>' );
-
-                } elseif ( is_tax( 'post_format', 'post-format-aside' ) ) {
-                    _e( 'Asides', 'waboot' );
-
-                } elseif ( is_tax( 'post_format', 'post-format-gallery' ) ) {
-                    _e( 'Galleries', 'waboot');
-
-                } elseif ( is_tax( 'post_format', 'post-format-image' ) ) {
-                    _e( 'Images', 'waboot');
-
-                } elseif ( is_tax( 'post_format', 'post-format-video' ) ) {
-                    _e( 'Videos', 'waboot' );
-
-                } elseif ( is_tax( 'post_format', 'post-format-quote' ) ) {
-                    _e( 'Quotes', 'waboot' );
-
-                } elseif ( is_tax( 'post_format', 'post-format-link' ) ) {
-                    _e( 'Links', 'waboot' );
-
-                } elseif ( is_tax( 'post_format', 'post-format-status' ) ) {
-                    _e( 'Statuses', 'waboot' );
-
-                } elseif ( is_tax( 'post_format', 'post-format-audio' ) ) {
-                    _e( 'Audios', 'waboot' );
-
-                } elseif ( is_tax( 'post_format', 'post-format-chat' ) ) {
-                    _e( 'Chats', 'waboot' );
-
-                } else {
-                    _e( 'Archives', 'waboot' );
-
-                } ?>
-            </h1>
-
-            <?php
-            // show an optional category description
-            $term_description = term_description();
-            if ( ! empty( $term_description ) )
-                printf( '<div class="taxonomy-description">%s</div>', $term_description ); ?>
-
-        </header>
-    <?php }
-    add_action( 'waboot_archive_page_title', 'waboot_do_archive_page_title' );
+    function waboot_do_archive_page_title($prefix = "",$suffix = "") {
+	    waboot_archive_page_title($prefix,$suffix,true);
+    }
+    add_action( 'waboot_archive_page_title', 'waboot_do_archive_page_title', 2 );
 endif;
 
 if( ! function_exists('waboot_load_gfonts') ):
