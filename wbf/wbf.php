@@ -242,9 +242,11 @@ class WBF {
 	function admin_menu(){
 		global $menu,$options_framework_admin,$WabootThemeUpdateChecker;
 
-		//Check if must display reb bubble warning
-		$updates_state = get_option($WabootThemeUpdateChecker->optionName,null);
-		if(!is_null($updates_state->update))
+		//Check if must display the bubble warning
+		if(isset($WabootThemeUpdateChecker))
+			$updates_state = get_option($WabootThemeUpdateChecker->optionName,null);
+
+		if(isset($updates_state) && !is_null($updates_state->update))
 			$warning_count = 1;
 		else
 			$warning_count = 0;
