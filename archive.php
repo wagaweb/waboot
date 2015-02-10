@@ -7,7 +7,9 @@
  */
 
 global $wp_query;
-get_header(); ?>
+get_header();
+$blog_style = waboot_get_blog_layout();
+?>
 	<section id="main-wrap" class="<?php echo apply_filters( 'waboot_mainwrap_container_class', 'content-area col-sm-8' ); ?>">
 		<main id="main" class="site-main" role="main">
 			<?php if (of_get_option('waboot_blogpage_title_position') == "bottom") : ?>
@@ -47,6 +49,9 @@ get_header(); ?>
 						);
 						$wp_query = new WP_Query($args);
 					}
+					?>
+					<div class="blog-<?php echo $blog_style; ?>">
+					<?php
 					// Start the Loop
 					while(have_posts()){
 						the_post();
@@ -54,8 +59,15 @@ get_header(); ?>
 						 * If you want to override this in a child theme then include a file
 						 * called content-___.php (where ___ is the Post Format name) and that will be used instead.
 						 */
-						get_template_part( '/templates/parts/content', get_post_format() );
+						if($blog_style != "classic" && $blog_style != "blog"){
+							get_template_part( '/templates/parts/content', "blog-{$blog_style}" );
+						}else{
+							get_template_part( '/templates/parts/content', get_post_format() );
+						}
 					}
+					?>
+					</div>
+					<?php
 					// Show navigation below post content
 					waboot_content_nav( 'nav-below' );
 				}else{

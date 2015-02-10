@@ -46,7 +46,7 @@ if ( ! function_exists( 'waboot_do_archive_page_title' ) ):
     function waboot_do_archive_page_title($prefix = "",$suffix = "") {
 	    waboot_archive_page_title($prefix,$suffix,true);
     }
-    add_action( 'waboot_archive_page_title', 'waboot_do_archive_page_title', 2 );
+    add_action( 'waboot_archive_page_title', 'waboot_do_archive_page_title', 10, 2 );
 endif;
 
 if( ! function_exists('waboot_load_gfonts') ):

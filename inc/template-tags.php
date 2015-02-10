@@ -74,6 +74,19 @@ if(!function_exists("waboot_archive_page_title")):
 	}
 endif;
 
+if(!function_exists("waboot_get_blog_layout")):
+	/**
+	 * Return the current blog layout or the default one ("classic")
+	 * @return bool|string
+	 */
+	function waboot_get_blog_layout(){
+	    $blog_style = of_get_option("waboot_blogpage_layout");
+	    if (!$blog_style || $blog_style == "") $blog_style = "classic";
+
+		return $blog_style;
+	}
+endif;
+
 if(!function_exists("waboot_get_archive_page_title")):
 	function waboot_get_archive_page_title(){
 		global $post;
