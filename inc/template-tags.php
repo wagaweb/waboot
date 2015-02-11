@@ -91,6 +91,20 @@ if(!function_exists("waboot_get_blog_layout")):
 	}
 endif;
 
+if(!function_exists("waboot_get_blog_class")):
+    function waboot_get_blog_class($blog_layout = "classic"){
+        $classes = array(
+            "blog-".$blog_layout
+        );
+
+        if($blog_layout == "masonry"){
+            $classes[] = "row";
+        }
+
+        return implode(" ",$classes);
+    }
+endif;
+
 if(!function_exists("waboot_get_archive_page_title")):
 	function waboot_get_archive_page_title(){
 		global $post;

@@ -51,7 +51,7 @@
             </div>
         <?php endif; ?>
 
-        <?php if (of_get_option('waboot_header_layout') !== 'header3') : ?>
+        <?php if (of_get_option('waboot_header_layout') != 'header3') : ?>
         <div id="header-wrapper" class="<?php echo of_get_option( 'waboot_header_layout' ); ?>">
             <div id="header-inner" class="<?php echo of_get_option( 'waboot_header_width' ); ?>">
                 <header id="masthead" class="site-header" role="banner">

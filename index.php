@@ -7,6 +7,7 @@
 
 get_header();
 $blog_style = waboot_get_blog_layout();
+$blog_class = waboot_get_blog_class($blog_style);
 ?>
     <div id="main-wrap" class="<?php echo apply_filters( 'waboot_mainwrap_container_class', 'content-area col-sm-8' ); ?>">
         <main id="main" class="site-main" role="main">
@@ -15,7 +16,7 @@ $blog_style = waboot_get_blog_layout();
             <?php endif; ?>
             <?php if ( have_posts() ) : ?>
                 <?php waboot_content_nav( 'nav-above' ); // display content nav above posts ?>
-                <div class="blog-<?php echo $blog_style; ?>">
+                <div class="<?php echo $blog_class; ?>">
                     <?php
                     while ( have_posts() ) {
                         the_post();
@@ -23,11 +24,8 @@ $blog_style = waboot_get_blog_layout();
                          * If you want to override this in a child theme then include a file
                          * called content-___.php (where ___ is the Post Format name) and that will be used instead.
                          */
-                        if($blog_style == "masonry"){
-	                        get_template_part( '/templates/parts/content', "blog-masonry" );
-                        }
-                        elseif($blog_style == "timeline"){
-                            get_template_part( '/templates/parts/content', "blog-timeline" );
+                        if($blog_style != "classic"){
+	                        get_template_part( '/templates/parts/content', "blog-".$blog_style );
                         }else{
 	                        get_template_part( '/templates/parts/content', get_post_format() );
                         }
