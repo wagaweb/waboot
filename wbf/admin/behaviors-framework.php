@@ -557,12 +557,20 @@ class Behavior{
  * @return array|bool|mixed|string
  */
 function wbf_get_behavior($name, $post_id = 0, $return = "value") {
+
     if ($post_id == 0 && !is_archive()) {
         if(is_home() || is_404()){
             $post_id = get_queried_object_id();
         }else{
             global $post;
             $post_id = $post->ID;
+        }
+    }
+
+    if(is_archive()){
+        $blog_page = get_option('page_for_posts');
+        if($blog_page){
+            $post_id = $blog_page;
         }
     }
 
