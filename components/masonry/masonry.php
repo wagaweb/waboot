@@ -10,8 +10,8 @@ Author URI: http://www.waga.it
 class MasonryComponent extends Waboot_Component{
 
     public function scripts(){
-        wp_enqueue_script('masonry-script',$this->directory_uri . '/masonry.pkgd.min.js',array('jquery'),false,false);
-        wp_enqueue_script('masonry-custom-script',$this->directory_uri . '/masonry-custom.js',array('jquery'),false,false);
+        wp_enqueue_script('masonry-script',$this->directory_uri . '/masonry.pkgd.min.js',array('jquery','imagesLoaded-js'),false,true);
+        wp_enqueue_script('masonry-custom-script',$this->directory_uri . '/masonry-custom.js',array('jquery','masonry-script'),false,true);
     }
     
     public function theme_options($options){
