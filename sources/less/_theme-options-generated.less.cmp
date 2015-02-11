@@ -25,6 +25,10 @@ body {
   background-color: //{of_get_option('waboot_header_bgcolor')};
 }
 
+#navbar-wrapper {
+  background-color: //{of_get_option('waboot_navbar_bgcolor')};
+}
+
 #banner-wrapper {
   background-color: //{of_get_option('waboot_banner_bgcolor')};
 }
@@ -47,10 +51,6 @@ body {
 
 #page {
   background-color: //{of_get_option('waboot_page_bgcolor')};
-}
-
-.navbar.main-navigation .navbar-collapse {
-  background-color: //{of_get_option('waboot_navbar_bgcolor')};
 }
 
 body, p, ul, li {
