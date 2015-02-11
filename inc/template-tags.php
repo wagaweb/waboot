@@ -140,7 +140,10 @@ if(!function_exists("waboot_get_archive_page_title")):
 	    } elseif ( is_tax( 'post_format', 'post-format-chat' ) ) {
 		    return __( 'Chats', 'waboot' );
 	    } else {
-		    return __( 'Archives', 'waboot' );
+            $arch_obj = get_queried_object();
+            if(isset($arch_obj->name))
+                return $arch_obj->name;
+            return __( 'Archives', 'waboot' );
 	    }
 	}
 endif;
