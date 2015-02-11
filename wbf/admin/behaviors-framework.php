@@ -23,7 +23,7 @@ class BehaviorsManager{
 
     static function get($name, $post_id)
     {
-        $current_post_type = get_post_type($post_id);
+        $current_post_type = $post_id != 0 ? get_post_type($post_id) : "page"; //"0" is received when in archives pages, so set the post type to "Pages"
         $behaviors = self::getAll($current_post_type); //retrive all behaviours
         $selected_behavior = new stdClass();
 
@@ -222,15 +222,15 @@ class Behavior{
      */
     function get_value($node_id = false)
     {
-        if (!$node_id) {
+        if ($node_id == false && $node_id != 0) { //"0" is received when in archive pages
             global $post;
             $node = $post;
         } else {
             $node = get_post(intval($node_id));
         }
 
-        if (!isset($node) || $node->ID == 0 || !$node instanceof WP_Post) {
-            $this->value = $this->default;
+        if (!isset($node) || $node->ID == 0 || !$node instanceof WP_Post || $node_id == 0) {
+            $this->value = $this->default; //$node_id == 0 in in archive pages, so return the default for "Pages"
             return $this->value;
         } else {
             $current_behavior_value = get_post_meta($node->ID, $this->metaname, $this->default);
@@ -557,17 +557,13 @@ class Behavior{
  * @return array|bool|mixed|string
  */
 function wbf_get_behavior($name, $post_id = 0, $return = "value") {
-    if ($post_id == 0) {
-
-	    if(is_archive()) return null; //todo: Behavior per gli archivi?
-
+    if ($post_id == 0 && !is_archive()) {
         if(is_home() || is_404()){
             $post_id = get_queried_object_id();
         }else{
             global $post;
             $post_id = $post->ID;
         }
-
     }
 
     $b = BehaviorsManager::get($name, $post_id);

@@ -660,7 +660,7 @@ endif;
 
 if(!function_exists( "waboot_get_body_layout" )):
     function waboot_get_body_layout(){
-        if(is_home()){
+        if(is_home() || is_archive()){
             return of_get_option('waboot_blogpage_sidebar_layout');
         }else{
             return get_behavior('layout');
