@@ -460,7 +460,7 @@ class Behavior{
 			        <label class="screen-reader-text" for="<?php echo $this->metaname ?>"><?php echo $this->title ?></label>
 			        <div class="behavior-images-options">
 				        <?php foreach ($this->possible_values as $k => $v) : ?>
-				        <input type="radio" id="<?php echo $this->metaname ?>-<?php echo $v['value'] ?>" name="<?php echo $this->metaname ?>" value="<?php echo $v['name']; ?>" <?php if ($v['value'] == $current_value) echo "checked" ?> style="display:none;" />
+				        <input type="radio" id="<?php echo $this->metaname ?>-<?php echo $v['value'] ?>" name="<?php echo $this->metaname ?>" value="<?php echo $v['value']; ?>" <?php if ($v['value'] == $current_value) echo "checked" ?> style="display:none" />
 				        <div class="option-wrap">
 					        <?php if(isset($v['name'])) echo "<span>{$v['name']}</span>"; ?>
 					        <?php if(isset($v['thumb'])) : ?>
