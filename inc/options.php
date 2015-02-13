@@ -23,33 +23,37 @@ function optionsframework_option_name() {
  */
 function optionsframework_options() {
 
+	static $options = array();
+
+	if(!empty($options)){
+		return $options;
+	}
+
     // Pull all the categories into an array
-    $options_categories = array();
+    /*$options_categories = array();
     $options_categories_obj = get_categories();
     foreach ($options_categories_obj as $category) {
         $options_categories[$category->cat_ID] = $category->cat_name;
-    }
+    }*/
 
     // Pull all the tags into an array
-    $options_tags = array();
+    /*$options_tags = array();
     $options_tags_obj = get_tags( array('hide_empty' => false) );
     $options_tags[''] = __( 'Select a tag:', 'waboot' );
     foreach ($options_tags_obj as $tag) {
         $options_tags[$tag->term_id] = $tag->name;
-    }
+    }*/
 
     // Pull all the pages into an array
-    $options_pages = array();
+    /*$options_pages = array();
     $options_pages_obj = get_pages('sort_column=post_parent,menu_order');
     $options_pages[''] = __( 'Select a page:', 'waboot' );
     foreach ($options_pages_obj as $page) {
         $options_pages[$page->ID] = $page->post_title;
-    }
+    }*/
 
     // If using image radio buttons, define a directory path
     $imagepath = get_template_directory_uri() . '/wbf/admin/images/';
-
-    $options = array();
 
     // WABOOT SETTINGS TABS
 
