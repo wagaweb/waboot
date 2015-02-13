@@ -221,7 +221,12 @@ class WBF {
 		}
 
 		// Breadcrumbs
-		if (of_get_option('waboot_breadcrumbs', 1)) {
+		if(function_exists("of_get_option")) {
+			if(of_get_option('waboot_breadcrumbs', 1)){
+				locate_template('/wbf/vendor/breadcrumb-trail.php', true);
+				locate_template( '/wbf/public/breadcrumb-trail.php', true );
+			}
+		}else{
 			locate_template('/wbf/vendor/breadcrumb-trail.php', true);
 			locate_template( '/wbf/public/breadcrumb-trail.php', true );
 		}
