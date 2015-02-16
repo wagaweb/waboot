@@ -114,6 +114,27 @@ class WBF {
         }
     }
 
+	static function get_modules($include = false){
+		$modules_dir = WBF_DIRECTORY."/modules";
+		$modules = array();
+		$dirs = array_filter(glob($modules_dir."/*"), 'is_dir');
+		foreach($dirs as $d){
+			$current_module_dir = $d;
+			if(is_file($current_module_dir."/bootstrap.php")){
+				$modules[basename($d)] = array(
+					'path' => $current_module_dir,
+					'bootstrap' => $current_module_dir."/bootstrap.php",
+				);
+				if($include) require_once $modules[basename($d)]['bootstrap'];
+			}
+		}
+		return $modules;
+	}
+
+	static function load_modules(){
+		return self::get_modules(true);
+	}
+
 	/**
 	 *
 	 *
@@ -160,6 +181,8 @@ class WBF {
     {
 	    self::maybe_add_option();
 
+	    $modules = self::load_modules();
+
 	    // Make framework available for translation.
         load_textdomain( 'wbf', WBF_DIRECTORY . '/languages/wbf-'.get_locale().".mo");
 
@@ -182,6 +205,8 @@ class WBF {
         // Load scripts
         //locate_template( '/wbf/public/scripts.php', true );
         locate_template( '/wbf/admin/adm-scripts.php', true );
+
+	    do_action("wbf_after_setup_theme");
 
 	    /*
 		 * Load components framework
@@ -206,8 +231,10 @@ class WBF {
 
 	function init() {
 		// Load behaviors extension
-		locate_template( '/wbf/admin/behaviors-framework.php', true );
-		locate_template('/inc/behaviors.php', true);
+		//locate_template( '/wbf/admin/behaviors-framework.php', true );
+		//locate_template('/inc/behaviors.php', true);
+
+		do_action("wbf_init");
 
 		// Load theme options framework
 		if(!function_exists( 'optionsframework_init')){ // Don't load if optionsframework_init is already defined
