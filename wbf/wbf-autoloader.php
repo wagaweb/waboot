@@ -45,6 +45,9 @@ function waboot_autoloader($class)
         case "WBF\admin\Notice_Manager":
             locate_template( 'wbf/admin/notice-manager.php', true );
             break;
+        case "WBF\includes\Plugin_Update_Checker":
+            locate_template( 'wbf/includes/plugin-update-checker.php', true );
+            break;
 	    case "WBF\includes\Theme_Update_Checker":
 		    locate_template( 'wbf/includes/theme-update-checker.php', true );
 		    break;
@@ -81,6 +84,15 @@ function waboot_autoloader($class)
         case "ThemeUpdate":
         case "ThemeUpdateChecker":
             locate_template('wbf/vendor/theme-updates/theme-update-checker.php', true);
+            break;
+        case "PluginUpdateChecker":
+        case "PluginUpdate":
+        case "PluginInfo":
+        case "PluginUpdateChecker_1_6":
+        case "PluginInfo_1_6":
+        case "PluginUpdate_1_6":
+        case "PucFactory":
+            locate_template('wbf/vendor/plugin-updates/plugin-update-checker.php', true);
             break;
         case "FirePHP":
             locate_template('wbf/vendor/firephp/FirePHP.class.php', true);
