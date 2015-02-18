@@ -30,3 +30,8 @@ add_action( "wp_ajax_no_priv_create_excerpt", '\WBF\modules\pagebuilder\PageBuil
 set_current_builder();
 
 add_action( 'admin_init', '\WBF\modules\pagebuilder\init' );
+
+add_action('wbf_init', '\WBF\modules\pagebuilder\init_shortcodes');
+function init_shortcodes(){
+    Manager::init_shortcodes();
+}
