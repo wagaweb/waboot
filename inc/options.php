@@ -206,7 +206,7 @@ function optionsframework_options() {
     );
 
     $options[] = array(
-        'name' => __( 'Background Content', 'waboot' ),
+        'name' => __( 'Content', 'waboot' ),
         'desc' => __( 'Select content width. Fluid or Boxed?', 'waboot' ),
         'id' => 'waboot_content_width',
         'std' => 'container-fluid',
