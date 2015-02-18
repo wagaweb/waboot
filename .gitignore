@@ -17,6 +17,17 @@ sources/less/tmp_*.*
 sources/less/theme-options-generated.less
 
 ############
+## CHILD ASSETS
+############
+waboot-child/assets/cache/*.*
+waboot-child/assets/css/waboot-child.css
+waboot-child/assets/css/waboot-child.css.map
+waboot-child/assets/css/client-custom.css
+!waboot-child/assets/cache/.gitkeep
+waboot-child/sources/less/tmp_*.*
+waboot-child/sources/less/theme-options-generated.less
+
+############
 ## VENDORS
 ############
 wbf/includes/vendor/codemirror/bin
@@ -25,17 +36,6 @@ wbf/vendor/codemirror/doc
 wbf/vendor/codemirror/test
 wbf/vendor/codemirror/*.*
 !wbf/vendor/codemirror/package.json
-
-############
-## CHILD ASSETS
-############
-waboot-child/assets/cache/*.*
-waboot-child/assets/css/waboot.css
-waboot-child/assets/css/waboot.css.map
-waboot-child/assets/css/client-custom.css
-!waboot-child/assets/cache/.gitkeep
-waboot-child/sources/less/tmp_*.*
-waboot-child/sources/less/theme-options-generated.less
 
 ############
 ## IDEs
