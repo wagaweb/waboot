@@ -7,7 +7,7 @@ Author: WAGA Team <dev@waga.it>
 Author URI: http://www.waga.it
 */
 
-class ColorboxComponent extends Waboot_Component{
+class ColorboxComponent extends \WBF\modules\components\Component{
 
     public function scripts(){
         wp_enqueue_script('component-colorbox',$this->directory_uri . '/jquery.colorbox-min.js',array('jquery'),false,true);

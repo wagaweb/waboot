@@ -7,7 +7,7 @@ Author: WAGA Team <dev@waga.it>
 Author URI: http://www.waga.it
 */
 
-class MasonryComponent extends Waboot_Component{
+class MasonryComponent extends \WBF\modules\components\Component{
 
     public function scripts(){
         wp_enqueue_script('masonry-script',$this->directory_uri . '/masonry.pkgd.min.js',array('jquery','imagesLoaded-js'),false,true);

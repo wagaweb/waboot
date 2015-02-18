@@ -7,7 +7,7 @@ Author: WAGA Team <dev@waga.it>
 Author URI: http://www.waga.it
  */
 
-class SlideshowComponent extends Waboot_Component{
+class SlideshowComponent extends \WBF\modules\components\Component{
 
 	public function setup(){
 		parent::setup();

@@ -1,6 +1,7 @@
 <?php
 
 locate_template('/wbf/wbf.php', true);
+//require_once WBF_DIRECTORY."/modules/components/functions.php";
 locate_template('/inc/template-tags.php', true);
 
 if ( ! function_exists( 'waboot_setup' ) ):

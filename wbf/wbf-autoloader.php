@@ -19,15 +19,23 @@ function waboot_autoloader($class)
             locate_template('wbf/vendor/options-framework/' . $filename, true);
         }
     }
-    if (preg_match("/^Waboot_Options_/", $class)) {
+
+    /*if (preg_match("/^Waboot_Options_/", $class)) {
         $filename = "class-" . strtolower(preg_replace("/_/", "-", $class)) . ".php";
         locate_template('wbf/admin/' . $filename, true);
-    }
+    }*/
 
     if (preg_match("/conditions/", $class)) {
         $childclass = explode('\\', $class);
         $name = end($childclass);
         locate_template( 'wbf/admin/conditions/'.$name.'.php', true );
+    }
+
+    if (preg_match("/modules/", $class)) {
+        $childclass = explode('\\', $class);
+        $name = end($childclass);
+        $module = $childclass[2];
+        locate_template( 'wbf/modules/'.$module.'/'.$name.'.php', true );
     }
 
     switch ($class) {

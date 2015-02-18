@@ -8,7 +8,7 @@ class BehaviorsManager{
 	{
 		$current_post_type = $post_id != 0 ? get_post_type($post_id) : "page"; //"0" is received when in archives pages, so set the post type to "Pages"
 		$behaviors = self::getAll($current_post_type); //retrive all behaviours
-		$selected_behavior = new stdClass();
+		$selected_behavior = new \stdClass();
 
 		foreach ($behaviors as $b) { //find the desidered behaviour
 			if ($b->name == $name) {

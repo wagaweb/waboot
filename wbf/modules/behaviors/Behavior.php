@@ -133,7 +133,7 @@ class Behavior{
 			$node = get_post(intval($node_id));
 		}
 
-		if (!isset($node) || $node->ID == 0 || !$node instanceof WP_Post || $node_id == 0) {
+		if (!isset($node) || $node->ID == 0 || !$node instanceof \WP_Post || $node_id == 0) {
 			$this->value = $this->default; //$node_id == 0 in in archive pages, so return the default for "Pages"
 			return $this->value;
 		} else {

@@ -7,7 +7,7 @@ Author: WAGA Team <dev@waga.it>
 Author URI: http://www.waga.it
 */
 
-class TimelineComponent extends Waboot_Component{
+class TimelineComponent extends \WBF\modules\components\Component{
 
     public function scripts(){
         wp_enqueue_script('timeline-script', $this->directory_uri . '/timeline.js', array('jquery'), false, false);

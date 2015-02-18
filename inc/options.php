@@ -1,4 +1,5 @@
 <?php
+
 /**
  * A unique identifier is defined to store the options in the database and reference them from the theme.
  * By default it uses the theme name, in lowercase and without spaces, but this can be changed if needed.
@@ -642,7 +643,7 @@ function optionsframework_options() {
     );
 
 
-    if (class_exists("BehaviorsManager")) {
+    if (class_exists('\WBF\modules\behaviors\BehaviorsManager')) {
         $bd_locs = wp_get_filtered_post_types();
 
         if (!empty($bd_locs)) {
@@ -691,7 +692,7 @@ function optionsframework_options() {
     * BEHAVIORS TAB
     */
 
-    if(class_exists("BehaviorsManager")) :
+    if(class_exists('\WBF\modules\behaviors\BehaviorsManager')) :
 
         $options[] = array(
             'name' => __( 'Posts & Pages', 'waboot' ),
@@ -702,10 +703,10 @@ function optionsframework_options() {
         $post_types = wp_get_filtered_post_types();
 
         foreach($post_types as $ptSlug => $ptLabel){
-            if(BehaviorsManager::count_behaviors_for_post_type($ptSlug) > 0){
+            if(\WBF\modules\behaviors\BehaviorsManager::count_behaviors_for_post_type($ptSlug) > 0){
                 //get predefined options
                 //$predef_behavior = waboot_behavior_get_options();
-                $predef_behavior = BehaviorsManager::getAll();
+                $predef_behavior = \WBF\modules\behaviors\BehaviorsManager::getAll();
 
                 $options[] = array(
                     'name' => $ptLabel,
@@ -733,7 +734,7 @@ function optionsframework_options() {
         'type' => 'heading'
     );
 
-    $blogpage_layouts = of_add_default_key(apply_filters("waboot_blogpage_layout",array(
+    $blogpage_layouts = \WBF\modules\options\of_add_default_key(apply_filters("waboot_blogpage_layout",array(
         'classic' =>  array(
             'label' => 'Classic',
             'value' => $imagepath . 'blog/default-blog.png'
@@ -763,7 +764,7 @@ function optionsframework_options() {
     );
 
 
-    $sidebar_layouts = of_add_default_key(waboot_get_available_body_layouts());
+    $sidebar_layouts = \WBF\modules\options\of_add_default_key(waboot_get_available_body_layouts());
 	if(isset($sidebar_layouts['values'][0]['thumb'])){
 		$opt_type = "images";
 		foreach($sidebar_layouts['values'] as $k => $v){

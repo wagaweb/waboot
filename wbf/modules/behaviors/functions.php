@@ -39,10 +39,10 @@ function get_behavior($name, $post_id = 0, $return = "value") {
 
 function create_metabox(){
 	$behaviors = BehaviorsManager::getAll();
-	add_meta_box("behavior","Behaviors",'WBF\admin\modules\behaviors\display_metabox',null,"advanced","core",array($behaviors));
+	add_meta_box("behavior","Behaviors",'\WBF\modules\behaviors\display_metabox',null,"advanced","core",array($behaviors));
 }
 
-function display_metabox(WP_Post $post,array $behaviors){
+function display_metabox(\WP_Post $post,array $behaviors){
 	$behaviors = $behaviors['args'][0];
 
 	wp_nonce_field('behaviors_meta_box','behaviors_meta_box_nonce');

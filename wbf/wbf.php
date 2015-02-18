@@ -90,27 +90,27 @@ class WBF {
 	}
 
     static function enable_default_components(){
-        if(class_exists("Waboot_ComponentsManager")){
+        if(class_exists('\WBF\modules\components\ComponentsManager')){
             $theme = wp_get_theme();
             $components_already_saved = (array) get_option( "wbf_components_saved_once", array() );
             if(!in_array($theme->get_stylesheet(),$components_already_saved)){
                 $default_components = apply_filters("wbf_default_components",array());
                 foreach($default_components as $c_name){
-                    Waboot_ComponentsManager::ensure_enabled($c_name);
+                    \WBF\modules\components\ComponentsManager::ensure_enabled($c_name);
                 }
             }
         }
     }
 
     static function reset_components_state(){
-        if(!class_exists("Waboot_ComponentsManager")) return;
+        if(!class_exists('\WBF\modules\components\ComponentsManager')) return;
         $default_components = apply_filters("wbf_default_components",array());
-        $registered_components = Waboot_ComponentsManager::getAllComponents();
+        $registered_components = \WBF\modules\components\ComponentsManager::getAllComponents();
         foreach($registered_components as $c_name => $c_data){
-            Waboot_ComponentsManager::disable($c_name);
+            \WBF\modules\components\ComponentsManager::disable($c_name);
         }
         foreach($default_components as $c_name){
-            Waboot_ComponentsManager::ensure_enabled($c_name);
+            \WBF\modules\components\ComponentsManager::ensure_enabled($c_name);
         }
     }
 
@@ -162,7 +162,7 @@ class WBF {
 	}
 
 	static function component_is_loaded($name){
-		if(class_exists("Waboot_ComponentsManager") && array_key_exists($name,$GLOBALS['loaded_components'])) {
+		if(class_exists('\WBF\modules\components\ComponentsManager') && array_key_exists($name,$GLOBALS['loaded_components'])) {
 			return true;
 		}
 
@@ -211,12 +211,12 @@ class WBF {
 	    /*
 		 * Load components framework
 		 */
-	    locate_template( '/wbf/admin/components-framework.php', true );
-	    if(class_exists("Waboot_ComponentsManager")){
-		    Waboot_ComponentsManager::init();
-		    Waboot_ComponentsManager::toggle_components(); //enable or disable components if necessary (manage the disable\enable actions sent by admin page)
-		    locate_template( '/wbf/admin/components-hooks.php', true ); //Setup the components hooks
-	    }
+	    //locate_template( '/wbf/admin/components-framework.php', true );
+	    //if(class_exists("Waboot_ComponentsManager")){
+		//    Waboot_ComponentsManager::init();
+		//    Waboot_ComponentsManager::toggle_components(); //enable or disable components if necessary (manage the disable\enable actions sent by admin page)
+		//    locate_template( '/wbf/admin/components-hooks.php', true ); //Setup the components hooks
+	    //}
 
 	    // ACF INTEGRATION
         if(!is_plugin_active("advanced-custom-fields-pro/acf.php") && !is_plugin_active("advanced-custom-fields/acf.php")){
@@ -237,15 +237,15 @@ class WBF {
 		do_action("wbf_init");
 
 		// Load theme options framework
-		if(!function_exists( 'optionsframework_init')){ // Don't load if optionsframework_init is already defined
-			locate_template('/wbf/admin/options-framework.php', true);
-		}
+		//if(!function_exists( 'optionsframework_init')){ // Don't load if optionsframework_init is already defined
+		//	locate_template('/wbf/admin/options-framework.php', true);
+		//}
 
 		//Setup registered components
-		if(class_exists("Waboot_ComponentsManager")){
-			Waboot_ComponentsManager::setupComponentsFilters();
-			Waboot_ComponentsManager::setupRegisteredComponents(); //Loads setup() methods of components
-		}
+		//if(class_exists("Waboot_ComponentsManager")){
+		//	Waboot_ComponentsManager::setupComponentsFilters();
+		//	Waboot_ComponentsManager::setupRegisteredComponents(); //Loads setup() methods of components
+		//}
 
 		// Breadcrumbs
 		if(function_exists("of_get_option")) {
@@ -258,7 +258,7 @@ class WBF {
 			locate_template( '/wbf/public/breadcrumb-trail.php', true );
 		}
 
-		if(function_exists("of_check_options_deps")) of_check_options_deps(); //Check if theme options dependencies are met
+		if(function_exists('\WBF\modules\options\of_check_options_deps')) \WBF\modules\options\of_check_options_deps(); //Check if theme options dependencies are met
 		$GLOBALS['wbf_notice_manager']->enqueue_notices(); //Display notices
 
 		//The debugger
@@ -387,23 +387,6 @@ class WBF {
 }
 
 /**
- * Behaviors framework backup functions; handles the case in which the Behaviors are not loaded
- *
- * @param $name
- * @param int $post_id
- * @param string $return
- *
- * @return array|bool|mixed|string
- */
-function get_behavior( $name, $post_id = 0, $return = "value" ) {
-    if (class_exists("BehaviorsManager")) {
-	    return wbf_get_behavior( $name, $post_id = 0, $return = "value" ); //call the behavior framework function
-    } else {
-	    return WBF::get_behavior( $name, $post_id = 0, $return = "value" ); //call the backup function
-    }
-}
-
-/**
  * Waboot options page for further uses
  */
 function waboot_options_page() {
@@ -454,6 +437,36 @@ if(!is_admin() && !function_exists("waboot_mobile_body_class")):
 	}
 	add_filter('body_class','waboot_mobile_body_class');
 endif;
+
+/**
+ * Behaviors framework backup functions; handles the case in which the Behaviors are not loaded
+ *
+ * @param $name
+ * @param int $post_id
+ * @param string $return
+ *
+ * @return array|bool|mixed|string
+ */
+function get_behavior( $name, $post_id = 0, $return = "value" ) {
+    if (class_exists('\WBF\modules\behaviors\BehaviorsManager')) {
+        return \WBF\modules\behaviors\get_behavior( $name, $post_id = 0, $return = "value" ); //call the behavior framework function
+    } else {
+        return WBF::get_behavior( $name, $post_id = 0, $return = "value" ); //call the backup function
+    }
+}
+
+/**
+ * \WBF\modules\options\of_get_option wrapper function
+ * @param $name
+ * @param bool $default
+ * @return \WBF\modules\options\of_get_option output
+ */
+function of_get_option($name, $default = false){
+    if(class_exists('\WBF\modules\options\of_get_option'))
+        return \WBF\modules\options\of_get_option($name,$default);
+    else
+        return $default;
+}
 
 /**
  * WP UPDATE SERVER
