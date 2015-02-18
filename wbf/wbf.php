@@ -462,7 +462,7 @@ function get_behavior( $name, $post_id = 0, $return = "value" ) {
  * @return \WBF\modules\options\of_get_option output
  */
 function of_get_option($name, $default = false){
-    if(class_exists('\WBF\modules\options\of_get_option'))
+    if(function_exists('\WBF\modules\options\of_get_option'))
         return \WBF\modules\options\of_get_option($name,$default);
     else
         return $default;
