@@ -26,36 +26,39 @@ class Manager {
     }
 
     static function scripts() {
-        $global_deps = array(
-	        "jquery",
-	        "jquery-ui-sortable",
-	        "jquery-ui-draggable",
-	        "jquery-ui-selectable",
-	        "jquery-ui-dialog",
-	        "jquery-modal",
-	        "underscore"
-        );
-        $loc_array = array(
-	        'url' => get_bloginfo( "url" ) . "/wp-admin/admin-ajax.php",
-	        'tabTitle' => __( "Waboot Page Builder", "waboot" ),
-	        'toolbar'  => GUI::generate_toolbar(),
-	        'tools' => self::_get_tools(),
-	        'blocks'   => self::_get_blocks(),
-	        'templates' => array(
-		        'editor' => GUI::editor_frontend_tpl("<%= id %>-modal","<%= id %>","<%= content %>")
-	        )
-        );
+        global $pagenow;
+        if ( in_array( $pagenow, array( 'post.php', 'page.php', 'post-new.php', 'post-edit.php' ) ) ) {
+            $global_deps = array(
+                "jquery",
+                "jquery-ui-sortable",
+                "jquery-ui-draggable",
+                "jquery-ui-selectable",
+                "jquery-ui-dialog",
+                "jquery-modal",
+                "underscore"
+            );
+            $loc_array = array(
+                'url' => get_bloginfo( "url" ) . "/wp-admin/admin-ajax.php",
+                'tabTitle' => __( "Waboot Page Builder", "waboot" ),
+                'toolbar'  => GUI::generate_toolbar(),
+                'tools' => self::_get_tools(),
+                'blocks'   => self::_get_blocks(),
+                'templates' => array(
+                    'editor' => GUI::editor_frontend_tpl("<%= id %>-modal","<%= id %>","<%= content %>")
+                )
+            );
 
-        wp_register_script( 'jquery-modal', get_template_directory_uri() . "/wbf/vendor/jquery-modal/jquery.modal.min.js", array( "jquery" ) );
+            wp_register_script( 'jquery-modal', get_template_directory_uri() . "/wbf/vendor/jquery-modal/jquery.modal.min.js", array( "jquery" ) );
 
-        wp_register_script( 'wb-pagebuilder-toolbar', get_template_directory_uri() . "/wbf/admin/js/page-builder-toolbar.js", $global_deps );
-        wp_register_script( 'wb-pagebuilder-editor', get_template_directory_uri() . "/wbf/admin/js/page-builder-editor.js", array_merge($global_deps,array("wb-pagebuilder-toolbar")) );
-        wp_register_script( 'wb-pagebuilder', get_template_directory_uri() . "/wbf/admin/js/page-builder.js", array_merge($global_deps,array("wb-pagebuilder-editor")) );
-        wp_localize_script( 'wb-pagebuilder', 'wbpbData', $loc_array);
+            wp_register_script( 'wb-pagebuilder-toolbar', get_template_directory_uri() . "/wbf/admin/js/page-builder-toolbar.js", $global_deps );
+            wp_register_script( 'wb-pagebuilder-editor', get_template_directory_uri() . "/wbf/admin/js/page-builder-editor.js", array_merge($global_deps,array("wb-pagebuilder-toolbar")) );
+            wp_register_script( 'wb-pagebuilder', get_template_directory_uri() . "/wbf/admin/js/page-builder.js", array_merge($global_deps,array("wb-pagebuilder-editor")) );
+            wp_localize_script( 'wb-pagebuilder', 'wbpbData', $loc_array);
 
-        wp_enqueue_script( 'jquery-modal' );
-        wp_enqueue_script( 'wb-pagebuilder-editor' );
-        wp_enqueue_script( 'wb-pagebuilder' );
+            wp_enqueue_script( 'jquery-modal' );
+            wp_enqueue_script( 'wb-pagebuilder-editor' );
+            wp_enqueue_script( 'wb-pagebuilder' );
+        }
     }
 
     static function _get_tools() {
