@@ -20,7 +20,8 @@ module.exports = function(grunt) {
                     'wbf/admin/css/tinymce.css': 'wbf/sources/less/tinymce.less',
                     'wbf/admin/css/admin.css': 'wbf/sources/less/admin.less',
                     'wbf/admin/css/waboot-optionsframework.css': 'wbf/sources/less/optionsframework.less',
-                    'wbf/admin/css/waboot-componentsframework.css': 'wbf/sources/less/componentsframework.less'
+                    'wbf/admin/css/waboot-componentsframework.css': 'wbf/sources/less/componentsframework.less',
+                    'wbf/admin/css/waboot-pagebuilder.css': 'wbf/sources/less/pagebuilder.less'
                 }
             },
             production:{
