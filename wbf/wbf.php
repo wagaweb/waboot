@@ -473,5 +473,5 @@ function of_get_option($name, $default = false){
  */
 $GLOBALS['WabootThemeUpdateChecker'] = new \WBF\includes\Theme_Update_Checker(
 	'waboot', //Theme slug. Usually the same as the name of its directory.
-	'http://wpserver.wagahost.com/?action=get_metadata&slug=waboot' //Metadata URL.
+	'http://update.waboot.org/?action=get_metadata&slug=waboot' //Metadata URL.
 );
