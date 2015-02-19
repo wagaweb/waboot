@@ -3,6 +3,7 @@
 spl_autoload_register( "wbf_plugin_autoload" );
 function wbf_plugin_autoload( $class ) {
 	$wbf_path = get_option( "wbf_path" );
+
 	if ( $wbf_path ) {
 		$plugin_main_class_dir = $wbf_path . "/includes/waboot-plugin";
 
@@ -14,6 +15,9 @@ function wbf_plugin_autoload( $class ) {
 		}
 
 		switch($class){
+			case "WBF\admin\License_Manager":
+				require_once($wbf_path . "/admin/license-manager.php");
+				break;
 			case "WBF\includes\Plugin_Update_Checker":
 				require_once($wbf_path . "/includes/plugin-update-checker.php");
 				break;
