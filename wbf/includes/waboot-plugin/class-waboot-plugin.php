@@ -38,6 +38,14 @@ class Waboot_Plugin {
 	 */
 	protected $plugin_dir;
 	/**
+	 * The full path to main plugin file
+	 *
+	 * @since 0.10.0
+	 * @access   protected
+	 * @var string
+	 */
+	protected $plugin_path;
+	/**
 	 * The current version of the plugin.
 	 *
 	 * @since    1.0.0
@@ -54,18 +62,28 @@ class Waboot_Plugin {
 	 */
 	protected $update_instance;
 
-	public function __construct( $plugin_name, $dir, $version, $update_check = false, $metadata_call = false ) {
+	public function __construct( $plugin_name, $dir, $version = "1.0.0" ) {
 		$this->plugin_name = $plugin_name;
-		$this->version     = $version;
 		$this->plugin_dir  = $dir;
+		$this->plugin_path = $this->plugin_dir.$this->plugin_name.".php";
+
+		//Get the version
+		$pluginHeader = get_plugin_data($this->plugin_path, false, false);
+		if ( isset($pluginHeader['Version']) ) {
+			$this->version = $pluginHeader['Version'];
+		} else {
+			$this->version = $version;
+		}
 
 		$this->load_dependencies();
 		$this->set_locale();
+	}
 
-		if($update_check && $metadata_call){
+	public function set_update_server($metadata_call){
+		if(!empty($metadata_call)){
 			$this->update_instance = new \WBF\includes\Plugin_Update_Checker(
 				"http://192.168.1.10/waga/wb-update-server/?action=get_metadata&slug={$this->plugin_name}&type=plugin", //Metadata URL.
-				$this->plugin_dir.$plugin_name.".php",
+				$this->plugin_dir.$this->plugin_name.".php",
 				$this->plugin_name
 			);
 		}
