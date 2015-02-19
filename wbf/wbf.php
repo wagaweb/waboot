@@ -208,16 +208,6 @@ class WBF {
 
 	    do_action("wbf_after_setup_theme");
 
-	    /*
-		 * Load components framework
-		 */
-	    //locate_template( '/wbf/admin/components-framework.php', true );
-	    //if(class_exists("Waboot_ComponentsManager")){
-		//    Waboot_ComponentsManager::init();
-		//    Waboot_ComponentsManager::toggle_components(); //enable or disable components if necessary (manage the disable\enable actions sent by admin page)
-		//    locate_template( '/wbf/admin/components-hooks.php', true ); //Setup the components hooks
-	    //}
-
 	    // ACF INTEGRATION
         if(!is_plugin_active("advanced-custom-fields-pro/acf.php") && !is_plugin_active("advanced-custom-fields/acf.php")){
             locate_template( '/wbf/vendor/acf/acf.php', true );
@@ -230,22 +220,7 @@ class WBF {
     }
 
 	function init() {
-		// Load behaviors extension
-		//locate_template( '/wbf/admin/behaviors-framework.php', true );
-		//locate_template('/inc/behaviors.php', true);
-
 		do_action("wbf_init");
-
-		// Load theme options framework
-		//if(!function_exists( 'optionsframework_init')){ // Don't load if optionsframework_init is already defined
-		//	locate_template('/wbf/admin/options-framework.php', true);
-		//}
-
-		//Setup registered components
-		//if(class_exists("Waboot_ComponentsManager")){
-		//	Waboot_ComponentsManager::setupComponentsFilters();
-		//	Waboot_ComponentsManager::setupRegisteredComponents(); //Loads setup() methods of components
-		//}
 
 		// Breadcrumbs
 		if(function_exists("of_get_option")) {
