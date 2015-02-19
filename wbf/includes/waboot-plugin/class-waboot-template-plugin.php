@@ -11,7 +11,7 @@ class Waboot_Template_Plugin extends Waboot_Plugin implements Waboot_Template_Pl
 	protected $ctp_templates;
 	protected $templates_paths;
 
-	public function __construct( $plugin_name, $dir, $version ) {
+	public function __construct( $plugin_name, $dir, $version = "1.0.0" ) {
 		parent::__construct( $plugin_name, $dir, $version );
 		$this->templates       = array();
 		$this->templates_paths = array();
