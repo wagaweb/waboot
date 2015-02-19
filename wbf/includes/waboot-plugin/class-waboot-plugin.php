@@ -82,7 +82,7 @@ class Waboot_Plugin {
 	public function set_update_server($metadata_call){
 		if(!empty($metadata_call)){
 			$this->update_instance = new \WBF\includes\Plugin_Update_Checker(
-				"http://192.168.1.10/waga/wb-update-server/?action=get_metadata&slug={$this->plugin_name}&type=plugin", //Metadata URL.
+				$metadata_call,
 				$this->plugin_dir.$this->plugin_name.".php",
 				$this->plugin_name
 			);
