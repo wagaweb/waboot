@@ -33,5 +33,7 @@ add_action( 'admin_init', '\WBF\modules\pagebuilder\init' );
 
 add_action('wbf_init', '\WBF\modules\pagebuilder\init_shortcodes');
 function init_shortcodes(){
-    Manager::init_shortcodes();
+	if(get_current_builder()){
+		Manager::init_shortcodes();
+	}
 }

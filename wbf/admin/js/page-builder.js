@@ -34,7 +34,7 @@ jQuery.noConflict()(function($) {
                 var new_temp_id = _.uniqueId('temp-');
                 save_new_pagebuilder(new_temp_id);
                 var new_shortcode = '[pagebuilder id="'+new_temp_id+'"]';
-                window.switchEditors.go('content', 'tmce');
+                get_tinymce_focus();
                 window.send_to_editor(new_shortcode);
             }
             pagebuilder_displayed_flag = false;
@@ -188,27 +188,11 @@ jQuery.noConflict()(function($) {
      * --------------- TINYMCE ---------------
      */
 
-    function is_tinymce_active() {
-        /*if (!_.isNull(tinyMCE.activeEditor)) { return true; } return false;*/
-        if (typeof tinyMCE !== "undefined" && tinyMCE.activeEditor && !tinyMCE.activeEditor.isHidden()) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Set the editor content
-     */
-    function set_tinymce_content(content) {
-        if (is_tinymce_active()) {
-            //tinyMCE.activeEditor.setContent(content, {format: 'raw'});
-            tinyMCE.get('content').setContent(content, {
-                format: 'raw'
-            });
-            jQuery('#content').val(content);
-        } else {
-            jQuery('#content').val(content);
-        }
+    function get_tinymce_focus(){
+        window.switchEditors.go('content', 'tmce');
+        /*window.tinymce.get("content").focus();
+         window.tinymce.activeEditor.focus();*/
+        window.tinymce.execCommand('mceFocus',false,'content');
     }
 
     function register_tinymce_view(){

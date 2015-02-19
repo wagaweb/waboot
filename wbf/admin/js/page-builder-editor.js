@@ -395,7 +395,7 @@ var WBEditor = function WBEditor(container_id,toolbar_id,blocks_cache_selector,c
                 my_values = {},
                 my_values_json = "{}";
 
-            Myself.toggle_loading(undefined,"show");
+            Myself.toggle_loading(Myself.$edit_screen,"show");
 
             Myself.$edit_screen.find("[data-save]").each(function() { //If the field in modal has [data-save] attribute, then get the value and save it in the corresponding editor block
                 var ev = { //<--- current (e)lement (v)alues
@@ -416,34 +416,36 @@ var WBEditor = function WBEditor(container_id,toolbar_id,blocks_cache_selector,c
                 }
             });
 
-            //var my_values_json = JSON.stringify(my_values, null, 2);
-            my_values_json = ajax_json_encode(my_values);
-            //Set the values into data-options of modified block
-            Myself.$editing_element.attr("data-options", my_values_json);
+            //Encode the data of the edit screen
+            ajax_json_encode(my_values,function(my_values_json){
+                //Set the values into data-options of modified block
+                Myself.$editing_element.attr("data-options", my_values_json);
 
-            //If preview is enabled, then update the preview
-            if (wbpbData.blocks[block_name].info.preview) {
-                var $preview_container = Myself.$editing_element.find(wbpbData.blocks[block_name].info.preview_to),
-                    preview_content = "";
+                //If preview is enabled, then update the preview
+                if (wbpbData.blocks[block_name].info.preview) {
+                    var $preview_container = Myself.$editing_element.find(wbpbData.blocks[block_name].info.preview_to),
+                        preview_content = "";
 
-                if (wbpbData.blocks[block_name].info.preview_from_field !== "") {
-                    preview_content = my_values[wbpbData.blocks[block_name].info.preview_from_field];
-                    preview_content = create_excerpt(preview_content, 12, "...");
-                    $preview_container.html(preview_content);
+                    if (wbpbData.blocks[block_name].info.preview_from_field !== "") {
+                        preview_content = my_values[wbpbData.blocks[block_name].info.preview_from_field];
+                        create_excerpt(preview_content, 12, "...", function(excerpt){
+                            $preview_container.html(excerpt);
+                        },function(){
+                            close_edit_and_update();
+                        });
+                    }else{
+                        close_edit_and_update();
+                    }
                 }
-            }
-
-            Myself.content_cache_update(); //Update editor content input
-            //Close the widget
-            Myself.toggle_loading(undefined,"hide");
-            Myself.hide_edit_screen();
+            });
 
             /**
              * Encode string to JSON via Ajax Call
              * @param values
              * @returns {string}
+             * @param success_callback
              */
-            function ajax_json_encode(values) {
+            function ajax_json_encode(values,success_callback) {
                 var json = "{}";
                 $.ajax(wbpbData.url, {
                     data: {
@@ -451,14 +453,14 @@ var WBEditor = function WBEditor(container_id,toolbar_id,blocks_cache_selector,c
                         array: values
                     },
                     type: "POST",
-                    async: false,
                     complete: function(jqXHR, textStatus) {},
                     error: function(jqXHR, textStatus, errorThrown) {
                         alert("Error!");
                     },
                     success: function(data, textStatus, jqXHR) {
                         console.log(data);
-                        json = data;
+                        json = data || "{}";
+                        success_callback(json);
                     }
                 });
                 return json;
@@ -470,8 +472,10 @@ var WBEditor = function WBEditor(container_id,toolbar_id,blocks_cache_selector,c
              * @param length
              * @param more_txt
              * @returns {string}
+             * @param complete_callback
+             * @param success_callback
              */
-            function create_excerpt(content, length, more_txt) {
+            function create_excerpt(content, length, more_txt, success_callback, complete_callback) {
                 /*content = content.replace(/< /?[^>]+>/gi, '');
                  content = $.trim(content);
                  content = content.substring(0,length)+more_txt;
@@ -483,18 +487,26 @@ var WBEditor = function WBEditor(container_id,toolbar_id,blocks_cache_selector,c
                         text: content
                     },
                     type: "POST",
-                    async: false,
                     complete: function (jqXHR, textStatus) {
+                        complete_callback();
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
                         alert("Error!");
                     },
                     success: function (data, textStatus, jqXHR) {
                         console.log(data);
-                        excerpt = data;
+                        excerpt = data || "";
+                        success_callback(excerpt);
                     }
                 });
                 return excerpt;
+            }
+
+            function close_edit_and_update(){
+                Myself.content_cache_update(); //Update editor content input
+                //Close the widget
+                Myself.toggle_loading(Myself.$edit_screen,"hide");
+                Myself.hide_edit_screen();
             }
         },
         enable_toolbar: function(){
@@ -692,9 +704,17 @@ var WBEditor = function WBEditor(container_id,toolbar_id,blocks_cache_selector,c
         /**
          * Show / hide loading screen
          * @param $block
+         * @param action
          */
         toggle_loading: function($block,action){
-            var $loading_window = $("[data-loading-window]").clone();
+            var $loading_window;
+
+            if($("[data-loading-window=cloned]").length === 0){
+                $loading_window = $("[data-loading-window]").clone();
+                $loading_window.attr("data-loading-window","cloned");
+            }else{
+                $loading_window = $("[data-loading-window=cloned]");
+            }
 
             if(typeof($block) === "undefined"){
                 $block = this.$container;
@@ -706,6 +726,7 @@ var WBEditor = function WBEditor(container_id,toolbar_id,blocks_cache_selector,c
             }else{
                 //$("wb-pagebuilder-editors").after($loading_window);
                 $block.removeClass("wbpbloading");
+                $loading_window.remove();
             }
 
             //todo: below is a more efficient way, but we have to fix the double call issue

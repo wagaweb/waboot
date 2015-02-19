@@ -55,6 +55,15 @@ endif;
 add_action('after_setup_theme', 'waboot_setup', 11);
 
 /**
+ * Set the pagebuilder
+ */
+if(!function_exists("theme_get_pagebuilder")):
+	function theme_get_pagebuilder(){
+		return "bootstrap";
+	}
+endif;
+
+/**
  * INIT STYLES COMPILER
  */
 if ( ! function_exists( 'init_style_compiler' ) ) :

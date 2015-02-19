@@ -3,6 +3,7 @@
 namespace WBF\modules\pagebuilder;
 
 function init() {
+	if(!get_current_builder()) return;
     Manager::init();
     GUI::init();
 }
@@ -19,7 +20,10 @@ function set_current_builder() {
 }
 
 function get_current_builder($obj = false) {
-    $builder_name = "bootstrap";
+	if(!function_exists("theme_get_pagebuilder")){
+		return false;
+	}
+	$builder_name = theme_get_pagebuilder(); //"bootstrap";
     if(!$obj) return $builder_name;
     else{
         $builder_classname = ucfirst( get_current_builder() ) . "PageBuilder";
