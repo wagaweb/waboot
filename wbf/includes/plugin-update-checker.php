@@ -4,6 +4,63 @@ namespace WBF\includes;
 
 class Plugin_Update_Checker extends \PluginUpdateChecker{
 	/**
+	 * Class constructor.
+	 *
+	 * @param string $metadataUrl The URL of the plugin's metadata file.
+	 * @param string $pluginFile Fully qualified path to the main plugin file.
+	 * @param string $slug The plugin's 'slug'. If not specified, the filename part of $pluginFile sans '.php' will be used as the slug.
+	 * @param integer $checkPeriod How often to check for updates (in hours). Defaults to checking every 12 hours. Set to 0 to disable automatic update checks.
+	 * @param string $optionName Where to store book-keeping info about update checks. Defaults to 'external_updates-$slug'.
+	 * @param string $muPluginFile Optional. The plugin filename relative to the mu-plugins directory.
+	 */
+	public function __construct($metadataUrl, $pluginFile, $slug = '', $checkLicense = false, $checkPeriod = 12, $optionName = '', $muPluginFile = ''){
+		$this->metadataUrl = $metadataUrl;
+		$this->pluginAbsolutePath = $pluginFile;
+		$this->pluginFile = plugin_basename($this->pluginAbsolutePath);
+		$this->muPluginFile = $muPluginFile;
+		$this->checkPeriod = $checkPeriod;
+		$this->slug = $slug;
+		$this->optionName = $optionName;
+		$this->debugMode = defined('WP_DEBUG') && WP_DEBUG;
+
+		//If no slug is specified, use the name of the main plugin file as the slug.
+		//For example, 'my-cool-plugin/cool-plugin.php' becomes 'cool-plugin'.
+		if ( empty($this->slug) ){
+			$this->slug = basename($this->pluginFile, '.php');
+		}
+
+		if ( empty($this->optionName) ){
+			$this->optionName = 'external_updates-' . $this->slug;
+		}
+
+		//Backwards compatibility: If the plugin is a mu-plugin but no $muPluginFile is specified, assume
+		//it's the same as $pluginFile given that it's not in a subdirectory (WP only looks in the base dir).
+		if ( empty($this->muPluginFile) && (strpbrk($this->pluginFile, '/\\') === false) && $this->isMuPlugin() ) {
+			$this->muPluginFile = $this->pluginFile;
+		}
+
+		$checkLicense = true; //todo: Se il plugin framework deve essere indipendente da wbf... nn si dovrebbe controllare la licenza sul license manager del WBF
+
+		if($checkLicense){
+			if(\WBF\admin\License_Manager::get_license_status() == "Active") {
+				$this->installHooks();
+				$this->remove_not_upgradable_plugin($this->slug);
+			}else{
+				$update = $this->maybeCheckForUpdates();
+				if(!is_null($update) && $update != false){
+					$this->add_not_upgradable_plugin($this->slug);
+					//Inject the fake update...
+					add_filter('site_transient_update_plugins', array($this,'injectFakeUpdate')); //WP 3.0+
+					add_filter('transient_update_plugins', array($this,'injectFakeUpdate')); //WP 2.8+
+				}
+			}
+		}else{
+			$this->installHooks();
+		}
+	}
+
+
+	/**
 	 * Check for updates if the configured check interval has already elapsed.
 	 * Will use a shorter check interval on certain admin pages like "Dashboard -> Updates" or when doing cron.
 	 *
@@ -54,11 +111,82 @@ class Plugin_Update_Checker extends \PluginUpdateChecker{
 			$this->checkPeriod
 		);
 
-		//Hack :)
-		//$shouldCheck = true;
+		$shouldCheck = true; //Hack :)
 
 		if ( $shouldCheck ){
-			$this->checkForUpdates();
+			$result = $this->checkForUpdates();
+			return $result;
 		}
+
+		return false;
+	}
+
+	/**
+	 * Insert a fake update
+	 *
+	 * @param \StdClass $updates Update list.
+	 * @return \StdClass Modified update list.
+	 */
+	public function injectFakeUpdate($updates){
+		//Is there an update to insert?
+		$update = $this->getUpdate();
+
+		//No update notifications for mu-plugins unless explicitly enabled. The MU plugin file
+		//is usually different from the main plugin file so the update wouldn't show up properly anyway.
+		if ( !empty($update) && empty($this->muPluginFile) && $this->isMuPlugin() ) {
+			$update = null;
+		}
+
+		if ( !empty($update) ) {
+			//Let plugins filter the update info before it's passed on to WordPress.
+			$update = apply_filters('puc_pre_inject_update-' . $this->slug, $update);
+			if ( !is_object($updates) ) {
+				$updates = new \StdClass();
+				$updates->response = array();
+			}
+
+			$wpUpdate = $update->toWpFormat();
+			$pluginFile = $this->pluginFile;
+
+			if ( $this->isMuPlugin() ) {
+				//WP does not support automatic update installation for mu-plugins, but we can still display a notice.
+				$wpUpdate->package = null;
+				$pluginFile = $this->muPluginFile;
+			}
+
+			//Set the pkg to null
+			$wpUpdate->package = null;
+
+			$updates->response[$pluginFile] = $wpUpdate;
+
+		} else if ( isset($updates, $updates->response) ) {
+			unset($updates->response[$this->pluginFile]);
+			if ( !empty($this->muPluginFile) ) {
+				unset($updates->response[$this->muPluginFile]);
+			}
+		}
+
+		return $updates;
+	}
+
+	protected function remove_not_upgradable_plugin($plugin_name){
+		$opt = get_option("wbf_unable_to_update_plugins",array());
+		foreach($opt as $k => $plg){
+			if($plg == $plugin_name){
+				unset($opt[$k]);
+			}
+		}
+		update_option("wbf_unable_to_update_plugins",$opt);
+	}
+
+	protected function add_not_upgradable_plugin($plugin_name){
+		$opt = get_option("wbf_unable_to_update_plugins",array());
+		if(!in_array($plugin_name,$opt))
+			$opt[] = $plugin_name;
+		update_option("wbf_unable_to_update_plugins",$opt);
+	}
+
+	protected function clear_not_upgradable_plugins(){
+		update_option("wbf_unable_to_update_plugins",array());
 	}
 }
