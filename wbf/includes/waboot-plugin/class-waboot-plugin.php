@@ -45,14 +45,30 @@ class Waboot_Plugin {
 	 * @var      string $version The current version of the plugin.
 	 */
 	protected $version;
+	/**
+	 * The instance of Plugin_Update_Checker
+	 *
+	 * @since    0.10.0
+	 * @access   protected
+	 * @var      object
+	 */
+	protected $update_instance;
 
-	public function __construct( $plugin_name, $dir, $version ) {
+	public function __construct( $plugin_name, $dir, $version, $update_check = false, $metadata_call = false ) {
 		$this->plugin_name = $plugin_name;
 		$this->version     = $version;
 		$this->plugin_dir  = $dir;
 
 		$this->load_dependencies();
 		$this->set_locale();
+
+		if($update_check && $metadata_call){
+			$this->update_instance = new \WBF\includes\Plugin_Update_Checker(
+				"http://192.168.1.10/waga/wb-update-server/?action=get_metadata&slug={$this->plugin_name}&type=plugin", //Metadata URL.
+				$this->plugin_dir.$plugin_name.".php",
+				$this->plugin_name
+			);
+		}
 	}
 
 	/**
