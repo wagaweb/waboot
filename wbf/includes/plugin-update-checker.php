@@ -49,6 +49,7 @@ class Plugin_Update_Checker extends \PluginUpdateChecker{
 				$update = $this->maybeCheckForUpdates();
 				if(!is_null($update) && $update != false){
 					$this->add_not_upgradable_plugin($this->slug);
+					add_action( 'admin_notices', array($this,'update_available_notice') );
 					//Inject the fake update...
 					add_filter('site_transient_update_plugins', array($this,'injectFakeUpdate')); //WP 3.0+
 					add_filter('transient_update_plugins', array($this,'injectFakeUpdate')); //WP 2.8+
@@ -167,6 +168,16 @@ class Plugin_Update_Checker extends \PluginUpdateChecker{
 		}
 
 		return $updates;
+	}
+
+	public function update_available_notice(){
+		$unable_to_update = get_option("wbf_unable_to_update_plugins",array());
+		if(!empty($unable_to_update) && \WBF::is_wbf_admin_page()) :
+			?>
+			<div class="waboot-upgrade-notice update-nag">
+				<?php echo sprintf(__( 'One or more Waboot plugin has an updated version available! <a href="%s" title="Enter a valid license">Enter a valid license</a> to get latest updates.', 'wbf' ),"admin.php?page=waboot_license"); ?>
+			</div>
+		<?php endif;
 	}
 
 	protected function remove_not_upgradable_plugin($plugin_name){
