@@ -30,6 +30,8 @@ add_action( 'wp_enqueue_scripts', 'WBF::register_libs' );
 add_filter( 'options_framework_location','WBF::of_location_override' );
 add_filter( 'site_transient_update_plugins', 'WBF::unset_unwanted_updates', 999 );
 
+add_filter( 'wbf_get_modules', 'WBF::do_not_load_pagebuilder', 999 ); //todo: finché non è stabile, escludiamolo dai moduli
+
 class WBF {
 
 	const version = "0.8.3";
@@ -118,6 +120,7 @@ class WBF {
 		$modules_dir = WBF_DIRECTORY."/modules";
 		$modules = array();
 		$dirs = array_filter(glob($modules_dir."/*"), 'is_dir');
+		$dirs = apply_filters("wbf_get_modules", $dirs); //Allow developer to add\delete modules
 		foreach($dirs as $d){
 			$current_module_dir = $d;
 			if(is_file($current_module_dir."/bootstrap.php")){
@@ -177,8 +180,7 @@ class WBF {
 	 *
 	 */
 
-    function after_setup_theme()
-    {
+    function after_setup_theme() {
 	    self::maybe_add_option();
 
 	    $modules = self::load_modules();
@@ -275,6 +277,17 @@ class WBF {
 		}
 
 		return $value;
+	}
+
+	function do_not_load_pagebuilder($module_dirs){
+		foreach($module_dirs as $k => $dir){
+			$module_name = basename($dir);
+			if($module_name == "pagebuilder"){
+				unset($module_dirs[$k]);
+			}
+		}
+
+		return $module_dirs;
 	}
 
 	/**
