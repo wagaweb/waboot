@@ -8,6 +8,8 @@
 
 namespace WBF\admin\conditions;
 
+use WBF\modules\components\ComponentsManager;
+
 class ComponentIsPresent implements Condition {
 
     var $c_name;
@@ -17,7 +19,7 @@ class ComponentIsPresent implements Condition {
     }
 
     function verify(){
-        $registered_components = \WBF\modules\components\ComponentsManager::getAllComponents();
+        $registered_components = ComponentsManager::getAllComponents();
         if(isset($registered_components[$this->c_name]) && is_file($registered_components[$this->c_name]['file'])){
             return true;
         }
