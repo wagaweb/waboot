@@ -71,13 +71,13 @@ class Admin extends \Options_Framework_Admin{
 					case 'backup':
 						try {
 							$file = $this->_backup_options();
-							waboot_admin_show_message( __( "Backup successfully created!", "wbf" ), "updated" );
+							wbf_admin_show_message( __( "Backup successfully created!", "wbf" ), "updated" );
 						} catch ( \Exception $e ) {
-							waboot_admin_show_message( $e->getMessage(), "error" );
+							wbf_admin_show_message( $e->getMessage(), "error" );
 						}
 						break;
 					default:
-						waboot_admin_show_message( __( "Invalid option selected", "wbf" ), "error" );
+						wbf_admin_show_message( __( "Invalid option selected", "wbf" ), "error" );
 						break;
 				}
 			}
@@ -87,23 +87,23 @@ class Admin extends \Options_Framework_Admin{
 					if ( $file['error'] == UPLOAD_ERR_OK && is_uploaded_file( $file['tmp_name'] ) ) {
 						try {
 							$this->_restore_options_from_file( $file );
-							waboot_admin_show_message( __( "Backup successfully restored!", "wbf" ), "updated" );
+							wbf_admin_show_message( __( "Backup successfully restored!", "wbf" ), "updated" );
 						} catch ( \Exception $e ) {
-							waboot_admin_show_message( $e->getMessage(), "error" );
+							wbf_admin_show_message( $e->getMessage(), "error" );
 						}
 					} else {
-						waboot_admin_show_message( __( "Unable to upload the file.", "wbf" ), "error" );
+						wbf_admin_show_message( __( "Unable to upload the file.", "wbf" ), "error" );
 					}
 				} elseif ( isset( $_POST['local-backup-file'] ) ) {
 					$file = $_POST['local-backup-file'];
 					try {
 						$this->_restore_options_from_file( $file );
-						waboot_admin_show_message( __( "Backup successfully restored!", "wbf" ), "updated" );
+						wbf_admin_show_message( __( "Backup successfully restored!", "wbf" ), "updated" );
 					} catch ( \Exception $e ) {
-						waboot_admin_show_message( $e->getMessage(), "error" );
+						wbf_admin_show_message( $e->getMessage(), "error" );
 					}
 				} else {
-					waboot_admin_show_message( __( "No backup file provided.", "wbf" ), "error" );
+					wbf_admin_show_message( __( "No backup file provided.", "wbf" ), "error" );
 				}
 			}
 			$backup_files = $this->get_backupFiles();

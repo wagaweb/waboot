@@ -28,8 +28,8 @@ if (!function_exists( 'wbf_locate_template_uri' )):
     }
 endif;
 
-if (!function_exists("waboot_admin_show_message")) :
-    function waboot_admin_show_message($m, $type) {
+if (!function_exists( "wbf_admin_show_message" )) :
+    function wbf_admin_show_message($m, $type) {
         ?>
         <div class="<?php echo $type; ?>">
             <p><?php echo $m; ?></p>
