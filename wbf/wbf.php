@@ -20,6 +20,7 @@ $md = WBF::get_mobile_detect();
 
 add_action( "after_switch_theme", "WBF::activation" );
 add_action( "switch_theme", "WBF::deactivation", 4 );
+
 add_action( "after_setup_theme", "WBF::after_setup_theme" );
 add_action( "init", "WBF::init" );
 add_action( 'admin_menu', 'WBF::admin_menu' );
@@ -117,8 +118,12 @@ class WBF {
     }
 
 	static function get_modules($include = false){
+		static $modules = array();
+		if(!empty($modules)){
+			return $modules;
+		}
+
 		$modules_dir = WBF_DIRECTORY."/modules";
-		$modules = array();
 		$dirs = array_filter(glob($modules_dir."/*"), 'is_dir');
 		$dirs = apply_filters("wbf_get_modules", $dirs); //Allow developer to add\delete modules
 		foreach($dirs as $d){
@@ -127,6 +132,8 @@ class WBF {
 				$modules[basename($d)] = array(
 					'path' => $current_module_dir,
 					'bootstrap' => $current_module_dir."/bootstrap.php",
+					'activation' => is_file($current_module_dir."/activation.php") ? $current_module_dir."/activation.php" : false,
+					'deactivation' => is_file($current_module_dir."/deactivation.php") ? $current_module_dir."/deactivation.php" : false,
 				);
 				if($include) require_once $modules[basename($d)]['bootstrap'];
 			}
@@ -136,6 +143,24 @@ class WBF {
 
 	static function load_modules(){
 		return self::get_modules(true);
+	}
+
+	static function load_modules_activation_hooks(){
+		$modules = self::get_modules();
+		foreach($modules as $m){
+			if($m['activation']){
+				require_once $m['activation'];
+			}
+		}
+	}
+
+	static function load_modules_deactivation_hooks(){
+		$modules = self::get_modules();
+		foreach($modules as $m){
+			if($m['deactivation']){
+				require_once $m['deactivation'];
+			}
+		}
 	}
 
 	/**
@@ -343,25 +368,34 @@ class WBF {
 	function maybe_add_option() {
 		$opt = get_option( "wbf_installed" );
 		if ( ! $opt ) {
-			self::activation();
+			self::add_wbf_options();
 		}
 	}
 
-	function activation() {
-		//Set a flag to make other component able to check if framework is installed
-		update_option( "wbf_installed", true );
+	private function add_wbf_options(){
+		update_option( "wbf_installed", true ); //Set a flag to make other component able to check if framework is installed
 		update_option( "wbf_path", WBF_DIRECTORY );
 		update_option( "wbf_url", WBF_URL );
 		update_option( "wbf_components_saved_once", false );
-        self::enable_default_components();
+	}
+
+	function activation() {
+		self::load_modules_activation_hooks();
+
+		self::add_wbf_options();
+		do_action("wbf_activated");
+        //self::enable_default_components();
 	}
 
 	function deactivation($template) {
+		self::load_modules_deactivation_hooks();
+		$theme_switched = get_option( 'theme_switched', "" );
+
 		delete_option( "wbf_installed" );
 		delete_option( "wbf_path" );
 		delete_option( "wbf_url" );
-        $theme_switched = get_option( 'theme_switched', "" );
-        if(!empty($theme_switched)){
+		do_action("wbf_deactivated", $theme_switched);
+        /*if(!empty($theme_switched)){
             $wbf_components_saved_once = (array) get_option("wbf_components_saved_once", array());
             if(($key = array_search($theme_switched, $wbf_components_saved_once)) !== false) {
                 unset($wbf_components_saved_once[$key]);
@@ -371,7 +405,7 @@ class WBF {
             }else{
                 update_option( "wbf_components_saved_once", $wbf_components_saved_once );
             }
-        }
+        }*/
 	}
 }
 
