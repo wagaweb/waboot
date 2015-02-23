@@ -39,6 +39,9 @@ function waboot_autoloader($class)
     }
 
     switch ($class) {
+	    case "WBF\includes\License_Interface":
+		    locate_template( 'wbf/includes/license-interface.php', true );
+		    break;
         case "WBF\admin\License_Manager":
             locate_template( 'wbf/admin/license-manager.php', true );
             break;

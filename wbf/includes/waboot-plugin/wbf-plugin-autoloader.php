@@ -15,6 +15,9 @@ function wbf_plugin_autoload( $class ) {
 		}
 
 		switch($class){
+			case "WBF\includes\License_Interface":
+				require_once($wbf_path . "/includes/license-interface.php");
+				break;
 			case "WBF\admin\License_Manager":
 				require_once($wbf_path . "/admin/license-manager.php");
 				break;
