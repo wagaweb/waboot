@@ -158,8 +158,8 @@ class ComponentsManager {
         update_option( "{$template_name}_registered_components", $registered_components );
     }
 
-    static function add_menu() {
-        add_submenu_page( "waboot_options", __( "Waboot Components", "wbf" ), __( "Components", "wbf" ), "activate_plugins", "waboot_components", '\WBF\modules\components\ComponentsManager::components_admin_page', "", 66 );
+    static function add_menu($parent_slug) {
+        add_submenu_page( $parent_slug, __( "Waboot Components", "wbf" ), __( "Components", "wbf" ), "activate_plugins", "waboot_components", '\WBF\modules\components\ComponentsManager::components_admin_page', "", 66 );
     }
 
     /**

@@ -26,7 +26,7 @@ add_action("wbf_init",'\WBF\modules\components\setup_components', 12);
  * WP HOOKS
  */
 
-add_action( 'admin_menu', '\WBF\modules\components\ComponentsManager::add_menu', 11 );
+add_action( 'wbf_admin_submenu', '\WBF\modules\components\ComponentsManager::add_menu', 11 );
 add_action( 'admin_enqueue_scripts', '\WBF\modules\components\ComponentsManager::scripts' );
 
 function components_enqueue(){

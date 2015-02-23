@@ -19,8 +19,9 @@ class Admin extends \Options_Framework_Admin{
 
 	public function init() {
 		parent::init();
-		//remove_action( 'admin_menu', array( $this, 'add_options_page' ) );
-		add_action( 'admin_menu', array( $this, 'add_man_page' ), 12 );
+		remove_action( 'admin_menu', array( $this, 'add_options_page' ) );
+		add_action( 'wbf_admin_submenu', array( $this, 'add_options_page' ) );
+		add_action( 'wbf_admin_submenu', array( $this, 'add_man_page' ), 12 );
 		//add_action( 'admin_menu', array( $this, 'add_additional_appearance_link' ) );
 		add_action( 'optionsframework_after', array( $this, 'add_copy_in_admin_page' ));
 	}
@@ -48,8 +49,8 @@ class Admin extends \Options_Framework_Admin{
 	/**
 	 * Add "Manage Theme Options" subpage to Waboot Menu
 	 */
-	public function add_man_page() {
-		add_submenu_page( "waboot_options", __( "Theme Options Manager", "wbf" ), __( "Import/Export", "wbf" ), "edit_theme_options", "themeoptions-manager", array(
+	public function add_man_page($parent_slug) {
+		add_submenu_page( $parent_slug , __( "Theme Options Manager", "wbf" ), __( "Import/Export", "wbf" ), "edit_theme_options", "themeoptions-manager", array(
 				$this,
 				'do_man_page'
 		) );
