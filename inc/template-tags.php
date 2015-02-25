@@ -152,9 +152,9 @@ if ( ! function_exists( 'waboot_archive_sticky_posts' ) ):
     /**
      * Display sticky posts on archive pages
      * @since 0.1.0
-     * @from Waboot
+     * @param string $blog_style
      */
-    function waboot_archive_sticky_posts() {
+	function waboot_archive_sticky_posts($blog_style = "classic") {
 
         $sticky = get_option( 'sticky_posts' );
         if ( ! empty( $sticky ) ) {
@@ -188,7 +188,11 @@ if ( ! function_exists( 'waboot_archive_sticky_posts' ) ):
 
                     while ( $sticky_posts->have_posts() ) : $sticky_posts->the_post();
                         array_push( $do_not_duplicate, $post->ID );
-                        get_template_part( '/templates/parts/content', get_post_format() );
+	                    if($blog_style != "classic"){
+		                    get_template_part( '/templates/parts/content', "blog-".$blog_style );
+	                    }else{
+		                    get_template_part( '/templates/parts/content', get_post_format() );
+	                    }
                     endwhile;
                 endif; // if have posts
             endif; // if ( ! empty( $sticky_args ) )
