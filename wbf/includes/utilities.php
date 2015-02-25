@@ -38,6 +38,91 @@ if (!function_exists( "wbf_admin_show_message" )) :
     }
 endif;
 
+/**
+ * Get the post categories ordered by ID. If the post is a custom post type it retrieve the specified $taxonomy terms or the first registered taxonomy
+ * @param null $post_id
+ * @param null $taxonomy the taxonomy to retrieve if the POST is a custom post type
+ * @param bool $ids_only retrieve only the ID of the categories
+ * @internal param null $the_post
+ * @return array
+ */
+function wbf_get_the_category($post_id = null, $taxonomy = null, $ids_only = false){
+    if(!isset($post_id)){
+        global $post;
+        $post_id = $post->ID;
+    }else{
+        $post = get_post($post_id);
+    }
+
+    if(get_post_type($post_id) == "post"){
+        $terms = get_the_category($post_id);
+        if($ids_only){
+            foreach($terms as $id => $term){
+                $categories[] = $id;
+            }
+        }else{
+            $categories = $terms;
+        }
+    }else{
+        if(!isset($taxonomy)){
+            $terms = get_the_terms($post_id,wbf_get_first_taxonomy($post_id));
+            if($ids_only){
+                foreach($terms as $id => $term){
+                    $categories[] = $id;
+                }
+            }else{
+                $categories = $terms;
+            }
+        }else{
+            if($ids_only){
+                $categories = wp_get_object_terms( $post_id, $taxonomy, array( 'fields' => 'ids' ) );
+            }else{
+                $categories = wp_get_object_terms( $post_id, $taxonomy);
+            }
+        }
+    }
+
+    if($ids_only){
+        sort($categories,SORT_NUMERIC);
+    }else{
+        usort($categories,"wbf_sort_categories_by_id");
+    }
+
+    return $categories;
+}
+
+/**
+ * Get the first registered taxonomy of a custom post type
+ * @param null $post_id
+ * @return string
+ */
+function wbf_get_first_taxonomy($post_id = null){
+    if(!isset($post_id)){
+        global $post;
+        $post_id = $post->ID;
+    }else{
+        $post = get_post($post_id);
+    }
+
+    if(get_post_type($post_id) == "post"){
+        return 'category';
+    }else{
+        $post_type_taxonomies = get_object_taxonomies($post->post_type);
+        return $post_type_taxonomies[0];
+    }
+}
+
+/**
+ * Sort the categories of a post by ID (ASC)
+ * @param $a
+ * @param $b
+ * @return int
+ */
+function wbf_sort_categories_by_id($a,$b){
+    if((int)$a->term_id == (int)$b->term_id) return 0;
+    return (int)$a->term_id < (int)$b->term_id ? -1 : 1;
+}
+
 /***************************************************************
  * MOBILE DETECT FUNCTIONS
  ***************************************************************/
