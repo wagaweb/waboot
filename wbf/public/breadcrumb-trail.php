@@ -85,4 +85,142 @@ class Waboot_Breadcrumb_Trail extends Breadcrumb_Trail{
         else
             return $breadcrumb;
     }
+
+    /**
+     * Adds a specific post's hierarchy to the items array.  The hierarchy is determined by post type's
+     * rewrite arguments and whether it has an archive page.
+     *
+     * @since  0.6.0
+     * @access public
+     * @param  int $post_id The ID of the post to get the hierarchy for.
+     * @return void
+     */
+    public function do_post_hierarchy($post_id) {
+        $permalink_structure = get_option( 'permalink_structure' );
+
+        /* Get the post type. */
+        $post_type = get_post_type($post_id);
+        $post_type_object = get_post_type_object($post_type);
+
+        /*
+         * WAGA MOD: Display the archive page before the categories
+         */
+
+        /* If there's an archive page, add it to the trail. */
+        if (!empty($post_type_object->has_archive)) {
+            /* Add support for a non-standard label of 'archive_title' (special use case). */
+            $label = !empty($post_type_object->labels->archive_title) ? $post_type_object->labels->archive_title : $post_type_object->labels->name;
+            $this->items[] = '<a href="' . get_post_type_archive_link($post_type) . '">' . $label . '</a>';
+        }
+
+        /* If this is the 'post' post type, get the rewrite front items and map the rewrite tags. */
+        if ('post' === $post_type) {
+            /* Add $wp_rewrite->front to the trail. */
+            $this->do_rewrite_front_items();
+            /* Map the rewrite tags. */
+            $this->map_rewrite_tags( $post_id, $permalink_structure );
+        } /* If the post type has rewrite rules. */
+        elseif (false !== $post_type_object->rewrite) {
+            /* Map rewrite tags */
+            $this->map_rewrite_tags( $post_id, $permalink_structure );
+            /* If 'with_front' is true, add $wp_rewrite->front to the trail. */
+            if ($post_type_object->rewrite['with_front'])
+                $this->do_rewrite_front_items();
+            /* If there's a path, check for parents. */
+            if (!empty($post_type_object->rewrite['slug']))
+                $this->do_path_parents($post_type_object->rewrite['slug']);
+        }
+    }
+
+    /**
+     * Turns %tag% from permalink structures into usable links for the breadcrumb trail.  This feels kind of
+     * hackish for now because we're checking for specific %tag% examples and only doing it for the 'post'
+     * post type.  In the future, maybe it'll handle a wider variety of possibilities, especially for custom post
+     * types.
+     *
+     * @since  0.6.0
+     * @access public
+     * @param  int $post_id ID of the post whose parents we want.
+     * @param  string $path Path of a potential parent page.
+     * @param  array $args Mixed arguments for the menu.
+     * @return array
+     */
+    public function map_rewrite_tags($post_id, $path) {
+
+        /* Get the post based on the post ID. */
+        $post = get_post($post_id);
+
+        /* If no post is returned, an error is returned, or the post does not have a 'post' post type, return. */
+        if (empty($post) || is_wp_error($post))
+            return $trail;
+
+        /* Trim '/' from both sides of the $path. */
+        $path = trim($path, '/');
+
+        /* Split the $path into an array of strings. */
+        $matches = explode('/', $path);
+
+        /* If matches are found for the path. */
+        if (is_array($matches)) {
+
+            /* Loop through each of the matches, adding each to the $trail array. */
+            foreach ($matches as $match) {
+
+                /* Trim any '/' from the $match. */
+                $tag = trim($match, '/');
+
+                /* If using the %year% tag, add a link to the yearly archive. */
+                if ('%year%' == $tag)
+                    $this->items[] = '<a href="' . get_year_link(get_the_time('Y', $post_id)) . '">' . sprintf($this->args['labels']['archive_year'], get_the_time(_x('Y', 'yearly archives date format', 'breadcrumb-trail'))) . '</a>';
+
+                /* If using the %monthnum% tag, add a link to the monthly archive. */
+                elseif ('%monthnum%' == $tag)
+                    $this->items[] = '<a href="' . get_month_link(get_the_time('Y', $post_id), get_the_time('m', $post_id)) . '">' . sprintf($this->args['labels']['archive_month'], get_the_time(_x('F', 'monthly archives date format', 'breadcrumb-trail'))) . '</a>';
+
+                /* If using the %day% tag, add a link to the daily archive. */
+                elseif ('%day%' == $tag)
+                    $this->items[] = '<a href="' . get_day_link(get_the_time('Y', $post_id), get_the_time('m', $post_id), get_the_time('d', $post_id)) . '">' . sprintf($this->args['labels']['archive_day'], get_the_time(_x('j', 'daily archives date format', 'breadcrumb-trail'))) . '</a>';
+
+                /* If using the %author% tag, add a link to the post author archive. */
+                elseif ('%author%' == $tag)
+                    $this->items[] = '<a href="' . get_author_posts_url($post->post_author) . '" title="' . esc_attr(get_the_author_meta('display_name', $post->post_author)) . '">' . get_the_author_meta('display_name', $post->post_author) . '</a>';
+
+                /* If using the %category% tag, add a link to the first category archive to match permalinks. */
+                elseif ('%category%' == $tag) {
+
+                    /* Force override terms in this post type. */
+                    $this->args['post_taxonomy'][$post->post_type] = false;
+
+                    /* Get the post categories. */
+                    if('post' == $post->post_type){
+                        $terms = get_the_category($post_id);
+                    }else{ /* WAGA MOD */
+                        $post_type_object = get_post_type_object($post->post_type);
+                        $post_type_taxonomies = get_object_taxonomies($post->post_type);
+                        $terms = get_the_terms($post_id,$post_type_taxonomies);
+                    }
+
+                    /* Check that categories were returned. */
+                    if ($terms) {
+                        /* Sort the terms by ID and get the first category. */
+                        usort($terms, '_usort_terms_by_ID');
+                        if('post' == $post->post_type){
+                            $taxonomy_name = "category";
+                        }else{
+                            $taxonomy_name = $terms[0]->taxonomy;
+                        }
+                        $term = get_term($terms[0], $taxonomy_name);
+
+                        /* If the category has a parent, add the hierarchy to the trail. */
+                        if ($term->parent > 0){
+                            $this->do_term_parents($term->parent, $taxonomy_name);
+                        }
+
+                        /* Add the category archive link to the trail. */
+                        $this->items[] = '<a href="' . get_term_link($term, $taxonomy_name) . '" title="' . esc_attr($term->name) . '">' . $term->name . '</a>';
+                    }
+                }
+            }
+        }
+    }
 }
