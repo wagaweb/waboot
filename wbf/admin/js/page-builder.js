@@ -234,28 +234,33 @@ function initTinyMce(element) {
     "use strict";
     var qt;
     var textfield_id = element.attr("id");
-    //var form_line = element.closest('.edit_form_line');
-    //var content_holder = form_line.find('.spb-textarea.textarea_html');
 
-    //content = content_holder.val();
+    if(typeof(textfield_id) !== "undefined" && textfield_id !== ""){
 
-    window.tinyMCEPreInit.mceInit[textfield_id] = _.extend({}, window.tinyMCEPreInit.mceInit['content'], {
-        resize: 'vertical',
-        height: 200
-    });
+        if (_.isUndefined(tinyMCEPreInit.qtInit[textfield_id])) {
+            var prevInstances, newInstance;
+            prevInstances = QTags.instances;
+            QTags.instances = [];
 
-    if (_.isUndefined(tinyMCEPreInit.qtInit[textfield_id])) {
-        window.tinyMCEPreInit.qtInit[textfield_id] = _.extend({}, window.tinyMCEPreInit.qtInit['content'], {
-            id: textfield_id
+            tinyMCEPreInit.qtInit[textfield_id] = _.extend({}, tinyMCEPreInit.qtInit['content'], {
+                id: textfield_id
+            });
+            qt = quicktags(tinyMCEPreInit.qtInit[textfield_id]);
+            QTags._buttonsInit();
+
+            newInstance = QTags.instances[textfield_id];
+            QTags.instances = prevInstances;
+            QTags.instances[textfield_id] = newInstance;
+        }
+
+        tinyMCEPreInit.mceInit[textfield_id] = _.extend({}, tinyMCEPreInit.mceInit['content'], {
+            resize: 'vertical',
+            height: 200,
+            selector: '#'+textfield_id
         });
+
+        tinymce.init( tinyMCEPreInit.mceInit[textfield_id] );
     }
-
-    //element.val(content_holder.val());
-    qt = quicktags(window.tinyMCEPreInit.qtInit[textfield_id]);
-    QTags._buttonsInit();
-    //window.switchEditors.go(textfield_id, 'tmce');
-
-    window.tinymce.execCommand('mceAddEditor', true, textfield_id);
 }
 
 /**

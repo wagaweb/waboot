@@ -24,8 +24,7 @@ class PageBuilderTools {
 
         ob_start();
         wp_editor($default, $rand_id, array(
-          'textarea_name' => 'content',
-          'drag_drop_upload' => true,
+          //'textarea_name' => 'content',
           'tinymce' => array(
 	          'theme_advanced_buttons1' => 'formatselect,|,bold,italic,underline,|,' .
               'bullist,blockquote,|,justifyleft,justifycenter' .
@@ -34,16 +33,8 @@ class PageBuilderTools {
           )
         ));
         $editor_content = ob_get_clean();
-        $editor_content = preg_replace("/<textarea class/", "<textarea data-save='true' class", $editor_content);
+        $editor_content = preg_replace("/<textarea class/", "<textarea data-is-tmce='true' data-save='true' class", $editor_content);
         $output = $editor_content;
-
-        //$output .= "<label for='content' >" . __("Content", "waboot") . "</label><textarea data-save='true' name='content' id='{$rand_id}'>{$default}</textarea>";
-
-        $output .= "<script>
-        setTimeout(function(){
-            initTinyMce(jQuery('#{$rand_id}'));
-        },1000);
-        </script>";
 
         return $output;
     }

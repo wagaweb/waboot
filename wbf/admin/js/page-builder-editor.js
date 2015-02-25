@@ -367,6 +367,12 @@ var WBEditor = function WBEditor(container_id,toolbar_id,blocks_cache_selector,c
                         $(this).val(value);
                     }
                 });
+                //If there are tmce textareas, init them
+                Myself.$edit_screen.find("[data-is-tmce]").each(function(){
+                    var my_id = $(this).attr("id");
+                    initTinyMce($(this));
+                    //window.tinymce.execCommand('mceAddEditor', true, my_id);
+                });
                 /*
                  * Register actions on submit and cancel
                  */
