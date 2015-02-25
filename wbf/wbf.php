@@ -14,6 +14,7 @@ define("WBF_ADMIN_DIRECTORY", __DIR__ . "/admin");
 define("WBF_PUBLIC_DIRECTORY", __DIR__ . "/public");
 
 require_once("wbf-autoloader.php");
+require_once("backup-functions.php");
 include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 
 $md = WBF::get_mobile_detect();
@@ -92,7 +93,7 @@ class WBF {
 		echo $output;
 	}
 
-    static function enable_default_components(){
+    /*static function enable_default_components(){
         if(class_exists('\WBF\modules\components\ComponentsManager')){
             $theme = wp_get_theme();
             $components_already_saved = (array) get_option( "wbf_components_saved_once", array() );
@@ -103,9 +104,9 @@ class WBF {
                 }
             }
         }
-    }
+    }*/
 
-    static function reset_components_state(){
+    /*static function reset_components_state(){
         if(!class_exists('\WBF\modules\components\ComponentsManager')) return;
         $default_components = apply_filters("wbf_default_components",array());
         $registered_components = \WBF\modules\components\ComponentsManager::getAllComponents();
@@ -115,7 +116,7 @@ class WBF {
         foreach($default_components as $c_name){
             \WBF\modules\components\ComponentsManager::ensure_enabled($c_name);
         }
-    }
+    }*/
 
 	static function get_modules($include = false){
 		static $modules = array();
@@ -187,14 +188,6 @@ class WBF {
 
 			return $b;
 		}
-	}
-
-	static function component_is_loaded($name){
-		if(class_exists('\WBF\modules\components\ComponentsManager') && array_key_exists($name,$GLOBALS['loaded_components'])) {
-			return true;
-		}
-
-		return false;
 	}
 
 	/**
@@ -460,36 +453,6 @@ if(!is_admin() && !function_exists("waboot_mobile_body_class")):
 	}
 	add_filter('body_class','waboot_mobile_body_class');
 endif;
-
-/**
- * Behaviors framework backup functions; handles the case in which the Behaviors are not loaded
- *
- * @param $name
- * @param int $post_id
- * @param string $return
- *
- * @return array|bool|mixed|string
- */
-function get_behavior( $name, $post_id = 0, $return = "value" ) {
-    if (class_exists('\WBF\modules\behaviors\BehaviorsManager')) {
-        return \WBF\modules\behaviors\get_behavior( $name, $post_id = 0, $return = "value" ); //call the behavior framework function
-    } else {
-        return WBF::get_behavior( $name, $post_id = 0, $return = "value" ); //call the backup function
-    }
-}
-
-/**
- * \WBF\modules\options\of_get_option wrapper function
- * @param $name
- * @param bool $default
- * @return \WBF\modules\options\of_get_option output
- */
-function of_get_option($name, $default = false){
-    if(function_exists('\WBF\modules\options\of_get_option'))
-        return \WBF\modules\options\of_get_option($name,$default);
-    else
-        return $default;
-}
 
 /**
  * WP UPDATE SERVER

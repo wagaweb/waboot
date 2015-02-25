@@ -321,6 +321,19 @@ class ComponentsManager {
     }
 
     /**
+     * Checks if the component called $name is loaded
+     * @param $name
+     * @return bool
+     */
+    static function is_loaded_by_name($name){
+        global $loaded_components;
+        if(array_key_exists($name,$loaded_components)) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * Check if the registered component is active (the component must exists)
      * @param String|Array $component (l'array può essere ottenuto da get_option("waboot_registered_components"))
      * @return bool
@@ -449,7 +462,7 @@ class ComponentsManager {
         }
 
         if(isset($_POST['reset'])){
-            \WBF::reset_components_state();
+            self::reset_components_state();
         }
 
         $registered_components = self::getAllComponents();
@@ -708,6 +721,17 @@ class ComponentsManager {
         }
 
         return false;
+    }
+
+    static function reset_components_state(){
+        $default_components = apply_filters("wbf_default_components",array());
+        $registered_components = \WBF\modules\components\ComponentsManager::getAllComponents();
+        foreach($registered_components as $c_name => $c_data){
+            self::disable($c_name);
+        }
+        foreach($default_components as $c_name){
+            self::ensure_enabled($c_name);
+        }
     }
 
     /**
