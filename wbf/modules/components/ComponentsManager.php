@@ -439,11 +439,21 @@ class ComponentsManager {
                 foreach($registered_components_status as $component_name => $component_status){
                     if($component_status == "on" ){
                         if(!self::is_active($registered_components[$component_name])){
-                            self::enable( $component_name, ComponentsManager::is_child_component( $component_name ) );
+	                        try{
+		                        self::enable( $component_name, ComponentsManager::is_child_component( $component_name ) );
+	                        }catch(\Exception $e){
+		                        self::$last_error = $e->getMessage();
+		                        wbf_admin_show_message(self::$last_error,"error");
+	                        }
                         }
                     }else{
                         if(self::is_active($registered_components[$component_name])){
-                            self::disable( $component_name, ComponentsManager::is_child_component( $component_name ) );
+                            try{
+	                            self::disable( $component_name, ComponentsManager::is_child_component( $component_name ) );
+                            }catch(\Exception $e){
+	                            self::$last_error = $e->getMessage();
+	                            wbf_admin_show_message(self::$last_error,"error");
+                            }
                         }
                     }
                 }
@@ -666,10 +676,10 @@ class ComponentsManager {
                 } //update the WP Option of registered component
                 self::update_global_components_vars();
             } else {
-                throw new \Exception( __( "Component class not defined. Unable to activate the component.", "wbf" ) );
+                throw new \Exception( sprintf( __( "Component class (%s) not defined. Unable to activate the component.", "wbf" ), $component_name ) );
             }
         } else {
-            throw new \Exception( __( "Component not found among registered components. Unable to activate the component.","wbf" ) );
+            throw new \Exception( sprintf( __( "Component %s not found among registered components. Unable to activate the component.","wbf" ), $component_name ) );
         }
     }
 
