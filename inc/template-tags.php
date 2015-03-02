@@ -632,7 +632,7 @@ if (!function_exists("waboot_breadcrumb")):
 		        'additional_classes' => ""
 	        ));
 
-	        if(!is_archive()){
+	        if(!is_archive() && !is_search()){
 		        $post_id = isset($post_id) ? $post_id : $post->ID;
 		        $current_post_type = get_post_type($post_id);
 		        if (!isset($post_id) || $post_id == 0 || !$current_post_type) return;

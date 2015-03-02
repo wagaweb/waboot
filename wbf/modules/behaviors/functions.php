@@ -11,7 +11,7 @@ namespace WBF\modules\behaviors;
 function get_behavior($name, $post_id = 0, $return = "value") {
 
 	if ($post_id == 0 && !is_archive()) {
-		if(is_home() || is_404()){
+		if(is_home() || is_404() || is_search()){
 			$post_id = get_queried_object_id();
 		}else{
 			global $post;
