@@ -49,7 +49,11 @@ class Behavior{
 			$base_default = $args['default'];
 			if(isset($args['get_for_posttype']) && $args['get_for_posttype'] != false){
 				$post_type = $args['get_for_posttype'];
-				$option_default = of_get_option($this->posttypes_values[$post_type]['optionname'],$base_default);
+				if(isset($this->posttypes_values[$post_type])){
+					$option_default = of_get_option($this->posttypes_values[$post_type]['optionname'],$base_default);
+				}else{
+					$option_default = of_get_option($this->optionname,$base_default);
+				}
 			}else{
 				$option_default = of_get_option($this->optionname,$base_default);
 			}
