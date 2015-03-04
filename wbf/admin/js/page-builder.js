@@ -93,7 +93,7 @@ jQuery.noConflict()(function($) {
 
         id = id+"-modal";
         $("a#open-pagebuilder").attr("href","#TB_inline?&inlineId="+id);
-        open_modal();
+        open_modal(id);
     }
 
     /**
@@ -171,9 +171,38 @@ jQuery.noConflict()(function($) {
      * --------------- MODAL ---------------
      */
 
-    function open_modal(){
-        $("#open-pagebuilder").trigger("click"); //trigger Thickbox
-        $("#TB_overlay").unbind("click",tb_remove); //Remove the click into backgroud to close thickbox
+    var modal;
+
+    function open_modal(pagebuilder_id){
+        //$("#open-pagebuilder").trigger("click"); //trigger Thickbox
+        //$("#TB_overlay").unbind("click",tb_remove); //Remove the click into backgroud to close thickbox
+
+        var default_settings = {
+            adminmenuwrap: {
+                'z-index': 0
+            }
+        };
+        modal = $("#"+pagebuilder_id).dialog({
+            autoOpen: false,
+            height: "auto",
+            width: "auto",
+            modal: true,
+            dialogClass: "wb-pagebuilder-modal",
+            draggable: false,
+            minHeight: 1024,
+            minWidth: 768,
+            resizable: false,
+            closeOnEscape: false,
+            open: function(event, ui){
+                default_settings['adminmenuwrap']['z-index'] = $("#adminmenuwrap").css("z-index");
+                $("#adminmenuwrap").css("z-index","0");
+            },
+            close: function(event, ui){
+                $("#adminmenuwrap").css("z-index",default_settings['adminmenuwrap']['z-index']);
+            }
+        });
+
+        modal.dialog("open");
     }
 
     /**
@@ -181,7 +210,8 @@ jQuery.noConflict()(function($) {
      * @uses unbind_all_actions()
      */
     function close_modal(caller){
-        tb_remove();
+        //tb_remove();
+        modal.dialog("close");
     }
 
     /*
