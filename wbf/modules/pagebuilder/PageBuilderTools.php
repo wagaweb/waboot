@@ -19,12 +19,12 @@ class PageBuilderTools {
         return $output;
     }
 
-    static function tinymce_editor($default = "", $placeholder = "") {
-        $rand_id = self::rand_id("textarea", 5, true);
+    static function tinymce_editor($default = "", $textarea_name = "content" ,$placeholder = "") {
+        $rand_id = self::rand_id("tmce", 5, true);
 
         ob_start();
         wp_editor($default, $rand_id, array(
-          //'textarea_name' => 'content',
+          'textarea_name' => $textarea_name,
           'tinymce' => array(
 	          'theme_advanced_buttons1' => 'formatselect,|,bold,italic,underline,|,' .
               'bullist,blockquote,|,justifyleft,justifycenter' .
