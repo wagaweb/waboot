@@ -62,6 +62,7 @@ var WBToolbar = function WBToolbar(id,editor){
                 e.preventDefault();
                 var $selected = $(this).find(":selected");
                 Myself.Editor.maybe_add_block($selected);
+                $(this).prop('selectedIndex',0); //reset the selected index
             });
         },
         disable_toolbar_actions: function(){
