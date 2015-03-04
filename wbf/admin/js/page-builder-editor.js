@@ -692,6 +692,7 @@ var WBEditor = function WBEditor(container_id,toolbar_id,blocks_cache_selector,c
             this.hide_toolbar();
             this.$container.find(".close-icon").hide();
             this.$container.find(".wb-pagebuilder-footer").hide();
+            this.$container.toggleClass("edit-screen");
             this.$edit_screen.show();
         },
         /**
@@ -703,6 +704,7 @@ var WBEditor = function WBEditor(container_id,toolbar_id,blocks_cache_selector,c
             this.show_toolbar();
             this.$container.find(".close-icon").show();
             this.$container.find(".wb-pagebuilder-footer").show();
+            this.$container.toggleClass("edit-screen");
             //Unbind the click event on save/cancel buttons
             $(document).off("click","[data-link-action='submit-edit']");
             $(document).off("click","[data-link-action='close-edit']");

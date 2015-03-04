@@ -81,7 +81,7 @@ class PageBuilderTools {
             $text = strip_tags( $text, $tag_string );
             //Create the excerpt
             $text = self::text_excerpt( $text, $lenght);
-            $text .= __( '&hellip;' );
+            //$text .= __( '&hellip;' );
             if($doing_ajax){
                 echo $text;
                 die();
