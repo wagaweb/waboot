@@ -44,12 +44,14 @@ jQuery.noConflict()(function($) {
         /*
          * Handle the selection highlight into the editors
          */
-        $(document).on("mouseenter", "[data-selectable]", function(e) {
+        $(document).on("mouseover", "[data-selectable]", function(e) {
+            e.stopPropagation();
             var element = $(this);
             element.parents("[data-selectable]").removeClass("ui-hovered");
             element.addClass("ui-hovered");
         });
-        $(document).on("mouseleave", "[data-selectable]", function(e) {
+        $(document).on("mouseout", "[data-selectable]", function(e) {
+            e.stopPropagation();
             var element = $(this);
             element.parents("[data-selectable]").removeClass("ui-hovered");
             element.removeClass("ui-hovered");
