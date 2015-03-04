@@ -18,7 +18,7 @@
 }
 /** MODAL **/
 .wb-pagebuilder-modal {
-  z-index: 251;
+  z-index: 10;
 }
 .wb-pagebuilder-wrap {
   position: fixed;
@@ -33,6 +33,7 @@
   position: absolute;
   top: 16px;
   right: 5px;
+  z-index: 11;
 }
 .wb-pagebuilder-wrap .wb-pagebuilder-tools {
   position: absolute;
