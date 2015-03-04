@@ -335,6 +335,8 @@ var WBEditor = function WBEditor(container_id,toolbar_id,blocks_cache_selector,c
             $container.append($element);
             this.enable_block_toolbar_actions($element);
             this.enable_sorting();
+            //Select the new element
+            this.make_selected($element);
         },
         /**
          * Handles the operation for opening the edit screen for specified block
@@ -624,10 +626,7 @@ var WBEditor = function WBEditor(container_id,toolbar_id,blocks_cache_selector,c
             var Myself = this;
             $(document).on("click", "#"+Myself.container_id+" [data-selectable]", function(e) {
                 e.stopPropagation();
-                $("[data-selectable]").removeClass("ui-selected");
-                $(this).addClass("ui-selected");
-                Myself.$selected_element = $(this); //Set the current selected element
-                Myself.toggle_toolbar_actions();
+                Myself.make_selected($(this));
             });
         },
         disable_ui_actions: function(){
@@ -640,6 +639,12 @@ var WBEditor = function WBEditor(container_id,toolbar_id,blocks_cache_selector,c
             this.$container.find(".tools a").unbind("click");
             this.$container.find(".tools a").off("click");
             this.toolbar.disable_toolbar_actions();
+        },
+        make_selected: function($block){
+            $("[data-selectable]").removeClass("ui-selected");
+            $block.addClass("ui-selected");
+            this.$selected_element = $block; //Set the current selected element
+            this.toggle_toolbar_actions();
         },
         /**
          * Enable or Disable Tools from the toolbar
