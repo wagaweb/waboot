@@ -23,43 +23,64 @@ if ( ! function_exists( 'waboot_content_nav' ) ):
      * @since 0.1.0
      * @from Waboot
      */
-    function waboot_content_nav( $nav_id ) {
-
+    function waboot_content_nav( $nav_id, $show_pagination = false ) {
         // Return early if theme options are set to hide nav
-        if ( 'nav-below' == $nav_id && ! of_get_option( 'waboot_content_nav_below', 1 )
-            || 'nav-above' == $nav_id && ! of_get_option( 'waboot_content_nav_above' ) )
+        if ( 'nav-below' == $nav_id && ! of_get_option( 'waboot_content_nav_below', 1 ) || 'nav-above' == $nav_id && ! of_get_option( 'waboot_content_nav_above' ) )
             return;
 
         global $wp_query;
 
-        $nav_class = 'site-navigation paging-navigation pager';
-
-        if ( is_single() )
-            $nav_class = 'site-navigation post-navigation pager';
+        $nav_class = 'site-navigation paging-navigation';
+        if(is_single()){
+	        $nav_class .= ' post-navigation';
+        }else{
+	        $nav_class .= ' paging-navigation';
+        }
         ?>
-
         <nav id="<?php echo $nav_id; ?>" class="<?php echo $nav_class; ?>">
-            <ul class="pager">
+            <ul class="pagination">
                 <?php
-                if ( is_single() ) : // navigation links for single posts
-
+                /*
+				 * Navigation links for single posts
+				 */
+                if(is_single()) :
                     previous_post_link( '<li class="previous">%link</li>', '<span class="meta-nav">' . _x( '&laquo;', 'Previous post link', 'waboot' ) . '</span> %title' );
                     next_post_link( '<li class="next">%link</li>', '%title <span class="meta-nav">' . _x( '&raquo;', 'Next post link', 'waboot' ) . '</span>' );
+                elseif($wp_query->max_num_pages > 1 && (is_home() || is_archive() || is_search())) : // navigation links for home, archive, and search pages
+	                /*
+					 * Navigation links for home, archive, and search pages
+					 */
+	                if($show_pagination){
+		                $big = 999999999; // need an unlikely integer
+		                $paginate = paginate_links(array(
+			                'base' => str_replace( $big, '%#%', esc_url( get_pagenum_link( $big ) ) ),
+			                'format' => '?paged=%#%',
+			                'current' => max( 1, get_query_var('paged') ),
+			                'total' => $wp_query->max_num_pages
+		                ));
 
-                elseif ( $wp_query->max_num_pages > 1 && ( is_home() || is_archive() || is_search() ) ) : // navigation links for home, archive, and search pages
+		                $paginate_array = explode("\n",$paginate);
+		                foreach($paginate_array as $k => $link){
+			                $paginate_array[$k] = "<li>".$link."</li>";
+		                }
 
-                    if ( get_next_posts_link() ) : ?>
-                        <li class="pull-right"><?php next_posts_link( __( 'Next page <span class="meta-nav">&raquo;</span>', 'waboot' ) ); ?></li>
-                    <?php endif;
+		                $paginate = implode("\n",$paginate_array);
 
-                    if ( get_previous_posts_link() ) : ?>
-                        <li class="pull-left"><?php previous_posts_link( __( '<span class="meta-nav">&laquo;</span> Previous page', 'waboot' ) ); ?></li>
-                    <?php endif;
+		                echo $paginate;
+	                }else{
+		                if(get_next_posts_link()) : ?>
+			                <li class="pull-right"><?php next_posts_link( __( 'Next page <span class="meta-nav">&raquo;</span>', 'waboot' ) ); ?></li>
+		                <?php endif;
 
-                endif; ?>
+		                if(get_previous_posts_link()) : ?>
+			                <li class="pull-left"><?php previous_posts_link( __( '<span class="meta-nav">&laquo;</span> Previous page', 'waboot' ) ); ?></li>
+		                <?php endif;
+	                }
+                endif;
+                ?>
             </ul>
         </nav><!-- #<?php echo $nav_id; ?> -->
-    <?php
+        <?php
     }
 endif; // waboot_content_nav
 
