@@ -91,12 +91,6 @@ class Waboot_Template_Plugin extends Waboot_Plugin implements Waboot_Template_Pl
 
 		//If it is empty it means we have to check the wp template hierarchy...
 		if ( $required_tpl == "" ) {
-			//Check if plugin has a template for current post\page
-			$tpl_filename = basename( $template );
-			if ( in_array( $tpl_filename, $this->ctp_templates ) ) {
-				$file = $this->templates_paths[ $tpl_filename ];
-				return $file;
-			}
 
 			if(is_archive()){
 				$q_obj = get_queried_object();
@@ -132,10 +126,18 @@ class Waboot_Template_Plugin extends Waboot_Plugin implements Waboot_Template_Pl
 				);
 			}
 
+			//Check if theme has a template for current post\page
+			foreach ( $possible_templates as $tpl_filename ) {
+				$file = locate_template($tpl_filename);
+				if(!empty($file)){
+					return $file;
+				}
+			}
+
+			//Check if plugin has a template for current post\page
 			foreach ( $possible_templates as $tpl_filename ) {
 				if ( in_array( $tpl_filename, $this->ctp_templates ) ) {
 					$file = $this->templates_paths[ $tpl_filename ];
-
 					return $file;
 				}
 			}
