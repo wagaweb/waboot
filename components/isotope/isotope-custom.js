@@ -1,6 +1,8 @@
-jQuery(document).ready(function($){
-
-    var $container = $('.isotope');
+jQuery(window).load(function(){
+    "use strict";
+    var $ = jQuery,
+        $container = $('.isotope'),
+        filter = window.location.hash.replace( /^#/, '.' );
 
     // Init Isotope
     $container.isotope({
@@ -9,7 +11,8 @@ jQuery(document).ready(function($){
         transitionDuration: '1s',
         masonry: {
             columnWidth: ''
-        }
+        },
+        filter: filter || ''
     });
 
     // Filter functions
