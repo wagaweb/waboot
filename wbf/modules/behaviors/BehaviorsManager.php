@@ -4,10 +4,16 @@ namespace WBF\modules\behaviors;
 
 class BehaviorsManager{
 
-	static function get($name, $post_id)
-	{
+	static function get($name, $post_id) {
+		static $behaviors;
+		static $already_obtained_behaviors;
+
+		if(isset($already_obtained_behaviors[$name][$post_id])){
+			return $already_obtained_behaviors[$name][$post_id];
+		}
+
 		$current_post_type = $post_id != 0 ? get_post_type($post_id) : "page"; //"0" is received when in archives pages, so set the post type to "Pages"
-		$behaviors = self::getAll($current_post_type); //retrive all behaviours
+		if(is_null($behaviors)) $behaviors = self::getAll($current_post_type); //retrive all behaviours
 		$selected_behavior = new \stdClass();
 
 		foreach ($behaviors as $b) { //find the desidered behaviour
@@ -18,6 +24,7 @@ class BehaviorsManager{
 
 		if ($selected_behavior instanceof Behavior) {
 			$current_behavior_value = $selected_behavior->get_value($post_id);
+			$already_obtained_behaviors[$name][$post_id] = $selected_behavior;
 			return $selected_behavior;
 		} else {
 			return false;
