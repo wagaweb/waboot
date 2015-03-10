@@ -32,18 +32,24 @@ class BehaviorsManager{
 	}
 
 	static function getAll($post_type = null){
-		$imported_behaviors = self::importPredefined(); //per ora si possono specificare solo via file...
-		$behaviors = array();
-		foreach($imported_behaviors as $b){
-			if(isset($post_type)) $b['get_for_posttype'] = $post_type;
-			$behaviors[] = new Behavior($b);
+		if(is_null($post_type)) $post_type = "*";
+		static $behaviors;
+
+		if(is_null($behaviors) || !isset($behaviors[$post_type])){
+			$imported_behaviors = self::importPredefined(); //per ora si possono specificare solo via file...
+			$behaviors = array();
+			foreach($imported_behaviors as $b){
+				if(isset($post_type) && $post_type != "*") $b['get_for_posttype'] = $post_type;
+				$behaviors[$post_type][] = new Behavior($b);
+			}
 		}
 
-		return $behaviors;
+		return $behaviors[$post_type];
 	}
 
 	static function count_behaviors_for_post_type($slug){
-		$behaviors = self::getAll();
+		static $behaviors;
+		if(is_null($behaviors)) $behaviors = self::getAll();
 		$count = 0;
 		foreach($behaviors as $b){
 			if($b->is_enabled_for_post_type($slug)){
