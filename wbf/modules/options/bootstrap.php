@@ -74,12 +74,16 @@ function optionsframework_init() {
  * Not in a class to support backwards compatibility in themes.
  */
 function of_get_option( $name, $default = false ) {
-    $config = get_option( 'optionsframework' );
+    static $config = '';
+	static $options_in_file = array();
+	static $options = array();
+
+	if(!is_array($config)) $config = get_option( 'optionsframework' );
 
     //[WABOOT MOD] Tries to return the default value sets into $options array if $default is false
     if(!$default){
-        $options = Framework::_optionsframework_options();
-        foreach($options as $opt){
+	    if(empty($options_in_file)) $options_in_file = Framework::_optionsframework_options();
+        foreach($options_in_file as $opt){
             if(isset($opt['id']) && $opt['id'] == $name){
                 if(isset($opt['std'])){
                     $default = $opt['std'];
@@ -88,11 +92,11 @@ function of_get_option( $name, $default = false ) {
         }
     }
 
-    if ( ! isset( $config['id'] ) ) {
+    if(!isset($config['id'])){
         return $default;
     }
 
-    $options = get_option( $config['id'] );
+    if(empty($options)) $options = get_option( $config['id'] );
 
     if ( isset( $options[$name] ) ) {
         return $options[$name];
