@@ -500,6 +500,21 @@ if ( ! function_exists( 'wb_get_first_video' ) ) :
 endif;
 /* End Post Format Video */
 
+if ( ! function_exists( 'waboot_the_trimmed_excerpt' ) ) :
+/**
+ * A version of the_excerpt() that applies the trim function to the predefined excerpt as well
+ */
+function waboot_the_trimmed_excerpt(){
+	global $post;
+	if($post->post_excerpt == ""){
+		the_excerpt();
+	}else{
+		$excerpt_length = apply_filters( 'excerpt_length', 55 );
+		$excerpt_more = apply_filters( 'excerpt_more', ' ' . '[&hellip;]' );
+		echo  wp_trim_words(get_the_excerpt(),$excerpt_length,$excerpt_more);
+	}
+}
+endif;
 
 /* Post Format Link */
 if ( ! function_exists( 'waboot_link_format_helper' ) ) :
@@ -769,5 +784,197 @@ if(!function_exists("waboot_get_compiled_stylesheet_name")):
 		}else{
 			return "waboot";
 		}
+	}
+endif;
+
+if(!function_exists("waboot_get_uri_path_after")):
+	/**
+	 * Get the uri parts after specified tag. Eg: if the uri is "/foo/bar/zor/", calling waboot_get_uri_path_after(foo) will return: array("bar","zor")
+	 * @param $tag
+	 * @return array
+	 */
+	function waboot_get_uri_path_after($tag){
+		$url_parts = parse_url("http://".$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]);
+		$path_parts = explode("/",$url_parts['path']);
+		$key = 0;
+		foreach($path_parts as $k => $p){
+			if($p == $tag){
+				$key = $k;
+			}
+		}
+		$path_parts_sliced = array_slice($path_parts,(int)$key+1);
+		return $path_parts_sliced;
+	}
+endif;
+
+// ###############################
+// ###############################
+// CATEGORIES AND TAXONOMY HELPERS
+// ###############################
+// ###############################
+
+if ( ! function_exists( 'waboot_get_the_category' ) ) :
+	/**
+	 * Get the post categories ordered by ID. If the post is a custom post type it retrieve the specified $taxonomy terms or the first registered taxonomy
+	 * @param null $post_id
+	 * @param null $taxonomy the taxonomy to retrieve if the POST is a custom post type
+	 * @param bool $ids_only retrieve only the ID of the categories
+	 * @internal param null $the_post
+	 * @return array
+	 */
+	function waboot_get_the_category($post_id = null, $taxonomy = null, $ids_only = false){
+		if(!isset($post_id)){
+			global $post;
+			$post_id = $post->ID;
+		}else{
+			$post = get_post($post_id);
+		}
+
+		if(get_post_type($post_id) == "post"){
+			$terms = get_the_category($post_id);
+			if($ids_only){
+				foreach($terms as $id => $term){
+					$categories[] = $id;
+				}
+			}else{
+				$categories = $terms;
+			}
+		}else{
+			if(!isset($taxonomy)){
+				$terms = get_the_terms($post_id,waboot_get_first_taxonomy($post_id));
+				if($ids_only){
+					foreach($terms as $id => $term){
+						$categories[] = $id;
+					}
+				}else{
+					$categories = $terms;
+				}
+			}else{
+				if($ids_only){
+					$categories = wp_get_object_terms( $post_id, $taxonomy, array( 'fields' => 'ids' ) );
+				}else{
+					$categories = wp_get_object_terms( $post_id, $taxonomy);
+				}
+			}
+		}
+
+		if($ids_only){
+			if(isset($categories) && is_array($categories))
+				sort($categories,SORT_NUMERIC);
+		}else{
+			if(isset($categories) && is_array($categories))
+				usort($categories,"waboot_sort_categories_by_id");
+		}
+
+		return $categories;
+	}
+endif;
+
+if ( ! function_exists( 'waboot_get_top_categories' ) ) :
+	/**
+	 * Get the top level categories
+	 * @param null $taxonomy
+	 * @return array
+	 */
+	function waboot_get_top_categories($taxonomy = null){
+		if(!$taxonomy){
+			$cats = get_categories();
+		}else{
+			$cats = get_categories(array(
+				'taxonomy' => $taxonomy
+			));
+		}
+
+		$top_cat_obj = array();
+
+		foreach($cats as $cat) {
+			if ($cat->parent == 0) {
+				$top_cat_obj[] = $cat;
+			}
+		}
+
+		return $top_cat_obj;
+	}
+endif;
+
+if ( ! function_exists( 'waboot_get_top_category' ) ) :
+	/**
+	 * Gets top level category of the current or specified post
+	 * @param string $return_value "id" or "slug". If empty the category object is returned.
+	 * @return string|object
+	 */
+	function waboot_get_top_category($return_value = "", $post_id = null) {
+		if(!$post_id)
+			$cats = waboot_get_the_category(); // category object
+		else
+			$cats = waboot_get_the_category($post_id); // category object
+
+		if(!$cats) return false;
+
+		$top_cat_obj = array();
+
+		foreach($cats as $cat) {
+			if ($cat->parent == 0) {
+				$top_cat_obj[] = $cat;
+			}
+		}
+
+		if(!isset($top_cat_obj[0])){
+			$top_cat_obj = $cats[0];
+		}else{
+			$top_cat_obj = $top_cat_obj[0];
+		}
+
+		if($return_value == ""){
+			return $top_cat_obj;
+		}else{
+			switch($return_value){
+				case "id":
+					return $top_cat_obj->term_id;
+					break;
+				case "slug":
+					return $top_cat_obj->slug;
+					break;
+				default:
+					return $top_cat_obj;
+					break;
+			}
+		}
+	}
+endif;
+
+if ( ! function_exists( 'waboot_get_first_taxonomy' ) ) :
+	/**
+	 * Get the first registered taxonomy of a custom post type
+	 * @param null $post_id
+	 * @return string
+	 */
+	function waboot_get_first_taxonomy($post_id = null){
+		if(!isset($post_id)){
+			global $post;
+			$post_id = $post->ID;
+		}else{
+			$post = get_post($post_id);
+		}
+
+		if(get_post_type($post_id) == "post"){
+			return 'category';
+		}else{
+			$post_type_taxonomies = get_object_taxonomies($post->post_type);
+			return $post_type_taxonomies[0];
+		}
+	}
+endif;
+
+if ( ! function_exists( 'waboot_sort_categories_by_id' ) ) :
+	/**
+	 * Sort the categories of a post by ID (ASC)
+	 * @param $a
+	 * @param $b
+	 * @return int
+	 */
+	function waboot_sort_categories_by_id($a,$b){
+		if((int)$a->term_id == (int)$b->term_id) return 0;
+		return (int)$a->term_id < (int)$b->term_id ? -1 : 1;
 	}
 endif;
