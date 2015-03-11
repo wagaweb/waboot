@@ -146,10 +146,10 @@ class Behavior{
 			if ($current_behavior_value == "" && ($this->type != "textarea" || $this->type != "text"))
 				$current_behavior_value = "_default";
 
-			if ($current_behavior_value == "_default" || (is_array($current_behavior_value) && $current_behavior_value[0] == "_default"))
+			if ($current_behavior_value == "_default" || (is_array($current_behavior_value) && isset($current_behavior_value[0]) && $current_behavior_value[0] == "_default"))
 				$current_behavior_value = $this->default;
 
-			if (is_array($current_behavior_value))
+			if (is_array($current_behavior_value) && isset($current_behavior_value[0]))
 				$current_behavior_value = $current_behavior_value[0];
 
 			$this->value = $current_behavior_value;
