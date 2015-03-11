@@ -171,7 +171,7 @@ module.exports = function(grunt) {
                     {
                         expand: true,
                         cwd: "./",
-                        src: ["**/*", "!.*", "!Gruntfile.js", "!package.json", "!wbf/Gruntfile.js", "!wbf/package.json", "!bower.json", "!builds/**", "!node_modules/**", "!bower_components/**", "!assets/cache/**", "!_bak/**"],
+                        src: ["**/*", "!.*", "!Gruntfile.js", "!package.json", "!wbf/Gruntfile.js", "!wbf/package.json", "!bower.json", "!builds/**", "!node_modules/**", "!wbf/node_modules/**" ,"!bower_components/**", "!wbf/bower_components/**" , "!assets/cache/**", "!_bak/**"],
                         dest: "builds/waboot-<%= pkg.version %>/"
                     }
                 ]
