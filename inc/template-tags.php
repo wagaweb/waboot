@@ -505,19 +505,19 @@ endif;
 /* End Post Format Video */
 
 if ( ! function_exists( 'waboot_the_trimmed_excerpt' ) ) :
-/**
- * A version of the_excerpt() that applies the trim function to the predefined excerpt as well
- */
-function waboot_the_trimmed_excerpt(){
-	global $post;
-	if($post->post_excerpt == ""){
-		the_excerpt();
-	}else{
-		$excerpt_length = apply_filters( 'excerpt_length', 55 );
+	/**
+	 * A version of the_excerpt() that applies the trim function to the predefined excerpt as well
+	 */
+	function waboot_the_trimmed_excerpt($length = false){
+		global $post;
+		if(!$length){
+			$excerpt_length = apply_filters( 'excerpt_length', 55 );
+		}else{
+			$excerpt_length = $length;
+		}
 		$excerpt_more = apply_filters( 'excerpt_more', ' ' . '[&hellip;]' );
 		echo  wp_trim_words(get_the_excerpt(),$excerpt_length,$excerpt_more);
 	}
-}
 endif;
 
 /* Post Format Link */
