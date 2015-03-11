@@ -96,3 +96,12 @@ if ( ! function_exists( 'waboot_mainnav_class' ) ):
     }
     add_filter("waboot_mainnav_class","waboot_mainnav_class");
 endif;
+
+if ( ! function_exists( 'waboot_ignore_sticky_post_in_archives' ) ):
+	function waboot_ignore_sticky_post_in_archives($query){
+		if(is_category() || is_tag() || is_tax()) {
+			$query->set("post__not_in",get_option( 'sticky_posts', array() ));
+		}
+	}
+	add_action( 'pre_get_posts', 'waboot_ignore_sticky_post_in_archives' );
+endif;
