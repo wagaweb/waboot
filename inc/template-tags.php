@@ -473,8 +473,8 @@ function waboot_video_embed_html( $video ) {
 }
 add_filter( 'embed_oembed_html', 'waboot_video_embed_html' );
 
-if ( ! function_exists( 'wb_get_first_video' ) ) :
-    function et_get_first_video() {
+if ( ! function_exists( 'waboot_get_first_video' ) ) :
+    function waboot_get_first_video() {
         $first_oembed  = '';
         $custom_fields = get_post_custom();
 
