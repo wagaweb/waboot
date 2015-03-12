@@ -10,6 +10,8 @@ namespace WBF\modules\behaviors;
  */
 function get_behavior($name, $post_id = 0, $return = "value") {
 
+	static $retrieved_behaviors = array();
+
 	if ($post_id == 0 && !is_archive()) {
 		if(is_home() || is_404() || is_search()){
 			$post_id = get_queried_object_id();
@@ -26,7 +28,12 @@ function get_behavior($name, $post_id = 0, $return = "value") {
 		}
 	}
 
-	$b = BehaviorsManager::get($name, $post_id);
+	if(isset($retrieved_behaviors[$name][$post_id])){
+		$b = $retrieved_behaviors[$name][$post_id];
+	}else{
+		$b = BehaviorsManager::get($name, $post_id);
+		$retrieved_behaviors[$name][$post_id] = $b;
+	}
 
 	if(!$b->is_enable_for_node($post_id)) return null;
 
