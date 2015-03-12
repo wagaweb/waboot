@@ -692,7 +692,7 @@ function optionsframework_options() {
     * BEHAVIORS TAB
     */
 
-    if(class_exists('\WBF\modules\behaviors\BehaviorsManager')) :
+    if(\WBF::module_is_loaded("behaviors") && class_exists('\WBF\modules\behaviors\BehaviorsManager')) :
 
         $options[] = array(
             'name' => __( 'Posts & Pages', 'waboot' ),
