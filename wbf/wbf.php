@@ -118,6 +118,15 @@ class WBF {
         }
     }*/
 
+	static function module_is_loaded($module_name){
+		$modules = self::get_modules();
+		foreach($modules as $name => $params){
+			if($name == $module_name) return true;
+		}
+
+		return false;
+	}
+
 	static function get_modules($include = false){
 		static $modules = array();
 		if(!empty($modules)){
