@@ -681,7 +681,17 @@ if (!function_exists("waboot_breadcrumb")):
 			        waboot_breadcrumb_trail($args);
 		        }
 	        }else{
-		        waboot_breadcrumb_trail($args); //todo: fare dei check per le pagine di archivio
+		        $bc_locations = of_get_option('waboot_breadcrumb_locations', array('archive', 'tag', 'tax'));
+		        $show_bc = false;
+		        if(is_tag() && in_array('tag',$bc_locations)){
+			        $show_bc = true;
+		        }elseif(is_tax() && in_array('tax',$bc_locations)){
+			        $show_bc = true;
+		        }elseif(is_archive() && in_array('archive',$bc_locations) ){
+			        $show_bc = true;
+		        }
+
+		        if($show_bc) waboot_breadcrumb_trail($args);
 	        }
         }
     }

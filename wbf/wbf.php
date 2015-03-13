@@ -32,7 +32,7 @@ add_action( 'wp_enqueue_scripts', 'WBF::register_libs' );
 add_filter( 'options_framework_location','WBF::of_location_override' );
 add_filter( 'site_transient_update_plugins', 'WBF::unset_unwanted_updates', 999 );
 
-add_filter( 'wbf_get_modules', 'WBF::do_not_load_pagebuilder', 999 ); //todo: finché non è stabile, escludiamolo dai moduli
+//add_filter( 'wbf_get_modules', 'WBF::do_not_load_pagebuilder', 999 ); //todo: finché non è stabile, escludiamolo dai moduli
 
 class WBF {
 
