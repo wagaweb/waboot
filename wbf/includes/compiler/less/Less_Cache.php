@@ -1,6 +1,8 @@
 <?php
 
-class Waboot_Less_Cache extends Less_Cache{
+namespace WBF\includes\compiler\less;
+
+class Less_Cache extends \Less_Cache{
 
     /**
      * Check if less files needs to be compiled [Added by LostCore]
@@ -34,7 +36,7 @@ class Waboot_Less_Cache extends Less_Cache{
      */
     private static function CompiledName( $files ){
         //save the file list
-        $temp = array(Less_Version::cache_version);
+        $temp = array(\Less_Version::cache_version);
         foreach($files as $file){
             $temp[] = filemtime($file)."\t".filesize($file)."\t".$file;
         }

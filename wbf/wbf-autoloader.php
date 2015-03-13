@@ -54,26 +54,29 @@ function waboot_autoloader($class)
 	    case "WBF\includes\Theme_Update_Checker":
 		    locate_template( 'wbf/includes/theme-update-checker.php', true );
 		    break;
-	    case "Waboot_Styles_Compiler":
-		    locate_template( 'wbf/includes/compiler/class-waboot-styles-compiler.php', true );
+	    case 'WBF\includes\compiler\Styles_Compiler':
+		    locate_template( 'wbf/includes/compiler/class-styles-compiler.php', true );
 		    break;
-        case "Waboot_Less_Cache":
-	        locate_template( 'wbf/includes/compiler/less-php/Waboot_Less_Cache.php', true );
+	    case 'WBF\includes\compiler\Base_Compiler':
+		    locate_template( 'wbf/includes/compiler/interface-base-compiler.php', true );
+		    break;
+        case 'WBF\includes\compiler\less\Less_Cache':
+	        locate_template( 'wbf/includes/compiler/less/Less_Cache.php', true );
             break;
-        case "Waboot_Less_Compiler":
-	        locate_template( 'wbf/includes/compiler/less-php/Waboot_Less_Compiler.php', true );
+        case 'WBF\includes\compiler\less\Less_Compiler':
+	        locate_template( 'wbf/includes/compiler/less/Less_Compiler.php', true );
             break;
         case "Less_Cache":
-	        locate_template( 'wbf/includes/compiler/less-php/vendor/Lessphp/Cache.php', true );
+	        locate_template( 'wbf/includes/compiler/less/vendor/Lessphp/Cache.php', true );
             break;
         case "Less_Parser":
-	        locate_template( 'wbf/includes/compiler/less-php/vendor/Lessphp/Less.php', true );
+	        locate_template( 'wbf/includes/compiler/less/vendor/Lessphp/Less.php', true );
             break;
         case "lessc":
-	        locate_template( 'wbf/includes/compiler/less-php/vendor/Lessphp/lessc.inc.php', true );
+	        locate_template( 'wbf/includes/compiler/less/vendor/Lessphp/lessc.inc.php', true );
             break;
         case "Less_Version":
-	        locate_template( 'wbf/includes/compiler/less-php/vendor/Lessphp/Version.php', true );
+	        locate_template( 'wbf/includes/compiler/less/vendor/Lessphp/Version.php', true );
             break;
         case "BootstrapNavMenuWalker":
             locate_template('wbf/vendor/BootstrapNavMenuWalker.php', true);

@@ -1,14 +1,19 @@
 <?php
 
-class Waboot_Styles_Compiler{
+namespace WBF\includes\compiler;
+use \WBF\includes\compiler\less\Less_Compiler;
+use \Exception;
+use \WP_Error;
+
+class Styles_Compiler{
 	var $base_compiler;
 
 	function __construct($compile_sets,$base_compiler = "less"){
 		switch($base_compiler){
 			case "less":
 			default:
-				require_once "less-php/Waboot_Less_Compiler.php";
-				$this->base_compiler = new Waboot_Less_Compiler($compile_sets);
+				require_once "less/Less_Compiler.php";
+				$this->base_compiler = new Less_Compiler($compile_sets);
 				break;
 		}
 
@@ -32,7 +37,7 @@ class Waboot_Styles_Compiler{
 		/** This filter is documented in wp-admin/admin.php */
 		@ini_set( 'memory_limit', apply_filters( 'admin_memory_limit', WP_MAX_MEMORY_LIMIT ) );
 		try{
-			if(!$this->can_compile()) throw new WabootCompilerBusyException();
+			if(!$this->can_compile()) throw new CompilerBusyException();
 			update_option('waboot_compiling_flag',1) or add_option('waboot_compiling_flag',1,'',true); //lock the compiler
 			update_option('waboot_compiling_last_attempt',time()) or add_option('waboot_compiling_last_attempt',time(),'',true); //keep note of the current time
 			$this->base_compiler->compile(); //COMPILE with specified compiler!
@@ -42,21 +47,21 @@ class Waboot_Styles_Compiler{
 					if(isset($GLOBALS['option_page']) && $GLOBALS['option_page'] == 'optionsframework'){
 						add_settings_error('options-framework', 'save_options', __('Less files compiled successfully.', 'wbf'), 'updated fade');
 					}else{
-						add_action( 'admin_notices', 'compiled_admin_notice');
+						add_action( 'admin_notices', '\WBF\includes\compiler\compiled_admin_notice');
 					}
 				}else{
 					echo '<div class="alert alert-success"><p>'.__('Theme styles files compiled successfully.', 'wbf').'</p></div>';
 				}
 			}
 		}catch(Exception $e){
-			if(!$e instanceof WabootCompilerBusyException) update_option('waboot_compiling_flag',0); //release the compiler
+			if(!$e instanceof CompilerBusyException) update_option('waboot_compiling_flag',0); //release the compiler
 			$wpe = new WP_Error( 'compile-failed', $e->getMessage() );
 			if ( current_user_can( 'manage_options' ) ) {
 				if(is_admin()){
 					if(isset($GLOBALS['option_page']) && $GLOBALS['option_page'] == 'optionsframework'){
 						add_settings_error('options-framework', 'save_options', $wpe->get_error_message(), 'error fade');
 					}else{
-						add_action( 'admin_notices', 'compile_error_admin_notice');
+						add_action( 'admin_notices', '\WBF\includes\compiler\compile_error_admin_notice');
 					}
 				}else{
 					echo '<div class="alert alert-warning"><p>'.$wpe->get_error_message().'</p></div>';
@@ -77,7 +82,7 @@ class Waboot_Styles_Compiler{
 						unlink($file); // delete file
 				}
 				if(is_admin()){
-					add_action( 'admin_notices', 'cache_cleared_admin_notice');
+					add_action( 'admin_notices', '\WBF\includes\compiler\cache_cleared_admin_notice');
 				}else{
 					echo '<div class="alert alert-success"><p>'.__('Theme cache cleared successfully!', 'wbf').'</p></div>';
 				}
@@ -114,7 +119,7 @@ class Waboot_Styles_Compiler{
 	}
 }
 
-class WabootCompilerBusyException extends Exception{
+class CompilerBusyException extends Exception{
 	public function __construct($message = null, $code = 0, Exception $previous = null) {
 		if(!isset($message)){
 			$message = __("The compiler is busy","wbf");

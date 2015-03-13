@@ -1,5 +1,7 @@
 <?php
 
+namespace WBF\includes\compiler;
+
 /**
  * Generate a temp file parsing commented include tags in the $filepath less file.
  *
@@ -10,16 +12,16 @@
  * @since 0.7.0
  */
 function parse_input_file($filepath){
-	$inputFile = new SplFileInfo($filepath);
+	$inputFile = new \SplFileInfo($filepath);
 	if($inputFile->isReadable()){
 		$inputFileObj = $inputFile->openFile();
-		$tmpFile = new SplFileInfo($inputFile->getPath()."/tmp_".$inputFile->getFilename());
+		$tmpFile = new \SplFileInfo($inputFile->getPath()."/tmp_".$inputFile->getFilename());
 		$tmpFileObj = $tmpFile->openFile("w+");
 		if($tmpFileObj->isWritable()){
 			while (!$inputFileObj->eof()) {
 				$line = $inputFileObj->fgets();
 				if(preg_match("|\{@import '([a-zA-Z0-9\-/_.]+)'\}|",$line,$matches)){
-					$fileToImport = new SplFileInfo(dirname($filepath)."/".$matches[1]);
+					$fileToImport = new \SplFileInfo(dirname($filepath)."/".$matches[1]);
 					if($fileToImport->isFile() && $fileToImport->isReadable()){
 						if($inputFile->getPath() == $fileToImport->getPath()){
 							$line = "@import '{$fileToImport->getBasename()}';\n";

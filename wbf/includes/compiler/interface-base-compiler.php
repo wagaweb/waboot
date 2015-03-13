@@ -1,6 +1,8 @@
 <?php
 
-interface Waboot_Base_Compiler{
+namespace WBF\includes\compiler;
+
+interface Base_Compiler{
 	/**
 	 * @param array $compile_sets the "sets" of styles to compile. The array must have this form:
 	 * array(

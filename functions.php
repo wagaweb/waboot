@@ -69,7 +69,7 @@ endif;
 if ( ! function_exists( 'init_style_compiler' ) ) :
 function init_style_compiler(){
 	$theme = waboot_get_compiled_stylesheet_name();
-	$GLOBALS['waboot_styles_compiler'] = new Waboot_Styles_Compiler(array(
+	$GLOBALS['waboot_styles_compiler'] = new \WBF\includes\compiler\Styles_Compiler(array(
 		"theme_frontend" => array(
 			"input" => get_stylesheet_directory()."/sources/less/{$theme}.less",
 			"output" => get_stylesheet_directory()."/assets/css/{$theme}.css",

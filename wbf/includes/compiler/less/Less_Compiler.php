@@ -1,8 +1,12 @@
 <?php
 
-require_once( get_template_directory()."/wbf/includes/compiler/interface-waboot-base-compiler.php" );
+namespace WBF\includes\compiler\less;
+use WBF\includes\compiler\Base_Compiler;
+use \Exception;
 
-class Waboot_Less_Compiler implements Waboot_Base_Compiler{
+require_once( get_template_directory()."/wbf/includes/compiler/interface-base-compiler.php" );
+
+class Less_Compiler implements Base_Compiler{
     public $compile_sets = array();
 
 	/**
@@ -34,7 +38,7 @@ class Waboot_Less_Compiler implements Waboot_Base_Compiler{
             }else{
                 return true;
             }
-        }catch(exception $e){
+        }catch(Exception $e){
             if(isset($_SERVER['HTTP_X_REQUESTED_WITH'])){
                 echo 0;
                 die();
@@ -47,10 +51,10 @@ class Waboot_Less_Compiler implements Waboot_Base_Compiler{
     function compile_set($name,$args){
         try{
 	        global $wp_filesystem;
-	        require_once( "Waboot_Less_Cache.php" );
+	        require_once( "Less_Cache.php" );
 	        require_once( get_template_directory()."/wbf/includes/compiler/compiler-utils.php" );
 
-	        $args['input'] = parse_input_file($args['input']);
+	        $args['input'] = \WBF\includes\compiler\parse_input_file($args['input']);
             $less_files = array(
 	            $args['input'] => $args['import_url'],
             );
@@ -108,7 +112,7 @@ class Waboot_Less_Compiler implements Waboot_Base_Compiler{
 			$set['input'] => $set['import_url'],
 		);
 
-		if(Waboot_Less_Cache::needs_to_compile($less_files,$set['cache'])){
+		if(Less_Cache::needs_to_compile($less_files,$set['cache'])){
 			if(isset($_SERVER['HTTP_X_REQUESTED_WITH'])){
 				echo 1;
 				die();
