@@ -117,6 +117,20 @@ class Styles_Compiler{
 			}
 		}
 	}
+
+	/**
+	 * Get the compile sets from current compiler. Return empty array if fails.
+	 * @return array
+	 */
+	function get_compile_sets(){
+		if(isset($this->base_compiler)){
+			if(isset($this->base_compiler->compile_sets)){
+				return $this->base_compiler->compile_sets;
+			}
+		}
+
+		return array();
+	}
 }
 
 class CompilerBusyException extends Exception{
