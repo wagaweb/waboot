@@ -79,5 +79,11 @@ function init_style_compiler(){
 			"import_url" => get_stylesheet_directory_uri()
 		)
 	));
+
+	//Run a compilation if the styles file is not present
+	$sets = $GLOBALS['waboot_styles_compiler']->get_compile_sets();
+	if(!is_file($sets['theme_frontend']['output'])){
+		$GLOBALS['waboot_styles_compiler']->compile();
+	}
 }
 endif;
