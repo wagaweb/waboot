@@ -50,7 +50,7 @@ if ( ! function_exists( 'waboot_content_nav' ) ):
 				if(is_single()) :
 					previous_post_link( '<li class="previous">%link</li>', '<span class="meta-nav">' . _x( '&laquo;', 'Previous post link', 'waboot' ) . '</span> %title' );
 					next_post_link( '<li class="next">%link</li>', '%title <span class="meta-nav">' . _x( '&raquo;', 'Next post link', 'waboot' ) . '</span>' );
-				elseif($query->max_num_pages > 1 && (is_home() || is_archive() || is_search())) : // navigation links for home, archive, and search pages
+				elseif($query->max_num_pages > 1 && (is_home() || is_archive() || is_search() || is_singular())) : // navigation links for home, archive, search pages and common pages
 					/*
 					 * Navigation links for home, archive, and search pages
 					 */
