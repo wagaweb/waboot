@@ -46,6 +46,12 @@ class Waboot_Plugin {
 	 */
 	protected $plugin_path;
 	/**
+	 * The path relative to WP_PLUGIN_DIR
+	 *
+	 * @var
+	 */
+	protected $plugin_relative_dir;
+	/**
 	 * The current version of the plugin.
 	 *
 	 * @since    1.0.0
@@ -66,6 +72,10 @@ class Waboot_Plugin {
 		$this->plugin_name = $plugin_name;
 		$this->plugin_dir  = $dir;
 		$this->plugin_path = $this->plugin_dir.$this->plugin_name.".php";
+
+		//Set relative path
+		$pinfo = pathinfo($dir);
+		$this->plugin_relative_dir = "/".$pinfo['basename'];
 
 		//Get the version
 		$pluginHeader = get_plugin_data($this->plugin_path, false, false);
@@ -131,6 +141,7 @@ class Waboot_Plugin {
 	private function set_locale() {
 		$plugin_i18n = new Waboot_Plugin_i18n();
 		$plugin_i18n->set_domain( $this->get_plugin_name() );
+		$plugin_i18n->set_language_dir( $this->plugin_relative_dir."/languages/" );
 		$this->loader->add_action( 'plugins_loaded', $plugin_i18n, 'load_plugin_textdomain' );
 	}
 

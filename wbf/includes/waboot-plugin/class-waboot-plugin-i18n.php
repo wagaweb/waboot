@@ -20,6 +20,13 @@ class Waboot_Plugin_i18n {
 	private $domain;
 
 	/**
+	 * The language directory (relative to WP_PLUGIN_DIR)
+	 *
+	 * @var
+	 */
+	private $dir;
+
+	/**
 	 * Load the plugin text domain for translation.
 	 *
 	 * @since    1.0.0
@@ -29,7 +36,7 @@ class Waboot_Plugin_i18n {
 		load_plugin_textdomain(
 			$this->domain,
 			false,
-			dirname( dirname( plugin_basename( __FILE__ ) ) ) . '/languages/'
+			$this->dir
 		);
 
 	}
