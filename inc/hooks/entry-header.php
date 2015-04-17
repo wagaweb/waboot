@@ -14,14 +14,20 @@ function waboot_entry_title($post = null) {
 	if(!is_archive())
         if (get_behavior('show-title', $post->ID) == "0") return "";
 
-    $title = get_the_title($post->ID);
+	$title = get_the_title($post->ID);
 
-    if (mb_strlen($title) == 0)
-        return "";
+	if (mb_strlen($title) == 0)
+		return "";
+
+	$title = apply_filters("waboot_entry_title_simple",$title); //@Deprecated
+	$title = apply_filters("waboot_entry_title_text",$title);
+
     if(is_singular() ) {
-        $str = sprintf(apply_filters('waboot_entry_title_text_singular', '<h1 class="entry-title">%s</h1>'), $title);
+        $str = sprintf(apply_filters('waboot_entry_title_text_singular', '<h1 class="entry-title">%s</h1>'), $title); //@Deprecated
+        $str = sprintf(apply_filters('waboot_entry_title_html_singular', '<h1 class="entry-title">%s</h1>'), $title);
     }else{
-        $str = sprintf(apply_filters('waboot_entry_title_text_posts', '<h2 class="entry-title"><a class="entry-title" title="%s" rel="bookmark" href="%s">%s</a></h2>'), the_title_attribute('echo=0'), get_permalink(), $title);
+        $str = sprintf(apply_filters('waboot_entry_title_text_posts', '<h2 class="entry-title"><a class="entry-title" title="%s" rel="bookmark" href="%s">%s</a></h2>'), the_title_attribute('echo=0'), get_permalink(), $title); //@Deprecated
+        $str = sprintf(apply_filters('waboot_entry_title_html_posts', '<h2 class="entry-title"><a class="entry-title" title="%s" rel="bookmark" href="%s">%s</a></h2>'), the_title_attribute('echo=0'), get_permalink(), $title);
     }
 
     return apply_filters('waboot_entry_title_text', $str);
