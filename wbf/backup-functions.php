@@ -1,6 +1,14 @@
 <?php
 
 /**
+ * Backward compatibility for wbf_breadcrumb_trail
+ * @param array $args
+ */
+function waboot_breadcrumb_trail( $args = array() ){
+	wbf_breadcrumb_trail($args);
+}
+
+/**
  * Behaviors framework backup functions; handles the case in which the Behaviors are not loaded
  *
  * @param $name
