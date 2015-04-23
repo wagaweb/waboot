@@ -69,7 +69,7 @@ if ( ! function_exists( 'waboot_behaviors_cpts_blacklist' ) ):
         $blacklist[] = "metaslider";
         return $blacklist;
     }
-    add_filter("waboot_behaviors_cpts_blacklist","waboot_behaviors_cpts_blacklist");
+    add_filter("wbf_behaviors_cpts_blacklist","waboot_behaviors_cpts_blacklist");
 endif;
 
 if ( ! function_exists( 'waboot_set_default_components' ) ):
