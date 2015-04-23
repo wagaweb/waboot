@@ -51,4 +51,8 @@ class Waboot_Plugin_i18n {
 	public function set_domain( $domain ) {
 		$this->domain = $domain;
 	}
+
+	public function set_language_dir($dir){
+		$this->dir = $dir;
+	}
 }
