@@ -1,7 +1,23 @@
 <?php
 
+/*****************************
+ * FRAMEWORK INITIALIZATION
+ *****************************/
+
 locate_template('/wbf/wbf.php', true);
-//require_once WBF_DIRECTORY."/modules/components/functions.php";
+
+/**
+ * Set update server
+ */
+$GLOBALS['WBFThemeUpdateChecker'] = new \WBF\includes\Theme_Update_Checker(
+	'waboot', //Theme slug. Usually the same as the name of its directory.
+	'http://update.waboot.org/?action=get_metadata&slug=waboot' //Metadata URL.
+);
+
+/*****************************
+ * WABOOT INITIALIZATION
+ *****************************/
+
 locate_template('/inc/template-tags.php', true);
 
 if ( ! function_exists( 'waboot_setup' ) ):

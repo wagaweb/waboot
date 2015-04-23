@@ -277,11 +277,11 @@ class WBF {
 	}
 
 	function admin_menu(){
-		global $menu,$options_framework_admin,$WabootThemeUpdateChecker;
+		global $menu,$options_framework_admin,$WBFThemeUpdateChecker;
 
 		//Check if must display the bubble warning
-		if(isset($WabootThemeUpdateChecker))
-			$updates_state = get_option($WabootThemeUpdateChecker->optionName,null);
+		if(isset($WBFThemeUpdateChecker))
+			$updates_state = get_option($WBFThemeUpdateChecker->optionName,null);
 
 		if(isset($updates_state) && !is_null($updates_state->update))
 			$warning_count = 1;
@@ -462,11 +462,3 @@ if(!is_admin() && !function_exists("waboot_mobile_body_class")):
 	}
 	add_filter('body_class','waboot_mobile_body_class');
 endif;
-
-/**
- * WP UPDATE SERVER
- */
-$GLOBALS['WabootThemeUpdateChecker'] = new \WBF\includes\Theme_Update_Checker(
-	'waboot', //Theme slug. Usually the same as the name of its directory.
-	'http://update.waboot.org/?action=get_metadata&slug=waboot' //Metadata URL.
-);
