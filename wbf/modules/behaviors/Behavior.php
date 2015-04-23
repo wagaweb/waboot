@@ -83,7 +83,7 @@ class Behavior{
 						if($matches[1] == "{home}"){
 							array_push($this->filters['node_id'],"-".get_option( 'page_for_posts' ));
 						}elseif($matches[1] == "{cpt}"){
-							$cpts = wp_get_filtered_post_types(apply_filters("waboot_behaviors_cpts_blacklist",array()));
+							$cpts = wp_get_filtered_post_types(apply_filters("wbf_behaviors_cpts_blacklist",array()));
 							foreach($cpts as $k => $v){
 								array_push($this->filters['post_type'],"-".$k);
 							}
@@ -96,7 +96,7 @@ class Behavior{
 						if($filter == "{home}"){
 							array_push($this->filters['node_id'],get_option( 'page_for_posts' ));
 						}elseif($filter == "{cpt}"){
-							$cpts = wp_get_filtered_post_types(apply_filters("waboot_behaviors_cpts_blacklist",array()));
+							$cpts = wp_get_filtered_post_types(apply_filters("wbf_behaviors_cpts_blacklist",array()));
 							foreach($cpts as $k => $v){
 								array_push($this->filters['post_type'],$k);
 							}
