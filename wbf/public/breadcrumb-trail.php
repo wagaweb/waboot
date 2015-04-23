@@ -13,17 +13,17 @@
  *                     - additional_classes: a string (space separated) of classes to add to breadcrumb container (since 0.3.10)
  * @return void
  */
-function waboot_breadcrumb_trail( $args = array() ) {
+function wbf_breadcrumb_trail( $args = array() ) {
 
     if ( function_exists( 'is_bbpress' ) && is_bbpress() )
         $breadcrumb = new bbPress_Breadcrumb_Trail( $args );
     else
-        $breadcrumb = new Waboot_Breadcrumb_Trail( $args );
+        $breadcrumb = new WBF_Breadcrumb_Trail( $args );
 
     $breadcrumb->trail();
 }
 
-class Waboot_Breadcrumb_Trail extends Breadcrumb_Trail{
+class WBF_Breadcrumb_Trail extends Breadcrumb_Trail{
     /**
      * Formats and outputs the breadcrumb trail.
      *
