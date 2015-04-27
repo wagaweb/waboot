@@ -139,7 +139,8 @@ function _of_generate_less_file($value){
         $fontOptionfindRegExp    = "~//{of_get_font\('([a-zA-Z0-9\-_]+)'\)}~";
 
         $tmpFileObj    = $tmpFile->openFile( "r" );
-        $parsedFileObj = $parsedFile->openFile( "w+" );
+        $parsedFileObj = $parsedFile->openFile( "w" );
+	    $byte_written = 0;
 
         while ( ! $tmpFileObj->eof() ) {
             $line = $tmpFileObj->fgets();
@@ -179,8 +180,9 @@ function _of_generate_less_file($value){
                     $line = "//{$matches[1]} not found\n";
                 }
             }
-            $parsedFileObj->fwrite( $line );
+	        $byte_written += $parsedFileObj->fwrite( $line );
         }
+	    //Here the file has been written!
     }
 }
 
