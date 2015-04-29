@@ -21,7 +21,7 @@ if ( ! function_exists( 'waboot_content_nav' ) ):
 	 * Display navigation to next/previous pages when applicable
 	 * @from Waboot
 	 */
-	function waboot_content_nav( $nav_id, $show_pagination = false, $query = false ) {
+	function waboot_content_nav( $nav_id, $show_pagination = false, $query = false, $current_page = false ) {
 		// Return early if theme options are set to hide nav
 		if ( 'nav-below' == $nav_id && ! of_get_option( 'waboot_content_nav_below', 1 ) || 'nav-above' == $nav_id && ! of_get_option( 'waboot_content_nav_above' ) ) return;
 
@@ -59,7 +59,7 @@ if ( ! function_exists( 'waboot_content_nav' ) ):
 						$paginate = paginate_links(array(
 							'base' => str_replace( $big, '%#%', esc_url( get_pagenum_link( $big ) ) ),
 							'format' => '?paged=%#%',
-							'current' => max( 1, get_query_var('paged') ),
+							'current' => $current_page ? $current_page : max( 1, get_query_var('paged') ),
 							'total' => $query->max_num_pages
 						));
 
