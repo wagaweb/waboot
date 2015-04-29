@@ -49,12 +49,13 @@ module.exports = function (grunt) {
                     'admin/js/admin.min.js': ['sources/js/admin/admin.js'],
                     'admin/js/code-editor.min.js': ['sources/js/admin/code-editor.js'],
                     'admin/js/components-page.min.js': ['sources/js/admin/components-page.js'],
-                    'admin/js/font-selector.min.js': ['sources/js/admin/font-selector.js']
+                    'admin/js/font-selector.min.js': ['sources/js/admin/font-selector.js'],
+                    'includes/scripts/wbfgmap.min.js': ['sources/js/includes/wbfgmap/markerclusterer.js','sources/js/includes/wbfgmap/acfmap.js']
                 }
             }
         },
         "jsbeautifier": {
-            files: ['admin/js/*.js', 'public/js/*.js'],
+            files: ['admin/js/*.js', 'public/js/*.js','includes/scripts/*.js','includes/scripts/**/*.js'],
             options: {}
         },
         pot: {
