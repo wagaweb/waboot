@@ -195,9 +195,23 @@ class WBF_Breadcrumb_Trail extends Breadcrumb_Trail{
                     if('post' == $post->post_type){
                         $terms = get_the_category($post_id);
                     }else{ /* WAGA MOD */
-                        $post_type_object = get_post_type_object($post->post_type);
-                        $post_type_taxonomies = get_object_taxonomies($post->post_type);
-                        $terms = get_the_terms($post_id,$post_type_taxonomies);
+	                    $post_type_object = get_post_type_object($post->post_type);
+	                    $post_type_taxonomies = get_object_taxonomies($post->post_type);
+	                    //Reorder the taxonomies with the hierarchical one at the top
+	                    if(is_array($post_type_taxonomies) && !empty($post_type_taxonomies)){
+		                    usort($post_type_taxonomies,function($a,$b){
+			                    if($a == $b) return 0;
+			                    $a_tax = get_taxonomy($a);
+			                    $b_tax = get_taxonomy($b);
+			                    if($a_tax->hierarchical && $b_tax->hierarchical) return 0;
+			                    if(!$a_tax->hierarchical && !$b_tax->hierarchical) return 0;
+			                    if($a_tax->hierarchical && !$b_tax->hierarchical) return -1;
+			                    if(!$a_tax->hierarchical && $b_tax->hierarchical) return 1;
+		                    });
+		                    $terms = get_the_terms($post_id,$post_type_taxonomies[0]);
+	                    }else{
+		                    $terms = false;
+	                    }
                     }
 
                     /* Check that categories were returned. */
