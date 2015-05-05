@@ -68,6 +68,8 @@ class Waboot_Plugin {
 	 */
 	protected $update_instance;
 
+	protected $debug_mode = false;
+
 	public function __construct( $plugin_name, $dir, $version = "1.0.0" ) {
 		$this->plugin_name = $plugin_name;
 		$this->plugin_dir  = $dir;
@@ -78,12 +80,23 @@ class Waboot_Plugin {
 		$this->plugin_relative_dir = "/".$pinfo['basename'];
 
 		//Get the version
-		$pluginHeader = get_plugin_data($this->plugin_path, false, false);
-		if ( isset($pluginHeader['Version']) ) {
-			$this->version = $pluginHeader['Version'];
-		} else {
+		if(function_exists("get_plugin_data")){
+			$pluginHeader = get_plugin_data($this->plugin_path, false, false);
+			if ( isset($pluginHeader['Version']) ) {
+				$this->version = $pluginHeader['Version'];
+			} else {
+				$this->version = $version;
+			}
+		}else{
 			$this->version = $version;
 		}
+
+		//Check if debug mode must be activated
+		if( (defined("WABOOT_ENV") && WABOOT_ENV == "dev") || (defined("WBF_ENV") && WBF_ENV == "dev") ){
+			$this->debug_mode = true;
+		}
+
+		$GLOBALS['wbf_loaded_plugins'][$this->get_plugin_name()] = &$this;
 
 		$this->load_dependencies();
 		$this->set_locale();
@@ -126,7 +139,7 @@ class Waboot_Plugin {
 		 */
 		//require_once plugin_dir_path( dirname( __FILE__ ) ) . 'class-waboot-plugin-i18n.php';
 
-		$this->loader = new Waboot_Plugin_Loader();
+		$this->loader = new Waboot_Plugin_Loader($this);
 	}
 
 	/**
@@ -177,6 +190,22 @@ class Waboot_Plugin {
 	 */
 	public function run() {
 		$this->loader->run();
+	}
+
+	public function get_dir(){
+		return $this->plugin_dir;
+	}
+
+	public function get_path(){
+		return $this->plugin_path;
+	}
+
+	public function get_relative_dir(){
+		return $this->plugin_relative_dir;
+	}
+
+	public function is_debug(){
+		return $this->debug_mode;
 	}
 
 	/**

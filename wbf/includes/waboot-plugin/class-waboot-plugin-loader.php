@@ -29,16 +29,33 @@ class Waboot_Plugin_Loader {
 	 */
 	protected $filters;
 
+	protected $public_plugin;
+
+	protected $admin_plugin;
+
+	protected $classes;
+
 	/**
 	 * Initialize the collections used to maintain the actions and filters.
 	 *
 	 * @since    1.0.0
 	 */
-	public function __construct() {
+	public function __construct($caller = null) {
 
 		$this->actions = array();
 		$this->filters = array();
 
+		if(isset($caller)){
+			$class_name_parts = explode("\\",get_class($caller));
+			if(is_file($caller->get_dir()."public/class-public.php")){
+				$class_name = $class_name_parts[0].'\pub\Pub';
+				$this->public_plugin = new $class_name($caller->get_plugin_name(), $caller->get_version());
+			}
+			if(is_file($caller->get_dir()."admin/class-admin.php")){
+				$class_name = $class_name_parts[0].'\admin\Admin';
+				$this->admin_plugin = new $class_name($caller->get_plugin_name(), $caller->get_version());
+			}
+		}
 	}
 
 	/**
@@ -95,6 +112,12 @@ class Waboot_Plugin_Loader {
 	 */
 	public function add_filter( $hook, $component, $callback, $priority = 10, $accepted_args = 1 ) {
 		$this->filters = $this->add( $this->filters, $hook, $component, $callback, $priority, $accepted_args );
+	}
+
+	public function add_class($class_obj){
+		if(is_object($class_obj)){
+			$this->classes[] = $class_obj;
+		}
 	}
 
 	/**
