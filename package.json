@@ -1,6 +1,6 @@
 {
   "name": "Waboot",
-    "version": "0.10.2",
+  "version": "0.10.2",
   "author": "Waga",
   "homepage": "http://www.waga.it/",
   "repository": {
@@ -20,16 +20,26 @@
     "node": ">= 0.10.0"
   },
   "devDependencies": {
-    "grunt": "~0.4.1",
-    "grunt-contrib-compress": "^0.9.1",
-    "grunt-contrib-concat": "^0.4.0",
-    "grunt-contrib-copy": "^0.5.0",
-    "grunt-contrib-jshint": "^0.10.0",
-    "grunt-contrib-less": "^0.11.0",
-    "grunt-contrib-uglify": "^0.4.1",
+    "browserify": "^10.1.1",
+    "browserify-shim": "^3.8.6",
+    "grunt": "^0.4.5",
+    "grunt-contrib-compress": "^0.13.0",
+    "grunt-contrib-concat": "^0.5.1",
+    "grunt-contrib-copy": "^0.8.0",
+    "grunt-contrib-jshint": "^0.11.2",
+    "grunt-contrib-less": "^1.0.1",
+    "grunt-contrib-uglify": "^0.9.1",
     "grunt-contrib-watch": "^0.6.1",
-    "grunt-jsbeautifier": "^0.2.7",
-    "grunt-pot": "^0.1.2",
-    "load-grunt-tasks": "^0.5.0"
+    "grunt-jsbeautifier": "^0.2.10",
+    "grunt-pot": "^0.2.1",
+    "load-grunt-tasks": "^3.1.0"
+  },
+  "browserify": {
+    "transform": [ "browserify-shim" ]
+  },
+  "browserify-shim": {
+    "jquery": "global:jQuery",
+    "backbone": "global:Backbone",
+    "underscore": "global:_"
   }
 }
