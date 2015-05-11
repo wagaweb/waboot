@@ -12,7 +12,8 @@ module.exports = function (grunt) {
                     'admin/css/tinymce.css': 'sources/admin/tinymce.less',
                     'admin/css/admin.css': 'sources/admin/admin.less',
                     'admin/css/waboot-optionsframework.css': 'sources/admin/optionsframework.less',
-                    'admin/css/waboot-componentsframework.css': 'sources/admin/componentsframework.less'
+                    'admin/css/waboot-componentsframework.css': 'sources/admin/componentsframework.less',
+                    'admin/css/waboot-pagebuilder.css': 'wbf/sources/less/pagebuilder.less'
                 }
             },
             production: {
@@ -24,7 +25,7 @@ module.exports = function (grunt) {
         },
         // JsHint your javascript
         jshint: {
-            all: ['sources/js/*.js'],
+            all: ['sources/js/*.js','sources/js/**/*.js'],
             options: {
                 browser: true,
                 curly: false,
