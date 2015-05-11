@@ -17,12 +17,7 @@ module.exports = function(grunt) {
                         }
                         return 'sources/less/waboot.less';
                     })(),
-                    'assets/css/bootstrap-pagebuilder.css': 'sources/less/bootstrap-pagebuilder.less',
-                    'wbf/admin/css/tinymce.css': 'wbf/sources/less/tinymce.less',
-                    'wbf/admin/css/admin.css': 'wbf/sources/less/admin.less',
-                    'wbf/admin/css/waboot-optionsframework.css': 'wbf/sources/less/optionsframework.less',
-                    'wbf/admin/css/waboot-componentsframework.css': 'wbf/sources/less/componentsframework.less',
-                    'wbf/admin/css/waboot-pagebuilder.css': 'wbf/sources/less/pagebuilder.less'
+                    'assets/css/bootstrap-pagebuilder.css': 'sources/less/bootstrap-pagebuilder.less'
                 }
             },
             production:{
@@ -48,9 +43,8 @@ module.exports = function(grunt) {
                 }                
             }
         },
-        // JsHint your javascript
         jshint : {
-            all : ['sources/js/*.js'],
+            all : ['sources/js/*.js','sources/js/**/*.js'],
             options : {
                 browser: true,
                 curly: false,
@@ -65,18 +59,15 @@ module.exports = function(grunt) {
                 undef: false
             }
         },
-        concat: {
-            options: {
-                // define a string to put between each file in the concatenated output
-                separator: '\n'
-            },
+        browserify: {
             dist: {
-                files:{
-                    'assets/js/waboot.js': ['sources/js/waboot-helper.js'],
-                    'assets/js/waboot-mobile.js': ['sources/js/waboot-helper-mobile.js'],
-                    'assets/js/plugins.js': ['sources/js/vendor/*.js'],
-                    'assets/js/plugins-mobile.js': ['sources/js/vendor-mobile/*.js']
-                }
+                src: ['sources/js/main.js'],
+                dest: 'sources/js/waboot.js'
+            }
+        },
+        "jsbeautifier" : {
+            files : ['sources/js/main.js','sources/js/controllers/*.js','sources/js/views/*.js'],
+            options : {
             }
         },
         uglify: {
@@ -86,20 +77,8 @@ module.exports = function(grunt) {
             },
             dist: {
                 files: {
-                    'assets/js/waboot.min.js': ['assets/js/waboot.js'],
-                    'assets/js/waboot-mobile.min.js': ['assets/js/waboot-mobile.js'],
-                    'assets/js/plugins.min.js': ['assets/js/plugins.js'],
-                    'assets/js/plugins-mobile.min.js': ['assets/js/plugins-mobile.js'],
-                    'wbf/admin/js/admin.min.js': ['wbf/sources/js/admin/admin.js'],
-                    'wbf/admin/js/code-editor.min.js': ['wbf/sources/js/admin/code-editor.js'],
-                    'wbf/admin/js/components-page.min.js': ['wbf/sources/js/admin/components-page.js'],
-                    'wbf/admin/js/font-selector.min.js': ['wbf/sources/js/admin/font-selector.js']
+                    'assets/js/waboot.min.js': ['sources/js/waboot.js']
                 }
-            }
-        },
-        "jsbeautifier" : {
-            files : ['assets/js/*.js'],
-            options : {
             }
         },
         copy:{
@@ -225,7 +204,7 @@ module.exports = function(grunt) {
             },
             scripts:{
                 files: ['<%= jshint.all %>'],
-                task: ['jshint']
+                task: ['jshint','browserify:dist']
             }
         }
     });
@@ -234,8 +213,8 @@ module.exports = function(grunt) {
     grunt.registerTask('setup', ['bower-install','copy:all','less:dev']); //Setup task
     grunt.registerTask('default', ['watch']); // Default task
     grunt.registerTask('build', ['less:production','less:waboot','concat','jsbeautifier','uglify','compress:build']); // Build task
-    grunt.registerTask('js', ['concat','jsbeautifier']); // Concat and beautify js
-    grunt.registerTask('jsmin', ['concat','jsbeautifier','uglify']); // Concat, beautify and minify js
+    grunt.registerTask('js', ['jsbeautifier','browserify:dist']); // Concat and beautify js
+    grunt.registerTask('jsmin', ['js','uglify']); // Concat, beautify and minify js
 
     // Run bower install
     grunt.registerTask('bower-install', function() {
