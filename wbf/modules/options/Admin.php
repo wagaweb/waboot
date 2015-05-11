@@ -296,7 +296,7 @@ class Admin extends \Options_Framework_Admin{
 			'wp-color-picker'
 		), Framework::VERSION );
 		// Enqueue custom CSS
-		$stylesheet = wbf_locate_template_uri('wbf/admin/css/waboot-optionsframework.css');
+		$stylesheet = wbf_locate_template_uri('wbf/admin/css/optionsframework.css');
 		if ($stylesheet != "")
 			wp_enqueue_style('waboot-theme-options-style', $stylesheet, array('optionsframework'), '1.0.0', 'all'); //Custom Theme Options CSS
 		// Inline scripts from options-interface.php

@@ -22,7 +22,7 @@ class Manager {
     static function styles() {
 	    global $pagenow;
 	    if ( in_array( $pagenow, array( 'post.php', 'page.php', 'post-new.php', 'post-edit.php' ) ) ) {
-		    wp_register_style( 'wb-pagebuilder', get_template_directory_uri() . "/wbf/admin/css/waboot-pagebuilder.css" );
+		    wp_register_style( 'wb-pagebuilder', get_template_directory_uri() . "/wbf/admin/css/pagebuilder.css" );
 
 		    wp_enqueue_style( 'font-awesome-pb', wbf_locate_template_uri( 'assets/css/font-awesome.min.css' ) );
 		    wp_enqueue_style( 'wb-pagebuilder' );

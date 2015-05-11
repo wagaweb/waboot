@@ -9,11 +9,11 @@ module.exports = function (grunt) {
             dev: {
                 options: {},
                 files: {
-                    'admin/css/tinymce.css': 'sources/admin/tinymce.less',
-                    'admin/css/admin.css': 'sources/admin/admin.less',
-                    'admin/css/waboot-optionsframework.css': 'sources/admin/optionsframework.less',
-                    'admin/css/waboot-componentsframework.css': 'sources/admin/componentsframework.less',
-                    'admin/css/waboot-pagebuilder.css': 'wbf/sources/less/pagebuilder.less'
+                    'admin/css/tinymce.css': 'sources/less/tinymce.less',
+                    'admin/css/admin.css': 'sources/less/admin.less',
+                    'admin/css/optionsframework.css': 'sources/less/optionsframework.less',
+                    'admin/css/componentsframework.css': 'sources/less/componentsframework.less',
+                    'admin/css/pagebuilder.css': 'sources/less/pagebuilder.less'
                 }
             },
             production: {
@@ -23,7 +23,6 @@ module.exports = function (grunt) {
                 files: ['<%= less.dev.files %>']
             }
         },
-        // JsHint your javascript
         jshint: {
             all: ['sources/js/*.js','sources/js/**/*.js'],
             options: {
@@ -40,6 +39,10 @@ module.exports = function (grunt) {
                 undef: false
             }
         },
+        "jsbeautifier": {
+            files: ['admin/js/*.js', 'public/js/*.js','includes/scripts/*.js','includes/scripts/**/*.js'],
+            options: {}
+        },
         uglify: {
             options: {
                 // the banner is inserted at the top of the output
@@ -54,10 +57,6 @@ module.exports = function (grunt) {
                     'includes/scripts/wbfgmap.min.js': ['sources/js/includes/wbfgmap/markerclusterer.js','sources/js/includes/wbfgmap/acfmap.js']
                 }
             }
-        },
-        "jsbeautifier": {
-            files: ['admin/js/*.js', 'public/js/*.js','includes/scripts/*.js','includes/scripts/**/*.js'],
-            options: {}
         },
         pot: {
             options: {
@@ -129,7 +128,7 @@ module.exports = function (grunt) {
     grunt.registerTask('default', ['watch']); // Default task
     grunt.registerTask('build', ['less:production', 'jsbeautifier', 'uglify', 'compress:build']); // Build task
     grunt.registerTask('js', ['jsbeautifier']); // Concat and beautify js
-    grunt.registerTask('jsmin', ['jsbeautifier', 'uglify']); // Concat, beautify and minify js
+    grunt.registerTask('jsmin', ['js', 'uglify']); // Concat, beautify and minify js
 
     // Run bower install
     grunt.registerTask('bower-install', function () {
