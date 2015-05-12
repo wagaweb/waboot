@@ -1,1 +1,3 @@
-Qui saranno inseriti i file di actions, hooks e widgets comuni a tutti i temi ispirati a Waboot (quindi quelli con suffisso wbft_)
+Qui saranno inseriti i file di actions, hooks e widgets comuni a tutti i temi ispirati a Waboot (quindi quelli con suffisso wbft_).
+
+Nota: si potrebbe usare un namespace... ma bisogna controllare che si possa usare il meccanismo if(function_exists) e che il child possa definire lo stesso namespace...
