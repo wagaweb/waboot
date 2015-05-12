@@ -20,6 +20,7 @@ $waboot_includes = array(
 	'inc/template-tags.php',
 	'inc/init.php',
 	'inc/hooks.php',
+	'inc/shortcodes.php',
 	'inc/widgets.php',
 	'inc/customizer.php',
 	'inc/stylesheets.php',

@@ -1,12 +1,12 @@
 <?php
 
-if ( !function_exists("images_url") ) :
+if(!function_exists("images_url")) :
     function images_url(){
         echo get_images_url();
     }
 endif;
 
-if ( !function_exists("get_images_url") ) :
+if(!function_exists("get_images_url")) :
     function get_images_url(){
         $base_dir = get_template_directory_uri();
         if(is_child_theme()){
@@ -16,7 +16,7 @@ if ( !function_exists("get_images_url") ) :
     }
 endif;
 
-if ( ! function_exists( 'waboot_content_nav' ) ):
+if(!function_exists('waboot_content_nav' )):
 	/**
 	 * Display navigation to next/previous pages when applicable
 	 * @from Waboot
@@ -173,7 +173,7 @@ if(!function_exists("waboot_get_archive_page_title")):
 	}
 endif;
 
-if ( ! function_exists( 'waboot_archive_sticky_posts' ) ):
+if(!function_exists('waboot_archive_sticky_posts')):
     /**
      * Display sticky posts on archive pages
      * @since 0.1.0
@@ -225,7 +225,7 @@ if ( ! function_exists( 'waboot_archive_sticky_posts' ) ):
     }
 endif; //waboot_archive_sticky_posts
 
-if ( ! function_exists( 'waboot_comment' ) ) :
+if(!function_exists('waboot_comment')) :
     /**
      * Template for comments and pingbacks.
      *
@@ -394,199 +394,7 @@ function waboot_sidebar_class( $prefix = false ) {
         return $class;
 }
 
-/* Post Format Gallery */
-if ( ! function_exists( 'waboot_gallery_format' ) ) :
-    function waboot_gallery_format() {
-        $output = $images_ids = '';
-
-        if ( function_exists( 'get_post_galleries' ) ) {
-            $galleries = get_post_galleries( get_the_ID(), false );
-
-            if ( empty( $galleries ) ) return false;
-
-            if ( isset( $galleries[0]['ids'] ) ) {
-                foreach ( $galleries as $gallery ) {
-                    // Grabs all attachments ids from one or multiple galleries in the post
-                    $images_ids .= ( '' !== $images_ids ? ',' : '' ) . $gallery['ids'];
-                }
-
-                $attachments_ids = explode( ',', $images_ids );
-                // Removes duplicate attachments ids
-                $attachments_ids = array_unique( $attachments_ids );
-            } else {
-                $attachments_ids = get_posts( array(
-                    'fields'         => 'ids',
-                    'numberposts'    => 999,
-                    'order'          => 'ASC',
-                    'orderby'        => 'menu_order',
-                    'post_mime_type' => 'image',
-                    'post_parent'    => get_the_ID(),
-                    'post_type'      => 'attachment',
-                ) );
-            }
-        } else {
-            $pattern = get_shortcode_regex();
-            preg_match( "/$pattern/s", get_the_content(), $match );
-            $atts = shortcode_parse_atts( $match[3] );
-
-            if ( isset( $atts['ids'] ) )
-                $attachments_ids = explode( ',', $atts['ids'] );
-            else
-                return false;
-        }
-
-        echo '<div id="carousel-gallery-format" class="carousel slide" data-ride="carousel">';
-        echo '	<div class="carousel-inner" role="listbox">';
-        $i = 0;
-        foreach ( $attachments_ids as $attachment_id ) {
-            if($i == 0){
-                printf( '<div class="item active">%s</div>',
-                    // esc_url( get_permalink() ),
-                    wp_get_attachment_image( $attachment_id, 'medium' )
-                );
-            }else{
-                printf( '<div class="item">%s</div>',
-                    // esc_url( get_permalink() ),
-                    wp_get_attachment_image( $attachment_id, 'medium' )
-                );
-            }
-            $i++;
-        }
-        echo '	</div> <!-- .carousel-inner -->';
-        echo '<!-- Controls -->
-              <a class="left carousel-control" href="#carousel-gallery-format" role="button" data-slide="prev">
-                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-                <span class="sr-only">Previous</span>
-              </a>
-              <a class="right carousel-control" href="#carousel-gallery-format" role="button" data-slide="next">
-                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-                <span class="sr-only">Next</span>
-              </a>
-        ';
-        echo '</div> <!-- #carousel-gallery-format -->';
-
-        return $output;
-    }
-endif;
-/* End Post Format Gallery */
-
-
-/* Post Format Video */
-function waboot_video_embed_html( $video ) {
-    return "<div class='wb_post_video'>{$video}</div>";
-}
-add_filter( 'embed_oembed_html', 'waboot_video_embed_html' );
-
-if ( ! function_exists( 'waboot_get_first_video' ) ) :
-    function waboot_get_first_video() {
-        $first_oembed  = '';
-        $custom_fields = get_post_custom();
-
-        foreach ( $custom_fields as $key => $custom_field ) {
-            if ( 0 !== strpos( $key, '_oembed_' ) ) continue;
-
-            $first_oembed = $custom_field[0];
-
-            $video_width  = (int) apply_filters( 'wb_video_width', 1132 );
-            $video_height = (int) apply_filters( 'wb_video_height', 480 );
-
-            $first_oembed = preg_replace( '/<embed /', '<embed wmode="transparent" ', $first_oembed );
-            $first_oembed = preg_replace( '/<\/object>/','<param name="wmode" value="transparent" /></object>', $first_oembed );
-
-            $first_oembed = preg_replace( "/width=\"[0-9]*\"/", "width={$video_width}", $first_oembed );
-            $first_oembed = preg_replace( "/height=\"[0-9]*\"/", "height={$video_height}", $first_oembed );
-
-            break;
-        }
-
-        return ( '' !== $first_oembed ) ? $first_oembed : false;
-    }
-endif;
-/* End Post Format Video */
-
-if ( ! function_exists( 'waboot_the_trimmed_excerpt' ) ) :
-	/**
-	 * A version of the_excerpt() that applies the trim function to the predefined excerpt as well
-	 *
-	 * @param bool $length
-	 * @param bool|null $more
-	 * @param null $post_id
-	 * @param string $use is "content_also" then the content will be trimmed if the excerpt is empty
-	 */
-	function waboot_the_trimmed_excerpt($length = false,$more = null,$post_id = null, $use = "excerpt_only"){
-		if(!$length){
-			$excerpt_length = apply_filters( 'excerpt_length', 55 );
-		}else{
-			$excerpt_length = $length;
-		}
-		if(is_null($more)){
-			$excerpt_more = apply_filters( 'excerpt_more', ' ' . '[&hellip;]' );
-		}else{
-			$excerpt_more = $more;
-		}
-
-		if(isset($post_id)){
-			$post = get_post($post_id);
-			if($use == "content_also" && $post->post_excerpt == ""){
-				$text = apply_filters('the_content', $post->post_content);
-			}else{
-				$text = $post->post_excerpt;
-			}
-		}else{
-			global $post;
-			if($use == "content_also" && $post->post_excerpt == ""){
-				$text = get_the_content();
-			}else{
-				$text = get_the_excerpt();
-			}
-		}
-
-		echo  wp_trim_words($text,$excerpt_length,$excerpt_more);
-	}
-endif;
-
-/* Post Format Link */
-if ( ! function_exists( 'waboot_link_format_helper' ) ) :
-    /**
-     * Returns the first post link and/or post content without the link.
-     * Used for the "Link" post format.
-     *
-     * @since 0.1.0
-     * @param string $output "link" or "post_content"
-     * @return string Link or Post Content without link.
-     */
-    function waboot_link_format_helper( $output = false ) {
-
-        if ( ! $output )
-            _doing_it_wrong( __FUNCTION__, __( 'You must specify the output you want - either "link" or "post_content".', 'waboot' ), '1.0.1' );
-
-        $post_content = get_the_content();
-
-        $link = preg_match( '/<a\s[^>]*?href=[\'"](.+?)[\'"][^>]*>[^>]*>/is', $post_content, $matches );
-        if($link){
-            $link_url = $matches[1];
-            $post_content = substr( $post_content, strlen( $matches[0] ) );
-            if(!$post_content) $post_content = "";
-        }
-
-        // Return the first link in the post content
-        if ( 'link' == $output ){
-            if($link){
-                return $link_url;
-            }else{
-                return "";
-            }
-        }
-
-        // Return the post content without the first link
-        if ( 'post_content' == $output )
-            return $post_content;
-    }
-endif;
-/* End Post Format Link */
-
-
-if ( ! function_exists( 'waboot_the_attached_image' ) ) :
+if(!function_exists('waboot_the_attached_image')) :
     /**
      * Prints the attached image with a link to the next attached image.
      */
@@ -639,7 +447,7 @@ if ( ! function_exists( 'waboot_the_attached_image' ) ) :
     }
 endif;
 
-if ( ! function_exists( 'waboot_archive_get_posts' ) ):
+if(!function_exists('waboot_archive_get_posts')):
     /**
      * Display archive posts and exclude sticky posts
      * @since 0.1.0
@@ -677,7 +485,7 @@ if ( ! function_exists( 'waboot_archive_get_posts' ) ):
     }
 endif;
 
-if (!function_exists("waboot_breadcrumb")):
+if(!function_exists("waboot_breadcrumb")):
     /**
      * Display the breadcrumb for $post_id or global $post->ID
      * @param null $post_id
@@ -722,7 +530,7 @@ if (!function_exists("waboot_breadcrumb")):
     }
 endif;
 
-if (!function_exists("waboot_topnav_wrapper")):
+if(!function_exists("waboot_topnav_wrapper")):
     function waboot_topnav_wrapper(){
         $social_position = of_get_option('waboot_social_position');
         $social_position_class = $social_position == "topnav-left" ? "pull-left" : "pull-right";
@@ -754,7 +562,7 @@ if (!function_exists("waboot_topnav_wrapper")):
     }
 endif;
 
-if(!function_exists( "waboot_get_body_layout" )):
+if(!function_exists("waboot_get_body_layout")):
     function waboot_get_body_layout(){
         if(is_home() || is_archive()){
             return of_get_option('waboot_blogpage_sidebar_layout');
@@ -764,7 +572,7 @@ if(!function_exists( "waboot_get_body_layout" )):
     }
 endif;
 
-if(!function_exists( "waboot_body_layout_has_two_sidebars" )):
+if(!function_exists("waboot_body_layout_has_two_sidebars")):
 	function waboot_body_layout_has_two_sidebars(){
 		$body_layout = waboot_get_body_layout();
 		if(in_array($body_layout,array("two-sidebars","two-sidebars-right","two-sidebars-left"))){
@@ -775,7 +583,7 @@ if(!function_exists( "waboot_body_layout_has_two_sidebars" )):
 	}
 endif;
 
-if(!function_exists( "waboot_get_available_body_layouts" )){
+if(!function_exists("waboot_get_available_body_layouts")){
     function waboot_get_available_body_layouts(){
         $imagepath = get_template_directory_uri() . '/wbf/admin/images/';
         return apply_filters("waboot_body_layouts",array(
@@ -814,6 +622,121 @@ if(!function_exists( "waboot_get_available_body_layouts" )){
     }
 }
 
+if(!function_exists("wbft_the_contact_form")):
+	function wbft_the_contact_form(){
+		global $post;
+		$rand_id = call_user_func(function(){
+			$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+			$charactersLength = strlen($characters);
+			$randomString = '';
+			for ($i = 0; $i < 5; $i++) {
+				$randomString .= $characters[rand(0, $charactersLength - 1)];
+			}
+			return $randomString;
+		});
+		$fields = array(
+			array(
+				'id' => 'name',
+				'order' => 0,
+				'html' => apply_filters("wbft/contact_form/field/name/tpl",'<label for="name" class=" control-label">'.__('Name', 'waboot').'</label>
+			    <input id="name" type="text" class="form-control" name="from[name]">')
+			),
+			array(
+				'id' => 'surname',
+				'order' => 1,
+				'html' => apply_filters("wbft/contact_form/field/surname/tpl",'<label for="surname" class=" control-label">'.__('Surname', 'waboot').'</label>
+			    <input id="surname" type="text" class="form-control" name="from[surname]">')
+			),
+			array(
+				'id' => 'phone',
+				'order' => 2,
+				'html' => apply_filters("wbft/contact_form/field/phone/tpl",'<label for="phone" class=" control-label">'.__('Phone', 'waboot').'</label>
+			    <input id="phone" type="text" class="form-control" name="from[phone]">')
+			),
+			array(
+				'id' => 'email',
+				'order' => 3,
+				'html' => apply_filters("wbft/contact_form/field/email/tpl",'<label for="email" class=" control-label">'.__('Email', 'waboot').'</label>
+			    <input id="email" type="text" class="form-control" name="from[email]">')
+			),
+			array(
+				'id' => 'message',
+				'order' => 4,
+				'html' => apply_filters("wbft/contact_form/field/message/tpl",'<label for="inputMessage" class="control-label">'.__('Message', 'waboot').'</label>
+			    <textarea id="inputMessage" class="form-control" name="inputMessage" rows="5"></textarea>')
+			),
+			array(
+				'id' => 'submit',
+				'order' => 5,
+				'html' => apply_filters("wbft/contact_form/field/submit/tpl",'<button type="submit" class="btn btn-primary">'.__('Send', 'waboot').'</button>')
+			)
+		);
+		switch(of_get_option("contact_form_mail_receiver","admin")){
+			case "author":
+				$to = array(
+					'id' => isset($post->ID) && $post->ID != 0 ? $post->post_author : 0,
+					'name' => isset($post->ID) && $post->ID != 0 ? get_the_author_meta('display_name' , $post->post_author) : "",
+					'email' => isset($post->ID) && $post->ID != 0 ? get_the_author_meta( 'user_email' , $post->post_author) : ""
+				);
+				break;
+			case "specific_contact":
+				$to = array(
+					'id' => 0,
+					'name' => of_get_option("contact_form_mail_receiver_name",""),
+					'email' => of_get_option("contact_form_mail_receiver_email",""),
+				);
+				break;
+			case "admin":
+			default:
+				$to = array(
+					'id' => 1,
+					'name' => "Site Admin",
+					'email' => get_option("admin_email")
+				);
+				break;
+		}
+		?>
+		<form id="wb-contact-form" method="post" enctype="multipart/form-data" data-contactForm>
+			<input type="hidden" name="pass_id" value="<?php echo $rand_id ?>">
+			<input type="hidden" name="to[id]" value="<?php echo $to['id']; ?>">
+			<input type="hidden" name="to[name]" value="<?php echo $to['name']; ?>">
+			<input type="hidden" name="to[email]" value="<?php echo $to['email']; ?>">
+			<input type="hidden" name="fromID" value="<?php echo $post->ID ?>">
+			<?php wp_nonce_field( 'send-mail_'.$rand_id ); ?>
+			<?php echo apply_filters("wbft/contact_form/tpl",wbft_contact_form_tpl($fields)); ?>
+		</form>
+		<?php
+	}
+endif;
+
+if(!function_exists("wbft_contact_form_tpl")):
+	function wbft_contact_form_tpl($fields,$args = array()){
+		$args = wp_parse_args($args,array(
+			'field_before' => '<div class="form-group">',
+			'field_after' => '</div>'
+		));
+		$return_string = "";
+		//Reorder fields
+		usort($fields,function($a,$b){
+			if($a['order'] == $b['order']) return 0;
+			return ($a['order'] < $b['order']) ? -1 : 1;
+		});
+		//Render fields:
+		foreach($fields as $f){
+			$return_string.= $args['field_before'];
+			$return_string.= $f['html'];
+			$return_string.= $args['field_after'];
+		}
+		//Render error tpl:
+		$error_message_tpl = '<script type="text/template" data-messageTPL>';
+		$error_message_tpl .= apply_filters("wbft/contact_form/messages/std_error/tpl",'<div class="<%= msgclass %>"><%= msg %></div>');
+		$error_message_tpl .= '</script>';
+		$return_string .= $error_message_tpl;
+		//And...
+		return $return_string;
+	}
+endif;
+
 if(!function_exists("waboot_get_compiled_stylesheet_name")):
 	function waboot_get_compiled_stylesheet_name(){
 		/*$theme = wp_get_theme()->stylesheet;
@@ -848,11 +771,207 @@ endif;
 
 // ###############################
 // ###############################
+// POST FORMAT HELPERS
+// ###############################
+// ###############################
+
+/* Post Format Gallery */
+if ( ! function_exists('waboot_gallery_format')) :
+	function waboot_gallery_format() {
+		$output = $images_ids = '';
+
+		if ( function_exists( 'get_post_galleries' ) ) {
+			$galleries = get_post_galleries( get_the_ID(), false );
+
+			if ( empty( $galleries ) ) return false;
+
+			if ( isset( $galleries[0]['ids'] ) ) {
+				foreach ( $galleries as $gallery ) {
+					// Grabs all attachments ids from one or multiple galleries in the post
+					$images_ids .= ( '' !== $images_ids ? ',' : '' ) . $gallery['ids'];
+				}
+
+				$attachments_ids = explode( ',', $images_ids );
+				// Removes duplicate attachments ids
+				$attachments_ids = array_unique( $attachments_ids );
+			} else {
+				$attachments_ids = get_posts( array(
+					'fields'         => 'ids',
+					'numberposts'    => 999,
+					'order'          => 'ASC',
+					'orderby'        => 'menu_order',
+					'post_mime_type' => 'image',
+					'post_parent'    => get_the_ID(),
+					'post_type'      => 'attachment',
+				) );
+			}
+		} else {
+			$pattern = get_shortcode_regex();
+			preg_match( "/$pattern/s", get_the_content(), $match );
+			$atts = shortcode_parse_atts( $match[3] );
+
+			if ( isset( $atts['ids'] ) )
+				$attachments_ids = explode( ',', $atts['ids'] );
+			else
+				return false;
+		}
+
+		echo '<div id="carousel-gallery-format" class="carousel slide" data-ride="carousel">';
+		echo '	<div class="carousel-inner" role="listbox">';
+		$i = 0;
+		foreach ( $attachments_ids as $attachment_id ) {
+			if($i == 0){
+				printf( '<div class="item active">%s</div>',
+					// esc_url( get_permalink() ),
+					wp_get_attachment_image( $attachment_id, 'medium' )
+				);
+			}else{
+				printf( '<div class="item">%s</div>',
+					// esc_url( get_permalink() ),
+					wp_get_attachment_image( $attachment_id, 'medium' )
+				);
+			}
+			$i++;
+		}
+		echo '	</div> <!-- .carousel-inner -->';
+		echo '<!-- Controls -->
+              <a class="left carousel-control" href="#carousel-gallery-format" role="button" data-slide="prev">
+                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+              </a>
+              <a class="right carousel-control" href="#carousel-gallery-format" role="button" data-slide="next">
+                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+              </a>
+        ';
+		echo '</div> <!-- #carousel-gallery-format -->';
+
+		return $output;
+	}
+endif;
+/* End Post Format Gallery */
+
+/* Post Format Video */
+function waboot_video_embed_html($video) {
+	return "<div class='wb_post_video'>{$video}</div>";
+}
+add_filter( 'embed_oembed_html', 'waboot_video_embed_html' );
+
+if(!function_exists('waboot_get_first_video' )):
+	function waboot_get_first_video() {
+		$first_oembed  = '';
+		$custom_fields = get_post_custom();
+
+		foreach ( $custom_fields as $key => $custom_field ) {
+			if ( 0 !== strpos( $key, '_oembed_' ) ) continue;
+
+			$first_oembed = $custom_field[0];
+
+			$video_width  = (int) apply_filters( 'wb_video_width', 1132 );
+			$video_height = (int) apply_filters( 'wb_video_height', 480 );
+
+			$first_oembed = preg_replace( '/<embed /', '<embed wmode="transparent" ', $first_oembed );
+			$first_oembed = preg_replace( '/<\/object>/','<param name="wmode" value="transparent" /></object>', $first_oembed );
+
+			$first_oembed = preg_replace( "/width=\"[0-9]*\"/", "width={$video_width}", $first_oembed );
+			$first_oembed = preg_replace( "/height=\"[0-9]*\"/", "height={$video_height}", $first_oembed );
+
+			break;
+		}
+
+		return ( '' !== $first_oembed ) ? $first_oembed : false;
+	}
+endif;
+/* End Post Format Video */
+
+if(!function_exists('waboot_the_trimmed_excerpt')):
+	/**
+	 * A version of the_excerpt() that applies the trim function to the predefined excerpt as well
+	 *
+	 * @param bool $length
+	 * @param bool|null $more
+	 * @param null $post_id
+	 * @param string $use is "content_also" then the content will be trimmed if the excerpt is empty
+	 */
+	function waboot_the_trimmed_excerpt($length = false,$more = null,$post_id = null, $use = "excerpt_only"){
+		if(!$length){
+			$excerpt_length = apply_filters( 'excerpt_length', 55 );
+		}else{
+			$excerpt_length = $length;
+		}
+		if(is_null($more)){
+			$excerpt_more = apply_filters( 'excerpt_more', ' ' . '[&hellip;]' );
+		}else{
+			$excerpt_more = $more;
+		}
+
+		if(isset($post_id)){
+			$post = get_post($post_id);
+			if($use == "content_also" && $post->post_excerpt == ""){
+				$text = apply_filters('the_content', $post->post_content);
+			}else{
+				$text = $post->post_excerpt;
+			}
+		}else{
+			global $post;
+			if($use == "content_also" && $post->post_excerpt == ""){
+				$text = get_the_content();
+			}else{
+				$text = get_the_excerpt();
+			}
+		}
+
+		echo  wp_trim_words($text,$excerpt_length,$excerpt_more);
+	}
+endif;
+
+/* Post Format Link */
+if ( ! function_exists('waboot_link_format_helper')) :
+	/**
+	 * Returns the first post link and/or post content without the link.
+	 * Used for the "Link" post format.
+	 *
+	 * @since 0.1.0
+	 * @param string $output "link" or "post_content"
+	 * @return string Link or Post Content without link.
+	 */
+	function waboot_link_format_helper( $output = false ) {
+
+		if ( ! $output )
+			_doing_it_wrong( __FUNCTION__, __( 'You must specify the output you want - either "link" or "post_content".', 'waboot' ), '1.0.1' );
+
+		$post_content = get_the_content();
+
+		$link = preg_match( '/<a\s[^>]*?href=[\'"](.+?)[\'"][^>]*>[^>]*>/is', $post_content, $matches );
+		if($link){
+			$link_url = $matches[1];
+			$post_content = substr( $post_content, strlen( $matches[0] ) );
+			if(!$post_content) $post_content = "";
+		}
+
+		// Return the first link in the post content
+		if ( 'link' == $output ){
+			if($link){
+				return $link_url;
+			}else{
+				return "";
+			}
+		}
+
+		// Return the post content without the first link
+		if ( 'post_content' == $output )
+			return $post_content;
+	}
+endif;
+/* End Post Format Link */
+
+// ###############################
+// ###############################
 // CATEGORIES AND TAXONOMY HELPERS
 // ###############################
 // ###############################
 
-if ( ! function_exists( 'waboot_get_the_category' ) ) :
+if(!function_exists( 'waboot_get_the_category')):
 	/**
 	 * Get the post categories ordered by ID. If the post is a custom post type it retrieve the specified $taxonomy terms or the first registered taxonomy
 	 * @param null $post_id
@@ -909,7 +1028,7 @@ if ( ! function_exists( 'waboot_get_the_category' ) ) :
 	}
 endif;
 
-if ( ! function_exists( 'waboot_get_top_categories' ) ) :
+if(!function_exists( 'waboot_get_top_categories')):
 	/**
 	 * Get the top level categories
 	 * @param null $taxonomy
@@ -936,7 +1055,7 @@ if ( ! function_exists( 'waboot_get_top_categories' ) ) :
 	}
 endif;
 
-if ( ! function_exists( 'waboot_get_top_category' ) ) :
+if(!function_exists( 'waboot_get_top_category')):
 	/**
 	 * Gets top level category of the current or specified post
 	 * @param string $return_value "id" or "slug". If empty the category object is returned.
@@ -982,7 +1101,7 @@ if ( ! function_exists( 'waboot_get_top_category' ) ) :
 	}
 endif;
 
-if ( ! function_exists( 'waboot_get_first_taxonomy' ) ) :
+if(!function_exists( 'waboot_get_first_taxonomy')):
 	/**
 	 * Get the first registered taxonomy of a custom post type
 	 * @param null $post_id
@@ -1005,7 +1124,7 @@ if ( ! function_exists( 'waboot_get_first_taxonomy' ) ) :
 	}
 endif;
 
-if ( ! function_exists( 'waboot_sort_categories_by_id' ) ) :
+if(!function_exists( 'waboot_sort_categories_by_id')):
 	/**
 	 * Sort the categories of a post by ID (ASC)
 	 * @param $a
