@@ -1,0 +1,1 @@
+Qui saranno inseriti i file di actions, hooks e widgets comuni a tutti i temi ispirati a Waboot (quindi quelli con suffisso wbft_)
