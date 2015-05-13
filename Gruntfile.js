@@ -44,20 +44,7 @@ module.exports = function(grunt) {
             }
         },
         jshint : {
-            all : ['sources/js/*.js','sources/js/**/*.js'],
-            options : {
-                browser: true,
-                curly: false,
-                eqeqeq: false,
-                eqnull: true,
-                expr: true,
-                immed: true,
-                newcap: true,
-                noarg: true,
-                smarttabs: true,
-                sub: true,
-                undef: false
-            }
+            all : ['sources/js/**/*.js','!sources/js/waboot.js','!sources/js/vendor/offcanvas.js']
         },
         browserify: {
             dist: {
@@ -204,7 +191,7 @@ module.exports = function(grunt) {
             },
             scripts:{
                 files: ['<%= jshint.all %>'],
-                task: ['jshint','browserify:dist']
+                tasks: ['browserify:dist']
             }
         }
     });
@@ -212,7 +199,7 @@ module.exports = function(grunt) {
     // Register tasks
     grunt.registerTask('setup', ['bower-install','copy:all','less:dev']); //Setup task
     grunt.registerTask('default', ['watch']); // Default task
-    grunt.registerTask('build', ['less:production','less:waboot','concat','jsbeautifier','uglify','compress:build']); // Build task
+    grunt.registerTask('build', ['less:production','less:waboot','jsmin','compress:build']); // Build task
     grunt.registerTask('js', ['jsbeautifier','browserify:dist']); // Concat and beautify js
     grunt.registerTask('jsmin', ['js','uglify']); // Concat, beautify and minify js
 
