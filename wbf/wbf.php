@@ -207,7 +207,7 @@ class WBF {
 	 *
 	 */
 
-    function after_setup_theme() {
+    static function after_setup_theme() {
 	    self::maybe_add_option();
 
 	    $modules = self::load_modules();
@@ -248,7 +248,7 @@ class WBF {
         if(class_exists("WBF\GoogleFontsRetriever")) $GLOBALS['wbf_gfont_fetcher'] = WBF\GoogleFontsRetriever::getInstance();
     }
 
-	function init() {
+	static function init() {
 		do_action("wbf_init");
 
 		// Breadcrumbs
@@ -270,14 +270,14 @@ class WBF {
 		//waboot_debug_init();
 	}
 
-	function register_libs(){
+	static function register_libs(){
 		wp_register_script("wbfgmap",WBF_URL."/inclues/scripts/wbfgmap.min.js",array("jquery"),null,true);
 		wp_register_script("imagesLoaded-js",WBF_URL."/vendor/imagesLoaded/imagesloaded.pkgd.min.js",array(),null,true);
 		wp_register_script("owlcarousel-js",WBF_URL."/vendor/owlcarousel/owl.carousel.min.js",array("jquery"),null,true);
 		wp_register_style("owlcarousel-css",WBF_URL."/vendor/owlcarousel/assets/owl.carousel.css");
 	}
 
-	function admin_menu(){
+	static function admin_menu(){
 		global $menu,$options_framework_admin,$WBFThemeUpdateChecker;
 
 		//Check if must display the bubble warning
@@ -297,7 +297,7 @@ class WBF {
 		do_action("wbf_admin_submenu","waboot_options");
 	}
 
-	function unset_unwanted_updates($value){
+	static function unset_unwanted_updates($value){
 		$acf_update_path = preg_replace("/^\//","",WBF_DIRECTORY.'/vendor/acf/acf.php');
 
 		if(isset($value->response[$acf_update_path])){
@@ -307,7 +307,7 @@ class WBF {
 		return $value;
 	}
 
-	function do_not_load_pagebuilder($module_dirs){
+	static function do_not_load_pagebuilder($module_dirs){
 		foreach($module_dirs as $k => $dir){
 			$module_name = basename($dir);
 			if($module_name == "pagebuilder"){
@@ -323,7 +323,7 @@ class WBF {
 	 * @param $wp_admin_bar
 	 * @since 0.2.0
 	 */
-	function add_env_notice($wp_admin_bar){
+	static function add_env_notice($wp_admin_bar){
 		global $post;
 
 		if ( current_user_can( 'manage_options' ) ) {
@@ -342,7 +342,7 @@ class WBF {
 	 * @param $wp_admin_bar
 	 * @since 0.1.1
 	 */
-	function add_admin_compile_button($wp_admin_bar){
+	static function add_admin_compile_button($wp_admin_bar){
 		global $post;
 
 		if ( current_user_can( 'manage_options' ) ) {
@@ -356,7 +356,7 @@ class WBF {
 		}
 	}
 
-	function of_location_override(){
+	static function of_location_override(){
 		return array("inc/options.php");
 	}
 
@@ -368,21 +368,21 @@ class WBF {
 	 *
 	 */
 
-	function maybe_add_option() {
+	static function maybe_add_option() {
 		$opt = get_option( "wbf_installed" );
 		if ( ! $opt ) {
 			self::add_wbf_options();
 		}
 	}
 
-	private function add_wbf_options(){
+	private static function add_wbf_options(){
 		update_option( "wbf_installed", true ); //Set a flag to make other component able to check if framework is installed
 		update_option( "wbf_path", WBF_DIRECTORY );
 		update_option( "wbf_url", WBF_URL );
 		update_option( "wbf_components_saved_once", false );
 	}
 
-	function activation() {
+	static function activation() {
 		self::load_modules_activation_hooks();
 
 		self::add_wbf_options();
@@ -390,7 +390,7 @@ class WBF {
         //self::enable_default_components();
 	}
 
-	function deactivation($template) {
+	static function deactivation($template) {
 		self::load_modules_deactivation_hooks();
 		$theme_switched = get_option( 'theme_switched', "" );
 

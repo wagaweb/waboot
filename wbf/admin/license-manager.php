@@ -85,6 +85,10 @@ class License_Manager implements License_Interface{
         }
     }
 
+	public function sanitize_license($license){
+		return $license;
+	}
+
     static function get_license_status(){
         $license = get_option("waboot_license","");
         if($license != ""){
@@ -104,11 +108,7 @@ class License_Manager implements License_Interface{
         }
     }
 
-    public function sanitize_license($license){
-        return $license;
-    }
-
-    public function check_license($licensekey, $localkey='') {
+    static function check_license($licensekey, $localkey='') {
 
         // -----------------------------------
         //  -- Configuration Values --
