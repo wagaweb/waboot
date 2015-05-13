@@ -3,6 +3,17 @@
 namespace WBF\modules\options;
 use \WBF\modules\components\ComponentsManager;
 
+
+function of_get_option_object($id){
+	$all_options = Framework::_optionsframework_options();
+	foreach($all_options as $opt){
+		if($opt['id'] == $id){
+			return $opt;
+		}
+	}
+	return false;
+}
+
 /**
  * Checks if the dependencies of theme options are met
  */
@@ -67,6 +78,20 @@ function of_options_save($option, $old_value, $value){
         //Doing actions with modified options
         foreach($all_options as $k => $opt_data){
             if(isset($opt_data['id']) && array_key_exists($opt_data['id'],$diff)){ //True if the current option has been modified
+	            /** BEGIN OPERATIONS HERE: **/
+
+                /*
+                 * Check upload fields
+                 */
+	            if($opt_data['type'] == "upload"){
+		            $upload_to = isset($opt_data['upload_to']) ? $opt_data['upload_to'] : false;
+		            $upload_as = isset($opt_data['upload_as']) ? $opt_data['upload_as'] : false;
+		            $allowed_extensions = isset($opt_data['allowed_extensions']) ? $opt_data['allowed_extensions'] : array("jpg","jpeg","png","gif","ico");
+		            $field_value = $value[$opt_data['id']];
+		            $file_path = url_to_path($value[$opt_data['id']]);
+		            //todo: se viene generato un errore, ricordarsi che abbiamo il valore orginale della opzione in $old_value
+
+	            }
                 /*
                  * Check if must recompile
                  */
