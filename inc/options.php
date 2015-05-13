@@ -880,6 +880,26 @@ function optionsframework_options() {
     );
 
     /*
+     * FAVICON TAB
+     */
+
+	$options[] = array(
+		'name' => __( 'Favicons', 'waboot' ),
+		'type' => 'heading'
+	);
+
+	$options[] = array(
+		'name' => __( 'Test simple favicon', 'waboot' ),
+		'desc' => __( 'Upload a favicon.', 'waboot' ),
+		'id' => 'favicon',
+		'std' => '',
+		'type' => 'upload',
+		'readonly' => true,
+		'upload_to' => ABSPATH,
+		'upload_as' => 'favicon'
+	);
+
+    /*
      * SOCIAL TAB
      */
 
