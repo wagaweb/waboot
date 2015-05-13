@@ -295,10 +295,14 @@ class Admin extends \Options_Framework_Admin{
 			'jquery',
 			'wp-color-picker'
 		), Framework::VERSION );
+		// Enqueue core CSS
+		$core_stylesheet = wbf_locate_template_uri('wbf/admin/css/optionsframework.css');
+		if ($core_stylesheet != "")
+			wp_enqueue_style('wbf-theme-options-style', $core_stylesheet, array('optionsframework'), false, 'all'); //Custom Theme Options CSS
 		// Enqueue custom CSS
-		$stylesheet = wbf_locate_template_uri('wbf/admin/css/optionsframework.css');
-		if ($stylesheet != "")
-			wp_enqueue_style('waboot-theme-options-style', $stylesheet, array('optionsframework'), '1.0.0', 'all'); //Custom Theme Options CSS
+		$custom_stylesheet = wbf_locate_template_uri('assets/css/theme-options.css');
+		if ($core_stylesheet != "")
+			wp_enqueue_style('theme-options-style', $custom_stylesheet, array('optionsframework','wbf-theme-options-style'), false, 'all'); //Custom Theme Options CSS
 		// Inline scripts from options-interface.php
 		add_action( 'admin_head', array( $this, 'of_admin_head' ) );
 	}
