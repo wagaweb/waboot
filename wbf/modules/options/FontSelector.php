@@ -95,7 +95,7 @@ class FontSelector
                 $i++;
             }
         }
-        $css = "<link rel='stylesheet' id='options_gfont_$name' href='http://fonts.googleapis.com/css?family=$font_string' type='text/css' media='all'>";
+        $css = "<link rel='stylesheet' id='options_gfont_$name' href='//fonts.googleapis.com/css?family=$font_string' type='text/css' media='all'>";
         if($return == "css")
             return $css;
         else
