@@ -24,7 +24,7 @@ module.exports = function (grunt) {
             }
         },
         jshint: {
-            all: ['sources/js/*.js','sources/js/**/*.js'],
+            all: ['sources/js/**/*.js'],
             options: {
                 browser: true,
                 curly: false,
@@ -39,7 +39,7 @@ module.exports = function (grunt) {
                 undef: false
             }
         },
-        "jsbeautifier": {
+        jsbeautifier: {
             files: ['admin/js/*.js', 'public/js/*.js','includes/scripts/*.js','includes/scripts/**/*.js'],
             options: {}
         },
@@ -115,18 +115,18 @@ module.exports = function (grunt) {
             less: {
                 files: 'sources/less/*.less',
                 tasks: ['less:dev']
-            },
+            }/*,
             scripts: {
                 files: ['<%= jshint.all %>'],
                 task: ['jshint']
-            }
+            }*/
         }
     });
 
     // Register tasks
     grunt.registerTask('setup', ['bower-install', 'copy:all', 'less:dev']); //Setup task
     grunt.registerTask('default', ['watch']); // Default task
-    grunt.registerTask('build', ['less:production', 'jsbeautifier', 'uglify', 'compress:build']); // Build task
+    grunt.registerTask('build', ['less:production', 'jsmin', 'compress:build']); // Build task
     grunt.registerTask('js', ['jsbeautifier']); // Concat and beautify js
     grunt.registerTask('jsmin', ['js', 'uglify']); // Concat, beautify and minify js
 
