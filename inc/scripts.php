@@ -15,10 +15,12 @@ function waboot_js_loader() {
 			'contactForm' => array(
 				'contact_email_subject' => __("New Email from site","waboot"),
 				'labels' => array(
-					'contact_form' => array(
-						'success' => __("You email was send successfully. Thanks!","wb-property"),
-						'warning' => __("We are sorry: due technical difficulties we was unable to send your message correctly.","wb-property"),
-						'error'   => __("We are sorry: an error happens when sending your message.","wb-property")
+					'success' => __("You email was send successfully. Thanks!","waboot"),
+					'warning' => __("We are sorry: due technical difficulties we was unable to send your message correctly.","waboot"),
+					'error'   => __("We are sorry: an error happens when sending your message.","waboot"),
+					'errors'  => array(
+						'isEmpty' => __("This field cannot be empty.","waboot"),
+						'_default_' => __("An error was triggered by this field","waboot"),
 					)
 				)
 			)

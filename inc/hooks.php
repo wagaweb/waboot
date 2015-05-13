@@ -3,6 +3,7 @@
 require_once("hooks/entry-header.php");
 require_once("hooks/entry-footer.php");
 require_once("hooks/layout.php");
+require_once("hooks/ajax.php");
 
 if ( ! function_exists( 'waboot_do_site_title' ) ):
     /**
@@ -104,4 +105,86 @@ if ( ! function_exists( 'waboot_ignore_sticky_post_in_archives' ) ):
 		}
 	}
 	add_action( 'pre_get_posts', 'waboot_ignore_sticky_post_in_archives' );
+endif;
+
+if(!function_exists('wbft_parse_contact_form_data')):
+	/**
+	 * Parse the contact form data before sending the email
+	 * @param $data
+	 *
+	 * @return array
+	 */
+	function wbft_parse_contact_form_data($data){
+		$to = $data['to'];
+		$subject = $data['subject'];
+		$from = $data['from'];
+		$message = apply_filters("wbft/contact_form/mail/content",$data);
+		$headers = array(
+			sprintf("From: %s <%s>",$from['name']." ".$from['surname'],$from['email'])
+		);
+		return array(
+			'to' => $to,
+			'subject' => $subject,
+			'message' => $message,
+			'header' => $headers
+		);
+	}
+	add_filter("wbft/contact_form/mail/data","wbft_parse_contact_form_data");
+endif;
+
+if(!function_exists('wbft_parse_contact_form_date_for_saving')):
+	/**
+	 * Parse the contact form data before saving the email
+	 * @param $data
+	 *
+	 * @return array
+	 */
+	function wbft_parse_contact_form_date_for_saving($data){
+		$to_id = $data['to_id'];
+		$subject = $data['subject'];
+		$message = apply_filters("wbft/contact_form/mail/content",$data);
+		$from = $data['from'];
+		$post_id = $data['post_id'];
+		$now = new \DateTime();
+		$data = array(
+			'content' => $message,
+			'to' => $to_id,
+			'subject' => $subject,
+			'from_mail' => $from['email'],
+			'from_data' => array(
+				'name' => $from['name'],
+				'phone' => $from['phone'],
+			),
+			'fromID' => $post_id,
+			'date_created' => $now->format("Y-m-d")
+		);
+		return $data;
+	}
+	add_filter("wbft/contact_form/mail/save/data",'wbft_parse_contact_form_date_for_saving');
+endif;
+
+if(!function_exists('wbft_parse_contact_form_mail_content')):
+	/**
+	 * Generate the contact form mail content
+	 * @param $data
+	 *
+	 * @return string
+	 */
+	function wbft_parse_contact_form_mail_content($data){
+		$from = $data['from'];
+		$post_id = $data['post_id'];
+
+		$message = $data['message'];
+		$message.= "\r\n";
+		$message.= "--------------------------";
+		$message.= "\r\n";
+		$message.= __("Source link:","waboot")." ".get_the_permalink($post_id);
+		$message.= "\r\n";
+		$message.= __("Client Name:","waboot")." ".$from['name']." ".$from['surname'];
+		$message.= "\r\n";
+		$message.= __("Client Phone:","waboot")." ".$from['phone'];
+
+		return $message;
+	}
+	add_filter("wbft/contact_form/mail/content","wbft_parse_contact_form_mail_content");
 endif;

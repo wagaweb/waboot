@@ -2903,57 +2903,40 @@
 },{}],3:[function(require,module,exports){
 module.exports = Backbone.Model.extend({
     defaults: {
-        contactProfile: {
+        recipient: {
             name: "",
             mail: "",
             id: ""
         },
-        property: 0,
-        name: "",
-        phone: "",
-        mail: "",
+        senderInfo: {},
+        postID: 0,
         subject: wbData.contactForm.contact_email_subject,
-        message: "",
-        terms_accepted: ""
+        message: ""
     },
-    setData: function(data) {
+    setData: function(fields) {
         "use strict";
-        var error = false;
-        if (_.isEmpty(data)) {
-            this.trigger("error", "emptyData");
-            error = true;
-        }
-        if (_.isEmpty(data.name)) {
-            this.trigger("error", "emptyName");
-            error = true;
-        } else {
-            this.set("name", this.escapeHtml(data.name));
-        }
-        if (_.isEmpty(data.phone)) {
-            this.trigger("error", "emptyPhone");
-            error = true;
-        } else {
-            this.set("phone", this.escapeHtml(data.phone));
-        }
-        if (_.isEmpty(data.mail)) {
-            this.trigger("error", "emptyEmail");
-            error = true;
-        } else {
-            this.set("mail", this.escapeHtml(data.mail));
-        }
-        if (_.isEmpty(data.message)) {
-            this.trigger("error", "emptyMessage");
-            error = true;
-        } else {
-            this.set("message", this.escapeHtml(data.message));
-        }
-        if (!data.terms_accepted) {
-            this.trigger("error", "termsUnchecked");
-            error = true;
-        } else {
-            this.set("terms_accepted", true);
-        }
-        this.set("error", error);
+        var error_occurred = false,
+            self = this,
+            senderInfo = this.get("senderInfo");
+
+        _.each(fields,function(f, iteratee, context){
+            var val = f.$el.val(),
+                name = f.$el.attr('name'),
+                validation = f.validation;
+
+            switch(validation){
+                case "!empty":
+                    if(_.isEmpty(val)){
+                        self.trigger("error", {$el: f.$el, code: "isEmpty"});
+                        error_occurred = true;
+                    }else{
+                        self.updateData(name,val);
+                    }
+                    break;
+            }
+        });
+
+        this.set("error", error_occurred);
     },
     escapeHtml: function(string) {
         "use strict";
@@ -2969,24 +2952,47 @@ module.exports = Backbone.Model.extend({
             return entityMap[s];
         });
     },
+    updateData: function(name,val){
+        var senderInfo = this.get("senderInfo");
+
+        val = this.escapeHtml(val);
+
+        var matches = name.match(/from\[([a-zA-Z]+)\]/);
+
+        if(matches){
+            senderInfo = this.get("senderInfo");
+            senderInfo[matches[1]] = val;
+            this.set('senderInfo',senderInfo);
+        }else{
+            if(name == 'message'){
+                this.set("message",val);
+            }else{
+                senderInfo = this.get("senderInfo");
+                senderInfo[name] = val;
+                this.set('senderInfo',senderInfo);
+            }
+        }
+    },
     sendmail: function() {
         "use strict";
-        var contactProfile = this.get("contactProfile");
-        return jQuery.ajax(wbData.ajaxurl, {
-            data: {
-                action: "wbpmp_send_mail",
-                to: contactProfile.mail,
-                to_id: contactProfile.id,
+        var recipient = this.get("recipient"),
+            data = {
+                action: "wbft_send_contact_email",
+                to: recipient.mail,
+                to_id: recipient.id,
                 subject: this.get("subject"),
                 message: this.get("message"),
-                from: {
-                    name: this.get("name"),
-                    phone: this.get("phone"),
-                    mail: this.get("mail"),
-                    property: this.get("property")
-                },
-                post_id: this.get("property")
-            },
+                from: (function(data){
+                    var return_data = {};
+                    _.each(data,function(val,key){
+                        return_data[key] = val;
+                    });
+                    return return_data;
+                })(this.get("senderInfo")),
+                post_id: this.get("postID")
+            };
+        return jQuery.ajax(wbData.ajaxurl, {
+            data: data,
             dataType: "json",
             method: "POST"
         });
@@ -2994,15 +3000,6 @@ module.exports = Backbone.Model.extend({
 });
 
 },{}],4:[function(require,module,exports){
-function isMobile() {
-    "use strict";
-    var check = false;
-    (function(a) {
-        if (/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i.test(a) || /1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i.test(a.substr(0, 4))) check = true
-    })(navigator.userAgent || navigator.vendor || window.opera);
-    return check;
-}
-
 jQuery(document).ready(function($) {
     "use strict";
     /*
@@ -3043,13 +3040,13 @@ jQuery(document).ready(function($) {
     /*
      * INIT CONTACT FORM
      */
-    var contactFormView = require("./views/contactForm.js"),
-        contactFormModel = require("./controllers/contactForm.js"),
+    var ContactFormView = require("./views/contactForm.js"),
+        ContactFormModel = require("./controllers/contactForm.js"),
         $contactForm = $("[data-contactForm]");
     //Init search windows
     if ($contactForm.length > 0) {
-        var contactWindow = new contactFormView({
-            model: new contactFormModel(),
+        var contactWindow = new ContactFormView({
+            model: new ContactFormModel(),
             el: $contactForm
         });
     }
@@ -3092,29 +3089,32 @@ module.exports = Backbone.View.extend({
     events: {
         "submit": "onSubmit"
     },
-    $nameInput: null,
-    $phoneInput: null,
-    $emailInput: null,
-    $messageInput: null,
-    $termsCheck: null,
+    fields: [],
     message_tpl: null,
     initialize: function() {
         "use strict";
-        this.model.set("contactProfile", {
-            name: this.$el.attr("data-contactName"),
-            mail: this.$el.attr("data-contactEmail"),
-            id: this.$el.attr("data-contactID")
+        //Set the profile of the email receiver on the model
+        this.model.set("recipient", {
+            id: this.$el.find("[name='to[id]']").val(),
+            name: this.$el.find("[name='to[name]']").val(),
+            mail: this.$el.find("[name='to[email]']").val()
         });
-        this.model.set("property", this.$el.attr("data-propertyID"));
-        this.$nameInput = this.$el.find("[name='from[name]']");
-        this.$phoneInput = this.$el.find("[name='from[phone]']");
-        this.$emailInput = this.$el.find("[name='from[email]']");
-        this.$messageInput = this.$el.find("[name=inputMessage]");
-        this.$termsCheck = this.$el.find("[name=terms]");
+        this.model.set("postID", this.$el.find("[name=fromID]").val()); //Set the post ID on the model
+        //Set the fields on the view
+        var self = this;
+        this.$el.find("[data-field]").each(function(){
+            self.fields.push({
+                $el: jQuery(this),
+                validation: jQuery(this).attr("data-validation")
+            })
+        });
+        //Prevent form submitting
         this.$el.submit(function(e) {
             e.preventDefault();
         });
+        //Get the error message TPL
         this.message_tpl = _.template(this.$el.find("[data-messageTPL]").html());
+        //Listen to errors
         this.listenTo(this.model, 'error', this.onError);
     },
     onSubmit: function() {
@@ -3123,19 +3123,7 @@ module.exports = Backbone.View.extend({
         this.$el.find(".form-group").removeClass("error");
         this.$el.find("span.error").remove();
 
-        var name = this.$nameInput.val(),
-            phone = this.$phoneInput.val(),
-            email = this.$emailInput.val(),
-            message = this.$messageInput.val(),
-            terms_accepted = this.$termsCheck.is(":checked");
-
-        this.model.setData({
-            name: name,
-            phone: phone,
-            mail: email,
-            message: message,
-            terms_accepted: terms_accepted
-        });
+        this.model.setData(this.fields);
 
         if (!this.model.get("error")) {
             var self = this;
@@ -3144,59 +3132,40 @@ module.exports = Backbone.View.extend({
                     case 0:
                         self.$el.html(self.message_tpl({
                             msgclass: 'bg-danger',
-                            msg: wbData.contactForm.labels.contact_form.error
+                            msg: wbData.contactForm.labels.error
                         }));
                         break;
                     case 1:
                         self.$el.html(self.message_tpl({
                             msgclass: 'bg-warning',
-                            msg: wbData.contactForm.labels.contact_form.warning
+                            msg: wbData.contactForm.labels.warning
                         }));
                         break;
                     case 2:
                         self.$el.html(self.message_tpl({
                             msgclass: 'bg-success',
-                            msg: wbData.contactForm.labels.contact_form.success
+                            msg: wbData.contactForm.labels.success
                         }));
                         break;
                 }
             }).fail(function(jqXHR, textStatus, errorThrown) {
                 self.$el.html(self.message_tpl({
                     msgclass: 'bg-warning',
-                    msg: wbData.contactForm.labels.contact_form.warning
+                    msg: wbData.contactForm.labels.warning
                 }));
             });
         }
     },
     onError: function(e) {
         "use strict";
-        var $error_el;
-        switch (e) {
-            case "emptyName":
-                $error_el = this.$nameInput;
-                $error_el.after("<span class='error'>Il campo non può essere lasciato vuoto</span>");
-                break;
-            case "emptyPhone":
-                $error_el = this.$phoneInput;
-                $error_el.after("<span class='error'>Il campo non può essere lasciato vuoto</span>");
-                break;
-            case "emptyEmail":
-                $error_el = this.$emailInput;
-                $error_el.after("<span class='error'>Il campo non può essere lasciato vuoto</span>");
-                break;
-            case "emptyMessage":
-                $error_el = this.$messageInput;
-                $error_el.after("<span class='error'>Il campo non può essere lasciato vuoto</span>");
-                break;
-            case "termsUnchecked":
-                $error_el = this.$termsCheck;
-                break;
-            case "emptyData":
-                $error_el = this.$el;
-                $error_el.after("<span class='error'>Il campo non può essere lasciato vuoto</span>");
+        var $error_el = e.$el,
+            error_code = e.code;
+        switch (error_code) {
+            case "isEmpty":
+                $error_el.after("<span class='error'>"+wbData.contactForm.labels.errors[error_code]+"</span>");
                 break;
             default:
-                $error_el = this.$el;
+                $error_el.after("<span class='error'>"+wbData.contactForm.labels.errors['_default_']+"</span>");
                 break;
         }
         $error_el.parents(".form-group").addClass("has-error");

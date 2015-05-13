@@ -1,56 +1,39 @@
 module.exports = Backbone.Model.extend({
     defaults: {
-        contactProfile: {
+        recipient: {
             name: "",
             mail: "",
             id: ""
         },
-        property: 0,
-        name: "",
-        phone: "",
-        mail: "",
+        senderInfo: {},
+        postID: 0,
         subject: wbData.contactForm.contact_email_subject,
-        message: "",
-        terms_accepted: ""
+        message: ""
     },
-    setData: function(data) {
+    setData: function(fields) {
         "use strict";
-        var error = false;
-        if (_.isEmpty(data)) {
-            this.trigger("error", "emptyData");
-            error = true;
-        }
-        if (_.isEmpty(data.name)) {
-            this.trigger("error", "emptyName");
-            error = true;
-        } else {
-            this.set("name", this.escapeHtml(data.name));
-        }
-        if (_.isEmpty(data.phone)) {
-            this.trigger("error", "emptyPhone");
-            error = true;
-        } else {
-            this.set("phone", this.escapeHtml(data.phone));
-        }
-        if (_.isEmpty(data.mail)) {
-            this.trigger("error", "emptyEmail");
-            error = true;
-        } else {
-            this.set("mail", this.escapeHtml(data.mail));
-        }
-        if (_.isEmpty(data.message)) {
-            this.trigger("error", "emptyMessage");
-            error = true;
-        } else {
-            this.set("message", this.escapeHtml(data.message));
-        }
-        if (!data.terms_accepted) {
-            this.trigger("error", "termsUnchecked");
-            error = true;
-        } else {
-            this.set("terms_accepted", true);
-        }
-        this.set("error", error);
+        var error_occurred = false,
+            self = this,
+            senderInfo = this.get("senderInfo");
+
+        _.each(fields,function(f, iteratee, context){
+            var val = f.$el.val(),
+                name = f.$el.attr('name'),
+                validation = f.validation;
+
+            switch(validation){
+                case "!empty":
+                    if(_.isEmpty(val)){
+                        self.trigger("error", {$el: f.$el, code: "isEmpty"});
+                        error_occurred = true;
+                    }else{
+                        self.updateData(name,val);
+                    }
+                    break;
+            }
+        });
+
+        this.set("error", error_occurred);
     },
     escapeHtml: function(string) {
         "use strict";
@@ -66,24 +49,47 @@ module.exports = Backbone.Model.extend({
             return entityMap[s];
         });
     },
+    updateData: function(name,val){
+        var senderInfo = this.get("senderInfo");
+
+        val = this.escapeHtml(val);
+
+        var matches = name.match(/from\[([a-zA-Z]+)\]/);
+
+        if(matches){
+            senderInfo = this.get("senderInfo");
+            senderInfo[matches[1]] = val;
+            this.set('senderInfo',senderInfo);
+        }else{
+            if(name == 'message'){
+                this.set("message",val);
+            }else{
+                senderInfo = this.get("senderInfo");
+                senderInfo[name] = val;
+                this.set('senderInfo',senderInfo);
+            }
+        }
+    },
     sendmail: function() {
         "use strict";
-        var contactProfile = this.get("contactProfile");
-        return jQuery.ajax(wbData.ajaxurl, {
-            data: {
-                action: "wbpmp_send_mail",
-                to: contactProfile.mail,
-                to_id: contactProfile.id,
+        var recipient = this.get("recipient"),
+            data = {
+                action: "wbft_send_contact_email",
+                to: recipient.mail,
+                to_id: recipient.id,
                 subject: this.get("subject"),
                 message: this.get("message"),
-                from: {
-                    name: this.get("name"),
-                    phone: this.get("phone"),
-                    mail: this.get("mail"),
-                    property: this.get("property")
-                },
-                post_id: this.get("property")
-            },
+                from: (function(data){
+                    var return_data = {};
+                    _.each(data,function(val,key){
+                        return_data[key] = val;
+                    });
+                    return return_data;
+                })(this.get("senderInfo")),
+                post_id: this.get("postID")
+            };
+        return jQuery.ajax(wbData.ajaxurl, {
+            data: data,
             dataType: "json",
             method: "POST"
         });

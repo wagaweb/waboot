@@ -639,31 +639,31 @@ if(!function_exists("wbft_the_contact_form")):
 				'id' => 'name',
 				'order' => 0,
 				'html' => apply_filters("wbft/contact_form/field/name/tpl",'<label for="name" class=" control-label">'.__('Name', 'waboot').'</label>
-			    <input id="name" type="text" class="form-control" name="from[name]">')
+			    <input id="name" type="text" class="form-control" name="from[name]" data-field data-validation="!empty">')
 			),
 			array(
 				'id' => 'surname',
 				'order' => 1,
 				'html' => apply_filters("wbft/contact_form/field/surname/tpl",'<label for="surname" class=" control-label">'.__('Surname', 'waboot').'</label>
-			    <input id="surname" type="text" class="form-control" name="from[surname]">')
+			    <input id="surname" type="text" class="form-control" name="from[surname]" data-field data-validation="!empty">')
 			),
 			array(
 				'id' => 'phone',
 				'order' => 2,
 				'html' => apply_filters("wbft/contact_form/field/phone/tpl",'<label for="phone" class=" control-label">'.__('Phone', 'waboot').'</label>
-			    <input id="phone" type="text" class="form-control" name="from[phone]">')
+			    <input id="phone" type="text" class="form-control" name="from[phone]" data-field data-validation="!empty">')
 			),
 			array(
 				'id' => 'email',
 				'order' => 3,
 				'html' => apply_filters("wbft/contact_form/field/email/tpl",'<label for="email" class=" control-label">'.__('Email', 'waboot').'</label>
-			    <input id="email" type="text" class="form-control" name="from[email]">')
+			    <input id="email" type="text" class="form-control" name="from[email]" data-field data-validation="!empty">')
 			),
 			array(
 				'id' => 'message',
 				'order' => 4,
-				'html' => apply_filters("wbft/contact_form/field/message/tpl",'<label for="inputMessage" class="control-label">'.__('Message', 'waboot').'</label>
-			    <textarea id="inputMessage" class="form-control" name="inputMessage" rows="5"></textarea>')
+				'html' => apply_filters("wbft/contact_form/field/message/tpl",'<label for="message" class="control-label">'.__('Message', 'waboot').'</label>
+			    <textarea id="message" class="form-control" name="message" rows="5" data-field data-validation="!empty"></textarea>')
 			),
 			array(
 				'id' => 'submit',

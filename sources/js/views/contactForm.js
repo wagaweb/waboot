@@ -2,29 +2,32 @@ module.exports = Backbone.View.extend({
     events: {
         "submit": "onSubmit"
     },
-    $nameInput: null,
-    $phoneInput: null,
-    $emailInput: null,
-    $messageInput: null,
-    $termsCheck: null,
+    fields: [],
     message_tpl: null,
     initialize: function() {
         "use strict";
-        this.model.set("contactProfile", {
-            name: this.$el.attr("data-contactName"),
-            mail: this.$el.attr("data-contactEmail"),
-            id: this.$el.attr("data-contactID")
+        //Set the profile of the email receiver on the model
+        this.model.set("recipient", {
+            id: this.$el.find("[name='to[id]']").val(),
+            name: this.$el.find("[name='to[name]']").val(),
+            mail: this.$el.find("[name='to[email]']").val()
         });
-        this.model.set("property", this.$el.attr("data-propertyID"));
-        this.$nameInput = this.$el.find("[name='from[name]']");
-        this.$phoneInput = this.$el.find("[name='from[phone]']");
-        this.$emailInput = this.$el.find("[name='from[email]']");
-        this.$messageInput = this.$el.find("[name=inputMessage]");
-        this.$termsCheck = this.$el.find("[name=terms]");
+        this.model.set("postID", this.$el.find("[name=fromID]").val()); //Set the post ID on the model
+        //Set the fields on the view
+        var self = this;
+        this.$el.find("[data-field]").each(function(){
+            self.fields.push({
+                $el: jQuery(this),
+                validation: jQuery(this).attr("data-validation")
+            })
+        });
+        //Prevent form submitting
         this.$el.submit(function(e) {
             e.preventDefault();
         });
+        //Get the error message TPL
         this.message_tpl = _.template(this.$el.find("[data-messageTPL]").html());
+        //Listen to errors
         this.listenTo(this.model, 'error', this.onError);
     },
     onSubmit: function() {
@@ -33,19 +36,7 @@ module.exports = Backbone.View.extend({
         this.$el.find(".form-group").removeClass("error");
         this.$el.find("span.error").remove();
 
-        var name = this.$nameInput.val(),
-            phone = this.$phoneInput.val(),
-            email = this.$emailInput.val(),
-            message = this.$messageInput.val(),
-            terms_accepted = this.$termsCheck.is(":checked");
-
-        this.model.setData({
-            name: name,
-            phone: phone,
-            mail: email,
-            message: message,
-            terms_accepted: terms_accepted
-        });
+        this.model.setData(this.fields);
 
         if (!this.model.get("error")) {
             var self = this;
@@ -54,59 +45,40 @@ module.exports = Backbone.View.extend({
                     case 0:
                         self.$el.html(self.message_tpl({
                             msgclass: 'bg-danger',
-                            msg: wbData.contactForm.labels.contact_form.error
+                            msg: wbData.contactForm.labels.error
                         }));
                         break;
                     case 1:
                         self.$el.html(self.message_tpl({
                             msgclass: 'bg-warning',
-                            msg: wbData.contactForm.labels.contact_form.warning
+                            msg: wbData.contactForm.labels.warning
                         }));
                         break;
                     case 2:
                         self.$el.html(self.message_tpl({
                             msgclass: 'bg-success',
-                            msg: wbData.contactForm.labels.contact_form.success
+                            msg: wbData.contactForm.labels.success
                         }));
                         break;
                 }
             }).fail(function(jqXHR, textStatus, errorThrown) {
                 self.$el.html(self.message_tpl({
                     msgclass: 'bg-warning',
-                    msg: wbData.contactForm.labels.contact_form.warning
+                    msg: wbData.contactForm.labels.warning
                 }));
             });
         }
     },
     onError: function(e) {
         "use strict";
-        var $error_el;
-        switch (e) {
-            case "emptyName":
-                $error_el = this.$nameInput;
-                $error_el.after("<span class='error'>Il campo non può essere lasciato vuoto</span>");
-                break;
-            case "emptyPhone":
-                $error_el = this.$phoneInput;
-                $error_el.after("<span class='error'>Il campo non può essere lasciato vuoto</span>");
-                break;
-            case "emptyEmail":
-                $error_el = this.$emailInput;
-                $error_el.after("<span class='error'>Il campo non può essere lasciato vuoto</span>");
-                break;
-            case "emptyMessage":
-                $error_el = this.$messageInput;
-                $error_el.after("<span class='error'>Il campo non può essere lasciato vuoto</span>");
-                break;
-            case "termsUnchecked":
-                $error_el = this.$termsCheck;
-                break;
-            case "emptyData":
-                $error_el = this.$el;
-                $error_el.after("<span class='error'>Il campo non può essere lasciato vuoto</span>");
+        var $error_el = e.$el,
+            error_code = e.code;
+        switch (error_code) {
+            case "isEmpty":
+                $error_el.after("<span class='error'>"+wbData.contactForm.labels.errors[error_code]+"</span>");
                 break;
             default:
-                $error_el = this.$el;
+                $error_el.after("<span class='error'>"+wbData.contactForm.labels.errors['_default_']+"</span>");
                 break;
         }
         $error_el.parents(".form-group").addClass("has-error");
