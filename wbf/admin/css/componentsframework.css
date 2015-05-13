@@ -1,1 +1,225 @@
-#componentframework-wrapper{margin:0 auto}#componentframework-wrapper .componentframework-header h2{font-size:28px;font-weight:700;margin-left:15%;margin-top:15px;margin-bottom:10px}#componentframework-wrapper .componentframework-content-wrapper:before,#componentframework-wrapper .componentframework-content-wrapper:after{content:" ";display:table}#componentframework-wrapper .componentframework-content-wrapper:after{clear:both}#componentframework-wrapper .nav-tab-wrapper{float:left;width:15%;padding:0;margin:0}#componentframework-wrapper .nav-tab-wrapper ul{margin-top:64px}#componentframework-wrapper .nav-tab-wrapper .nav-tab{font-size:14px;font-weight:700;width:100%;padding:12px 15px 12px 40px;border-top:1px solid #ddd!important;border-bottom:1px solid #ddd!important;border-left:1px solid #ddd!important;border-right:none!important;box-sizing:border-box;background-color:#f1f1f1;background-position:10px center;background-repeat:no-repeat;background-image:url(../images/icons/behaviour-icon.svg)}#componentframework-wrapper .nav-tab-wrapper .layout-tab{background-image:url(../images/icons/layout-icon.svg)}#componentframework-wrapper .nav-tab-wrapper .backgrounds-tab{background-image:url(../images/icons/backgrounds-icon.svg)}#componentframework-wrapper .nav-tab-wrapper .nav-tab-active{background-color:#fff}#componentframework-wrapper #componentframework-metabox{float:right;width:85%}#componentframework-wrapper #componentframework-metabox #componentframework{max-width:840px;background-color:#fff}#componentframework *{box-sizing:border-box}#componentframework h3{background-color:#222;color:#f1f1f1;font-size:24px}#componentframework .group{overflow:auto;padding-bottom:0}#componentframework .section{width:50%;min-height:225px;box-sizing:border-box;padding:25px;float:left;background-position:right center;background-repeat:no-repeat}#componentframework .section p{text-align:center}#componentframework .section h4{margin-bottom:10px}#componentframework .section .heading{font-size:18px;text-align:center;width:100%}#componentframework .section .explain{width:100%;max-width:100%!important;text-align:center;display:block;float:none;margin-bottom:15px}#componentframework .section .controls{width:100%!important;min-width:100%!important;text-align:center;padding:4px 15px 0;box-sizing:border-box}#componentframework .section .check-wrapper,#componentframework .section .radio-wrapper{display:inline-block;margin:5px}#componentframework .section-info{width:100%;border-right:none;clear:both;min-height:0;border-bottom:1px solid #ddd;margin:0;padding:10px 10px 25px;background-color:#666;color:#fff}#componentframework .section-info h4{font-size:22px;margin-bottom:10px}#componentframework .onoffswitch{position:relative;width:90px!important;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;float:none;min-width:0!important;padding:0;margin:0 auto 10px}#componentframework .onoffswitch-checkbox{display:none}#componentframework .onoffswitch-label{display:block;overflow:hidden;cursor:pointer;border:1px solid #999;border-radius:20px}#componentframework .onoffswitch-inner{display:block;width:200%;margin-left:-100%;-moz-transition:margin .3s ease-in 0s;-webkit-transition:margin .3s ease-in 0s;-o-transition:margin .3s ease-in 0s;transition:margin .3s ease-in 0s}#componentframework .onoffswitch-inner:before,#componentframework .onoffswitch-inner:after{display:block;float:left;width:50%;height:30px;padding:0;line-height:30px;font-size:14px;color:#fff;font-family:Trebuchet,Arial,sans-serif;font-weight:700;-moz-box-sizing:border-box;-webkit-box-sizing:border-box;box-sizing:border-box}#componentframework .onoffswitch-inner:before{content:"ON";padding-left:10px;background-color:#2EA2CC;color:#FFF}#componentframework .onoffswitch-inner:after{content:"OFF";padding-right:10px;background-color:#EEE;color:#999;text-align:right}#componentframework .onoffswitch-switch{display:block;width:18px;margin:6px;background:#FFF;border:1px solid #999;border-radius:20px;position:absolute;top:0;bottom:0;right:56px;-moz-transition:all .3s ease-in 0s;-webkit-transition:all .3s ease-in 0s;-o-transition:all .3s ease-in 0s;transition:all .3s ease-in 0s}#componentframework .onoffswitch-checkbox:checked+.onoffswitch-label .onoffswitch-inner{margin-left:0}#componentframework .onoffswitch-checkbox:checked+.onoffswitch-label .onoffswitch-switch{right:0}#componentframework #componentframework-submit{background-color:#f1f1f1;border-top:1px solid #ddd;padding:7px 10px}
+/*
+Custom style for Theme Options panel
+Version: 1.0
+Author: Waga
+Author URI: https://waga.it
+*/
+/* General rules */
+#componentframework-wrapper {
+  margin: 0px auto;
+  /* Vertical Tabbed Navigation */
+}
+#componentframework-wrapper .componentframework-header h2 {
+  font-size: 28px;
+  font-weight: bold;
+  margin-left: 15%;
+  margin-top: 15px;
+  margin-bottom: 10px;
+}
+#componentframework-wrapper .componentframework-content-wrapper:before,
+#componentframework-wrapper .componentframework-content-wrapper:after {
+  content: " ";
+  display: table;
+}
+#componentframework-wrapper .componentframework-content-wrapper:after {
+  clear: both;
+}
+#componentframework-wrapper .nav-tab-wrapper {
+  float: left;
+  width: 15%;
+  padding: 0;
+  margin: 0;
+}
+#componentframework-wrapper .nav-tab-wrapper ul {
+  margin-top: 64px;
+}
+#componentframework-wrapper .nav-tab-wrapper .nav-tab {
+  font-size: 14px;
+  font-weight: bold;
+  width: 100%;
+  padding: 12px 15px 12px 40px;
+  border-top: 1px solid #ddd !important;
+  border-bottom: 1px solid #ddd !important;
+  border-left: 1px solid #ddd !important;
+  border-right: none !important;
+  box-sizing: border-box;
+  background-color: #f1f1f1;
+  background-position: 10px center;
+  background-repeat: no-repeat;
+  background-image: url("../images/icons/behaviour-icon.svg");
+}
+#componentframework-wrapper .nav-tab-wrapper .layout-tab {
+  background-image: url("../images/icons/layout-icon.svg");
+}
+#componentframework-wrapper .nav-tab-wrapper .backgrounds-tab {
+  background-image: url("../images/icons/backgrounds-icon.svg");
+}
+#componentframework-wrapper .nav-tab-wrapper .nav-tab-active {
+  background-color: #fff;
+}
+#componentframework-wrapper #componentframework-metabox {
+  float: right;
+  width: 85%;
+}
+#componentframework-wrapper #componentframework-metabox #componentframework {
+  max-width: 840px;
+  background-color: #fff;
+}
+#componentframework {
+  /* General Rules */
+  /* Checkbox Switch */
+  /* Component Framework Submit */
+}
+#componentframework * {
+  box-sizing: border-box;
+}
+#componentframework h3 {
+  background-color: #222222;
+  color: #f1f1f1;
+  font-size: 24px;
+}
+#componentframework .group {
+  overflow: auto;
+  padding-bottom: 0;
+}
+#componentframework .section {
+  width: 50%;
+  min-height: 225px;
+  box-sizing: border-box;
+  padding: 25px;
+  float: left;
+  background-position: right center;
+  background-repeat: no-repeat;
+}
+#componentframework .section p {
+  text-align: center;
+}
+#componentframework .section h4 {
+  margin-bottom: 10px;
+}
+#componentframework .section .heading {
+  font-size: 18px;
+  text-align: center;
+  width: 100%;
+}
+#componentframework .section .explain {
+  width: 100%;
+  max-width: 100% !important;
+  text-align: center;
+  display: block;
+  float: none;
+  margin-bottom: 15px;
+}
+#componentframework .section .controls {
+  width: 100% !important;
+  min-width: 100% !important;
+  text-align: center;
+  padding: 4px 15px 0;
+  box-sizing: border-box;
+}
+#componentframework .section .check-wrapper,
+#componentframework .section .radio-wrapper {
+  display: inline-block;
+  margin: 5px;
+}
+#componentframework .section-info {
+  width: 100%;
+  border-right: none;
+  clear: both;
+  min-height: 0;
+  border-bottom: 1px solid #ddd;
+  margin: 0;
+  padding: 10px 10px 25px;
+  background-color: #666;
+  color: #fff;
+}
+#componentframework .section-info h4 {
+  font-size: 22px;
+  margin-bottom: 10px;
+}
+#componentframework .onoffswitch {
+  position: relative;
+  width: 90px !important;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  float: none;
+  min-width: 0 !important;
+  padding: 0px;
+  margin: 0 auto 10px;
+}
+#componentframework .onoffswitch-checkbox {
+  display: none;
+}
+#componentframework .onoffswitch-label {
+  display: block;
+  overflow: hidden;
+  cursor: pointer;
+  border: 1px solid #999999;
+  border-radius: 20px;
+}
+#componentframework .onoffswitch-inner {
+  display: block;
+  width: 200%;
+  margin-left: -100%;
+  -moz-transition: margin 0.3s ease-in 0s;
+  -webkit-transition: margin 0.3s ease-in 0s;
+  -o-transition: margin 0.3s ease-in 0s;
+  transition: margin 0.3s ease-in 0s;
+}
+#componentframework .onoffswitch-inner:before,
+#componentframework .onoffswitch-inner:after {
+  display: block;
+  float: left;
+  width: 50%;
+  height: 30px;
+  padding: 0;
+  line-height: 30px;
+  font-size: 14px;
+  color: white;
+  font-family: Trebuchet, Arial, sans-serif;
+  font-weight: bold;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+#componentframework .onoffswitch-inner:before {
+  content: "ON";
+  padding-left: 10px;
+  background-color: #2EA2CC;
+  color: #FFFFFF;
+}
+#componentframework .onoffswitch-inner:after {
+  content: "OFF";
+  padding-right: 10px;
+  background-color: #EEEEEE;
+  color: #999999;
+  text-align: right;
+}
+#componentframework .onoffswitch-switch {
+  display: block;
+  width: 18px;
+  margin: 6px;
+  background: #FFFFFF;
+  border: 1px solid #999999;
+  border-radius: 20px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 56px;
+  -moz-transition: all 0.3s ease-in 0s;
+  -webkit-transition: all 0.3s ease-in 0s;
+  -o-transition: all 0.3s ease-in 0s;
+  transition: all 0.3s ease-in 0s;
+}
+#componentframework .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
+  margin-left: 0;
+}
+#componentframework .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
+  right: 0px;
+}
+#componentframework #componentframework-submit {
+  background-color: #f1f1f1;
+  border-top: 1px solid #ddd;
+  padding: 7px 10px;
+}

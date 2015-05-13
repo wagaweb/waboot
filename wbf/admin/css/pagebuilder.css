@@ -1,1 +1,147 @@
-.wbpbloading{overflow:hidden}.wbpbloading .wb-pagebuilder-loading{display:block}.wb-pagebuilder-loading{display:none;position:absolute;z-index:160001;top:0;left:0;height:100%;width:100%;cursor:wait;background:rgba(255,255,255,.8) url(../images/pagebuilder/ajax-loader.gif) 50% 50% no-repeat}.wb-pagebuilder-modal{z-index:10}.wb-pagebuilder-wrap{position:fixed;top:30px;left:30px;right:30px;bottom:30px;z-index:10;background-color:#fff}.wb-pagebuilder-wrap .close-icon{position:absolute;top:16px;right:5px;z-index:11}.wb-pagebuilder-wrap .wb-pagebuilder-tools{position:absolute;top:0;left:0;bottom:0;width:200px;background-color:#f3f3f3}.wb-pagebuilder-wrap .wb-pagebuilder-tools h1{font-size:1.3em;text-align:center}.wb-pagebuilder-wrap .wb-pagebuilder-tools a{display:block;margin:10px}.wb-pagebuilder-wrap .wb-pagebuilder-tools select{margin:10px;width:180px}.wb-pagebuilder-wrap .wb-pagebuilder-title{position:absolute;top:0;left:200px;right:0;height:50px}.wb-pagebuilder-wrap .wb-pagebuilder-title h1{font-size:1.8em;text-align:center}.wb-pagebuilder-wrap .wb-pagebuilder-editscreen{position:absolute;top:50px;left:10px;right:10px;bottom:40px;height:auto;width:auto;margin:0;overflow:auto;background:#fff;border-top:1px solid #ddd;border-bottom:1px solid #ddd}.wb-pagebuilder-wrap .wb-pagebuilder-editscreen .wb-pb-editscreen-content{margin-top:10px}.wb-pagebuilder-wrap .wb-pagebuilder-editscreen .wb-pb-editscreen--footer{position:absolute;bottom:10px;right:0}.wb-pagebuilder-wrap .wb-pagebuilder-mainscreen{position:absolute;top:50px;left:200px;right:0;bottom:40px;height:auto;width:auto;margin:0;overflow:auto;background:#fff;border-top:1px solid #ddd;border-bottom:1px solid #ddd}.wb-pagebuilder-wrap .wb-pagebuilder-footer{position:absolute;bottom:10px;right:0;height:30px;padding:0 5px;border:0 solid #dfdfdf;overflow:hidden}.edit-screen .wb-pagebuilder-title{left:0}.ui-widget-overlay{background-color:rgba(0,0,0,.8);z-index:1001}.ui-front.ui-dialog{z-index:1002;width:50%!important}.ui-modal{display:none;padding:25px 25px;box-shadow:0 0 10px #333;background-color:#fff}.pb-modal-content .quicktags-toolbar input{width:auto}.pb-modal-content label,.pb-modal-content input,.pb-modal-content select,.pb-modal-content textarea{display:block;width:100%}.pb-modal-content input,.pb-modal-content select,.pb-modal-content textarea{margin-bottom:15px}
+/** LOADER **/
+.wbpbloading {
+  overflow: hidden;
+}
+.wbpbloading .wb-pagebuilder-loading {
+  display: block;
+}
+.wb-pagebuilder-loading {
+  display: none;
+  position: absolute;
+  z-index: 160001;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  cursor: wait;
+  background: rgba(255, 255, 255, 0.8) url('../images/pagebuilder/ajax-loader.gif') 50% 50% no-repeat;
+}
+/** MODAL **/
+.wb-pagebuilder-modal {
+  z-index: 10;
+}
+.wb-pagebuilder-wrap {
+  position: fixed;
+  top: 30px;
+  left: 30px;
+  right: 30px;
+  bottom: 30px;
+  z-index: 10;
+  background-color: #fff;
+}
+.wb-pagebuilder-wrap .close-icon {
+  position: absolute;
+  top: 16px;
+  right: 5px;
+  z-index: 11;
+}
+.wb-pagebuilder-wrap .wb-pagebuilder-tools {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 200px;
+  background-color: #f3f3f3;
+}
+.wb-pagebuilder-wrap .wb-pagebuilder-tools h1 {
+  font-size: 1.3em;
+  text-align: center;
+}
+.wb-pagebuilder-wrap .wb-pagebuilder-tools a {
+  display: block;
+  margin: 10px;
+}
+.wb-pagebuilder-wrap .wb-pagebuilder-tools select {
+  margin: 10px;
+  width: 180px;
+}
+.wb-pagebuilder-wrap .wb-pagebuilder-title {
+  position: absolute;
+  top: 0;
+  left: 200px;
+  right: 0;
+  height: 50px;
+}
+.wb-pagebuilder-wrap .wb-pagebuilder-title h1 {
+  font-size: 1.8em;
+  text-align: center;
+}
+.wb-pagebuilder-wrap .wb-pagebuilder-editscreen {
+  position: absolute;
+  top: 50px;
+  left: 10px;
+  right: 10px;
+  bottom: 40px;
+  height: auto;
+  width: auto;
+  margin: 0;
+  overflow: auto;
+  background: #fff;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+}
+.wb-pagebuilder-wrap .wb-pagebuilder-editscreen .wb-pb-editscreen-content {
+  margin-top: 10px;
+}
+.wb-pagebuilder-wrap .wb-pagebuilder-editscreen .wb-pb-editscreen--footer {
+  position: absolute;
+  bottom: 10px;
+  right: 0;
+}
+.wb-pagebuilder-wrap .wb-pagebuilder-mainscreen {
+  position: absolute;
+  top: 50px;
+  left: 200px;
+  right: 0;
+  bottom: 40px;
+  height: auto;
+  width: auto;
+  margin: 0;
+  overflow: auto;
+  background: #fff;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+}
+.wb-pagebuilder-wrap .wb-pagebuilder-footer {
+  position: absolute;
+  bottom: 10px;
+  right: 0;
+  height: 30px;
+  padding: 0 5px;
+  border: 0 solid #dfdfdf;
+  overflow: hidden;
+}
+/** MODS TO ELEMENT WHEN IN EDIT SCREEN **/
+.edit-screen .wb-pagebuilder-title {
+  left: 0;
+}
+/** MODAL (deprecated) **/
+.ui-widget-overlay {
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 1001;
+}
+.ui-front.ui-dialog {
+  z-index: 1002;
+  width: 50% !important;
+}
+.ui-modal {
+  display: none;
+  padding: 25px 25px;
+  box-shadow: 0 0 10px #333;
+  background-color: #fff;
+}
+.pb-modal-content .quicktags-toolbar input {
+  width: auto;
+}
+.pb-modal-content label,
+.pb-modal-content input,
+.pb-modal-content select,
+.pb-modal-content textarea {
+  display: block;
+  width: 100%;
+}
+.pb-modal-content input,
+.pb-modal-content select,
+.pb-modal-content textarea {
+  margin-bottom: 15px;
+}
