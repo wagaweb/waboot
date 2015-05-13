@@ -29,11 +29,11 @@ class Waboot_Plugin_Loader {
 	 */
 	protected $filters;
 
-	protected $public_plugin;
+	public $public_plugin;
 
-	protected $admin_plugin;
+	public $admin_plugin;
 
-	protected $classes;
+	public $classes;
 
 	/**
 	 * Initialize the collections used to maintain the actions and filters.
@@ -49,11 +49,11 @@ class Waboot_Plugin_Loader {
 			$class_name_parts = explode("\\",get_class($caller));
 			if(is_file($caller->get_dir()."public/class-public.php")){
 				$class_name = $class_name_parts[0].'\pub\Pub';
-				$this->public_plugin = new $class_name($caller->get_plugin_name(), $caller->get_version());
+				$this->public_plugin = new $class_name($caller->get_plugin_name(), $caller->get_version(), $caller);
 			}
 			if(is_file($caller->get_dir()."admin/class-admin.php")){
 				$class_name = $class_name_parts[0].'\admin\Admin';
-				$this->admin_plugin = new $class_name($caller->get_plugin_name(), $caller->get_version());
+				$this->admin_plugin = new $class_name($caller->get_plugin_name(), $caller->get_version(), $caller);
 			}
 		}
 	}
