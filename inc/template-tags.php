@@ -670,7 +670,7 @@ if(!function_exists("wbft_the_contact_form")):
 		$fields = apply_filters("wbft/contact_form/fields",$fields);
 		//Apply filters to $fields html
 		foreach($fields as $k => $f){
-			$fields[$k]['html'] = apply_filters("wbft/contact_form/field/{$f['name']}/tpl",$f['html']);
+			$fields[$k]['html'] = apply_filters("wbft/contact_form/field/{$f['id']}/tpl",$f['html']);
 		}
 
 		switch(apply_filters("wbft/contact_form/recipient/type",of_get_option("contact_form_mail_recipient_type","admin"))){
