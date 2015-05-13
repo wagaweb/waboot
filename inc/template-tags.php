@@ -672,7 +672,8 @@ if(!function_exists("wbft_the_contact_form")):
 		foreach($fields as $k => $f){
 			$fields[$k]['html'] = apply_filters("wbft/contact_form/field/{$f['name']}/tpl",$f['html']);
 		}
-		switch(of_get_option("contact_form_mail_receiver","admin")){
+
+		switch(apply_filters("wbft/contact_form/recipient/type",of_get_option("contact_form_mail_recipient_type","admin"))){
 			case "author":
 				$to = array(
 					'id' => isset($post->ID) && $post->ID != 0 ? $post->post_author : 0,
