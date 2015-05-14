@@ -504,6 +504,7 @@ function optionsframework_options() {
 			'color'  => '#444444'
 		),
 		'type' => 'typography',
+		'fonts_type' => 'google',
 		'recompile_styles' => true
 	);
 
@@ -527,6 +528,7 @@ function optionsframework_options() {
             'color'  => '#444444'
         ),
         'type' => 'typography',
+        'fonts_type' => 'google',
         'recompile_styles' => true
     );
 /*
@@ -889,14 +891,38 @@ function optionsframework_options() {
 	);
 
 	$options[] = array(
-		'name' => __( 'Test simple favicon', 'waboot' ),
-		'desc' => __( 'Upload a favicon.', 'waboot' ),
-		'id' => 'favicon',
+		'name' => __( 'Icon', 'waboot' ),
+		'desc' => __( 'Upload a favicon (only .png and .ico files are allowed).', 'waboot' ),
+		'id' => 'favicon_icon',
 		'std' => '',
 		'type' => 'upload',
 		'readonly' => true,
 		'upload_to' => ABSPATH,
 		'upload_as' => 'favicon',
+		'allowed_extensions' => array("png","ico")
+	);
+
+	$options[] = array(
+		'name' => __( 'Apple Touch 120x120 Icon', 'waboot' ),
+		'desc' => __( 'Upload a favicon (only .png and .ico files are allowed).', 'waboot' ),
+		'id' => 'favicon_apple120',
+		'std' => '',
+		'type' => 'upload',
+		'readonly' => true,
+		'upload_to' => ABSPATH,
+		'upload_as' => 'touch-icon-iphone-retina',
+		'allowed_extensions' => array("png","ico")
+	);
+
+	$options[] = array(
+		'name' => __( 'Apple Touch 152x152 Icon', 'waboot' ),
+		'desc' => __( 'Upload a favicon (only .png and .ico files are allowed).', 'waboot' ),
+		'id' => 'favicon_apple152',
+		'std' => '',
+		'type' => 'upload',
+		'readonly' => true,
+		'upload_to' => ABSPATH,
+		'upload_as' => 'touch-icon-ipad-retina',
 		'allowed_extensions' => array("png","ico")
 	);
 

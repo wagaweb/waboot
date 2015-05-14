@@ -5,7 +5,7 @@ require_once("hooks/entry-footer.php");
 require_once("hooks/layout.php");
 require_once("hooks/ajax.php");
 
-if ( ! function_exists( 'waboot_do_site_title' ) ):
+if(!function_exists('waboot_do_site_title')):
     /**
      * Displays site title at top of page
      * @since 0.1.0
@@ -23,7 +23,7 @@ if ( ! function_exists( 'waboot_do_site_title' ) ):
     add_action( 'waboot_site_title', 'waboot_do_site_title' );
 endif;
 
-if( ! function_exists( 'waboot_do_site_description' ) ):
+if(!function_exists('waboot_do_site_description')):
     /**
      * Displays site description at top of page
      * @since 0.1.0
@@ -39,7 +39,7 @@ if( ! function_exists( 'waboot_do_site_description' ) ):
     add_action( 'waboot_site_description', 'waboot_do_site_description' );
 endif;
 
-if ( ! function_exists( 'waboot_do_archive_page_title' ) ):
+if(!function_exists('waboot_do_archive_page_title')):
     /**
      * Display page title on archive pages
      * @since 0.1.0
@@ -50,17 +50,7 @@ if ( ! function_exists( 'waboot_do_archive_page_title' ) ):
     add_action( 'waboot_archive_page_title', 'waboot_do_archive_page_title', 10, 2 );
 endif;
 
-if( ! function_exists('waboot_load_gfonts') ):
-    function waboot_load_gfonts($options){
-        $options[] = "waboot_primaryfont";
-        $options[] = "waboot_secondaryfont";
-
-        return $options;
-    }
-    add_filter("wbf_of_gfonts_options","waboot_load_gfonts");
-endif;
-
-if ( ! function_exists( 'waboot_behaviors_cpts_blacklist' ) ):
+if(!function_exists('waboot_behaviors_cpts_blacklist')):
     /**
      * Puts some custom post types into blacklist (in these post types the behavior will never be displayed)
      * @param $blacklist
@@ -73,7 +63,7 @@ if ( ! function_exists( 'waboot_behaviors_cpts_blacklist' ) ):
     add_filter("wbf_behaviors_cpts_blacklist","waboot_behaviors_cpts_blacklist");
 endif;
 
-if ( ! function_exists( 'waboot_set_default_components' ) ):
+if(!function_exists('waboot_set_default_components')):
     /**
      * Set the default components
      * @param $components
@@ -88,7 +78,7 @@ if ( ! function_exists( 'waboot_set_default_components' ) ):
     add_filter("wbf_default_components","waboot_set_default_components");
 endif;
 
-if ( ! function_exists( 'waboot_mainnav_class' ) ):
+if(!function_exists('waboot_mainnav_class')):
     function waboot_mainnav_class($classes){
         $options = of_get_option( 'waboot_navbar_align' );
         $classes[] = $options;
@@ -98,13 +88,37 @@ if ( ! function_exists( 'waboot_mainnav_class' ) ):
     add_filter("waboot_mainnav_class","waboot_mainnav_class");
 endif;
 
-if ( ! function_exists( 'waboot_ignore_sticky_post_in_archives' ) ):
+if(!function_exists('waboot_ignore_sticky_post_in_archives')):
 	function waboot_ignore_sticky_post_in_archives($query){
 		if(is_category() || is_tag() || is_tax()) {
 			$query->set("post__not_in",get_option( 'sticky_posts', array() ));
 		}
 	}
 	add_action( 'pre_get_posts', 'waboot_ignore_sticky_post_in_archives' );
+endif;
+
+if(!function_exists('wbft_favicons')):
+	/**
+	 * Display the favicons
+	 */
+	function wbft_favicons(){
+		$icon = of_get_option("favicon_icon");
+		$iphone = of_get_option("favicon_apple120");
+		$ipad = of_get_option("favicon_apple152");
+		?>
+		<?php if($icon && !empty($icon)) : ?>
+			<link rel="icon" href="<?php echo $icon ?>" type="image/x-icon"/>
+			<link rel="shortcut icon" href="<?php echo $icon ?>" type="image/x-icon"/>
+		<?php endif; ?>
+		<?php if($iphone && !empty($iphone)) : ?>
+			<link rel="apple-touch-icon" sizes="120x120" href="<?php echo $iphone ?>">
+		<?php endif; ?>
+		<?php if($ipad && !empty($ipad)) : ?>
+			<link rel="apple-touch-icon" sizes="152x152" href="<?php echo $ipad ?>">
+		<?php endif; ?>
+		<?php
+	}
+	add_action('wp_head', 'wbft_favicons');
 endif;
 
 if(!function_exists('wbft_parse_contact_form_data')):
