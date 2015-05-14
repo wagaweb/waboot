@@ -896,7 +896,8 @@ function optionsframework_options() {
 		'type' => 'upload',
 		'readonly' => true,
 		'upload_to' => ABSPATH,
-		'upload_as' => 'favicon'
+		'upload_as' => 'favicon',
+		'allowed_extensions' => array("png","ico")
 	);
 
     /*
