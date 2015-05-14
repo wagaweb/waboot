@@ -46,7 +46,16 @@ class FontSelector
     }
 
     function getWebFontsToLoad(){
-        $options_names = apply_filters("wbf_of_gfonts_options",array()); //the name of the options that the theme uses for gfonts
+        $options_names = call_user_func(function(){
+	        $names = array();
+	        $all_options = Framework::_optionsframework_options();
+	        foreach($all_options as $opt){
+		        if(isset($opt['id']) && $opt['type'] == "typography" && isset($opt['fonts_type']) && $opt['fonts_type'] == "google"){
+			        $names[] = $opt['id'];
+		        }
+	        }
+	        return $names;
+        });
         $fonts_to_load = array();
         foreach($options_names as $opt_name){
             $value = of_get_option($opt_name);
