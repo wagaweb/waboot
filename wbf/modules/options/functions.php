@@ -4,16 +4,6 @@ namespace WBF\modules\options;
 use \WBF\modules\components\ComponentsManager;
 
 
-function of_get_option_object($id){
-	$all_options = Framework::_optionsframework_options();
-	foreach($all_options as $opt){
-		if($opt['id'] == $id){
-			return $opt;
-		}
-	}
-	return false;
-}
-
 /**
  * Checks if the dependencies of theme options are met
  */
@@ -79,7 +69,6 @@ function of_options_save($option, $old_value, $value){
         foreach($all_options as $k => $opt_data){
             if(isset($opt_data['id']) && array_key_exists($opt_data['id'],$diff)){ //True if the current option has been modified
 	            /** BEGIN OPERATIONS HERE: **/
-
                 /*
                  * Check upload fields
                  */
@@ -87,10 +76,33 @@ function of_options_save($option, $old_value, $value){
 		            $upload_to = isset($opt_data['upload_to']) ? $opt_data['upload_to'] : false;
 		            $upload_as = isset($opt_data['upload_as']) ? $opt_data['upload_as'] : false;
 		            $allowed_extensions = isset($opt_data['allowed_extensions']) ? $opt_data['allowed_extensions'] : array("jpg","jpeg","png","gif","ico");
-		            $field_value = $value[$opt_data['id']];
 		            $file_path = url_to_path($value[$opt_data['id']]);
-		            //todo: se viene generato un errore, ricordarsi che abbiamo il valore orginale della opzione in $old_value
-
+					if(is_file($file_path)){ //by doing this we take into account only the files uploaded to the site and not external one
+						$oFile = new \SplFileObject($file_path);
+						try{
+							if(!in_array($oFile->getExtension(),$allowed_extensions)) throw new \Exception("Invalid file extension");
+							if($upload_to){
+								//We need to copy the uploaded file and update the value
+								if(is_dir($upload_to)){
+									$upload_to = rtrim($upload_to,"/");
+									$new_path = $upload_as && !empty($upload_as) ? $upload_to."/".$upload_as.".".$oFile->getExtension() : $upload_to."/".$oFile->getBasename();
+									if(!copy($oFile->getRealPath(),$new_path)){
+										throw new \Exception("Cant move file");
+									}
+									$new_opt_value = path_to_url($new_path);
+									$value[$opt_data['id']] = $new_opt_value;
+									Framework::set_option_value($opt_data['id'],$new_opt_value); //set new value
+								}else{
+									throw new \Exception("Invalid upload location");
+								}
+							}
+						}catch(\Exception $e){
+							//Reset the old value
+							$old_opt_value = $old_value[$opt_data['id']];
+							$value[$opt_data['id']] = $old_opt_value;
+							Framework::set_option_value($opt_data['id'],$old_opt_value);
+						}
+					}
 	            }
                 /*
                  * Check if must recompile

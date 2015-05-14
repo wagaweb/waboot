@@ -56,4 +56,44 @@ class Framework extends \Options_Framework {
 
         return $options;
     }
+
+	static function set_option_value($id,$value){
+		global $wp_settings_errors;
+		$bak_settings_errors = get_settings_errors();
+
+		$options = get_option(self::get_options_root_id());
+		if(isset($options[$id])){
+			$options[$id] = $value;
+		}
+
+		//Remove actions and settings errors
+		remove_action( "updated_option", '\WBF\modules\options\of_options_save', 9999, 3 );
+		$wp_settings_errors = array();
+
+		$result = update_option(self::get_options_root_id(),$options); //update...
+
+		//Readd...
+		add_action( "updated_option", '\WBF\modules\options\of_options_save', 9999, 3 );
+		$wp_settings_errors = $bak_settings_errors;
+
+		return $result;
+	}
+
+	static function get_option_object($id){
+		$all_options = self::_optionsframework_options();
+		foreach($all_options as $opt){
+			if(isset($opt['id']) && $opt['id'] == $id){
+				return $opt;
+			}
+		}
+		return false;
+	}
+
+	static function get_options_root_id(){
+		$opt_name = get_option('optionsframework');
+		if(isset($opt_name['id'])){
+			return $opt_name['id'];
+		}
+		return false;
+	}
 }

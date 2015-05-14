@@ -32,7 +32,7 @@ class MediaUploader extends \Options_Framework_Media_Uploader {
 		$id = strip_tags( strtolower( $_id ) );
 
 		// Get the option... options :)
-		$option_object = of_get_option_object($id);
+		$option_object = Framework::get_option_object($id);
 
 		// If a value is passed and we don't have a stored value, use the value that's passed through.
 		if ( $_value != '' && $value == '' ) {
