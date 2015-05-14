@@ -187,6 +187,15 @@ if ( !function_exists("url_to_path") ) :
     }
 endif;
 
+if ( !function_exists("path_to_url") ) :
+	function path_to_url($path){
+		$blogurl = trailingslashit(get_bloginfo("url"));
+		$blogpath = ABSPATH;
+		$result = preg_replace("|^$blogpath|", $blogurl, $path);
+		return $result;
+	}
+endif;
+
 if ( !function_exists("count_digit") ) :
 	function count_digit($number){
 		$digit = 0;
