@@ -48,7 +48,7 @@ class Framework extends \Options_Framework {
                 }
             }
 
-            \WBF\modules\components\ComponentsManager::addRegisteredComponentOptions(); //todo: maybe use the filter instead?
+	        do_action("wbf/theme_options/register"); //This action can hook different functions to of_options filter (is used by Component Manager for example)
 
             // Allow setting/manipulating options via filters
             $options = apply_filters( 'of_options', $options );
