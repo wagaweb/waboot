@@ -34,12 +34,15 @@ class FontSelector
 	}
 
     /**
-     * Loads the fonts into wordpress head
+     * Loads the fonts into wordpress head (executed during "wp_enqueue_scripts")
+     * @use self:::getWebFontsToLoad
+     * @use self::isOSFont
+     * @use self::buildFontString
      */
     function loadFonts(){
         $fonts_to_load = $this->getWebFontsToLoad();
         foreach($fonts_to_load as $name => $props){
-            if(!self::isOSFont(preg_replace("/ /","+",$name))){
+            if(!self::isOSFont(preg_replace("/ /","+",$name))){ //If the font is not a system font, print out the font tag
                 echo $this->buildFontString($name,$props);
             }
         }
@@ -112,6 +115,7 @@ class FontSelector
     }
 
 	/**
+	 * Print out font options fields in Theme Options
 	 * @param string $_id - A token to identify this field (the name).
 	 * @param string $_value - The value of the field, if present.
 	 * @param string $_defaults - The defaults value of the field..
@@ -122,10 +126,9 @@ class FontSelector
 	 */
 	static function output($_id, $_value, $_defaults, $_desc = '', $_name = ''){
 		global $wbf_gfont_fetcher;
-		$optionsframework_settings = get_option( 'optionsframework' );
 
 		// Gets the unique option id
-		$option_name = $optionsframework_settings['id'];
+		$option_name = Framework::get_options_root_id();
 
 		$output = ''; $id = strip_tags(strtolower($_id)); $class = "of-input gfont"; $int = ''; $value = '';
 		$name = $_name != '' ? $_name : $option_name . '[' . $id . ']';
