@@ -8,9 +8,10 @@ class ComponentsManager {
     static $last_error = "";
 
     /**
-     * Detect components into components directory and updates relative options
+     * Add hooks, detect components into components directory and updates relative options
      */
     static function init(){
+	    add_action("wbf/theme_options/register",'\WBF\modules\components\ComponentsManager::addRegisteredComponentOptions'); //register component options
         /** Detect components in main theme **/
         self::_detect_components(get_template_directory()."/components");
         /** Detect components in child theme **/
@@ -246,7 +247,7 @@ class ComponentsManager {
     }
 
     /**
-     * Exec register_options method on active components (Hardcoded into &_optionsframework_options())
+     * Exec register_options method on active components (executed during "wbf/theme_options/register" action)
      */
     static function addRegisteredComponentOptions(){
         $components = self::getAllComponents();
