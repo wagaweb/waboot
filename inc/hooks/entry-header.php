@@ -67,7 +67,7 @@ function waboot_print_entry_title_before_inner(){
 	global $post;
     if( is_home() ){
         if ( of_get_option('waboot_blogpage_title_position') == "top" ) {
-            add_filter("waboot_entry_title_text_singular", "waboot_entry_title_before_inner_markup");
+            add_filter("waboot_entry_title_html_singular", "waboot_entry_title_before_inner_markup");
             waboot_index_title('<div class="title-wrapper"><div class="container"><h1 class=\'entry-header\'>', '</h1></div></div>');
         }
     }
@@ -77,7 +77,7 @@ function waboot_print_entry_title_before_inner(){
 	    }
     }
     elseif( is_singular() && get_behavior('title-position') == "top" ){
-		add_filter("waboot_entry_title_text_singular","waboot_entry_title_before_inner_markup");
+		add_filter("waboot_entry_title_html_singular","waboot_entry_title_before_inner_markup");
 		echo waboot_entry_title();
 	}
 }
