@@ -192,6 +192,11 @@ class Waboot_Plugin {
 		$this->loader->run();
 	}
 
+	public function get_uri(){
+		return get_bloginfo("url")."wp-content/plugins/".$this->plugin_name."/";
+	}
+
+
 	public function get_dir(){
 		return $this->plugin_dir;
 	}
