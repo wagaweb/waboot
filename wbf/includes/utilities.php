@@ -1,4 +1,57 @@
 <?php
+
+if(!function_exists('wbf_get_template_part')):
+	function wbf_get_template_part($slug, $name = null){
+		do_action( "get_template_part_{$slug}", $slug, $name );
+
+		$templates = apply_filters("wbf/get_template_part/path:{$slug}",array(),array($slug,$name));
+		$name = (string) $name;
+		if ( '' !== $name )
+			$templates['names'][] = "{$slug}-{$name}.php";
+
+		$templates['names'][] = "{$slug}.php";
+
+		wbf_locate_template($templates, true, false);
+	}
+endif;
+
+if(!function_exists('wbf_locate_template')):
+	function wbf_locate_template($templates, $load = false, $require_once = true ) {
+		$located = '';
+		$template_names = $templates['names'];
+		$template_sources = isset($templates['sources']) ? $templates['sources'] : array();
+
+		foreach($template_sources as $template_name){
+			if ( !$template_name )
+				continue;
+			if( file_exists($template_name)){
+				$located = $template_name;
+				break;
+			}
+		}
+
+		if(empty($located)) {
+			foreach ( (array) $template_names as $template_name ) {
+				if ( ! $template_name ) {
+					continue;
+				}
+				if ( file_exists( STYLESHEETPATH . '/' . $template_name ) ) {
+					$located = STYLESHEETPATH . '/' . $template_name;
+					break;
+				} elseif ( file_exists( TEMPLATEPATH . '/' . $template_name ) ) {
+					$located = TEMPLATEPATH . '/' . $template_name;
+					break;
+				}
+			}
+		}
+
+		if ( $load && '' != $located )
+			load_template( $located, $require_once );
+
+		return $located;
+	}
+endif;
+
 if (!function_exists( 'wbf_locate_template_uri' )):
     /**
      * Retrieve the URI of the highest priority template file that exists.
