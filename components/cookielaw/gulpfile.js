@@ -15,10 +15,18 @@ var paths = {
     scripts: ['./js/**/*.js'],
     js: ['./js/vendor/cookiechoices.js','./js/cookielaw.js'],
     bundlejs: ['./js/bundle.js'],
-    scss: './scss/*.scss'
+    scss: './scss/*.scss',
+    css: './css/cookielaw.css'
 };
 
 gulp.task('cssmin',function(){
+    return gulp.src(paths.css)
+        .pipe(csso())
+        .pipe(rename(plugin_slug+'.min.css'))
+        .pipe(gulp.dest('./css'));
+});
+
+gulp.task('sass',function(){
     return gulp.src(paths.scss)
         .pipe(sourcemaps.init())
         .pipe(sass().on('error', sass.logError))
