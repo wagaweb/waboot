@@ -199,7 +199,10 @@ function _of_generate_less_file($value){
                 if ( array_key_exists( $matches[1], $value ) ) {
                     if ( $value[ $matches[1] ] != "" ) {
                         $attr       = $value[ $matches[1] ];
-                        $fontString = "font-family: '" . $attr['family'] . "', " . $attr['category'] . ";";
+	                    if(isset($attr['category']))
+                            $fontString = "font-family: '" . $attr['family'] . "', " . $attr['category'] . ";";
+	                    else
+		                    $fontString = "font-family: '" . $attr['family'] . "';";
                         /*if(preg_match("/([0-9]+)([a-z]+)/",$attr['style'],$style_matches)){
                             if($style_matches[1] == 'regular') $style_matches[1] = "normal";
                             $fontString .= "font-weight: ".$style_matches[1].";";
