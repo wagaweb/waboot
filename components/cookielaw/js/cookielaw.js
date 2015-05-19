@@ -3,7 +3,6 @@ jQuery(window).load(function(){
     var $ = jQuery,
         cookieName = 'displayCookieConsent', //The same of cookieChoices lib
         $cookieItems = $("[data-cookieonly]"),
-        $dismissBtn = $("#cookieChoiceDismiss"),
         data = cookielawData || {
                 str: 'Cookies help us deliver our services. By continuing to use our website, you agree to our use of cookies',
                 close_str: 'OK',
@@ -19,7 +18,7 @@ jQuery(window).load(function(){
         });
     }
 
-    $dismissBtn.bind("click",function(){
+    $(document).bind("click","#cookieChoiceDismiss",function(){
         location.reload();
     });
 });
