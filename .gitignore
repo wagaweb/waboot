@@ -28,6 +28,13 @@ waboot-child/sources/less/tmp_*.*
 waboot-child/sources/less/theme-options-generated.less
 
 ############
+## COMPONENTS ASSETS
+############
+components/**/node_modules
+components/**/bower_components
+components/**/bundle.js
+
+############
 ## VENDORS
 ############
 wbf/includes/vendor/codemirror/bin
