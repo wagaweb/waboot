@@ -23,7 +23,7 @@ class CookielawComponent extends \WBF\modules\components\Component{
 	}
 
 	public function styles(){
-		wp_enqueue_style('component-colorbox-style',$this->directory_uri . '/colorbox.css');
+		wp_enqueue_style('component-cookielaw-style',$this->directory_uri . '/css/cookielaw.css');
 	}
 
 	public function theme_options($options){
