@@ -60,6 +60,61 @@ class Plugin_Update_Checker extends \PluginUpdateChecker{
 		}
 	}
 
+	/**
+	 * Retrieve plugin info from the configured API endpoint.
+	 *
+	 * @uses wp_remote_get()
+	 *
+	 * @param array $queryArgs Additional query arguments to append to the request. Optional.
+	 * @return \PluginInfo
+	 */
+	public function requestInfo($queryArgs = array()){
+		//Query args to append to the URL. Plugins can add their own by using a filter callback (see addQueryArgFilter()).
+		$installedVersion = $this->getInstalledVersion();
+		$queryArgs['installed_version'] = ($installedVersion !== null) ? $installedVersion : '';
+		$queryArgs = apply_filters('puc_request_info_query_args-'.$this->slug, $queryArgs);
+
+		//Various options for the wp_remote_get() call. Plugins can filter these, too.
+		$options = array(
+			'timeout' => 10, //seconds
+			'headers' => array(
+				'Accept' => 'application/json'
+			),
+		);
+		$options = apply_filters('puc_request_info_options-'.$this->slug, $options);
+
+		//The plugin info should be at 'http://your-api.com/url/here/$slug/info.json'
+		$url = $this->metadataUrl;
+		if ( !empty($queryArgs) ){
+			$url = add_query_arg($queryArgs, $url);
+		}
+
+		$result = wp_remote_get(
+			$url,
+			$options
+		);
+
+		//Try to parse the response
+		$pluginInfo = null;
+		if ( !is_wp_error($result) && isset($result['response']['code']) && ($result['response']['code'] == 200) && !empty($result['body']) ){
+			$pluginInfo = \PluginInfo_1_6::fromJson($result['body'], $this->debugMode);
+			$pluginInfo->filename = $this->pluginFile;
+		} else if ( $this->debugMode ) {
+			$message = sprintf("The URL %s does not point to a valid plugin metadata file. ", $url);
+			if ( is_wp_error($result) ) {
+				$message .= "WP HTTP error: " . $result->get_error_message();
+			} else if ( isset($result['response']['code']) ) {
+				$message .= "HTTP response code is " . $result['response']['code'] . " (expected: 200)";
+			} else {
+				$message .= "wp_remote_get() returned an unexpected result.";
+			}
+			trigger_error($message, E_USER_WARNING);
+		}
+
+		$pluginInfo = apply_filters('puc_request_info_result-'.$this->slug, $pluginInfo, $result);
+		return $pluginInfo;
+	}
+
 
 	/**
 	 * Check for updates if the configured check interval has already elapsed.
