@@ -91,6 +91,7 @@ function optionsframework_options() {
         'desc' => __('Change the page background color.', 'waboot'),
         'id' => 'waboot_page_bgcolor',
         'type' => 'color',
+	    'std' => '#ffffff',
         'recompile_styles' => true
     );
 
@@ -150,6 +151,7 @@ function optionsframework_options() {
         'desc' => __('Change the header background color.', 'waboot'),
         'id' => 'waboot_header_bgcolor',
         'type' => 'color',
+	    'std' => '#ffffff',
         'recompile_styles' => true
     );
 
@@ -157,7 +159,7 @@ function optionsframework_options() {
         'name' => __( 'Navbar', 'waboot' ),
         'desc' => __( 'Select navbar width. Fluid or Boxed?', 'waboot' ),
         'id' => 'waboot_navbar_width',
-        'std' => 'container-fluid',
+        'std' => 'container',
         'type' => 'images',
         'options' => array(
             'container-fluid' => array (
@@ -194,6 +196,7 @@ function optionsframework_options() {
         'desc' => __('Change the navbar background color.', 'waboot'),
         'id' => 'waboot_navbar_bgcolor',
         'type' => 'color',
+	    'std' => '#e2e2e2',
         'recompile_styles' => true
     );
 
@@ -209,7 +212,7 @@ function optionsframework_options() {
         'name' => __( 'Content', 'waboot' ),
         'desc' => __( 'Select content width. Fluid or Boxed?', 'waboot' ),
         'id' => 'waboot_content_width',
-        'std' => 'container-fluid',
+        'std' => 'container',
         'type' => 'images',
         'options' => array(
             'container-fluid' => array (
@@ -227,7 +230,7 @@ function optionsframework_options() {
         'name' => __( 'Content Bottom', 'waboot' ),
         'desc' => __( 'Select content bottom width. Fluid or Boxed?', 'waboot' ),
         'id' => 'waboot_bottom_width',
-        'std' => 'container-fluid',
+        'std' => 'container',
         'type' => 'images',
         'options' => array(
             'container-fluid' => array (
@@ -254,6 +257,7 @@ function optionsframework_options() {
         'desc' => __('Change the content bottom background color.', 'waboot'),
         'id' => 'waboot_bottom_bgcolor',
         'type' => 'color',
+	    'std' => '#ededed',
         'recompile_styles' => true
     );
 
@@ -261,7 +265,7 @@ function optionsframework_options() {
         'name' => __( 'Footer', 'waboot' ),
         'desc' => __( 'Select footer width. Fluid or Boxed?', 'waboot' ),
         'id' => 'waboot_footer_width',
-        'std' => 'container-fluid',
+        'std' => 'container',
         'type' => 'images',
         'options' => array(
             'container-fluid' => array (
@@ -279,7 +283,7 @@ function optionsframework_options() {
         'name' => __( 'Closure', 'waboot' ),
         'desc' => __( 'Select closure width. Fluid or Boxed?', 'waboot' ),
         'id' => 'waboot_closure_width',
-        'std' => 'container-fluid',
+        'std' => 'container',
         'type' => 'images',
         'options' => array(
             'container-fluid' => array (
@@ -298,6 +302,7 @@ function optionsframework_options() {
         'desc' => __('Change the footer background color.', 'waboot'),
         'id' => 'waboot_footer_bgcolor',
         'type' => 'color',
+	    'std' => '#f6f6f6',
         'recompile_styles' => true
     );
 
@@ -306,6 +311,7 @@ function optionsframework_options() {
         'desc' => __('Change the closure background color.', 'waboot'),
         'id' => 'waboot_closure_bgcolor',
         'type' => 'color',
+	    'std' => '#e2e2e2',
         'recompile_styles' => true
     );
 
@@ -332,7 +338,7 @@ function optionsframework_options() {
         'name' => __('Body Background Color', 'waboot'),
         'desc' => __('Change the body background color.', 'waboot'),
         'id' => 'waboot_body_bgcolor',
-        'std' => "#ffffff",
+        'std' => "#ededed",
         'type' => 'color',
 	    'recompile_styles' => true
     );
@@ -498,10 +504,10 @@ function optionsframework_options() {
 		'name' => 'Primary font (body, p, ul, li)',
 		'id' => 'waboot_primaryfont',
 		'std' => array(
-			'family' => 'Lato',
+			'family' => 'Source Sans Pro',
 			'style'  => 'regular',
 			'charset' => 'latin',
-			'color'  => '#444444'
+			'color'  => '#666666'
 		),
 		'type' => 'typography',
 		'fonts_type' => 'google',
@@ -522,10 +528,10 @@ function optionsframework_options() {
         'name' => 'Secondary font (h1, h2, h3, h4, h5, h6)',
         'id' => 'waboot_secondaryfont',
         'std' => array(
-            'family' => 'Lato',
+            'family' => 'Source Sans Pro',
             'style'  => 'bold',
             'charset' => 'latin',
-            'color'  => '#444444'
+            'color'  => '#666666'
         ),
         'type' => 'typography',
         'fonts_type' => 'google',
@@ -558,6 +564,7 @@ function optionsframework_options() {
         'name' => __( 'Show Logo?', 'waboot' ),
         'desc' => __( 'Displays the logo on your site.', 'waboot' ),
         'id'   => 'waboot_logo_in_navbar',
+	    'std'  => get_template_directory_uri()."/assets/images/default/waboot-color.png",
         'type' => 'upload'
     );
 
@@ -596,7 +603,7 @@ function optionsframework_options() {
         'name' => __( 'Show search bar in Header?', 'waboot' ),
         'desc' => __( 'Default is enabled. Uncheck this box to turn it off.', 'waboot' ),
         'id'   => 'waboot_search_bar',
-        'std'  => '1',
+        'std'  => '0',
         'type' => 'checkbox'
     );
 
@@ -604,7 +611,7 @@ function optionsframework_options() {
         'name' => __( 'Mobile Nav Style', 'waboot' ),
         'desc' => __( 'Select your mobile nav style' ,'waboot' ),
         'id'   => 'waboot_mobilenav_style',
-        'std' => 'bootstrap',
+        'std' => 'offcanvas',
         'type' => 'images',
         'options' => array(
             'bootstrap' => array(
@@ -680,7 +687,7 @@ function optionsframework_options() {
         'name' => __( 'Show custom footer text?', 'waboot' ),
         'desc' => __( 'Default is disabled. Check this box to use custom footer text. Fill in your text below.', 'waboot' ),
         'id'   => 'waboot_custom_footer_toggle',
-        'std'  => '0',
+        'std'  => '1',
         'type' => 'checkbox'
     );
 
@@ -688,7 +695,7 @@ function optionsframework_options() {
         'name' => __( 'Custom footer text', 'waboot' ),
         'desc' => __( 'Enter the text here that you would like displayed at the bottom of your site. This setting will be ignored if you do not enable "Show custom footer text" above.', 'waboot' ),
         'id'   => 'waboot_custom_footer_text',
-        'std'  => '',
+        'std'  => '&copy; '.date("Y")." - you business name",
         'type' => 'textarea'
     );
 
@@ -845,7 +852,7 @@ function optionsframework_options() {
         'name' => __( 'Show post author?', 'waboot' ),
         'desc' => __( 'Displays the post author. Default is show. Uncheck this box to hide the post author.', 'waboot' ),
         'id'   => 'waboot_post_author',
-        'std'  => '1',
+        'std'  => '0',
         'type' => 'checkbox'
     );
 
@@ -940,7 +947,7 @@ function optionsframework_options() {
         'desc' => __( 'Select the social widget position', 'waboot' ),
         'id' => 'waboot_social_position',
         'type' => 'images',
-        'std'  => 'footer',
+        'std'  => 'navigation',
         'options' => array(
             'footer' =>  array(
                 'label' => 'Footer',
@@ -973,21 +980,24 @@ function optionsframework_options() {
         'name' => __( 'Facebook', 'waboot' ),
         'desc' => __( 'Enter your facebook fan page link', 'waboot' ),
         'id'   => 'waboot_social_facebook',
-        'type' => 'text'
+        'type' => 'text',
+	    'std'  => '#'
     );
 
     $options[] = array(
         'name' => __( 'Twitter', 'waboot' ),
         'desc' => __( 'Enter your twitter page link', 'waboot' ),
         'id'   => 'waboot_social_twitter',
-        'type' => 'text'
+        'type' => 'text',
+        'std'  => '#'
     );
 
     $options[] = array(
         'name' => __( 'Google+', 'waboot' ),
         'desc' => __( 'Enter your google+ page link', 'waboot' ),
         'id'   => 'waboot_social_google',
-        'type' => 'text'
+        'type' => 'text',
+        'std'  => '#'
     );
 
     $options[] = array(

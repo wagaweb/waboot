@@ -77,7 +77,7 @@ function waboot_behaviors($behaviors){
                 "value" => "1/6"
             )
         ),
-        "default" => "2/3",
+        "default" => "1/4",
         "valid" => array('*','-slideshow')
     );
 
@@ -104,7 +104,7 @@ function waboot_behaviors($behaviors){
 				"value" => "1/6"
 			)
 		),
-		"default" => "2/3",
+		"default" => "1/4",
 		"valid" => array('*','-slideshow')
 	);
 
