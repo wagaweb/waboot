@@ -192,7 +192,7 @@ module.exports = function(grunt) {
             },
             scripts:{
                 files: ['<%= jshint.all %>'],
-                tasks: ['browserify:dist']
+                tasks: ['jsmin']
             }
         }
     });
