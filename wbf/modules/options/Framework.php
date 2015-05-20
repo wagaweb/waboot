@@ -96,4 +96,12 @@ class Framework extends \Options_Framework {
 		}
 		return false;
 	}
+
+	static function get_options_values(){
+		$opt_name = get_option('optionsframework');
+		if(isset($opt_name['id'])){
+			return get_option($opt_name['id']);
+		}
+		return false;
+	}
 }
