@@ -138,7 +138,25 @@ module.exports = function(grunt) {
                     {
                         expand: true,
                         cwd: "./",
-                        src: ["**/*", "!.*", "!Gruntfile.js", "!package.json", "!wbf/Gruntfile.js", "!wbf/package.json", "!bower.json", "!builds/**", "!node_modules/**", "!wbf/node_modules/**" ,"!bower_components/**", "!wbf/bower_components/**" , "!assets/cache/**", "!_bak/**"],
+                        src: [
+                            "**/*",
+                            "!.*",
+                            "!Gruntfile.js",
+                            "!package.json",
+                            "!.jshintrc",
+                            "!.bowerrc",
+                            "!bower.json",
+                            "!Movefile-sample",
+                            "!builds/**",
+                            "!node_modules/**",
+                            "!bower_components/**",
+                            "!assets/cache/**",
+                            "!wbf/node_modules/**",
+                            "!wbf/bower_components/**",
+                            "!wbf/Gruntfile.js",
+                            "!wbf/package.json",
+                            "!_bak/**"
+                        ],
                         dest: "builds/waboot-<%= pkg.version %>/"
                     }
                 ]
@@ -200,7 +218,7 @@ module.exports = function(grunt) {
     // Register tasks
     grunt.registerTask('setup', ['bower-install','copy:all','less:dev']); //Setup task
     grunt.registerTask('default', ['watch']); // Default task
-    grunt.registerTask('build', ['less:production','less:waboot','jsmin','compress:build']); // Build task
+    grunt.registerTask('build', ['less:production','less:waboot','jsmin','pot','compress:build']); // Build task
     grunt.registerTask('js', ['jsbeautifier','browserify:dist']); // Concat and beautify js
     grunt.registerTask('jsmin', ['js','uglify']); // Concat, beautify and minify js
 
