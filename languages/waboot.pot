@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Waboot 0.10.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-20 18:18+0200\n"
+"POT-Creation-Date: 2015-05-20 18:23+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -64,7 +64,7 @@ msgstr ""
 msgid "Comments are closed."
 msgstr ""
 
-#: functions.php:12 functions.php:33
+#: functions.php:12 functions.php:34
 #, php-format
 msgid "Error locating %s for inclusion"
 msgstr ""
