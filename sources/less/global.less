@@ -638,6 +638,7 @@ ins {
 /* End Comments */
 
 
+
 /* 404 Page */
 
 .error404 .img404 {
@@ -1018,3 +1019,84 @@ ins {
   /* ------ End Off Canvas Mobile Menu ------ */
 
 }
+
+
+
+/* Table Responsive */
+
+@media only screen and (max-width: 480px) {
+
+  /* Force table to not be like tables anymore */
+  table,
+  thead,
+  tbody,
+  tr,
+  .table > thead > tr > th,
+  .table > tbody > tr > th,
+  .table > tfoot > tr > th,
+  .table > thead > tr > td,
+  .table > tbody > tr > td,
+  .table > tfoot > tr > td {
+    border: 0;
+  }
+
+  .table {
+    border-top: 1px solid #ddd;
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+  }
+
+  .table > thead > tr,
+  .table > tbody > tr,
+  .table > tfoot > tr {
+    border-bottom: 1px solid #ddd;
+  }
+
+  table,
+  thead,
+  tbody,
+  th,
+  td,
+  tr {
+    display: block;
+  }
+
+  /* Hide table headers (but not display: none;, for accessibility) */
+  thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+
+  /*tr { border: 1px solid #ccc; }*/
+
+  td {
+    /* Behave  like a "row" */
+    border: none;
+    /*border-bottom: 1px solid #eee;*/
+    position: relative;
+    padding-left: 50%;
+    white-space: normal;
+    text-align:left;
+  }
+
+  td:before {
+    /* Now like a table header */
+    position: absolute;
+    /* Top/left values mimic padding */
+    top: 6px;
+    left: 6px;
+    width: 45%;
+    padding-right: 10px;
+    white-space: nowrap;
+    text-align:left;
+    font-weight: bold;
+  }
+
+  /*
+  Label the data
+  */
+  td:before { content: attr(data-title); }
+}
+
+/* End Table Responsive */

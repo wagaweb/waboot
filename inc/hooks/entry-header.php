@@ -23,11 +23,11 @@ function waboot_entry_title($post = null) {
 	$title = apply_filters("waboot_entry_title_text",$title);
 
     if(is_singular() ) {
-        $str = sprintf(apply_filters('waboot_entry_title_text_singular', '<h1 class="entry-title">%s</h1>'), $title); //@Deprecated
-        $str = sprintf(apply_filters('waboot_entry_title_html_singular', '<h1 class="entry-title">%s</h1>'), $title);
+        $str = sprintf(apply_filters('waboot_entry_title_text_singular', '<h1 class="entry-title" itemprop="name">%s</h1>'), $title); //@Deprecated
+        $str = sprintf(apply_filters('waboot_entry_title_html_singular', '<h1 class="entry-title" itemprop="name">%s</h1>'), $title);
     }else{
-        $str = sprintf(apply_filters('waboot_entry_title_text_posts', '<h2 class="entry-title"><a class="entry-title" title="%s" rel="bookmark" href="%s">%s</a></h2>'), the_title_attribute('echo=0'), get_permalink(), $title); //@Deprecated
-        $str = sprintf(apply_filters('waboot_entry_title_html_posts', '<h2 class="entry-title"><a class="entry-title" title="%s" rel="bookmark" href="%s">%s</a></h2>'), the_title_attribute('echo=0'), get_permalink(), $title);
+        $str = sprintf(apply_filters('waboot_entry_title_text_posts', '<h2 class="entry-title" itemprop="name"><a class="entry-title" title="%s" rel="bookmark" href="%s">%s</a></h2>'), the_title_attribute('echo=0'), get_permalink(), $title); //@Deprecated
+        $str = sprintf(apply_filters('waboot_entry_title_html_posts', '<h2 class="entry-title" itemprop="name"><a class="entry-title" title="%s" rel="bookmark" href="%s">%s</a></h2>'), the_title_attribute('echo=0'), get_permalink(), $title);
     }
 
     return apply_filters('waboot_entry_title_text', $str);
@@ -68,12 +68,12 @@ function waboot_print_entry_title_before_inner(){
     if( is_home() ){
         if ( of_get_option('waboot_blogpage_title_position') == "top" ) {
             add_filter("waboot_entry_title_html_singular", "waboot_entry_title_before_inner_markup");
-            waboot_index_title('<div class="title-wrapper"><div class="container"><h1 class=\'entry-header\'>', '</h1></div></div>');
+            waboot_index_title('<div class="title-wrapper"><div class="container"><h1 class=\'entry-header\' itemprop=\'name\'>', '</h1></div></div>');
         }
     }
     elseif( is_archive() ){
 	    if ( of_get_option('waboot_blogpage_title_position') == "top" ) {
-		    waboot_archive_page_title('<div class="title-wrapper"><div class="container"><h1 class=\'entry-header\'>', '</h1></div></div>');
+		    waboot_archive_page_title('<div class="title-wrapper"><div class="container"><h1 class=\'entry-header\' itemprop=\'name\'>', '</h1></div></div>');
 	    }
     }
     elseif( is_singular() && get_behavior('title-position') == "top" ){
@@ -83,5 +83,5 @@ function waboot_print_entry_title_before_inner(){
 }
 
 function waboot_entry_title_before_inner_markup($markup){
-	return "<div class='title-wrapper'><div class='container'><h1 class='entry-title'>%s</h1></div></div>";
+	return "<div class='title-wrapper'><div class='container'><h1 class='entry-title' itemprop='name'>%s</h1></div></div>";
 }

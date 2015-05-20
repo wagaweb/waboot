@@ -26,6 +26,7 @@ $waboot_includes = array(
 	'inc/stylesheets.php',
 	'inc/scripts.php',
 	'inc/jetpack.php',
+	'inc/woocommerce.php',
 );
 
 foreach ($waboot_includes as $file) {

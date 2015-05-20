@@ -3091,7 +3091,21 @@ jQuery(document).ready(function($) {
     $('.woocommerce a.button').addClass('btn');
     $('.woocommerce a.button').addClass('btn-primary');
     $('.woocommerce a.button').removeClass('button');
-
+    $('.woocommerce table.cart').addClass('table-striped');
+    $('.woocommerce table.cart').removeClass('shop_table');
+    $('.woocommerce table.cart td.actions input.button').addClass('btn');
+    $('.woocommerce table.cart td.actions input.button').addClass('btn-default');
+    $('.woocommerce table.cart td.actions input.button').removeClass('button');
+    //Enabling tab navigation
+    /*$("[role=tablist] li a").each(function() {
+        var self = this;
+        $(this).on("click", function(e) {
+            e.preventDefault();
+            self.tab("show");
+        });
+    });*/
+    $(".nav-tabs li:first-child").addClass("active");
+    $(".tab-content .tab-pane:first-child").addClass("active");
 });
 
 },{"./controllers/contactForm.js":3,"./views/contactForm.js":5,"FastClick":1,"TouchSwipe":2}],5:[function(require,module,exports){
