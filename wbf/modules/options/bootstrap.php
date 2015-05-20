@@ -19,6 +19,7 @@ if ( STYLESHEETPATH == TEMPLATEPATH ) {
 
 add_action("wbf_init",'\WBF\modules\options\module_init', 11);
 add_action( "updated_option", '\WBF\modules\options\of_options_save', 9999, 3 );
+add_action( "wbf/compiler/pre_compile", '\WBF\modules\options\of_generate_less_file', 9999, 3 );
 
 /**
  * Font selector actions
