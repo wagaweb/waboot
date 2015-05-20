@@ -33,7 +33,11 @@ function waboot_js_loader() {
 		wp_register_script( 'waboot', wbf_locate_template_uri( 'sources/js/waboot.js' ), array('jquery','backbone','underscore'),false, true);
 		$child_js = is_child_theme() ? wbf_locate_template_uri( 'assets/js/waboot-child.js' ) : false;
 	}else{
-		wp_enqueue_script( 'waboot', wbf_locate_template_uri( 'assets/js/waboot.min.js' ), array('jquery','backbone','underscore'),false, true);
+		if(is_file(get_template_directory()."/assets/js/waboot.min.js")){
+			wp_enqueue_script( 'waboot', wbf_locate_template_uri( 'assets/js/waboot.min.js' ), array('jquery','backbone','underscore'),false, true);
+		}else{
+			wp_enqueue_script( 'waboot', wbf_locate_template_uri( 'sources/js/waboot.js' ), array('jquery','backbone','underscore'),false, true); //Load the source file if minified is not available
+		}
 		$child_js = is_child_theme() ? wbf_locate_template_uri( 'assets/js/waboot-child.min.js' ) : false;
 	}
 
