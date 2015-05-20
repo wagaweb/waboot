@@ -32,10 +32,12 @@ function of_check_options_deps(){
 
 /**
  * Performs actions during Theme Option saving (called during "update_option")
- * @param $option
+ *
+*@param $option
  * @param $old_value
  * @param $value
- * @uses _of_generate_less_file()
+ *
+*@uses of_generate_less_file()
  * @throws \Exception
  */
 function of_options_save($option, $old_value, $value){
@@ -129,8 +131,15 @@ function of_options_save($option, $old_value, $value){
             }
         }
 
+	    /**
+	     * If the "Reset to defaults" button was pressed
+	     */
+	    if(isset($_POST['reset'])){
+		    $must_recompile_flag = true;
+	    }
+
         if($must_recompile_flag){
-            _of_generate_less_file($value); //Create a _theme-options-generated.less file
+	        of_generate_less_file($value); //Create a _theme-options-generated.less file
             //Then, compile less
             if(isset($GLOBALS['waboot_styles_compiler'])){
                 global $waboot_styles_compiler;
@@ -162,10 +171,14 @@ function of_options_save($option, $old_value, $value){
 }
 
 /**
- * Replace {of_get_option} and {of_get_font} tags in _theme-options-generated.less.cmp; It is called during "update_option" via of_options_save()
+ * Replace {of_get_option} and {of_get_font} tags in _theme-options-generated.less.cmp; It is called during "update_option" via of_options_save() and during "wbf/compiler/pre_compile" via hook
  * @param $value values of the options
  */
-function _of_generate_less_file($value){
+function of_generate_less_file($value = null){
+	if(!isset($value) || empty($value)) $value = Framework::get_options_values();
+
+	if(!is_array($value)) return;
+
     $tmpFile = new \SplFileInfo(get_stylesheet_directory()."/sources/less/_theme-options-generated.less.cmp");
     if(!$tmpFile->isFile() || !$tmpFile->isWritable()){
         $tmpFile = new \SplFileInfo(get_template_directory()."/sources/less/_theme-options-generated.less.cmp");
