@@ -16,18 +16,21 @@ module.exports = Backbone.Model.extend({
             self = this,
             senderInfo = this.get("senderInfo");
 
-        _.each(fields,function(f, iteratee, context){
+        _.each(fields, function(f, iteratee, context) {
             var val = f.$el.val(),
                 name = f.$el.attr('name'),
                 validation = f.validation;
 
-            switch(validation){
+            switch (validation) {
                 case "!empty":
-                    if(_.isEmpty(val)){
-                        self.trigger("error", {$el: f.$el, code: "isEmpty"});
+                    if (_.isEmpty(val)) {
+                        self.trigger("error", {
+                            $el: f.$el,
+                            code: "isEmpty"
+                        });
                         error_occurred = true;
-                    }else{
-                        self.updateData(name,val);
+                    } else {
+                        self.updateData(name, val);
                     }
                     break;
             }
@@ -49,24 +52,24 @@ module.exports = Backbone.Model.extend({
             return entityMap[s];
         });
     },
-    updateData: function(name,val){
+    updateData: function(name, val) {
         var senderInfo = this.get("senderInfo");
 
         val = this.escapeHtml(val);
 
         var matches = name.match(/from\[([a-zA-Z]+)\]/);
 
-        if(matches){
+        if (matches) {
             senderInfo = this.get("senderInfo");
             senderInfo[matches[1]] = val;
-            this.set('senderInfo',senderInfo);
-        }else{
-            if(name == 'message'){
-                this.set("message",val);
-            }else{
+            this.set('senderInfo', senderInfo);
+        } else {
+            if (name == 'message') {
+                this.set("message", val);
+            } else {
                 senderInfo = this.get("senderInfo");
                 senderInfo[name] = val;
-                this.set('senderInfo',senderInfo);
+                this.set('senderInfo', senderInfo);
             }
         }
     },
@@ -79,9 +82,9 @@ module.exports = Backbone.Model.extend({
                 to_id: recipient.id,
                 subject: this.get("subject"),
                 message: this.get("message"),
-                from: (function(data){
+                from: (function(data) {
                     var return_data = {};
-                    _.each(data,function(val,key){
+                    _.each(data, function(val, key) {
                         return_data[key] = val;
                     });
                     return return_data;

@@ -2919,18 +2919,21 @@ module.exports = Backbone.Model.extend({
             self = this,
             senderInfo = this.get("senderInfo");
 
-        _.each(fields,function(f, iteratee, context){
+        _.each(fields, function(f, iteratee, context) {
             var val = f.$el.val(),
                 name = f.$el.attr('name'),
                 validation = f.validation;
 
-            switch(validation){
+            switch (validation) {
                 case "!empty":
-                    if(_.isEmpty(val)){
-                        self.trigger("error", {$el: f.$el, code: "isEmpty"});
+                    if (_.isEmpty(val)) {
+                        self.trigger("error", {
+                            $el: f.$el,
+                            code: "isEmpty"
+                        });
                         error_occurred = true;
-                    }else{
-                        self.updateData(name,val);
+                    } else {
+                        self.updateData(name, val);
                     }
                     break;
             }
@@ -2952,24 +2955,24 @@ module.exports = Backbone.Model.extend({
             return entityMap[s];
         });
     },
-    updateData: function(name,val){
+    updateData: function(name, val) {
         var senderInfo = this.get("senderInfo");
 
         val = this.escapeHtml(val);
 
         var matches = name.match(/from\[([a-zA-Z]+)\]/);
 
-        if(matches){
+        if (matches) {
             senderInfo = this.get("senderInfo");
             senderInfo[matches[1]] = val;
-            this.set('senderInfo',senderInfo);
-        }else{
-            if(name == 'message'){
-                this.set("message",val);
-            }else{
+            this.set('senderInfo', senderInfo);
+        } else {
+            if (name == 'message') {
+                this.set("message", val);
+            } else {
                 senderInfo = this.get("senderInfo");
                 senderInfo[name] = val;
-                this.set('senderInfo',senderInfo);
+                this.set('senderInfo', senderInfo);
             }
         }
     },
@@ -2982,9 +2985,9 @@ module.exports = Backbone.Model.extend({
                 to_id: recipient.id,
                 subject: this.get("subject"),
                 message: this.get("message"),
-                from: (function(data){
+                from: (function(data) {
                     var return_data = {};
-                    _.each(data,function(val,key){
+                    _.each(data, function(val, key) {
                         return_data[key] = val;
                     });
                     return return_data;
@@ -3082,6 +3085,13 @@ jQuery(document).ready(function($) {
         //Disable for Metaslider
         $(".metaslider").addClass("noSwipe");
     }
+    /*
+     * WOOCOMMERCE
+     */
+    $('.woocommerce a.button').addClass('btn');
+    $('.woocommerce a.button').addClass('btn-primary');
+    $('.woocommerce a.button').removeClass('button');
+
 });
 
 },{"./controllers/contactForm.js":3,"./views/contactForm.js":5,"FastClick":1,"TouchSwipe":2}],5:[function(require,module,exports){
@@ -3102,7 +3112,7 @@ module.exports = Backbone.View.extend({
         this.model.set("postID", this.$el.find("[name=fromID]").val()); //Set the post ID on the model
         //Set the fields on the view
         var self = this;
-        this.$el.find("[data-field]").each(function(){
+        this.$el.find("[data-field]").each(function() {
             self.fields.push({
                 $el: jQuery(this),
                 validation: jQuery(this).attr("data-validation")
@@ -3162,10 +3172,10 @@ module.exports = Backbone.View.extend({
             error_code = e.code;
         switch (error_code) {
             case "isEmpty":
-                $error_el.after("<span class='error'>"+wbData.contactForm.labels.errors[error_code]+"</span>");
+                $error_el.after("<span class='error'>" + wbData.contactForm.labels.errors[error_code] + "</span>");
                 break;
             default:
-                $error_el.after("<span class='error'>"+wbData.contactForm.labels.errors['_default_']+"</span>");
+                $error_el.after("<span class='error'>" + wbData.contactForm.labels.errors['_default_'] + "</span>");
                 break;
         }
         $error_el.parents(".form-group").addClass("has-error");

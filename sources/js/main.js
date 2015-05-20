@@ -80,4 +80,11 @@ jQuery(document).ready(function($) {
         //Disable for Metaslider
         $(".metaslider").addClass("noSwipe");
     }
+    /*
+     * WOOCOMMERCE
+     */
+    $('.woocommerce a.button').addClass('btn');
+    $('.woocommerce a.button').addClass('btn-primary');
+    $('.woocommerce a.button').removeClass('button');
+
 });

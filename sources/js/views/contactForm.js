@@ -15,7 +15,7 @@ module.exports = Backbone.View.extend({
         this.model.set("postID", this.$el.find("[name=fromID]").val()); //Set the post ID on the model
         //Set the fields on the view
         var self = this;
-        this.$el.find("[data-field]").each(function(){
+        this.$el.find("[data-field]").each(function() {
             self.fields.push({
                 $el: jQuery(this),
                 validation: jQuery(this).attr("data-validation")
@@ -75,10 +75,10 @@ module.exports = Backbone.View.extend({
             error_code = e.code;
         switch (error_code) {
             case "isEmpty":
-                $error_el.after("<span class='error'>"+wbData.contactForm.labels.errors[error_code]+"</span>");
+                $error_el.after("<span class='error'>" + wbData.contactForm.labels.errors[error_code] + "</span>");
                 break;
             default:
-                $error_el.after("<span class='error'>"+wbData.contactForm.labels.errors['_default_']+"</span>");
+                $error_el.after("<span class='error'>" + wbData.contactForm.labels.errors['_default_'] + "</span>");
                 break;
         }
         $error_el.parents(".form-group").addClass("has-error");

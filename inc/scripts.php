@@ -33,7 +33,7 @@ function waboot_js_loader() {
 		wp_register_script( 'waboot', wbf_locate_template_uri( 'sources/js/waboot.js' ), array('jquery','backbone','underscore'),false, true);
 		$child_js = is_child_theme() ? wbf_locate_template_uri( 'assets/js/waboot-child.js' ) : false;
 	}else{
-		wp_enqueue_script( 'waboot', wbf_locate_template_uri( 'assets/js/waboot.min.js' ), array('jquery','waboot-plugins'),false, true);
+		wp_enqueue_script( 'waboot', wbf_locate_template_uri( 'assets/js/waboot.min.js' ), array('jquery','backbone','underscore'),false, true);
 		$child_js = is_child_theme() ? wbf_locate_template_uri( 'assets/js/waboot-child.min.js' ) : false;
 	}
 
