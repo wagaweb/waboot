@@ -27,7 +27,9 @@ class Styles_Compiler{
 
 		if (isset($_GET['clear_cache'])) {
 			if (current_user_can('manage_options')) {
+				do_action("wbf/compiler/cache/pre_clean");
 				$this->clear_cache();
+				do_action("wbf/compiler/cache/post_clean");
 				$this->compile();
 			}
 		}
@@ -40,7 +42,9 @@ class Styles_Compiler{
 			if(!$this->can_compile()) throw new CompilerBusyException();
 			update_option('waboot_compiling_flag',1) or add_option('waboot_compiling_flag',1,'',true); //lock the compiler
 			update_option('waboot_compiling_last_attempt',time()) or add_option('waboot_compiling_last_attempt',time(),'',true); //keep note of the current time
+			do_action("wbf/compiler/pre_compile");
 			$this->base_compiler->compile(); //COMPILE with specified compiler!
+			do_action("wbf/compiler/post_compile");
 			update_option('waboot_compiling_flag',0); //release the compiler
 			if ( current_user_can( 'manage_options' ) ) {
 				if(is_admin()){
