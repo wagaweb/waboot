@@ -30,6 +30,29 @@ if ( ! function_exists( 'waboot_setup' ) ):
 		) );
 
 		init_style_compiler();
+
+		//Install the contact form table
+		call_user_func(function(){
+			global $wpdb;
+
+			$table_name = $wpdb->prefix . "wbp_mails";
+			$charset_collate = $wpdb->get_charset_collate();
+
+			$sql = "CREATE TABLE IF NOT EXISTS `".$wpdb->prefix."wb_mails"."`(
+				`id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+				`subject` text NOT NULL,
+				`content` text NOT NULL,
+				`recipient` varchar(255) NOT NULL,
+				`sender_mail` varchar(255) NOT NULL,
+				`sender_info` text NOT NULL,
+				`sourceid` int(11) NOT NULL,
+				`date_created` date NOT NULL,
+				`status` int(1) NOT NULL,
+				PRIMARY KEY id (`id`)
+			)$charset_collate;";
+
+			$wpdb->query($sql);
+		});
 	}
 endif;
 add_action('after_setup_theme', 'waboot_setup', 11);
