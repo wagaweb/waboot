@@ -124,7 +124,7 @@ endif;
 if(!function_exists('wbft_parse_contact_form_data')):
 	/**
 	 * Parse the contact form data before sending the email
-	 * @param $data
+	 * @param $data ($_POST formatted in /sources/js/controllers/contactForm.js)
 	 *
 	 * @return array
 	 */
@@ -149,12 +149,12 @@ endif;
 if(!function_exists('wbft_parse_contact_form_date_for_saving')):
 	/**
 	 * Parse the contact form data before saving the email
-	 * @param $data
+	 * @param $data ($_POST formatted in /sources/js/controllers/contactForm.js)
 	 *
 	 * @return array
 	 */
 	function wbft_parse_contact_form_date_for_saving($data){
-		$to_id = $data['to_id'];
+		$recipient = $data['to'];
 		$subject = $data['subject'];
 		$message = apply_filters("wbft/contact_form/mail/content",$data);
 		$from = $data['from'];
@@ -162,14 +162,14 @@ if(!function_exists('wbft_parse_contact_form_date_for_saving')):
 		$now = new \DateTime();
 		$data = array(
 			'content' => $message,
-			'to' => $to_id,
+			'recipient' => $recipient,
 			'subject' => $subject,
-			'from_mail' => $from['email'],
-			'from_data' => array(
+			'sender_mail' => $from['email'],
+			'sender_info' => serialize(array(
 				'name' => $from['name'],
 				'phone' => $from['phone'],
-			),
-			'fromID' => $post_id,
+			)),
+			'sourceid' => $post_id,
 			'date_created' => $now->format("Y-m-d")
 		);
 		return $data;
