@@ -219,7 +219,7 @@ module.exports = function(grunt) {
     grunt.registerTask('setup', ['bower-install','copy:all','less:dev']); //Setup task
     grunt.registerTask('default', ['watch']); // Default task
     grunt.registerTask('build', ['less:production','less:waboot','jsmin','pot','compress:build']); // Build task
-    grunt.registerTask('js', ['jsbeautifier','browserify:dist']); // Concat and beautify js
+    grunt.registerTask('js', ['browserify:dist']); // generate waboot.js
     grunt.registerTask('jsmin', ['js','uglify']); // Concat, beautify and minify js
 
     // Run bower install
