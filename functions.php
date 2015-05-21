@@ -36,3 +36,11 @@ foreach ($waboot_includes as $file) {
 	require_once $filepath;
 }
 unset($file, $filepath);
+
+/*****************************
+ * UTILS
+ *****************************/
+
+function wbft_wbf_in_use(){
+	return class_exists("WBF");
+}
