@@ -371,34 +371,34 @@ class SlideshowComponent extends \WBF\modules\components\Component{
 				<?php endif; ?>
 			</div>
             <script type="text/javascript">
-                jQuery(document).ready(function(){
-	                /*
-	                 * It is possibile to set an object called owlcarousel_params with some preset params for each carousels id (= $slideshow_post->post_name).
-	                 * You can also edit the owlcarousel_params object in owl.carousel-custom.js (preferred method)
-	                 */
-					if(owlcarousel_params["<?php echo $slideshow_post->post_name; ?>"]){ //If this owlcarousel ID is already present in owlcarousel_params...
-						owlcarousel_params["<?php echo $slideshow_post->post_name; ?>"] = jQuery.extend(owlcarousel_params["<?php echo $slideshow_post->post_name; ?>"],{
-							items: <?php echo get_field('slideshow_items', $post_id); ?>,
-							loop: <?php echo get_field('slideshow_loop', $post_id); ?>,
-							nav: <?php echo get_field('slideshow_navigation', $post_id); ?>,
-							navText: ['<i class="fa fa-chevron-left"></i>','<i class="fa fa-chevron-right"></i>'],
-							dots: <?php echo get_field('slideshow_dots', $post_id); ?>
-						});
-					}else{
-						//... if not...
-						owlcarousel_params["<?php echo $slideshow_post->post_name; ?>"] = {
-							items: <?php echo get_field('slideshow_items', $post_id); ?>,
-							loop: <?php echo get_field('slideshow_loop', $post_id); ?>,
-							nav: <?php echo get_field('slideshow_navigation', $post_id); ?>,
-							navText: ['<i class="fa fa-chevron-left"></i>','<i class="fa fa-chevron-right"></i>'],
-							dots: <?php echo get_field('slideshow_dots', $post_id); ?>
-						};
-					}
-					//Append and init the new owlcarousel (owlcarousels[] is defined in owl.carousel-custom.js)
-	                owlcarousels["#owl-<?php echo $slideshow_post->post_name; ?>"] = jQuery("#owl-<?php echo $slideshow_post->post_name; ?>").owlCarousel(
-						owlcarousel_params["<?php echo $slideshow_post->post_name; ?>"]
-					);
-                });
+	            jQuery(document).ready(function(){
+		            var current_owlcarousel_id = "owl-<?php echo $slideshow_post->post_name; ?>";
+		            /*
+		             * It is possibile to set an object called owlcarousel_params with some preset params for each carousels id (= $slideshow_post->post_name).
+		             * You can also edit the owlcarousel_params object in owl.carousel-custom.js (preferred method)
+		             */
+		            if(owlcarousel_params[current_owlcarousel_id]){
+			            owlcarousel_params[current_owlcarousel_id] = jQuery.extend(owlcarousel_params[current_owlcarousel_id],{
+				            items: <?php echo get_field('slideshow_items', $post_id); ?>,
+				            loop: <?php echo get_field('slideshow_loop', $post_id); ?>,
+				            nav: <?php echo get_field('slideshow_navigation', $post_id); ?>,
+				            navText: ['<i class="fa fa-chevron-left"></i>','<i class="fa fa-chevron-right"></i>'],
+				            dots: <?php echo get_field('slideshow_dots', $post_id); ?>
+			            });
+		            }else{
+			            owlcarousel_params[current_owlcarousel_id] = {
+				            items: <?php echo get_field('slideshow_items', $post_id); ?>,
+				            loop: <?php echo get_field('slideshow_loop', $post_id); ?>,
+				            nav: <?php echo get_field('slideshow_navigation', $post_id); ?>,
+				            navText: ['<i class="fa fa-chevron-left"></i>','<i class="fa fa-chevron-right"></i>'],
+				            dots: <?php echo get_field('slideshow_dots', $post_id); ?>
+			            };
+		            }
+
+		            owlcarousels[current_owlcarousel_id] = jQuery("#"+current_owlcarousel_id).owlCarousel(
+			            owlcarousel_params[current_owlcarousel_id]
+		            );
+	            });
             </script>
 		<?php endif; ?>
 		<?php
