@@ -3007,10 +3007,35 @@ module.exports = Backbone.Model.extend({
     initialize: function() {
         "use strict";
         console.log("It'admin time!");
+        this.do_stuff();
+    },
+    do_stuff: function(){
+        "use strict";
+        var $ = jQuery,
+            $mailtable = $("#waboot-received-mails-view");
+        /**
+         * Init received mails viewerr
+         */
+        if($mailtable.length > 0){
+            var MailListView = require("../views/mailList.js"),
+                MailListModel = require("./mailList.js"),
+                MailWindow = new MailListView({
+                    model: new MailListModel({
+                        emails_data: (function(){
+                            if(!_.isUndefined(wbData.contactForm.mails)){
+                                return jQuery.parseJSON(wbData.contactForm.mails);
+                            }else{
+                                return [];
+                            }
+                        })()
+                    }),
+                    el: $mailtable
+                });
+        }
     }
 });
 
-},{}],5:[function(require,module,exports){
+},{"../views/mailList.js":9,"./mailList.js":6}],5:[function(require,module,exports){
 module.exports = Backbone.Model.extend({
     initialize: function() {
         "use strict";
@@ -3123,7 +3148,33 @@ module.exports = Backbone.Model.extend({
     }
 });
 
-},{"../views/contactForm.js":7,"./contactForm.js":3,"FastClick":1,"TouchSwipe":2}],6:[function(require,module,exports){
+},{"../views/contactForm.js":8,"./contactForm.js":3,"FastClick":1,"TouchSwipe":2}],6:[function(require,module,exports){
+module.exports = Backbone.Model.extend({
+    defaults: {
+        emails_data: [],
+        page: 1,
+        results_per_page: 2,
+        pages_count: 0,
+        emails_count: 0
+    },
+    initialize: function(){
+        "use strict";
+        this.set("emails_count",this.get("emails_data").length);
+        this.set("pages_count",Math.round(this.get("emails_count") / this.get("results_per_page")));
+    },
+    get_emails: function(){
+        "use strict";
+        var offset = (function(page,results_per_page){
+            if(page === 1){
+                return 0;
+            }else{
+                return results_per_page * (page - 1);
+            }
+        })(this.get("page"),this.get("results_per_page"));
+        return this.get("emails_data").slice(offset,this.get("results_per_page"));
+    }
+});
+},{}],7:[function(require,module,exports){
 jQuery(document).ready(function($) {
     "use strict";
     if (wbData.isAdmin) {
@@ -3145,7 +3196,7 @@ jQuery(document).ready(function($) {
     }
 });
 
-},{"./controllers/dashboard.js":4,"./controllers/frontend.js":5}],7:[function(require,module,exports){
+},{"./controllers/dashboard.js":4,"./controllers/frontend.js":5}],8:[function(require,module,exports){
 module.exports = Backbone.View.extend({
     events: {
         "submit": "onSubmit"
@@ -3233,4 +3284,53 @@ module.exports = Backbone.View.extend({
     }
 });
 
-},{}]},{},[6]);
+},{}],9:[function(require,module,exports){
+module.exports = Backbone.View.extend({
+    template: null,
+    events: {
+        "click .next-page": "goToNextPage",
+        "click .prev-page": "goToPrevPage",
+        "click .first-page": "goToFirstPage",
+        "click .last-page": "goToLastPage",
+        "change [name=advanced_enabled]": "render"
+    },
+    initialize: function(){
+        "use strict";
+        this.template = _.template(this.$el.find("#waboot-received-mails-tpl").html());
+        this.render();
+    },
+    render: function(){
+        "use strict";
+        var html;
+
+        html += this.template({
+            mails: this.model.get_emails(),
+            mails_count: this.model.get("emails_count"),
+            pages_count: this.model.get("pages_count"),
+            current_page: this.model.get("page")
+        });
+
+        this.$el.html(html);
+    },
+    goToPage: function(n){
+
+    },
+    goToFirstPage: function(){
+        "use strict";
+        this.goToPage(1);
+    },
+    goToLastPage: function(){
+        "use strict";
+        this.goToPage(this.model.get("pages_count"));
+    },
+    goToNextPage: function(){
+        "use strict";
+        this.goToPage(this.model.get("current_page") + 1);
+    },
+    goToPrevPage: function(){
+        "use strict";
+        this.goToPage(this.model.get("current_page") - 1);
+    }
+});
+
+},{}]},{},[7]);

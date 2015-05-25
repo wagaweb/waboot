@@ -17,8 +17,18 @@ add_action( 'wp_enqueue_scripts', 'waboot_js_loader', 90 );
 add_action( 'admin_enqueue_scripts', 'waboot_enqueue_main_script', 90 );
 
 function waboot_enqueue_main_script(){
-	$wpData = apply_filters("wbft_alter_mainjs_localization",array(
+	global $wpdb;
+
+	$received_mails = is_admin() ? $wpdb->get_results("SELECT * FROM ".$wpdb->prefix."wb_mails",ARRAY_A) : false;
+	if($received_mails){
+		foreach($received_mails as $k => $m){
+			$received_mails[$k]['sender_info'] = unserialize($m['sender_info']);
+		}
+	}
+
+	$wpData = apply_filters("wbft/js/localization",array(
 			'ajaxurl' => admin_url('admin-ajax.php'),
+			'wpurl' => get_bloginfo('wpurl'),
 			'isMobile' => wb_is_mobile(),
 			'isAdmin' => is_admin(),
 			'wp_screen' => function_exists("get_current_screen") ? get_current_screen() : null,
@@ -32,7 +42,8 @@ function waboot_enqueue_main_script(){
 						'isEmpty' => __("This field cannot be empty.","waboot"),
 						'_default_' => __("An error was triggered by this field","waboot"),
 					)
-				)
+				),
+				'mails' => json_encode($received_mails)
 			)
 		)
 	);

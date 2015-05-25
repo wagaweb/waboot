@@ -211,12 +211,12 @@ if(!function_exists('wbft_add_received_mails_submenu')):
 	function wbft_add_received_mails_submenu($parent_slug){
 		$waboot_mail_view = add_submenu_page( $parent_slug, __( "Received mails", "waboot" ), __( "Received mails", "waboot" ), "edit_theme_options", "waboot_received_mails", "wbft_add_received_mails_page" );
 	}
-	if(wbft_wbf_in_use())
+	/*if(wbft_wbf_in_use())
 		add_action( 'wbf_admin_submenu', 'wbft_add_received_mails_submenu', 99 );
 	else
 		add_action('admin_menu', function(){
 			add_submenu_page('tools.php', __( "Received mails", "waboot" ), __( "Received mails", "waboot" ), 'manage_options', "waboot_received_mails", "wbft_add_received_mails_page");
-		});
+		});*/
 endif;
 
 if(!function_exists('wbft_add_received_mails_page')):
@@ -224,83 +224,98 @@ if(!function_exists('wbft_add_received_mails_page')):
 		?>
 		<div class="wrap">
 			<h2><?php _e("Reveived mails","waboot"); ?></h2>
-			<script type="text/template" id="waboot-received-mails-tpl">
-				<table class="wp-list-table widefat fixed striped waboot-received-mails">
-					<thead>
-					<tr>
-						<th scope="col" id="cb" class="manage-column column-cb check-column" style="">
-							<label class="screen-reader-text" for="cb-select-all-1"><?php _e("Select all","waboot"); ?></label><input id="cb-select-all-1" type="checkbox">
-						</th>
-						<th scope="col" id="recipient" class="manage-column column-recipient sortable desc" style="">
-							<a href="http://192.168.1.10/waboot/wp-admin/users.php?orderby=login&amp;order=asc"><span><?php _e("Recipient","waboot"); ?></span><span class="sorting-indicator"></span></a>
-						</th>
-						<th scope="col" id="sender" class="manage-column column-sender sortable desc" style="">
-							<a href="http://192.168.1.10/waboot/wp-admin/users.php?orderby=name&amp;order=asc"><span><?php _e("From","waboot"); ?></span><span class="sorting-indicator"></span></a>
-						</th>
-						<th scope="col" id="source" class="manage-column column-source sortable desc" style="">
-							<a href="http://192.168.1.10/waboot/wp-admin/users.php?orderby=email&amp;order=asc"><span><?php _e("Source","waboot"); ?></span><span class="sorting-indicator"></span></a>
-						</th>
-						<th scope="col" id="date" class="manage-column column-date" style="">
-							<a href="http://192.168.1.10/waboot/wp-admin/users.php?orderby=email&amp;order=asc"><span><?php _e("Date submitted","waboot"); ?></span><span class="sorting-indicator"></span></a>
-						</th>
-						<th scope="col" id="status" class="manage-column column-status num" style="">
-							<a href="http://192.168.1.10/waboot/wp-admin/users.php?orderby=email&amp;order=asc"><span><?php _e("Received status","waboot"); ?></span><span class="sorting-indicator"></span></a>
-						</th>
-					</tr>
-					</thead>
-
-					<tbody id="the-list" data-wp-lists="list:mail">
-						<% _.each(mails,function(m, k, context){ %>
-						<tr id="user-<%= m.id %>">
-							<th scope="row" class="check-column">
-								<label class="screen-reader-text" for="user_<%= m.id %>"><?php _e("Select this mail","waboot"); ?></label>
-								<input type="checkbox" name="mails[]" id="mail_<%= m.id %>" class="mail" value="<%= m.id %>">
+			<div id="waboot-received-mails-view">
+				<script type="text/template" id="waboot-received-mails-tpl">
+					<table class="wp-list-table widefat fixed striped waboot-received-mails">
+						<thead>
+						<tr>
+							<th scope="col" id="cb" class="manage-column column-cb check-column" style="">
+								<label class="screen-reader-text" for="cb-select-all-1"><?php _e("Select all","waboot"); ?></label><input id="cb-select-all-1" type="checkbox">
 							</th>
-							<td class="recipient column-recipient">
-								<strong><%= m.recipient %></strong><br>
-								<div class="row-actions">
-									<span class="delete">
-										<a class="submitdelete" href="users.php?action=delete&amp;user=2&amp;_wpnonce=721318984a"><?php _e("Delete","waboot"); ?></a>
-									</span>
-								</div>
-							</td>
-							<td class="sender column-sender"><%= m.sender_email %></td>
-							<td class="source column-source">
-								<%= m.sorceid %>
-							</td>
-							<td class="date column-date">
-								<%= m.date_created %>
-							</td>
-							<td class="status column-status">
-								<%= m.status %>
-							</td>
+							<th scope="col" id="recipient" class="manage-column column-recipient sortable desc" style="">
+								<a href="http://192.168.1.10/waboot/wp-admin/users.php?orderby=login&amp;order=asc"><span><?php _e("Recipient","waboot"); ?></span><span class="sorting-indicator"></span></a>
+							</th>
+							<th scope="col" id="sender" class="manage-column column-sender sortable desc" style="">
+								<a href="http://192.168.1.10/waboot/wp-admin/users.php?orderby=name&amp;order=asc"><span><?php _e("From","waboot"); ?></span><span class="sorting-indicator"></span></a>
+							</th>
+							<th scope="col" id="source" class="manage-column column-source sortable desc" style="">
+								<a href="http://192.168.1.10/waboot/wp-admin/users.php?orderby=email&amp;order=asc"><span><?php _e("Source","waboot"); ?></span><span class="sorting-indicator"></span></a>
+							</th>
+							<th scope="col" id="date" class="manage-column column-date" style="">
+								<a href="http://192.168.1.10/waboot/wp-admin/users.php?orderby=email&amp;order=asc"><span><?php _e("Date submitted","waboot"); ?></span><span class="sorting-indicator"></span></a>
+							</th>
+							<th scope="col" id="status" class="manage-column column-status num" style="">
+								<a href="http://192.168.1.10/waboot/wp-admin/users.php?orderby=email&amp;order=asc"><span><?php _e("Received status","waboot"); ?></span><span class="sorting-indicator"></span></a>
+							</th>
 						</tr>
-						<% }); %>
-					</tbody>
-					<tfoot>
-					<tr>
-						<th scope="col" id="cb" class="manage-column column-cb check-column" style="">
-							<label class="screen-reader-text" for="cb-select-all-1"><?php _e("Select all","waboot"); ?></label><input id="cb-select-all-1" type="checkbox">
-						</th>
-						<th scope="col" id="username" class="manage-column column-username sortable desc" style="">
-							<a href="http://192.168.1.10/waboot/wp-admin/users.php?orderby=login&amp;order=asc"><span><?php _e("Recipient","waboot"); ?></span><span class="sorting-indicator"></span></a>
-						</th>
-						<th scope="col" id="name" class="manage-column column-name sortable desc" style="">
-							<a href="http://192.168.1.10/waboot/wp-admin/users.php?orderby=name&amp;order=asc"><span><?php _e("From","waboot"); ?></span><span class="sorting-indicator"></span></a>
-						</th>
-						<th scope="col" id="email" class="manage-column column-email sortable desc" style="">
-							<a href="http://192.168.1.10/waboot/wp-admin/users.php?orderby=email&amp;order=asc"><span><?php _e("Source","waboot"); ?></span><span class="sorting-indicator"></span></a>
-						</th>
-						<th scope="col" id="role" class="manage-column column-role" style="">
-							<a href="http://192.168.1.10/waboot/wp-admin/users.php?orderby=email&amp;order=asc"><span><?php _e("Date submitted","waboot"); ?></span><span class="sorting-indicator"></span></a>
-						</th>
-						<th scope="col" id="posts" class="manage-column column-posts num" style="">
-							<a href="http://192.168.1.10/waboot/wp-admin/users.php?orderby=email&amp;order=asc"><span><?php _e("Received status","waboot"); ?></span><span class="sorting-indicator"></span></a>
-						</th>
-					</tr>
-					</tfoot>
-				</table>
-			</script>
+						</thead>
+
+						<tbody id="the-list" data-wp-lists="list:mail">
+							<% _.each(mails,function(m, k, context){ %>
+							<tr id="user-<%= m.id %>">
+								<th scope="row" class="check-column">
+									<label class="screen-reader-text" for="user_<%= m.id %>"><?php _e("Select this mail","waboot"); ?></label>
+									<input type="checkbox" name="mails[]" id="mail_<%= m.id %>" class="mail" value="<%= m.id %>">
+								</th>
+								<td class="recipient column-recipient">
+									<strong><%= m.recipient %></strong><br>
+									<div class="row-actions">
+										<span class="delete">
+											<a class="submitdelete" href="users.php?action=delete&amp;user=2&amp;_wpnonce=721318984a"><?php _e("Delete","waboot"); ?></a>
+										</span>
+									</div>
+								</td>
+								<td class="sender column-sender"><%= m.sender_mail %></td>
+								<td class="source column-source">
+									<a href="<%= wbData.wpurl %>/index.php?p=<%= m.sourceid %>"><%= m.sourceid %></a>
+								</td>
+								<td class="date column-date">
+									<%= m.date_created %>
+								</td>
+								<td class="status column-status">
+									<span class="status-<%= m.status %>"><%= m.status %></span>
+								</td>
+							</tr>
+							<% }); %>
+						</tbody>
+						<tfoot>
+						<tr>
+							<th scope="col" id="cb" class="manage-column column-cb check-column" style="">
+								<label class="screen-reader-text" for="cb-select-all-1"><?php _e("Select all","waboot"); ?></label><input id="cb-select-all-1" type="checkbox">
+							</th>
+							<th scope="col" id="username" class="manage-column column-username sortable desc" style="">
+								<a href="http://192.168.1.10/waboot/wp-admin/users.php?orderby=login&amp;order=asc"><span><?php _e("Recipient","waboot"); ?></span><span class="sorting-indicator"></span></a>
+							</th>
+							<th scope="col" id="name" class="manage-column column-name sortable desc" style="">
+								<a href="http://192.168.1.10/waboot/wp-admin/users.php?orderby=name&amp;order=asc"><span><?php _e("From","waboot"); ?></span><span class="sorting-indicator"></span></a>
+							</th>
+							<th scope="col" id="email" class="manage-column column-email sortable desc" style="">
+								<a href="http://192.168.1.10/waboot/wp-admin/users.php?orderby=email&amp;order=asc"><span><?php _e("Source","waboot"); ?></span><span class="sorting-indicator"></span></a>
+							</th>
+							<th scope="col" id="role" class="manage-column column-role" style="">
+								<a href="http://192.168.1.10/waboot/wp-admin/users.php?orderby=email&amp;order=asc"><span><?php _e("Date submitted","waboot"); ?></span><span class="sorting-indicator"></span></a>
+							</th>
+							<th scope="col" id="posts" class="manage-column column-posts num" style="">
+								<a href="http://192.168.1.10/waboot/wp-admin/users.php?orderby=email&amp;order=asc"><span><?php _e("Received status","waboot"); ?></span><span class="sorting-indicator"></span></a>
+							</th>
+						</tr>
+						</tfoot>
+					</table>
+					<div class="tablenav bottom">
+						<div class="tablenav-pages">
+							<span class="displaying-num"><%= mails_count %> <?php _e("email/s","waboot") ?></span>
+							<span class="pagination-links">
+								<a class="first-page <% if(current_page === 1){ %>disabled<% } %>" title="<?php _e("Go back to the first page","waboot") ?>" href="#">«</a>
+								<a class="prev-page <% if(current_page === 1){ %>disabled<% } %>" title="<?php _e("Go back to the previous page","waboot") ?>" href="#">‹</a>
+								<span class="paging-input"><%= current_page %> di <span class="total-pages"><%= pages_count %></span></span>
+								<a class="next-page <% if(current_page === pages_count){ %>disabled<% } %>" title="<?php _e("Go back to the next page","waboot") ?>" href="#">›</a>
+								<a class="last-page <% if(current_page === pages_count){ %>disabled<% } %>" title="<?php _e("Go back to the last page","waboot") ?>" href="#">»</a>
+							</span>
+						</div>
+						<br class="clear">
+					</div>
+				</script>
+			</div>
 		</div>
 		<?php
 	}
