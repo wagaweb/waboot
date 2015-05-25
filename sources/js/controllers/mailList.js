@@ -10,6 +10,7 @@ module.exports = Backbone.Model.extend({
         "use strict";
         this.set("emails_count",this.get("emails_data").length);
         this.set("pages_count",Math.round(this.get("emails_count") / this.get("results_per_page")));
+        //this.on("change",this.onPageChange());
     },
     get_emails: function(){
         "use strict";
@@ -20,6 +21,25 @@ module.exports = Backbone.Model.extend({
                 return results_per_page * (page - 1);
             }
         })(this.get("page"),this.get("results_per_page"));
-        return this.get("emails_data").slice(offset,this.get("results_per_page"));
+
+        var target = this.get("page") !== this.get("pages_count") ? this.get("results_per_page") : 0;
+
+        if(target !== 0){
+            return this.get("emails_data").slice(offset,target);
+        }else{
+            return this.get("emails_data").slice(offset);
+        }
+    },
+    setPage: function(n){
+        "use strict";
+        var max_pages = this.get("pages_count");
+        if(n < 1){
+            n = 1;
+        }
+        if(n > max_pages){
+            n = max_pages;
+        }
+        this.set("page",n);
+        this.trigger("pageChanged");
     }
 });

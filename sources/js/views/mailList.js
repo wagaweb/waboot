@@ -4,12 +4,12 @@ module.exports = Backbone.View.extend({
         "click .next-page": "goToNextPage",
         "click .prev-page": "goToPrevPage",
         "click .first-page": "goToFirstPage",
-        "click .last-page": "goToLastPage",
-        "change [name=advanced_enabled]": "render"
+        "click .last-page": "goToLastPage"
     },
     initialize: function(){
         "use strict";
         this.template = _.template(this.$el.find("#waboot-received-mails-tpl").html());
+        this.listenTo(this.model,"pageChanged",this.render());
         this.render();
     },
     render: function(){
@@ -26,7 +26,9 @@ module.exports = Backbone.View.extend({
         this.$el.html(html);
     },
     goToPage: function(n){
-
+        "use strict";
+        this.model.setPage(n);
+        this.render();
     },
     goToFirstPage: function(){
         "use strict";
@@ -38,10 +40,10 @@ module.exports = Backbone.View.extend({
     },
     goToNextPage: function(){
         "use strict";
-        this.goToPage(this.model.get("current_page") + 1);
+        this.goToPage(this.model.get("page") + 1);
     },
     goToPrevPage: function(){
         "use strict";
-        this.goToPage(this.model.get("current_page") - 1);
+        this.goToPage(this.model.get("page") - 1);
     }
 });

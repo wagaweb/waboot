@@ -3161,6 +3161,7 @@ module.exports = Backbone.Model.extend({
         "use strict";
         this.set("emails_count",this.get("emails_data").length);
         this.set("pages_count",Math.round(this.get("emails_count") / this.get("results_per_page")));
+        //this.on("change",this.onPageChange());
     },
     get_emails: function(){
         "use strict";
@@ -3171,7 +3172,26 @@ module.exports = Backbone.Model.extend({
                 return results_per_page * (page - 1);
             }
         })(this.get("page"),this.get("results_per_page"));
-        return this.get("emails_data").slice(offset,this.get("results_per_page"));
+
+        var target = this.get("page") !== this.get("pages_count") ? this.get("results_per_page") : 0;
+
+        if(target !== 0){
+            return this.get("emails_data").slice(offset,target);
+        }else{
+            return this.get("emails_data").slice(offset);
+        }
+    },
+    setPage: function(n){
+        "use strict";
+        var max_pages = this.get("pages_count");
+        if(n < 1){
+            n = 1;
+        }
+        if(n > max_pages){
+            n = max_pages;
+        }
+        this.set("page",n);
+        this.trigger("pageChanged");
     }
 });
 },{}],7:[function(require,module,exports){
@@ -3291,12 +3311,12 @@ module.exports = Backbone.View.extend({
         "click .next-page": "goToNextPage",
         "click .prev-page": "goToPrevPage",
         "click .first-page": "goToFirstPage",
-        "click .last-page": "goToLastPage",
-        "change [name=advanced_enabled]": "render"
+        "click .last-page": "goToLastPage"
     },
     initialize: function(){
         "use strict";
         this.template = _.template(this.$el.find("#waboot-received-mails-tpl").html());
+        this.listenTo(this.model,"pageChanged",this.render());
         this.render();
     },
     render: function(){
@@ -3313,7 +3333,9 @@ module.exports = Backbone.View.extend({
         this.$el.html(html);
     },
     goToPage: function(n){
-
+        "use strict";
+        this.model.setPage(n);
+        this.render();
     },
     goToFirstPage: function(){
         "use strict";
@@ -3325,11 +3347,11 @@ module.exports = Backbone.View.extend({
     },
     goToNextPage: function(){
         "use strict";
-        this.goToPage(this.model.get("current_page") + 1);
+        this.goToPage(this.model.get("page") + 1);
     },
     goToPrevPage: function(){
         "use strict";
-        this.goToPage(this.model.get("current_page") - 1);
+        this.goToPage(this.model.get("page") - 1);
     }
 });
 
