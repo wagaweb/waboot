@@ -4,7 +4,7 @@ if(!function_exists('wbf_get_template_part')):
 	function wbf_get_template_part($slug, $name = null){
 		do_action( "get_template_part_{$slug}", $slug, $name );
 
-		$templates = apply_filters("wbf/get_template_part/path:{$slug}",array(),array($slug,$name));
+		$templates = apply_filters("wbf/get_template_part/path:{$slug}",array(),array($slug,$name)); //@deprecated from WBF ^0.11.0
 		$name = (string) $name;
 		if ( '' !== $name )
 			$templates['names'][] = "{$slug}-{$name}.php";
@@ -20,26 +20,41 @@ if(!function_exists('wbf_locate_template')):
 		$located = '';
 		$template_names = $templates['names'];
 		$template_sources = isset($templates['sources']) ? $templates['sources'] : array();
+		$registered_base_paths = apply_filters("wbf/get_template_part/base_paths",array());
 
-		foreach($template_sources as $template_name){
-			if ( !$template_name )
+		//Search into template dir
+		foreach ( (array) $template_names as $template_name ) {
+			if ( ! $template_name ) {
 				continue;
-			if( file_exists($template_name)){
-				$located = $template_name;
+			}
+			if ( file_exists( STYLESHEETPATH . '/' . $template_name ) ) {
+				$located = STYLESHEETPATH . '/' . $template_name;
 				break;
+			} elseif ( file_exists( TEMPLATEPATH . '/' . $template_name ) ) {
+				$located = TEMPLATEPATH . '/' . $template_name;
+				break;
+			} elseif(!empty($registered_base_paths)){
+				//Search into registered base dirs
+				foreach($registered_base_paths as $path){
+					$path = rtrim($path,"/") . '/'.ltrim($template_name,"/");
+					if(file_exists( $path )){
+						$located = $path;
+						break;
+					}
+				}
+				if($located){
+					break;
+				}
 			}
 		}
 
+		//Search into plugins dir
 		if(empty($located)) {
-			foreach ( (array) $template_names as $template_name ) {
-				if ( ! $template_name ) {
+			foreach($template_sources as $template_name){
+				if ( !$template_name )
 					continue;
-				}
-				if ( file_exists( STYLESHEETPATH . '/' . $template_name ) ) {
-					$located = STYLESHEETPATH . '/' . $template_name;
-					break;
-				} elseif ( file_exists( TEMPLATEPATH . '/' . $template_name ) ) {
-					$located = TEMPLATEPATH . '/' . $template_name;
+				if( file_exists($template_name)){
+					$located = $template_name;
 					break;
 				}
 			}
