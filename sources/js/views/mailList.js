@@ -4,7 +4,9 @@ module.exports = Backbone.View.extend({
         "click .next-page": "goToNextPage",
         "click .prev-page": "goToPrevPage",
         "click .first-page": "goToFirstPage",
-        "click .last-page": "goToLastPage"
+        "click .last-page": "goToLastPage",
+        "click #cb": "selectAllCombos",
+        "click .view a": "openContentModal"
     },
     initialize: function(){
         "use strict";
@@ -24,6 +26,15 @@ module.exports = Backbone.View.extend({
         });
 
         this.$el.html(html);
+    },
+    selectAllCombos: function(){
+        "use strict";
+        var checkboxes = this.$el.find(".check-column input[name='mails[]']");
+        checkboxes.prop("checked",!checkboxes.prop("checked"));
+    },
+    openContentModal: function(e){
+        "use strict";
+        var $mail_el = jQuery(e.target);
     },
     goToPage: function(n){
         "use strict";

@@ -211,12 +211,12 @@ if(!function_exists('wbft_add_received_mails_submenu')):
 	function wbft_add_received_mails_submenu($parent_slug){
 		$waboot_mail_view = add_submenu_page( $parent_slug, __( "Received mails", "waboot" ), __( "Received mails", "waboot" ), "edit_theme_options", "waboot_received_mails", "wbft_add_received_mails_page" );
 	}
-	if(wbft_wbf_in_use())
+	/*if(wbft_wbf_in_use())
 		add_action( 'wbf_admin_submenu', 'wbft_add_received_mails_submenu', 99 );
 	else
 		add_action('admin_menu', function(){
 			add_submenu_page('tools.php', __( "Received mails", "waboot" ), __( "Received mails", "waboot" ), 'manage_options', "waboot_received_mails", "wbft_add_received_mails_page");
-		});
+		});*/
 endif;
 
 if(!function_exists('wbft_add_received_mails_page')):
@@ -252,7 +252,7 @@ if(!function_exists('wbft_add_received_mails_page')):
 
 						<tbody id="the-list" data-wp-lists="list:mail">
 							<% _.each(mails,function(m, k, context){ %>
-							<tr id="user-<%= m.id %>">
+							<tr id="mail-<%= m.id %>">
 								<th scope="row" class="check-column">
 									<label class="screen-reader-text" for="user_<%= m.id %>"><?php _e("Select this mail","waboot"); ?></label>
 									<input type="checkbox" name="mails[]" id="mail_<%= m.id %>" class="mail" value="<%= m.id %>">
@@ -260,8 +260,12 @@ if(!function_exists('wbft_add_received_mails_page')):
 								<td class="recipient column-recipient">
 									<strong><%= m.recipient %></strong><br>
 									<div class="row-actions">
+										<span class="view">
+											<a class="submitview" href="#"><?php _e("View","waboot"); ?></a>
+											&nbsp;|&nbsp;
+										</span>
 										<span class="delete">
-											<a class="submitdelete" href="users.php?action=delete&amp;user=2&amp;_wpnonce=721318984a"><?php _e("Delete","waboot"); ?></a>
+											<a class="submitdelete" href="#"><?php _e("Delete","waboot"); ?></a>
 										</span>
 									</div>
 								</td>
@@ -275,6 +279,9 @@ if(!function_exists('wbft_add_received_mails_page')):
 								<td class="status column-status">
 									<span class="status-<%= m.status %>"><%= m.status %></span>
 								</td>
+								<div id="mail-<%= m.id %>-content" title="<%= m.subject %>" data-content>
+									<%= m.content %>
+								</div>
 							</tr>
 							<% }); %>
 						</tbody>
