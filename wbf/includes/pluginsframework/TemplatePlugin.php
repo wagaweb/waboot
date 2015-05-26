@@ -20,6 +20,7 @@ class TemplatePlugin extends Plugin implements TemplatePlugin_Interface {
 		$this->loader->add_filter( 'page_attributes_dropdown_pages_args', $this, "register_templates" );
 		$this->loader->add_filter( 'wp_insert_post_data', $this, "register_templates" );
 		$this->loader->add_filter( 'template_include', $this, "view_template" );
+		$this->loader->add_filter( 'wbf/get_template_part/base_paths', $this, 'add_template_base_path', 10, 2 );
 	}
 
 	public function add_template( $template_name, $label, $path ) {
@@ -160,5 +161,19 @@ class TemplatePlugin extends Plugin implements TemplatePlugin_Interface {
 		}
 
 		return $template;
+	}
+
+	public function add_template_base_path($paths){
+		$new_paths = array(
+			$this->get_dir()."public"
+		);
+
+		foreach($new_paths as $np){
+			if(!in_array($np,$paths)){
+				$paths[] = $np;
+			}
+		}
+
+		return $paths;
 	}
 }
