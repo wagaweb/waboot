@@ -201,7 +201,7 @@ class Plugin {
 	}
 
 	public function get_uri(){
-		return get_bloginfo("url")."wp-content/plugins/".$this->plugin_name."/";
+		return get_bloginfo("wpurl")."/wp-content/plugins/".$this->plugin_name."/";
 	}
 
 
