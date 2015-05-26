@@ -174,9 +174,24 @@
      *  @return	n/a
      */
 
-    jQuery(document).ready(function ($) {
+    /*jQuery(document).ready(function ($) {
         $('.acf-map').each(function () {
             render_map($(this));
         });
+    });*/
+
+    jQuery(document).ready(function ($) {
+        $('.acf-map').each(function () {
+            $(this).find(".marker").hide();
+            $(this).addClass("loading");
+        });
     });
+
+    jQuery(window).bind("load", function() {
+        jQuery('.acf-map').each(function () {
+            jQuery(this).removeClass("loading");
+            render_map(jQuery(this));
+        });
+    });
+
 })(jQuery);
