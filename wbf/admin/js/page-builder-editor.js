@@ -1,4 +1,4 @@
-var WBEditor = function WBEditor(container_id,toolbar_id,blocks_cache_selector,content_cache_selector){
+var WBEditor = function WBEditor(container_id, toolbar_id, blocks_cache_selector, content_cache_selector) {
     "use strict";
     var $ = jQuery;
     this.container_id = container_id;
@@ -7,7 +7,7 @@ var WBEditor = function WBEditor(container_id,toolbar_id,blocks_cache_selector,c
     this.$content_cache = $(content_cache_selector);
 };
 
-(function($){
+(function($) {
     "use strict";
     WBEditor.prototype = {
         /**
@@ -16,23 +16,29 @@ var WBEditor = function WBEditor(container_id,toolbar_id,blocks_cache_selector,c
          * @param rebuild_cache (bool) rebuild the caches? (default: false)
          * @param register_block_actions (bool) register the blocks toolbar actions? (default: true)
          */
-        initialize: function(is_new,rebuild_cache,register_block_actions){
-            if(typeof(is_new)==='undefined'){is_new = true;}
-            if(typeof(register_block_actions)==='undefined'){register_block_actions = true;}
-            if(typeof(rebuild_cache)==='undefined'){rebuild_cache = false;}
+        initialize: function(is_new, rebuild_cache, register_block_actions) {
+            if (typeof(is_new) === 'undefined') {
+                is_new = true;
+            }
+            if (typeof(register_block_actions) === 'undefined') {
+                register_block_actions = true;
+            }
+            if (typeof(rebuild_cache) === 'undefined') {
+                rebuild_cache = false;
+            }
 
-            this.$container = $("#"+this.container_id);
+            this.$container = $("#" + this.container_id);
             this.$main_block = this.$container.find("[data-block=main-container]");
             this.$edit_screen = this.$container.find("[data-editscreen]");
             this.$selected_element = ""; //Current selected element
             this.$editing_element = undefined;
 
-            this.toolbar = new WBToolbar(this.toolbar_id,this);
+            this.toolbar = new WBToolbar(this.toolbar_id, this);
 
-            if(is_new){
+            if (is_new) {
                 this.toolbar.initialize();
             }
-            if(rebuild_cache){
+            if (rebuild_cache) {
                 this.rebuild_cache();
             }
             this.toolbar.disable_all_tools();
@@ -41,8 +47,8 @@ var WBEditor = function WBEditor(container_id,toolbar_id,blocks_cache_selector,c
             this.enable_selection();
             this.enable_sorting();
 
-            if(register_block_actions){
-                this.$main_block.find("[data-block]").each(function(){
+            if (register_block_actions) {
+                this.$main_block.find("[data-block]").each(function() {
                     Myself.enable_block_toolbar_actions($(this));
                 });
             }
@@ -58,7 +64,7 @@ var WBEditor = function WBEditor(container_id,toolbar_id,blocks_cache_selector,c
          * Returns the HTML content of the editor
          * @returns {*}
          */
-        get_content: function(){
+        get_content: function() {
             return this.$main_block.html();
         },
         /**
@@ -74,26 +80,26 @@ var WBEditor = function WBEditor(container_id,toolbar_id,blocks_cache_selector,c
          * @param $caller the jQuery obj that initiated the call to this function
          * @uses this.add_block
          */
-        maybe_add_block: function($caller){
+        maybe_add_block: function($caller) {
             var parent = this.$selected_element,
                 my_block = $caller.attr("data-add"),
                 can_add = false,
                 parent_max_children = parseInt(parent.attr("data-max-children")),
                 parent_children_number = this.get_children_number(parent);
 
-            if($caller.is("option")){
+            if ($caller.is("option")) {
                 if (!$caller.hasClass("disabled") && $caller.attr("value") !== "label") {
                     can_add = true;
                 }
-            }else{
-                if(!$caller.hasClass("disabled")) {
+            } else {
+                if (!$caller.hasClass("disabled")) {
                     can_add = true;
                 }
             }
-            if(can_add){
+            if (can_add) {
                 this.add_block(my_block, parent);
                 parent_children_number++;
-                if(parent_children_number === parent_max_children){
+                if (parent_children_number === parent_max_children) {
                     toolbar.disable_tool(my_block);
                 }
             }
@@ -114,24 +120,24 @@ var WBEditor = function WBEditor(container_id,toolbar_id,blocks_cache_selector,c
 
             //Get parent info
             parent_info = wbpbData.blocks["" + parent_block + ""].info;
-            if(!_.isEmpty(parent_info) && typeof(parent_info) !== "undefined"){
+            if (!_.isEmpty(parent_info) && typeof(parent_info) !== "undefined") {
                 //Get block and append
                 $new_block_obj = $(wbpbData.blocks["" + block_name + ""].layout).attr("id", new_block_id); //create the new object
-                if(!_.isEmpty($new_block_obj) && typeof($new_block_obj) !== "undefined"){
+                if (!_.isEmpty($new_block_obj) && typeof($new_block_obj) !== "undefined") {
                     //adding the object to blocks list input
                     current_blocks["" + new_block_id + ""] = this.generate_block_object($(wbpbData.blocks["" + block_name + ""].layout), new_block_id);
                     this.blocks_cache_overwrite(current_blocks);
                     //adding the block to editor AND Register new mouse actions for current block (uses enable_sorting_and_selection)
                     this.add_children($new_block_obj, $container, parent_info.max_children_per_row);
                     //Calling the callback (if specified)
-                    if(typeof callback !== "undefined"){
+                    if (typeof callback !== "undefined") {
                         callback();
                     }
                     this.content_cache_update(); //Update editor content input
-                }else{
+                } else {
                     console.log("Error: unable to find a correct block to add");
                 }
-            }else{
+            } else {
                 console.log("Error: unable to find the info about container block");
             }
         },
@@ -167,14 +173,14 @@ var WBEditor = function WBEditor(container_id,toolbar_id,blocks_cache_selector,c
          * Returns the current value of $block_cache input
          * @returns {*}
          */
-        get_blocks_cache: function(){
+        get_blocks_cache: function() {
             return this.$block_cache.val();
         },
         /**
          * Returns the current value of $content_cache input
          * @returns {*}
          */
-        get_content_cache: function(){
+        get_content_cache: function() {
             return this.$content_cache.val();
         },
         /**
@@ -190,14 +196,14 @@ var WBEditor = function WBEditor(container_id,toolbar_id,blocks_cache_selector,c
          * @uses this.reset_current_blocks()
          * @uses this.content_cache_update()
          */
-        rebuild_cache: function(){
+        rebuild_cache: function() {
             this.reset_current_blocks();
             this.content_cache_update();
         },
         /**
          * Reset the values of $block and $content _cache inputs
          */
-        clear_cache: function(){
+        clear_cache: function() {
             this.$content_cache.val("");
             this.$block_cache.val("{}");
         },
@@ -352,7 +358,7 @@ var WBEditor = function WBEditor(container_id,toolbar_id,blocks_cache_selector,c
                 my_values = $.parseJSON(my_values_json);
 
             this.show_edit_screen(); //Display the edit screen
-            this.toggle_loading(Myself.$edit_screen,"show");
+            this.toggle_loading(Myself.$edit_screen, "show");
 
             $.post(wbpbData.url, { //Gets block edit content..
                 action: "pagebuilder_get_edit_screen",
@@ -370,7 +376,7 @@ var WBEditor = function WBEditor(container_id,toolbar_id,blocks_cache_selector,c
                     }
                 });
                 //If there are tmce textareas, init them
-                Myself.$edit_screen.find("[data-is-tmce]").each(function(){
+                Myself.$edit_screen.find("[data-is-tmce]").each(function() {
                     var my_id = $(this).attr("id");
                     initTinyMce($(this));
                     //window.tinymce.execCommand('mceAddEditor', true, my_id);
@@ -378,10 +384,10 @@ var WBEditor = function WBEditor(container_id,toolbar_id,blocks_cache_selector,c
                 /*
                  * Register actions on submit and cancel
                  */
-                $(document).on("click","[data-link-action='submit-edit']",function(){
+                $(document).on("click", "[data-link-action='submit-edit']", function() {
                     Myself.save_edit_screen_data();
                 });
-                $(document).on("click","[data-link-action='close-edit']",function(){
+                $(document).on("click", "[data-link-action='close-edit']", function() {
                     Myself.hide_edit_screen();
                     Myself.$edit_screen.find("[data-save]").each(function() {
                         var element_id = $(this).attr("id");
@@ -393,7 +399,7 @@ var WBEditor = function WBEditor(container_id,toolbar_id,blocks_cache_selector,c
                     });
                     Myself.$edit_screen.html("");
                 });
-                Myself.toggle_loading(Myself.$edit_screen,"hide");
+                Myself.toggle_loading(Myself.$edit_screen, "hide");
             });
         },
         save_edit_screen_data: function() {
@@ -403,7 +409,7 @@ var WBEditor = function WBEditor(container_id,toolbar_id,blocks_cache_selector,c
                 my_values = {},
                 my_values_json = "{}";
 
-            Myself.toggle_loading(Myself.$edit_screen,"show");
+            Myself.toggle_loading(Myself.$edit_screen, "show");
 
             Myself.$edit_screen.find("[data-save]").each(function() { //If the field in modal has [data-save] attribute, then get the value and save it in the corresponding editor block
                 var ev = { //<--- current (e)lement (v)alues
@@ -425,7 +431,7 @@ var WBEditor = function WBEditor(container_id,toolbar_id,blocks_cache_selector,c
             });
 
             //Encode the data of the edit screen
-            ajax_json_encode(my_values,function(my_values_json){
+            ajax_json_encode(my_values, function(my_values_json) {
                 //Set the values into data-options of modified block
                 Myself.$editing_element.attr("data-options", my_values_json);
 
@@ -436,12 +442,12 @@ var WBEditor = function WBEditor(container_id,toolbar_id,blocks_cache_selector,c
 
                     if (wbpbData.blocks[block_name].info.preview_from_field !== "") {
                         preview_content = my_values[wbpbData.blocks[block_name].info.preview_from_field];
-                        create_excerpt(preview_content, 12, "...", function(excerpt){
+                        create_excerpt(preview_content, 12, "...", function(excerpt) {
                             $preview_container.html(excerpt);
-                        },function(){
+                        }, function() {
                             close_edit_and_update();
                         });
-                    }else{
+                    } else {
                         close_edit_and_update();
                     }
                 }
@@ -453,7 +459,7 @@ var WBEditor = function WBEditor(container_id,toolbar_id,blocks_cache_selector,c
              * @returns {string}
              * @param success_callback
              */
-            function ajax_json_encode(values,success_callback) {
+            function ajax_json_encode(values, success_callback) {
                 var json = "{}";
                 $.ajax(wbpbData.url, {
                     data: {
@@ -495,13 +501,13 @@ var WBEditor = function WBEditor(container_id,toolbar_id,blocks_cache_selector,c
                         text: content
                     },
                     type: "POST",
-                    complete: function (jqXHR, textStatus) {
+                    complete: function(jqXHR, textStatus) {
                         complete_callback();
                     },
-                    error: function (jqXHR, textStatus, errorThrown) {
+                    error: function(jqXHR, textStatus, errorThrown) {
                         alert("Error!");
                     },
-                    success: function (data, textStatus, jqXHR) {
+                    success: function(data, textStatus, jqXHR) {
                         console.log(data);
                         excerpt = data || "";
                         success_callback(excerpt);
@@ -510,27 +516,27 @@ var WBEditor = function WBEditor(container_id,toolbar_id,blocks_cache_selector,c
                 return excerpt;
             }
 
-            function close_edit_and_update(){
+            function close_edit_and_update() {
                 Myself.content_cache_update(); //Update editor content input
                 //Close the widget
-                Myself.toggle_loading(Myself.$edit_screen,"hide");
+                Myself.toggle_loading(Myself.$edit_screen, "hide");
                 Myself.hide_edit_screen();
             }
         },
-        enable_toolbar: function(){
-            if(this.toolbar){
+        enable_toolbar: function() {
+            if (this.toolbar) {
                 this.toolbar.initialize();
             }
         },
-        enable_block_toolbar_actions: function($block){
+        enable_block_toolbar_actions: function($block) {
             var Myself = this;
             var block_id = $block.attr("id");
 
-            $block.find(".tools:first a").each(function(){
+            $block.find(".tools:first a").each(function() {
                 /*
                  * DELETE
                  */
-                if($(this).hasClass("remove")){
+                if ($(this).hasClass("remove")) {
                     $(this).on("click", function(e) {
                         e.stopImmediatePropagation();
                         e.preventDefault();
@@ -540,7 +546,7 @@ var WBEditor = function WBEditor(container_id,toolbar_id,blocks_cache_selector,c
                 /*
                  * CLONE
                  */
-                if($(this).hasClass("clone")){
+                if ($(this).hasClass("clone")) {
                     $(this).on("click", function(e) {
                         e.preventDefault();
                         var block_name = $block.attr("data-block");
@@ -568,7 +574,7 @@ var WBEditor = function WBEditor(container_id,toolbar_id,blocks_cache_selector,c
                 /*
                  * EDIT
                  */
-                if($(this).hasClass("edit")){
+                if ($(this).hasClass("edit")) {
                     $(this).on("click", function(e) {
                         e.preventDefault();
                         Myself.$editing_element = $(this).closest("[data-block]");
@@ -578,7 +584,7 @@ var WBEditor = function WBEditor(container_id,toolbar_id,blocks_cache_selector,c
                 /*
                  * RESIZE
                  */
-                if($(this).hasClass("resize")){
+                if ($(this).hasClass("resize")) {
                     $(this).on("click", function(e) {
                         var direction = $(this).attr("data-direction");
                         var max_colspan = (function() {
@@ -622,25 +628,27 @@ var WBEditor = function WBEditor(container_id,toolbar_id,blocks_cache_selector,c
                 });
             });
         },
-        enable_selection: function(){
+        enable_selection: function() {
             var Myself = this;
-            $(document).on("click", "#"+Myself.container_id+" [data-selectable]", function(e) {
+            $(document).on("click", "#" + Myself.container_id + " [data-selectable]", function(e) {
                 e.stopPropagation();
                 Myself.make_selected($(this));
             });
         },
-        disable_ui_actions: function(){
+        disable_ui_actions: function() {
             /*$("[data-block]").each(function(index){
              if($(this).hasClass('ui-sortable')){
              $(this).sortable("destroy");
              }
              });*/
-            this.$container.find(".ui-sortable").each(function(){$(this).sortable("destroy")});
+            this.$container.find(".ui-sortable").each(function() {
+                $(this).sortable("destroy")
+            });
             this.$container.find(".tools a").unbind("click");
             this.$container.find(".tools a").off("click");
             this.toolbar.disable_toolbar_actions();
         },
-        make_selected: function($block){
+        make_selected: function($block) {
             $("[data-selectable]").removeClass("ui-selected");
             $block.addClass("ui-selected");
             this.$selected_element = $block; //Set the current selected element
@@ -678,21 +686,21 @@ var WBEditor = function WBEditor(container_id,toolbar_id,blocks_cache_selector,c
         /**
          * Hide the editor toolbar
          */
-        hide_toolbar: function(){
+        hide_toolbar: function() {
             this.toolbar.disable_all_tools();
             this.toolbar.$self.hide();
         },
         /**
          * Show the editor toolbar
          */
-        show_toolbar: function(){
+        show_toolbar: function() {
             this.toolbar.disable_all_tools();
             this.toolbar.$self.show();
         },
         /**
          * Performs the GUI operations for opening an edit screen
          */
-        show_edit_screen: function(){
+        show_edit_screen: function() {
             this.$main_block.hide();
             this.hide_toolbar();
             this.$container.find(".close-icon").hide();
@@ -703,7 +711,7 @@ var WBEditor = function WBEditor(container_id,toolbar_id,blocks_cache_selector,c
         /**
          * Performs the GUI operatios for closing an edit screen
          */
-        hide_edit_screen: function(){
+        hide_edit_screen: function() {
             this.$edit_screen.hide();
             this.$main_block.show();
             this.show_toolbar();
@@ -711,32 +719,32 @@ var WBEditor = function WBEditor(container_id,toolbar_id,blocks_cache_selector,c
             this.$container.find(".wb-pagebuilder-footer").show();
             this.$container.toggleClass("edit-screen");
             //Unbind the click event on save/cancel buttons
-            $(document).off("click","[data-link-action='submit-edit']");
-            $(document).off("click","[data-link-action='close-edit']");
+            $(document).off("click", "[data-link-action='submit-edit']");
+            $(document).off("click", "[data-link-action='close-edit']");
         },
         /**
          * Show / hide loading screen
          * @param $block
          * @param action
          */
-        toggle_loading: function($block,action){
+        toggle_loading: function($block, action) {
             var $loading_window;
 
-            if($("[data-loading-window=cloned]").length === 0){
+            if ($("[data-loading-window=cloned]").length === 0) {
                 $loading_window = $("[data-loading-window]").clone();
-                $loading_window.attr("data-loading-window","cloned");
-            }else{
+                $loading_window.attr("data-loading-window", "cloned");
+            } else {
                 $loading_window = $("[data-loading-window=cloned]");
             }
 
-            if(typeof($block) === "undefined"){
+            if (typeof($block) === "undefined") {
                 $block = this.$container;
             }
 
-            if(action === "show"){
+            if (action === "show") {
                 $block.append($loading_window);
                 $block.addClass("wbpbloading");
-            }else{
+            } else {
                 //$("wb-pagebuilder-editors").after($loading_window);
                 $block.removeClass("wbpbloading");
                 $loading_window.remove();
