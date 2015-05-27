@@ -7,10 +7,10 @@
 *@since 0.1.0
  * @uses wbf_locate_template_uri()
  */
-function waboot_admin_styles($page) {
-    wp_enqueue_style('waboot-admin-style', wbf_locate_template_uri('wbf/admin/css/admin.css'), array(), '1.0.0', 'all');
+function wbf_admin_styles($page) {
+    wp_enqueue_style('waboot-admin-style', wbf_locate_template_uri('wbf/admin/css/admin.css'), array(), false, 'all');
 }
-add_action('admin_enqueue_scripts', 'waboot_admin_styles');
+add_action('admin_enqueue_scripts', 'wbf_admin_styles');
 
 /**
  * Apply custom stylesheet to the wordpress visual editor.
