@@ -3153,15 +3153,20 @@ module.exports = Backbone.Model.extend({
     defaults: {
         emails_data: [],
         page: 1,
-        results_per_page: 10,
-        pages_count: 0,
+        results_per_page: 3,
+        pages_count: 1,
         emails_count: 0
     },
     initialize: function(){
         "use strict";
         this.set("emails_count",this.get("emails_data").length);
-        this.set("pages_count",Math.round(this.get("emails_count") / this.get("results_per_page")));
-        //this.on("change",this.onPageChange());
+        this.setStats();
+    },
+    setStats: function(){
+        this.set("emails_count",this.get("emails_data").length);
+        var pages_count = Math.round(this.get("emails_count") / this.get("results_per_page"));
+        if(pages_count <= 1) pages_count = 1;
+        this.set("pages_count",pages_count);
     },
     get_emails: function(){
         "use strict";
@@ -3192,6 +3197,31 @@ module.exports = Backbone.Model.extend({
         }
         this.set("page",n);
         this.trigger("pageChanged");
+    },
+    deleteMail: function(n){
+       var self = this,
+           data = {
+            action: "wbft_delete_contact_email",
+            id: n
+       };
+
+       var call = jQuery.ajax(wbData.ajaxurl, {
+           data: data,
+           dataType: "json",
+           method: "POST"
+       });
+
+       call.done(function(data, textStatus, jqXHR){
+            //Delete the mail
+            var current_emails_data = self.get("emails_data"),
+                mail_to_delete = _.findWhere(current_emails_data,{id:""+n+""}),
+                new_emails_data = _.difference(current_emails_data,mail_to_delete);
+            self.set("emails_data", new_emails_data);
+            self.setStats();
+            self.trigger("emailDeleted",n);
+       }).fail(function(jqXHR, textStatus, errorThrown){
+            console.log("Failed to delete mail "+n);
+       });
     }
 });
 },{}],7:[function(require,module,exports){
@@ -3314,12 +3344,14 @@ module.exports = Backbone.View.extend({
         "click .first-page": "goToFirstPage",
         "click .last-page": "goToLastPage",
         "click #cb": "selectAllCombos",
-        "click .view a": "openContentModal"
+        "click .view a": "openContentModal",
+        "click .delete a": "deleteMail"
     },
     initialize: function(){
         "use strict";
         this.template = _.template(this.$el.find("#waboot-received-mails-tpl").html());
-        this.listenTo(this.model,"pageChanged",this.render());
+        this.listenTo(this.model,"pageChanged",this.render);
+        this.listenTo(this.model,"emailDeleted",this.hideMailRow);
         this.render();
     },
     render: function(){
@@ -3340,7 +3372,7 @@ module.exports = Backbone.View.extend({
                 if(_.isEmpty(_.findWhere(self.modals,{id:mail_id}))){
                     self.modals.push({
                         id: mail_id,
-                        $el: jQuery(el).dialog({autoOpen:false})
+                        $el: jQuery(el).dialog({autoOpen:false,modal:true,draggable:false,resizable:false})
                     })
                 }
             }
@@ -3362,10 +3394,24 @@ module.exports = Backbone.View.extend({
             target.$el.dialog("open");
         }
     },
+    deleteMail: function(e){
+        var self = this,
+            $mail_el = jQuery(e.target),
+            mail_id = $mail_el.data("delete"),
+            $mail_row = jQuery("#mail-"+mail_id);
+
+        $mail_row.addClass("loading");
+        this.model.deleteMail(mail_id);
+    },
+    hideMailRow: function(id){
+        var self = this,
+            $mailrow = jQuery("#mail-"+id);
+        $mailrow.hide(1000,function(){self.render()});
+    },
     goToPage: function(n){
         "use strict";
         this.model.setPage(n);
-        this.render();
+        //this.render();
     },
     goToFirstPage: function(){
         "use strict";

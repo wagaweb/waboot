@@ -70,7 +70,7 @@ function waboot_enqueue_main_script(){
 
 	if(is_admin()){
 		$screen = get_current_screen();
-		if($screen->base == "waboot-0_page_waboot_received_mails"){
+		if($screen->base == "waboot-0_page_waboot_inbox"){
 			wp_enqueue_style('jquery-ui-style');
 		}
 	}

@@ -209,13 +209,13 @@ endif;
 
 if(!function_exists('wbft_add_received_mails_submenu')):
 	function wbft_add_received_mails_submenu($parent_slug){
-		$waboot_mail_view = add_submenu_page( $parent_slug, __( "Received mails", "waboot" ), __( "Received mails", "waboot" ), "edit_theme_options", "waboot_received_mails", "wbft_add_received_mails_page" );
+		$waboot_mail_view = add_submenu_page( $parent_slug, __( "Inbox", "waboot" ), __( "Inbox", "waboot" ), "edit_theme_options", "waboot_inbox", "wbft_add_received_mails_page" );
 	}
 	if(wbft_wbf_in_use())
 		add_action( 'wbf_admin_submenu', 'wbft_add_received_mails_submenu', 99 );
 	else
 		add_action('admin_menu', function(){
-			add_submenu_page('tools.php', __( "Received mails", "waboot" ), __( "Received mails", "waboot" ), 'manage_options', "waboot_received_mails", "wbft_add_received_mails_page");
+			add_submenu_page('tools.php', __( "Inbox", "waboot" ), __( "Inbox", "waboot" ), 'manage_options', "waboot_inbox", "wbft_add_received_mails_page");
 		});
 endif;
 
@@ -223,10 +223,10 @@ if(!function_exists('wbft_add_received_mails_page')):
 	function wbft_add_received_mails_page($parent_slug){
 		?>
 		<div class="wrap">
-			<h2><?php _e("Reveived mails","waboot"); ?></h2>
+			<h2><?php _e("Inbox","waboot"); ?></h2>
 			<div id="waboot-received-mails-view">
 				<script type="text/template" id="waboot-received-mails-tpl">
-					<table class="wp-list-table widefat fixed striped waboot-received-mails">
+					<table class="wp-list-table widefat fixed striped waboot-inbox">
 						<thead>
 						<tr>
 							<th scope="col" id="cb" class="manage-column column-cb check-column" style="">
@@ -249,9 +249,8 @@ if(!function_exists('wbft_add_received_mails_page')):
 							</th>
 						</tr>
 						</thead>
-
 						<tbody id="the-list" data-wp-lists="list:mail">
-							<% _.each(mails,function(m, k, context){ %>
+							<% _.each(mails,function(m, k){ %>
 							<tr id="mail-<%= m.id %>">
 								<th scope="row" class="check-column">
 									<label class="screen-reader-text" for="user_<%= m.id %>"><?php _e("Select this mail","waboot"); ?></label>
@@ -265,7 +264,7 @@ if(!function_exists('wbft_add_received_mails_page')):
 											&nbsp;|&nbsp;
 										</span>
 										<span class="delete">
-											<a class="submitdelete" href="#"><?php _e("Delete","waboot"); ?></a>
+											<a class="submitdelete" href="#" data-delete="<%= m.id %>"><?php _e("Delete","waboot"); ?></a>
 										</span>
 									</div>
 								</td>

@@ -7,12 +7,14 @@ module.exports = Backbone.View.extend({
         "click .first-page": "goToFirstPage",
         "click .last-page": "goToLastPage",
         "click #cb": "selectAllCombos",
-        "click .view a": "openContentModal"
+        "click .view a": "openContentModal",
+        "click .delete a": "deleteMail"
     },
     initialize: function(){
         "use strict";
         this.template = _.template(this.$el.find("#waboot-received-mails-tpl").html());
-        this.listenTo(this.model,"pageChanged",this.render());
+        this.listenTo(this.model,"pageChanged",this.render);
+        this.listenTo(this.model,"emailDeleted",this.hideMailRow);
         this.render();
     },
     render: function(){
@@ -33,7 +35,7 @@ module.exports = Backbone.View.extend({
                 if(_.isEmpty(_.findWhere(self.modals,{id:mail_id}))){
                     self.modals.push({
                         id: mail_id,
-                        $el: jQuery(el).dialog({autoOpen:false})
+                        $el: jQuery(el).dialog({autoOpen:false,modal:true,draggable:false,resizable:false})
                     })
                 }
             }
@@ -55,10 +57,24 @@ module.exports = Backbone.View.extend({
             target.$el.dialog("open");
         }
     },
+    deleteMail: function(e){
+        var self = this,
+            $mail_el = jQuery(e.target),
+            mail_id = $mail_el.data("delete"),
+            $mail_row = jQuery("#mail-"+mail_id);
+
+        $mail_row.addClass("loading");
+        this.model.deleteMail(mail_id);
+    },
+    hideMailRow: function(id){
+        var self = this,
+            $mailrow = jQuery("#mail-"+id);
+        $mailrow.hide(1000,function(){self.render()});
+    },
     goToPage: function(n){
         "use strict";
         this.model.setPage(n);
-        this.render();
+        //this.render();
     },
     goToFirstPage: function(){
         "use strict";
