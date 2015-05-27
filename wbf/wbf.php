@@ -8,6 +8,10 @@ if (!defined('LESS_LIVE_COMPILING')) {
     define('LESS_LIVE_COMPILING', false);
 }
 
+if (!defined('WBF_ENV')) {
+    define('WBF_ENV', 'production');
+}
+
 define("WBF_DIRECTORY", __DIR__);
 define("WBF_URL", get_template_directory_uri() . "/wbf/");
 define("WBF_ADMIN_DIRECTORY", __DIR__ . "/admin");
