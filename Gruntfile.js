@@ -18,7 +18,8 @@ module.exports = function(grunt) {
                         return 'sources/less/waboot.less';
                     })(),
                     'assets/css/bootstrap-pagebuilder.css': 'sources/less/bootstrap-pagebuilder.less',
-                    'assets/css/theme-options.css': 'sources/less/theme-options-gui.less'
+                    'assets/css/theme-options.css': 'sources/less/theme-options-gui.less',
+                    'assets/css/admin.css': 'sources/less/waboot-admin.less'
                 }
             },
             production:{
