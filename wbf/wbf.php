@@ -29,6 +29,7 @@ add_action( 'wbf_admin_submenu', 'WBF\admin\License_Manager::admin_license_menu_
 add_action( 'admin_bar_menu', 'WBF::add_env_notice', 980 );
 add_action( 'admin_bar_menu', 'WBF::add_admin_compile_button', 990 );
 add_action( 'wp_enqueue_scripts', 'WBF::register_libs' );
+add_action( 'admin_enqueue_scripts', 'WBF::register_libs' );
 add_filter( 'options_framework_location','WBF::of_location_override' );
 add_filter( 'site_transient_update_plugins', 'WBF::unset_unwanted_updates', 999 );
 
@@ -271,18 +272,23 @@ class WBF {
 	}
 
 	static function register_libs(){
+		/*
+		 * STYLES
+		 */
+		wp_register_style("jquery-ui-style","//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css",array(),false,"all");
+		wp_register_style("owlcarousel-css",WBF_URL."/vendor/owlcarousel/assets/owl.carousel.css");
+		/*
+		 * SCRIPTS
+		 */
 		wp_register_script('gmapapi', 'https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false', array('jquery'), false, false );
-
 		if(WBF_ENV == "dev"){
 			wp_register_script("wbfgmapmc",WBF_URL."/sources/js/includes/wbfgmap/markerclusterer.js",array("jquery","gmapapi"),false,true);
 			wp_register_script("wbfgmap",WBF_URL."/sources/js/includes/wbfgmap/acfmap.js",array("jquery","gmapapi","wbfgmapmc"),false,true);
 		}else{
 			wp_register_script("wbfgmap",WBF_URL."/includes/scripts/wbfgmap.min.js",array("jquery","gmapapi"),false,true);
 		}
-
 		wp_register_script("imagesLoaded-js",WBF_URL."/vendor/imagesLoaded/imagesloaded.pkgd.min.js",array(),false,true);
 		wp_register_script("owlcarousel-js",WBF_URL."/vendor/owlcarousel/owl.carousel.min.js",array("jquery"),false,true);
-		wp_register_style("owlcarousel-css",WBF_URL."/vendor/owlcarousel/assets/owl.carousel.css");
 	}
 
 	static function admin_menu(){
