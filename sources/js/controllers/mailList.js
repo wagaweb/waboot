@@ -2,7 +2,7 @@ module.exports = Backbone.Model.extend({
     defaults: {
         emails_data: [],
         page: 1,
-        results_per_page: 2,
+        results_per_page: 10,
         pages_count: 0,
         emails_count: 0
     },

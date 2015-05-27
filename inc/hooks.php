@@ -211,12 +211,12 @@ if(!function_exists('wbft_add_received_mails_submenu')):
 	function wbft_add_received_mails_submenu($parent_slug){
 		$waboot_mail_view = add_submenu_page( $parent_slug, __( "Received mails", "waboot" ), __( "Received mails", "waboot" ), "edit_theme_options", "waboot_received_mails", "wbft_add_received_mails_page" );
 	}
-	/*if(wbft_wbf_in_use())
+	if(wbft_wbf_in_use())
 		add_action( 'wbf_admin_submenu', 'wbft_add_received_mails_submenu', 99 );
 	else
 		add_action('admin_menu', function(){
 			add_submenu_page('tools.php', __( "Received mails", "waboot" ), __( "Received mails", "waboot" ), 'manage_options', "waboot_received_mails", "wbft_add_received_mails_page");
-		});*/
+		});
 endif;
 
 if(!function_exists('wbft_add_received_mails_page')):
@@ -261,7 +261,7 @@ if(!function_exists('wbft_add_received_mails_page')):
 									<strong><%= m.recipient %></strong><br>
 									<div class="row-actions">
 										<span class="view">
-											<a class="submitview" href="#"><?php _e("View","waboot"); ?></a>
+											<a class="submitview" href="#" data-view-content-of="<%= m.id %>"><?php _e("View","waboot"); ?></a>
 											&nbsp;|&nbsp;
 										</span>
 										<span class="delete">
@@ -279,8 +279,8 @@ if(!function_exists('wbft_add_received_mails_page')):
 								<td class="status column-status">
 									<span class="status-<%= m.status %>"><%= m.status %></span>
 								</td>
-								<div id="mail-<%= m.id %>-content" title="<%= m.subject %>" data-content>
-									<%= m.content %>
+								<div id="mail-<%= m.id %>-content" title="<%= m.subject %>" data-content-of="<%= m.id %>" style="display: none;">
+									<%= m.content.replace(/(?:\r\n|\r|\n)/g, '<br />') %>
 								</div>
 							</tr>
 							<% }); %>

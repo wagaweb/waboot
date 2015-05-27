@@ -3153,7 +3153,7 @@ module.exports = Backbone.Model.extend({
     defaults: {
         emails_data: [],
         page: 1,
-        results_per_page: 2,
+        results_per_page: 10,
         pages_count: 0,
         emails_count: 0
     },
@@ -3307,6 +3307,7 @@ module.exports = Backbone.View.extend({
 },{}],9:[function(require,module,exports){
 module.exports = Backbone.View.extend({
     template: null,
+    modals: [],
     events: {
         "click .next-page": "goToNextPage",
         "click .prev-page": "goToPrevPage",
@@ -3323,6 +3324,7 @@ module.exports = Backbone.View.extend({
     },
     render: function(){
         "use strict";
+        var self = this;
         var html;
 
         html += this.template({
@@ -3330,6 +3332,18 @@ module.exports = Backbone.View.extend({
             mails_count: this.model.get("emails_count"),
             pages_count: this.model.get("pages_count"),
             current_page: this.model.get("page")
+        });
+
+        _.each(jQuery(html),function(el){
+            if(jQuery(el).attr("data-content-of")){
+                var mail_id = jQuery(el).data("content-of");
+                if(_.isEmpty(_.findWhere(self.modals,{id:mail_id}))){
+                    self.modals.push({
+                        id: mail_id,
+                        $el: jQuery(el).dialog({autoOpen:false})
+                    })
+                }
+            }
         });
 
         this.$el.html(html);
@@ -3341,7 +3355,12 @@ module.exports = Backbone.View.extend({
     },
     openContentModal: function(e){
         "use strict";
-        var $mail_el = jQuery(e.target);
+        var $mail_el = jQuery(e.target),
+            target = _.findWhere(this.modals,{id:$mail_el.data("view-content-of")});
+
+        if(!_.isEmpty(target)){
+            target.$el.dialog("open");
+        }
     },
     goToPage: function(n){
         "use strict";
