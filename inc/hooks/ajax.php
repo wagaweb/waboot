@@ -3,6 +3,9 @@
 add_action('wp_ajax_wbft_send_contact_email', 'wbft_send_contact_email');
 add_action('wp_ajax_nopriv_wbft_send_contact_email', 'wbft_send_contact_email');
 
+add_action('wp_ajax_wbft_delete_contact_email', 'wbft_delete_contact_email');
+add_action('wp_ajax_nopriv_wbft_delete_contact_email', 'wbft_delete_contact_email');
+
 function wbft_send_contact_email(){
 	$save_mail = function($data){
 		global $wpdb;
@@ -21,6 +24,22 @@ function wbft_send_contact_email(){
 	}else{
 		$save_mail_data['status'] = 0;
 		$save_mail($save_mail_data);
+		wbft_ajax_out(0);
+	}
+}
+
+function wbft_delete_contact_email(){
+	global $wpdb;
+	$id = $_POST['id'];
+
+	if($id){
+		$result = $wpdb->delete( $wpdb->prefix."wb_mails", array( 'id' => $id ) );
+		if($result){
+			wbft_ajax_out(1);
+		}else{
+			wbft_ajax_out(0);
+		}
+	}else{
 		wbft_ajax_out(0);
 	}
 }
