@@ -6,7 +6,7 @@ use WBF\includes\License_Interface;
 
 class License_Manager implements License_Interface{
 
-    function admin_license_menu_item($parent_slug){
+    static function admin_license_menu_item($parent_slug){
         $waboot_license = add_submenu_page( $parent_slug, __( "Waboot License", "wbf" ), __( "License", "wbf" ), "edit_theme_options", "waboot_license", "WBF\admin\License_Manager::license_page" );
     }
 
