@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Waboot 0.11.0\n"
+"Project-Id-Version: Waboot 0.11.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-20 18:28+0200\n"
+"POT-Creation-Date: 2015-05-28 11:15+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -215,6 +215,26 @@ msgstr ""
 msgid "The learn more website"
 msgstr ""
 
+#: components/cookielaw/node_modules/grunt-pot/test/fixtures/some-file.php:3
+msgid "I'm a translatable string."
+msgstr ""
+
+#: components/cookielaw/node_modules/grunt-pot/test/fixtures/some-other-file.php:4
+msgid "Me too"
+msgstr ""
+
+#: components/cookielaw/node_modules/grunt-pot/test/fixtures/some-other-file.php:7
+#, php-format
+msgid "I have %d apple"
+msgid_plural "I have %d apples"
+msgstr[0] ""
+msgstr[1] ""
+
+#. / TRANSLATORS: This should be translated as a shorthand for YEAR-MONTH-DAY using 4, 2 and 2 digits.
+#: components/cookielaw/node_modules/grunt-pot/test/fixtures/some-other-file.php:16
+msgid "yyyy-mm-dd"
+msgstr ""
+
 #: components/isotope/isotope.php:20 components/masonry/masonry.php:20
 msgid "Width Column"
 msgstr ""
@@ -247,15 +267,15 @@ msgstr ""
 msgid "Copy & paste the shortcode directly into any WordPress post or page."
 msgstr ""
 
-#: components/slideshow/slideshow.php:434
+#: components/slideshow/slideshow.php:440
 msgid "Choose the slideshow to display:"
 msgstr ""
 
-#: components/slideshow/slideshow.php:436
+#: components/slideshow/slideshow.php:442
 msgid "Select a slideshow:"
 msgstr ""
 
-#: components/slideshow/slideshow.php:444
+#: components/slideshow/slideshow.php:450
 msgid "No slideshow defined"
 msgstr ""
 
@@ -363,16 +383,76 @@ msgstr ""
 msgid "Display \"Leave a Comment\" text under each post"
 msgstr ""
 
-#: inc/hooks.php:195
+#: inc/hooks.php:199
 msgid "Source link:"
 msgstr ""
 
-#: inc/hooks.php:197
+#: inc/hooks.php:201
 msgid "Client Name:"
 msgstr ""
 
-#: inc/hooks.php:199
+#: inc/hooks.php:203
 msgid "Client Phone:"
+msgstr ""
+
+#: inc/hooks.php:212 inc/hooks.php:218 inc/hooks.php:226
+msgid "Inbox"
+msgstr ""
+
+#: inc/hooks.php:233 inc/hooks.php:290
+msgid "Select all"
+msgstr ""
+
+#: inc/hooks.php:236 inc/hooks.php:293
+msgid "Recipient"
+msgstr ""
+
+#: inc/hooks.php:239 inc/hooks.php:296
+msgid "From"
+msgstr ""
+
+#: inc/hooks.php:242 inc/hooks.php:299
+msgid "Source"
+msgstr ""
+
+#: inc/hooks.php:245 inc/hooks.php:302
+msgid "Date submitted"
+msgstr ""
+
+#: inc/hooks.php:248 inc/hooks.php:305
+msgid "Received status"
+msgstr ""
+
+#: inc/hooks.php:256
+msgid "Select this mail"
+msgstr ""
+
+#: inc/hooks.php:263
+msgid "View"
+msgstr ""
+
+#: inc/hooks.php:267
+msgid "Delete"
+msgstr ""
+
+#: inc/hooks.php:312
+msgid "email/s"
+msgstr ""
+
+#: inc/hooks.php:314
+msgid "Go back to the first page"
+msgstr ""
+
+#: inc/hooks.php:315
+msgid "Go back to the previous page"
+msgstr ""
+
+#: inc/hooks.php:317
+msgid "Go back to the next page"
+msgstr ""
+
+#: inc/hooks.php:318
+msgid "Go back to the last page"
 msgstr ""
 
 #: inc/hooks/entry-footer.php:32
@@ -1035,29 +1115,29 @@ msgstr ""
 msgid "Taxonomy archive"
 msgstr ""
 
-#: inc/scripts.php:16
+#: inc/scripts.php:36
 msgid "New Email from site"
 msgstr ""
 
-#: inc/scripts.php:18
+#: inc/scripts.php:38
 msgid "You email was send successfully. Thanks!"
 msgstr ""
 
-#: inc/scripts.php:19
+#: inc/scripts.php:39
 msgid ""
 "We are sorry: due technical difficulties we was unable to send your message "
 "correctly."
 msgstr ""
 
-#: inc/scripts.php:20
+#: inc/scripts.php:40
 msgid "We are sorry: an error happens when sending your message."
 msgstr ""
 
-#: inc/scripts.php:22
+#: inc/scripts.php:42
 msgid "This field cannot be empty."
 msgstr ""
 
-#: inc/scripts.php:23
+#: inc/scripts.php:43
 msgid "An error was triggered by this field"
 msgstr ""
 
