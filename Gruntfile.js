@@ -148,6 +148,7 @@ module.exports = function(grunt) {
                             "!.bowerrc",
                             "!bower.json",
                             "!Movefile-sample",
+                            "!Movefile",
                             "!builds/**",
                             "!node_modules/**",
                             "!components/**/node_modules/**",
