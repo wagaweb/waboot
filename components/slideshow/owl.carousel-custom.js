@@ -11,6 +11,8 @@ var owlcarousels = []; //Store all carousels
  *       }
  *   });
  *
+ *   ATTENTION: the slideshow id must be prefixed with owl- (example: owl-homepage-slideshow)
+ *
  *   ANIMATIONS:
  *   You can also pass an array called wb_animation, with the animations params. For example:
  *   jQuery.extend(owlcarousel_params,{
@@ -37,11 +39,7 @@ var owlcarousels = []; //Store all carousels
  *       }
  *   });
  */
-var owlcarousel_params = {
-    'owl-slide-home': {
-        autoplay: true
-    }
-};
+var owlcarousel_params = {};
 
 function wb_slideshow_do_anim(item){
     "use strict";
