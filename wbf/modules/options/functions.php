@@ -57,10 +57,10 @@ function of_options_save($option, $old_value, $value){
                 $multidimensional_options[$opt['id']] = $opt;
             }
         }
-        $diff = array_diff_assoc($old_value,$value);
+        $diff = @array_diff_assoc($old_value,$value);
         foreach($multidimensional_options as $id => $opt){
             if(isset($old_value[$id]) && isset($value[$id])){
-                $tdiff = array_diff_assoc($old_value[$id],$value[$id]);
+                $tdiff = @array_diff_assoc($old_value[$id],$value[$id]);
                 if(is_array($tdiff) && !empty($tdiff)){
                     $diff[$id] = $tdiff;
                 }
