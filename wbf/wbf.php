@@ -41,7 +41,7 @@ add_filter( 'site_transient_update_plugins', 'WBF::unset_unwanted_updates', 999 
 
 class WBF {
 
-	const version = "0.8.3";
+	const version = "0.11.2";
 
 	/**
 	 *
