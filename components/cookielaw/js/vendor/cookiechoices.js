@@ -84,7 +84,8 @@
 
     function _setElementText(element, text) {
       if (supportsTextContent) {
-        element.textContent = text;
+        //element.textContent = text;
+        element.innerHTML = text;
       } else {
         element.innerText = text;
       }
