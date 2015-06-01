@@ -109,7 +109,8 @@
       var infoLink = document.createElement('a');
       _setElementText(infoLink, linkText);
       infoLink.href = linkHref;
-      infoLink.target = '_blank';
+      //infoLink.target = '_blank';
+      infoLink.target = '_self';
       infoLink.style.marginLeft = '8px';
       return infoLink;
     }
