@@ -1,44 +1,47 @@
 (function(cookieChoices){
     "use strict";
-    var cookieName = 'displayCookieConsent', //The same of cookieChoices lib
-        cookieItems = document.querySelectorAll('[data-cookieonly]'),
-        scrollFlag = false,
-        data = cookielawData || {
-                str: 'Questo sito utilizza cookie, anche di terze parti, per fornire servizi in linea con le tue preferenze. Utilizzando i nostri servizi, l\'utente accetta le nostre modalità d`uso dei cookie.',
-                close_str: 'OK',
-                learnmore_str: 'Ulteriori informazioni',
-                learnmore_url: '/cookie-policy/',
-                saveonscroll: '1',
-                scroll_limit: '60'
-            };
+    var cookieName = 'displayCookieConsent'; //The same of cookieChoices lib
+    document.addEventListener('DOMContentLoaded', function(event) {
+        var cookieItems = document.querySelectorAll('[data-cookieonly]'),
+            scrollFlag = false,
+            data = cookielawData || {
+                    str: 'Questo sito utilizza cookie, anche di terze parti, per fornire servizi in linea con le tue preferenze. Utilizzando i nostri servizi, l\'utente accetta le nostre modalità d`uso dei cookie.',
+                    close_str: 'OK',
+                    learnmore_str: 'Ulteriori informazioni',
+                    learnmore_url: '/cookie-policy/',
+                    saveonscroll: '1',
+                    scroll_limit: '60'
+                };
 
-    cookieChoices.showCookieConsentBar(data.str, data.close_str, data.learnmore_str, data.learnmore_url);
+        if(!cookieIsPresent()){
+            //Hide cookie items content
+            for (var i = 0; i < cookieItems.length; ++i) {
+                cookieItems[i].innerHTML = "";
+            }
 
-    if(!cookieIsPresent()){
-        //Hide cookie items content
-        for (var i = 0; i < cookieItems.length; ++i) {
-            cookieItems[i].innerHTML = "";
-        }
+            //Show bar
+            cookieChoices.showCookieConsentBar(data.str, data.close_str, data.learnmore_str, data.learnmore_url);
 
-        //Add classes to GUI elements
-        stylize();
+            //Add classes to GUI elements
+            stylize();
 
-        //Bind click event
-        document.querySelector("#cookieChoiceDismiss").addEventListener("click", function(){
-            location.reload();
-        });
-
-        //Bind scroll event
-        if(!location.href.match(/data.learnmore_url/) && Boolean(parseInt(data.saveonscroll))){
-            window.addEventListener("scroll",function(e){
-                if(window.scrollY >= parseInt(data.scroll_limit) && !scrollFlag){
-                    scrollFlag = true;
-                    setCookie();
-                    location.reload();
-                }
+            //Bind click event
+            document.querySelector("#cookieChoiceDismiss").addEventListener("click", function(){
+                location.reload();
             });
+
+            //Bind scroll event
+            if(!location.href.match(/data.learnmore_url/) && Boolean(parseInt(data.saveonscroll))){
+                window.addEventListener("scroll",function(e){
+                    if(window.scrollY >= parseInt(data.scroll_limit) && !scrollFlag){
+                        scrollFlag = true;
+                        setCookie();
+                        location.reload();
+                    }
+                });
+            }
         }
-    }
+    });
 
     function stylize(){
         var body = document.querySelector("body"),
