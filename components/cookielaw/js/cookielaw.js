@@ -3,6 +3,7 @@ jQuery(window).load(function(){
     var $ = jQuery,
         cookieName = 'displayCookieConsent', //The same of cookieChoices lib
         $cookieItems = $("[data-cookieonly]"),
+        scrollFlag = false,
         data = cookielawData || {
                 str: 'Questo sito utilizza cookie, anche di terze parti, per fornire servizi in linea con le tue preferenze. Utilizzando i nostri servizi, l\'utente accetta le nostre modalità d`uso dei cookie.',
                 close_str: 'OK',
@@ -20,6 +21,8 @@ jQuery(window).load(function(){
         });
 
         $("body").addClass("cookiebanner");
+        $("#cookieChoiceInfo").addClass("cookiebanner-slideInUp");
+        $("#cookieChoiceDismiss").addClass("btn btn-primary");
 
         $(document).on("click","#cookieChoiceDismiss",function(){
             location.reload();
@@ -27,7 +30,8 @@ jQuery(window).load(function(){
 
         if(!location.href.match(/data.learnmore_url/) && Boolean(parseInt(data.saveonscroll))){
             $(window).scroll(function(){
-                if($(window).scrollTop() >= parseInt(data.scroll_limit)){
+                if($(window).scrollTop() >= parseInt(data.scroll_limit) && !scrollFlag){
+                    scrollFlag = true;
                     // Set the cookie expiry to one year after today.
                     var expiryDate = new Date();
                     expiryDate.setFullYear(expiryDate.getFullYear() + 1);

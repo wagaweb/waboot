@@ -31,12 +31,12 @@
     var dismissLinkId = 'cookieChoiceDismiss';
 
     function _createHeaderElement(cookieText, dismissText, linkText, linkHref) {
-      var butterBarStyles = 'position:fixed;width:100%;background-color:#eee;' +
-          'margin:0; left:0; top:0;padding:4px;z-index:1000;text-align:center;';
+      //  var butterBarStyles = 'position:fixed;width:100%;background-color:#eee;' +
+      //    'margin:0; left:0; top:0;padding:4px;z-index:1000;text-align:center;';
 
       var cookieConsentElement = document.createElement('div');
       cookieConsentElement.id = cookieConsentId;
-      cookieConsentElement.style.cssText = butterBarStyles;
+      // cookieConsentElement.style.cssText = butterBarStyles;
       cookieConsentElement.appendChild(_createConsentText(cookieText));
 
       if (!!linkText && !!linkHref) {
@@ -102,7 +102,8 @@
       _setElementText(dismissLink, dismissText);
       dismissLink.id = dismissLinkId;
       dismissLink.href = '#';
-      dismissLink.style.marginLeft = '24px';
+      // dismissLink.style.marginLeft = '24px';
+      dismissLink.style.marginLeft = '10px';
       return dismissLink;
     }
 
@@ -177,6 +178,7 @@ jQuery(window).load(function(){
     var $ = jQuery,
         cookieName = 'displayCookieConsent', //The same of cookieChoices lib
         $cookieItems = $("[data-cookieonly]"),
+        scrollFlag = false,
         data = cookielawData || {
                 str: 'Questo sito utilizza cookie, anche di terze parti, per fornire servizi in linea con le tue preferenze. Utilizzando i nostri servizi, l\'utente accetta le nostre modalità d`uso dei cookie.',
                 close_str: 'OK',
@@ -194,6 +196,8 @@ jQuery(window).load(function(){
         });
 
         $("body").addClass("cookiebanner");
+        $("#cookieChoiceInfo").addClass("cookiebanner-slideInUp");
+        $("#cookieChoiceDismiss").addClass("btn btn-primary");
 
         $(document).on("click","#cookieChoiceDismiss",function(){
             location.reload();
@@ -201,7 +205,8 @@ jQuery(window).load(function(){
 
         if(!location.href.match(/data.learnmore_url/) && Boolean(parseInt(data.saveonscroll))){
             $(window).scroll(function(){
-                if($(window).scrollTop() >= parseInt(data.scroll_limit)){
+                if($(window).scrollTop() >= parseInt(data.scroll_limit) && !scrollFlag){
+                    scrollFlag = true;
                     // Set the cookie expiry to one year after today.
                     var expiryDate = new Date();
                     expiryDate.setFullYear(expiryDate.getFullYear() + 1);

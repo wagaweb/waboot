@@ -53,7 +53,7 @@ gulp.task('jsmin', ['concat'] ,function(){
 // Rerun the task when a file changes
 gulp.task('watch', function() {
     gulp.watch(paths.js, ['jsmin']);
-    gulp.watch(paths.scss, ['cssmin']);
+    gulp.watch(paths.css, ['cssmin']);
 });
 
 gulp.task('default', ['jsmin', 'cssmin', 'watch']);

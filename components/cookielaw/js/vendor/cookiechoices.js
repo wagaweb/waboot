@@ -31,12 +31,12 @@
     var dismissLinkId = 'cookieChoiceDismiss';
 
     function _createHeaderElement(cookieText, dismissText, linkText, linkHref) {
-      var butterBarStyles = 'position:fixed;width:100%;background-color:#eee;' +
-          'margin:0; left:0; top:0;padding:4px;z-index:1000;text-align:center;';
+      //  var butterBarStyles = 'position:fixed;width:100%;background-color:#eee;' +
+      //    'margin:0; left:0; top:0;padding:4px;z-index:1000;text-align:center;';
 
       var cookieConsentElement = document.createElement('div');
       cookieConsentElement.id = cookieConsentId;
-      cookieConsentElement.style.cssText = butterBarStyles;
+      // cookieConsentElement.style.cssText = butterBarStyles;
       cookieConsentElement.appendChild(_createConsentText(cookieText));
 
       if (!!linkText && !!linkHref) {
@@ -102,7 +102,8 @@
       _setElementText(dismissLink, dismissText);
       dismissLink.id = dismissLinkId;
       dismissLink.href = '#';
-      dismissLink.style.marginLeft = '24px';
+      // dismissLink.style.marginLeft = '24px';
+      dismissLink.style.marginLeft = '10px';
       return dismissLink;
     }
 

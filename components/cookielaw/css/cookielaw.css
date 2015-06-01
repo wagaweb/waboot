@@ -1,41 +1,63 @@
 #cookieChoiceInfo {
-    background-color: #5A5A5A !important;
-    position: fixed !important;
-    width: 100% !important;
-    margin: 0 !important;
-    left: 0 !important;
-    top: auto !important;
-    bottom: 0 !important;
-    padding: 10px 4px !important;
-    z-index: 1000 !important;
-    text-align: center !important;
-    color: #fff;
+    background-color: #f6f6f6;
+    position: fixed;
+    width: 100%;
+    margin: 0;
+    left: 0;
+    top: auto;
+    bottom: 0;
+    padding: 30px 4px;
+    z-index: 1000;
+    text-align: center;
+    color: #666;
     font-size: 0.9em;
+    border-top: 1px solid #eee;
 }
 
-#cookieChoiceInfo a {
-    display: inline-block;
-    margin-bottom: 0;
-    margin-left: 10px !important;
-    font-weight: normal;
-    text-align: center;
-    vertical-align: middle;
-    touch-action: manipulation;
-    cursor: pointer;
-    background-image: none;
-    border: 1px solid transparent;
-    white-space: nowrap;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
+.cookiebanner {
+    margin-bottom: 100px;
+}
 
-    padding: 1px 5px;
-    font-size: 12px;
-    line-height: 1.5;
-    border-radius: 3px;
+.cookiebanner-slideInUp {
+    -webkit-animation-name: cookiebanner-slideInUp;
+    animation-name: cookiebanner-slideInUp;
+}
 
-    color: #333333;
-    background-color: #ffffff;
-    border-color: #cccccc;
+@-webkit-keyframes cookiebanner-slideInUp {
+    0% {
+        -webkit-transform: translate3d(0, 100%, 0);
+        transform: translate3d(0, 100%, 0);
+        visibility: visible;
+    }
+
+    100% {
+        -webkit-transform: translate3d(0, 0, 0);
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+@keyframes cookiebanner-slideInUp {
+    0% {
+        -webkit-transform: translate3d(0, 100%, 0);
+        transform: translate3d(0, 100%, 0);
+        visibility: visible;
+    }
+
+    100% {
+        -webkit-transform: translate3d(0, 0, 0);
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+@keyframes slideInUp {
+    0% {
+        -webkit-transform: translate3d(0, 100%, 0);
+        transform: translate3d(0, 100%, 0);
+        visibility: visible;
+    }
+
+    100% {
+        -webkit-transform: translate3d(0, 0, 0);
+        transform: translate3d(0, 0, 0);
+    }
 }
