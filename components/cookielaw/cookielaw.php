@@ -38,9 +38,9 @@ class CookielawComponent extends \WBF\modules\components\Component{
 	public function scripts(){
 		//Enqueue scripts
 		if(defined("WABOOT_ENV") && WABOOT_ENV == "dev"){
-			wp_register_script("component-cookielaw", $this->directory_uri . '/js/cookielaw-bundle.js', array('jquery'), false, true);
+			wp_register_script("component-cookielaw", $this->directory_uri . '/js/cookielaw-bundle.js');
 		}else{
-			wp_register_script("component-cookielaw", $this->directory_uri . '/js/cookielaw.min.js', array('jquery'), false, true);
+			wp_register_script("component-cookielaw", $this->directory_uri . '/js/cookielaw.min.js');
 		}
 		wp_localize_script("component-cookielaw", "cookielawData", array(
 			"str" => of_get_option($this->name."_str"),
