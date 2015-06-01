@@ -14,7 +14,7 @@ var plugin_slug = "cookielaw";
 var paths = {
     scripts: ['./js/**/*.js'],
     js: ['./js/vendor/cookiechoices.js','./js/cookielaw.js'],
-    bundlejs: ['./js/bundle.js'],
+    bundlejs: ['./js/cookielaw-bundle.js'],
     scss: './scss/*.scss',
     css: './css/cookielaw.css'
 };
@@ -37,7 +37,7 @@ gulp.task('sass',function(){
 
 gulp.task('concat', function(){
     return gulp.src(paths.js)
-        .pipe(concat('bundle.js'))
+        .pipe(concat('cookielaw-bundle.js'))
         .pipe(gulp.dest('./js'));
 });
 
