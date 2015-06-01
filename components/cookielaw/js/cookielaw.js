@@ -1,8 +1,7 @@
-jQuery(window).load(function(){
+(function(cookieChoices){
     "use strict";
-    var $ = jQuery,
-        cookieName = 'displayCookieConsent', //The same of cookieChoices lib
-        $cookieItems = $("[data-cookieonly]"),
+    var cookieName = 'displayCookieConsent', //The same of cookieChoices lib
+        cookieItems = document.querySelectorAll('[data-cookieonly]'),
         scrollFlag = false,
         data = cookielawData || {
                 str: 'Questo sito utilizza cookie, anche di terze parti, per fornire servizi in linea con le tue preferenze. Utilizzando i nostri servizi, l\'utente accetta le nostre modalità d`uso dei cookie.',
@@ -15,30 +14,65 @@ jQuery(window).load(function(){
 
     cookieChoices.showCookieConsentBar(data.str, data.close_str, data.learnmore_str, data.learnmore_url);
 
-    if(!document.cookie.match(new RegExp(cookieName + '=([^;]+)'))){ //from cookieChoices lib
-        $cookieItems.each(function(){
-            $(this).html("");
-        });
+    if(!cookieIsPresent()){
+        //Hide cookie items content
+        for (var i = 0; i < cookieItems.length; ++i) {
+            cookieItems[i].innerHTML = "";
+        }
 
-        $("body").addClass("cookiebanner");
-        $("#cookieChoiceInfo").addClass("cookiebanner-slideInUp");
-        $("#cookieChoiceDismiss").addClass("btn btn-primary");
+        //Add classes to GUI elements
+        stylize();
 
-        $(document).on("click","#cookieChoiceDismiss",function(){
+        //Bind click event
+        document.querySelector("#cookieChoiceDismiss").addEventListener("click", function(){
             location.reload();
         });
 
+        //Bind scroll event
         if(!location.href.match(/data.learnmore_url/) && Boolean(parseInt(data.saveonscroll))){
-            $(window).scroll(function(){
-                if($(window).scrollTop() >= parseInt(data.scroll_limit) && !scrollFlag){
+            window.addEventListener("scroll",function(e){
+                if(window.scrollY >= parseInt(data.scroll_limit) && !scrollFlag){
                     scrollFlag = true;
-                    // Set the cookie expiry to one year after today.
-                    var expiryDate = new Date();
-                    expiryDate.setFullYear(expiryDate.getFullYear() + 1);
-                    document.cookie = cookieName + '=y; expires=' + expiryDate.toGMTString();
+                    setCookie();
                     location.reload();
                 }
             });
         }
     }
-});
+
+    function stylize(){
+        var body = document.querySelector("body"),
+            cookieChoiceInfo = document.querySelector("#cookieChoiceInfo"),
+            cookieChoiceDismiss = document.querySelector("#cookieChoiceDismiss");
+
+        if(body.classList){
+            body.classList.add("cookiebanner");
+        }else{
+            body.className += ' ' + "cookiebanner";
+        }
+
+        if(cookieChoiceInfo.classList){
+            cookieChoiceInfo.classList.add("cookiebanner-slideInUp");
+        }else{
+            cookieChoiceInfo.className += ' ' + "cookiebanner-slideInUp";
+        }
+
+        if(cookieChoiceDismiss.classList){
+            cookieChoiceDismiss.classList.add("btn");
+            cookieChoiceDismiss.classList.add("btn-primary");
+        }else{
+            body.className += ' ' + "btn btn-primary";
+        }
+    }
+
+    function cookieIsPresent(){
+        return document.cookie.match(new RegExp(cookieName + '=([^;]+)')); //from cookieChoices lib
+    }
+
+    function setCookie(){
+        // Set the cookie expiry to one year after today.
+        var expiryDate = new Date();
+        expiryDate.setFullYear(expiryDate.getFullYear() + 1);
+        document.cookie = cookieName + '=y; expires=' + expiryDate.toGMTString();
+    }
+})(cookieChoices);

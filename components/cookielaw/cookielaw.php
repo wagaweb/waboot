@@ -5,14 +5,43 @@ Description: Cookielaw component by WAGA
 Version: 1.0
 Author: WAGA Team <dev@waga.it>
 Author URI: http://www.waga.it
- */
+*/
 
 class CookielawComponent extends \WBF\modules\components\Component{
 
+	/*public function setup(){
+		parent::setup();
+		add_action("wp_head",array($this,"print_scripts"));
+	}*/
+
+	public function print_scripts(){
+		if(defined("WABOOT_ENV") && WABOOT_ENV == "dev"){
+			$script_uri = $this->directory_uri . '/js/cookielaw-bundle.js';
+		}else{
+			$script_uri = $this->directory_uri . '/js/cookielaw.min.js';
+		}
+		?>
+		<script type="text/javascript">
+			var cookielawData = {
+				"str": '<?php echo of_get_option($this->name."_str") ?>',
+				"close_str": '<?php echo of_get_option($this->name."_close_str") ?>',
+				"learnmore_str": '<?php echo of_get_option($this->name."_learnmore_str") ?>',
+				"learnmore_url": '<?php echo of_get_option($this->name."_learnmore_url") ?>',
+				"saveonscroll": <?php echo (int) of_get_option($this->name."_saveonscroll") ?>,
+				"scroll_limit": <?php echo (int) of_get_option($this->name."_scroll_limit") ?>
+			};
+		</script>
+		<script type="text/javascript" src="<?php echo $script_uri; ?>"></script>
+	<?php
+	}
+
 	public function scripts(){
 		//Enqueue scripts
-		wp_register_script("component-cookielaw", $this->directory_uri . '/js/cookielaw.min.js', array('jquery'), false, true);
-		//wp_register_script("component-cookielaw", $this->directory_uri . '/js/cookielaw-bundle.js', array('jquery'), false, true);
+		if(defined("WABOOT_ENV") && WABOOT_ENV == "dev"){
+			wp_register_script("component-cookielaw", $this->directory_uri . '/js/cookielaw-bundle.js', array('jquery'), false, true);
+		}else{
+			wp_register_script("component-cookielaw", $this->directory_uri . '/js/cookielaw.min.js', array('jquery'), false, true);
+		}
 		wp_localize_script("component-cookielaw", "cookielawData", array(
 			"str" => of_get_option($this->name."_str"),
 			"close_str" => of_get_option($this->name."_close_str"),

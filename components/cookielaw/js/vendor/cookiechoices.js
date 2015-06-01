@@ -22,7 +22,8 @@
 
   var document = window.document;
   // IE8 does not support textContent, so we should fallback to innerText.
-  var supportsTextContent = 'textContent' in document.body;
+  //var supportsTextContent = 'textContent' in document.body;
+  var supportsTextContent = true;
 
   var cookieChoices = (function() {
 

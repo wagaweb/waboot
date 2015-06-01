@@ -32,7 +32,7 @@
 		</div>
 	<?php endif; ?>
 
-	<footer class="site-footer closure" id="colophon" role="contentinfo">
+	<footer data-cookieonly  class="site-footer closure" id="colophon" role="contentinfo">
 		<div id="closure-inner" class="<?php echo of_get_option( 'waboot_closure_width','container' ); ?>">
 
 			<div class="footer-text">
