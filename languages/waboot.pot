@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Waboot 0.11.2\n"
+"Project-Id-Version: Waboot 0.11.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-28 13:37+0200\n"
+"POT-Creation-Date: 2015-06-01 16:33+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -169,50 +169,68 @@ msgstr ""
 msgid "Enter a custom selector for colobox"
 msgstr ""
 
-#: components/cookielaw/cookielaw.php:32 inc/template-tags.php:661
+#: components/cookielaw/cookielaw.php:34 inc/template-tags.php:661
 msgid "Message"
 msgstr ""
 
-#: components/cookielaw/cookielaw.php:34
+#: components/cookielaw/cookielaw.php:36
 msgid "The message to display to the users"
 msgstr ""
 
-#: components/cookielaw/cookielaw.php:36
+#: components/cookielaw/cookielaw.php:38
 msgid ""
 "Cookies help us deliver our services. By continuing to use our website, you "
 "agree to our use of cookies"
 msgstr ""
 
-#: components/cookielaw/cookielaw.php:39
+#: components/cookielaw/cookielaw.php:41
 msgid "Close string"
 msgstr ""
 
-#: components/cookielaw/cookielaw.php:41
+#: components/cookielaw/cookielaw.php:43
 msgid "The close button string"
 msgstr ""
 
-#: components/cookielaw/cookielaw.php:43
+#: components/cookielaw/cookielaw.php:45
 msgid "OK"
 msgstr ""
 
-#: components/cookielaw/cookielaw.php:46
+#: components/cookielaw/cookielaw.php:48
 msgid "Learnmore string"
 msgstr ""
 
-#: components/cookielaw/cookielaw.php:48
+#: components/cookielaw/cookielaw.php:50
 msgid "The learn more string"
 msgstr ""
 
-#: components/cookielaw/cookielaw.php:50
+#: components/cookielaw/cookielaw.php:52
 msgid "Learn more"
 msgstr ""
 
-#: components/cookielaw/cookielaw.php:53
+#: components/cookielaw/cookielaw.php:55
 msgid "Learn more website"
 msgstr ""
 
-#: components/cookielaw/cookielaw.php:55
+#: components/cookielaw/cookielaw.php:57
 msgid "The learn more website"
+msgstr ""
+
+#: components/cookielaw/cookielaw.php:62
+msgid "Save cookie on scroll"
+msgstr ""
+
+#: components/cookielaw/cookielaw.php:64
+msgid "The user preference will be saved on page scroll also"
+msgstr ""
+
+#: components/cookielaw/cookielaw.php:69
+msgid "Scroll pixel limit"
+msgstr ""
+
+#: components/cookielaw/cookielaw.php:71
+msgid ""
+"If the 'save on scroll' option is active, the cookie will be saved after a "
+"page scroll at least of the pixels specified here"
 msgstr ""
 
 #: components/cookielaw/node_modules/grunt-pot/test/fixtures/some-file.php:3
