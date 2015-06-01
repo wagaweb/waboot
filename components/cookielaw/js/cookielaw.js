@@ -18,7 +18,7 @@ jQuery(window).load(function(){
         });
     }
 
-    $(document).bind("click","#cookieChoiceDismiss",function(){
+    $(document).on("click","#cookieChoiceDismiss",function(){
         location.reload();
     });
 });
