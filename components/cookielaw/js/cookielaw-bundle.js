@@ -182,7 +182,7 @@
             scrollFlag = false,
             data = cookielawData || {
                     str: 'Questo sito utilizza cookie, anche di terze parti, per fornire servizi in linea con le tue preferenze. Utilizzando i nostri servizi, l\'utente accetta le nostre modalità d`uso dei cookie.',
-                    close_str: 'OK',
+                    close_str: 'Ok',
                     learnmore_str: 'Ulteriori informazioni',
                     learnmore_url: '/cookie-policy/',
                     saveonscroll: '1',
@@ -238,6 +238,7 @@
 
         if(cookieChoiceDismiss.classList){
             cookieChoiceDismiss.classList.add("btn");
+            cookieChoiceDismiss.classList.add("btn-sm");
             cookieChoiceDismiss.classList.add("btn-primary");
         }else{
             body.className += ' ' + "btn btn-primary";
