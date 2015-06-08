@@ -1,7 +1,7 @@
-/* WOOCOMMERCE */
+// WOOCOMMERCE
 
 
-/* Single Product */
+// Single Product
 
 .woocommerce #content .product div.images,
 .woocommerce .product div.images,
@@ -14,6 +14,21 @@
 
 .woocommerce .product div.images img {
   padding: 10px;
+  border: 1px solid #ddd;
+}
+
+.woocommerce .product div.thumbnails {
+  margin: 10px -5px 0;
+}
+
+.woocommerce .product div.thumbnails a {
+  padding: 0 5px;
+  width: 33.3333%;
+  float: left;
+}
+
+.woocommerce .product div.thumbnails img {
+  padding: 5px;
   border: 1px solid #ddd;
 }
 
@@ -43,6 +58,10 @@
   padding-bottom: 10px;
 }
 
+.woocommerce .product .product-info .price ins {
+  background-color: transparent;
+}
+
 .woocommerce .product .product-info form.cart {
   margin-bottom: 20px;
 }
@@ -57,7 +76,11 @@
 
 
 
-/* Products List */
+// Products List
+
+.woocommerce .products {
+  clear: both;
+}
 
 .woocommerce .products .product img {
   padding: 5px;
@@ -76,7 +99,7 @@
   width: 100px;
   height: 1px;
   background-color: #ddd;
-  margin: 5px 0 10px 0;
+  margin: 5px auto 10px;
   display: block;
 }
 
@@ -89,19 +112,29 @@
   background-color: transparent;
 }
 
+.woocommerce .products .star-rating {
+  display: inline-block;
+  float: none;
+  margin-bottom: 0 auto;
+}
+
 .woocommerce .products .product .price {
   display: block;
   margin-bottom: 10px;
 }
 
+.woocommerce .products .product .price del {
+  display: inline-block;
+}
+
 .woocommerce .woocommerce-result-count,
 .woocommerce-page .woocommerce-result-count {
-  float: none;
+  float: left;
 }
 
 
 
-/* Products Widget */
+// Products Widget
 
 .woocommerce ul.cart_list li,
 .woocommerce ul.product_list_widget li {
@@ -122,7 +155,7 @@
 }
 
 
-/* Cart */
+// Cart
 
 .woocommerce table.cart {
   margin-top: 0;
@@ -150,4 +183,28 @@
 .woocommerce-cart .cart-collaterals .cart_totals table td,
 .woocommerce-cart .cart-collaterals .cart_totals table th {
   padding: 8px;
+}
+
+.woocommerce-cart .cart-collaterals .cart_totals label {
+  display: inline;
+}
+
+
+// Checkout
+
+.woocommerce-checkout #order_review label {
+  display: inline;
+}
+
+.woocommerce-checkout .select2-container {
+  padding: 0;
+  border: 0;
+  height: auto;
+  background-color: transparent;
+}
+
+.woocommerce-checkout #ship-to-different-address label {
+  font-weight: normal;
+  margin: 0;
+  display: inline;
 }

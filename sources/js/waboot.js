@@ -3128,7 +3128,7 @@ module.exports = Backbone.Model.extend({
          * WOOCOMMERCE
          */
         $('.woocommerce a.button').addClass('btn');
-        $('.woocommerce a.button').addClass('btn-primary');
+        $('.woocommerce a.add_to_cart_button').addClass('btn-success');
         $('.woocommerce a.button').removeClass('button');
         $('.woocommerce table.cart').addClass('table-striped');
         $('.woocommerce table.cart').removeClass('shop_table');
