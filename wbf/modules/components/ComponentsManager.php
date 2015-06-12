@@ -508,6 +508,14 @@ class ComponentsManager {
 			                $of_options[$opt_name] = false;
 		                }
 		                if(isset($options_to_update[$opt_name]) && Framework::get_option_type($opt_name) == "multicheck"){
+			                foreach($options_to_update[$opt_name] as $k => $v){
+				                //The current checkbox value does not exists in the theme_options array, so add it...
+				                if(!array_key_exists($k,$of_options[$opt_name])){
+					                $of_options[$opt_name][$k] = "1";
+					                $must_update = true; //in this case, always force update
+				                }
+			                }
+			                //Now se to "false" all disabled checkbox, and to "1" all enabled checkbox
 			                foreach($of_options[$opt_name] as $k => $v){
 				                if(!isset($options_to_update[$opt_name][$k])){
 					                $options_to_update[$opt_name][$k] = false;
