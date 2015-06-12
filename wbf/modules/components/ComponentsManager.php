@@ -500,18 +500,31 @@ class ComponentsManager {
             $must_update = false;
             if(isset($_POST[$of_config_id])){
 	            $options_to_update = $_POST[$of_config_id];
-                foreach($of_options as $opt_name => $opt_value){
+	            //Add to $ootions_to_update the disabled checkbox:
+	            foreach($of_options as $opt_name => $opt_value){
 	                if($is_active_component_option($opt_name)){
-		                if(!isset($options_to_update[$opt_name])){
-			                $options_to_update[$opt_name] = ""; //If an option does not exists in $_POST then, it is a checkbox that was set to 0, so change the value...
-			                $of_options[$opt_name] = "";
-			                $must_update = true;
-		                }else{
-			                $of_options[$opt_name] = $options_to_update[$opt_name];
-			                $must_update = true;
+		                if(!isset($options_to_update[$opt_name]) && Framework::get_option_type($opt_name) == "checkbox"){
+			                $options_to_update[$opt_name] = false; //If an option does not exists in $_POST then, it is a checkbox that was set to 0, so change the value...
+			                $of_options[$opt_name] = false;
+		                }
+		                if(isset($options_to_update[$opt_name]) && Framework::get_option_type($opt_name) == "multicheck"){
+			                foreach($of_options[$opt_name] as $k => $v){
+				                if(!isset($options_to_update[$opt_name][$k])){
+					                $options_to_update[$opt_name][$k] = false;
+				                }else{
+					                $options_to_update[$opt_name][$k] = "1";
+				                }
+			                }
 		                }
 	                }
                 }
+	            //Check if we must update something...
+	            foreach($options_to_update as $opt_name => $opt_value){
+		            if(isset($of_options[$opt_name]) && $of_options[$opt_name] != $opt_value ){
+			            $of_options[$opt_name] = $opt_value;
+			            $must_update = true;
+		            }
+	            }
             }
             if($must_update)
 	            Framework::update_theme_options($of_options);

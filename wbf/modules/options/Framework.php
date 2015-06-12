@@ -94,6 +94,14 @@ class Framework extends \Options_Framework {
 		return false;
 	}
 
+	static function get_option_type($id){
+		$option = self::get_option_object($id);
+		if(isset($option['type']))
+			return $option['type'];
+		else
+			return false;
+	}
+
 	static function get_options_root_id(){
 		$opt_name = get_option('optionsframework');
 		if(isset($opt_name['id'])){
