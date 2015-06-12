@@ -3,6 +3,8 @@
 namespace WBF\modules\components;
 
 
+use WBF\modules\options\Framework;
+
 class ComponentsManager {
 
     static $last_error = "";
@@ -479,28 +481,48 @@ class ComponentsManager {
         $registered_components = self::getAllComponents();
 
         if(isset($_POST['submit-components-options'])){
-            $of_config = get_option( 'optionsframework' );
-            $of_options = get_option( $of_config['id'] );
+	        $is_active_component_option = function($opt_name) use($registered_components){
+		        preg_match("/^([a-zA-Z0-9]+)_/",$opt_name,$matches);
+		        if(isset($matches[1])){
+			        $component_name = $matches[1];
+			        if(isset($registered_components[$component_name])){
+				        $component_data = $registered_components[$component_name];
+				        if(self::is_active($component_data) && array_key_exists($component_name,$registered_components)){
+					        return true;
+				        }
+			        }
+		        }
+		        return false;
+	        };
+
+            $of_config_id = Framework::get_options_root_id();
+            $of_options = Framework::get_options_values();
             $must_update = false;
-            if(isset($_POST[$of_config['id']])){
-                foreach($_POST[$of_config['id']] as $opt_name => $opt_value){
-                    preg_match("/^([a-zA-Z0-9]+)_/",$opt_name,$matches);
-                    $component_name = $matches[1];
-                    $component_data = $registered_components[$component_name];
-                    if($component_data && self::is_active($component_data)){
-                        $of_options[$opt_name] = $opt_value;
-                        $must_update = true;
-                    }
+            if(isset($_POST[$of_config_id])){
+	            $options_to_update = $_POST[$of_config_id];
+                foreach($of_options as $opt_name => $opt_value){
+	                if($is_active_component_option($opt_name)){
+		                if(!isset($options_to_update[$opt_name])){
+			                $options_to_update[$opt_name] = ""; //If an option does not exists in $_POST then, it is a checkbox that was set to 0, so change the value...
+			                $of_options[$opt_name] = "";
+			                $must_update = true;
+		                }else{
+			                $of_options[$opt_name] = $options_to_update[$opt_name];
+			                $must_update = true;
+		                }
+	                }
                 }
             }
             if($must_update)
-                update_option($of_config['id'],$of_options);
+	            Framework::update_theme_options($of_options);
 
             //Set the flag that tells that the components was saved at least once
             $theme = wp_get_theme();
             $components_already_saved = (array) get_option( "wbf_components_saved_once", array() );
-            $components_already_saved[] = $theme->get_stylesheet();
-            update_option("wbf_components_saved_once", $components_already_saved);
+            if(!in_array($theme->get_stylesheet(),$components_already_saved)){
+		        $components_already_saved[] = $theme->get_stylesheet();
+		        update_option("wbf_components_saved_once", $components_already_saved);
+            }
         }
 
         $components_options = apply_filters("wbf_components_options",array());

@@ -33,11 +33,11 @@ function of_check_options_deps(){
 /**
  * Performs actions during Theme Option saving (called during "update_option")
  *
-*@param $option
+ * @param $option
  * @param $old_value
  * @param $value
  *
-*@uses of_generate_less_file()
+ * @uses of_generate_less_file()
  * @throws \Exception
  */
 function of_options_save($option, $old_value, $value){

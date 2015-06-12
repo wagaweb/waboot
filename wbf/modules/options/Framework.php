@@ -57,6 +57,11 @@ class Framework extends \Options_Framework {
         return $options;
     }
 
+	static function update_theme_options($values){
+		$id = self::get_options_root_id();
+		return update_option($id,$values);
+	}
+
 	static function set_option_value($id,$value){
 		global $wp_settings_errors;
 		$bak_settings_errors = get_settings_errors();
