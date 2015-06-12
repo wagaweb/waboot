@@ -36,7 +36,7 @@ if ( 0 == ( $woocommerce_loop['loop'] - 1 ) % $woocommerce_loop['columns'] || 1 
 	$classes[] = 'first';
 if ( 0 == $woocommerce_loop['loop'] % $woocommerce_loop['columns'] )
 	$classes[] = 'last';
-$classes[] = 'col-sm-3';
+$classes[] = of_get_option( 'waboot_woocommerce_cat_items', 'col-sm-3' );
 ?>
 <div <?php post_class( $classes ); ?>>
 

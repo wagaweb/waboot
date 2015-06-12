@@ -34,7 +34,7 @@ if ( post_password_required() ) {
 <article itemscope itemtype="<?php echo woocommerce_get_product_schema(); ?>" id="product-<?php the_ID(); ?>" <?php post_class(); ?>>
 
 <div class="row">
-    <div class="col-sm-5 product-gallery">
+    <div class="col-sm-6 product-gallery">
         <?php
         /**
          * woocommerce_before_single_product_summary hook
@@ -46,7 +46,7 @@ if ( post_password_required() ) {
         ?>
     </div><!-- end .product-gallery -->
 
-    <div class="col-sm-7 product-info">
+    <div class="col-sm-6 product-info">
 
         <?php echo get_the_term_list( $post->ID, 'product_cat', '<p class="prod-category">', ' - ', '</p>' ); ?>
 

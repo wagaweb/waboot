@@ -516,15 +516,16 @@ if(!function_exists("waboot_breadcrumb")):
 	        }else{
 		        $bc_locations = of_get_option('waboot_breadcrumb_locations', array('archive', 'tag', 'tax'));
 		        $show_bc = false;
-		        if(is_tag() && in_array('tag',$bc_locations)){
+		        if(is_tag() && array_key_exists('tag',$bc_locations) && $bc_locations['tag']=='1' ){
 			        $show_bc = true;
-		        }elseif(is_tax() && in_array('tax',$bc_locations)){
+		        }elseif(is_tax() && array_key_exists('tax',$bc_locations) && $bc_locations['tax']=='1'){
 			        $show_bc = true;
-		        }elseif(is_archive() && in_array('archive',$bc_locations) ){
+		        }elseif(is_archive() && array_key_exists('archive',$bc_locations) && $bc_locations['archive']=='1' ){
 			        $show_bc = true;
 		        }
 
 		        if($show_bc) waboot_breadcrumb_trail($args);
+
 	        }
         }
     }
@@ -564,7 +565,9 @@ endif;
 
 if(!function_exists("waboot_get_body_layout")):
     function waboot_get_body_layout(){
-        if(is_home() || is_archive()){
+        if(function_exists('is_product_category') && is_product_category()){
+            return of_get_option('waboot_woocommerce_sidebar_layout');
+        }elseif(is_home() || is_archive()){
             return of_get_option('waboot_blogpage_sidebar_layout');
         }else{
             return get_behavior('layout');

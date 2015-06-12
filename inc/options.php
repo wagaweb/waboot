@@ -815,13 +815,51 @@ function optionsframework_options() {
         'options' => array('top' => __("Above primary","waboot"), 'bottom' => __("Below primary","waboot"))
     );
 
-    /*$options[] = array(
-        'name' => __( 'Display slideshow', 'waboot' ),
-        'desc' => __( 'Check this box to display the slideshow selected below.', 'waboot' ),
-        'id'   => 'waboot_blogpage_displayslideshow',
+    /*
+     * WOOCOMMERCE PAGE TAB
+     */
+
+    $options[] = array(
+        'name' => __( 'Woocommerce', 'waboot' ),
+        'type' => 'heading'
+    );
+
+    $options[] = array(
+        'name' => __('Woocommerce Layout', 'waboot'),
+        'desc' => __('Select Woocommerce page layout', 'waboot'),
+        'id' => 'waboot_woocommerce_sidebar_layout',
+        'std' => $sidebar_layouts['default'],
+        'type' => $opt_type,
+        'options' => $final_sidebar_layouts
+    );
+
+    $options[] = array(
+        'name' => __( 'Display Woocommerce page title', 'waboot' ),
+        'desc' => __( 'Check this box to show page title.', 'waboot' ),
+        'id'   => 'waboot_woocommerce_displaytitle',
         'std'  => '1',
         'type' => 'checkbox'
-    );*/
+    );
+
+    $options[] = array(
+        'name' => __('Title position', 'waboot'),
+        'desc' => __('Select where to display page title', 'waboot'),
+        'id' => 'waboot_woocommerce_title_position',
+        'std' => 'top',
+        'type' => 'select',
+        'options' => array('top' => __("Above primary","waboot"), 'bottom' => __("Below primary","waboot"))
+    );
+
+    $options[] = array(
+        'name' => __('Items for Row', 'waboot'),
+        'desc' => __('How many items display for row', 'waboot'),
+        'id' => 'waboot_woocommerce_cat_items',
+        'std' => 'col-sm-3',
+        'type' => 'select',
+        'options' => array('col-sm-3' => '4', 'col-sm-4' => '3')
+    );
+
+
 
     /*
      * POST META TAB

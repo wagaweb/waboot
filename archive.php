@@ -8,17 +8,17 @@
 
 get_header();
 ?>
-	<section id="main-wrap" class="<?php echo apply_filters( 'waboot_mainwrap_container_class', 'content-area col-sm-8' ); ?>">
+	<div id="main-wrap" class="<?php echo apply_filters( 'waboot_mainwrap_container_class', 'content-area col-sm-8' ); ?>">
 		<main id="main" class="site-main" role="main">
 			<?php if (of_get_option('waboot_blogpage_title_position') == "bottom" && of_get_option('waboot_blogpage_displaytitle') == "1") : ?>
-				<header class="page-header">
+				<div class="page-header">
 				<?php
 					do_action( 'waboot_archive_page_title', "<h1 class=\"page-title\">", "</h1>" );
 					$term_description = term_description();
 					if ( ! empty( $term_description ) )
 						printf( '<div class="taxonomy-description">%s</div>', $term_description );
 				?>
-				</header>
+				</div>
 			<?php endif; ?>
 			<?php
 				if(have_posts()){
@@ -54,7 +54,7 @@ get_header();
 					get_template_part( '/templates/parts/content', 'none' );
 				} //have_posts ?>
 		</main><!-- #main -->
-	</section><!-- #main-wrap -->
+	</div><!-- #main-wrap -->
 <?php
 get_sidebar();
 get_footer(); ?>
