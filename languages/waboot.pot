@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Waboot 0.11.3\n"
+"Project-Id-Version: Waboot 0.12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-06-01 16:33+0200\n"
+"POT-Creation-Date: 2015-06-12 15:46+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -169,65 +169,65 @@ msgstr ""
 msgid "Enter a custom selector for colobox"
 msgstr ""
 
-#: components/cookielaw/cookielaw.php:34 inc/template-tags.php:661
+#: components/cookielaw/cookielaw.php:63 inc/template-tags.php:664
 msgid "Message"
 msgstr ""
 
-#: components/cookielaw/cookielaw.php:36
+#: components/cookielaw/cookielaw.php:65
 msgid "The message to display to the users"
 msgstr ""
 
-#: components/cookielaw/cookielaw.php:38
+#: components/cookielaw/cookielaw.php:67
 msgid ""
 "Cookies help us deliver our services. By continuing to use our website, you "
 "agree to our use of cookies"
 msgstr ""
 
-#: components/cookielaw/cookielaw.php:41
+#: components/cookielaw/cookielaw.php:70
 msgid "Close string"
 msgstr ""
 
-#: components/cookielaw/cookielaw.php:43
+#: components/cookielaw/cookielaw.php:72
 msgid "The close button string"
 msgstr ""
 
-#: components/cookielaw/cookielaw.php:45
+#: components/cookielaw/cookielaw.php:74
 msgid "OK"
 msgstr ""
 
-#: components/cookielaw/cookielaw.php:48
+#: components/cookielaw/cookielaw.php:77
 msgid "Learnmore string"
 msgstr ""
 
-#: components/cookielaw/cookielaw.php:50
+#: components/cookielaw/cookielaw.php:79
 msgid "The learn more string"
 msgstr ""
 
-#: components/cookielaw/cookielaw.php:52
+#: components/cookielaw/cookielaw.php:81
 msgid "Learn more"
 msgstr ""
 
-#: components/cookielaw/cookielaw.php:55
+#: components/cookielaw/cookielaw.php:84
 msgid "Learn more website"
 msgstr ""
 
-#: components/cookielaw/cookielaw.php:57
+#: components/cookielaw/cookielaw.php:86
 msgid "The learn more website"
 msgstr ""
 
-#: components/cookielaw/cookielaw.php:62
+#: components/cookielaw/cookielaw.php:91
 msgid "Save cookie on scroll"
 msgstr ""
 
-#: components/cookielaw/cookielaw.php:64
+#: components/cookielaw/cookielaw.php:93
 msgid "The user preference will be saved on page scroll also"
 msgstr ""
 
-#: components/cookielaw/cookielaw.php:69
+#: components/cookielaw/cookielaw.php:98
 msgid "Scroll pixel limit"
 msgstr ""
 
-#: components/cookielaw/cookielaw.php:71
+#: components/cookielaw/cookielaw.php:100
 msgid ""
 "If the 'save on scroll' option is active, the cookie will be saved after a "
 "page scroll at least of the pixels specified here"
@@ -313,7 +313,7 @@ msgstr ""
 msgid "No"
 msgstr ""
 
-#: inc/behaviors.php:29 inc/options.php:810
+#: inc/behaviors.php:29 inc/options.php:810 inc/options.php:845
 msgid "Title position"
 msgstr ""
 
@@ -321,11 +321,11 @@ msgstr ""
 msgid "Default title positioning in pages"
 msgstr ""
 
-#: inc/behaviors.php:34 inc/options.php:815
+#: inc/behaviors.php:34 inc/options.php:815 inc/options.php:850
 msgid "Above primary"
 msgstr ""
 
-#: inc/behaviors.php:38 inc/options.php:815
+#: inc/behaviors.php:38 inc/options.php:815 inc/options.php:850
 msgid "Below primary"
 msgstr ""
 
@@ -931,205 +931,229 @@ msgstr ""
 msgid "Display Blog page title"
 msgstr ""
 
-#: inc/options.php:803
+#: inc/options.php:803 inc/options.php:838
 msgid "Check this box to show page title."
 msgstr ""
 
-#: inc/options.php:811
+#: inc/options.php:811 inc/options.php:846
 msgid "Select where to display page title"
 msgstr ""
 
-#: inc/options.php:831
-msgid "Post Meta"
+#: inc/options.php:823
+msgid "Woocommerce"
 msgstr ""
 
-#: inc/options.php:836
-msgid "Show content navigation above posts?"
+#: inc/options.php:828
+msgid "Woocommerce Layout"
+msgstr ""
+
+#: inc/options.php:829
+msgid "Select Woocommerce page layout"
 msgstr ""
 
 #: inc/options.php:837
+msgid "Display Woocommerce page title"
+msgstr ""
+
+#: inc/options.php:854
+msgid "Items for Row"
+msgstr ""
+
+#: inc/options.php:855
+msgid "How many items display for row"
+msgstr ""
+
+#: inc/options.php:869
+msgid "Post Meta"
+msgstr ""
+
+#: inc/options.php:874
+msgid "Show content navigation above posts?"
+msgstr ""
+
+#: inc/options.php:875
 msgid ""
 "Displays links to next and previous posts above the current post and above "
 "the posts on the index page. Default is hide. Check this box to show content "
 "nav above posts."
 msgstr ""
 
-#: inc/options.php:844
+#: inc/options.php:882
 msgid "Show content navigation below posts?"
 msgstr ""
 
-#: inc/options.php:845
+#: inc/options.php:883
 msgid ""
 "Displays links to next and previous posts below the current post and below "
 "the posts on the index page. Default is show. Uncheck this box to hide "
 "content nav above posts."
 msgstr ""
 
-#: inc/options.php:852
+#: inc/options.php:890
 msgid "Show post author?"
 msgstr ""
 
-#: inc/options.php:853
+#: inc/options.php:891
 msgid ""
 "Displays the post author. Default is show. Uncheck this box to hide the post "
 "author."
 msgstr ""
 
-#: inc/options.php:860
+#: inc/options.php:898
 msgid "Show published date?"
 msgstr ""
 
-#: inc/options.php:861
+#: inc/options.php:899
 msgid ""
 "Displays the date the article was posted. Default is show. Uncheck this box "
 "to hide post published date."
 msgstr ""
 
-#: inc/options.php:868
+#: inc/options.php:906
 msgid "Show post categories?"
 msgstr ""
 
-#: inc/options.php:869
+#: inc/options.php:907
 msgid ""
 "Displays the categories in which a post was published. Default is show. "
 "Uncheck this box to hide post categories."
 msgstr ""
 
-#: inc/options.php:876
+#: inc/options.php:914
 msgid "Show post tags?"
 msgstr ""
 
-#: inc/options.php:877
+#: inc/options.php:915
 msgid ""
 "Displays the tags attached to a post. Default is show. Uncheck this box to "
 "hide post tags."
 msgstr ""
 
-#: inc/options.php:884
+#: inc/options.php:922
 msgid "Show link for # of comments / Leave a comment?"
 msgstr ""
 
-#: inc/options.php:885
+#: inc/options.php:923
 msgid ""
 "Displays the number of comments and/or a Leave a comment message on posts. "
 "Default is show. Uncheck this box to hide."
 msgstr ""
 
-#: inc/options.php:896
+#: inc/options.php:934
 msgid "Favicons"
 msgstr ""
 
-#: inc/options.php:901
+#: inc/options.php:939
 msgid "Icon"
 msgstr ""
 
-#: inc/options.php:902 inc/options.php:914 inc/options.php:926
+#: inc/options.php:940 inc/options.php:952 inc/options.php:964
 msgid "Upload a favicon (only .png and .ico files are allowed)."
 msgstr ""
 
-#: inc/options.php:913
+#: inc/options.php:951
 msgid "Apple Touch 120x120 Icon"
 msgstr ""
 
-#: inc/options.php:925
+#: inc/options.php:963
 msgid "Apple Touch 152x152 Icon"
 msgstr ""
 
-#: inc/options.php:941
+#: inc/options.php:979
 msgid "Social"
 msgstr ""
 
-#: inc/options.php:946
+#: inc/options.php:984
 msgid "Social Position"
 msgstr ""
 
-#: inc/options.php:947
+#: inc/options.php:985
 msgid "Select the social widget position"
 msgstr ""
 
-#: inc/options.php:980
+#: inc/options.php:1018
 msgid "Facebook"
 msgstr ""
 
-#: inc/options.php:981
+#: inc/options.php:1019
 msgid "Enter your facebook fan page link"
 msgstr ""
 
-#: inc/options.php:988
+#: inc/options.php:1026
 msgid "Twitter"
 msgstr ""
 
-#: inc/options.php:989
+#: inc/options.php:1027
 msgid "Enter your twitter page link"
 msgstr ""
 
-#: inc/options.php:996
+#: inc/options.php:1034
 msgid "Google+"
 msgstr ""
 
-#: inc/options.php:997
+#: inc/options.php:1035
 msgid "Enter your google+ page link"
 msgstr ""
 
-#: inc/options.php:1004
+#: inc/options.php:1042
 msgid "YouTube"
 msgstr ""
 
-#: inc/options.php:1005
+#: inc/options.php:1043
 msgid "Enter your youtube page link"
 msgstr ""
 
-#: inc/options.php:1011
+#: inc/options.php:1049
 msgid "Pinterest"
 msgstr ""
 
-#: inc/options.php:1012
+#: inc/options.php:1050
 msgid "Enter your pinterest page link"
 msgstr ""
 
-#: inc/options.php:1018
+#: inc/options.php:1056
 msgid "Linkedin"
 msgstr ""
 
-#: inc/options.php:1019
+#: inc/options.php:1057
 msgid "Enter your linkedin page link"
 msgstr ""
 
-#: inc/options.php:1025
+#: inc/options.php:1063
 msgid "Instagram"
 msgstr ""
 
-#: inc/options.php:1026
+#: inc/options.php:1064
 msgid "Enter your instagram page link"
 msgstr ""
 
-#: inc/options.php:1032
+#: inc/options.php:1070
 msgid "Feed RSS"
 msgstr ""
 
-#: inc/options.php:1033
+#: inc/options.php:1071
 msgid "Enter your feed RSS link"
 msgstr ""
 
-#: inc/options.php:1043 inc/options.php:1048
+#: inc/options.php:1081 inc/options.php:1086
 msgid "Custom CSS"
 msgstr ""
 
-#: inc/options.php:1049
+#: inc/options.php:1087
 msgid ""
 "Enter custom css to apply to the theme (press CTRL-SPACE on Windows, or CTRL-"
 "F on Mac for suggestions)."
 msgstr ""
 
-#: inc/options.php:1064
+#: inc/options.php:1102
 msgid "Archive page"
 msgstr ""
 
-#: inc/options.php:1065
+#: inc/options.php:1103
 msgid "Tag archive"
 msgstr ""
 
-#: inc/options.php:1066
+#: inc/options.php:1104
 msgid "Taxonomy archive"
 msgstr ""
 
@@ -1260,51 +1284,51 @@ msgstr ""
 msgid "You must specify a prefix when using waboot_sidebar_class."
 msgstr ""
 
-#: inc/template-tags.php:591
+#: inc/template-tags.php:594
 msgid "No sidebar"
 msgstr ""
 
-#: inc/template-tags.php:596
+#: inc/template-tags.php:599
 msgid "Sidebar right"
 msgstr ""
 
-#: inc/template-tags.php:601
+#: inc/template-tags.php:604
 msgid "Sidebar left"
 msgstr ""
 
-#: inc/template-tags.php:606
+#: inc/template-tags.php:609
 msgid "2 Sidebars"
 msgstr ""
 
-#: inc/template-tags.php:611
+#: inc/template-tags.php:614
 msgid "2 Sidebars right"
 msgstr ""
 
-#: inc/template-tags.php:616
+#: inc/template-tags.php:619
 msgid "2 Sidebars left"
 msgstr ""
 
-#: inc/template-tags.php:641
+#: inc/template-tags.php:644
 msgid "Name"
 msgstr ""
 
-#: inc/template-tags.php:646
+#: inc/template-tags.php:649
 msgid "Surname"
 msgstr ""
 
-#: inc/template-tags.php:651
+#: inc/template-tags.php:654
 msgid "Phone"
 msgstr ""
 
-#: inc/template-tags.php:656
+#: inc/template-tags.php:659
 msgid "Email"
 msgstr ""
 
-#: inc/template-tags.php:666
+#: inc/template-tags.php:669
 msgid "Send"
 msgstr ""
 
-#: inc/template-tags.php:943
+#: inc/template-tags.php:946
 msgid ""
 "You must specify the output you want - either \"link\" or \"post_content\"."
 msgstr ""

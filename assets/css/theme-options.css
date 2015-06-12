@@ -13,20 +13,3 @@
   width: 50%;
   border-right: none;
 }
-
-
-/* Woocommerce */
-
-#optionsframework .woocommerce #section-waboot_woocommerce_sidebar_layout {
-    width: 100%;
-    padding-left: 0;
-    padding-right: 0;
-}
-#optionsframework .woocommerce #section-waboot_woocommerce_displaytitle {
-    width: 50%;
-    border-right: 1px solid #ddd;
-}
-#optionsframework .woocommerce #section-waboot_woocommerce_title_position {
-    width: 50%;
-    border-right: none;
-}
