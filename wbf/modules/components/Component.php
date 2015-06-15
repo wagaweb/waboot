@@ -127,7 +127,7 @@ class Component {
           'type' => 'checkbox'
         );
 
-        $filter_locs = array_merge(array("front"=>"Frontpage","home"=>"Blog"),wp_get_filtered_post_types());
+        $filter_locs = array_merge(array("front"=>"Frontpage","home"=>"Blog"),wbf_get_filtered_post_types());
 
         $options[] = array(
           'id' => $this->name.'_load_locations',

@@ -25,7 +25,7 @@ class Behavior{
 			$this->name = $args['name'];
 			$this->metaname = "_behavior_".$args['name'];
 			$this->optionname = "behavior_".$args['name'];
-			$post_types = wp_get_filtered_post_types();
+			$post_types = wbf_get_filtered_post_types();
 			foreach($post_types as $s => $l){
 				$this->posttypes_values[$s]['metaname'] = "_behavior_".$s."_".$args['name'];
 				$this->posttypes_values[$s]['optionname'] = "behavior_".$s."_".$args['name'];
@@ -83,7 +83,7 @@ class Behavior{
 						if($matches[1] == "{home}"){
 							array_push($this->filters['node_id'],"-".get_option( 'page_for_posts' ));
 						}elseif($matches[1] == "{cpt}"){
-							$cpts = wp_get_filtered_post_types(apply_filters("wbf_behaviors_cpts_blacklist",array()));
+							$cpts = wbf_get_filtered_post_types(apply_filters("wbf_behaviors_cpts_blacklist",array()));
 							foreach($cpts as $k => $v){
 								array_push($this->filters['post_type'],"-".$k);
 							}
@@ -96,7 +96,7 @@ class Behavior{
 						if($filter == "{home}"){
 							array_push($this->filters['node_id'],get_option( 'page_for_posts' ));
 						}elseif($filter == "{cpt}"){
-							$cpts = wp_get_filtered_post_types(apply_filters("wbf_behaviors_cpts_blacklist",array()));
+							$cpts = wbf_get_filtered_post_types(apply_filters("wbf_behaviors_cpts_blacklist",array()));
 							foreach($cpts as $k => $v){
 								array_push($this->filters['post_type'],$k);
 							}

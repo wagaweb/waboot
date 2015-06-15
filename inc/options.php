@@ -653,7 +653,29 @@ function optionsframework_options() {
 
 
     if (class_exists('\WBF\modules\behaviors\BehaviorsManager')) {
-        $bd_locs = array_merge(wp_get_filtered_post_types(),wp_get_filtered_archive_page_types());
+
+	    $get_archive_pages_type = function($blacklist){
+		    static $result;
+
+		    if(isset($result)) return $result;
+
+		    $archive_types = array(
+			    "archive" => __("Archive page","waboot"),
+			    "tag"     => __("Tag archive","waboot"),
+			    "tax"     => __("Taxonomy archive","waboot"),
+		    );
+		    $blacklist = array_unique(array_merge($blacklist,array()));
+		    $result = array();
+		    foreach($archive_types as $name => $label){
+			    if(!in_array($name,$blacklist)){
+				    $result[$name] = $label;
+			    }
+		    }
+
+		    return $result;
+	    };
+
+        $bd_locs = array_merge(wbf_get_filtered_post_types(),$get_archive_pages_type());
 
         if (!empty($bd_locs)) {
             $options[] = array(
@@ -712,7 +734,7 @@ function optionsframework_options() {
         );
 
         //Get post types
-        $post_types = wp_get_filtered_post_types();
+        $post_types = wbf_get_filtered_post_types();
 
         foreach($post_types as $ptSlug => $ptLabel){
             if(\WBF\modules\behaviors\BehaviorsManager::count_behaviors_for_post_type($ptSlug) > 0){
@@ -1129,26 +1151,3 @@ function optionsframework_options() {
 
     return $options;
 }
-
-if(!function_exists("wp_get_filtered_archive_page_types")):
-	function wp_get_filtered_archive_page_types($blacklist = array()){
-		static $result;
-
-		if(isset($result)) return $result;
-
-		$archive_types = array(
-			"archive" => __("Archive page","waboot"),
-			"tag"     => __("Tag archive","waboot"),
-			"tax"     => __("Taxonomy archive","waboot"),
-		);
-		$blacklist = array_unique(array_merge($blacklist,array()));
-		$result = array();
-		foreach($archive_types as $name => $label){
-			if(!in_array($name,$blacklist)){
-				$result[$name] = $label;
-			}
-		}
-
-		return $result;
-	}
-endif;
