@@ -654,7 +654,7 @@ function optionsframework_options() {
 
     if (class_exists('\WBF\modules\behaviors\BehaviorsManager')) {
 
-	    $get_archive_pages_type = function($blacklist){
+	    $get_archive_pages_type = function($blacklist = array()){
 		    static $result;
 
 		    if(isset($result)) return $result;
@@ -675,7 +675,7 @@ function optionsframework_options() {
 		    return $result;
 	    };
 
-        $bd_locs = array_merge(wbf_get_filtered_post_types(),$get_archive_pages_type());
+        $bd_locs = array_merge(array("homepage"=>"Homepage"),wbf_get_filtered_post_types(),$get_archive_pages_type());
 
         if (!empty($bd_locs)) {
             $options[] = array(
@@ -685,6 +685,7 @@ function optionsframework_options() {
                 'type' => 'multicheck',
                 'options' => $bd_locs,
                 'std' => array(
+	                'homepage' => 1,
                     'post' => 1,
                     'page' => 1,
 	                'archive' => 1,

@@ -528,7 +528,9 @@ if(!function_exists("waboot_breadcrumb")):
 	    }
 
         if (function_exists('waboot_breadcrumb_trail')) {
-            if(is_front_page() || is_404()) return;
+            if(is_404()) return;
+
+	        $current_page_type = wbft_current_page_type();
 
 	        $args = wp_parse_args($args, array(
 		        'container' => "div",
@@ -537,26 +539,51 @@ if(!function_exists("waboot_breadcrumb")):
 		        'additional_classes' => ""
 	        ));
 
-	        if(!is_archive() && !is_search() && isset($post_id)){
-		        $current_post_type = get_post_type($post_id);
-		        if (!isset($post_id) || $post_id == 0 || !$current_post_type) return;
-		        $bc_locations = of_get_option('waboot_breadcrumb_locations', array('post', 'page'));
-		        if (array_key_exists($current_post_type, $bc_locations) && $bc_locations[$current_post_type] == 1) {
+	        $allowed_locations = call_user_func(function(){
+		        $bc_locations = of_get_option('waboot_breadcrumb_locations');
+		        $allowed = array();
+		        foreach($bc_locations as $k => $v){
+			        if($v == "1"){
+				        $allowed[] = $k;
+			        }
+		        }
+		        return $allowed;
+	        });
+
+	        if($current_page_type != "common"){
+		        //We are in some sort of homepage
+		        if(in_array("homepage", $allowed_locations)) {
 			        waboot_breadcrumb_trail($args);
 		        }
+		        /*switch($current_page_type){
+			        case "default_home":
+				        break;
+			        case "static_homepage":
+				        break;
+			        case "blog_page":
+				        break;
+		        }*/
 	        }else{
-		        $bc_locations = of_get_option('waboot_breadcrumb_locations', array('archive', 'tag', 'tax'));
-		        $show_bc = false;
-		        if(is_tag() && array_key_exists('tag',$bc_locations) && $bc_locations['tag']=='1' ){
-			        $show_bc = true;
-		        }elseif(is_tax() && array_key_exists('tax',$bc_locations) && $bc_locations['tax']=='1'){
-			        $show_bc = true;
-		        }elseif(is_archive() && array_key_exists('archive',$bc_locations) && $bc_locations['archive']=='1' ){
-			        $show_bc = true;
+		        //We are NOT in some sort of homepage
+		        if(!is_archive() && !is_search() && isset($post_id)){
+			        //We are in a common page
+			        $current_post_type = get_post_type($post_id);
+			        if (!isset($post_id) || $post_id == 0 || !$current_post_type) return;
+			        if(in_array($current_post_type, $allowed_locations)) {
+				        waboot_breadcrumb_trail($args);
+			        }
+		        }else{
+			        //We are in some sort of archive
+			        $show_bc = false;
+			        if(is_tag() && in_array('tag',$allowed_locations)){
+				        $show_bc = true;
+			        }elseif(is_tax() && in_array('tax',$allowed_locations)){
+				        $show_bc = true;
+			        }elseif(is_archive() && in_array('archive',$allowed_locations)){
+				        $show_bc = true;
+			        }
+			        if($show_bc) waboot_breadcrumb_trail($args);
 		        }
-
-		        if($show_bc) waboot_breadcrumb_trail($args);
-
 	        }
         }
     }
