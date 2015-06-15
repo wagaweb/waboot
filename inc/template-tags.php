@@ -16,6 +16,30 @@ if(!function_exists("get_images_url")) :
     }
 endif;
 
+if(!function_exists("wbft_current_page_type")):
+	function wbft_current_page_type(){
+		if ( is_front_page() && is_home() ) {
+			// Default homepage
+			return "default_home";
+		} elseif ( is_front_page() ) {
+			// static homepage
+			return "static_home";
+		} elseif ( is_home() ) {
+			// blog page
+			return "blog_page";
+		} else {
+			//everything else
+			return "common";
+		}
+	}
+endif;
+
+if(!function_exists("wbft_is_blog_page")):
+	function wbft_is_blog_page(){
+		return wbft_current_page_type() == "blog_page";
+	}
+endif;
+
 if(!function_exists('waboot_content_nav' )):
 	/**
 	 * Display navigation to next/previous pages when applicable
