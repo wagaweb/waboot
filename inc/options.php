@@ -859,8 +859,6 @@ function optionsframework_options() {
         'options' => array('col-sm-3' => '4', 'col-sm-4' => '3')
     );
 
-
-
     /*
      * POST META TAB
      */
@@ -925,6 +923,46 @@ function optionsframework_options() {
         'std'  => '1',
         'type' => 'checkbox'
     );
+
+	/*
+    * CONTACT FORM TAB
+    */
+
+	$options[] = array(
+		'name' => __( 'Contact form', 'waboot' ),
+		'type' => 'heading'
+	);
+
+	$options[] = array(
+		'name' => __('Recipient type', 'waboot'),
+		'desc' => __('Select who will receive the mail', 'waboot'),
+		'id' => 'contact_form_mail_recipient_type',
+		'std' => 'admin',
+		'type' => 'select',
+		'options' => array('admin' => __('The site admin'), 'author' => __('The author of the post in which the form is inserted',"waboot"), 'specific_contact' => __("A specific contact"))
+	);
+
+	$options[] = array(
+		'name' => __( 'Specific contact data', 'waboot' ),
+		'desc' => __( 'Contact information for "specific contact" option ', 'waboot' ),
+		'type' => 'info'
+	);
+
+	$options[] = array(
+		'name' => __( 'Name', 'waboot' ),
+		'desc' => __( 'Enter the contact name', 'waboot' ),
+		'id'   => 'contact_form_mail_recipient_name',
+		'type' => 'text',
+		'std'  => ''
+	);
+
+	$options[] = array(
+		'name' => __( 'Email', 'waboot' ),
+		'desc' => __( 'Enter the contact email address', 'waboot' ),
+		'id'   => 'contact_form_mail_recipient_email',
+		'type' => 'text',
+		'std'  => ''
+	);
 
     /*
      * FAVICON TAB

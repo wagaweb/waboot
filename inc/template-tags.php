@@ -687,8 +687,8 @@ if(!function_exists("wbft_the_contact_form")):
 			case "specific_contact":
 				$to = array(
 					'id' => 0,
-					'name' => of_get_option("contact_form_mail_receiver_name",""),
-					'email' => of_get_option("contact_form_mail_receiver_email",""),
+					'name' => of_get_option("contact_form_mail_recipient_name",""),
+					'email' => of_get_option("contact_form_mail_recipient_email",""),
 				);
 				break;
 			case "admin":
@@ -715,6 +715,13 @@ if(!function_exists("wbft_the_contact_form")):
 endif;
 
 if(!function_exists("wbft_contact_form_tpl")):
+	/**
+	 * Display contact form fields one by one
+	 * @param Array $fields an array of fields
+	 * @param Array $args of display options. Currently supported options: field_before, field_after
+	 *
+	 * @return string
+	 */
 	function wbft_contact_form_tpl($fields,$args = array()){
 		$args = wp_parse_args($args,array(
 			'field_before' => '<div class="form-group">',
