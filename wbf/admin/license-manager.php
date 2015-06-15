@@ -6,63 +6,74 @@ use WBF\includes\License_Interface;
 
 class License_Manager implements License_Interface{
 
-    static function admin_license_menu_item($parent_slug){
-        $waboot_license = add_submenu_page( $parent_slug, __( "Waboot License", "wbf" ), __( "License", "wbf" ), "edit_theme_options", "waboot_license", "WBF\admin\License_Manager::license_page" );
-    }
+	static function admin_license_menu_item($parent_slug){
+		$waboot_license = add_submenu_page( $parent_slug, __( "Waboot License", "wbf" ), __( "License", "wbf" ), "edit_theme_options", "waboot_license", "WBF\admin\License_Manager::license_page" );
+	}
 
-    function license_page(){
+	static function license_page(){
 
-        if(isset($_POST['submit-license'])){
-            try{
-                if(isset($_POST['license_code'])){
-                    if(isset( $_POST['license_nonce_field'] ) && wp_verify_nonce($_POST['license_nonce_field'],'submit_licence_nonce') ){
-                        $license = self::sanitize_license($_POST['license_code']);
-                        if($license){
-                            update_option("waboot_license",$license);
-                            ?>
-                            <div class="updated">
-                                <p><?php _e( 'License Updated!', "wbf" ); ?></p>
-                            </div>
-                        <?php
-                        }else{
-                            throw new LicenseException(_( 'Unable to update the license!', "wbf" ));
-                        }
-                    }
-                }
-            }catch(LicenseException $e){
-                ?>
-                <div class="updated">
-                    <p><?php echo $e->getMessage(); ?></p>
-                </div>
-                <?php
-            }
-        }
+		if(isset($_POST['submit-license'])){
+			try{
+				if(isset($_POST['license_code'])){
+					if(isset( $_POST['license_nonce_field'] ) && wp_verify_nonce($_POST['license_nonce_field'],'submit_licence_nonce') ){
+						$license = self::sanitize_license($_POST['license_code']);
+						if($license){
+							update_option("waboot_license",$license);
+							?>
+							<div class="updated">
+								<p><?php _e( 'License Updated!', "wbf" ); ?></p>
+							</div>
+						<?php
+						}else{
+							throw new LicenseException(_( 'Unable to update the license!', "wbf" ));
+						}
+					}
+				}
+			}catch(LicenseException $e){
+				?>
+				<div class="updated">
+					<p><?php echo $e->getMessage(); ?></p>
+				</div>
+			<?php
+			}
+		}
 
-        $current_license = get_option("waboot_license","");
-        $status = self::get_license_status();
+		if(isset($_POST['delete-license'])){
+			update_option("waboot_license","");
+		}
 
-        ?>
-        <div class="wrap">
-            <h2><?php _e( "Waboot License", "wbf" ); ?></h2>
-            <p>
-            <form method="post" action="admin.php?page=waboot_license" >
-                <p><?php _e("Here you can enter your license:", "wbf"); ?></p>
-                <input type="text" value="<?php echo $current_license; ?>" name="license_code" />
-                <p class="submit">
-                    <input type="submit" name="submit-license" id="submit" class="button button-primary" value="Validate License">
-                </p>
-                <div id="license-status">
-                    <p>Current License Status: <?php self::print_license_status($status); ?></p>
-                </div>
-                <?php wp_nonce_field('submit_licence_nonce','license_nonce_field'); ?>
-            </form>
-            </p>
-	        <?php \WBF::print_copyright(); ?>
-        </div>
-    <?php
-    }
+		$current_license = get_option("waboot_license","");
+		$crypted_current_license = call_user_func(function($cut_point = 4) use($current_license){
+			$first_chars = substr($current_license,0,strlen($current_license)-$cut_point);
+			$first_chars = preg_replace("|[\\w]|","*",$first_chars);
+			$last_chars = substr($current_license,strlen($current_license)-$cut_point);
+			return $first_chars.$last_chars;
+		});
+		$status = self::get_license_status();
 
-    private function print_license_status($status){
+		?>
+		<div class="wrap">
+			<h2><?php _e( "Waboot License", "wbf" ); ?></h2>
+			<p>
+			<form method="post" action="admin.php?page=waboot_license" >
+				<p><?php _e("Here you can enter your license:", "wbf"); ?></p>
+				<input type="text" value="<?php echo $crypted_current_license; ?>" name="license_code" />
+				<p class="submit">
+					<input type="submit" name="submit-license" id="submit" class="button button-primary" value="Validate License" <?php if($status == "Active") echo "disabled"; ?>>
+					<input type="submit" name="delete-license" id="delete" class="button button-primary" value="Delete License">
+				</p>
+				<div id="license-status">
+					<p>Current License Status: <?php self::print_license_status($status); ?></p>
+				</div>
+				<?php wp_nonce_field('submit_licence_nonce','license_nonce_field'); ?>
+			</form>
+			</p>
+			<?php \WBF::print_copyright(); ?>
+		</div>
+	<?php
+	}
+
+    private static function print_license_status($status){
         switch ($status) {
             case "Active":
                 echo "<span class='license-active'>$status</span>";
@@ -85,11 +96,11 @@ class License_Manager implements License_Interface{
         }
     }
 
-	public function sanitize_license($license){
+	public static function sanitize_license($license){
 		return $license;
 	}
 
-    static function get_license_status(){
+    public static function get_license_status(){
         $license = get_option("waboot_license","");
         if($license != ""){
             $localkey = get_option("waboot_license_localkey",false);
@@ -108,7 +119,7 @@ class License_Manager implements License_Interface{
         }
     }
 
-    static function check_license($licensekey, $localkey='') {
+    public static function check_license($licensekey, $localkey='') {
 
         // -----------------------------------
         //  -- Configuration Values --
