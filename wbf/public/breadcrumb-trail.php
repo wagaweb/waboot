@@ -4,6 +4,8 @@
  * Shows a breadcrumb for all types of pages.  This is a wrapper function for the Breadcrumb_Trail class,
  * which should be used in theme templates.
  *
+ * It uses the Wordpress permalink structures to build the trails.
+ *
  * @since  0.1.0
  * @access public
  * @param  array $args Arguments to pass to Breadcrumb_Trail.
