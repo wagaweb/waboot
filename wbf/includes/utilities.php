@@ -96,6 +96,28 @@ if (!function_exists( 'wbf_locate_template_uri' )):
     }
 endif;
 
+if (!function_exists( "wbf_get_filtered_post_types" )):
+	/**
+	 * Get a list of post types without the blacklisted ones
+	 * @param array $blacklist
+	 *
+	 * @return array
+	 */
+	function wbf_get_filtered_post_types($blacklist = array()){
+		$post_types = get_post_types();
+		$result = array();
+		$blacklist = array_unique(array_merge($blacklist,array('attachment','revision','nav_menu_item','ml-slider','acf-field-group','acf-field')));
+		foreach($post_types as $pt){
+			if(!in_array($pt,$blacklist)){
+				$pt_obj = get_post_type_object($pt);
+				$result[$pt_obj->name] = $pt_obj->label;
+			}
+		}
+
+		return $result;
+	}
+endif;
+
 if (!function_exists( "wbf_admin_show_message" )) :
     function wbf_admin_show_message($m, $type) {
         ?>

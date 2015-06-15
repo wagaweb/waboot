@@ -30,21 +30,7 @@ if ( !function_exists("get_wp_current_url") ) :
 	}
 endif;
 
-if (!function_exists("wp_get_filtered_post_types")):
-	function wp_get_filtered_post_types($blacklist = array()){
-		$post_types = get_post_types();
-		$result = array();
-		$blacklist = array_unique(array_merge($blacklist,array('attachment','revision','nav_menu_item','ml-slider','acf-field-group','acf-field')));
-		foreach($post_types as $pt){
-			if(!in_array($pt,$blacklist)){
-				$pt_obj = get_post_type_object($pt);
-				$result[$pt_obj->name] = $pt_obj->label;
-			}
-		}
 
-		return $result;
-	}
-endif;
 
 if ( !function_exists("array_neighbor") ) :
 	/**
