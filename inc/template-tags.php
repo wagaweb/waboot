@@ -809,13 +809,15 @@ endif;
 
 if(!function_exists("waboot_get_compiled_stylesheet_name")):
 	function waboot_get_compiled_stylesheet_name(){
-		/*$theme = wp_get_theme()->stylesheet;
-		if($theme == "wship") $theme = "waboot"; //Brutal compatibility hack :)*/
+		$theme = wp_get_theme();
 		if(is_child_theme()){
-			return "waboot-child";
+			$filename = $theme->stylesheet;
+			//return "waboot-child";
 		}else{
-			return "waboot";
+			$filename = $theme->template;
+			//return "waboot";
 		}
+		return apply_filters("wbft/compiler/output/filename",$filename);
 	}
 endif;
 
