@@ -495,6 +495,14 @@ if(!function_exists("waboot_breadcrumb")):
      */
     function waboot_breadcrumb($post_id = null, $current_location = "", $args = array()) {
         global $post;
+
+	    //Get post ID
+	    if(!isset($post_id)){
+		    if(isset($post) && isset($post->ID) && $post->ID != 0){
+			    $post_id = $post->ID;
+		    }
+	    }
+
         if (function_exists('waboot_breadcrumb_trail')) {
             if(is_front_page() || is_404()) return;
 
@@ -505,8 +513,7 @@ if(!function_exists("waboot_breadcrumb")):
 		        'additional_classes' => ""
 	        ));
 
-	        if(!is_archive() && !is_search()){
-		        $post_id = isset($post_id) ? $post_id : $post->ID;
+	        if(!is_archive() && !is_search() && isset($post_id)){
 		        $current_post_type = get_post_type($post_id);
 		        if (!isset($post_id) || $post_id == 0 || !$current_post_type) return;
 		        $bc_locations = of_get_option('waboot_breadcrumb_locations', array('post', 'page'));
