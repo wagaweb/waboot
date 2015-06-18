@@ -1,41 +1,39 @@
-(function ($) {
+var wbf_rendered_gmaps = [];
 
-    /*
-     *  render_map
-     *
-     *  This function will render a Google Map onto the selected jQuery element
-     *
-     *  @type	function
-     *  @date	8/11/2013
-     *  @since	4.3.0
-     *
-     *  @param	$el (jQuery element)
-     *  @return	n/a
+(function ($) {
+    "use strict";
+
+    /**
+     * Render a Google Map onto the selected jQuery element
+     * @param $el (jQuery element)
+     * @returns {google.maps.Map}
      */
     function render_map($el) {
 
         var $markers = $el.find('.marker'),
             datas = {
                 mapType: (function(){
-                    var mapType = $el.data("maptype");
-                    if(typeof mapType == "undefined"){
-                        return google.maps.MapTypeId.ROADMAP
+                    var mapType = $el.data("maptype"),
+                        returnObj;
+                    if(typeof mapType === "undefined"){
+                        returnObj = google.maps.MapTypeId.ROADMAP;
                     }else{
                         switch(mapType){
                             case "roadmap":
-                                return google.maps.MapTypeId.ROADMAP;
+                                returnObj = google.maps.MapTypeId.ROADMAP;
                                 break;
                             case "satellite":
-                                return google.maps.MapTypeId.SATELLITE;
+                                returnObj = google.maps.MapTypeId.SATELLITE;
                                 break;
                             case "hybrid":
-                                return google.maps.MapTypeId.HYBRID;
+                                returnObj = google.maps.MapTypeId.HYBRID;
                                 break;
                             case "terrain":
-                                return google.maps.MapTypeId.TERRAIN;
+                                returnObj = google.maps.MapTypeId.TERRAIN;
                                 break;
                         }
                     }
+                    return returnObj;
                 })(),
                 streetView: {
                     active: typeof $el.attr("data-streetview") !== "undefined",
@@ -62,18 +60,26 @@
 
         // add a markers reference
         map.markers = [];
+        map.$markers = [];
+
+        // add a infowindows reference
+        map.infowindows = [];
+        map.$infowindows = [];
 
         // add markers
         $markers.each(function () {
             add_marker($(this), map);
         });
 
-        var markerCluster = new MarkerClusterer(map, map.markers); // ADD CLUSTERER
+        // Add cluster?
+        if($el.data("cluster")){
+            var markerCluster = new MarkerClusterer(map, map.markers);
+        }
 
         // center map
         center_map(map);
 
-        //Streetview?
+        // Streetview?
         if(datas.streetView.active){
             var panorama = map.getStreetView();
             panorama.setPosition(new google.maps.LatLng(datas.streetView.position.lat, datas.streetView.position.lng));
@@ -83,20 +89,15 @@
             });
             panorama.setVisible(true);
         }
+
+        return map;
     }
 
-    /*
-     *  add_marker
-     *
-     *  This function will add a marker to the selected Google Map
-     *
-     *  @type	function
-     *  @date	8/11/2013
-     *  @since	4.3.0
-     *
-     *  @param	$marker (jQuery element)
-     *  @param	map (Google Map object)
-     *  @return	n/a
+    /**
+     * Adds a marker to the selected Google Map
+     * @param $marker (jQuery element)
+     * @param map (Google Map object)
+     * @returns {google.maps.Marker}
      */
     function add_marker($marker, map) {
 
@@ -108,11 +109,9 @@
         var marker = new google.maps.Marker({
             position: latlng,
             map: map,
-            icon: icon || undefined
+            icon: icon || undefined,
+            custom_openInfoWindow: $marker.data("openinfowindow") || false //WAGA MOD: our custom parameter
         });
-
-        // add to array
-        map.markers.push(marker);
 
         // if marker contains HTML, add it to an infoWindow
         if ($marker.html()) {
@@ -120,24 +119,35 @@
             var infowindow = new google.maps.InfoWindow({
                 content: $marker.html()
             });
-            // show info window when marker is clicked
-            google.maps.event.addListener(marker, 'click', function () {
-                infowindow.open(map, marker);
-            });
+            map.infowindows.push(infowindow);
+            var $infowindow = jQuery("<div>"+infowindow.getContent()+"</div>");
+            map.$infowindows.push($infowindow);
         }
+
+        // Bind marker click action
+        google.maps.event.addListener(marker, 'click', function (e,a,b) {
+            if(typeof(infowindow) !== "undefined"){
+                if(this.custom_openInfoWindow){
+                    // show info window when marker is clicked
+                    infowindow.open(map, marker);
+                }
+                $marker.trigger("infowindow:open",[infowindow]);
+                $infowindow.trigger("open",[infowindow]);
+            }
+            $marker.trigger("click",[$marker]);
+        });
+
+        // add to array
+        map.markers.push(marker);
+        map.$markers.push($marker);
+
+        return marker;
     }
 
-    /*
-     *  center_map
-     *
-     *  This function will center the map, showing all markers attached to this map
-     *
-     *  @type	function
-     *  @date	8/11/2013
-     *  @since	4.3.0
-     *
-     *  @param	map (Google Map object)
-     *  @return	n/a
+    /**
+     * Center the specified map, showing all markers attached to this map
+     * @param map
+     * @returns {google.maps.LatLng|*}
      */
     function center_map(map) {
         // vars
@@ -159,26 +169,13 @@
             // fit to bounds
             map.fitBounds(bounds);
         }
+
+        return bounds.getCenter();
     }
 
     /*
-     *  document ready
-     *
-     *  This function will render each map when the document is ready (page has loaded)
-     *
-     *  @type	function
-     *  @date	8/11/2013
-     *  @since	5.0.0
-     *
-     *  @param	n/a
-     *  @return	n/a
+     *  INITIALIZING
      */
-
-    /*jQuery(document).ready(function ($) {
-        $('.acf-map').each(function () {
-            render_map($(this));
-        });
-    });*/
 
     jQuery(document).ready(function ($) {
         $('.acf-map').each(function () {
@@ -190,8 +187,9 @@
     jQuery(window).bind("load", function() {
         jQuery('.acf-map').each(function () {
             jQuery(this).removeClass("loading");
-            render_map(jQuery(this));
+            wbf_rendered_gmaps.push(render_map(jQuery(this)));
         });
+        jQuery(document).trigger("wbf_gmaps:rendered");
     });
 
 })(jQuery);
