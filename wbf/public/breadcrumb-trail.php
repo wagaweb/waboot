@@ -37,6 +37,9 @@ class WBF_Breadcrumb_Trail extends Breadcrumb_Trail{
 
         $breadcrumb = '';
 
+	    /* Allow developers to edit BC items. */
+	    $this->items = apply_filters("wbf/breadcrumb_trail/items",$this->items);
+
         /* Connect the breadcrumb trail if there are items in the trail. */
         if ( !empty( $this->items ) && is_array( $this->items ) ) {
 
@@ -216,9 +219,9 @@ class WBF_Breadcrumb_Trail extends Breadcrumb_Trail{
 	                    }
                     }
 
-                    /* Check that categories were returned. */
-                    if ($terms) {
-                        /* Sort the terms by ID and get the first category. */
+                    //Check that categories were returned.
+                    /*if ($terms) {
+                        //Sort the terms by ID and get the first category
                         usort($terms, '_usort_terms_by_ID');
                         if('post' == $post->post_type){
                             $taxonomy_name = "category";
@@ -227,14 +230,34 @@ class WBF_Breadcrumb_Trail extends Breadcrumb_Trail{
                         }
                         $term = get_term($terms[0], $taxonomy_name);
 
-                        /* If the category has a parent, add the hierarchy to the trail. */
+                        //If the category has a parent, add the hierarchy to the trail.
                         if ($term->parent > 0){
                             $this->do_term_parents($term->parent, $taxonomy_name);
                         }
 
-                        /* Add the category archive link to the trail. */
+                        //Add the category archive link to the trail.
                         $this->items[] = '<a href="' . get_term_link($term, $taxonomy_name) . '" title="' . esc_attr($term->name) . '">' . $term->name . '</a>';
-                    }
+                    }*/
+	                //BETA [ WAGA MOD ]:
+	                $added_terms = array();
+	                if ($terms) {
+		                /* Sort the terms by ID and get the first category. */
+		                usort($terms, '_usort_terms_by_ID');
+		                /* Add the category archive link to the trail. */
+		                foreach($terms as $t){
+			                if('post' == $post->post_type){
+				                $taxonomy_name = "category";
+			                }else{
+				                $taxonomy_name = $t->taxonomy;
+			                }
+			                /* If the category has a parent, add the hierarchy to the trail. */
+			                if ($t->parent > 0 && !in_array($t->parent,$added_terms)){
+				                $this->do_term_parents($t->parent, $taxonomy_name);
+			                }
+			                $this->items[] = '<a href="' . get_term_link($t, $taxonomy_name) . '" title="' . esc_attr($t->name) . '">' . $t->name . '</a>';
+			                $added_terms[] = $t->term_id;
+		                }
+	                }
                 }
             }
         }
