@@ -1,4 +1,72 @@
 == Change log ==
+
+Version 0.12.1 - 22/06/2015
+---------------------------------
+
+WABOOT:
+- Ora waboot_get_compiler_stylesheet_name() ritorna il vero nome del child e del tema, non più solo "waboot" e "waboot-child"
+- E' ora possibile utilizzare il filtro "wbft/compiler/output/filename" per specificare l'output di waboot_get_compiler_stylesheet_name()
+- Ora è possibile selezionare di visualizzare o meno il breadcrumb in homepage
+- wp_get_filtered_post_types -> wbf_get_filtered_post_types: funzione spostata nel framework
+- Aggiunta funzione wbft_current_page_type() che restituisce come possibili valori: "default_home", "static_home", "blog_page", "common" (= ogni altra pagina)
+- Aggiunta funzione is_blog_page() per controllare se ci si trova nella pagina dedicata al blog.
+- Fixato bug che mostrava degli errori in assenza di post nel blog
+- Rimosso widget featured post slider
+- Aggiunte le opzioni per il contact form nelle theme options
+
+WBF:
+- Ora il breadcrumb accoda tutte le categorie della taxonomy (beta)
+- BREADCRUMB:
+    - Aggiunto filtro per il breadcrumb: "wbf/breadcrumb_trail/items" per personalizzare gli item prima della visualizzazione; gli item (array) sono passati come argomento alla funzione che implementa il filtro.
+- ACFMAP:
+    - ora lo script registra un array globale di mappe ("wbf_rendered_gmaps")
+    - ogni mappa è ora caratterizzata da due array di marker (markers[],$markers[]) e infowindow (infowindow,$infowindows[]) di cui quello con $ indica che gli elementi sono oggetti JQuery. A tali oggetti sono legati alcuni trigger:
+        - $infowindow.trigger("open",[infowindow]);
+        - $marker.trigger("infowindow:open",[infowindow]);
+        - $marker.trigger("click",[$marker]);
+- Ora la licenza può essere cancellata
+- Ora vengono visualizzati solo gli ultimi caratteri della licenza
+- Fixato bug che impediva la visualizzazione delle template disponibili
+- Ora è possibile utilizzare il child con nomi diversi da waboot-child. Il nome del file less in /sources deve però rimanere waboot-child.
+- Fixato raro bug in Less_Compiler.php in cui il path di Less_Cache.php non veniva interpretato correttamente.
+
+Version 0.12.0 - 12/06/2015
+---------------------------------
+
+WABOOT:
+- Integrazione woocommerce
+- COMPONENTI:
+    - Piccoli fix al component cookielaw
+
+WBF:
+- Fixato bug che impediva il salvataggio delle checkbox nelle opzioni dei componenti
+
+Version 0.11.3 - 01/06/2015
+---------------------------------
+
+WABOOT:
+- COMPONENTI:
+    - Cookielaw:
+        - ora il component nn ricarica più la pagina al click
+        - aggiunte opzioni per il saveonscroll
+        - tradotte voci di default; ora nn viene mostrato il messaggio nella pagina della policy
+        - ora la pagina policy si apre in self
+    - Slideshow:
+        - ora owlcarousels_params viene inizializzato come oggetto vuoto
+
+[....]
+
+Version 0.2.1 - 07/14/2014
+---------------------------------
+- Ora il compilatore non controlla più se i file sono da compilare (il link "Compile Less" forza la compilazione.)
+- "Compile Less" compila solo se viene cliccato da un admin.
+- "Compile Less" e la notifica dell'ambiente di sviluppo nella admin bar sono ora visualizzabili solo dagli admin.
+- Il compilatore minimizza correttamente il css compilato se è in ambiente di produzione.
+- In /inc/stylesheets.php e nel compilatore (/inc/compiler/less-php/compiler.php) viene ora utilizzato il filtro "waboot_compiled_stylesheet_name" (in hooks.php) per ottenere il nome dello stile less da compilare\compilato nella cartella assets/css
+- TODO: autocompilazione alla prima installazione del tema.
+
+[....]
+
 Version 0.1 - April 30, 2014 -> May 13, 2014
 ---------------------------------
 - Il tema è ora indipendente (versione BETA)
@@ -15,15 +83,4 @@ Version 0.1 - April 30, 2014 -> May 13, 2014
 - Ora è possibile specificare degli stili custom per le Theme Options (less/optionsframework.less)
 - Integrato il plugin "Email address encoder" di Till Krüss
 - ...
-
-[....]
-
-Version 0.2.1 - 07/14/2014
----------------------------------
-- Ora il compilatore non controlla più se i file sono da compilare (il link "Compile Less" forza la compilazione.)
-- "Compile Less" compila solo se viene cliccato da un admin.
-- "Compile Less" e la notifica dell'ambiente di sviluppo nella admin bar sono ora visualizzabili solo dagli admin.
-- Il compilatore minimizza correttamente il css compilato se è in ambiente di produzione.
-- In /inc/stylesheets.php e nel compilatore (/inc/compiler/less-php/compiler.php) viene ora utilizzato il filtro "waboot_compiled_stylesheet_name" (in hooks.php) per ottenere il nome dello stile less da compilare\compilato nella cartella assets/css
-- TODO: autocompilazione alla prima installazione del tema.
 
