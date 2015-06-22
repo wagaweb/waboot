@@ -29,6 +29,7 @@ WBF:
 - Fixato bug che impediva la visualizzazione delle template disponibili
 - Ora è possibile utilizzare il child con nomi diversi da waboot-child. Il nome del file less in /sources deve però rimanere waboot-child.
 - Fixato raro bug in Less_Compiler.php in cui il path di Less_Cache.php non veniva interpretato correttamente.
+- Fixato bug che impediva il salvataggio delle opzioni dei componenti in un tema child
 
 Version 0.12.0 - 12/06/2015
 ---------------------------------
