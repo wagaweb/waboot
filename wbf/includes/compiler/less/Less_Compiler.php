@@ -51,7 +51,7 @@ class Less_Compiler implements Base_Compiler{
     function compile_set($name,$args){
         try{
 	        global $wp_filesystem;
-	        require_once( "Less_Cache.php" );
+	        require_once( WBF_DIRECTORY."/includes/compiler/less/Less_Cache.php" );
 	        require_once( get_template_directory()."/wbf/includes/compiler/compiler-utils.php" );
 
 	        $args['input'] = \WBF\includes\compiler\parse_input_file($args['input']);
