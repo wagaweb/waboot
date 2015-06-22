@@ -528,7 +528,7 @@ class ComponentsManager {
                 }
 	            //Check if we must update something...
 	            foreach($options_to_update as $opt_name => $opt_value){
-		            if(isset($of_options[$opt_name]) && $of_options[$opt_name] != $opt_value ){
+		            if( (isset($of_options[$opt_name]) && $of_options[$opt_name] != $opt_value) || !isset($of_options[$opt_name]) ){
 			            $of_options[$opt_name] = $opt_value;
 			            $must_update = true;
 		            }
