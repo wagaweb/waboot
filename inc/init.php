@@ -63,9 +63,10 @@ add_action('after_setup_theme', 'waboot_setup', 11);
 if ( ! function_exists( 'init_style_compiler' ) ) :
 	function init_style_compiler(){
 		$theme = waboot_get_compiled_stylesheet_name();
+		$inputFileName = is_child_theme() ? "waboot-child" : "waboot";
 		$GLOBALS['waboot_styles_compiler'] = new \WBF\includes\compiler\Styles_Compiler(array(
 			"theme_frontend" => array(
-				"input" => get_stylesheet_directory()."/sources/less/{$theme}.less",
+				"input" => get_stylesheet_directory()."/sources/less/{$inputFileName}.less",
 				"output" => get_stylesheet_directory()."/assets/css/{$theme}.css",
 				"map" => get_stylesheet_directory()."/assets/css/{$theme}.css.map",
 				"map_url" => get_stylesheet_directory_uri()."/assets/css/{$theme}.css.map",
