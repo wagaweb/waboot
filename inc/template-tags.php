@@ -1043,6 +1043,54 @@ endif;
 // ###############################
 // ###############################
 
+if(!function_exists( 'wbft_get_post_terms_hierarchical' )):
+	function wbft_get_post_terms_hierarchical($post_id, $taxonomy, $args = []){
+		$terms = wp_get_post_terms( $post_id, $taxonomy, $args );
+		$sortedTerms = [];
+
+		/*$array_insert = function(Array &$array,$position,Array $insertion){
+			$first_array = array_splice ($array, 0, $position);
+			$array = array_merge ($first_array, $insert_array, $array);
+		};*/
+
+		$sort = function(Array &$cats){
+			$result = [];
+
+			//Populate all the parent
+			foreach ($cats as $i => $cat) {
+				if($cat->parent == 0){
+					$result[] = $cat;
+				}
+			}
+
+			//Populate with children
+			foreach ($cats as $i => $cat) {
+				if($cat->parent != 0){
+					$parent_term_id = $cat->parent;
+					$k = call_user_func(function() use($result, $parent_term_id){
+						foreach($result as $index => $t){
+							if($t->term_id == $parent_term_id){
+								return $index;
+							}
+						}
+						return false;
+					});
+
+					$array_insert = function(Array &$array,$position,Array $insertion){
+
+					};
+				}
+			}
+
+			return $result;
+		};
+
+		$sort($terms,$sortedTerms);
+
+		return $sortedTerms;
+	}
+endif;
+
 if(!function_exists( 'waboot_get_the_category')):
 	/**
 	 * Get the post categories ordered by ID. If the post is a custom post type it retrieve the specified $taxonomy terms or the first registered taxonomy
