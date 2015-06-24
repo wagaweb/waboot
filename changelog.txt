@@ -7,6 +7,8 @@ WABOOT:
 - Implementate funzioni wbft_get_post_terms_hierarchical() e wbft_get_the_terms_list_hierarchical()
 - Ora entry-footer.php usa la funzione wbft_get_the_terms_list_hierarchical()
 - Ora le diverse funzioni in entry-footer vengono direttamente hookate a waboot_entry_footer, invece di passare dalla funzione waboot_print_entry_footer
+- Aggiunta theme option "woocommerce_products_per_page"
+- Aggiunto filtro "wbft/woocommerce/loop_shop_per_page/cols" per modificare tramite filtro il numero di prodotti per pagine
 
 Version 0.12.1 - 22/06/2015
 ---------------------------------
