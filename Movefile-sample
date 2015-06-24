@@ -1,21 +1,21 @@
 local:
-  vhost: "http://10.0.0.34/waboot" # inserire l'url locale
-  wordpress_path: "/var/www/waboot" # use an absolute path here (tutti i path alla cartella di vagrant iniziano con "/var/www")
+  vhost: "http://10.0.0.32/PROJECT" # inserire l'url locale
+  wordpress_path: "/var/www/PROJECT" # use an absolute path here (tutti i path alla cartella di vagrant iniziano con "/var/www")
 
   database:
-    name: "waboot"
+    name: "DBPROJECT"
     user: "root"
     password: "root"
     host: "localhost"
 
 staging:
-  vhost: "http://waboot.dev.wagahost.net"
-  wordpress_path: "/public_html/dev/waboot" # use an absolute path here
+  vhost: "http://SUBDOMAIN.dev.cwg.it"
+  wordpress_path: "/home/cwgit/public_html/dev/SUBDOMAIN" # use an absolute path here
 
   database:
-    name: "wagahnet_dev_waboot"
-    user: "wagahnet_boot"
-    password: "cJ1kWU622xH6nr"
+    name: "cwgit_dev_SUBDOMAIN"
+    user: "cwgit_cwg"
+    password: "T0sOMkGJUPUP"
     host: "localhost"
     # port: "3308" # Use just in case you have exotic server config
 
@@ -29,9 +29,35 @@ staging:
     - "Movefile"
     - "wp-config.php"
     - "wp-content/*.sql"
-    
-  ftp:
-    user: "dev@wagahost.net"
-    password: "CETG3eE4402C"
-    host: "ftp.wagahost.net"
-    passive: true
+
+  ssh:
+    host: "46.28.0.92"
+    user: "cwgit"
+    password: "KOLouHw7vvXaue"
+
+production:
+  vhost: "http://www.DOMAIN.com"
+  wordpress_path: "/home/USERACCOUNT/public_html" # use an absolute path here
+
+  database:
+    name: ""
+    user: ""
+    password: ""
+    host: "localhost"
+    # port: "3308" # Use just in case you have exotic server config
+
+  exclude:
+    - ".git/"
+    - ".gitignore"
+    - ".sass-cache/"
+    - "bin/"
+    - "tmp/*"
+    - "Gemfile*"
+    - "Movefile"
+    - "wp-config.php"
+    - "wp-content/*.sql"
+
+  ssh:
+    host: "46.28.0.92"
+    user: ""
+    password: ""
