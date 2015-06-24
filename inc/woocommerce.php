@@ -1,7 +1,8 @@
 <?php
 global $woocommerce;
 
-if(isset($woocommerce)){
+if(isset($woocommerce)):
+
 	//Declare WooCommerce support
 	add_action( 'after_setup_theme', 'woocommerce_support' );
 	function woocommerce_support() {
@@ -24,4 +25,10 @@ if(isset($woocommerce)){
 	remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_title', 5 );
 	remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_meta', 40 );
     remove_action( 'woocommerce_before_main_content', 'woocommerce_breadcrumb', 20 );
-}
+
+	//Enable the modification of woocommerce product x page
+	add_filter("loop_shop_per_page",function($cols){
+		$n = apply_filters("wbft/woocommerce/loop_shop_per_page/cols",of_get_option("woocommerce_products_per_page",$cols));
+		return (int) $n;
+	}, 20);
+endif;

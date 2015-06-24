@@ -882,6 +882,14 @@ function optionsframework_options() {
         'options' => array('col-sm-3' => '4', 'col-sm-4' => '3')
     );
 
+	$options[] = array(
+		'name' => __('Products per page', 'waboot'),
+		'desc' => __('How many products display per page', 'waboot'),
+		'id' => 'woocommerce_products_per_page',
+		'std' => '10',
+		'type' => 'text'
+	);
+
     /*
      * POST META TAB
      */
