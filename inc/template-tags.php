@@ -1046,14 +1046,50 @@ endif;
 if(!function_exists( 'wbft_get_post_terms_hierarchical' )):
 	function wbft_get_post_terms_hierarchical($post_id, $taxonomy, $args = []){
 		$terms = wp_get_post_terms( $post_id, $taxonomy, $args );
-		$sortedTerms = [];
 
-		/*$array_insert = function(Array &$array,$position,Array $insertion){
-			$first_array = array_splice ($array, 0, $position);
-			$array = array_merge ($first_array, $insert_array, $array);
-		};*/
+		/**
+		 * Insert a mixed at specified position into input $array
+		 *
+		 * @param array $input
+		 * @param $position
+		 * @param $insertion
+		 *
+		 * @return array
+		 */
+		$array_insert = function(Array $input,$position,$insertion){
+			$insertion = array($insertion);
+			$first_array = array_splice ($input, 0, $position);
+			$output = array_merge ($first_array, $insertion, $input);
+			return $output;
+		};
 
-		$sort = function(Array &$cats){
+		$children_insert = function(Array $input,$insert_at_term_id,$insertion) use(&$children_insert){
+			$output = $input;
+			foreach($input as $k => $v){
+				if($v->term_id == $insert_at_term_id){
+					if(@!is_integer(array_search($insertion,$output[$k]->children))){
+						$output[$k]->children[] = $insertion;
+						return $output;
+					}
+				}elseif(isset($v->children) && count($v->children) >= 1){
+					$new_children = $children_insert($v->children,$insert_at_term_id,$insertion);
+					if(is_array($new_children)){
+						$output[$k]->children = $new_children;
+						return $output;
+					}
+				}
+			}
+			return false;
+		};
+
+		/**
+		 * Build term hierarchy
+		 * @param array $cats
+		 *
+		 * @return array
+		 */
+		$build_hierarchy = function(Array &$cats) use ($array_insert, $children_insert){
+			$cats_count = count($cats); //meow!
 			$result = [];
 
 			//Populate all the parent
@@ -1063,31 +1099,103 @@ if(!function_exists( 'wbft_get_post_terms_hierarchical' )):
 				}
 			}
 
+			$inserted_cats = count($result);
+
 			//Populate with children
-			foreach ($cats as $i => $cat) {
-				if($cat->parent != 0){
-					$parent_term_id = $cat->parent;
-					$k = call_user_func(function() use($result, $parent_term_id){
-						foreach($result as $index => $t){
-							if($t->term_id == $parent_term_id){
-								return $index;
+			while($inserted_cats != $cats_count){
+				foreach ($cats as $i => $cat) {
+					if($cat->parent != 0){
+						$parent_term_id = $cat->parent;
+						$r = $children_insert($result,$parent_term_id,$cat);
+						if(is_array($r)){
+							$result = $r;
+							$inserted_cats++;
+							if($inserted_cats == $cats_count){
+								break;
 							}
 						}
-						return false;
-					});
-
-					$array_insert = function(Array &$array,$position,Array $insertion){
-
-					};
+					}
 				}
 			}
 
 			return $result;
 		};
 
-		$sort($terms,$sortedTerms);
+		$flatten_terms_hierarchy = function($term_hierarchy){
+			$output_terms = [];
+			$flat = function($term_hierarchy) use (&$output_terms,&$flat){
+				foreach($term_hierarchy as $k => $t){
+					$output_terms[] = $t;
+					if(isset($t->children) && $t->children >= 1){
+						$flat($t->children);
+					}
+				}
+			};
+			$flat($term_hierarchy);
+
+			foreach($output_terms as $k=>$v){
+				if(isset($v->children)){
+					unset($output_terms[$k]->children);
+				}
+			}
+
+			return $output_terms;
+		};
+
+		$h = $build_hierarchy($terms);
+
+		$sortedTerms = $flatten_terms_hierarchy($h);
 
 		return $sortedTerms;
+	}
+endif;
+
+if(!function_exists('wbft_get_the_terms_list_hierarchical')):
+	/**
+	 * Retrieve a post's terms as a list with specified format and in an hierarchical order
+	 *
+	 * @param int $id Post ID.
+	 * @param string $taxonomy Taxonomy name.
+	 * @param string $before Optional. Before list.
+	 * @param string $sep Optional. Separate items using this.
+	 * @param string $after Optional. After list.
+	 *
+	 * @use wbft_get_post_terms_hierarchical
+	 *
+	 * @return string|bool|WP_Error A list of terms on success, false if there are no terms, WP_Error on failure.
+	 */
+	function wbft_get_the_terms_list_hierarchical( $id, $taxonomy, $before = '', $sep = '', $after = '' ) {
+		$terms = wbft_get_post_terms_hierarchical( $id, $taxonomy );
+
+		if ( is_wp_error( $terms ) )
+			return $terms;
+
+		if ( empty( $terms ) )
+			return false;
+
+		$links = array();
+
+		foreach ( $terms as $term ) {
+			$link = get_term_link( $term, $taxonomy );
+			if ( is_wp_error( $link ) ) {
+				return $link;
+			}
+			$links[] = '<a href="' . esc_url( $link ) . '" rel="tag">' . $term->name . '</a>';
+		}
+
+		/**
+		 * Filter the term links for a given taxonomy.
+		 *
+		 * The dynamic portion of the filter name, `$taxonomy`, refers
+		 * to the taxonomy slug.
+		 *
+		 * @since 2.5.0
+		 *
+		 * @param array $links An array of term links.
+		 */
+		$term_links = apply_filters( "term_links-$taxonomy", $links );
+
+		return $before . join( $sep, $term_links ) . $after;
 	}
 endif;
 
