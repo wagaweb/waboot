@@ -1,5 +1,13 @@
 == Change log ==
 
+Version 0.12.2 -
+---------------------------------
+
+WABOOT:
+- Implementate funzioni wbft_get_post_terms_hierarchical() e wbft_get_the_terms_list_hierarchical()
+- Ora entry-footer.php usa la funzione wbft_get_the_terms_list_hierarchical()
+- Ora le diverse funzioni in entry-footer vengono direttamente hookate a waboot_entry_footer, invece di passare dalla funzione waboot_print_entry_footer
+
 Version 0.12.1 - 22/06/2015
 ---------------------------------
 

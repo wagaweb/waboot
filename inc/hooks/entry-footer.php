@@ -1,22 +1,17 @@
 <?php
-/**
- * Print the opening markup for the entry footer.
- *
- * @since 0.1.0
- *
- */
 
-if(!function_exists( 'waboot_print_entry_footer')):
-    function waboot_print_entry_footer(){
-        echo '<footer class="entry-footer">';
-        waboot_do_posted_on();
-        waboot_do_post_author();
-        waboot_do_post_categories();
-        waboot_do_post_tags();
-        waboot_do_post_comments_link();
-        echo '</footer>';
-    }
-    add_action( 'waboot_entry_footer', 'waboot_print_entry_footer' );
+if(!function_exists( 'waboot_entry_footer_open_tag')):
+	function waboot_entry_footer_open_tag(){
+		echo '<footer class="entry-footer">';
+	}
+	add_action("waboot_entry_footer","waboot_entry_footer_open_tag");
+endif;
+
+if(!function_exists( 'waboot_entry_footer_close_tag')):
+	function waboot_entry_footer_close_tag(){
+		echo '</footer>';
+	}
+	add_action("waboot_entry_footer","waboot_entry_footer_close_tag",9999);
 endif;
 
 if(!function_exists( 'waboot_do_posted_on')):
@@ -29,13 +24,14 @@ if(!function_exists( 'waboot_do_posted_on')):
         if ( ! of_get_option( 'waboot_published_date', 1 ) )
             return;
 
-        printf( __( '<span class="published-date"><i class="glyphicon glyphicon-calendar" title="Published date"></i> <a href="%1$s" title="%2$s"><time class="entry-date" datetime="%3$s">%4$s</time></a></span>', 'waboot' ),
+        printf( __( '<span class="published-date"><a href="%1$s" title="%2$s"><time class="entry-date" datetime="%3$s">%4$s</time></a></span>', 'waboot' ),
             esc_url( get_permalink() ),
             esc_attr( get_the_time() ),
             esc_attr( get_the_date( 'c' ) ),
             esc_html( get_the_date() )
         );
     }
+	add_action("waboot_entry_footer","waboot_do_posted_on",10);
 endif;
 
 if(!function_exists( 'waboot_do_post_author')):
@@ -48,45 +44,27 @@ if(!function_exists( 'waboot_do_post_author')):
         if ( ! of_get_option('waboot_post_author', 1 ) )
             return;
 
-        printf( __( '<span class="byline"><i class="glyphicon glyphicon-user"></i> <span class="author vcard"><a class="url fn n" href="%1$s" title="%2$s" rel="author">%3$s</a></span></span>', 'waboot' ),
+        printf( __( '<span class="byline"><span class="author vcard"><a class="url fn n" href="%1$s" title="%2$s" rel="author">%3$s</a></span></span>', 'waboot' ),
             esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ),
             esc_attr( sprintf( __( 'View all posts by %s', 'waboot' ), get_the_author() ) ),
             esc_html( get_the_author() )
         );
     }
+	add_action("waboot_entry_footer","waboot_do_post_author",11);
 endif;
 
 if(!function_exists( 'waboot_do_post_categories')):
     /**
-     * Customize the list of categories displayed on index and on a post
-     * @since 0.1.0
+     * Display the list of categories on a post
      */
     function waboot_do_post_categories() {
         // Return early if theme options are set to hide categories
         if ( ! of_get_option( 'waboot_post_categories', 1 ) )
             return;
 
-        $post_categories = get_the_category();
-        if($post_categories){
-            echo '<span class="cat-links"><i class="glyphicon glyphicon-folder-open" title="Categories"></i> ';
-            $num_categories = count( $post_categories );
-            $category_count = 1;
-
-            foreach($post_categories as $category){
-                $html_before = '<a href="' . get_category_link( $category->term_id ) . '" class="cat-text">';
-                $html_after = '</a>';
-
-                if ($category_count < $num_categories)
-                    $sep = ', ';
-                elseif ( $category_count == $num_categories )
-                    $sep = '';
-                echo $html_before . $category->name . $html_after . $sep;
-                $category_count++;
-            }
-            echo '</span>';
-        }
+	    echo wbft_get_the_terms_list_hierarchical( get_the_ID(), 'category', '<span class="cat-links">', ', ', '</span>' );
     }
-    //add_action( 'waboot_entry_footer', 'waboot_do_post_categories', 8 );
+	add_action("waboot_entry_footer","waboot_do_post_categories",12);
 endif;
 
 if(!function_exists( 'waboot_do_post_tags')):
@@ -101,7 +79,7 @@ if(!function_exists( 'waboot_do_post_tags')):
 
         $post_tags = get_the_tags();
         if($post_tags){
-            echo '<span class="tags-links"><i class="glyphicon glyphicon-tags" title="Tags"></i> ';
+            echo '<span class="tags-links">';
             $num_tags = count( $post_tags );
             $tag_count = 1;
             foreach( $post_tags as $tag ) {
@@ -119,6 +97,7 @@ if(!function_exists( 'waboot_do_post_tags')):
             echo '</span>';
         }
     }
+	add_action("waboot_entry_footer","waboot_do_post_tags",13);
 endif;
 
 if(!function_exists('waboot_do_post_comments_link')):
@@ -138,4 +117,5 @@ if(!function_exists('waboot_do_post_comments_link')):
 		</span>
         <?php endif;
     }
+	add_action("waboot_entry_footer","waboot_do_post_comments_link",14);
 endif;
