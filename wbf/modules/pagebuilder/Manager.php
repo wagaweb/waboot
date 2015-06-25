@@ -29,8 +29,19 @@ class Manager {
 
 		    $current_builder = get_current_builder();
 		    if ( $current_builder ) {
-			    wp_enqueue_style( $current_builder . "-pagebuilder-css", get_stylesheet_directory_uri() . "/assets/css/" . $current_builder . "-pagebuilder.css", array( 'wb-pagebuilder' ) );
-		    }
+			    if(is_child_theme()){
+				    $css_file = get_stylesheet_directory() . "/assets/css/" . $current_builder . "-pagebuilder.css";
+				    if(is_file($css_file)){
+					    $css_path = get_stylesheet_directory_uri() . "/assets/css/" . $current_builder . "-pagebuilder.css"; //Load child style
+				    }else{
+					    $css_path = get_template_directory_uri() . "/assets/css/" . $current_builder . "-pagebuilder.css"; //Load parent style
+				    }
+			    }else{
+				    $css_path = get_stylesheet_directory_uri() . "/assets/css/" . $current_builder . "-pagebuilder.css"; //Load parent style
+			    }
+
+			    wp_enqueue_style( $current_builder . "-pagebuilder-css", $css_path , array( 'wb-pagebuilder' ) );
+			}
 	    }
     }
 
