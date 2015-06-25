@@ -10,6 +10,13 @@ WABOOT:
 - Aggiunta theme option "woocommerce_products_per_page"
 - Aggiunto filtro "wbft/woocommerce/loop_shop_per_page/cols" per modificare tramite filtro il numero di prodotti per pagine
 
+WBF:
+- Ora se l'url di update di un plugin non è valido, l'errore viene restituito in una admin notice.
+- Migliorata la documentazione di Notice_Manager
+- Ora una admin notice del Notice_Manager può essere assegnata alla categoria "_flash_", in modo da venir cancellata subito dopo la visualizzazione.
+- Ora Notice_Manager viene inizializzata al load di ogni plugin (se necessario) oltre al load di WBF.
+- Ora lo stile del pagebuilder può essere sovrascritto dal child. Inoltre, fixato bug in cui se si era in un tema child, il percorso per lo stile del pagebuilder veniva cercato sempre e comunque nella cartella del child.
+
 Version 0.12.1 - 22/06/2015
 ---------------------------------
 
