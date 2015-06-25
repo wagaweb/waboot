@@ -100,7 +100,8 @@ class Plugin_Update_Checker extends \PluginUpdateChecker{
 			$pluginInfo = \PluginInfo_1_6::fromJson($result['body'], $this->debugMode);
 			$pluginInfo->filename = $this->pluginFile;
 		} else if ( $this->debugMode ) {
-			$message = sprintf("The URL %s does not point to a valid plugin metadata file. ", $url);
+			//$message = sprintf("The URL %s does not point to a valid plugin metadata file. ", $url);
+			$message = sprintf(__("The update url provided for plugin %s does not point to a valid plugin metadata file. ","wbf"), $this->slug);
 			if ( is_wp_error($result) ) {
 				$message .= "WP HTTP error: " . $result->get_error_message();
 			} else if ( isset($result['response']['code']) ) {
@@ -108,7 +109,11 @@ class Plugin_Update_Checker extends \PluginUpdateChecker{
 			} else {
 				$message .= "wp_remote_get() returned an unexpected result.";
 			}
-			trigger_error($message, E_USER_WARNING);
+			//trigger_error($message, E_USER_WARNING);
+			global $wbf_notice_manager;
+			if(isset($wbf_notice_manager)){
+				$wbf_notice_manager->add_notice($this->slug."_update",$message,"error","_flash_");
+			}
 		}
 
 		$pluginInfo = apply_filters('puc_request_info_result-'.$this->slug, $pluginInfo, $result);
