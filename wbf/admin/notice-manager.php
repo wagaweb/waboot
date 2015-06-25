@@ -67,6 +67,9 @@ class Notice_Manager {
                     <?php
                     break;
             }
+	        if($notice['category'] == "_flash_"){
+		        $this->remove_notice($id);
+	        }
         }
     }
 
@@ -75,7 +78,17 @@ class Notice_Manager {
         return $notices;
     }
 
-    function add_notice($id,$message,$level,$category = 'base',$condition = null, $cond_args = null){
+	/**
+	 * Add a new notice to the system
+	 *
+	 * @param String $id
+	 * @param String $message
+	 * @param String $level (can be: "updated","error","nag"
+	 * @param String $category (can be anything. Categories are used to group notices for easy clearing them later. If the category is set to "_flash_", however, the notice will be cleared after displaying.
+	 * @param null|String $condition a class name that implements Condition interface
+	 * @param null|mixed $cond_args parameters to pass to $condition constructor
+	 */
+	function add_notice($id,$message,$level,$category = 'base', $condition = null, $cond_args = null){
         $notices = $this->get_notices();
         $notices[$id] = array(
             'message' => $message,
@@ -90,13 +103,18 @@ class Notice_Manager {
 
     function remove_notice($id){
         $notices = $this->get_notices();
-        if(isset($notices['id'])) unset($notices['id']);
+        if(isset($notices[$id])) unset($notices[$id]);
         $this->notices = $notices;
         $this->update_notices($notices);
     }
 
     function update_notices($notices){
-        $result = update_option("wbf_admin_notices",(array) $notices);
+	    $current_notices = get_option("wbf_admin_notices",array());
+	    if(is_array($notices)){
+		    $result = update_option("wbf_admin_notices", $notices);
+	    }else{
+		    $result = update_option("wbf_admin_notices", $current_notices);
+	    }
         return $result;
     }
 
