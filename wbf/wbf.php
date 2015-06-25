@@ -213,6 +213,8 @@ class WBF {
 	 */
 
     static function after_setup_theme() {
+	    global $wbf_notice_manager;
+
 	    self::maybe_add_option();
 
 	    $modules = self::load_modules();
@@ -220,7 +222,9 @@ class WBF {
 	    // Make framework available for translation.
         load_textdomain( 'wbf', WBF_DIRECTORY . '/languages/wbf-'.get_locale().".mo");
 
-        $GLOBALS['wbf_notice_manager'] = new WBF\admin\Notice_Manager(); // Loads notice manager
+	    if(!isset($wbf_notice_manager)){
+		    $GLOBALS['wbf_notice_manager'] = new \WBF\admin\Notice_Manager(); // Loads notice manager. The notice manager can be already loaded by plugins constructor prior this point.
+	    }
 
         // Global Customization
 	    locate_template( '/wbf/public/theme-customs.php', true );
