@@ -479,26 +479,10 @@ function optionsframework_options() {
      * TYPOGRAPHY
      */
 
-    /** Typography Array Merge */
-
-    $typography_mixed_fonts = array_merge( options_typography_get_os_fonts() , options_typography_get_google_fonts() );
-    asort($typography_mixed_fonts);
-
-
     $options[] = array(
         'name' => __( 'Typography', 'waboot' ),
         'type' => 'heading'
     );
-
-    /*$options[] = array( 'name' => 'Primary font (body, p, ul, li)',
-        'desc' => 'Select your primary font face.',
-        'id' => 'waboot_primary_font',
-        'std' => array( 'size' => '', 'style' => 'normal', 'weight' => 'normal' , 'face' => 'Lato, sans-serif', 'color' => ''),
-        'type' => 'typography',
-        'options' => array(
-            'faces' => $typography_mixed_fonts,
-            'styles' => false )
-    );*/
 
 	$options[] = array(
 		'name' => 'Primary font (body, p, ul, li)',
@@ -514,16 +498,6 @@ function optionsframework_options() {
 		'recompile_styles' => true
 	);
 
-    /*$options[] = array( 'name' => 'Secondary font (h1, h2, h3, h4, h5, h6)',
-        'desc' => 'Select your secondary font face.',
-        'id' => 'waboot_secondary_font',
-        'std' => array( 'size' => '', 'style' => 'normal', 'weight' => 'normal' ,'face' => 'Lato, sans-serif', 'color' => ''),
-        'type' => 'typography',
-        'options' => array(
-            'faces' => $typography_mixed_fonts,
-            'styles' => false )
-    );*/
-
     $options[] = array(
         'name' => 'Secondary font (h1, h2, h3, h4, h5, h6)',
         'id' => 'waboot_secondaryfont',
@@ -537,19 +511,6 @@ function optionsframework_options() {
         'fonts_type' => 'google',
         'recompile_styles' => true
     );
-/*
-    $options[] = array( 'name' => 'System Fonts and Google Fonts Mixed (2)',
-        'desc' => 'Google fonts mixed with system fonts.',
-        'id' => 'google_mixed_2',
-        'std' => array( 'size' => '28px', 'face' => 'Arvo, serif', 'color' => '#333333'),
-        'type' => 'typography',
-        'options' => array(
-            'faces' => $typography_mixed_fonts,
-            'styles' => false )
-    );
-*/
-
-
 
     /*
     * HEADER TAB
