@@ -1,13 +1,12 @@
 <?php
 
-if ( ! function_exists( 'waboot_mainwrap_container_class' ) ):
+if ( ! function_exists( 'waboot_set_mainwrap_container_classes' ) ):
 	/**
 	 * Prepare the classes for mainwrap container
 	 * @param $classes
 	 * @return string
 	 */
-	function waboot_mainwrap_container_class($classes)
-	{
+	function waboot_set_mainwrap_container_classes($classes) {
 		$body_layout = waboot_get_body_layout();
 		$cols_size = _get_cols_sizes();
 		$classes_array = explode(" ", $classes);
@@ -29,16 +28,16 @@ if ( ! function_exists( 'waboot_mainwrap_container_class' ) ):
 		$classes = implode(" ",$classes_array);
 		return $classes;
 	}
-	add_filter("waboot_mainwrap_container_class","waboot_mainwrap_container_class");
+	add_filter("waboot_mainwrap_container_class","waboot_set_mainwrap_container_classes");
 endif;
 
-if ( ! function_exists( 'waboot_primary_container_class' ) ):
+if ( ! function_exists( 'waboot_set_primary_container_classes' ) ):
 	/**
 	 * Prepare the classes for primary container (the primary sidebar)
 	 * @param $classes
 	 * @return string
 	 */
-	function waboot_primary_container_class($classes){
+	function waboot_set_primary_container_classes($classes){
 		$classes_array = explode(" ",$classes);
 
 		if(get_behavior('primary-sidebar-size')){
@@ -54,16 +53,16 @@ if ( ! function_exists( 'waboot_primary_container_class' ) ):
 		$classes = implode(" ",$classes_array);
 		return $classes;
 	}
-	add_filter("waboot_primary_container_class","waboot_primary_container_class");
+	add_filter("waboot_primary_container_class","waboot_set_primary_container_classes");
 endif;
 
-if ( ! function_exists( 'waboot_secondary_container_class' ) ):
+if ( ! function_exists( 'waboot_set_secondary_container_classes' ) ):
 	/**
 	 * Prepare the classes for secondary container (the secondary sidebar)
 	 * @param $classes
 	 * @return string
 	 */
-	function waboot_secondary_container_class($classes){
+	function waboot_set_secondary_container_classes($classes){
 		$classes_array = explode(" ",$classes);
 
 		if(get_behavior('secondary-sidebar-size')){
@@ -74,7 +73,7 @@ if ( ! function_exists( 'waboot_secondary_container_class' ) ):
 		$classes = implode(" ",$classes_array);
 		return $classes;
 	}
-	add_filter("waboot_secondary_container_class","waboot_secondary_container_class");
+	add_filter("waboot_secondary_container_class","waboot_set_secondary_container_classes");
 endif;
 
 /**
@@ -82,6 +81,7 @@ endif;
  * @return array of integers
  */
 function _get_cols_sizes(){
+	$result = array("main"=>12);
 	if (waboot_body_layout_has_two_sidebars()) {
 		//Primary size
 		$primary_sidebar_width = get_behavior('primary-sidebar-size');
@@ -92,18 +92,18 @@ function _get_cols_sizes(){
 		//Main size
 		$mainwrap_size = 12 - _layout_width_to_int($primary_sidebar_width) - _layout_width_to_int($secondary_sidebar_width);
 
-		return array("main"=>$mainwrap_size,"primary"=>_layout_width_to_int($primary_sidebar_width),"secondary"=>_layout_width_to_int($secondary_sidebar_width));
+		$result = array("main"=>$mainwrap_size,"primary"=>_layout_width_to_int($primary_sidebar_width),"secondary"=>_layout_width_to_int($secondary_sidebar_width));
 	}else{
 		if(waboot_get_body_layout() != "full-width"){
 			$primary_sidebar_width = get_behavior('primary-sidebar-size');
 			if(!$primary_sidebar_width) $primary_sidebar_width = 0;
 			$mainwrap_size = 12 - _layout_width_to_int($primary_sidebar_width);
 
-			return array("main"=>$mainwrap_size,"primary"=>_layout_width_to_int($primary_sidebar_width));
+			$result = array("main"=>$mainwrap_size,"primary"=>_layout_width_to_int($primary_sidebar_width));
 		}
 	}
-
-	return array("main"=>12);
+	$result = apply_filters("waboot/layout/get_cols_sizes",$result);
+	return $result;
 }
 
 if(!function_exists("waboot_layout_body_class")) :
