@@ -16,6 +16,7 @@ WBF:
 - Ora una admin notice del Notice_Manager può essere assegnata alla categoria "_flash_", in modo da venir cancellata subito dopo la visualizzazione.
 - Ora Notice_Manager viene inizializzata al load di ogni plugin (se necessario) oltre al load di WBF.
 - Ora lo stile del pagebuilder può essere sovrascritto dal child. Inoltre, fixato bug in cui se si era in un tema child, il percorso per lo stile del pagebuilder veniva cercato sempre e comunque nella cartella del child.
+- L'hook "wbf_get_modules" è diventato "wbf/modules/available"
 
 Version 0.12.1 - 22/06/2015
 ---------------------------------
