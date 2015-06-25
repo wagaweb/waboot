@@ -140,7 +140,7 @@ function _layout_width_to_int($width){
 		case '1/2':
 			return 6;
 			break;
-		case '2/3':
+		case '1/3':
 			return 4;
 			break;
 		case '1/4':

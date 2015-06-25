@@ -809,8 +809,29 @@ function optionsframework_options() {
     );
 
     $options[] = array(
-        'name' => __('Woocommerce Layout', 'waboot'),
-        'desc' => __('Select Woocommerce page layout', 'waboot'),
+        'name' => __( 'Woocommerce Shop Page', 'waboot' ),
+        'desc' => __( '', 'waboot' ),
+        'type' => 'info'
+    );
+
+    $options[] = array(
+        'name' => __('Woocommerce Shop Layout', 'waboot'),
+        'desc' => __('Select Woocommerce shop page layout', 'waboot'),
+        'id' => 'waboot_woocommerce_shop_sidebar_layout',
+        'std' => $sidebar_layouts['default'],
+        'type' => $opt_type,
+        'options' => $final_sidebar_layouts
+    );
+
+    $options[] = array(
+        'name' => __( 'Woocommerce Archives and Categories', 'waboot' ),
+        'desc' => __( '', 'waboot' ),
+        'type' => 'info'
+    );
+
+    $options[] = array(
+        'name' => __('Woocommerce Archive Layout', 'waboot'),
+        'desc' => __('Select Woocommerce archive layout', 'waboot'),
         'id' => 'waboot_woocommerce_sidebar_layout',
         'std' => $sidebar_layouts['default'],
         'type' => $opt_type,

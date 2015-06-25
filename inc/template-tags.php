@@ -625,11 +625,12 @@ if(!function_exists("waboot_get_body_layout")):
     function waboot_get_body_layout(){
         if(function_exists('is_product_category') && is_product_category()){
             return of_get_option('waboot_woocommerce_sidebar_layout');
-        }elseif(is_home() || is_archive()){
+        }elseif(function_exists('is_shop') && is_shop()) {
+            return of_get_option('waboot_woocommerce_shop_sidebar_layout');
+        }elseif(is_home() || is_archive()) {
             return of_get_option('waboot_blogpage_sidebar_layout');
-        }else{
-            return get_behavior('layout');
         }
+        return get_behavior('layout');
     }
 endif;
 

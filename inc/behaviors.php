@@ -65,8 +65,8 @@ function waboot_behaviors($behaviors){
                 "value" => "1/2"
             ),
             array(
-                "name" => __("2/3","waboot"),
-                "value" => "2/3"
+                "name" => __("1/3","waboot"),
+                "value" => "1/3"
             ),
             array(
                 "name" => __("1/4","waboot"),
@@ -92,8 +92,8 @@ function waboot_behaviors($behaviors){
 				"value" => "1/2"
 			),
 			array(
-				"name" => __("2/3","waboot"),
-				"value" => "2/3"
+				"name" => __("1/3","waboot"),
+				"value" => "1/3"
 			),
 			array(
 				"name" => __("1/4","waboot"),

@@ -31,4 +31,5 @@ if(isset($woocommerce)):
 		$n = apply_filters("wbft/woocommerce/loop_shop_per_page/cols",of_get_option("woocommerce_products_per_page",$cols));
 		return (int) $n;
 	}, 20);
+
 endif;

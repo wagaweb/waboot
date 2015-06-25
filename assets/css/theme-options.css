@@ -1,4 +1,7 @@
-/* Blog */
+#optionsframework {
+  /* Blog */
+  /* WooCommerce */
+}
 #optionsframework .blog .section:nth-child(2),
 #optionsframework .blog .section:nth-child(3) {
   width: 100%;
@@ -12,4 +15,10 @@
 #optionsframework .blog .section:nth-child(5) {
   width: 50%;
   border-right: none;
+}
+#optionsframework .woocommerce #section-waboot_woocommerce_shop_sidebar_layout,
+#optionsframework .woocommerce #section-waboot_woocommerce_sidebar_layout {
+  width: 100%;
+  padding-left: 0;
+  padding-right: 0;
 }

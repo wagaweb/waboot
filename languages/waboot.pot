@@ -350,7 +350,7 @@ msgid "1/2"
 msgstr ""
 
 #: inc/behaviors.php:68 inc/behaviors.php:95
-msgid "2/3"
+msgid "1/3"
 msgstr ""
 
 #: inc/behaviors.php:72 inc/behaviors.php:99
