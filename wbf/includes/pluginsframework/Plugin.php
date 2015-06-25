@@ -143,6 +143,12 @@ class Plugin {
 		 */
 		//require_once plugin_dir_path( dirname( __FILE__ ) ) . 'class-waboot-plugin-i18n.php';
 
+		//Load Notice Manager if needed
+		global $wbf_notice_manager;
+		if(!isset($wbf_notice_manager)){
+			$GLOBALS['wbf_notice_manager'] = new \WBF\admin\Notice_Manager(); // Loads notice manager
+		}
+
 		$this->loader = new Loader($this);
 	}
 

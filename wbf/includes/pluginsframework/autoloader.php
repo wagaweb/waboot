@@ -16,6 +16,9 @@ function plugin_autoload( $class ) {
 		}
 
 		switch($class){
+			case "WBF\admin\Notice_Manager":
+				require_once($wbf_path . "/admin/notice-manager.php");
+				break;
 			case "WBF\includes\pluginsframework\License_Interface":
 				require_once($wbf_path . "/includes/license-interface.php");
 				break;
