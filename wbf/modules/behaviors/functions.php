@@ -37,6 +37,8 @@ function get_behavior($name, $post_id = 0, $return = "value") {
 
 	if(!$b->is_enable_for_node($post_id)) return null;
 
+	$b = apply_filters("wbf/modules/behaviors/get",$b);
+
 	if($return == "value"){
 		return $b->value;
 	}else{

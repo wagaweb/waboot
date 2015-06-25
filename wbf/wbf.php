@@ -194,6 +194,8 @@ class WBF {
 
 		$b = get_post_meta( "_behavior_" . $post_id, $name, true );
 
+		$b = apply_filters("wbf/modules/behaviors/get",$b);
+
 		if ( $b ) {
 			return $b;
 		} else {
