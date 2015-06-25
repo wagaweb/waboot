@@ -128,6 +128,32 @@ if (!function_exists( "wbf_admin_show_message" )) :
     }
 endif;
 
+if (!function_exists("wbf_add_admin_notice")) :
+	/**
+	 * Add an admin notice
+	 *
+	 * @uses WBF\admin\Notice_Manager
+	 *
+	 * @param String $id
+	 * @param String $message
+	 * @param String $level (can be: "updated","error","nag")
+	 * @param array $args (category[default:base], condition[default:null], cond_args[default:null])
+	 */
+	function wbf_add_admin_notice($id,$message,$level,$args = []){
+		global $wbf_notice_manager;
+
+		if(!isset($wbf_notice_manager)) return;
+
+		$args = wp_parse_args($args,[
+			"category" => 'base',
+			"condition" => null,
+			"cond_args" => null
+		]);
+
+		$wbf_notice_manager->add_notice($id,$message,$level,$args['category'],$args['condition'],$args['cond_args']);
+	}
+endif;
+
 /***************************************************************
  * MOBILE DETECT FUNCTIONS
  ***************************************************************/
