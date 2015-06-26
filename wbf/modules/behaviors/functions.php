@@ -21,7 +21,7 @@ function get_behavior($name, $post_id = 0, $return = "value") {
 		}
 	}
 
-	if(is_archive()){
+	if($post_id == 0 && is_archive()){
 		$blog_page = get_option('page_for_posts');
 		if($blog_page){
 			$post_id = $blog_page;

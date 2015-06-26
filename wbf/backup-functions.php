@@ -19,9 +19,9 @@ function waboot_breadcrumb_trail( $args = array() ){
  */
 function get_behavior( $name, $post_id = 0, $return = "value" ) {
     if (class_exists('\WBF\modules\behaviors\BehaviorsManager')) {
-        return \WBF\modules\behaviors\get_behavior( $name, $post_id = 0, $return = "value" ); //call the behavior framework function
+        return \WBF\modules\behaviors\get_behavior( $name, $post_id, $return = "value" ); //call the behavior framework function
     } else {
-        return WBF::get_behavior( $name, $post_id = 0, $return = "value" ); //call the backup function
+        return WBF::get_behavior( $name, $post_id, $return = "value" ); //call the backup function
     }
 }
 
