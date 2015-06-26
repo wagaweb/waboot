@@ -67,4 +67,19 @@ if(isset($woocommerce)):
 		return $sizes;
 	}
 
+	/*
+	 * TEMPLATE TAGS
+	 */
+
+	/**
+	 * waboot_woocommerce_is_shop - Returns true when the specified page is the shop page.
+	 *
+	 * @param $id
+	 *
+	 * @return bool
+	 */
+	function waboot_woocommerce_is_shop($id){
+		return $id == wc_get_page_id( 'shop' );
+	}
+
 endif;
