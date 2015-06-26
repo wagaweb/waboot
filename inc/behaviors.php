@@ -78,7 +78,7 @@ function waboot_behaviors($behaviors){
             )
         ),
         "default" => "1/4",
-        "valid" => array('*','-slideshow')
+        "valid" => array('*','-slideshow',"-{ctag:waboot_woocommerce_is_shop}")
     );
 
 	$behaviors[] = array(
@@ -105,7 +105,7 @@ function waboot_behaviors($behaviors){
 			)
 		),
 		"default" => "1/4",
-		"valid" => array('*','-slideshow')
+		"valid" => array('*','-slideshow',"-{ctag:waboot_woocommerce_is_shop}")
 	);
 
     /***********************************************
