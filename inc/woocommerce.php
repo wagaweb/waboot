@@ -64,6 +64,29 @@ if(isset($woocommerce)):
 	}
 
 	function waboot_woocommerce_alter_col_sizes($sizes){
+		if(function_exists('is_shop') && is_shop()) {
+			global $post;
+
+			$sizes = array("main"=>12);
+			//Primary size
+			$primary_sidebar_width = get_behavior('primary-sidebar-size', wc_get_page_id( 'shop' ));
+			if(!$primary_sidebar_width) $primary_sidebar_width = 0;
+			//Secondary size
+			$secondary_sidebar_width = get_behavior('secondary-sidebar-size', wc_get_page_id( 'shop' ));
+			if(!$secondary_sidebar_width) $secondary_sidebar_width = 0;
+
+			if (waboot_body_layout_has_two_sidebars()) {
+				//Main size
+				$mainwrap_size = 12 - _layout_width_to_int($primary_sidebar_width) - _layout_width_to_int($secondary_sidebar_width);
+				$sizes = array("main"=>$mainwrap_size,"primary"=>_layout_width_to_int($primary_sidebar_width),"secondary"=>_layout_width_to_int($secondary_sidebar_width));
+			}else{
+				if(waboot_get_body_layout() != "full-width"){
+					$mainwrap_size = 12 - _layout_width_to_int($primary_sidebar_width);
+					$sizes = array("main"=>$mainwrap_size,"primary"=>_layout_width_to_int($primary_sidebar_width));
+				}
+			}
+		}
+
 		return $sizes;
 	}
 
