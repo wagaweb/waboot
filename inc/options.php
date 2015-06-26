@@ -872,6 +872,24 @@ function optionsframework_options() {
 		'type' => 'text'
 	);
 
+	$options[] = array(
+		'id' => 'woocommerce_primary-sidebar-size',
+		'name' => __("Primary Sidebar width","waboot"),
+		'desc' => __("Choose the primary sidebar width","waboot"),
+		'type' => "select",
+		'options' => array("1/2"=>"1/2","1/3"=>"1/3","1/4"=>"1/4","1/6"=>"1/6"),
+		"std" => "1/4"
+	);
+
+	$options[] = array(
+		'id' => 'woocommerce_secondary-sidebar-size',
+		'name' => __("Secondary Sidebar width","waboot"),
+		'desc' => __("Choose the secondary sidebar width","waboot"),
+		'type' => "select",
+		'options' => array("1/2"=>"1/2","1/3"=>"1/3","1/4"=>"1/4","1/6"=>"1/6"),
+		"std" => "1/4"
+	);
+
     /*
      * POST META TAB
      */
