@@ -873,7 +873,7 @@ function optionsframework_options() {
 	);
 
 	$options[] = array(
-		'id' => 'woocommerce_shop-primary-sidebar-size',
+		'id' => 'woocommerce_shop_primary_sidebar_size',
 		'name' => __("Primary Sidebar width","waboot"),
 		'desc' => __("Choose the primary sidebar width","waboot"),
 		'type' => "select",
@@ -882,7 +882,7 @@ function optionsframework_options() {
 	);
 
 	$options[] = array(
-		'id' => 'woocommerce_shop-secondary-sidebar-size',
+		'id' => 'woocommerce_shop_secondary_sidebar_size',
 		'name' => __("Secondary Sidebar width","waboot"),
 		'desc' => __("Choose the secondary sidebar width","waboot"),
 		'type' => "select",
