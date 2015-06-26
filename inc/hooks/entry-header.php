@@ -79,6 +79,12 @@ function waboot_print_entry_title_before_inner(){
                 printf( '<div class="taxonomy-description"><div class="container">%s</div></div>', $term_description );
         }
     }
+    elseif( function_exists('is_shop') && is_shop() ){
+        if ( of_get_option('woocommerce_shop_title_position') == "top" ) {
+            add_filter("waboot_entry_title_html_singular", "waboot_entry_title_before_inner_markup");
+            waboot_index_title('<div class="title-wrapper"><div class="container"><h1 class=\'entry-header\' itemprop=\'name\'>', '</h1></div></div>');
+        }
+    }
     elseif( is_archive() ){
 	    if ( of_get_option('waboot_blogpage_title_position') == "top" ) {
 		    waboot_archive_page_title('<div class="title-wrapper"><div class="container"><h1 class=\'entry-header\' itemprop=\'name\'>', '</h1></div></div>');
