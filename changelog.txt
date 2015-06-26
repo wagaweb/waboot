@@ -10,6 +10,7 @@ WABOOT:
 - Aggiunta theme option "woocommerce_products_per_page"
 - Aggiunto filtro "wbft/woocommerce/loop_shop_per_page/cols" per modificare tramite filtro il numero di prodotti per pagine
 - Migliorata integrazione woocommerce
+- Ora nelle theme options è possibile scegliere anche la larghezza delle sidebar per woocommerce
 
 WBF:
 - Ora se l'url di update di un plugin non è valido, l'errore viene restituito in una admin notice.

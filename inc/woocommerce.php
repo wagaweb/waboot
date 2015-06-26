@@ -69,10 +69,10 @@ if(isset($woocommerce)):
 
 			$sizes = array("main"=>12);
 			//Primary size
-			$primary_sidebar_width = of_get_option('woocommerce_primary-sidebar-size');
+			$primary_sidebar_width = of_get_option('woocommerce_shop-primary-sidebar-size');
 			if(!$primary_sidebar_width) $primary_sidebar_width = 0;
 			//Secondary size
-			$secondary_sidebar_width = of_get_option('woocommerce_secondary-sidebar-size');
+			$secondary_sidebar_width = of_get_option('woocommerce_shop-secondary-sidebar-size');
 			if(!$secondary_sidebar_width) $secondary_sidebar_width = 0;
 
 			if (waboot_body_layout_has_two_sidebars()) {
