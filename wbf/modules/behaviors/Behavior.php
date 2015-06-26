@@ -17,7 +17,8 @@ class Behavior{
 
 	var $filters = array(
 		'post_type' => '*',
-		'node_id' => '*'
+		'node_id' => '*',
+		'conditional_tags' => '*'
 	);
 
 	function __construct($args){
@@ -77,9 +78,10 @@ class Behavior{
 		if(isset($args['valid'])){
 			$this->filters['post_type'] = array();
 			$this->filters['node_id'] = array();
+			$this->filters['conditional_tags'] = array();
 			if(is_array($args['valid'])){
 				foreach($args['valid'] as $filter){
-					if(preg_match("/^-([\{\}a-zA-Z0-9_]+)/",$filter,$matches)){
+					if(preg_match("/^-([\{\}a-zA-Z0-9:_]+)/",$filter,$matches)){ //EXCLUDING
 						if($matches[1] == "{home}"){
 							array_push($this->filters['node_id'],"-".get_option( 'page_for_posts' ));
 						}elseif($matches[1] == "{cpt}"){
@@ -87,12 +89,15 @@ class Behavior{
 							foreach($cpts as $k => $v){
 								array_push($this->filters['post_type'],"-".$k);
 							}
+						}elseif(preg_match("/^\{ctag:([a-zA-Z0-9_]+)\}$/",$matches[1],$catags)){
+							//Conditional tags
+							array_push($this->filters['conditional_tags'],'-'.$catags[1]);
 						}elseif(is_numeric($matches[1])){
 							array_push($this->filters['node_id'],"-".$matches[1]);
 						}else{
 							array_push($this->filters['post_type'],"-".$matches[1]);
 						}
-					}else{
+					}else{ //INCLUDING
 						if($filter == "{home}"){
 							array_push($this->filters['node_id'],get_option( 'page_for_posts' ));
 						}elseif($filter == "{cpt}"){
@@ -100,6 +105,9 @@ class Behavior{
 							foreach($cpts as $k => $v){
 								array_push($this->filters['post_type'],$k);
 							}
+						}elseif(preg_match("/^\{ctag:([a-zA-Z0-9_]+)\}$/",$filter,$catags)){
+							//Conditional tags
+							array_push($this->filters['conditional_tags'],$catags[1]);
 						}elseif(is_numeric($filter)){
 							array_push($this->filters['node_id'],$filter);
 						}else{
@@ -114,12 +122,13 @@ class Behavior{
 		}
 	}
 
-	function save_meta($post_id)
+	function save_meta( $post_id )
 	{
-		if (is_array($this->value))
-			update_post_meta($post_id, $this->metaname, serialize($this->value));
-		else
-			update_post_meta($post_id, $this->metaname, $this->value);
+		if ( is_array( $this->value ) ) {
+			update_post_meta( $post_id, $this->metaname, serialize( $this->value ) );
+		} else {
+			update_post_meta( $post_id, $this->metaname, $this->value );
+		}
 	}
 
 	/**
@@ -171,28 +180,44 @@ class Behavior{
 
 	function is_enable_for_node($id){
 		$post_type = get_post_type($id);
+		$maybe_valid = false;
 
 		if($this->filters['post_type'] == "*" && $this->filters['node_id'] == "*"){
-			return true;
+			$maybe_valid = true;
 		}
 
 		if((in_array("*",$this->filters['post_type']) && !in_array("-$post_type",$this->filters['post_type'])) || (in_array("*",$this->filters['node_id']) && !in_array("-$id",$this->filters['node_id'])) ){
-			return true;
+			$maybe_valid = true;
 		}
 
 		if(in_array("-$post_type",$this->filters['post_type']) || in_array("-$id",$this->filters['node_id'])){
-			return false;
+			$maybe_valid = false;
 		}
 
 		if(in_array($post_type, $this->filters['post_type']) || $this->filters['post_type'] == "*"){
-			return true;
+			$maybe_valid = true;
 		}
 
 		if(in_array("$id",$this->filters['node_id']) || $this->filters['node_id'] == "*"){
-			return true;
+			$maybe_valid = true;
 		}
 
-		return false;
+		if(isset($this->filters['conditional_tags']) && is_array($this->filters['conditional_tags']) && !empty($this->filters['conditional_tags'])){
+			foreach($this->filters['conditional_tags'] as $k => $filter){
+				preg_match("/^(-)?([a-zA-Z_]+)/",$filter,$matches);
+				$return_value_to_meet = isset($matches[1]) ? false : true;
+				if(function_exists($matches[2])){
+					$result = @call_user_func($matches[2],$id);
+				}
+				if($result == $return_value_to_meet){
+					$maybe_valid = true;
+				}else{
+					$maybe_valid = false;
+				}
+			}
+		}
+
+		return $maybe_valid;
 	}
 
 	function is_enabled_for_post_type($post_type){
