@@ -194,16 +194,15 @@ class WBF {
 
 		$b = get_post_meta( "_behavior_" . $post_id, $name, true );
 
-		$b = apply_filters("wbf/modules/behaviors/get",$b);
-
-		if ( $b ) {
-			return $b;
-		} else {
+		if(!isset($b) || (is_bool($b) && $b == false)){
 			$config = get_option( 'optionsframework' );
-			$b      = of_get_option( $config['id'] . "_behavior_" . $name );
-
-			return $b;
+			$b = of_get_option( $config['id'] . "_behavior_" . $name );
 		}
+
+		$b = apply_filters("wbf/modules/behaviors/get",$b);
+		$b = apply_filters("wbf/modules/behaviors/get/".$name,$b);
+
+		return $b;
 	}
 
 	/**
