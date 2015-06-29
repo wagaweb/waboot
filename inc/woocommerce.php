@@ -66,25 +66,38 @@ if(isset($woocommerce)):
 	}
 
 	function waboot_woocommerce_alter_col_sizes($sizes){
-		if(function_exists('is_shop') && is_shop()) {
+		if((function_exists('is_woocommerce') && is_woocommerce())) {
 			global $post;
-
+			$do_calc = false;
 			$sizes = array("main"=>12);
-			//Primary size
-			$primary_sidebar_width = of_get_option('woocommerce_shop_primary_sidebar_size');
-			if(!$primary_sidebar_width) $primary_sidebar_width = 0;
-			//Secondary size
-			$secondary_sidebar_width = of_get_option('woocommerce_shop_secondary_sidebar_size');
-			if(!$secondary_sidebar_width) $secondary_sidebar_width = 0;
+			if(is_shop()){
+				//Primary size
+				$primary_sidebar_width = of_get_option('woocommerce_shop_primary_sidebar_size');
+				if(!$primary_sidebar_width) $primary_sidebar_width = 0;
+				//Secondary size
+				$secondary_sidebar_width = of_get_option('woocommerce_shop_secondary_sidebar_size');
+				if(!$secondary_sidebar_width) $secondary_sidebar_width = 0;
+				$do_calc = true;
+			}elseif(is_product_category()){
+				//Primary size
+				$primary_sidebar_width = of_get_option('waboot_woocommerce_primary_sidebar_size');
+				if(!$primary_sidebar_width) $primary_sidebar_width = 0;
+				//Secondary size
+				$secondary_sidebar_width = of_get_option('waboot_woocommerce_secondary_sidebar_size');
+				if(!$secondary_sidebar_width) $secondary_sidebar_width = 0;
+				$do_calc = true;
+			}
 
-			if (waboot_body_layout_has_two_sidebars()) {
-				//Main size
-				$mainwrap_size = 12 - _layout_width_to_int($primary_sidebar_width) - _layout_width_to_int($secondary_sidebar_width);
-				$sizes = array("main"=>$mainwrap_size,"primary"=>_layout_width_to_int($primary_sidebar_width),"secondary"=>_layout_width_to_int($secondary_sidebar_width));
-			}else{
-				if(waboot_get_body_layout() != "full-width"){
-					$mainwrap_size = 12 - _layout_width_to_int($primary_sidebar_width);
-					$sizes = array("main"=>$mainwrap_size,"primary"=>_layout_width_to_int($primary_sidebar_width));
+			if($do_calc){
+				if (waboot_body_layout_has_two_sidebars()) {
+					//Main size
+					$mainwrap_size = 12 - _layout_width_to_int($primary_sidebar_width) - _layout_width_to_int($secondary_sidebar_width);
+					$sizes = array("main"=>$mainwrap_size,"primary"=>_layout_width_to_int($primary_sidebar_width),"secondary"=>_layout_width_to_int($secondary_sidebar_width));
+				}else{
+					if(waboot_get_body_layout() != "full-width"){
+						$mainwrap_size = 12 - _layout_width_to_int($primary_sidebar_width);
+						$sizes = array("main"=>$mainwrap_size,"primary"=>_layout_width_to_int($primary_sidebar_width));
+					}
 				}
 			}
 		}
@@ -93,20 +106,32 @@ if(isset($woocommerce)):
 	}
 
 	function waboot_woocommerce_primary_sidebar_size_behavior(\WBF\modules\behaviors\Behavior $b){
-		if(function_exists('is_shop') && is_shop()) {
-			$primary_sidebar_width = of_get_option('woocommerce_shop_primary_sidebar_size');
-			if(!$primary_sidebar_width) $primary_sidebar_width = 0;
-			$b->value = $primary_sidebar_width;
+		if((function_exists('is_woocommerce') && is_woocommerce())) {
+			if(is_shop()){
+				$primary_sidebar_width = of_get_option('woocommerce_shop_primary_sidebar_size');
+				if(!$primary_sidebar_width) $primary_sidebar_width = 0;
+				$b->value = $primary_sidebar_width;
+			}elseif(is_product_category()){
+				$primary_sidebar_width = of_get_option('waboot_woocommerce_primary_sidebar_size');
+				if(!$primary_sidebar_width) $primary_sidebar_width = 0;
+				$b->value = $primary_sidebar_width;
+			}
 		}
 
 		return $b;
 	}
 
 	function waboot_woocommerce_secondary_sidebar_size_behavior(\WBF\modules\behaviors\Behavior $b){
-		if(function_exists('is_shop') && is_shop()) {
-			$secondary_sidebar_width = of_get_option('woocommerce_shop_secondary_sidebar_size');
-			if(!$secondary_sidebar_width) $secondary_sidebar_width = 0;
-			$b->value = $secondary_sidebar_width;
+		if((function_exists('is_woocommerce') && is_woocommerce())) {
+			if(is_shop()){
+				$secondary_sidebar_width = of_get_option('woocommerce_shop_secondary_sidebar_size');
+				if(!$secondary_sidebar_width) $secondary_sidebar_width = 0;
+				$b->value = $secondary_sidebar_width;
+			}elseif(is_product_category()){
+				$secondary_sidebar_width = of_get_option('waboot_woocommerce_secondary_sidebar_size');
+				if(!$secondary_sidebar_width) $secondary_sidebar_width = 0;
+				$b->value = $secondary_sidebar_width;
+			}
 		}
 
 		return $b;
