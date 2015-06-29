@@ -90,6 +90,22 @@ if(isset($woocommerce)):
 		return $sizes;
 	}
 
+	function waboot_woocommerce_primary_sidebar_size_behavior(\WBF\modules\behaviors\Behavior $b){
+		$primary_sidebar_width = of_get_option('woocommerce_shop_primary_sidebar_size');
+		if(!$primary_sidebar_width) $primary_sidebar_width = 0;
+		$b->value = $primary_sidebar_width;
+		return $b;
+	}
+	add_filter("wbf/modules/behaviors/get/primary-sidebar-size","waboot_woocommerce_primary_sidebar_size_behavior");
+
+	function waboot_woocommerce_secondary_sidebar_size_behavior(\WBF\modules\behaviors\Behavior $b){
+		$secondary_sidebar_width = of_get_option('woocommerce_shop_secondary_sidebar_size');
+		if(!$secondary_sidebar_width) $secondary_sidebar_width = 0;
+		$b->value = $secondary_sidebar_width;
+		return $b;
+	}
+	add_filter("wbf/modules/behaviors/get/secondary-sidebar-size","waboot_woocommerce_secondary_sidebar_size_behavior");
+
 	/*
 	 * TEMPLATE TAGS
 	 */
