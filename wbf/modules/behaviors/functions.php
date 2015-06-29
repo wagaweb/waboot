@@ -40,8 +40,8 @@ function get_behavior($name, $post_id = 0, $return = "value") {
 	$b = apply_filters("wbf/modules/behaviors/get",$b);
 	$b = apply_filters("wbf/modules/behaviors/get/".$b->name,$b);
 
-	if($return == "value"){
-		$b = apply_filters("wbf/modules/behaviors/get/".$b->name."/value",$b->value);
+	if($return == "value" && is_object($b) && isset($b->value)){
+		$b->value = apply_filters("wbf/modules/behaviors/get/".$b->name."/value",$b->value);
 		return $b->value;
 	}else{
 		return $b;
