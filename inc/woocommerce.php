@@ -31,6 +31,8 @@ if(isset($woocommerce)):
 	add_filter("waboot_woocommerce_mainwrap_container_class", "waboot_set_mainwrap_container_classes");
 	add_filter("waboot/layout/body_layout/get","waboot_woocommerce_alter_body_layout", 90);
 	add_filter("waboot/layout/get_cols_sizes","waboot_woocommerce_alter_col_sizes", 90);
+	add_filter("wbf/modules/behaviors/get/primary-sidebar-size","waboot_woocommerce_primary_sidebar_size_behavior");
+	add_filter("wbf/modules/behaviors/get/secondary-sidebar-size","waboot_woocommerce_secondary_sidebar_size_behavior");
 
 	/*
      * HOOKED FUNCTIONS
@@ -91,20 +93,24 @@ if(isset($woocommerce)):
 	}
 
 	function waboot_woocommerce_primary_sidebar_size_behavior(\WBF\modules\behaviors\Behavior $b){
-		$primary_sidebar_width = of_get_option('woocommerce_shop_primary_sidebar_size');
-		if(!$primary_sidebar_width) $primary_sidebar_width = 0;
-		$b->value = $primary_sidebar_width;
+		if(function_exists('is_shop') && is_shop()) {
+			$primary_sidebar_width = of_get_option('woocommerce_shop_primary_sidebar_size');
+			if(!$primary_sidebar_width) $primary_sidebar_width = 0;
+			$b->value = $primary_sidebar_width;
+		}
+
 		return $b;
 	}
-	add_filter("wbf/modules/behaviors/get/primary-sidebar-size","waboot_woocommerce_primary_sidebar_size_behavior");
 
 	function waboot_woocommerce_secondary_sidebar_size_behavior(\WBF\modules\behaviors\Behavior $b){
-		$secondary_sidebar_width = of_get_option('woocommerce_shop_secondary_sidebar_size');
-		if(!$secondary_sidebar_width) $secondary_sidebar_width = 0;
-		$b->value = $secondary_sidebar_width;
+		if(function_exists('is_shop') && is_shop()) {
+			$secondary_sidebar_width = of_get_option('woocommerce_shop_secondary_sidebar_size');
+			if(!$secondary_sidebar_width) $secondary_sidebar_width = 0;
+			$b->value = $secondary_sidebar_width;
+		}
+
 		return $b;
 	}
-	add_filter("wbf/modules/behaviors/get/secondary-sidebar-size","waboot_woocommerce_secondary_sidebar_size_behavior");
 
 	/*
 	 * TEMPLATE TAGS
