@@ -112,6 +112,56 @@ if(!function_exists('waboot_content_nav' )):
 	}
 endif; // waboot_content_nav
 
+if(!function_exists("waboot_entry_title")):
+	/**
+	 * Retrieve entry title; set it to H1 if in single view, otherwise set it to H2
+	 * @since 0.1.0
+	 * @param null $post
+	 * @return mixed|void
+	 */
+	function waboot_entry_title($post = null) {
+		if (!isset($post)) {
+			global $post;
+		}
+
+		if(!is_archive())
+			if (get_behavior('show-title', $post->ID) == "0") return "";
+
+		$title = get_the_title($post->ID);
+
+		if (mb_strlen($title) == 0)
+			return "";
+
+		$title = apply_filters("waboot_entry_title_simple",$title); //@Deprecated
+		$title = apply_filters("waboot_entry_title_text",$title);
+
+		if(is_singular() ) {
+			$str = sprintf(apply_filters('waboot_entry_title_text_singular', '<h1 class="entry-title" itemprop="name">%s</h1>'), $title); //@Deprecated
+			$str = sprintf(apply_filters('waboot_entry_title_html_singular', '<h1 class="entry-title" itemprop="name">%s</h1>'), $title);
+		}else{
+			$str = sprintf(apply_filters('waboot_entry_title_text_posts', '<h2 class="entry-title" itemprop="name"><a class="entry-title" title="%s" rel="bookmark" href="%s">%s</a></h2>'), the_title_attribute('echo=0'), get_permalink(), $title); //@Deprecated
+			$str = sprintf(apply_filters('waboot_entry_title_html_posts', '<h2 class="entry-title" itemprop="name"><a class="entry-title" title="%s" rel="bookmark" href="%s">%s</a></h2>'), the_title_attribute('echo=0'), get_permalink(), $title);
+		}
+
+		return apply_filters('waboot_entry_title_text', $str);
+	}
+endif;
+
+if(!function_exists("waboot_index_title")):
+	function waboot_index_title($prefix = "", $suffix = "", $display = true) {
+		if (of_get_option('waboot_blogpage_displaytitle') == "1") {
+			$title = $prefix . apply_filters('waboot_index_title_text', waboot_get_index_page_title()) . $suffix;
+		} else {
+			$title = "";
+		}
+
+		if ($display) {
+			echo $title;
+		}
+		return $title;
+	}
+endif;
+
 if(!function_exists("waboot_archive_page_title")):
 	function waboot_archive_page_title($prefix = "", $suffix = "", $display = true){
 		if (of_get_option('waboot_blogpage_displaytitle') == "1") {
@@ -152,6 +202,12 @@ if(!function_exists("waboot_get_blog_class")):
 
         return implode(" ",$classes);
     }
+endif;
+
+if(!function_exists("waboot_get_index_page_title")):
+	function waboot_get_index_page_title(){
+		return single_post_title('', false);
+	}
 endif;
 
 if(!function_exists("waboot_get_archive_page_title")):
@@ -625,9 +681,10 @@ if(!function_exists("waboot_get_body_layout")):
     function waboot_get_body_layout(){
         if(is_home() || is_archive()) {
 	        $layout = of_get_option('waboot_blogpage_sidebar_layout');
+        }else{
+		    $layout = get_behavior('layout');
+		    $layout = apply_filters("waboot/layout/body_layout/get",$layout);
         }
-	    $layout = get_behavior('layout');
-	    $layout = apply_filters("waboot/layout/body_layout/get",$layout);
 	    return $layout;
     }
 endif;
