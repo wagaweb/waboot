@@ -23,6 +23,7 @@ WBF:
     - BEHAVIORS:
         - Corretto un bug in cui il post_id passato a get_behavior non veniva interpretato correttamente
         - Nuovo parametro per l'array "valid": ora è possibile stabilire se visualizzare o meno un behavior in base il risultato booleano di una funzione. Usando il parametro {ctag:NOMEFUNZIONE}, la funzione verrà chiamata in is_enabled_for_node($id) parametrizzata con l'id del post\pagina esaminata. E' possibile utilizzare sia la forma positiva ({ctag:is_xx}) che negativa ({-ctag:is_xxx})
+        - Inseriti filtri: "wbf/modules/behaviors/get/<name>" e "wbf/modules/behaviors/get/<name>/value"
 
 Version 0.12.1 - 22/06/2015
 ---------------------------------
