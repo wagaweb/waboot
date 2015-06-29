@@ -69,8 +69,8 @@ if(isset($woocommerce)):
 		if((function_exists('is_woocommerce') && is_woocommerce())) {
 			global $post;
 			$do_calc = false;
-			$sizes = array("main"=>12);
 			if(is_shop()){
+				$sizes = array("main"=>12);
 				//Primary size
 				$primary_sidebar_width = of_get_option('woocommerce_shop_primary_sidebar_size');
 				if(!$primary_sidebar_width) $primary_sidebar_width = 0;
@@ -79,6 +79,7 @@ if(isset($woocommerce)):
 				if(!$secondary_sidebar_width) $secondary_sidebar_width = 0;
 				$do_calc = true;
 			}elseif(is_product_category()){
+				$sizes = array("main"=>12);
 				//Primary size
 				$primary_sidebar_width = of_get_option('waboot_woocommerce_primary_sidebar_size');
 				if(!$primary_sidebar_width) $primary_sidebar_width = 0;
