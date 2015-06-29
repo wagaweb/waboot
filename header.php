@@ -89,16 +89,21 @@
 
         <div id="content-wrapper">
             <?php
-            if (function_exists('is_woocommerce') && is_woocommerce()) {
+            if (function_exists('is_woocommerce') && is_woocommerce()) { //@woocommerce hard-coded integration
                 woocommerce_breadcrumb([
                     'wrap_before'   => '<div class="breadcrumb-trail breadcrumbs" itemprop="breadcrumb"><div class="container">',
                     'wrap_after'   => '</div></div>',
                     'delimiter'  => '<span class="sep">&nbsp;&#47;&nbsp;</span>'
                 ]);
             }else {
-                waboot_breadcrumb(null, 'before_inner', array('wrapper_start' => '<div class="container">', 'wrapper_end' => '</div>'));
+                waboot_breadcrumb(null, 'before_inner', ['wrapper_start' => '<div class="container">', 'wrapper_end' => '</div>']);
             }
             ?>
-            <?php do_action("waboot_before_inner"); ?>
+            <?php
+	            /**
+	             * @waboot_print_entry_title_before_inner()
+	             */
+	            do_action("waboot_before_inner");
+            ?>
             <div id="content-inner" class="<?php echo of_get_option( 'waboot_content_width','container' ); ?>">
                 <div id="content" class="site-content row <?php if(waboot_get_body_layout() == "sidebar-left") echo 'sidebar-left'; ?>">
