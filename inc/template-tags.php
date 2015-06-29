@@ -683,8 +683,8 @@ if(!function_exists("waboot_get_body_layout")):
 	        $layout = of_get_option('waboot_blogpage_sidebar_layout');
         }else{
 		    $layout = get_behavior('layout');
-		    $layout = apply_filters("waboot/layout/body_layout/get",$layout);
         }
+	    $layout = apply_filters("waboot/layout/body_layout/get",$layout);
 	    return $layout;
     }
 endif;
