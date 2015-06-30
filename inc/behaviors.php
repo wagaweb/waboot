@@ -21,7 +21,7 @@ function waboot_behaviors($behaviors){
         ),
         "type" => "select",
         "default" => 1,
-        "valid" => array("page","post","-{home}","{cpt}","-slideshow","-{ctag:waboot_woocommerce_is_shop}")
+        "valid" => array("page","post","-{blog}","{cpt}","-slideshow","-{ctag:waboot_woocommerce_is_shop}")
 	);
 
 	$behaviors[] = array(
@@ -40,7 +40,7 @@ function waboot_behaviors($behaviors){
 			)
 		),
         "default" => "top",
-        "valid" => array("page","post","-{home}","{cpt}","-slideshow","-{ctag:waboot_woocommerce_is_shop}")
+        "valid" => array("page","post","-{blog}","{cpt}","-slideshow","-{ctag:waboot_woocommerce_is_shop}")
 	);
 
     $body_layouts = \WBF\modules\options\of_add_default_key(waboot_get_available_body_layouts());
@@ -51,7 +51,7 @@ function waboot_behaviors($behaviors){
         "options" => $body_layouts['values'],
         "type" => "select",
         "default" => $body_layouts['default'],
-        "valid" => array("page","post","-{home}","{cpt}","-slideshow","-{ctag:waboot_woocommerce_is_shop}"),
+        "valid" => array("page","post","-{blog}","{cpt}","-slideshow","-{ctag:waboot_woocommerce_is_shop}"),
 	);
 
     $behaviors[] = array(

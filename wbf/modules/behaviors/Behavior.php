@@ -82,7 +82,7 @@ class Behavior{
 			if(is_array($args['valid'])){
 				foreach($args['valid'] as $filter){
 					if(preg_match("/^-([\{\}a-zA-Z0-9:_]+)/",$filter,$matches)){ //EXCLUDING
-						if($matches[1] == "{home}"){
+						if($matches[1] == "{blog}"){
 							array_push($this->filters['node_id'],"-".get_option( 'page_for_posts' ));
 						}elseif($matches[1] == "{cpt}"){
 							$cpts = wbf_get_filtered_post_types(apply_filters("wbf_behaviors_cpts_blacklist",array()));
@@ -98,7 +98,7 @@ class Behavior{
 							array_push($this->filters['post_type'],"-".$matches[1]);
 						}
 					}else{ //INCLUDING
-						if($filter == "{home}"){
+						if($filter == "{blog}"){
 							array_push($this->filters['node_id'],get_option( 'page_for_posts' ));
 						}elseif($filter == "{cpt}"){
 							$cpts = wbf_get_filtered_post_types(apply_filters("wbf_behaviors_cpts_blacklist",array()));
