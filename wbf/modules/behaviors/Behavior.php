@@ -190,10 +190,6 @@ class Behavior{
 			$maybe_valid = true;
 		}
 
-		if(in_array("-$post_type",$this->filters['post_type']) || in_array("-$id",$this->filters['node_id'])){
-			$maybe_valid = false;
-		}
-
 		if(in_array($post_type, $this->filters['post_type']) || $this->filters['post_type'] == "*"){
 			$maybe_valid = true;
 		}
@@ -202,19 +198,24 @@ class Behavior{
 			$maybe_valid = true;
 		}
 
+		if(in_array("-$post_type",$this->filters['post_type']) || in_array("-$id",$this->filters['node_id'])){
+			$maybe_valid = false;
+		}
+
 		if(isset($this->filters['conditional_tags']) && is_array($this->filters['conditional_tags']) && !empty($this->filters['conditional_tags'])){
 			foreach($this->filters['conditional_tags'] as $k => $filter){
 				preg_match("/^(-)?([a-zA-Z_]+)/",$filter,$matches);
-				$return_value_to_meet = isset($matches[1]) ? false : true;
+				$negative_version = isset($matches[1]) ? true : false;
 				if(function_exists($matches[2])){
 					$result = @call_user_func($matches[2],$id);
 				}else{
                     $result = false;
                 }
-				if($result == $return_value_to_meet){
-					$maybe_valid = true;
-				}else{
+				if($result && $negative_version){
 					$maybe_valid = false;
+				}
+				if(!$result && !$negative_version){
+					$maybe_valid = true;
 				}
 			}
 		}
