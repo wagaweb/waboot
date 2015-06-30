@@ -18,6 +18,8 @@ class Component {
       'node_id' => '*'
     );
 
+	var $filters_updated_flag = false;
+
     public function __construct($component){
         $this->name = $component['nicename'];
         $this->active = $component['enabled'];
@@ -28,12 +30,16 @@ class Component {
         }else{
             $this->directory_uri = get_root_components_directory_uri()."/".$this->name;
         }
+	    $this->detectFilters();
     }
 
     /**
      * Register the component $filters
      */
     public function detectFilters(){
+
+	    if($this->filters_updated_flag) return; //the method was already called at least once
+
         //Detect the filters
         if(of_get_option($this->name."_selective_disable","0") == 1){
             $this->filters = array();
@@ -71,6 +77,7 @@ class Component {
                 }
             }
         }
+	    $this->filters_updated_flag = true;
     }
 
     /**

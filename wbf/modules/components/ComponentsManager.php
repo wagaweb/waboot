@@ -175,8 +175,9 @@ class ComponentsManager {
                 require_once( $c['file'] );
                 $className  = ucfirst( $c['nicename'] ) . "Component";
                 $oComponent = new $className( $c );
-                if(method_exists($oComponent,"detectFilters"))
+                if(method_exists($oComponent,"detectFilters")){
                     $oComponent->detectFilters();
+                }
             }
         }
     }
@@ -224,6 +225,7 @@ class ComponentsManager {
                 require_once( $c['file'] );
                 $className  = ucfirst( $c['nicename'] ) . "Component";
                 $oComponent = new $className( $c );
+	            //$oComponent->detectFilters();
                 if ( self::is_enable_for_current_page( $oComponent ) ) {
                     self::addLoadedComponent( $oComponent );
                     switch ( $action ) {

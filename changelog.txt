@@ -1,5 +1,13 @@
 == Change log ==
 
+Version 0.12.3 -
+---------------------------------
+
+WBF:
+- MODULI:
+    - COMPONENTS:
+        - Ora i componenti rispettano l'opzione di load location.
+
 Version 0.12.2 - 29/06/2015
 ---------------------------------
 
