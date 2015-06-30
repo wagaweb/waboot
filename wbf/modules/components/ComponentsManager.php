@@ -225,7 +225,7 @@ class ComponentsManager {
                 require_once( $c['file'] );
                 $className  = ucfirst( $c['nicename'] ) . "Component";
                 $oComponent = new $className( $c );
-	            //$oComponent->detectFilters();
+	            $oComponent->detectFilters();
                 if ( self::is_enable_for_current_page( $oComponent ) ) {
                     self::addLoadedComponent( $oComponent );
                     switch ( $action ) {

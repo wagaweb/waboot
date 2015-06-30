@@ -30,11 +30,12 @@ class Component {
         }else{
             $this->directory_uri = get_root_components_directory_uri()."/".$this->name;
         }
-	    $this->detectFilters();
     }
 
     /**
      * Register the component $filters
+     *
+     * DO NOT EVER, AND I MEAN EVER, PUT THIS INTO OBJECT CONSTRUCTOR, IT WILL BLOW THIGS UP!
      */
     public function detectFilters(){
 
