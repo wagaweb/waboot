@@ -208,7 +208,9 @@ class Behavior{
 				$return_value_to_meet = isset($matches[1]) ? false : true;
 				if(function_exists($matches[2])){
 					$result = @call_user_func($matches[2],$id);
-				}
+				}else{
+                    $result = false;
+                }
 				if($result == $return_value_to_meet){
 					$maybe_valid = true;
 				}else{

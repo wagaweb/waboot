@@ -225,6 +225,35 @@ class SlideshowComponent extends \WBF\modules\components\Component{
 						'disabled' => 0,
 						'readonly' => 0,
 					),
+                    array (
+                        'key' => 'field_wb_slideshow_autoplay',
+                        'label' => 'Auto Play',
+                        'name' => 'slideshow_autoplay',
+                        'prefix' => '',
+                        'type' => 'select',
+                        'instructions' => '',
+                        'required' => 1,
+                        'conditional_logic' => 0,
+                        'wrapper' => array (
+                            'width' => '',
+                            'class' => '',
+                            'id' => '',
+                        ),
+                        'choices' => array (
+                            'true' => 'True',
+                            'fluid' => 'False',
+                        ),
+                        'default_value' => array (
+                            'true' => 'True',
+                        ),
+                        'allow_null' => 0,
+                        'multiple' => 0,
+                        'ui' => 0,
+                        'ajax' => 0,
+                        'placeholder' => '',
+                        'disabled' => 0,
+                        'readonly' => 0,
+                    ),
 					array (
 						'key' => 'field_wb_slideshow_type',
 						'label' => 'Slideshow Type',
@@ -383,7 +412,8 @@ class SlideshowComponent extends \WBF\modules\components\Component{
 				            loop: <?php echo get_field('slideshow_loop', $post_id); ?>,
 				            nav: <?php echo get_field('slideshow_navigation', $post_id); ?>,
 				            navText: ['<i class="fa fa-chevron-left"></i>','<i class="fa fa-chevron-right"></i>'],
-				            dots: <?php echo get_field('slideshow_dots', $post_id); ?>
+				            dots: <?php echo get_field('slideshow_dots', $post_id); ?>,
+                            autoplay: <?php if (!get_field('slideshow_autoplay', $post_id)) echo 'false'; else echo 'true'; ?>
 			            });
 		            }else{
 			            owlcarousel_params[current_owlcarousel_id] = {
@@ -391,7 +421,8 @@ class SlideshowComponent extends \WBF\modules\components\Component{
 				            loop: <?php echo get_field('slideshow_loop', $post_id); ?>,
 				            nav: <?php echo get_field('slideshow_navigation', $post_id); ?>,
 				            navText: ['<i class="fa fa-chevron-left"></i>','<i class="fa fa-chevron-right"></i>'],
-				            dots: <?php echo get_field('slideshow_dots', $post_id); ?>
+				            dots: <?php echo get_field('slideshow_dots', $post_id); ?>,
+                            autoplay: <?php if (!get_field('slideshow_autoplay', $post_id)) echo 'false'; else echo 'true'; ?>
 			            };
 		            }
 
