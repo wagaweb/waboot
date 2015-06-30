@@ -7,6 +7,8 @@ WBF:
 - MODULI:
     - COMPONENTS:
         - Ora i componenti rispettano l'opzione di load location.
+    - BEHAVIORS
+        - Il parametro "{home}" per il campo "valid" è diventato "{blog}"; ciò per riflettere meglio la sua reale azione.
 
 Version 0.12.2 - 29/06/2015
 ---------------------------------
