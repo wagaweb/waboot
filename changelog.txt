@@ -8,6 +8,10 @@ WABOOT:
 - Eliminato filtro superfluo "waboot_entry_header_text"
 - Refactor entry-header.php
 - Ora anche la sidebar size del blog è gestita dalle theme options e non dai behavior
+- Ora il tab woocommerce viene visualizzato solo se c'è Woocommerce installato
+- Implementata funzione "waboot_get_available_socials" per ottenere tutti i social definiti.
+- Implementato filtro "waboot/socials/available" per editare i social dispinibili.
+- Implementato Waboot Social Widget
 
 WBF:
 - MODULI:
