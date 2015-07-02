@@ -2936,7 +2936,23 @@ module.exports = Backbone.Model.extend({
                         self.updateData(name, val);
                     }
                     break;
+                case "checked":{
+                    if(!f.$el.is(":checked")){
+                        self.trigger("error", {
+                            $el: f.$el,
+                            code: "isNotChecked"
+                        });
+                        error_occurred = true;
+                    }else{
+                        self.updateData(name, val);
+                    }
+                }
             }
+
+            if(_.isUndefined(validation)){
+                self.updateData(name, val);
+            }
+
         });
 
         this.set("error", error_occurred);
@@ -3257,9 +3273,9 @@ module.exports = Backbone.View.extend({
         "use strict";
         //Set the profile of the email receiver on the model
         this.model.set("recipient", {
-            id: this.$el.find("[name='to[id]']").val(),
-            name: this.$el.find("[name='to[name]']").val(),
-            mail: this.$el.find("[name='to[email]']").val()
+            id: wbData.contactForm.recipient.id,
+            name: wbData.contactForm.recipient.name,
+            mail: wbData.contactForm.recipient.mail
         });
         this.model.set("postID", this.$el.find("[name=fromID]").val()); //Set the post ID on the model
         //Set the fields on the view
@@ -3282,7 +3298,7 @@ module.exports = Backbone.View.extend({
     onSubmit: function() {
         "use strict";
         this.$el.removeClass("has-error");
-        this.$el.find(".form-group").removeClass("error");
+        this.$el.find(".form-group").removeClass("has_error");
         this.$el.find("span.error").remove();
 
         this.model.setData(this.fields);
@@ -3326,11 +3342,14 @@ module.exports = Backbone.View.extend({
             case "isEmpty":
                 $error_el.after("<span class='error'>" + wbData.contactForm.labels.errors[error_code] + "</span>");
                 break;
+            case "isNotChecked":
+                $error_el.parents("div").find("label[for='"+$error_el.attr("name")+"']").append("<span class='error'>" + wbData.contactForm.labels.errors[error_code] + "</span>");
+                break;
             default:
                 $error_el.after("<span class='error'>" + wbData.contactForm.labels.errors['_default_'] + "</span>");
                 break;
         }
-        $error_el.parents(".form-group").addClass("has-error");
+        $error_el.closest(".form-group").addClass("has-error");
     }
 });
 
