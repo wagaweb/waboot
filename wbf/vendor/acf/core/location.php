@@ -16,17 +16,15 @@ class acf_location {
 	*/
 	
 	function __construct() {
-
-		// Basic
-		add_filter( 'acf/location/rule_match/post_type',		array($this, 'rule_match_post_type'), 10, 3 );
-		add_filter( 'acf/location/rule_match/user_type',		array($this, 'rule_match_user_type'), 10, 3 );
 		
 		// Post
+		add_filter( 'acf/location/rule_match/post_type',		array($this, 'rule_match_post_type'), 10, 3 );
 		add_filter( 'acf/location/rule_match/post',				array($this, 'rule_match_post'), 10, 3 );
 		add_filter( 'acf/location/rule_match/post_category',	array($this, 'rule_match_post_taxonomy'), 10, 3 );
 		add_filter( 'acf/location/rule_match/post_format',		array($this, 'rule_match_post_format'), 10, 3 );
 		add_filter( 'acf/location/rule_match/post_status',		array($this, 'rule_match_post_status'), 10, 3 );
 		add_filter( 'acf/location/rule_match/post_taxonomy',	array($this, 'rule_match_post_taxonomy'), 10, 3 );
+		
 		
 		// Page
 		add_filter( 'acf/location/rule_match/page',				array($this, 'rule_match_post'), 10, 3 );
@@ -34,7 +32,10 @@ class acf_location {
 		add_filter( 'acf/location/rule_match/page_parent',		array($this, 'rule_match_page_parent'), 10, 3 );
 		add_filter( 'acf/location/rule_match/page_template',	array($this, 'rule_match_page_template'), 10, 3 );
 		
+		
 		// User
+		add_filter( 'acf/location/rule_match/current_user',		array($this, 'rule_match_current_user'), 10, 3 );
+		add_filter( 'acf/location/rule_match/current_user_role',	array($this, 'rule_match_current_user_role'), 10, 3 );
 		add_filter( 'acf/location/rule_match/user_form',		array($this, 'rule_match_user_form'), 10, 3 );
 		add_filter( 'acf/location/rule_match/user_role',		array($this, 'rule_match_user_role'), 10, 3 );
 		
@@ -99,7 +100,7 @@ class acf_location {
 	
 	
 	/*
-	*  rule_match_user_type
+	*  rule_match_current_user
 	*
 	*  This function will match a location rule and return true or false
 	*
@@ -112,12 +113,88 @@ class acf_location {
 	*  @return	$options (array)
 	*/
 	
-	function rule_match_user_type( $match, $rule, $options ) {
+	function rule_match_current_user( $match, $rule, $options ) {
 		
-		// validate
+		// logged in
+		if( $rule['value'] == 'logged_in' ) {
+			
+			if( $rule['operator'] == "==" ) {
+				
+				$match = is_user_logged_in();
+					
+			} elseif( $rule['operator'] == "!=" ) {
+				
+				$match = !is_user_logged_in();
+					
+			}
+			
+			return $match;
+			
+		}
+		
+		
+		// front end
+		if( $rule['value'] == 'viewing_front' ) {
+			
+			if( $rule['operator'] == "==" ) {
+				
+				$match = !is_admin();
+					
+			} elseif( $rule['operator'] == "!=" ) {
+				
+				$match = is_admin();
+					
+			}
+			
+			return $match;
+			
+		}
+		
+		
+		// back end
+		if( $rule['value'] == 'viewing_back' ) {
+			
+			if( $rule['operator'] == "==" ) {
+				
+				$match = is_admin();
+					
+			} elseif( $rule['operator'] == "!=" ) {
+				
+				$match = !is_admin();
+					
+			}
+			
+			return $match;
+			
+		}
+		
+		
+        // return
+        return $match;
+        
+    }
+    
+    
+    /*
+	*  rule_match_current_user_role
+	*
+	*  This function will match a location rule and return true or false
+	*
+	*  @type	filter
+	*  @date	3/01/13
+	*  @since	3.5.7
+	*
+	*  @param	$match (boolean) 
+	*  @param	$rule (array)
+	*  @return	$options (array)
+	*/
+	
+	function rule_match_current_user_role( $match, $rule, $options ) {
+		
+		// bail early if not logged in
 		if( !is_user_logged_in() ) {
 			
-			return;
+			return false;
 			
 		}
 		
@@ -129,24 +206,26 @@ class acf_location {
 		// compare
         if( $rule['operator'] == "==" ) {
         	
-			if( $rule['value'] == 'super_admin' )
-			{
+			if( $rule['value'] == 'super_admin' ) {
+				
 				$match = is_super_admin( $user->ID );
-			}
-			else 
-			{
+				
+			} else {
+				
 				$match = in_array( $rule['value'], $user->roles );
+				
 			}
 			
 		} elseif( $rule['operator'] == "!=" ) {
 			
-			if( $rule['value'] == 'super_admin' )
-			{
+			if( $rule['value'] == 'super_admin' ) {
+				
 				$match = !is_super_admin( $user->ID );
-			}
-			else 
-			{
+				
+			} else {
+				
 				$match = ( ! in_array( $rule['value'], $user->roles ) );
+				
 			}
 			
 		}
@@ -241,13 +320,21 @@ class acf_location {
 		
 			
 		// get term data
+		// - selected term may have a numeric slug '123' (user reported on forum), so always check slug first
 		$data = acf_decode_taxonomy_term( $rule['value'] );
-		$field = is_numeric( $data['term'] ) ? 'id' : 'slug';
-		$term = get_term_by( $field, $data['term'], $data['taxonomy'] );
+		$term = get_term_by( 'slug', $data['term'], $data['taxonomy'] );
 		
 		
-		// validate term
-		if( empty($term) ) {
+		// attempt get term via ID (ACF4 uses ID)
+		if( !$term && is_numeric($data['term']) ) {
+			
+			$term = get_term_by( 'id', $data['term'], $data['taxonomy'] );
+			
+		}
+		
+		
+		// bail early if no term
+		if( !$term ) {
 			
 			return false;
 						
@@ -645,7 +732,7 @@ class acf_location {
 		
 		
 		// get page template
-		if( ! $page_template ) {
+		if( !$page_template && $options['post_id'] ) {
 		
 			$page_template = get_post_meta( $options['post_id'], '_wp_page_template', true );
 			
@@ -657,19 +744,20 @@ class acf_location {
 			
 			$post_type = $options['post_type'];
 
-			if( !$post_type ) {
+			if( !$post_type && $options['post_id'] ) {
 			
 				$post_type = get_post_type( $options['post_id'] );
 				
 			}
 			
-			if( $post_type == 'page' ) {
+			if( $post_type === 'page' ) {
 			
 				$page_template = "default";
 				
 			}
 		}
-	
+		
+		
 		// compare
         if( $rule['operator'] == "==" ) {
         

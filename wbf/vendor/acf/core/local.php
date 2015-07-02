@@ -215,8 +215,8 @@ class acf_local {
 		
 		
 		// clear cache
-		wp_cache_delete( "load_field/key={$field['key']}", 'acf' );
-		wp_cache_delete( "fields/parent={$field['parent']}", 'acf' );
+		wp_cache_delete( "get_field/key={$field['key']}", 'acf' );
+		wp_cache_delete( "get_fields/parent={$field['parent']}", 'acf' );
 		
 	}
 	
@@ -392,7 +392,7 @@ function acf_enable_local() {
 function acf_is_local_enabled() {
 	
 	// validate
-	if( !acf_get_setting('local', false) ) {
+	if( !acf_get_setting('local') ) {
 		
 		return false;
 		

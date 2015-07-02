@@ -51,7 +51,7 @@ class acf_settings_export {
 		
 		
 		// add page
-		$page = add_submenu_page('edit.php?post_type=acf-field-group', __('Import / Export','acf'), __('Import / Export','acf'), 'manage_options','acf-settings-export', array($this,'html') );
+		$page = add_submenu_page('edit.php?post_type=acf-field-group', __('Import / Export','acf'), __('Import / Export','acf'), acf_get_setting('capability'),'acf-settings-export', array($this,'html') );
 		
 		
 		// actions
@@ -137,50 +137,17 @@ class acf_settings_export {
 	
 	function export() {
 		
+		// vars
+		$json = $this->get_json();
+		
+		
 		// validate
-		if( empty($_POST['acf_export_keys']) ) {
+		if( $json === false ) {
 			
+			acf_add_admin_notice( __("No field groups selected", 'acf') , 'error');
 			return;
 		
 		}
-		
-		
-		// construct JSON
-		foreach( $_POST['acf_export_keys'] as $key ) {
-			
-			// load field group
-			$field_group = acf_get_field_group( $key );
-			
-			
-			// validate field group
-			if( empty($field_group) ) {
-				
-				continue;
-			
-			}
-			
-			
-			// load fields
-			$fields = acf_get_fields( $field_group );
-	
-	
-			// prepare fields
-			$fields = acf_prepare_fields_for_export( $fields );
-			
-			
-			// add to field group
-			$field_group['fields'] = $fields;
-			
-			
-			// extract field group ID
-			$id = acf_extract_var( $field_group, 'ID' );
-			
-			
-			// add to json array
-			$json[] = $field_group;
-			
-		}
-		// end foreach
 		
 		
 		// set headers
@@ -384,17 +351,50 @@ class acf_settings_export {
 	
 	function generate() {
 		
+		// vars
+		$json = $this->get_json();
+		
+		
 		// validate
-		if( empty($_POST['acf_export_keys']) ) {
+		if( $json === false ) {
 			
 			acf_add_admin_notice( __("No field groups selected", 'acf') , 'error');
 			return;
 		
 		}
 		
+				
+		// update view
+		$this->view = 'settings-export-generate';
+		$this->data['field_groups'] = $json;
+		
+	}
+	
+	
+	/*
+	*  get_json
+	*
+	*  This function will return the JSON data for given $_POST args
+	*
+	*  @type	function
+	*  @date	3/02/2015
+	*  @since	5.1.5
+	*
+	*  @param	$post_id (int)
+	*  @return	$post_id (int)
+	*/
+	
+	function get_json() {
+		
+		// validate
+		if( empty($_POST['acf_export_keys']) ) {
+			
+			return false;
+				
+		}
+		
 		
 		// vars
-		$id_ref = array();
 		$json = array();
 		
 		
@@ -414,15 +414,11 @@ class acf_settings_export {
 			
 			
 			// load fields
-			$fields = acf_get_fields( $field_group );
+			$field_group['fields'] = acf_get_fields( $field_group );
 	
 	
 			// prepare fields
-			$fields = acf_prepare_fields_for_export( $fields );
-			
-			
-			// add to field group
-			$field_group['fields'] = $fields;
+			$field_group['fields'] = acf_prepare_fields_for_export( $field_group['fields'] );
 			
 			
 			// extract field group ID
@@ -433,12 +429,10 @@ class acf_settings_export {
 			$json[] = $field_group;
 			
 		}
-		// end foreach
 		
 		
-		// update view
-		$this->view = 'settings-export-generate';
-		$this->data['field_groups'] = $json;
+		// return
+		return $json;
 		
 	}
 	

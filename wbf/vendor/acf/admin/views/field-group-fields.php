@@ -24,15 +24,15 @@ $fields[] = acf_get_valid_field(array(
 
 ?>
 <div class="acf-field-list-wrap">
-
+	
 	<ul class="acf-hl acf-thead">
-		<li class="li-field_order"><?php _e('Order','acf'); ?></li>
-		<li class="li-field_label"><?php _e('Label','acf'); ?></li>
-		<li class="li-field_name"><?php _e('Name','acf'); ?></li>
-		<li class="li-field_type"><?php _e('Type','acf'); ?></li>
+		<li class="li-field-order"><?php _e('Order','acf'); ?></li>
+		<li class="li-field-label"><?php _e('Label','acf'); ?></li>
+		<li class="li-field-name"><?php _e('Name','acf'); ?></li>
+		<li class="li-field-type"><?php _e('Type','acf'); ?></li>
 	</ul>
 	
-	<div class="acf-field-list<?php if( !empty($layout) ): ?> layout-<?php echo $layout; ?><?php endif; ?>">
+	<div class="acf-field-list<?php if( $layout ){ echo " layout-{$layout}"; } ?>">
 		
 		<?php foreach( $fields as $i => $field ): ?>
 			

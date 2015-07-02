@@ -74,7 +74,7 @@ class acf_form_attachment {
 		// validate page
 		if( $pagenow === 'upload.php' && version_compare($wp_version, '4.0', '>=') ) {
 			
-			add_action('admin_footer', array($this, 'admin_footer'), 1);
+			add_action('admin_footer', array($this, 'admin_footer'), 0);
 			
 			return true;
 			
@@ -134,7 +134,8 @@ class acf_form_attachment {
 		// render post data
 		acf_form_data(array( 
 			'post_id'	=> 0, 
-			'nonce'		=> 'attachment' 
+			'nonce'		=> 'attachment',
+			'ajax'		=> 1
 		));
 		
 	}

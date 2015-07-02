@@ -111,7 +111,7 @@ class acf_field_page_link extends acf_field {
 		// update $args
 		if( !empty($field['post_type']) ) {
 		
-			$args['post_type'] = acf_force_type_array( $field['post_type'] );
+			$args['post_type'] = acf_get_array( $field['post_type'] );
 			
 		} else {
 			
@@ -214,7 +214,7 @@ class acf_field_page_link extends acf_field {
 		
 		
 		// get posts grouped by post type
-		$groups = acf_get_posts( $args );
+		$groups = acf_get_grouped_posts( $args );
 		
 		if( !empty($groups) ) {
 			
@@ -378,57 +378,70 @@ class acf_field_page_link extends acf_field {
 	*  @return	$value
 	*/
 	
-	function get_posts( $value ) {
+	function get_posts( $value, $field ) {
 		
 		// force value to array
-		$value = acf_force_type_array( $value );
+		$value = acf_get_array( $value );
 		
 		
 		// get selected post ID's
-		$post_ids = array();
+		$post__in = array();
 		
-		foreach( $value as $v ) {
+		foreach( array_keys($value) as $k ) {
 			
-			if( is_numeric($v) ) {
+			if( is_numeric($value[ $k ]) ) {
 				
-				$post_ids[] = intval($v);
+				// convert to int
+				$value[ $k ] = intval($value[ $k ]);
+				
+				
+				// append to $post__in
+				$post__in[] = $value[ $k ];
 				
 			}
 			
 		}
 		
 		
-		// load posts in 1 query to save multiple DB calls from following code
-		if( count($post_ids) > 1 ) {
+		// bail early if no posts
+		if( empty($post__in) ) {
 			
-			get_posts(array(
-				'posts_per_page'	=> -1,
-				'post_type'			=> acf_get_post_types(),
-				'post_status'		=> 'any',
-				'post__in'			=> $post_ids,
-			));
+			return $value;
 			
 		}
 		
 		
-		// vars
-		$posts = array();
+		// get posts
+		$posts = acf_get_posts(array(
+			'post__in' => $post__in,
+			'post_type'	=> $field['post_type']
+		));
 		
 		
-		// update value to include $post
-		foreach( $value as $v ) {
+		// override value with post
+		$return = array();
+		
+		
+		// append to $return
+		foreach( $value as $k => $v ) {
 			
 			if( is_numeric($v) ) {
-			
-				if( $post = get_post( $v ) ) {
+				
+				// find matching $post
+				foreach( $posts as $post ) {
 					
-					$posts[] = $post;
+					if( $post->ID == $v ) {
+						
+						$return[] = $post;
+						break;
+						
+					}
 					
 				}
 				
 			} else {
 				
-				$posts[] = $v;
+				$return[] = $v;
 				
 			}
 			
@@ -436,7 +449,8 @@ class acf_field_page_link extends acf_field {
 		
 		
 		// return
-		return $posts;
+		return $return;
+		
 	}
 	
 	
@@ -465,7 +479,7 @@ class acf_field_page_link extends acf_field {
 		if( !empty($field['value']) ) {
 			
 			// get posts
-			$posts = $this->get_posts( $field['value'] );
+			$posts = $this->get_posts( $field['value'], $field );
 			
 			
 			// set choices
@@ -540,7 +554,7 @@ class acf_field_page_link extends acf_field {
 			'multiple'		=> 1,
 			'ui'			=> 1,
 			'allow_null'	=> 1,
-			'placeholder'	=> __("No taxonomy filter",'acf'),
+			'placeholder'	=> __("All taxonomies",'acf'),
 		));
 		
 		
@@ -609,7 +623,7 @@ class acf_field_page_link extends acf_field {
 		
 		
 		// get posts
-		$value = $this->get_posts( $value );
+		$value = $this->get_posts( $value, $field );
 		
 		
 		// set choices

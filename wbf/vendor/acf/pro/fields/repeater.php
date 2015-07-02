@@ -215,7 +215,7 @@ class acf_field_repeater extends acf_field {
 		<thead>
 			<tr>
 				<?php if( $show_order ): ?>
-					<th class="order"></th>
+					<th class="order"><span class="order-spacer"></span></th>
 				<?php endif; ?>
 				
 				<?php foreach( $field['sub_fields'] as $sub_field ): 
@@ -245,7 +245,7 @@ class acf_field_repeater extends acf_field {
 				<?php endforeach; ?>
 
 				<?php if( $show_remove ): ?>
-					<th class="remove"></th>
+					<th class="remove"><span class="remove-spacer"></span></th>
 				<?php endif; ?>
 			</tr>
 		</thead>
@@ -692,7 +692,7 @@ class acf_field_repeater extends acf_field {
 						$sub_field['name'] = "{$field['name']}_{$i}_{$sub_field['name']}";
 						
 						
-						// update field
+						// update value
 						acf_update_value( $v, $post_id, $sub_field );
 						
 					}
@@ -717,7 +717,12 @@ class acf_field_repeater extends acf_field {
 				
 				foreach( $field['sub_fields'] as $sub_field ) {
 					
-					acf_delete_value( $post_id, "{$field['name']}_{$i}_{$sub_field['name']}" );
+					// modify name for delete
+					$sub_field['name'] = "{$field['name']}_{$i}_{$sub_field['name']}";
+					
+					
+					// delete value
+					acf_delete_value( $post_id, $sub_field );
 				
 				}
 				// foreach

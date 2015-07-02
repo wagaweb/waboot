@@ -50,7 +50,7 @@ extract( $args );
 		
 			<div class="col">
 				<h4><?php _e("Introducing ACF PRO", 'acf'); ?></h4>
-				<p><?php _e("We're changing the way premium functionality is delivered in an exiting way!", 'acf'); ?></p>
+				<p><?php _e("We're changing the way premium functionality is delivered in an exciting way!", 'acf'); ?></p>
 				<p><?php printf(__('All 4 premium add-ons have been combined into a new <a href="%s">Pro version of ACF</a>. With both personal and developer licenses available, premium functionality is more affordable and accessible than ever before!', 'acf'), esc_url('http://www.advancedcustomfields.com/pro')); ?></p>
 			</div>
 			
