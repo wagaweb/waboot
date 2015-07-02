@@ -13,11 +13,3 @@ body#tinymce {
   background-image: none;
   color: #333333;
 }
-
-body, p, ul, li {
-    color: #333;
-}
-
-h1, h2, h3, h4, h5, h6 {
-    color: #333;
-}

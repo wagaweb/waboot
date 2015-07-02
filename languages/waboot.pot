@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#: inc/options.php:813 inc/options.php:863
+#: inc/options.php:833 inc/options.php:883
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Waboot 0.12.2\n"
+"Project-Id-Version: Waboot 0.12.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-06-29 14:56+0200\n"
+"POT-Creation-Date: 2015-07-02 17:52+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -79,8 +79,8 @@ msgid ""
 "\"gallery\">%8$s</a>"
 msgstr ""
 
-#: image.php:34 image.php:80 inc/template-tags.php:321
-#: inc/template-tags.php:340
+#: image.php:34 image.php:80 inc/template-tags.php:319
+#: inc/template-tags.php:338
 msgid "Edit"
 msgstr ""
 
@@ -154,7 +154,7 @@ msgstr ""
 msgid "All images"
 msgstr ""
 
-#: components/colorbox/colorbox.php:42 inc/template-tags.php:232
+#: components/colorbox/colorbox.php:42 inc/template-tags.php:230
 msgid "Galleries"
 msgstr ""
 
@@ -170,7 +170,7 @@ msgstr ""
 msgid "Enter a custom selector for colobox"
 msgstr ""
 
-#: components/cookielaw/cookielaw.php:63 inc/template-tags.php:778
+#: components/cookielaw/cookielaw.php:63 inc/template-tags.php:776
 msgid "Message"
 msgstr ""
 
@@ -278,23 +278,23 @@ msgstr ""
 msgid "Slideshows"
 msgstr ""
 
-#: components/slideshow/slideshow.php:293
+#: components/slideshow/slideshow.php:322
 msgid "Usage"
 msgstr ""
 
-#: components/slideshow/slideshow.php:298
+#: components/slideshow/slideshow.php:327
 msgid "Copy & paste the shortcode directly into any WordPress post or page."
 msgstr ""
 
-#: components/slideshow/slideshow.php:440
+#: components/slideshow/slideshow.php:471
 msgid "Choose the slideshow to display:"
 msgstr ""
 
-#: components/slideshow/slideshow.php:442
+#: components/slideshow/slideshow.php:473
 msgid "Select a slideshow:"
 msgstr ""
 
-#: components/slideshow/slideshow.php:450
+#: components/slideshow/slideshow.php:481
 msgid "No slideshow defined"
 msgstr ""
 
@@ -314,8 +314,8 @@ msgstr ""
 msgid "No"
 msgstr ""
 
-#: inc/behaviors.php:29 inc/options.php:794 inc/options.php:853
-#: inc/options.php:903
+#: inc/behaviors.php:29 inc/options.php:794 inc/options.php:873
+#: inc/options.php:923
 msgid "Title position"
 msgstr ""
 
@@ -323,13 +323,13 @@ msgstr ""
 msgid "Default title positioning in pages"
 msgstr ""
 
-#: inc/behaviors.php:34 inc/options.php:799 inc/options.php:858
-#: inc/options.php:908
+#: inc/behaviors.php:34 inc/options.php:799 inc/options.php:878
+#: inc/options.php:928
 msgid "Above primary"
 msgstr ""
 
-#: inc/behaviors.php:38 inc/options.php:799 inc/options.php:858
-#: inc/options.php:908
+#: inc/behaviors.php:38 inc/options.php:799 inc/options.php:878
+#: inc/options.php:928
 msgid "Below primary"
 msgstr ""
 
@@ -341,11 +341,13 @@ msgstr ""
 msgid "Default body layout for posts and pages"
 msgstr ""
 
-#: inc/behaviors.php:59 inc/options.php:827 inc/options.php:877
+#: inc/behaviors.php:59 inc/options.php:803 inc/options.php:847
+#: inc/options.php:897
 msgid "Primary Sidebar width"
 msgstr ""
 
-#: inc/behaviors.php:60 inc/options.php:828 inc/options.php:878
+#: inc/behaviors.php:60 inc/options.php:804 inc/options.php:848
+#: inc/options.php:898
 msgid "Choose the primary sidebar width"
 msgstr ""
 
@@ -365,11 +367,13 @@ msgstr ""
 msgid "1/6"
 msgstr ""
 
-#: inc/behaviors.php:86 inc/options.php:836 inc/options.php:886
+#: inc/behaviors.php:86 inc/options.php:812 inc/options.php:856
+#: inc/options.php:906
 msgid "Secondary Sidebar width"
 msgstr ""
 
-#: inc/behaviors.php:87 inc/options.php:837 inc/options.php:887
+#: inc/behaviors.php:87 inc/options.php:813 inc/options.php:857
+#: inc/options.php:907
 msgid "Choose the secondary sidebar width"
 msgstr ""
 
@@ -945,287 +949,223 @@ msgstr ""
 msgid "Display Blog page title"
 msgstr ""
 
-#: inc/options.php:787 inc/options.php:846 inc/options.php:896
+#: inc/options.php:787 inc/options.php:866 inc/options.php:916
 msgid "Check this box to show page title."
 msgstr ""
 
-#: inc/options.php:795 inc/options.php:854 inc/options.php:904
+#: inc/options.php:795 inc/options.php:874 inc/options.php:924
 msgid "Select where to display page title"
 msgstr ""
 
-#: inc/options.php:807
+#: inc/options.php:827
 msgid "Woocommerce"
 msgstr ""
 
-#: inc/options.php:812
+#: inc/options.php:832
 msgid "Woocommerce Shop Page"
 msgstr ""
 
-#: inc/options.php:818
+#: inc/options.php:838
 msgid "Woocommerce Shop Layout"
 msgstr ""
 
-#: inc/options.php:819
+#: inc/options.php:839
 msgid "Select Woocommerce shop page layout"
 msgstr ""
 
-#: inc/options.php:845 inc/options.php:895
+#: inc/options.php:865 inc/options.php:915
 msgid "Display Woocommerce page title"
 msgstr ""
 
-#: inc/options.php:862
+#: inc/options.php:882
 msgid "Woocommerce Archives and Categories"
 msgstr ""
 
-#: inc/options.php:868
+#: inc/options.php:888
 msgid "Woocommerce Archive Layout"
 msgstr ""
 
-#: inc/options.php:869
+#: inc/options.php:889
 msgid "Select Woocommerce archive layout"
 msgstr ""
 
-#: inc/options.php:912
+#: inc/options.php:932
 msgid "Items for Row"
 msgstr ""
 
-#: inc/options.php:913
+#: inc/options.php:933
 msgid "How many items display for row"
 msgstr ""
 
-#: inc/options.php:921
+#: inc/options.php:941
 msgid "Products per page"
 msgstr ""
 
-#: inc/options.php:922
+#: inc/options.php:942
 msgid "How many products display per page"
 msgstr ""
 
-#: inc/options.php:933
+#: inc/options.php:955
 msgid "Post Meta"
 msgstr ""
 
-#: inc/options.php:938
+#: inc/options.php:960
 msgid "Show content navigation above posts?"
 msgstr ""
 
-#: inc/options.php:939
+#: inc/options.php:961
 msgid ""
 "Displays links to next and previous posts above the current post and above "
 "the posts on the index page. Default is hide. Check this box to show content "
 "nav above posts."
 msgstr ""
 
-#: inc/options.php:946
+#: inc/options.php:968
 msgid "Show content navigation below posts?"
 msgstr ""
 
-#: inc/options.php:947
+#: inc/options.php:969
 msgid ""
 "Displays links to next and previous posts below the current post and below "
 "the posts on the index page. Default is show. Uncheck this box to hide "
 "content nav above posts."
 msgstr ""
 
-#: inc/options.php:954
+#: inc/options.php:976
 msgid "Show post author?"
 msgstr ""
 
-#: inc/options.php:955
+#: inc/options.php:977
 msgid ""
 "Displays the post author. Default is show. Uncheck this box to hide the post "
 "author."
 msgstr ""
 
-#: inc/options.php:962
+#: inc/options.php:984
 msgid "Show published date?"
 msgstr ""
 
-#: inc/options.php:963
+#: inc/options.php:985
 msgid ""
 "Displays the date the article was posted. Default is show. Uncheck this box "
 "to hide post published date."
 msgstr ""
 
-#: inc/options.php:970
+#: inc/options.php:992
 msgid "Show post categories?"
 msgstr ""
 
-#: inc/options.php:971
+#: inc/options.php:993
 msgid ""
 "Displays the categories in which a post was published. Default is show. "
 "Uncheck this box to hide post categories."
 msgstr ""
 
-#: inc/options.php:978
+#: inc/options.php:1000
 msgid "Show post tags?"
 msgstr ""
 
-#: inc/options.php:979
+#: inc/options.php:1001
 msgid ""
 "Displays the tags attached to a post. Default is show. Uncheck this box to "
 "hide post tags."
 msgstr ""
 
-#: inc/options.php:986
+#: inc/options.php:1008
 msgid "Show link for # of comments / Leave a comment?"
 msgstr ""
 
-#: inc/options.php:987
+#: inc/options.php:1009
 msgid ""
 "Displays the number of comments and/or a Leave a comment message on posts. "
 "Default is show. Uncheck this box to hide."
 msgstr ""
 
-#: inc/options.php:998
+#: inc/options.php:1020
 msgid "Contact form"
 msgstr ""
 
-#: inc/options.php:1003
+#: inc/options.php:1025
 msgid "Recipient type"
 msgstr ""
 
-#: inc/options.php:1004
+#: inc/options.php:1026
 msgid "Select who will receive the mail"
 msgstr ""
 
-#: inc/options.php:1008
+#: inc/options.php:1030
 msgid "The site admin"
 msgstr ""
 
-#: inc/options.php:1008
+#: inc/options.php:1030
 msgid "The author of the post in which the form is inserted"
 msgstr ""
 
-#: inc/options.php:1008
+#: inc/options.php:1030
 msgid "A specific contact"
 msgstr ""
 
-#: inc/options.php:1012
+#: inc/options.php:1034
 msgid "Specific contact data"
 msgstr ""
 
-#: inc/options.php:1013
+#: inc/options.php:1035
 msgid "Contact information for \"specific contact\" option "
 msgstr ""
 
-#: inc/options.php:1018 inc/template-tags.php:758
+#: inc/options.php:1040 inc/template-tags.php:756
 msgid "Name"
 msgstr ""
 
-#: inc/options.php:1019
+#: inc/options.php:1041
 msgid "Enter the contact name"
 msgstr ""
 
-#: inc/options.php:1026 inc/template-tags.php:773
+#: inc/options.php:1048 inc/template-tags.php:771
 msgid "Email"
 msgstr ""
 
-#: inc/options.php:1027
+#: inc/options.php:1049
 msgid "Enter the contact email address"
 msgstr ""
 
-#: inc/options.php:1038
+#: inc/options.php:1060
 msgid "Favicons"
 msgstr ""
 
-#: inc/options.php:1043
+#: inc/options.php:1065
 msgid "Icon"
 msgstr ""
 
-#: inc/options.php:1044 inc/options.php:1056 inc/options.php:1068
+#: inc/options.php:1066 inc/options.php:1078 inc/options.php:1090
 msgid "Upload a favicon (only .png and .ico files are allowed)."
 msgstr ""
 
-#: inc/options.php:1055
+#: inc/options.php:1077
 msgid "Apple Touch 120x120 Icon"
 msgstr ""
 
-#: inc/options.php:1067
+#: inc/options.php:1089
 msgid "Apple Touch 152x152 Icon"
 msgstr ""
 
-#: inc/options.php:1083
+#: inc/options.php:1105
 msgid "Social"
 msgstr ""
 
-#: inc/options.php:1088
+#: inc/options.php:1110
 msgid "Social Position"
 msgstr ""
 
-#: inc/options.php:1089
+#: inc/options.php:1111
 msgid "Select the social widget position"
 msgstr ""
 
-#: inc/options.php:1122
-msgid "Facebook"
-msgstr ""
-
-#: inc/options.php:1123
-msgid "Enter your facebook fan page link"
-msgstr ""
-
-#: inc/options.php:1130
-msgid "Twitter"
-msgstr ""
-
-#: inc/options.php:1131
-msgid "Enter your twitter page link"
-msgstr ""
-
-#: inc/options.php:1138
-msgid "Google+"
-msgstr ""
-
-#: inc/options.php:1139
-msgid "Enter your google+ page link"
-msgstr ""
-
-#: inc/options.php:1146
-msgid "YouTube"
-msgstr ""
-
-#: inc/options.php:1147
-msgid "Enter your youtube page link"
-msgstr ""
-
-#: inc/options.php:1153
-msgid "Pinterest"
-msgstr ""
-
-#: inc/options.php:1154
-msgid "Enter your pinterest page link"
-msgstr ""
-
-#: inc/options.php:1160
-msgid "Linkedin"
-msgstr ""
-
-#: inc/options.php:1161
-msgid "Enter your linkedin page link"
-msgstr ""
-
-#: inc/options.php:1167
-msgid "Instagram"
-msgstr ""
-
-#: inc/options.php:1168
-msgid "Enter your instagram page link"
-msgstr ""
-
-#: inc/options.php:1174
-msgid "Feed RSS"
-msgstr ""
-
-#: inc/options.php:1175
-msgid "Enter your feed RSS link"
-msgstr ""
-
-#: inc/options.php:1185 inc/options.php:1190
+#: inc/options.php:1160 inc/options.php:1165
 msgid "Custom CSS"
 msgstr ""
 
-#: inc/options.php:1191
+#: inc/options.php:1166
 msgid ""
 "Enter custom css to apply to the theme (press CTRL-SPACE on Windows, or CTRL-"
 "F on Mac for suggestions)."
@@ -1250,10 +1190,14 @@ msgid "We are sorry: an error happens when sending your message."
 msgstr ""
 
 #: inc/scripts.php:42
-msgid "This field cannot be empty."
+msgid "This field cannot be empty"
 msgstr ""
 
 #: inc/scripts.php:43
+msgid "This field needs to be checked"
+msgstr ""
+
+#: inc/scripts.php:44
 msgid "An error was triggered by this field"
 msgstr ""
 
@@ -1275,128 +1219,198 @@ msgstr ""
 msgid "<span class=\"meta-nav\">&laquo;</span> Previous page"
 msgstr ""
 
-#: inc/template-tags.php:222
+#: inc/template-tags.php:220
 #, php-format
 msgid "Author: %s"
 msgstr ""
 
-#: inc/template-tags.php:224
+#: inc/template-tags.php:222
 #, php-format
 msgid "Day: %s"
 msgstr ""
 
-#: inc/template-tags.php:226
+#: inc/template-tags.php:224
 #, php-format
 msgid "Month: %s"
 msgstr ""
 
-#: inc/template-tags.php:228
+#: inc/template-tags.php:226
 #, php-format
 msgid "Year: %s"
 msgstr ""
 
-#: inc/template-tags.php:230
+#: inc/template-tags.php:228
 msgid "Asides"
 msgstr ""
 
-#: inc/template-tags.php:234
+#: inc/template-tags.php:232
 msgid "Images"
 msgstr ""
 
-#: inc/template-tags.php:236
+#: inc/template-tags.php:234
 msgid "Videos"
 msgstr ""
 
-#: inc/template-tags.php:238
+#: inc/template-tags.php:236
 msgid "Quotes"
 msgstr ""
 
-#: inc/template-tags.php:240
+#: inc/template-tags.php:238
 msgid "Links"
 msgstr ""
 
-#: inc/template-tags.php:242
+#: inc/template-tags.php:240
 msgid "Statuses"
 msgstr ""
 
-#: inc/template-tags.php:244
+#: inc/template-tags.php:242
 msgid "Audios"
 msgstr ""
 
-#: inc/template-tags.php:246
+#: inc/template-tags.php:244
 msgid "Chats"
 msgstr ""
 
-#: inc/template-tags.php:251
+#: inc/template-tags.php:249
 msgid "Archives"
 msgstr ""
 
-#: inc/template-tags.php:321
+#: inc/template-tags.php:319
 msgid "Pingback:"
 msgstr ""
 
-#: inc/template-tags.php:331
+#: inc/template-tags.php:329
 #, php-format
 msgid "%s <span class=\"says\">says:</span>"
 msgstr ""
 
-#: inc/template-tags.php:337
+#: inc/template-tags.php:335
 #, php-format
 msgctxt "1: date, 2: time"
 msgid "%1$s at %2$s"
 msgstr ""
 
-#: inc/template-tags.php:344
+#: inc/template-tags.php:342
 msgid "Your comment is awaiting moderation."
 msgstr ""
 
-#: inc/template-tags.php:388
+#: inc/template-tags.php:386
 msgid "You must specify a prefix when using waboot_do_sidebar."
 msgstr ""
 
-#: inc/template-tags.php:437
+#: inc/template-tags.php:435
 msgid "You must specify a prefix when using waboot_sidebar_class."
 msgstr ""
 
-#: inc/template-tags.php:708
+#: inc/template-tags.php:706
 msgid "No sidebar"
 msgstr ""
 
-#: inc/template-tags.php:713
+#: inc/template-tags.php:711
 msgid "Sidebar right"
 msgstr ""
 
-#: inc/template-tags.php:718
+#: inc/template-tags.php:716
 msgid "Sidebar left"
 msgstr ""
 
-#: inc/template-tags.php:723
+#: inc/template-tags.php:721
 msgid "2 Sidebars"
 msgstr ""
 
-#: inc/template-tags.php:728
+#: inc/template-tags.php:726
 msgid "2 Sidebars right"
 msgstr ""
 
-#: inc/template-tags.php:733
+#: inc/template-tags.php:731
 msgid "2 Sidebars left"
 msgstr ""
 
-#: inc/template-tags.php:763
+#: inc/template-tags.php:761
 msgid "Surname"
 msgstr ""
 
-#: inc/template-tags.php:768
+#: inc/template-tags.php:766
 msgid "Phone"
 msgstr ""
 
-#: inc/template-tags.php:783
+#: inc/template-tags.php:784
+msgid ""
+"Inviando i miei dati acconsento al loro trattamento come previsto dal D.Lgs "
+"n.196/2003"
+msgstr ""
+
+#: inc/template-tags.php:794
 msgid "Send"
 msgstr ""
 
-#: inc/template-tags.php:1069
+#: inc/template-tags.php:1052
 msgid ""
 "You must specify the output you want - either \"link\" or \"post_content\"."
+msgstr ""
+
+#: inc/template-tags.php:1410
+msgid "Facebook"
+msgstr ""
+
+#: inc/template-tags.php:1411
+msgid "Enter your facebook fan page link"
+msgstr ""
+
+#: inc/template-tags.php:1415
+msgid "Twitter"
+msgstr ""
+
+#: inc/template-tags.php:1416
+msgid "Enter your twitter page link"
+msgstr ""
+
+#: inc/template-tags.php:1420
+msgid "Google+"
+msgstr ""
+
+#: inc/template-tags.php:1421
+msgid "Enter your google+ page link"
+msgstr ""
+
+#: inc/template-tags.php:1425
+msgid "YouTube"
+msgstr ""
+
+#: inc/template-tags.php:1426
+msgid "Enter your youtube page link"
+msgstr ""
+
+#: inc/template-tags.php:1430
+msgid "Pinterest"
+msgstr ""
+
+#: inc/template-tags.php:1431
+msgid "Enter your pinterest page link"
+msgstr ""
+
+#: inc/template-tags.php:1435
+msgid "Linkedin"
+msgstr ""
+
+#: inc/template-tags.php:1436
+msgid "Enter your linkedin page link"
+msgstr ""
+
+#: inc/template-tags.php:1440
+msgid "Instagram"
+msgstr ""
+
+#: inc/template-tags.php:1441
+msgid "Enter your instagram page link"
+msgstr ""
+
+#: inc/template-tags.php:1445
+msgid "Feed RSS"
+msgstr ""
+
+#: inc/template-tags.php:1446
+msgid "Enter your feed RSS link"
 msgstr ""
 
 #: inc/widgets.php:15
@@ -1443,19 +1457,19 @@ msgstr ""
 msgid "The fourth footer widget area, displayed below the Footer widget area."
 msgstr ""
 
-#: inc/widgets.php:134 inc/widgets/widget-login-form.php:166
+#: inc/widgets.php:136 inc/widgets/widget-login-form.php:166
 msgid "Username"
 msgstr ""
 
-#: inc/widgets.php:135 inc/widgets/widget-login-form.php:167
+#: inc/widgets.php:137 inc/widgets/widget-login-form.php:167
 msgid "Password"
 msgstr ""
 
-#: inc/widgets.php:136 inc/widgets/widget-login-form.php:169
+#: inc/widgets.php:138 inc/widgets/widget-login-form.php:169
 msgid "Remember Me"
 msgstr ""
 
-#: inc/widgets.php:137 inc/widgets/widget-login-form.php:165
+#: inc/widgets.php:139 inc/widgets/widget-login-form.php:165
 #: inc/widgets/widget-login-form.php:168
 msgid "Log In"
 msgstr ""
@@ -1476,7 +1490,7 @@ msgstr ""
 msgid "Logged in as"
 msgstr ""
 
-#: inc/widgets/widget-login-form.php:192
+#: inc/widgets/widget-login-form.php:192 inc/widgets/widget-social.php:39
 msgid "Title:"
 msgstr ""
 
@@ -1510,6 +1524,18 @@ msgstr ""
 
 #: inc/widgets/widget-nav-stacked-pills-menu.php:66
 msgid "\"well\" Container"
+msgstr ""
+
+#: inc/widgets/widget-social.php:7
+msgid "Waboot Social Widget"
+msgstr ""
+
+#: inc/widgets/widget-social.php:8
+msgid "A widget to show the social buttons in custom positions"
+msgstr ""
+
+#: inc/widgets/widget-social.php:40
+msgid "New title"
 msgstr ""
 
 #: templates/parts/content-featured.php:8
