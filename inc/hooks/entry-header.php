@@ -2,25 +2,35 @@
 
 add_action('waboot_entry_header','waboot_print_entry_header');
 add_action("waboot_before_inner","waboot_print_entry_title_before_inner");
+add_filter("waboot_entry_title_html_singular","waboot_entry_title_markup");
 add_filter("waboot_entry_title_html_singular","waboot_entry_title_before_inner_singular_markup");
 
 /**
- * Print entry header when is set to "below content"
+ * Print entry header when is set to "below content" (inside the "content-inner")
  */
 function waboot_print_entry_header() {
-	$str = '<header class="entry-header">';
-	$str .= waboot_entry_title();
-	$str .= '</header>';
+	$str = waboot_entry_title();
 
-    if (!is_archive() && (get_behavior('title-position') == "top" || get_behavior("show-title") == "0"))
-        echo "";
-    else
-        echo apply_filters('waboot_entry_header_text', $str);
+    if ((get_behavior('title-position') == "top" || get_behavior("show-title") == "0") && !is_archive())
+        $str = "";
+
+	echo $str;
+}
+
+/**
+ * Specify the markup for is_singular() title when it is printed inside the "content-inner"
+ * @hooked-at waboot_entry_title_html_singular (that is applyed in "waboot_entry_title")
+ * @return string
+ */
+function waboot_entry_title_markup($markup){
+	if(is_singular() && get_behavior('title-position') != "top" && get_behavior("show-title") != "0" ){
+		return "<header class='entry-header'><h1 class='entry-title' itemprop='name'>%s</h1></header>";
+	}
+	return $markup;
 }
 
 /**
  * Actions for printing the title of post\page outsite the "content-inner"
- *
  */
 function waboot_print_entry_title_before_inner(){
     if( is_home() ){
@@ -55,7 +65,8 @@ function waboot_print_entry_title_before_inner(){
 }
 
 /**
- * Specify the markup for is_singular() title (if before inner)
+ * Specify the markup for is_singular() title when it is printed outsite the "content-inner"
+ * @hooked-at waboot_entry_title_html_singular (that is applyed in "waboot_entry_title")
  * @return string
  */
 function waboot_entry_title_before_inner_singular_markup($markup){
