@@ -119,8 +119,10 @@ function waboot_widgets_init() {
     /* Widgets */
     locate_template( '/inc/widgets/widget-login-form.php', true );
     locate_template( '/inc/widgets/widget-nav-stacked-pills-menu.php', true );
+    locate_template( '/inc/widgets/widget-social.php', true );
     register_widget( 'waboot_Widget_Login' );
     register_widget( 'Nav_Stacked_Pills_Menu_Widget' );
+    register_widget( 'Waboot\inc\widgets\Social' );
 }
 add_action( 'widgets_init', 'waboot_widgets_init' );
 endif;
