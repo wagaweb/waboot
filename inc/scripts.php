@@ -39,11 +39,40 @@ function waboot_enqueue_main_script(){
 					'warning' => __("We are sorry: due technical difficulties we was unable to send your message correctly.","waboot"),
 					'error'   => __("We are sorry: an error happens when sending your message.","waboot"),
 					'errors'  => array(
-						'isEmpty' => __("This field cannot be empty.","waboot"),
+						'isEmpty' => __("This field cannot be empty","waboot"),
+						'isNotChecked' => __("This field needs to be checked","waboot"),
 						'_default_' => __("An error was triggered by this field","waboot"),
 					)
 				),
-				'mails' => json_encode($received_mails)
+				'mails' => json_encode($received_mails),
+				'recipient' => call_user_func(function(){
+					global $post;
+					switch(apply_filters("wbft/contact_form/recipient/type",of_get_option("contact_form_mail_recipient_type","admin"))){
+						case "author":
+							$to = array(
+								'id' => isset($post->ID) && $post->ID != 0 ? $post->post_author : 0,
+								'name' => isset($post->ID) && $post->ID != 0 ? get_the_author_meta('display_name' , $post->post_author) : "",
+								'email' => isset($post->ID) && $post->ID != 0 ? get_the_author_meta( 'user_email' , $post->post_author) : ""
+							);
+							break;
+						case "specific_contact":
+							$to = array(
+								'id' => 0,
+								'name' => "Site Admin", //of_get_option("contact_form_mail_recipient_name",""),
+								'email' => of_get_option("contact_form_mail_recipient_email",""),
+							);
+							break;
+						case "admin":
+						default:
+							$to = array(
+								'id' => 1,
+								'name' => "Site Admin",
+								'email' => get_option("admin_email")
+							);
+							break;
+					}
+					return $to;
+				})
 			)
 		)
 	);
