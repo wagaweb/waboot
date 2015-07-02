@@ -799,6 +799,24 @@ function optionsframework_options() {
         'options' => array('top' => __("Above primary","waboot"), 'bottom' => __("Below primary","waboot"))
     );
 
+	$options[] = array(
+		'name' => __("Primary Sidebar width","waboot"),
+		'desc' => __("Choose the primary sidebar width","waboot"),
+		'id' => 'blog_primary_sidebar_size',
+		'std' => '1/4',
+		'type' => "select",
+		'options' => array("1/2"=>"1/2","1/3"=>"1/3","1/4"=>"1/4","1/6"=>"1/6")
+	);
+
+	$options[] = array(
+		'name' => __("Secondary Sidebar width","waboot"),
+		'desc' => __("Choose the secondary sidebar width","waboot"),
+		'id' => 'blog_secondary_sidebar_size',
+		'std' => '1/4',
+		'type' => "select",
+		'options' => array("1/2"=>"1/2","1/3"=>"1/3","1/4"=>"1/4","1/6"=>"1/6")
+	);
+
     /*
      * WOOCOMMERCE PAGE TAB
      */
