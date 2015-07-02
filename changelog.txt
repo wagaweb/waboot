@@ -3,11 +3,18 @@
 Version 0.12.3 -
 ---------------------------------
 
+WABOOT:
+- Ora "waboot_entry_title" non applica due volte lo stesso filtro ("waboot_entry_title_text")
+- Eliminato filtro superfluo "waboot_entry_header_text"
+- Refactor entry-header.php
+- Ora anche la sidebar size del blog è gestita dalle theme options e non dai behavior
+
 WBF:
 - MODULI:
     - COMPONENTS:
         - Ora i componenti rispettano l'opzione di load location.
     - BEHAVIORS
+        - Ora se non esistono behavior validi per il post\pagina in corso di modifica, la metabox non viene creata.
         - Il parametro "{home}" per il campo "valid" è diventato "{blog}"; ciò per riflettere meglio la sua reale azione.
 
 Version 0.12.2 - 29/06/2015
