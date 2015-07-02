@@ -779,9 +779,9 @@ if(!function_exists("wbft_the_contact_form")):
 				'id' => 'privacy',
 				'order' => 5,
 				'html' => call_user_func(function(){
-					$option_value = false;
-					if(!$option_value){
-						$output = '<input name="privacy" type="checkbox" value="1" data-field data-validation="checked"><label for="privacy">&nbsp'.__("Inviando i miei dati acconsento al loro trattamento come previsto dal D.Lgs n.196/2003").'</label>';
+					$option_value = \WBF\modules\options\of_get_option("contact_form_privacy_text");
+					if(!$option_value || $option_value == ""){
+						$output = '<input name="privacy" type="checkbox" value="1" data-field data-validation="checked"><label for="privacy">&nbsp'.__("By submitting this form you agree to our terms and our privacy policy.").'</label>';
 					}else{
 						$output = $option_value;
 					}

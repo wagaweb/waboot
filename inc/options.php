@@ -1031,25 +1031,19 @@ function optionsframework_options() {
 	);
 
 	$options[] = array(
-		'name' => __( 'Specific contact data', 'waboot' ),
-		'desc' => __( 'Contact information for "specific contact" option ', 'waboot' ),
-		'type' => 'info'
-	);
-
-	$options[] = array(
-		'name' => __( 'Name', 'waboot' ),
-		'desc' => __( 'Enter the contact name', 'waboot' ),
-		'id'   => 'contact_form_mail_recipient_name',
-		'type' => 'text',
-		'std'  => ''
-	);
-
-	$options[] = array(
-		'name' => __( 'Email', 'waboot' ),
+		'name' => __( 'Email (specific contact)', 'waboot' ),
 		'desc' => __( 'Enter the contact email address', 'waboot' ),
 		'id'   => 'contact_form_mail_recipient_email',
 		'type' => 'text',
 		'std'  => ''
+	);
+
+	$options[] = array(
+		'name' => __( 'Custom privacy text', 'waboot' ),
+		'desc' => __( 'Enter your privacy statement for contact form', 'waboot' ),
+		'id'   => 'contact_form_privacy_text',
+		'std'  => '',
+		'type' => 'textarea'
 	);
 
     /*
