@@ -10,7 +10,10 @@ class Social extends \WP_Widget {
 	}
 
 	function widget($args,$instance){
-		echo $args['before_widget'];
+		//echo $args['before_widget'];
+		?>
+		<div class="wb-social-widget" class="widget widget_text">
+		<?php
 
 		$socials = waboot_get_available_socials();
 
@@ -23,8 +26,10 @@ class Social extends \WP_Widget {
 		<?php
 			endif;
 		endforeach;
-
-		echo $args['after_widget'];
+		?>
+		</div>
+		<?php
+		//echo $args['after_widget'];
 	}
 
 	function form($instance){
