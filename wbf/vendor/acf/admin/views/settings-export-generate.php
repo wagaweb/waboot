@@ -18,7 +18,7 @@ $field_groups = acf_extract_var( $args, 'field_groups');
 			
 			<textarea class="pre" readonly="true"><?php
 			
-			echo "if( function_exists('register_field_group') ):" . "\r\n" . "\r\n";
+			echo "if( function_exists('acf_add_local_field_group') ):" . "\r\n" . "\r\n";
 			
 			foreach( $field_groups as $field_group ) {
 								
@@ -35,7 +35,7 @@ $field_groups = acf_extract_var( $args, 'field_groups');
 				$code = preg_replace('/[0-9]+ => array/', 'array', $code);
 				
 				// echo
-				echo "register_field_group({$code});" . "\r\n" . "\r\n";
+				echo "acf_add_local_field_group({$code});" . "\r\n" . "\r\n";
 			
 			}
 			

@@ -58,10 +58,14 @@ class acf_field_wysiwyg extends acf_field {
 		add_filter( 'acf_the_content', 'convert_chars' );
 		add_filter( 'acf_the_content', 'wpautop' );
 		add_filter( 'acf_the_content', 'shortcode_unautop' );
-		add_filter( 'acf_the_content', 'prepend_attachment' );
+		//add_filter( 'acf_the_content', 'prepend_attachment' ); *should only be for the_content (causes double image on attachment page)
 		add_filter( 'acf_the_content', 'do_shortcode', 11);
 		
 
+		// actions
+		add_action('acf/input/admin_footer_js', 	array($this, 'input_admin_footer_js'));
+		
+		
 		// do not delete!
     	parent::__construct();
     	
@@ -147,13 +151,14 @@ class acf_field_wysiwyg extends acf_field {
    		
    		// return
 	   	return $toolbars;
+	   	
    	}
    	
    	
    	/*
-   	*  input_form_data
+   	*  input_admin_footer_js
    	*
-   	*  This function is called once on the input page between the head and footer
+   	*  description
    	*
    	*  @type	function
    	*  @date	6/03/2014
@@ -163,55 +168,49 @@ class acf_field_wysiwyg extends acf_field {
    	*  @return	$post_id (int)
    	*/
    	
-   	function input_form_data( $args ) {
+   	function input_admin_footer_js() {
 	   	
 	   	// vars
 		$json = array();
 		$toolbars = $this->get_toolbars();
 
 		
-		// loop through toolbars
-		if( !empty($toolbars) ) {
+		// bail ealry if no toolbars
+		if( empty($toolbars) ) {
 			
-			foreach( $toolbars as $label => $rows ) {
-				
-				// vars
-				$label = sanitize_title( $label );
-				$label = str_replace('-', '_', $label);
-				
-				
-				// append to $json
-				$json[ $label ] = array();
-				
-				
-				// convert to strings
-				if( !empty($rows) ) {
-					
-					foreach( $rows as $i => $row ) { 
-						
-						$json[ $label ][ $i ] = implode(',', $row);
-						
-					}
-					// foreach
-					
-				}
-				// if
-				
-			}
-			// foreach
+			return;
 			
 		}
-		// if
 		
-		?>
-		<script type="text/javascript">
-		(function($) {
+			
+		// loop through toolbars
+		foreach( $toolbars as $label => $rows ) {
+			
+			// vars
+			$label = sanitize_title( $label );
+			$label = str_replace('-', '_', $label);
+			
+			
+			// append to $json
+			$json[ $label ] = array();
+			
+			
+			// convert to strings
+			if( !empty($rows) ) {
+				
+				foreach( $rows as $i => $row ) { 
+					
+					$json[ $label ][ $i ] = implode(',', $row);
+					
+				}
+				
+			}
+			
+		}
 		
-			acf.fields.wysiwyg.toolbars = <?php echo json_encode( $json ); ?>;
 		
-		})(jQuery);	
-		</script>
-		<?php
+		?>acf.fields.wysiwyg.toolbars = <?php echo json_encode($json); ?>;
+	<?php
 	
    	}
    	
@@ -235,7 +234,8 @@ class acf_field_wysiwyg extends acf_field {
 		
 		
 		// vars
-		$id = $field['id'] . '-' . uniqid();
+		$id = uniqid('acf-editor-');
+		//$id = $field['id'] . '-' . uniqid();
 		$mode = 'html';
 		$show_tabs = true;
 		
@@ -285,17 +285,17 @@ class acf_field_wysiwyg extends acf_field {
 		$field['value'] = apply_filters( 'acf_the_editor_content', $field['value'] );
 		
 		?>
-		<div id="wp-<?php echo $id; ?>-wrap" class="acf-wysiwyg-wrap wp-core-ui wp-editor-wrap <?php echo $switch_class; ?>" data-toolbar="<?php echo $field['toolbar']; ?>" data-upload="<?php echo $field['media_upload']; ?>">
+		<div id="wp-<?php echo $id; ?>-wrap" class="acf-editor-wrap wp-core-ui wp-editor-wrap <?php echo $switch_class; ?>" data-toolbar="<?php echo $field['toolbar']; ?>" data-upload="<?php echo $field['media_upload']; ?>">
 			<div id="wp-<?php echo $id; ?>-editor-tools" class="wp-editor-tools hide-if-no-js">
 				<?php if( $field['media_upload'] ): ?>
 				<div id="wp-<?php echo $id; ?>-media-buttons" class="wp-media-buttons">
-					<?php do_action( 'media_buttons' ); ?>
+					<?php do_action( 'media_buttons', $id ); ?>
 				</div>
 				<?php endif; ?>
 				<?php if( user_can_richedit() && $show_tabs ): ?>
 					<div class="wp-editor-tabs">
-						<a id="<?php echo $id; ?>-html" class="wp-switch-editor switch-html" onclick="switchEditors.switchto(this);"><?php echo _x( 'Text', 'Name for the Text editor tab (formerly HTML)' ); ?></a>
-						<a id="<?php echo $id; ?>-tmce" class="wp-switch-editor switch-tmce" onclick="switchEditors.switchto(this);"><?php echo __('Visual'); ?></a>
+						<button id="<?php echo $id; ?>-tmce" class="wp-switch-editor switch-tmce" onclick="switchEditors.switchto(this);" type="button"><?php echo __('Visual', 'acf'); ?></button>
+						<button id="<?php echo $id; ?>-html" class="wp-switch-editor switch-html" onclick="switchEditors.switchto(this);" type="button"><?php echo _x( 'Text', 'Name for the Text editor tab (formerly HTML)', 'acf' ); ?></button>
 					</div>
 				<?php endif; ?>
 			</div>

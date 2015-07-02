@@ -1,23 +1,26 @@
 <?php 
 
+// global
 global $post;
 
 
-// get vars ($field)
+// extract args
 extract( $args );
 
 
 // add prefix
 $field['prefix'] = "acf_fields[{$field['ID']}]";
 
+
+// vars
 $atts = array(
-	'class' => "field field_type-{$field['type']}",
+	'class' => "acf-field-object acf-field-object-{$field['type']}",
 	'data-id'	=> $field['ID'],
 	'data-key'	=> $field['key'],
 	'data-type'	=> $field['type'],
 );
 
-$metas = array(
+$meta = array(
 	'ID'			=> $field['ID'],
 	'key'			=> $field['key'],
 	'parent'		=> $field['parent'],
@@ -25,49 +28,50 @@ $metas = array(
 	'save'			=> '',
 );
 
+
+// replace
+$atts['class'] = str_replace('_', '-', $atts['class']);
+
 ?>
 <div <?php echo acf_esc_attr( $atts ); ?>>
 	
-	<div class="field-meta acf-hidden">
-		<?php 
-		
-		// meta		
-		foreach( $metas as $k => $v ) {
+	<div class="meta">
+		<?php foreach( $meta as $k => $v ):
 			
 			acf_hidden_input(array( 'class' => "input-{$k}", 'name' => "{$field['prefix']}[{$k}]", 'value' => $v ));
 				
-		}
-		
-		?>
+		endforeach; ?>
 	</div>
 	
-	<ul class="field-info acf-hl acf-tbody">
-		<li class="li-field_order">
-			<span class="acf-icon large"><?php echo ($i + 1); ?></span>
-			<pre class="pre-field_key"><?php echo $field['key']; ?></pre>
-		</li>
-		<li class="li-field_label">
-			<strong>
-				<a class="edit-field" title="<?php _e("Edit field",'acf'); ?>" href="#"><?php echo $field['label']; ?></a>
-			</strong>
-			<div class="row-options">
-				<a class="edit-field" title="<?php _e("Edit field",'acf'); ?>" href="#"><?php _e("Edit",'acf'); ?></a>
-				<a class="duplicate-field" title="<?php _e("Duplicate field",'acf'); ?>" href="#"><?php _e("Duplicate",'acf'); ?></a>
-				<a class="move-field" title="<?php _e("Move field to another group",'acf'); ?>" href="#"><?php _e("Move",'acf'); ?></a>
-				<a class="delete-field" title="<?php _e("Delete field",'acf'); ?>" href="#"><?php _e("Delete",'acf'); ?></a>
-			</div>
-		</li>
-		<li class="li-field_name"><?php echo $field['name']; ?></li>
-		<li class="li-field_type">
-			<?php if( acf_field_type_exists($field['type']) ): ?>
-				<?php echo acf_get_field_type_label($field['type']); ?>
-			<?php else: ?>
-				<b><?php _e('Error', 'acf'); ?></b> <?php _e('Field type does not exist', 'acf'); ?>
-			<?php endif; ?>
-		</li>	
-	</ul>
+	<div class="handle">
+		<ul class="acf-hl acf-tbody">
+			<li class="li-field-order">
+				<span class="acf-icon large"><?php echo ($i + 1); ?></span>
+				<pre class="pre-field-key"><?php echo $field['key']; ?></pre>
+			</li>
+			<li class="li-field-label">
+				<strong>
+					<a class="edit-field" title="<?php _e("Edit field",'acf'); ?>" href="#"><?php echo $field['label']; ?></a>
+				</strong>
+				<div class="row-options">
+					<a class="edit-field" title="<?php _e("Edit field",'acf'); ?>" href="#"><?php _e("Edit",'acf'); ?></a>
+					<a class="duplicate-field" title="<?php _e("Duplicate field",'acf'); ?>" href="#"><?php _e("Duplicate",'acf'); ?></a>
+					<a class="move-field" title="<?php _e("Move field to another group",'acf'); ?>" href="#"><?php _e("Move",'acf'); ?></a>
+					<a class="delete-field" title="<?php _e("Delete field",'acf'); ?>" href="#"><?php _e("Delete",'acf'); ?></a>
+				</div>
+			</li>
+			<li class="li-field-name"><?php echo $field['name']; ?></li>
+			<li class="li-field-type">
+				<?php if( acf_field_type_exists($field['type']) ): ?>
+					<?php echo acf_get_field_type_label($field['type']); ?>
+				<?php else: ?>
+					<b><?php _e('Error', 'acf'); ?></b> <?php _e('Field type does not exist', 'acf'); ?>
+				<?php endif; ?>
+			</li>	
+		</ul>
+	</div>
 	
-	<div class="field-settings">			
+	<div class="settings">			
 		<table class="acf-table">
 			<tbody>
 				<?php 
@@ -137,68 +141,64 @@ $metas = array(
 				), 'tr');
 				
 				
-				// custom field options
-				acf_render_field_settings( $field );
+				// type specific settings
+				do_action("acf/render_field_settings/type={$field['type']}", $field);
 				
 				
-				// load view
+				// 3rd party settings
+				do_action('acf/render_field_settings', $field);
+				
+				
+				// conditional logic
 				acf_get_view('field-group-field-conditional-logic', array( 'field' => $field ));
 				
+				
+				// wrapper
+				acf_render_field_wrap(array(
+					'label'			=> __('Wrapper Attributes','acf'),
+					'instructions'	=> '',
+					'type'			=> 'text',
+					'name'			=> 'width',
+					'prefix'		=> $field['prefix'] . '[wrapper]',
+					'value'			=> $field['wrapper']['width'],
+					'prepend'		=> __('width', 'acf'),
+					'append'		=> '%',
+					'wrapper'		=> array(
+						'data-name' => 'wrapper'
+					)
+				), 'tr');
+				
+				acf_render_field_wrap(array(
+					'label'			=> '',
+					'instructions'	=> '',
+					'type'			=> 'text',
+					'name'			=> 'class',
+					'prefix'		=> $field['prefix'] . '[wrapper]',
+					'value'			=> $field['wrapper']['class'],
+					'prepend'		=> __('class', 'acf'),
+					'wrapper'		=> array(
+						'data-append' => 'wrapper'
+					)
+				), 'tr');
+				
+				acf_render_field_wrap(array(
+					'label'			=> '',
+					'instructions'	=> '',
+					'type'			=> 'text',
+					'name'			=> 'id',
+					'prefix'		=> $field['prefix'] . '[wrapper]',
+					'value'			=> $field['wrapper']['id'],
+					'prepend'		=> __('id', 'acf'),
+					'wrapper'		=> array(
+						'data-append' => 'wrapper'
+					)
+				), 'tr');
+				
 				?>
-				<tr data-name="wrapper" class="acf-field">
-					<td class="acf-label">
-						<label><?php _e("Wrapper Attributes",'acf'); ?></label>
-					</td>
-					<td class="acf-input">
-						<ul class="acf-hl">
-							<li style="width:33%; padding-right:15px;">
-							<?php 
-							
-							acf_render_field(array(
-								'type'			=> 'text',
-								'name'			=> 'width',
-								'prefix'		=> $field['prefix'] . '[wrapper]',
-								'value'			=> $field['wrapper']['width'],
-								'prepend'		=> __('width', 'acf'),
-								'append'		=> '%',
-								//'placeholder'	=> '100',
-							));
-							
-							?>
-							</li>
-							<li style="width:33%; padding-right:15px;">
-							<?php 
-							
-							acf_render_field(array(
-								'type'			=> 'text',
-								'name'			=> 'class',
-								'prefix'		=> $field['prefix'] . '[wrapper]',
-								'value'			=> $field['wrapper']['class'],
-								'prepend'		=> __('class', 'acf'),
-							));
-							
-							?>
-							</li>
-							<li style="float:none;">
-							<?php 
-							
-							acf_render_field(array(
-								'type'			=> 'text',
-								'name'			=> 'id',
-								'prefix'		=> $field['prefix'] . '[wrapper]',
-								'value'			=> $field['wrapper']['id'],
-								'prepend'		=> __('id', 'acf'),
-							));
-							
-							?>
-							</li>
-						</ul>
-					</td>
-				</tr>	
-				<tr class="field_save">
+				<tr class="acf-field acf-field-save">
 					<td class="acf-label"></td>
 					<td class="acf-input">
-						<ul class="acf-hl acf-clearfix">
+						<ul class="acf-hl">
 							<li>
 								<a class="edit-field acf-button grey" title="<?php _e("Close Field",'acf'); ?>" href="#"><?php _e("Close Field",'acf'); ?></a>
 							</li>
@@ -207,6 +207,6 @@ $metas = array(
 				</tr>
 			</tbody>
 		</table>
-	</div>	
-
+	</div>
+	
 </div>

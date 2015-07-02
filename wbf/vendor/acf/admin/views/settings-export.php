@@ -43,6 +43,7 @@
 								'name'		=> 'acf_export_keys',
 								'prefix'	=> false,
 								'value'		=> false,
+								'toggle'	=> true,
 								'choices'	=> $choices,
 							));
 							
@@ -64,23 +65,39 @@
 		<script type="text/javascript">
 		(function($) {
 			
-			// hide on screen toggle
+			// vars
 			var $ul = $('#acf-export-field-groups .acf-checkbox-list'),
-				$li = $('<li><label><input type="checkbox" value="" name=""><?php _e("Toggle All", 'acf'); ?></label></li>');
-			
+				$inputs = $ul.find('input[name]');
+					
 			
 			// event
-			$li.on('change', 'input', function(){
+			$ul.on('change', 'input', function(){
 				
-				var checked = $(this).is(':checked');
+				// vars
+				checked = $(this).is(':checked');
 				
-				$ul.find('input').attr('checked', checked);
+				
+				// is toggle?
+				if( $(this).hasClass('acf-checkbox-toggle') ) {
+					
+					// toggle all
+					$inputs.prop('checked', checked);
+					
+					
+					// return
+					return;
+					
+				}
+				
+				
+				// determine if all inputs are checked
+				var checked = ( $inputs.not(':checked').length == 0 );
+				
+				
+				// update toggle
+				$ul.find('.acf-checkbox-toggle').prop('checked', checked);
 				
 			});
-			
-			
-			// add to ul
-			$ul.prepend( $li );
 						
 		})(jQuery);	
 		</script>

@@ -80,7 +80,7 @@ class acf_field_flexible_content extends acf_field {
 			'key'			=> uniqid(),
 			'name'			=> '',
 			'label'			=> '',
-			'display'		=> 'row',
+			'display'		=> 'block',
 			'sub_fields'	=> array(),
 			'min'			=> '',
 			'max'			=> '',
@@ -684,7 +684,7 @@ class acf_field_flexible_content extends acf_field {
 		
 		
 		// value must be an array
-		$value = acf_force_type_array( $value );
+		$value = acf_get_array( $value );
 		
 		
 		// vars
@@ -1064,8 +1064,13 @@ class acf_field_flexible_content extends acf_field {
 				if( !empty($layouts[ $l ]) ) {
 					
 					foreach( $layouts[ $l ] as $sub_field ) {
-					
-						acf_delete_value( $post_id, "{$field['name']}_{$i}_{$sub_field['name']}" );
+						
+						// modify name for delete
+						$sub_field['name'] = "{$field['name']}_{$i}_{$sub_field['name']}";
+						
+						
+						// delete value
+						acf_delete_value( $post_id, $sub_field );
 						
 					}
 					

@@ -110,7 +110,7 @@ class acf_admin_field_groups {
 				
 			} else {
 				
-				acf_add_admin_notice( sprintf(_n( '%s field group duplicated.', '%s field groups duplicated.', $total ), $total) );
+				acf_add_admin_notice( sprintf(_n( '%s field group duplicated.', '%s field groups duplicated.', $total, 'acf' ), $total) );
 				
 			}
 			
@@ -196,7 +196,7 @@ class acf_admin_field_groups {
 				
 			} else {
 				
-				acf_add_admin_notice( sprintf(_n( '%s field group synchronised.', '%s field groups synchronised.', $total ), $total) );
+				acf_add_admin_notice( sprintf(_n( '%s field group synchronised.', '%s field groups synchronised.', $total, 'acf' ), $total) );
 				
 			}
 			
@@ -248,7 +248,7 @@ class acf_admin_field_groups {
 			return;
 			
 		}
-		
+	
 		
 		// import field group
 		if( $key = acf_maybe_get($_GET, 'acfsync') ) {
@@ -483,7 +483,7 @@ class acf_admin_field_groups {
 		
 		$columns = array(
 			'cb'	 	=> '<input type="checkbox" />',
-			'title' 	=> __('Title'),
+			'title' 	=> __('Title', 'acf'),
 			'fields' 	=> __('Fields', 'acf'),
 		);
 		
@@ -532,7 +532,7 @@ class acf_admin_field_groups {
 	
 	function admin_footer() {
 		
-		// vras
+		// vars
 		$www = 'http://www.advancedcustomfields.com/resources/';
 		
 ?><script type="text/html" id="tmpl-acf-col-side">
@@ -632,7 +632,7 @@ class acf_admin_field_groups {
 <?php foreach( $this->sync as $group ): $i++; ?>
 	<tr <?php if($i%2 == 0): ?>class="alternate"<?php endif; ?>>
 		<th class="check-column" scope="row">
-			<label for="cb-select-<?php echo $group['key']; ?>" class="screen-reader-text"><?php printf( __( 'Select %s' ), $group['title'] ); ?></label>
+			<label for="cb-select-<?php echo $group['key']; ?>" class="screen-reader-text"><?php printf( __( 'Select %s', 'acf' ), $group['title'] ); ?></label>
 			<input type="checkbox" value="<?php echo $group['key']; ?>" name="post[]" id="cb-select-<?php echo $group['key']; ?>">
 		</th>
 		<td class="post-title page-title column-title">
