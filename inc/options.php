@@ -1140,64 +1140,17 @@ function optionsframework_options() {
         )
     );
 
-    $options[] = array(
-        'name' => __( 'Facebook', 'waboot' ),
-        'desc' => __( 'Enter your facebook fan page link', 'waboot' ),
-        'id'   => 'waboot_social_facebook',
-        'type' => 'text',
-	    'std'  => '#'
-    );
+	$socials = waboot_get_available_socials();
 
-    $options[] = array(
-        'name' => __( 'Twitter', 'waboot' ),
-        'desc' => __( 'Enter your twitter page link', 'waboot' ),
-        'id'   => 'waboot_social_twitter',
-        'type' => 'text',
-        'std'  => '#'
-    );
-
-    $options[] = array(
-        'name' => __( 'Google+', 'waboot' ),
-        'desc' => __( 'Enter your google+ page link', 'waboot' ),
-        'id'   => 'waboot_social_google',
-        'type' => 'text',
-        'std'  => '#'
-    );
-
-    $options[] = array(
-        'name' => __( 'YouTube', 'waboot' ),
-        'desc' => __( 'Enter your youtube page link', 'waboot' ),
-        'id'   => 'waboot_social_youtube',
-        'type' => 'text'
-    );
-
-    $options[] = array(
-        'name' => __( 'Pinterest', 'waboot' ),
-        'desc' => __( 'Enter your pinterest page link', 'waboot' ),
-        'id'   => 'waboot_social_pinterest',
-        'type' => 'text'
-    );
-
-    $options[] = array(
-        'name' => __( 'Linkedin', 'waboot' ),
-        'desc' => __( 'Enter your linkedin page link', 'waboot' ),
-        'id'   => 'waboot_social_linkedin',
-        'type' => 'text'
-    );
-
-    $options[] = array(
-        'name' => __( 'Instagram', 'waboot' ),
-        'desc' => __( 'Enter your instagram page link', 'waboot' ),
-        'id'   => 'waboot_social_instagram',
-        'type' => 'text'
-    );
-
-    $options[] = array(
-        'name' => __( 'Feed RSS', 'waboot' ),
-        'desc' => __( 'Enter your feed RSS link', 'waboot' ),
-        'id'   => 'waboot_social_feedrss',
-        'type' => 'text'
-    );
+	foreach($socials as $k => $s){
+		$options[] = array(
+			'name' => $s['name'],
+			'desc' => $s['theme_options_desc'],
+			'id'   => 'waboot_social_'.$k,
+			'type' => 'text',
+			'std'  => '#'
+		);
+	}
 
     /*
      * CUSTOM CSS TAB
