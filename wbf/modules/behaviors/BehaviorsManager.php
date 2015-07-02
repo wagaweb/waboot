@@ -47,6 +47,19 @@ class BehaviorsManager{
 		return $behaviors[$post_type];
 	}
 
+	static function count_behaviors_for_node_id($id){
+		static $behaviors;
+		if(is_null($behaviors)) $behaviors = self::getAll();
+		$count = 0;
+		foreach($behaviors as $b){
+			if($b->is_enable_for_node($id)){
+				$count++;
+			}
+		}
+
+		return $count;
+	}
+
 	static function count_behaviors_for_post_type($slug){
 		static $behaviors;
 		if(is_null($behaviors)) $behaviors = self::getAll();

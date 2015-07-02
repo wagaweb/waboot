@@ -49,8 +49,11 @@ function get_behavior($name, $post_id = 0, $return = "value") {
 }
 
 function create_metabox(){
-	$behaviors = BehaviorsManager::getAll();
-	add_meta_box("behavior","Behaviors",'\WBF\modules\behaviors\display_metabox',null,"advanced","core",array($behaviors));
+	$post_id = get_the_ID();
+	if($post_id != 0 && BehaviorsManager::count_behaviors_for_node_id($post_id) > 0){
+		$behaviors = BehaviorsManager::getAll();
+		add_meta_box("behavior","Behaviors",'\WBF\modules\behaviors\display_metabox',null,"advanced","core",array($behaviors));
+	}
 }
 
 function display_metabox(\WP_Post $post,array $behaviors){
