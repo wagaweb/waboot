@@ -33,7 +33,23 @@ module.exports = Backbone.Model.extend({
                         self.updateData(name, val);
                     }
                     break;
+                case "checked":{
+                    if(!f.$el.is(":checked")){
+                        self.trigger("error", {
+                            $el: f.$el,
+                            code: "isNotChecked"
+                        });
+                        error_occurred = true;
+                    }else{
+                        self.updateData(name, val);
+                    }
+                }
             }
+
+            if(_.isUndefined(validation)){
+                self.updateData(name, val);
+            }
+
         });
 
         this.set("error", error_occurred);
