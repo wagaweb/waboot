@@ -12,8 +12,10 @@ WABOOT:
 - Implementata funzione "waboot_get_available_socials" per ottenere tutti i social definiti.
 - Implementato filtro "waboot/socials/available" per editare i social dispinibili.
 - Implementato Waboot Social Widget
+- Aggiunto campo privacy al contact form
 
 WBF:
+- Aggiornato ACF alla 5.2.7
 - MODULI:
     - COMPONENTS:
         - Ora i componenti rispettano l'opzione di load location.
