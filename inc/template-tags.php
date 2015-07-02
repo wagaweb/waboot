@@ -124,26 +124,24 @@ if(!function_exists("waboot_entry_title")):
 			global $post;
 		}
 
-		if(!is_archive())
+		if(!is_archive()){
 			if (get_behavior('show-title', $post->ID) == "0") return "";
+        }
 
 		$title = get_the_title($post->ID);
 
 		if (mb_strlen($title) == 0)
 			return "";
 
-		$title = apply_filters("waboot_entry_title_simple",$title); //@Deprecated
-		$title = apply_filters("waboot_entry_title_text",$title);
+		$title = apply_filters("waboot_entry_title_text",$title); //@ waboot_entry_title_simple was deprecated
 
 		if(is_singular() ) {
-			$str = sprintf(apply_filters('waboot_entry_title_text_singular', '<h1 class="entry-title" itemprop="name">%s</h1>'), $title); //@Deprecated
-			$str = sprintf(apply_filters('waboot_entry_title_html_singular', '<h1 class="entry-title" itemprop="name">%s</h1>'), $title);
+			$str = sprintf(apply_filters('waboot_entry_title_html_singular', '<h1 class="entry-title" itemprop="name">%s</h1>'), $title); //@waboot_entry_title_text_singular was deprecated
 		}else{
-			$str = sprintf(apply_filters('waboot_entry_title_text_posts', '<h2 class="entry-title" itemprop="name"><a class="entry-title" title="%s" rel="bookmark" href="%s">%s</a></h2>'), the_title_attribute('echo=0'), get_permalink(), $title); //@Deprecated
-			$str = sprintf(apply_filters('waboot_entry_title_html_posts', '<h2 class="entry-title" itemprop="name"><a class="entry-title" title="%s" rel="bookmark" href="%s">%s</a></h2>'), the_title_attribute('echo=0'), get_permalink(), $title);
+			$str = sprintf(apply_filters('waboot_entry_title_html_posts', '<h2 class="entry-title" itemprop="name"><a class="entry-title" title="%s" rel="bookmark" href="%s">%s</a></h2>'), the_title_attribute('echo=0'), get_permalink(), $title); //@waboot_entry_title_text_posts was deprecated
 		}
 
-		return apply_filters('waboot_entry_title_text', $str);
+		return $str;
 	}
 endif;
 

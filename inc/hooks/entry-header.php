@@ -4,6 +4,9 @@ add_action('waboot_entry_header','waboot_print_entry_header');
 add_action("waboot_before_inner","waboot_print_entry_title_before_inner");
 add_filter("waboot_entry_title_html_singular","waboot_entry_title_before_inner_singular_markup");
 
+/**
+ * Print entry header when is set to "below content"
+ */
 function waboot_print_entry_header() {
 	$str = '<header class="entry-header">';
 	$str .= waboot_entry_title();
@@ -17,6 +20,7 @@ function waboot_print_entry_header() {
 
 /**
  * Actions for printing the title of post\page outsite the "content-inner"
+ *
  */
 function waboot_print_entry_title_before_inner(){
     if( is_home() ){

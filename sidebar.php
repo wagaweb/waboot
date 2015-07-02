@@ -6,7 +6,6 @@
  * @since Waboot 1.0
  */
 ?>
-<?php //if ( current_theme_supports( 'theme-layouts' ) && !is_admin() && 'layout-1c' !== theme_layouts_get_layout() || !current_theme_supports( 'theme-layouts' ) ) : ?>
 <?php if ( waboot_get_body_layout() != "full-width" ) : ?>
 	<div id="primary" class="<?php echo apply_filters( 'waboot_primary_container_class', 'col-sm-4' ); ?>">
 		<div id="sidebar-primary" class="<?php echo apply_filters( 'waboot_sidebar_container_class', 'widget-area' ); ?>" role="complementary">
