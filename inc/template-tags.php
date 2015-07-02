@@ -763,7 +763,7 @@ if(!function_exists("wbft_the_contact_form")):
 			array(
 				'id' => 'phone',
 				'order' => 2,
-				'html' => '<div class="form-group col-sm-6"><label for="phone" class=" control-label">'.__('Phone', 'waboot').'</label><input id="phone" type="text" class="form-control" name="from[phone]" data-field data-validation="!empty"></div>'
+				'html' => '<div class="form-group col-sm-6"><label for="phone" class=" control-label">'.__('Phone', 'waboot').'</label><input id="phone" type="text" class="form-control" name="from[phone]" data-field></div>'
 			),
 			array(
 				'id' => 'email',
@@ -776,8 +776,21 @@ if(!function_exists("wbft_the_contact_form")):
 				'html' => '<div class="form-group col-sm-12"><label for="message" class="control-label">'.__('Message', 'waboot').'</label><textarea id="message" class="form-control" name="message" rows="5" data-field data-validation="!empty"></textarea></div>'
 			),
 			array(
-				'id' => 'submit',
+				'id' => 'privacy',
 				'order' => 5,
+				'html' => call_user_func(function(){
+					$option_value = false;
+					if(!$option_value){
+						$output = '<input name="privacy" type="checkbox" value="1" data-field data-validation="checked"><label for="privacy">&nbsp'.__("Inviando i miei dati acconsento al loro trattamento come previsto dal D.Lgs n.196/2003").'</label>';
+					}else{
+						$output = $option_value;
+					}
+					return $output;
+				})
+			),
+			array(
+				'id' => 'submit',
+				'order' => 6,
 				'html' => '<div class="form-group col-sm-12"><button type="submit" class="btn btn-primary">'.__('Send', 'waboot').'</button></div>'
 			)
 		);
@@ -787,37 +800,9 @@ if(!function_exists("wbft_the_contact_form")):
 		foreach($fields as $k => $f){
 			$fields[$k]['html'] = apply_filters("wbft/contact_form/field/{$f['id']}/tpl",$f['html']);
 		}
-
-		switch(apply_filters("wbft/contact_form/recipient/type",of_get_option("contact_form_mail_recipient_type","admin"))){
-			case "author":
-				$to = array(
-					'id' => isset($post->ID) && $post->ID != 0 ? $post->post_author : 0,
-					'name' => isset($post->ID) && $post->ID != 0 ? get_the_author_meta('display_name' , $post->post_author) : "",
-					'email' => isset($post->ID) && $post->ID != 0 ? get_the_author_meta( 'user_email' , $post->post_author) : ""
-				);
-				break;
-			case "specific_contact":
-				$to = array(
-					'id' => 0,
-					'name' => of_get_option("contact_form_mail_recipient_name",""),
-					'email' => of_get_option("contact_form_mail_recipient_email",""),
-				);
-				break;
-			case "admin":
-			default:
-				$to = array(
-					'id' => 1,
-					'name' => "Site Admin",
-					'email' => get_option("admin_email")
-				);
-				break;
-		}
 		?>
 		<form id="wb-contact-form" method="post" enctype="multipart/form-data" data-contactForm>
 			<input type="hidden" name="pass_id" value="<?php echo $rand_id ?>">
-			<input type="hidden" name="to[id]" value="<?php echo $to['id']; ?>">
-			<input type="hidden" name="to[name]" value="<?php echo $to['name']; ?>">
-			<input type="hidden" name="to[email]" value="<?php echo $to['email']; ?>">
 			<input type="hidden" name="fromID" value="<?php echo $post->ID ?>">
 			<?php wp_nonce_field( 'send-mail_'.$rand_id ); ?>
 			<?php echo apply_filters("wbft/contact_form/tpl",wbft_contact_form_tpl($fields)); ?>
@@ -836,8 +821,8 @@ if(!function_exists("wbft_contact_form_tpl")):
 	 */
 	function wbft_contact_form_tpl($fields,$args = array()){
 		$args = wp_parse_args($args,array(
-			'field_before' => '<div class="form-group">',
-			'field_after' => '</div>'
+			'field_before' => '',
+			'field_after' => ''
 		));
 		$return_string = "";
 		//Reorder fields
