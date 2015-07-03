@@ -1027,12 +1027,12 @@ function optionsframework_options() {
 		'id' => 'contact_form_mail_recipient_type',
 		'std' => 'admin',
 		'type' => 'select',
-		'options' => array('admin' => __('The site admin'), 'author' => __('The author of the post in which the form is inserted',"waboot"), 'specific_contact' => __("A specific contact"))
+		'options' => array('admin' => __('The site admin'), 'author' => __('The author of the post in which the form is inserted',"waboot"), 'specific_contact' => __("A specific recipient"))
 	);
 
 	$options[] = array(
-		'name' => __( 'Email (specific contact)', 'waboot' ),
-		'desc' => __( 'Enter the contact email address', 'waboot' ),
+		'name' => __( 'Recipient address', 'waboot' ),
+		'desc' => __( 'Enter the recipient email address (valid for "specific recipient" option)', 'waboot' ),
 		'id'   => 'contact_form_mail_recipient_email',
 		'type' => 'text',
 		'std'  => ''
