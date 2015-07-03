@@ -3275,7 +3275,7 @@ module.exports = Backbone.View.extend({
         this.model.set("recipient", {
             id: wbData.contactForm.recipient.id,
             name: wbData.contactForm.recipient.name,
-            mail: wbData.contactForm.recipient.mail
+            mail: wbData.contactForm.recipient.email
         });
         this.model.set("postID", this.$el.find("[name=fromID]").val()); //Set the post ID on the model
         //Set the fields on the view
@@ -3284,7 +3284,7 @@ module.exports = Backbone.View.extend({
             self.fields.push({
                 $el: jQuery(this),
                 validation: jQuery(this).attr("data-validation")
-            })
+            });
         });
         //Prevent form submitting
         this.$el.submit(function(e) {
