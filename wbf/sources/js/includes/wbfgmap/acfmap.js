@@ -48,9 +48,9 @@ var wbf_rendered_gmaps = [];
                 }
             },
             args = {
-                zoom: 16,
-                draggable: true,
-                scrollwheel: false,
+                zoom: $el.attr("data-zoom") || 16,
+                draggable: $el.data("dragable") || true,
+                scrollwheel: $el.data("scrollwheel") || false,
                 center: new google.maps.LatLng(0, 0),
                 mapTypeId: datas.mapType
             };
@@ -185,11 +185,38 @@ var wbf_rendered_gmaps = [];
     });
 
     jQuery(window).bind("load", function() {
+        /*
+         * Rendering
+         */
         jQuery('.acf-map').each(function () {
             jQuery(this).removeClass("loading");
             wbf_rendered_gmaps.push(render_map(jQuery(this)));
         });
         jQuery(document).trigger("wbf_gmaps:rendered");
+
+        /*
+         * Enabling search
+         */
+        $('[data-wb-map-search-field]').keypress(function(e){
+            if (e.which === 13){
+                $('[data-acf-map-search-button]').trigger("click");
+            }
+        });
+        $('[data-wb-map-search-button]').on("click",function(){
+            var $searchField = $("[data-wb-map-search-field]");
+            var searchAddress = $searchField.val();
+            if(typeof(searchAddress) !== "undefined" && searchAddress !== ""){
+                var geocoder = new google.maps.Geocoder();
+                geocoder.geocode({'address': searchAddress}, function(result,status){
+                    if(status === google.maps.GeocoderStatus.OK && typeof(map) !== "undefined"){
+                        map.setCenter(result[0].geometry.location);
+                        map.setZoom(14);
+                    }else{
+                        console.log("Geocode was not successful for the following reason: "+status);
+                    }
+                });
+            }
+        });
     });
 
 })(jQuery);

@@ -16,6 +16,7 @@ WABOOT:
 
 WBF:
 - Aggiornato ACF alla 5.2.7
+- Ora è possibile settare i valori data-zoom, data-dragable e data-scrollwheel nel div di rendering della google map (beta).
 - MODULI:
     - COMPONENTS:
         - Ora i componenti rispettano l'opzione di load location.
