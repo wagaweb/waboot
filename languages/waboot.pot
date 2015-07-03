@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Waboot 0.12.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-02 17:52+0200\n"
+"POT-Creation-Date: 2015-07-03 10:51+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1102,70 +1102,63 @@ msgid "The author of the post in which the form is inserted"
 msgstr ""
 
 #: inc/options.php:1030
-msgid "A specific contact"
+msgid "A specific recipient"
 msgstr ""
 
 #: inc/options.php:1034
-msgid "Specific contact data"
+msgid "Recipient address"
 msgstr ""
 
 #: inc/options.php:1035
-msgid "Contact information for \"specific contact\" option "
+msgid ""
+"Enter the recipient email address (valid for \"specific recipient\" option)"
 msgstr ""
 
-#: inc/options.php:1040 inc/template-tags.php:756
-msgid "Name"
+#: inc/options.php:1042
+msgid "Custom privacy text"
 msgstr ""
 
-#: inc/options.php:1041
-msgid "Enter the contact name"
+#: inc/options.php:1043
+msgid "Enter your privacy statement for contact form"
 msgstr ""
 
-#: inc/options.php:1048 inc/template-tags.php:771
-msgid "Email"
-msgstr ""
-
-#: inc/options.php:1049
-msgid "Enter the contact email address"
-msgstr ""
-
-#: inc/options.php:1060
+#: inc/options.php:1054
 msgid "Favicons"
 msgstr ""
 
-#: inc/options.php:1065
+#: inc/options.php:1059
 msgid "Icon"
 msgstr ""
 
-#: inc/options.php:1066 inc/options.php:1078 inc/options.php:1090
+#: inc/options.php:1060 inc/options.php:1072 inc/options.php:1084
 msgid "Upload a favicon (only .png and .ico files are allowed)."
 msgstr ""
 
-#: inc/options.php:1077
+#: inc/options.php:1071
 msgid "Apple Touch 120x120 Icon"
 msgstr ""
 
-#: inc/options.php:1089
+#: inc/options.php:1083
 msgid "Apple Touch 152x152 Icon"
 msgstr ""
 
-#: inc/options.php:1105
+#: inc/options.php:1099
 msgid "Social"
 msgstr ""
 
-#: inc/options.php:1110
+#: inc/options.php:1104
 msgid "Social Position"
 msgstr ""
 
-#: inc/options.php:1111
+#: inc/options.php:1105
 msgid "Select the social widget position"
 msgstr ""
 
-#: inc/options.php:1160 inc/options.php:1165
+#: inc/options.php:1154 inc/options.php:1159
 msgid "Custom CSS"
 msgstr ""
 
-#: inc/options.php:1166
+#: inc/options.php:1160
 msgid ""
 "Enter custom css to apply to the theme (press CTRL-SPACE on Windows, or CTRL-"
 "F on Mac for suggestions)."
@@ -1326,6 +1319,10 @@ msgstr ""
 msgid "2 Sidebars left"
 msgstr ""
 
+#: inc/template-tags.php:756
+msgid "Name"
+msgstr ""
+
 #: inc/template-tags.php:761
 msgid "Surname"
 msgstr ""
@@ -1334,10 +1331,12 @@ msgstr ""
 msgid "Phone"
 msgstr ""
 
+#: inc/template-tags.php:771
+msgid "Email"
+msgstr ""
+
 #: inc/template-tags.php:784
-msgid ""
-"Inviando i miei dati acconsento al loro trattamento come previsto dal D.Lgs "
-"n.196/2003"
+msgid "By submitting this form you agree to our terms and our privacy policy."
 msgstr ""
 
 #: inc/template-tags.php:794
