@@ -753,12 +753,12 @@ if(!function_exists("wbft_the_contact_form")):
 			array(
 				'id' => 'name',
 				'order' => 0,
-				'html' => '<div class="form-group col-sm-6"><label for="name" class=" control-label">'.__('Name', 'waboot').'</label><input id="name" type="text" class="form-control" name="from[name]" data-field data-validation="!empty"></div>'
+				'html' => '<div class="form-group col-sm-6"><label for="name" class=" control-label">'.__('Name', 'waboot').'*</label><input id="name" type="text" class="form-control" name="from[name]" data-field data-validation="!empty"></div>'
 			),
 			array(
 				'id' => 'surname',
 				'order' => 1,
-				'html' => '<div class="form-group col-sm-6"><label for="surname" class=" control-label">'.__('Surname', 'waboot').'</label><input id="surname" type="text" class="form-control" name="from[surname]" data-field data-validation="!empty"></div>'
+				'html' => '<div class="form-group col-sm-6"><label for="surname" class=" control-label">'.__('Surname', 'waboot').'*</label><input id="surname" type="text" class="form-control" name="from[surname]" data-field data-validation="!empty"></div>'
 			),
 			array(
 				'id' => 'phone',
@@ -768,12 +768,12 @@ if(!function_exists("wbft_the_contact_form")):
 			array(
 				'id' => 'email',
 				'order' => 3,
-				'html' => '<div class="form-group col-sm-6"><label for="email" class=" control-label">'.__('Email', 'waboot').'</label><input id="email" type="text" class="form-control" name="from[email]" data-field data-validation="!empty"></div>'
+				'html' => '<div class="form-group col-sm-6"><label for="email" class=" control-label">'.__('Email', 'waboot').'*</label><input id="email" type="text" class="form-control" name="from[email]" data-field data-validation="!empty"></div>'
 			),
 			array(
 				'id' => 'message',
 				'order' => 4,
-				'html' => '<div class="form-group col-sm-12"><label for="message" class="control-label">'.__('Message', 'waboot').'</label><textarea id="message" class="form-control" name="message" rows="5" data-field data-validation="!empty"></textarea></div>'
+				'html' => '<div class="form-group col-sm-12"><label for="message" class="control-label">'.__('Message', 'waboot').'*</label><textarea id="message" class="form-control" name="message" rows="5" data-field data-validation="!empty"></textarea></div>'
 			),
 			array(
 				'id' => 'privacy',
