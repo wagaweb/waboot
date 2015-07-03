@@ -484,7 +484,7 @@ div#optionsframework-wrap #optionsframework-metabox {
   width: 100%;
   border-right: none;
 }
-#optionsframework .onoffswitch {
+#optionsframework .wb-onoffswitch {
   position: relative;
   width: 90px !important;
   -webkit-user-select: none;
@@ -495,17 +495,17 @@ div#optionsframework-wrap #optionsframework-metabox {
   padding: 0px;
   margin: 0 auto 10px;
 }
-#optionsframework .onoffswitch-checkbox {
+#optionsframework .wb-onoffswitch-checkbox {
   display: none;
 }
-#optionsframework .onoffswitch-label {
+#optionsframework .wb-onoffswitch-label {
   display: block;
   overflow: hidden;
   cursor: pointer;
   border: 1px solid #999999;
   border-radius: 20px;
 }
-#optionsframework .onoffswitch-inner {
+#optionsframework .wb-onoffswitch-inner {
   display: block;
   width: 200%;
   margin-left: -100%;
@@ -514,7 +514,7 @@ div#optionsframework-wrap #optionsframework-metabox {
   -o-transition: margin 0.3s ease-in 0s;
   transition: margin 0.3s ease-in 0s;
 }
-#optionsframework .onoffswitch-inner:before,
+#optionsframework .wb-onoffswitch-inner:before,
 #optionsframework .onoffswitch-inner:after {
   display: block;
   float: left;
@@ -530,20 +530,20 @@ div#optionsframework-wrap #optionsframework-metabox {
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
-#optionsframework .onoffswitch-inner:before {
+#optionsframework .wb-onoffswitch-inner:before {
   content: "ON";
   padding-left: 10px;
   background-color: #2EA2CC;
   color: #FFFFFF;
 }
-#optionsframework .onoffswitch-inner:after {
+#optionsframework .wb-onoffswitch-inner:after {
   content: "OFF";
   padding-right: 10px;
   background-color: #EEEEEE;
   color: #999999;
   text-align: right;
 }
-#optionsframework .onoffswitch-switch {
+#optionsframework .wb-onoffswitch-switch {
   display: block;
   width: 18px;
   margin: 6px;
@@ -559,9 +559,9 @@ div#optionsframework-wrap #optionsframework-metabox {
   -o-transition: all 0.3s ease-in 0s;
   transition: all 0.3s ease-in 0s;
 }
-#optionsframework .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
+#optionsframework .wb-onoffswitch-checkbox:checked + .wb-onoffswitch-label .wb-onoffswitch-inner {
   margin-left: 0;
 }
-#optionsframework .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
+#optionsframework .wb-onoffswitch-checkbox:checked + .wb-onoffswitch-label .wb-onoffswitch-switch {
   right: 0px;
 }

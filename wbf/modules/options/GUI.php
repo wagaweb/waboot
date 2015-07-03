@@ -179,9 +179,9 @@ class GUI extends \Options_Framework_Interface
 
                 // Checkbox
                 case "checkbox":
-                    $output .= '<div class="onoffswitch">';
-                    $output .= '<div class="check_wrapper"><input id="' . esc_attr($value['id']) . '" class="checkbox of-input onoffswitch-checkbox" type="checkbox" name="' . esc_attr($option_name . '[' . $value['id'] . ']') . '" ' . checked($val, 1, false) . ' />';
-                    $output .= '<label class="onoffswitch-label" for="' . esc_attr($value['id']) . '"><span class="onoffswitch-inner"></span><span class="onoffswitch-switch"></span></label></div>';
+                    $output .= '<div class="wb-onoffswitch">';
+                    $output .= '<div class="check_wrapper"><input id="' . esc_attr($value['id']) . '" class="checkbox of-input wb-onoffswitch-checkbox" type="checkbox" name="' . esc_attr($option_name . '[' . $value['id'] . ']') . '" ' . checked($val, 1, false) . ' />';
+                    $output .= '<label class="wb-onoffswitch-label" for="' . esc_attr($value['id']) . '"><span class="wb-onoffswitch-inner"></span><span class="wb-onoffswitch-switch"></span></label></div>';
                     $output .= '</div>';
                     $output .= '<span class="explain">' . wp_kses($explain_value, $allowedtags) . '</span>';
                     break;

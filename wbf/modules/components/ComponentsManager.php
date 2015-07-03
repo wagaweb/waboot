@@ -647,14 +647,14 @@ class ComponentsManager {
                                         </th>
                                         <th class="component-actions">
                                             <div class="row-actions visible">
-                                                <div class="onoffswitch">
+                                                <div class="wb-onoffswitch">
                                                     <?php if ( ! self::is_active( $comp_data ) ) : ?>
-                                                        <input id="<?php echo $comp_data['nicename']; ?>_status" class="checkbox of-input onoffswitch-checkbox" type="checkbox" name="components_status[<?php echo $comp_data['nicename']; ?>]" >
+                                                        <input id="<?php echo $comp_data['nicename']; ?>_status" class="checkbox of-input wb-onoffswitch-checkbox" type="checkbox" name="components_status[<?php echo $comp_data['nicename']; ?>]" >
                                                     <?php else: ?>
-                                                        <input id="<?php echo $comp_data['nicename']; ?>_status" class="checkbox of-input onoffswitch-checkbox" type="checkbox" name="components_status[<?php echo $comp_data['nicename']; ?>]" checked="checked">
+                                                        <input id="<?php echo $comp_data['nicename']; ?>_status" class="checkbox of-input wb-onoffswitch-checkbox" type="checkbox" name="components_status[<?php echo $comp_data['nicename']; ?>]" checked="checked">
                                                     <?php endif; ?>
-                                                    <label class="onoffswitch-label" for="<?php echo $comp_data['nicename']; ?>_status"><span class="onoffswitch-inner"></span>
-                                                        <span class="onoffswitch-switch"></span>
+                                                    <label class="wb-onoffswitch-label" for="<?php echo $comp_data['nicename']; ?>_status"><span class="wb-onoffswitch-inner"></span>
+                                                        <span class="wb-onoffswitch-switch"></span>
                                                     </label>
                                                 </div>
                                             </div>
