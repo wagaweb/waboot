@@ -1,6 +1,6 @@
 == Change log ==
 
-Version 0.12.3 - 02/06/2015
+Version 0.12.3 - 03/06/2015
 ---------------------------------
 
 WABOOT:
@@ -22,6 +22,8 @@ WBF:
     - BEHAVIORS
         - Ora se non esistono behavior validi per il post\pagina in corso di modifica, la metabox non viene creata.
         - Il parametro "{home}" per il campo "valid" è diventato "{blog}"; ciò per riflettere meglio la sua reale azione.
+    - OPTIONS
+        - La classe "onoffswitch" è stata modificata in "wb-onoffswitch" per evitare incompatibilità.
 
 Version 0.12.2 - 29/06/2015
 ---------------------------------
