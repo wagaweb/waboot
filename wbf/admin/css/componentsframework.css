@@ -137,7 +137,7 @@ Author URI: https://waga.it
   font-size: 22px;
   margin-bottom: 10px;
 }
-#componentframework .onoffswitch {
+#componentframework .wb-onoffswitch {
   position: relative;
   width: 90px !important;
   -webkit-user-select: none;
@@ -148,17 +148,17 @@ Author URI: https://waga.it
   padding: 0px;
   margin: 0 auto 10px;
 }
-#componentframework .onoffswitch-checkbox {
+#componentframework .wb-onoffswitch-checkbox {
   display: none;
 }
-#componentframework .onoffswitch-label {
+#componentframework .wb-onoffswitch-label {
   display: block;
   overflow: hidden;
   cursor: pointer;
   border: 1px solid #999999;
   border-radius: 20px;
 }
-#componentframework .onoffswitch-inner {
+#componentframework .wb-onoffswitch-inner {
   display: block;
   width: 200%;
   margin-left: -100%;
@@ -167,8 +167,8 @@ Author URI: https://waga.it
   -o-transition: margin 0.3s ease-in 0s;
   transition: margin 0.3s ease-in 0s;
 }
-#componentframework .onoffswitch-inner:before,
-#componentframework .onoffswitch-inner:after {
+#componentframework .wb-onoffswitch-inner:before,
+#componentframework .wb-onoffswitch-inner:after {
   display: block;
   float: left;
   width: 50%;
@@ -183,20 +183,20 @@ Author URI: https://waga.it
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
-#componentframework .onoffswitch-inner:before {
+#componentframework .wb-onoffswitch-inner:before {
   content: "ON";
   padding-left: 10px;
   background-color: #2EA2CC;
   color: #FFFFFF;
 }
-#componentframework .onoffswitch-inner:after {
+#componentframework .wb-onoffswitch-inner:after {
   content: "OFF";
   padding-right: 10px;
   background-color: #EEEEEE;
   color: #999999;
   text-align: right;
 }
-#componentframework .onoffswitch-switch {
+#componentframework .wb-onoffswitch-switch {
   display: block;
   width: 18px;
   margin: 6px;
@@ -212,10 +212,10 @@ Author URI: https://waga.it
   -o-transition: all 0.3s ease-in 0s;
   transition: all 0.3s ease-in 0s;
 }
-#componentframework .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
+#componentframework .wb-onoffswitch-checkbox:checked + .wb-onoffswitch-label .wb-onoffswitch-inner {
   margin-left: 0;
 }
-#componentframework .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
+#componentframework .wb-onoffswitch-checkbox:checked + .wb-onoffswitch-label .wb-onoffswitch-switch {
   right: 0px;
 }
 #componentframework #componentframework-submit {

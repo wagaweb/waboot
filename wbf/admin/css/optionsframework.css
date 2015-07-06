@@ -515,7 +515,7 @@ div#optionsframework-wrap #optionsframework-metabox {
   transition: margin 0.3s ease-in 0s;
 }
 #optionsframework .wb-onoffswitch-inner:before,
-#optionsframework .onoffswitch-inner:after {
+#optionsframework .wb-onoffswitch-inner:after {
   display: block;
   float: left;
   width: 50%;
