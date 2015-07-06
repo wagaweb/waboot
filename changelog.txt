@@ -1,5 +1,17 @@
 == Change log ==
 
+Version 0.12.4 -
+---------------------------------
+
+WABOOT:
+- Ora è possibile utilizzare correttamente i filtri "wbft/contact_form/mail/data" , "wbft/contact_form/mail/save/data" , "wbft/contact_form/mail/content"
+- COMPONENTI
+    - SLIDESHOW:
+        - Inserite delle opzioni per customizzare le dimensioni e il crop delle immagini.
+
+WBF:
+- Fixati stili degli switch\checkbox per la pagina dei componenti.
+
 Version 0.12.3 - 03/06/2015
 ---------------------------------
 
