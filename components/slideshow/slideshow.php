@@ -12,7 +12,13 @@ class SlideshowComponent extends \WBF\modules\components\Component{
 	public function setup(){
 		parent::setup();
 		// Banner Preset Image
-		add_image_size('banner', 1280, 500, array('center', 'center') ); // (cropped)
+		//add_image_size('banner', 1280, 500, array('center', 'center') );
+        if (of_get_option($this->name.'_image_crop') == 'with crop') {
+            $image_crop = array('center', 'center');
+        }else{
+            $image_crop = false;
+        }
+        add_image_size('banner', of_get_option( $this->name.'_image_width','1280' ), of_get_option( $this->name.'_image_height','500' ), $image_crop ); // (cropped)
         // Register post type
         register_post_type('slideshow', array(
             'public' => true,
@@ -307,6 +313,33 @@ class SlideshowComponent extends \WBF\modules\components\Component{
         // Add metabox for shortcode usage
         add_action( 'add_meta_boxes_slideshow', array($this,'register_metabox') );
 	}
+
+    public function theme_options($options){
+        $options = parent::theme_options($options);
+        $options[] = array(
+            'name' => __( 'Image Preset Crop', 'waboot' ),
+            'id'   => $this->name.'_image_crop',
+            'std' => 'with crop',
+            'type' => 'select',
+            'options' => array(
+                'with crop' => 'with crop',
+                'without crop' => 'without crop'
+            )
+        );
+        $options[] = array(
+            'name' => __( 'Width Image Preset', 'waboot' ),
+            'id'   => $this->name.'_image_width',
+            'type' => 'text',
+            'std' => 1280,
+        );
+        $options[] = array(
+            'name' => __( 'Height Image Preset', 'waboot' ),
+            'id'   => $this->name.'_image_height',
+            'type' => 'text',
+            'std' => 500,
+        );
+        return $options;
+    }
 
     public function widgets(){
         register_widget("WabootSlideshowWidget");
