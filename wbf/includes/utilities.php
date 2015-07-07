@@ -118,13 +118,53 @@ if (!function_exists( "wbf_get_filtered_post_types" )):
 	}
 endif;
 
+/**
+ * Get posts while preserving memory
+ *
+ * @param callable $callback a function that will be called for each post. You can use it to additionally filter the posts. If it returns true, the post will be added to output array.
+ * @param array    $args normal arguments for WP_Query
+ *
+ * @return array of posts
+ */
+function wbf_get_posts(\closure $callback = null, $args = array()){
+	$all_posts = [];
+	$page = 1;
+	$get_posts = function ( $args ) use ( &$page ) {
+		$args = wp_parse_args( $args, array(
+			'post_type' => 'post',
+			'paged' => $page,
+		) );
+		$all_posts = new \WP_Query( $args );
+		if ( count( $all_posts->posts ) > 0 ) {
+			return $all_posts;
+		} else {
+			return false;
+		}
+	};
+	while ( $paged_posts = $get_posts( $args ) ) {
+		$i = 0;
+		while ( $i <= count( $paged_posts->posts ) - 1 ) { //while($all_posts->have_posts()) WE CANNOT USE have_posts... too many issue
+			//if($i == 1) $all_posts->next_post(); //The first next post does not change $all_posts->post for some reason... so we need to do it double...
+			$p = $paged_posts->posts[ $i ];
+			if(isset($callback)){
+				$result = call_user_func( $callback, $p );
+				if($result){
+					$all_posts = $p;
+				}
+			}else{
+				$all_posts[$p->ID] = $p;
+			}
+			//if($i < count($all_posts->posts)) $all_posts->next_post();
+			$i ++;
+		}
+		$page ++;
+	}
+	return $all_posts;
+}
+
 if (!function_exists( "wbf_admin_show_message" )) :
     function wbf_admin_show_message($m, $type) {
-        ?>
-        <div class="<?php echo $type; ?>">
-            <p><?php echo $m; ?></p>
-        </div>
-    <?php
+	    wbf_add_admin_notice("adm_notice_".rand(1,50),$m,$type,$args = ['category'=>'_flash_']);
     }
 endif;
 
