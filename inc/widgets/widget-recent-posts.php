@@ -61,7 +61,7 @@ class RecentPosts extends \WP_Widget{
 		<div class="wbrw-column">
 			<p><strong><?php _ex('Query', 'Recent Posts Widget' , 'waboot') ?></strong></p>
 			<!-- POST TYPES -->
-			<div class="multiple-check">
+			<div class="multiple-check" data-wbrw-post-type-selector>
 				<label>
 					<?php _ex( 'Post Types', "Recent Posts Widget" , 'waboot' ); ?>
 				</label>
@@ -77,7 +77,7 @@ class RecentPosts extends \WP_Widget{
 				</ul>
 			</div>
 			<!-- CATEGORIES -->
-			<div class="multiple-check">
+			<div class="multiple-check" data-wbrw-term-type="category">
 				<label>
 					<?php _ex( 'Limit to Category', 'Recent Posts Widget' , 'waboot' ); ?>
 				</label>
@@ -93,7 +93,7 @@ class RecentPosts extends \WP_Widget{
 				</ul>
 			</div>
 			<!-- TAGS -->
-			<div class="multiple-check">
+			<div class="multiple-check" data-wbrw-term-type="tag">
 				<label>
 					<?php _ex( 'Limit to Tag', 'Recent Posts Widget' , 'waboot' ); ?>
 				</label>

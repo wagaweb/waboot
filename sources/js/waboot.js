@@ -3028,7 +3028,8 @@ module.exports = Backbone.Model.extend({
     do_stuff: function(){
         "use strict";
         var $ = jQuery,
-            $mailtable = $("#waboot-received-mails-view");
+            $mailtable = $("#waboot-received-mails-view"),
+            $recent_posts_widget_pt_selector = $("[data-wbrw-post-type-selector]");
         /**
          * Init received mails viewerr
          */
@@ -3047,6 +3048,12 @@ module.exports = Backbone.Model.extend({
                     }),
                     el: $mailtable
                 });
+        }
+        /**
+         * RECENT POST WIDGET
+         */
+        if($recent_posts_widget_pt_selector.length > 0){
+            console.log("Recent Post Widget Time!");
         }
     }
 });
