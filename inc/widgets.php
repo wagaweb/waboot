@@ -117,12 +117,20 @@ function waboot_widgets_init() {
     ) );
 
     /* Widgets */
-    locate_template( '/inc/widgets/widget-login-form.php', true );
-    locate_template( '/inc/widgets/widget-nav-stacked-pills-menu.php', true );
-    locate_template( '/inc/widgets/widget-social.php', true );
-    register_widget( 'waboot_Widget_Login' );
-    register_widget( 'Nav_Stacked_Pills_Menu_Widget' );
-    register_widget( 'Waboot\inc\widgets\Social' );
+	$waboot_widgets = array(
+		'waboot_Widget_Login' => 'inc/widgets/widget-login-form.php',
+		'Nav_Stacked_Pills_Menu_Widget' => 'inc/widgets/widget-nav-stacked-pills-menu.php',
+		'Waboot\inc\widgets\Social' => 'inc/widgets/widget-social.php',
+		'Waboot\inc\widgets\RecentPosts' => 'inc/widgets/widget-recent-posts.php'
+	);
+
+	foreach ($waboot_widgets as $name => $file) {
+		if ($filepath = locate_template($file)) {
+			require_once $filepath;
+			if($name == 'Waboot\inc\widgets\RecentPosts' && !function_exists("wbf_get_posts")) continue;
+			register_widget( $name );
+		}
+	}
 }
 add_action( 'widgets_init', 'waboot_widgets_init' );
 endif;
