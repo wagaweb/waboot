@@ -53,7 +53,7 @@
 				} ?>
 			</div>
 
-			<?php if ( of_get_option('waboot_social_position') === 'footer' ) : ?>
+			<?php if ( of_get_option('waboot_social_position') === 'footer' && of_get_option("social_position_none") != 1 ) : ?>
 				<?php get_template_part( 'templates/parts/social-widget'); ?>
 			<?php endif; ?>
 

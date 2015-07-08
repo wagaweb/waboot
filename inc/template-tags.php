@@ -650,7 +650,7 @@ if(!function_exists("waboot_topnav_wrapper")):
         $topnavmenu_position = of_get_option('waboot_topnavmenu_position');
         $topnavmenu_position_class = $topnavmenu_position == "left" ? "pull-left" : "pull-right";
         $has_menu = has_nav_menu('top');
-        $must_display_topnav = (is_active_sidebar('topbar') || ($social_position == 'topnav-right' || $social_position == 'topnav-left') || $has_menu) ? true : false;
+        $must_display_topnav = (is_active_sidebar('topbar') || (($social_position == 'topnav-right' || $social_position == 'topnav-left') && of_get_option("social_position_none") != 1) || $has_menu) ? true : false;
 
         if ($must_display_topnav):
             ?>

@@ -28,10 +28,10 @@
             <div id="topnav-wrapper">
                 <div id="topnav-inner" class="<?php echo of_get_option( 'waboot_topnav_width','container-fluid' ); ?> ">
 
-                    <?php if ( of_get_option('waboot_social_position') == 'topnav-left' ) : ?>
+                    <?php if ( of_get_option('waboot_social_position') == 'topnav-left' && of_get_option("social_position_none") != 1 ) : ?>
                         <div class="pull-left"> <?php get_template_part('/templates/parts/social-widget'); ?> </div>
                     <?php endif; ?>
-                    <?php if ( of_get_option('waboot_social_position') == 'topnav-right' ) : ?>
+                    <?php if ( of_get_option('waboot_social_position') == 'topnav-right' && of_get_option("social_position_none") != 1 ) : ?>
                         <div class="pull-right"> <?php get_template_part('/templates/parts/social-widget'); ?> </div>
                     <?php endif; ?>
 

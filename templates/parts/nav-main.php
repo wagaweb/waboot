@@ -33,7 +33,7 @@
 
 <div class="collapse navbar-collapse navbar-main-collapse">
 
-    <?php if ( of_get_option('waboot_social_position') === 'navigation' ) { include 'social-widget.php'; } ?>
+    <?php if ( of_get_option('waboot_social_position') === 'navigation' && of_get_option("social_position_none") != 1 ) { include 'social-widget.php'; } ?>
 
     <?php if ( of_get_option( 'waboot_search_bar', '1' ) ) : ?>
         <form id="searchform" class="navbar-form navbar-right" role="search" action="<?php echo site_url(); ?>" method="get">

@@ -20,9 +20,9 @@
             <?php endif; ?>
         </div><!--
         --><div id="header-right" class="col-md-6 vcenter">
-            <?php if ( of_get_option('waboot_social_position') === 'header-left' ) { include 'social-widget.php'; } ?>
+            <?php if ( of_get_option('waboot_social_position') === 'header-left' && of_get_option("social_position_none") != 1 ) { include 'social-widget.php'; } ?>
             <?php dynamic_sidebar( 'header-left' ); ?>
-            <?php if ( of_get_option('waboot_social_position') === 'header-right' ) { include 'social-widget.php'; } ?>
+            <?php if ( of_get_option('waboot_social_position') === 'header-right' && of_get_option("social_position_none") != 1 ) { include 'social-widget.php'; } ?>
             <?php dynamic_sidebar( 'header-right' ); ?>
         </div>
     </div>
