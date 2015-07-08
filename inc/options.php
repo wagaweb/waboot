@@ -1100,9 +1100,21 @@ function optionsframework_options() {
         'type' => 'heading'
     );
 
+	$socials = waboot_get_available_socials();
+
+	foreach($socials as $k => $s){
+		$options[] = array(
+			'name' => $s['name'],
+			'desc' => $s['theme_options_desc'],
+			'id'   => 'waboot_social_'.$k,
+			'type' => 'text',
+			'std'  => '#'
+		);
+	}
+
     $options[] = array(
         'name' => __( 'Social Position', 'waboot' ),
-        'desc' => __( 'Select the social widget position', 'waboot' ),
+        'desc' => __( 'Select one of the following positions for the social links', 'waboot' ),
         'id' => 'waboot_social_position',
         'type' => 'images',
         'std'  => 'navigation',
@@ -1134,17 +1146,13 @@ function optionsframework_options() {
         )
     );
 
-	$socials = waboot_get_available_socials();
-
-	foreach($socials as $k => $s){
-		$options[] = array(
-			'name' => $s['name'],
-			'desc' => $s['theme_options_desc'],
-			'id'   => 'waboot_social_'.$k,
-			'type' => 'text',
-			'std'  => '#'
-		);
-	}
+	$options[] = array(
+		'name' => __( 'Do not use any of the previous positions', 'waboot' ),
+		'desc' => __( 'You can manually place the social links with the <strong>waboot social widget</strong> (even if one of the previous positions is selected)', 'waboot' ),
+		'id'   => 'social_position_none',
+		'std'  => '0',
+		'type' => 'checkbox'
+	);
 
     /*
      * CUSTOM CSS TAB

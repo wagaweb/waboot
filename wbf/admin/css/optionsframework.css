@@ -437,7 +437,8 @@ div#optionsframework-wrap #optionsframework-metabox {
 #optionsframework .social .section:nth-child(even) {
   border-right: none;
 }
-#optionsframework .social #section-waboot_social_position {
+#optionsframework .social #section-waboot_social_position,
+#optionsframework .social #section-social_position_none {
   width: 100%;
 }
 #optionsframework .social .section {
@@ -455,6 +456,20 @@ div#optionsframework-wrap #optionsframework-metabox {
 #optionsframework .social .section .explain {
   text-align: left;
   padding-left: 80px;
+}
+#optionsframework .social #section-waboot_social_position .heading,
+#optionsframework .social #section-social_position_none .heading {
+  text-align: center;
+  padding-left: 0px;
+}
+#optionsframework .social #section-waboot_social_position .explain,
+#optionsframework .social #section-social_position_none .explain {
+  text-align: center;
+  padding-left: 0px;
+}
+#optionsframework .social #section-waboot_social_position .controls,
+#optionsframework .social #section-social_position_none .controls {
+  padding-left: 0;
 }
 #optionsframework #section-waboot_social_facebook {
   background-image: url("../images/social/facebook.png");
