@@ -12,6 +12,9 @@ WABOOT:
 
 WBF:
 - Fixati stili degli switch\checkbox per la pagina dei componenti.
+- MODULI:
+    - BEHAVIOR
+        - Ora vengono applicati i filtri prima che venga effettuato il controllo sulla validità del behavior per il nodo in esame.
 
 Version 0.12.3 - 03/06/2015
 ---------------------------------
