@@ -35,10 +35,12 @@ function get_behavior($name, $post_id = 0, $return = "value") {
 		$retrieved_behaviors[$name][$post_id] = $b;
 	}
 
-	if(!$b->is_enable_for_node($post_id)) return null;
+	if(!$b->is_enable_for_node($post_id)) $b->value = null;
 
 	$b = apply_filters("wbf/modules/behaviors/get",$b);
 	$b = apply_filters("wbf/modules/behaviors/get/".$b->name,$b);
+
+    if(!is_object($b) || !isset($b->value)) return null;
 
 	if($return == "value" && is_object($b) && isset($b->value)){
 		$b->value = apply_filters("wbf/modules/behaviors/get/".$b->name."/value",$b->value);
