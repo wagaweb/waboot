@@ -7,9 +7,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Waboot 0.12.3\n"
+"Project-Id-Version: Waboot 0.12.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-03 10:51+0200\n"
+"POT-Creation-Date: 2015-07-08 10:19+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -274,27 +274,39 @@ msgstr ""
 msgid "Sample check box"
 msgstr ""
 
-#: components/slideshow/slideshow.php:19
+#: components/slideshow/slideshow.php:25
 msgid "Slideshows"
 msgstr ""
 
-#: components/slideshow/slideshow.php:322
+#: components/slideshow/slideshow.php:320
+msgid "Image Preset Crop"
+msgstr ""
+
+#: components/slideshow/slideshow.php:330
+msgid "Width Image Preset"
+msgstr ""
+
+#: components/slideshow/slideshow.php:336
+msgid "Height Image Preset"
+msgstr ""
+
+#: components/slideshow/slideshow.php:355
 msgid "Usage"
 msgstr ""
 
-#: components/slideshow/slideshow.php:327
+#: components/slideshow/slideshow.php:360
 msgid "Copy & paste the shortcode directly into any WordPress post or page."
 msgstr ""
 
-#: components/slideshow/slideshow.php:471
+#: components/slideshow/slideshow.php:504
 msgid "Choose the slideshow to display:"
 msgstr ""
 
-#: components/slideshow/slideshow.php:473
+#: components/slideshow/slideshow.php:506
 msgid "Select a slideshow:"
 msgstr ""
 
-#: components/slideshow/slideshow.php:481
+#: components/slideshow/slideshow.php:514
 msgid "No slideshow defined"
 msgstr ""
 
@@ -409,76 +421,76 @@ msgstr ""
 msgid "Display \"Leave a Comment\" text under each post"
 msgstr ""
 
-#: inc/hooks.php:199
-msgid "Source link:"
-msgstr ""
-
-#: inc/hooks.php:201
-msgid "Client Name:"
-msgstr ""
-
-#: inc/hooks.php:203
-msgid "Client Phone:"
-msgstr ""
-
-#: inc/hooks.php:212 inc/hooks.php:218 inc/hooks.php:226
+#: inc/hooks.php:130 inc/hooks.php:136 inc/hooks.php:144
 msgid "Inbox"
 msgstr ""
 
-#: inc/hooks.php:233 inc/hooks.php:290
+#: inc/hooks.php:151 inc/hooks.php:208
 msgid "Select all"
 msgstr ""
 
-#: inc/hooks.php:236 inc/hooks.php:293
+#: inc/hooks.php:154 inc/hooks.php:211
 msgid "Recipient"
 msgstr ""
 
-#: inc/hooks.php:239 inc/hooks.php:296
+#: inc/hooks.php:157 inc/hooks.php:214
 msgid "From"
 msgstr ""
 
-#: inc/hooks.php:242 inc/hooks.php:299
+#: inc/hooks.php:160 inc/hooks.php:217
 msgid "Source"
 msgstr ""
 
-#: inc/hooks.php:245 inc/hooks.php:302
+#: inc/hooks.php:163 inc/hooks.php:220
 msgid "Date submitted"
 msgstr ""
 
-#: inc/hooks.php:248 inc/hooks.php:305
+#: inc/hooks.php:166 inc/hooks.php:223
 msgid "Received status"
 msgstr ""
 
-#: inc/hooks.php:256
+#: inc/hooks.php:174
 msgid "Select this mail"
 msgstr ""
 
-#: inc/hooks.php:263
+#: inc/hooks.php:181
 msgid "View"
 msgstr ""
 
-#: inc/hooks.php:267
+#: inc/hooks.php:185
 msgid "Delete"
 msgstr ""
 
-#: inc/hooks.php:312
+#: inc/hooks.php:230
 msgid "email/s"
 msgstr ""
 
-#: inc/hooks.php:314
+#: inc/hooks.php:232
 msgid "Go back to the first page"
 msgstr ""
 
-#: inc/hooks.php:315
+#: inc/hooks.php:233
 msgid "Go back to the previous page"
 msgstr ""
 
-#: inc/hooks.php:317
+#: inc/hooks.php:235
 msgid "Go back to the next page"
 msgstr ""
 
-#: inc/hooks.php:318
+#: inc/hooks.php:236
 msgid "Go back to the last page"
+msgstr ""
+
+#: inc/hooks/ajax.php:37
+msgid "Source link:"
+msgstr ""
+
+#: inc/hooks/ajax.php:39
+msgid "Client Name:"
+msgstr ""
+
+#: inc/hooks/ajax.php:41
+msgid "Client Phone:"
 msgstr ""
 
 #: inc/hooks/entry-footer.php:27
@@ -1146,19 +1158,29 @@ msgstr ""
 msgid "Social"
 msgstr ""
 
-#: inc/options.php:1104
+#: inc/options.php:1116
 msgid "Social Position"
 msgstr ""
 
-#: inc/options.php:1105
-msgid "Select the social widget position"
+#: inc/options.php:1117
+msgid "Select one of the following positions for the social links"
 msgstr ""
 
-#: inc/options.php:1154 inc/options.php:1159
+#: inc/options.php:1150
+msgid "Do not use any of the previous positions"
+msgstr ""
+
+#: inc/options.php:1151
+msgid ""
+"You can manually place the social links with the <strong>waboot social "
+"widget</strong> (even if one of the previous positions is selected)"
+msgstr ""
+
+#: inc/options.php:1162 inc/options.php:1167
 msgid "Custom CSS"
 msgstr ""
 
-#: inc/options.php:1160
+#: inc/options.php:1168
 msgid ""
 "Enter custom css to apply to the theme (press CTRL-SPACE on Windows, or CTRL-"
 "F on Mac for suggestions)."
@@ -1456,19 +1478,19 @@ msgstr ""
 msgid "The fourth footer widget area, displayed below the Footer widget area."
 msgstr ""
 
-#: inc/widgets.php:136 inc/widgets/widget-login-form.php:166
+#: inc/widgets.php:144 inc/widgets/widget-login-form.php:166
 msgid "Username"
 msgstr ""
 
-#: inc/widgets.php:137 inc/widgets/widget-login-form.php:167
+#: inc/widgets.php:145 inc/widgets/widget-login-form.php:167
 msgid "Password"
 msgstr ""
 
-#: inc/widgets.php:138 inc/widgets/widget-login-form.php:169
+#: inc/widgets.php:146 inc/widgets/widget-login-form.php:169
 msgid "Remember Me"
 msgstr ""
 
-#: inc/widgets.php:139 inc/widgets/widget-login-form.php:165
+#: inc/widgets.php:147 inc/widgets/widget-login-form.php:165
 #: inc/widgets/widget-login-form.php:168
 msgid "Log In"
 msgstr ""
@@ -1489,7 +1511,8 @@ msgstr ""
 msgid "Logged in as"
 msgstr ""
 
-#: inc/widgets/widget-login-form.php:192 inc/widgets/widget-social.php:39
+#: inc/widgets/widget-login-form.php:192
+#: inc/widgets/widget-recent-posts.php:57 inc/widgets/widget-social.php:39
 msgid "Title:"
 msgstr ""
 
@@ -1523,6 +1546,132 @@ msgstr ""
 
 #: inc/widgets/widget-nav-stacked-pills-menu.php:66
 msgid "\"well\" Container"
+msgstr ""
+
+#: inc/widgets/widget-recent-posts.php:9
+msgid "Waboot Recent Posts Widget"
+msgstr ""
+
+#: inc/widgets/widget-recent-posts.php:12
+msgid "A widget to show the recents posts"
+msgstr ""
+
+#: inc/widgets/widget-recent-posts.php:55
+msgctxt "Recent Posts Widget"
+msgid "General"
+msgstr ""
+
+#: inc/widgets/widget-recent-posts.php:58
+msgctxt "Recent Posts Widget"
+msgid "New title"
+msgstr ""
+
+#: inc/widgets/widget-recent-posts.php:62
+msgctxt "Recent Posts Widget"
+msgid "Query"
+msgstr ""
+
+#: inc/widgets/widget-recent-posts.php:66
+msgctxt "Recent Posts Widget"
+msgid "Post Types"
+msgstr ""
+
+#: inc/widgets/widget-recent-posts.php:82
+msgctxt "Recent Posts Widget"
+msgid "Limit to Category"
+msgstr ""
+
+#: inc/widgets/widget-recent-posts.php:98
+msgctxt "Recent Posts Widget"
+msgid "Limit to Tag"
+msgstr ""
+
+#: inc/widgets/widget-recent-posts.php:114
+msgctxt "Recent Posts Widget"
+msgid "Post Status"
+msgstr ""
+
+#: inc/widgets/widget-recent-posts.php:125
+msgctxt "Recent Posts Widget"
+msgid "Order"
+msgstr ""
+
+#: inc/widgets/widget-recent-posts.php:128
+msgctxt "Recent Posts Widget"
+msgid "Descending"
+msgstr ""
+
+#: inc/widgets/widget-recent-posts.php:129
+msgctxt "Recent Posts Widget"
+msgid "Ascending"
+msgstr ""
+
+#: inc/widgets/widget-recent-posts.php:135
+msgctxt "Recent Posts Widget"
+msgid "Orderby"
+msgstr ""
+
+#: inc/widgets/widget-recent-posts.php:138
+msgctxt "Recent Posts Widget"
+msgid "ID"
+msgstr ""
+
+#: inc/widgets/widget-recent-posts.php:139
+msgctxt "Recent Posts Widget"
+msgid "Author"
+msgstr ""
+
+#: inc/widgets/widget-recent-posts.php:140
+msgctxt "Recent Posts Widget"
+msgid "Title"
+msgstr ""
+
+#: inc/widgets/widget-recent-posts.php:141
+msgctxt "Recent Posts Widget"
+msgid "Date"
+msgstr ""
+
+#: inc/widgets/widget-recent-posts.php:142
+msgctxt "Recent Posts Widget"
+msgid "Modified"
+msgstr ""
+
+#: inc/widgets/widget-recent-posts.php:143
+msgctxt "Recent Posts Widget"
+msgid "Random"
+msgstr ""
+
+#: inc/widgets/widget-recent-posts.php:144
+msgctxt "Recent Posts Widget"
+msgid "Comment Count"
+msgstr ""
+
+#: inc/widgets/widget-recent-posts.php:145
+msgctxt "Recent Posts Widget"
+msgid "Menu Order"
+msgstr ""
+
+#: inc/widgets/widget-recent-posts.php:150
+msgctxt "Recent Posts Widget"
+msgid "Options"
+msgstr ""
+
+#: inc/widgets/widget-recent-posts.php:155
+msgctxt "Recent Posts Widget"
+msgid "Ignore sticky posts"
+msgstr ""
+
+#: inc/widgets/widget-recent-posts.php:161
+msgctxt "Recent Posts Widget"
+msgid "Number of posts to show"
+msgstr ""
+
+#: inc/widgets/widget-recent-posts.php:214
+msgid "Recent Posts"
+msgstr ""
+
+#: inc/widgets/widget-recent-posts.php:237
+msgid "Read More &raquo;"
 msgstr ""
 
 #: inc/widgets/widget-social.php:7
