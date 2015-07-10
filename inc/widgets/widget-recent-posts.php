@@ -3,6 +3,9 @@
 namespace Waboot\inc\widgets;
 
 class RecentPosts extends \WP_Widget{
+
+	var $widget_slug = "wbrw";
+
 	function __construct(){
 		$this->WP_Widget(
 			"waboot_recent_posts_widget",
@@ -16,6 +19,8 @@ class RecentPosts extends \WP_Widget{
 				'height' => 350
 			]
 		);
+
+		add_action("wp_ajax_{$this->widget_slug}_get_terms",[$this,'get_terms']);
 	}
 
 	function widget($args,$instance){
@@ -91,6 +96,16 @@ class RecentPosts extends \WP_Widget{
 						</li>
 					<?php endforeach; ?>
 				</ul>
+				<script type="text/template">
+					<% _.each(cats,function(t, k){ %>
+					<li>
+						<input type="checkbox" value="<%= t.term_id %>" id="<%= widget_cat %>-<%= t.term_id %>" name="<%= widget_cat %>[<%= t.registered_for_post_type %>][]" />
+						<label for="<%= widget_cat %>-<%= t.term_id %>">
+							<%= t.name %> [<%= t.registered_for_post_type %>]
+						</label>
+					</li>
+					<% }); %>
+				</script>
 			</div>
 			<!-- TAGS -->
 			<div class="multiple-check" data-wbrw-term-type="tag">
@@ -107,6 +122,16 @@ class RecentPosts extends \WP_Widget{
 						</li>
 					<?php endforeach; ?>
 				</ul>
+				<script type="text/template">
+					<% _.each(tags,function(t, k){ %>
+						<li>
+							<input type="checkbox" value="<%= t.term_id %>" id="<%= widget_tag %>-<%= t.term_id %>" name="<%= widget_tag %>[<%= t.registered_for_post_type %>][]" />
+							<label for="<%= widget_tag %>-<%= t.term_id %>">
+								<%= t.name %> [<%= t.registered_for_post_type %>]
+							</label>
+						</li>
+					<% }); %>
+				</script>
 			</div>
 			<!-- POST STATUS -->
 			<p>
@@ -182,6 +207,19 @@ class RecentPosts extends \WP_Widget{
 	 */
 	function get_terms($instance, $hierarchical = true){
 		$instance = wp_parse_args( (array) $instance, $this->get_defaults() );
+
+		if(defined("DOING_AJAX") && DOING_AJAX && isset($_POST['states'])){
+			$post_type = [];
+			foreach($_POST['states'] as $s){
+				$s['checked'] = (bool) $s['checked'];
+				if($s['checked']){
+					$post_type[] = $s['name'];
+				}
+			}
+			$instance['post_type'] = $post_type;
+			$hierarchical = (bool) $_POST['hierarchical'];
+		}
+
 		$result_terms = [];
 		foreach($instance['post_type'] as $pt){
 			//Get only taxonomies that are hierarchical or not accordingly to $hierarchical param
@@ -206,6 +244,12 @@ class RecentPosts extends \WP_Widget{
 				$result_terms = array_merge($result_terms,$terms);
 			}
 		}
+
+		if(defined("DOING_AJAX") && DOING_AJAX && isset($_POST['states'])){
+			echo json_encode($result_terms);
+			die();
+		}
+
 		return $result_terms;
 	}
 
