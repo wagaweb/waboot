@@ -1,5 +1,17 @@
 == Change log ==
 
+Version 0.12.5 - 10/07/2015
+---------------------------------
+
+WABOOT:
+- Ora sia la pagina iniziale di default di WP, che le pagine archivio, prendono correttamente il sidebar layout specificato per il blog nelle theme options.
+
+WBF:
+- MODULI:
+    - COMPONENT:
+        - Ora ComponentManager non da più notice su pagine 404
+        - Aggiunti i filtri "wbf/modules/components/is_enabled_for_current_page" e "wbf/modules/components/<name>/is_enabled_for_current_page" che devono ritornare true o false.
+
 Version 0.12.4 - 08/07/2015
 ---------------------------------
 
