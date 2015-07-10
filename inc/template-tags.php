@@ -677,7 +677,7 @@ endif;
 
 if(!function_exists("waboot_get_body_layout")):
     function waboot_get_body_layout(){
-        if(is_home() || is_archive()) {
+        if(wbft_current_page_type() == "blog_page" || wbft_current_page_type() == "default_home" || is_archive()) {
 	        $layout = of_get_option('waboot_blogpage_sidebar_layout');
         }else{
 		    $layout = get_behavior('layout');

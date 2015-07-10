@@ -81,6 +81,40 @@ if ( ! function_exists( 'waboot_set_secondary_container_classes' ) ):
 endif;
 
 /**
+ * Use of_get_option('primary-sidebar-size') for sidebar size in archive pages
+ *
+ * @param \WBF\modules\behaviors\Behavior $b
+ *
+ * @return \WBF\modules\behaviors\Behavior
+ */
+function waboot_set_primary_sidebar_size(\WBF\modules\behaviors\Behavior $b){
+	if(is_archive()){
+		$primary_sidebar_width = of_get_option("blog_primary_sidebar_size");
+		if(!$primary_sidebar_width) $primary_sidebar_width = 0;
+		$b->value = $primary_sidebar_width;
+	}
+	return $b;
+}
+add_filter("wbf/modules/behaviors/get/primary-sidebar-size","waboot_set_primary_sidebar_size");
+
+/**
+ * Use of_get_option('secondary-sidebar-size') for sidebar size in archive pages
+ *
+ * @param \WBF\modules\behaviors\Behavior $b
+ *
+ * @return \WBF\modules\behaviors\Behavior
+ */
+function waboot_set_secondary_sidebar_size(\WBF\modules\behaviors\Behavior $b){
+	if(is_archive()){
+		$primary_sidebar_width = of_get_option("blog_secondary_sidebar_size");
+		if(!$primary_sidebar_width) $primary_sidebar_width = 0;
+		$b->value = $primary_sidebar_width;
+	}
+	return $b;
+}
+add_filter("wbf/modules/behaviors/get/secondary-sidebar-size","waboot_set_secondary_sidebar_size");
+
+/**
  * Returns the sizes of each column available into current layout
  * @return array of integers
  */
@@ -118,10 +152,10 @@ function _get_cols_sizes(){
  */
 function _get_sidebar_size($name){
 	if($name == "primary"){
-		$size = wbft_current_page_type() != "blog_page" ? get_behavior('primary-sidebar-size') : \WBF\modules\options\of_get_option("blog_primary_sidebar_size");
+		$size = wbft_current_page_type() == "blog_page" || wbft_current_page_type() == "default_home" ? of_get_option("blog_primary_sidebar_size") : get_behavior('primary-sidebar-size');
 		return $size;
 	}elseif($name == "secondary"){
-		$size = wbft_current_page_type() != "blog_page" ? get_behavior('secondary-sidebar-size') : \WBF\modules\options\of_get_option("blog_secondary_sidebar_size");
+		$size = wbft_current_page_type() == "blog_page" || wbft_current_page_type() == "default_home" ? of_get_option("blog_secondary_sidebar_size") : get_behavior('secondary-sidebar-size');
 		return $size;
 	}
 	return false;
