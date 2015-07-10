@@ -82,7 +82,7 @@ class RecentPosts extends \WP_Widget{
 				</ul>
 			</div>
 			<!-- CATEGORIES -->
-			<div class="multiple-check" data-wbrw-term-type="category">
+			<div class="multiple-check" data-wbrw-term-type="category" data-field-slug="<?php echo $this->get_field_id( 'cat' ); ?>">
 				<label>
 					<?php _ex( 'Limit to Category', 'Recent Posts Widget' , 'waboot' ); ?>
 				</label>
@@ -111,7 +111,7 @@ class RecentPosts extends \WP_Widget{
 				</script>
 			</div>
 			<!-- TAGS -->
-			<div class="multiple-check" data-wbrw-term-type="tag">
+			<div class="multiple-check" data-wbrw-term-type="tag" data-field-slug="<?php echo $this->get_field_id( 'tag' ); ?>">
 				<label>
 					<?php _ex( 'Limit to Tag', 'Recent Posts Widget' , 'waboot' ); ?>
 				</label>

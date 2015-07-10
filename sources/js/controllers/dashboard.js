@@ -66,7 +66,7 @@ module.exports = Backbone.Model.extend({
                 }).done(function(data, textStatus, jqXHR){
                     var tpl = _.template($categories_container.find("[type='text/template']").html()),
                         $ul = $categories_container.find("ul"),
-                        slug = $ul.find("li:first-child").find("input").attr("id").match(/([a-zA-Z0-9-_]+)-[0-9]+$/)[1]; //the value of <?php echo $this->get_field_id( 'cat' ) ?>
+                        slug = $categories_container.data("field-slug"); //the value of <?php echo $this->get_field_id( 'cat' ) ?>
                     console.log(data);
                     $ul.html(tpl({
                         terms: data,
@@ -88,7 +88,7 @@ module.exports = Backbone.Model.extend({
                 }).done(function(data, textStatus, jqXHR){
                     var tpl = _.template($tags_container.find("[type='text/template']").html()),
                         $ul = $tags_container.find("ul"),
-                        slug = $ul.find("li:first-child").find("input").attr("id").match(/([a-zA-Z0-9-_]+)-[0-9]+$/)[1]; //<?php echo $this->get_field_id( 'tag' ) ?>
+                        slug = $tags_container.data("field-slug"); //<?php echo $this->get_field_id( 'tag' ) ?>
                     console.log(data);
                     $ul.html(tpl({
                         terms: data,
