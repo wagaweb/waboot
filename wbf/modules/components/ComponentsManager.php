@@ -382,16 +382,24 @@ class ComponentsManager {
     static function is_enable_for_current_page( \WBF\modules\components\Component $c ) {
         global $post;
 
+	    $maybe_enabled = false;
+
         if ( is_admin() )
-            return false;
+	        $maybe_enabled = false;
 
         if ( empty( $c->filters ) ) {
-            return false;
+	        $maybe_enabled = false;
         }
 
         if ( $c->filters['node_id'] == "*" ) {
-            return true;
+	        $maybe_enabled = true;
         } else {
+	        if(!isset($post->ID)){
+		        //We are in archives or 404
+		        if(is_404() && in_array("page",$c->filters['post_type'])) $maybe_enabled = true;
+				if(is_archive() && in_array("blog", $c->filters['post_type'])) $maybe_enabled = true;
+	        }
+
             $current_post_type = get_post_type( $post->ID );
             if ( is_home() ) {
                 $current_post_id = get_option( "page_for_posts" );
@@ -399,11 +407,15 @@ class ComponentsManager {
                 $current_post_id = $post->ID;
             }
             if ( in_array( $current_post_id, $c->filters['node_id'] ) || in_array( $current_post_type, $c->filters['post_type'] ) ) {
-                return true;
+	            $maybe_enabled = true;
             } else {
-                return false;
+	            $maybe_enabled = false;
             }
         }
+
+	    $maybe_enabled = apply_filters("wbf/modules/components/is_enabled_for_current_page",$maybe_enabled,$c);
+	    $maybe_enabled = apply_filters("wbf/modules/components/{$c->name}/is_enabled_for_current_page",$maybe_enabled);
+	    return $maybe_enabled;
     }
 
     static function addLoadedComponent( \WBF\modules\components\Component $c ) {
