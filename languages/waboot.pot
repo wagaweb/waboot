@@ -7,9 +7,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Waboot 0.12.4\n"
+"Project-Id-Version: Waboot 0.12.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-08 15:13+0200\n"
+"POT-Creation-Date: 2015-07-10 16:35+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1512,7 +1512,7 @@ msgid "Logged in as"
 msgstr ""
 
 #: inc/widgets/widget-login-form.php:192
-#: inc/widgets/widget-recent-posts.php:57 inc/widgets/widget-social.php:39
+#: inc/widgets/widget-recent-posts.php:62 inc/widgets/widget-social.php:39
 msgid "Title:"
 msgstr ""
 
@@ -1548,129 +1548,139 @@ msgstr ""
 msgid "\"well\" Container"
 msgstr ""
 
-#: inc/widgets/widget-recent-posts.php:9
+#: inc/widgets/widget-recent-posts.php:12
 msgid "Waboot Recent Posts Widget"
 msgstr ""
 
-#: inc/widgets/widget-recent-posts.php:12
+#: inc/widgets/widget-recent-posts.php:15
 msgid "A widget to show the recents posts"
 msgstr ""
 
-#: inc/widgets/widget-recent-posts.php:55
+#: inc/widgets/widget-recent-posts.php:60
 msgctxt "Recent Posts Widget"
 msgid "General"
 msgstr ""
 
-#: inc/widgets/widget-recent-posts.php:58
+#: inc/widgets/widget-recent-posts.php:63
 msgctxt "Recent Posts Widget"
 msgid "New title"
 msgstr ""
 
-#: inc/widgets/widget-recent-posts.php:62
+#: inc/widgets/widget-recent-posts.php:67
 msgctxt "Recent Posts Widget"
 msgid "Query"
 msgstr ""
 
-#: inc/widgets/widget-recent-posts.php:66
+#: inc/widgets/widget-recent-posts.php:71
 msgctxt "Recent Posts Widget"
 msgid "Post Types"
 msgstr ""
 
-#: inc/widgets/widget-recent-posts.php:82
+#: inc/widgets/widget-recent-posts.php:87
 msgctxt "Recent Posts Widget"
 msgid "Limit to Category"
 msgstr ""
 
-#: inc/widgets/widget-recent-posts.php:98
+#: inc/widgets/widget-recent-posts.php:109
+msgctxt "Recent Posts Widget"
+msgid "No categories available"
+msgstr ""
+
+#: inc/widgets/widget-recent-posts.php:116
 msgctxt "Recent Posts Widget"
 msgid "Limit to Tag"
 msgstr ""
 
-#: inc/widgets/widget-recent-posts.php:114
-msgctxt "Recent Posts Widget"
-msgid "Post Status"
-msgstr ""
-
-#: inc/widgets/widget-recent-posts.php:125
-msgctxt "Recent Posts Widget"
-msgid "Order"
-msgstr ""
-
-#: inc/widgets/widget-recent-posts.php:128
-msgctxt "Recent Posts Widget"
-msgid "Descending"
-msgstr ""
-
-#: inc/widgets/widget-recent-posts.php:129
-msgctxt "Recent Posts Widget"
-msgid "Ascending"
-msgstr ""
-
-#: inc/widgets/widget-recent-posts.php:135
-msgctxt "Recent Posts Widget"
-msgid "Orderby"
-msgstr ""
-
 #: inc/widgets/widget-recent-posts.php:138
 msgctxt "Recent Posts Widget"
-msgid "ID"
-msgstr ""
-
-#: inc/widgets/widget-recent-posts.php:139
-msgctxt "Recent Posts Widget"
-msgid "Author"
-msgstr ""
-
-#: inc/widgets/widget-recent-posts.php:140
-msgctxt "Recent Posts Widget"
-msgid "Title"
-msgstr ""
-
-#: inc/widgets/widget-recent-posts.php:141
-msgctxt "Recent Posts Widget"
-msgid "Date"
-msgstr ""
-
-#: inc/widgets/widget-recent-posts.php:142
-msgctxt "Recent Posts Widget"
-msgid "Modified"
-msgstr ""
-
-#: inc/widgets/widget-recent-posts.php:143
-msgctxt "Recent Posts Widget"
-msgid "Random"
-msgstr ""
-
-#: inc/widgets/widget-recent-posts.php:144
-msgctxt "Recent Posts Widget"
-msgid "Comment Count"
+msgid "No tags available"
 msgstr ""
 
 #: inc/widgets/widget-recent-posts.php:145
 msgctxt "Recent Posts Widget"
+msgid "Post Status"
+msgstr ""
+
+#: inc/widgets/widget-recent-posts.php:156
+msgctxt "Recent Posts Widget"
+msgid "Order"
+msgstr ""
+
+#: inc/widgets/widget-recent-posts.php:159
+msgctxt "Recent Posts Widget"
+msgid "Descending"
+msgstr ""
+
+#: inc/widgets/widget-recent-posts.php:160
+msgctxt "Recent Posts Widget"
+msgid "Ascending"
+msgstr ""
+
+#: inc/widgets/widget-recent-posts.php:166
+msgctxt "Recent Posts Widget"
+msgid "Orderby"
+msgstr ""
+
+#: inc/widgets/widget-recent-posts.php:169
+msgctxt "Recent Posts Widget"
+msgid "ID"
+msgstr ""
+
+#: inc/widgets/widget-recent-posts.php:170
+msgctxt "Recent Posts Widget"
+msgid "Author"
+msgstr ""
+
+#: inc/widgets/widget-recent-posts.php:171
+msgctxt "Recent Posts Widget"
+msgid "Title"
+msgstr ""
+
+#: inc/widgets/widget-recent-posts.php:172
+msgctxt "Recent Posts Widget"
+msgid "Date"
+msgstr ""
+
+#: inc/widgets/widget-recent-posts.php:173
+msgctxt "Recent Posts Widget"
+msgid "Modified"
+msgstr ""
+
+#: inc/widgets/widget-recent-posts.php:174
+msgctxt "Recent Posts Widget"
+msgid "Random"
+msgstr ""
+
+#: inc/widgets/widget-recent-posts.php:175
+msgctxt "Recent Posts Widget"
+msgid "Comment Count"
+msgstr ""
+
+#: inc/widgets/widget-recent-posts.php:176
+msgctxt "Recent Posts Widget"
 msgid "Menu Order"
 msgstr ""
 
-#: inc/widgets/widget-recent-posts.php:150
+#: inc/widgets/widget-recent-posts.php:181
 msgctxt "Recent Posts Widget"
 msgid "Options"
 msgstr ""
 
-#: inc/widgets/widget-recent-posts.php:155
+#: inc/widgets/widget-recent-posts.php:186
 msgctxt "Recent Posts Widget"
 msgid "Ignore sticky posts"
 msgstr ""
 
-#: inc/widgets/widget-recent-posts.php:161
+#: inc/widgets/widget-recent-posts.php:192
 msgctxt "Recent Posts Widget"
 msgid "Number of posts to show"
 msgstr ""
 
-#: inc/widgets/widget-recent-posts.php:214
+#: inc/widgets/widget-recent-posts.php:264
 msgid "Recent Posts"
 msgstr ""
 
-#: inc/widgets/widget-recent-posts.php:237
+#: inc/widgets/widget-recent-posts.php:287
 msgid "Read More &raquo;"
 msgstr ""
 
