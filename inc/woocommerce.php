@@ -31,8 +31,8 @@ if(isset($woocommerce)):
 	add_filter("waboot_woocommerce_mainwrap_container_class", "waboot_set_mainwrap_container_classes");
 	add_filter("waboot/layout/body_layout/get","waboot_woocommerce_alter_body_layout", 90);
 	add_filter("waboot/layout/get_cols_sizes","waboot_woocommerce_alter_col_sizes", 90);
-	add_filter("wbf/modules/behaviors/get/primary-sidebar-size","waboot_woocommerce_primary_sidebar_size_behavior");
-	add_filter("wbf/modules/behaviors/get/secondary-sidebar-size","waboot_woocommerce_secondary_sidebar_size_behavior");
+	add_filter("wbf/modules/behaviors/get/primary-sidebar-size","waboot_woocommerce_primary_sidebar_size_behavior", 999);
+	add_filter("wbf/modules/behaviors/get/secondary-sidebar-size","waboot_woocommerce_secondary_sidebar_size_behavior", 999);
 
 	/*
      * HOOKED FUNCTIONS
