@@ -97,14 +97,17 @@ class RecentPosts extends \WP_Widget{
 					<?php endforeach; ?>
 				</ul>
 				<script type="text/template">
-					<% _.each(cats,function(t, k){ %>
-					<li>
-						<input type="checkbox" value="<%= t.term_id %>" id="<%= widget_cat %>-<%= t.term_id %>" name="<%= widget_cat %>[<%= t.registered_for_post_type %>][]" />
-						<label for="<%= widget_cat %>-<%= t.term_id %>">
-							<%= t.name %> [<%= t.registered_for_post_type %>]
-						</label>
-					</li>
+					<% _.each(terms,function(t, k){ %>
+						<li>
+							<input type="checkbox" value="<%= t.term_id %>" id="<%= widget_cat %>-<%= t.term_id %>" name="<%= widget_cat %>[<%= t.registered_for_post_type %>][]" />
+							<label for="<%= widget_cat %>-<%= t.term_id %>">
+								<%= t.name %> [<%= t.registered_for_post_type %>]
+							</label>
+						</li>
 					<% }); %>
+					<% if(terms.length == 0){ %>
+						<?php _ex('No categories available', 'Recent Posts Widget', 'waboot'); ?>
+					<% } %>
 				</script>
 			</div>
 			<!-- TAGS -->
@@ -123,7 +126,7 @@ class RecentPosts extends \WP_Widget{
 					<?php endforeach; ?>
 				</ul>
 				<script type="text/template">
-					<% _.each(tags,function(t, k){ %>
+					<% _.each(terms,function(t, k){ %>
 						<li>
 							<input type="checkbox" value="<%= t.term_id %>" id="<%= widget_tag %>-<%= t.term_id %>" name="<%= widget_tag %>[<%= t.registered_for_post_type %>][]" />
 							<label for="<%= widget_tag %>-<%= t.term_id %>">
@@ -131,6 +134,9 @@ class RecentPosts extends \WP_Widget{
 							</label>
 						</li>
 					<% }); %>
+					<% if(terms.length == 0){ %>
+						<?php _ex('No tags available', 'Recent Posts Widget', 'waboot'); ?>
+					<% } %>
 				</script>
 			</div>
 			<!-- POST STATUS -->

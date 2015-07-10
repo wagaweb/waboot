@@ -69,7 +69,7 @@ module.exports = Backbone.Model.extend({
                         slug = $ul.find("li:first-child").find("input").attr("id").match(/([a-zA-Z0-9-_]+)-[0-9]+$/)[1]; //the value of <?php echo $this->get_field_id( 'cat' ) ?>
                     console.log(data);
                     $ul.html(tpl({
-                        cats: data,
+                        terms: data,
                         widget_cat: slug
                     }));
                     $categories_container.removeClass("loading");
@@ -91,7 +91,7 @@ module.exports = Backbone.Model.extend({
                         slug = $ul.find("li:first-child").find("input").attr("id").match(/([a-zA-Z0-9-_]+)-[0-9]+$/)[1]; //<?php echo $this->get_field_id( 'tag' ) ?>
                     console.log(data);
                     $ul.html(tpl({
-                        tags: data,
+                        terms: data,
                         widget_tag: slug
                     }));
                     $tags_container.removeClass("loading");
