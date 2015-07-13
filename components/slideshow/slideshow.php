@@ -405,7 +405,7 @@ class SlideshowComponent extends \WBF\modules\components\Component{
 
 					<div id="owl-<?php echo $slideshow_post->post_name; ?>" class="owl-carousel">
 						<?php foreach( $images as $image ): ?>
-							<div style="background-image: url('<?php echo $image['sizes']['large']; ?>'); height:<?php
+							<div style="background-image: url('<?php echo $image['sizes']['banner']; ?>'); height:<?php
 							if (wb_is_mobile()) { echo get_field('slideshow_height_mobile', $post_id); }
 							else { echo get_field('slideshow_height', $post_id); }
 							?>px">
