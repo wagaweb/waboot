@@ -149,7 +149,7 @@ function wbf_get_posts(\closure $callback = null, $args = array()){
 			if(isset($callback)){
 				$result = call_user_func( $callback, $p );
 				if($result){
-					$all_posts = $p;
+					$all_posts[$p->ID] = $p;
 				}
 			}else{
 				$all_posts[$p->ID] = $p;
