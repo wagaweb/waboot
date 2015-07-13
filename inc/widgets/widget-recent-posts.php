@@ -7,7 +7,7 @@ class RecentPosts extends \WP_Widget{
 	var $widget_slug = "wbrw";
 
 	function __construct(){
-		$this->WP_Widget(
+		parent::__construct(
 			"waboot_recent_posts_widget",
 			__( 'Waboot Recent Posts Widget', "waboot" ),
 			[
@@ -26,9 +26,62 @@ class RecentPosts extends \WP_Widget{
 	function widget($args,$instance){
 		echo $args['before_widget'];
 
-		$post_ids = array_keys(wbf_get_posts());
+		/**
+		 * Search $instance terms into selected post for specified taxonomies type (hierarchical or not)
+		 * @param        $p
+		 * @param string $tax_type
+		 *
+		 * @return bool
+		 */
+		$search_terms_into = function(&$p,$post_type,$tax_type = "categories") use(&$instance){
+			$hierarchical = $tax_type == "categories" ? true : false;
+			$taxs = $this->get_taxonomies_type($post_type,$hierarchical);
+			$terms = wp_get_post_terms($p->ID,$taxs);
+			$found_flag = false;
+			$search_target = $tax_type == "categories" ? $instance['cat'][$post_type] : $instance['tag'][$post_type];
+			foreach($terms as $t){
+				if(in_array($t->term_id,$search_target)){
+					$found_flag = true;
+					break;
+				}
+			}
+			return $found_flag;
+		};
+
+		/**
+		 * Callback functions for wbf_get_posts(). Applies categories and tag filters to retreived posts.
+		 * @param $p
+		 *
+		 * @use $search_terms_into
+		 * @return bool
+		 */
+		$filter_posts = function($p) use(&$instance,$search_terms_into){
+			$maybe_valid = true;
+			$ptype = get_post_type($p->ID);
+			//Check post type against instance settings
+			if(!in_array($ptype,$instance['post_type'])){
+				$maybe_valid = false;
+			}
+			//Check all hierarchical terms of the post against instance settings
+			if(isset($instance['cat']) && !empty($instance['cat']) && isset($instance['cat'][$ptype])){
+				$maybe_valid = empty($instance['cat'][$ptype]) ? false : $search_terms_into($p,$ptype,"categories");
+			}
+			//Check all non-hierarchical terms of the post against instance settings
+			if(isset($instance['tag']) && !empty($instance['tag']) && isset($instance['tag'][$ptype])){
+				$maybe_valid = empty($instance['tag'][$ptype]) ? false : $search_terms_into($p,$ptype,"tags");
+			}
+			return $maybe_valid;
+		};
+
+		$post_ids = array_keys(wbf_get_posts($filter_posts,[
+			'post_type' => $instance['post_type'],
+			'ignore_sticky_posts' => $instance['ignore_sticky']
+		]));
 		$q = new \WP_Query([
-			'posts__in' => $post_ids
+			'posts__in' => $post_ids,
+			'posts_per_page' => $instance['limit'],
+			'order' => $instance['order'],
+			'orderby' => $instance['orderby']
 		]);
 
 		if($q->have_posts()){
@@ -89,7 +142,7 @@ class RecentPosts extends \WP_Widget{
 				<ul>
 					<?php foreach ( $this->get_terms( $instance ) as $term ) : ?>
 						<li>
-							<input type="checkbox" value="<?php echo (int) $term->term_id; ?>" id="<?php echo $this->get_field_id( 'cat' ) . '-' . (int) $term->term_id; ?>" name="<?php echo $this->get_field_name( 'cat' ); ?>[<?php echo $term->registered_for_post_type; ?>][]" <?php checked( is_array( $instance['cat'] ) && in_array( $term->term_id, $instance['cat'] ) ); ?> />
+							<input type="checkbox" value="<?php echo (int) $term->term_id; ?>" id="<?php echo $this->get_field_id( 'cat' ) . '-' . (int) $term->term_id; ?>" name="<?php echo $this->get_field_name( 'cat' ); ?>[<?php echo $term->registered_for_post_type; ?>][]" <?php checked( is_array( $instance['cat'] ) && isset($instance['cat'][$term->registered_for_post_type]) && in_array( $term->term_id, $instance['cat'][$term->registered_for_post_type] ) ); ?> />
 							<label for="<?php echo $this->get_field_id( 'cat' ) . '-' . (int) $term->term_id; ?>">
 								<?php echo esc_html( $term->name ); ?> [<?php echo $term->registered_for_post_type; ?>]
 							</label>
@@ -118,7 +171,7 @@ class RecentPosts extends \WP_Widget{
 				<ul>
 					<?php foreach ( $this->get_terms( $instance, false ) as $term ) : ?>
 						<li>
-							<input type="checkbox" value="<?php echo (int) $term->term_id; ?>" id="<?php echo $this->get_field_id( 'tag' ) . '-' . (int) $term->term_id; ?>" name="<?php echo $this->get_field_name( 'tag' ); ?>[<?php echo $term->registered_for_post_type; ?>][]" <?php checked( is_array( $instance['tag'] ) && in_array( $term->term_id, $instance['tag'] ) ); ?> />
+							<input type="checkbox" value="<?php echo (int) $term->term_id; ?>" id="<?php echo $this->get_field_id( 'tag' ) . '-' . (int) $term->term_id; ?>" name="<?php echo $this->get_field_name( 'tag' ); ?>[<?php echo $term->registered_for_post_type; ?>][]" <?php checked( is_array( $instance['tag'] ) && isset($instance['tag'][$term->registered_for_post_type]) && in_array( $term->term_id, $instance['tag'][$term->registered_for_post_type] ) ); ?> />
 							<label for="<?php echo $this->get_field_id( 'tag' ) . '-' . (int) $term->term_id; ?>">
 								<?php echo esc_html( $term->name ); ?> [<?php echo $term->registered_for_post_type; ?>]
 							</label>
@@ -193,14 +246,107 @@ class RecentPosts extends \WP_Widget{
 				</label>
 				<input class="widefat" id="<?php echo $this->get_field_id( 'limit' ); ?>" name="<?php echo $this->get_field_name( 'limit' ); ?>" type="number" step="1" min="-1" value="<?php echo (int)( $instance['limit'] ); ?>" />
 			</p>
+			<!-- THUMBNAILS -->
+			<?php if ( current_theme_supports( 'post-thumbnails' ) ) : ?>
+			<p>
+				<input id="<?php echo $this->get_field_id( 'thumb' ); ?>" name="<?php echo $this->get_field_name( 'thumb' ); ?>" type="checkbox" <?php checked( $instance['thumb'] ); ?> />
+				<label class="input-checkbox" for="<?php echo $this->get_field_id( 'thumb' ); ?>">
+					<?php _ex( 'Display Thumbnail', 'Recent Posts Widget' , 'waboot' ); ?>
+				</label>
+			</p>
+			<?php endif; ?>
+			<!-- EXCERPT -->
+			<p>
+				<input id="<?php echo $this->get_field_id( 'excerpt' ); ?>" name="<?php echo $this->get_field_name( 'excerpt' ); ?>" type="checkbox" <?php checked( $instance['excerpt'] ); ?> />
+				<label class="input-checkbox" for="<?php echo $this->get_field_id( 'excerpt' ); ?>">
+					<?php _ex( 'Display Excerpt', 'Recent Posts Widget' , 'waboot' ); ?>
+				</label>
+			</p>
+			<p>
+				<label for="<?php echo $this->get_field_id( 'excerpt_length' ); ?>">
+					<?php _ex( 'Excerpt Length', 'Recent Posts Widget' , 'waboot' ); ?>
+				</label>
+				<input class="widefat" id="<?php echo $this->get_field_id( 'excerpt_length' ); ?>" name="<?php echo $this->get_field_name( 'excerpt_length' ); ?>" type="number" step="1" min="0" value="<?php echo (int)( $instance['excerpt_length'] ); ?>" />
+			</p>
+			<!-- READMORE -->
+			<p>
+				<input id="<?php echo $this->get_field_id( 'readmore' ); ?>" name="<?php echo $this->get_field_name( 'readmore' ); ?>" type="checkbox" <?php checked( $instance['readmore'] ); ?> />
+				<label class="input-checkbox" for="<?php echo $this->get_field_id( 'readmore' ); ?>">
+					<?php _e( 'Display Readmore', 'rpwe' ); ?>
+				</label>
+			</p>
+			<p>
+				<label for="<?php echo $this->get_field_id( 'readmore_text' ); ?>">
+					<?php _ex( 'Readmore Text', 'Recent Posts Widget' , 'waboot' ); ?>
+				</label>
+				<input class="widefat" id="<?php echo $this->get_field_id( 'readmore_text' ); ?>" name="<?php echo $this->get_field_name( 'readmore_text' ); ?>" type="text" value="<?php echo strip_tags( $instance['readmore_text'] ); ?>" />
+			</p>
+			<!-- DATE -->
+			<p>
+				<input id="<?php echo $this->get_field_id( 'date' ); ?>" name="<?php echo $this->get_field_name( 'date' ); ?>" type="checkbox" <?php checked( $instance['date'] ); ?> />
+				<label class="input-checkbox" for="<?php echo $this->get_field_id( 'date' ); ?>">
+					<?php _ex( 'Display Date', 'Recent Posts Widget' , 'waboot' ); ?>
+				</label>
+			</p>
+			<p>
+				<input id="<?php echo $this->get_field_id( 'date_relative' ); ?>" name="<?php echo $this->get_field_name( 'date_relative' ); ?>" type="checkbox" <?php checked( $instance['date_relative'] ); ?> />
+				<label for="<?php echo $this->get_field_id( 'date_relative' ); ?>">
+					<?php _ex( 'Use Relative Date. eg: 5 days ago', 'Recent Posts Widget' , 'waboot' ); ?>
+				</label>
+			</p>
 		</div>
 		<div class="wbrw-clear"></div>
 	<?php
 	}
 
 	function update($new_instance, $old_instance){
-		$instance = array();
-		$instance['title'] = ( ! empty( $new_instance['title'] ) ) ? strip_tags( $new_instance['title'] ) : '';
+		// Validate post_type submissions
+		$name = get_post_types( array( 'public' => true ), 'names' );
+		$types = array();
+		foreach( $new_instance['post_type'] as $type ) {
+			if ( in_array( $type, $name ) ) {
+				$types[] = $type;
+			}
+		}
+		if ( empty( $types ) ) {
+			$types[] = 'post';
+		}
+
+		$instance                     = $old_instance;
+		$instance['title']            = $instance['title'] = ( ! empty( $new_instance['title'] ) ) ? strip_tags( $new_instance['title'] ) : '';
+		//$instance['title_url']        = esc_url( $new_instance['title_url'] );
+
+		$instance['ignore_sticky']    = isset( $new_instance['ignore_sticky'] ) ? (bool) $new_instance['ignore_sticky'] : 0;
+		$instance['limit']            = (int)( $new_instance['limit'] );
+		//$instance['offset']           = (int)( $new_instance['offset'] );
+		$instance['order']            = $new_instance['order'];
+		$instance['orderby']          = $new_instance['orderby'];
+		$instance['post_type']        = $types;
+		$instance['post_status']      = esc_attr( $new_instance['post_status'] );
+		$instance['cat']              = $new_instance['cat'];
+		$instance['tag']              = $new_instance['tag'];
+		//$instance['taxonomy']         = esc_attr( $new_instance['taxonomy'] );
+
+		$instance['excerpt']          = isset( $new_instance['excerpt'] ) ? (bool) $new_instance['excerpt'] : false;
+		$instance['excerpt_length']   = (int)( $new_instance['excerpt_length'] );
+		$instance['date']             = isset( $new_instance['date'] ) ? (bool) $new_instance['date'] : false;
+		$instance['date_relative']    = isset( $new_instance['date_relative'] ) ? (bool) $new_instance['date_relative'] : false;
+		$instance['readmore']         = isset( $new_instance['readmore'] ) ? (bool) $new_instance['readmore'] : false;
+		$instance['readmore_text']    = strip_tags( $new_instance['readmore_text'] );
+
+		$instance['thumb']            = isset( $new_instance['thumb'] ) ? (bool) $new_instance['thumb'] : false;
+		//$instance['thumb_height']     = (int)( $new_instance['thumb_height'] );
+		//$instance['thumb_width']      = (int)( $new_instance['thumb_width'] );
+		//$instance['thumb_default']    = esc_url( $new_instance['thumb_default'] );
+		//$instance['thumb_align']      = esc_attr( $new_instance['thumb_align'] );
+
+		//$instance['styles_default']   = isset( $new_instance['styles_default'] ) ? (bool) $new_instance['styles_default'] : false;
+		//$instance['cssID']            = sanitize_html_class( $new_instance['cssID'] );
+		//$instance['css_class']        = sanitize_html_class( $new_instance['css_class'] );
+		//$instance['css']              = $new_instance['css'];
+		//$instance['before']           = stripslashes( $new_instance['before'] );
+		//$instance['after']            = stripslashes( $new_instance['after'] );
+
 		return $instance;
 	}
 
@@ -228,19 +374,7 @@ class RecentPosts extends \WP_Widget{
 
 		$result_terms = [];
 		foreach($instance['post_type'] as $pt){
-			//Get only taxonomies that are hierarchical or not accordingly to $hierarchical param
-			$taxs = call_user_func(function() use ($pt, $hierarchical){
-				$result = [];
-				$taxs = get_object_taxonomies( $pt, 'objects' );
-				foreach($taxs as $k => $tax){
-					if($tax->hierarchical != $hierarchical ){
-						unset($taxs[$k]);
-					}else{
-						$result[] = $tax->name;
-					}
-				}
-				return $result;
-			});
+			$taxs = $this->get_taxonomies_type($pt,$hierarchical); //Get only taxonomies that are hierarchical or not accordingly to $hierarchical param
 			$terms = get_terms($taxs); //Get all term objects
 			$terms = array_map(function($term) use($pt){
 				$term->registered_for_post_type = $pt; //Adds "registered_for_post_type" value to each term object, it will be used in form display
@@ -259,28 +393,41 @@ class RecentPosts extends \WP_Widget{
 		return $result_terms;
 	}
 
+	private function get_taxonomies_type($post_type,$hierarchical){
+		$result = [];
+		$taxs = get_object_taxonomies( $post_type, 'objects' );
+		foreach($taxs as $k => $tax){
+			if($tax->hierarchical != $hierarchical ){
+				unset($taxs[$k]);
+			}else{
+				$result[] = $tax->name;
+			}
+		}
+		return $result;
+	}
+
 	private function get_defaults(){
 		$defaults = array(
 			'title'             => esc_attr__( 'Recent Posts', 'rpwe' ),
 
 			'limit'            => 5,
-			'offset'           => 0,
+			//'offset'           => 0,
 			'order'            => 'DESC',
 			'orderby'          => 'date',
 			'cat'              => array(),
 			'tag'              => array(),
-			'taxonomy'         => '',
+			//'taxonomy'         => '',
 			'post_type'        => array( 'post' ),
 			'post_status'      => 'publish',
 			'ignore_sticky'    => 1,
 
 			'excerpt'          => false,
-			'length'           => 10,
+			'excerpt_length'   => 10,
 			'thumb'            => true,
-			'thumb_height'     => 45,
-			'thumb_width'      => 45,
-			'thumb_default'    => 'http://placehold.it/45x45/f0f0f0/ccc',
-			'thumb_align'      => 'rpwe-alignleft',
+			//'thumb_height'     => 45,
+			//'thumb_width'      => 45,
+			//'thumb_default'    => 'http://placehold.it/45x45/f0f0f0/ccc',
+			//'thumb_align'      => 'rpwe-alignleft',
 			'date'             => true,
 			'date_relative'    => false,
 			'readmore'         => false,
