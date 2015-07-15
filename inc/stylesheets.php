@@ -25,7 +25,7 @@ add_action( 'wp_enqueue_scripts', 'waboot_theme_styles' );
 
 // Load backend styles
 function waboot_admin_styles(){
-	wp_enqueue_style( 'main-admin-style', wbf_locate_template_uri( "assets/css/admin.css" ), array( 'font-awesome' ), false, 'all' );
+	wp_enqueue_style( 'main-admin-style', wbf_locate_template_uri( "assets/css/admin.css" ));
 }
 add_action( 'admin_enqueue_scripts', 'waboot_admin_styles' );
 
