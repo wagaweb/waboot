@@ -78,7 +78,8 @@ class RecentPosts extends \WP_Widget{
 			'ignore_sticky_posts' => $instance['ignore_sticky']
 		]));
 		$q = new \WP_Query([
-			'posts__in' => $post_ids,
+			'post_type' => $instance['post_type'],
+			'post__in' => $post_ids,
 			'posts_per_page' => $instance['limit'],
 			'order' => $instance['order'],
 			'orderby' => $instance['orderby']
@@ -87,7 +88,7 @@ class RecentPosts extends \WP_Widget{
 		if($q->have_posts()){
 			while($q->have_posts()){
 				$q->the_post();
-				$this->post_tpl();
+				$this->post_tpl($instance);
 			}
 			wp_reset_postdata();
 		}else{
@@ -437,8 +438,12 @@ class RecentPosts extends \WP_Widget{
 		return $defaults;
 	}
 
-	function post_tpl(){
-		echo "Ciao";
+	function post_tpl(array $settings){
+		?>
+		<article>
+			<header><?php the_title(); ?> (<?php echo get_post_type(get_the_ID()); ?>)</header>
+		</article>
+		<?php
 	}
 
 	function empty_posts_tpl(){
