@@ -1,5 +1,11 @@
 == Change log ==
 
+Version 0.12.6 -
+---------------------------------
+
+WABOOT:
+- Ora admin.css non dipende più da fontawesome.
+
 Version 0.12.5 - 10/07/2015
 ---------------------------------
 
