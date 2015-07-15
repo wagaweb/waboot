@@ -440,8 +440,14 @@ class RecentPosts extends \WP_Widget{
 
 	function post_tpl(array $settings){
 		?>
-		<article>
-			<header><?php the_title(); ?> (<?php echo get_post_type(get_the_ID()); ?>)</header>
+		<article role="article" <?php post_class("recent-post"); ?>>
+			<?php do_action( 'waboot_entry_header' ); ?>
+			<div class="entry-content row">
+				<div class="col-sm-12">
+					<?php the_content(); ?>
+					<?php do_action( 'waboot_entry_footer' ); ?>
+				</div>
+			</div>
 		</article>
 		<?php
 	}
