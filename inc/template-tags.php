@@ -1005,7 +1005,7 @@ if(!function_exists('waboot_the_trimmed_excerpt')):
 	 * @param string $use is "content_also" then the content will be trimmed if the excerpt is empty
 	 */
 	function waboot_the_trimmed_excerpt($length = false,$more = null,$post_id = null, $use = "excerpt_only"){
-		if(!$length){
+		if(is_bool($length) && !$length){
 			$excerpt_length = apply_filters( 'excerpt_length', 55 );
 		}else{
 			$excerpt_length = $length;
