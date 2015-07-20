@@ -15,11 +15,12 @@ if(!function_exists( 'waboot_entry_footer_close_tag')):
 endif;
 
 if(!function_exists( 'waboot_do_posted_on')):
-    /**
-     * Prints HTML with date posted information for the current post.
-     * @since 0.1.0
-     */
-    function waboot_do_posted_on() {
+	/**
+	 * Prints HTML with date posted information for the current post.
+	 *
+	 * @param bool|false $relative_time can be used to print the link text in the relative format
+	 */
+	function waboot_do_posted_on($relative_time = false) {
         // Return early if theme options are set to hide date
         if ( ! of_get_option( 'waboot_published_date', 1 ) )
             return;
@@ -28,7 +29,7 @@ if(!function_exists( 'waboot_do_posted_on')):
             esc_url( get_permalink() ),
             esc_attr( get_the_time() ),
             esc_attr( get_the_date( 'c' ) ),
-            esc_html( get_the_date() )
+            !$relative_time ? esc_html( get_the_date() ) : sprintf( _x( '%s ago', 'Relative date output for entry footer' ,'waboot' ), human_time_diff( get_the_date( 'U' ), current_time( 'timestamp' ) ) )
         );
     }
 	add_action("waboot_entry_footer","waboot_do_posted_on",10);
