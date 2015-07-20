@@ -1123,13 +1123,20 @@ if(!function_exists( 'wbft_get_post_terms_hierarchical' )):
 
 		/**
 		 * Build term hierarchy
-		 * @param array $cats
+		 * @param array $cats the terms to reorder
 		 *
 		 * @return array
 		 */
 		$build_hierarchy = function(Array &$cats) use ($array_insert, $children_insert){
-			$cats_count = count($cats); //meow!
+			$cats_count = count($cats); //meow! How many terms have we?
 			$result = [];
+
+			if($cats_count < 1){
+				return $result;
+			}
+			elseif($cats_count == 1){
+				return $cats;
+			}
 
 			//Populate all the parent
 			foreach ($cats as $i => $cat) {
@@ -1138,10 +1145,14 @@ if(!function_exists( 'wbft_get_post_terms_hierarchical' )):
 				}
 			}
 
-			$inserted_cats = count($result);
+			$inserted_cats = count($result); //Count the items inserted at this point
+
+			if($inserted_cats == 0){
+				return [];
+			}
 
 			//Populate with children
-			while($inserted_cats != $cats_count){
+			while($inserted_cats != $cats_count){ //Go on until we reached the terms number counted at the beginning
 				foreach ($cats as $i => $cat) {
 					if($cat->parent != 0){
 						$parent_term_id = $cat->parent;
@@ -1180,6 +1191,8 @@ if(!function_exists( 'wbft_get_post_terms_hierarchical' )):
 
 			return $output_terms;
 		};
+
+		if(!is_array($terms) || empty($terms)) return [];
 
 		$h = $build_hierarchy($terms);
 
