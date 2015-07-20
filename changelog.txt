@@ -5,6 +5,8 @@ Version 0.12.6 -
 
 WABOOT:
 - Ora admin.css non dipende più da fontawesome.
+- Ora waboot_posted_on() può stampare date in formato relativo se viene passato "true" come parametro alla funzione.
+- Ora waboot_the_trimmed_excerpt() non intepreta più il parametro $length == 0 come FALSE
 
 Version 0.12.5 - 10/07/2015
 ---------------------------------
