@@ -282,6 +282,12 @@ class RecentPosts extends \WP_Widget{
 				</label>
 				<input class="widefat" id="<?php echo $this->get_field_id( 'readmore_text' ); ?>" name="<?php echo $this->get_field_name( 'readmore_text' ); ?>" type="text" value="<?php echo strip_tags( $instance['readmore_text'] ); ?>" />
 			</p>
+			<p>
+				<label for="<?php echo $this->get_field_id( 'readmore_prefix' ); ?>">
+					<?php _ex( 'Readmore Text Prefix', 'Recent Posts Widget' , 'waboot' ); ?>
+				</label>
+				<input class="widefat" id="<?php echo $this->get_field_id( 'readmore_prefix' ); ?>" name="<?php echo $this->get_field_name( 'readmore_prefix' ); ?>" type="text" value="<?php echo strip_tags( $instance['readmore_prefix'] ); ?>" />
+			</p>
 			<!-- DATE -->
 			<p>
 				<input id="<?php echo $this->get_field_id( 'date' ); ?>" name="<?php echo $this->get_field_name( 'date' ); ?>" type="checkbox" <?php checked( $instance['date'] ); ?> />
@@ -334,6 +340,7 @@ class RecentPosts extends \WP_Widget{
 		$instance['date_relative']    = isset( $new_instance['date_relative'] ) ? (bool) $new_instance['date_relative'] : false;
 		$instance['readmore']         = isset( $new_instance['readmore'] ) ? (bool) $new_instance['readmore'] : false;
 		$instance['readmore_text']    = strip_tags( $new_instance['readmore_text'] );
+		$instance['readmore_prefix']  = strip_tags( $new_instance['readmore_prefix'] );
 
 		$instance['thumb']            = isset( $new_instance['thumb'] ) ? (bool) $new_instance['thumb'] : false;
 		//$instance['thumb_height']     = (int)( $new_instance['thumb_height'] );
@@ -432,22 +439,70 @@ class RecentPosts extends \WP_Widget{
 			'date'             => true,
 			'date_relative'    => false,
 			'readmore'         => false,
-			'readmore_text'    => __( 'Read More &raquo;', 'rpwe' ),
+			'readmore_text'    => _x( 'Read More &raquo;', 'Recent Posts Widget', 'waboot' ),
+			'readmore_prefix'    => "&hellip;&nbsp;&nbsp;",
 		);
 
 		return $defaults;
 	}
 
 	function post_tpl(array $settings){
+
+		$excerpt = function() use ($settings){
+			?>
+			<?php if($settings['excerpt']) : ?>
+				<?php if($settings['readmore']) : ?>
+					<?php waboot_the_trimmed_excerpt($settings['excerpt_length'],$settings['readmore_prefix']."<a href='".get_the_permalink()."' class='more-link'>".$settings['readmore_text']."</a>");?>
+				<?php else: ?>
+					<?php waboot_the_trimmed_excerpt($settings['excerpt_length'],false);?>
+				<?php endif; ?>
+			<?php endif; ?>
+			<?php
+		};
+		$footer = function() use ($settings){
+			?>
+			<?php if($settings['date']) : ?>
+				<?php if(!$settings['date_relative']): ?>
+					<?php waboot_do_posted_on() ?>
+				<?php else : ?>
+					<?php waboot_do_posted_on(true) ?>
+				<?php endif; ?>
+			<?php endif; ?>
+			<?php
+		}
 		?>
-		<article role="article" <?php post_class("recent-post"); ?>>
-			<?php do_action( 'waboot_entry_header' ); ?>
-			<div class="entry-content row">
-				<div class="col-sm-12">
-					<?php the_content(); ?>
-					<?php do_action( 'waboot_entry_footer' ); ?>
+		<article role="article" <?php post_class("recent-post row"); ?>>
+			<?php if(has_post_thumbnail() && $settings['thumb']) : ?>
+				<header>
+					<div class="col-md-8 pull-right-md">
+						<h4><?php echo apply_filters("waboot_entry_title_text",get_the_title()); ?></h4>
+					</div>
+					<div class="entry-image col-sm-4 ">
+						<?php $link_title = sprintf( esc_attr__( 'Link to %s', 'waboot' ), the_title_attribute('echo=0') ) ?>
+						<a href="<?php the_permalink(); ?>" title="<?php echo $link_title; ?>">
+							<?php echo get_the_post_thumbnail( get_the_ID(), 'thumbnail', ['class' => 'img-responsive'] ); ?>
+						</a>
+					</div>
+				</header>
+				<div class="col-sm-8 pull-right-sm entry-content">
+					<?php $excerpt(); ?>
 				</div>
-			</div>
+				<footer class="col-sm-12 entry-footer">
+					<?php $footer(); ?>
+				</footer>
+			<?php else: ?>
+				<div class="col-sm-12">
+					<header>
+						<h4><?php echo apply_filters("waboot_entry_title_text",get_the_title()); ?></h4>
+					</header>
+					<div class="entry-content">
+						<?php $excerpt(); ?>
+					</div>
+					<footer class="entry-footer">
+						<?php $footer(); ?>
+					</footer>
+				</div>
+			<?php endif; ?>
 		</article>
 		<?php
 	}
