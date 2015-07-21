@@ -7,6 +7,8 @@ WABOOT:
 - Ora admin.css non dipende più da fontawesome.
 - Ora waboot_posted_on() può stampare date in formato relativo se viene passato "true" come parametro alla funzione.
 - Ora waboot_the_trimmed_excerpt() non intepreta più il parametro $length == 0 come FALSE
+- Corretto un bug che portava a un loop infinito nella funzione wbft_get_post_terms_hierarchical() se il post aveva termini gerarchici non correlati fra loro.
+- Aggiunto sistema di cache dei risultati per la funzione wbft_get_post_terms_hierarchical()
 
 Version 0.12.5 - 10/07/2015
 ---------------------------------

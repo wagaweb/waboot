@@ -1083,7 +1083,19 @@ endif;
 // ###############################
 
 if(!function_exists( 'wbft_get_post_terms_hierarchical' )):
+	/**
+	 * Get a list of term in hierarchical order, with parent before their children.
+	 * @param int $post_id the $post_id param for wp_get_post_terms()
+	 * @param string $taxonomy the $taxonomy param for wp_get_post_terms()
+	 * @param array $args the $args param for wp_get_post_terms(
+	 *
+	 * @return array
+	 */
 	function wbft_get_post_terms_hierarchical($post_id, $taxonomy, $args = []){
+		static $cache;
+
+		if(isset($cache[$post_id]) && is_array($cache[$post_id])) return $cache[$post_id];
+
 		$terms = wp_get_post_terms( $post_id, $taxonomy, $args );
 
 		/**
@@ -1102,15 +1114,23 @@ if(!function_exists( 'wbft_get_post_terms_hierarchical' )):
 			return $output;
 		};
 
+		/**
+		 * Insert $insertion after the element with $term->id == $insert_at_term_id of array $input
+		 * @param array $input
+		 * @param int   $insert_at_term_id
+		 * @param array $insertion
+		 *
+		 * @return array|bool
+		 */
 		$children_insert = function(Array $input,$insert_at_term_id,$insertion) use(&$children_insert){
 			$output = $input;
 			foreach($input as $k => $v){
-				if($v->term_id == $insert_at_term_id){
-					if(@!is_integer(array_search($insertion,$output[$k]->children))){
+				if($v->term_id == $insert_at_term_id){ //We found the parent
+					if(!isset($output[$k]->childeren) || !is_integer(array_search($insertion,$output[$k]->children))){
 						$output[$k]->children[] = $insertion;
 						return $output;
 					}
-				}elseif(isset($v->children) && count($v->children) >= 1){
+				}elseif(isset($v->children) && count($v->children) >= 1){ //Search in parent children
 					$new_children = $children_insert($v->children,$insert_at_term_id,$insertion);
 					if(is_array($new_children)){
 						$output[$k]->children = $new_children;
@@ -1118,7 +1138,7 @@ if(!function_exists( 'wbft_get_post_terms_hierarchical' )):
 					}
 				}
 			}
-			return false;
+			return false; //We haven't found any point of insertion
 		};
 
 		/**
@@ -1157,13 +1177,18 @@ if(!function_exists( 'wbft_get_post_terms_hierarchical' )):
 					if($cat->parent != 0){
 						$parent_term_id = $cat->parent;
 						$r = $children_insert($result,$parent_term_id,$cat);
-						if(is_array($r)){
+						if(is_array($r)){ //We found a valid parent, and $r is the new array with $cat appended into parent
 							$result = $r;
 							$inserted_cats++;
-							if($inserted_cats == $cats_count){
-								break;
-							}
+						}elseif($r == false){ //We haven't found any parent for $cat, so simply append it
+							$result[] = $cat;
+							$inserted_cats++;
 						}
+						if($inserted_cats == $cats_count){
+							break;
+						}
+					}else{
+						continue; //We already parsed the parent == 0
 					}
 				}
 			}
@@ -1196,7 +1221,9 @@ if(!function_exists( 'wbft_get_post_terms_hierarchical' )):
 
 		$h = $build_hierarchy($terms);
 
-		$sortedTerms = $flatten_terms_hierarchy($h);
+		$sortedTerms = $flatten_terms_hierarchy($h); //Extract the children
+
+		$cache[$post_id] = $sortedTerms;
 
 		return $sortedTerms;
 	}
