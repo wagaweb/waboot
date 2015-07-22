@@ -121,7 +121,7 @@ function waboot_widgets_init() {
 		//'waboot_Widget_Login' => 'inc/widgets/widget-login-form.php',
 		'Nav_Stacked_Pills_Menu_Widget' => 'inc/widgets/widget-nav-stacked-pills-menu.php',
 		'Waboot\inc\widgets\Social' => 'inc/widgets/widget-social.php',
-		'Waboot\inc\widgets\RecentPosts' => 'inc/widgets/widget-recent-posts.php'
+		//'Waboot\inc\widgets\RecentPosts' => 'inc/widgets/widget-recent-posts.php'
 	);
 
 	foreach ($waboot_widgets as $name => $file) {
