@@ -7,9 +7,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Waboot 0.12.5\n"
+"Project-Id-Version: Waboot 0.12.6\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-10 16:35+0200\n"
+"POT-Creation-Date: 2015-07-22 12:12+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -493,34 +493,40 @@ msgstr ""
 msgid "Client Phone:"
 msgstr ""
 
-#: inc/hooks/entry-footer.php:27
+#: inc/hooks/entry-footer.php:28
 #, php-format
 msgid ""
 "<span class=\"published-date\"><a href=\"%1$s\" title=\"%2$s\"><time class="
 "\"entry-date\" datetime=\"%3$s\">%4$s</time></a></span>"
 msgstr ""
 
-#: inc/hooks/entry-footer.php:47
+#: inc/hooks/entry-footer.php:32
+#, php-format
+msgctxt "Relative date output for entry footer"
+msgid "%s ago"
+msgstr ""
+
+#: inc/hooks/entry-footer.php:48
 #, php-format
 msgid ""
 "<span class=\"byline\"><span class=\"author vcard\"><a class=\"url fn n\" "
 "href=\"%1$s\" title=\"%2$s\" rel=\"author\">%3$s</a></span></span>"
 msgstr ""
 
-#: inc/hooks/entry-footer.php:49
+#: inc/hooks/entry-footer.php:50
 #, php-format
 msgid "View all posts by %s"
 msgstr ""
 
-#: inc/hooks/entry-footer.php:116
+#: inc/hooks/entry-footer.php:117
 msgid " Leave a comment"
 msgstr ""
 
-#: inc/hooks/entry-footer.php:116
+#: inc/hooks/entry-footer.php:117
 msgid " 1 Comment"
 msgstr ""
 
-#: inc/hooks/entry-footer.php:116
+#: inc/hooks/entry-footer.php:117
 msgid " % Comments"
 msgstr ""
 
@@ -1370,67 +1376,67 @@ msgid ""
 "You must specify the output you want - either \"link\" or \"post_content\"."
 msgstr ""
 
-#: inc/template-tags.php:1410
+#: inc/template-tags.php:1450
 msgid "Facebook"
 msgstr ""
 
-#: inc/template-tags.php:1411
+#: inc/template-tags.php:1451
 msgid "Enter your facebook fan page link"
 msgstr ""
 
-#: inc/template-tags.php:1415
+#: inc/template-tags.php:1455
 msgid "Twitter"
 msgstr ""
 
-#: inc/template-tags.php:1416
+#: inc/template-tags.php:1456
 msgid "Enter your twitter page link"
 msgstr ""
 
-#: inc/template-tags.php:1420
+#: inc/template-tags.php:1460
 msgid "Google+"
 msgstr ""
 
-#: inc/template-tags.php:1421
+#: inc/template-tags.php:1461
 msgid "Enter your google+ page link"
 msgstr ""
 
-#: inc/template-tags.php:1425
+#: inc/template-tags.php:1465
 msgid "YouTube"
 msgstr ""
 
-#: inc/template-tags.php:1426
+#: inc/template-tags.php:1466
 msgid "Enter your youtube page link"
 msgstr ""
 
-#: inc/template-tags.php:1430
+#: inc/template-tags.php:1470
 msgid "Pinterest"
 msgstr ""
 
-#: inc/template-tags.php:1431
+#: inc/template-tags.php:1471
 msgid "Enter your pinterest page link"
 msgstr ""
 
-#: inc/template-tags.php:1435
+#: inc/template-tags.php:1475
 msgid "Linkedin"
 msgstr ""
 
-#: inc/template-tags.php:1436
+#: inc/template-tags.php:1476
 msgid "Enter your linkedin page link"
 msgstr ""
 
-#: inc/template-tags.php:1440
+#: inc/template-tags.php:1480
 msgid "Instagram"
 msgstr ""
 
-#: inc/template-tags.php:1441
+#: inc/template-tags.php:1481
 msgid "Enter your instagram page link"
 msgstr ""
 
-#: inc/template-tags.php:1445
+#: inc/template-tags.php:1485
 msgid "Feed RSS"
 msgstr ""
 
-#: inc/template-tags.php:1446
+#: inc/template-tags.php:1486
 msgid "Enter your feed RSS link"
 msgstr ""
 
@@ -1512,7 +1518,7 @@ msgid "Logged in as"
 msgstr ""
 
 #: inc/widgets/widget-login-form.php:192
-#: inc/widgets/widget-recent-posts.php:62 inc/widgets/widget-social.php:39
+#: inc/widgets/widget-recent-posts.php:116 inc/widgets/widget-social.php:39
 msgid "Title:"
 msgstr ""
 
@@ -1556,132 +1562,181 @@ msgstr ""
 msgid "A widget to show the recents posts"
 msgstr ""
 
-#: inc/widgets/widget-recent-posts.php:60
+#: inc/widgets/widget-recent-posts.php:114
 msgctxt "Recent Posts Widget"
 msgid "General"
 msgstr ""
 
-#: inc/widgets/widget-recent-posts.php:63
+#: inc/widgets/widget-recent-posts.php:117
 msgctxt "Recent Posts Widget"
 msgid "New title"
 msgstr ""
 
-#: inc/widgets/widget-recent-posts.php:67
+#: inc/widgets/widget-recent-posts.php:121
 msgctxt "Recent Posts Widget"
 msgid "Query"
 msgstr ""
 
-#: inc/widgets/widget-recent-posts.php:71
+#: inc/widgets/widget-recent-posts.php:125
 msgctxt "Recent Posts Widget"
 msgid "Post Types"
 msgstr ""
 
-#: inc/widgets/widget-recent-posts.php:87
+#: inc/widgets/widget-recent-posts.php:141
 msgctxt "Recent Posts Widget"
 msgid "Limit to Category"
 msgstr ""
 
-#: inc/widgets/widget-recent-posts.php:109
+#: inc/widgets/widget-recent-posts.php:163
 msgctxt "Recent Posts Widget"
 msgid "No categories available"
 msgstr ""
 
-#: inc/widgets/widget-recent-posts.php:116
+#: inc/widgets/widget-recent-posts.php:170
 msgctxt "Recent Posts Widget"
 msgid "Limit to Tag"
 msgstr ""
 
-#: inc/widgets/widget-recent-posts.php:138
+#: inc/widgets/widget-recent-posts.php:192
 msgctxt "Recent Posts Widget"
 msgid "No tags available"
 msgstr ""
 
-#: inc/widgets/widget-recent-posts.php:145
+#: inc/widgets/widget-recent-posts.php:199
 msgctxt "Recent Posts Widget"
 msgid "Post Status"
 msgstr ""
 
-#: inc/widgets/widget-recent-posts.php:156
+#: inc/widgets/widget-recent-posts.php:210
 msgctxt "Recent Posts Widget"
 msgid "Order"
 msgstr ""
 
-#: inc/widgets/widget-recent-posts.php:159
+#: inc/widgets/widget-recent-posts.php:213
 msgctxt "Recent Posts Widget"
 msgid "Descending"
 msgstr ""
 
-#: inc/widgets/widget-recent-posts.php:160
+#: inc/widgets/widget-recent-posts.php:214
 msgctxt "Recent Posts Widget"
 msgid "Ascending"
 msgstr ""
 
-#: inc/widgets/widget-recent-posts.php:166
+#: inc/widgets/widget-recent-posts.php:220
 msgctxt "Recent Posts Widget"
 msgid "Orderby"
 msgstr ""
 
-#: inc/widgets/widget-recent-posts.php:169
+#: inc/widgets/widget-recent-posts.php:223
 msgctxt "Recent Posts Widget"
 msgid "ID"
 msgstr ""
 
-#: inc/widgets/widget-recent-posts.php:170
+#: inc/widgets/widget-recent-posts.php:224
 msgctxt "Recent Posts Widget"
 msgid "Author"
 msgstr ""
 
-#: inc/widgets/widget-recent-posts.php:171
+#: inc/widgets/widget-recent-posts.php:225
 msgctxt "Recent Posts Widget"
 msgid "Title"
 msgstr ""
 
-#: inc/widgets/widget-recent-posts.php:172
+#: inc/widgets/widget-recent-posts.php:226
 msgctxt "Recent Posts Widget"
 msgid "Date"
 msgstr ""
 
-#: inc/widgets/widget-recent-posts.php:173
+#: inc/widgets/widget-recent-posts.php:227
 msgctxt "Recent Posts Widget"
 msgid "Modified"
 msgstr ""
 
-#: inc/widgets/widget-recent-posts.php:174
+#: inc/widgets/widget-recent-posts.php:228
 msgctxt "Recent Posts Widget"
 msgid "Random"
 msgstr ""
 
-#: inc/widgets/widget-recent-posts.php:175
+#: inc/widgets/widget-recent-posts.php:229
 msgctxt "Recent Posts Widget"
 msgid "Comment Count"
 msgstr ""
 
-#: inc/widgets/widget-recent-posts.php:176
+#: inc/widgets/widget-recent-posts.php:230
 msgctxt "Recent Posts Widget"
 msgid "Menu Order"
 msgstr ""
 
-#: inc/widgets/widget-recent-posts.php:181
+#: inc/widgets/widget-recent-posts.php:235
 msgctxt "Recent Posts Widget"
 msgid "Options"
 msgstr ""
 
-#: inc/widgets/widget-recent-posts.php:186
+#: inc/widgets/widget-recent-posts.php:240
 msgctxt "Recent Posts Widget"
 msgid "Ignore sticky posts"
 msgstr ""
 
-#: inc/widgets/widget-recent-posts.php:192
+#: inc/widgets/widget-recent-posts.php:246
 msgctxt "Recent Posts Widget"
 msgid "Number of posts to show"
 msgstr ""
 
-#: inc/widgets/widget-recent-posts.php:264
-msgid "Recent Posts"
+#: inc/widgets/widget-recent-posts.php:255
+msgctxt "Recent Posts Widget"
+msgid "Display Thumbnail"
+msgstr ""
+
+#: inc/widgets/widget-recent-posts.php:263
+msgctxt "Recent Posts Widget"
+msgid "Display Excerpt"
+msgstr ""
+
+#: inc/widgets/widget-recent-posts.php:268
+msgctxt "Recent Posts Widget"
+msgid "Excerpt Length"
+msgstr ""
+
+#: inc/widgets/widget-recent-posts.php:276
+msgid "Display Readmore"
+msgstr ""
+
+#: inc/widgets/widget-recent-posts.php:281
+msgctxt "Recent Posts Widget"
+msgid "Readmore Text"
 msgstr ""
 
 #: inc/widgets/widget-recent-posts.php:287
+msgctxt "Recent Posts Widget"
+msgid "Readmore Text Prefix"
+msgstr ""
+
+#: inc/widgets/widget-recent-posts.php:295
+msgctxt "Recent Posts Widget"
+msgid "Display Date"
+msgstr ""
+
+#: inc/widgets/widget-recent-posts.php:301
+msgctxt "Recent Posts Widget"
+msgid "Use Relative Date. eg: 5 days ago"
+msgstr ""
+
+#: inc/widgets/widget-recent-posts.php:419
+msgid "Recent Posts"
+msgstr ""
+
+#: inc/widgets/widget-recent-posts.php:442
+msgctxt "Recent Posts Widget"
 msgid "Read More &raquo;"
+msgstr ""
+
+#: inc/widgets/widget-recent-posts.php:481
+#: templates/parts/content-featured.php:8
+#: templates/parts/content-fp-grid.php:10 templates/parts/content-image.php:14
+#: templates/parts/content-link.php:13 templates/parts/content-search.php:13
+#: templates/parts/content-search.php:23 templates/parts/content.php:39
+#, php-format
+msgid "Link to %s"
 msgstr ""
 
 #: inc/widgets/widget-social.php:7
@@ -1694,14 +1749,6 @@ msgstr ""
 
 #: inc/widgets/widget-social.php:40
 msgid "New title"
-msgstr ""
-
-#: templates/parts/content-featured.php:8
-#: templates/parts/content-fp-grid.php:10 templates/parts/content-image.php:14
-#: templates/parts/content-link.php:13 templates/parts/content-search.php:13
-#: templates/parts/content-search.php:23 templates/parts/content.php:36
-#, php-format
-msgid "Link to %s"
 msgstr ""
 
 #: templates/parts/content-none.php:11
