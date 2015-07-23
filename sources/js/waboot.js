@@ -3066,6 +3066,14 @@ module.exports = Backbone.Model.extend({
                 return states;
             };
 
+            var make_term_request = function(data){
+                return $.ajax(wbData.ajaxurl,{
+                    data: data,
+                    dataType: "json",
+                    method: "POST"
+                });
+            };
+
             $recent_posts_widget_pt_selector.find("input[type=checkbox]").on("change",function(){
                 var states = get_checkboxes_status($recent_posts_widget_pt_selector),
                     $categories_container = $("#widgets-right [data-wbrw-term-type='category']"),
@@ -3076,49 +3084,41 @@ module.exports = Backbone.Model.extend({
                 $tags_container.addClass("loading");
 
                 //Make reguests for new terms:
-                var category_request = $.ajax(wbData.ajaxurl,{
-                    data: {
-                        action: "wbrw_get_terms",
-                        states: states,
-                        hierarchical: 1
-                    },
-                    dataType: "json",
-                    method: "POST"
-                }).done(function(data, textStatus, jqXHR){
-                    var tpl = _.template($categories_container.find("[type='text/template']").html()),
-                        $ul = $categories_container.find("ul"),
-                        slug = $categories_container.data("field-slug"); //the value of <?php echo $this->get_field_id( 'cat' ) ?>
-                    console.log(data);
-                    $ul.html(tpl({
-                        terms: data,
-                        widget_cat: slug
-                    }));
-                    $categories_container.removeClass("loading");
+                var category_request = make_term_request({
+                    action: "wbrw_get_terms",
+                    states: states,
+                    hierarchical: 1
                 }).fail(function(jqXHR, textStatus, errorThrown){
                     console.log(textStatus);
                     $categories_container.removeClass("loading");
                 });
-                var tags_request = $.ajax(wbData.ajaxurl,{
-                    data: {
-                        action: "wbrw_get_terms",
-                        states: states,
-                        hierarchical: 0
-                    },
-                    dataType: "json",
-                    method: "POST"
-                }).done(function(data, textStatus, jqXHR){
-                    var tpl = _.template($tags_container.find("[type='text/template']").html()),
-                        $ul = $tags_container.find("ul"),
-                        slug = $tags_container.data("field-slug"); //<?php echo $this->get_field_id( 'tag' ) ?>
-                    console.log(data);
-                    $ul.html(tpl({
-                        terms: data,
-                        widget_tag: slug
-                    }));
-                    $tags_container.removeClass("loading");
+                var tags_request = make_term_request({
+                    action: "wbrw_get_terms",
+                    states: states,
+                    hierarchical: 0
                 }).fail(function(jqXHR, textStatus, errorThrown){
                     console.log(textStatus);
                     $tags_container.removeClass("loading");
+                });
+
+                //Resolve requests
+                $.when(category_request,tags_request).done(function(categories_response,tags_response){
+                    //console.log(categories_response);
+                    //console.log(tags_response);
+                    var assign_terms = function(terms,$container){
+                        var tpl = _.template($container.find("[type='text/template']").html()),
+                            $ul = $container.find("ul"),
+                            field_name = $container.data("field-name"), //the value of <?php echo $this->get_field_name( 'cat' ) ?>
+                            field_id = $container.data("field-id"); //the value of <?php echo $this->get_field_id( 'cat' ) ?>
+                        $ul.html(tpl({
+                            terms: terms,
+                            field_name: field_name,
+                            field_id: field_id
+                        }));
+                        $container.removeClass("loading");
+                    };
+                    assign_terms(categories_response[0],$categories_container);
+                    assign_terms(tags_response[0],$tags_container);
                 });
             });
         }
