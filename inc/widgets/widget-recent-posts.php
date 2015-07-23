@@ -136,7 +136,7 @@ class RecentPosts extends \WP_Widget{
 				</ul>
 			</div>
 			<!-- CATEGORIES -->
-			<div class="multiple-check" data-wbrw-term-type="category" data-field-slug="<?php echo $this->get_field_id( 'cat' ); ?>">
+			<div class="multiple-check" data-wbrw-term-type="category" data-field-id=<?php echo $this->get_field_id( 'cat' ); ?> data-field-name="<?php echo $this->get_field_name( 'cat' ); ?>">
 				<label>
 					<?php _ex( 'Limit to Category', 'Recent Posts Widget' , 'waboot' ); ?>
 				</label>
@@ -153,8 +153,8 @@ class RecentPosts extends \WP_Widget{
 				<script type="text/template">
 					<% _.each(terms,function(t, k){ %>
 						<li>
-							<input type="checkbox" value="<%= t.term_id %>" id="<%= widget_cat %>-<%= t.term_id %>" name="<%= widget_cat %>[<%= t.registered_for_post_type %>][]" />
-							<label for="<%= widget_cat %>-<%= t.term_id %>">
+							<input type="checkbox" value="<%= t.term_id %>" id="<%= field_id %>-<%= t.term_id %>" name="<%= field_name %>[<%= t.registered_for_post_type %>][]" />
+							<label for="<%= field_name %>-<%= t.term_id %>">
 								<%= t.name %> [<%= t.registered_for_post_type %>]
 							</label>
 						</li>
@@ -165,7 +165,7 @@ class RecentPosts extends \WP_Widget{
 				</script>
 			</div>
 			<!-- TAGS -->
-			<div class="multiple-check" data-wbrw-term-type="tag" data-field-slug="<?php echo $this->get_field_id( 'tag' ); ?>">
+			<div class="multiple-check" data-wbrw-term-type="tag" data-field-id=<?php echo $this->get_field_id( 'tag' ); ?> data-field-name="<?php echo $this->get_field_name( 'tag' ); ?>">
 				<label>
 					<?php _ex( 'Limit to Tag', 'Recent Posts Widget' , 'waboot' ); ?>
 				</label>
@@ -182,8 +182,8 @@ class RecentPosts extends \WP_Widget{
 				<script type="text/template">
 					<% _.each(terms,function(t, k){ %>
 						<li>
-							<input type="checkbox" value="<%= t.term_id %>" id="<%= widget_tag %>-<%= t.term_id %>" name="<%= widget_tag %>[<%= t.registered_for_post_type %>][]" />
-							<label for="<%= widget_tag %>-<%= t.term_id %>">
+							<input type="checkbox" value="<%= t.term_id %>" id="<%= field_id %>-<%= t.term_id %>" name="<%= field_name %>[<%= t.registered_for_post_type %>][]" />
+							<label for="<%= field_name %>-<%= t.term_id %>">
 								<%= t.name %> [<%= t.registered_for_post_type %>]
 							</label>
 						</li>
