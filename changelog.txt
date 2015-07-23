@@ -1,5 +1,12 @@
 == Change log ==
 
+Version 0.12.7 -
+---------------------------------
+
+WBF:
+- Aggiornata la versione di ACF alla 5.2.8
+
+
 Version 0.12.6 -
 ---------------------------------
 
