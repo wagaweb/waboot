@@ -413,24 +413,32 @@ function acf_esc_attr( $atts ) {
 	// loop through and render
 	foreach( $atts as $k => $v ) {
 		
-		if( is_array($v) || is_object($v) || is_bool($v) ) {
+		// object
+		if( is_array($v) || is_object($v) ) {
 			
-			$v = '';
+			$v = json_encode($v);
+		
+		// boolean	
+		} elseif( is_bool($v) ) {
+			
+			$v = $v ? 1 : 0;
+		
+		// string
+		} elseif( is_string($v) ) {
+			
+			$v = trim($v);
 			
 		}
 		
-		if( is_string($v) ) {
-			
-			$v = trim( $v );
-			
-		}
 		
+		// append
 		$e[] = $k . '="' . esc_attr( $v ) . '"';
 	}
 	
 	
 	// echo
 	return implode(' ', $e);
+	
 }
 
 function acf_esc_attr_e( $atts ) {
@@ -1665,9 +1673,10 @@ function acf_order_by_search( $array, $search ) {
 function acf_json_encode( $json ) {
 	
 	// PHP at least 5.4
-	if( version_compare(PHP_VERSION, '5.4.0', '>=') )
-	{
+	if( version_compare(PHP_VERSION, '5.4.0', '>=') ) {
+		
 		return json_encode($json, JSON_PRETTY_PRINT);
+		
 	}
 
 	
@@ -1680,7 +1689,7 @@ function acf_json_encode( $json ) {
     $result      = '';
     $pos         = 0;
     $strLen      = strlen($json);
-    $indentStr   = '  ';
+    $indentStr   = "    ";
     $newLine     = "\n";
     $prevChar    = '';
     $outOfQuotes = true;
@@ -1706,7 +1715,12 @@ function acf_json_encode( $json ) {
         
         // Add the character to the result string.
         $result .= $char;
-
+		
+		// If this character is ':' adda space after it
+        if($char == ':' && $outOfQuotes) {
+            $result .= ' ';
+        }
+        
         // If the last character was the beginning of an element, 
         // output a new line and indent the next line.
         if (($char == ',' || $char == '{' || $char == '[') && $outOfQuotes) {
@@ -1969,14 +1983,18 @@ function acf_encode_choices( $array = array() ) {
 function acf_decode_choices( $string = '' ) {
 	
 	// validate
-	if( is_numeric($string) ) {
+	if( $string === '') {
 		
-		// force array on single numeric values
+		return array();
+		
+	// force array on single numeric values
+	} elseif( is_numeric($string) ) {
+		
 		return array( $string );
-		
+	
+	// bail early if not a a string
 	} elseif( !is_string($string) ) {
 		
-		// bail early if not a a string
 		return $string;
 		
 	}
@@ -2891,9 +2909,12 @@ function acf_get_filesize( $size = 1 ) {
 	// look for $unit within the $size parameter (123 KB)
 	if( is_string($size) ) {
 		
+		// vars
+		$custom = strtoupper( substr($size, -2) );
+		
 		foreach( $units as $k => $v ) {
 			
-			if( substr($size, -2) === $k ) {
+			if( $custom === $k ) {
 				
 				$unit = $k;
 				$size = substr($size, 0, -2);
@@ -2906,7 +2927,7 @@ function acf_get_filesize( $size = 1 ) {
 	
 	
 	// calc bytes
-	$bytes = intval($size) * pow(1024, $units[$unit]); 
+	$bytes = floatval($size) * pow(1024, $units[$unit]); 
 	
 	
 	// return
@@ -2930,8 +2951,11 @@ function acf_get_filesize( $size = 1 ) {
 
 function acf_format_filesize( $size = 1 ) {
 	
+	// convert
+	$bytes = acf_get_filesize( $size );
+	
+	
 	// vars
-	$unit = 'MB';
 	$units = array(
 		'TB' => 4,
 		'GB' => 3,
@@ -2940,17 +2964,14 @@ function acf_format_filesize( $size = 1 ) {
 	);
 	
 	
-	// look for $unit within the $size parameter (123 KB)
-	if( is_string($size) ) {
+	// loop through units
+	foreach( $units as $k => $v ) {
 		
-		foreach( $units as $k => $v ) {
+		$result = $bytes / pow(1024, $v);
+		
+		if( $result >= 1 ) {
 			
-			if( substr($size, -2) === $k ) {
-				
-				$unit = $k;
-				$size = substr($size, 0, -2);
-					
-			}
+			return $result . ' ' . $k;
 			
 		}
 		
@@ -2958,8 +2979,8 @@ function acf_format_filesize( $size = 1 ) {
 	
 	
 	// return
-	return $size . ' ' . $unit;
-	
+	return $bytes . ' B';
+		
 }
 
 
@@ -3072,6 +3093,173 @@ function acf_esc_html_deep( $value ) {
 
 }
 */
+
+
+/*
+*  acf_validate_attachment
+*
+*  This function will validate an attachment based on a field's resrictions and return an array of errors
+*
+*  @type	function
+*  @date	3/07/2015
+*  @since	5.2.3
+*
+*  @param	$attachment (array) attachment data. Cahnges based on context
+*  @param	$field (array) field settings containing restrictions
+*  @param	$context (string) $file is different when uploading / preparing
+*  @return	$errors (array)
+*/
+
+function acf_validate_attachment( $attachment, $field, $context = 'prepare' ) {
+	
+	// vars
+	$errors = array();
+	$file = array(
+		'type'		=> '',
+		'width'		=> 0,
+		'height'	=> 0,
+		'size'		=> 0
+	);
+	
+	
+	// upload
+	if( $context == 'upload' ) {
+		
+		// vars
+		$file['type'] = pathinfo($attachment['name'], PATHINFO_EXTENSION);
+		$file['size'] = filesize($attachment['tmp_name']);
+		
+		if( strpos($attachment['type'], 'image') !== false ) {
+			
+			$size = getimagesize($attachment['tmp_name']);
+			$file['width'] = acf_maybe_get($size, 0);
+			$file['height'] = acf_maybe_get($size, 1);
+				
+		}
+	
+	// prepare
+	} elseif( $context == 'prepare' ) {
+		
+		$file['type'] = pathinfo($attachment['url'], PATHINFO_EXTENSION);
+		$file['size'] = acf_maybe_get($attachment, 'filesizeInBytes', 0);
+		$file['width'] = acf_maybe_get($attachment, 'width', 0);
+		$file['height'] = acf_maybe_get($attachment, 'height', 0);
+	
+	// custom
+	} else {
+		
+		$file = wp_parse_args($file, $attachment);
+		
+	}
+	
+	
+	// image
+	if( $file['width'] || $file['height'] ) {
+		
+		// width
+		$min_width = (int) acf_maybe_get($field, 'min_width', 0);
+		$max_width = (int) acf_maybe_get($field, 'max_width', 0);
+		
+		if( $file['width'] ) {
+			
+			if( $min_width && $file['width'] < $min_width ) {
+				
+				// min width
+				$errors['min_width'] = sprintf(__('Image width must be at least %dpx.', 'acf'), $min_width );
+				
+			} elseif( $max_width && $file['width'] > $max_width ) {
+				
+				// min width
+				$errors['max_width'] = sprintf(__('Image width must not exceed %dpx.', 'acf'), $max_width );
+				
+			}
+			
+		}
+		
+		
+		// height
+		$min_height = (int) acf_maybe_get($field, 'min_height', 0);
+		$max_height = (int) acf_maybe_get($field, 'max_height', 0);
+		
+		if( $file['height'] ) {
+			
+			if( $min_height && $file['height'] < $min_height ) {
+				
+				// min height
+				$errors['min_height'] = sprintf(__('Image height must be at least %dpx.', 'acf'), $min_height );
+				
+			}  elseif( $max_height && $file['height'] > $max_height ) {
+				
+				// min height
+				$errors['max_height'] = sprintf(__('Image height must not exceed %dpx.', 'acf'), $max_height );
+				
+			}
+			
+		}
+			
+	}
+	
+	
+	// file size
+	if( $file['size'] ) {
+		
+		$min_size = acf_maybe_get($field, 'min_size', 0);
+		$max_size = acf_maybe_get($field, 'max_size', 0);
+		
+		if( $min_size && $file['size'] < acf_get_filesize($min_size) ) {
+				
+			// min width
+			$errors['min_size'] = sprintf(__('File size must be at least %s.', 'acf'), acf_format_filesize($min_size) );
+			
+		} elseif( $max_size && $file['size'] > acf_get_filesize($max_size) ) {
+				
+			// min width
+			$errors['max_size'] = sprintf(__('File size must must not exceed %s.', 'acf'), acf_format_filesize($max_size) );
+			
+		}
+	
+	}
+	
+	
+	// file type
+	if( $file['type'] ) {
+		
+		$mime_types = acf_maybe_get($field, 'mime_types', '');
+		$mime_types = strtolower($mime_types);
+		$mime_types = str_replace(array(' ', '.'), '', $mime_types);
+		$mime_types = explode(',', $mime_types); // split pieces
+		$mime_types = array_filter($mime_types); // remove empty pieces
+		
+		if( !empty($mime_types) && !in_array($file['type'], $mime_types) ) {
+			
+			// glue together last 2 types
+			if( count($mime_types) > 1 ) {
+				
+				$last1 = array_pop($mime_types);
+				$last2 = array_pop($mime_types);
+				
+				$mime_types[] = $last2 . ' ' . __('or', 'acf') . ' ' . $last1;
+				
+			}
+			
+			$errors['mime_types'] = sprintf(__('File type must be %s.', 'acf'), implode(', ', $mime_types) );
+			
+		}
+				
+	}
+	
+	
+	// filter for 3rd party customization
+	$errors = apply_filters("acf/validate_attachment", $errors, $file, $attachment, $field);
+	$errors = apply_filters("acf/validate_attachment/type={$field['type']}", $errors, $file, $attachment, $field );
+	$errors = apply_filters("acf/validate_attachment/name={$field['name']}", $errors, $file, $attachment, $field );
+	$errors = apply_filters("acf/validate_attachment/key={$field['key']}", $errors, $file, $attachment, $field );
+	
+	
+	// return
+	return $errors;
+	
+}
 
 
 /*

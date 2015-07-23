@@ -295,6 +295,11 @@ function acf_prepare_field( $field ) {
 	}
 	
 	
+	// filter to 3rd party customization
+	$field = apply_filters( "acf/prepare_field", $field );
+	$field = apply_filters( "acf/prepare_field/type={$field['type']}", $field );
+	
+	
 	// return
 	return $field;
 }
@@ -393,29 +398,38 @@ function acf_the_field_label( $field ) {
 */
 
 function acf_render_fields( $post_id = 0, $fields, $el = 'div', $instruction = 'label' ) {
+	
+	// bail early if no fields
+	if( empty($fields) ) {
 		
-	if( !empty($fields) ) {
-		
-		foreach( $fields as $field ) {
+		return false;
 			
-			// load value
-			if( $field['value'] === null ) {
-				
-				$field['value'] = acf_get_value( $post_id, $field );
-				
-			} 
-			
-			
-			// set prefix for correct post name (prefix + key)
-			$field['prefix'] = 'acf';
-			
-			
-			// render
-			acf_render_field_wrap( $field, $el, $instruction );
-		}
-		
 	}
 		
+	// remove corrupt fields
+	$fields = array_filter($fields);
+	
+	
+	// loop through fields
+	foreach( $fields as $field ) {
+		
+		// load value
+		if( $field['value'] === null ) {
+			
+			$field['value'] = acf_get_value( $post_id, $field );
+			
+		} 
+		
+		
+		// set prefix for correct post name (prefix + key)
+		$field['prefix'] = 'acf';
+		
+		
+		// render
+		acf_render_field_wrap( $field, $el, $instruction );
+		
+	}
+	
 }
 
 
@@ -784,41 +798,39 @@ function acf_get_fields_by_id( $id = 0 ) {
 *  @since	5.0.0
 *
 *  @param	$selector (mixed) identifyer of field. Can be an ID, key, name or post object
-*  @param	$raw (boolean) return $field in it's raw form without filters or cache
+*  @param	$db_only (boolean) return $field in it's raw form without filters or cache
 *  @return	$field (array)
 */
 
-function acf_get_field( $selector = null, $raw = false ) {
+function acf_get_field( $selector = null, $db_only = false ) {
 	
 	// vars
 	$field = false;
-	$k = 'ID';
-	$v = 0;
+	$type = 'ID';
 	
 	
-	// $post_id or $key
+	// is $selector an ID
 	if( is_numeric($selector) ) {
 		
-		$v = $selector;
-		
+		// do nothing
+	
+	// is $selector a string (name|key)	
 	} elseif( is_string($selector) ) {
+		
+		$type = 'name';
 		
 		if( acf_is_field_key($selector) ) {
 			
-			$k = 'key';
+			$type = 'key';
 		
-		} else {
-			
-			$k = 'name';
-				
 		}
-		
-		$v = $selector;
-		
+	
+	// is $selector an object
 	} elseif( is_object($selector) ) {
 		
-		$v = $selector->ID;
-		
+		$selector = $selector->ID;
+	
+	// selector not valid
 	} else {
 		
 		return false;
@@ -827,38 +839,42 @@ function acf_get_field( $selector = null, $raw = false ) {
 	
 	
 	// get cache key
-	$cache_key = "get_field/{$k}={$v}";
+	$cache_key = "get_field/{$type}={$selector}";
 	
 	
 	// get cache
-	$found = false;
-	$cache = wp_cache_get( $cache_key, 'acf', false, $found );
-	
-	if( $found ) {
+	if( !$db_only ) {
 		
-		return $cache;
+		$found = false;
+		$cache = wp_cache_get( $cache_key, 'acf', false, $found );
+		
+		if( $found ) {
+			
+			return $cache;
+			
+		}
 		
 	}
 	
 	
 	// get field group from ID or key
-	if( $k == 'ID' ) {
+	if( $type == 'ID' ) {
 		
-		$field = _acf_get_field_by_id( $v );
+		$field = _acf_get_field_by_id( $selector, $db_only );
 		
-	} elseif( $k == 'name' ) {
+	} elseif( $type == 'name' ) {
 		
-		$field = _acf_get_field_by_name( $v );
+		$field = _acf_get_field_by_name( $selector, $db_only );
 		
 	} else {
 		
-		$field = _acf_get_field_by_key( $v );
+		$field = _acf_get_field_by_key( $selector, $db_only );
 		
 	}
 	
 	
 	// bail early if db only value (no need to update cache)
-	if( $raw ) {
+	if( $db_only ) {
 		
 		return $field;
 		
@@ -899,11 +915,7 @@ function acf_get_field( $selector = null, $raw = false ) {
 *  @return	$field (array)
 */
 
-function _acf_get_field_by_id( $post_id = 0 ) {
-	
-	// vars
-	$field = false;
-	
+function _acf_get_field_by_id( $post_id = 0, $db_only = false ) {
 	
 	// get post
 	$post = get_post( $post_id );
@@ -912,20 +924,13 @@ function _acf_get_field_by_id( $post_id = 0 ) {
 	// bail early if no post, or is not a field
 	if( empty($post) || $post->post_type != 'acf-field' ) {
 	
-		return $field;
+		return false;
 		
 	}
 	
 	
 	// unserialize
-	$data = maybe_unserialize( $post->post_content );
-	
-	
-	// update $field
-	if( is_array($data) )
-	{
-		$field = $data;
-	}
+	$field = maybe_unserialize( $post->post_content );
 	
 	
 	// update attributes
@@ -935,13 +940,11 @@ function _acf_get_field_by_id( $post_id = 0 ) {
 	$field['name'] = $post->post_excerpt;
 	$field['menu_order'] = $post->menu_order;
 	$field['parent'] = $post->post_parent;
-	//$field['ancestors'] = get_post_ancestors( $post );
-	//$field['field_group'] = end( $field['ancestors'] );
 
 
 	// override with JSON
-	if( acf_is_local_field( $field['key'] ) )
-	{
+	if( !$db_only && acf_is_local_field($field['key']) ) {
+		
 		// extract some args
 		$backup = acf_extract_vars($field, array(
 			'ID',
@@ -955,6 +958,7 @@ function _acf_get_field_by_id( $post_id = 0 ) {
 		
 		// merge in backup
 		$field = array_merge($field, $backup);
+		
 	}
 	
 	
@@ -981,14 +985,10 @@ function _acf_get_field_by_id( $post_id = 0 ) {
 *  @return	$field (array)
 */
 
-function _acf_get_field_by_key( $key = '' ) {
-	
-	// vars
-	$field = false;	
-	
+function _acf_get_field_by_key( $key = '', $db_only = false ) {
 	
 	// try JSON before DB to save query time
-	if( acf_is_local_field( $key ) ) {
+	if( !$db_only && acf_is_local_field( $key ) ) {
 		
 		$field = acf_get_local_field( $key );
 		
@@ -1002,30 +1002,19 @@ function _acf_get_field_by_key( $key = '' ) {
 	
 	
 	// vars
-	$args = array(
-		'posts_per_page'	=> 1,
-		'post_type'			=> 'acf-field',
-		'orderby' 			=> 'menu_order title',
-		'order'				=> 'ASC',
-		'suppress_filters'	=> false,
-		'acf_field_key'		=> $key
-	);
-	
-	
-	// load posts
-	$posts = get_posts( $args );
+	$post_id = acf_get_field_id( $key );
 	
 	
 	// validate
-	if( empty($posts) ) {
+	if( !$post_id ) {
 		
-		return $field;
+		return false;
 		
 	}
 	
 	
 	// return
-	return _acf_get_field_by_id( $posts[0]->ID );
+	return _acf_get_field_by_id( $post_id, $db_only );
 	
 }
 
@@ -1043,7 +1032,7 @@ function _acf_get_field_by_key( $key = '' ) {
 *  @return	$field (array)
 */
 
-function _acf_get_field_by_name( $name = '' ) {
+function _acf_get_field_by_name( $name = '', $db_only = false ) {
 	
 	// vars
 	$args = array(
@@ -1069,7 +1058,52 @@ function _acf_get_field_by_name( $name = '' ) {
 	
 	
 	// return
-	return _acf_get_field_by_id( $posts[0]->ID );
+	return _acf_get_field_by_id( $posts[0]->ID, $db_only );
+	
+}
+
+
+/*
+*  acf_get_field_id
+*
+*  This function will lookup a field's ID from the DB
+*  Useful for local fields to find DB sibling
+*
+*  @type	function
+*  @date	25/06/2015
+*  @since	5.2.3
+*
+*  @param	$key (string)
+*  @return	$post_id (int)
+*/
+
+function acf_get_field_id( $key = '' ) {
+	
+	// vars
+	$args = array(
+		'posts_per_page'	=> 1,
+		'post_type'			=> 'acf-field',
+		'orderby' 			=> 'menu_order title',
+		'order'				=> 'ASC',
+		'suppress_filters'	=> false,
+		'acf_field_key'		=> $key
+	);
+	
+	
+	// load posts
+	$posts = get_posts( $args );
+	
+	
+	// validate
+	if( empty($posts) ) {
+		
+		return 0;
+		
+	}
+	
+	
+	// return
+	return $posts[0]->ID;
 	
 }
 

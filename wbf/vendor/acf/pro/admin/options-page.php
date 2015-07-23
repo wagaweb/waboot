@@ -222,6 +222,10 @@ class acf_pro_options_page {
 		    	$post_id = acf_get_valid_post_id($this->page['post_id']);
 		    	
 		    	
+		    	// set autoload
+		    	acf_update_setting('autoload', $this->page['autoload']);
+		    	
+		    	
 		    	// save
 				acf_save_post( $post_id );
 				

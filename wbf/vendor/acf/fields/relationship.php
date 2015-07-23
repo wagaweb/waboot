@@ -245,11 +245,8 @@ class acf_field_relationship extends acf_field {
 			}
 			
 			
-			// optgroup or single
-			$post_types = acf_get_array( $args['post_type'] );
-			
 			// add as optgroup or results
-			if( count($post_types) == 1 ) {
+			if( count($args['post_type']) == 1 ) {
 				
 				$r = $r[0]['children'];
 				

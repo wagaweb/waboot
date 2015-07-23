@@ -1132,37 +1132,45 @@ var acf;
 		*  @date	8/09/2014
 		*  @since	5.0.0
 		*
-		*  @param	(object)
-		*  @param	key1 (string)
-		*  @param	key2 (string)
-		*  @param	...
+		*  @param	obj (object) the array to look within
+		*  @param	key (key) the array key to look for. Nested values may be found using '/'
+		*  @param	value (mixed) the value returned if not found
 		*  @return	(mixed)
 		*/
 		
-		maybe_get: function(){
+		maybe_get: function( obj, key, value ){
 			
-			var a = arguments,
-		        l = a.length,
-		        c = null,
-		        undef;
+			// default
+			value = value || null;
+						
 			
-		    if (l === 0) {
-		        return null;
-		    }
+			// convert type to string and split
+			keys = String(key).split('.');
 			
-			c = a[0];
 			
-		    for (i = 1; i < l; i++) {
-		    	
-		        if (a[i] === undef || c[ a[i] ] === undef) {
-		            return null;
-		        }
-		        
-		        c = c[ a[i] ];
-		        
-		    }
-		    
-		    return c;
+			// loop through keys
+			for( var i in keys ) {
+				
+				// vars
+				var key = keys[i];
+				
+				
+				// bail ealry if not set
+				if( typeof obj[ key ] === 'undefined' ) {
+					
+					return value;
+					
+				}
+				
+				
+				// update obj
+				obj = obj[ key ];
+				
+			}
+			
+			
+			// return
+			return obj;
 			
 		},
 		
@@ -4808,7 +4816,7 @@ console.time("acf_test_ready");
 				field:		'',			// 'field_123'
 				mime_types:	'',			// 'pdf, etc'
 				library:	'all',		// 'all'|'uploadedTo'
-				multiple:	false,		// false, true, 'add'
+				multiple:	false		// false, true, 'add'
 			};
 			
 			
@@ -4859,12 +4867,30 @@ console.time("acf_test_ready");
 			}
 			
 			
+			// query
+			var Query = wp.media.query( options.library );
+			
+			
+			// add _acfuploader
+			// this is super wack!
+			// if you add _acfuploader to the options.library args, new uploads will not be added to the library view.
+			// this has been traced back to the wp.media.model.Query initialize function (which can't be overriden)
+			// Adding any custom args will cause the Attahcments to not observe the uploader queue
+			// To bypass this security issue, we add in the args AFTER the Query has been initialized
+			// options.library._acfuploader = args.field;
+			if( acf.isset(Query, 'mirroring', 'args') ) {
+				
+				Query.mirroring.args._acfuploader = args.field;
+				
+			}
+			
+			
 			// add states
 			options.states = [
 				
 				// main state
 				new wp.media.controller.Library({
-					library:		wp.media.query( options.library ),
+					library:		Query,
 					multiple: 		options.multiple,
 					title: 			options.title,
 					priority: 		20,
@@ -4909,11 +4935,13 @@ console.time("acf_test_ready");
 						
 			
 			// log events
+/*
 			frame.on('all', function( e ) {
 				
-				//console.log( 'frame all: %o', e );
+				console.log( 'frame all: %o', e );
 			
 			});
+*/
 
 			
 			
@@ -5040,6 +5068,14 @@ console.time("acf_test_ready");
 					});
 					
 				}
+				
+				
+				// add _acfuploader to filters
+				$.each( filters.filters, function( k, filter ){
+					
+					filter.props._acfuploader = args.field;
+					
+				});
 				
 				
 				// render
@@ -5210,20 +5246,161 @@ console.time("acf_test_ready");
 			
 			
 			// customize wp.media views
-			this.customize_AttachmentFiltersAll();
-			this.customize_AttachmentCompat();
+			if( acf.isset(window, 'wp', 'media', 'view') ) {
+				
+				//this.customize_Attachments();
+				//this.customize_Query();
+				this.customize_Attachment();
+				this.customize_AttachmentFiltersAll();
+				this.customize_AttachmentCompat();
+			
+			}
+			
+		},
+/*
+		
+		customize_Attachments: function(){
+			
+			// vars
+			var Attachments = wp.media.model.Attachments;
+			
+			
+			wp.media.model.Attachments = Attachments.extend({
+				
+				initialize: function( models, options ){
+					
+					console.log('My Attachments initialize: %o %o %o', this, models, options);
+					
+					// return
+					return Attachments.prototype.initialize.apply( this, arguments );
+					
+				},
+				
+				sync: function( method, model, options ) {
+					
+					console.log('My Attachments sync: %o %o %o %o', this, method, model, options);
+					
+					
+					// return
+					return Attachments.prototype.sync.apply( this, arguments );
+					
+				}
+				
+			});
+			
+		},
+		
+		customize_Query: function(){
+			
+			console.log('customize Query!');
+			
+			// vars
+			var Query = wp.media.model.Query;
+			
+			
+			wp.media.model.Query = {};
+			
+		},
+*/
+		
+		customize_Attachment: function(){
+			
+			// vars
+			var AttachmentLibrary = wp.media.view.Attachment.Library;
+			
+			
+			// extend
+			wp.media.view.Attachment.Library = AttachmentLibrary.extend({
+				
+				render: function() {
+					
+					// vars
+					var errors = acf.maybe_get(this, 'model.attributes.acf_errors');
+					
+					
+					// add class
+					if( errors ) {
+						
+						this.$el.addClass('acf-disabled');
+						
+					}
+					
+					
+					// return
+					return AttachmentLibrary.prototype.render.apply( this, arguments );
+					
+				},
+				
+				toggleSelection: function( options ) {
+					
+					// vars
+					var errors = acf.maybe_get(this, 'model.attributes.acf_errors'),
+						$sidebar = this.controller.$el.find('.media-frame-content .media-sidebar');
+					
+					
+					// remove previous error
+					$sidebar.children('.acf-selection-error').remove();
+					
+					
+					// show attachment details
+					$sidebar.children().removeClass('acf-hidden');
+					
+					
+					// add message
+					if( errors ) {
+						
+						// vars
+						var filename = acf.maybe_get(this, 'model.attributes.filename', '');
+						
+						
+						// hide attachment details
+						// Gallery field continues to show previously selected attachment...
+						$sidebar.children().addClass('acf-hidden');
+						
+						
+						// append message
+						$sidebar.prepend([
+							'<div class="acf-selection-error">',
+								'<span class="selection-error-label">' + acf._e('restricted') +'</span>',
+								'<span class="selection-error-filename">' + filename + '</span>',
+								'<span class="selection-error-message">' + errors + '</span>',
+							'</div>'
+						].join(''));
+						
+					}					
+					
+					// return					
+					AttachmentLibrary.prototype.toggleSelection.apply( this, arguments );
+					
+				},
+							
+				select: function( model, collection ) {
+					
+					// vars
+					var state = this.controller.state(),
+						selection = state.get('selection'),
+						errors = acf.maybe_get(this, 'model.attributes.acf_errors');
+					
+					
+					// prevent selection
+					if( errors ) {
+						
+						return selection.remove( model );
+						
+					}
+					
+					
+					//return 
+					return AttachmentLibrary.prototype.select.apply( this, arguments );
+					
+				}
+
+				
+			});
 			
 		},
 		
 		customize_AttachmentFiltersAll: function(){
-			
-			// bail ealry if no view
-			if( !acf.isset(window,'wp','media','view','AttachmentFilters','All') ) {
-			
-				return false;
-				
-			}
-			
 			
 			// add function refresh
 			wp.media.view.AttachmentFilters.All.prototype.refresh = function(){
@@ -5241,14 +5418,6 @@ console.time("acf_test_ready");
 		},
 		
 		customize_AttachmentCompat: function(){
-			
-			// bail ealry if no view
-			if( !acf.isset(window,'wp','media','view','AttachmentCompat') ) {
-			
-				return false;
-				
-			}
-			
 			
 			// vars
 			var view = wp.media.view.AttachmentCompat.prototype;
@@ -6150,63 +6319,66 @@ console.time("acf_test_ready");
 
 (function($){
 	
-	acf.add_select2 = function( $select, settings ) {
+	acf.add_select2 = function( $select, args ) {
 		
-		// vars
-		settings = $.extend({
-			'allow_null':	false,
-			'placeholder':	'',
-			'multiple':		false,
-			'ajax':			false,
-			'action':		'',
-			'pagination':	false
-		}, settings);
+		// defaults
+		args = $.extend({
+			allow_null:		false,
+			placeholder:	'',
+			multiple:		false,
+			ajax:			false,
+			action:			'',
+			pagination:		false
+		}, args);
 		
 				
 		// vars
 		var $input = $select.siblings('input');
 		
 		
+		// bail early if no input
+		if( !$input.exists() ) {
+			
+			return;
+			
+		}
+		
+		
 		// select2 args
-		var args = {
-			width			: '100%',
+		var select2_args = {
+			width:				'100%',
 			containerCssClass:	'acf-select2-container',
-			allowClear		: settings.allow_null,
-			placeholder		: settings.placeholder,
-			multiple		: settings.multiple,
-			data			: [],
-			escapeMarkup	: function( m ){ return m; }
+			allowClear:			args.allow_null,
+			placeholder:		args.placeholder,
+			multiple:			args.multiple,
+			data:				[],
+			escapeMarkup:		function( m ){ return m; }
 		};
 		
 		
-		// customize HTML for selected choices
-		if( settings.multiple ) {
+		// add hidden input to each multiple selection
+		if( args.multiple ) {
 			
-			args.formatSelection = function( object, $div ){
+			select2_args.formatSelection = function( object, $div ){
 				
 				$div.parent().append('<input type="hidden" class="acf-select2-multi-choice" name="' + $select.attr('name') + '" value="' + object.id + '" />');
 				
 				return object.text;
+				
 			}
 			
 		}
 		
 		
 		// remove the blank option as we have a clear all button!
-		if( settings.allow_null ) {
+		if( args.allow_null ) {
 			
-			args.placeholder = settings.placeholder;
 			$select.find('option[value=""]').remove();
 			
 		}
 		
 		
-		// vars
-		var selection = $input.val().split(','),
-			initial_selection = [];
-			
-		
-		// populate args.data
+		// populate select2_args.data
 		var optgroups = {};
 		
 		$select.find('option').each(function( i ){
@@ -6231,8 +6403,8 @@ console.time("acf_test_ready");
 			}
 			
 			optgroups[ parent ].push({
-				id		: $(this).attr('value'),
-				text	: $(this).text()
+				id: $(this).attr('value'),
+				text: $(this).text()
 			});
 			
 		});
@@ -6244,56 +6416,86 @@ console.time("acf_test_ready");
 			
 				$.each( children, function( i, child ){
 					
-					args.data.push( child );
+					select2_args.data.push( child );
 					
 				});
 				
 			} else {
 			
-				args.data.push({
-					text		: label,
-					children	: children
+				select2_args.data.push({
+					text: label,
+					children: children
 				});
 				
 			}
 						
 		});
-
 		
-		// re-order options
-		$.each( selection, function( k, value ){
+		
+		// vars
+		var val = $input.val();
+		
+		
+		// initial selection
+		if( val !== '' ) {
 			
-			$.each( args.data, function( i, choice ){
+			// vars
+			var selection = val.split(','),
+				initial_selection = [];
+			
+			
+			// re-order options
+			$.each( selection, function( k, value ){
 				
-				if( value == choice.id ) {
-				
-					initial_selection.push( choice );
+				$.each( select2_args.data, function( i, choice ){
 					
-				}
-				
-			});
+					if( value == choice.id ) {
+					
+						initial_selection.push( choice );
 						
-		});
+					}
+					
+				});
+							
+			});
+			
+			
+			// single select requires 1 val, not an array
+			if( !args.multiple ) {
+			
+				initial_selection = acf.maybe_get(initial_selection, 0, '');
+				
+			}
+			
+			
+			// add function
+			select2_args.initSelection = function( element, callback ) {
+				        
+		        callback( initial_selection );
+		        
+		    };
+			
+		}
 		
 		
 		// ajax
-		if( settings.ajax ) {
+		if( args.ajax ) {
 			
-			args.ajax = {
-				url			: acf.get('ajaxurl'),
-				dataType	: 'json',
-				type		: 'post',
-				cache		: false,
-				data		: function (term, page) {
+			select2_args.ajax = {
+				url:		acf.get('ajaxurl'),
+				dataType: 	'json',
+				type: 		'post',
+				cache: 		false,
+				data: function (term, page) {
 					
 					// vars
 					var data = {
-						action		: settings.action,
-						field_key	: settings.key,
-						nonce		: acf.get('nonce'),
-						post_id		: acf.get('post_id'),
-						s			: term,
-						paged		: page
+						action: 	args.action,
+						field_key: 	args.key,
+						nonce: 		acf.get('nonce'),
+						post_id: 	acf.get('post_id'),
+						s: 			term,
+						paged: 		page
 					};
 
 					
@@ -6313,15 +6515,15 @@ console.time("acf_test_ready");
 					
 					// return
 					return {
-						results	: data
+						results: data
 					};
 					
 				}
 			};
 			
-			if( settings.pagination ) {
+			if( args.pagination ) {
 				
-				args.ajax.results = function( data, page ) {
+				select2_args.ajax.results = function( data, page ) {
 					
 					var i = 0;
 					
@@ -6357,63 +6559,57 @@ console.time("acf_test_ready");
 					
 				};
 				
+				
 				$input.on("select2-loaded", function(e) { 
 					
 					// merge together groups
 					var label = '',
 						$list = null;
 						
-					$('#select2-drop .select2-results > li > .select2-result-label').each(function(){
+					$('#select2-drop .select2-result-with-children').each(function(){
 						
-						if( $(this).text() == label ) {
+						// vars
+						var $label = $(this).children('.select2-result-label'),
+							$ul = $(this).children('.select2-result-sub');
+						
+						
+						// append group to previous
+						if( $label.text() == label ) {
 							
-							$list.append( $(this).siblings('ul').children() );
+							$list.append( $ul.children() );
 							
-							$(this).parent().remove();
+							$(this).remove();
 							
 							return;
+							
 						}
 						
 						
 						// update vars
-						label = $(this).text();
-						$list = $(this).siblings('ul');
+						label = $label.text();
+						$list = $ul;
 						
 					});
-											
-				});	
+					
+				});
+				
 			}
 			
-			
-			args.initSelection = function (element, callback) {
-				
-				// single select requires 1 val, not an array
-				if( ! settings.multiple ) {
-				
-					initial_selection = initial_selection[0];
-					
-				}
-				
-					        
-		        // callback
-		        callback( initial_selection );
-		        
-		    };
 		}
 		
 		
 		// attachment z-index fix
-		args.dropdownCss = {
+		select2_args.dropdownCss = {
 			'z-index' : '999999999'
 		};
 		
 		
 		// filter for 3rd party customization
-		args = acf.apply_filters( 'select2_args', args, $select, settings );
+		select2_args = acf.apply_filters( 'select2_args', select2_args, $select, args );
 		
 		
 		// add select2
-		$input.select2( args );
+		$input.select2( select2_args );
 
 		
 		// reorder DOM
@@ -6421,7 +6617,7 @@ console.time("acf_test_ready");
 		
 		
 		// multiple
-		if( settings.multiple ) {
+		if( args.multiple ) {
 			
 			// clear input value (allow nothing to be saved) - only for multiple
 			//$input.val('');
@@ -6574,9 +6770,14 @@ console.time("acf_test_ready");
 		
 		initialize: function(){
 			
-			// add tab group if it doesn't exist
+			// add tab group if no group exists
 			if( !this.$field.siblings('.acf-tab-wrap').exists() ) {
 			
+				this.add_group();
+			
+			// add tab group if is endpoint	
+			} else if( this.$el.data('endpoint') ) {
+				
 				this.add_group();
 				
 			}
@@ -6587,10 +6788,10 @@ console.time("acf_test_ready");
 			
 		},
 		
-		add_tab : function(){
+		add_tab: function(){
 			
 			// vars
-			var $group = this.$field.siblings('.acf-tab-wrap');
+			var $group = this.$field.siblings('.acf-tab-wrap').last();
 			
 			
 			// vars
@@ -6599,6 +6800,14 @@ console.time("acf_test_ready");
 					'<a class="acf-tab-button" href="#" data-key="' + this.$field.data('key') + '">' + this.$el.text() + '</a>',
 				'</li>'
 			].join(''));
+			
+			
+			// hide li
+			if( this.$el.text() === '' ) {
+				
+				$li.hide();
+				
+			}
 			
 			
 			// add tab
@@ -6648,7 +6857,16 @@ console.time("acf_test_ready");
 			
 			// vars
 			var $wrap = this.$field.parent(),
+				placement = this.$el.data('placement'),
 				html = '';
+			
+			
+			// minor tweak
+			if( placement == 'left' ) {
+				
+				placement = 'side';
+				
+			}
 			
 			
 			// generate html
@@ -6658,15 +6876,16 @@ console.time("acf_test_ready");
 			
 			} else {
 			
-				html = '<div class="acf-tab-wrap"><ul class="acf-hl acf-tab-group"></ul></div>';
+				html = '<div class="acf-tab-wrap ' + placement + '"><ul class="acf-hl acf-tab-group"></ul></div>';
+
 				
 				// tab placement
-				if( $wrap.hasClass('acf-fields') ) {
+				if( placement == 'side' && $wrap.hasClass('acf-fields') ) {
 					
-					$wrap.addClass('acf-tp' + this.$el.data('placement').substr(0, 1));
+					$wrap.addClass('has-sidebar');
 					
 				}
-				
+
 			}
 			
 			
@@ -6689,22 +6908,35 @@ console.time("acf_test_ready");
 			$a.parent().addClass('active').siblings().removeClass('active');
 			
 			
-			// loop over 
-			$wrap.siblings('.acf-field-tab').each(function(){
+			// loop over tab fields (.acf-field-tab) until you hit another group (.acf-tab-wrap)
+			$wrap.nextUntil('.acf-tab-wrap', '.acf-field-tab').each(function(){
+				
+				// vars
+				var $field = $(this);
+				
+				
+				// ignore endpoint
+				if( $field.hasClass('endpoint') ) {
+					
+					// stop loop - current tab group is complete
+					return false;
+					
+				}
+				
 				
 				// show fields
-				if( $(this).attr('data-key') === $a.attr('data-key') ) {
+				if( $field.attr('data-key') === $a.attr('data-key') ) {
 					
-					self.show_tab_fields( $(this) );
+					self.show_tab_fields( $field );
 					return;
 					
 				}
 				
 				
 				// hide fields
-				if( ! $(this).hasClass('hidden-by-tab') ) {
+				if( !$field.hasClass('hidden-by-tab') ) {
 					
-					self.hide_tab_fields( $(this) );
+					self.hide_tab_fields( $field );
 					return;
 					
 				}
@@ -6722,8 +6954,12 @@ console.time("acf_test_ready");
 			// debug
 			//console.log('show tab fields %o', $field);
 			
+			
+			// remove class
 			$field.removeClass('hidden-by-tab');
 			
+			
+			// loop over all fields (.acf-field) until you hit another tab field (.acf-field-tab)
 			$field.nextUntil('.acf-field-tab', '.acf-field').each(function(){
 				
 				// remove class
@@ -6742,8 +6978,12 @@ console.time("acf_test_ready");
 			// debug
 			//console.log('hide tab fields %o', $field);
 			
+			
+			// add class
 			$field.addClass('hidden-by-tab');
 			
+			
+			// loop over all fields (.acf-field) until you hit another tab field (.acf-field-tab)
 			$field.nextUntil('.acf-field-tab', '.acf-field').each(function(){
 				
 				// add class
@@ -7606,12 +7846,20 @@ console.time("acf_test_ready");
 			
 			
 			// debug
-			// console.log('toggle %o %o', $form, state);
+			//console.log('toggle %o, %o %o', this.$trigger, $form, state);
 			
 			// vars
 			var $submit = null,
 				$spinner = null,
 				$parent = $('#submitdiv');
+			
+			
+			// 3rd party publish box
+			if( !$parent.exists() ) {
+				
+				$parent = $('#submitpost');
+				
+			}
 			
 			
 			// term, user

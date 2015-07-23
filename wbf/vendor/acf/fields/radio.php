@@ -291,9 +291,23 @@ class acf_field_radio extends acf_field {
 		// save_other_choice
 		if( $field['save_other_choice'] ) {
 			
-			
 			// value isn't in choices yet
 			if( !isset($field['choices'][ $value ]) ) {
+				
+				// get ID if local
+				if( !$field['ID'] ) {
+					
+					$field = acf_get_field( $field['key'], true );
+					
+				}
+				
+				
+				// bail early if no ID
+				if( !$field['ID'] ) {
+					
+					return $value;
+					
+				}
 				
 				
 				// update $field

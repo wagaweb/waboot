@@ -106,6 +106,25 @@ http://support.advancedcustomfields.com/
 
 == Changelog ==
 
+= 5.2.8 =
+* Image field: Added selection restrictions in media popup (width, height, size, type)
+* File field: Same as above
+* Gallery field: Same as above
+* Tab field: Added new 'endpoint' setting - allows multiple tab groups
+* Tab field: Improved CSS/JS to allow individual tab groups to use different alignments (left/top)
+* Repeater field: Added logic to delete nested sub field values (grand children)
+* Options page: Added new 'autoload' setting
+* Core: Added new filter 'acf/prepare_field'
+* Core: Added upload validation logic to ignore filetype case sensitivity
+* Core: Fixed upload issue when filesize restriction contained a decimal place
+* Core: Improved validation/save JS compatibility with 3rd party plugins
+* Core: Updated Select2 library to v3.5.2
+* Core: Fixed bug hiding Select2 choices when multiple found with the same label
+* Core: Minor fixes and improvements
+* Language: Updated Italian translation - thanks to Davide Pantè & Francesco Mazzola
+* Language: Updated German translation - thanks to Ralk Koller
+* Language: Updating Finnish translation - thanks to Sauli Rajala
+
 = 5.2.7 =
 * Taxonomy field: Split setting 'load_save_terms' into 'load_terms' and 'save_terms'
 * Select field: Fixed bug causing values containing ',' to fail

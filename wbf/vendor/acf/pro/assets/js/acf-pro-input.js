@@ -1698,11 +1698,11 @@
 			    	// type
 			    	if( a.type === 'image' ) {
 				    	
-				    	a.url = acf.maybe_get(atts, 'sizes', preview_size, 'url') || atts.url;
+				    	a.url = acf.maybe_get(atts, 'sizes.'+preview_size+'.url', atts.url);
 				    	
 			    	} else {
 				    	
-				    	a.url = acf.maybe_get(atts, 'thumb', 'src') || '';
+				    	a.url = acf.maybe_get(atts, 'thumb.src', '');
 				    	
 				    }
 				    

@@ -45,7 +45,8 @@ function acf_get_valid_options_page( $page = '' ) {
 		'position'		=> false,
 		'icon_url'		=> false,
 		'redirect'		=> true,
-		'post_id'		=> 'options'
+		'post_id'		=> 'options',
+		'autoload'		=> false
 	));
 	
 	

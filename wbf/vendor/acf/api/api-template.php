@@ -142,11 +142,6 @@ function the_field( $selector, $post_id = false, $format_value = true ) {
  
 function get_field( $selector, $post_id = false, $format_value = true ) {
 	
-	// vars
-	$load_false = true;
-	$value = false;
-	
-	
 	// filter post_id
 	$post_id = acf_get_valid_post_id( $post_id );
 	
@@ -1368,7 +1363,7 @@ function acf_form( $args = array() ) {
 	
 	
 	// specific fields
-	if( !empty($args['fields']) ) {
+	if( $args['fields'] ) {
 		
 		foreach( $args['fields'] as $selector ) {
 		
@@ -1376,7 +1371,7 @@ function acf_form( $args = array() ) {
 			
 		}
 		
-	} elseif( !empty($args['field_groups']) ) {
+	} elseif( $args['field_groups'] ) {
 		
 		foreach( $args['field_groups'] as $selector ) {
 		
