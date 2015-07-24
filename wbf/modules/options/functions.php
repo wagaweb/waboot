@@ -46,7 +46,7 @@ function of_options_save($option, $old_value, $value){
     if($option == $config['id']){
         $must_recompile_flag = false;
         $deps_to_achieve = array();
-        $all_options = Framework::_optionsframework_options();
+        $all_options = Framework::get_registered_options();
 
         /*
          * Check differences beetween new values and old value
@@ -246,7 +246,7 @@ function of_generate_less_file($value = null){
  */
 function _of_get_theme_options_deps($all_options = null){
     $deps_to_achieve = array();
-    if(!isset($all_options)) $all_options = Framework::_optionsframework_options();
+    if(!isset($all_options)) $all_options = Framework::get_registered_options();
     foreach($all_options as $k => $opt_data){
         if(isset($opt_data['id'])){
             $current_opt_name = $opt_data['id'];

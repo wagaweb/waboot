@@ -83,7 +83,7 @@ function of_get_option( $name, $default = false ) {
 
     //[WABOOT MOD] Tries to return the default value sets into $options array if $default is false
     if(!$default){
-	    if(empty($options_in_file)) $options_in_file = Framework::_optionsframework_options();
+	    if(empty($options_in_file)) $options_in_file = Framework::get_registered_options();
         foreach($options_in_file as $opt){
             if(isset($opt['id']) && $opt['id'] == $name){
                 if(isset($opt['std'])){

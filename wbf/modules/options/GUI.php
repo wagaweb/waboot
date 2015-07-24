@@ -23,7 +23,7 @@ class GUI extends \Options_Framework_Interface
 
         $settings = get_option($option_name);
         if(!isset($options))
-            $options = &Framework::_optionsframework_options();
+            $options = &Framework::get_registered_options();
 
         $counter = 0;
         $menu = '';
@@ -355,7 +355,7 @@ class GUI extends \Options_Framework_Interface
      */
     static function optionsframework_tabs() {
         $counter = 0;
-        $options = & Framework::_optionsframework_options();
+        $options = & Framework::get_registered_options();
         $menu = '';
 
         foreach ( $options as $value ) {

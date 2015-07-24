@@ -405,7 +405,7 @@ class Admin extends \Options_Framework_Admin{
 		 */
 
 		$clean = array();
-		$options = & Framework::_optionsframework_options();
+		$options = & Framework::get_registered_options();
 		foreach ( $options as $option ) {
 
 			if ( ! isset( $option['id'] ) ) {

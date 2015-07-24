@@ -51,7 +51,7 @@ class FontSelector
     function getWebFontsToLoad(){
         $options_names = call_user_func(function(){
 	        $names = array();
-	        $all_options = Framework::_optionsframework_options();
+	        $all_options = Framework::get_registered_options();
 	        foreach($all_options as $opt){
 		        if(isset($opt['id']) && $opt['type'] == "typography" && isset($opt['fonts_type']) && $opt['fonts_type'] == "google"){
 			        $names[] = $opt['id'];
