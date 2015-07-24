@@ -1,13 +1,19 @@
 == Change log ==
 
-Version 0.12.7 -
+Version 0.12.8 - 23/07/2015
+---------------------------------
+
+WABOOT:
+- Attivato "Recent Post Widget"
+
+Version 0.12.7 - 23/07/2015
 ---------------------------------
 
 WBF:
 - Aggiornata la versione di ACF alla 5.2.8
 
 
-Version 0.12.6 -
+Version 0.12.6 - 22/07/2015
 ---------------------------------
 
 WABOOT:
