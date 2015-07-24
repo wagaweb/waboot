@@ -3,8 +3,21 @@
 namespace WBF\modules\options;
 
 class Framework extends \Options_Framework {
+
+	/**
+	 * Get current registered theme options.
+	 *
+	 * @alias-of Framework::_optionsframework_options()
+	 * @return array
+	 */
+	static function get_registered_options(){
+		return self::_optionsframework_options();
+	}
+
     /**
-     * Wrapper for optionsframework_options()
+     * Get current registered theme options.
+     * The functions use the filter "options_framework_location" to determine options file existance and location, then try to call the function "optionsframework_options()".
+     * At the end it calls the action "wbf/theme_options/register" and the filter "of_options" (with the current $options as parameter)
      *
      * Allows for manipulating or setting options via 'of_options' filter
      * For example:
@@ -57,11 +70,24 @@ class Framework extends \Options_Framework {
         return $options;
     }
 
+	/**
+	 * Update theme options with new values (this will erase current theme options)
+	 * @param $values
+	 *
+	 * @return bool
+	 */
 	static function update_theme_options($values){
 		$id = self::get_options_root_id();
 		return update_option($id,$values);
 	}
 
+	/**
+	 * Set a new value for a specific theme option
+	 * @param $id
+	 * @param $value
+	 *
+	 * @return bool
+	 */
 	static function set_option_value($id,$value){
 		global $wp_settings_errors;
 		$bak_settings_errors = get_settings_errors();
@@ -72,20 +98,26 @@ class Framework extends \Options_Framework {
 		}
 
 		//Remove actions and settings errors
-		remove_action( "updated_option", '\WBF\modules\options\of_options_save', 9999, 3 );
+		remove_action( "updated_option", '\WBF\modules\options\of_options_save', 9999);
 		$wp_settings_errors = array();
 
 		$result = update_option(self::get_options_root_id(),$options); //update...
 
-		//Readd...
+		//Read...
 		add_action( "updated_option", '\WBF\modules\options\of_options_save', 9999, 3 );
 		$wp_settings_errors = $bak_settings_errors;
 
 		return $result;
 	}
 
+	/**
+	 * Get the option entity for the specified ID
+	 * @param string $id
+	 *
+	 * @return array|false
+	 */
 	static function get_option_object($id){
-		$all_options = self::_optionsframework_options();
+		$all_options = self::get_registered_options();
 		foreach($all_options as $opt){
 			if(isset($opt['id']) && $opt['id'] == $id){
 				return $opt;
@@ -94,6 +126,12 @@ class Framework extends \Options_Framework {
 		return false;
 	}
 
+	/**
+	 * Get the "type" of the specified option ID
+	 * @param string $id
+	 *
+	 * @return bool
+	 */
 	static function get_option_type($id){
 		$option = self::get_option_object($id);
 		if(isset($option['type']))
@@ -102,6 +140,10 @@ class Framework extends \Options_Framework {
 			return false;
 	}
 
+	/**
+	 * Get the current options root id (the name of the option that contains the current valid options. Default to the current theme name)
+	 * @return string|false
+	 */
 	static function get_options_root_id(){
 		$opt_name = get_option('optionsframework');
 		if(isset($opt_name['id'])){
@@ -110,6 +152,10 @@ class Framework extends \Options_Framework {
 		return false;
 	}
 
+	/**
+	 * Get all currently valid options
+	 * @return array|false
+	 */
 	static function get_options_values(){
 		$opt_name = get_option('optionsframework');
 		if(isset($opt_name['id'])){
