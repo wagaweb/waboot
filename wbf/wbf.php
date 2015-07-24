@@ -274,10 +274,6 @@ class WBF {
 
 		if(function_exists('\WBF\modules\options\of_check_options_deps')) \WBF\modules\options\of_check_options_deps(); //Check if theme options dependencies are met
 		$GLOBALS['wbf_notice_manager']->enqueue_notices(); //Display notices
-
-		//The debugger
-		locate_template( '/wbf/public/debug.php', true );
-		//waboot_debug_init();
 	}
 
 	static function register_libs(){
