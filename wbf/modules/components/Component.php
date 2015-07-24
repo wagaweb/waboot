@@ -3,6 +3,8 @@
 namespace WBF\modules\components;
 
 
+use WBF\modules\options\Framework;
+
 class Component {
 
     var $name;
@@ -132,7 +134,8 @@ class Component {
           'desc' => __( 'Check this box to load the component in every page (load locations will be ignored).', 'wbf' ),
           'id'   => $this->name.'_enabled_for_all_pages',
           'std'  => '1',
-          'type' => 'checkbox'
+          'type' => 'checkbox',
+          'component' => true
         );
 
         $filter_locs = array_merge(array("front"=>"Frontpage","home"=>"Blog"),wbf_get_filtered_post_types());
@@ -142,27 +145,35 @@ class Component {
           'name' => __('Load locations','wbf'),
           'desc' => __('You can load the component only into one ore more page types by selecting them from the list below', 'wbf'),
           'type' => 'multicheck',
-          'options' => $filter_locs
+          'options' => $filter_locs,
+          'component' => true
         );
 
         $options[] = array(
           'id' => $this->name.'_load_locations_ids',
           'name' => __('Load locations by ID','wbf'),
           'desc' => __('You can load the component for specific pages by enter here the respective ids (comma separated)', 'wbf'),
-          'type' => 'text'
+          'type' => 'text',
+          'component' => true
         );
 
         return $options;
     }
 
+	public function get_theme_options_values(){
+		return Framework::get_options_values_by_suffix($this->name);
+	}
+
     public function onActivate(){
         //echo "Attivato: $this->name";
         add_action( 'admin_notices', array($this,'activationNotice') );
         $this->register_options();
+	    $this->restore_theme_options();
     }
 
     public function onDeactivate(){
         //echo "Disattivato: $this->name";
+		$this->backup_theme_options();
         add_action( 'admin_notices', array($this,'deactivationNotice') );
     }
 
@@ -197,4 +208,26 @@ class Component {
         }
         return $this->directory_uri."/".$filepath;
     }
+
+	private function backup_theme_options(){
+		$options = $this->get_theme_options_values();
+		if(is_array($options) && !empty($options)){
+			$component_options_backup = get_option("wbf_component_options_backup",[]);
+			$component_options_backup[$this->name] = $options;
+			update_option("wbf_component_options_backup",$component_options_backup);
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+	private function restore_theme_options(){
+		$component_options_backup = get_option("wbf_component_options_backup",[]);
+		if(isset($component_options_backup[$this->name])){
+			$current_options = Framework::get_options_values();
+			return Framework::update_theme_options(array_merge($current_options,$component_options_backup[$this->name]));
+		}else{
+			return false;
+		}
+	}
 }
