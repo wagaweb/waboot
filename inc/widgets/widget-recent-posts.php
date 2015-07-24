@@ -255,6 +255,21 @@ class RecentPosts extends \WP_Widget{
 					<?php _ex( 'Display Thumbnail', 'Recent Posts Widget' , 'waboot' ); ?>
 				</label>
 			</p>
+			<!-- THUMBNAIL SIZE -->
+			<p>
+				<label class="input-checkbox" for="<?php echo $this->get_field_id( 'thumb_size' ); ?>">
+					<?php _ex( 'Thumbnail size', 'Recent Posts Widget' , 'waboot' ); ?>
+				</label>
+				<select id="<?php echo $this->get_field_id( 'thumb_size' ); ?>" name="<?php echo $this->get_field_name( 'thumb_size' ); ?>">
+					<?php foreach(get_intermediate_image_sizes() as $size_name) : ?>
+						<?php
+							$w = get_option( $size_name . '_size_w' );
+							$h = get_option( $size_name . '_size_h' );
+						?>
+						<option value="<?php echo $size_name; ?>" <?php selected($size_name,$instance['thumb_size']); ?>><?php echo $size_name; ?> <?php if($w && $h && $w!="" && $h!="") echo "({$w}x{$h})"; ?></option>
+					<?php endforeach; ?>
+				</select>
+			</p>
 			<?php endif; ?>
 			<!-- EXCERPT -->
 			<p>
@@ -343,6 +358,7 @@ class RecentPosts extends \WP_Widget{
 		$instance['readmore_prefix']  = strip_tags( $new_instance['readmore_prefix'] );
 
 		$instance['thumb']            = isset( $new_instance['thumb'] ) ? (bool) $new_instance['thumb'] : false;
+		$instance['thumb_size']       = isset( $new_instance['thumb_size'] ) ? $new_instance['thumb_size'] : "thumbnail";
 		//$instance['thumb_height']     = (int)( $new_instance['thumb_height'] );
 		//$instance['thumb_width']      = (int)( $new_instance['thumb_width'] );
 		//$instance['thumb_default']    = esc_url( $new_instance['thumb_default'] );
@@ -419,12 +435,12 @@ class RecentPosts extends \WP_Widget{
 			'title'             => esc_attr__( 'Recent Posts', 'rpwe' ),
 
 			'limit'            => 5,
-			//'offset'           => 0,
+			//'offset'         => 0,
 			'order'            => 'DESC',
 			'orderby'          => 'date',
 			'cat'              => array(),
 			'tag'              => array(),
-			//'taxonomy'         => '',
+			//'taxonomy'       => '',
 			'post_type'        => array( 'post' ),
 			'post_status'      => 'publish',
 			'ignore_sticky'    => 1,
@@ -432,10 +448,11 @@ class RecentPosts extends \WP_Widget{
 			'excerpt'          => false,
 			'excerpt_length'   => 10,
 			'thumb'            => true,
-			//'thumb_height'     => 45,
-			//'thumb_width'      => 45,
-			//'thumb_default'    => 'http://placehold.it/45x45/f0f0f0/ccc',
-			//'thumb_align'      => 'rpwe-alignleft',
+			'thumb_size'       => "thumbnail",
+			//'thumb_height'   => 45,
+			//'thumb_width'    => 45,
+			//'thumb_default'  => 'http://placehold.it/45x45/f0f0f0/ccc',
+			//'thumb_align'    => 'rpwe-alignleft',
 			'date'             => true,
 			'date_relative'    => false,
 			'readmore'         => false,
@@ -480,7 +497,7 @@ class RecentPosts extends \WP_Widget{
 					<div class="entry-image col-sm-4 ">
 						<?php $link_title = sprintf( esc_attr__( 'Link to %s', 'waboot' ), the_title_attribute('echo=0') ) ?>
 						<a href="<?php the_permalink(); ?>" title="<?php echo $link_title; ?>">
-							<?php echo get_the_post_thumbnail( get_the_ID(), 'thumbnail', ['class' => 'img-responsive'] ); ?>
+							<?php echo get_the_post_thumbnail( get_the_ID(), $settings['thumb_size'], ['class' => 'img-responsive'] ); ?>
 						</a>
 					</div>
 				</header>
