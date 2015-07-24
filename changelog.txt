@@ -6,6 +6,11 @@ Version 0.12.8 - 23/07/2015
 WABOOT:
 - Attivato "Recent Post Widget"
 
+WBF:
+- MODULI:
+    - COMPONENT:
+        - Ora le theme option dei componenti vengono backuppate prima della disabilitazione, e ripristinate alla riattivazione.
+
 Version 0.12.7 - 23/07/2015
 ---------------------------------
 
