@@ -10,7 +10,7 @@ class Framework extends \Options_Framework {
 	 * @alias-of Framework::_optionsframework_options()
 	 * @return array
 	 */
-	static function get_registered_options(){
+	static function &get_registered_options(){
 		return self::_optionsframework_options();
 	}
 
@@ -162,5 +162,22 @@ class Framework extends \Options_Framework {
 			return get_option($opt_name['id']);
 		}
 		return false;
+	}
+
+	/**
+	 * Returns all theme options values of options with specified $suffix
+	 * @param $suffix
+	 *
+	 * @return array
+	 */
+	static function get_options_values_by_suffix($suffix){
+		$options = self::get_options_values();
+		$results = [];
+		foreach($options as $k => $v){
+			if(preg_match("/^({$suffix})/",$k)){
+				$results[$k] = $v;
+			}
+		}
+		return $results;
 	}
 }
