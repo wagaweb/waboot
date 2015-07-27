@@ -4,6 +4,8 @@ spl_autoload_register( "wbf_plugin_autoload" );
 function wbf_plugin_autoload( $class ) {
 	$wbf_path = get_option( "wbf_path" );
 
+	require_once $wbf_path."/vendor/autoload.php";
+
 	if ( $wbf_path ) {
 		$plugin_main_class_dir = $wbf_path . "/includes/waboot-plugin";
 
@@ -24,7 +26,7 @@ function wbf_plugin_autoload( $class ) {
 			case "WBF\includes\Plugin_Update_Checker":
 				require_once($wbf_path . "/includes/plugin-update-checker.php");
 				break;
-			case "PluginUpdateChecker":
+			/*case "PluginUpdateChecker":
 			case "PluginUpdate":
 			case "PluginInfo":
 			case "PluginUpdateChecker_1_6":
@@ -32,7 +34,7 @@ function wbf_plugin_autoload( $class ) {
 			case "PluginUpdate_1_6":
 			case "PucFactory":
 				require_once($wbf_path . "/vendor/plugin-updates/plugin-update-checker.php");
-				break;
+				break;*/
 		}
 	}
 }

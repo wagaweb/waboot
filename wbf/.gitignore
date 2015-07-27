@@ -2,6 +2,21 @@ node_modules/
 bower_components/
 builds/
 npm-debug.log
+
+############
+## VENDORS (composer)
+############
+vendor/autoload.php
+vendor/mgargano
+vendor/composer
+vendor/yahnis-elsts
+vendor/mobiledetect
+composer.lock
+
+############
+## VENDORS (other)
+############
+
 vendor/codemirror/demo
 vendor/codemirror/doc
 vendor/codemirror/test

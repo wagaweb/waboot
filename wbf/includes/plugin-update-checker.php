@@ -2,6 +2,8 @@
 
 namespace WBF\includes;
 
+require_once get_option( "wbf_path" )."/vendor/yahnis-elsts/plugin-update-checker/plugin-update-checker.php";
+
 class Plugin_Update_Checker extends \PluginUpdateChecker{
 	/**
 	 * Class constructor.

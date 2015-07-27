@@ -1,13 +1,15 @@
 <?php
 
-spl_autoload_register('waboot_autoloader');
+require_once("vendor/autoload.php");
+
+spl_autoload_register('wbf_autoloader');
 
 /**
  * Waboot autoloader
  * @param $class
  * @since 0.1.4
  */
-function waboot_autoloader($class)
+function wbf_autoloader($class)
 {
     //Load Options Framework Classes
     if (preg_match("/^Options_Framework_/", $class)) {
@@ -91,7 +93,7 @@ function waboot_autoloader($class)
         case "ThemeUpdateChecker":
             locate_template('wbf/vendor/theme-updates/theme-update-checker.php', true);
             break;
-        case "PluginUpdateChecker":
+        /*case "PluginUpdateChecker":
         case "PluginUpdate":
         case "PluginInfo":
         case "PluginUpdateChecker_1_6":
@@ -99,13 +101,10 @@ function waboot_autoloader($class)
         case "PluginUpdate_1_6":
         case "PucFactory":
             locate_template('wbf/vendor/plugin-updates/plugin-update-checker.php', true);
-            break;
-        case "FirePHP":
-            locate_template('wbf/vendor/firephp/FirePHP.class.php', true);
-            break;
-        case "Mobile_Detect":
+            break;*/
+        /*case "Mobile_Detect":
             locate_template('wbf/vendor/Mobile_Detect.php', true);
-            break;
+            break;*/
         case "Options_Framework":
             locate_template('wbf/vendor/options-framework/class-options-framework.php', true);
             break;
