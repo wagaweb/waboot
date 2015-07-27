@@ -4,10 +4,6 @@ if (!defined('WABOOT_ENV')) {
     define('WABOOT_ENV', 'production');
 }
 
-if (!defined('LESS_LIVE_COMPILING')) {
-    define('LESS_LIVE_COMPILING', false);
-}
-
 if (!defined('WBF_ENV')) {
     define('WBF_ENV', 'production');
 }
@@ -30,7 +26,7 @@ add_action( "after_setup_theme", "WBF::after_setup_theme" );
 add_action( "init", "WBF::init" );
 add_action( 'admin_menu', 'WBF::admin_menu' );
 add_action( 'wbf_admin_submenu', 'WBF\admin\License_Manager::admin_license_menu_item', 30 );
-add_action( 'admin_bar_menu', 'WBF::add_env_notice', 980 );
+add_action( 'admin_bar_menu', 'WBF::add_env_notice', 1000 );
 add_action( 'admin_bar_menu', 'WBF::add_admin_compile_button', 990 );
 add_action( 'wp_enqueue_scripts', 'WBF::register_libs' );
 add_action( 'admin_enqueue_scripts', 'WBF::register_libs' );
@@ -41,7 +37,7 @@ add_filter( 'wbf/modules/available', 'WBF::do_not_load_pagebuilder', 999 ); //to
 
 class WBF {
 
-	const version = "0.11.2";
+	const version = "0.12.7";
 
 	/**
 	 *
@@ -97,31 +93,6 @@ class WBF {
 		$output .= "</span></div>";
 		echo $output;
 	}
-
-    /*static function enable_default_components(){
-        if(class_exists('\WBF\modules\components\ComponentsManager')){
-            $theme = wp_get_theme();
-            $components_already_saved = (array) get_option( "wbf_components_saved_once", array() );
-            if(!in_array($theme->get_stylesheet(),$components_already_saved)){
-                $default_components = apply_filters("wbf_default_components",array());
-                foreach($default_components as $c_name){
-                    \WBF\modules\components\ComponentsManager::ensure_enabled($c_name);
-                }
-            }
-        }
-    }*/
-
-    /*static function reset_components_state(){
-        if(!class_exists('\WBF\modules\components\ComponentsManager')) return;
-        $default_components = apply_filters("wbf_default_components",array());
-        $registered_components = \WBF\modules\components\ComponentsManager::getAllComponents();
-        foreach($registered_components as $c_name => $c_data){
-            \WBF\modules\components\ComponentsManager::disable($c_name);
-        }
-        foreach($default_components as $c_name){
-            \WBF\modules\components\ComponentsManager::ensure_enabled($c_name);
-        }
-    }*/
 
 	static function module_is_loaded($module_name){
 		$modules = self::get_modules();
@@ -348,7 +319,7 @@ class WBF {
 		if ( current_user_can( 'manage_options' ) ) {
 			$args = array(
 				'id'    => 'env_notice',
-				'title' => '['.WABOOT_ENV."]",
+				'title' => '['._x("Current Environment","WBF Admin Bar","wbf").': '.WBF_ENV."]",
 				'href'  => "#",
 				'meta'  => array( 'class' => 'toolbar-env-notice' )
 			);

@@ -1,7 +1,7 @@
 <?php
 
 function wbf_admin_scripts(){
-    if(WABOOT_ENV == "dev"){
+    if(WBF_ENV == "dev"){
 	    wp_register_script("wbf-admin",WBF_URL."/sources/js/admin/admin.js",array("jquery"),false,true);
     }else{
         wp_register_script("wbf-admin",WBF_URL."/admin/js/admin.min.js",array("jquery"),false,true);

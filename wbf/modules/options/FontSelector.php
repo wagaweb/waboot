@@ -15,7 +15,7 @@ class FontSelector
 		}
 
         wp_register_script('gfont_loader','http://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js');
-        if(WABOOT_ENV == "dev"){
+        if(WBF_ENV == "dev"){
             wp_register_script('font-selector', WBF_URL . '/sources/js/admin/font-selector.js',array('jquery','gfont_loader','underscore'));
         }else{
             wp_register_script('font-selector', WBF_URL . '/admin/js/font-selector.min.js',array('jquery','gfont_loader','underscore'));

@@ -30,7 +30,7 @@ class ComponentsManager {
             if ($stylesheet != ""){
                 wp_enqueue_style('waboot-theme-components-style', $stylesheet, array(), '1.0.0', 'all'); //Custom Theme Options CSS
             }
-            if(WABOOT_ENV == "dev"){
+            if(WBF_ENV == "dev"){
                 wp_register_script('component-page-script',WBF_URL."/sources/js/admin/components-page.js",array('jquery'));
             }else{
                 wp_register_script('component-page-script',WBF_URL."/admin/js/components-page.min.js",array('jquery'));

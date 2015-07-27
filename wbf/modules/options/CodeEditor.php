@@ -59,7 +59,7 @@ class CodeEditor {
 
         wp_register_script('codemirror', WBF_URL . '/vendor/codemirror/lib/codemirror.js');
         wp_register_style('codemirror-css', WBF_URL . '/vendor/codemirror/lib/codemirror.css');
-        if(WABOOT_ENV == "dev"){
+        if(WBF_ENV == "dev"){
             wp_register_script('of-waboot-codeditor', WBF_URL . '/sources/js/admin/code-editor.js', array('jquery', 'codemirror', 'underscore'), Framework::VERSION );
         }else{
             wp_register_script('of-waboot-codeditor', WBF_URL . '/admin/js/code-editor.min.js', array('jquery', 'codemirror', 'underscore'), Framework::VERSION );
