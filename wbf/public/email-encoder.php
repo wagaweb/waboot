@@ -20,7 +20,7 @@ if (!defined('WBF_EAE_FILTER_PRIORITY'))
  * posts, pages, excerpts, comments and widgets.
  */
 foreach (array('the_content', 'the_excerpt', 'widget_text', 'comment_text', 'comment_excerpt') as $filter) {
-    add_filter($filter, 'waboot_eae_encode_emails', WBF_EAE_FILTER_PRIORITY);
+    add_filter($filter, 'wbf_eae_encode_emails', WBF_EAE_FILTER_PRIORITY);
 }
 
 /**
