@@ -4,7 +4,7 @@ namespace WBF\modules\pagebuilder;
 
 define("PAGEBUILDERS_PATH",get_template_directory()."/pagebuilders/");
 
-require_once(WBF_DIRECTORY."/vendor/simplehtmldom/simple_html_dom.php");
+//require_once(WBF_DIRECTORY."/vendor/mgargano/simplehtmldom/src/simple_html_dom.php");
 require_once("functions.php");
 
 //Get block AJAX
