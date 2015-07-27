@@ -12,15 +12,15 @@
 
 if(!function_exists('eae_encode_emails')) :
 
-if (!defined('WABOOT_EAE_FILTER_PRIORITY'))
-    define('WABOOT_EAE_FILTER_PRIORITY', 1000);
+if (!defined('WBF_EAE_FILTER_PRIORITY'))
+    define('WBF_EAE_FILTER_PRIORITY', 1000);
 
 /**
  * Register filters to encode exposed email addresses in
  * posts, pages, excerpts, comments and widgets.
  */
 foreach (array('the_content', 'the_excerpt', 'widget_text', 'comment_text', 'comment_excerpt') as $filter) {
-    add_filter($filter, 'waboot_eae_encode_emails', WABOOT_EAE_FILTER_PRIORITY);
+    add_filter($filter, 'waboot_eae_encode_emails', WBF_EAE_FILTER_PRIORITY);
 }
 
 /**
@@ -33,19 +33,19 @@ foreach (array('the_content', 'the_excerpt', 'widget_text', 'comment_text', 'com
  * @param string $string Text with email addresses to encode
  * @return string $string Given text with encoded email addresses
  */
-function waboot_eae_encode_emails($string) {
+function wbf_eae_encode_emails($string) {
 
     // abort if $string doesn't contain a @-sign
-    if (apply_filters('waboot_eae_at_sign_check', true)) {
+    if (apply_filters('wbf_eae_at_sign_check', true)) {
         if (strpos($string, '@') === false) return $string;
     }
 
     // override encoding function with the 'eae_method' filter
-    $method = apply_filters('waboot_eae_method', 'waboot_eae_encode_str');
+    $method = apply_filters('wbf_eae_method', 'wbf_eae_encode_str');
 
     // override regex pattern with the 'eae_regexp' filter
     $regexp = apply_filters(
-        'waboot_eae_regexp',
+        'wbf_eae_regexp',
         '{
             (?:mailto:)?
             (?:
@@ -88,7 +88,7 @@ function waboot_eae_encode_emails($string) {
  * @param string $string Text with email addresses to encode
  * @return string $string Given text with encoded email addresses
  */
-function waboot_eae_encode_str($string) {
+function wbf_eae_encode_str($string) {
 
     $chars = str_split($string);
     $seed = mt_rand(0, (int) abs(crc32($string) / strlen($string)));
