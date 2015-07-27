@@ -1,0 +1,13 @@
+{
+  "name": "waga/wbf",
+  "description": "A comprehensive full-stack Wordpress framework",
+  "homepage": "http://www.waga.it",
+  "version": "0.12.7",
+  "time": "2015-07-23",
+  "license": "proprietary",
+  "require": {
+    "composer/installers": "~1.0",
+    "mgargano/simplehtmldom": "dev-master",
+    "yahnis-elsts/plugin-update-checker": "1.6.1"
+  }
+}
