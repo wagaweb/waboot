@@ -90,7 +90,36 @@ module.exports = function (grunt) {
                     {
                         expand: true,
                         cwd: "./",
-                        src: ["**/*", "!.*", "!Gruntfile.js", "!package.json", "!bower.json", "!builds/**", "!node_modules/**", "!bower_components/**", "!assets/cache/**", "!_bak/**"],
+                        src: [
+                            "**/*",
+                            "!.*",
+                            "!Gruntfile.js",
+                            "!package.json",
+                            "!.jshintrc",
+                            "!.bowerrc",
+                            "!bower.json",
+                            "!builds/**",
+                            "!node_modules/**",
+                            "!bower_components/**",
+                            "!assets/cache/**",
+                            "!vendor/**",
+                            "vendor/acf/**/*",
+                            "vendor/codemirror/lib/*",
+                            "vendor/imagesloaded/*.js",
+                            "vendor/jquery-modal/*.js",
+                            "vendor/mgargano/simplehtmldom/src/*.*",
+                            "vendor/mobiledetect/mobiledetectlib/Mobile_Detect.php",
+                            "vendor/options-framework/**/*",
+                            "vendor/owlcarousel/**/*",
+                            "vendor/theme-updates/**/*",
+                            "vendor/yahnis-elsts/**/*",
+                            "vendor/autoload.php",
+                            "vendor/BootstrapNavMenuWalker.php",
+                            "vendor/breadcrumb-trail.php",
+                            "vendor/lostpress-utils.php",
+                            "vendor/wp_bootstrap_navwalker.php",
+                            "!_bak/**"
+                        ],
                         dest: "builds/wbf-<%= pkg.version %>/"
                     }
                 ]
