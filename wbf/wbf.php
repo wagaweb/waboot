@@ -17,27 +17,43 @@ require_once("wbf-autoloader.php");
 require_once("backup-functions.php");
 include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 
-$md = WBF::get_mobile_detect();
-
-add_action( "after_switch_theme", "WBF::activation" );
-add_action( "switch_theme", "WBF::deactivation", 4 );
-
-add_action( "after_setup_theme", "WBF::after_setup_theme" );
-add_action( "init", "WBF::init" );
-add_action( 'admin_menu', 'WBF::admin_menu' );
-add_action( 'wbf_admin_submenu', 'WBF\admin\License_Manager::admin_license_menu_item', 30 );
-add_action( 'admin_bar_menu', 'WBF::add_env_notice', 1000 );
-add_action( 'admin_bar_menu', 'WBF::add_admin_compile_button', 990 );
-add_action( 'wp_enqueue_scripts', 'WBF::register_libs' );
-add_action( 'admin_enqueue_scripts', 'WBF::register_libs' );
-add_filter( 'options_framework_location','WBF::of_location_override' );
-add_filter( 'site_transient_update_plugins', 'WBF::unset_unwanted_updates', 999 );
-
-add_filter( 'wbf/modules/available', 'WBF::do_not_load_pagebuilder', 999 ); //todo: finché non è stabile, escludiamolo dai moduli
-
 class WBF {
 
 	const version = "0.12.7";
+
+	static function startup($args = []){
+		$args = wp_parse_args($args,[
+			'do_global_theme_customizations' => true
+		]);
+
+		self::maybe_run_activation();
+
+		if($args['do_global_theme_customizations']){
+			add_action('wbf_after_setup_theme','WBF::do_global_theme_customizations');
+		}
+
+		$GLOBALS['md'] = WBF::get_mobile_detect();
+
+		add_action( "after_switch_theme", "WBF::activation" );
+		add_action( "switch_theme", "WBF::deactivation", 4 );
+
+		add_action( "after_setup_theme", "WBF::after_setup_theme" );
+		add_action( "init", "WBF::init" );
+
+		add_action( 'admin_menu', 'WBF::admin_menu' );
+		add_action( 'admin_bar_menu', 'WBF::add_env_notice', 1000 );
+		add_action( 'admin_bar_menu', 'WBF::add_admin_compile_button', 990 );
+
+		add_action( 'wbf_admin_submenu', 'WBF\admin\License_Manager::admin_license_menu_item', 30 );
+
+		add_action( 'wp_enqueue_scripts', 'WBF::register_libs' );
+		add_action( 'admin_enqueue_scripts', 'WBF::register_libs' );
+
+		add_filter( 'options_framework_location','WBF::of_location_override' );
+		add_filter( 'site_transient_update_plugins', 'WBF::unset_unwanted_updates', 999 );
+
+		add_filter( 'wbf/modules/available', 'WBF::do_not_load_pagebuilder', 999 ); //todo: finché non è stabile, escludiamolo dai moduli
+	}
 
 	/**
 	 *
@@ -184,6 +200,14 @@ class WBF {
 	 *
 	 */
 
+	static function do_global_theme_customizations(){
+		// Global Customization
+		locate_template( '/wbf/public/theme-customs.php', true );
+
+		// Email encoder
+		locate_template('/wbf/public/email-encoder.php', true);
+	}
+
     static function after_setup_theme() {
 	    global $wbf_notice_manager;
 
@@ -198,15 +222,9 @@ class WBF {
 		    $GLOBALS['wbf_notice_manager'] = new \WBF\admin\Notice_Manager(); // Loads notice manager. The notice manager can be already loaded by plugins constructor prior this point.
 	    }
 
-        // Global Customization
-	    locate_template( '/wbf/public/theme-customs.php', true );
-
         // Utility
 	    locate_template( '/wbf/includes/utilities.php', true );
         locate_template('/wbf/vendor/lostpress-utils.php', true);
-
-        // Email encoder
-        locate_template('/wbf/public/email-encoder.php', true);
 
         // Load the CSS
 	    locate_template( '/wbf/public/public-styles.php', true );
@@ -357,6 +375,13 @@ class WBF {
 	 *
 	 *
 	 */
+
+	static function maybe_run_activation(){
+		$opt = get_option( "wbf_installed" );
+		if ( ! $opt ) {
+			self::activation();
+		}
+	}
 
 	static function maybe_add_option() {
 		$opt = get_option( "wbf_installed" );
