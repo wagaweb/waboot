@@ -14,6 +14,16 @@ vendor/mobiledetect
 composer.lock
 
 ############
+## VENDORS (bower)
+############
+vendor/jquery
+vendor/eventEmitter
+vendor/eventie
+vendor/imagesloaded
+vendor/jquery-modal
+vendor/codemirror
+
+############
 ## VENDORS (other)
 ############
 
