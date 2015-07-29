@@ -38,16 +38,31 @@ class MultipleFileUpload extends \acf_field{
 	 * @param $field
 	 */
 	function render_field( $field ) {
+		// vars
+		$uploader = acf_get_setting('uploader');
+		// enqueue
+		if( $uploader == 'wp' ) {
+			acf_enqueue_uploader();
+		}
 		?>
-		<div class="mfu-main">
+		<div class="acf-hidden">
+			<?php acf_hidden_input(array( 'name' => $field['name'], 'value' => $field['value'], 'data-name' => 'id' )); ?>
+		</div>
+		<div class="mfu-main" data-maxfile="<?php echo $field['max'] ?>">
 			<script type="text/template" id="FileUploadInput">
-				<input type="" name="" value="" />
+				<div class="file-input">
+					<input type="text" name="<?php echo esc_attr($field['name']) ?>[]" value="" />
+					<a href="#" class="acf-button blue upload-attachment"><?php _e('Upload', 'wbf'); ?></a>
+				</div>
 			</script>
 			<div class="mfu-files">
-				<div class="file-input">
-					<input type="text" name="<?php echo esc_attr($field['name']) ?>" value="" />&nbsp;
-					<a href="#" class="acf-button blue add-attachment"><?php _e('Upload', 'wbf'); ?></a>
-				</div>
+				<?php if( $field['value'] && is_array($field['value']) ) : ?>
+					<?php foreach($field['value'] as $k => $v) : ?>
+						<div class="file-input">
+							<input type="text" name="<?php echo esc_attr($field['name']) ?>[<?php echo $k; ?>]" value="<?php echo $v; ?>" />
+						</div>
+					<?php endforeach; ?>
+				<?php endif; ?>
 			</div>
 			<div class="mfu-toolbar">
 				<a href="#" class="acf-button blue add-attachment"><?php _e('Add new file', 'wbf'); ?></a>
