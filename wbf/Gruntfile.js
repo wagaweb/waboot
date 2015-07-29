@@ -51,6 +51,7 @@ module.exports = function (grunt) {
             dist: {
                 files: {
                     'admin/js/admin.min.js': ['sources/js/admin/admin.js'],
+                    'admin/js/acf-fields.min.js': ['sources/js/admin/acf-fields/*.js'],
                     'admin/js/code-editor.min.js': ['sources/js/admin/code-editor.js'],
                     'admin/js/components-page.min.js': ['sources/js/admin/components-page.js'],
                     'admin/js/font-selector.min.js': ['sources/js/admin/font-selector.js'],
