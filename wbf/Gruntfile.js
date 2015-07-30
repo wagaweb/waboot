@@ -105,6 +105,7 @@ module.exports = function (grunt) {
                             "!assets/cache/**",
                             "!vendor/**",
                             "vendor/acf/**/*",
+                            "!vendor/acf/lang/*",
                             "vendor/codemirror/lib/*",
                             "vendor/imagesloaded/*.js",
                             "vendor/jquery-modal/*.js",

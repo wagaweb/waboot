@@ -161,6 +161,7 @@ module.exports = function(grunt) {
                             "!wbf/package.json",
                             "!wbf/vendor/**",
                             "wbf/vendor/acf/**/*",
+                            "!wbf/vendor/acf/lang/*",
                             "wbf/vendor/codemirror/lib/*",
                             "wbf/vendor/imagesloaded/*.js",
                             "wbf/vendor/jquery-modal/*.js",
