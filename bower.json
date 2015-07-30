@@ -7,7 +7,7 @@
     "modernizr": "2.8.*",
     "bootstrap": "3.3.*",
     "fontawesome": "",
-    "jquery-touchswipe": "~1.6.8",
-    "fastclick": "~1.0.6"
+    "jquery-touchswipe": "^1.6.8",
+    "fastclick": "^1.0.6"
   }
 }

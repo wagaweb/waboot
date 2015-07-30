@@ -8,7 +8,7 @@
   "require": {
     "composer/installers": "~1.0",
     "mgargano/simplehtmldom": "dev-master",
-    "yahnis-elsts/plugin-update-checker": "1.6.1",
-    "mobiledetect/mobiledetectlib": "2.8.3"
+    "yahnis-elsts/plugin-update-checker": "^1.6.1",
+    "mobiledetect/mobiledetectlib": "^2.8.3"
   }
 }
