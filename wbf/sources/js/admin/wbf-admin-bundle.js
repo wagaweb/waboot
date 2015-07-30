@@ -17,9 +17,10 @@ module.exports = {
 },{"./acf-fields/multiple-file-upload":3}],3:[function(require,module,exports){
 module.exports = {
     init_interface: function(){
-        jQuery(document).ready(function($) {
-            var $container = $(".mfu-files"),
-                tpl = _.template($("#FileUploadInput").html());
+        var $ = jQuery;
+        var $container = $(".mfu-files");
+        if($container.length > 0){
+            var tpl = _.template($("#FileUploadInput").html());
 
             if($container.children().length == 0) add_file_input();
 
@@ -38,73 +39,73 @@ module.exports = {
             function add_file_input(){
                 $container.append(tpl());
             }
-        });
+        }
     }
 };
 },{}],4:[function(require,module,exports){
 module.exports = {
     init_interface: function(){
-        jQuery(document).ready(function ($) {
-            "use strict";
-            $('.behavior-metabox-image').click(function(){
-                $(this).parents(".behavior-images-options").find('.behavior-metabox-image').removeClass('behavior-metabox-image-selected');
-                $(this).addClass('behavior-metabox-image-selected');
-            });
+        "use strict";
+        var $ = jQuery;
+        $('.behavior-metabox-image').click(function(){
+            $(this).parents(".behavior-images-options").find('.behavior-metabox-image').removeClass('behavior-metabox-image-selected');
+            $(this).addClass('behavior-metabox-image-selected');
+        });
 
-            $('.behavior-metabox-image-default').click(function(){
-                $(this).parent(".behavior-images-wrapper").find('.behavior-metabox-image').removeClass('behavior-metabox-image-selected');
-            });
+        $('.behavior-metabox-image-default').click(function(){
+            $(this).parent(".behavior-images-wrapper").find('.behavior-metabox-image').removeClass('behavior-metabox-image-selected');
         });
     }
 };
 },{}],5:[function(require,module,exports){
 module.exports = {
     init_interface: function(){
-        jQuery(document).ready(function($) {
-            "use strict";
-            var editors = [];
-            var targets = $("textarea.codemirror[data-lang]");
-            var isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
+        "use strict";
+        var $ = jQuery;
 
-            //Initialize all editors.
-            //The Timeout is necessary due to the lag between window load and the time needed for theme options script to arrange/show/hide the tabs.
-            setTimeout(function () {
-                targets.each(function (index) {
-                    var my_option_group = $(this).closest(".group");
-                    var my_options_group_link = $("a#" + my_option_group.attr("id") + "-tab");
-                    var my_mode = $(this).attr("data-lang");
-                    var editor = $(this).codemirror({
-                        mode: {name: my_mode, globalVars: true},
-                        lineNumbers: true,
-                        theme: "ambiance",
-                        extraKeys: (function () {
-                            if (isMac) {
-                                return {"Ctrl-F": "autocomplete"};
-                            } else {
-                                return {"Ctrl-Space": "autocomplete"};
-                            }
-                        })()
-                    });
-                    editors.push(editor);
-                    my_options_group_link.bind("click", function () {
-                        setTimeout(function () {
-                            editor.refresh();
-                        }, 1000);
-                    });
+        var editors = [];
+        var targets = $("textarea.codemirror[data-lang]");
+        var isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
+
+        //Initialize all editors.
+        //The Timeout is necessary due to the lag between window load and the time needed for theme options script to arrange/show/hide the tabs.
+        setTimeout(function () {
+            targets.each(function (index) {
+                var my_option_group = $(this).closest(".group");
+                var my_options_group_link = $("a#" + my_option_group.attr("id") + "-tab");
+                var my_mode = $(this).attr("data-lang");
+                var editor = $(this).codemirror({
+                    mode: {name: my_mode, globalVars: true},
+                    lineNumbers: true,
+                    theme: "ambiance",
+                    extraKeys: (function () {
+                        if (isMac) {
+                            return {"Ctrl-F": "autocomplete"};
+                        } else {
+                            return {"Ctrl-Space": "autocomplete"};
+                        }
+                    })()
                 });
-            }, 1500);
+                editors.push(editor);
+                my_options_group_link.bind("click", function () {
+                    setTimeout(function () {
+                        editor.refresh();
+                    }, 1000);
+                });
+            });
+        }, 1500);
 
-            /*$("a#options-group-2-tab").on("click",function(){
-             setTimeout(function(){
-             _.each(editors,function(element,index,list){
-             element.refresh();
-             });
-             }, 1000);
-             });*/
-        });
+        /*$("a#options-group-2-tab").on("click",function(){
+         setTimeout(function(){
+         _.each(editors,function(element,index,list){
+         element.refresh();
+         });
+         }, 1000);
+         });*/
     },
     init_jq_plugin: function(){
         jQuery.fn.codemirror = function (options) {
+            var $ = jQuery;
 
             var result = this;
 
@@ -128,7 +129,7 @@ module.exports = {
                     else {
                         accum.push(CodeMirror.htmlEscape(string));
                     }
-                }
+                };
                 CodeMirror.runMode(obj.val(), settings.mode, callback);
                 $('<div class="CodeMirror">' + (settings.lineNumbers ? ('<div class="CodeMirror-gutter"><div class="CodeMirror-gutter-text">' + gutter.join('') + '</div></div>') : '<!--gutter-->') + '<div class="CodeMirror-lines">' + (settings.lineNumbers ? '<div style="position: relative; margin-left: ' + size.toString().length + 'em;">' : '<div>') + '<pre class="cm-s-default">' + accum.join('') + '</pre></div></div></div>').insertAfter(obj);
                 obj.hide();
@@ -144,90 +145,90 @@ module.exports = {
 },{}],6:[function(require,module,exports){
 module.exports = {
     init_interface: function(){
-        jQuery(document).ready(function ($) {
-            "use strict";
-            $(".nav-tab-wrapper a").on("click",function(){
-                var $selected_component_div = $('#'+$(this).attr("data-show-comp-settings"));
-                $("#componentframework-metabox .group").hide();
-                $selected_component_div.show();
-            });
+        "use strict";
+        var $ = jQuery;
+
+        $(".nav-tab-wrapper a").on("click",function(){
+            var $selected_component_div = $('#'+$(this).attr("data-show-comp-settings"));
+            $("#componentframework-metabox .group").hide();
+            $selected_component_div.show();
         });
     }
 };
 
 },{}],7:[function(require,module,exports){
 module.exports = {
-    init_interface: function(){
-        jQuery(document).ready(function ($) {
-            "use strict";
-            var controller = font_selector_controller;
+    init_interface: function(my_controller){
+        "use strict";
+        var $ = jQuery;
 
-            $(".font-family-selector").on("change",function(){
-                var $familySeletor = $(this);
-                var $styleSelector = $(this).siblings(".font-style-selector");
-                var styleOptName = $styleSelector.find('input:first').attr("name");
-                var $charsetSelector = $(this).siblings(".font-charset-selector");
-                var charsetOptName = $charsetSelector.find('input:first').attr("name");
-                var $categoryInput = $(this).siblings(".font-category-selector");
-                var $fontPreview = $(this).siblings(".font-preview");
-                var request = $.ajax({
-                    url: ajaxurl,
-                    type: "POST",
-                    data: {
-                        action: "gfontfetcher_getFontInfo",
-                        family: $(this).val()
-                    },
-                    dataType: "json",
-                    beforeSend: function(){
-                        $familySeletor.attr("disabled","disabled");
-                        $styleSelector.addClass("disabled");
-                        $charsetSelector.addClass("disabled");
-                    }
-                });
-                request.done(function(data, textStatus, jqXHR){
-                    console.log(data);
-                    //Load GFonts and set the preview
-                    if(data.kind == "webfonts#webfont"){
-                        controller.loadWebFonts([$familySeletor.val()]);
-                    }
-                    $fontPreview.find("p").css("font-family","'"+data.family+"',"+data.category);
-                    //Assign new styles to the html select
-                    $styleSelector.html((function(){
-                        var output = "";
-                        $.each(data.variants,function(){
-                            output += "<input name='"+styleOptName+"' type='checkbox' value='"+this+"' />"+this;
-                        });
-                        return output;
-                    })());
-                    //Assign new charset to the html select
-                    $charsetSelector.html((function(){
-                        var output = "";
-                        $.each(data.subsets,function(){
-                            output += "<input name='"+charsetOptName+"' type='checkbox' value='"+this+"' />"+this;
-                        });
-                        return output;
-                    })());
-                    //Assign new category to the html input
-                    $categoryInput.val(data.category);
-                });
-                request.fail(function(jqXHR, textStatus, errorThrown){
-                    console.log(errorThrown);
-                });
-                request.always(function(result, textStatus, returned){
-                    $familySeletor.removeAttr("disabled");
-                    $styleSelector.removeClass("disabled");
-                    $charsetSelector.removeClass("disabled");
-                });
+        var controller = my_controller;
+
+        $(".font-family-selector").on("change",function(){
+            var $familySeletor = $(this);
+            var $styleSelector = $(this).siblings(".font-style-selector");
+            var styleOptName = $styleSelector.find('input:first').attr("name");
+            var $charsetSelector = $(this).siblings(".font-charset-selector");
+            var charsetOptName = $charsetSelector.find('input:first').attr("name");
+            var $categoryInput = $(this).siblings(".font-category-selector");
+            var $fontPreview = $(this).siblings(".font-preview");
+            var request = $.ajax({
+                url: ajaxurl,
+                type: "POST",
+                data: {
+                    action: "gfontfetcher_getFontInfo",
+                    family: $(this).val()
+                },
+                dataType: "json",
+                beforeSend: function(){
+                    $familySeletor.attr("disabled","disabled");
+                    $styleSelector.addClass("disabled");
+                    $charsetSelector.addClass("disabled");
+                }
+            });
+            request.done(function(data, textStatus, jqXHR){
+                console.log(data);
+                //Load GFonts and set the preview
+                if(data.kind == "webfonts#webfont"){
+                    controller.loadWebFonts([$familySeletor.val()]);
+                }
+                $fontPreview.find("p").css("font-family","'"+data.family+"',"+data.category);
+                //Assign new styles to the html select
+                $styleSelector.html((function(){
+                    var output = "";
+                    $.each(data.variants,function(){
+                        output += "<input name='"+styleOptName+"' type='checkbox' value='"+this+"' />"+this;
+                    });
+                    return output;
+                })());
+                //Assign new charset to the html select
+                $charsetSelector.html((function(){
+                    var output = "";
+                    $.each(data.subsets,function(){
+                        output += "<input name='"+charsetOptName+"' type='checkbox' value='"+this+"' />"+this;
+                    });
+                    return output;
+                })());
+                //Assign new category to the html input
+                $categoryInput.val(data.category);
+            });
+            request.fail(function(jqXHR, textStatus, errorThrown){
+                console.log(errorThrown);
+            });
+            request.always(function(result, textStatus, returned){
+                $familySeletor.removeAttr("disabled");
+                $styleSelector.removeClass("disabled");
+                $charsetSelector.removeClass("disabled");
             });
         });
     }
 };
 },{}],8:[function(require,module,exports){
-(function(){
+jQuery(document).ready(function($) {
     //Init ACF Custom Fields
     var acf_fields_views = require("./views/acf-fields.js");
     _.each(acf_fields_views,function(element,index,list){
-        if(_.isUndefined(element.init_interface)){
+        if(!_.isUndefined(element.init_interface)){
             element.init_interface();
         }
     });
@@ -243,11 +244,11 @@ module.exports = {
         var font_selector_controller = require("./controllers/font-selector.js"),
             font_selector_view = require("./views/font-selector.js");
         font_selector_controller.loadWebFonts(wbfData.wbfOfFonts.families);
-        font_selector_view.init_interface();
+        font_selector_view.init_interface(font_selector_controller);
     }
     //Init behavior view
     var behavior_view = require("./views/behavior.js");
     behavior_view.init_interface();
-})();
+});
 
 },{"./controllers/font-selector.js":1,"./views/acf-fields.js":2,"./views/behavior.js":4,"./views/code-editor.js":5,"./views/component-page.js":6,"./views/font-selector.js":7}]},{},[8]);

@@ -1,8 +1,8 @@
-(function(){
+jQuery(document).ready(function($) {
     //Init ACF Custom Fields
     var acf_fields_views = require("./views/acf-fields.js");
     _.each(acf_fields_views,function(element,index,list){
-        if(_.isUndefined(element.init_interface)){
+        if(!_.isUndefined(element.init_interface)){
             element.init_interface();
         }
     });
@@ -18,9 +18,9 @@
         var font_selector_controller = require("./controllers/font-selector.js"),
             font_selector_view = require("./views/font-selector.js");
         font_selector_controller.loadWebFonts(wbfData.wbfOfFonts.families);
-        font_selector_view.init_interface();
+        font_selector_view.init_interface(font_selector_controller);
     }
     //Init behavior view
     var behavior_view = require("./views/behavior.js");
     behavior_view.init_interface();
-})();
+});

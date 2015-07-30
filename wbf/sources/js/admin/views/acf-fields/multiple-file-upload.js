@@ -1,8 +1,9 @@
 module.exports = {
     init_interface: function(){
-        jQuery(document).ready(function($) {
-            var $container = $(".mfu-files"),
-                tpl = _.template($("#FileUploadInput").html());
+        var $ = jQuery;
+        var $container = $(".mfu-files");
+        if($container.length > 0){
+            var tpl = _.template($("#FileUploadInput").html());
 
             if($container.children().length == 0) add_file_input();
 
@@ -21,6 +22,6 @@ module.exports = {
             function add_file_input(){
                 $container.append(tpl());
             }
-        });
+        }
     }
 };
