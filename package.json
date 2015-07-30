@@ -12,8 +12,7 @@
   },
   "licenses": [
     {
-      "type": "GPL",
-      "url": "http://www.gnu.org/licenses/gpl-2.0.html"
+      "type": "proprietary"
     }
   ],
   "engines": {
