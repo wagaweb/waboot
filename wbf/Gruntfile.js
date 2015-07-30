@@ -43,6 +43,12 @@ module.exports = function (grunt) {
             files: ['admin/js/*.js', 'public/js/*.js','includes/scripts/*.js','includes/scripts/**/*.js'],
             options: {}
         },
+        browserify: {
+            dist: {
+                src: ['sources/js/admin/wbf-admin.js'],
+                dest: 'sources/js/admin/wbf-admin-bundle.js'
+            }
+        },
         uglify: {
             options: {
                 // the banner is inserted at the top of the output
@@ -50,11 +56,12 @@ module.exports = function (grunt) {
             },
             dist: {
                 files: {
-                    'admin/js/admin.min.js': ['sources/js/admin/admin.js'],
+                    'admin/js/wbf-admin.min.js': ['sources/js/admin/wbf-admin-bundle.js'],
+                    /*'admin/js/admin.min.js': ['sources/js/admin/admin.js'],
                     'admin/js/acf-fields.min.js': ['sources/js/admin/acf-fields/*.js'],
                     'admin/js/code-editor.min.js': ['sources/js/admin/code-editor.js'],
                     'admin/js/components-page.min.js': ['sources/js/admin/components-page.js'],
-                    'admin/js/font-selector.min.js': ['sources/js/admin/font-selector.js'],
+                    'admin/js/font-selector.min.js': ['sources/js/admin/font-selector.js'],*/
                     'includes/scripts/wbfgmap.min.js': ['sources/js/includes/wbfgmap/markerclusterer.js','sources/js/includes/wbfgmap/acfmap.js']
                 }
             }
@@ -158,7 +165,7 @@ module.exports = function (grunt) {
     grunt.registerTask('setup', ['bower-install', 'copy:all', 'less:dev']); //Setup task
     grunt.registerTask('default', ['watch']); // Default task
     grunt.registerTask('build', ['less:production', 'jsmin', 'compress:build']); // Build task
-    grunt.registerTask('js', ['jsbeautifier']); // Concat and beautify js
+    grunt.registerTask('js', ['jsbeautifier','browserify:dist']); // Concat and beautify js
     grunt.registerTask('jsmin', ['js', 'uglify']); // Concat, beautify and minify js
 
     // Run bower install
