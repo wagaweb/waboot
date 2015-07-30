@@ -844,7 +844,7 @@
 },{}],2:[function(require,module,exports){
 /*
 * @fileOverview TouchSwipe - jQuery Plugin
-* @version 1.6.6
+* @version 1.6.9
 *
 * @author Matt Bryson http://www.github.com/mattbryson
 * @see https://github.com/mattbryson/TouchSwipe-Jquery-Plugin
@@ -945,8 +945,15 @@
 * $version 1.6.7    - Added patch from https://github.com/mattbryson/TouchSwipe-Jquery-Plugin/issues/206 to fix memory leak
 *
 * $Date: 2015-2-2 (Mon, 2 Feb 2015) $
-* $version 1.6.7    - Added preventDefaultEvents option to proxy events regardless.
+* $version 1.6.8    - Added preventDefaultEvents option to proxy events regardless.
 *					- Fixed issue with swipe and pinch not triggering at the same time
+*
+* $Date: 2015-9-6 (Tues, 9 June 2015) $
+* $version 1.6.9    - Added PR from jdalton/hybrid to fix pointer events
+*					- Added scrolling demo
+*					- Added version property to plugin
+*
+*
 */
 
 /**
@@ -980,7 +987,8 @@
 	"use strict";
 
 	//Constants
-	var LEFT = "left",
+	var VERSION = "1.6.9",
+		LEFT = "left",
 		RIGHT = "right",
 		UP = "up",
 		DOWN = "down",
@@ -1121,6 +1129,14 @@
 
 		return $this;
 	};
+	
+	/**
+	 * The version of the plugin
+	 * @readonly
+	 */
+	$.fn.swipe.version = VERSION;
+
+
 
 	//Expose our defaults so a user could override the plugin defaults
 	$.fn.swipe.defaults = defaults;
@@ -1400,14 +1416,15 @@
 			var event = jqEvent.originalEvent ? jqEvent.originalEvent : jqEvent;
 			
 			var ret,
-				evt = SUPPORTS_TOUCH ? event.touches[0] : event;
+				touches = event.touches,
+				evt = touches ? touches[0] : event;
 
 			phase = PHASE_START;
 
 			//If we support touches, get the finger count
-			if (SUPPORTS_TOUCH) {
+			if (touches) {
 				// get the total number of fingers touching the screen
-				fingerCount = event.touches.length;
+				fingerCount = touches.length;
 			}
 			//Else this is the desktop, so stop the browser from dragging content
 			else {
@@ -1429,7 +1446,7 @@
 
 			
 			// check the number of fingers is what we are looking for, or we are capturing pinches
-			if (!SUPPORTS_TOUCH || (fingerCount === options.fingers || options.fingers === ALL_FINGERS) || hasPinches()) {
+			if (!touches || (fingerCount === options.fingers || options.fingers === ALL_FINGERS) || hasPinches()) {
 				// get the coordinates of the touch
 				createFingerData( 0, evt );
 				startTime = getTimeStamp();
@@ -1437,7 +1454,7 @@
 				if(fingerCount==2) {
 					//Keep track of the initial pinch distance, so we can calculate the diff later
 					//Store second finger data as start
-					createFingerData( 1, event.touches[1] );
+					createFingerData( 1, touches[1] );
 					startTouchesDistance = endTouchesDistance = calculateTouchesDistance(fingerData[0].start, fingerData[1].start);
 				}
 				
@@ -1493,15 +1510,16 @@
 				return;
 
 			var ret,
-				evt = SUPPORTS_TOUCH ? event.touches[0] : event;
+				touches = event.touches,
+				evt = touches ? touches[0] : event;
 			
 
 			//Update the  finger data 
 			var currentFinger = updateFingerData(evt);
 			endTime = getTimeStamp();
 			
-			if (SUPPORTS_TOUCH) {
-				fingerCount = event.touches.length;
+			if (touches) {
+				fingerCount = touches.length;
 			}
 
 			if (options.hold)
@@ -1516,12 +1534,12 @@
 				//We do this here as well as the start event, in case they start with 1 finger, and the press 2 fingers
 				if(startTouchesDistance==0) {
 					//Create second finger if this is the first time...
-					createFingerData( 1, event.touches[1] );
+					createFingerData( 1, touches[1] );
 					
 					startTouchesDistance = endTouchesDistance = calculateTouchesDistance(fingerData[0].start, fingerData[1].start);
 				} else {
 					//Else just update the second finger
-					updateFingerData(event.touches[1]);
+					updateFingerData(touches[1]);
 				
 					endTouchesDistance = calculateTouchesDistance(fingerData[0].end, fingerData[1].end);
 					pinchDirection = calculatePinchDirection(fingerData[0].end, fingerData[1].end);
@@ -1535,7 +1553,7 @@
 			
 			
 
-			if ( (fingerCount === options.fingers || options.fingers === ALL_FINGERS) || !SUPPORTS_TOUCH || hasPinches() ) {
+			if ( (fingerCount === options.fingers || options.fingers === ALL_FINGERS) || !touches || hasPinches() ) {
 				
 				direction = calculateDirection(currentFinger.start, currentFinger.end);
 				
@@ -1601,13 +1619,14 @@
 		*/
 		function touchEnd(jqEvent) {
 			//As we use Jquery bind for events, we need to target the original event object
-			var event = jqEvent.originalEvent;
-				
+			//If these events are being programmatically triggered, we don't have an original event object, so use the Jq one.
+			var event = jqEvent.originalEvent ? jqEvent.originalEvent : jqEvent,
+			    touches = event.touches;
 
 			//If we are still in a touch with another finger return
 			//This allows us to wait a fraction and see if the other finger comes up, if it does within the threshold, then we treat it as a multi release, not a single release.
-			if (SUPPORTS_TOUCH) {
-				if(event.touches.length>0) {
+			if (touches) {
+				if(touches.length) {
 					startMultiFingerRelease();
 					return true;
 				}
@@ -1683,7 +1702,7 @@
 		* @inner
 		*/
 		function touchLeave(jqEvent) {
-			var event = jqEvent.originalEvent;
+			var event = jqEvent.originalEvent ? jqEvent.originalEvent : jqEvent;
 			
 			//If we have the trigger on leave property set....
 			if(options.triggerOnTouchLeave) {
@@ -1748,8 +1767,9 @@
 		* @inner
 		*/
 		function triggerHandler(event, phase) {
-			
-			var ret = undefined;
+
+			var ret,
+				touches = event.touches;
 			
 			//Swipes and pinches are not mutually exclusive - can happend at same time, so need to trigger 2 events potentially
 			if( (didSwipe() || hasSwipes()) || (didPinch() || hasPinches()) ) {
@@ -1795,8 +1815,8 @@
 			// If we are ending the gesture, then manually trigger the reset handler IF all fingers are off
 			if(phase === PHASE_END) {
 				//If we support touch, then check that all fingers are off before we cancel
-				if (SUPPORTS_TOUCH) {
-					if(event.touches.length==0) {
+				if (touches) {
+					if(!touches.length) {
 						touchCancel(event);	
 					}
 				} 
@@ -1821,7 +1841,7 @@
 		*/
 		function triggerHandlerForGesture(event, phase, gesture) {	
 			
-			var ret=undefined;
+			var ret;
 			
 			//SWIPES....
 			if(gesture==SWIPE) {
@@ -2103,8 +2123,11 @@
 		*/
 		function validateDefaultEvent(jqEvent, direction) {
 
-			
-			if( options.preventDefaultEvents === false ) {
+			//If we have no pinches, then do this
+			//If we have a pinch, and we we have 2 fingers or more down, then dont allow page scroll.
+
+			//If the option is set, allways allow the event to bubble up (let user handle wiredness)
+			if( options.preventDefaultEvents === false) {
 				return;
 			}
 
