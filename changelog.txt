@@ -5,6 +5,11 @@ Version 0.12.8 -
 
 WABOOT:
 - Attivato "Recent Post Widget"
+- Aggiornato Fontawesome alla 4.4.0
+- Aggiornato HTML5Shiv alla 3.7.3
+- Aggiornato Fastclick alla 1.0.6
+- Aggiornato Touchswipe alla 1.6.9
+- Aggiornato Bootstrap alla 3.3.5
 
 WBF:
 - Implementati Bower e Composer per la gestione dei pacchetti vendor.
