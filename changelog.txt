@@ -13,6 +13,7 @@ WABOOT:
 
 WBF:
 - Implementati Bower e Composer per la gestione dei pacchetti vendor.
+- Ora viene caricato un solo script per l'admin ("wbf-admin.min.js"), che include gli altri script tramite browserify.
 - MODULI:
     - COMPONENT:
         - Ora le theme option dei componenti vengono backuppate prima della disabilitazione, e ripristinate alla riattivazione.
