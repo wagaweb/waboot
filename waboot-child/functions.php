@@ -1,20 +1,19 @@
 <?php
 
-/*-----------------------------------------------------------------------------------*/
-/* Start Custom Functions - Please refrain from editing this section */
-/*-----------------------------------------------------------------------------------*/
+/*------------------------------------------------------------------------------------------*/
+/* Start Custom Functions - Please edit this section only if you know what you'are doing :) */
+/*------------------------------------------------------------------------------------------*/
 
 /**
- * Make theme available for translation
- * Translations can be filed in the /languages/ directory
- * If you're building a theme based on waboot, use a find and replace
- * to change 'waboot' to the name of your theme in all the template files
+ * Theme init function. PLEASE EDIT "mytheme" SUFFIX both here and in add_action below.
  */
-load_theme_textdomain( 'waboot-child', get_stylesheet_directory() . '/languages' );
-
-
-
-
-/*-----------------------------------------------------------------------------------*/
-/* Don't add any code below here or the sky will fall down */
-/*-----------------------------------------------------------------------------------*/
+function mytheme_init(){
+	/**
+	 * Make theme available for translation
+	 * Translations can be filed in the /languages/ directory
+	 * If you're building a theme based on waboot, use a find and replace
+	 * to change 'waboot' to the name of your theme in all the template files
+	 */
+	load_child_theme_textdomain( 'mytheme', get_stylesheet_directory() . '/languages' );
+}
+add_action("after_setup_theme","mytheme_init");
