@@ -30,12 +30,12 @@ class ComponentsManager {
             if ($stylesheet != ""){
                 wp_enqueue_style('waboot-theme-components-style', $stylesheet, array(), '1.0.0', 'all'); //Custom Theme Options CSS
             }
-            if(WBF_ENV == "dev"){
+            /*if(WBF_ENV == "dev"){
                 wp_register_script('component-page-script',WBF_URL."/sources/js/admin/components-page.js",array('jquery'));
             }else{
                 wp_register_script('component-page-script',WBF_URL."/admin/js/components-page.min.js",array('jquery'));
             }
-            wp_enqueue_script('component-page-script');
+            wp_enqueue_script('component-page-script');*/
         }
     }
 
@@ -400,11 +400,11 @@ class ComponentsManager {
 				if(is_archive() && in_array("blog", $c->filters['post_type'])) $maybe_enabled = true;
 	        }
 
-            $current_post_type = get_post_type( $post->ID );
+	        $current_post_type = isset($post) ? get_post_type( $post->ID ) : "null";
             if ( is_home() ) {
                 $current_post_id = get_option( "page_for_posts" );
             } else {
-                $current_post_id = $post->ID;
+                $current_post_id = isset($post) ? $post->ID : 0;
             }
             if ( in_array( $current_post_id, $c->filters['node_id'] ) || in_array( $current_post_type, $c->filters['post_type'] ) ) {
 	            $maybe_enabled = true;
