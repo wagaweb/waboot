@@ -224,7 +224,6 @@ class WBF {
 
         // Utility
 	    locate_template( '/wbf/includes/utilities.php', true );
-        locate_template('/wbf/vendor/lostpress-utils.php', true);
 
         // Load the CSS
 	    locate_template( '/wbf/public/public-styles.php', true );

@@ -127,7 +127,6 @@ module.exports = function (grunt) {
                             "vendor/autoload.php",
                             "vendor/BootstrapNavMenuWalker.php",
                             "vendor/breadcrumb-trail.php",
-                            "vendor/lostpress-utils.php",
                             "!_bak/**"
                         ],
                         dest: "builds/wbf-<%= pkg.version %>/"

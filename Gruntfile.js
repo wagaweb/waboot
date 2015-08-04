@@ -176,7 +176,6 @@ module.exports = function(grunt) {
                             "wbf/vendor/autoload.php",
                             "wbf/vendor/BootstrapNavMenuWalker.php",
                             "wbf/vendor/breadcrumb-trail.php",
-                            "wbf/vendor/lostpress-utils.php",
                             "!_bak/**"
                         ],
                         dest: "builds/waboot-<%= pkg.version %>/"
