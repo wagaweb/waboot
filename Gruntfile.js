@@ -177,7 +177,6 @@ module.exports = function(grunt) {
                             "wbf/vendor/BootstrapNavMenuWalker.php",
                             "wbf/vendor/breadcrumb-trail.php",
                             "wbf/vendor/lostpress-utils.php",
-                            "wbf/vendor/wp_bootstrap_navwalker.php",
                             "!_bak/**"
                         ],
                         dest: "builds/waboot-<%= pkg.version %>/"

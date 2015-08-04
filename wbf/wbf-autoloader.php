@@ -83,9 +83,6 @@ function wbf_autoloader($class)
         case "BootstrapNavMenuWalker":
             locate_template('wbf/vendor/BootstrapNavMenuWalker.php', true);
             break;
-        case "wp_bootstrap_navwalker":
-            locate_template('wbf/vendor/wp_bootstrap_navwalker.php', true);
-            break;
         case "WabootNavMenuWalker":
 	        locate_template( 'wbf/public/menu-navwalker.php', true );
             break;

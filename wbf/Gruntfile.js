@@ -128,7 +128,6 @@ module.exports = function (grunt) {
                             "vendor/BootstrapNavMenuWalker.php",
                             "vendor/breadcrumb-trail.php",
                             "vendor/lostpress-utils.php",
-                            "vendor/wp_bootstrap_navwalker.php",
                             "!_bak/**"
                         ],
                         dest: "builds/wbf-<%= pkg.version %>/"
