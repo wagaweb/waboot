@@ -4,7 +4,7 @@ Version 0.12.8 -
 ---------------------------------
 
 WABOOT:
-- Attivato "Recent Post Widget"
+- Attivato "Recent Post Widget" (beta)
 - Aggiornato Fontawesome alla 4.4.0
 - Aggiornato HTML5Shiv alla 3.7.3
 - Aggiornato Fastclick alla 1.0.6
