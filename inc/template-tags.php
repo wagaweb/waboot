@@ -783,7 +783,7 @@ if(!function_exists("wbft_the_contact_form")):
 					if(!$option_value || $option_value == ""){
 						$output = '<input name="privacy" type="checkbox" value="1" data-field data-validation="checked"><label for="privacy">&nbsp'.__("By submitting this form you agree to our terms and our privacy policy.").'</label>';
 					}else{
-						$output = $option_value;
+						$output = '<input name="privacy" type="checkbox" value="1" data-field data-validation="checked"><label for="privacy">&nbsp'.$option_value.'</label>';
 					}
 					return $output;
 				})
