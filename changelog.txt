@@ -11,6 +11,7 @@ WABOOT:
 - Aggiornato Touchswipe alla 1.6.9
 - Aggiornato Bootstrap alla 3.3.5
 - Slideshow: ora il parametro "autoplay" funziona correttamente.
+- Contact form: ora modificare il testo del privacy box non farà più scomparire la checkbox.
 
 WBF:
 - Implementati Bower e Composer per la gestione dei pacchetti vendor.
