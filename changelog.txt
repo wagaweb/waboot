@@ -10,10 +10,12 @@ WABOOT:
 - Aggiornato Fastclick alla 1.0.6
 - Aggiornato Touchswipe alla 1.6.9
 - Aggiornato Bootstrap alla 3.3.5
+- Slideshow: ora il parametro "autoplay" funziona correttamente.
 
 WBF:
 - Implementati Bower e Composer per la gestione dei pacchetti vendor.
 - Ora viene caricato un solo script per l'admin ("wbf-admin.min.js"), che include gli altri script tramite browserify.
+- Rimossi alcuni vendor inutilizzati
 - MODULI:
     - COMPONENT:
         - Ora le theme option dei componenti vengono backuppate prima della disabilitazione, e ripristinate alla riattivazione.
