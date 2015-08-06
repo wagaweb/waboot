@@ -10,7 +10,7 @@
 
     <div class="row header-blocks hidden-sm hidden-xs">
         <div id="header-left" class="col-md-3 vcenter">
-            <?php if ( of_get_option('waboot_social_position') === 'header-left' && of_get_option("social_position_none") != 1 ) { include 'social-widget.php'; } ?>
+            <?php if ( of_get_option('waboot_social_position') === 'header-left' && of_get_option("social_position_none") != 1 ) { get_template_part('templates/parts/social-widget'); } ?>
             <?php dynamic_sidebar( 'header-left' ); ?>
         </div><!--
         --><div id="logo" class="col-md-6 vcenter">
@@ -24,7 +24,7 @@
             <?php endif; ?>
         </div><!--
         --><div id="header-right" class="col-md-3 vcenter">
-            <?php if ( of_get_option('waboot_social_position') === 'header-right' && of_get_option("social_position_none") != 1 ) { include 'social-widget.php'; } ?>
+            <?php if ( of_get_option('waboot_social_position') === 'header-right' && of_get_option("social_position_none") != 1 ) { get_template_part('templates/parts/social-widget'); } ?>
             <?php dynamic_sidebar( 'header-right' ); ?>
         </div>
     </div>
