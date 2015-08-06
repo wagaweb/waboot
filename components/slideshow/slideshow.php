@@ -247,7 +247,7 @@ class SlideshowComponent extends \WBF\modules\components\Component{
                         ),
                         'choices' => array (
                             'true' => 'True',
-                            'fluid' => 'False',
+                            'false' => 'False',
                         ),
                         'default_value' => array (
                             'true' => 'True',
@@ -440,13 +440,14 @@ class SlideshowComponent extends \WBF\modules\components\Component{
 		             * You can also edit the owlcarousel_params object in owl.carousel-custom.js (preferred method)
 		             */
 		            if(owlcarousel_params[current_owlcarousel_id]){
+			            //Merge any pre-existing owlcarousel_params[current_owlcarousel_id] with the options specified via dashboard
 			            owlcarousel_params[current_owlcarousel_id] = jQuery.extend(owlcarousel_params[current_owlcarousel_id],{
 				            items: <?php echo get_field('slideshow_items', $post_id); ?>,
 				            loop: <?php echo get_field('slideshow_loop', $post_id); ?>,
 				            nav: <?php echo get_field('slideshow_navigation', $post_id); ?>,
 				            navText: ['<i class="fa fa-chevron-left"></i>','<i class="fa fa-chevron-right"></i>'],
 				            dots: <?php echo get_field('slideshow_dots', $post_id); ?>,
-                            autoplay: <?php if (!get_field('slideshow_autoplay', $post_id)) echo 'false'; else echo 'true'; ?>
+                            autoplay: <?php if (!get_field('slideshow_autoplay', $post_id) || !in_array(get_field('slideshow_autoplay', $post_id),["true","false"])) echo 'false'; else echo get_field('slideshow_autoplay', $post_id); ?>
 			            });
 		            }else{
 			            owlcarousel_params[current_owlcarousel_id] = {
@@ -455,13 +456,11 @@ class SlideshowComponent extends \WBF\modules\components\Component{
 				            nav: <?php echo get_field('slideshow_navigation', $post_id); ?>,
 				            navText: ['<i class="fa fa-chevron-left"></i>','<i class="fa fa-chevron-right"></i>'],
 				            dots: <?php echo get_field('slideshow_dots', $post_id); ?>,
-                            autoplay: <?php if (!get_field('slideshow_autoplay', $post_id)) echo 'false'; else echo 'true'; ?>
+                            autoplay: <?php if (!get_field('slideshow_autoplay', $post_id) || !in_array(get_field('slideshow_autoplay', $post_id),["true","false"])) echo 'false'; else echo get_field('slideshow_autoplay', $post_id); ?>
 			            };
 		            }
-
-		            owlcarousels[current_owlcarousel_id] = jQuery("#"+current_owlcarousel_id).owlCarousel(
-			            owlcarousel_params[current_owlcarousel_id]
-		            );
+		            //Start the current carousel:
+		            wb_slideshow_start(current_owlcarousel_id);
 	            });
             </script>
 		<?php endif; ?>
