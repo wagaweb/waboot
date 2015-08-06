@@ -7,9 +7,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Waboot 0.12.7\n"
+"Project-Id-Version: Waboot 0.12.8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-23 11:19+0200\n"
+"POT-Creation-Date: 2015-08-06 12:20+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -65,7 +65,7 @@ msgstr ""
 msgid "Comments are closed."
 msgstr ""
 
-#: functions.php:12 functions.php:34
+#: functions.php:13 functions.php:35
 #, php-format
 msgid "Error locating %s for inclusion"
 msgstr ""
@@ -298,15 +298,15 @@ msgstr ""
 msgid "Copy & paste the shortcode directly into any WordPress post or page."
 msgstr ""
 
-#: components/slideshow/slideshow.php:504
+#: components/slideshow/slideshow.php:503
 msgid "Choose the slideshow to display:"
 msgstr ""
 
-#: components/slideshow/slideshow.php:506
+#: components/slideshow/slideshow.php:505
 msgid "Select a slideshow:"
 msgstr ""
 
-#: components/slideshow/slideshow.php:514
+#: components/slideshow/slideshow.php:513
 msgid "No slideshow defined"
 msgstr ""
 
@@ -1687,50 +1687,55 @@ msgctxt "Recent Posts Widget"
 msgid "Display Thumbnail"
 msgstr ""
 
-#: inc/widgets/widget-recent-posts.php:263
+#: inc/widgets/widget-recent-posts.php:261
+msgctxt "Recent Posts Widget"
+msgid "Thumbnail size"
+msgstr ""
+
+#: inc/widgets/widget-recent-posts.php:278
 msgctxt "Recent Posts Widget"
 msgid "Display Excerpt"
 msgstr ""
 
-#: inc/widgets/widget-recent-posts.php:268
+#: inc/widgets/widget-recent-posts.php:283
 msgctxt "Recent Posts Widget"
 msgid "Excerpt Length"
 msgstr ""
 
-#: inc/widgets/widget-recent-posts.php:276
+#: inc/widgets/widget-recent-posts.php:291
 msgid "Display Readmore"
 msgstr ""
 
-#: inc/widgets/widget-recent-posts.php:281
+#: inc/widgets/widget-recent-posts.php:296
 msgctxt "Recent Posts Widget"
 msgid "Readmore Text"
 msgstr ""
 
-#: inc/widgets/widget-recent-posts.php:287
+#: inc/widgets/widget-recent-posts.php:302
 msgctxt "Recent Posts Widget"
 msgid "Readmore Text Prefix"
 msgstr ""
 
-#: inc/widgets/widget-recent-posts.php:295
+#: inc/widgets/widget-recent-posts.php:310
 msgctxt "Recent Posts Widget"
 msgid "Display Date"
 msgstr ""
 
-#: inc/widgets/widget-recent-posts.php:301
+#: inc/widgets/widget-recent-posts.php:316
 msgctxt "Recent Posts Widget"
 msgid "Use Relative Date. eg: 5 days ago"
 msgstr ""
 
-#: inc/widgets/widget-recent-posts.php:419
+#: inc/widgets/widget-recent-posts.php:435
 msgid "Recent Posts"
 msgstr ""
 
-#: inc/widgets/widget-recent-posts.php:442
+#: inc/widgets/widget-recent-posts.php:459
 msgctxt "Recent Posts Widget"
 msgid "Read More &raquo;"
 msgstr ""
 
-#: inc/widgets/widget-recent-posts.php:481
+#: inc/widgets/widget-recent-posts.php:498
 #: templates/parts/content-featured.php:8
 #: templates/parts/content-fp-grid.php:10 templates/parts/content-image.php:14
 #: templates/parts/content-link.php:13 templates/parts/content-search.php:13
