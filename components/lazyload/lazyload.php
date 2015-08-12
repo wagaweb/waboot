@@ -14,7 +14,15 @@ class LazyloadComponent extends \WBF\modules\components\Component{
 		add_filter("post_thumbnail_html",function($html, $post_id, $post_thumbnail_id, $size, $attr){
 			$html = preg_replace("/src/","data-layzr",$html);
 			return $html;
-		},10,5);
+		},99,5);
+
+		add_filter("wp_get_attachment_image_attributes",function($attr, $attachment, $size){
+			if(isset($attr['src'])){
+				$attr['data-layzr'] = $attr['src'];
+				unset($attr['src']);
+			}
+			return $attr;
+		},99,3);
 	}
 
 	public function scripts(){
