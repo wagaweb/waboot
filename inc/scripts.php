@@ -32,6 +32,21 @@ function waboot_enqueue_main_script(){
 			'isMobile' => wb_is_mobile(),
 			'isAdmin' => is_admin(),
 			'wp_screen' => function_exists("get_current_screen") ? get_current_screen() : null,
+			'components' => isset($GLOBALS['loaded_components']) ? $GLOBALS['loaded_components'] : null,
+			'components_js' => call_user_func(function(){
+				global $loaded_components;
+				if(!isset($loaded_components)) return null;
+				foreach($loaded_components as $c){
+					$dir = dirname($c->file);
+					$js = $dir."/".$c->name."-module.js";
+					if(!file_exists($js)) $js = $dir."/assets/js/".$c->name."-module.js";
+					if(!file_exists($js)) $js = $dir."/js/".$c->name."-module.js";
+					if(!file_exists($js)) continue;
+					$components_js[] = $js;
+				}
+				if(empty($components_js)) return null;
+				return $components_js;
+			}),
 			'contactForm' => array(
 				'contact_email_subject' => __("New Email from site","waboot"),
 				'labels' => array(
