@@ -335,10 +335,10 @@ class WBF {
 
 		if ( current_user_can( 'manage_options' ) ) {
 			$args = array(
-				'id'    => 'env_notice',
-				'title' => '['._x("Current Environment","WBF Admin Bar","wbf").': '.WBF_ENV."]",
+				'id'    => 'wbf_env_notice',
+				'title' => _x("Current Environment","WBF Admin Bar","wbf").': '.WBF_ENV,
 				'href'  => "#",
-				'meta'  => array( 'class' => 'toolbar-env-notice' )
+				'meta'  => array( 'class' => 'wbf-toolbar-env-notice' )
 			);
 			$wp_admin_bar->add_node( $args );
 		}
@@ -354,10 +354,10 @@ class WBF {
 
 		if ( current_user_can( 'manage_options' ) ) {
 			$args = array(
-				'id'    => 'waboot_compile',
-				'title' => 'Compile Less',
+				'id'    => 'wbf_compile_styles',
+				'title' => 'Compile Theme Styles',
 				'href'  => add_query_arg('compile','true'),
-				'meta'  => array( 'class' => 'toolbar-compile-less-button' )
+				'meta'  => array( 'class' => 'wbf-toolbar-compile-theme-styles-button' )
 			);
 			$wp_admin_bar->add_node( $args );
 		}
