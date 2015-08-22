@@ -8,7 +8,9 @@ jQuery(document).ready(function($){
         hiddenAttr: 'data-layzr-hidden',
         threshold: 0,
         callback: function(){
-            console.log("Image loaded!")
+            if(wbData.isDebug){
+                console.log("Image: "+jQuery(this).attr("src")+" lazy-loaded successfully!")
+            }
         }
     });
 });
