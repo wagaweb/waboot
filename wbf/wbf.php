@@ -280,7 +280,7 @@ class WBF {
 		}else{
 			wp_register_script("wbfgmap",WBF_URL."/includes/scripts/wbfgmap.min.js",array("jquery","gmapapi"),false,true);
 		}
-		wp_register_script("imagesLoaded-js",WBF_URL."/vendor/imagesLoaded/imagesloaded.pkgd.min.js",array(),false,true);
+		wp_register_script("imagesLoaded-js",WBF_URL."/vendor/imagesloaded/imagesloaded.pkgd.min.js",[],false,true);
 		wp_register_script("owlcarousel-js",WBF_URL."/vendor/owlcarousel/owl.carousel.min.js",array("jquery"),false,true);
 	}
 
