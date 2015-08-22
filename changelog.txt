@@ -1,5 +1,15 @@
 == Change log ==
 
+Version 0.12.9 - work in progress
+---------------------------------
+
+WABOOT:
+- Incluso componente Lazyload (beta)
+- Ora "wbData" ha la nuova proprietà "isDebug", che viene settata true se WP_DEBUG è true, oppure WBF_ENV o WABOOT_ENV sono settati su "dev"
+
+WBF:
+- Corretto pathname alla libreria "imagesloaded"
+
 Version 0.12.8 - 06/08/2015
 ---------------------------------
 
