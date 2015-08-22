@@ -23,11 +23,20 @@ class LazyloadComponent extends \WBF\modules\components\Component{
 			}
 			return $attr;
 		},99,3);
+
+		add_filter("the_content",function($content){
+			$pattern = "/<img([^>]+)src=([\w0-9\"'-_%.\/:]+)/";
+			$r = preg_replace($pattern,"<img$1 data-layzr=$2",$content);
+			if($r){
+				$content = $r;
+			}
+			return $content;
+		},999);
 	}
 
 	public function scripts(){
 		//Enqueue scripts
 		wp_register_script('layzr',$this->directory_uri . '/js/vendor/layzr.min.js');
-		wp_enqueue_script('lazyload-component-js',$this->directory_uri . '/js/main.js',['layzr']);
+		wp_enqueue_script('lazyload-component-js',$this->directory_uri . '/js/main.js',['layzr'], false, true);
 	}
 }
