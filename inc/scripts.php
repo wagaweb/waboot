@@ -31,6 +31,7 @@ function waboot_enqueue_main_script(){
 			'wpurl' => get_bloginfo('wpurl'),
 			'isMobile' => wb_is_mobile(),
 			'isAdmin' => is_admin(),
+			'isDebug' => WP_DEBUG || WABOOT_ENV == "dev" || WBF_ENV == "dev",
 			'wp_screen' => function_exists("get_current_screen") ? get_current_screen() : null,
 			'components' => isset($GLOBALS['loaded_components']) ? $GLOBALS['loaded_components'] : null,
 			'components_js' => call_user_func(function(){
