@@ -6,6 +6,8 @@ Version 0.12.9 - work in progress
 WABOOT:
 - Incluso componente Lazyload (beta)
 - Ora "wbData" ha la nuova proprietà "isDebug", che viene settata true se WP_DEBUG è true, oppure WBF_ENV o WABOOT_ENV sono settati su "dev"
+- Aggiunta azione "waboot_head_after" dopo la chiusura di <head>
+- Ora viene applicato flush() dopo la chiusura di <head> (tramite l'azione "waboot_head_after")
 
 WBF:
 - Corretto pathname alla libreria "imagesloaded"
