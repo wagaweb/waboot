@@ -18,7 +18,7 @@
         do_action( 'waboot_head' );
     ?>
 </head>
-
+<?php do_action( 'waboot_head_after' ); ?>
 <body <?php body_class(); ?> >
     <!--[if lt IE 8]><p class="browsehappy alert alert-danger">You are using an outdated browser. Please <a class="alert-link" href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p><![endif]-->
 
