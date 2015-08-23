@@ -8,7 +8,7 @@
  * @since 0.1.0
  */
 
-/**
+/*
  * todo: [LostCore] Qui Alienship inserisce dei settaggi già inseriti nelle theme options, ma non sembrano essere collegati. E' davvero utile?
  * Una possibile integrazione è descritta qui: http://wptheming.com/2012/07/options-framework-theme-customizer/
  */
@@ -156,7 +156,7 @@ function waboot_customize_register( $wp_customize ) {
 		'type'     => 'checkbox',
 	) );
 }
-add_action( 'customize_register', 'waboot_customize_register' );
+//add_action( 'customize_register', 'waboot_customize_register' );
 
 /**
  * Binds JS handlers to make Theme Customizer preview reload changes asynchronously.
@@ -164,4 +164,4 @@ add_action( 'customize_register', 'waboot_customize_register' );
 function waboot_customize_preview_js() {
 	wp_enqueue_script( 'waboot_customizer', get_template_directory_uri() . '/admin/js/customizer.js', array( 'customize-preview' ), '1.2.0', true );
 }
-add_action( 'customize_preview_init', 'waboot_customize_preview_js' );
+//add_action( 'customize_preview_init', 'waboot_customize_preview_js' );
