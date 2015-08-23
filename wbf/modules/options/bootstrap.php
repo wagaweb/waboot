@@ -43,6 +43,8 @@ add_filter( 'of_sanitize_text', '\WBF\modules\options\custom_sanitize_text' );
 
 function module_init(){
     add_action( 'init', '\WBF\modules\options\optionsframework_init', 20 );
+	//Bind to Theme Customizer
+	//add_action( 'customize_register','\WBF\modules\options\of_customizer_register' );
 }
 
 function optionsframework_init() {
@@ -104,4 +106,82 @@ function of_get_option( $name, $default = false ) {
     }
 
     return $default;
+}
+
+function of_customizer_register($wp_customize){
+	$options = Framework::get_registered_options();
+
+	$wp_customize->add_panel('wbf_theme_options',[
+		'title' => __("Theme Options","wbf"),
+		'description' => __("WBF Managed settings","wbf")
+	]);
+
+	$current_section = "";
+	foreach($options as $opt){
+		if($opt['type'] == "heading"){
+			$wp_customize->add_section($opt['name'],[
+				'title' => $opt['name'],
+				'panel' => 'wbf_theme_options'
+			]);
+			$current_section = $opt['name'];
+		}else{
+
+			$unsupported_types = ['info','upload','typography','multicheck','csseditor'];
+			$equivalent_types = [
+				'color' => 'text',
+				'images' => 'select'
+			];
+
+			if(in_array($opt['type'],$unsupported_types)) continue;
+
+			$wp_customize->add_setting("theme_options[{$opt['id']}]",[
+				'type' => 'theme_mod',
+				'capability' => 'manage_options',
+				'default' => isset($opt['std']) ? $opt['std'] : "",
+				'transport' => 'refresh',
+				'sanitize_callback' => '',
+				'sanitize_js_callback' => ''
+			]);
+
+			//Detect control type and choices
+			$type = "";
+			$choices = [];
+			switch($opt['type']){
+				case "images":
+					$type = $equivalent_types[$opt['type']];
+					$choices = call_user_func(function() use($opt){
+						$choices = [];
+						foreach($opt['options'] as $k => $v){
+							$choices[$k] = $v['label'];
+						}
+						return $choices;
+					});
+					break;
+				case "color":
+					$type = $equivalent_types[$opt['type']];
+					break;
+				case "select":
+					$type = "select";
+					$choices = $opt['options'];
+					break;
+				default:
+					$type = $opt['type'];
+					break;
+			}
+
+			$args = [
+				'type' => $type,
+				'priority' => 10,
+				'section' => $current_section,
+				'label' => $opt['name'],
+				'description' => isset($opt['desc']) ? $opt['desc'] : "",
+			];
+
+			if(isset($choices) && !empty($choices)){
+				$args['choices'] = $choices;
+			}
+
+			$wp_customize->add_control("theme_options[{$opt['id']}]",$args);
+		}
+	}
 }
