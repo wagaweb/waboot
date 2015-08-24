@@ -9,6 +9,7 @@ class CustomizerManager{
 	public static function init(){
 		add_action( 'customize_register','\WBF\modules\options\CustomizerManager::register' );
 		add_action( 'customize_update_wbf_theme_option', '\WBF\modules\options\CustomizerManager::update', 10, 2 );
+		add_action( 'customize_save_after', '\WBF\modules\options\CustomizerManager::after_customizer_save', 10, 2 );
 		add_action( 'customize_preview_wbf_theme_option', '\WBF\modules\options\CustomizerManager::preview', 10, 2 );
 	}
 	public static function register(\WP_Customize_Manager $wp_customize){
@@ -103,9 +104,20 @@ class CustomizerManager{
 		}
 	}
 
-	public static function update($value, $setting){
-		var_dump($value);
-		var_dump($setting);
+	public static function update($value, \WP_Customize_Setting $setting){
+		$name = call_user_func(function() use($setting){
+			$match = preg_match("/\[([\w_]+)\]/",$setting->id,$matches);
+			if($match) return $matches[1];
+			else return false;
+		});
+		Framework::set_option_value($name,$value);
+	}
+
+	public static function after_customizer_save(\WP_Customize_Manager $wp_customize){
+		//Recompile the styles
+		$values = Framework::get_options_values();
+		of_recompile_styles($values);
+		update_option('waboot_compiling_flag',0); //release the compiler
 	}
 
 	/**
