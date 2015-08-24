@@ -64,7 +64,8 @@ if ( ! function_exists( 'init_style_compiler' ) ) :
 	function init_style_compiler(){
 		$theme = waboot_get_compiled_stylesheet_name();
 		$inputFileName = is_child_theme() ? "waboot-child" : "waboot";
-		$GLOBALS['waboot_styles_compiler'] = new \WBF\includes\compiler\Styles_Compiler(array(
+
+		WBF::set_styles_compiler(array(
 			"theme_frontend" => array(
 				"input" => get_stylesheet_directory()."/sources/less/{$inputFileName}.less",
 				"output" => get_stylesheet_directory()."/assets/css/{$theme}.css",
@@ -76,9 +77,10 @@ if ( ! function_exists( 'init_style_compiler' ) ) :
 		));
 
 		//Run a compilation if the styles file is not present
-		$sets = $GLOBALS['waboot_styles_compiler']->get_compile_sets();
+		global $wbf_styles_compiler;
+		$sets = $wbf_styles_compiler->get_compile_sets();
 		if(!is_file($sets['theme_frontend']['output'])){
-			$GLOBALS['waboot_styles_compiler']->compile();
+			$wbf_styles_compiler->compile();
 		}
 	}
 endif;
