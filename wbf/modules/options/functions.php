@@ -139,12 +139,7 @@ function of_options_save($option, $old_value, $value){
 	    }
 
         if($must_recompile_flag){
-	        of_generate_less_file($value); //Create a _theme-options-generated.less file
-            //Then, compile less
-            if(isset($GLOBALS['waboot_styles_compiler'])){
-                global $waboot_styles_compiler;
-                $waboot_styles_compiler->compile();
-            }
+	        of_recompile_styles($value);
         }
 
         if(!empty($deps_to_achieve)){
@@ -168,6 +163,19 @@ function of_options_save($option, $old_value, $value){
             $wbf_notice_manager->clear_notices("theme_opt_component_deps");
         }
     }
+}
+
+/**
+ * Generate a new _theme-options-generated.less and recompile the styles
+ * @param $values
+ */
+function of_recompile_styles($values){
+	of_generate_less_file($values); //Create a _theme-options-generated.less file
+	//Then, compile less
+	if(isset($GLOBALS['wbf_styles_compiler']) && $GLOBALS['wbf_styles_compiler']){
+		global $wbf_styles_compiler;
+		$wbf_styles_compiler->compile();
+	}
 }
 
 /**
