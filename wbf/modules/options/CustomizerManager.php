@@ -116,8 +116,7 @@ class CustomizerManager{
 	public static function after_customizer_save(\WP_Customize_Manager $wp_customize){
 		//Recompile the styles
 		$values = Framework::get_options_values();
-		of_recompile_styles($values);
-		update_option('waboot_compiling_flag',0); //release the compiler
+		of_recompile_styles($values,true); //compile and release
 	}
 
 	/**
