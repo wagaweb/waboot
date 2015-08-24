@@ -103,8 +103,12 @@ function of_get_option( $name, $default = false ) {
     if(empty($options)) $options = get_option( $config['id'] );
 
     if ( isset( $options[$name] ) ) {
-        return $options[$name];
+	    $value = $options[$name];
+    }else{
+	    $value = $default;
     }
 
-    return $default;
+	$value = apply_filters("wbf/theme_options/get/{$name}",$value);
+
+    return $value;
 }
