@@ -13,6 +13,7 @@ class CustomizerManager{
 	}
 	public static function register(\WP_Customize_Manager $wp_customize){
 		$options = Framework::get_registered_options();
+		$options_values = Framework::get_options_values();
 
 		$wp_customize->add_panel('wbf_theme_options',[
 			'title' => __("Theme Options","wbf"),
@@ -41,7 +42,16 @@ class CustomizerManager{
 				$wp_customize->add_setting($setting_id,[
 					'type' => self::$setting_type,
 					'capability' => 'manage_options',
-					'default' => isset($opt['std']) ? $opt['std'] : "",
+					'default' => call_user_func(function() use($options_values,$opt){
+						if(isset($options_values[$opt['id']])){
+							return $options_values[$opt['id']];
+						}else{
+							if(isset($opt['std'])){
+								return $opt['std'];
+							}
+						}
+						return "";
+					}),
 					'transport' => 'refresh',
 					'sanitize_callback' => '',
 					'sanitize_js_callback' => ''
@@ -92,10 +102,31 @@ class CustomizerManager{
 			}
 		}
 	}
-	public static function update(){
 
+	public static function update($value, $setting){
+		var_dump($value);
+		var_dump($setting);
 	}
-	public static function preview(){
 
+	/**
+	 * Handles the preview of the modified theme options into the wordpress customizer. Temporary add a filter that changes the of_get_option retrieved value
+	 * @param \WP_Customize_Setting $setting
+	 */
+	public static function preview(\WP_Customize_Setting $setting){
+		$name = call_user_func(function() use($setting){
+			$match = preg_match("/\[([\w_]+)\]/",$setting->id,$matches);
+			if($match) return $matches[1];
+			else return false;
+		});
+		if($name){
+			add_filter("wbf/theme_options/get/{$name}",function($value) use($setting){
+				$new_value = $setting->post_value();
+				if(!$new_value){
+					return $value;
+				}else{
+					return $new_value;
+				}
+			});
+		}
 	}
 }
