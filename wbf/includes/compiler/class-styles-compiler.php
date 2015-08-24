@@ -40,12 +40,12 @@ class Styles_Compiler{
 		@ini_set( 'memory_limit', apply_filters( 'admin_memory_limit', WP_MAX_MEMORY_LIMIT ) );
 		try{
 			if(!$this->can_compile()) throw new CompilerBusyException();
-			update_option('waboot_compiling_flag',1) or add_option('waboot_compiling_flag',1,'',true); //lock the compiler
-			update_option('waboot_compiling_last_attempt',time()) or add_option('waboot_compiling_last_attempt',time(),'',true); //keep note of the current time
+			$this->lock(); //lock the compiler
+			$this->update_last_compile_attempt(); //keep note of the current time
 			do_action("wbf/compiler/pre_compile");
 			$this->base_compiler->compile(); //COMPILE with specified compiler!
 			do_action("wbf/compiler/post_compile");
-			update_option('waboot_compiling_flag',0); //release the compiler
+			$this->release_lock(); //release the compiler
 			if ( current_user_can( 'manage_options' ) ) {
 				if(is_admin()){
 					if(isset($GLOBALS['option_page']) && $GLOBALS['option_page'] == 'optionsframework'){
@@ -58,7 +58,7 @@ class Styles_Compiler{
 				}
 			}
 		}catch(Exception $e){
-			if(!$e instanceof CompilerBusyException) update_option('waboot_compiling_flag',0); //release the compiler
+			if(!$e instanceof CompilerBusyException) $this->release_lock(); //release the compiler
 			$wpe = new WP_Error( 'compile-failed', $e->getMessage() );
 			if ( current_user_can( 'manage_options' ) ) {
 				if(is_admin()){
@@ -75,7 +75,7 @@ class Styles_Compiler{
 	}
 
 	function clear_cache(){
-		update_option('waboot_compiling_flag',0); //release the compiler
+		$this->release_lock(); //release the compiler
 
 		foreach($this->base_compiler->compile_sets as $name => $args){
 			$cachedir = $args['cache'];
@@ -95,7 +95,7 @@ class Styles_Compiler{
 	}
 
 	function can_compile(){
-		$busyflag = get_option("waboot_compiling_flag",0);
+		$busyflag = $this->get_lock_status();
 		if($busyflag && $busyflag != 0){
 			return false;
 		}
@@ -111,15 +111,31 @@ class Styles_Compiler{
 		if(!$this->can_compile()){
 			$last_attempt = get_option("waboot_compiling_last_attempt");
 			if(!$last_attempt){
-				update_option('waboot_compiling_flag',0); //release the compiler just to be sure
+				$this->release_lock(); //release the compiler just to be sure
 			}else{
 				$current_time = time();
 				$time_diff = ($current_time - $last_attempt)/60;
 				if($time_diff > $timelimit){ //2 minutes
-					update_option('waboot_compiling_flag',0); //release the compiler
+					$this->release_lock(); //release the compiler
 				}
 			}
 		}
+	}
+
+	function lock(){
+		update_option('waboot_compiling_flag',1) or add_option('waboot_compiling_flag',1,'',true);
+	}
+
+	function release_lock(){
+		update_option('waboot_compiling_flag',0);
+	}
+
+	function get_lock_status(){
+		return get_option("waboot_compiling_flag",0);
+	}
+
+	function update_last_compile_attempt(){
+		update_option('waboot_compiling_last_attempt',time()) or add_option('waboot_compiling_last_attempt',time(),'',true);
 	}
 
 	/**
