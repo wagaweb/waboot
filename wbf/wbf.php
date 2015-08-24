@@ -33,6 +33,7 @@ class WBF {
 		}
 
 		$GLOBALS['md'] = WBF::get_mobile_detect();
+		WBF::init_styles_compiler();
 
 		add_action( "after_switch_theme", "WBF::activation" );
 		add_action( "switch_theme", "WBF::deactivation", 4 );
@@ -71,6 +72,14 @@ class WBF {
 		}
 
 		return $md;
+	}
+
+	static function init_styles_compiler(){
+		$GLOBALS['wbf_styles_compiler'] = false;
+	}
+
+	static function set_styles_compiler($args){
+		$GLOBALS['wbf_styles_compiler'] = new \WBF\includes\compiler\Styles_Compiler($args);
 	}
 
 	/**
