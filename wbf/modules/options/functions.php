@@ -168,13 +168,15 @@ function of_options_save($option, $old_value, $value){
 /**
  * Generate a new _theme-options-generated.less and recompile the styles
  * @param $values
+ * @param false $release release the compiler after? Default to "false". If "false" the compiler release the lock itself if necessary.
  */
-function of_recompile_styles($values){
+function of_recompile_styles($values,$release = false){
 	of_generate_less_file($values); //Create a _theme-options-generated.less file
 	//Then, compile less
 	if(isset($GLOBALS['wbf_styles_compiler']) && $GLOBALS['wbf_styles_compiler']){
 		global $wbf_styles_compiler;
 		$wbf_styles_compiler->compile();
+		if($release) $wbf_styles_compiler->release_lock();
 	}
 }
 
