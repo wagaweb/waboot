@@ -44,7 +44,7 @@ add_filter( 'of_sanitize_text', '\WBF\modules\options\custom_sanitize_text' );
 function module_init(){
     add_action( 'init', '\WBF\modules\options\optionsframework_init', 20 );
 	//Bind to Theme Customizer
-	//add_action( 'customize_register','\WBF\modules\options\of_customizer_register' );
+	add_action( 'customize_register','\WBF\modules\options\of_customizer_register' );
 }
 
 function optionsframework_init() {
@@ -126,15 +126,16 @@ function of_customizer_register($wp_customize){
 			$current_section = $opt['name'];
 		}else{
 
-			$unsupported_types = ['info','upload','typography','multicheck','csseditor'];
+			$unsupported_types = ['info','typography','multicheck','csseditor'];
 			$equivalent_types = [
-				'color' => 'text',
 				'images' => 'select'
 			];
 
 			if(in_array($opt['type'],$unsupported_types)) continue;
 
-			$wp_customize->add_setting("theme_options[{$opt['id']}]",[
+			$setting_id = "theme_options[{$opt['id']}]";
+
+			$wp_customize->add_setting($setting_id,[
 				'type' => 'theme_mod',
 				'capability' => 'manage_options',
 				'default' => isset($opt['std']) ? $opt['std'] : "",
@@ -144,12 +145,18 @@ function of_customizer_register($wp_customize){
 			]);
 
 			//Detect control type and choices
-			$type = "";
-			$choices = [];
+			$args = [];
+			$custom_control = false;
 			switch($opt['type']){
+				case "color":
+					$custom_control = "\WP_Customize_Color_Control";
+					break;
+				case "upload":
+					$custom_control = "\WP_Customize_Upload_Control";
+					break;
 				case "images":
-					$type = $equivalent_types[$opt['type']];
-					$choices = call_user_func(function() use($opt){
+					$args['type'] = $equivalent_types[$opt['type']];
+					$args['choices'] = call_user_func(function() use($opt){
 						$choices = [];
 						foreach($opt['options'] as $k => $v){
 							$choices[$k] = $v['label'];
@@ -157,31 +164,28 @@ function of_customizer_register($wp_customize){
 						return $choices;
 					});
 					break;
-				case "color":
-					$type = $equivalent_types[$opt['type']];
-					break;
 				case "select":
-					$type = "select";
-					$choices = $opt['options'];
+					$args['type'] = "select";
+					$args['choices'] = $opt['options'];
 					break;
 				default:
-					$type = $opt['type'];
+					$args['type'] = $opt['type'];
 					break;
 			}
 
-			$args = [
-				'type' => $type,
+			$args = array_merge($args,[
 				'priority' => 10,
 				'section' => $current_section,
 				'label' => $opt['name'],
 				'description' => isset($opt['desc']) ? $opt['desc'] : "",
-			];
+			]);
 
-			if(isset($choices) && !empty($choices)){
-				$args['choices'] = $choices;
+			if(!$custom_control){
+				$wp_customize->add_control($setting_id,$args);
+			}else{
+				$custom_control = new $custom_control($wp_customize,$setting_id,$args);
+				$wp_customize->add_control($custom_control);
 			}
-
-			$wp_customize->add_control("theme_options[{$opt['id']}]",$args);
 		}
 	}
 }
