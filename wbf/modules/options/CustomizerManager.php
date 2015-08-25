@@ -155,7 +155,7 @@ class CustomizerManager{
 					return $new_value;
 				}
 			});
-			self::styles_preview();
+			//self::styles_preview(); //todo: qst viene eseguito una volta per ogni opzione... è troppo. Forse si potrebbe risolvere aggiungendo una action nell'header, che a sua volta fa l'azione di styles_preview, almeno viene aggiunta una volta sola...
 		}
 	}
 
