@@ -51,7 +51,8 @@ class Styles_Compiler{
 			}
 			do_action("wbf/compiler/post_compile");
 			$this->release_lock(); //release the compiler
-			if ( current_user_can( 'manage_options' ) ) {
+			static $message_displayed = false;
+			if ( current_user_can( 'manage_options' ) && !$message_displayed) {
 				if(is_admin()){
 					if(isset($GLOBALS['option_page']) && $GLOBALS['option_page'] == 'optionsframework'){
 						add_settings_error('options-framework', 'save_options', __('Less files compiled successfully.', 'wbf'), 'updated fade');
@@ -61,6 +62,7 @@ class Styles_Compiler{
 				}else{
 					echo '<div class="alert alert-success"><p>'.__('Theme styles files compiled successfully.', 'wbf').'</p></div>';
 				}
+				$message_displayed = true;
 			}
 		}catch(Exception $e){
 			if(!$e instanceof CompilerBusyException) $this->release_lock(); //release the compiler
