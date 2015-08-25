@@ -78,8 +78,8 @@ class WBF {
 		$GLOBALS['wbf_styles_compiler'] = false;
 	}
 
-	static function set_styles_compiler($args){
-		$GLOBALS['wbf_styles_compiler'] = new \WBF\includes\compiler\Styles_Compiler($args);
+	static function set_styles_compiler($args,$base_compiler = null){
+		$GLOBALS['wbf_styles_compiler'] = new \WBF\includes\compiler\Styles_Compiler($args,$base_compiler);
 	}
 
 	/**
