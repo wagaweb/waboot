@@ -169,6 +169,7 @@ function of_options_save($option, $old_value, $value){
  * Generate a new _theme-options-generated.less and recompile the styles
  * @param $values
  * @param false $release release the compiler after? Default to "false". If "false" the compiler release the lock itself if necessary.
+ * @uses of_generate_less_file
  */
 function of_recompile_styles($values,$release = false){
 	of_generate_less_file($values); //Create a _theme-options-generated.less file
