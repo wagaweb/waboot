@@ -65,16 +65,19 @@ if ( ! function_exists( 'init_style_compiler' ) ) :
 		$theme = waboot_get_compiled_stylesheet_name();
 		$inputFileName = is_child_theme() ? "waboot-child" : "waboot";
 
-		WBF::set_styles_compiler(array(
-			"theme_frontend" => array(
-				"input" => get_stylesheet_directory()."/sources/less/{$inputFileName}.less",
-				"output" => get_stylesheet_directory()."/assets/css/{$theme}.css",
-				"map" => get_stylesheet_directory()."/assets/css/{$theme}.css.map",
-				"map_url" => get_stylesheet_directory_uri()."/assets/css/{$theme}.css.map",
-				"cache" => get_stylesheet_directory()."/assets/cache",
-				"import_url" => get_stylesheet_directory_uri()
-			)
-		));
+		WBF::set_styles_compiler([
+			"sets" => [
+				"theme_frontend" => [
+					"input" => get_stylesheet_directory()."/sources/less/{$inputFileName}.less",
+					"output" => get_stylesheet_directory()."/assets/css/{$theme}.css",
+					"map" => get_stylesheet_directory()."/assets/css/{$theme}.css.map",
+					"map_url" => get_stylesheet_directory_uri()."/assets/css/{$theme}.css.map",
+					"cache" => get_stylesheet_directory()."/assets/cache",
+					"import_url" => get_stylesheet_directory_uri()
+				]
+			],
+			"sources_path" => get_stylesheet_directory()."/sources/less/"
+		]);
 
 		//Run a compilation if the styles file is not present
 		global $wbf_styles_compiler;
