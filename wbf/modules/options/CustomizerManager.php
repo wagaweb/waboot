@@ -2,15 +2,32 @@
 
 namespace WBF\modules\options;
 
+use WBF\includes\compiler\Styles_Compiler;
+
 class CustomizerManager{
 
 	static $setting_type = "wbf_theme_option";
 
 	public static function init(){
+		global $wbf_styles_compiler;
 		add_action( 'customize_register','\WBF\modules\options\CustomizerManager::register' );
 		add_action( 'customize_update_wbf_theme_option', '\WBF\modules\options\CustomizerManager::update', 10, 2 );
 		add_action( 'customize_save_after', '\WBF\modules\options\CustomizerManager::after_customizer_save', 10, 2 );
 		add_action( 'customize_preview_wbf_theme_option', '\WBF\modules\options\CustomizerManager::preview', 10, 2 );
+		//Add a new compile set to styles compiler
+		if(isset($wbf_styles_compiler) && $wbf_styles_compiler){
+			$wbf_styles_compiler->base_compiler->add_set("customizer_preview",[
+				'input' => call_user_func(function() use($wbf_styles_compiler){
+					if(file_exists($wbf_styles_compiler->base_compiler->sources_path."_theme-options-generated.less.cmp")){
+						return $wbf_styles_compiler->base_compiler->sources_path."_theme-options-generated.less.cmp"; //todo: in un ottica di poter utilizzare più compilatori, questo file dovrebbe essere specificato altrove
+					}else{
+						return false;
+					}
+				}),
+				'exclude_from_global_compile' => true,
+				'compile_callback' => '\WBF\modules\options\CustomizerManager::styles_preview_callback'
+			]);
+		}
 	}
 	public static function register(\WP_Customize_Manager $wp_customize){
 		$options = Framework::get_registered_options();
@@ -138,6 +155,17 @@ class CustomizerManager{
 					return $new_value;
 				}
 			});
+			self::styles_preview();
 		}
+	}
+
+	private static function styles_preview(){
+		global $wbf_styles_compiler;
+		$wbf_styles_compiler->compile("customizer_preview");
+	}
+
+	public static function styles_preview_callback(){
+		//todo: Qui andrebbe preso il file _theme_options_generated.less.cmp, eliminiamo le variabili less, compiliamo le variabili apponendo !important e poi lo stampiamo nell'head di WP
+		return true;
 	}
 }
