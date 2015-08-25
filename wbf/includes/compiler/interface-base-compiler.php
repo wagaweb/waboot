@@ -4,7 +4,7 @@ namespace WBF\includes\compiler;
 
 interface Base_Compiler{
 	/**
-	 * @param array $compile_sets the "sets" of styles to compile. The array must have this form:
+	 * @param array $args must have a "sets" key that specifies styles to compile. The array must have this form:
 	 * array(
 	 *      'set-name-1' => array(
 	 *			'input' => '', //the path to the input less file
@@ -13,11 +13,16 @@ interface Base_Compiler{
 	 *          'map_url' => '', //the url to the map file
 	 *          'cache' => '' //the path to the cache directory
 	 *          'import_url' => '' //the path to the imports directory
+	 *          @since 0.12.9:
+	 *          'exclude_from_global_compile => false
+	 *          'compile_callback => null
 	 *      ),
 	 *      'set-name-2' => ...
 	 * )
 	 */
-	function __construct($compile_sets);
+	function __construct($args);
 	public function compile();
 	public function compile_set($name,$args);
+	public function add_set($name,$args);
+	public function remove_set($name);
 }

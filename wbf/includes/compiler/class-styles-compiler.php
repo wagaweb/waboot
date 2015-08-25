@@ -1,21 +1,22 @@
 <?php
 
 namespace WBF\includes\compiler;
-use \WBF\includes\compiler\less\Less_Compiler;
 use \Exception;
 use \WP_Error;
 
 class Styles_Compiler{
 	var $base_compiler;
 
-	function __construct($compile_sets,$base_compiler = "less"){
-		switch($base_compiler){
-			case "less":
-			default:
-				require_once "less/Less_Compiler.php";
-				$this->base_compiler = new Less_Compiler($compile_sets);
-				break;
+	function __construct($args,$base_compiler = null){
+		if(!isset($base_compiler)){
+			$base_compiler = [
+				'require_path' => "less/Less_Compiler.php",
+				'class_name' => '\WBF\includes\compiler\less\Less_Compiler'
+			];
 		}
+
+		require_once $base_compiler['require_path'];
+		$this->base_compiler = new $base_compiler['class_name']($args);
 
 		$this->maybe_release_lock();
 
@@ -35,7 +36,7 @@ class Styles_Compiler{
 		}
 	}
 
-	function compile(){
+	function compile($setname = false){
 		/** This filter is documented in wp-admin/admin.php */
 		@ini_set( 'memory_limit', apply_filters( 'admin_memory_limit', WP_MAX_MEMORY_LIMIT ) );
 		try{
@@ -43,7 +44,11 @@ class Styles_Compiler{
 			$this->lock(); //lock the compiler
 			$this->update_last_compile_attempt(); //keep note of the current time
 			do_action("wbf/compiler/pre_compile");
-			$this->base_compiler->compile(); //COMPILE with specified compiler!
+			if($setname && is_string($setname)){
+				$this->base_compiler->compile_set($setname); //COMPILE specified set with specified compiler!
+			}else{
+				$this->base_compiler->compile(); //COMPILE with specified compiler!
+			}
 			do_action("wbf/compiler/post_compile");
 			$this->release_lock(); //release the compiler
 			if ( current_user_can( 'manage_options' ) ) {
