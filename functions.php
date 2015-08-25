@@ -23,7 +23,6 @@ $waboot_includes = array(
 	'inc/hooks.php',
 	'inc/shortcodes.php',
 	'inc/widgets.php',
-	'inc/customizer.php',
 	'inc/stylesheets.php',
 	'inc/scripts.php',
 	'inc/jetpack.php',
