@@ -164,6 +164,14 @@ class Framework extends \Options_Framework {
 		return false;
 	}
 
+	static function get_options_values_filtered(){
+		$options = self::get_options_values();
+		foreach($options as $k => $v){
+			$options[$k] = apply_filters("wbf/theme_options/get/{$k}",$v);
+		}
+		return $options;
+	}
+
 	/**
 	 * Returns all theme options values of options with specified $suffix
 	 * @param $suffix
