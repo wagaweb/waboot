@@ -73,7 +73,8 @@ if ( ! function_exists( 'init_style_compiler' ) ) :
 					"map" => get_stylesheet_directory()."/assets/css/{$theme}.css.map",
 					"map_url" => get_stylesheet_directory_uri()."/assets/css/{$theme}.css.map",
 					"cache" => get_stylesheet_directory()."/assets/cache",
-					"import_url" => get_stylesheet_directory_uri()
+					"import_url" => get_stylesheet_directory_uri(),
+					"primary" => true
 				]
 			],
 			"sources_path" => get_stylesheet_directory()."/sources/less/"
