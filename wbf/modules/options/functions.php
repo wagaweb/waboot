@@ -192,13 +192,13 @@ function of_recompile_styles($values,$release = false){
  *
  * @return bool|string
  */
-function of_generate_less_file($value = null,$input_file_path = null,$output_file_path = null){
+function of_generate_less_file($value = null,$input_file_path = null,$output_file_path = null,$output_type = "FILE"){
 	if(!isset($value) || empty($value)) $value = Framework::get_options_values();
 	if(!isset($input_file_path) || empty($input_file_path)) $input_file_path = "/sources/less/_theme-options-generated.less.cmp"; //todo: in un ottica di poter utilizzare più compilatori, questo file dovrebbe essere specificato altrove
+	if(!isset($output_file_path) || empty($output_file_path)) $output_file_path = "/sources/less/theme-options-generated.less"; //todo: in un ottica di poter utilizzare più compilatori, questo file dovrebbe essere specificato altrove
 
 	if(!is_array($value)) return;
 
-	$output_type = !isset($output_file_path) || empty($output_file_path) ? "RETURN" : "FILE";
 	$output_string = "";
 
     $tmpFile = new \SplFileInfo(get_stylesheet_directory().$input_file_path);

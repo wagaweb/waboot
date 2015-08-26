@@ -23,7 +23,8 @@ class Less_Compiler implements Base_Compiler{
 	 *          'import_url' => '' //the path to the imports directory
 	 *          @since 0.12.9:
 	 *          'exclude_from_global_compile' => false
-	 *          'compile_callback' => null
+	 *          'compile_pre_callback' => null
+	 *          'compile_post_callback' => null
 	 *      ),
 	 *      'set-name-2' => ...
 	 * )
@@ -39,7 +40,8 @@ class Less_Compiler implements Base_Compiler{
 			    'import_url' => '',
 			    //@since 0.12.9:
 			    'exclude_from_global_compile' => false,
-			    'compile_callback' => null
+			    'compile_pre_callback' => null,
+			    'compile_post_callback' => null
 		    ]);
 	    }
         $this->compile_sets = $args['sets'];
@@ -84,54 +86,39 @@ class Less_Compiler implements Base_Compiler{
 
 	        $args = wp_parse_args($args,$this->compile_sets[$name]);
 
-	        if(isset($args['compile_callback'])){
-		        call_user_func($args['compile_callback']);
-	        }else{
-		        $args['input'] = \WBF\includes\compiler\parse_input_file($args['input']);
-		        $less_files = array(
-			        $args['input'] => $args['import_url'],
-		        );
+	        $args['input'] = \WBF\includes\compiler\parse_input_file($args['input']);
+	        $less_files = array(
+		        $args['input'] => $args['import_url'],
+	        );
 
-		        $parser_options = array(
-			        'cache_dir'         => $args['cache'],
-			        'compress'          => false,
-			        'sourceMap'         => true,
-			        'sourceMapWriteTo'  => $args['map'],
-			        'sourceMapURL'      => $args['map_url'],
-		        );
+	        $parser_options = array(
+		        'cache_dir'         => $args['cache'],
+		        'compress'          => false,
+		        'sourceMap'         => true,
+		        'sourceMapWriteTo'  => $args['map'],
+		        'sourceMapURL'      => $args['map_url'],
+	        );
 
-		        if(!is_dir($args['cache'])){
-			        if(!mkdir($args['cache'])){
-				        throw new Exception("Cannot create ({$args['cache']})");
-			        }
+	        if(!is_dir($args['cache'])){
+		        if(!mkdir($args['cache'])){
+			        throw new Exception("Cannot create ({$args['cache']})");
 		        }
-
-		        if(!is_writable($args['cache'])){
-			        if(!chmod($args['cache'],0777)) {
-				        throw new Exception( "Cache dir ({$args['cache']}) is not writeable" );
-			        }
-		        }
-
-		        $css_file_name = Less_Cache::Get(
-			        $less_files,
-			        $parser_options
-		        );
-
-		        $css = file_get_contents( $args['cache'].'/'.$css_file_name );
-
-		        if(!is_file($args['output'])){
-			        fclose(fopen($args['output'],"w"));
-		        }
-
-		        if(!is_writable($args['output'])){
-			        if(!chmod($args['output'],0777))
-				        throw new Exception("Output dir ({$args['output']}) is not writeable");
-		        }
-
-		        //$wp_filesystem->put_contents( $args['output'], $css, FS_CHMOD_FILE );
-		        file_put_contents($args['output'], $css);
 	        }
-            return true;
+
+	        if(!is_writable($args['cache'])){
+		        if(!chmod($args['cache'],0777)) {
+			        throw new Exception( "Cache dir ({$args['cache']}) is not writeable" );
+		        }
+	        }
+
+	        $css_file_name = Less_Cache::Get(
+		        $less_files,
+		        $parser_options
+	        );
+
+	        $css = file_get_contents( $args['cache'].'/'.$css_file_name );
+
+	        return $css;
         }catch(Exception $e){
             throw $e;
         }
@@ -147,7 +134,8 @@ class Less_Compiler implements Base_Compiler{
 			'import_url' => '',
 			//@since 0.12.9:
 			'exclude_from_global_compile' => false,
-			'compile_callback' => null
+			'compile_pre_callback' => null,
+			'compile_post_callback' => null
 		]);
 		$this->compile_sets[$name] = $args;
 	}

@@ -41,16 +41,31 @@ class Styles_Compiler{
 		@ini_set( 'memory_limit', apply_filters( 'admin_memory_limit', WP_MAX_MEMORY_LIMIT ) );
 		try{
 			if(!$this->can_compile()) throw new CompilerBusyException();
+			$args = $this->get_compile_sets()[$setname]; //The set args
 			$this->lock(); //lock the compiler
 			$this->update_last_compile_attempt(); //keep note of the current time
-			do_action("wbf/compiler/pre_compile");
-			if($setname && is_string($setname)){
-				$this->base_compiler->compile_set($setname); //COMPILE specified set with specified compiler!
-			}else{
-				$this->base_compiler->compile(); //COMPILE with specified compiler!
+			do_action("wbf/compiler/pre_compile",$setname,$args);
+			if(isset($args['compile_pre_callback'])){
+				call_user_func($args['compile_pre_callback'],$args);
 			}
-			do_action("wbf/compiler/post_compile");
+			if($setname && is_string($setname)){
+				$css = $this->base_compiler->compile_set($setname); //COMPILE specified set with specified compiler!
+			}else{
+				$css = $this->base_compiler->compile(); //COMPILE with specified compiler!
+			}
+			if(isset($args['compile_post_callback'])){
+				call_user_func($args['compile_post_callback'],$css);
+			}
+			do_action("wbf/compiler/post_compile",$setname,$args,$css);
 			$this->release_lock(); //release the compiler
+			//Output the compile results:
+			if(isset($args['output']) && !empty($args['output'])){
+				$this->write_to_file($css,$args['output']);
+				$write_to_output_flag = false;
+			}else{
+				$write_to_output_flag = true;
+			}
+			//Display end message:
 			static $message_displayed = false;
 			if ( current_user_can( 'manage_options' ) && !$message_displayed) {
 				if(is_admin()){
@@ -63,6 +78,9 @@ class Styles_Compiler{
 					echo '<div class="alert alert-success"><p>'.__('Theme styles files compiled successfully.', 'wbf').'</p></div>';
 				}
 				$message_displayed = true;
+			}
+			if($write_to_output_flag){
+				return $css;
 			}
 		}catch(Exception $e){
 			if(!$e instanceof CompilerBusyException) $this->release_lock(); //release the compiler
@@ -79,6 +97,20 @@ class Styles_Compiler{
 				}
 			}
 		}
+	}
+
+	function write_to_file($css,$path){
+		if(!is_file($path)){
+			fclose(fopen($path,"w"));
+		}
+
+		if(!is_writable($path)){
+			if(!chmod($path,0777))
+				throw new Exception("Output dir ({$path}) is not writeable");
+		}
+
+		//$wp_filesystem->put_contents( $args['output'], $css, FS_CHMOD_FILE );
+		file_put_contents($path, $css);
 	}
 
 	function clear_cache(){
@@ -157,6 +189,20 @@ class Styles_Compiler{
 		}
 
 		return array();
+	}
+
+	/**
+	 * Get the primary compile set
+	 * @return bool
+	 */
+	function get_primary_set(){
+		$sets = $this->get_compile_sets();
+		foreach($sets as $k => $s){
+			if(isset($s['primary']) && $s['primary']){
+				return $s;
+			}
+		}
+		return false;
 	}
 }
 

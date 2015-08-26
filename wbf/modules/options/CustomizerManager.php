@@ -14,20 +14,15 @@ class CustomizerManager{
 		add_action( 'customize_update_wbf_theme_option', '\WBF\modules\options\CustomizerManager::update', 10, 2 );
 		add_action( 'customize_save_after', '\WBF\modules\options\CustomizerManager::after_customizer_save', 10, 2 );
 		add_action( 'customize_preview_wbf_theme_option', '\WBF\modules\options\CustomizerManager::preview', 10, 2 );
+		add_action( 'wbf/compiler/pre_compile', '\WBF\modules\options\CustomizerManager::styles_preview_pre_callback', 10, 2 );
+		add_action( 'wbf/compiler/post_compile', '\WBF\modules\options\CustomizerManager::styles_preview_post_callback', 10, 3 );
 		//Add a new compile set to styles compiler
 		if(isset($wbf_styles_compiler) && $wbf_styles_compiler){
-			$wbf_styles_compiler->base_compiler->add_set("customizer_preview",[
-				'input' => call_user_func(function() use($wbf_styles_compiler){
-					if(file_exists($wbf_styles_compiler->base_compiler->sources_path."_theme-options-generated.less.cmp")){
-						return $wbf_styles_compiler->base_compiler->sources_path."_theme-options-generated.less.cmp"; //todo: in un ottica di poter utilizzare più compilatori, questo file dovrebbe essere specificato altrove
-					}else{
-						return false;
-					}
-				}),
-				'input_relativepath' => "/sources/less/_theme-options-generated.less.cmp",
-				'exclude_from_global_compile' => true,
-				'compile_callback' => '\WBF\modules\options\CustomizerManager::styles_preview_callback'
-			]);
+			$customizer_style = $wbf_styles_compiler->get_primary_set();
+			$customizer_style['output'] = null;
+			$customizer_style['exclude_from_global_compile'] = true;
+			$customizer_style['primary'] = false;
+			$wbf_styles_compiler->base_compiler->add_set("customizer_preview",$customizer_style);
 		}
 	}
 	public static function register(\WP_Customize_Manager $wp_customize){
@@ -159,25 +154,41 @@ class CustomizerManager{
 			if(!has_action("wp_head",'\WBF\modules\options\CustomizerManager::styles_preview')){
 				add_action("wp_head",'\WBF\modules\options\CustomizerManager::styles_preview',999);
 			}
-			//self::styles_preview(); //todo: qst viene eseguito una volta per ogni opzione... è troppo. Forse si potrebbe risolvere aggiungendo una action nell'header, che a sua volta fa l'azione di styles_preview, almeno viene aggiunta una volta sola...
 		}
 	}
 
+	/**
+	 * Action performed for generate the styles preview into the customizer. This will print out the theme style into wp_head.
+	 */
 	public static function styles_preview(){
 		global $wbf_styles_compiler;
-		$wbf_styles_compiler->compile("customizer_preview");
-		$wbf_styles_compiler->release_lock();
+		$generated_css = $wbf_styles_compiler->compile("customizer_preview");
+		$output_string = "<style data-customizer-preview>".$generated_css."</style>";
+		echo $output_string;
 	}
 
-	public static function styles_preview_callback(){
-		//todo: Qui andrebbe preso il file _theme_options_generated.less.cmp, eliminiamo le variabili less, compiliamo le variabili apponendo !important e poi lo stampiamo nell'head di WP
-		global $wbf_styles_compiler;
-		$input_file = $wbf_styles_compiler->get_compile_sets()['customizer_preview']['input_relativepath'];
-		$generated_css = of_generate_less_file(Framework::get_options_values_filtered(),$input_file,null);
-		//Strip out non-css plain code
-		$generated_css = preg_replace("/@[\w-_]+:\s*.*;[\/.]*/","",$generated_css);
-		$output_string = "<style>".$generated_css."</style>";
-		echo $output_string;
-		return true;
+	/**
+	 * Action performed into "wbf/compiler/pre_compile" action
+	 * @param $setname
+	 * @param $args
+	 */
+	public static function styles_preview_pre_callback($setname,$args){
+		if($setname == "customizer_preview"){
+			//Create the file with the new values for the preview
+			of_generate_less_file(Framework::get_options_values_filtered());
+		}
+	}
+
+	/**
+	 * Action performed into "wbf/compiler/post_compile" action
+	 * @param $setname
+	 * @param $args
+	 * @param $css
+	 */
+	public static function styles_preview_post_callback($setname,$args,$css){
+		if($setname == "customizer_preview") {
+			//Restore the file
+			of_generate_less_file();
+		}
 	}
 }

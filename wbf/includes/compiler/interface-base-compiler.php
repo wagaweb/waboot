@@ -15,7 +15,8 @@ interface Base_Compiler{
 	 *          'import_url' => '' //the path to the imports directory
 	 *          @since 0.12.9:
 	 *          'exclude_from_global_compile => false
-	 *          'compile_callback => null
+	 *          'compile_pre_callback => null
+	 *          'compile_post_callback => null
 	 *      ),
 	 *      'set-name-2' => ...
 	 * )
