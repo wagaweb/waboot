@@ -11,6 +11,10 @@ WABOOT:
 
 WBF:
 - Corretto pathname alla libreria "imagesloaded"
+- Refactor generale del compilatore degli stili base, del compilatore less e dell'interfaccia per i compilatori
+- MODULI:
+    - OPTIONS:
+        - Ora le opzioni sono disponibili anche nel customizer (beta)
 
 Version 0.12.8 - 06/08/2015
 ---------------------------------
