@@ -1,5 +1,18 @@
 <?php
 
+/**
+ * Enable to load js script async
+ * https://ikreativ.com/async-with-wordpress-enqueue/
+ */
+function wbf_async_scripts($url) {
+	if ( strpos( $url, '#asyncload') === false )
+		return $url;
+	else if ( is_admin() )
+		return str_replace( '#asyncload', '', $url );
+	else
+		return str_replace( '#asyncload', '', $url )."' async='async";
+}
+add_filter( 'clean_url', 'wbf_async_scripts', 11, 1 );
 
 /**
  * Creates the title based on current view
