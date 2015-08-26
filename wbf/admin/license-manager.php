@@ -113,11 +113,7 @@ class License_Manager implements License_Interface{
                     update_option("waboot_license_localkey",$localkeydata);
                 }
             }
-	        if(isset($results['status'])){
-		        return $results['status'];
-	        }else{
-		        return "invalid";
-	        }
+	        return $results['status'];
         }else{
             return "no-license";
         }
@@ -257,7 +253,7 @@ class License_Manager implements License_Interface{
                     return $results;
                 }
             }
-            if (isset($results['status']) && $results['status'] == "Active") {
+            if ($results['status'] == "Active") {
                 $results['checkdate'] = $checkdate;
                 $data_encoded = serialize($results);
                 $data_encoded = base64_encode($data_encoded);
