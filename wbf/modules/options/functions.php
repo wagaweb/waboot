@@ -183,25 +183,37 @@ function of_recompile_styles($values,$release = false){
 
 /**
  * Replace {of_get_option} and {of_get_font} tags in _theme-options-generated.less.cmp; It is called during "update_option" via of_options_save() and during "wbf/compiler/pre_compile" via hook
+ *
  * @param $value values of the options
+ * @param null $input_file_path
+ * @param null $output_file_path
+ *
+ * @param string $output
+ *
+ * @return bool|string
  */
-function of_generate_less_file($value = null){
+function of_generate_less_file($value = null,$input_file_path = null,$output_file_path = null){
 	if(!isset($value) || empty($value)) $value = Framework::get_options_values();
+	if(!isset($input_file_path) || empty($input_file_path)) $input_file_path = "/sources/less/_theme-options-generated.less.cmp"; //todo: in un ottica di poter utilizzare più compilatori, questo file dovrebbe essere specificato altrove
 
 	if(!is_array($value)) return;
 
-    $tmpFile = new \SplFileInfo(get_stylesheet_directory()."/sources/less/_theme-options-generated.less.cmp"); //todo: in un ottica di poter utilizzare più compilatori, questo file dovrebbe essere specificato altrove
+	$output_type = !isset($output_file_path) || empty($output_file_path) ? "RETURN" : "FILE";
+	$output_string = "";
+
+    $tmpFile = new \SplFileInfo(get_stylesheet_directory().$input_file_path);
     if(!$tmpFile->isFile() || !$tmpFile->isWritable()){
-        $tmpFile = new \SplFileInfo(get_template_directory()."/sources/less/_theme-options-generated.less.cmp");
+        $tmpFile = new \SplFileInfo(get_template_directory().$input_file_path);
     }
-    $parsedFile = new \SplFileInfo(get_stylesheet_directory()."/sources/less/theme-options-generated.less");
+	$parsedFile = $output_file_path ? new \SplFileInfo(get_stylesheet_directory().$output_file_path) : null;
+
     if($tmpFile->isFile() && $tmpFile->isWritable()) {
         $genericOptionfindRegExp = "~//{of_get_option\('([a-zA-Z0-9\-_]+)'\)}~";
         $fontOptionfindRegExp    = "~//{of_get_font\('([a-zA-Z0-9\-_]+)'\)}~";
 
         $tmpFileObj    = $tmpFile->openFile( "r" );
-        $parsedFileObj = $parsedFile->openFile( "w" );
-	    $byte_written = 0;
+        $parsedFileObj = $output_type == "FILE" ? $parsedFile->openFile( "w" ) : null;
+        $byte_written = $output_type == "FILE" ? 0 : null;
 
         while ( ! $tmpFileObj->eof() ) {
             $line = $tmpFileObj->fgets();
@@ -244,10 +256,19 @@ function of_generate_less_file($value = null){
                     $line = "//{$matches[1]} not found\n";
                 }
             }
-	        $byte_written += $parsedFileObj->fwrite( $line );
+	        if($output_type == "FILE"){
+	            $byte_written += $parsedFileObj->fwrite( $line );
+	        }else{
+		        $output_string .= $line."\n";
+	        }
         }
 	    //Here the file has been written!
+	    if($output_type != "FILE"){
+		    return $output_string;
+	    }
+	    return true;
     }
+	return false;
 }
 
 /**
