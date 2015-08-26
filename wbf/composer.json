@@ -2,7 +2,7 @@
   "name": "waga/wbf",
   "description": "A comprehensive full-stack Wordpress framework",
   "homepage": "http://www.waga.it",
-  "version": "0.12.8",
+  "version": "0.13.0",
   "time": "2015-07-23",
   "license": "proprietary",
   "require": {

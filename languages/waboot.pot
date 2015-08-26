@@ -7,9 +7,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Waboot 0.12.8\n"
+"Project-Id-Version: Waboot 0.13.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-06 21:20+0200\n"
+"POT-Creation-Date: 2015-08-26 14:51+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -65,7 +65,7 @@ msgstr ""
 msgid "Comments are closed."
 msgstr ""
 
-#: functions.php:13 functions.php:35
+#: functions.php:13 functions.php:34
 #, php-format
 msgid "Error locating %s for inclusion"
 msgstr ""
@@ -389,95 +389,63 @@ msgstr ""
 msgid "Choose the secondary sidebar width"
 msgstr ""
 
-#: inc/customizer.php:41
-msgid "Display the Top Menu navigation bar, even if there's no menu assigned."
-msgstr ""
-
-#: inc/customizer.php:56
-msgid "Display search box in the Top Menu"
-msgstr ""
-
-#: inc/customizer.php:67
-msgid "Miscellaneous"
-msgstr ""
-
-#: inc/customizer.php:82
-msgid "Display published date under each post"
-msgstr ""
-
-#: inc/customizer.php:100
-msgid "Display post author name under each post"
-msgstr ""
-
-#: inc/customizer.php:118
-msgid "Display post categories under each post"
-msgstr ""
-
-#: inc/customizer.php:136
-msgid "Display post tags under each post"
-msgstr ""
-
-#: inc/customizer.php:154
-msgid "Display \"Leave a Comment\" text under each post"
-msgstr ""
-
-#: inc/hooks.php:130 inc/hooks.php:136 inc/hooks.php:144
+#: inc/hooks.php:140 inc/hooks.php:146 inc/hooks.php:154
 msgid "Inbox"
 msgstr ""
 
-#: inc/hooks.php:151 inc/hooks.php:208
+#: inc/hooks.php:161 inc/hooks.php:218
 msgid "Select all"
 msgstr ""
 
-#: inc/hooks.php:154 inc/hooks.php:211
+#: inc/hooks.php:164 inc/hooks.php:221
 msgid "Recipient"
 msgstr ""
 
-#: inc/hooks.php:157 inc/hooks.php:214
+#: inc/hooks.php:167 inc/hooks.php:224
 msgid "From"
 msgstr ""
 
-#: inc/hooks.php:160 inc/hooks.php:217
+#: inc/hooks.php:170 inc/hooks.php:227
 msgid "Source"
 msgstr ""
 
-#: inc/hooks.php:163 inc/hooks.php:220
+#: inc/hooks.php:173 inc/hooks.php:230
 msgid "Date submitted"
 msgstr ""
 
-#: inc/hooks.php:166 inc/hooks.php:223
+#: inc/hooks.php:176 inc/hooks.php:233
 msgid "Received status"
 msgstr ""
 
-#: inc/hooks.php:174
+#: inc/hooks.php:184
 msgid "Select this mail"
 msgstr ""
 
-#: inc/hooks.php:181
+#: inc/hooks.php:191
 msgid "View"
 msgstr ""
 
-#: inc/hooks.php:185
+#: inc/hooks.php:195
 msgid "Delete"
 msgstr ""
 
-#: inc/hooks.php:230
+#: inc/hooks.php:240
 msgid "email/s"
 msgstr ""
 
-#: inc/hooks.php:232
+#: inc/hooks.php:242
 msgid "Go back to the first page"
 msgstr ""
 
-#: inc/hooks.php:233
+#: inc/hooks.php:243
 msgid "Go back to the previous page"
 msgstr ""
 
-#: inc/hooks.php:235
+#: inc/hooks.php:245
 msgid "Go back to the next page"
 msgstr ""
 
-#: inc/hooks.php:236
+#: inc/hooks.php:246
 msgid "Go back to the last page"
 msgstr ""
 
@@ -1192,33 +1160,33 @@ msgid ""
 "F on Mac for suggestions)."
 msgstr ""
 
-#: inc/scripts.php:36
+#: inc/scripts.php:52
 msgid "New Email from site"
 msgstr ""
 
-#: inc/scripts.php:38
+#: inc/scripts.php:54
 msgid "You email was send successfully. Thanks!"
 msgstr ""
 
-#: inc/scripts.php:39
+#: inc/scripts.php:55
 msgid ""
 "We are sorry: due technical difficulties we was unable to send your message "
 "correctly."
 msgstr ""
 
-#: inc/scripts.php:40
+#: inc/scripts.php:56
 msgid "We are sorry: an error happens when sending your message."
 msgstr ""
 
-#: inc/scripts.php:42
+#: inc/scripts.php:58
 msgid "This field cannot be empty"
 msgstr ""
 
-#: inc/scripts.php:43
+#: inc/scripts.php:59
 msgid "This field needs to be checked"
 msgstr ""
 
-#: inc/scripts.php:44
+#: inc/scripts.php:60
 msgid "An error was triggered by this field"
 msgstr ""
 

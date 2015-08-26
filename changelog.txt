@@ -1,6 +1,6 @@
 == Change log ==
 
-Version 0.12.9 - work in progress
+Version 0.13.0 - 26/08/2015
 ---------------------------------
 
 WABOOT:

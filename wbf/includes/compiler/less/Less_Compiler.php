@@ -21,7 +21,7 @@ class Less_Compiler implements Base_Compiler{
 	 *          'map_url' => '', //the url to the map file
 	 *          'cache' => '' //the path to the cache directory
 	 *          'import_url' => '' //the path to the imports directory
-	 *          @since 0.12.9:
+	 *          @since 0.13:
 	 *          'exclude_from_global_compile' => false
 	 *          'compile_pre_callback' => null
 	 *          'compile_post_callback' => null
@@ -38,7 +38,7 @@ class Less_Compiler implements Base_Compiler{
 			    'map_url' => '',
 			    'cache' => '',
 			    'import_url' => '',
-			    //@since 0.12.9:
+			    //@since 0.13:
 			    'exclude_from_global_compile' => false,
 			    'compile_pre_callback' => null,
 			    'compile_post_callback' => null
@@ -109,7 +109,7 @@ class Less_Compiler implements Base_Compiler{
 			'map_url' => '',
 			'cache' => '',
 			'import_url' => '',
-			//@since 0.12.9:
+			//@since 0.13:
 			'exclude_from_global_compile' => false,
 			'compile_pre_callback' => null,
 			'compile_post_callback' => null
