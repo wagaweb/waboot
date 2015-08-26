@@ -8,10 +8,12 @@ WABOOT:
 - Ora "wbData" ha la nuova proprietà "isDebug", che viene settata true se WP_DEBUG è true, oppure WBF_ENV o WABOOT_ENV sono settati su "dev"
 - Aggiunta azione "waboot_head_after" dopo la chiusura di <head>
 - Ora viene applicato flush() dopo la chiusura di <head> (tramite l'azione "waboot_head_after")
+- Gli script js vengono caricati con #asyncload (vedi sotto)
 
 WBF:
 - Corretto pathname alla libreria "imagesloaded"
 - Refactor generale del compilatore degli stili base, del compilatore less e dell'interfaccia per i compilatori
+- Ora aggiungendo "#asyncload" nell'url degli script durante l'enqueue, vengono caricati in modo asincrono
 - MODULI:
     - OPTIONS:
         - Ora le opzioni sono disponibili anche nel customizer (beta)
