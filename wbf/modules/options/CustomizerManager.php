@@ -14,8 +14,8 @@ class CustomizerManager{
 		add_action( 'customize_update_wbf_theme_option', '\WBF\modules\options\CustomizerManager::update', 10, 2 );
 		add_action( 'customize_save_after', '\WBF\modules\options\CustomizerManager::after_customizer_save', 10, 2 );
 		add_action( 'customize_preview_wbf_theme_option', '\WBF\modules\options\CustomizerManager::preview', 10, 2 );
-		add_action( 'wbf/compiler/pre_compile', '\WBF\modules\options\CustomizerManager::styles_preview_pre_callback', 10, 2 );
-		add_action( 'wbf/compiler/post_compile', '\WBF\modules\options\CustomizerManager::styles_preview_post_callback', 10, 3 );
+		add_action( 'wbf/compiler/pre_compile/customizer_preview', '\WBF\modules\options\CustomizerManager::styles_preview_pre_callback', 10);
+		add_action( 'wbf/compiler/post_compile/customizer_preview', '\WBF\modules\options\CustomizerManager::styles_preview_post_callback', 10, 2 );
 		//Add a new compile set to styles compiler
 		if(isset($wbf_styles_compiler) && $wbf_styles_compiler){
 			$customizer_style = $wbf_styles_compiler->get_primary_set();
@@ -169,26 +169,20 @@ class CustomizerManager{
 
 	/**
 	 * Action performed into "wbf/compiler/pre_compile" action
-	 * @param $setname
 	 * @param $args
 	 */
-	public static function styles_preview_pre_callback($setname,$args){
-		if($setname == "customizer_preview"){
-			//Create the file with the new values for the preview
-			of_generate_less_file(Framework::get_options_values_filtered());
-		}
+	public static function styles_preview_pre_callback($args){
+		//Create the file with the new values for the preview
+		of_generate_less_file(Framework::get_options_values_filtered());
 	}
 
 	/**
 	 * Action performed into "wbf/compiler/post_compile" action
-	 * @param $setname
 	 * @param $args
 	 * @param $css
 	 */
-	public static function styles_preview_post_callback($setname,$args,$css){
-		if($setname == "customizer_preview") {
-			//Restore the file
-			of_generate_less_file();
-		}
+	public static function styles_preview_post_callback($args,$css){
+		//Restore the file
+		of_generate_less_file();
 	}
 }

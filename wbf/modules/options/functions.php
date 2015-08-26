@@ -172,7 +172,7 @@ function of_options_save($option, $old_value, $value){
  * @uses of_generate_less_file
  */
 function of_recompile_styles($values,$release = false){
-	of_generate_less_file($values); //Create a _theme-options-generated.less file //todo: in un ottica di poter utilizzare più compilatori, questo file dovrebbe essere specificato altrove
+	of_generate_less_file($values); //Create a theme-options-generated.less file //todo: in un ottica di poter utilizzare più compilatori, questo file dovrebbe essere specificato altrove
 	//Then, compile less
 	if(isset($GLOBALS['wbf_styles_compiler']) && $GLOBALS['wbf_styles_compiler']){
 		global $wbf_styles_compiler;

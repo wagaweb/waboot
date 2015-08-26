@@ -41,30 +41,54 @@ class Styles_Compiler{
 		@ini_set( 'memory_limit', apply_filters( 'admin_memory_limit', WP_MAX_MEMORY_LIMIT ) );
 		try{
 			if(!$this->can_compile()) throw new CompilerBusyException();
-			$args = $this->get_compile_sets()[$setname]; //The set args
+			$args = $setname && !empty($setname) ? $this->get_compile_sets()[$setname] : false; //The set args
+
 			$this->lock(); //lock the compiler
 			$this->update_last_compile_attempt(); //keep note of the current time
-			do_action("wbf/compiler/pre_compile",$setname,$args);
-			if(isset($args['compile_pre_callback'])){
-				call_user_func($args['compile_pre_callback'],$args);
-			}
+
+			$return_css_flag = true;
+			do_action("wbf/compiler/pre_compile");
 			if($setname && is_string($setname)){
-				$css = $this->base_compiler->compile_set($setname); //COMPILE specified set with specified compiler!
+				/*
+				 * SPECIFIC SET COMPILING
+				 */
+				do_action("wbf/compiler/pre_compile/{$setname}",$args);
+				if(isset($args['compile_pre_callback'])){
+					call_user_func($args['compile_pre_callback'],$args);
+				}
+				$css = $this->base_compiler->compile($setname); //COMPILE with specified compiler!
+				if(isset($args['output']) && !empty($args['output'])){
+					$this->write_to_file($css,$args['output']);
+					$return_css_flag = false;
+				}
+				do_action("wbf/compiler/post_compile/{$setname}",$args,$css);
+				if(isset($args['compile_post_callback'])){
+					call_user_func($args['compile_post_callback'],$css);
+				}
 			}else{
-				$css = $this->base_compiler->compile(); //COMPILE with specified compiler!
+				/*
+				 * GLOBAL COMPILING
+				 */
+				foreach($this->get_compile_sets() as $setname => $args){
+					if($args['exclude_from_global_compile']) continue;
+					do_action("wbf/compiler/pre_compile/{$setname}",$args);
+					if(isset($args['compile_pre_callback'])){
+						call_user_func($args['compile_pre_callback'],$args);
+					}
+					$css[$setname] = $this->base_compiler->compile($setname); //COMPILE with specified compiler!
+					if(isset($args['output']) && !empty($args['output'])){
+						$this->write_to_file($css[$setname],$args['output']);
+						$return_css_flag = false;
+					}
+					do_action("wbf/compiler/post_compile/{$setname}",$args,$css[$setname]);
+					if(isset($args['compile_post_callback'])){
+						call_user_func($args['compile_post_callback'],$css[$setname]);
+					}
+				}
 			}
-			if(isset($args['compile_post_callback'])){
-				call_user_func($args['compile_post_callback'],$css);
-			}
-			do_action("wbf/compiler/post_compile",$setname,$args,$css);
+			do_action("wbf/compiler/post_compile");
+
 			$this->release_lock(); //release the compiler
-			//Output the compile results:
-			if(isset($args['output']) && !empty($args['output'])){
-				$this->write_to_file($css,$args['output']);
-				$write_to_output_flag = false;
-			}else{
-				$write_to_output_flag = true;
-			}
 			//Display end message:
 			static $message_displayed = false;
 			if ( current_user_can( 'manage_options' ) && !$message_displayed) {
@@ -79,8 +103,10 @@ class Styles_Compiler{
 				}
 				$message_displayed = true;
 			}
-			if($write_to_output_flag){
+			if($return_css_flag && isset($css)){
 				return $css;
+			}else{
+				return true;
 			}
 		}catch(Exception $e){
 			if(!$e instanceof CompilerBusyException) $this->release_lock(); //release the compiler
