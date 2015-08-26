@@ -24,13 +24,13 @@ module.exports = function(grunt) {
             },
             production:{
                 options:{
-                    cleancss: true
+                    compress: true
                 },
                 files: ['<%= less.dev.files %>']
             },
             waboot:{
                 options:{
-                    cleancss: true,
+                    compress: true,
                     sourceMap: true,
                     sourceMapFilename: "assets/css/waboot.css.map",
                     sourceMapBasepath: "assets/css"
