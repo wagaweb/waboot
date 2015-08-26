@@ -24,6 +24,7 @@ class CustomizerManager{
 						return false;
 					}
 				}),
+				'input_relativepath' => "/sources/less/_theme-options-generated.less.cmp",
 				'exclude_from_global_compile' => true,
 				'compile_callback' => '\WBF\modules\options\CustomizerManager::styles_preview_callback'
 			]);
@@ -155,17 +156,28 @@ class CustomizerManager{
 					return $new_value;
 				}
 			});
+			if(!has_action("wp_head",'\WBF\modules\options\CustomizerManager::styles_preview')){
+				add_action("wp_head",'\WBF\modules\options\CustomizerManager::styles_preview',999);
+			}
 			//self::styles_preview(); //todo: qst viene eseguito una volta per ogni opzione... è troppo. Forse si potrebbe risolvere aggiungendo una action nell'header, che a sua volta fa l'azione di styles_preview, almeno viene aggiunta una volta sola...
 		}
 	}
 
-	private static function styles_preview(){
+	public static function styles_preview(){
 		global $wbf_styles_compiler;
 		$wbf_styles_compiler->compile("customizer_preview");
+		$wbf_styles_compiler->release_lock();
 	}
 
 	public static function styles_preview_callback(){
 		//todo: Qui andrebbe preso il file _theme_options_generated.less.cmp, eliminiamo le variabili less, compiliamo le variabili apponendo !important e poi lo stampiamo nell'head di WP
+		global $wbf_styles_compiler;
+		$input_file = $wbf_styles_compiler->get_compile_sets()['customizer_preview']['input_relativepath'];
+		$generated_css = of_generate_less_file(Framework::get_options_values_filtered(),$input_file,null);
+		//Strip out non-css plain code
+		$generated_css = preg_replace("/@[\w-_]+:\s*.*;[\/.]*/","",$generated_css);
+		$output_string = "<style>".$generated_css."</style>";
+		echo $output_string;
 		return true;
 	}
 }
