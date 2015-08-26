@@ -22,8 +22,7 @@ interface Base_Compiler{
 	 * )
 	 */
 	function __construct($args);
-	public function compile();
-	public function compile_set($name,$args);
+	public function compile($name,$args);
 	public function add_set($name,$args);
 	public function remove_set($name);
 }

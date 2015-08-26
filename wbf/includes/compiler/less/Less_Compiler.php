@@ -55,30 +55,7 @@ class Less_Compiler implements Base_Compiler{
 	    }
     }
 
-    function compile(){
-        try{
-            foreach($this->compile_sets as $set_name => $set_args){
-	            if(!$set_args['exclude_from_global_compile']){
-                    $this->compile_set($set_name,$set_args);
-	            }
-            }
-            if(isset($_SERVER['HTTP_X_REQUESTED_WITH'])){
-                echo 1;
-                die();
-            }else{
-                return true;
-            }
-        }catch(Exception $e){
-            if(isset($_SERVER['HTTP_X_REQUESTED_WITH'])){
-                echo 0;
-                die();
-            }else{
-                return false;
-            }
-        }
-    }
-
-    function compile_set($name,$args = []){
+    function compile($name,$args = []){
         try{
 	        global $wp_filesystem;
 	        require_once( WBF_DIRECTORY."/includes/compiler/less/Less_Cache.php" );
