@@ -18,7 +18,7 @@ if ( STYLESHEETPATH == TEMPLATEPATH ) {
     define('OPTIONS_FRAMEWORK_DIRECTORY', get_bloginfo('template_directory') . '/wbf/vendor/options-framework/');
 }
 
-add_action("wbf_init",'\WBF\modules\options\module_init', 11);
+add_action( "wbf_init",'\WBF\modules\options\module_init', 11 );
 add_action( "updated_option", '\WBF\modules\options\of_options_save', 9999, 3 );
 add_action( "wbf/compiler/pre_compile", '\WBF\modules\options\of_generate_less_file', 9999, 3 );
 
@@ -82,7 +82,7 @@ function of_get_option( $name, $default = false ) {
 	static $options_in_file = array();
 	static $options = array();
 
-	if(!is_array($config)) $config = get_option( 'optionsframework' );
+	if(!is_array($config)) $config = Framework::get_options_root_id();
 
     //[WABOOT MOD] Tries to return the default value sets into $options array if $default is false
     if(!$default){
@@ -96,11 +96,11 @@ function of_get_option( $name, $default = false ) {
         }
     }
 
-    if(!isset($config['id'])){
+    if(!isset($config) || !$config){
         return $default;
     }
 
-    if(empty($options)) $options = get_option( $config['id'] );
+    if(empty($options)) $options = get_option( $config );
 
     if ( isset( $options[$name] ) ) {
 	    $value = $options[$name];
