@@ -12,11 +12,11 @@ class GUI extends \Options_Framework_Interface
     {
 
         global $allowedtags;
-        $optionsframework_settings = get_option('optionsframework');
+        $optionsframework_settings = Framework::get_options_root_id();
 
         // Gets the unique option id
-        if (isset($optionsframework_settings['id'])) {
-            $option_name = $optionsframework_settings['id'];
+        if ($optionsframework_settings) {
+            $option_name = $optionsframework_settings;
         } else {
             $option_name = 'optionsframework';
         };

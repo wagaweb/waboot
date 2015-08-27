@@ -392,11 +392,11 @@ function of_add_default_key($values){
  * @since 0.1.0
  */
 function prefix_theme_options($old_prefix, $new_prefix) {
-    $options_field = get_option('optionsframework');
+    $options_field = Framework::get_options_root_id();
 
     if (!$options_field || empty($options_field)) return;
 
-    $options = get_option($options_field['id']);
+    $options = get_option($options_field);
     $new_options = array();
 
     if (!empty($options) && $options != false) {
@@ -408,7 +408,7 @@ function prefix_theme_options($old_prefix, $new_prefix) {
         return;
     }
 
-    update_option($options_field['id'], $new_options);
+    update_option($options_field, $new_options);
 }
 
 /**
@@ -433,6 +433,6 @@ function transfer_theme_options($from_theme, $to_theme = null) {
  * @since 0.1.0
  */
 function import_theme_options($exported_options) {
-    $options_field = get_option('optionsframework');
-    update_option($options_field['id'], $exported_options);
+    $options_field = Framework::get_options_root_id();
+    update_option($options_field, $exported_options);
 }
