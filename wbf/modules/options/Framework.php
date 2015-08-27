@@ -5,6 +5,23 @@ namespace WBF\modules\options;
 class Framework extends \Options_Framework {
 
 	/**
+	 * Initialize the framework.
+	 */
+	public function init(){
+		Framework::set_theme_option_default_root_id();
+	}
+
+	/**
+	 * Sets defaults theme options root id
+	 */
+	static function set_theme_option_default_root_id() {
+		// Load current theme
+		$current_theme_name = wp_get_theme()->get_stylesheet();
+		$current_theme_name = preg_replace("/\W/", "_", strtolower($current_theme_name));
+		self::set_options_root_id($current_theme_name);
+	}
+
+	/**
 	 * Get current registered theme options.
 	 *
 	 * @alias-of Framework::_optionsframework_options()
@@ -156,11 +173,18 @@ class Framework extends \Options_Framework {
 	 * @return string|false
 	 */
 	static function get_options_root_id(){
-		$opt_name = get_option('optionsframework');
-		if(isset($opt_name['id'])){
-			return $opt_name['id'];
+		$opt_root = get_option('optionsframework');
+		if(isset($opt_root['id'])){
+			return $opt_root['id'];
 		}
 		return false;
+	}
+
+	static function set_options_root_id($id){
+		$opt_root = get_option('optionsframework');
+		if(!is_array($opt_root)) $opt_root = [];
+		$opt_root['id'] = $id;
+		update_option('optionsframework', $opt_root);
 	}
 
 	/**
@@ -168,9 +192,9 @@ class Framework extends \Options_Framework {
 	 * @return array|false
 	 */
 	static function get_options_values(){
-		$opt_name = get_option('optionsframework');
-		if(isset($opt_name['id'])){
-			return get_option($opt_name['id']);
+		$opt_id = self::get_options_root_id();
+		if($opt_id){
+			return get_option($opt_id);
 		}
 		return false;
 	}
