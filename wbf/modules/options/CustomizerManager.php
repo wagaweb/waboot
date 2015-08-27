@@ -137,7 +137,7 @@ class CustomizerManager{
 	 * @param \WP_Customize_Setting $setting
 	 */
 	public static function preview(\WP_Customize_Setting $setting){
-		$name = call_user_func(function() use($setting){
+;		$name = call_user_func(function() use($setting){
 			$match = preg_match("/\[([\w_]+)\]/",$setting->id,$matches);
 			if($match) return $matches[1];
 			else return false;
@@ -162,9 +162,38 @@ class CustomizerManager{
 	 */
 	public static function styles_preview(){
 		global $wbf_styles_compiler;
-		$generated_css = $wbf_styles_compiler->compile("customizer_preview");
-		$output_string = "<style data-customizer-preview>".$generated_css."</style>";
-		echo $output_string;
+		$post_values = json_decode( wp_unslash( $_POST['customized'] ), true );
+		if(!empty($post_values)){
+			//Get only the updated post values (the $_POST['customized'] is updated every time an option being changed):
+			$cached_post_values = get_transient("wbf_customizer_post_values");
+			if(!$cached_post_values) $cached_post_values = [];
+			$new_post_values = array_diff($post_values,$cached_post_values);
+			set_transient("wbf_customizer_post_values",$post_values);
+
+			$recompile_flag = false;
+			$cached_generated_css = get_transient("wbf_customizer_generated_preview_css");
+			//Detect if we must recompile or not:
+			foreach($new_post_values as $opt_name => $opt_value){
+				$opt_id = call_user_func(function() use($opt_name){
+					$match = preg_match("/\[([\w_]+)\]/",$opt_name,$matches);
+					if($match) return $matches[1];
+					else return false;
+				});
+				if(Framework::option_must_recompile_styles($opt_id)){
+					$recompile_flag = true;
+				}
+			}
+			if(!$recompile_flag){
+				if(!$cached_generated_css) $cached_generated_css = "";
+				$generated_css = $cached_generated_css;
+			}else{
+				$generated_css = $wbf_styles_compiler->compile("customizer_preview");
+				set_transient("wbf_customizer_generated_preview_css",$generated_css);
+			}
+			//Add the css to the head:
+			$output_string = "<style data-customizer-preview>".$generated_css."</style>";
+			echo $output_string;
+		}
 	}
 
 	/**
