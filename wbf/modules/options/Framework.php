@@ -141,6 +141,17 @@ class Framework extends \Options_Framework {
 	}
 
 	/**
+	 * Get if the specified option must recompile styles or not
+	 * @param $id
+	 *
+	 * @return bool
+	 */
+	static function option_must_recompile_styles($id){
+		$option = self::get_option_object($id);
+		return isset($option['recompile_styles']) && $option['recompile_styles'];
+	}
+
+	/**
 	 * Get the current options root id (the name of the option that contains the current valid options. Default to the current theme name)
 	 * @return string|false
 	 */
