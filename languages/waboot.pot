@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#: inc/options.php:833 inc/options.php:883
+#: inc/options.php:816 inc/options.php:866
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: Waboot 0.13.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-26 15:32+0200\n"
+"POT-Creation-Date: 2015-08-27 14:54+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -326,8 +326,8 @@ msgstr ""
 msgid "No"
 msgstr ""
 
-#: inc/behaviors.php:29 inc/options.php:794 inc/options.php:873
-#: inc/options.php:923
+#: inc/behaviors.php:29 inc/options.php:777 inc/options.php:856
+#: inc/options.php:906
 msgid "Title position"
 msgstr ""
 
@@ -335,13 +335,13 @@ msgstr ""
 msgid "Default title positioning in pages"
 msgstr ""
 
-#: inc/behaviors.php:34 inc/options.php:799 inc/options.php:878
-#: inc/options.php:928
+#: inc/behaviors.php:34 inc/options.php:782 inc/options.php:861
+#: inc/options.php:911
 msgid "Above primary"
 msgstr ""
 
-#: inc/behaviors.php:38 inc/options.php:799 inc/options.php:878
-#: inc/options.php:928
+#: inc/behaviors.php:38 inc/options.php:782 inc/options.php:861
+#: inc/options.php:911
 msgid "Below primary"
 msgstr ""
 
@@ -353,13 +353,13 @@ msgstr ""
 msgid "Default body layout for posts and pages"
 msgstr ""
 
-#: inc/behaviors.php:59 inc/options.php:803 inc/options.php:847
-#: inc/options.php:897
+#: inc/behaviors.php:59 inc/options.php:786 inc/options.php:830
+#: inc/options.php:880
 msgid "Primary Sidebar width"
 msgstr ""
 
-#: inc/behaviors.php:60 inc/options.php:804 inc/options.php:848
-#: inc/options.php:898
+#: inc/behaviors.php:60 inc/options.php:787 inc/options.php:831
+#: inc/options.php:881
 msgid "Choose the primary sidebar width"
 msgstr ""
 
@@ -379,13 +379,13 @@ msgstr ""
 msgid "1/6"
 msgstr ""
 
-#: inc/behaviors.php:86 inc/options.php:812 inc/options.php:856
-#: inc/options.php:906
+#: inc/behaviors.php:86 inc/options.php:795 inc/options.php:839
+#: inc/options.php:889
 msgid "Secondary Sidebar width"
 msgstr ""
 
-#: inc/behaviors.php:87 inc/options.php:813 inc/options.php:857
-#: inc/options.php:907
+#: inc/behaviors.php:87 inc/options.php:796 inc/options.php:840
+#: inc/options.php:890
 msgid "Choose the secondary sidebar width"
 msgstr ""
 
@@ -510,651 +510,651 @@ msgstr ""
 msgid "Bottom Menu"
 msgstr ""
 
-#: inc/options.php:67
+#: inc/options.php:50
 msgid "Layout"
 msgstr ""
 
-#: inc/options.php:72
+#: inc/options.php:55
 msgid "Page"
 msgstr ""
 
-#: inc/options.php:73
+#: inc/options.php:56
 msgid "Select page width. Fluid or Boxed?"
 msgstr ""
 
-#: inc/options.php:90
+#: inc/options.php:73
 msgid "Background Page"
 msgstr ""
 
-#: inc/options.php:91
+#: inc/options.php:74
 msgid "Change the page background color."
 msgstr ""
 
-#: inc/options.php:100
+#: inc/options.php:83
 msgid "Sections Inner"
 msgstr ""
 
-#: inc/options.php:101
+#: inc/options.php:84
 msgid "Define Inner Sections width and background color"
 msgstr ""
 
-#: inc/options.php:106
+#: inc/options.php:89
 msgid "Top Nav"
 msgstr ""
 
-#: inc/options.php:107
+#: inc/options.php:90
 msgid "Select Top Nav width. Fluid or Boxed?"
 msgstr ""
 
-#: inc/options.php:124 inc/options.php:520 inc/options.php:533
+#: inc/options.php:107 inc/options.php:503 inc/options.php:516
 msgid "Header"
 msgstr ""
 
-#: inc/options.php:125
+#: inc/options.php:108
 msgid "Select header width. Fluid or Boxed?"
 msgstr ""
 
-#: inc/options.php:142
+#: inc/options.php:125
 msgid "Background Top Nav"
 msgstr ""
 
-#: inc/options.php:143
+#: inc/options.php:126
 msgid "Change the Top Nav background color."
 msgstr ""
 
-#: inc/options.php:150
+#: inc/options.php:133
 msgid "Background Header"
 msgstr ""
 
-#: inc/options.php:151
+#: inc/options.php:134
 msgid "Change the header background color."
 msgstr ""
 
-#: inc/options.php:159
+#: inc/options.php:142
 msgid "Navbar"
 msgstr ""
 
-#: inc/options.php:160
+#: inc/options.php:143
 msgid "Select navbar width. Fluid or Boxed?"
 msgstr ""
 
-#: inc/options.php:177
+#: inc/options.php:160
 msgid "Banner"
 msgstr ""
 
-#: inc/options.php:178
+#: inc/options.php:161
 msgid "Select banner width. Fluid or Boxed?"
 msgstr ""
 
-#: inc/options.php:195
+#: inc/options.php:178
 msgid "Background Navbar"
 msgstr ""
 
-#: inc/options.php:196
+#: inc/options.php:179
 msgid "Change the navbar background color."
 msgstr ""
 
-#: inc/options.php:204
+#: inc/options.php:187
 msgid "Background Banner"
 msgstr ""
 
-#: inc/options.php:205
+#: inc/options.php:188
 msgid "Change the banner background color."
 msgstr ""
 
-#: inc/options.php:212
+#: inc/options.php:195
 msgid "Content"
 msgstr ""
 
-#: inc/options.php:213
+#: inc/options.php:196
 msgid "Select content width. Fluid or Boxed?"
 msgstr ""
 
-#: inc/options.php:230
+#: inc/options.php:213
 msgid "Content Bottom"
 msgstr ""
 
-#: inc/options.php:231
+#: inc/options.php:214
 msgid "Select content bottom width. Fluid or Boxed?"
 msgstr ""
 
-#: inc/options.php:248
+#: inc/options.php:231
 msgid "Background Content"
 msgstr ""
 
-#: inc/options.php:249
+#: inc/options.php:232
 msgid "Change the content background color."
 msgstr ""
 
-#: inc/options.php:256
+#: inc/options.php:239
 msgid "Background Content Bottom"
 msgstr ""
 
-#: inc/options.php:257
+#: inc/options.php:240
 msgid "Change the content bottom background color."
 msgstr ""
 
-#: inc/options.php:265 inc/options.php:666
+#: inc/options.php:248 inc/options.php:649
 msgid "Footer"
 msgstr ""
 
-#: inc/options.php:266
+#: inc/options.php:249
 msgid "Select footer width. Fluid or Boxed?"
 msgstr ""
 
-#: inc/options.php:283
+#: inc/options.php:266
 msgid "Closure"
 msgstr ""
 
-#: inc/options.php:284
+#: inc/options.php:267
 msgid "Select closure width. Fluid or Boxed?"
 msgstr ""
 
-#: inc/options.php:301
+#: inc/options.php:284
 msgid "Background Footer"
 msgstr ""
 
-#: inc/options.php:302
+#: inc/options.php:285
 msgid "Change the footer background color."
 msgstr ""
 
-#: inc/options.php:310
+#: inc/options.php:293
 msgid "Background Closure"
 msgstr ""
 
-#: inc/options.php:311
+#: inc/options.php:294
 msgid "Change the closure background color."
 msgstr ""
 
-#: inc/options.php:324
+#: inc/options.php:307
 msgid "Backgrounds"
 msgstr ""
 
-#: inc/options.php:329
+#: inc/options.php:312
 msgid "Body Background Image"
 msgstr ""
 
-#: inc/options.php:330
+#: inc/options.php:313
 msgid ""
 "Upload a background image, or specify the image address of your image. "
 "(http://yoursite.com/image.png)"
 msgstr ""
 
-#: inc/options.php:338
+#: inc/options.php:321
 msgid "Body Background Color"
 msgstr ""
 
-#: inc/options.php:339
+#: inc/options.php:322
 msgid "Change the body background color."
 msgstr ""
 
-#: inc/options.php:347
+#: inc/options.php:330
 msgid "Body Background Image Repeat"
 msgstr ""
 
-#: inc/options.php:348
+#: inc/options.php:331
 msgid "Select how you want your background image to display."
 msgstr ""
 
-#: inc/options.php:356
+#: inc/options.php:339
 msgid "Body Background image position"
 msgstr ""
 
-#: inc/options.php:357
+#: inc/options.php:340
 msgid "Select how you would like to position the background"
 msgstr ""
 
-#: inc/options.php:370
+#: inc/options.php:353
 msgid "Body Background Attachment"
 msgstr ""
 
-#: inc/options.php:371
+#: inc/options.php:354
 msgid ""
 "Select whether the background should be fixed or move when the user scrolls"
 msgstr ""
 
-#: inc/options.php:384
+#: inc/options.php:367
 msgid "Style"
 msgstr ""
 
-#: inc/options.php:389
+#: inc/options.php:372
 msgid "Primary color"
 msgstr ""
 
-#: inc/options.php:390
+#: inc/options.php:373
 msgid "Change the color of @brand-primary."
 msgstr ""
 
-#: inc/options.php:398
+#: inc/options.php:381
 msgid "Text color"
 msgstr ""
 
-#: inc/options.php:399
+#: inc/options.php:382
 msgid "Change the color of @text-color."
 msgstr ""
 
-#: inc/options.php:407
+#: inc/options.php:390
 msgid "Info color"
 msgstr ""
 
-#: inc/options.php:408
+#: inc/options.php:391
 msgid "Change the color of @brand-info."
 msgstr ""
 
-#: inc/options.php:416
+#: inc/options.php:399
 msgid "Success color"
 msgstr ""
 
-#: inc/options.php:417
+#: inc/options.php:400
 msgid "Change the color of @brand-success."
 msgstr ""
 
-#: inc/options.php:425
+#: inc/options.php:408
 msgid "Warning color"
 msgstr ""
 
-#: inc/options.php:426
+#: inc/options.php:409
 msgid "Change the color of @brand-warning."
 msgstr ""
 
-#: inc/options.php:434
+#: inc/options.php:417
 msgid "Danger color"
 msgstr ""
 
-#: inc/options.php:435
+#: inc/options.php:418
 msgid "Change the color of @brand-danger."
 msgstr ""
 
-#: inc/options.php:443
+#: inc/options.php:426
 msgid "Border radius base"
 msgstr ""
 
-#: inc/options.php:444
+#: inc/options.php:427
 msgid "Change the width in pixel of @border-radius-base."
 msgstr ""
 
-#: inc/options.php:452
+#: inc/options.php:435
 msgid "Border radius large"
 msgstr ""
 
-#: inc/options.php:453
+#: inc/options.php:436
 msgid "Change the width in pixel of @border-radius-large."
 msgstr ""
 
-#: inc/options.php:461
+#: inc/options.php:444
 msgid "Border radius small"
 msgstr ""
 
-#: inc/options.php:462
+#: inc/options.php:445
 msgid "Change the width in pixel of @border-radius-small."
 msgstr ""
 
-#: inc/options.php:470
+#: inc/options.php:453
 msgid "Well background"
 msgstr ""
 
-#: inc/options.php:471
+#: inc/options.php:454
 msgid "Change the color of @well-bg."
 msgstr ""
 
-#: inc/options.php:483
+#: inc/options.php:466
 msgid "Typography"
 msgstr ""
 
-#: inc/options.php:525
+#: inc/options.php:508
 msgid "Show Logo?"
 msgstr ""
 
-#: inc/options.php:526
+#: inc/options.php:509
 msgid "Displays the logo on your site."
 msgstr ""
 
-#: inc/options.php:534
+#: inc/options.php:517
 msgid "Select your header layout"
 msgstr ""
 
-#: inc/options.php:555
+#: inc/options.php:538
 msgid "Navbar Align"
 msgstr ""
 
-#: inc/options.php:556
+#: inc/options.php:539
 msgid "Select align of navbar"
 msgstr ""
 
-#: inc/options.php:560
+#: inc/options.php:543
 msgid "Left"
 msgstr ""
 
-#: inc/options.php:560
+#: inc/options.php:543
 msgid "Right"
 msgstr ""
 
-#: inc/options.php:560
+#: inc/options.php:543
 msgid "Center"
 msgstr ""
 
-#: inc/options.php:564
+#: inc/options.php:547
 msgid "Show search bar in Header?"
 msgstr ""
 
-#: inc/options.php:565 inc/options.php:609
+#: inc/options.php:548 inc/options.php:592
 msgid "Default is enabled. Uncheck this box to turn it off."
 msgstr ""
 
-#: inc/options.php:572
+#: inc/options.php:555
 msgid "Mobile Nav Style"
 msgstr ""
 
-#: inc/options.php:573
+#: inc/options.php:556
 msgid "Select your mobile nav style"
 msgstr ""
 
-#: inc/options.php:590
+#: inc/options.php:573
 msgid "Top Nav Menu Position"
 msgstr ""
 
-#: inc/options.php:591
+#: inc/options.php:574
 msgid "Select the Top Nav Menu position"
 msgstr ""
 
-#: inc/options.php:608
+#: inc/options.php:591
 msgid "Show Logo in Mobile Nav?"
 msgstr ""
 
-#: inc/options.php:624
+#: inc/options.php:607
 msgid "Archive page"
 msgstr ""
 
-#: inc/options.php:625
+#: inc/options.php:608
 msgid "Tag archive"
 msgstr ""
 
-#: inc/options.php:626
+#: inc/options.php:609
 msgid "Taxonomy archive"
 msgstr ""
 
-#: inc/options.php:644
+#: inc/options.php:627
 msgid "Breadcrumb Locations"
 msgstr ""
 
-#: inc/options.php:645
+#: inc/options.php:628
 msgid "Where to show breadcrumb"
 msgstr ""
 
-#: inc/options.php:671
+#: inc/options.php:654
 msgid "Show custom footer text?"
 msgstr ""
 
-#: inc/options.php:672
+#: inc/options.php:655
 msgid ""
 "Default is disabled. Check this box to use custom footer text. Fill in your "
 "text below."
 msgstr ""
 
-#: inc/options.php:679
+#: inc/options.php:662
 msgid "Custom footer text"
 msgstr ""
 
-#: inc/options.php:680
+#: inc/options.php:663
 msgid ""
 "Enter the text here that you would like displayed at the bottom of your "
 "site. This setting will be ignored if you do not enable \"Show custom footer "
 "text\" above."
 msgstr ""
 
-#: inc/options.php:694
+#: inc/options.php:677
 msgid "Posts & Pages"
 msgstr ""
 
-#: inc/options.php:709
+#: inc/options.php:692
 #, php-format
 msgid "Edit default options for \"%s\" post type"
 msgstr ""
 
-#: inc/options.php:729
+#: inc/options.php:712
 msgid "Blog"
 msgstr ""
 
-#: inc/options.php:750
+#: inc/options.php:733
 msgid "Blog Style"
 msgstr ""
 
-#: inc/options.php:751
+#: inc/options.php:734
 msgid "Select blog page style"
 msgstr ""
 
-#: inc/options.php:777
+#: inc/options.php:760
 msgid "Blog Layout"
 msgstr ""
 
-#: inc/options.php:778
+#: inc/options.php:761
 msgid "Select blog page layout"
 msgstr ""
 
-#: inc/options.php:786
+#: inc/options.php:769
 msgid "Display Blog page title"
 msgstr ""
 
-#: inc/options.php:787 inc/options.php:866 inc/options.php:916
+#: inc/options.php:770 inc/options.php:849 inc/options.php:899
 msgid "Check this box to show page title."
 msgstr ""
 
-#: inc/options.php:795 inc/options.php:874 inc/options.php:924
+#: inc/options.php:778 inc/options.php:857 inc/options.php:907
 msgid "Select where to display page title"
 msgstr ""
 
-#: inc/options.php:827
+#: inc/options.php:810
 msgid "Woocommerce"
 msgstr ""
 
-#: inc/options.php:832
+#: inc/options.php:815
 msgid "Woocommerce Shop Page"
 msgstr ""
 
-#: inc/options.php:838
+#: inc/options.php:821
 msgid "Woocommerce Shop Layout"
 msgstr ""
 
-#: inc/options.php:839
+#: inc/options.php:822
 msgid "Select Woocommerce shop page layout"
 msgstr ""
 
-#: inc/options.php:865 inc/options.php:915
+#: inc/options.php:848 inc/options.php:898
 msgid "Display Woocommerce page title"
 msgstr ""
 
-#: inc/options.php:882
+#: inc/options.php:865
 msgid "Woocommerce Archives and Categories"
 msgstr ""
 
-#: inc/options.php:888
+#: inc/options.php:871
 msgid "Woocommerce Archive Layout"
 msgstr ""
 
-#: inc/options.php:889
+#: inc/options.php:872
 msgid "Select Woocommerce archive layout"
 msgstr ""
 
-#: inc/options.php:932
+#: inc/options.php:915
 msgid "Items for Row"
 msgstr ""
 
-#: inc/options.php:933
+#: inc/options.php:916
 msgid "How many items display for row"
 msgstr ""
 
-#: inc/options.php:941
+#: inc/options.php:924
 msgid "Products per page"
 msgstr ""
 
-#: inc/options.php:942
+#: inc/options.php:925
 msgid "How many products display per page"
 msgstr ""
 
-#: inc/options.php:955
+#: inc/options.php:938
 msgid "Post Meta"
 msgstr ""
 
-#: inc/options.php:960
+#: inc/options.php:943
 msgid "Show content navigation above posts?"
 msgstr ""
 
-#: inc/options.php:961
+#: inc/options.php:944
 msgid ""
 "Displays links to next and previous posts above the current post and above "
 "the posts on the index page. Default is hide. Check this box to show content "
 "nav above posts."
 msgstr ""
 
-#: inc/options.php:968
+#: inc/options.php:951
 msgid "Show content navigation below posts?"
 msgstr ""
 
-#: inc/options.php:969
+#: inc/options.php:952
 msgid ""
 "Displays links to next and previous posts below the current post and below "
 "the posts on the index page. Default is show. Uncheck this box to hide "
 "content nav above posts."
 msgstr ""
 
-#: inc/options.php:976
+#: inc/options.php:959
 msgid "Show post author?"
 msgstr ""
 
-#: inc/options.php:977
+#: inc/options.php:960
 msgid ""
 "Displays the post author. Default is show. Uncheck this box to hide the post "
 "author."
 msgstr ""
 
-#: inc/options.php:984
+#: inc/options.php:967
 msgid "Show published date?"
 msgstr ""
 
-#: inc/options.php:985
+#: inc/options.php:968
 msgid ""
 "Displays the date the article was posted. Default is show. Uncheck this box "
 "to hide post published date."
 msgstr ""
 
-#: inc/options.php:992
+#: inc/options.php:975
 msgid "Show post categories?"
 msgstr ""
 
-#: inc/options.php:993
+#: inc/options.php:976
 msgid ""
 "Displays the categories in which a post was published. Default is show. "
 "Uncheck this box to hide post categories."
 msgstr ""
 
-#: inc/options.php:1000
+#: inc/options.php:983
 msgid "Show post tags?"
 msgstr ""
 
-#: inc/options.php:1001
+#: inc/options.php:984
 msgid ""
 "Displays the tags attached to a post. Default is show. Uncheck this box to "
 "hide post tags."
 msgstr ""
 
-#: inc/options.php:1008
+#: inc/options.php:991
 msgid "Show link for # of comments / Leave a comment?"
 msgstr ""
 
-#: inc/options.php:1009
+#: inc/options.php:992
 msgid ""
 "Displays the number of comments and/or a Leave a comment message on posts. "
 "Default is show. Uncheck this box to hide."
 msgstr ""
 
-#: inc/options.php:1020
+#: inc/options.php:1003
 msgid "Contact form"
 msgstr ""
 
-#: inc/options.php:1025
+#: inc/options.php:1008
 msgid "Recipient type"
 msgstr ""
 
-#: inc/options.php:1026
+#: inc/options.php:1009
 msgid "Select who will receive the mail"
 msgstr ""
 
-#: inc/options.php:1030
+#: inc/options.php:1013
 msgid "The site admin"
 msgstr ""
 
-#: inc/options.php:1030
+#: inc/options.php:1013
 msgid "The author of the post in which the form is inserted"
 msgstr ""
 
-#: inc/options.php:1030
+#: inc/options.php:1013
 msgid "A specific recipient"
 msgstr ""
 
-#: inc/options.php:1034
+#: inc/options.php:1017
 msgid "Recipient address"
 msgstr ""
 
-#: inc/options.php:1035
+#: inc/options.php:1018
 msgid ""
 "Enter the recipient email address (valid for \"specific recipient\" option)"
 msgstr ""
 
-#: inc/options.php:1042
+#: inc/options.php:1025
 msgid "Custom privacy text"
 msgstr ""
 
-#: inc/options.php:1043
+#: inc/options.php:1026
 msgid "Enter your privacy statement for contact form"
 msgstr ""
 
-#: inc/options.php:1054
+#: inc/options.php:1037
 msgid "Favicons"
 msgstr ""
 
-#: inc/options.php:1059
+#: inc/options.php:1042
 msgid "Icon"
 msgstr ""
 
-#: inc/options.php:1060 inc/options.php:1072 inc/options.php:1084
+#: inc/options.php:1043 inc/options.php:1055 inc/options.php:1067
 msgid "Upload a favicon (only .png and .ico files are allowed)."
 msgstr ""
 
-#: inc/options.php:1071
+#: inc/options.php:1054
 msgid "Apple Touch 120x120 Icon"
 msgstr ""
 
-#: inc/options.php:1083
+#: inc/options.php:1066
 msgid "Apple Touch 152x152 Icon"
 msgstr ""
 
-#: inc/options.php:1099
+#: inc/options.php:1082
 msgid "Social"
 msgstr ""
 
-#: inc/options.php:1116
+#: inc/options.php:1099
 msgid "Social Position"
 msgstr ""
 
-#: inc/options.php:1117
+#: inc/options.php:1100
 msgid "Select one of the following positions for the social links"
 msgstr ""
 
-#: inc/options.php:1150
+#: inc/options.php:1133
 msgid "Do not use any of the previous positions"
 msgstr ""
 
-#: inc/options.php:1151
+#: inc/options.php:1134
 msgid ""
 "You can manually place the social links with the <strong>waboot social "
 "widget</strong> (even if one of the previous positions is selected)"
 msgstr ""
 
-#: inc/options.php:1162 inc/options.php:1167
+#: inc/options.php:1145 inc/options.php:1150
 msgid "Custom CSS"
 msgstr ""
 
-#: inc/options.php:1168
+#: inc/options.php:1151
 msgid ""
 "Enter custom css to apply to the theme (press CTRL-SPACE on Windows, or CTRL-"
 "F on Mac for suggestions)."

@@ -1,6 +1,6 @@
 == Change log ==
 
-Version 0.13.0 - 26/08/2015
+Version 0.13.0 - 27/08/2015
 ---------------------------------
 
 WABOOT:
@@ -17,6 +17,7 @@ WBF:
 - MODULI:
     - OPTIONS:
         - Ora le opzioni sono disponibili anche nel customizer (beta)
+        - Refactor generale di alcune funzioni del modulo. Ora non è più necessario impostare a mano il nome dell'opzione di root.
 
 Version 0.12.8 - 06/08/2015
 ---------------------------------
