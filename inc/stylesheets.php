@@ -8,6 +8,8 @@
 
 // Load frontend theme styles
 function waboot_theme_styles() {
+	global $wbf_styles_compiler;
+
 	$theme = wp_get_theme(); //get current theme settings
     /**
      * Here by default $theme->stylesheet is the name of the theme directory.
@@ -16,9 +18,17 @@ function waboot_theme_styles() {
      */
     $compiled_stylesheet = waboot_get_compiled_stylesheet_name();
 
+	//Get main-style version
+	if(isset($wbf_styles_compiler) && $wbf_styles_compiler){
+		$main_style_version = $wbf_styles_compiler->get_last_compile_attempt("theme_frontend");
+		if(!$main_style_version) $main_style_version = $theme['Version'];
+	}else{
+		$main_style_version = $theme['Version'];
+	}
+
 	/* Load theme styles */
     wp_enqueue_style( 'font-awesome', wbf_locate_template_uri( 'assets/css/font-awesome.min.css' ), $theme['Version'], 'all' );
-    wp_enqueue_style( 'main-style', wbf_locate_template_uri( "assets/css/{$compiled_stylesheet}.css" ), array( 'font-awesome' ), $theme['Version'], 'all' );
+    wp_enqueue_style( 'main-style', wbf_locate_template_uri( "assets/css/{$compiled_stylesheet}.css" ), array( 'font-awesome' ), $main_style_version, 'all' );
 	wp_enqueue_style( 'core-style', get_stylesheet_uri(), array( 'font-awesome' ), $theme['Version'], 'all' ); //style.css
 }
 add_action( 'wp_enqueue_scripts', 'waboot_theme_styles' );
