@@ -42,8 +42,8 @@ function of_check_options_deps(){
  */
 function of_options_save($option, $old_value, $value){
     global $wbf_notice_manager;
-    $config = get_option( 'optionsframework' );
-    if($option == $config['id']){
+    $config_id = Framework::get_options_root_id();
+    if($option == $config_id){
         $must_recompile_flag = false;
         $deps_to_achieve = array();
         $all_options = Framework::get_registered_options();
@@ -57,7 +57,8 @@ function of_options_save($option, $old_value, $value){
                 $multidimensional_options[$opt['id']] = $opt;
             }
         }
-        $diff = @array_diff_assoc($old_value,$value);
+        //$diff = @array_diff_assoc($old_value,$value);
+        $diff = @array_diff_assoc($value,$old_value);
         foreach($multidimensional_options as $id => $opt){
             if(isset($old_value[$id]) && isset($value[$id])){
                 $tdiff = @array_diff_assoc($old_value[$id],$value[$id]);
