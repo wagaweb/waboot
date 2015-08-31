@@ -219,10 +219,12 @@ class Styles_Compiler{
 
 	function get_last_compile_attempt($setname = false){
 		$last_attempts = get_option('waboot_compiling_last_attempt');
-		if(!$setname && isset($last_attempts['_global'])){
-			return $last_attempts['_global'];
-		}elseif(isset($last_attempts[$setname])){
-			return $last_attempts[$setname];
+		if(is_array($last_attempts)){
+			if(!$setname && isset($last_attempts['_global'])){
+				return $last_attempts['_global'];
+			}elseif(isset($last_attempts[$setname])){
+				return $last_attempts[$setname];
+			}
 		}
 		return false;
 	}
