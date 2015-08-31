@@ -130,6 +130,7 @@ class CustomizerManager{
 		//Recompile the styles
 		$values = Framework::get_options_values();
 		of_recompile_styles($values,true); //compile and release
+		delete_transient("wbf_customizer_generated_preview_css");
 	}
 
 	/**
