@@ -443,4 +443,20 @@ class Admin extends \Options_Framework_Admin{
 
 		return $clean;
 	}
+
+	/**
+	 * Get the default values for all the theme options
+	 *
+	 * Get an array of all default values as set in
+	 * options.php. The 'id','std' and 'type' keys need
+	 * to be defined in the configuration array. In the
+	 * event that these keys are not present the option
+	 * will not be included in this function's output.
+	 *
+	 * @return array Re-keyed options configuration array.
+	 *
+	 */
+	function get_default_values() {
+		return Framework::get_default_values();
+	}
 }

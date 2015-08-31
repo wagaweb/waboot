@@ -109,9 +109,14 @@ class Framework extends \Options_Framework {
 		global $wp_settings_errors;
 		$bak_settings_errors = get_settings_errors();
 
-		$options = get_option(self::get_options_root_id());
+		$options = Framework::get_options_values();
 		if(isset($options[$id])){
 			$options[$id] = $value;
+		}else{
+			$defaults = Framework::get_default_values();
+			if(isset($defaults[$id])){
+				$options[$id] = $value;
+			}
 		}
 
 		//Remove actions and settings errors
@@ -194,8 +199,18 @@ class Framework extends \Options_Framework {
 	static function get_options_values(){
 		$opt_id = self::get_options_root_id();
 		if($opt_id){
-			return get_option($opt_id);
+			$values = get_option($opt_id);
 		}
+
+		if(!isset($values) || !$values || empty($values)){
+			//Returns the defaults
+			$values = self::get_default_values();
+		}
+
+		if(is_array($values) && !empty($values)){
+			return $values;
+		}
+
 		return false;
 	}
 
@@ -205,6 +220,38 @@ class Framework extends \Options_Framework {
 			$options[$k] = apply_filters("wbf/theme_options/get/{$k}",$v);
 		}
 		return $options;
+	}
+
+	/**
+	 * Get the default values for all the theme options
+	 *
+	 * Get an array of all default values as set in
+	 * options.php. The 'id','std' and 'type' keys need
+	 * to be defined in the configuration array. In the
+	 * event that these keys are not present the option
+	 * will not be included in this function's output.
+	 *
+	 * @return array Re-keyed options configuration array.
+	 *
+	 */
+	static function get_default_values() {
+		$output = array();
+		$config = Framework::get_registered_options();
+		foreach ( (array) $config as $option ) {
+			if ( ! isset( $option['id'] ) ) {
+				continue;
+			}
+			if ( ! isset( $option['std'] ) ) {
+				continue;
+			}
+			if ( ! isset( $option['type'] ) ) {
+				continue;
+			}
+			if ( has_filter( 'of_sanitize_' . $option['type'] ) ) {
+				$output[$option['id']] = apply_filters( 'of_sanitize_' . $option['type'], $option['std'], $option );
+			}
+		}
+		return $output;
 	}
 
 	/**
