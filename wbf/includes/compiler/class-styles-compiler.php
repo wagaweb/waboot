@@ -44,7 +44,7 @@ class Styles_Compiler{
 			$args = $setname && !empty($setname) ? $this->get_compile_sets()[$setname] : false; //The set args
 
 			$this->lock(); //lock the compiler
-			$this->update_last_compile_attempt(); //keep note of the current time
+			$this->update_last_compile_attempt($setname); //keep note of the current time
 
 			$return_css_flag = true;
 			do_action("wbf/compiler/pre_compile");
@@ -174,7 +174,7 @@ class Styles_Compiler{
 	 */
 	function maybe_release_lock($timelimit = 2){
 		if(!$this->can_compile()){
-			$last_attempt = get_option("waboot_compiling_last_attempt");
+			$last_attempt = $this->get_last_compile_attempt();
 			if(!$last_attempt){
 				$this->release_lock(); //release the compiler just to be sure
 			}else{
@@ -199,12 +199,32 @@ class Styles_Compiler{
 		return get_option("waboot_compiling_flag",0);
 	}
 
-	function update_last_compile_attempt(){
-		update_option('waboot_compiling_last_attempt',time()) or add_option('waboot_compiling_last_attempt',time(),'',true);
+	function update_last_compile_attempt($setname = false){
+		$last_attempts = $this->get_last_compile_attempt($setname);
+		if(!is_array($last_attempts)){
+			$last_attempts = array();
+		}
+		$time = time();
+		if($setname){
+			$last_attempts[$setname] = $time;
+		}else{
+			foreach($this->get_compile_sets() as $name => $args){
+				if($args['exclude_from_global_compile']) continue;
+				$last_attempts[$name] = $time;
+			}
+		}
+		$last_attempts['_global'] = $time;
+		update_option('waboot_compiling_last_attempt',$last_attempts) or add_option('waboot_compiling_last_attempt',$last_attempts,'',true);
 	}
 
-	function get_last_compile_attempt(){
-		return get_option('waboot_compiling_last_attempt');
+	function get_last_compile_attempt($setname = false){
+		$last_attempts = get_option('waboot_compiling_last_attempt');
+		if(!$setname && isset($last_attempts['_global'])){
+			return $last_attempts['_global'];
+		}elseif(isset($last_attempts[$setname])){
+			return $last_attempts[$setname];
+		}
+		return false;
 	}
 
 	/**
