@@ -1,6 +1,21 @@
 == Change log ==
 
-Version 0.13.0 - 31/08/2015
+Version 0.13.1 - 31/08/2015
+---------------------------------
+
+WABOOT:
+- Ora allo stile principale del tema viene applicata come versione il timestamp dell'ultima compilazione avvenuta (se esiste), altrimenti la versione del tema. In questo modo si evita che vengano tenuti in cache stili del tema vecchi.
+
+WBF:
+- COMPILATORE STILI:
+    - Refactoring generale per potere utilizzare più compilatori diversi (in vista del compilatore sass)
+    - Ora a ogni set viene associato un "last_compile_attempt", che può essere usato in diversi modi.
+- MODULI:
+    - OPTIONS:
+        - Ora get_options_values e set_option_value funzionano correttamente anche se l'array delle opzioni per il tema in uso è vuoto (che succede durante la prima attivazione). Vengono utilizzati i valori di default.
+
+
+Version 0.13.0 - 27/08/2015
 ---------------------------------
 
 WABOOT:
@@ -9,20 +24,15 @@ WABOOT:
 - Aggiunta azione "waboot_head_after" dopo la chiusura di <head>
 - Ora viene applicato flush() dopo la chiusura di <head> (tramite l'azione "waboot_head_after")
 - Gli script js vengono caricati con #asyncload (vedi sotto)
-- Ora allo stile principale del tema viene applicata come versione il timestamp dell'ultima compilazione avvenuta (se esiste), altrimenti la versione del tema. In questo modo si evita che vengano tenuti in cache stili del tema vecchi.
 
 WBF:
 - Corretto pathname alla libreria "imagesloaded"
 - Refactor generale del compilatore degli stili base, del compilatore less e dell'interfaccia per i compilatori
 - Ora aggiungendo "#asyncload" nell'url degli script durante l'enqueue, vengono caricati in modo asincrono
-- COMPILATORE STILI:
-    - Refactoring generale per potere utilizzare più compilatori diversi (in vista del compilatore sass)
-    - Ora a ogni set viene associato un "last_compile_attempt", che può essere usato in diversi modi.
 - MODULI:
     - OPTIONS:
         - Ora le opzioni sono disponibili anche nel customizer (beta)
         - Refactoring generale di alcune funzioni del modulo. Ora non è più necessario impostare a mano il nome dell'opzione di root.
-        - Ora get_options_values e set_option_value funzionano correttamente anche se l'array delle opzioni per il tema in uso è vuoto (che succede durante la prima attivazione). Vengono utilizzati i valori di default.
 
 Version 0.12.8 - 06/08/2015
 ---------------------------------
