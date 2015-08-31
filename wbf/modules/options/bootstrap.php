@@ -70,12 +70,12 @@ function optionsframework_init() {
     $options_framework_waboot_gfont_selector->init();
 
 	//If there are no options for current theme, then add the defaults
-	$values = Framework::get_options_values();
+	/*$values = Framework::get_options_values();
 	if(!$values || empty($values)){
-		$defaults = $options_framework_admin->get_default_values();
+		$defaults = Framework::get_default_values();
 		of_options_save(Framework::get_options_root_id(),[],$defaults);
 		Framework::update_theme_options($defaults);
-	}
+	}*/
 }
 
 /**
