@@ -203,6 +203,10 @@ class Styles_Compiler{
 		update_option('waboot_compiling_last_attempt',time()) or add_option('waboot_compiling_last_attempt',time(),'',true);
 	}
 
+	function get_last_compile_attempt(){
+		return get_option('waboot_compiling_last_attempt');
+	}
+
 	/**
 	 * Get the compile sets from current compiler. Return empty array if fails.
 	 * @return array
