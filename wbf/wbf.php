@@ -19,7 +19,7 @@ include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 
 class WBF {
 
-	const version = "0.13.1";
+	const version = "0.13.2";
 
 	static function startup($args = []){
 		$args = wp_parse_args($args,[
