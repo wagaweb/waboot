@@ -8,6 +8,11 @@
     background-size: cover;
 }
 
+.waboot-slideshow .owl-item{
+    -webkit-backface-visibility: hidden;
+    -webkit-transform: translateZ(0) scale(1.0, 1.0);
+}
+
 .waboot-slideshow .owl-nav {
     width: 100%;
     position: absolute;
