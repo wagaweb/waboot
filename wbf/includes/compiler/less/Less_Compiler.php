@@ -76,6 +76,15 @@ class Less_Compiler implements Base_Compiler{
 		        'sourceMapURL'      => $args['map_url'],
 	        );
 
+	        if($parser_options['sourceMap']){
+		        if(is_string($parser_options['sourceMapWriteTo']) && !empty($parser_options['sourceMapWriteTo']) && !is_dir(dirname($parser_options['sourceMapWriteTo']))){
+			        $dir = dirname($parser_options['sourceMapWriteTo']);
+			        if(!mkdir($dir)){
+				        throw new Exception("Cannot create ({$dir})");
+			        }
+		        }
+	        }
+
 	        if(!is_dir($args['cache'])){
 		        if(!mkdir($args['cache'])){
 			        throw new Exception("Cannot create ({$args['cache']})");

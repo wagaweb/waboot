@@ -126,13 +126,22 @@ class Styles_Compiler{
 	}
 
 	function write_to_file($css,$path){
+		$pathinfo = pathinfo($path);
+
+		if(!is_dir($pathinfo['dirname'])){
+			if(!mkdir($pathinfo['dirname'])){
+				throw new Exception("Cannot create ({$pathinfo['dirname']})");
+			}
+		}
+
 		if(!is_file($path)){
 			fclose(fopen($path,"w"));
 		}
 
 		if(!is_writable($path)){
-			if(!chmod($path,0777))
+			if(!chmod($path,0777)){
 				throw new Exception("Output dir ({$path}) is not writeable");
+			}
 		}
 
 		//$wp_filesystem->put_contents( $args['output'], $css, FS_CHMOD_FILE );
