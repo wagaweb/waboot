@@ -1,5 +1,14 @@
 == Change log ==
 
+Version 0.13.3 -
+---------------------------------
+
+WBF:
+- Ora il compilatore cerca di creare automaticamente le directory di output dei css e delle sourcemap.
+- MODULI:
+    - OPTIONS:
+        - Fixato bug "array to string conversion" nel customizer
+
 Version 0.13.2 - 01/09/2015
 ---------------------------------
 
