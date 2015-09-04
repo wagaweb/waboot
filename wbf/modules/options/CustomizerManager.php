@@ -168,7 +168,7 @@ class CustomizerManager{
 			//Get only the updated post values (the $_POST['customized'] is updated every time an option being changed):
 			$cached_post_values = get_transient("wbf_customizer_post_values");
 			if(!$cached_post_values) $cached_post_values = [];
-			$new_post_values = array_diff($post_values,$cached_post_values);
+			$new_post_values = array_diff_assoc($post_values,$cached_post_values);
 			set_transient("wbf_customizer_post_values",$post_values);
 
 			$recompile_flag = false;
