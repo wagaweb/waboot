@@ -3139,6 +3139,7 @@ module.exports = Backbone.Model.extend({
          */
         $('input[type=text]').addClass('form-control');
         $('input[type=select]').addClass('form-control');
+        $('input[type=password]').addClass('form-control');
         $('textarea').addClass('form-control');
         $('select').addClass('form-control');
         $('input#submit').addClass('btn btn-primary');
