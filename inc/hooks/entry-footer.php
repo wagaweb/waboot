@@ -25,9 +25,7 @@ if(!function_exists( 'waboot_do_posted_on')):
         if ( ! of_get_option( 'waboot_published_date', 1 ) )
             return;
 
-        printf( __( '<span class="published-date"><a href="%1$s" title="%2$s"><time class="entry-date" datetime="%3$s">%4$s</time></a></span>', 'waboot' ),
-            esc_url( get_permalink() ),
-            esc_attr( get_the_time() ),
+        printf( __( '<span class="published-date"><time class="entry-date" datetime="%1$s">%2$s</time></span>', 'waboot' ),
             esc_attr( get_the_date( 'c' ) ),
             !$relative_time ? esc_html( get_the_date() ) : sprintf( _x( '%s ago', 'Relative date output for entry footer' ,'waboot' ), human_time_diff( get_the_date( 'U' ), current_time( 'timestamp' ) ) )
         );
