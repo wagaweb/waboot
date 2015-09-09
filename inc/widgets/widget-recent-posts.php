@@ -24,7 +24,11 @@ class RecentPosts extends \WP_Widget{
 	}
 
 	function widget($args,$instance){
-		echo $args['before_widget'];
+		echo $args['before_widget']; ?>
+
+		<h3 class="widget-title"><?php echo $instance['title']; ?></h3>
+
+		<?php
 
 		/**
 		 * Search $instance terms into selected post for specified taxonomies type (hierarchical or not)
