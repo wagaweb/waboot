@@ -131,6 +131,14 @@ if(!function_exists('wbft_favicons')):
 	add_action('wp_head', 'wbft_favicons');
 endif;
 
+if(!function_exists('waboot_rg_ls')):
+	function waboot_rg_ls(){
+		global $wbf_ls_man;
+		$wbf_ls_man::add(new Waboot_LS("waboot",['suffix'=>true]));
+	}
+	add_action("wbf_rgls","waboot_rg_ls");
+endif;
+
 /*
  * CONTACT FORM
  */
