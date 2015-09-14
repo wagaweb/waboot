@@ -9,10 +9,13 @@ class License_Manager{
 	static function admin_license_menu_item($parent_slug){
 		$licenses = self::get();
 		if(is_array($licenses) || !empty($licenses)){
-			add_submenu_page( $parent_slug, __( "Waboot License", "wbf" ), __( "License", "wbf" ), "edit_theme_options", "wbf_license", "WBF\admin\License_Manager::license_page" );
+			add_submenu_page( $parent_slug, __( "Licenses", "wbf" ), __( "Licenses", "wbf" ), "edit_theme_options", "wbf_licenses", "WBF\admin\License_Manager::license_page" );
 		}
 	}
 
+	/**
+	 * Callback for displaying the licenses page
+	 */
 	static function license_page(){
 		$licenses = self::get();
 
@@ -46,38 +49,48 @@ class License_Manager{
 			update_option("waboot_license","");
 		}
 
-		$current_license = get_option("waboot_license","");
-		$crypted_current_license = call_user_func(function($cut_point = 4) use($current_license){
-			$first_chars = substr($current_license,0,strlen($current_license)-$cut_point);
-			$first_chars = preg_replace("|[\\w]|","*",$first_chars);
-			$last_chars = substr($current_license,strlen($current_license)-$cut_point);
-			return $first_chars.$last_chars;
-		});
-		$status = self::get_license_status();
-
 		?>
 		<div class="wrap">
-			<h2><?php _e( "Waboot License", "wbf" ); ?></h2>
+			<h2><?php _e( "Registered Licenses", "wbf" ); ?></h2>
 			<p>
-			<form method="post" action="admin.php?page=waboot_license" >
-				<p><?php _e("Here you can enter your license:", "wbf"); ?></p>
-				<?php foreach($licenses as $slug => $license): ?>
-
-				<?php endforeach; ?>
-				<input type="text" value="<?php echo $crypted_current_license; ?>" name="license_code" />
-				<p class="submit">
-					<input type="submit" name="submit-license" id="submit" class="button button-primary" value="Validate License" <?php if($status == "Active") echo "disabled"; ?>>
-					<input type="submit" name="delete-license" id="delete" class="button button-primary" value="Delete License">
-				</p>
-				<div id="license-status">
-					<p>Current License Status: <?php self::print_license_status($status); ?></p>
-				</div>
-				<?php wp_nonce_field('submit_licence_nonce','license_nonce_field'); ?>
-			</form>
+				<form method="post" action="admin.php?page=wbf_licenses">
+					<p><?php _e("Here you can enter your license:", "wbf"); ?></p>
+					<?php foreach($licenses as $slug => $license): ?>
+						<?php
+							$current_license = get_option("waboot_license","");
+							$status = $license->get_license_status();
+						?>
+						<label><?php _e("License code","wbf"); ?>
+							<input type="text" value="<?php echo self::crypt_license_visual($current_license); ?>" name="license_code"/>
+						</label>
+						<p class="submit">
+							<input type="submit" name="submit-license" id="submit" class="button button-primary" value="Validate License" <?php if($status == "Active") echo "disabled"; ?>>
+							<input type="submit" name="delete-license" id="delete" class="button button-primary" value="Delete License">
+						</p>
+						<div id="license-status">
+							<p>Current License Status: <?php $license->print_license_status(); ?></p>
+						</div>
+					<?php endforeach; ?>
+					<?php wp_nonce_field('submit_licence_nonce','license_nonce_field'); ?>
+				</form>
 			</p>
 			<?php \WBF::print_copyright(); ?>
 		</div>
 	<?php
+	}
+
+	/**
+	 * Hides the first characters of a license code
+	 * @param     $code
+	 * @param int $cut_point
+	 *
+	 * @return string
+	 */
+	static function crypt_license_visual($code,$cut_point = 4){
+		$first_chars = substr($code,0,strlen($code)-$cut_point);
+		$first_chars = preg_replace("|[\\w]|","*",$first_chars);
+		$last_chars = substr($code,strlen($code)-$cut_point);
+		return $first_chars.$last_chars;
 	}
 
 	/**
@@ -90,7 +103,12 @@ class License_Manager{
 		});
 	}
 
+	/**
+	 * Returns registered licenses
+	 * @return mixed|void
+	 */
 	static function get(){
-		return apply_filters("wbf/admin/licences/registered",[]);
+		$licenses = apply_filters("wbf/admin/licences/registered",[]);
+		return $licenses;
 	}
 }
