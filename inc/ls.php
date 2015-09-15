@@ -2,6 +2,9 @@
 
 class Waboot_LS extends \WBF\includes\License implements \WBF\includes\License_Interface{
 
+	var $metadata_call = "http://update.waboot.org/?action=get_metadata&slug=waboot";
+	var $license_theme = "theme";
+
 	public static function sanitize_license($license){
 		return $license;
 	}
