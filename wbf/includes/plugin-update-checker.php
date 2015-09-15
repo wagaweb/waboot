@@ -15,7 +15,7 @@ class Plugin_Update_Checker extends \PluginUpdateChecker{
 	 * @param string $optionName Where to store book-keeping info about update checks. Defaults to 'external_updates-$slug'.
 	 * @param string $muPluginFile Optional. The plugin filename relative to the mu-plugins directory.
 	 */
-	public function __construct($metadataUrl, $pluginFile, $slug = '', $checkLicense = false, $checkPeriod = 12, $optionName = '', $muPluginFile = ''){
+	public function __construct($metadataUrl, $pluginFile, $slug = '', $plugin_license, $checkLicense = false, $checkPeriod = 12, $optionName = '', $muPluginFile = ''){
 		$this->metadataUrl = $metadataUrl;
 		$this->pluginAbsolutePath = $pluginFile;
 		$this->pluginFile = plugin_basename($this->pluginAbsolutePath);
@@ -44,7 +44,7 @@ class Plugin_Update_Checker extends \PluginUpdateChecker{
 		$checkLicense = true; //todo: Se il plugin framework deve essere indipendente da wbf... nn si dovrebbe controllare la licenza sul license manager del WBF
 
 		if($checkLicense){
-			if(\WBF\admin\License_Manager::get_license_status() == "Active") {
+			if($plugin_license && $plugin_license->get_license_status() == "Active") {
 				$this->installHooks();
 				$this->remove_not_upgradable_plugin($this->slug);
 			}else{

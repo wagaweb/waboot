@@ -2,6 +2,8 @@
 
 namespace WBF\includes;
 
+use WBF\admin\License_Manager;
+
 class Theme_Update_Checker extends \ThemeUpdateChecker{
 	var $optionName = '';      //Where to store update info.
 	/**
@@ -20,7 +22,9 @@ class Theme_Update_Checker extends \ThemeUpdateChecker{
 		if(!$this->automaticCheckDone)
 			update_option("wbf_unable_to_update",false);
 
-		if(\WBF\admin\License_Manager::get_license_status() == "Active"){
+		$maybe_license = License_Manager::theme_has_license($theme);
+
+		if($maybe_license && $maybe_license->get_license_status() == "Active"){
 			$this->installHooks();
 		}else{
 			$state = $this->requestUpdate();
