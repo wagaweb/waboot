@@ -2,33 +2,24 @@
 
 class Waboot_LS extends \WBF\includes\License implements \WBF\includes\License_Interface{
 
+	var $nicename = "Waboot";
 	var $metadata_call = "http://update.waboot.org/?action=get_metadata&slug=waboot";
 	var $license_theme = "theme";
+	var $option_name = "waboot_license";
 
-	public static function sanitize_license($license){
-		return $license;
+	/*
+	 * LICENSE METHODS:
+	 */
+
+	function __construct($license_slug,$args = []){
+		parent::__construct($license_slug,$args = []);
 	}
 
-	public static function get_license_status(){
-		$license = get_option("waboot_license","");
-		if($license != ""){
-			$localkey = get_option("waboot_license_localkey",false);
-			if(!$localkey){
-				$results = self::check_license($license);
-			}else{
-				$results = self::check_license($license,$localkey);
-				if(isset($results['localkey'])){
-					$localkeydata = $results['localkey'];
-					update_option("waboot_license_localkey",$localkeydata);
-				}
-			}
-			return $results['status'];
-		}else{
-			return "no-license";
-		}
-	}
+	/*
+	 * INTERFACE METHODS:
+	 */
 
-	public static function check_license($licensekey, $localkey='') {
+	public function check_license($licensekey, $localkey='') {
 
 		// -----------------------------------
 		//  -- Configuration Values --
@@ -178,8 +169,32 @@ class Waboot_LS extends \WBF\includes\License implements \WBF\includes\License_I
 		return $results;
 	}
 
-	private static function print_license_status($status){
-		switch ($status) {
+	public function sanitize_license($license_code){
+		return $license_code;
+	}
+
+	public function get_license_status(){
+		$license = $this->get();
+		if($license != ""){
+			$localkey = get_option("waboot_license_localkey",false);
+			if(!$localkey){
+				$results = self::check_license($license);
+			}else{
+				$results = self::check_license($license,$localkey);
+				if(isset($results['localkey'])){
+					$localkeydata = $results['localkey'];
+					update_option("waboot_license_localkey",$localkeydata);
+				}
+			}
+			return $results['status'];
+		}else{
+			return "no-license";
+		}
+	}
+
+	public function print_license_status(){
+		$status = $this->get_license_status();
+		switch($status) {
 			case "Active":
 				echo "<span class='license-active'>$status</span>";
 				break;
