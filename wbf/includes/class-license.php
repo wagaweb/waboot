@@ -3,9 +3,10 @@
 namespace WBF\includes;
 
 class License{
-	var $license_slug;
-	var $license_type;
-	var $license_option;
+	var $nicename = "License";
+	var $slug;
+	var $type;
+	var $option_name;
 	var $license;
 	var $metadata_call = false;
 
@@ -27,26 +28,28 @@ class License{
 			'prefix' => true,
 			'suffix' => false
 		]);
-		$this->license_slug = $license_slug;
-		if($args['prefix']){
-			$this->license_option = "wbf_license_{$this->license_slug}";
-		}elseif($args['suffix']){
-			$this->license_option = $this->license_slug."_license";
-		}else{
-			$this->license_option = $this->license_slug;
+		$this->slug = $license_slug;
+		if(!isset($this->option_name) || empty($this->option_name) || !is_string($this->option_name)){
+			if($args['prefix']){
+				$this->option_name = "wbf_license_{$this->slug}";
+			}elseif($args['suffix']){
+				$this->option_name = $this->slug."_license";
+			}else{
+				$this->option_name = $this->slug;
+			}
 		}
 		$this->license = $this->get();
 	}
 
 	function get(){
-		return get_option($this->license_option,false);
+		return get_option($this->option_name,false);
 	}
 
 	function update($new_license){
-		return update_option($this->license_option,$new_license);
+		return update_option($this->option_name,$new_license);
 	}
 
 	function remove(){
-		return delete_option($this->license_option);
+		return delete_option($this->option_name);
 	}
 }
