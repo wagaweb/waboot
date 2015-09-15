@@ -44,6 +44,12 @@ function wbf_autoloader($class)
 	    case "WBF\includes\License_Interface":
 		    locate_template( 'wbf/includes/license-interface.php', true );
 		    break;
+	    case "WBF\includes\License":
+		    locate_template( 'wbf/includes/class-license.php', true );
+		    break;
+	    case "WBF\includes\License_Exception":
+		    locate_template( 'wbf/includes/class-license-exception.php', true );
+		    break;
         case "WBF\admin\License_Manager":
             locate_template( 'wbf/admin/license-manager.php', true );
             break;
