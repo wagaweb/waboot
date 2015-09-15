@@ -133,7 +133,8 @@ endif;
 
 if(!function_exists('waboot_rg_ls')):
 	function waboot_rg_ls(){
-		\WBF\admin\License_Manager::register(new Waboot_LS("waboot",['suffix'=>true]));
+		require_once("ls.php");
+		\WBF\admin\License_Manager::register_theme_license(new Waboot_LS("waboot",['suffix'=>true]));
 	}
 	add_action("wbf_init","waboot_rg_ls");
 endif;
