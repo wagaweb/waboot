@@ -4,8 +4,10 @@ namespace WBF\includes;
 
 class License{
 	var $license_slug;
+	var $license_type;
 	var $license_option;
 	var $license;
+	var $metadata_call = false;
 
 	public static function getInstance($license_slug = null) {
 		static $instance = null;
