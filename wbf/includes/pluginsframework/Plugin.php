@@ -2,6 +2,8 @@
 
 namespace WBF\includes\pluginsframework;
 
+use WBF\admin\License_Manager;
+use WBF\includes\License;
 use WBF\includes\Plugin_Update_Checker;
 
 interface Plugin_Interface {
@@ -71,6 +73,12 @@ class Plugin {
 	 * @var      object
 	 */
 	protected $update_instance;
+	/**
+	 * The instance of License
+	 * @access public
+	 * @var \WBF\includes\License
+	 */
+	public $license = false;
 
 	protected $debug_mode = false;
 
@@ -78,7 +86,6 @@ class Plugin {
 		$this->plugin_name = $plugin_name;
 		$this->plugin_dir  = $dir;
 		$this->plugin_path = $this->plugin_dir.$this->plugin_name.".php";
-
 		//Set relative path
 		$pinfo = pathinfo($dir);
 		$this->plugin_relative_dir = "/".$pinfo['basename'];
@@ -106,14 +113,37 @@ class Plugin {
 		$this->set_locale();
 	}
 
-	public function set_update_server($metadata_call){
+	public function set_update_server($metadata_call = null,$license = null){
 		if(!empty($metadata_call)){
-			$this->update_instance = new Plugin_Update_Checker(
-				$metadata_call,
-				$this->plugin_dir.$this->plugin_name.".php",
-				$this->plugin_name
-			);
+
+			//Automatically create a License class (if not provided)
+			if(is_file($this->plugin_dir."/includes/class-ls.php") && !isset($license)){
+				require_once $this->plugin_dir."/includes/class-ls.php";
+				$classname = preg_replace("/Plugin/","LS",get_class($this));
+				$license = new $classname($this->plugin_name);
+				if($license){
+					$license->type = "plugin";
+					$this->license = $license;
+				}
+			}
+
+			if(isset($metadata_call) && is_string($metadata_call) && !empty($metadata_call)){
+				$this->update_instance = new Plugin_Update_Checker(
+					$metadata_call,
+					$this->plugin_dir.$this->plugin_name.".php",
+					$this->plugin_name,
+					$this->license
+				);
+			}
 		}
+	}
+
+	/**
+	 * Just a wrapper around License_Manager::register
+	 * @param License $license
+	 */
+	public function register_license(License $license){
+		$this->license = License_Manager::register_plugin_license($license);
 	}
 
 	/**
