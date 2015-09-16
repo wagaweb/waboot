@@ -46,8 +46,7 @@ class WBF {
 		add_action( 'admin_bar_menu', 'WBF::add_admin_compile_button', 990 );
 
 		if(class_exists('\WBF\admin\License_Manager')){
-			add_action( 'admin_init', 'WBF\admin\License_Manager::perform_page_actions', 10 );
-			add_action( 'wbf_admin_submenu', 'WBF\admin\License_Manager::admin_license_menu_item', 30 );
+			\WBF\admin\License_Manager::init();
 		}
 
 		add_action( 'wp_enqueue_scripts', 'WBF::register_libs' );
