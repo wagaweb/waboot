@@ -4,9 +4,9 @@
  *
  * Override this template by copying it to yourtheme/woocommerce/content-product.php
  *
- * @author 		WooThemes
- * @package 	WooCommerce/Templates
- * @version     1.6.4
+ * @author  WooThemes
+ * @package WooCommerce/Templates
+ * @version 2.4.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -16,75 +16,90 @@ if ( ! defined( 'ABSPATH' ) ) {
 global $product, $woocommerce_loop;
 
 // Store loop count we're currently on
-if ( empty( $woocommerce_loop['loop'] ) )
-	$woocommerce_loop['loop'] = 0;
+if ( empty( $woocommerce_loop['loop'] ) ) {
+    $woocommerce_loop['loop'] = 0;
+}
 
 // Store column count for displaying the grid
-if ( empty( $woocommerce_loop['columns'] ) )
+if ( empty( $woocommerce_loop['columns'] ) ) {
 	$woocommerce_loop['columns'] = apply_filters( 'loop_shop_columns', 4 );
+}
 
 // Ensure visibility
-if ( ! $product || ! $product->is_visible() )
-	return;
+if ( ! $product || ! $product->is_visible() ) {
+    return;
+}
 
 // Increase loop count
 $woocommerce_loop['loop']++;
 
 // Extra post classes
 $classes = array();
-if ( 0 == ( $woocommerce_loop['loop'] - 1 ) % $woocommerce_loop['columns'] || 1 == $woocommerce_loop['columns'] )
-	$classes[] = 'first';
-if ( 0 == $woocommerce_loop['loop'] % $woocommerce_loop['columns'] )
-	$classes[] = 'last';
-$classes[] = of_get_option( 'waboot_woocommerce_cat_items', 'col-sm-3' );
+if ( 0 == ( $woocommerce_loop['loop'] - 1 ) % $woocommerce_loop['columns'] || 1 == $woocommerce_loop['columns'] ) {
+    $classes[] = 'first';
+}
+if ( 0 == $woocommerce_loop['loop'] % $woocommerce_loop['columns'] ) {
+    $classes[] = 'last';
+    $classes[] = of_get_option('waboot_woocommerce_cat_items', 'col-sm-3');
+}
 ?>
 <div <?php post_class( $classes ); ?>>
 
-	<?php do_action( 'woocommerce_before_shop_loop_item' ); ?>
+    <div class="wb-product-wrapper">
 
-    <a href="<?php the_permalink(); ?>">
+        <?php do_action( 'woocommerce_before_shop_loop_item' ); ?>
 
-		<?php
-			/**
-			 * woocommerce_before_shop_loop_item_title hook
-			 *
-			 * @hooked woocommerce_show_product_loop_sale_flash - 10
-			 * @hooked woocommerce_template_loop_product_thumbnail - 10
-			 */
-			do_action( 'woocommerce_before_shop_loop_item_title' );
-		?>
+        <a href="<?php the_permalink(); ?>">
 
-    </a>
+            <?php
+                /**
+                 * woocommerce_before_shop_loop_item_title hook
+                 *
+                 * @hooked woocommerce_show_product_loop_sale_flash - 10
+                 * @hooked woocommerce_template_loop_product_thumbnail - 10
+                 */
+                do_action( 'woocommerce_before_shop_loop_item_title' );
+            ?>
 
-    <p class="prod-category">
-        <?php
-        $products_cats = $product->get_categories();
-        list($firstpart) = explode(',', $products_cats);
-        echo $firstpart;
-        ?>
-    </p>
+        </a>
 
-    <h4><?php the_title(); ?></h4>
+        <div class="wb-product-details">
 
-    <?php
-        /**
-         * woocommerce_after_shop_loop_item_title hook
-         *
-         * @hooked woocommerce_template_loop_rating - 5
-         * @hooked woocommerce_template_loop_price - 10
-         */
-        do_action( 'woocommerce_after_shop_loop_item_title' );
-    ?>
+            <p class="wb-product-cat">
+                <?php
+                $products_cats = $product->get_categories();
+                list($firstpart) = explode(',', $products_cats);
+                echo $firstpart;
+                ?>
+            </p>
 
-	<?php
+            <h4>
+                <a href="<?php the_permalink(); ?>" title="<?php the_title(); ?>">
+                    <?php the_title(); ?>
+                </a>
+            </h4>
 
-		/**
-		 * woocommerce_after_shop_loop_item hook
-		 *
-		 * @hooked woocommerce_template_loop_add_to_cart - 10
-		 */
-		do_action( 'woocommerce_after_shop_loop_item' ); 
+            <?php
+                /**
+                 * woocommerce_after_shop_loop_item_title hook
+                 *
+                 * @hooked woocommerce_template_loop_rating - 5
+                 * @hooked woocommerce_template_loop_price - 10
+                 */
+                do_action( 'woocommerce_after_shop_loop_item_title' );
+            ?>
 
-	?>
+            <?php
+                /**
+                 * woocommerce_after_shop_loop_item hook
+                 *
+                 * @hooked woocommerce_template_loop_add_to_cart - 10
+                 */
+                do_action( 'woocommerce_after_shop_loop_item' );
+            ?>
+
+        </div>
+
+    </div>
 
 </div>

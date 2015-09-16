@@ -6,22 +6,24 @@
  *
  * @author 		WooThemes
  * @package 	WooCommerce/Templates
- * @version     1.6.4
+ * @version     2.4.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly
+    exit;
 }
 
 global $woocommerce_loop;
 
 // Store loop count we're currently on
-if ( empty( $woocommerce_loop['loop'] ) )
-	$woocommerce_loop['loop'] = 0;
+if ( empty( $woocommerce_loop['loop'] ) ) {
+    $woocommerce_loop['loop'] = 0;
+}
 
 // Store column count for displaying the grid
-if ( empty( $woocommerce_loop['columns'] ) )
-	$woocommerce_loop['columns'] = apply_filters( 'loop_shop_columns', 4 );
+if ( empty( $woocommerce_loop['columns'] ) ) {
+    $woocommerce_loop['columns'] = apply_filters( 'loop_shop_columns', 4 );
+}
 
 // Increase loop count
 $woocommerce_loop['loop']++;
@@ -33,37 +35,45 @@ $woocommerce_loop['loop']++;
 		echo ' last';
 	?>">
 
-	<?php do_action( 'woocommerce_before_subcategory', $category ); ?>
+    <div class="wb-product-wrapper">
 
-	<a href="<?php echo get_term_link( $category->slug, 'product_cat' ); ?>">
+        <?php do_action( 'woocommerce_before_subcategory', $category ); ?>
 
-		<?php
-			/**
-			 * woocommerce_before_subcategory_title hook
-			 *
-			 * @hooked woocommerce_subcategory_thumbnail - 10
-			 */
-			do_action( 'woocommerce_before_subcategory_title', $category );
-		?>
+        <a href="<?php echo get_term_link( $category->slug, 'product_cat' ); ?>">
 
-    </a>
+            <?php
+                /**
+                 * woocommerce_before_subcategory_title hook
+                 *
+                 * @hooked woocommerce_subcategory_thumbnail - 10
+                 */
+                do_action( 'woocommerce_before_subcategory_title', $category );
+            ?>
 
-    <h4>
-        <?php
-            echo $category->name;
+        </a>
 
-            if ( $category->count > 0 )
-                echo apply_filters( 'woocommerce_subcategory_count_html', ' <mark class="count">(' . $category->count . ')</mark>', $category );
-        ?>
-    </h4>
+        <div class="wb-product-details">
 
-    <?php
-        /**
-         * woocommerce_after_subcategory_title hook
-         */
-        do_action( 'woocommerce_after_subcategory_title', $category );
-    ?>
+            <h4>
+                <?php
+                    echo $category->name;
 
-	<?php do_action( 'woocommerce_after_subcategory', $category ); ?>
+                    if ( $category->count > 0 )
+                        echo apply_filters( 'woocommerce_subcategory_count_html', ' <mark class="count">(' . $category->count . ')</mark>', $category );
+                ?>
+            </h4>
+
+            <?php
+                /**
+                 * woocommerce_after_subcategory_title hook
+                 */
+                do_action( 'woocommerce_after_subcategory_title', $category );
+            ?>
+
+            <?php do_action( 'woocommerce_after_subcategory', $category ); ?>
+
+        </div>
+
+    </div>
 
 </div>
