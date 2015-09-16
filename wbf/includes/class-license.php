@@ -2,7 +2,7 @@
 
 namespace WBF\includes;
 
-class License{
+abstract class License{
 	var $nicename = "License";
 	var $slug;
 	var $type;
