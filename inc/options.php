@@ -928,6 +928,22 @@ function optionsframework_options() {
 			'type' => 'text'
 		);
 
+        $options[] = array(
+            'name' => __( 'Catalog Mode', 'waboot' ),
+            'desc' => __( 'Hide add to cart button', 'waboot' ),
+            'id'   => 'waboot_woocommerce_catalog',
+            'std'  => '0',
+            'type' => 'checkbox'
+        );
+
+        $options[] = array(
+            'name' => __( 'Hide Price', 'waboot' ),
+            'desc' => __( 'Hide price in catalog', 'waboot' ),
+            'id'   => 'waboot_woocommerce_hide_price',
+            'std'  => '0',
+            'type' => 'checkbox'
+        );
+
 	}
 
     /*
