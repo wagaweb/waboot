@@ -9,12 +9,13 @@ use WBF\includes\Theme_Update_Checker;
 class License_Manager{
 
 	static function init(){
-		add_action( 'admin_init', 'WBF\admin\License_Manager::perform_page_actions', 10 );
+		add_action( 'current_screen', 'WBF\admin\License_Manager::perform_page_actions', 10 );
 		add_action( 'wbf_admin_submenu', 'WBF\admin\License_Manager::admin_license_menu_item', 30 );
 	}
 
 	static function perform_page_actions(){
 		global $wbf_notice_manager;
+		$screen = get_current_screen();
 		if(isset($_POST['update-license'])){
 			try{
 				if(!isset($_POST['slug'])) throw new License_Exception(__("License slug was not set","wbf"));
