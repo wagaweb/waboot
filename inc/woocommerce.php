@@ -34,6 +34,21 @@ if(isset($woocommerce)):
 	add_filter("wbf/modules/behaviors/get/primary-sidebar-size","waboot_woocommerce_primary_sidebar_size_behavior", 999);
 	add_filter("wbf/modules/behaviors/get/secondary-sidebar-size","waboot_woocommerce_secondary_sidebar_size_behavior", 999);
 
+    // Theme Options
+    function waboot_woocommerce_hidePriceAndCart(){
+        if((function_exists('is_woocommerce'))) {
+            if (of_get_option("waboot_woocommerce_hide_price") == 1) {
+                remove_action('woocommerce_single_product_summary', 'woocommerce_template_single_price', 10);
+                remove_action('woocommerce_after_shop_loop_item_title', 'woocommerce_template_loop_price', 10);
+            }
+            if (of_get_option("waboot_woocommerce_catalog") == 1) {
+                remove_action('woocommerce_single_product_summary', 'woocommerce_template_single_add_to_cart', 30);
+                remove_action('woocommerce_after_shop_loop_item', 'woocommerce_template_loop_add_to_cart', 10);
+            }
+        }
+    }
+    add_action('init','waboot_woocommerce_hidePriceAndCart');
+
 	/*
      * HOOKED FUNCTIONS
      */
