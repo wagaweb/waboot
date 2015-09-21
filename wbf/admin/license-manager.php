@@ -23,7 +23,7 @@ class License_Manager{
 				if(!isset($_POST['code']) || empty($_POST['code'])) throw new License_Exception(__("License code was not set","wbf"));
 				$slug = $_POST['slug'];
 				$type = $_POST['type'];
-				$code = $_POST['code'];
+				$code = trim($_POST['code']);
 				self::update($slug,$type,$code);
 				$wbf_notice_manager->add_notice("license_updated",_x("License successfully updated","License","wbf"),"updated","_flash_");
 			}catch(License_Exception $e){
@@ -71,7 +71,7 @@ class License_Manager{
 							<h4><?php echo $license->nicename; ?></h4>
 							<div class="license-body">
 								<label><?php printf(_x("License code","License","wbf"),$license->nicename); ?>&nbsp;<input id="license_<?php echo $license->slug; ?>" type="text" value="<?php echo self::crypt_license_visual($current_license); ?>" name="code"/></label>
-								<input type="submit" name="update-license" id="submit" class="button button-primary" value="<?php _ex("Update","License","wbf"); ?>" <?php if($status == "Active") echo "disabled"; ?>>
+								<input type="submit" name="update-license" id="submit" class="button button-primary" value="<?php _ex("Update","License","wbf"); ?>" <?php if($license->is_valid()) echo "disabled"; ?>>
 								<input type="submit" name="delete-license" id="delete" class="button button-primary" value="<?php _ex("Delete","License","wbf"); ?>">
 								<div id="license-status">
 									<p><?php _ex("Status:","License","wbf") ?>&nbsp;<?php $license->print_license_status(); ?></p>
@@ -96,7 +96,7 @@ class License_Manager{
 							<div class="license-body">
 								<label><?php _e("License code","wbf"); ?>&nbsp;<input type="text" value="<?php echo self::crypt_license_visual($current_license); ?>" name="code"/></label>
 								<p class="submit">
-									<input type="submit" name="update-license" id="submit" class="button button-primary" value="<?php _ex("Update","License","wbf"); ?>" <?php if($status == "Active") echo "disabled"; ?>>
+									<input type="submit" name="update-license" id="submit" class="button button-primary" value="<?php _ex("Update","License","wbf"); ?>" <?php if($license->is_valid()) echo "disabled"; ?>>
 									<input type="submit" name="delete-license" id="delete" class="button button-primary" value="<?php _ex("Delete","License","wbf"); ?>">
 								</p>
 								<div id="license-status">
@@ -188,7 +188,12 @@ class License_Manager{
 	 */
 	static function update($license_slug,$type,$value){
 		$l = self::get($license_slug,$type);
-		$l->update($value);
+		$value = $l::sanitize_license($value);
+		if($value && is_string($value)){
+			$l->update($value);
+		}else{
+			throw new License_Exception(__("License sanitization has gone wrong","wbf"));
+		}
 	}
 
 	/**
