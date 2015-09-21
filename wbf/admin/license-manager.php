@@ -14,8 +14,10 @@ class License_Manager{
 	}
 
 	static function perform_page_actions(){
+		if(!preg_match("/wbf_licenses/",get_current_screen()->base)){
+			return;
+		}
 		global $wbf_notice_manager;
-		$screen = get_current_screen();
 		if(isset($_POST['update-license'])){
 			try{
 				if(!isset($_POST['slug'])) throw new License_Exception(__("License slug was not set","wbf"));
@@ -73,8 +75,8 @@ class License_Manager{
 								<label><?php printf(_x("License code","License","wbf"),$license->nicename); ?>&nbsp;<input id="license_<?php echo $license->slug; ?>" type="text" value="<?php echo self::crypt_license_visual($current_license); ?>" name="code"/></label>
 								<input type="submit" name="update-license" id="submit" class="button button-primary" value="<?php _ex("Update","License","wbf"); ?>" <?php if($license->is_valid()) echo "disabled"; ?>>
 								<input type="submit" name="delete-license" id="delete" class="button button-primary" value="<?php _ex("Delete","License","wbf"); ?>">
-								<div id="license-status">
-									<p><?php _ex("Status:","License","wbf") ?>&nbsp;<?php $license->print_license_status(); ?></p>
+								<div id="license-status" class="license-<?php $license->print_license_status(); ?>">
+									<p><strong><?php _ex("Status:","License","wbf") ?></strong>&nbsp;<?php $license->print_license_status(); ?></p>
 								</div>
 							</div>
 						</div>
@@ -95,12 +97,10 @@ class License_Manager{
 							<h4><?php echo $license->nicename; ?></h4>
 							<div class="license-body">
 								<label><?php _e("License code","wbf"); ?>&nbsp;<input type="text" value="<?php echo self::crypt_license_visual($current_license); ?>" name="code"/></label>
-								<p class="submit">
-									<input type="submit" name="update-license" id="submit" class="button button-primary" value="<?php _ex("Update","License","wbf"); ?>" <?php if($license->is_valid()) echo "disabled"; ?>>
-									<input type="submit" name="delete-license" id="delete" class="button button-primary" value="<?php _ex("Delete","License","wbf"); ?>">
-								</p>
-								<div id="license-status">
-									<p><?php _ex("Status:","License","wbf") ?>&nbsp;<?php $license->print_license_status(); ?></p>
+								<input type="submit" name="update-license" id="submit" class="button button-primary" value="<?php _ex("Update","License","wbf"); ?>" <?php if($license->is_valid()) echo "disabled"; ?>>
+								<input type="submit" name="delete-license" id="delete" class="button button-primary" value="<?php _ex("Delete","License","wbf"); ?>">
+								<div id="license-status" class="license-<?php $license->print_license_status(); ?>">
+									<p><strong><?php _ex("Status:","License","wbf") ?></strong>&nbsp;<?php $license->print_license_status(); ?></p>
 								</div>
 							</div>
 						</div>
