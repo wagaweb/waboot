@@ -44,7 +44,7 @@ class Plugin_Update_Checker extends \PluginUpdateChecker{
 		$checkLicense = true; //todo: Se il plugin framework deve essere indipendente da wbf... nn si dovrebbe controllare la licenza sul license manager del WBF
 
 		if($checkLicense){
-			if($plugin_license && $plugin_license->get_license_status() == "Active") {
+			if($plugin_license && $plugin_license->is_valid()) {
 				$this->installHooks();
 				$this->remove_not_upgradable_plugin($this->slug);
 			}else{

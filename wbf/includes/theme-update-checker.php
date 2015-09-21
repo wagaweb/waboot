@@ -24,7 +24,7 @@ class Theme_Update_Checker extends \ThemeUpdateChecker{
 
 		$maybe_license = License_Manager::theme_has_license($theme);
 
-		if($maybe_license && $maybe_license->get_license_status() == "Active"){
+		if($maybe_license && $maybe_license->is_valid()){
 			$this->installHooks();
 		}else{
 			$state = $this->requestUpdate();
