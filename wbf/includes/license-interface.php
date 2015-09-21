@@ -10,11 +10,16 @@ interface License_Interface {
 	 */
 	function check_license($args);
 	/**
+	 * Checks the license validity
+	 * @return bool
+	 */
+	function is_valid();
+	/**
 	 * Sanitize the license code
 	 * @param $license_code
 	 * @return string
 	 */
-	function sanitize_license($license_code);
+	static function sanitize_license($license_code);
 	/**
 	 * Get the license status. Must return "Active" if the provided license code is valid.
 	 * @return string
