@@ -169,7 +169,9 @@ class Waboot_LS extends \WBF\includes\License implements \WBF\includes\License_I
 		return $results;
 	}
 
-	public function sanitize_license($license_code){
+	public static function sanitize_license($license_code){
+		$license_code = trim($license_code);
+		$license_code = filter_var($license_code,FILTER_SANITIZE_STRING);
 		return $license_code;
 	}
 
@@ -214,6 +216,11 @@ class Waboot_LS extends \WBF\includes\License implements \WBF\includes\License_I
 				echo "<span class='license-unk'>Unknown status</span>";
 				break;
 		}
+	}
+
+	public function is_valid(){
+		$status = $this->get_license_status();
+		return $status == "Active";
 	}
 
 	private function __clone() {}
