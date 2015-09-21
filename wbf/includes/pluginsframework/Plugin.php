@@ -113,28 +113,26 @@ class Plugin {
 		$this->set_locale();
 	}
 
-	public function set_update_server($metadata_call = null,$license = null){
-		if(!empty($metadata_call)){
-
-			//Automatically create a License class (if not provided)
-			if(is_file($this->plugin_dir."/includes/class-ls.php") && !isset($license)){
+	public function set_update_server($metadata_call = null,License $license = null){
+		if(isset($metadata_call) && is_string($metadata_call) && !empty($metadata_call)){
+			if($license){
+				$this->register_license($license);
+			}elseif(is_file($this->plugin_dir."/includes/class-ls.php") && !isset($license)){
+				//Automatically register a new license
 				require_once $this->plugin_dir."/includes/class-ls.php";
 				$classname = preg_replace("/Plugin/","LS",get_class($this));
 				$license = new $classname($this->plugin_name);
 				if($license){
 					$license->type = "plugin";
-					$this->license = $license;
+					$this->register_license($license);
 				}
 			}
-
-			if(isset($metadata_call) && is_string($metadata_call) && !empty($metadata_call)){
-				$this->update_instance = new Plugin_Update_Checker(
-					$metadata_call,
-					$this->plugin_dir.$this->plugin_name.".php",
-					$this->plugin_name,
-					$this->license
-				);
-			}
+			$this->update_instance = new Plugin_Update_Checker(
+				$metadata_call,
+				$this->plugin_dir.$this->plugin_name.".php",
+				$this->plugin_name,
+				$this->license
+			);
 		}
 	}
 

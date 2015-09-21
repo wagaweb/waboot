@@ -94,10 +94,10 @@ class License_Manager{
 						<div class="license">
 							<h4><?php echo $license->nicename; ?></h4>
 							<div class="license-body">
-								<label><?php _e("License code","wbf"); ?><input type="text" value="<?php echo self::crypt_license_visual($current_license); ?>" name="code"/></label>
+								<label><?php _e("License code","wbf"); ?>&nbsp;<input type="text" value="<?php echo self::crypt_license_visual($current_license); ?>" name="code"/></label>
 								<p class="submit">
-									<input type="submit" name="update-license" id="submit" class="button button-primary" value="<?php echo $license->slug; ?>[theme]" <?php if($status == "Active") echo "disabled"; ?>>
-									<input type="submit" name="delete-license" id="delete" class="button button-primary" value="<?php echo $license->slug; ?>[theme]">
+									<input type="submit" name="update-license" id="submit" class="button button-primary" value="<?php _ex("Update","License","wbf"); ?>" <?php if($status == "Active") echo "disabled"; ?>>
+									<input type="submit" name="delete-license" id="delete" class="button button-primary" value="<?php _ex("Delete","License","wbf"); ?>">
 								</p>
 								<div id="license-status">
 									<p><?php _ex("Status:","License","wbf") ?>&nbsp;<?php $license->print_license_status(); ?></p>
