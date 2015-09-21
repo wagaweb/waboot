@@ -10,11 +10,11 @@ abstract class License{
 	var $license;
 	var $metadata_call = false;
 
-	public static function getInstance($license_slug = null) {
+	public static function getInstance($license_slug = null,$args = []) {
 		static $instance = null;
 		if (null === $instance) {
 			if(isset($license_slug)){
-				$instance = new static($license_slug);
+				$instance = new static($license_slug,$args);
 			}else{
 				throw new License_Exception(__("You must provide a license slug"));
 			}
