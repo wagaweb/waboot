@@ -134,7 +134,7 @@ endif;
 if(!function_exists('waboot_rg_ls') && class_exists('\WBF\admin\License_Manager')):
 	function waboot_rg_ls(){
 		require_once("ls.php");
-		\WBF\admin\License_Manager::register_theme_license(new Waboot_LS("waboot",['suffix'=>true]));
+		\WBF\admin\License_Manager::register_theme_license(Waboot_LS::getInstance("waboot",['suffix'=>true]));
 	}
 	add_action("wbf_init","waboot_rg_ls");
 endif;
