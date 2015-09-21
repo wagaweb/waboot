@@ -121,7 +121,7 @@ class Plugin {
 				//Automatically register a new license
 				require_once $this->plugin_dir."/includes/class-ls.php";
 				$classname = preg_replace("/Plugin/","LS",get_class($this));
-				$license = new $classname($this->plugin_name);
+				$license = $classname::getInstance($this->plugin_name);
 				if($license){
 					$license->type = "plugin";
 					$this->register_license($license);
