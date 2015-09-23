@@ -90,16 +90,6 @@ if ( ! function_exists( 'init_style_compiler' ) ) :
 endif;
 
 /**
- * Set update server
- */
-if(class_exists('\WBF\includes\Theme_Update_Checker')){
-	$GLOBALS['WBFThemeUpdateChecker'] = new \WBF\includes\Theme_Update_Checker(
-		'waboot', //Theme slug. Usually the same as the name of its directory.
-		'http://update.waboot.org/?action=get_metadata&slug=waboot' //Metadata URL.
-	);
-}
-
-/**
  * Set the pagebuilder
  */
 if(!function_exists("theme_get_pagebuilder")):

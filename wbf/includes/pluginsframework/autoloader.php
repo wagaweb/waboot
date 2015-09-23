@@ -31,6 +31,12 @@ function plugin_autoload( $class ) {
 			case "WBF\admin\License_Manager":
 				require_once($wbf_path . "/admin/license-manager.php");
 				break;
+			case "WBF\includes\License":
+				require_once($wbf_path . "/includes/class-license.php");
+				break;
+			case "WBF\includes\License_Exception":
+				require_once($wbf_path . "/includes/class-license-exception.php");
+				break;
 			case "WBF\includes\Plugin_Update_Checker":
 				require_once($wbf_path . "/includes/plugin-update-checker.php");
 				break;

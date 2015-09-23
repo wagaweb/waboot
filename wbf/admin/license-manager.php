@@ -2,274 +2,266 @@
 
 namespace WBF\admin;
 
-use WBF\includes\License_Interface;
+use WBF\includes\License;
+use WBF\includes\License_Exception;
+use WBF\includes\Theme_Update_Checker;
 
-class License_Manager implements License_Interface{
+class License_Manager{
 
-	static function admin_license_menu_item($parent_slug){
-		$waboot_license = add_submenu_page( $parent_slug, __( "Waboot License", "wbf" ), __( "License", "wbf" ), "edit_theme_options", "waboot_license", "WBF\admin\License_Manager::license_page" );
+	static function init(){
+		add_action( 'current_screen', 'WBF\admin\License_Manager::perform_page_actions', 10 );
+		add_action( 'wbf_admin_submenu', 'WBF\admin\License_Manager::admin_license_menu_item', 30 );
 	}
 
-	static function license_page(){
-
-		if(isset($_POST['submit-license'])){
+	static function perform_page_actions(){
+		if(!preg_match("/wbf_licenses/",get_current_screen()->base)){
+			return;
+		}
+		global $wbf_notice_manager;
+		if(isset($_POST['update-license'])){
 			try{
-				if(isset($_POST['license_code'])){
-					if(isset( $_POST['license_nonce_field'] ) && wp_verify_nonce($_POST['license_nonce_field'],'submit_licence_nonce') ){
-						$license = self::sanitize_license($_POST['license_code']);
-						if($license){
-							update_option("waboot_license",$license);
-							?>
-							<div class="updated">
-								<p><?php _e( 'License Updated!', "wbf" ); ?></p>
-							</div>
-						<?php
-						}else{
-							throw new LicenseException(_( 'Unable to update the license!', "wbf" ));
-						}
-					}
-				}
-			}catch(LicenseException $e){
-				?>
-				<div class="updated">
-					<p><?php echo $e->getMessage(); ?></p>
-				</div>
-			<?php
+				if(!isset($_POST['slug'])) throw new License_Exception(__("License slug was not set","wbf"));
+				if(!isset($_POST['type'])) throw new License_Exception(__("License type was not set","wbf"));
+				if(!isset($_POST['code']) || empty($_POST['code'])) throw new License_Exception(__("License code was not set","wbf"));
+				$slug = $_POST['slug'];
+				$type = $_POST['type'];
+				$code = trim($_POST['code']);
+				self::update($slug,$type,$code);
+				$wbf_notice_manager->add_notice("license_updated",_x("License successfully updated","License","wbf"),"updated","_flash_");
+			}catch(License_Exception $e){
+				$wbf_notice_manager->add_notice("license_not_updated",$e->getMessage(),"error","_flash_");
+			}
+		}elseif(isset($_POST['delete-license'])){
+			try{
+				if(!isset($_POST['slug'])) throw new License_Exception(__("License slug was not set","wbf"));
+				if(!isset($_POST['type'])) throw new License_Exception(__("License type was not set","wbf"));
+				$slug = $_POST['slug'];
+				$type = $_POST['type'];
+				self::delete($slug,$type);
+				$wbf_notice_manager->add_notice("license_deleted",_x("License successfully deleted","License","wbf"),"updated","_flash_");
+			}catch(License_Exception $e){
+				$wbf_notice_manager->add_notice("license_not_deleted",$e->getMessage(),"error","_flash_");
 			}
 		}
-
-		if(isset($_POST['delete-license'])){
-			update_option("waboot_license","");
-		}
-
-		$current_license = get_option("waboot_license","");
-		$crypted_current_license = call_user_func(function($cut_point = 4) use($current_license){
-			$first_chars = substr($current_license,0,strlen($current_license)-$cut_point);
-			$first_chars = preg_replace("|[\\w]|","*",$first_chars);
-			$last_chars = substr($current_license,strlen($current_license)-$cut_point);
-			return $first_chars.$last_chars;
-		});
-		$status = self::get_license_status();
-
-		?>
-		<div class="wrap">
-			<h2><?php _e( "Waboot License", "wbf" ); ?></h2>
-			<p>
-			<form method="post" action="admin.php?page=waboot_license" >
-				<p><?php _e("Here you can enter your license:", "wbf"); ?></p>
-				<input type="text" value="<?php echo $crypted_current_license; ?>" name="license_code" />
-				<p class="submit">
-					<input type="submit" name="submit-license" id="submit" class="button button-primary" value="Validate License" <?php if($status == "Active") echo "disabled"; ?>>
-					<input type="submit" name="delete-license" id="delete" class="button button-primary" value="Delete License">
-				</p>
-				<div id="license-status">
-					<p>Current License Status: <?php self::print_license_status($status); ?></p>
-				</div>
-				<?php wp_nonce_field('submit_licence_nonce','license_nonce_field'); ?>
-			</form>
-			</p>
-			<?php \WBF::print_copyright(); ?>
-		</div>
-	<?php
 	}
 
-    private static function print_license_status($status){
-        switch ($status) {
-            case "Active":
-                echo "<span class='license-active'>$status</span>";
-                break;
-            case "Invalid":
-                echo "<span class='license-invalid'>$status</span>";
-                break;
-            case "Expired":
-                echo "<span class='license-expired'>$status</span>";
-                break;
-            case "Suspended":
-                echo "<span class='license-suspended'>$status</span>";
-                break;
-	        case "no-license":
-		        echo "<span class='license-suspended'>".__("No license provided","wbf")."</span>";
-		        break;
-            default:
-                echo "<span class='license-unk'>Unknown status</span>";
-                break;
-        }
-    }
+	static function admin_license_menu_item($parent_slug){
+		$licenses = self::get_all();
+		if(is_array($licenses) || !empty($licenses)){
+			add_submenu_page( $parent_slug, __( "Licenses", "wbf" ), __( "Licenses", "wbf" ), "edit_theme_options", "wbf_licenses", "WBF\admin\License_Manager::license_page" );
+		}
+	}
 
-	public static function sanitize_license($license){
+	/**
+	 * Callback for displaying the licenses page
+	 */
+	static function license_page(){
+		?>
+		<div class="wrap">
+			<h2><?php _e( "Licenses", "wbf" ); ?></h2>
+			<p><?php _e("Here you can enter your license.", "wbf"); ?></p>
+			<?php if(self::has_theme_licenses()) : ?>
+				<h3><?php _e("Theme license:", "wbf"); ?></h3>
+				<?php foreach(self::get_theme_licenses() as $slug => $license): ?>
+					<form method="post" action="admin.php?page=wbf_licenses">
+						<?php
+							$current_license = $license->get();
+							if(!$current_license) $current_license = "";
+							$status = $license->get_license_status();
+						?>
+						<div class="license">
+							<h4><?php echo $license->nicename; ?></h4>
+							<div class="license-body">
+								<label><?php printf(_x("License code","License","wbf"),$license->nicename); ?>&nbsp;<input id="license_<?php echo $license->slug; ?>" type="text" value="<?php echo self::crypt_license_visual($current_license); ?>" name="code"/></label>
+								<input type="submit" name="update-license" id="submit" class="button button-primary" value="<?php _ex("Update","License","wbf"); ?>" <?php if($license->is_valid()) echo "disabled"; ?>>
+								<input type="submit" name="delete-license" id="delete" class="button button-primary" value="<?php _ex("Delete","License","wbf"); ?>">
+								<div id="license-status" class="license-<?php $license->print_license_status(); ?>">
+									<p><strong><?php _ex("Status:","License","wbf") ?></strong>&nbsp;<?php $license->print_license_status(); ?></p>
+								</div>
+							</div>
+						</div>
+						<input type="hidden" name="slug" value="<?php echo $license->slug; ?>">
+						<input type="hidden" name="type" value="theme">
+					</form>
+				<?php endforeach; ?>
+			<?php endif; ?>
+			<?php if(self::has_plugin_licenses()) : ?>
+				<h3><?php _e("Plugin license:", "wbf"); ?></h3>
+				<?php foreach(self::get_plugin_licenses() as $slug => $license): ?>
+					<form method="post" action="admin.php?page=wbf_licenses">
+						<?php
+							$current_license = $license->get();
+							$status = $license->get_license_status();
+						?>
+						<div class="license">
+							<h4><?php echo $license->nicename; ?></h4>
+							<div class="license-body">
+								<label><?php _e("License code","wbf"); ?>&nbsp;<input type="text" value="<?php echo self::crypt_license_visual($current_license); ?>" name="code"/></label>
+								<input type="submit" name="update-license" id="submit" class="button button-primary" value="<?php _ex("Update","License","wbf"); ?>" <?php if($license->is_valid()) echo "disabled"; ?>>
+								<input type="submit" name="delete-license" id="delete" class="button button-primary" value="<?php _ex("Delete","License","wbf"); ?>">
+								<div id="license-status" class="license-<?php $license->print_license_status(); ?>">
+									<p><strong><?php _ex("Status:","License","wbf") ?></strong>&nbsp;<?php $license->print_license_status(); ?></p>
+								</div>
+							</div>
+						</div>
+						<input type="hidden" name="slug" value="<?php echo $license->slug; ?>">
+						<input type="hidden" name="type" value="plugin">
+					</form>
+				<?php endforeach; ?>
+			<?php endif; ?>
+			<?php wp_nonce_field('submit_licence_nonce','license_nonce_field'); ?>
+			<?php \WBF::print_copyright(); ?>
+		</div>
+		<?php
+	}
+
+	/**
+	 * Hides the first characters of a license code
+	 * @param     $code
+	 * @param int $cut_point
+	 *
+	 * @return string
+	 */
+	static function crypt_license_visual($code,$cut_point = 4){
+		$first_chars = substr($code,0,strlen($code)-$cut_point);
+		$first_chars = preg_replace("|[\\w]|","*",$first_chars);
+		$last_chars = substr($code,strlen($code)-$cut_point);
+		return $first_chars.$last_chars;
+	}
+
+	static function get($license_slug,$type){
+		$licenses = self::get_all();
+		if(array_key_exists($license_slug,$licenses[$type])){
+			return $licenses[$type][$license_slug];
+		}else{
+			return false;
+		}
+	}
+
+	/**
+	 * Returns all theme licences, or false
+	 * @return array|bool
+	 */
+	static function get_theme_licenses(){
+		$licenses = self::get_all();
+		if(isset($licenses['theme'])){
+			return $licenses['theme'];
+		}else{
+			return false;
+		}
+	}
+
+	/**
+	 * Checks if there are at least one registered theme license
+	 * @return bool
+	 */
+	static function has_theme_licenses(){
+		return is_array(self::get_theme_licenses());
+	}
+
+	/**
+	 * Checks if there are at least one registered plugin license
+	 * @return bool
+	 */
+	static function has_plugin_licenses(){
+		return is_array(self::get_plugin_licenses());
+	}
+
+	/**
+	 * Returns all plugin licenses or false
+	 * @return array|bool
+	 */
+	static function get_plugin_licenses(){
+		$licenses = self::get_all();
+		if(isset($licenses['plugin'])){
+			return $licenses['plugin'];
+		}else{
+			return false;
+		}
+	}
+
+	/**
+	 * Update a specific license
+	 * @param $license_slug
+	 * @param $type
+	 * @param $value
+	 */
+	static function update($license_slug,$type,$value){
+		$l = self::get($license_slug,$type);
+		$value = $l::sanitize_license($value);
+		if($value && is_string($value)){
+			$l->update($value);
+		}else{
+			throw new License_Exception(__("License sanitization has gone wrong","wbf"));
+		}
+	}
+
+	/**
+	 * Delete a specific license
+	 * @param $license_slug
+	 * @param $type
+	 */
+	static function delete($license_slug,$type){
+		$l = self::get($license_slug,$type);
+		$l->remove();
+	}
+
+	/**
+	 * Returns registered licenses
+	 * @return mixed|void
+	 */
+	static function get_all(){
+		$licenses = apply_filters("wbf/admin/licences/registered",[]);
+		return $licenses;
+	}
+
+	/**
+	 * Register a new license
+	 * @param \WBF\includes\License $license
+	 * @return License
+	 */
+	static function register(License $license, $type){
+		add_filter("wbf/admin/licences/registered",function($licenses) use($license, $type){
+			$licenses[$type][$license->slug] = $license;
+			return $licenses;
+		});
 		return $license;
 	}
 
-    public static function get_license_status(){
-        $license = get_option("waboot_license","");
-        if($license != ""){
-            $localkey = get_option("waboot_license_localkey",false);
-            if(!$localkey){
-                $results = self::check_license($license);
-            }else{
-                $results = self::check_license($license,$localkey);
-                if(isset($results['localkey'])){
-                    $localkeydata = $results['localkey'];
-                    update_option("waboot_license_localkey",$localkeydata);
-                }
-            }
-	        return $results['status'];
-        }else{
-            return "no-license";
-        }
-    }
+	/**
+	 * Register a License class for a theme
+	 * @param License $license
+	 */
+	static function register_theme_license(License $license){
+		$license = self::register($license,"theme");
+		/**
+		 * Set update server
+		 */
+		if(class_exists('\WBF\includes\Theme_Update_Checker')){
+			$GLOBALS['WBFThemeUpdateChecker'] = new Theme_Update_Checker(
+				$license->slug,
+				$license->metadata_call
+			);
+		}
+	}
 
-    public static function check_license($licensekey, $localkey='') {
+	/**
+	 * Register a License class for a plugin. The call to Plugin_Update_Checker is done by Plugin Framework
+	 * @param License $license
+	 *
+	 * @return License
+	 */
+	static function register_plugin_license(License $license){
+		return self::register($license,"plugin");
+	}
 
-        // -----------------------------------
-        //  -- Configuration Values --
-        // -----------------------------------
-
-        // Enter the url to your WHMCS installation here
-        $whmcsurl = 'https://waga.it/billing/';
-        // Must match what is specified in the MD5 Hash Verification field
-        // of the licensing product that will be used with this check.
-        $licensing_secret_key = 'wbUz9TP5d7oa89F';
-        // The number of days to wait between performing remote license checks
-        $localkeydays = 15;
-        // The number of days to allow failover for after local key expiry
-        $allowcheckfaildays = 5;
-
-        // -----------------------------------
-        //  -- Do not edit below this line --
-        // -----------------------------------
-
-        $check_token = time() . md5(mt_rand(1000000000, 9999999999) . $licensekey);
-        $checkdate = date("Ymd");
-        $domain = $_SERVER['SERVER_NAME'];
-        $usersip = isset($_SERVER['SERVER_ADDR']) ? $_SERVER['SERVER_ADDR'] : $_SERVER['LOCAL_ADDR'];
-        $dirpath = dirname(__FILE__);
-        $verifyfilepath = 'modules/servers/licensing/verify.php';
-        $localkeyvalid = false;
-        if ($localkey) {
-            $localkey = str_replace("\n", '', $localkey); # Remove the line breaks
-            $localdata = substr($localkey, 0, strlen($localkey) - 32); # Extract License Data
-            $md5hash = substr($localkey, strlen($localkey) - 32); # Extract MD5 Hash
-            if ($md5hash == md5($localdata . $licensing_secret_key)) {
-                $localdata = strrev($localdata); # Reverse the string
-                $md5hash = substr($localdata, 0, 32); # Extract MD5 Hash
-                $localdata = substr($localdata, 32); # Extract License Data
-                $localdata = base64_decode($localdata);
-                $localkeyresults = unserialize($localdata);
-                $originalcheckdate = $localkeyresults['checkdate'];
-                if ($md5hash == md5($originalcheckdate . $licensing_secret_key)) {
-                    $localexpiry = date("Ymd", mktime(0, 0, 0, date("m"), date("d") - $localkeydays, date("Y")));
-                    if ($originalcheckdate > $localexpiry) {
-                        $localkeyvalid = true;
-                        $results = $localkeyresults;
-                        $validdomains = explode(',', $results['validdomain']);
-                        if (!in_array($_SERVER['SERVER_NAME'], $validdomains)) {
-                            $localkeyvalid = false;
-                            $localkeyresults['status'] = "Invalid";
-                            $results = array();
-                        }
-                        $validips = explode(',', $results['validip']);
-                        if (!in_array($usersip, $validips)) {
-                            $localkeyvalid = false;
-                            $localkeyresults['status'] = "Invalid";
-                            $results = array();
-                        }
-                        $validdirs = explode(',', $results['validdirectory']);
-                        if (!in_array($dirpath, $validdirs)) {
-                            $localkeyvalid = false;
-                            $localkeyresults['status'] = "Invalid";
-                            $results = array();
-                        }
-                    }
-                }
-            }
-        }
-        if (!$localkeyvalid) {
-            $postfields = array(
-                'licensekey' => $licensekey,
-                'domain' => $domain,
-                'ip' => $usersip,
-                'dir' => $dirpath,
-            );
-            if ($check_token) $postfields['check_token'] = $check_token;
-            $query_string = '';
-            foreach ($postfields AS $k=>$v) {
-                $query_string .= $k.'='.urlencode($v).'&';
-            }
-            if (function_exists('curl_exec')) {
-                $ch = curl_init();
-                curl_setopt($ch, CURLOPT_URL, $whmcsurl . $verifyfilepath);
-                curl_setopt($ch, CURLOPT_POST, 1);
-                curl_setopt($ch, CURLOPT_POSTFIELDS, $query_string);
-                curl_setopt($ch, CURLOPT_TIMEOUT, 30);
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-                $data = curl_exec($ch);
-                curl_close($ch);
-            } else {
-                $fp = fsockopen($whmcsurl, 80, $errno, $errstr, 5);
-                if ($fp) {
-                    $newlinefeed = "\r\n";
-                    $header = "POST ".$whmcsurl . $verifyfilepath . " HTTP/1.0" . $newlinefeed;
-                    $header .= "Host: ".$whmcsurl . $newlinefeed;
-                    $header .= "Content-type: application/x-www-form-urlencoded" . $newlinefeed;
-                    $header .= "Content-length: ".@strlen($query_string) . $newlinefeed;
-                    $header .= "Connection: close" . $newlinefeed . $newlinefeed;
-                    $header .= $query_string;
-                    $data = '';
-                    @stream_set_timeout($fp, 20);
-                    @fputs($fp, $header);
-                    $status = @socket_get_status($fp);
-                    while (!@feof($fp)&&$status) {
-                        $data .= @fgets($fp, 1024);
-                        $status = @socket_get_status($fp);
-                    }
-                    @fclose ($fp);
-                }
-            }
-            if (!$data) {
-                $localexpiry = date("Ymd", mktime(0, 0, 0, date("m"), date("d") - ($localkeydays + $allowcheckfaildays), date("Y")));
-                if ( isset($originalcheckdate) && $originalcheckdate > $localexpiry) {
-                    $results = $localkeyresults;
-                } else {
-                    $results = array();
-                    $results['status'] = "Invalid";
-                    $results['description'] = "Remote Check Failed";
-                    return $results;
-                }
-            } else {
-                preg_match_all('/<(.*?)>([^<]+)<\/\\1>/i', $data, $matches);
-                $results = array();
-                foreach ($matches[1] AS $k=>$v) {
-                    $results[$v] = $matches[2][$k];
-                }
-            }
-            if (!is_array($results)) {
-                die("Invalid License Server Response");
-            }
-            if (isset($results['md5hash']) && $results['md5hash']) {
-                if ($results['md5hash'] != md5($licensing_secret_key . $check_token)) {
-                    $results['status'] = "Invalid";
-                    $results['description'] = "MD5 Checksum Verification Failed";
-                    return $results;
-                }
-            }
-            if ($results['status'] == "Active") {
-                $results['checkdate'] = $checkdate;
-                $data_encoded = serialize($results);
-                $data_encoded = base64_encode($data_encoded);
-                $data_encoded = md5($checkdate . $licensing_secret_key) . $data_encoded;
-                $data_encoded = strrev($data_encoded);
-                $data_encoded = $data_encoded . md5($data_encoded . $licensing_secret_key);
-                $data_encoded = wordwrap($data_encoded, 80, "\n", true);
-                $results['localkey'] = $data_encoded;
-            }
-            $results['remotecheck'] = true;
-        }
-        unset($postfields,$data,$matches,$whmcsurl,$licensing_secret_key,$checkdate,$usersip,$localkeydays,$allowcheckfaildays,$md5hash);
-        return $results;
-    }
-}
-
-class LicenseException extends \Exception{
-
+	/**
+	 * Checks if a specified theme has a license registered
+	 * @param $theme_slug
+	 *
+	 * @return \WBF\includes\License|bool
+	 */
+	static function theme_has_license($theme_slug){
+		return self::get($theme_slug,"theme");
+	}
 }
