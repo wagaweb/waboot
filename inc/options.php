@@ -1107,7 +1107,7 @@ function optionsframework_options() {
 			'desc' => $s['theme_options_desc'],
 			'id'   => 'waboot_social_'.$k,
 			'type' => 'text',
-			'std'  => '#'
+			'std'  => ''
 		);
 	}
 
