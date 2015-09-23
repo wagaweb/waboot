@@ -27,11 +27,11 @@ if(!function_exists('wbf_locate_template')):
 			if ( ! $template_name ) {
 				continue;
 			}
-			if ( file_exists( STYLESHEETPATH . '/' . $template_name ) ) {
-				$located = STYLESHEETPATH . '/' . $template_name;
+			if ( file_exists( get_stylesheet_directory() . '/' . $template_name ) ) {
+				$located = get_stylesheet_directory() . '/' . $template_name;
 				break;
-			} elseif ( file_exists( TEMPLATEPATH . '/' . $template_name ) ) {
-				$located = TEMPLATEPATH . '/' . $template_name;
+			} elseif ( file_exists( get_template_directory() . '/' . $template_name ) ) {
+				$located = get_template_directory() . '/' . $template_name;
 				break;
 			} elseif(!empty($registered_base_paths)){
 				//Search into registered base dirs
