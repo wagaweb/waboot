@@ -29,7 +29,9 @@ if ( ! function_exists( 'waboot_setup' ) ):
 			'bottom'        => __( 'Bottom Menu', 'waboot' )
 		) );
 
-		init_style_compiler();
+		if(wbft_wbf_in_use()){
+			init_style_compiler();
+		}
 
 		//Install the contact form table
 		call_user_func(function(){
@@ -60,7 +62,7 @@ add_action('after_setup_theme', 'waboot_setup', 11);
 /**
  * INIT STYLES COMPILER
  */
-if ( ! function_exists( 'init_style_compiler' ) ) :
+if ( ! function_exists( 'init_style_compiler' ) && wbft_wbf_in_use() ) :
 	function init_style_compiler(){
 		$theme = waboot_get_compiled_stylesheet_name();
 		$inputFileName = is_child_theme() ? "waboot-child" : "waboot";
