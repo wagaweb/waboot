@@ -29,7 +29,7 @@ function waboot_enqueue_main_script(){
 	$wpData = apply_filters("wbft/js/localization",array(
 			'ajaxurl' => admin_url('admin-ajax.php'),
 			'wpurl' => get_bloginfo('wpurl'),
-			'isMobile' => wb_is_mobile(),
+			'isMobile' => wbft_wbf_in_use() ? wb_is_mobile() : null,
 			'isAdmin' => is_admin(),
 			'isDebug' => WP_DEBUG || WABOOT_ENV == "dev" || WBF_ENV == "dev",
 			'wp_screen' => function_exists("get_current_screen") ? get_current_screen() : null,
@@ -95,7 +95,7 @@ function waboot_enqueue_main_script(){
 
 	$deps = array('jquery','jquery-ui-core','jquery-ui-dialog','backbone','underscore');
 
-	if(WABOOT_ENV == "dev"){
+	if( (defined('WABOOT_ENV') && WABOOT_ENV == "dev") || (!defined('WABOOT_ENV') && WP_DEBUG) ) {
 		wp_register_script( 'waboot', wbf_locate_template_uri( 'sources/js/waboot.js' )."#asyncload", $deps,false, true);
 		$child_js = is_child_theme() ? wbf_locate_template_uri( 'assets/js/waboot-child.js' ) : false;
 	}else{
