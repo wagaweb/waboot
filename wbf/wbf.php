@@ -1,19 +1,46 @@
 <?php
 
-if (!defined('WABOOT_ENV')) {
-    define('WABOOT_ENV', 'production');
+/**
+ * The plugin bootstrap file
+ *
+ * This file is read by WordPress to generate the plugin information in the plugin
+ * admin area. This file also includes all of the dependencies used by the plugin,
+ * registers the activation and deactivation functions, and defines a function
+ * that starts the plugin.
+ *
+ * @link              http://www.waga.it
+ * @since             0.13.4
+ * @package           WBF
+ *
+ * @wordpress-plugin
+ * Plugin Name:       Waboot Framework
+ * Plugin URI:        http://www.waga.it
+ * Description:       WordPress Extension Framework
+ * Version:           0.13.4
+ * Author:            WAGA
+ * Author URI:        http://www.waga.com/
+ * License:           GPL-2.0+
+ * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
+ * Text Domain:       wbf
+ * Domain Path:       /languages
+ */
+
+// If this file is called directly, abort.
+if ( ! defined( 'WPINC' ) ) {
+	die;
 }
 
 if (!defined('WBF_ENV')) {
-    define('WBF_ENV', 'production');
+	define('WBF_ENV', 'production');
 }
 
 define("WBF_DIRECTORY", __DIR__);
-define("WBF_URL", get_template_directory_uri() . "/wbf/");
+define("WBF_URL", get_bloginfo("url") . "/wp-content/plugins/wbf/");
 define("WBF_ADMIN_DIRECTORY", __DIR__ . "/admin");
 define("WBF_PUBLIC_DIRECTORY", __DIR__ . "/public");
 
 require_once("wbf-autoloader.php");
+require_once('includes/utilities.php'); // Utility
 require_once("backup-functions.php");
 include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 
@@ -35,9 +62,15 @@ class WBF {
 		$GLOBALS['md'] = WBF::get_mobile_detect();
 		WBF::init_styles_compiler();
 
-		add_action( "after_switch_theme", "WBF::activation" );
-		add_action( "switch_theme", "WBF::deactivation", 4 );
+		if(WBF::is_plugin()){
+			register_activation_hook( __FILE__, 'activate_wbf' );
+			register_deactivation_hook( __FILE__, 'deactivate_wbf' );
+		}else{
+			add_action( "after_switch_theme", "WBF::activation" );
+			add_action( "switch_theme", "WBF::deactivation", 4 );
+		}
 
+		add_action( "plugins_loaded", "WBF::plugins_loaded" );
 		add_action( "after_setup_theme", "WBF::after_setup_theme" );
 		add_action( "init", "WBF::init" );
 
@@ -177,6 +210,20 @@ class WBF {
 	}
 
 	/**
+	 * Checks if WBF is in the plugins directory
+	 * @return bool
+	 */
+	static function is_plugin(){
+		$path = WBF_DIRECTORY;
+		if(preg_match("/plugins/",$path)){
+			$is_plugin = true;
+		}else{
+			$is_plugin = false;
+		}
+		return apply_filters("wbf/is_plugin",$is_plugin);
+	}
+
+	/**
 	 *
 	 *
 	 * BACKUP FUNCTIONS
@@ -219,44 +266,52 @@ class WBF {
 		locate_template('/wbf/public/email-encoder.php', true);
 	}
 
-    static function after_setup_theme() {
-	    global $wbf_notice_manager;
+	/**
+	 * Wordpress "plugins_loaded" callback
+	 */
+	static function plugins_loaded(){
+		// ACF INTEGRATION
+		if(!is_plugin_active("advanced-custom-fields-pro/acf.php") && !is_plugin_active("advanced-custom-fields/acf.php")){
+			require_once WBF_DIRECTORY.'/vendor/acf/acf.php';
+			require_once WBF_DIRECTORY.'/admin/acf-integration.php';
+		}
+	}
 
-	    self::maybe_add_option();
+	/**
+	 * Wordpress "after_setup_theme" callback
+	 */
+	static function after_setup_theme() {
+		global $wbf_notice_manager;
 
-	    $modules = self::load_modules();
+		self::maybe_add_option();
 
-	    // Make framework available for translation.
-        load_textdomain( 'wbf', WBF_DIRECTORY . '/languages/wbf-'.get_locale().".mo");
+		$modules = self::load_modules();
 
-	    if(!isset($wbf_notice_manager)){
-		    $GLOBALS['wbf_notice_manager'] = new \WBF\admin\Notice_Manager(); // Loads notice manager. The notice manager can be already loaded by plugins constructor prior this point.
-	    }
+		// Make framework available for translation.
+		load_textdomain( 'wbf', WBF_DIRECTORY . '/languages/wbf-'.get_locale().".mo");
 
-        // Utility
-	    locate_template( '/wbf/includes/utilities.php', true );
+		if(!isset($wbf_notice_manager)){
+			$GLOBALS['wbf_notice_manager'] = new \WBF\admin\Notice_Manager(); // Loads notice manager. The notice manager can be already loaded by plugins constructor prior this point.
+		}
 
-        // Load the CSS
-	    locate_template( '/wbf/public/public-styles.php', true );
-	    locate_template( '/wbf/admin/adm-styles.php', true );
+		// Load the CSS
+		locate_template( '/wbf/public/public-styles.php', true );
+		locate_template( '/wbf/admin/adm-styles.php', true );
 
-        // Load scripts
-        //locate_template( '/wbf/public/scripts.php', true );
-        locate_template( '/wbf/admin/adm-scripts.php', true );
+		// Load scripts
+		//locate_template( '/wbf/public/scripts.php', true );
+		locate_template( '/wbf/admin/adm-scripts.php', true );
 
-	    do_action("wbf_after_setup_theme");
+		do_action("wbf_after_setup_theme");
 
-	    // ACF INTEGRATION
-        if(!is_plugin_active("advanced-custom-fields-pro/acf.php") && !is_plugin_active("advanced-custom-fields/acf.php")){
-            locate_template( '/wbf/vendor/acf/acf.php', true );
-            locate_template( '/wbf/admin/acf-integration.php', true );
-        }
+		// Google Fonts
+		locate_template('/wbf/includes/google-fonts-retriever.php', true);
+		if(class_exists("WBF\GoogleFontsRetriever")) $GLOBALS['wbf_gfont_fetcher'] = WBF\GoogleFontsRetriever::getInstance();
+	}
 
-        // Google Fonts
-        locate_template('/wbf/includes/google-fonts-retriever.php', true);
-        if(class_exists("WBF\GoogleFontsRetriever")) $GLOBALS['wbf_gfont_fetcher'] = WBF\GoogleFontsRetriever::getInstance();
-    }
-
+	/**
+	 * Wordpress "init" callback
+	 */
 	static function init() {
 		do_action("wbf_init");
 
@@ -310,7 +365,7 @@ class WBF {
 		$menu_label = sprintf( __( 'Waboot %s' ), "<span class='update-plugins count-$warning_count' title='".__("Update available","wbf")."'><span class='update-count'>" . number_format_i18n($warning_count) . "</span></span>" );
 
 		$menu['58']     = $menu['59']; //move the separator before "Appearance" one position up
-		$waboot_menu    = add_menu_page( "Waboot", $menu_label, "edit_theme_options", "waboot_options", "waboot_options_page", "dashicons-text", 59 );
+		$waboot_menu    = add_menu_page( "Waboot", $menu_label, "edit_theme_options", "waboot_options", "WBF::options_page", "dashicons-text", 59 );
 		//$waboot_options = add_submenu_page( "waboot_options", __( "Theme options", "waboot" ), __( "Theme Options", "waboot" ), "edit_theme_options", "waboot_options", array($options_framework_admin,"options_page") );
 		do_action("wbf_admin_submenu","waboot_options");
 	}
@@ -395,7 +450,7 @@ class WBF {
 
 	static function maybe_add_option() {
 		$opt = get_option( "wbf_installed" );
-		if ( ! $opt ) {
+		if( ! $opt || !self::has_valid_wbf_path()) {
 			self::add_wbf_options();
 		}
 	}
@@ -407,84 +462,78 @@ class WBF {
 		update_option( "wbf_components_saved_once", false );
 	}
 
+	private static function has_valid_wbf_path(){
+		$path = get_option("wbf_path");
+		if(!$path || empty($path) || !is_string($path)){
+			return false;
+		}
+		if(file_exists($path."/wbf.php")){
+			return true;
+		}
+		return false;
+	}
+
 	static function activation() {
 		self::load_modules_activation_hooks();
 
 		self::add_wbf_options();
 		do_action("wbf_activated");
-        //self::enable_default_components();
+		//self::enable_default_components();
 	}
 
-	static function deactivation($template) {
+	static function deactivation($template = null) {
 		self::load_modules_deactivation_hooks();
-		$theme_switched = get_option( 'theme_switched', "" );
-
 		delete_option( "wbf_installed" );
 		delete_option( "wbf_path" );
 		delete_option( "wbf_url" );
-		do_action("wbf_deactivated", $theme_switched);
-        /*if(!empty($theme_switched)){
-            $wbf_components_saved_once = (array) get_option("wbf_components_saved_once", array());
-            if(($key = array_search($theme_switched, $wbf_components_saved_once)) !== false) {
-                unset($wbf_components_saved_once[$key]);
-            }
-            if(empty($wbf_components_saved_once)){
-                delete_option( "wbf_components_saved_once" );
-            }else{
-                update_option( "wbf_components_saved_once", $wbf_components_saved_once );
-            }
-        }*/
-	}
-}
-
-/**
- * Waboot options page for further uses
- */
-function waboot_options_page() {
-	/*$options_framework_admin = new Waboot_Options_Framework_Admin;
-	$options_framework_admin->options_page();*/
-	return true;
-	?>
-	<div class="wrap">
-		<h2><?php _e( "Waboot Options", "wbf" ); ?></h2>
-
-		<p>
-			--- Placeholder ---
-		</p>
-	</div>
-<?php
-}
-
-if(!is_admin() && !function_exists("waboot_mobile_body_class")):
-	/**
-	 * Adds mobile classes to body
-	 */
-	function waboot_mobile_body_class($classes){
-		$md = WBF::get_mobile_detect();
-		if($md->isMobile()){
-			$classes[] = "mobile";
-			if($md->is_ios()) $classes[] = "mobile-ios";
-			if($md->is_android()){
-				$classes[] = "mobile-android";
-				$classes[] = "mobile-android-".$md->version('Android');
-			}
-			if($md->is_windows_mobile()) $classes[] = "mobile-windows";
-			if($md->isTablet()) $classes[] = "mobile-tablet";
-			if($md->isIphone()){
-				$classes[] = "mobile-iphone";
-				$classes[] = "mobile-iphone-".$md->version('IPhone');
-			}
-			if($md->isIpad()){
-				$classes[] = "mobile-ipad";
-				$classes[] = "mobile-ipad-".$md->version('IPad');
-			}
-			if($md->is('Kindle')) $classes[] = "mobile-kindle";
-			if($md->is('Samsung')) $classes[] = "mobile-samsung";
-			if($md->is('SamsungTablet')) $classes[] = "mobile-samsungtablet";
+		if($template){
+			$theme_switched = get_option( 'theme_switched', "" );
+			do_action("wbf_deactivated", $theme_switched);
 		}else{
-			$classes[] = "desktop";
+			do_action("wbf_deactivated", "plugin");
 		}
-		return $classes;
+		/*if(!empty($theme_switched)){
+			$wbf_components_saved_once = (array) get_option("wbf_components_saved_once", array());
+			if(($key = array_search($theme_switched, $wbf_components_saved_once)) !== false) {
+				unset($wbf_components_saved_once[$key]);
+			}
+			if(empty($wbf_components_saved_once)){
+				delete_option( "wbf_components_saved_once" );
+			}else{
+				update_option( "wbf_components_saved_once", $wbf_components_saved_once );
+			}
+		}*/
 	}
-	add_filter('body_class','waboot_mobile_body_class');
+
+	/**
+	 * Waboot options page for further uses
+	 */
+	static function options_page() {
+		/*$options_framework_admin = new Waboot_Options_Framework_Admin;
+		$options_framework_admin->options_page();*/
+		return true;
+		?>
+		<div class="wrap">
+			<h2><?php _e( "Waboot Options", "wbf" ); ?></h2>
+
+			<p>
+				--- Placeholder ---
+			</p>
+		</div>
+		<?php
+	}
+}
+
+if(!function_exists("activate_wbf")):
+	function activate_wbf(){
+		WBF::maybe_run_activation();
+	}
 endif;
+
+if(!function_exists("deactivate_wbf")):
+	function deactivate_wbf(){
+		WBF::deactivation();
+	}
+endif;
+
+WBF::startup();
