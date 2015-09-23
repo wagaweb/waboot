@@ -347,7 +347,7 @@ class WBF {
 		if ( current_user_can( 'manage_options' ) ) {
 			$args = array(
 				'id'    => 'wbf_env_notice',
-				'title' => _x("Current Environment","WBF Admin Bar","wbf").': '.WBF_ENV,
+				'title' => _x("ENV","WBF Admin Bar","wbf").': '.WBF_ENV,
 				'href'  => "#",
 				'meta'  => array( 'class' => 'wbf-toolbar-env-notice' )
 			);
@@ -366,7 +366,7 @@ class WBF {
 		if ( current_user_can( 'manage_options' ) ) {
 			$args = array(
 				'id'    => 'wbf_compile_styles',
-				'title' => 'Compile Theme Styles',
+				'title' => 'Compile CSS',
 				'href'  => add_query_arg('compile','true'),
 				'meta'  => array( 'class' => 'wbf-toolbar-compile-theme-styles-button' )
 			);
