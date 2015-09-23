@@ -4,19 +4,6 @@ namespace WBF\modules\options;
 
 class Admin extends \Options_Framework_Admin{
 
-	static function menu_settings() {
-
-		$menu = array(
-			'page_title' => __('Theme Options', 'wbf'),
-			'menu_title' => __('Theme Options', 'wbf'),
-			'capability' => 'edit_theme_options',
-			'old_menu_slug' => 'options-framework',
-			'menu_slug' => 'waboot_options'
-		);
-
-		return apply_filters('optionsframework_menu', $menu);
-	}
-
 	public function init() {
 		parent::init();
 		remove_action( 'admin_menu', array( $this, 'add_options_page' ) );
@@ -36,24 +23,50 @@ class Admin extends \Options_Framework_Admin{
 	 */
 	function add_options_page() {
 		$menu = $this->menu_settings();
-		$this->options_screen = add_submenu_page( "waboot_options", $menu['page_title'], $menu['menu_title'], $menu['capability'], $menu['menu_slug'], array(
-				$this,
-				'options_page'
-			) );
+		$this->options_screen = add_submenu_page( "waboot_options", $menu['page_title'], $menu['menu_title'], $menu['capability'], $menu['menu_slug'], array($this, 'options_page') );
+	}
+
+	/**
+	 * Add "Manage Theme Options" subpage to WBF Menu
+	 */
+	public function add_man_page($parent_slug) {
+		add_submenu_page( $parent_slug , __( "Theme Options Manager", "wbf" ), __( "Import/Export", "wbf" ), "edit_theme_options", "themeoptions-manager", array( $this, 'do_man_page') );
 	}
 
 	function add_copy_in_admin_page(){
 		\WBF::print_copyright();
 	}
 
+	static function menu_settings() {
+		$menu = array(
+			'page_title' => __('Theme Options', 'wbf'),
+			'menu_title' => __('Theme Options', 'wbf'),
+			'capability' => 'edit_theme_options',
+			'old_menu_slug' => 'options-framework',
+			'menu_slug' => 'waboot_options'
+		);
+		return apply_filters('optionsframework_menu', $menu);
+	}
+
 	/**
-	 * Add "Manage Theme Options" subpage to Waboot Menu
+	 * Adds options menu item to admin bar
 	 */
-	public function add_man_page($parent_slug) {
-		add_submenu_page( $parent_slug , __( "Theme Options Manager", "wbf" ), __( "Import/Export", "wbf" ), "edit_theme_options", "themeoptions-manager", array(
-				$this,
-				'do_man_page'
-		) );
+	function optionsframework_admin_bar() {
+		if( current_user_can('edit_theme_options') ){
+			global $wp_admin_bar;
+			$menu = $this->menu_settings();
+			if(current_user_can($menu['capability'])){
+				$wp_admin_bar->add_menu( array(
+					'id' => 'of_theme_options',
+					'title' => $menu['menu_title'],
+					'parent' => 'appearance',
+					'href' => admin_url( 'admin.php?page=' . $menu['menu_slug'] ),
+					'meta' => [
+						'title' => _x("Edit theme options","Admin bar","wbf")
+					]
+				));
+			}
+		}
 	}
 
 	/**
@@ -356,23 +369,6 @@ class Admin extends \Options_Framework_Admin{
         </div> <!-- / .wrap -->
     <?php
     }
-
-	/**
-	 * Add options menu item to admin bar
-	 */
-
-	function optionsframework_admin_bar() {
-
-		$menu = $this->menu_settings();
-		global $wp_admin_bar;
-
-		$wp_admin_bar->add_menu( array(
-			'parent' => 'appearance',
-			'id' => 'of_theme_options',
-			'title' => __( 'Theme Options', 'wbf' ),
-			'href' => admin_url( 'admin.php?page=' . $menu['menu_slug'] )
-		) );
-	}
 
 	/**
 	 * Validate Options.
