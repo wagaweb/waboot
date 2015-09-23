@@ -6,6 +6,7 @@ Version 0.13.3 - 23/09/2015
 WABOOT:
 - Aggiornamento e fix delle template Woocommerce
 - Recent Post Widget: aggiunto il titolo del widget nella visualizzazione; fix generale al markup generato.
+- Fix stili contact form
 
 WBF:
 - Ora il compilatore cerca di creare automaticamente le directory di output dei css e delle sourcemap.

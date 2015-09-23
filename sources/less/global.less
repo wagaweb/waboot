@@ -97,27 +97,6 @@ table td {
 
 /* End Typography */
 
-/* Toolbar */
-
-#wp-toolbar{
-  .wbf-toolbar-compile-theme-styles-button{
-    a{
-      &:before{
-        content: "\f495";
-        margin-top: 2px;
-      }
-    }
-  }
-  .wbf-toolbar-env-notice{
-    a{
-      &:before{
-        content: "\f108";
-        margin-top: 2px;
-      }
-    }
-  }
-}
-
 /* Container */
 
 #page.container,
@@ -696,9 +675,38 @@ ins {
   position: absolute;
 }
 
+#wp-toolbar{
+  .wbf-toolbar-compile-theme-styles-button{
+    a{
+      &:before{
+        content: "\f495";
+        margin-top: 2px;
+      }
+    }
+  }
+  .wbf-toolbar-env-notice{
+    a{
+      &:before{
+        content: "\f108";
+        margin-top: 2px;
+      }
+    }
+  }
+}
+
 /* End Admin */
 
+/* Contact Form */
 
+#wb-contact-form{
+  input[type="checkbox"] {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+  .btn-primary {
+    margin-top: 20px;
+  }
+}
 
 /* Media Query */
 

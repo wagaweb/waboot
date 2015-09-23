@@ -7,9 +7,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Waboot 0.13.2\n"
+"Project-Id-Version: Waboot 0.13.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-09-01 11:01+0200\n"
+"POT-Creation-Date: 2015-09-23 13:01+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -389,63 +389,63 @@ msgstr ""
 msgid "Choose the secondary sidebar width"
 msgstr ""
 
-#: inc/hooks.php:140 inc/hooks.php:146 inc/hooks.php:154
+#: inc/hooks.php:148 inc/hooks.php:154 inc/hooks.php:162
 msgid "Inbox"
 msgstr ""
 
-#: inc/hooks.php:161 inc/hooks.php:218
+#: inc/hooks.php:169 inc/hooks.php:226
 msgid "Select all"
 msgstr ""
 
-#: inc/hooks.php:164 inc/hooks.php:221
+#: inc/hooks.php:172 inc/hooks.php:229
 msgid "Recipient"
 msgstr ""
 
-#: inc/hooks.php:167 inc/hooks.php:224
+#: inc/hooks.php:175 inc/hooks.php:232
 msgid "From"
 msgstr ""
 
-#: inc/hooks.php:170 inc/hooks.php:227
+#: inc/hooks.php:178 inc/hooks.php:235
 msgid "Source"
 msgstr ""
 
-#: inc/hooks.php:173 inc/hooks.php:230
+#: inc/hooks.php:181 inc/hooks.php:238
 msgid "Date submitted"
 msgstr ""
 
-#: inc/hooks.php:176 inc/hooks.php:233
+#: inc/hooks.php:184 inc/hooks.php:241
 msgid "Received status"
 msgstr ""
 
-#: inc/hooks.php:184
+#: inc/hooks.php:192
 msgid "Select this mail"
 msgstr ""
 
-#: inc/hooks.php:191
+#: inc/hooks.php:199
 msgid "View"
 msgstr ""
 
-#: inc/hooks.php:195
+#: inc/hooks.php:203
 msgid "Delete"
 msgstr ""
 
-#: inc/hooks.php:240
+#: inc/hooks.php:248
 msgid "email/s"
 msgstr ""
 
-#: inc/hooks.php:242
+#: inc/hooks.php:250
 msgid "Go back to the first page"
 msgstr ""
 
-#: inc/hooks.php:243
+#: inc/hooks.php:251
 msgid "Go back to the previous page"
 msgstr ""
 
-#: inc/hooks.php:245
+#: inc/hooks.php:253
 msgid "Go back to the next page"
 msgstr ""
 
-#: inc/hooks.php:246
+#: inc/hooks.php:254
 msgid "Go back to the last page"
 msgstr ""
 
@@ -464,37 +464,37 @@ msgstr ""
 #: inc/hooks/entry-footer.php:28
 #, php-format
 msgid ""
-"<span class=\"published-date\"><a href=\"%1$s\" title=\"%2$s\"><time class="
-"\"entry-date\" datetime=\"%3$s\">%4$s</time></a></span>"
+"<span class=\"published-date\"><time class=\"entry-date\" datetime=\"%1$s\">"
+"%2$s</time></span>"
 msgstr ""
 
-#: inc/hooks/entry-footer.php:32
+#: inc/hooks/entry-footer.php:30
 #, php-format
 msgctxt "Relative date output for entry footer"
 msgid "%s ago"
 msgstr ""
 
-#: inc/hooks/entry-footer.php:48
+#: inc/hooks/entry-footer.php:46
 #, php-format
 msgid ""
 "<span class=\"byline\"><span class=\"author vcard\"><a class=\"url fn n\" "
 "href=\"%1$s\" title=\"%2$s\" rel=\"author\">%3$s</a></span></span>"
 msgstr ""
 
-#: inc/hooks/entry-footer.php:50
+#: inc/hooks/entry-footer.php:48
 #, php-format
 msgid "View all posts by %s"
 msgstr ""
 
-#: inc/hooks/entry-footer.php:117
+#: inc/hooks/entry-footer.php:115
 msgid " Leave a comment"
 msgstr ""
 
-#: inc/hooks/entry-footer.php:117
+#: inc/hooks/entry-footer.php:115
 msgid " 1 Comment"
 msgstr ""
 
-#: inc/hooks/entry-footer.php:117
+#: inc/hooks/entry-footer.php:115
 msgid " % Comments"
 msgstr ""
 
@@ -508,6 +508,10 @@ msgstr ""
 
 #: inc/init.php:29
 msgid "Bottom Menu"
+msgstr ""
+
+#: inc/ls.php:213
+msgid "No license provided"
 msgstr ""
 
 #: inc/options.php:50
@@ -991,170 +995,186 @@ msgstr ""
 msgid "How many products display per page"
 msgstr ""
 
-#: inc/options.php:938
+#: inc/options.php:932
+msgid "Catalog Mode"
+msgstr ""
+
+#: inc/options.php:933
+msgid "Hide add to cart button"
+msgstr ""
+
+#: inc/options.php:940
+msgid "Hide Price"
+msgstr ""
+
+#: inc/options.php:941
+msgid "Hide price in catalog"
+msgstr ""
+
+#: inc/options.php:954
 msgid "Post Meta"
 msgstr ""
 
-#: inc/options.php:943
+#: inc/options.php:959
 msgid "Show content navigation above posts?"
 msgstr ""
 
-#: inc/options.php:944
+#: inc/options.php:960
 msgid ""
 "Displays links to next and previous posts above the current post and above "
 "the posts on the index page. Default is hide. Check this box to show content "
 "nav above posts."
 msgstr ""
 
-#: inc/options.php:951
+#: inc/options.php:967
 msgid "Show content navigation below posts?"
 msgstr ""
 
-#: inc/options.php:952
+#: inc/options.php:968
 msgid ""
 "Displays links to next and previous posts below the current post and below "
 "the posts on the index page. Default is show. Uncheck this box to hide "
 "content nav above posts."
 msgstr ""
 
-#: inc/options.php:959
+#: inc/options.php:975
 msgid "Show post author?"
 msgstr ""
 
-#: inc/options.php:960
+#: inc/options.php:976
 msgid ""
 "Displays the post author. Default is show. Uncheck this box to hide the post "
 "author."
 msgstr ""
 
-#: inc/options.php:967
+#: inc/options.php:983
 msgid "Show published date?"
 msgstr ""
 
-#: inc/options.php:968
+#: inc/options.php:984
 msgid ""
 "Displays the date the article was posted. Default is show. Uncheck this box "
 "to hide post published date."
 msgstr ""
 
-#: inc/options.php:975
+#: inc/options.php:991
 msgid "Show post categories?"
 msgstr ""
 
-#: inc/options.php:976
+#: inc/options.php:992
 msgid ""
 "Displays the categories in which a post was published. Default is show. "
 "Uncheck this box to hide post categories."
 msgstr ""
 
-#: inc/options.php:983
+#: inc/options.php:999
 msgid "Show post tags?"
 msgstr ""
 
-#: inc/options.php:984
+#: inc/options.php:1000
 msgid ""
 "Displays the tags attached to a post. Default is show. Uncheck this box to "
 "hide post tags."
 msgstr ""
 
-#: inc/options.php:991
+#: inc/options.php:1007
 msgid "Show link for # of comments / Leave a comment?"
 msgstr ""
 
-#: inc/options.php:992
+#: inc/options.php:1008
 msgid ""
 "Displays the number of comments and/or a Leave a comment message on posts. "
 "Default is show. Uncheck this box to hide."
 msgstr ""
 
-#: inc/options.php:1003
+#: inc/options.php:1019
 msgid "Contact form"
 msgstr ""
 
-#: inc/options.php:1008
+#: inc/options.php:1024
 msgid "Recipient type"
 msgstr ""
 
-#: inc/options.php:1009
+#: inc/options.php:1025
 msgid "Select who will receive the mail"
 msgstr ""
 
-#: inc/options.php:1013
+#: inc/options.php:1029
 msgid "The site admin"
 msgstr ""
 
-#: inc/options.php:1013
+#: inc/options.php:1029
 msgid "The author of the post in which the form is inserted"
 msgstr ""
 
-#: inc/options.php:1013
+#: inc/options.php:1029
 msgid "A specific recipient"
 msgstr ""
 
-#: inc/options.php:1017
+#: inc/options.php:1033
 msgid "Recipient address"
 msgstr ""
 
-#: inc/options.php:1018
+#: inc/options.php:1034
 msgid ""
 "Enter the recipient email address (valid for \"specific recipient\" option)"
 msgstr ""
 
-#: inc/options.php:1025
+#: inc/options.php:1041
 msgid "Custom privacy text"
 msgstr ""
 
-#: inc/options.php:1026
+#: inc/options.php:1042
 msgid "Enter your privacy statement for contact form"
 msgstr ""
 
-#: inc/options.php:1037
+#: inc/options.php:1053
 msgid "Favicons"
 msgstr ""
 
-#: inc/options.php:1042
+#: inc/options.php:1058
 msgid "Icon"
 msgstr ""
 
-#: inc/options.php:1043 inc/options.php:1055 inc/options.php:1067
+#: inc/options.php:1059 inc/options.php:1071 inc/options.php:1083
 msgid "Upload a favicon (only .png and .ico files are allowed)."
 msgstr ""
 
-#: inc/options.php:1054
+#: inc/options.php:1070
 msgid "Apple Touch 120x120 Icon"
 msgstr ""
 
-#: inc/options.php:1066
+#: inc/options.php:1082
 msgid "Apple Touch 152x152 Icon"
 msgstr ""
 
-#: inc/options.php:1082
+#: inc/options.php:1098
 msgid "Social"
 msgstr ""
 
-#: inc/options.php:1099
+#: inc/options.php:1115
 msgid "Social Position"
 msgstr ""
 
-#: inc/options.php:1100
+#: inc/options.php:1116
 msgid "Select one of the following positions for the social links"
 msgstr ""
 
-#: inc/options.php:1133
+#: inc/options.php:1149
 msgid "Do not use any of the previous positions"
 msgstr ""
 
-#: inc/options.php:1134
+#: inc/options.php:1150
 msgid ""
 "You can manually place the social links with the <strong>waboot social "
 "widget</strong> (even if one of the previous positions is selected)"
 msgstr ""
 
-#: inc/options.php:1145 inc/options.php:1150
+#: inc/options.php:1161 inc/options.php:1166
 msgid "Custom CSS"
 msgstr ""
 
-#: inc/options.php:1151
+#: inc/options.php:1167
 msgid ""
 "Enter custom css to apply to the theme (press CTRL-SPACE on Windows, or CTRL-"
 "F on Mac for suggestions)."
@@ -1486,7 +1506,7 @@ msgid "Logged in as"
 msgstr ""
 
 #: inc/widgets/widget-login-form.php:192
-#: inc/widgets/widget-recent-posts.php:116 inc/widgets/widget-social.php:39
+#: inc/widgets/widget-recent-posts.php:120 inc/widgets/widget-social.php:39
 msgid "Title:"
 msgstr ""
 
@@ -1530,180 +1550,180 @@ msgstr ""
 msgid "A widget to show the recents posts"
 msgstr ""
 
-#: inc/widgets/widget-recent-posts.php:114
+#: inc/widgets/widget-recent-posts.php:118
 msgctxt "Recent Posts Widget"
 msgid "General"
 msgstr ""
 
-#: inc/widgets/widget-recent-posts.php:117
+#: inc/widgets/widget-recent-posts.php:121
 msgctxt "Recent Posts Widget"
 msgid "New title"
 msgstr ""
 
-#: inc/widgets/widget-recent-posts.php:121
+#: inc/widgets/widget-recent-posts.php:125
 msgctxt "Recent Posts Widget"
 msgid "Query"
 msgstr ""
 
-#: inc/widgets/widget-recent-posts.php:125
+#: inc/widgets/widget-recent-posts.php:129
 msgctxt "Recent Posts Widget"
 msgid "Post Types"
 msgstr ""
 
-#: inc/widgets/widget-recent-posts.php:141
+#: inc/widgets/widget-recent-posts.php:145
 msgctxt "Recent Posts Widget"
 msgid "Limit to Category"
 msgstr ""
 
-#: inc/widgets/widget-recent-posts.php:163
+#: inc/widgets/widget-recent-posts.php:167
 msgctxt "Recent Posts Widget"
 msgid "No categories available"
 msgstr ""
 
-#: inc/widgets/widget-recent-posts.php:170
+#: inc/widgets/widget-recent-posts.php:174
 msgctxt "Recent Posts Widget"
 msgid "Limit to Tag"
 msgstr ""
 
-#: inc/widgets/widget-recent-posts.php:192
+#: inc/widgets/widget-recent-posts.php:196
 msgctxt "Recent Posts Widget"
 msgid "No tags available"
 msgstr ""
 
-#: inc/widgets/widget-recent-posts.php:199
+#: inc/widgets/widget-recent-posts.php:203
 msgctxt "Recent Posts Widget"
 msgid "Post Status"
 msgstr ""
 
-#: inc/widgets/widget-recent-posts.php:210
+#: inc/widgets/widget-recent-posts.php:214
 msgctxt "Recent Posts Widget"
 msgid "Order"
 msgstr ""
 
-#: inc/widgets/widget-recent-posts.php:213
+#: inc/widgets/widget-recent-posts.php:217
 msgctxt "Recent Posts Widget"
 msgid "Descending"
 msgstr ""
 
-#: inc/widgets/widget-recent-posts.php:214
+#: inc/widgets/widget-recent-posts.php:218
 msgctxt "Recent Posts Widget"
 msgid "Ascending"
 msgstr ""
 
-#: inc/widgets/widget-recent-posts.php:220
+#: inc/widgets/widget-recent-posts.php:224
 msgctxt "Recent Posts Widget"
 msgid "Orderby"
 msgstr ""
 
-#: inc/widgets/widget-recent-posts.php:223
+#: inc/widgets/widget-recent-posts.php:227
 msgctxt "Recent Posts Widget"
 msgid "ID"
 msgstr ""
 
-#: inc/widgets/widget-recent-posts.php:224
+#: inc/widgets/widget-recent-posts.php:228
 msgctxt "Recent Posts Widget"
 msgid "Author"
 msgstr ""
 
-#: inc/widgets/widget-recent-posts.php:225
+#: inc/widgets/widget-recent-posts.php:229
 msgctxt "Recent Posts Widget"
 msgid "Title"
 msgstr ""
 
-#: inc/widgets/widget-recent-posts.php:226
+#: inc/widgets/widget-recent-posts.php:230
 msgctxt "Recent Posts Widget"
 msgid "Date"
 msgstr ""
 
-#: inc/widgets/widget-recent-posts.php:227
+#: inc/widgets/widget-recent-posts.php:231
 msgctxt "Recent Posts Widget"
 msgid "Modified"
 msgstr ""
 
-#: inc/widgets/widget-recent-posts.php:228
+#: inc/widgets/widget-recent-posts.php:232
 msgctxt "Recent Posts Widget"
 msgid "Random"
 msgstr ""
 
-#: inc/widgets/widget-recent-posts.php:229
+#: inc/widgets/widget-recent-posts.php:233
 msgctxt "Recent Posts Widget"
 msgid "Comment Count"
 msgstr ""
 
-#: inc/widgets/widget-recent-posts.php:230
+#: inc/widgets/widget-recent-posts.php:234
 msgctxt "Recent Posts Widget"
 msgid "Menu Order"
 msgstr ""
 
-#: inc/widgets/widget-recent-posts.php:235
+#: inc/widgets/widget-recent-posts.php:239
 msgctxt "Recent Posts Widget"
 msgid "Options"
 msgstr ""
 
-#: inc/widgets/widget-recent-posts.php:240
+#: inc/widgets/widget-recent-posts.php:244
 msgctxt "Recent Posts Widget"
 msgid "Ignore sticky posts"
 msgstr ""
 
-#: inc/widgets/widget-recent-posts.php:246
+#: inc/widgets/widget-recent-posts.php:250
 msgctxt "Recent Posts Widget"
 msgid "Number of posts to show"
 msgstr ""
 
-#: inc/widgets/widget-recent-posts.php:255
+#: inc/widgets/widget-recent-posts.php:259
 msgctxt "Recent Posts Widget"
 msgid "Display Thumbnail"
 msgstr ""
 
-#: inc/widgets/widget-recent-posts.php:261
+#: inc/widgets/widget-recent-posts.php:265
 msgctxt "Recent Posts Widget"
 msgid "Thumbnail size"
 msgstr ""
 
-#: inc/widgets/widget-recent-posts.php:278
+#: inc/widgets/widget-recent-posts.php:282
 msgctxt "Recent Posts Widget"
 msgid "Display Excerpt"
 msgstr ""
 
-#: inc/widgets/widget-recent-posts.php:283
+#: inc/widgets/widget-recent-posts.php:287
 msgctxt "Recent Posts Widget"
 msgid "Excerpt Length"
 msgstr ""
 
-#: inc/widgets/widget-recent-posts.php:291
+#: inc/widgets/widget-recent-posts.php:295
 msgid "Display Readmore"
 msgstr ""
 
-#: inc/widgets/widget-recent-posts.php:296
+#: inc/widgets/widget-recent-posts.php:300
 msgctxt "Recent Posts Widget"
 msgid "Readmore Text"
 msgstr ""
 
-#: inc/widgets/widget-recent-posts.php:302
+#: inc/widgets/widget-recent-posts.php:306
 msgctxt "Recent Posts Widget"
 msgid "Readmore Text Prefix"
 msgstr ""
 
-#: inc/widgets/widget-recent-posts.php:310
+#: inc/widgets/widget-recent-posts.php:314
 msgctxt "Recent Posts Widget"
 msgid "Display Date"
 msgstr ""
 
-#: inc/widgets/widget-recent-posts.php:316
+#: inc/widgets/widget-recent-posts.php:320
 msgctxt "Recent Posts Widget"
 msgid "Use Relative Date. eg: 5 days ago"
 msgstr ""
 
-#: inc/widgets/widget-recent-posts.php:435
+#: inc/widgets/widget-recent-posts.php:439
 msgid "Recent Posts"
 msgstr ""
 
-#: inc/widgets/widget-recent-posts.php:459
+#: inc/widgets/widget-recent-posts.php:463
 msgctxt "Recent Posts Widget"
 msgid "Read More &raquo;"
 msgstr ""
 
-#: inc/widgets/widget-recent-posts.php:498
+#: inc/widgets/widget-recent-posts.php:496
 #: templates/parts/content-featured.php:8
 #: templates/parts/content-fp-grid.php:10 templates/parts/content-image.php:14
 #: templates/parts/content-link.php:13 templates/parts/content-search.php:13
