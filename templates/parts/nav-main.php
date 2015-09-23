@@ -49,7 +49,7 @@
             'depth'          => 0,
             'container'      => false,
             'menu_class'     => apply_filters('waboot_mainnav_class', array('nav', 'navbar-nav')),
-            'walker'	     => new WabootNavMenuWalker(),
+            'walker'	     => class_exists('WabootNavMenuWalker') ? new WabootNavMenuWalker() : "", //todo: includere in Waboot on in wbf?
             'fallback_cb' => 'waboot_nav_menu_fallback'
         )
     ); ?>
