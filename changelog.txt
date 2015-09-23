@@ -3,8 +3,15 @@
 Version 0.13.3 -
 ---------------------------------
 
+WABOOT:
+- Aggiornamento e fix delle template Woocommerce
+- Recent Post Widget: aggiunto il titolo del widget nella visualizzazione; fix generale al markup generato.
+
 WBF:
 - Ora il compilatore cerca di creare automaticamente le directory di output dei css e delle sourcemap.
+- Refactoring del sistema di licenza: ora sono possibili licenze multiple
+- COMPILATORE STILI:
+    - Ora il compilatore crea automaticamente le directory di output, se non esistono.
 - MODULI:
     - OPTIONS:
         - Fixato bug "array to string conversion" nel customizer
