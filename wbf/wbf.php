@@ -72,7 +72,9 @@ if( ! class_exists('WBF') ) :
 				add_action( "switch_theme", "WBF::deactivation", 4 );
 			}
 
-			add_action( "plugins_loaded", "WBF::plugins_loaded" );
+			if(WBF::is_plugin()) {
+				add_action( "plugins_loaded", "WBF::plugins_loaded" );
+			}
 			add_action( "after_setup_theme", "WBF::after_setup_theme" );
 			add_action( "init", "WBF::init" );
 
@@ -306,6 +308,14 @@ if( ! class_exists('WBF') ) :
 
 			do_action("wbf_after_setup_theme");
 
+			// ACF INTEGRATION
+			if(!self::is_plugin()){
+				if(!is_plugin_active("advanced-custom-fields-pro/acf.php") && !is_plugin_active("advanced-custom-fields/acf.php")){
+					locate_template( '/wbf/vendor/acf/acf.php', true );
+					locate_template( '/wbf/admin/acf-integration.php', true );
+				}
+			}
+
 			// Google Fonts
 			locate_template('/wbf/includes/google-fonts-retriever.php', true);
 			if(class_exists("WBF\GoogleFontsRetriever")) $GLOBALS['wbf_gfont_fetcher'] = WBF\GoogleFontsRetriever::getInstance();
@@ -457,14 +467,14 @@ if( ! class_exists('WBF') ) :
 			}
 		}
 
-		private static function add_wbf_options(){
+		static function add_wbf_options(){
 			update_option( "wbf_installed", true ); //Set a flag to make other component able to check if framework is installed
 			update_option( "wbf_path", WBF_DIRECTORY );
 			update_option( "wbf_url", WBF_URL );
 			update_option( "wbf_components_saved_once", false );
 		}
 
-		private static function has_valid_wbf_path(){
+		static function has_valid_wbf_path(){
 			$path = get_option("wbf_path");
 			if(!$path || empty($path) || !is_string($path)){
 				return false;
@@ -539,5 +549,17 @@ if( ! class_exists('WBF') ) :
 	endif;
 
 	WBF::startup();
+
+else:
+
+	//If this is a plugin, then force the options to point over the plugin.
+	if(preg_match("/plugins/",__FILE__) && preg_match("/themes/",get_option("wbf_path"))){
+		update_option( "wbf_path", __DIR__ );
+		update_option( "wbf_url", get_bloginfo("url") . "/wp-content/plugins/wbf/" );
+		define("WBF_DIRECTORY", __DIR__);
+		define("WBF_URL", get_bloginfo("url") . "/wp-content/plugins/wbf/");
+		define("WBF_ADMIN_DIRECTORY", __DIR__ . "/admin");
+		define("WBF_PUBLIC_DIRECTORY", __DIR__ . "/public");
+	}
 
 endif; // class_exists check
