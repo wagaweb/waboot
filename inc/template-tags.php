@@ -594,7 +594,7 @@ if(!function_exists("waboot_breadcrumb")):
 	        ));
 
 	        $allowed_locations = call_user_func(function(){
-		        $bc_locations = of_get_option('waboot_breadcrumb_locations');
+		        $bc_locations = of_get_option('waboot_breadcrumb_locations',[]);
 		        $allowed = array();
 		        foreach($bc_locations as $k => $v){
 			        if($v == "1"){
