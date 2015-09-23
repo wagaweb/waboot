@@ -4,14 +4,16 @@
  * FRAMEWORK INITIALIZATION
  *****************************/
 
-/*$wbfpath = locate_template('/wbf/wbf.php');
+/*if(!class_exists("WBF")):
+	$wbfpath = locate_template('/wbf/wbf.php');
 
-if($wbfpath){
-	require_once $wbfpath;
-	WBF::startup();
-}else{
-	trigger_error(sprintf(__('Error locating %s for inclusion', 'waboot'), $file), E_USER_ERROR);
-}*/
+	if($wbfpath){
+		require_once $wbfpath;
+		WBF::startup();
+	}else{
+		trigger_error(sprintf(__('Error locating %s for inclusion', 'waboot'), $file), E_USER_ERROR);
+	}
+endif;*/
 
 /*****************************
  * WABOOT INITIALIZATION
