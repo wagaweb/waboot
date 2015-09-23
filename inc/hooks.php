@@ -107,6 +107,40 @@ if(!function_exists('waboot_ignore_sticky_post_in_archives')):
 	add_action( 'pre_get_posts', 'waboot_ignore_sticky_post_in_archives' );
 endif;
 
+if(!is_admin() && !function_exists("waboot_mobile_body_class") && class_exists("WBF") && function_exists("WBF::get_mobile_detect")):
+	/**
+	 * Adds mobile classes to body
+	 */
+	function waboot_mobile_body_class($classes){
+		$md = WBF::get_mobile_detect();
+		if($md->isMobile()){
+			$classes[] = "mobile";
+			if($md->is_ios()) $classes[] = "mobile-ios";
+			if($md->is_android()){
+				$classes[] = "mobile-android";
+				$classes[] = "mobile-android-".$md->version('Android');
+			}
+			if($md->is_windows_mobile()) $classes[] = "mobile-windows";
+			if($md->isTablet()) $classes[] = "mobile-tablet";
+			if($md->isIphone()){
+				$classes[] = "mobile-iphone";
+				$classes[] = "mobile-iphone-".$md->version('IPhone');
+			}
+			if($md->isIpad()){
+				$classes[] = "mobile-ipad";
+				$classes[] = "mobile-ipad-".$md->version('IPad');
+			}
+			if($md->is('Kindle')) $classes[] = "mobile-kindle";
+			if($md->is('Samsung')) $classes[] = "mobile-samsung";
+			if($md->is('SamsungTablet')) $classes[] = "mobile-samsungtablet";
+		}else{
+			$classes[] = "desktop";
+		}
+		return $classes;
+	}
+	add_filter('body_class','waboot_mobile_body_class');
+endif;
+
 if(!function_exists('wbft_favicons')):
 	/**
 	 * Display the favicons
