@@ -3,7 +3,11 @@
 add_filter("wbf_add_behaviors","waboot_behaviors");
 function waboot_behaviors($behaviors){
 
-	$imagepath = get_template_directory_uri() . '/wbf/admin/images/';
+	if(wbft_wbf_in_use()){
+		$imagepath = WBF::prefix_url('admin/images/');
+	}else{
+		$imagepath = get_template_directory_uri() . '/assets/images/options';
+	}
 
 	$behaviors[] = array(
 		"name" => "show-title",

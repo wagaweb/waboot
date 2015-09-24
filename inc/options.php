@@ -37,7 +37,11 @@ function optionsframework_options() {
     }*/
 
     // If using image radio buttons, define a directory path
-    $imagepath = get_template_directory_uri() . '/wbf/admin/images/';
+	if(wbft_wbf_in_use()){
+        $imagepath = WBF::prefix_url('admin/images/');
+	}else{
+		$imagepath = get_template_directory_uri() . '/assets/images/options';
+	}
 
     // WABOOT SETTINGS TABS
 
