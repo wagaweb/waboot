@@ -11,11 +11,13 @@ class Plugin_Update_Checker extends \PluginUpdateChecker{
 	 * @param string $metadataUrl The URL of the plugin's metadata file.
 	 * @param string $pluginFile Fully qualified path to the main plugin file.
 	 * @param string $slug The plugin's 'slug'. If not specified, the filename part of $pluginFile sans '.php' will be used as the slug.
+	 * @param int $plugin_license
+	 * @param bool $checkLicense
 	 * @param integer $checkPeriod How often to check for updates (in hours). Defaults to checking every 12 hours. Set to 0 to disable automatic update checks.
 	 * @param string $optionName Where to store book-keeping info about update checks. Defaults to 'external_updates-$slug'.
 	 * @param string $muPluginFile Optional. The plugin filename relative to the mu-plugins directory.
 	 */
-	public function __construct($metadataUrl, $pluginFile, $slug = '', $plugin_license, $checkLicense = false, $checkPeriod = 12, $optionName = '', $muPluginFile = ''){
+	public function __construct($metadataUrl, $pluginFile, $slug = '', $plugin_license = null, $checkLicense = false, $checkPeriod = 12, $optionName = '', $muPluginFile = ''){
 		$this->metadataUrl = $metadataUrl;
 		$this->pluginAbsolutePath = $pluginFile;
 		$this->pluginFile = plugin_basename($this->pluginAbsolutePath);
@@ -44,7 +46,7 @@ class Plugin_Update_Checker extends \PluginUpdateChecker{
 		$checkLicense = true; //todo: Se il plugin framework deve essere indipendente da wbf... nn si dovrebbe controllare la licenza sul license manager del WBF
 
 		if($checkLicense){
-			if($plugin_license && $plugin_license->is_valid()) {
+			if($plugin_license && $plugin_license->is_valid() || !$plugin_license) {
 				$this->installHooks();
 				$this->remove_not_upgradable_plugin($this->slug);
 			}else{
@@ -242,6 +244,10 @@ class Plugin_Update_Checker extends \PluginUpdateChecker{
 		<?php endif;
 	}
 
+	/**
+	 * Removes $plugin_name from the list of not upgradable plugins
+	 * @param $plugin_name
+	 */
 	protected function remove_not_upgradable_plugin($plugin_name){
 		$opt = get_option("wbf_unable_to_update_plugins",array());
 		foreach($opt as $k => $plg){
@@ -252,6 +258,10 @@ class Plugin_Update_Checker extends \PluginUpdateChecker{
 		update_option("wbf_unable_to_update_plugins",$opt);
 	}
 
+	/**
+	 * Adds $plugin_name from the list of not upgradable plugins
+	 * @param $plugin_name
+	 */
 	protected function add_not_upgradable_plugin($plugin_name){
 		$opt = get_option("wbf_unable_to_update_plugins",array());
 		if(!in_array($plugin_name,$opt))
@@ -259,6 +269,9 @@ class Plugin_Update_Checker extends \PluginUpdateChecker{
 		update_option("wbf_unable_to_update_plugins",$opt);
 	}
 
+	/**
+	 * Clear the list of not upgradable plugins
+	 */
 	protected function clear_not_upgradable_plugins(){
 		update_option("wbf_unable_to_update_plugins",array());
 	}

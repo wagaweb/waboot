@@ -4,7 +4,7 @@ namespace WBF\includes\compiler\less;
 use WBF\includes\compiler\Base_Compiler;
 use \Exception;
 
-require_once( get_template_directory()."/wbf/includes/compiler/interface-base-compiler.php" );
+require_once( \WBF::get_path()."includes/compiler/interface-base-compiler.php" );
 
 class Less_Compiler implements Base_Compiler{
     public $compile_sets = array();
@@ -58,8 +58,8 @@ class Less_Compiler implements Base_Compiler{
     function compile($name,$args = []){
         try{
 	        global $wp_filesystem;
-	        require_once( WBF_DIRECTORY."/includes/compiler/less/Less_Cache.php" );
-	        require_once( get_template_directory()."/wbf/includes/compiler/compiler-utils.php" );
+	        require_once( \WBF::get_path()."includes/compiler/less/Less_Cache.php" );
+	        require_once( \WBF::get_path()."includes/compiler/compiler-utils.php" );
 
 	        $args = wp_parse_args($args,$this->compile_sets[$name]);
 

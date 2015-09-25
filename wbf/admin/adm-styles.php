@@ -8,7 +8,7 @@
  * @uses wbf_locate_template_uri()
  */
 function wbf_admin_styles($page) {
-    wp_enqueue_style('waboot-admin-style', wbf_locate_template_uri('wbf/admin/css/admin.css'), array(), false, 'all');
+    wp_enqueue_style('waboot-admin-style', \WBF::prefix_url('admin/css/admin.css'), array(), false, 'all');
 }
 add_action('admin_enqueue_scripts', 'wbf_admin_styles');
 

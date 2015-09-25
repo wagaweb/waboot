@@ -309,7 +309,7 @@ class Admin extends \Options_Framework_Admin{
 			'wp-color-picker'
 		), Framework::VERSION );
 		// Enqueue core CSS
-		$core_stylesheet = wbf_locate_template_uri('wbf/admin/css/optionsframework.css');
+		$core_stylesheet = \WBF::prefix_url('admin/css/optionsframework.css');
 		if ($core_stylesheet != "")
 			wp_enqueue_style('wbf-theme-options-style', $core_stylesheet, array('optionsframework'), false, 'all'); //Custom Theme Options CSS
 		// Enqueue custom CSS

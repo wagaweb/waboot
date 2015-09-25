@@ -50,7 +50,7 @@ class GoogleFontsRetriever{
 
 	function read_font_cache_file(){
 		$fonts_json = false;
-		$cache_file = WBF_DIRECTORY."/cache/".$this->cache_file_name;
+		$cache_file = \WBF::get_path()."cache/".$this->cache_file_name;
 
 		if(is_file($cache_file) && is_readable($cache_file)){
 			require_once $cache_file;
@@ -72,7 +72,7 @@ class GoogleFontsRetriever{
 
         $fonts_json = '<?php $fonts = \''.$fonts_json.'\'; ?>';
 
-        $cache_file = WBF_DIRECTORY."/cache/".$this->cache_file_name;
+        $cache_file = \WBF::get_path()."cache/".$this->cache_file_name;
         $fhandle = fopen($cache_file,'w');
         if(fwrite($fhandle, $fonts_json) === FALSE) {
             $this->last_error = new GoogleFontsRetrieverException("Unable to write the font cache file, located at: $cache_file","file_write_failed");
