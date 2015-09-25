@@ -111,6 +111,7 @@ module.exports = function (grunt) {
                             "!bower_components/**",
                             "!assets/cache/**",
                             "!vendor/**",
+                            "!wbf/vendor/bootstrap/*/**",
                             "vendor/composer/*.php",
                             "vendor/composer/*.json",
                             "vendor/acf/**/*",

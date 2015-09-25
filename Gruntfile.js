@@ -160,6 +160,7 @@ module.exports = function(grunt) {
                             "!wbf/Gruntfile.js",
                             "!wbf/package.json",
                             "!wbf/vendor/**",
+                            "!wbf/vendor/bootstrap/*/**",
                             "wbf/vendor/composer/*.php",
                             "wbf/vendor/composer/*.json",
                             "wbf/vendor/acf/**/*",
