@@ -9,7 +9,6 @@ if(!class_exists("WBF")):
 
 	if($wbfpath){
 		require_once $wbfpath;
-		WBF::startup();
 	}else{
 		trigger_error(sprintf(__('Error locating %s for inclusion', 'waboot'), $file), E_USER_ERROR);
 	}
