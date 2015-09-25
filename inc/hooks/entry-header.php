@@ -11,8 +11,17 @@ add_filter("waboot_entry_title_html_singular","waboot_entry_title_before_inner_s
 function waboot_print_entry_header() {
 	$str = waboot_entry_title();
 
-    if ((get_behavior('title-position') == "top" || get_behavior("show-title") == "0") && !is_archive())
-        $str = "";
+	if(!is_archive()){
+		if(wbft_current_page_type() != "default_home" && !wbft_is_blog_page()){
+			//In the default homepage or in blog page we do not have to check the title-position behavior
+			if (get_behavior('title-position') == "top"){
+				$str = "";
+			}
+		}
+		if(get_behavior("show-title") == "0"){
+			$str = "";
+		}
+	}
 
 	echo $str;
 }
