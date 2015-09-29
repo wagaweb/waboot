@@ -13,29 +13,6 @@ function optionsframework_options() {
 		return $options;
 	}
 
-    // Pull all the categories into an array
-    /*$options_categories = array();
-    $options_categories_obj = get_categories();
-    foreach ($options_categories_obj as $category) {
-        $options_categories[$category->cat_ID] = $category->cat_name;
-    }*/
-
-    // Pull all the tags into an array
-    /*$options_tags = array();
-    $options_tags_obj = get_tags( array('hide_empty' => false) );
-    $options_tags[''] = __( 'Select a tag:', 'waboot' );
-    foreach ($options_tags_obj as $tag) {
-        $options_tags[$tag->term_id] = $tag->name;
-    }*/
-
-    // Pull all the pages into an array
-    /*$options_pages = array();
-    $options_pages_obj = get_pages('sort_column=post_parent,menu_order');
-    $options_pages[''] = __( 'Select a page:', 'waboot' );
-    foreach ($options_pages_obj as $page) {
-        $options_pages[$page->ID] = $page->post_title;
-    }*/
-
     // If using image radio buttons, define a directory path
 	if(wbft_wbf_in_use()){
         $imagepath = WBF::prefix_url('admin/images/');
@@ -44,7 +21,6 @@ function optionsframework_options() {
 	}
 
     // WABOOT SETTINGS TABS
-
 
     /*
     * LAYOUT TAB
@@ -509,14 +485,38 @@ function optionsframework_options() {
     );
 
     $options[] = array(
-        'name' => __( 'Show Logo?', 'waboot' ),
-        'desc' => __( 'Displays the logo on your site.', 'waboot' ),
+        'name' => __( 'Main logo', 'waboot' ),
+        'desc' => __( 'Choose the website main logo', 'waboot' ),
         'id'   => 'waboot_logo_in_navbar',
 	    'std'  => get_template_directory_uri()."/assets/images/default/waboot-color.png",
         'type' => 'upload'
     );
 
-    $options[] = array(
+	$options[] = array(
+		'name' => __( 'Mobile logo', 'waboot' ),
+		'desc' => __( 'Choose website mobile logo', 'waboot' ),
+		'id'   => 'mobile_logo',
+		'std'  => '',
+		'type' => 'upload'
+	);
+
+	$options[] = array(
+		'name' => __( 'Mobile Offcanvas logo', 'waboot' ),
+		'desc' => __( 'Choose the logo to display in mobile offcanvas navigation bar', 'waboot' ),
+		'id'   => 'mobile_offcanvas_logo',
+		'std'  => '',
+		'type' => 'upload'
+	);
+
+	$options[] = array(
+		'name' => __( 'Show Logo in Mobile Nav?', 'waboot' ),
+		'desc' => __( 'Choose the visibility of site logo in mobile navigation.', 'waboot' ),
+		'id'   => 'waboot_logo_mobilenav',
+		'std'  => '1',
+		'type' => 'checkbox'
+	);
+
+	$options[] = array(
         'name' => __( 'Header', 'waboot' ),
         'desc' => __( 'Select your header layout' ,'waboot' ),
         'id'   => 'waboot_header_layout',
@@ -537,6 +537,22 @@ function optionsframework_options() {
             )
         )
     );
+
+	$options[] = array(
+		'name' => __('Site title custom text', 'waboot'),
+		'desc' => __('When logo is empty, the site title will be used instead. You can customize here the text that will be displayed', 'waboot'),
+		'id' => 'custom_site_title',
+		'std' => get_bloginfo('name'),
+		'type' => 'text',
+	);
+
+	$options[] = array(
+		'name' => __('Show site description', 'waboot'),
+		'desc' => __('Choose visibility of site description', 'waboot'),
+		'id'   => 'show_site_description',
+		'std'  => '0',
+		'type' => 'checkbox'
+ 	);
 
     $options[] = array(
         'name' => __('Navbar Align', 'waboot'),
@@ -590,15 +606,6 @@ function optionsframework_options() {
             )
         )
     );
-
-    $options[] = array(
-        'name' => __( 'Show Logo in Mobile Nav?', 'waboot' ),
-        'desc' => __( 'Default is enabled. Uncheck this box to turn it off.', 'waboot' ),
-        'id'   => 'waboot_logo_mobilenav',
-        'std'  => '1',
-        'type' => 'checkbox'
-    );
-
 
     if (class_exists('\WBF\modules\behaviors\BehaviorsManager')) {
 
