@@ -11,16 +11,25 @@
 <div class="collapse navbar-collapse navbar-mobile-collapse offcanvas">
 
     <?php if ( of_get_option( 'waboot_logo_mobilenav', '1' ) ) : ?>
-    <div class="logo-menu">
-        <?php if ( of_get_option( 'waboot_logo_in_navbar' ) != "" ) : ?>
-            <a href="<?php echo home_url( '/' ); ?>"><img src="<?php echo of_get_option( 'waboot_logo_in_navbar' ); ?>" class="img-responsive" /></a>
-        <?php else : ?>
-            <?php
-            do_action( 'waboot_site_title' );
-            // do_action( 'waboot_site_description' );
-            ?>
-        <?php endif; ?>
-    </div>
+	    <?php
+	        $navbar_mobile_logo = waboot_get_mobile_logo("offcanvas");
+	        $mobile_logo = waboot_get_mobile_logo();
+	        $desktop_logo = waboot_get_desktop_logo();
+	    ?>
+	    <div class="logo-menu">
+	        <?php if ( $navbar_mobile_logo != "" ) : ?>
+	            <?php waboot_mobile_logo("offcanvas"); ?>
+	        <?php elseif( $mobile_logo != "") : ?>
+		        <?php waboot_mobile_logo(); ?>
+		    <?php elseif( $desktop_logo != "") : ?>
+		        <?php waboot_desktop_logo(); ?>
+	        <?php else : ?>
+	            <?php
+	                do_action( 'waboot_site_title' );
+	                do_action( 'waboot_site_description' );
+		        ?>
+	        <?php endif; ?>
+	    </div>
     <?php endif; ?>
 
     <?php wp_nav_menu( array(

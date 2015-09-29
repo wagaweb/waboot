@@ -22,10 +22,10 @@
     </button>
 
     <a class="navbar-brand" href="<?php echo home_url( '/' ); ?>">
-        <?php if ( of_get_option( 'waboot_logo_in_navbar' ) ) : ?>
-            <img src="<?php echo of_get_option( 'waboot_logo_in_navbar' ); ?>">
+	    <?php if ( waboot_get_desktop_logo() != "" ) : ?>
+		    <?php waboot_desktop_logo(); ?>
         <?php else : ?>
-            <?php echo $blog_title = get_bloginfo('name'); ?>
+            <?php do_action( 'waboot_site_title' ); ?>
         <?php endif; ?>
     </a>
 
