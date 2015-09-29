@@ -18,8 +18,8 @@
 	            <?php waboot_desktop_logo(); ?>
             <?php else : ?>
                 <?php
-                    do_action( 'waboot_site_title' );
-	                do_action( 'waboot_site_description' );
+	                waboot_site_title();
+	                waboot_site_description();
 	            ?>
             <?php endif; ?>
         </div><!--
