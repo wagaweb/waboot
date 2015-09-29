@@ -25,7 +25,7 @@
 	    <?php if ( waboot_get_desktop_logo() != "" ) : ?>
 		    <?php waboot_desktop_logo(); ?>
         <?php else : ?>
-            <?php do_action( 'waboot_site_title' ); ?>
+            <?php waboot_site_title(); ?>
         <?php endif; ?>
     </a>
 
