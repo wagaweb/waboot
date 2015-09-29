@@ -39,6 +39,7 @@ if(!function_exists('waboot_do_site_description')):
      * @since 0.1.0
      */
     function waboot_do_site_description() {
+	    if(!of_get_option("show_site_description",0)) return;
         // Use H2
         $element = 'h2';
         // Put it all together
