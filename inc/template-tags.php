@@ -16,6 +16,43 @@ if(!function_exists("get_images_url")) :
     }
 endif;
 
+if(!function_exists('waboot_site_title')):
+	/**
+	 * Displays site title
+	 * @since 0.13.4
+	 */
+	function waboot_site_title() {
+		$element = apply_filters("waboot/site_title/tag",'h1');
+		$display_name = call_user_func(function(){
+			$custom_name = of_get_option("custom_site_title","");
+			if($custom_name && !empty($custom_name)){
+				return $custom_name;
+			}else{
+				return get_bloginfo("name");
+			}
+		});
+		$link = sprintf( '<a href="%s" title="%s" rel="home">%s</a>', trailingslashit( home_url() ), esc_attr( get_bloginfo( 'name' ) ), $display_name );
+		$output = '<' . $element . ' id="site-title" class="site-title">' . $link . '</' . $element .'>';
+		echo apply_filters( 'waboot/site_title/markup', $output );
+	}
+endif;
+
+if(!function_exists('waboot_site_description')):
+	/**
+	 * Displays site description
+	 * @since 0.13.4
+	 */
+	function waboot_site_description() {
+		if(!of_get_option("show_site_description",0)) return;
+		// Use H2
+		$element = 'h2';
+		// Put it all together
+		$description = '<' . $element . ' id="site-description" class="site-description">' . esc_html( get_bloginfo( 'description' ) ) . '</' . $element . '>';
+		// Echo the description
+		echo apply_filters( 'waboot/site_description/markup', $description );
+	}
+endif;
+
 if(!function_exists("waboot_mobile_logo")) :
 	/**
 	 * Prints the mobile logo
@@ -210,6 +247,14 @@ if(!function_exists("waboot_index_title")):
 endif;
 
 if(!function_exists("waboot_archive_page_title")):
+	/**
+	 * Format archives page title
+	 * @param string $prefix
+	 * @param string $suffix
+	 * @param bool|true $display
+	 *
+	 * @return string|void
+	 */
 	function waboot_archive_page_title($prefix = "", $suffix = "", $display = true){
 		if (of_get_option('waboot_blogpage_displaytitle') == "1") {
 			$output = waboot_get_archive_page_title();
