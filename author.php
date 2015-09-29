@@ -16,7 +16,7 @@ $blog_class = waboot_get_blog_class($blog_style);
 			<?php if (of_get_option('waboot_blogpage_title_position') == "bottom" && of_get_option('waboot_blogpage_displaytitle') == "1") : ?>
 				<header class="page-header">
 					<?php
-					do_action( 'waboot_archive_page_title', "<h1 class=\"page-title\">", "</h1>" );
+					waboot_archive_page_title("<h1 class=\"page-title\">","</h1>",true);
 					$author_description = get_the_author_meta("description",$post->post_author);
 					if ( ! empty( $author_description ) )
 						printf( '<div class="author-description">%s</div>', $author_description );
