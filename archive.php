@@ -13,7 +13,7 @@ get_header();
 			<?php if (of_get_option('waboot_blogpage_title_position') == "bottom" && of_get_option('waboot_blogpage_displaytitle') == "1") : ?>
 				<div class="page-header">
 				<?php
-					do_action( 'waboot_archive_page_title', "<h1 class=\"page-title\">", "</h1>" );
+					waboot_archive_page_title("<h1 class=\"page-title\">","</h1>",true);
 					$term_description = term_description();
 					if ( ! empty( $term_description ) )
 						printf( '<div class="taxonomy-description">%s</div>', $term_description );
