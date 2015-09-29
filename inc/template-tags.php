@@ -16,6 +16,55 @@ if(!function_exists("get_images_url")) :
     }
 endif;
 
+if(!function_exists("waboot_mobile_logo")) :
+	/**
+	 * Prints the mobile logo
+	 */
+	function waboot_mobile_logo($contest = "header"){
+		$tpl = "<a href='%s'><img src='%s' class='img-responsive' /></a>";
+		printf($tpl,home_url( '/' ),waboot_get_mobile_logo($contest));
+	}
+endif;
+
+if(!function_exists("waboot_get_mobile_logo")) :
+	/**
+	 * Get the mobile logo, or an empty string.
+	 * @return string
+	 */
+	function waboot_get_mobile_logo($contest = "header"){
+		switch($contest){
+			case "offcanvas":
+				$mobile_logo = of_get_option( 'mobile_offcanvas_logo', "");
+				break;
+			default:
+				$mobile_logo = of_get_option( 'mobile_logo', "");
+				break;
+		}
+		return $mobile_logo;
+	}
+endif;
+
+if(!function_exists("waboot_desktop_logo")) :
+	/**
+	 * Prints the desktop logo
+	 */
+	function waboot_desktop_logo(){
+		$tpl = "<a href='%s'><img src='%s' class='img-responsive' /></a>";
+		printf($tpl,home_url( '/' ),waboot_get_desktop_logo());
+	}
+endif;
+
+if(!function_exists("waboot_get_desktop_logo")) :
+	/**
+	 * Get the desktop logo, or an empty string
+	 * @return string
+	 */
+	function waboot_get_desktop_logo(){
+		$desktop_logo = of_get_option( 'waboot_logo_in_navbar', "");
+		return $desktop_logo;
+	}
+endif;
+
 if(!function_exists("wbft_current_page_type")):
 	function wbft_current_page_type(){
 		if ( is_front_page() && is_home() ) {
