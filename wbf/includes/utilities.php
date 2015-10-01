@@ -157,10 +157,11 @@ endif;
  *
  * @param callable $callback a function that will be called for each post. You can use it to additionally filter the posts. If it returns true, the post will be added to output array.
  * @param array    $args normal arguments for WP_Query
+ * @param bool     $include_meta the post meta will be included in the post object (default to FALSE)
  *
  * @return array of posts
  */
-function wbf_get_posts(\closure $callback = null, $args = array()){
+function wbf_get_posts(\closure $callback = null, $args = array(), $include_meta = false){
 	$all_posts = [];
 	$page = 1;
 	$get_posts = function ( $args ) use ( &$page ) {
@@ -180,6 +181,9 @@ function wbf_get_posts(\closure $callback = null, $args = array()){
 		while ( $i <= count( $paged_posts->posts ) - 1 ) { //while($all_posts->have_posts()) WE CANNOT USE have_posts... too many issue
 			//if($i == 1) $all_posts->next_post(); //The first next post does not change $all_posts->post for some reason... so we need to do it double...
 			$p = $paged_posts->posts[ $i ];
+			if($include_meta){
+				$p->meta = get_post_meta($p->ID);
+			}
 			if(isset($callback)){
 				$result = call_user_func( $callback, $p );
 				if($result){
