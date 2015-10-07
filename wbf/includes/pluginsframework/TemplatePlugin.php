@@ -57,20 +57,22 @@ class TemplatePlugin extends Plugin implements TemplatePlugin_Interface {
 
 		// Retrieve the cache list. If it doesn't exist, or it's empty prepare an array
 		$templates = wp_cache_get( $cache_key, 'themes' );
-		if ( empty( $templates ) ) {
+		if ( empty( $templates ) && function_exists("get_page_templates") ) {
 			$templates = array_flip(get_page_templates());
 		}
 
-		// Since we've updated the cache, we need to delete the old cache
-		wp_cache_delete( $cache_key, 'themes' );
+		if(is_array($templates)){
+			// Since we've updated the cache, we need to delete the old cache
+			wp_cache_delete( $cache_key, 'themes' );
 
-		// Now add our template to the list of templates by merging our templates
-		// with the existing templates array from the cache.
-		$templates = array_merge( $templates, $this->templates );
+			// Now add our template to the list of templates by merging our templates
+			// with the existing templates array from the cache.
+			$templates = array_merge( $templates, $this->templates );
 
-		// Add the modified cache to allow WordPress to pick it up for listing
-		// available templates
-		wp_cache_add( $cache_key, $templates, 'themes', 1800 );
+			// Add the modified cache to allow WordPress to pick it up for listing
+			// available templates
+			wp_cache_add( $cache_key, $templates, 'themes', 1800 );
+		}
 
 		return $atts;
 	}
