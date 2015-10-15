@@ -69,6 +69,9 @@ function wbf_autoloader($class) {
         case 'WBF\includes\compiler\less\Less_Compiler':
 	        wbf_locate_file('includes/compiler/less/Less_Compiler.php', true);
             break;
+	    case 'Mobile_Detect':
+		    wbf_locate_file('vendor/mobiledetect/mobiledetectlib/Mobile_Detect.php', true);
+		    break;
         case "Less_Cache":
 	        wbf_locate_file('includes/compiler/less/vendor/Lessphp/Cache.php', true);
             break;
