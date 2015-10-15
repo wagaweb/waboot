@@ -1,5 +1,32 @@
 == Change log ==
 
+Version 0.13.4 - in progress
+---------------------------------
+
+WABOOT e WBF:
+- Ora il compilatore è compatibile con il multisite
+
+WABOOT:
+- Aumentata complessivamente la compatibilità in assenza di WBF
+- Fixato un bug che non mostrava il titolo dei post nella homepage di default
+- Nuove opzioni per i loghi mobile e offcanvas e template_tags associate (waboot_mobile_logo,waboot_get_mobile_logo,waboot_desktop_logo,waboot_get_desktop_logo)
+- Riabilitata la site description e nuove funzioni associate (waboot_site_title,waboot_site_description,waboot_archive_page_title)
+- Pulizia di alcuni hook ridondanti
+- Quattro nuove azioni per la sidebar: "waboot/sidebar/primary/widgets/before","waboot/sidebar/primary/widgets/after","waboot/sidebar/secondary/widgets/before","waboot/sidebar/secondary/widgets/after"
+-
+
+WBF:
+- Ora in wbf_locate_template() vengono utilizzate le funzioni native di WP invece che le costanti STYLESHEETPATH e TEMPLATEPATH
+- Fixato un bug che non permetteva l'aggiornamento di plugin che non richiedo la licenza
+- Aumentata compatibilità di WBF come plugin (e come plugin senza temi che lo utilizzino)
+- Ora la classe WBF viene utilizzata come singleton
+- Ora wbf_get_posts() può includere automaticamente i meta dei post
+- Fixato un raro caso in cui durante il checkout di woocommerce si entrava nella funzione register_templates del Plugin Framework
+- MODULI:
+    - COMPONENTS:
+        - Fixato un bug che, in alcune condizioni, non faceva funzionare correttamente i componenti dei temi child
+
+
 Version 0.13.3 - 23/09/2015
 ---------------------------------
 
