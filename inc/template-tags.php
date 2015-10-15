@@ -946,15 +946,40 @@ if(!function_exists("wbft_contact_form_tpl")):
 	}
 endif;
 
+if(!function_exists("waboot_get_compiled_stylesheet_uri")):
+	function waboot_get_compiled_stylesheet_uri(){
+		$base_uri = get_stylesheet_directory_uri()."/assets/css";
+		if(is_multisite()){
+			$uri = $base_uri."/mu";
+		}else{
+			$uri = $base_uri;
+		}
+		return apply_filters("wbft/compiler/output/uri",$uri);
+	}
+endif;
+
+if(!function_exists("waboot_get_compiled_stylesheet_directory")):
+	function waboot_get_compiled_stylesheet_directory(){
+		$base_dir = get_stylesheet_directory()."/assets/css";
+		if(is_multisite()){
+			if(!is_dir($base_dir."/mu")){
+				mkdir($base_dir."/mu");
+			}
+			$dir = $base_dir."/mu";
+		}else{
+			$dir = $base_dir;
+		}
+		return apply_filters("wbft/compiler/output/directory",$dir);
+	}
+endif;
+
 if(!function_exists("waboot_get_compiled_stylesheet_name")):
 	function waboot_get_compiled_stylesheet_name(){
 		$theme = wp_get_theme();
 		if(is_child_theme()){
 			$filename = $theme->stylesheet;
-			//return "waboot-child";
 		}else{
 			$filename = $theme->template;
-			//return "waboot";
 		}
 		return apply_filters("wbft/compiler/output/filename",$filename);
 	}

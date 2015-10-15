@@ -66,14 +66,16 @@ if ( ! function_exists( 'init_style_compiler' ) && wbft_wbf_in_use() ) :
 	function init_style_compiler(){
 		$theme = waboot_get_compiled_stylesheet_name();
 		$inputFileName = is_child_theme() ? "waboot-child" : "waboot";
+		$output_dir = waboot_get_compiled_stylesheet_directory();
+		$output_uri = waboot_get_compiled_stylesheet_uri();
 
 		WBF::set_styles_compiler([
 			"sets" => [
 				"theme_frontend" => [
 					"input" => get_stylesheet_directory()."/sources/less/{$inputFileName}.less",
-					"output" => get_stylesheet_directory()."/assets/css/{$theme}.css",
-					"map" => get_stylesheet_directory()."/assets/css/{$theme}.css.map",
-					"map_url" => get_stylesheet_directory_uri()."/assets/css/{$theme}.css.map",
+					"output" => $output_dir."/{$theme}.css",
+					"map" => $output_dir."/{$theme}.css.map",
+					"map_url" => $output_uri."/{$theme}.css.map",
 					"cache" => get_stylesheet_directory()."/assets/cache",
 					"import_url" => get_stylesheet_directory_uri(),
 					"primary" => true
