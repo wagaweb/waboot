@@ -11,12 +11,14 @@ function waboot_theme_styles() {
 	global $wbf_styles_compiler;
 
 	$theme = wp_get_theme(); //get current theme settings
-    /**
-     * Here by default $theme->stylesheet is the name of the theme directory.
-     * We pass that name into the "waboot_compiled_stylesheet_name" filter which change its value according to one compiled from less.
-     * See /inc/hooks.php at waboot_set_compiled_stylesheet_name($name)
-     */
-    $compiled_stylesheet = waboot_get_compiled_stylesheet_name();
+	/**
+	 * Here by default $theme->stylesheet is the name of the theme directory.
+	 * We pass that name into the "wbft/compiler/output/filename" filter which change its value according to one compiled from less.
+	 * See /inc/hooks.php at wbft_multisite_output_stylesheet_name($filename)
+	 */
+	$compiled_stylesheet = waboot_get_compiled_stylesheet_name();
+	$compiled_stylesheet_uri = waboot_get_compiled_stylesheet_uri();
+	$compiled_stylesheet_path = $compiled_stylesheet_uri."/".$compiled_stylesheet.".css";
 
 	//Get main-style version
 	if(isset($wbf_styles_compiler) && $wbf_styles_compiler){
@@ -27,8 +29,8 @@ function waboot_theme_styles() {
 	}
 
 	/* Load theme styles */
-    wp_enqueue_style( 'font-awesome', wbf_locate_template_uri( 'assets/css/font-awesome.min.css' ), $theme['Version'], 'all' );
-    wp_enqueue_style( 'main-style', wbf_locate_template_uri( "assets/css/{$compiled_stylesheet}.css" ), array( 'font-awesome' ), $main_style_version, 'all' );
+	wp_enqueue_style( 'font-awesome', wbf_locate_template_uri( 'assets/css/font-awesome.min.css' ), $theme['Version'], 'all' );
+	wp_enqueue_style( 'main-style', $compiled_stylesheet_path, array( 'font-awesome' ), $main_style_version, 'all' );
 	wp_enqueue_style( 'core-style', get_stylesheet_uri(), array( 'font-awesome' ), $theme['Version'], 'all' ); //style.css
 }
 add_action( 'wp_enqueue_scripts', 'waboot_theme_styles' );

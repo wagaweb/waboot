@@ -129,6 +129,21 @@ if(!function_exists('waboot_rg_ls') && class_exists('\WBF\admin\License_Manager'
 endif;
 
 /*
+ * COMPILER
+ */
+if(is_multisite() && !function_exists("wbft_multisite_output_stylesheet_name")):
+	add_filter("wbft/compiler/output/filename","wbft_multisite_output_stylesheet_name");
+	function wbft_multisite_output_stylesheet_name($filename){
+		if(wbft_wbf_in_use()){
+			$blogname = wbf_get_sanitized_blogname();
+		}else{
+			$blogname = sanitize_title_with_dashes(get_bloginfo("name"));
+		}
+		return $blogname."-".$filename;
+	}
+endif;
+
+/*
  * CONTACT FORM
  */
 
