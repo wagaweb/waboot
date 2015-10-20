@@ -1,5 +1,17 @@
 == Change log ==
 
+Version 0.14.0 - in progress
+---------------------------------
+
+- Aumentata complessivamente la compatibilità in assenza di WBF
+- Fixato un bug che non mostrava il titolo dei post nella homepage di default
+- Nuove opzioni per i loghi mobile e offcanvas e template_tags associate (waboot_mobile_logo,waboot_get_mobile_logo,waboot_desktop_logo,waboot_get_desktop_logo)
+- Riabilitata la site description e nuove funzioni associate (waboot_site_title,waboot_site_description,waboot_archive_page_title)
+- Pulizia di alcuni hook ridondanti
+- Quattro nuove azioni per la sidebar: "waboot/sidebar/primary/widgets/before","waboot/sidebar/primary/widgets/after","waboot/sidebar/secondary/widgets/before","waboot/sidebar/secondary/widgets/after"
+- Ora nella mail inviata dal form di contatto, viene specificata la mail dell'inviante
+- Risolto bug che in alcune occasioni restituiva un messaggio di errore dopo l'invio della mail dal form di contatto, anche se l'operazione andava a buon fine
+
 Version 0.13.3 - 23/09/2015
 ---------------------------------
 
