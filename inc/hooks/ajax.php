@@ -38,7 +38,7 @@ function wbft_send_contact_email(){
 		$message.= "\r\n";
 		$message.= __("Client Name:","waboot")." ".$from['name']." ".$from['surname'];
 		$message.= "\r\n";
-		$message.= __("Client Eail:","waboot")." ".$from['name']." ".$from['email'];
+		$message.= __("Client Email:","waboot")." ".$from['name']." ".$from['email'];
 		$message.= "\r\n";
 		$message.= __("Client Phone:","waboot")." ".$from['phone'];
 
