@@ -13,7 +13,8 @@ WABOOT:
 - Riabilitata la site description e nuove funzioni associate (waboot_site_title,waboot_site_description,waboot_archive_page_title)
 - Pulizia di alcuni hook ridondanti
 - Quattro nuove azioni per la sidebar: "waboot/sidebar/primary/widgets/before","waboot/sidebar/primary/widgets/after","waboot/sidebar/secondary/widgets/before","waboot/sidebar/secondary/widgets/after"
--
+- Ora nella mail inviata dal form di contatto, viene specificata la mail dell'inviante
+- Risolto bug che in alcune occasioni restituiva un messaggio di errore dopo l'invio della mail dal form di contatto, anche se l'operazione andava a buon fine
 
 WBF:
 - Ora in wbf_locate_template() vengono utilizzate le funzioni native di WP invece che le costanti STYLESHEETPATH e TEMPLATEPATH
