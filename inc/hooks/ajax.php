@@ -38,6 +38,8 @@ function wbft_send_contact_email(){
 		$message.= "\r\n";
 		$message.= __("Client Name:","waboot")." ".$from['name']." ".$from['surname'];
 		$message.= "\r\n";
+		$message.= __("Client Eail:","waboot")." ".$from['name']." ".$from['email'];
+		$message.= "\r\n";
 		$message.= __("Client Phone:","waboot")." ".$from['phone'];
 
 		return $message;
@@ -62,7 +64,7 @@ function wbft_send_contact_email(){
 			'to' => $to,
 			'subject' => $subject,
 			'message' => $message,
-			'header' => $headers
+			'headers' => $headers
 		);
 
 		return $data;
