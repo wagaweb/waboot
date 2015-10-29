@@ -57,7 +57,7 @@ class TemplatePlugin extends Plugin implements TemplatePlugin_Interface {
 
 		// Retrieve the cache list. If it doesn't exist, or it's empty prepare an array
 		$templates = wp_cache_get( $cache_key, 'themes' );
-		if ( empty( $templates ) && function_exists("get_page_templates") ) {
+		if ( empty( $templates ) && function_exists('\WBF\includes\pluginsframework\get_page_templates') ) {
 			$templates = array_flip(get_page_templates());
 		}
 
