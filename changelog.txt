@@ -211,7 +211,7 @@ WABOOT:
 - Ora è possibile selezionare di visualizzare o meno il breadcrumb in homepage
 - wp_get_filtered_post_types -> wbf_get_filtered_post_types: funzione spostata nel framework
 - Aggiunta funzione wbft_current_page_type() che restituisce come possibili valori: "default_home", "static_home", "blog_page", "common" (= ogni altra pagina)
-- Aggiunta funzione is_blog_page() per controllare se ci si trova nella pagina dedicata al blog.
+- Aggiunta funzione wbft_is_blog_page() per controllare se ci si trova nella pagina dedicata al blog.
 - Fixato bug che mostrava degli errori in assenza di post nel blog
 - Rimosso widget featured post slider
 - Aggiunte le opzioni per il contact form nelle theme options
