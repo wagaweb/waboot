@@ -44,7 +44,10 @@ class BehaviorsManager{
 			}
 		}
 
-		return $behaviors[$post_type];
+		if(isset($behaviors[$post_type])){
+			return $behaviors[$post_type];
+		}
+		return [];
 	}
 
 	static function count_behaviors_for_node_id($id){
