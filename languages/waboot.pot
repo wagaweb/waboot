@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Waboot 0.13.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-20 13:56+0200\n"
+"POT-Creation-Date: 2015-11-11 16:18+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -430,19 +430,19 @@ msgid "Go back to the last page"
 msgstr ""
 
 #: inc/hooks/ajax.php:37
-msgid "Source link:"
-msgstr ""
-
-#: inc/hooks/ajax.php:39
 msgid "Client Name:"
 msgstr ""
 
-#: inc/hooks/ajax.php:41
+#: inc/hooks/ajax.php:39
 msgid "Client Email:"
 msgstr ""
 
-#: inc/hooks/ajax.php:43
+#: inc/hooks/ajax.php:41
 msgid "Client Phone:"
+msgstr ""
+
+#: inc/hooks/ajax.php:45
+msgid "Source link:"
 msgstr ""
 
 #: inc/hooks/entry-footer.php:28

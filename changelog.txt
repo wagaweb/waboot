@@ -1,6 +1,6 @@
 == Change log ==
 
-Version 0.13.4 - in progress
+Version 0.13.4 - 11/11/2015
 ---------------------------------
 
 WABOOT e WBF:
