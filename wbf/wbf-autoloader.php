@@ -11,6 +11,17 @@ spl_autoload_register('wbf_autoloader');
  */
 function wbf_autoloader($class) {
 
+	$prefix = "WBF\\";
+	$has_prefix = function() use($class,$prefix){
+		// does the class use the namespace prefix?
+		$len = strlen($prefix);
+		if (strncmp($prefix, $class, $len) !== 0) {
+			// no...
+			return false;
+		}
+		return true;
+	};
+
     //Load Options Framework Classes
     if (preg_match("/^Options_Framework_/", $class)) {
         $filename = "class-" . strtolower(preg_replace("/_/", "-", $class)) . ".php";
@@ -22,13 +33,13 @@ function wbf_autoloader($class) {
         }
     }
 
-    if (preg_match("/conditions/", $class)) {
+    if (preg_match("/conditions/", $class) && $has_prefix()) {
         $childclass = explode('\\', $class);
         $name = end($childclass);
 	    wbf_locate_file('admin/conditions/'.$name.'.php', true);
     }
 
-    if (preg_match("/modules/", $class)) {
+    if (preg_match("/modules/", $class) && $has_prefix()) {
         $childclass = explode('\\', $class);
         $name = end($childclass);
         $module = $childclass[2];
