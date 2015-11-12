@@ -1,5 +1,4 @@
 <?php
-
 /**
  * The plugin bootstrap file
  *
@@ -312,9 +311,10 @@ if( ! class_exists('WBF') ) :
 		 * @return bool|string
 		 */
 		static function prefix_url($to){
-			$url = self::get_url();
+			$url = trim(self::get_url());
+			$to = trim($to);
 			if($url){
-				return rtrim($url)."/".ltrim($to,"/");
+				return rtrim($url,"/")."/".ltrim($to,"/");
 			}else{
 				return false;
 			}
@@ -327,9 +327,10 @@ if( ! class_exists('WBF') ) :
 		 * @return bool|string
 		 */
 		static function prefix_path($to){
-			$path = self::get_path();
+			$path = trim(self::get_url());
+			$to = trim($to);
 			if($path){
-				return rtrim($path)."/".ltrim($to,"/");
+				return rtrim($path,"/")."/".ltrim($to,"/");
 			}else{
 				return false;
 			}

@@ -25,6 +25,7 @@ WBF:
 - Fixato un raro caso in cui durante il checkout di woocommerce si entrava nella funzione register_templates del Plugin Framework
 - Corretto un errore che visualizzava una notice quando non c'erano behavior assegnati a un nodo
 - Corretto errore in autoloader che cercava di caricare anche classi non appartenenti a WBF.
+- Corretto bug che in alcuni casi faceva inserire a prefixUrl e prefixPath un doppio slash alla fine.
 - MODULI:
     - COMPONENTS:
         - Fixato un bug che, in alcune condizioni, non faceva funzionare correttamente i componenti dei temi child
