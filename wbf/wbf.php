@@ -35,13 +35,19 @@ if( ! class_exists('WBF') ) :
 		define('WBF_ENV', 'production');
 	}
 
+	require_once('includes/utilities.php'); // Utility
+
 	define("WBF_DIRECTORY", __DIR__);
-	define("WBF_URL", get_bloginfo("url") . "/wp-content/plugins/wbf/");
+	if(preg_match("/wp-content\/themes/", __DIR__ )){
+		$url = rtrim(path_to_url(dirname(__FILE__)),"/")."/"; //ensure trailing slash
+		define("WBF_URL", $url);
+	}else{
+		define("WBF_URL", get_bloginfo("url") . "/wp-content/plugins/wbf/");
+	}
 	define("WBF_ADMIN_DIRECTORY", __DIR__ . "/admin");
 	define("WBF_PUBLIC_DIRECTORY", __DIR__ . "/public");
 
 	require_once("wbf-autoloader.php");
-	require_once('includes/utilities.php'); // Utility
 	require_once("backup-functions.php");
 	include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 
@@ -562,10 +568,14 @@ if( ! class_exists('WBF') ) :
 		 *
 		 */
 
-		function maybe_run_activation(){
-			$opt = get_option( "wbf_installed" );
-			if ( ! $opt ) {
+		function maybe_run_activation($force = false){
+			if($force){
 				$this->activation();
+			}else{
+				$opt = get_option( "wbf_installed" );
+				if ( ! $opt ) {
+					$this->activation();
+				}
 			}
 		}
 
@@ -648,6 +658,7 @@ if( ! class_exists('WBF') ) :
 	$GLOBALS['wbf'] = WBF::getInstance();
 
 else:
+	//HERE WBF IS ALREADY DEFINED. We can't tell if by a plugin or via theme... So...
 
 	//If this is a plugin, then force the options to point over the plugin.
 	if(preg_match("/plugins/",__FILE__) && preg_match("/themes/",get_option("wbf_path"))){
