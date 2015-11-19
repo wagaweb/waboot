@@ -18,11 +18,11 @@
 	    ?>
 	    <div class="logo-menu">
 	        <?php if ( $navbar_mobile_logo != "" ) : ?>
-	            <?php waboot_mobile_logo("offcanvas"); ?>
+	            <?php waboot_mobile_logo("offcanvas",true); ?>
 	        <?php elseif( $mobile_logo != "") : ?>
-		        <?php waboot_mobile_logo(); ?>
+		        <?php waboot_mobile_logo("header",true); ?>
 		    <?php elseif( $desktop_logo != "") : ?>
-		        <?php waboot_desktop_logo(); ?>
+		        <?php waboot_desktop_logo(true); ?>
 	        <?php else : ?>
 	            <?php
 		            waboot_site_title();
