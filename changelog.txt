@@ -1,6 +1,12 @@
 == Change log ==
 
-Version 0.14.0 - in progress
+Version 0.14.1 - 19/11/2015
+---------------------------------
+
+- Eliminato WBF dal task di build
+- Eliminato un link in surplus dal print dei loghi
+
+Version 0.14.0 - 15/11/2015
 ---------------------------------
 
 - Aumentata complessivamente la compatibilità in assenza di WBF
