@@ -2,9 +2,17 @@
   "name": "waga/wbf",
   "description": "A comprehensive full-stack Wordpress framework",
   "homepage": "http://www.waga.it",
-  "version": "0.13.4",
+  "version": "0.13.7",
   "time": "2015-07-23",
   "license": "proprietary",
+  "authors": [
+    {
+      "name": "Waga Team",
+      "email": "dev@waga.it",
+      "homepage": "http://www.waga.it",
+      "role": "Developer"
+    }
+  ],
   "require": {
     "composer/installers": "~1.0",
     "mgargano/simplehtmldom": "dev-master",
