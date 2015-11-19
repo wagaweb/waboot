@@ -39,6 +39,7 @@ components/**/bundle.js
 ## VENDORS
 ############
 wbf/includes/vendor/codemirror/bin
+wbf/vendor/bootstrap
 wbf/vendor/codemirror/demo
 wbf/vendor/codemirror/doc
 wbf/vendor/codemirror/test
