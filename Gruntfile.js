@@ -73,8 +73,12 @@ module.exports = function(grunt) {
         copy:{
             all:{
                 files:[
-                    '<%= copy.fontawesome.files %>',
                     '<%= copy.bootstrap.files %>',
+                    '<%= copy.bower_components.files %>'
+                ]
+            },
+            bower_components:{
+                files:[
                     {
                         expand: true,
                         flatten: true,
@@ -88,11 +92,7 @@ module.exports = function(grunt) {
                         cwd: "bower_components/respond/dest",
                         src: "respond.min.js",
                         dest: "assets/js"
-                    }
-                ]
-            },
-            fontawesome:{
-                files:[
+                    },
                     {
                         expand: true,
                         flatten: true,
@@ -238,14 +238,22 @@ module.exports = function(grunt) {
     });
 
     // Register tasks
-    grunt.registerTask('setup', ['bower-install','copy:all','less:dev']); //Setup task
+    grunt.registerTask('setup', ['theme-bower-install','wbf-bower-install','copy:all','less:dev']); //Setup task
     grunt.registerTask('default', ['watch']); // Default task
-    grunt.registerTask('build', ['less:production','less:waboot','jsmin','pot','compress:build']); // Build task
     grunt.registerTask('js', ['browserify:dist']); // generate waboot.js
     grunt.registerTask('jsmin', ['js','uglify']); // Concat, beautify and minify js
+    grunt.registerTask('build', ['theme-bower-install','wbf-bower-install','copy:bower_components','less:production','less:waboot','jsmin','pot','compress:build']); // Build task
 
     // Run bower install
-    grunt.registerTask('bower-install', function() {
+    grunt.registerTask('wbf-bower-install', function() {
+        var exec = require('child_process').exec;
+        var cb = this.async();
+        exec('bower install', {cwd: "./wbf"}, function(err, stdout, stderr) {
+            console.log(stdout);
+            cb();
+        });
+    });
+    grunt.registerTask('theme-bower-install', function() {
         var exec = require('child_process').exec;
         var cb = this.async();
         exec('bower install', function(err, stdout, stderr) {
@@ -253,4 +261,4 @@ module.exports = function(grunt) {
             cb();
         });
     });
-}
+};
