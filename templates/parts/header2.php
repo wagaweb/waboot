@@ -11,7 +11,7 @@
     <div class="row header-blocks hidden-sm hidden-xs">
         <div id="logo" class="col-md-6 vcenter">
 	        <?php if ( waboot_get_desktop_logo() != "" ) : ?>
-		        <?php waboot_desktop_logo(); ?>
+		        <?php waboot_desktop_logo(true); ?>
             <?php else : ?>
                 <?php
 		            waboot_site_title();

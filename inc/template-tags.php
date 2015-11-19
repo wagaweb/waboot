@@ -57,9 +57,14 @@ if(!function_exists("waboot_mobile_logo")) :
 	/**
 	 * Prints the mobile logo
 	 */
-	function waboot_mobile_logo($contest = "header"){
-		$tpl = "<a href='%s'><img src='%s' class='img-responsive' /></a>";
-		printf($tpl,home_url( '/' ),waboot_get_mobile_logo($contest));
+	function waboot_mobile_logo($contest = "header", $linked = false){
+		if($linked){
+			$tpl = "<a href='%s'><img src='%s' class='img-responsive' /></a>";
+			printf($tpl,home_url( '/' ),waboot_get_mobile_logo($contest));
+		}else{
+			$tpl = "<img src='%s' class='img-responsive' />";
+			printf($tpl,waboot_get_mobile_logo($contest));
+		}
 	}
 endif;
 
@@ -85,9 +90,14 @@ if(!function_exists("waboot_desktop_logo")) :
 	/**
 	 * Prints the desktop logo
 	 */
-	function waboot_desktop_logo(){
-		$tpl = "<a href='%s'><img src='%s' class='img-responsive' /></a>";
-		printf($tpl,home_url( '/' ),waboot_get_desktop_logo());
+	function waboot_desktop_logo($linked = false){
+		if($linked){
+			$tpl = "<a href='%s'><img src='%s' class='img-responsive' /></a>";
+			printf($tpl,home_url( '/' ),waboot_get_desktop_logo());
+		}else{
+			$tpl = "<img src='%s' class='img-responsive' />";
+			printf($tpl,waboot_get_desktop_logo());
+		}
 	}
 endif;
 
