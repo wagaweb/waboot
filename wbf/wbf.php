@@ -575,6 +575,11 @@ if( ! class_exists('WBF') ) :
 				$opt = get_option( "wbf_installed" );
 				if ( ! $opt ) {
 					$this->activation();
+				}else{
+					if(WBF_DIRECTORY != get_option("wbf_path")){
+						//This case may fire when switch from a wbf-as-plugin to a wbf-in-theme environment @since 0.13.8
+						$this->add_wbf_options();
+					}
 				}
 			}
 		}
