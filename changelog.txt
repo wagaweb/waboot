@@ -1,5 +1,10 @@
 == Change log ==
 
+Version 0.13.5 - 11/11/2015
+---------------------------------
+
+- Inclusi i pacchetti bower mancanti e aggiornati quelli esistenti
+
 Version 0.13.4 - 11/11/2015
 ---------------------------------
 
