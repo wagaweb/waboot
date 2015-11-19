@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Waboot 0.13.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-12 10:48+0100\n"
+"POT-Creation-Date: 2015-11-19 12:14+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -79,8 +79,8 @@ msgid ""
 "\"gallery\">%8$s</a>"
 msgstr ""
 
-#: image.php:34 image.php:80 inc/template-tags.php:413
-#: inc/template-tags.php:432
+#: image.php:34 image.php:80 inc/template-tags.php:423
+#: inc/template-tags.php:442
 msgid "Edit"
 msgstr ""
 
@@ -154,7 +154,7 @@ msgstr ""
 msgid "All images"
 msgstr ""
 
-#: components/colorbox/colorbox.php:42 inc/template-tags.php:324
+#: components/colorbox/colorbox.php:42 inc/template-tags.php:334
 msgid "Galleries"
 msgstr ""
 
@@ -170,7 +170,7 @@ msgstr ""
 msgid "Enter a custom selector for colobox"
 msgstr ""
 
-#: components/cookielaw/cookielaw.php:63 inc/template-tags.php:876
+#: components/cookielaw/cookielaw.php:63 inc/template-tags.php:886
 msgid "Message"
 msgstr ""
 
@@ -1232,221 +1232,221 @@ msgstr ""
 msgid "An error was triggered by this field"
 msgstr ""
 
-#: inc/template-tags.php:161
+#: inc/template-tags.php:171
 msgctxt "Previous post link"
 msgid "&laquo;"
 msgstr ""
 
-#: inc/template-tags.php:162
+#: inc/template-tags.php:172
 msgctxt "Next post link"
 msgid "&raquo;"
 msgstr ""
 
-#: inc/template-tags.php:186
+#: inc/template-tags.php:196
 msgid "Next page <span class=\"meta-nav\">&raquo;</span>"
 msgstr ""
 
-#: inc/template-tags.php:190
+#: inc/template-tags.php:200
 msgid "<span class=\"meta-nav\">&laquo;</span> Previous page"
 msgstr ""
 
-#: inc/template-tags.php:314
+#: inc/template-tags.php:324
 #, php-format
 msgid "Author: %s"
 msgstr ""
 
-#: inc/template-tags.php:316
+#: inc/template-tags.php:326
 #, php-format
 msgid "Day: %s"
 msgstr ""
 
-#: inc/template-tags.php:318
+#: inc/template-tags.php:328
 #, php-format
 msgid "Month: %s"
 msgstr ""
 
-#: inc/template-tags.php:320
+#: inc/template-tags.php:330
 #, php-format
 msgid "Year: %s"
 msgstr ""
 
-#: inc/template-tags.php:322
+#: inc/template-tags.php:332
 msgid "Asides"
 msgstr ""
 
-#: inc/template-tags.php:326
+#: inc/template-tags.php:336
 msgid "Images"
 msgstr ""
 
-#: inc/template-tags.php:328
+#: inc/template-tags.php:338
 msgid "Videos"
 msgstr ""
 
-#: inc/template-tags.php:330
+#: inc/template-tags.php:340
 msgid "Quotes"
 msgstr ""
 
-#: inc/template-tags.php:332
+#: inc/template-tags.php:342
 msgid "Links"
 msgstr ""
 
-#: inc/template-tags.php:334
+#: inc/template-tags.php:344
 msgid "Statuses"
 msgstr ""
 
-#: inc/template-tags.php:336
+#: inc/template-tags.php:346
 msgid "Audios"
 msgstr ""
 
-#: inc/template-tags.php:338
+#: inc/template-tags.php:348
 msgid "Chats"
 msgstr ""
 
-#: inc/template-tags.php:343
+#: inc/template-tags.php:353
 msgid "Archives"
 msgstr ""
 
-#: inc/template-tags.php:413
+#: inc/template-tags.php:423
 msgid "Pingback:"
 msgstr ""
 
-#: inc/template-tags.php:423
+#: inc/template-tags.php:433
 #, php-format
 msgid "%s <span class=\"says\">says:</span>"
 msgstr ""
 
-#: inc/template-tags.php:429
+#: inc/template-tags.php:439
 #, php-format
 msgctxt "1: date, 2: time"
 msgid "%1$s at %2$s"
 msgstr ""
 
-#: inc/template-tags.php:436
+#: inc/template-tags.php:446
 msgid "Your comment is awaiting moderation."
 msgstr ""
 
-#: inc/template-tags.php:480
+#: inc/template-tags.php:490
 msgid "You must specify a prefix when using waboot_do_sidebar."
 msgstr ""
 
-#: inc/template-tags.php:529
+#: inc/template-tags.php:539
 msgid "You must specify a prefix when using waboot_sidebar_class."
 msgstr ""
 
-#: inc/template-tags.php:806
+#: inc/template-tags.php:816
 msgid "No sidebar"
 msgstr ""
 
-#: inc/template-tags.php:811
+#: inc/template-tags.php:821
 msgid "Sidebar right"
 msgstr ""
 
-#: inc/template-tags.php:816
+#: inc/template-tags.php:826
 msgid "Sidebar left"
 msgstr ""
 
-#: inc/template-tags.php:821
+#: inc/template-tags.php:831
 msgid "2 Sidebars"
 msgstr ""
 
-#: inc/template-tags.php:826
+#: inc/template-tags.php:836
 msgid "2 Sidebars right"
 msgstr ""
 
-#: inc/template-tags.php:831
+#: inc/template-tags.php:841
 msgid "2 Sidebars left"
 msgstr ""
 
-#: inc/template-tags.php:856
+#: inc/template-tags.php:866
 msgid "Name"
 msgstr ""
 
-#: inc/template-tags.php:861
+#: inc/template-tags.php:871
 msgid "Surname"
 msgstr ""
 
-#: inc/template-tags.php:866
+#: inc/template-tags.php:876
 msgid "Phone"
 msgstr ""
 
-#: inc/template-tags.php:871
+#: inc/template-tags.php:881
 msgid "Email"
 msgstr ""
 
-#: inc/template-tags.php:884
+#: inc/template-tags.php:894
 msgid "By submitting this form you agree to our terms and our privacy policy."
 msgstr ""
 
-#: inc/template-tags.php:894
+#: inc/template-tags.php:904
 msgid "Send"
 msgstr ""
 
-#: inc/template-tags.php:1177
+#: inc/template-tags.php:1187
 msgid ""
 "You must specify the output you want - either \"link\" or \"post_content\"."
 msgstr ""
 
-#: inc/template-tags.php:1575
+#: inc/template-tags.php:1585
 msgid "Facebook"
 msgstr ""
 
-#: inc/template-tags.php:1576
+#: inc/template-tags.php:1586
 msgid "Enter your facebook fan page link"
 msgstr ""
 
-#: inc/template-tags.php:1580
+#: inc/template-tags.php:1590
 msgid "Twitter"
 msgstr ""
 
-#: inc/template-tags.php:1581
+#: inc/template-tags.php:1591
 msgid "Enter your twitter page link"
 msgstr ""
 
-#: inc/template-tags.php:1585
+#: inc/template-tags.php:1595
 msgid "Google+"
 msgstr ""
 
-#: inc/template-tags.php:1586
+#: inc/template-tags.php:1596
 msgid "Enter your google+ page link"
 msgstr ""
 
-#: inc/template-tags.php:1590
+#: inc/template-tags.php:1600
 msgid "YouTube"
 msgstr ""
 
-#: inc/template-tags.php:1591
+#: inc/template-tags.php:1601
 msgid "Enter your youtube page link"
 msgstr ""
 
-#: inc/template-tags.php:1595
+#: inc/template-tags.php:1605
 msgid "Pinterest"
 msgstr ""
 
-#: inc/template-tags.php:1596
+#: inc/template-tags.php:1606
 msgid "Enter your pinterest page link"
 msgstr ""
 
-#: inc/template-tags.php:1600
+#: inc/template-tags.php:1610
 msgid "Linkedin"
 msgstr ""
 
-#: inc/template-tags.php:1601
+#: inc/template-tags.php:1611
 msgid "Enter your linkedin page link"
 msgstr ""
 
-#: inc/template-tags.php:1605
+#: inc/template-tags.php:1615
 msgid "Instagram"
 msgstr ""
 
-#: inc/template-tags.php:1606
+#: inc/template-tags.php:1616
 msgid "Enter your instagram page link"
 msgstr ""
 
-#: inc/template-tags.php:1610
+#: inc/template-tags.php:1620
 msgid "Feed RSS"
 msgstr ""
 
-#: inc/template-tags.php:1611
+#: inc/template-tags.php:1621
 msgid "Enter your feed RSS link"
 msgstr ""
 
