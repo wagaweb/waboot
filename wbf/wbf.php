@@ -15,7 +15,7 @@
  * Plugin Name:       Waboot Framework
  * Plugin URI:        http://www.waga.it
  * Description:       WordPress Extension Framework
- * Version:           0.13.7
+ * Version:           0.13.9
  * Author:            WAGA
  * Author URI:        http://www.waga.com/
  * License:           GPL-2.0+
@@ -59,7 +59,7 @@ if( ! class_exists('WBF') ) :
 		var $url;
 		var $path;
 
-		const version = "0.13.7";
+		const version = "0.13.9";
 
 		public static function getInstance($args = []){
 			static $instance = null;
@@ -134,7 +134,16 @@ if( ! class_exists('WBF') ) :
 
 			//Set update server
 			if(self::is_plugin()){
-				$this->update_instance = new \WBF\includes\Plugin_Update_Checker("http://update.waboot.org/?action=get_metadata&slug=wbf&type=plugin",self::get_path(),"wbf",null,false,12,'wbf_updates');
+				$this->update_instance = new \WBF\includes\Plugin_Update_Checker(
+					"http://update.waboot.org/?action=get_metadata&slug=wbf&type=plugin", //$metadataUrl
+					self::get_path()."wbf.php", //$pluginFile
+					"wbf", //$slug
+					null, //$plugin_license
+					false, //$checkLicense
+					12, //$checkPeriod
+					'wbf_updates', //$optionName
+					is_multisite() //$muPluginFile
+				);
 			}
 		}
 
@@ -575,11 +584,6 @@ if( ! class_exists('WBF') ) :
 				$opt = get_option( "wbf_installed" );
 				if ( ! $opt ) {
 					$this->activation();
-				}else{
-					if(WBF_DIRECTORY != get_option("wbf_path")){
-						//This case may fire when switch from a wbf-as-plugin to a wbf-in-theme environment @since 0.13.8
-						$this->add_wbf_options();
-					}
 				}
 			}
 		}
@@ -588,6 +592,11 @@ if( ! class_exists('WBF') ) :
 			$opt = get_option( "wbf_installed" );
 			if( ! $opt || !self::has_valid_wbf_path()) {
 				$this->add_wbf_options();
+			}else{
+				if(WBF_DIRECTORY != get_option("wbf_path")){
+					//This case may fire when switch from a wbf-as-plugin to a wbf-in-theme environment @since 0.13.8
+					$this->add_wbf_options();
+				}
 			}
 		}
 

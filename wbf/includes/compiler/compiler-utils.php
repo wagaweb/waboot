@@ -45,17 +45,17 @@ function parse_input_file($filepath){
 					}*/
 				}
 
-				if(preg_match("/(\{baseurl\})/",$line,$matches)){
-					$baseurl = get_template_directory_uri();
-					$line = preg_replace("/(\{baseurl\})/",$baseurl,$line);
-					$line = preg_replace("/^\/\//","",$line);
-				}
+                if(preg_match("/(\{baseurl\})/",$line,$matches)){
+                    $baseurl = get_template_directory_uri();
+                    $line = preg_replace("/(\{baseurl\})/",$baseurl,$line);
+                    $line = preg_replace("/^\/\//","",$line);
+                }
 
-				if(preg_match("/(\{childbaseurl\})/",$line,$matches)){
-					$baseurl = get_stylesheet_directory_uri();
-					$line = preg_replace("/(\{childbaseurl\})/",$baseurl,$line);
-					$line = preg_replace("/^\/\//","",$line);
-				}
+                if(preg_match("/(\{childbaseurl\})/",$line,$matches)){
+                    $baseurl = get_stylesheet_directory_uri();
+                    $line = preg_replace("/(\{childbaseurl\})/",$baseurl,$line);
+                    $line = preg_replace("/^\/\//","",$line);
+                }
 
 				$tmpFileObj->fwrite($line);
 			}

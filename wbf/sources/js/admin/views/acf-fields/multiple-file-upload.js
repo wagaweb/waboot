@@ -14,10 +14,10 @@ module.exports = {
             });
 
             //Upload file action
-            /*$("a.upload-attachment").on("click", function(e){
+            $("a.upload-attachment").on("click", function(e){
              e.preventDefault();
              console.log("Click!");
-             });*/
+             });
 
             function add_file_input(){
                 $container.append(tpl());

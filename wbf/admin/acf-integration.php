@@ -2,7 +2,7 @@
 
 add_filter('acf/settings/path', 'wbf_acf_settings_path');
 add_filter('acf/settings/dir', 'wbf_acf_settings_dir');
-add_filter('acf/settings/show_admin', '__return_false');
+//add_filter('acf/settings/show_admin', '__return_false');
 add_action('acf/include_field_types', 'wbf_include_field_types');
 
 function wbf_acf_settings_path($path) {
@@ -21,4 +21,7 @@ function wbf_include_field_types(){
     //MultipleFileUpload:
     include_once("acfFields/MultipleFileUpload.php");
     new \WBF\admin\acfFields\MultipleFileUpload();
+    //wcfGallery:
+    include_once("acfFields/wcfGallery.php");
+    new \WBF\admin\acfFields\wcfGallery();
 }

@@ -8,26 +8,26 @@ use \WBF\modules\components\ComponentsManager;
  * Checks if the dependencies of theme options are met
  */
 function of_check_options_deps(){
-	global $wbf_notice_manager;
-	$deps_to_achieve = _of_get_theme_options_deps();
-	if(!empty($deps_to_achieve)){
-		if(!empty($deps_to_achieve['components'])){
-			$wbf_notice_manager->clear_notices("theme_opt_component_deps_everyrun");
-			foreach($deps_to_achieve['components'] as $c_name){
-				if(!ComponentsManager::is_active($c_name)){
-					//Register new notice that tells that the component is not present
-					$message = __("An option requires the component <strong>$c_name</strong>, but it is not active.","wbf");
-					$wbf_notice_manager->add_notice($c_name."_not_active",$message,"error","theme_opt_component_deps_everyrun");
-				}else{
-					$wbf_notice_manager->remove_notice($c_name."_not_active");
-				}
-			}
-		}else{
-			$wbf_notice_manager->clear_notices("theme_opt_component_deps_everyrun");
-		}
-	}else{
-		$wbf_notice_manager->clear_notices("theme_opt_component_deps_everyrun");
-	}
+    global $wbf_notice_manager;
+    $deps_to_achieve = _of_get_theme_options_deps();
+    if(!empty($deps_to_achieve)){
+        if(!empty($deps_to_achieve['components'])){
+            $wbf_notice_manager->clear_notices("theme_opt_component_deps_everyrun");
+            foreach($deps_to_achieve['components'] as $c_name){
+                if(!ComponentsManager::is_active($c_name)){
+                    //Register new notice that tells that the component is not present
+                    $message = __("An option requires the component <strong>$c_name</strong>, but it is not active.","wbf");
+                    $wbf_notice_manager->add_notice($c_name."_not_active",$message,"error","theme_opt_component_deps_everyrun");
+                }else{
+                    $wbf_notice_manager->remove_notice($c_name."_not_active");
+                }
+            }
+        }else{
+            $wbf_notice_manager->clear_notices("theme_opt_component_deps_everyrun");
+        }
+    }else{
+        $wbf_notice_manager->clear_notices("theme_opt_component_deps_everyrun");
+    }
 }
 
 /**
@@ -41,45 +41,45 @@ function of_check_options_deps(){
  * @throws \Exception
  */
 function of_options_save($option, $old_value, $value){
-	global $wbf_notice_manager;
-	$config_id = Framework::get_options_root_id();
-	if($option == $config_id){
-		$must_recompile_flag = false;
-		$deps_to_achieve = array();
-		$all_options = Framework::get_registered_options();
+    global $wbf_notice_manager;
+    $config_id = Framework::get_options_root_id();
+    if($option == $config_id){
+        $must_recompile_flag = false;
+        $deps_to_achieve = array();
+        $all_options = Framework::get_registered_options();
 
-		/*
-		 * Check differences beetween new values and old value
-		 */
-		$multidimensional_options = array();
-		foreach($all_options as $k => $opt){
-			if(isset($opt['std']) && is_array($opt['std'])){
-				$multidimensional_options[$opt['id']] = $opt;
-			}
-		}
-		//$diff = @array_diff_assoc($old_value,$value);
-		$diff = @array_diff_assoc($value,$old_value);
-		foreach($multidimensional_options as $id => $opt){
-			if(isset($old_value[$id]) && isset($value[$id])){
-				$tdiff = @array_diff_assoc($old_value[$id],$value[$id]);
-				if(is_array($tdiff) && !empty($tdiff)){
-					$diff[$id] = $tdiff;
-				}
-			}
-		}
+        /*
+         * Check differences beetween new values and old value
+         */
+        $multidimensional_options = array();
+        foreach($all_options as $k => $opt){
+            if(isset($opt['std']) && is_array($opt['std'])){
+                $multidimensional_options[$opt['id']] = $opt;
+            }
+        }
+        //$diff = @array_diff_assoc($old_value,$value);
+        $diff = @array_diff_assoc($value,$old_value);
+        foreach($multidimensional_options as $id => $opt){
+            if(isset($old_value[$id]) && isset($value[$id])){
+                $tdiff = @array_diff_assoc($old_value[$id],$value[$id]);
+                if(is_array($tdiff) && !empty($tdiff)){
+                    $diff[$id] = $tdiff;
+                }
+            }
+        }
 
-		//Doing actions with modified options
-		foreach($all_options as $k => $opt_data){
-			if(isset($opt_data['id']) && array_key_exists($opt_data['id'],$diff)){ //True if the current option has been modified
-				/** BEGIN OPERATIONS HERE: **/
-				/*
-				 * Check upload fields
-				 */
-				if($opt_data['type'] == "upload"){
-					$upload_to = isset($opt_data['upload_to']) ? $opt_data['upload_to'] : false;
-					$upload_as = isset($opt_data['upload_as']) ? $opt_data['upload_as'] : false;
-					$allowed_extensions = isset($opt_data['allowed_extensions']) ? $opt_data['allowed_extensions'] : array("jpg","jpeg","png","gif","ico");
-					$file_path = url_to_path($value[$opt_data['id']]);
+        //Doing actions with modified options
+        foreach($all_options as $k => $opt_data){
+            if(isset($opt_data['id']) && array_key_exists($opt_data['id'],$diff)){ //True if the current option has been modified
+	            /** BEGIN OPERATIONS HERE: **/
+                /*
+                 * Check upload fields
+                 */
+	            if($opt_data['type'] == "upload"){
+		            $upload_to = isset($opt_data['upload_to']) ? $opt_data['upload_to'] : false;
+		            $upload_as = isset($opt_data['upload_as']) ? $opt_data['upload_as'] : false;
+		            $allowed_extensions = isset($opt_data['allowed_extensions']) ? $opt_data['allowed_extensions'] : array("jpg","jpeg","png","gif","ico");
+		            $file_path = url_to_path($value[$opt_data['id']]);
 					if(is_file($file_path)){ //by doing this we take into account only the files uploaded to the site and not external one
 						$oFile = new \SplFileObject($file_path);
 						try{
@@ -106,64 +106,64 @@ function of_options_save($option, $old_value, $value){
 							Framework::set_option_value($opt_data['id'],$old_opt_value);
 						}
 					}
-				}
-				/*
-				 * Check if must recompile
-				 */
-				if(isset($opt_data['recompile_styles']) && $opt_data['recompile_styles']){
-					$must_recompile_flag = true;
-				}
-				/*
-				 * Check theme options dependencies
-				 */
-				if(isset($opt_data['deps'])){
-					if(isset($opt_data['deps']['_global'])){
-						if(isset($opt_data['deps']['_global']['components']))
-							$deps_to_achieve['components'][] = $opt_data['deps']['_global']['components'];
-					}
-					unset($opt_data['deps']['_global']);
-					foreach($opt_data['deps'] as $v => $deps){
-						if(array_key_exists($opt_data['id'],$value) && $value[$opt_data['id']] == $v){ //true the option has the value specified into deps array
-							//Then set the deps to achieve
-							if(isset($deps['components'])) $deps_to_achieve['components'] = $deps['components'];
-						}
-					}
-				}
-			}
-		}
+	            }
+                /*
+                 * Check if must recompile
+                 */
+                if(isset($opt_data['recompile_styles']) && $opt_data['recompile_styles']){
+                    $must_recompile_flag = true;
+                }
+                /*
+                 * Check theme options dependencies
+                 */
+                if(isset($opt_data['deps'])){
+                    if(isset($opt_data['deps']['_global'])){
+                        if(isset($opt_data['deps']['_global']['components']))
+                            $deps_to_achieve['components'][] = $opt_data['deps']['_global']['components'];
+                    }
+                    unset($opt_data['deps']['_global']);
+                    foreach($opt_data['deps'] as $v => $deps){
+                        if(array_key_exists($opt_data['id'],$value) && $value[$opt_data['id']] == $v){ //true the option has the value specified into deps array
+                            //Then set the deps to achieve
+                            if(isset($deps['components'])) $deps_to_achieve['components'] = $deps['components'];
+                        }
+                    }
+                }
+            }
+        }
 
-		/**
-		 * If the "Reset to defaults" button was pressed
-		 */
-		if(isset($_POST['reset'])){
-			$must_recompile_flag = true;
-		}
+	    /**
+	     * If the "Reset to defaults" button was pressed
+	     */
+	    if(isset($_POST['reset'])){
+		    $must_recompile_flag = true;
+	    }
 
-		if($must_recompile_flag){
-			of_recompile_styles($value);
-		}
+        if($must_recompile_flag){
+	        of_recompile_styles($value);
+        }
 
-		if(!empty($deps_to_achieve)){
-			$wbf_notice_manager->clear_notices("theme_opt_component_deps");
-			if(!empty($deps_to_achieve['components'])){
-				//Try to enable all the required components
-				$registered_components = ComponentsManager::getAllComponents();
-				foreach($deps_to_achieve['components'] as $c_name){
-					if(!ComponentsManager::is_active($c_name)){
-						if(ComponentsManager::is_present($c_name)){
-							ComponentsManager::enable($c_name, ComponentsManager::is_child_component( $c_name ));
-						}else{
-							//Register new notice that tells that the component is not present
-							$message = __("An option requires the component <strong>$c_name</strong>, but it is not present","wbf");
-							$wbf_notice_manager->add_notice($c_name."_component_not_present",$message,"error","theme_opt_component_deps","FileIsPresent",ComponentsManager::generate_component_mainfile_path($c_name));
-						}
-					}
-				}
-			}
-		}else{
-			$wbf_notice_manager->clear_notices("theme_opt_component_deps");
-		}
-	}
+        if(!empty($deps_to_achieve)){
+            $wbf_notice_manager->clear_notices("theme_opt_component_deps");
+            if(!empty($deps_to_achieve['components'])){
+                //Try to enable all the required components
+                $registered_components = ComponentsManager::getAllComponents();
+                foreach($deps_to_achieve['components'] as $c_name){
+                    if(!ComponentsManager::is_active($c_name)){
+                        if(ComponentsManager::is_present($c_name)){
+                            ComponentsManager::enable($c_name, ComponentsManager::is_child_component( $c_name ));
+                        }else{
+                            //Register new notice that tells that the component is not present
+                            $message = __("An option requires the component <strong>$c_name</strong>, but it is not present","wbf");
+                            $wbf_notice_manager->add_notice($c_name."_component_not_present",$message,"error","theme_opt_component_deps","FileIsPresent",ComponentsManager::generate_component_mainfile_path($c_name));
+                        }
+                    }
+                }
+            }
+        }else{
+            $wbf_notice_manager->clear_notices("theme_opt_component_deps");
+        }
+    }
 }
 
 /**
@@ -207,76 +207,76 @@ function of_generate_less_file($value = null,$input_file_path = null,$output_fil
 
 	$output_string = "";
 
-	$tmpFile = new \SplFileInfo(get_stylesheet_directory().$input_file_path);
-	if(!$tmpFile->isFile() || !$tmpFile->isWritable()){
-		$tmpFile = new \SplFileInfo(get_template_directory().$input_file_path);
-	}
+    $tmpFile = new \SplFileInfo(get_stylesheet_directory().$input_file_path);
+    if(!$tmpFile->isFile() || !$tmpFile->isWritable()){
+        $tmpFile = new \SplFileInfo(get_template_directory().$input_file_path);
+    }
 	$parsedFile = $output_file_path ? new \SplFileInfo(get_stylesheet_directory().$output_file_path) : null;
 	if(!is_dir($parsedFile->getPath())){
 		mkdir($parsedFile->getPath());
 	}
 
-	if($tmpFile->isFile() && $tmpFile->isWritable()) {
-		$genericOptionfindRegExp = "~//{of_get_option\('([a-zA-Z0-9\-_]+)'\)}~";
-		$fontOptionfindRegExp    = "~//{of_get_font\('([a-zA-Z0-9\-_]+)'\)}~";
+    if($tmpFile->isFile() && $tmpFile->isWritable()) {
+        $genericOptionfindRegExp = "~//{of_get_option\('([a-zA-Z0-9\-_]+)'\)}~";
+        $fontOptionfindRegExp    = "~//{of_get_font\('([a-zA-Z0-9\-_]+)'\)}~";
 
-		$tmpFileObj    = $tmpFile->openFile( "r" );
-		$parsedFileObj = $output_type == "FILE" ? $parsedFile->openFile( "w" ) : null;
-		$byte_written = $output_type == "FILE" ? 0 : null;
+        $tmpFileObj    = $tmpFile->openFile( "r" );
+        $parsedFileObj = $output_type == "FILE" ? $parsedFile->openFile( "w" ) : null;
+        $byte_written = $output_type == "FILE" ? 0 : null;
 
-		while ( ! $tmpFileObj->eof() ) {
-			$line = $tmpFileObj->fgets();
-			//Replace a generic of option
-			if ( preg_match( $genericOptionfindRegExp, $line, $matches ) ) {
-				if ( array_key_exists( $matches[1], $value ) ) {
-					if ( $value[ $matches[1] ] != "" ) {
-						$line = preg_replace( $genericOptionfindRegExp, $value[ $matches[1] ], $line );
-					} else {
-						$line = "//{$matches[1]} is empty\n";
-					}
-				} else {
-					$line = "//{$matches[1]} not found\n";
-				}
-			}
-			//Replace a font option
-			if ( preg_match( $fontOptionfindRegExp, $line, $matches ) ) {
-				$line = "//{$matches[1]} is empty\n";
-				if ( array_key_exists( $matches[1], $value ) ) {
-					if ( $value[ $matches[1] ] != "" ) {
-						$attr       = $value[ $matches[1] ];
-						if(isset($attr['category']))
-							$fontString = "font-family: '" . $attr['family'] . "', " . $attr['category'] . ";";
-						else
-							$fontString = "font-family: '" . $attr['family'] . "';";
-						/*if(preg_match("/([0-9]+)([a-z]+)/",$attr['style'],$style_matches)){
-							if($style_matches[1] == 'regular') $style_matches[1] = "normal";
-							$fontString .= "font-weight: ".$style_matches[1].";";
-							$fontString .= "font-style: ".$style_matches[2].";";
-						}else{
-							if($attr['style'] == 'regular') $attr['style'] = "normal";
-							$fontString .= "font-weight: ".$attr['style'].";";
-						}*/
-						$fontString .= "color: " . $attr['color'] . ";";
-						$line = $fontString;
-					} else {
-						$line = "//{$matches[1]} is empty\n";
-					}
-				} else {
-					$line = "//{$matches[1]} not found\n";
-				}
-			}
-			if($output_type == "FILE"){
-				$byte_written += $parsedFileObj->fwrite( $line );
-			}else{
-				$output_string .= $line."\n";
-			}
-		}
-		//Here the file has been written!
-		if($output_type != "FILE"){
-			return $output_string;
-		}
-		return true;
-	}
+        while ( ! $tmpFileObj->eof() ) {
+            $line = $tmpFileObj->fgets();
+            //Replace a generic of option
+            if ( preg_match( $genericOptionfindRegExp, $line, $matches ) ) {
+                if ( array_key_exists( $matches[1], $value ) ) {
+                    if ( $value[ $matches[1] ] != "" ) {
+                        $line = preg_replace( $genericOptionfindRegExp, $value[ $matches[1] ], $line );
+                    } else {
+                        $line = "//{$matches[1]} is empty\n";
+                    }
+                } else {
+                    $line = "//{$matches[1]} not found\n";
+                }
+            }
+            //Replace a font option
+            if ( preg_match( $fontOptionfindRegExp, $line, $matches ) ) {
+                $line = "//{$matches[1]} is empty\n";
+                if ( array_key_exists( $matches[1], $value ) ) {
+                    if ( $value[ $matches[1] ] != "" ) {
+                        $attr       = $value[ $matches[1] ];
+	                    if(isset($attr['category']))
+                            $fontString = "font-family: '" . $attr['family'] . "', " . $attr['category'] . ";";
+	                    else
+		                    $fontString = "font-family: '" . $attr['family'] . "';";
+                        /*if(preg_match("/([0-9]+)([a-z]+)/",$attr['style'],$style_matches)){
+                            if($style_matches[1] == 'regular') $style_matches[1] = "normal";
+                            $fontString .= "font-weight: ".$style_matches[1].";";
+                            $fontString .= "font-style: ".$style_matches[2].";";
+                        }else{
+                            if($attr['style'] == 'regular') $attr['style'] = "normal";
+                            $fontString .= "font-weight: ".$attr['style'].";";
+                        }*/
+                        $fontString .= "color: " . $attr['color'] . ";";
+                        $line = $fontString;
+                    } else {
+                        $line = "//{$matches[1]} is empty\n";
+                    }
+                } else {
+                    $line = "//{$matches[1]} not found\n";
+                }
+            }
+	        if($output_type == "FILE"){
+	            $byte_written += $parsedFileObj->fwrite( $line );
+	        }else{
+		        $output_string .= $line."\n";
+	        }
+        }
+	    //Here the file has been written!
+	    if($output_type != "FILE"){
+		    return $output_string;
+	    }
+	    return true;
+    }
 	return false;
 }
 
@@ -287,30 +287,30 @@ function of_generate_less_file($value = null,$input_file_path = null,$output_fil
  */
 function _of_get_theme_options_deps($all_options = null){
 	//todo: a partire da quì, forse si genera qlc errore durante l'attivazione del plugin qnd non c'è nessun tema che lo supporta
-	$deps_to_achieve = array();
-	if(!isset($all_options)) $all_options = Framework::get_registered_options();
+    $deps_to_achieve = array();
+    if(!isset($all_options)) $all_options = Framework::get_registered_options();
 	if(is_array($all_options) && !empty($all_options)){
-		foreach($all_options as $k => $opt_data){
-			if(isset($opt_data['id'])){
-				$current_opt_name = $opt_data['id'];
-				$current_value = of_get_option($current_opt_name);
-				if(isset($opt_data['deps'])){
-					if(isset($opt_data['deps']['_global'])){
-						if(isset($opt_data['deps']['_global']['components']))
-							$deps_to_achieve['components'][] = $opt_data['deps']['_global']['components'];
-					}
-					unset($opt_data['deps']['_global']);
-					foreach($opt_data['deps'] as $v => $deps){
-						if($current_value == $v){ //true the option has the value specified into deps array
-							//Then set the deps to achieve
-							if(isset($deps['components'])) $deps_to_achieve['components'] = $deps['components'];
-						}
-					}
-				}
-			}
-		}
+	    foreach($all_options as $k => $opt_data){
+	        if(isset($opt_data['id'])){
+	            $current_opt_name = $opt_data['id'];
+	            $current_value = of_get_option($current_opt_name);
+	            if(isset($opt_data['deps'])){
+	                if(isset($opt_data['deps']['_global'])){
+	                    if(isset($opt_data['deps']['_global']['components']))
+	                        $deps_to_achieve['components'][] = $opt_data['deps']['_global']['components'];
+	                }
+	                unset($opt_data['deps']['_global']);
+	                foreach($opt_data['deps'] as $v => $deps){
+	                    if($current_value == $v){ //true the option has the value specified into deps array
+	                        //Then set the deps to achieve
+	                        if(isset($deps['components'])) $deps_to_achieve['components'] = $deps['components'];
+	                    }
+	                }
+	            }
+	        }
+	    }
 	}
-	return $deps_to_achieve;
+    return $deps_to_achieve;
 }
 
 /**
@@ -319,11 +319,11 @@ function _of_get_theme_options_deps($all_options = null){
  * @return bool
  */
 function of_is_admin_framework_page($hook){
-	$menu = Admin::menu_settings();
-	if ( $hook == 'waboot_page_' . $menu['old_menu_slug'] || $hook == 'toplevel_page_' . $menu['menu_slug']) {
-		return true;
-	}
-	return false;
+    $menu = Admin::menu_settings();
+    if ( $hook == 'waboot_page_' . $menu['old_menu_slug'] || $hook == 'toplevel_page_' . $menu['menu_slug']) {
+        return true;
+    }
+    return false;
 }
 
 /**
@@ -363,34 +363,34 @@ function of_is_admin_framework_page($hook){
  * @return array
  */
 function of_add_default_key($values){
-	$default = false;
+    $default = false;
 
-	if(isset($values['_default'])){
-		if(array_key_exists($values['_default'],$values)){
-			$default = $values['_default'];
-		}else{
-			foreach($values as $v){
-				if(is_array($v)){
-					if($v['value'] == $values['_default']){
-						$default = $values['_default'];
-					}
-				}
-			}
-		}
-	}
-	if(!isset($values['_default']) || $default == false){
-		reset($values);
-		$default = key($values);
-		if(is_array($values[$default])){
-			$default = $values[$default]['value'];
-		}
-	}
-	if(isset($values['_default'])) unset($values['_default']);
+    if(isset($values['_default'])){
+        if(array_key_exists($values['_default'],$values)){
+            $default = $values['_default'];
+        }else{
+            foreach($values as $v){
+                if(is_array($v)){
+                    if($v['value'] == $values['_default']){
+                        $default = $values['_default'];
+                    }
+                }
+            }
+        }
+    }
+    if(!isset($values['_default']) || $default == false){
+        reset($values);
+        $default = key($values);
+        if(is_array($values[$default])){
+            $default = $values[$default]['value'];
+        }
+    }
+    if(isset($values['_default'])) unset($values['_default']);
 
-	return array(
-		'values' => $values,
-		'default' => $default
-	);
+    return array(
+      'values' => $values,
+      'default' => $default
+    );
 }
 
 /*
@@ -404,23 +404,23 @@ function of_add_default_key($values){
  * @since 0.1.0
  */
 function prefix_theme_options($old_prefix, $new_prefix) {
-	$options_field = Framework::get_options_root_id();
+    $options_field = Framework::get_options_root_id();
 
-	if (!$options_field || empty($options_field)) return;
+    if (!$options_field || empty($options_field)) return;
 
-	$options = get_option($options_field);
-	$new_options = array();
+    $options = get_option($options_field);
+    $new_options = array();
 
-	if (!empty($options) && $options != false) {
-		foreach ($options as $k => $v) {
-			$new_k = preg_replace("|^" . $old_prefix . "_|", $new_prefix . "_", $k);
-			$new_options[$new_k] = $v;
-		}
-	} else {
-		return;
-	}
+    if (!empty($options) && $options != false) {
+        foreach ($options as $k => $v) {
+            $new_k = preg_replace("|^" . $old_prefix . "_|", $new_prefix . "_", $k);
+            $new_options[$new_k] = $v;
+        }
+    } else {
+        return;
+    }
 
-	update_option($options_field, $new_options);
+    update_option($options_field, $new_options);
 }
 
 /**
@@ -431,11 +431,11 @@ function prefix_theme_options($old_prefix, $new_prefix) {
  * @since 0.1.0
  */
 function transfer_theme_options($from_theme, $to_theme = null) {
-	$from_theme_options = get_option($from_theme);
-	if (!isset($to_theme))
-		import_theme_options($from_theme_options);
-	else
-		update_option($to_theme, $from_theme_options);
+    $from_theme_options = get_option($from_theme);
+    if (!isset($to_theme))
+        import_theme_options($from_theme_options);
+    else
+        update_option($to_theme, $from_theme_options);
 }
 
 /**
@@ -445,6 +445,6 @@ function transfer_theme_options($from_theme, $to_theme = null) {
  * @since 0.1.0
  */
 function import_theme_options($exported_options) {
-	$options_field = Framework::get_options_root_id();
-	update_option($options_field, $exported_options);
+    $options_field = Framework::get_options_root_id();
+    update_option($options_field, $exported_options);
 }

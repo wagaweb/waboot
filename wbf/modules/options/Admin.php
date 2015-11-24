@@ -16,10 +16,10 @@ class Admin extends \Options_Framework_Admin{
 		add_action( 'optionsframework_after', array( $this, 'add_copy_in_admin_page' ));
 	}
 
-	/*function add_additional_appearance_link(){
-		$menu = $this->menu_settings();
-		$this->of_app_screen = add_theme_page($menu['page_title'],$menu['menu_title'],$menu['capability'],$menu['menu_slug']);
-	}*/
+    /*function add_additional_appearance_link(){
+        $menu = $this->menu_settings();
+        $this->of_app_screen = add_theme_page($menu['page_title'],$menu['menu_title'],$menu['capability'],$menu['menu_slug']);
+    }*/
 
 	/**
 	 * Add a subpage called "Theme Options" to the Waboot Menu
@@ -155,7 +155,7 @@ class Admin extends \Options_Framework_Admin{
 			</form>
 			<?php \WBF::print_copyright(); ?>
 		</div>
-		<?php
+	<?php
 	}
 
 	/**
@@ -323,55 +323,55 @@ class Admin extends \Options_Framework_Admin{
 		add_action( 'admin_head', array( $this, 'of_admin_head' ) );
 	}
 
-	/**
-	 * Builds out the options panel.
-	 *
-	 * If we were using the Settings API as it was intended we would use
-	 * do_settings_sections here.  But as we don't want the settings wrapped in a table,
-	 * we'll call our own custom optionsframework_fields.  See options-interface.php
-	 * for specifics on how each individual field is generated.
-	 *
-	 * Nonces are provided using the settings_fields()
-	 *
-	 * @since 1.7.0
-	 */
-	function options_page() { ?>
+    /**
+     * Builds out the options panel.
+     *
+     * If we were using the Settings API as it was intended we would use
+     * do_settings_sections here.  But as we don't want the settings wrapped in a table,
+     * we'll call our own custom optionsframework_fields.  See options-interface.php
+     * for specifics on how each individual field is generated.
+     *
+     * Nonces are provided using the settings_fields()
+     *
+     * @since 1.7.0
+     */
+    function options_page() { ?>
 
-		<div id="optionsframework-wrap" class="wrap">
-			<?php $menu = $this->menu_settings(); ?>
+        <div id="optionsframework-wrap" class="wrap">
+            <?php $menu = $this->menu_settings(); ?>
 
-			<div class="optionsframework-header">
-				<h2><?php echo esc_html( $menu['page_title'] ); ?></h2>
-			</div>
+            <div class="optionsframework-header">
+                <h2><?php echo esc_html( $menu['page_title'] ); ?></h2>
+            </div>
 
-			<div id="optionsframework-content-wrapper">
-				<div class="nav-tab-wrapper">
-					<ul>
-						<?php echo GUI::optionsframework_tabs(); ?>
-					</ul>
-				</div>
+            <div id="optionsframework-content-wrapper">
+                <div class="nav-tab-wrapper">
+                    <ul>
+                        <?php echo GUI::optionsframework_tabs(); ?>
+                    </ul>
+                </div>
 
-				<?php settings_errors( 'options-framework' ); ?>
+                <?php settings_errors( 'options-framework' ); ?>
 
-				<div id="optionsframework-metabox" class="metabox-holder">
-					<div id="optionsframework" class="postbox">
-						<form action="options.php" method="post">
-							<?php settings_fields( 'optionsframework' ); ?>
-							<?php GUI::optionsframework_fields(); /* Settings */ ?>
-							<div id="optionsframework-submit">
-								<input type="submit" class="button-primary" name="update" value="<?php esc_attr_e( 'Save Options', "wbf" ); ?>" />
-								<input type="submit" class="reset-button button-secondary" name="reset" value="<?php esc_attr_e( 'Restore Defaults', 'wbf' ); ?>" onclick="return confirm( '<?php print esc_js( __( 'Click OK to reset. Any theme settings will be lost!', 'wbf' ) ); ?>' );" />
-								<a href="admin.php?page=waboot_options&amp;clear_cache" class="clearcache-button button-secondary"><?php esc_attr_e( 'Clear Theme Cache', "wbf" ); ?></a>
-								<div class="clear"></div>
-							</div>
-						</form>
-					</div> <!-- / #container -->
-				</div>
-			</div> <!-- / #content-wrapper -->
-			<?php do_action( 'optionsframework_after' ); ?>
-		</div> <!-- / .wrap -->
-		<?php
-	}
+                <div id="optionsframework-metabox" class="metabox-holder">
+                    <div id="optionsframework" class="postbox">
+                        <form action="options.php" method="post">
+                            <?php settings_fields( 'optionsframework' ); ?>
+                            <?php GUI::optionsframework_fields(); /* Settings */ ?>
+                            <div id="optionsframework-submit">
+                                <input type="submit" class="button-primary" name="update" value="<?php esc_attr_e( 'Save Options', "wbf" ); ?>" />
+                                <input type="submit" class="reset-button button-secondary" name="reset" value="<?php esc_attr_e( 'Restore Defaults', 'wbf' ); ?>" onclick="return confirm( '<?php print esc_js( __( 'Click OK to reset. Any theme settings will be lost!', 'wbf' ) ); ?>' );" />
+                                <a href="admin.php?page=waboot_options&amp;clear_cache" class="clearcache-button button-secondary"><?php esc_attr_e( 'Clear Theme Cache', "wbf" ); ?></a>
+                                <div class="clear"></div>
+                            </div>
+                        </form>
+                    </div> <!-- / #container -->
+                </div>
+            </div> <!-- / #content-wrapper -->
+            <?php do_action( 'optionsframework_after' ); ?>
+        </div> <!-- / .wrap -->
+    <?php
+    }
 
 	/**
 	 * Validate Options.
