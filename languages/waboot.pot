@@ -7,9 +7,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Waboot 0.13.5\n"
+"Project-Id-Version: Waboot 0.13.6\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-19 16:45+0100\n"
+"POT-Creation-Date: 2015-11-24 14:34+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1386,67 +1386,67 @@ msgid ""
 "You must specify the output you want - either \"link\" or \"post_content\"."
 msgstr ""
 
-#: inc/template-tags.php:1585
+#: inc/template-tags.php:1630
 msgid "Facebook"
 msgstr ""
 
-#: inc/template-tags.php:1586
+#: inc/template-tags.php:1631
 msgid "Enter your facebook fan page link"
 msgstr ""
 
-#: inc/template-tags.php:1590
+#: inc/template-tags.php:1635
 msgid "Twitter"
 msgstr ""
 
-#: inc/template-tags.php:1591
+#: inc/template-tags.php:1636
 msgid "Enter your twitter page link"
 msgstr ""
 
-#: inc/template-tags.php:1595
+#: inc/template-tags.php:1640
 msgid "Google+"
 msgstr ""
 
-#: inc/template-tags.php:1596
+#: inc/template-tags.php:1641
 msgid "Enter your google+ page link"
 msgstr ""
 
-#: inc/template-tags.php:1600
+#: inc/template-tags.php:1645
 msgid "YouTube"
 msgstr ""
 
-#: inc/template-tags.php:1601
+#: inc/template-tags.php:1646
 msgid "Enter your youtube page link"
 msgstr ""
 
-#: inc/template-tags.php:1605
+#: inc/template-tags.php:1650
 msgid "Pinterest"
 msgstr ""
 
-#: inc/template-tags.php:1606
+#: inc/template-tags.php:1651
 msgid "Enter your pinterest page link"
 msgstr ""
 
-#: inc/template-tags.php:1610
+#: inc/template-tags.php:1655
 msgid "Linkedin"
 msgstr ""
 
-#: inc/template-tags.php:1611
+#: inc/template-tags.php:1656
 msgid "Enter your linkedin page link"
 msgstr ""
 
-#: inc/template-tags.php:1615
+#: inc/template-tags.php:1660
 msgid "Instagram"
 msgstr ""
 
-#: inc/template-tags.php:1616
+#: inc/template-tags.php:1661
 msgid "Enter your instagram page link"
 msgstr ""
 
-#: inc/template-tags.php:1620
+#: inc/template-tags.php:1665
 msgid "Feed RSS"
 msgstr ""
 
-#: inc/template-tags.php:1621
+#: inc/template-tags.php:1666
 msgid "Enter your feed RSS link"
 msgstr ""
 
