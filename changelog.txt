@@ -1,5 +1,15 @@
 == Change log ==
 
+Version 0.13.6 - 24/11/2015
+---------------------------------
+
+- Rimosso TouchSwipe da waboot.js
+- Corretta funzione wbft_get_post_terms_hierarchical()
+
+WBF:
+- Aggiornato alla versione 0.13.9
+- Inserita funzione wbf_associative_array_search()
+
 Version 0.13.5 - 11/11/2015
 ---------------------------------
 
