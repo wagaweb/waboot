@@ -565,6 +565,36 @@ if ( !function_exists("get_timezone_offset") ) :
 	}
 endif;
 
+if(!function_exists("wbf_associative_array_search")) :
+	/**
+	 * Search $array for the $key=>$value pair.
+	 *
+	 * @param array $array the target array
+	 * @param mixed $key the key to find
+	 * @param mixed $value the value to find into the $key
+	 *
+	 * @return array with the found pairs, or empty.
+	 */
+	function wbf_associative_array_search($array,$key,$value){
+		$search_r = function($array, $key, $value, &$results) use(&$search_r){
+			if (!is_array($array)) {
+				return;
+			}
+
+			if (isset($array[$key]) && $array[$key] == $value) {
+				$results[] = $array;
+			}
+
+			foreach ($array as $subarray) {
+				$search_r($subarray, $key, $value, $results);
+			}
+		};
+		$results = array();
+		$search_r($array, $key, $value, $results);
+		return $results;
+	}
+endif;
+
 /***************************************************************
  * TYPOGRAPHY (these functions are deprecated)
  ***************************************************************/
