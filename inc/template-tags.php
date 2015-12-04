@@ -1233,7 +1233,7 @@ if(!function_exists( 'wbft_get_post_terms_hierarchical' )):
 	function wbft_get_post_terms_hierarchical($post_id, $taxonomy, $args = [], $flatten = true){
 		static $cache;
 
-		if(isset($cache[$post_id]) && is_array($cache[$post_id])) return $cache[$post_id];
+		if(isset($cache[$taxonomy][$post_id]) && is_array($cache[$taxonomy][$post_id])) return $cache[$taxonomy][$post_id];
 
 		$args = wp_parse_args($args,[
 			'orderby' => 'parent'
