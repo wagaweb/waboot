@@ -1226,12 +1226,16 @@ if(!function_exists( 'wbft_get_post_terms_hierarchical' )):
 	 *
 	 * @return array
 	 */
-	function wbft_get_post_terms_hierarchical($post_id, $taxonomy, $args = []){
+	function wbft_get_post_terms_hierarchical($post_id, $taxonomy, $args = [], $flatten = true){
 		static $cache;
 
-		if(isset($cache[$post_id]) && is_array($cache[$post_id])) return $cache[$post_id];
+		if(isset($cache[$taxonomy][$post_id]) && is_array($cache[$taxonomy][$post_id])) return $cache[$taxonomy][$post_id];
 
-		$terms = wp_get_post_terms( $post_id, $taxonomy, $args );
+		$args = wp_parse_args($args,[
+			'orderby' => 'parent'
+		]);
+		$args['orderby'] = 'parent'; //we need to force this
+		$terms = wp_get_post_terms( $post_id, $taxonomy, $args);
 
 		/**
 		 * Insert a mixed at specified position into input $array
@@ -1277,12 +1281,50 @@ if(!function_exists( 'wbft_get_post_terms_hierarchical' )):
 		};
 
 		/**
+		 * Complete the terms list with missing parents. Missing parents will be labeled with "not_assigned = true"
+		 * @param $p
+		 * @param $t
+		 *
+		 * @return mixed
+		 */
+		$complete_missing_terms = function($terms) use($taxonomy){
+			/**
+			 * Add the parent pf $child into the $terms_list (if not present)
+			 * @param $child
+			 * @param $terms_list
+			 *
+			 * @return array
+			 */
+			$add_parent = function($child,$terms_list) use(&$add_parent,$taxonomy){
+				$parent = get_term($child->parent,$taxonomy);
+				$terms_list_as_array = json_decode(json_encode($terms_list),true);
+				$found = self::associative_array_search($terms_list_as_array,"term_id",$parent->term_id);
+				if(empty($found)){
+					$parent->not_assigned = true; //Set a flag to tell that this parent is added programmatically and not by the user
+					$terms_list[] = $parent;
+				}
+				if($parent->parent != 0){
+					return $add_parent($parent,$terms_list);
+				}else{
+					return $terms_list;
+				}
+			};
+			$new_term_list = $terms;
+			foreach($terms as $t){
+				if($t->parent != 0){
+					$new_term_list = $add_parent($t,$new_term_list);
+				}
+			}
+			return $new_term_list;
+		};
+
+		/**
 		 * Build term hierarchy
 		 * @param array $cats the terms to reorder
 		 *
 		 * @return array
 		 */
-		$build_hierarchy = function(Array &$cats) use ($array_insert, $children_insert){
+		$build_hierarchy = function(Array $cats) use ($array_insert, $children_insert){
 			$cats_count = count($cats); //meow! How many terms have we?
 			$result = [];
 
@@ -1297,33 +1339,27 @@ if(!function_exists( 'wbft_get_post_terms_hierarchical' )):
 			foreach ($cats as $i => $cat) {
 				if($cat->parent == 0){
 					$result[] = $cat;
+					unset($cats[$i]); //remove the parent from the list
 				}
 			}
 
 			$inserted_cats = count($result); //Count the items inserted at this point
+			$cats = array_values($cats); //resort the array
 
 			if($inserted_cats == 0){
-				return [];
+				return []; //Here we return if no parents are present within the terms
 			}
 
 			//Populate with children
-			while($inserted_cats != $cats_count){ //Go on until we reached the terms number counted at the beginning
+			while(count($cats) > 0){ //Go on until we reached have some terms to order
 				foreach ($cats as $i => $cat) {
-					if($cat->parent != 0){
-						$parent_term_id = $cat->parent;
-						$r = $children_insert($result,$parent_term_id,$cat);
-						if(is_array($r)){ //We found a valid parent, and $r is the new array with $cat appended into parent
-							$result = $r;
-							$inserted_cats++;
-						}elseif($r == false){ //We haven't found any parent for $cat, so simply append it
-							$result[] = $cat;
-							$inserted_cats++;
-						}
-						if($inserted_cats == $cats_count){
-							break;
-						}
-					}else{
-						continue; //We already parsed the parent == 0
+					$parent_term_id = $cat->parent;
+					$r = $children_insert($result,$parent_term_id,$cat);
+					if(is_array($r)){ //We found a valid parent, and $r is the new array with $cat appended into parent
+						$result = $r;
+						unset($cats[$i]);
+						$cats = array_values($cats); //resort the array
+						break; //and break!
 					}
 				}
 			}
@@ -1354,11 +1390,12 @@ if(!function_exists( 'wbft_get_post_terms_hierarchical' )):
 
 		if(!is_array($terms) || empty($terms)) return [];
 
+		$terms = $complete_missing_terms($terms);
 		$h = $build_hierarchy($terms);
 
-		$sortedTerms = $flatten_terms_hierarchy($h); //Extract the children
+		$sortedTerms = $flatten ? $flatten_terms_hierarchy($h) : $h; //Extract the children
 
-		$cache[$post_id] = $sortedTerms;
+		$cache[$taxonomy][$post_id] = $sortedTerms;
 
 		return $sortedTerms;
 	}
