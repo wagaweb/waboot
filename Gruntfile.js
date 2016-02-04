@@ -216,14 +216,26 @@ module.exports = function(grunt) {
         }
     });
 
-    // Register tasks
-    grunt.registerTask('default', ['setup','watch']); // Default task
-    grunt.registerTask('setup', ['bower-install','bower-update','copy:bower_components','less:dev']); //Setup task
-    grunt.registerTask('js', ['browserify:dist']); // generate waboot.js
-    grunt.registerTask('jsmin', ['js','uglify']); // Concat, beautify and minify js
-    grunt.registerTask('build', ['bower-update','copy:bower_components','less:production','less:waboot','jsmin','pot','compress:build']); // Build task
+    /*
+     *   Register tasks
+     */
 
-    // Run bower install
+    //Default task
+    grunt.registerTask('default', ['setup','watch']);
+
+    //Setup task
+    grunt.registerTask('setup', ['bower-install','bower-update','copy:bower_components','less:dev']);
+
+    //Generate waboot.js
+    grunt.registerTask('js', ['browserify:dist']);
+
+    //Concat, beautify and minify js
+    grunt.registerTask('jsmin', ['js','uglify']);
+
+    //Build task
+    grunt.registerTask('build', ['bower-update','copy:bower_components','less:production','less:waboot','jsmin','pot','compress:build']);
+
+    //Runs bower install
     grunt.registerTask('bower-install', function() {
         var exec = require('child_process').exec;
         var cb = this.async();
@@ -233,7 +245,7 @@ module.exports = function(grunt) {
         });
     });
 
-    // Run bower update
+    //Runs bower update
     grunt.registerTask('bower-update', function() {
         var exec = require('child_process').exec;
         var cb = this.async();
