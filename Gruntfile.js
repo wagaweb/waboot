@@ -237,14 +237,26 @@ module.exports = function(grunt) {
         }
     });
 
-    // Register tasks
-    grunt.registerTask('setup', ['theme-bower-install','wbf-bower-install','copy:all','less:dev']); //Setup task
-    grunt.registerTask('default', ['watch']); // Default task
-    grunt.registerTask('js', ['browserify:dist']); // generate waboot.js
-    grunt.registerTask('jsmin', ['js','uglify']); // Concat, beautify and minify js
-    grunt.registerTask('build', ['theme-bower-install','wbf-bower-install','copy:all','less:production','less:waboot','jsmin','pot','compress:build']); // Build task
+    /*
+     *   Register tasks
+     */
 
-    // Run bower install
+    //Default task
+    grunt.registerTask('default', ['watch']);
+
+    //Setup task
+    grunt.registerTask('setup', ['theme-bower-update','wbf-bower-update','copy:bower_components','less:dev']);
+
+    //Generate waboot.js
+    grunt.registerTask('js', ['browserify:dist']);
+
+    //Concat, beautify and minify js
+    grunt.registerTask('jsmin', ['js','uglify']);
+
+    //Build task
+    grunt.registerTask('build', ['theme-bower-update','wbf-bower-update','copy:bower_components','less:production','less:waboot','jsmin','pot','compress:build']);
+
+    // Runs bower install
     grunt.registerTask('wbf-bower-install', function() {
         var exec = require('child_process').exec;
         var cb = this.async();
@@ -257,6 +269,24 @@ module.exports = function(grunt) {
         var exec = require('child_process').exec;
         var cb = this.async();
         exec('bower install', function(err, stdout, stderr) {
+            console.log(stdout);
+            cb();
+        });
+    });
+
+    // Runs bower update
+    grunt.registerTask('wbf-bower-update', function() {
+        var exec = require('child_process').exec;
+        var cb = this.async();
+        exec('bower update', {cwd: "./wbf"}, function(err, stdout, stderr) {
+            console.log(stdout);
+            cb();
+        });
+    });
+    grunt.registerTask('theme-bower-update', function() {
+        var exec = require('child_process').exec;
+        var cb = this.async();
+        exec('bower update', function(err, stdout, stderr) {
             console.log(stdout);
             cb();
         });
