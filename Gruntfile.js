@@ -256,7 +256,7 @@ module.exports = function(grunt) {
     //Build task
     grunt.registerTask('build', ['theme-bower-update','wbf-bower-update','copy:bower_components','less:production','less:waboot','jsmin','pot','compress:build']);
 
-    // Runs bower install
+    //Runs bower install
     grunt.registerTask('wbf-bower-install', function() {
         var exec = require('child_process').exec;
         var cb = this.async();
@@ -274,7 +274,7 @@ module.exports = function(grunt) {
         });
     });
 
-    // Runs bower update
+    //Runs bower update
     grunt.registerTask('wbf-bower-update', function() {
         var exec = require('child_process').exec;
         var cb = this.async();
