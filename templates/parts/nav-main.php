@@ -21,13 +21,13 @@
         <span class="icon-bar"></span>
     </button>
 
-    <a class="navbar-brand" href="<?php echo home_url( '/' ); ?>">
-	    <?php if ( waboot_get_desktop_logo() != "" ) : ?>
-		    <?php waboot_desktop_logo(); ?>
-        <?php else : ?>
-            <?php waboot_site_title(); ?>
-        <?php endif; ?>
-    </a>
+    <?php if ( waboot_get_desktop_logo() != "" ) : ?>
+        <a class="navbar-brand" href="<?php echo home_url( '/' ); ?>">
+            <?php waboot_desktop_logo(); ?>
+        </a>
+    <?php else : ?>
+        <?php waboot_site_title(); ?>
+    <?php endif; ?>
 
 </div>
 

@@ -31,7 +31,7 @@ if(!function_exists('waboot_site_title')):
 				return get_bloginfo("name");
 			}
 		});
-		$link = sprintf( '<a href="%s" title="%s" rel="home">%s</a>', trailingslashit( home_url() ), esc_attr( get_bloginfo( 'name' ) ), $display_name );
+		$link = sprintf( '<a href="%s" title="%s" class="navbar-brand" rel="home">%s</a>', trailingslashit( home_url() ), esc_attr( get_bloginfo( 'name' ) ), $display_name );
 		$output = '<' . $element . ' id="site-title" class="site-title">' . $link . '</' . $element .'>';
 		echo apply_filters( 'waboot/site_title/markup', $output );
 	}
@@ -92,10 +92,10 @@ if(!function_exists("waboot_desktop_logo")) :
 	 */
 	function waboot_desktop_logo($linked = false){
 		if($linked){
-			$tpl = "<a href='%s'><img src='%s' class='img-responsive' /></a>";
+			$tpl = "<a href='%s'><img src='%s' class='waboot-desktop-logo' /></a>";
 			printf($tpl,home_url( '/' ),waboot_get_desktop_logo());
 		}else{
-			$tpl = "<img src='%s' class='img-responsive' />";
+			$tpl = "<img src='%s' class='waboot-desktop-logo' />";
 			printf($tpl,waboot_get_desktop_logo());
 		}
 	}
