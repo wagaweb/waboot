@@ -1,5 +1,14 @@
 == Change log ==
 
+Version 0.14.2
+---------------------------------
+
+- Merge ti alcuni fix dal master
+- Aggiornamento pacchetti:
+    - fontawesome: 4.5.0
+    - respond: 1.4.2
+    - TouchSwipe: 1.6.15
+
 Version 0.14.1 - 19/11/2015
 ---------------------------------
 
