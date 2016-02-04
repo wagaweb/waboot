@@ -36,14 +36,10 @@ components/**/bower_components
 components/**/bundle.js
 
 ############
-## VENDORS
+## WBF
 ############
-wbf/includes/vendor/codemirror/bin
-wbf/vendor/codemirror/demo
-wbf/vendor/codemirror/doc
-wbf/vendor/codemirror/test
-wbf/vendor/codemirror/*.*
-!wbf/vendor/codemirror/package.json
+wbf/*
+!wbf/.gitkeep
 
 ############
 ## IDEs
