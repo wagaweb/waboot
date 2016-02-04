@@ -73,8 +73,12 @@ module.exports = function(grunt) {
         copy:{
             all:{
                 files:[
-                    '<%= copy.fontawesome.files %>',
                     '<%= copy.bootstrap.files %>',
+                    '<%= copy.bower_components.files %>'
+                ]
+            },
+            bower_components:{
+                files:[
                     {
                         expand: true,
                         flatten: true,
@@ -88,11 +92,7 @@ module.exports = function(grunt) {
                         cwd: "bower_components/respond/dest",
                         src: "respond.min.js",
                         dest: "assets/js"
-                    }
-                ]
-            },
-            fontawesome:{
-                files:[
+                    },
                     {
                         expand: true,
                         flatten: true,
@@ -217,11 +217,11 @@ module.exports = function(grunt) {
     });
 
     // Register tasks
-    grunt.registerTask('setup', ['bower-install','copy:all','less:dev']); //Setup task
-    grunt.registerTask('default', ['watch']); // Default task
-    grunt.registerTask('build', ['less:production','less:waboot','jsmin','pot','compress:build']); // Build task
+    grunt.registerTask('default', ['setup','watch']); // Default task
+    grunt.registerTask('setup', ['bower-install','copy:bower_components','less:dev']); //Setup task
     grunt.registerTask('js', ['browserify:dist']); // generate waboot.js
     grunt.registerTask('jsmin', ['js','uglify']); // Concat, beautify and minify js
+    grunt.registerTask('build', ['bower-install','copy:bower_components','less:production','less:waboot','jsmin','pot','compress:build']); // Build task
 
     // Run bower install
     grunt.registerTask('bower-install', function() {
