@@ -28,20 +28,17 @@ function get_behavior( $name, $post_id = 0, $return = "value" ) {
 }
 */
 
-/**
- * \WBF\modules\options\of_get_option wrapper function
- * @param $name
- * @param bool $default
- * @return \WBF\modules\options\of_get_option output
- */
-/*
-function of_get_option($name, $default = false){
-    if(function_exists('\WBF\modules\options\of_get_option'))
-        return \WBF\modules\options\of_get_option($name,$default);
-    else
-        return $default;
-}
-*/
+if(!function_exists("of_get_option")):
+	/**
+	 * \WBF\modules\options\of_get_option wrapper function
+	 * @param $name
+	 * @param bool $default
+	 * @return \WBF\modules\options\of_get_option output
+	 */
+	function of_get_option($name, $default = false){
+		return \WBF\modules\options\of_get_option($name,$default);
+	}
+endif;
 
 /**
  *

@@ -1,9 +1,9 @@
 {
   "name": "waga/wbf",
   "description": "A comprehensive full-stack Wordpress framework",
+  "type": "wordpress-plugin",
   "homepage": "http://www.waga.it",
-  "version": "0.13.9",
-  "time": "2015-07-23",
+  "version": "0.13.11",
   "license": "proprietary",
   "authors": [
     {

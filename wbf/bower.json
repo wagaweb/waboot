@@ -1,6 +1,6 @@
 {
   "name": "waga/wbf",
-  "version": "0.13.9",
+  "version": "0.13.11",
   "description": "A comprehensive full-stack Wordpress framework",
   "license": "proprietary",
   "private": "true",
@@ -12,9 +12,9 @@
     "tests"
   ],
   "dependencies": {
-    "codemirror": "4.7.0",
-    "imagesloaded": "",
-    "jquery-modal": "",
-    "bootstrap": "^3.3.5"
+    "codemirror": "~4.7.0",
+    "imagesloaded": "~3.2.0",
+    "jquery-modal": "~0.6.0",
+    "bootstrap": "~3.3.5"
   }
 }

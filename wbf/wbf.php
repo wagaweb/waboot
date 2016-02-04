@@ -15,7 +15,7 @@
  * Plugin Name:       Waboot Framework
  * Plugin URI:        http://www.waga.it
  * Description:       WordPress Extension Framework
- * Version:           0.13.9
+ * Version:           0.13.11
  * Author:            WAGA
  * Author URI:        http://www.waga.com/
  * License:           GPL-2.0+
@@ -37,15 +37,21 @@ if( ! class_exists('WBF') ) :
 
 	require_once('includes/utilities.php'); // Utility
 
-	define("WBF_DIRECTORY", __DIR__);
-	if(preg_match("/wp-content\/themes/", __DIR__ )){
-		$url = rtrim(path_to_url(dirname(__FILE__)),"/")."/"; //ensure trailing slash
+	//Define directory
+	if(!defined("WBF_DIRECTORY")){
+		define("WBF_DIRECTORY", __DIR__);
+	}
+	//Define uri
+	if(preg_match("/wp-content\/themes/", WBF_DIRECTORY )){
+		//If WBF is in a theme
+		$url = rtrim(path_to_url(dirname(WBF_DIRECTORY."/wbf.php")),"/")."/"; //ensure trailing slash
 		define("WBF_URL", $url);
 	}else{
+		//If is in the plugin directory
 		define("WBF_URL", get_bloginfo("url") . "/wp-content/plugins/wbf/");
 	}
-	define("WBF_ADMIN_DIRECTORY", __DIR__ . "/admin");
-	define("WBF_PUBLIC_DIRECTORY", __DIR__ . "/public");
+	define("WBF_ADMIN_DIRECTORY", WBF_DIRECTORY . "/admin");
+	define("WBF_PUBLIC_DIRECTORY", WBF_DIRECTORY . "/public");
 
 	require_once("wbf-autoloader.php");
 	require_once("backup-functions.php");
@@ -59,7 +65,7 @@ if( ! class_exists('WBF') ) :
 		var $url;
 		var $path;
 
-		const version = "0.13.9";
+		const version = "0.13.11";
 
 		public static function getInstance($args = []){
 			static $instance = null;
@@ -91,6 +97,7 @@ if( ! class_exists('WBF') ) :
 			set_error_handler('\WBF::handle_errors',E_USER_WARNING);
 
 			$this->maybe_run_activation();
+			$this->maybe_add_option();
 
 			$this->url = self::get_url();
 			$this->path = self::get_path();
@@ -210,6 +217,13 @@ if( ! class_exists('WBF') ) :
 			echo $output;
 		}
 
+		/**
+		 * Checks if $module_name is loaded
+		 *
+		 * @param $module_name
+		 *
+		 * @return bool
+		 */
 		static function module_is_loaded($module_name){
 			$modules = self::get_modules();
 			foreach($modules as $name => $params){
@@ -219,15 +233,28 @@ if( ! class_exists('WBF') ) :
 			return false;
 		}
 
+		/**
+		 * Retrieve WBF Modules
+		 *
+		 * @param bool|false $include
+		 *
+		 * @return mixed
+		 */
 		static function get_modules($include = false){
 			static $modules = array();
 			if(!empty($modules)){
-				return $modules;
+				if(!$include){
+					return $modules;
+				}else{
+					foreach($modules as $m){
+						require_once $m['bootstrap'];
+					}
+				}
 			}
 
 			$modules_dir = self::get_path()."modules";
 			$dirs = array_filter(glob($modules_dir."/*"), 'is_dir');
-			$dirs = apply_filters("wbf/modules/available", $dirs); //Allow developer to add\delete modules
+			$dirs = apply_filters("wbf/modules/available", $dirs); //Allow developers to add\delete modules
 			foreach($dirs as $d){
 				$current_module_dir = $d;
 				if(is_file($current_module_dir."/bootstrap.php")){
@@ -243,10 +270,68 @@ if( ! class_exists('WBF') ) :
 			return $modules;
 		}
 
+		/**
+		 * Retrieve WBF Extensions
+		 *
+		 * @param bool|false $include
+		 *
+		 * @return mixed
+		 */
+		static function get_extensions($include = false){
+			static $exts = array();
+			if(!empty($exts)){
+				if(!$include){
+					return $exts;
+				}else{
+					foreach($exts as $e){
+						require_once $e['bootstrap'];
+					}
+				}
+			}
+
+			$exts_dir = self::get_path()."extensions";
+			$dirs = array_filter(glob($exts_dir."/*"), 'is_dir');
+			$dirs = apply_filters("wbf/extensions/available", $dirs); //Allow developers to add\delete extensions
+			foreach($dirs as $d){
+				$current_ext_dir = $d;
+				if(is_file($current_ext_dir."/bootstrap.php")){
+					$exts[basename($d)] = array(
+						'path' => $current_ext_dir,
+						'bootstrap' => $current_ext_dir."/bootstrap.php",
+					);
+					if($include) require_once $exts[basename($d)]['bootstrap'];
+				}
+			}
+			return $exts;
+		}
+
+		/**
+		 * Retrieve and includes WBF Modules
+		 *
+		 * @hooked 'after_setup_theme'
+		 *
+		 * @return mixed
+		 */
 		function load_modules(){
 			return $this->get_modules(true);
 		}
 
+		/**
+		 * Retrieve and includes WBF Extensions
+		 *
+		 * @hooked 'plugins_loaded'
+		 *
+		 * @since 0.13.10
+		 *
+		 * @return mixed
+		 */
+		function load_extensions(){
+			return $this->get_extensions(true);
+		}
+
+		/**
+		 * Init modules activations procedures
+		 */
 		function load_modules_activation_hooks(){
 			$modules = $this->get_modules();
 			foreach($modules as $m){
@@ -256,6 +341,9 @@ if( ! class_exists('WBF') ) :
 			}
 		}
 
+		/**
+		 * Init modules deactivation procedures
+		 */
 		function load_modules_deactivation_hooks(){
 			$modules = $this->get_modules();
 			foreach($modules as $m){
@@ -351,7 +439,7 @@ if( ! class_exists('WBF') ) :
 			}
 		}
 
-		/**
+		/*
 		 *
 		 *
 		 * BACKUP FUNCTIONS
@@ -369,7 +457,7 @@ if( ! class_exists('WBF') ) :
 
 			if(!isset($b) || (is_bool($b) && $b == false)){
 				$config = get_option( 'optionsframework' );
-				$b = of_get_option( $config['id'] . "_behavior_" . $name );
+				$b = \WBF\modules\options\of_get_option( $config['id'] . "_behavior_" . $name );
 			}
 
 			$b = apply_filters("wbf/modules/behaviors/get",$b);
@@ -378,7 +466,7 @@ if( ! class_exists('WBF') ) :
 			return $b;
 		}
 
-		/**
+		/*
 		 *
 		 *
 		 * HOOKS
@@ -398,11 +486,8 @@ if( ! class_exists('WBF') ) :
 		 * Wordpress "plugins_loaded" callback
 		 */
 		function plugins_loaded(){
-			// ACF INTEGRATION
-			if(!is_plugin_active("advanced-custom-fields-pro/acf.php") && !is_plugin_active("advanced-custom-fields/acf.php")){
-				require_once self::get_path().'vendor/acf/acf.php';
-				require_once self::get_path().'admin/acf-integration.php';
-			}
+			// Load extensions
+			$this->load_extensions();
 		}
 
 		/**
@@ -410,8 +495,6 @@ if( ! class_exists('WBF') ) :
 		 */
 		function after_setup_theme() {
 			global $wbf_notice_manager;
-
-			$this->maybe_add_option();
 
 			$this->modules = $this->load_modules();
 
@@ -434,10 +517,7 @@ if( ! class_exists('WBF') ) :
 
 			// ACF INTEGRATION
 			if(!self::is_plugin()){
-				if(!is_plugin_active("advanced-custom-fields-pro/acf.php") && !is_plugin_active("advanced-custom-fields/acf.php")){
-					wbf_locate_file( '/vendor/acf/acf.php', true );
-					wbf_locate_file( '/admin/acf-integration.php', true );
-				}
+				$this->load_extensions();
 			}
 
 			// Google Fonts
@@ -453,7 +533,7 @@ if( ! class_exists('WBF') ) :
 
 			// Breadcrumbs
 			if(function_exists("of_get_option")) {
-				if(of_get_option('waboot_breadcrumbs', 1)){
+				if(\WBF\modules\options\of_get_option('waboot_breadcrumbs', 1)){
 					wbf_locate_file( '/vendor/breadcrumb-trail.php', true );
 					wbf_locate_file( '/public/breadcrumb-trail.php', true );
 				}
@@ -486,6 +566,11 @@ if( ! class_exists('WBF') ) :
 			wp_register_script("owlcarousel-js",WBF_URL."/vendor/owlcarousel/owl.carousel.min.js",array("jquery"),false,true);
 		}
 
+		/**
+		 * Register menu item
+		 *
+		 * @hooked 'admin_menu'
+		 */
 		function admin_menu(){
 			global $menu,$options_framework_admin,$WBFThemeUpdateChecker;
 
@@ -506,6 +591,15 @@ if( ! class_exists('WBF') ) :
 			do_action("wbf_admin_submenu","waboot_options");
 		}
 
+		/**
+		 * Unset updates from integrated plugins, ect...
+		 *
+		 * @hooked 'site_transient_update_plugins'
+		 *
+		 * @param $value
+		 *
+		 * @return mixed
+		 */
 		function unset_unwanted_updates($value){
 			$acf_update_path = preg_replace("/^\//","",self::get_path().'vendor/acf/acf.php');
 
@@ -516,6 +610,15 @@ if( ! class_exists('WBF') ) :
 			return $value;
 		}
 
+		/**
+		 * Exclude pagebuilder from loading
+		 *
+		 * @hooked 'wbf/modules/available'
+		 *
+		 * @param $module_dirs
+		 *
+		 * @return mixed
+		 */
 		function do_not_load_pagebuilder($module_dirs){
 			foreach($module_dirs as $k => $dir){
 				$module_name = basename($dir);
@@ -529,6 +632,9 @@ if( ! class_exists('WBF') ) :
 
 		/**
 		 * Add env notice to the admin bar
+		 *
+		 * @hooked 'admin_bar_menu' - 1000
+		 *
 		 * @param $wp_admin_bar
 		 * @since 0.2.0
 		 */
@@ -548,6 +654,9 @@ if( ! class_exists('WBF') ) :
 
 		/**
 		 * Add a "Compile Less" button to the toolbar
+		 *
+		 * @hooked 'admin_bar_menu' - 990
+		 *
 		 * @param $wp_admin_bar
 		 * @since 0.1.1
 		 */
@@ -565,11 +674,18 @@ if( ! class_exists('WBF') ) :
 			}
 		}
 
+		/**
+		 * Override default location of options.php
+		 *
+		 * @hooked 'options_framework_location'
+		 *
+		 * @return array
+		 */
 		function of_location_override(){
 			return array("inc/options.php");
 		}
 
-		/**
+		/*
 		 *
 		 *
 		 * ACTIVATION \ DEACTIVATION
@@ -674,14 +790,17 @@ if( ! class_exists('WBF') ) :
 else:
 	//HERE WBF IS ALREADY DEFINED. We can't tell if by a plugin or via theme... So...
 
-	//If this is a plugin, then force the options to point over the plugin.
-	if(preg_match("/plugins/",__FILE__) && preg_match("/themes/",get_option("wbf_path"))){
-		update_option( "wbf_path", __DIR__ );
-		update_option( "wbf_url", get_bloginfo("url") . "/wp-content/plugins/wbf/" );
+	if(!defined("WBF_DIRECTORY")){
 		define("WBF_DIRECTORY", __DIR__);
+	}
+
+	//If this is a plugin, then force the options to point over the plugin.
+	if(preg_match("/plugins/",WBF_DIRECTORY."/wbf.php") && preg_match("/themes/",get_option("wbf_path"))){
 		define("WBF_URL", get_bloginfo("url") . "/wp-content/plugins/wbf/");
-		define("WBF_ADMIN_DIRECTORY", __DIR__ . "/admin");
-		define("WBF_PUBLIC_DIRECTORY", __DIR__ . "/public");
+		define("WBF_ADMIN_DIRECTORY", WBF_DIRECTORY . "/admin");
+		define("WBF_PUBLIC_DIRECTORY", WBF_DIRECTORY . "/public");
+		update_option( "wbf_path", WBF_DIRECTORY );
+		update_option( "wbf_url", get_bloginfo("url") . "/wp-content/plugins/wbf/" );
 	}
 
 endif; // class_exists check

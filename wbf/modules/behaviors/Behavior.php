@@ -51,12 +51,12 @@ class Behavior{
 			if(isset($args['get_for_posttype']) && $args['get_for_posttype'] != false){
 				$post_type = $args['get_for_posttype'];
 				if(isset($this->posttypes_values[$post_type])){
-					$option_default = of_get_option($this->posttypes_values[$post_type]['optionname'],$base_default);
+					$option_default = \WBF\modules\options\of_get_option($this->posttypes_values[$post_type]['optionname'],$base_default);
 				}else{
-					$option_default = of_get_option($this->optionname,$base_default);
+					$option_default = \WBF\modules\options\of_get_option($this->optionname,$base_default);
 				}
 			}else{
-				$option_default = of_get_option($this->optionname,$base_default);
+				$option_default = \WBF\modules\options\of_get_option($this->optionname,$base_default);
 			}
 			if(is_array($option_default)){
 				if($this->type == "checkbox"){
@@ -69,9 +69,9 @@ class Behavior{
 			}
 		}else{
 			if(isset($args['get_for_posttype'])){
-				$this->default = of_get_option($this->posttypes_values[$args['get_for_posttype']]['optionname'],"");
+				$this->default = \WBF\modules\options\of_get_option($this->posttypes_values[$args['get_for_posttype']]['optionname'],"");
 			}else{
-				$this->default = of_get_option($this->optionname,"");
+				$this->default = \WBF\modules\options\of_get_option($this->optionname,"");
 			}
 		}
 

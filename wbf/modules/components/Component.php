@@ -44,9 +44,9 @@ class Component {
 	    if($this->filters_updated_flag) return; //the method was already called at least once
 
         //Detect the filters
-        if(of_get_option($this->name."_selective_disable","0") == 1){
+        if(\WBF\modules\options\of_get_option($this->name."_selective_disable","0") == 1){
             $this->filters = array();
-        }elseif(of_get_option($this->name."_enabled_for_all_pages","1") == 1){
+        }elseif(\WBF\modules\options\of_get_option($this->name."_enabled_for_all_pages","1") == 1){
             $this->filters = array(
               'post_type' => '*',
               'node_id' => '*'
@@ -56,7 +56,7 @@ class Component {
               'post_type' => array(),
               'node_id' => array()
             );
-            $allowed_post_types = of_get_option($this->name."_load_locations",array());
+            $allowed_post_types = \WBF\modules\options\of_get_option($this->name."_load_locations",array());
             if($allowed_post_types['front'] == 1){
                 array_push($this->filters['node_id'],get_option("page_on_front"));
                 unset($allowed_post_types['front']);
@@ -70,7 +70,7 @@ class Component {
                     array_push($this->filters['post_type'],$k);
                 }
             }
-            $specific_ids = of_get_option($this->name."_load_locations_ids",array());
+            $specific_ids = \WBF\modules\options\of_get_option($this->name."_load_locations_ids",array());
             if(!empty($specific_ids)){
                 $specific_ids = explode(',',trim($specific_ids));
                 foreach($specific_ids as $id){

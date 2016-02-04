@@ -5,7 +5,7 @@ namespace WBF\includes\pluginsframework;
 spl_autoload_register( 'WBF\includes\pluginsframework\plugin_autoload' );
 
 function plugin_autoload( $class ) {
-	$wbf_path = get_option( "wbf_path" );
+	$wbf_path = defined("WBF_DIRECTORY") ? WBF_DIRECTORY : get_option( "wbf_path" );
 
 	require_once $wbf_path."/vendor/autoload.php";
 

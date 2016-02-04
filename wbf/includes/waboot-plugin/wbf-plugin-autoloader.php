@@ -2,7 +2,7 @@
 
 spl_autoload_register( "wbf_plugin_autoload" );
 function wbf_plugin_autoload( $class ) {
-	$wbf_path = get_option( "wbf_path" );
+	$wbf_path = defined("WBF_DIRECTORY") ? WBF_DIRECTORY : get_option( "wbf_path" );
 
 	require_once $wbf_path."/vendor/autoload.php";
 

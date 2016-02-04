@@ -1,0 +1,39 @@
+== Change log ==
+
+Version 0.13.11 - 13/12/2015
+---------------------------------
+
+- Fix risoluzione path per plugin framework
+- Fix caricamento estensioni nel caso in cui WBF sia incluso nel tema
+
+Version 0.13.10 - 13/12/2015
+---------------------------------
+
+- Ora è possibile specificare WBF_DIRECTORY dal file config
+- Introdotto il concetto di estensione (integrazioni con altri plugin, piccole features aggiuntive...)
+- Ora ACF è una estensione
+
+Version 0.13.9 - 20/11/2015
+---------------------------------
+
+- Fix minori
+
+Version 0.13.8 - 19/11/2015
+---------------------------------
+
+- Migliorato lo switch tra wbf-as-plugin e wbf-in-theme
+
+Version 0.13.7 - 12/11/2015
+---------------------------------
+
+- Corretto bug che in alcuni casi faceva inserire a prefixUrl e prefixPath un doppio slash alla fine.
+
+Version 0.13.6 - 11/11/2015
+---------------------------------
+
+- Corretto errore in autoloader che cercava di caricare anche classi non appartenenti a WBF.
+
+Version 0.13.5 - 10/11/2015
+---------------------------------
+
+- Corretto un errore che visualizzava una notice quando non c'erano behavior assegnati a un nodo

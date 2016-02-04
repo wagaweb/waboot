@@ -4,6 +4,17 @@ builds/
 npm-debug.log
 
 ############
+## COMPILED
+############
+admin/js/wbf-admin.min.js
+includes/scripts/wbfgmap.min.js
+admin/css/tinymce.css
+admin/css/admin.css
+admin/css/optionsframework.css
+admin/css/componentsframework.css
+admin/css/pagebuilder.css
+
+############
 ## VENDORS (composer)
 ############
 vendor/autoload.php
@@ -21,6 +32,7 @@ vendor/eventie
 vendor/imagesloaded
 vendor/jquery-modal
 vendor/codemirror
+vendor/bootstrap
 
 ############
 ## VENDORS (other)
