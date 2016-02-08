@@ -70,6 +70,12 @@ module.exports = function(grunt) {
                 }
             }
         },
+        composer: {
+            options: {
+                flags: ['no-dev'],
+                cwd: "./wbf"
+            }
+        },
         copy:{
             all:{
                 files:[
@@ -254,7 +260,7 @@ module.exports = function(grunt) {
     grunt.registerTask('jsmin', ['js','uglify']);
 
     //Build task
-    grunt.registerTask('build', ['theme-bower-update','wbf-bower-update','copy:bower_components','less:production','less:waboot','jsmin','pot','compress:build']);
+    grunt.registerTask('build', ['theme-bower-update','composer:update','wbf-bower-update','copy:bower_components','less:production','less:waboot','jsmin','pot','compress:build']);
 
     //Runs bower install
     grunt.registerTask('wbf-bower-install', function() {
