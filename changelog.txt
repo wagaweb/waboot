@@ -1,6 +1,6 @@
 == Change log ==
 
-Version 0.14.2
+Version 0.14.2 - 13/02/2016
 ---------------------------------
 
 - Merge ti alcuni fix dal master
