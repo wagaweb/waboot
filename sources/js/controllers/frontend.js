@@ -58,8 +58,8 @@ module.exports = Backbone.Model.extend({
          * MOBILE ACTIONS
          */
         if (wbData.isMobile) {
-            var fs = require("FastClick"),
-                swipe = require("TouchSwipe");
+            var fs = require("FastClick");
+            //swipe = require("TouchSwipe");
             //http://getbootstrap.com/getting-started/#support
             if (navigator.userAgent.match(/IEMobile\/10\.0/)) {
                 var msViewportStyle = document.createElement('style')
@@ -71,7 +71,7 @@ module.exports = Backbone.Model.extend({
                 document.querySelector('head').appendChild(msViewportStyle);
             }
             fs.FastClick.attach(document.body);
-            $("body").swipe({
+            /*$("body").swipe({
                 swipeRight: function(event, direction, distance, duration, fingerCount) {
                     if ($(".navbar-mobile-collapse").css('right') == '0px') {
                         $('button.navbar-toggle').trigger('click');
@@ -82,7 +82,7 @@ module.exports = Backbone.Model.extend({
                         $('button.navbar-toggle').trigger('click');
                     }
                 }
-            });
+            });*/
             //Disable for Metaslider
             $(".metaslider").addClass("noSwipe");
         }
