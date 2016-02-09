@@ -1,6 +1,11 @@
 == Change log ==
 
-Version 0.14.2 - 13/02/2016
+Version 0.14.3 - 09/02/2016
+---------------------------------
+
+- Rimosso TouchSwipe
+
+Version 0.14.2 - 08/02/2016
 ---------------------------------
 
 - Merge ti alcuni fix dal master

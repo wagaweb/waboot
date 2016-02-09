@@ -1,13 +1,12 @@
 {
   "name": "Waboot",
-  "version": "0.14.2",
+  "version": "0.14.3",
   "dependencies": {
-    "html5shiv": "",
-    "respond": "",
-    "modernizr": "2.8.*",
-    "bootstrap": "3.3.*",
-    "fontawesome": "",
-    "jquery-touchswipe": "^1.6.8",
-    "fastclick": "^1.0.6"
+    "html5shiv": "~3.7.3",
+    "respond": "~1.4.0",
+    "modernizr": "~2.8.0",
+    "bootstrap": "~3.3.0",
+    "fontawesome": "^4.5.0",
+    "fastclick": "~1.0.6"
   }
 }
