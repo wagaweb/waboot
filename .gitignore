@@ -14,6 +14,7 @@ assets/css/waboot.css
 assets/css/waboot.css.map
 assets/css/client-custom.css
 assets/js/waboot.min.js
+assets/sources/js/waboot.js
 sources/less/tmp_*.*
 sources/less/theme-options-generated.less
 

@@ -12,12 +12,12 @@ function waboot_print_entry_header() {
 	$str = waboot_entry_title();
 
 	if(!is_archive()){
-		if(wbft_current_page_type() != "default_home" && !wbft_is_blog_page()){
-			//In the default homepage or in blog page we do not have to check the title-position behavior
+	    if(wbft_current_page_type() != "default_home" && !wbft_is_blog_page()){
+		    //In the default homepage or in blog page we do not have to check the title-position behavior
 			if (get_behavior('title-position') == "top"){
-				$str = "";
-			}
-		}
+		        $str = "";
+		    }
+	    }
 		if(get_behavior("show-title") == "0"){
 			$str = "";
 		}

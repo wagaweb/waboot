@@ -1,5 +1,23 @@
 == Change log ==
 
+Version 0.14.1 - 19/11/2015
+---------------------------------
+
+- Eliminato WBF dal task di build
+- Eliminato un link in surplus dal print dei loghi
+
+Version 0.14.0 - 15/11/2015
+---------------------------------
+
+- Aumentata complessivamente la compatibilità in assenza di WBF
+- Fixato un bug che non mostrava il titolo dei post nella homepage di default
+- Nuove opzioni per i loghi mobile e offcanvas e template_tags associate (waboot_mobile_logo,waboot_get_mobile_logo,waboot_desktop_logo,waboot_get_desktop_logo)
+- Riabilitata la site description e nuove funzioni associate (waboot_site_title,waboot_site_description,waboot_archive_page_title)
+- Pulizia di alcuni hook ridondanti
+- Quattro nuove azioni per la sidebar: "waboot/sidebar/primary/widgets/before","waboot/sidebar/primary/widgets/after","waboot/sidebar/secondary/widgets/before","waboot/sidebar/secondary/widgets/after"
+- Ora nella mail inviata dal form di contatto, viene specificata la mail dell'inviante
+- Risolto bug che in alcune occasioni restituiva un messaggio di errore dopo l'invio della mail dal form di contatto, anche se l'operazione andava a buon fine
+
 Version 0.13.6 - 24/11/2015
 ---------------------------------
 
@@ -229,7 +247,7 @@ WABOOT:
 - Ora è possibile selezionare di visualizzare o meno il breadcrumb in homepage
 - wp_get_filtered_post_types -> wbf_get_filtered_post_types: funzione spostata nel framework
 - Aggiunta funzione wbft_current_page_type() che restituisce come possibili valori: "default_home", "static_home", "blog_page", "common" (= ogni altra pagina)
-- Aggiunta funzione wbft_is_blog_page() per controllare se ci si trova nella pagina dedicata al blog.
+- Aggiunta funzione is_blog_page() per controllare se ci si trova nella pagina dedicata al blog.
 - Fixato bug che mostrava degli errori in assenza di post nel blog
 - Rimosso widget featured post slider
 - Aggiunte le opzioni per il contact form nelle theme options

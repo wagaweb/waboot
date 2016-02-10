@@ -1,19 +1,19 @@
 <?php
 
 if(!function_exists("images_url")) :
-	function images_url(){
-		echo get_images_url();
-	}
+    function images_url(){
+        echo get_images_url();
+    }
 endif;
 
 if(!function_exists("get_images_url")) :
-	function get_images_url(){
-		$base_dir = get_template_directory_uri();
-		if(is_child_theme()){
-			$base_dir = get_stylesheet_directory_uri();
-		}
-		return apply_filters("waboot_images_url",$base_dir."/assets/images");
-	}
+    function get_images_url(){
+        $base_dir = get_template_directory_uri();
+        if(is_child_theme()){
+            $base_dir = get_stylesheet_directory_uri();
+        }
+        return apply_filters("waboot_images_url",$base_dir."/assets/images");
+    }
 endif;
 
 if(!function_exists('waboot_site_title')):
@@ -31,7 +31,7 @@ if(!function_exists('waboot_site_title')):
 				return get_bloginfo("name");
 			}
 		});
-		$link = sprintf( '<a href="%s" title="%s" class="navbar-brand" rel="home">%s</a>', trailingslashit( home_url() ), esc_attr( get_bloginfo( 'name' ) ), $display_name );
+		$link = sprintf( '<a href="%s" title="%s" rel="home">%s</a>', trailingslashit( home_url() ), esc_attr( get_bloginfo( 'name' ) ), $display_name );
 		$output = '<' . $element . ' id="site-title" class="site-title">' . $link . '</' . $element .'>';
 		echo apply_filters( 'waboot/site_title/markup', $output );
 	}
@@ -92,10 +92,10 @@ if(!function_exists("waboot_desktop_logo")) :
 	 */
 	function waboot_desktop_logo($linked = false){
 		if($linked){
-			$tpl = "<a href='%s'><img src='%s' class='waboot-desktop-logo' /></a>";
+			$tpl = "<a href='%s'><img src='%s' class='img-responsive' /></a>";
 			printf($tpl,home_url( '/' ),waboot_get_desktop_logo());
 		}else{
-			$tpl = "<img src='%s' class='waboot-desktop-logo' />";
+			$tpl = "<img src='%s' class='img-responsive' />";
 			printf($tpl,waboot_get_desktop_logo());
 		}
 	}
@@ -204,7 +204,7 @@ if(!function_exists('waboot_content_nav' )):
 				?>
 			</ul>
 		</nav><!-- #<?php echo $nav_id; ?> -->
-		<?php
+	<?php
 	}
 endif; // waboot_content_nav
 
@@ -222,7 +222,7 @@ if(!function_exists("waboot_entry_title")):
 
 		if(!is_archive()){
 			if (get_behavior('show-title', $post->ID) == "0") return "";
-		}
+        }
 
 		$title = get_the_title($post->ID);
 
@@ -285,25 +285,25 @@ if(!function_exists("waboot_get_blog_layout")):
 	 * @return bool|string
 	 */
 	function waboot_get_blog_layout(){
-		$blog_style = of_get_option("waboot_blogpage_layout");
-		if (!$blog_style || $blog_style == "") $blog_style = "classic";
+	    $blog_style = of_get_option("waboot_blogpage_layout");
+	    if (!$blog_style || $blog_style == "") $blog_style = "classic";
 
 		return $blog_style;
 	}
 endif;
 
 if(!function_exists("waboot_get_blog_class")):
-	function waboot_get_blog_class($blog_layout = "classic"){
-		$classes = array(
-			"blog-".$blog_layout
-		);
+    function waboot_get_blog_class($blog_layout = "classic"){
+        $classes = array(
+            "blog-".$blog_layout
+        );
 
-		if($blog_layout == "masonry"){
-			$classes[] = "row";
-		}
+        if($blog_layout == "masonry"){
+            $classes[] = "row";
+        }
 
-		return implode(" ",$classes);
-	}
+        return implode(" ",$classes);
+    }
 endif;
 
 if(!function_exists("waboot_get_index_page_title")):
@@ -315,166 +315,166 @@ endif;
 if(!function_exists("waboot_get_archive_page_title")):
 	function waboot_get_archive_page_title(){
 		global $post;
-		if ( is_category() ) {
-			return single_cat_title('',false);
-		} elseif ( is_tag() ) {
-			return single_tag_title('',false);
-		} elseif ( is_author() ) {
+	    if ( is_category() ) {
+	        return single_cat_title('',false);
+	    } elseif ( is_tag() ) {
+	        return single_tag_title('',false);
+	    } elseif ( is_author() ) {
 			$author_name = get_the_author_meta("display_name",$post->post_author);
-			return sprintf( __( 'Author: %s', 'waboot' ), '<span class="vcard"><a class="url fn n" href="' . get_author_posts_url( $post->post_author ) . '" title="' . esc_attr( $author_name ) . '" rel="me">' . $author_name . '</a></span>' );
-		} elseif ( is_day() ) {
-			return sprintf( __( 'Day: %s', 'waboot' ), '<span>' . get_the_date('', $post->ID) . '</span>' );
-		} elseif ( is_month() ) {
-			return sprintf( __( 'Month: %s', 'waboot' ), '<span>' . get_the_date('F Y', $post->ID ) . '</span>' );
-		} elseif ( is_year() ) {
-			return printf( __( 'Year: %s', 'waboot' ), '<span>' . get_the_date('Y', $post->ID ) . '</span>' );
-		} elseif ( is_tax( 'post_format', 'post-format-aside' ) ) {
-			return __( 'Asides', 'waboot' );
-		} elseif ( is_tax( 'post_format', 'post-format-gallery' ) ) {
-			return __( 'Galleries', 'waboot');
-		} elseif ( is_tax( 'post_format', 'post-format-image' ) ) {
-			return __( 'Images', 'waboot');
-		} elseif ( is_tax( 'post_format', 'post-format-video' ) ) {
-			return __( 'Videos', 'waboot' );
-		} elseif ( is_tax( 'post_format', 'post-format-quote' ) ) {
-			return __( 'Quotes', 'waboot' );
-		} elseif ( is_tax( 'post_format', 'post-format-link' ) ) {
-			return __( 'Links', 'waboot' );
-		} elseif ( is_tax( 'post_format', 'post-format-status' ) ) {
-			return __( 'Statuses', 'waboot' );
-		} elseif ( is_tax( 'post_format', 'post-format-audio' ) ) {
-			return __( 'Audios', 'waboot' );
-		} elseif ( is_tax( 'post_format', 'post-format-chat' ) ) {
-			return __( 'Chats', 'waboot' );
-		} else {
-			$arch_obj = get_queried_object();
-			if(isset($arch_obj->name))
-				return $arch_obj->name;
-			return __( 'Archives', 'waboot' );
-		}
+	        return sprintf( __( 'Author: %s', 'waboot' ), '<span class="vcard"><a class="url fn n" href="' . get_author_posts_url( $post->post_author ) . '" title="' . esc_attr( $author_name ) . '" rel="me">' . $author_name . '</a></span>' );
+	    } elseif ( is_day() ) {
+	        return sprintf( __( 'Day: %s', 'waboot' ), '<span>' . get_the_date('', $post->ID) . '</span>' );
+	    } elseif ( is_month() ) {
+	        return sprintf( __( 'Month: %s', 'waboot' ), '<span>' . get_the_date('F Y', $post->ID ) . '</span>' );
+	    } elseif ( is_year() ) {
+	        return printf( __( 'Year: %s', 'waboot' ), '<span>' . get_the_date('Y', $post->ID ) . '</span>' );
+	    } elseif ( is_tax( 'post_format', 'post-format-aside' ) ) {
+	        return __( 'Asides', 'waboot' );
+	    } elseif ( is_tax( 'post_format', 'post-format-gallery' ) ) {
+		    return __( 'Galleries', 'waboot');
+	    } elseif ( is_tax( 'post_format', 'post-format-image' ) ) {
+		    return __( 'Images', 'waboot');
+	    } elseif ( is_tax( 'post_format', 'post-format-video' ) ) {
+		    return __( 'Videos', 'waboot' );
+	    } elseif ( is_tax( 'post_format', 'post-format-quote' ) ) {
+		    return __( 'Quotes', 'waboot' );
+	    } elseif ( is_tax( 'post_format', 'post-format-link' ) ) {
+		    return __( 'Links', 'waboot' );
+	    } elseif ( is_tax( 'post_format', 'post-format-status' ) ) {
+		    return __( 'Statuses', 'waboot' );
+	    } elseif ( is_tax( 'post_format', 'post-format-audio' ) ) {
+		    return __( 'Audios', 'waboot' );
+	    } elseif ( is_tax( 'post_format', 'post-format-chat' ) ) {
+		    return __( 'Chats', 'waboot' );
+	    } else {
+            $arch_obj = get_queried_object();
+            if(isset($arch_obj->name))
+                return $arch_obj->name;
+            return __( 'Archives', 'waboot' );
+	    }
 	}
 endif;
 
 if(!function_exists('waboot_archive_sticky_posts')):
-	/**
-	 * Display sticky posts on archive pages
-	 * @since 0.1.0
-	 * @param string $blog_style
-	 */
+    /**
+     * Display sticky posts on archive pages
+     * @since 0.1.0
+     * @param string $blog_style
+     */
 	function waboot_archive_sticky_posts($blog_style = "classic") {
 
-		$sticky = get_option( 'sticky_posts' );
-		if ( ! empty( $sticky ) ) {
-			global $do_not_duplicate, $page, $paged;
-			$do_not_duplicate = array();
+        $sticky = get_option( 'sticky_posts' );
+        if ( ! empty( $sticky ) ) {
+            global $do_not_duplicate, $page, $paged;
+            $do_not_duplicate = array();
 
-			if ( is_category() ) {
-				$cat_ID = get_query_var( 'cat' );
-				$sticky_args = array(
-					'post__in'    => $sticky,
-					'cat'         => $cat_ID,
-					'post_status' => 'publish',
-					'paged'       => $paged
-				);
+            if ( is_category() ) {
+                $cat_ID = get_query_var( 'cat' );
+                $sticky_args = array(
+                    'post__in'    => $sticky,
+                    'cat'         => $cat_ID,
+                    'post_status' => 'publish',
+                    'paged'       => $paged
+                );
 
-			} elseif ( is_tag() ) {
-				$current_tag = get_queried_object_id();
-				$sticky_args = array(
-					'post__in'     => $sticky,
-					'tag_id'       => $current_tag,
-					'post_status'  => 'publish',
-					'paged'        => $paged
-				);
-			}
+            } elseif ( is_tag() ) {
+                $current_tag = get_queried_object_id();
+                $sticky_args = array(
+                    'post__in'     => $sticky,
+                    'tag_id'       => $current_tag,
+                    'post_status'  => 'publish',
+                    'paged'        => $paged
+                );
+            }
 
-			if ( ! empty( $sticky_args ) ):
-				$sticky_posts = new WP_Query( $sticky_args );
+            if ( ! empty( $sticky_args ) ):
+                $sticky_posts = new WP_Query( $sticky_args );
 
-				if ( $sticky_posts->have_posts() ):
-					global $post;
+                if ( $sticky_posts->have_posts() ):
+                    global $post;
 
-					while ( $sticky_posts->have_posts() ) : $sticky_posts->the_post();
-						array_push( $do_not_duplicate, $post->ID );
-						if($blog_style != "classic"){
-							get_template_part( '/templates/parts/content', "blog-".$blog_style );
-						}else{
-							get_template_part( '/templates/parts/content', get_post_format() );
-						}
-					endwhile;
-				endif; // if have posts
-			endif; // if ( ! empty( $sticky_args ) )
-		} //if not empty sticky
-	}
+                    while ( $sticky_posts->have_posts() ) : $sticky_posts->the_post();
+                        array_push( $do_not_duplicate, $post->ID );
+	                    if($blog_style != "classic"){
+		                    get_template_part( '/templates/parts/content', "blog-".$blog_style );
+	                    }else{
+		                    get_template_part( '/templates/parts/content', get_post_format() );
+	                    }
+                    endwhile;
+                endif; // if have posts
+            endif; // if ( ! empty( $sticky_args ) )
+        } //if not empty sticky
+    }
 endif; //waboot_archive_sticky_posts
 
 if(!function_exists('waboot_comment')) :
-	/**
-	 * Template for comments and pingbacks.
-	 *
-	 * Used as a callback by wp_list_comments() for displaying the comments.
-	 */
-	function waboot_comment( $comment, $args, $depth ) {
-		$GLOBALS['comment'] = $comment;
+    /**
+     * Template for comments and pingbacks.
+     *
+     * Used as a callback by wp_list_comments() for displaying the comments.
+     */
+    function waboot_comment( $comment, $args, $depth ) {
+        $GLOBALS['comment'] = $comment;
 
-		if ( 'pingback' == $comment->comment_type || 'trackback' == $comment->comment_type ) : ?>
+        if ( 'pingback' == $comment->comment_type || 'trackback' == $comment->comment_type ) : ?>
 
-			<li id="comment-<?php comment_ID(); ?>" <?php comment_class(); ?>>
-			<div class="comment-body">
-				<?php _e( 'Pingback:', 'waboot' ); ?> <?php comment_author_link(); ?> <?php edit_comment_link( __( 'Edit', 'waboot' ), '<span class="edit-link">', '</span>' ); ?>
-			</div>
+            <li id="comment-<?php comment_ID(); ?>" <?php comment_class(); ?>>
+            <div class="comment-body">
+                <?php _e( 'Pingback:', 'waboot' ); ?> <?php comment_author_link(); ?> <?php edit_comment_link( __( 'Edit', 'waboot' ), '<span class="edit-link">', '</span>' ); ?>
+            </div>
 
-		<?php else : ?>
+        <?php else : ?>
 
-			<li id="comment-<?php comment_ID(); ?>" <?php comment_class( empty( $args['has_children'] ) ? '' : 'parent' ); ?>>
-			<article id="div-comment-<?php comment_ID(); ?>" class="comment-body">
-				<footer class="comment-meta">
-					<div class="comment-author vcard">
-						<?php if ( 0 != $args['avatar_size'] ) echo get_avatar( $comment, $args['avatar_size'] ); ?>
-						<?php printf( __( '%s <span class="says">says:</span>', 'waboot' ), sprintf( '<cite class="fn">%s</cite>', get_comment_author_link() ) ); ?>
-					</div><!-- .comment-author -->
+        <li id="comment-<?php comment_ID(); ?>" <?php comment_class( empty( $args['has_children'] ) ? '' : 'parent' ); ?>>
+            <article id="div-comment-<?php comment_ID(); ?>" class="comment-body">
+                <footer class="comment-meta">
+                    <div class="comment-author vcard">
+                        <?php if ( 0 != $args['avatar_size'] ) echo get_avatar( $comment, $args['avatar_size'] ); ?>
+                        <?php printf( __( '%s <span class="says">says:</span>', 'waboot' ), sprintf( '<cite class="fn">%s</cite>', get_comment_author_link() ) ); ?>
+                    </div><!-- .comment-author -->
 
-					<div class="comment-metadata">
-						<a href="<?php echo esc_url( get_comment_link( $comment->comment_ID ) ); ?>">
-							<time datetime="<?php comment_time( 'c' ); ?>">
-								<?php printf( _x( '%1$s at %2$s', '1: date, 2: time', 'waboot' ), get_comment_date(), get_comment_time() ); ?>
-							</time>
-						</a>
-						<?php edit_comment_link( __( 'Edit', 'waboot' ), '<span class="edit-link">', '</span>' ); ?>
-					</div><!-- .comment-metadata -->
+                    <div class="comment-metadata">
+                        <a href="<?php echo esc_url( get_comment_link( $comment->comment_ID ) ); ?>">
+                            <time datetime="<?php comment_time( 'c' ); ?>">
+                                <?php printf( _x( '%1$s at %2$s', '1: date, 2: time', 'waboot' ), get_comment_date(), get_comment_time() ); ?>
+                            </time>
+                        </a>
+                        <?php edit_comment_link( __( 'Edit', 'waboot' ), '<span class="edit-link">', '</span>' ); ?>
+                    </div><!-- .comment-metadata -->
 
-					<?php if ( '0' == $comment->comment_approved ) : ?>
-						<p class="comment-awaiting-moderation"><?php _e( 'Your comment is awaiting moderation.', 'waboot' ); ?></p>
-					<?php endif; ?>
-				</footer><!-- .comment-meta -->
+                    <?php if ( '0' == $comment->comment_approved ) : ?>
+                        <p class="comment-awaiting-moderation"><?php _e( 'Your comment is awaiting moderation.', 'waboot' ); ?></p>
+                    <?php endif; ?>
+                </footer><!-- .comment-meta -->
 
-				<div class="comment-content">
-					<?php comment_text(); ?>
-				</div><!-- .comment-content -->
+                <div class="comment-content">
+                    <?php comment_text(); ?>
+                </div><!-- .comment-content -->
 
-				<?php
-				comment_reply_link( array_merge( $args, array(
-					'add_below' => 'div-comment',
-					'depth'     => $depth,
-					'max_depth' => $args['max_depth'],
-					'before'    => '<div class="reply">',
-					'after'     => '</div>',
-				) ) );
-				?>
-			</article><!-- .comment-body -->
+                <?php
+                comment_reply_link( array_merge( $args, array(
+                    'add_below' => 'div-comment',
+                    'depth'     => $depth,
+                    'max_depth' => $args['max_depth'],
+                    'before'    => '<div class="reply">',
+                    'after'     => '</div>',
+                ) ) );
+                ?>
+            </article><!-- .comment-body -->
 
-			<?php
-		endif;
-	}
+        <?php
+        endif;
+    }
 endif; // ends check for waboot_comment()
 
 function waboot_has_sidebar($prefix){
-	$has_sidebar = false;
-	for ($i = 1; $i <= 4; $i++) {
-		if (is_active_sidebar($prefix . "-" . $i)) {
-			$has_sidebar = true;
-		}
-	}
-	return $has_sidebar;
+    $has_sidebar = false;
+    for ($i = 1; $i <= 4; $i++) {
+        if (is_active_sidebar($prefix . "-" . $i)) {
+            $has_sidebar = true;
+        }
+    }
+    return $has_sidebar;
 }
 
 /**
@@ -486,48 +486,48 @@ function waboot_has_sidebar($prefix){
  * @param string $prefix Prefix of the widget to be displayed. Example: "footer" for footer-1, footer-2, etc.
  */
 function waboot_do_sidebar( $prefix = false ) {
-	if ( ! $prefix )
-		_doing_it_wrong( __FUNCTION__, __( 'You must specify a prefix when using waboot_do_sidebar.', 'waboot' ), '1.0' );
+    if ( ! $prefix )
+        _doing_it_wrong( __FUNCTION__, __( 'You must specify a prefix when using waboot_do_sidebar.', 'waboot' ), '1.0' );
 
-	// Get our grid class
-	$sidebar_class = waboot_sidebar_class( $prefix );
+        // Get our grid class
+        $sidebar_class = waboot_sidebar_class( $prefix );
 
-	if ( $sidebar_class ): ?>
+        if ( $sidebar_class ): ?>
 
-		<div class="<?php echo $prefix; ?>-sidebar-row row">
-			<?php do_action( 'waboot_sidebar_row_top' );
+            <div class="<?php echo $prefix; ?>-sidebar-row row">
+                <?php do_action( 'waboot_sidebar_row_top' );
 
-			if ( is_active_sidebar( $prefix.'-1' ) ): ?>
-				<aside id="<?php echo $prefix; ?>-sidebar-1" class="sidebar widget<?php echo $sidebar_class; ?>">
-					<?php dynamic_sidebar( $prefix.'-1' ); ?>
-				</aside>
-			<?php endif;
-
-
-			if ( is_active_sidebar( $prefix.'-2' ) ): ?>
-				<aside id="<?php echo $prefix; ?>-sidebar-2" class="sidebar widget<?php echo $sidebar_class; ?>">
-					<?php dynamic_sidebar( $prefix.'-2' ); ?>
-				</aside>
-			<?php endif;
+                if ( is_active_sidebar( $prefix.'-1' ) ): ?>
+                    <aside id="<?php echo $prefix; ?>-sidebar-1" class="sidebar widget<?php echo $sidebar_class; ?>">
+                        <?php dynamic_sidebar( $prefix.'-1' ); ?>
+                    </aside>
+                <?php endif;
 
 
-			if ( is_active_sidebar( $prefix.'-3' ) ): ?>
-				<aside id="<?php echo $prefix; ?>-sidebar-3" class="sidebar widget<?php echo $sidebar_class; ?>">
-					<?php dynamic_sidebar( $prefix.'-3' ); ?>
-				</aside>
-			<?php endif;
+                if ( is_active_sidebar( $prefix.'-2' ) ): ?>
+                    <aside id="<?php echo $prefix; ?>-sidebar-2" class="sidebar widget<?php echo $sidebar_class; ?>">
+                        <?php dynamic_sidebar( $prefix.'-2' ); ?>
+                    </aside>
+                <?php endif;
 
 
-			if ( is_active_sidebar( $prefix.'-4' ) ): ?>
-				<aside id="<?php echo $prefix; ?>-sidebar-4" class="sidebar widget<?php echo $sidebar_class; ?>">
-					<?php dynamic_sidebar( $prefix.'-4' ); ?>
-				</aside>
-			<?php endif;
+                if ( is_active_sidebar( $prefix.'-3' ) ): ?>
+                    <aside id="<?php echo $prefix; ?>-sidebar-3" class="sidebar widget<?php echo $sidebar_class; ?>">
+                        <?php dynamic_sidebar( $prefix.'-3' ); ?>
+                    </aside>
+                <?php endif;
 
-			do_action( 'waboot_sidebar_row_bottom' ); ?>
-		</div><!-- .row -->
 
-	<?php endif; //$sidebar_class
+                if ( is_active_sidebar( $prefix.'-4' ) ): ?>
+                    <aside id="<?php echo $prefix; ?>-sidebar-4" class="sidebar widget<?php echo $sidebar_class; ?>">
+                        <?php dynamic_sidebar( $prefix.'-4' ); ?>
+                    </aside>
+                <?php endif;
+
+                do_action( 'waboot_sidebar_row_bottom' ); ?>
+            </div><!-- .row -->
+
+        <?php endif; //$sidebar_class
 }
 
 /**
@@ -535,260 +535,260 @@ function waboot_do_sidebar( $prefix = false ) {
  * @since 0.1.0
  */
 function waboot_sidebar_class( $prefix = false ) {
-	if ( ! $prefix )
-		_doing_it_wrong( __FUNCTION__, __( 'You must specify a prefix when using waboot_sidebar_class.', 'waboot' ), '1.0' );
+    if ( ! $prefix )
+        _doing_it_wrong( __FUNCTION__, __( 'You must specify a prefix when using waboot_sidebar_class.', 'waboot' ), '1.0' );
 
-	$count = 0;
+    $count = 0;
 
-	if ( is_active_sidebar( $prefix.'-1' ) )
-		$count++;
+    if ( is_active_sidebar( $prefix.'-1' ) )
+        $count++;
 
-	if ( is_active_sidebar( $prefix.'-2' ) )
-		$count++;
+    if ( is_active_sidebar( $prefix.'-2' ) )
+        $count++;
 
-	if ( is_active_sidebar( $prefix.'-3' ) )
-		$count++;
+    if ( is_active_sidebar( $prefix.'-3' ) )
+        $count++;
 
-	if ( is_active_sidebar( $prefix.'-4' ) )
-		$count++;
+    if ( is_active_sidebar( $prefix.'-4' ) )
+        $count++;
 
-	$class = '';
+    $class = '';
 
-	switch ( $count ) {
-		case '1':
-			$class = ' col-sm-12';
-			break;
+    switch ( $count ) {
+        case '1':
+            $class = ' col-sm-12';
+            break;
 
-		case '2':
-			$class = ' col-sm-6';
-			break;
+        case '2':
+            $class = ' col-sm-6';
+            break;
 
-		case '3':
-			$class = ' col-sm-4';
-			break;
+        case '3':
+            $class = ' col-sm-4';
+            break;
 
-		case '4':
-			$class = ' col-sm-3';
-			break;
-	}
+        case '4':
+            $class = ' col-sm-3';
+            break;
+    }
 
-	if ( $class )
-		return $class;
+    if ( $class )
+        return $class;
 }
 
 if(!function_exists('waboot_the_attached_image')) :
-	/**
-	 * Prints the attached image with a link to the next attached image.
-	 */
-	function waboot_the_attached_image() {
+    /**
+     * Prints the attached image with a link to the next attached image.
+     */
+    function waboot_the_attached_image() {
 
-		$post                = get_post();
-		$attachment_size     = apply_filters( 'waboot_attachment_size', array( 1200, 1200 ) );
-		$next_attachment_url = wp_get_attachment_url();
+        $post                = get_post();
+        $attachment_size     = apply_filters( 'waboot_attachment_size', array( 1200, 1200 ) );
+        $next_attachment_url = wp_get_attachment_url();
 
-		/**
-		 * Grab the IDs of all the image attachments in a gallery so we can get the
-		 * URL of the next adjacent image in a gallery, or the first image (if
-		 * we're looking at the last image in a gallery), or, in a gallery of one,
-		 * just the link to that image file.
-		 */
-		$attachment_ids = get_posts( array(
-			'post_parent'    => $post->post_parent,
-			'fields'         => 'ids',
-			'numberposts'    => -1,
-			'post_status'    => 'inherit',
-			'post_type'      => 'attachment',
-			'post_mime_type' => 'image',
-			'order'          => 'ASC',
-			'orderby'        => 'menu_order ID'
-		) );
+        /**
+         * Grab the IDs of all the image attachments in a gallery so we can get the
+         * URL of the next adjacent image in a gallery, or the first image (if
+         * we're looking at the last image in a gallery), or, in a gallery of one,
+         * just the link to that image file.
+         */
+        $attachment_ids = get_posts( array(
+            'post_parent'    => $post->post_parent,
+            'fields'         => 'ids',
+            'numberposts'    => -1,
+            'post_status'    => 'inherit',
+            'post_type'      => 'attachment',
+            'post_mime_type' => 'image',
+            'order'          => 'ASC',
+            'orderby'        => 'menu_order ID'
+        ) );
 
-		// If there is more than 1 attachment in a gallery...
-		if ( count( $attachment_ids ) > 1 ) {
-			foreach ( $attachment_ids as $attachment_id ) {
-				if ( $attachment_id == $post->ID ) {
-					$next_id = current( $attachment_ids );
-					break;
-				}
-			}
+        // If there is more than 1 attachment in a gallery...
+        if ( count( $attachment_ids ) > 1 ) {
+            foreach ( $attachment_ids as $attachment_id ) {
+                if ( $attachment_id == $post->ID ) {
+                    $next_id = current( $attachment_ids );
+                    break;
+                }
+            }
 
-			// get the URL of the next image attachment...
-			if ( $next_id )
-				$next_attachment_url = get_attachment_link( $next_id );
+            // get the URL of the next image attachment...
+            if ( $next_id )
+                $next_attachment_url = get_attachment_link( $next_id );
 
-			// or get the URL of the first image attachment.
-			else
-				$next_attachment_url = get_attachment_link( array_shift( $attachment_ids ) );
-		}
+            // or get the URL of the first image attachment.
+            else
+                $next_attachment_url = get_attachment_link( array_shift( $attachment_ids ) );
+        }
 
-		printf( '<a href="%1$s" title="%2$s" rel="attachment">%3$s</a>',
-			esc_url( $next_attachment_url ),
-			the_title_attribute( array( 'echo' => false ) ),
-			wp_get_attachment_image( $post->ID, $attachment_size )
-		);
-	}
+        printf( '<a href="%1$s" title="%2$s" rel="attachment">%3$s</a>',
+            esc_url( $next_attachment_url ),
+            the_title_attribute( array( 'echo' => false ) ),
+            wp_get_attachment_image( $post->ID, $attachment_size )
+        );
+    }
 endif;
 
 if(!function_exists('waboot_archive_get_posts')):
-	/**
-	 * Display archive posts and exclude sticky posts
-	 * @since 0.1.0
-	 * @unused
-	 */
-	function waboot_archive_get_posts() {
+    /**
+     * Display archive posts and exclude sticky posts
+     * @since 0.1.0
+     * @unused
+     */
+    function waboot_archive_get_posts() {
 
-		global $do_not_duplicate, $page, $paged;
+        global $do_not_duplicate, $page, $paged;
 
-		if ( is_category() ) {
-			$cat_ID = get_query_var( 'cat' );
-			$args = array(
-				'cat'                 => $cat_ID,
-				'post_status'         => 'publish',
-				'post__not_in'        => array_merge( $do_not_duplicate, get_option( 'sticky_posts' ) ),
-				'ignore_sticky_posts' => 1,
-				'paged'               => $paged
-			);
-			$wp_query = new WP_Query( $args );
+        if ( is_category() ) {
+            $cat_ID = get_query_var( 'cat' );
+            $args = array(
+                'cat'                 => $cat_ID,
+                'post_status'         => 'publish',
+                'post__not_in'        => array_merge( $do_not_duplicate, get_option( 'sticky_posts' ) ),
+                'ignore_sticky_posts' => 1,
+                'paged'               => $paged
+            );
+            $wp_query = new WP_Query( $args );
 
-		} elseif (is_tag() ) {
-			$current_tag = single_tag_title( "", false );
-			$args = array(
-				'tag_slug__in'        => array( $current_tag ),
-				'post_status'         => 'publish',
-				'post__not_in'        => array_merge( $do_not_duplicate, get_option( 'sticky_posts' ) ),
-				'ignore_sticky_posts' => 1,
-				'paged'               => $paged
-			);
-			$wp_query = new WP_Query( $args );
+        } elseif (is_tag() ) {
+            $current_tag = single_tag_title( "", false );
+            $args = array(
+                'tag_slug__in'        => array( $current_tag ),
+                'post_status'         => 'publish',
+                'post__not_in'        => array_merge( $do_not_duplicate, get_option( 'sticky_posts' ) ),
+                'ignore_sticky_posts' => 1,
+                'paged'               => $paged
+            );
+            $wp_query = new WP_Query( $args );
 
-		} else {
-			new WP_Query();
-		}
-	}
+        } else {
+            new WP_Query();
+        }
+    }
 endif;
 
 if(!function_exists("waboot_breadcrumb")):
-	/**
-	 * Display the breadcrumb for $post_id or global $post->ID
-	 * @param null $post_id
-	 * @param string $current_location the current location of breadcrumb. Not used at the moment.
-	 * @param array $args settings for breadcrumb (see: waboot_breadcrumb_trail() documentation)
-	 * @since 0.3.10
-	 */
-	function waboot_breadcrumb($post_id = null, $current_location = "", $args = array()) {
-		global $post;
+    /**
+     * Display the breadcrumb for $post_id or global $post->ID
+     * @param null $post_id
+     * @param string $current_location the current location of breadcrumb. Not used at the moment.
+     * @param array $args settings for breadcrumb (see: waboot_breadcrumb_trail() documentation)
+     * @since 0.3.10
+     */
+    function waboot_breadcrumb($post_id = null, $current_location = "", $args = array()) {
+        global $post;
 
-		//Get post ID
-		if(!isset($post_id)){
-			if(isset($post) && isset($post->ID) && $post->ID != 0){
-				$post_id = $post->ID;
-			}
-		}
+	    //Get post ID
+	    if(!isset($post_id)){
+		    if(isset($post) && isset($post->ID) && $post->ID != 0){
+			    $post_id = $post->ID;
+		    }
+	    }
 
-		if (function_exists('waboot_breadcrumb_trail')) {
-			if(is_404()) return;
+        if (function_exists('waboot_breadcrumb_trail')) {
+            if(is_404()) return;
 
-			$current_page_type = wbft_current_page_type();
+	        $current_page_type = wbft_current_page_type();
 
-			$args = wp_parse_args($args, array(
-				'container' => "div",
-				'separator' => "/",
-				'show_browse' => false,
-				'additional_classes' => ""
-			));
+	        $args = wp_parse_args($args, array(
+		        'container' => "div",
+		        'separator' => "/",
+		        'show_browse' => false,
+		        'additional_classes' => ""
+	        ));
 
-			$allowed_locations = call_user_func(function(){
-				$bc_locations = of_get_option('waboot_breadcrumb_locations',[]);
-				$allowed = array();
-				foreach($bc_locations as $k => $v){
-					if($v == "1"){
-						$allowed[] = $k;
-					}
-				}
-				return $allowed;
-			});
+	        $allowed_locations = call_user_func(function(){
+		        $bc_locations = of_get_option('waboot_breadcrumb_locations',[]);
+		        $allowed = array();
+		        foreach($bc_locations as $k => $v){
+			        if($v == "1"){
+				        $allowed[] = $k;
+			        }
+		        }
+		        return $allowed;
+	        });
 
-			if($current_page_type != "common"){
-				//We are in some sort of homepage
-				if(in_array("homepage", $allowed_locations)) {
-					waboot_breadcrumb_trail($args);
-				}
-				/*switch($current_page_type){
-					case "default_home":
-						break;
-					case "static_homepage":
-						break;
-					case "blog_page":
-						break;
-				}*/
-			}else{
-				//We are NOT in some sort of homepage
-				if(!is_archive() && !is_search() && isset($post_id)){
-					//We are in a common page
-					$current_post_type = get_post_type($post_id);
-					if (!isset($post_id) || $post_id == 0 || !$current_post_type) return;
-					if(in_array($current_post_type, $allowed_locations)) {
-						waboot_breadcrumb_trail($args);
-					}
-				}else{
-					//We are in some sort of archive
-					$show_bc = false;
-					if(is_tag() && in_array('tag',$allowed_locations)){
-						$show_bc = true;
-					}elseif(is_tax() && in_array('tax',$allowed_locations)){
-						$show_bc = true;
-					}elseif(is_archive() && in_array('archive',$allowed_locations)){
-						$show_bc = true;
-					}
-					if($show_bc) waboot_breadcrumb_trail($args);
-				}
-			}
-		}
-	}
+	        if($current_page_type != "common"){
+		        //We are in some sort of homepage
+		        if(in_array("homepage", $allowed_locations)) {
+			        waboot_breadcrumb_trail($args);
+		        }
+		        /*switch($current_page_type){
+			        case "default_home":
+				        break;
+			        case "static_homepage":
+				        break;
+			        case "blog_page":
+				        break;
+		        }*/
+	        }else{
+		        //We are NOT in some sort of homepage
+		        if(!is_archive() && !is_search() && isset($post_id)){
+			        //We are in a common page
+			        $current_post_type = get_post_type($post_id);
+			        if (!isset($post_id) || $post_id == 0 || !$current_post_type) return;
+			        if(in_array($current_post_type, $allowed_locations)) {
+				        waboot_breadcrumb_trail($args);
+			        }
+		        }else{
+			        //We are in some sort of archive
+			        $show_bc = false;
+			        if(is_tag() && in_array('tag',$allowed_locations)){
+				        $show_bc = true;
+			        }elseif(is_tax() && in_array('tax',$allowed_locations)){
+				        $show_bc = true;
+			        }elseif(is_archive() && in_array('archive',$allowed_locations)){
+				        $show_bc = true;
+			        }
+			        if($show_bc) waboot_breadcrumb_trail($args);
+		        }
+	        }
+        }
+    }
 endif;
 
 if(!function_exists("waboot_topnav_wrapper")):
-	function waboot_topnav_wrapper(){
-		$social_position = of_get_option('waboot_social_position');
-		$social_position_class = $social_position == "topnav-left" ? "pull-left" : "pull-right";
-		$topnavmenu_position = of_get_option('waboot_topnavmenu_position');
-		$topnavmenu_position_class = $topnavmenu_position == "left" ? "pull-left" : "pull-right";
-		$has_menu = has_nav_menu('top');
-		$must_display_topnav = (is_active_sidebar('topbar') || (($social_position == 'topnav-right' || $social_position == 'topnav-left') && of_get_option("social_position_none") != 1) || $has_menu) ? true : false;
+    function waboot_topnav_wrapper(){
+        $social_position = of_get_option('waboot_social_position');
+        $social_position_class = $social_position == "topnav-left" ? "pull-left" : "pull-right";
+        $topnavmenu_position = of_get_option('waboot_topnavmenu_position');
+        $topnavmenu_position_class = $topnavmenu_position == "left" ? "pull-left" : "pull-right";
+        $has_menu = has_nav_menu('top');
+        $must_display_topnav = (is_active_sidebar('topbar') || (($social_position == 'topnav-right' || $social_position == 'topnav-left') && of_get_option("social_position_none") != 1) || $has_menu) ? true : false;
 
-		if ($must_display_topnav):
-			?>
-			<!-- Navbar: Begin -->
-			<div id="topnav-wrapper">
-				<div id="topnav-inner" class="<?php echo of_get_option('waboot_topnav_width', 'container-fluid'); ?> ">
+        if ($must_display_topnav):
+            ?>
+            <!-- Navbar: Begin -->
+            <div id="topnav-wrapper">
+                <div id="topnav-inner" class="<?php echo of_get_option('waboot_topnav_width', 'container-fluid'); ?> ">
 
-					<div class="<?php echo $social_position_class; ?>">
-						<?php get_template_part('/templates/parts/social-widget'); ?>
-					</div>
+                    <div class="<?php echo $social_position_class; ?>">
+                        <?php get_template_part('/templates/parts/social-widget'); ?>
+                    </div>
 
-					<div class="<?php echo $topnavmenu_position_class; ?>">
-						<?php if ($has_menu) get_template_part('/templates/parts/menu', 'top'); ?>
-					</div>
+                    <div class="<?php echo $topnavmenu_position_class; ?>">
+                        <?php if ($has_menu) get_template_part('/templates/parts/menu', 'top'); ?>
+                    </div>
 
-					<?php dynamic_sidebar('topbar'); ?>
-				</div>
-			</div>
-			<!-- Navbar: End -->
-			<?php
-		endif;
-	}
+                    <?php dynamic_sidebar('topbar'); ?>
+                </div>
+            </div>
+            <!-- Navbar: End -->
+        <?php
+        endif;
+    }
 endif;
 
 if(!function_exists("waboot_get_body_layout")):
-	function waboot_get_body_layout(){
-		if(wbft_current_page_type() == "blog_page" || wbft_current_page_type() == "default_home" || is_archive()) {
-			$layout = of_get_option('waboot_blogpage_sidebar_layout');
-		}else{
-			$layout = get_behavior('layout');
-		}
-		$layout = apply_filters("waboot/layout/body_layout/get",$layout);
-		return $layout;
-	}
+    function waboot_get_body_layout(){
+        if(wbft_current_page_type() == "blog_page" || wbft_current_page_type() == "default_home" || is_archive()) {
+	        $layout = of_get_option('waboot_blogpage_sidebar_layout');
+        }else{
+		    $layout = get_behavior('layout');
+        }
+	    $layout = apply_filters("waboot/layout/body_layout/get",$layout);
+	    return $layout;
+    }
 endif;
 
 if(!function_exists("waboot_body_layout_has_two_sidebars")):
@@ -803,48 +803,48 @@ if(!function_exists("waboot_body_layout_has_two_sidebars")):
 endif;
 
 if(!function_exists("waboot_get_available_body_layouts")){
-	function waboot_get_available_body_layouts(){
+    function waboot_get_available_body_layouts(){
 
-		if(wbft_wbf_in_use()){
-			$imagepath = WBF::prefix_url('admin/images/');
-		}else{
-			$imagepath = get_template_directory_uri() . '/assets/images/options';
-		}
+	    if(wbft_wbf_in_use()){
+		    $imagepath = WBF::prefix_url('admin/images/');
+	    }else{
+		    $imagepath = get_template_directory_uri() . '/assets/images/options';
+	    }
 
-		return apply_filters("waboot_body_layouts",array(
-			array(
-				"name" => __("No sidebar","waboot"),
-				"value" => "full-width",
-				"thumb"   => $imagepath . "behaviour/no-sidebar.png"
-			),
-			array(
-				"name" => __("Sidebar right","waboot"),
-				"value" => "sidebar-right",
-				"thumb"   => $imagepath . "behaviour/sidebar-right.png"
-			),
-			array(
-				"name" => __("Sidebar left","waboot"),
-				"value" => "sidebar-left",
-				"thumb"   => $imagepath . "behaviour/sidebar-left.png"
-			),
-			array(
-				"name" => __("2 Sidebars","waboot"),
-				"value" => "two-sidebars",
-				"thumb"   => $imagepath . "behaviour/sidebar-left-right.png"
-			),
-			array(
-				"name" => __("2 Sidebars right","waboot"),
-				"value" => "two-sidebars-right",
-				"thumb"   => $imagepath . "behaviour/sidebar-right-2.png"
-			),
-			array(
-				"name" => __("2 Sidebars left","waboot"),
-				"value" => "two-sidebars-left",
-				"thumb"   => $imagepath . "behaviour/sidebar-left-2.png"
-			),
-			'_default' => 'sidebar-right'
-		));
-	}
+        return apply_filters("waboot_body_layouts",array(
+            array(
+                "name" => __("No sidebar","waboot"),
+                "value" => "full-width",
+                "thumb"   => $imagepath . "behaviour/no-sidebar.png"
+            ),
+            array(
+                "name" => __("Sidebar right","waboot"),
+                "value" => "sidebar-right",
+                "thumb"   => $imagepath . "behaviour/sidebar-right.png"
+            ),
+            array(
+                "name" => __("Sidebar left","waboot"),
+                "value" => "sidebar-left",
+                "thumb"   => $imagepath . "behaviour/sidebar-left.png"
+            ),
+            array(
+                "name" => __("2 Sidebars","waboot"),
+                "value" => "two-sidebars",
+                "thumb"   => $imagepath . "behaviour/sidebar-left-right.png"
+            ),
+	        array(
+		        "name" => __("2 Sidebars right","waboot"),
+		        "value" => "two-sidebars-right",
+                "thumb"   => $imagepath . "behaviour/sidebar-right-2.png"
+	        ),
+	        array(
+		        "name" => __("2 Sidebars left","waboot"),
+		        "value" => "two-sidebars-left",
+                "thumb"   => $imagepath . "behaviour/sidebar-left-2.png"
+	        ),
+            '_default' => 'sidebar-right'
+        ));
+    }
 }
 
 if(!function_exists("wbft_the_contact_form")):
@@ -1219,14 +1219,10 @@ endif;
 
 if(!function_exists( 'wbft_get_post_terms_hierarchical' )):
 	/**
-	 * Get a list of term in hierarchical order, with parents before their children.
-	 * The functions automatically completes the list with che missing parents (they will be labeled with "not_assigned = true" property)..
-	 *
+	 * Get a list of term in hierarchical order, with parent before their children.
 	 * @param int $post_id the $post_id param for wp_get_post_terms()
 	 * @param string $taxonomy the $taxonomy param for wp_get_post_terms()
-	 * @param array $args the $args param for wp_get_post_terms()
-	 * @param boolean $flatten  TRUE to flatten the hierarchical array down to one level. Children will be inserted after their parents;
-	 *                          FALSE to retrieve a multidimensional array in which the first level is composed by top-level parents. Children will be appended into "children" property of each parent term.
+	 * @param array $args the $args param for wp_get_post_terms(
 	 *
 	 * @return array
 	 */
@@ -1240,10 +1236,6 @@ if(!function_exists( 'wbft_get_post_terms_hierarchical' )):
 		]);
 		$args['orderby'] = 'parent'; //we need to force this
 		$terms = wp_get_post_terms( $post_id, $taxonomy, $args);
-
-		if(!function_exists("wbf_associative_array_search")){
-			return $terms;
-		}
 
 		/**
 		 * Insert a mixed at specified position into input $array
@@ -1306,7 +1298,7 @@ if(!function_exists( 'wbft_get_post_terms_hierarchical' )):
 			$add_parent = function($child,$terms_list) use(&$add_parent,$taxonomy){
 				$parent = get_term($child->parent,$taxonomy);
 				$terms_list_as_array = json_decode(json_encode($terms_list),true);
-				$found = wbf_associative_array_search($terms_list_as_array,"term_id",$parent->term_id);
+				$found = self::associative_array_search($terms_list_as_array,"term_id",$parent->term_id);
 				if(empty($found)){
 					$parent->not_assigned = true; //Set a flag to tell that this parent is added programmatically and not by the user
 					$terms_list[] = $parent;
@@ -1403,7 +1395,7 @@ if(!function_exists( 'wbft_get_post_terms_hierarchical' )):
 
 		$sortedTerms = $flatten ? $flatten_terms_hierarchy($h) : $h; //Extract the children
 
-		$cache[$post_id] = $sortedTerms;
+		$cache[$taxonomy][$post_id] = $sortedTerms;
 
 		return $sortedTerms;
 	}
