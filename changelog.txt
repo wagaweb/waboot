@@ -1,5 +1,19 @@
 == Change log ==
 
+Version 0.14.3 - 09/02/2016
+---------------------------------
+
+- Rimosso TouchSwipe
+
+Version 0.14.2 - 08/02/2016
+---------------------------------
+
+- Merge ti alcuni fix dal master
+- Aggiornamento pacchetti:
+    - fontawesome: 4.5.0
+    - respond: 1.4.2
+    - TouchSwipe: 1.6.15
+
 Version 0.14.1 - 19/11/2015
 ---------------------------------
 
@@ -17,6 +31,16 @@ Version 0.14.0 - 15/11/2015
 - Quattro nuove azioni per la sidebar: "waboot/sidebar/primary/widgets/before","waboot/sidebar/primary/widgets/after","waboot/sidebar/secondary/widgets/before","waboot/sidebar/secondary/widgets/after"
 - Ora nella mail inviata dal form di contatto, viene specificata la mail dell'inviante
 - Risolto bug che in alcune occasioni restituiva un messaggio di errore dopo l'invio della mail dal form di contatto, anche se l'operazione andava a buon fine
+
+---------------------------------
+MERGE DELLA BRANCH 0.14
+---------------------------------
+
+Version 0.13.7 - 08/02/2016
+---------------------------------
+
+WABOOT:
+- Integrata versione 0.13.11 di WBF
 
 Version 0.13.6 - 24/11/2015
 ---------------------------------

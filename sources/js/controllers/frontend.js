@@ -59,10 +59,10 @@ module.exports = Backbone.Model.extend({
          */
         if (wbData.isMobile) {
             var fs = require("FastClick");
-            //var swipe = require("TouchSwipe");
+            //swipe = require("TouchSwipe");
             //http://getbootstrap.com/getting-started/#support
             if (navigator.userAgent.match(/IEMobile\/10\.0/)) {
-                var msViewportStyle = document.createElement('style');
+                var msViewportStyle = document.createElement('style')
                 msViewportStyle.appendChild(
                     document.createTextNode(
                         '@-ms-viewport{width:auto!important}'

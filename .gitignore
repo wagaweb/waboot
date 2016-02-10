@@ -14,7 +14,6 @@ assets/css/waboot.css
 assets/css/waboot.css.map
 assets/css/client-custom.css
 assets/js/waboot.min.js
-assets/sources/js/waboot.js
 sources/less/tmp_*.*
 sources/less/theme-options-generated.less
 
@@ -37,15 +36,10 @@ components/**/bower_components
 components/**/bundle.js
 
 ############
-## VENDORS
+## WBF
 ############
-wbf/includes/vendor/codemirror/bin
-wbf/vendor/bootstrap
-wbf/vendor/codemirror/demo
-wbf/vendor/codemirror/doc
-wbf/vendor/codemirror/test
-wbf/vendor/codemirror/*.*
-!wbf/vendor/codemirror/package.json
+wbf/*
+!wbf/.gitkeep
 
 ############
 ## IDEs

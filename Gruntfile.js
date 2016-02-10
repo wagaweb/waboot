@@ -73,8 +73,12 @@ module.exports = function(grunt) {
         copy:{
             all:{
                 files:[
-                    '<%= copy.fontawesome.files %>',
                     '<%= copy.bootstrap.files %>',
+                    '<%= copy.bower_components.files %>'
+                ]
+            },
+            bower_components:{
+                files:[
                     {
                         expand: true,
                         flatten: true,
@@ -88,11 +92,7 @@ module.exports = function(grunt) {
                         cwd: "bower_components/respond/dest",
                         src: "respond.min.js",
                         dest: "assets/js"
-                    }
-                ]
-            },
-            fontawesome:{
-                files:[
+                    },
                     {
                         expand: true,
                         flatten: true,
@@ -216,14 +216,26 @@ module.exports = function(grunt) {
         }
     });
 
-    // Register tasks
-    grunt.registerTask('setup', ['bower-install','copy:all','less:dev']); //Setup task
-    grunt.registerTask('default', ['watch']); // Default task
-    grunt.registerTask('build', ['less:production','less:waboot','jsmin','pot','compress:build']); // Build task
-    grunt.registerTask('js', ['browserify:dist']); // generate waboot.js
-    grunt.registerTask('jsmin', ['js','uglify']); // Concat, beautify and minify js
+    /*
+     *   Register tasks
+     */
 
-    // Run bower install
+    //Default task
+    grunt.registerTask('default', ['setup','watch']);
+
+    //Setup task
+    grunt.registerTask('setup', ['bower-install','bower-update','copy:bower_components','less:dev']);
+
+    //Generate waboot.js
+    grunt.registerTask('js', ['browserify:dist']);
+
+    //Concat, beautify and minify js
+    grunt.registerTask('jsmin', ['js','uglify']);
+
+    //Build task
+    grunt.registerTask('build', ['bower-update','copy:bower_components','less:production','less:waboot','jsmin','pot','compress:build']);
+
+    //Runs bower install
     grunt.registerTask('bower-install', function() {
         var exec = require('child_process').exec;
         var cb = this.async();
@@ -232,4 +244,14 @@ module.exports = function(grunt) {
             cb();
         });
     });
-}
+
+    //Runs bower update
+    grunt.registerTask('bower-update', function() {
+        var exec = require('child_process').exec;
+        var cb = this.async();
+        exec('bower update', function(err, stdout, stderr) {
+            console.log(stdout);
+            cb();
+        });
+    });
+};
