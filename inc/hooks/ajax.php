@@ -22,7 +22,7 @@ function wbft_send_contact_email(){
 	/**
 	 * Generate the contact form mail content
 	 * @message
-	 * @param $post_data ($_POST formatted in /sources/js/controllers/contactForm.js)
+	 * @param $post_data ($_POST formatted in /src/js/controllers/contactForm.js)
 	 *
 	 * @return string
 	 */
@@ -49,7 +49,7 @@ function wbft_send_contact_email(){
 
 	/**
 	 * Parse the contact form data before sending the email
-	 * @param $post_data ($_POST formatted in /sources/js/controllers/contactForm.js)
+	 * @param $post_data ($_POST formatted in /src/js/controllers/contactForm.js)
 	 *
 	 * @return array
 	 */
@@ -74,7 +74,7 @@ function wbft_send_contact_email(){
 
 	/**
 	 * Parse the contact form data before saving the email
-	 * @param $post_data ($_POST formatted in /sources/js/controllers/contactForm.js)
+	 * @param $post_data ($_POST formatted in /src/js/controllers/contactForm.js)
 	 *
 	 * @return array
 	 */
@@ -100,7 +100,7 @@ function wbft_send_contact_email(){
 		return $data;
 	};
 
-	//Looking for $_POST params setter? Looking in /sources/js/controllers/contactForm.js
+	//Looking for $_POST params setter? Looking in /src/js/controllers/contactForm.js
 	$mail_data = apply_filters("wbft/contact_form/mail/data",$parse_contact_form_data($_POST),$_POST);
 	$save_mail_data = apply_filters("wbft/contact_form/mail/save/data",$parse_contact_form_data_for_saving($_POST),$_POST);
 

@@ -12,7 +12,7 @@ if(!function_exists("get_images_url")) :
         if(is_child_theme()){
             $base_dir = get_stylesheet_directory_uri();
         }
-        return apply_filters("waboot_images_url",$base_dir."/assets/images");
+        return apply_filters("waboot_images_url",$base_dir."/assets/dist/images");
     }
 endif;
 
@@ -808,7 +808,7 @@ if(!function_exists("waboot_get_available_body_layouts")){
 	    if(wbft_wbf_in_use()){
 		    $imagepath = WBF::prefix_url('admin/images/');
 	    }else{
-		    $imagepath = get_template_directory_uri() . '/assets/images/options';
+		    $imagepath = get_template_directory_uri() . '/assets/dist/images/options';
 	    }
 
         return apply_filters("waboot_body_layouts",array(
@@ -958,7 +958,7 @@ endif;
 
 if(!function_exists("waboot_get_compiled_stylesheet_uri")):
 	function waboot_get_compiled_stylesheet_uri(){
-		$base_uri = get_stylesheet_directory_uri()."/assets/css";
+		$base_uri = get_stylesheet_directory_uri()."/assets/dist/css";
 		if(is_multisite()){
 			$uri = $base_uri."/mu";
 		}else{
@@ -970,7 +970,7 @@ endif;
 
 if(!function_exists("waboot_get_compiled_stylesheet_directory")):
 	function waboot_get_compiled_stylesheet_directory(){
-		$base_dir = get_stylesheet_directory()."/assets/css";
+		$base_dir = get_stylesheet_directory()."/assets/dist/css";
 		if(is_multisite()){
 			if(!is_dir($base_dir."/mu")){
 				mkdir($base_dir."/mu");

@@ -5,32 +5,15 @@ npm-debug.log
 Movefile
 
 ############
-## WBF TMP FILE
-############
-wbf/options/theme-options-generated.less
-assets/src/less/tmp_*.*
-
-############
-## ASSETS
+## SSETS
 ############
 assets/cache/*.*
 !assets/cache/.gitkeep
-assets/dist/css/waboot.css
-assets/dist/css/waboot.css.map
+assets/dist/css/waboot-child.css
+assets/dist/css/waboot-child.css.map
 assets/dist/css/client-custom.css
-assets/src/js/waboot.js
-assets/dist/js/waboot.min.js
-
-############
-## CHILD ASSETS
-############
-waboot-child/assets/cache/*.*
-!waboot-child/assets/cache/.gitkeep
-waboot-child/assets/dist/css/waboot-child.css
-waboot-child/assets/dist/css/waboot-child.css.map
-waboot-child/assets/dist/css/client-custom.css
-waboot-child/assets/src/less/tmp_*.*
-waboot-child/assets/src/less/theme-options-generated.less
+assets/src/less/tmp_*.*
+assets/src/less/theme-options-generated.less
 
 ############
 ## COMPONENTS ASSETS
@@ -86,7 +69,7 @@ tmp/
 temp/
 ._*
 .Trashes
-
 .svn
-
 *.codekit
+Icon
+Icon\n

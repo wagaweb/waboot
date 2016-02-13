@@ -6,8 +6,8 @@
  * @since 0.1.0.0
  */
 function waboot_js_loader() {
-	wp_enqueue_script( 'bootstrap.js', wbf_locate_template_uri( 'assets/js/bootstrap.min.js' )."#asyncload", array( 'jquery' ), false, true ); // Bootstrap JS components - Drop a custom build in your child theme's 'js' folder to override this one.
-	wp_enqueue_script( 'offcanvas', wbf_locate_template_uri( 'sources/js/vendor/offcanvas.js' )."#asyncload", array( 'jquery' ), false, true );
+	wp_enqueue_script( 'bootstrap.js', wbf_locate_template_uri( 'assets/dist/js/bootstrap.min.js' )."#asyncload", array( 'jquery' ), false, true ); // Bootstrap JS components - Drop a custom build in your child theme's 'js' folder to override this one.
+	wp_enqueue_script( 'offcanvas', wbf_locate_template_uri( 'assets/src/js/vendor/offcanvas.js' )."#asyncload", array( 'jquery' ), false, true );
 	waboot_enqueue_main_script();
     // Comment reply script
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) )
@@ -96,15 +96,15 @@ function waboot_enqueue_main_script(){
 	$deps = array('jquery','jquery-ui-core','jquery-ui-dialog','backbone','underscore');
 
 	if( (defined('WABOOT_ENV') && WABOOT_ENV == "dev") || (!defined('WABOOT_ENV') && WP_DEBUG) ) {
-		wp_register_script( 'waboot', wbf_locate_template_uri( 'sources/js/waboot.js' )."#asyncload", $deps,false, true);
-		$child_js = is_child_theme() ? wbf_locate_template_uri( 'assets/js/waboot-child.js' ) : false;
+		wp_register_script( 'waboot', wbf_locate_template_uri( 'assets/src/js/waboot.js' )."#asyncload", $deps,false, true);
+		$child_js = is_child_theme() ? wbf_locate_template_uri( 'assets/src/js/waboot-child.js' ) : false;
 	}else{
-		if(is_file(get_template_directory()."/assets/js/waboot.min.js")){
-			wp_enqueue_script( 'waboot', wbf_locate_template_uri( 'assets/js/waboot.min.js' )."#asyncload", $deps,false, true);
+		if(is_file(get_template_directory()."/assets/dist/js/waboot.min.js")){
+			wp_enqueue_script( 'waboot', wbf_locate_template_uri( 'assets/dist/js/waboot.min.js' )."#asyncload", $deps,false, true);
 		}else{
-			wp_enqueue_script( 'waboot', wbf_locate_template_uri( 'sources/js/waboot.js' )."#asyncload", $deps,false, true); //Load the source file if minified is not available
+			wp_enqueue_script( 'waboot', wbf_locate_template_uri( 'assets/src/js/waboot.js' )."#asyncload", $deps,false, true); //Load the source file if minified is not available
 		}
-		$child_js = is_child_theme() ? wbf_locate_template_uri( 'assets/js/waboot-child.min.js' ) : false;
+		$child_js = is_child_theme() ? wbf_locate_template_uri( 'assets/dist/js/waboot-child.min.js' ) : false;
 	}
 
 	wp_localize_script( 'waboot', 'wbData', $wpData);
@@ -124,8 +124,8 @@ function waboot_enqueue_main_script(){
 function waboot_ie_compatibility(){
     ?>
     <!--[if lt IE 9]>
-        <script src="<?php echo get_template_directory_uri(); ?>/assets/js/html5shiv.min.js" type="text/javascript"></script>
-        <script src="<?php echo get_template_directory_uri(); ?>/assets/js/respond.min.js" type="text/javascript"></script>
+        <script src="<?php echo get_template_directory_uri(); ?>/assets/dist/js/html5shiv.min.js" type="text/javascript"></script>
+        <script src="<?php echo get_template_directory_uri(); ?>/assets/dist/js/respond.min.js" type="text/javascript"></script>
     <![endif]-->
     <?php
 }

@@ -72,7 +72,7 @@ if ( ! function_exists( 'init_style_compiler' ) && wbft_wbf_in_use() ) :
 		WBF::set_styles_compiler([
 			"sets" => [
 				"theme_frontend" => [
-					"input" => get_stylesheet_directory()."/sources/less/{$inputFileName}.less",
+					"input" => get_stylesheet_directory()."/assets/src/less/{$inputFileName}.less",
 					"output" => $output_dir."/{$theme}.css",
 					"map" => $output_dir."/{$theme}.css.map",
 					"map_url" => $output_uri."/{$theme}.css.map",
@@ -81,7 +81,7 @@ if ( ! function_exists( 'init_style_compiler' ) && wbft_wbf_in_use() ) :
 					"primary" => true
 				]
 			],
-			"sources_path" => get_stylesheet_directory()."/sources/less/"
+			"sources_path" => get_stylesheet_directory()."/assets/src/less/"
 		]);
 
 		//Run a compilation if the styles file is not present

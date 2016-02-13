@@ -12,14 +12,14 @@ module.exports = function(grunt) {
                 },
                 files:{
                     'assets/css/waboot.css': (function(){
-                        if(fs.existsSync('sources/less/tmp_waboot.less')){
-                            return 'sources/less/tmp_waboot.less';
+                        if(fs.existsSync('assets/src/less/tmp_waboot.less')){
+                            return 'assets/src/less/tmp_waboot.less';
                         }
-                        return 'sources/less/waboot.less';
+                        return 'assets/src/less/waboot.less';
                     })(),
-                    'assets/css/bootstrap-pagebuilder.css': 'sources/less/bootstrap-pagebuilder.less',
-                    'assets/css/theme-options.css': 'sources/less/theme-options-gui.less',
-                    'assets/css/admin.css': 'sources/less/waboot-admin.less'
+                    'assets/css/bootstrap-pagebuilder.css': 'src/less/bootstrap-pagebuilder.less',
+                    'assets/css/theme-options.css': 'assets/src/less/theme-options-gui.less',
+                    'assets/css/admin.css': 'assets/src/less/waboot-admin.less'
                 }
             },
             production:{
@@ -32,30 +32,30 @@ module.exports = function(grunt) {
                 options:{
                     compress: true,
                     sourceMap: true,
-                    sourceMapFilename: "assets/css/waboot.css.map",
-                    sourceMapBasepath: "assets/css"
+                    sourceMapFilename: "assets/dist/css/waboot.css.map",
+                    sourceMapBasepath: "assets/dist/css"
                 },
                 files: {
                     'assets/css/waboot.css': (function(){
-                        if(fs.existsSync('sources/less/tmp_waboot.less')){
-                            return 'sources/less/tmp_waboot.less';
+                        if(fs.existsSync('assets/src/less/tmp_waboot.less')){
+                            return 'assets/src/less/tmp_waboot.less';
                         }
-                        return 'sources/less/waboot.less';
+                        return 'assets/src/less/waboot.less';
                     })()
                 }                
             }
         },
         jshint : {
-            all : ['sources/js/**/*.js','!sources/js/waboot.js','!sources/js/vendor/offcanvas.js']
+            all : ['assets/src/js/**/*.js','!assets/src/js/waboot.js','!assets/src/js/vendor/offcanvas.js']
         },
         browserify: {
             dist: {
-                src: ['sources/js/main.js'],
-                dest: 'sources/js/waboot.js'
+                src: ['assets/src/js/main.js'],
+                dest: 'assets/src/js/waboot.js'
             }
         },
         "jsbeautifier" : {
-            files : ['sources/js/main.js','sources/js/controllers/*.js','sources/js/views/*.js'],
+            files : ['assets/src/js/main.js','assets/src/js/controllers/*.js','sassets/rc/js/views/*.js'],
             options : {
             }
         },
@@ -66,7 +66,7 @@ module.exports = function(grunt) {
             },
             dist: {
                 files: {
-                    'assets/js/waboot.min.js': ['sources/js/waboot.js']
+                    'assets/dist/js/waboot.min.js': ['assets/src/js/waboot.js']
                 }
             }
         },
@@ -82,28 +82,28 @@ module.exports = function(grunt) {
                     {
                         expand: true,
                         flatten: true,
-                        cwd: "bower_components/html5shiv/dist",
+                        cwd: "assets/src/bower_components/html5shiv/dist",
                         src: "html5shiv.min.js",
-                        dest: "assets/js"
+                        dest: "assets/dist/js"
                     },
                     {
                         expand: true,
                         flatten: true,
-                        cwd: "bower_components/respond/dest",
+                        cwd: "assets/src/bower_components/respond/dest",
                         src: "respond.min.js",
-                        dest: "assets/js"
+                        dest: "assets/dist/js"
                     },
                     {
                         expand: true,
                         flatten: true,
-                        cwd: "bower_components/fontawesome",
+                        cwd: "assets/src/bower_components/fontawesome",
                         src: "css/font-awesome.min.css",
-                        dest: "assets/css"
+                        dest: "assets/dist/css"
                     },
                     {
                         expand: true,
                         flatten: true,
-                        cwd: "bower_components/fontawesome",
+                        cwd: "assets/src/bower_components/fontawesome",
                         src: "fonts/*",
                         dest: "assets/fonts"
                     }
@@ -114,23 +114,23 @@ module.exports = function(grunt) {
                     {
                         expand: true,
                         flatten: true,
-                        cwd: "bower_components/bootstrap/dist",
+                        cwd: "assets/src/bower_components/bootstrap/dist",
                         src: "fonts/*",
                         dest: "assets/fonts"
                     },
                     {
                         expand: true,
                         flatten: true,
-                        cwd: "bower_components/bootstrap/dist",
+                        cwd: "assets/src/bower_components/bootstrap/dist",
                         src: "js/bootstrap.min.js",
-                        dest: "assets/js/"
+                        dest: "assets/dist/js/"
                     },
                     {
                         expand: true,
                         flatten: true,
-                        cwd: "bower_components/bootstrap/less",
+                        cwd: "assets/src/bower_components/bootstrap/less",
                         src: ['**/*','.csscomb.json','.csslintrc'],
-                        dest: "sources/bootstrap/"
+                        dest: "assets/src/less/bootstrap/"
                     }
                 ]
             },
@@ -152,7 +152,7 @@ module.exports = function(grunt) {
                             "!builds/**",
                             "!node_modules/**",
                             "!components/**/node_modules/**",
-                            "!bower_components/**",
+                            "!assets/src/bower_components/**",
                             "!components/**/bower_components/**",
                             "!assets/cache/**",
                             "!wbf/**",
@@ -206,7 +206,7 @@ module.exports = function(grunt) {
         },
         watch: {
             less: {
-                files: 'sources/less/*.less',
+                files: 'assets/src/less/*.less',
                 tasks: ['less:dev']
             },
             scripts:{
