@@ -8,6 +8,7 @@ Movefile
 ## WBF TMP FILE
 ############
 wbf/options/theme-options-generated.less
+wbf/options/client-custom.css
 assets/src/less/tmp_*.*
 
 ############
@@ -28,7 +29,6 @@ waboot-child/assets/cache/*.*
 !waboot-child/assets/cache/.gitkeep
 waboot-child/assets/dist/css/waboot-child.css
 waboot-child/assets/dist/css/waboot-child.css.map
-waboot-child/assets/dist/css/client-custom.css
 waboot-child/assets/src/less/tmp_*.*
 waboot-child/assets/src/less/theme-options-generated.less
 
