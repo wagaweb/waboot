@@ -1,11 +1,11 @@
 <?php
 
-if(!function_exists("waboot_breadcrumb_trail")):
+if(!function_exists("wbft_breadcrumb_trail")):
 	/**
 	 * Backward compatibility for wbf_breadcrumb_trail
 	 * @param array $args
 	 */
-	function waboot_breadcrumb_trail( $args = array() ){
+	function wbft_breadcrumb_trail( $args = array() ){
 		if(function_exists("wbf_breadcrumb_trail")){
 			wbf_breadcrumb_trail($args);
 		}

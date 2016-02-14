@@ -244,6 +244,16 @@ if(!function_exists('waboot_has_sidebar')):
 	}
 endif;
 
+if(!function_exists("waboot_breadcrumb_trail")):
+	/**
+	 * Backward compatibility for wbf_breadcrumb_trail
+	 * @param array $args
+	 */
+	function waboot_breadcrumb_trail( $args = array() ){
+		wbft_breadcrumb_trail($args);
+	}
+endif;
+
 // ###############################
 // ###############################
 // LEGACY CODE
