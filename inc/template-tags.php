@@ -1,21 +1,5 @@
 <?php
 
-if(!function_exists("images_url")) :
-    function images_url(){
-        echo get_images_url();
-    }
-endif;
-
-if(!function_exists("get_images_url")) :
-    function get_images_url(){
-        $base_dir = get_template_directory_uri();
-        if(is_child_theme()){
-            $base_dir = get_stylesheet_directory_uri();
-        }
-        return apply_filters("waboot_images_url",$base_dir."/assets/dist/images");
-    }
-endif;
-
 if(!function_exists('waboot_site_title')):
 	/**
 	 * Displays site title
@@ -109,30 +93,6 @@ if(!function_exists("waboot_get_desktop_logo")) :
 	function waboot_get_desktop_logo(){
 		$desktop_logo = of_get_option( 'waboot_logo_in_navbar', "");
 		return $desktop_logo;
-	}
-endif;
-
-if(!function_exists("wbft_current_page_type")):
-	function wbft_current_page_type(){
-		if ( is_front_page() && is_home() ) {
-			// Default homepage
-			return "default_home";
-		} elseif ( is_front_page() ) {
-			// static homepage
-			return "static_home";
-		} elseif ( is_home() ) {
-			// blog page
-			return "blog_page";
-		} else {
-			//everything else
-			return "common";
-		}
-	}
-endif;
-
-if(!function_exists("wbft_is_blog_page")):
-	function wbft_is_blog_page(){
-		return wbft_current_page_type() == "blog_page";
 	}
 endif;
 
@@ -279,82 +239,6 @@ if(!function_exists("waboot_archive_page_title")):
 	}
 endif;
 
-if(!function_exists("waboot_get_blog_layout")):
-	/**
-	 * Return the current blog layout or the default one ("classic")
-	 * @return bool|string
-	 */
-	function waboot_get_blog_layout(){
-	    $blog_style = of_get_option("waboot_blogpage_layout");
-	    if (!$blog_style || $blog_style == "") $blog_style = "classic";
-
-		return $blog_style;
-	}
-endif;
-
-if(!function_exists("waboot_get_blog_class")):
-    function waboot_get_blog_class($blog_layout = "classic"){
-        $classes = array(
-            "blog-".$blog_layout
-        );
-
-        if($blog_layout == "masonry"){
-            $classes[] = "row";
-        }
-
-        return implode(" ",$classes);
-    }
-endif;
-
-if(!function_exists("waboot_get_index_page_title")):
-	function waboot_get_index_page_title(){
-		return single_post_title('', false);
-	}
-endif;
-
-if(!function_exists("waboot_get_archive_page_title")):
-	function waboot_get_archive_page_title(){
-		global $post;
-	    if ( is_category() ) {
-	        return single_cat_title('',false);
-	    } elseif ( is_tag() ) {
-	        return single_tag_title('',false);
-	    } elseif ( is_author() ) {
-			$author_name = get_the_author_meta("display_name",$post->post_author);
-	        return sprintf( __( 'Author: %s', 'waboot' ), '<span class="vcard"><a class="url fn n" href="' . get_author_posts_url( $post->post_author ) . '" title="' . esc_attr( $author_name ) . '" rel="me">' . $author_name . '</a></span>' );
-	    } elseif ( is_day() ) {
-	        return sprintf( __( 'Day: %s', 'waboot' ), '<span>' . get_the_date('', $post->ID) . '</span>' );
-	    } elseif ( is_month() ) {
-	        return sprintf( __( 'Month: %s', 'waboot' ), '<span>' . get_the_date('F Y', $post->ID ) . '</span>' );
-	    } elseif ( is_year() ) {
-	        return printf( __( 'Year: %s', 'waboot' ), '<span>' . get_the_date('Y', $post->ID ) . '</span>' );
-	    } elseif ( is_tax( 'post_format', 'post-format-aside' ) ) {
-	        return __( 'Asides', 'waboot' );
-	    } elseif ( is_tax( 'post_format', 'post-format-gallery' ) ) {
-		    return __( 'Galleries', 'waboot');
-	    } elseif ( is_tax( 'post_format', 'post-format-image' ) ) {
-		    return __( 'Images', 'waboot');
-	    } elseif ( is_tax( 'post_format', 'post-format-video' ) ) {
-		    return __( 'Videos', 'waboot' );
-	    } elseif ( is_tax( 'post_format', 'post-format-quote' ) ) {
-		    return __( 'Quotes', 'waboot' );
-	    } elseif ( is_tax( 'post_format', 'post-format-link' ) ) {
-		    return __( 'Links', 'waboot' );
-	    } elseif ( is_tax( 'post_format', 'post-format-status' ) ) {
-		    return __( 'Statuses', 'waboot' );
-	    } elseif ( is_tax( 'post_format', 'post-format-audio' ) ) {
-		    return __( 'Audios', 'waboot' );
-	    } elseif ( is_tax( 'post_format', 'post-format-chat' ) ) {
-		    return __( 'Chats', 'waboot' );
-	    } else {
-            $arch_obj = get_queried_object();
-            if(isset($arch_obj->name))
-                return $arch_obj->name;
-            return __( 'Archives', 'waboot' );
-	    }
-	}
-endif;
-
 if(!function_exists('waboot_archive_sticky_posts')):
     /**
      * Display sticky posts on archive pages
@@ -467,114 +351,108 @@ if(!function_exists('waboot_comment')) :
     }
 endif; // ends check for waboot_comment()
 
-function waboot_has_sidebar($prefix){
-    $has_sidebar = false;
-    for ($i = 1; $i <= 4; $i++) {
-        if (is_active_sidebar($prefix . "-" . $i)) {
-            $has_sidebar = true;
-        }
-    }
-    return $has_sidebar;
-}
+if(!function_exists("waboot_do_sidebar")):
+	/**
+	 * Determines the theme layout and active sidebars, and prints the HTML structure
+	 * with appropriate grid classes depending on which are activated.
+	 *
+	 * @since 0.1.0
+	 * @uses waboot_sidebar_class()
+	 * @param string $prefix Prefix of the widget to be displayed. Example: "footer" for footer-1, footer-2, etc.
+	 */
+	function waboot_do_sidebar( $prefix = false ) {
+	    if ( ! $prefix )
+	        _doing_it_wrong( __FUNCTION__, __( 'You must specify a prefix when using waboot_do_sidebar.', 'waboot' ), '1.0' );
 
-/**
- * Determines the theme layout and active sidebars, and prints the HTML structure
- * with appropriate grid classes depending on which are activated.
- *
- * @since 0.1.0
- * @uses waboot_sidebar_class()
- * @param string $prefix Prefix of the widget to be displayed. Example: "footer" for footer-1, footer-2, etc.
- */
-function waboot_do_sidebar( $prefix = false ) {
-    if ( ! $prefix )
-        _doing_it_wrong( __FUNCTION__, __( 'You must specify a prefix when using waboot_do_sidebar.', 'waboot' ), '1.0' );
+	        // Get our grid class
+	        $sidebar_class = waboot_sidebar_class( $prefix );
 
-        // Get our grid class
-        $sidebar_class = waboot_sidebar_class( $prefix );
+	        if ( $sidebar_class ): ?>
 
-        if ( $sidebar_class ): ?>
+	            <div class="<?php echo $prefix; ?>-sidebar-row row">
+	                <?php do_action( 'waboot_sidebar_row_top' );
 
-            <div class="<?php echo $prefix; ?>-sidebar-row row">
-                <?php do_action( 'waboot_sidebar_row_top' );
-
-                if ( is_active_sidebar( $prefix.'-1' ) ): ?>
-                    <aside id="<?php echo $prefix; ?>-sidebar-1" class="sidebar widget<?php echo $sidebar_class; ?>">
-                        <?php dynamic_sidebar( $prefix.'-1' ); ?>
-                    </aside>
-                <?php endif;
+	                if ( is_active_sidebar( $prefix.'-1' ) ): ?>
+	                    <aside id="<?php echo $prefix; ?>-sidebar-1" class="sidebar widget<?php echo $sidebar_class; ?>">
+	                        <?php dynamic_sidebar( $prefix.'-1' ); ?>
+	                    </aside>
+	                <?php endif;
 
 
-                if ( is_active_sidebar( $prefix.'-2' ) ): ?>
-                    <aside id="<?php echo $prefix; ?>-sidebar-2" class="sidebar widget<?php echo $sidebar_class; ?>">
-                        <?php dynamic_sidebar( $prefix.'-2' ); ?>
-                    </aside>
-                <?php endif;
+	                if ( is_active_sidebar( $prefix.'-2' ) ): ?>
+	                    <aside id="<?php echo $prefix; ?>-sidebar-2" class="sidebar widget<?php echo $sidebar_class; ?>">
+	                        <?php dynamic_sidebar( $prefix.'-2' ); ?>
+	                    </aside>
+	                <?php endif;
 
 
-                if ( is_active_sidebar( $prefix.'-3' ) ): ?>
-                    <aside id="<?php echo $prefix; ?>-sidebar-3" class="sidebar widget<?php echo $sidebar_class; ?>">
-                        <?php dynamic_sidebar( $prefix.'-3' ); ?>
-                    </aside>
-                <?php endif;
+	                if ( is_active_sidebar( $prefix.'-3' ) ): ?>
+	                    <aside id="<?php echo $prefix; ?>-sidebar-3" class="sidebar widget<?php echo $sidebar_class; ?>">
+	                        <?php dynamic_sidebar( $prefix.'-3' ); ?>
+	                    </aside>
+	                <?php endif;
 
 
-                if ( is_active_sidebar( $prefix.'-4' ) ): ?>
-                    <aside id="<?php echo $prefix; ?>-sidebar-4" class="sidebar widget<?php echo $sidebar_class; ?>">
-                        <?php dynamic_sidebar( $prefix.'-4' ); ?>
-                    </aside>
-                <?php endif;
+	                if ( is_active_sidebar( $prefix.'-4' ) ): ?>
+	                    <aside id="<?php echo $prefix; ?>-sidebar-4" class="sidebar widget<?php echo $sidebar_class; ?>">
+	                        <?php dynamic_sidebar( $prefix.'-4' ); ?>
+	                    </aside>
+	                <?php endif;
 
-                do_action( 'waboot_sidebar_row_bottom' ); ?>
-            </div><!-- .row -->
+	                do_action( 'waboot_sidebar_row_bottom' ); ?>
+	            </div><!-- .row -->
 
-        <?php endif; //$sidebar_class
-}
+	        <?php endif; //$sidebar_class
+	}
+endif;
 
-/**
- * Count the number of active widgets to determine dynamic wrapper class
- * @since 0.1.0
- */
-function waboot_sidebar_class( $prefix = false ) {
-    if ( ! $prefix )
-        _doing_it_wrong( __FUNCTION__, __( 'You must specify a prefix when using waboot_sidebar_class.', 'waboot' ), '1.0' );
+if(!function_exists("waboot_sidebar_class")):
+	/**
+	 * Count the number of active widgets to determine dynamic wrapper class
+	 * @since 0.1.0
+	 */
+	function waboot_sidebar_class( $prefix = false ) {
+	    if ( ! $prefix )
+	        _doing_it_wrong( __FUNCTION__, __( 'You must specify a prefix when using waboot_sidebar_class.', 'waboot' ), '1.0' );
 
-    $count = 0;
+	    $count = 0;
 
-    if ( is_active_sidebar( $prefix.'-1' ) )
-        $count++;
+	    if ( is_active_sidebar( $prefix.'-1' ) )
+	        $count++;
 
-    if ( is_active_sidebar( $prefix.'-2' ) )
-        $count++;
+	    if ( is_active_sidebar( $prefix.'-2' ) )
+	        $count++;
 
-    if ( is_active_sidebar( $prefix.'-3' ) )
-        $count++;
+	    if ( is_active_sidebar( $prefix.'-3' ) )
+	        $count++;
 
-    if ( is_active_sidebar( $prefix.'-4' ) )
-        $count++;
+	    if ( is_active_sidebar( $prefix.'-4' ) )
+	        $count++;
 
-    $class = '';
+	    $class = '';
 
-    switch ( $count ) {
-        case '1':
-            $class = ' col-sm-12';
-            break;
+	    switch ( $count ) {
+	        case '1':
+	            $class = ' col-sm-12';
+	            break;
 
-        case '2':
-            $class = ' col-sm-6';
-            break;
+	        case '2':
+	            $class = ' col-sm-6';
+	            break;
 
-        case '3':
-            $class = ' col-sm-4';
-            break;
+	        case '3':
+	            $class = ' col-sm-4';
+	            break;
 
-        case '4':
-            $class = ' col-sm-3';
-            break;
-    }
+	        case '4':
+	            $class = ' col-sm-3';
+	            break;
+	    }
 
-    if ( $class )
-        return $class;
-}
+	    if ( $class )
+	        return $class;
+	}
+endif;
 
 if(!function_exists('waboot_the_attached_image')) :
     /**
@@ -779,74 +657,6 @@ if(!function_exists("waboot_topnav_wrapper")):
     }
 endif;
 
-if(!function_exists("waboot_get_body_layout")):
-    function waboot_get_body_layout(){
-        if(wbft_current_page_type() == "blog_page" || wbft_current_page_type() == "default_home" || is_archive()) {
-	        $layout = of_get_option('waboot_blogpage_sidebar_layout');
-        }else{
-		    $layout = get_behavior('layout');
-        }
-	    $layout = apply_filters("waboot/layout/body_layout/get",$layout);
-	    return $layout;
-    }
-endif;
-
-if(!function_exists("waboot_body_layout_has_two_sidebars")):
-	function waboot_body_layout_has_two_sidebars(){
-		$body_layout = waboot_get_body_layout();
-		if(in_array($body_layout,array("two-sidebars","two-sidebars-right","two-sidebars-left"))){
-			return true;
-		}else{
-			return false;
-		}
-	}
-endif;
-
-if(!function_exists("waboot_get_available_body_layouts")){
-    function waboot_get_available_body_layouts(){
-
-	    if(wbft_wbf_in_use()){
-		    $imagepath = WBF::prefix_url('admin/images/');
-	    }else{
-		    $imagepath = get_template_directory_uri() . '/assets/dist/images/options';
-	    }
-
-        return apply_filters("waboot_body_layouts",array(
-            array(
-                "name" => __("No sidebar","waboot"),
-                "value" => "full-width",
-                "thumb"   => $imagepath . "behaviour/no-sidebar.png"
-            ),
-            array(
-                "name" => __("Sidebar right","waboot"),
-                "value" => "sidebar-right",
-                "thumb"   => $imagepath . "behaviour/sidebar-right.png"
-            ),
-            array(
-                "name" => __("Sidebar left","waboot"),
-                "value" => "sidebar-left",
-                "thumb"   => $imagepath . "behaviour/sidebar-left.png"
-            ),
-            array(
-                "name" => __("2 Sidebars","waboot"),
-                "value" => "two-sidebars",
-                "thumb"   => $imagepath . "behaviour/sidebar-left-right.png"
-            ),
-	        array(
-		        "name" => __("2 Sidebars right","waboot"),
-		        "value" => "two-sidebars-right",
-                "thumb"   => $imagepath . "behaviour/sidebar-right-2.png"
-	        ),
-	        array(
-		        "name" => __("2 Sidebars left","waboot"),
-		        "value" => "two-sidebars-left",
-                "thumb"   => $imagepath . "behaviour/sidebar-left-2.png"
-	        ),
-            '_default' => 'sidebar-right'
-        ));
-    }
-}
-
 if(!function_exists("wbft_the_contact_form")):
 	function wbft_the_contact_form(){
 		global $post;
@@ -953,65 +763,6 @@ if(!function_exists("wbft_contact_form_tpl")):
 		$return_string .= $error_message_tpl;
 		//And...
 		return $return_string;
-	}
-endif;
-
-if(!function_exists("waboot_get_compiled_stylesheet_uri")):
-	function waboot_get_compiled_stylesheet_uri(){
-		$base_uri = get_stylesheet_directory_uri()."/assets/dist/css";
-		if(is_multisite()){
-			$uri = $base_uri."/mu";
-		}else{
-			$uri = $base_uri;
-		}
-		return apply_filters("wbft/compiler/output/uri",$uri);
-	}
-endif;
-
-if(!function_exists("waboot_get_compiled_stylesheet_directory")):
-	function waboot_get_compiled_stylesheet_directory(){
-		$base_dir = get_stylesheet_directory()."/assets/dist/css";
-		if(is_multisite()){
-			if(!is_dir($base_dir."/mu")){
-				mkdir($base_dir."/mu");
-			}
-			$dir = $base_dir."/mu";
-		}else{
-			$dir = $base_dir;
-		}
-		return apply_filters("wbft/compiler/output/directory",$dir);
-	}
-endif;
-
-if(!function_exists("waboot_get_compiled_stylesheet_name")):
-	function waboot_get_compiled_stylesheet_name(){
-		$theme = wp_get_theme();
-		if(is_child_theme()){
-			$filename = $theme->stylesheet;
-		}else{
-			$filename = $theme->template;
-		}
-		return apply_filters("wbft/compiler/output/filename",$filename);
-	}
-endif;
-
-if(!function_exists("waboot_get_uri_path_after")):
-	/**
-	 * Get the uri parts after specified tag. Eg: if the uri is "/foo/bar/zor/", calling waboot_get_uri_path_after(foo) will return: array("bar","zor")
-	 * @param $tag
-	 * @return array
-	 */
-	function waboot_get_uri_path_after($tag){
-		$url_parts = parse_url("http://".$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]);
-		$path_parts = explode("/",$url_parts['path']);
-		$key = 0;
-		foreach($path_parts as $k => $p){
-			if($p == $tag){
-				$key = $k;
-			}
-		}
-		$path_parts_sliced = array_slice($path_parts,(int)$key+1);
-		return $path_parts_sliced;
 	}
 endif;
 
@@ -1140,34 +891,7 @@ if(!function_exists('waboot_the_trimmed_excerpt')):
 	 * @param string $use is "content_also" then the content will be trimmed if the excerpt is empty
 	 */
 	function waboot_the_trimmed_excerpt($length = false,$more = null,$post_id = null, $use = "excerpt_only"){
-		if(is_bool($length) && !$length){
-			$excerpt_length = apply_filters( 'excerpt_length', 55 );
-		}else{
-			$excerpt_length = $length;
-		}
-		if(is_null($more)){
-			$excerpt_more = apply_filters( 'excerpt_more', ' ' . '[&hellip;]' );
-		}else{
-			$excerpt_more = $more;
-		}
-
-		if(isset($post_id)){
-			$post = get_post($post_id);
-			if($use == "content_also" && $post->post_excerpt == ""){
-				$text = apply_filters('the_content', $post->post_content);
-			}else{
-				$text = $post->post_excerpt;
-			}
-		}else{
-			global $post;
-			if($use == "content_also" && $post->post_excerpt == ""){
-				$text = get_the_content();
-			}else{
-				$text = get_the_excerpt();
-			}
-		}
-
-		echo  wp_trim_words($text,$excerpt_length,$excerpt_more);
+		wbft_the_trimmed_excerpt($length,$more,$post_id,$use);
 	}
 endif;
 
@@ -1211,454 +935,3 @@ if ( ! function_exists('waboot_link_format_helper')) :
 endif;
 /* End Post Format Link */
 
-// ###############################
-// ###############################
-// CATEGORIES AND TAXONOMY HELPERS
-// ###############################
-// ###############################
-
-if(!function_exists( 'wbft_get_post_terms_hierarchical' )):
-	/**
-	 * Get a list of term in hierarchical order, with parent before their children.
-	 * @param int $post_id the $post_id param for wp_get_post_terms()
-	 * @param string $taxonomy the $taxonomy param for wp_get_post_terms()
-	 * @param array $args the $args param for wp_get_post_terms(
-	 *
-	 * @return array
-	 */
-	function wbft_get_post_terms_hierarchical($post_id, $taxonomy, $args = [], $flatten = true){
-		static $cache;
-
-		if(isset($cache[$taxonomy][$post_id]) && is_array($cache[$taxonomy][$post_id])) return $cache[$taxonomy][$post_id];
-
-		$args = wp_parse_args($args,[
-			'orderby' => 'parent'
-		]);
-		$args['orderby'] = 'parent'; //we need to force this
-		$terms = wp_get_post_terms( $post_id, $taxonomy, $args);
-
-		/**
-		 * Insert a mixed at specified position into input $array
-		 *
-		 * @param array $input
-		 * @param $position
-		 * @param $insertion
-		 *
-		 * @return array
-		 */
-		$array_insert = function(Array $input,$position,$insertion){
-			$insertion = array($insertion);
-			$first_array = array_splice ($input, 0, $position);
-			$output = array_merge ($first_array, $insertion, $input);
-			return $output;
-		};
-
-		/**
-		 * Insert $insertion after the element with $term->id == $insert_at_term_id of array $input
-		 * @param array $input
-		 * @param int   $insert_at_term_id
-		 * @param array $insertion
-		 *
-		 * @return array|bool
-		 */
-		$children_insert = function(Array $input,$insert_at_term_id,$insertion) use(&$children_insert){
-			$output = $input;
-			foreach($input as $k => $v){
-				if($v->term_id == $insert_at_term_id){ //We found the parent
-					if(!isset($output[$k]->childeren) || !is_integer(array_search($insertion,$output[$k]->children))){
-						$output[$k]->children[] = $insertion;
-						return $output;
-					}
-				}elseif(isset($v->children) && count($v->children) >= 1){ //Search in parent children
-					$new_children = $children_insert($v->children,$insert_at_term_id,$insertion);
-					if(is_array($new_children)){
-						$output[$k]->children = $new_children;
-						return $output;
-					}
-				}
-			}
-			return false; //We haven't found any point of insertion
-		};
-
-		/**
-		 * Complete the terms list with missing parents. Missing parents will be labeled with "not_assigned = true"
-		 * @param $p
-		 * @param $t
-		 *
-		 * @return mixed
-		 */
-		$complete_missing_terms = function($terms) use($taxonomy){
-			/**
-			 * Add the parent pf $child into the $terms_list (if not present)
-			 * @param $child
-			 * @param $terms_list
-			 *
-			 * @return array
-			 */
-			$add_parent = function($child,$terms_list) use(&$add_parent,$taxonomy){
-				$parent = get_term($child->parent,$taxonomy);
-				$terms_list_as_array = json_decode(json_encode($terms_list),true);
-				$found = self::associative_array_search($terms_list_as_array,"term_id",$parent->term_id);
-				if(empty($found)){
-					$parent->not_assigned = true; //Set a flag to tell that this parent is added programmatically and not by the user
-					$terms_list[] = $parent;
-				}
-				if($parent->parent != 0){
-					return $add_parent($parent,$terms_list);
-				}else{
-					return $terms_list;
-				}
-			};
-			$new_term_list = $terms;
-			foreach($terms as $t){
-				if($t->parent != 0){
-					$new_term_list = $add_parent($t,$new_term_list);
-				}
-			}
-			return $new_term_list;
-		};
-
-		/**
-		 * Build term hierarchy
-		 * @param array $cats the terms to reorder
-		 *
-		 * @return array
-		 */
-		$build_hierarchy = function(Array $cats) use ($array_insert, $children_insert){
-			$cats_count = count($cats); //meow! How many terms have we?
-			$result = [];
-
-			if($cats_count < 1){
-				return $result;
-			}
-			elseif($cats_count == 1){
-				return $cats;
-			}
-
-			//Populate all the parent
-			foreach ($cats as $i => $cat) {
-				if($cat->parent == 0){
-					$result[] = $cat;
-					unset($cats[$i]); //remove the parent from the list
-				}
-			}
-
-			$inserted_cats = count($result); //Count the items inserted at this point
-			$cats = array_values($cats); //resort the array
-
-			if($inserted_cats == 0){
-				return []; //Here we return if no parents are present within the terms
-			}
-
-			//Populate with children
-			while(count($cats) > 0){ //Go on until we reached have some terms to order
-				foreach ($cats as $i => $cat) {
-					$parent_term_id = $cat->parent;
-					$r = $children_insert($result,$parent_term_id,$cat);
-					if(is_array($r)){ //We found a valid parent, and $r is the new array with $cat appended into parent
-						$result = $r;
-						unset($cats[$i]);
-						$cats = array_values($cats); //resort the array
-						break; //and break!
-					}
-				}
-			}
-
-			return $result;
-		};
-
-		$flatten_terms_hierarchy = function($term_hierarchy){
-			$output_terms = [];
-			$flat = function($term_hierarchy) use (&$output_terms,&$flat){
-				foreach($term_hierarchy as $k => $t){
-					$output_terms[] = $t;
-					if(isset($t->children) && $t->children >= 1){
-						$flat($t->children);
-					}
-				}
-			};
-			$flat($term_hierarchy);
-
-			foreach($output_terms as $k=>$v){
-				if(isset($v->children)){
-					unset($output_terms[$k]->children);
-				}
-			}
-
-			return $output_terms;
-		};
-
-		if(!is_array($terms) || empty($terms)) return [];
-
-		$terms = $complete_missing_terms($terms);
-		$h = $build_hierarchy($terms);
-
-		$sortedTerms = $flatten ? $flatten_terms_hierarchy($h) : $h; //Extract the children
-
-		$cache[$taxonomy][$post_id] = $sortedTerms;
-
-		return $sortedTerms;
-	}
-endif;
-
-if(!function_exists('wbft_get_the_terms_list_hierarchical')):
-	/**
-	 * Retrieve a post's terms as a list with specified format and in an hierarchical order
-	 *
-	 * @param int $id Post ID.
-	 * @param string $taxonomy Taxonomy name.
-	 * @param string $before Optional. Before list.
-	 * @param string $sep Optional. Separate items using this.
-	 * @param string $after Optional. After list.
-	 *
-	 * @use wbft_get_post_terms_hierarchical
-	 *
-	 * @return string|bool|WP_Error A list of terms on success, false if there are no terms, WP_Error on failure.
-	 */
-	function wbft_get_the_terms_list_hierarchical( $id, $taxonomy, $before = '', $sep = '', $after = '' ) {
-		$terms = wbft_get_post_terms_hierarchical( $id, $taxonomy );
-
-		if ( is_wp_error( $terms ) )
-			return $terms;
-
-		if ( empty( $terms ) )
-			return false;
-
-		$links = array();
-
-		foreach ( $terms as $term ) {
-			$link = get_term_link( $term, $taxonomy );
-			if ( is_wp_error( $link ) ) {
-				return $link;
-			}
-			$links[] = '<a href="' . esc_url( $link ) . '" rel="tag">' . $term->name . '</a>';
-		}
-
-		/**
-		 * Filter the term links for a given taxonomy.
-		 *
-		 * The dynamic portion of the filter name, `$taxonomy`, refers
-		 * to the taxonomy slug.
-		 *
-		 * @since 2.5.0
-		 *
-		 * @param array $links An array of term links.
-		 */
-		$term_links = apply_filters( "term_links-$taxonomy", $links );
-
-		return $before . join( $sep, $term_links ) . $after;
-	}
-endif;
-
-if(!function_exists( 'waboot_get_the_category')):
-	/**
-	 * Get the post categories ordered by ID. If the post is a custom post type it retrieve the specified $taxonomy terms or the first registered taxonomy
-	 * @param null $post_id
-	 * @param null $taxonomy the taxonomy to retrieve if the POST is a custom post type
-	 * @param bool $ids_only retrieve only the ID of the categories
-	 * @internal param null $the_post
-	 * @return array
-	 */
-	function waboot_get_the_category($post_id = null, $taxonomy = null, $ids_only = false){
-		if(!isset($post_id)){
-			global $post;
-			$post_id = $post->ID;
-		}else{
-			$post = get_post($post_id);
-		}
-
-		if(get_post_type($post_id) == "post"){
-			$terms = get_the_category($post_id);
-			if($ids_only){
-				foreach($terms as $id => $term){
-					$categories[] = $id;
-				}
-			}else{
-				$categories = $terms;
-			}
-		}else{
-			if(!isset($taxonomy)){
-				$terms = get_the_terms($post_id,waboot_get_first_taxonomy($post_id));
-				if($ids_only){
-					foreach($terms as $id => $term){
-						$categories[] = $id;
-					}
-				}else{
-					$categories = $terms;
-				}
-			}else{
-				if($ids_only){
-					$categories = wp_get_object_terms( $post_id, $taxonomy, array( 'fields' => 'ids' ) );
-				}else{
-					$categories = wp_get_object_terms( $post_id, $taxonomy);
-				}
-			}
-		}
-
-		if($ids_only){
-			if(isset($categories) && is_array($categories))
-				sort($categories,SORT_NUMERIC);
-		}else{
-			if(isset($categories) && is_array($categories))
-				usort($categories,"waboot_sort_categories_by_id");
-		}
-
-		return $categories;
-	}
-endif;
-
-if(!function_exists( 'waboot_get_top_categories')):
-	/**
-	 * Get the top level categories
-	 * @param null $taxonomy
-	 * @return array
-	 */
-	function waboot_get_top_categories($taxonomy = null){
-		if(!$taxonomy){
-			$cats = get_categories();
-		}else{
-			$cats = get_categories(array(
-				'taxonomy' => $taxonomy
-			));
-		}
-
-		$top_cat_obj = array();
-
-		foreach($cats as $cat) {
-			if ($cat->parent == 0) {
-				$top_cat_obj[] = $cat;
-			}
-		}
-
-		return $top_cat_obj;
-	}
-endif;
-
-if(!function_exists( 'waboot_get_top_category')):
-	/**
-	 * Gets top level category of the current or specified post
-	 * @param string $return_value "id" or "slug". If empty the category object is returned.
-	 * @return string|object
-	 */
-	function waboot_get_top_category($return_value = "", $post_id = null) {
-		if(!$post_id)
-			$cats = waboot_get_the_category(); // category object
-		else
-			$cats = waboot_get_the_category($post_id); // category object
-
-		if(!$cats) return false;
-
-		$top_cat_obj = array();
-
-		foreach($cats as $cat) {
-			if ($cat->parent == 0) {
-				$top_cat_obj[] = $cat;
-			}
-		}
-
-		if(!isset($top_cat_obj[0])){
-			$top_cat_obj = $cats[0];
-		}else{
-			$top_cat_obj = $top_cat_obj[0];
-		}
-
-		if($return_value == ""){
-			return $top_cat_obj;
-		}else{
-			switch($return_value){
-				case "id":
-					return $top_cat_obj->term_id;
-					break;
-				case "slug":
-					return $top_cat_obj->slug;
-					break;
-				default:
-					return $top_cat_obj;
-					break;
-			}
-		}
-	}
-endif;
-
-if(!function_exists( 'waboot_get_first_taxonomy')):
-	/**
-	 * Get the first registered taxonomy of a custom post type
-	 * @param null $post_id
-	 * @return string
-	 */
-	function waboot_get_first_taxonomy($post_id = null){
-		if(!isset($post_id)){
-			global $post;
-			$post_id = $post->ID;
-		}else{
-			$post = get_post($post_id);
-		}
-
-		if(get_post_type($post_id) == "post"){
-			return 'category';
-		}else{
-			$post_type_taxonomies = get_object_taxonomies($post->post_type);
-			return $post_type_taxonomies[0];
-		}
-	}
-endif;
-
-if(!function_exists( 'waboot_sort_categories_by_id')):
-	/**
-	 * Sort the categories of a post by ID (ASC)
-	 * @param $a
-	 * @param $b
-	 * @return int
-	 */
-	function waboot_sort_categories_by_id($a,$b){
-		if((int)$a->term_id == (int)$b->term_id) return 0;
-		return (int)$a->term_id < (int)$b->term_id ? -1 : 1;
-	}
-endif;
-
-function waboot_get_available_socials(){
-	$socials = apply_filters("waboot/socials/available",[
-		'facebook' => [
-			'name' => __( 'Facebook', 'waboot' ),
-			'theme_options_desc' => __( 'Enter your facebook fan page link', 'waboot' ),
-			'icon_class' => 'fa-facebook'
-		],
-		'twitter'  => [
-			'name' => __( 'Twitter', 'waboot' ),
-			'theme_options_desc' => __( 'Enter your twitter page link', 'waboot' ),
-			'icon_class' => 'fa-twitter'
-		],
-		'google'  => [
-			'name' => __( 'Google+', 'waboot' ),
-			'theme_options_desc' => __( 'Enter your google+ page link', 'waboot' ),
-			'icon_class' => 'fa-google-plus'
-		],
-		'youtube'  => [
-			'name' => __( 'YouTube', 'waboot' ),
-			'theme_options_desc' => __( 'Enter your youtube page link', 'waboot' ),
-			'icon_class' => 'fa-youtube'
-		],
-		'pinterest'  => [
-			'name' => __( 'Pinterest', 'waboot' ),
-			'theme_options_desc' => __( 'Enter your pinterest page link', 'waboot' ),
-			'icon_class' => 'fa-pinterest'
-		],
-		'linkedin'  => [
-			'name' => __( 'Linkedin', 'waboot' ),
-			'theme_options_desc' => __( 'Enter your linkedin page link', 'waboot' ),
-			'icon_class' => 'fa-linkedin'
-		],
-		'instagram'  => [
-			'name' => __( 'Instagram', 'waboot' ),
-			'theme_options_desc' => __( 'Enter your instagram page link', 'waboot' ),
-			'icon_class' => 'fa-instagram'
-		],
-		'feedrss'  => [
-			'name' => __( 'Feed RSS', 'waboot' ),
-			'theme_options_desc' => __( 'Enter your feed RSS link', 'waboot' ),
-			'icon_class' => 'fa-rss'
-		]
-	]);
-
-	return $socials;
-}

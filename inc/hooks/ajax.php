@@ -130,12 +130,3 @@ function wbft_delete_contact_email(){
 		wbft_ajax_out(0);
 	}
 }
-
-function wbft_ajax_out($var){
-	if(is_array($var)){
-		echo json_encode($var);
-	}else{
-		echo $var;
-	}
-	die;
-}
