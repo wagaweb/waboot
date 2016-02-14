@@ -155,7 +155,8 @@ module.exports = function(grunt) {
                             "!assets/src/bower_components/**",
                             "!components/**/bower_components/**",
                             "!assets/cache/**",
-                            "!wbf/**",
+                            "!wbf/options/*.css",
+                            "!wbf/options/*.less",
                             "!_bak/**"
                         ],
                         dest: "builds/waboot-<%= pkg.version %>/"
