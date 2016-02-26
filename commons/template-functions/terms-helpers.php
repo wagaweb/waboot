@@ -253,6 +253,9 @@ if(!function_exists( 'wbft_get_the_terms_list_hierarchical' )):
 		$links = array();
 
 		foreach ( $terms as $term ) {
+			if($term instanceof stdClass){
+				$term = get_term($term->term_id,$taxonomy); //Restore the WP_Term
+			}
 			$link = get_term_link( $term, $taxonomy );
 			if ( is_wp_error( $link ) ) {
 				return $link;
