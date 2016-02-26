@@ -2,14 +2,20 @@
 
 if(!function_exists( 'wbft_get_post_terms_hierarchical' )):
 	/**
-	 * Get a list of term in hierarchical order, with parent before their children.
+	 * Get a list of term in hierarchical order, with parents before their children.
+	 * The functions automatically completes the list with che missing parents (they will be labeled with "not_assigned = true" property)..
+	 *
 	 * @param int $post_id the $post_id param for wp_get_post_terms()
 	 * @param string $taxonomy the $taxonomy param for wp_get_post_terms()
-	 * @param array $args the $args param for wp_get_post_terms(
+	 * @param array $args the $args param for wp_get_post_terms()
+	 * @param boolean $flatten TRUE to flatten the hierarchical array down to one level. Children will be inserted after their parents;
+	 *                          FALSE to retrieve a multidimensional array in which the first level is composed by top-level parents. Children will be appended into "children" property of each parent term.
+	 *
+	 * @param bool|false $convert_to_wp_term is true, the resulting list flatted list will be converted into WP_Term list
 	 *
 	 * @return array
 	 */
-	function wbft_get_post_terms_hierarchical($post_id, $taxonomy, $args = [], $flatten = true){
+	function wbft_get_post_terms_hierarchical($post_id, $taxonomy, $args = [], $flatten = true, $convert_to_wp_term = false){
 		static $cache;
 
 		if(isset($cache[$taxonomy][$post_id]) && is_array($cache[$taxonomy][$post_id])) return $cache[$taxonomy][$post_id];
@@ -19,6 +25,27 @@ if(!function_exists( 'wbft_get_post_terms_hierarchical' )):
 		]);
 		$args['orderby'] = 'parent'; //we need to force this
 		$terms = wp_get_post_terms( $post_id, $taxonomy, $args);
+
+		/**
+		 * Convert WP_Term to old-fashion stdClass
+		 *
+		 * @param $instance
+		 *
+		 * @return \stdClass
+		 */
+		$WPTermToStdClass = function($instance) {
+			$std = new \stdClass();
+			$std->term_id = $instance->term_id;
+			$std->name = $instance->name;
+			$std->slug = $instance->slug;
+			$std->term_group = $instance->term_group;
+			$std->term_taxonomy_id = $instance->term_taxonomy_id;
+			$std->description = $instance->description;
+			$std->parent = $instance->parent;
+			$std->count = $instance->count;
+			$std->filter = $instance->filter;
+			return $std;
+		};
 
 		/**
 		 * Insert a mixed at specified position into input $array
@@ -44,8 +71,15 @@ if(!function_exists( 'wbft_get_post_terms_hierarchical' )):
 		 *
 		 * @return array|bool
 		 */
-		$children_insert = function(Array $input,$insert_at_term_id,$insertion) use(&$children_insert){
+		$children_insert = function(Array $input,$insert_at_term_id,$insertion) use(&$children_insert,$WPTermToStdClass){
 			$output = $input;
+
+			foreach($output as $k => $t){
+				if($t instanceof \WP_Term){
+					$output[$k] = $WPTermToStdClass($t);
+				}
+			}
+
 			foreach($input as $k => $v){
 				if($v->term_id == $insert_at_term_id){ //We found the parent
 					if(!isset($output[$k]->childeren) || !is_integer(array_search($insertion,$output[$k]->children))){
@@ -65,10 +99,13 @@ if(!function_exists( 'wbft_get_post_terms_hierarchical' )):
 
 		/**
 		 * Complete the terms list with missing parents. Missing parents will be labeled with "not_assigned = true"
-		 * @param $p
-		 * @param $t
+		 *
+		 * @param $terms
 		 *
 		 * @return mixed
+		 * @internal param $p
+		 * @internal param $t
+		 *
 		 */
 		$complete_missing_terms = function($terms) use($taxonomy){
 			/**
@@ -81,7 +118,7 @@ if(!function_exists( 'wbft_get_post_terms_hierarchical' )):
 			$add_parent = function($child,$terms_list) use(&$add_parent,$taxonomy){
 				$parent = get_term($child->parent,$taxonomy);
 				$terms_list_as_array = json_decode(json_encode($terms_list),true);
-				$found = self::associative_array_search($terms_list_as_array,"term_id",$parent->term_id);
+				$found = wbft_associative_array_search($terms_list_as_array,"term_id",$parent->term_id);
 				if(empty($found)){
 					$parent->not_assigned = true; //Set a flag to tell that this parent is added programmatically and not by the user
 					$terms_list[] = $parent;
@@ -150,11 +187,11 @@ if(!function_exists( 'wbft_get_post_terms_hierarchical' )):
 			return $result;
 		};
 
-		$flatten_terms_hierarchy = function($term_hierarchy){
+		$flatten_terms_hierarchy = function($term_hierarchy) use($convert_to_wp_term){
 			$output_terms = [];
-			$flat = function($term_hierarchy) use (&$output_terms,&$flat){
+			$flat = function($term_hierarchy) use (&$output_terms,&$flat,$convert_to_wp_term){
 				foreach($term_hierarchy as $k => $t){
-					$output_terms[] = $t;
+					$output_terms[] = $convert_to_wp_term ? \WP_Term::get_instance($t->term_id,$t->taxonomy) : $t;
 					if(isset($t->children) && $t->children >= 1){
 						$flat($t->children);
 					}
@@ -172,6 +209,12 @@ if(!function_exists( 'wbft_get_post_terms_hierarchical' )):
 		};
 
 		if(!is_array($terms) || empty($terms)) return [];
+
+		foreach($terms as $k => $t){
+			if($t instanceof \WP_Term){
+				$terms[$k] = $WPTermToStdClass($t);
+			}
+		}
 
 		$terms = $complete_missing_terms($terms);
 		$h = $build_hierarchy($terms);
