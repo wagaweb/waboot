@@ -1,5 +1,6 @@
 <?php
 
+add_filter("of_options","optionsframework_options");
 /**
  * Defines an array of options that will be used to generate the settings page and be saved in the database.
  * When creating the "id" fields, make sure to use all lowercase and no spaces.
