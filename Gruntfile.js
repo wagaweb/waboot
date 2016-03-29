@@ -8,41 +8,34 @@ module.exports = function(grunt) {
         pkg: grunt.file.readJSON('package.json'),
         less: {
             dev:{
-                options:{
-                },
+                options:{},
                 files:{
-                    'assets/css/waboot.css': (function(){
-                        if(fs.existsSync('assets/src/less/tmp_waboot.less')){
+                    'assets/dist/css/waboot.css': (function(){
+                        /*if(fs.existsSync('assets/src/less/tmp_waboot.less')){
                             return 'assets/src/less/tmp_waboot.less';
-                        }
+                        }*/
                         return 'assets/src/less/waboot.less';
                     })(),
-                    'assets/css/bootstrap-pagebuilder.css': 'src/less/bootstrap-pagebuilder.less',
-                    'assets/css/theme-options.css': 'assets/src/less/theme-options-gui.less',
-                    'assets/css/admin.css': 'assets/src/less/waboot-admin.less'
+                    'assets/dist/css/bootstrap-pagebuilder.css': 'assets/src/less/bootstrap-pagebuilder.less',
+                    'assets/dist/css/theme-options.css': 'assets/src/less/theme-options-gui.less',
+                    'assets/dist/css/admin.css': 'assets/src/less/waboot-admin.less'
                 }
-            },
-            production:{
-                options:{
-                    compress: true
+            }
+        },
+        postcss: {
+            options: {
+                map: {
+                    inline: false,
+                    annotation: 'assets/dist/css/'
                 },
-                files: ['<%= less.dev.files %>']
+                processors: [
+                    require('pixrem')(),
+                    require('autoprefixer')({browsers: 'last 2 versions'}),
+                    require('cssnano')()
+                ]
             },
-            waboot:{
-                options:{
-                    compress: true,
-                    sourceMap: true,
-                    sourceMapFilename: "assets/dist/css/waboot.css.map",
-                    sourceMapBasepath: "assets/dist/css"
-                },
-                files: {
-                    'assets/css/waboot.css': (function(){
-                        if(fs.existsSync('assets/src/less/tmp_waboot.less')){
-                            return 'assets/src/less/tmp_waboot.less';
-                        }
-                        return 'assets/src/less/waboot.less';
-                    })()
-                }                
+            dist: {
+                src: 'assets/dist/css/waboot.css'
             }
         },
         jshint : {
@@ -234,7 +227,7 @@ module.exports = function(grunt) {
     grunt.registerTask('jsmin', ['js','uglify']);
 
     //Build task
-    grunt.registerTask('build', ['bower-update','copy:bower_components','less:production','less:waboot','jsmin','pot','compress:build']);
+    grunt.registerTask('build', ['bower-update','copy:bower_components','less:dev','postcss','jsmin','pot','compress:build']);
 
     //Runs bower install
     grunt.registerTask('bower-install', function() {
