@@ -1,6 +1,16 @@
 <?php
 
-if ( ! function_exists( 'waboot_setup' ) ):
+if(!function_exists("waboot_wbf_customizations")):
+	/**
+	 * Applies some cusotmizations to WBF
+	 */
+	function waboot_wbf_customizations(){
+		add_filter("wbf/modules/options/organizer/sections","waboot_reorder_theme_options",10,2);
+	}
+	add_action("after_setup_theme","waboot_wbf_customizations");
+endif;
+
+if(!function_exists( 'waboot_setup')):
 	function waboot_setup() {
 		//Make theme available for translation.
 		load_theme_textdomain( 'waboot', get_template_directory() . '/languages' );
@@ -60,9 +70,9 @@ endif;
 add_action('after_setup_theme', 'waboot_setup', 11);
 
 /**
- * INIT STYLES COMPILER
+ * Init styles compiler
  */
-if ( ! function_exists( 'init_style_compiler' ) && wbft_wbf_in_use() ) :
+if(!function_exists('init_style_compiler') && wbft_wbf_in_use()) :
 	function init_style_compiler(){
 		$theme = waboot_get_compiled_stylesheet_name();
 		$inputFileName = is_child_theme() ? "waboot-child" : "waboot";
@@ -101,3 +111,22 @@ if(!function_exists("theme_get_pagebuilder")):
 		return "bootstrap";
 	}
 endif;
+
+/**
+ * Reorder theme options
+ *
+ * @hooked 'wbf/modules/options/organizer/sections'
+ *
+ * @param array $sections
+ * @param \WBF\modules\options\Organizer $organizer
+ *
+ * @return array
+ */
+function waboot_reorder_theme_options($sections,$organizer){
+	if(isset($sections['behaviors'])){
+		$bh = ["behaviors" => $sections['behaviors']];
+		unset($sections['behaviors']);
+		$sections = \WBF\includes\Utilities::associative_array_add_element_after($bh,"blog",$sections);
+	}
+	return $sections;
+}
