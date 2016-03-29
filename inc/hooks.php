@@ -57,7 +57,7 @@ if(!is_admin() && !function_exists("waboot_mobile_body_class") && class_exists("
 	 * Adds mobile classes to body
 	 */
 	function waboot_mobile_body_class($classes){
-		$md = WBF::get_mobile_detect();
+		$md = WBF::getInstance()->get_mobile_detect();
 		if($md->isMobile()){
 			$classes[] = "mobile";
 			if($md->is_ios()) $classes[] = "mobile-ios";
