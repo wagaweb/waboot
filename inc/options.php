@@ -13,7 +13,7 @@ function optionsframework_options($orgzr) {
 	if(wbft_wbf_in_use()){
         $imagepath = WBF::prefix_url('admin/images/');
 	}else{
-		$imagepath = get_template_directory_uri() . '/assets/dist/images/options';
+		$imagepath = get_template_directory_uri() . '/assets/images/options';
 	}
 
     // WABOOT SETTINGS TABS
@@ -480,7 +480,7 @@ function optionsframework_options($orgzr) {
         'name' => __( 'Main logo', 'waboot' ),
         'desc' => __( 'Choose the website main logo', 'waboot' ),
         'id'   => 'waboot_logo_in_navbar',
-	    'std'  => get_template_directory_uri()."/assets/dist/images/default/waboot-color.png",
+	    'std'  => get_template_directory_uri()."/assets/images/default/waboot-color.png",
         'type' => 'upload'
     ));
 

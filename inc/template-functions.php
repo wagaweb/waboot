@@ -193,7 +193,7 @@ if(!function_exists("waboot_get_available_body_layouts")){
 		if(wbft_wbf_in_use()){
 			$imagepath = WBF::prefix_url('admin/images/');
 		}else{
-			$imagepath = get_template_directory_uri() . '/assets/dist/images/options';
+			$imagepath = get_template_directory_uri() . '/assets/images/options';
 		}
 
 		return apply_filters("waboot_body_layouts",array(

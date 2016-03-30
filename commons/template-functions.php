@@ -12,7 +12,7 @@ if(!function_exists("get_images_url")) :
 		if(is_child_theme()){
 			$base_dir = get_stylesheet_directory_uri();
 		}
-		return apply_filters("wbft_images_url",$base_dir."/assets/dist/images");
+		return apply_filters("wbft_images_url",$base_dir."/assets/images");
 	}
 endif;
 

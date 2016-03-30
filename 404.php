@@ -13,7 +13,7 @@ get_header(); ?>
 
 				<!--
 				<div class="img404">
-					<img src="<?php // echo get_site_url(); ?>/wp-content/themes/waboot/assets/dist/images/404.png">
+					<img src="<?php // echo get_site_url(); ?>/wp-content/themes/waboot/assets/images/404.png">
 				</div>
 				-->
 
