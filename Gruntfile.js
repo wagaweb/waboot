@@ -47,15 +47,9 @@ module.exports = function(grunt) {
                 dest: 'assets/src/js/waboot.js'
             }
         },
-        "jsbeautifier" : {
-            files : ['assets/src/js/main.js','assets/src/js/controllers/*.js','sassets/rc/js/views/*.js'],
-            options : {
-            }
-        },
         uglify: {
             options: {
-                // the banner is inserted at the top of the output
-                banner: '/*! <%= pkg.name %> <%= grunt.template.today("dd-mm-yyyy") %> */\n'
+                banner: '/*! <%= pkg.name %> <%= grunt.template.today("dd-mm-yyyy") %> */\n' // the banner is inserted at the top of the output
             },
             dist: {
                 files: {
@@ -70,7 +64,7 @@ module.exports = function(grunt) {
                     '<%= copy.bower_components.files %>'
                 ]
             },
-            bower_components:{
+            vendors:{
                 files:[
                     {
                         expand: true,
@@ -99,17 +93,6 @@ module.exports = function(grunt) {
                         cwd: "assets/src/bower_components/fontawesome",
                         src: "fonts/*",
                         dest: "assets/fonts"
-                    }
-                ]
-            },
-            bootstrap:{
-                files:[
-                    {
-                        expand: true,
-                        flatten: true,
-                        cwd: "assets/src/bower_components/bootstrap/dist",
-                        src: "fonts/*",
-                        dest: "assets/fonts"
                     },
                     {
                         expand: true,
@@ -118,6 +101,17 @@ module.exports = function(grunt) {
                         src: "js/bootstrap.min.js",
                         dest: "assets/dist/js/"
                     },
+                    {
+                        expand: true,
+                        flatten: true,
+                        cwd: "assets/src/bower_components/bootstrap/dist",
+                        src: "fonts/*",
+                        dest: "assets/fonts"
+                    }
+                ]
+            },
+            bootstrap_styles:{
+                files:[
                     {
                         expand: true,
                         flatten: true,
@@ -218,16 +212,16 @@ module.exports = function(grunt) {
     grunt.registerTask('default', ['setup','watch']);
 
     //Setup task
-    grunt.registerTask('setup', ['bower-install','bower-update','copy:bower_components','less:dev']);
-
-    //Generate waboot.js
-    grunt.registerTask('js', ['browserify:dist']);
+    grunt.registerTask('setup', ['bower-install','bower-update','copy:bootstrap_styles','copy:vendors','compile_less','compile_js']);
 
     //Concat, beautify and minify js
-    grunt.registerTask('jsmin', ['js','uglify']);
+    grunt.registerTask('compile_js', ['browserify:dist','uglify']);
+
+    //Styles
+    grunt.registerTask('compile_less', ['less:dev','postcss']);
 
     //Build task
-    grunt.registerTask('build', ['bower-update','copy:bower_components','less:dev','postcss','jsmin','pot','compress:build']);
+    grunt.registerTask('build', ['bower-update','copy:vendors','compile_less','compile_js','pot','compress:build']);
 
     //Runs bower install
     grunt.registerTask('bower-install', function() {

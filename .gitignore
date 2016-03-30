@@ -16,11 +16,10 @@ assets/src/less/tmp_*.*
 ############
 assets/cache/*.*
 !assets/cache/.gitkeep
-assets/dist/css/waboot.css
-assets/dist/css/waboot.css.map
-assets/dist/css/client-custom.css
+assets/dist/css/*.css
+assets/dist/css/*.map
 assets/src/js/waboot.js
-assets/dist/js/waboot.min.js
+assets/dist/js/*.js
 
 ############
 ## CHILD ASSETS

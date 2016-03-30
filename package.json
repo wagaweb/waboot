@@ -20,7 +20,7 @@
   },
   "devDependencies": {
     "autoprefixer": "^6.3.5",
-    "browserify": "^13.0.0",
+    "browserify": "^10.0.0",
     "browserify-shim": "^3.8.6",
     "cssnano": "^3.5.2",
     "grunt": "^0.4.5",
