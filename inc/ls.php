@@ -26,7 +26,7 @@ class Waboot_LS extends \WBF\includes\License implements \WBF\includes\License_I
 		// -----------------------------------
 
 		// Enter the url to your WHMCS installation here
-		$whmcsurl = 'https://waga.it/billing/';
+		$whmcsurl = 'https://clientarea.waga.it/';
 		// Must match what is specified in the MD5 Hash Verification field
 		// of the licensing product that will be used with this check.
 		$licensing_secret_key = 'wbUz9TP5d7oa89F';
