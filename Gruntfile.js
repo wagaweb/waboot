@@ -60,8 +60,8 @@ module.exports = function(grunt) {
         copy:{
             all:{
                 files:[
-                    '<%= copy.bootstrap.files %>',
-                    '<%= copy.bower_components.files %>'
+                    '<%= copy.bootstrap_styles.files %>',
+                    '<%= copy.vendors.files %>'
                 ]
             },
             vendors:{
