@@ -6,6 +6,7 @@ if(!function_exists("waboot_wbf_customizations")):
 	 */
 	function waboot_wbf_customizations(){
 		add_filter("wbf/modules/options/organizer/sections","waboot_reorder_theme_options",10,2);
+		add_filter("wbf/admin_menu/label","waboot_wbf_admin_menu_label");
 	}
 	add_action("after_setup_theme","waboot_wbf_customizations");
 endif;
@@ -129,4 +130,17 @@ function waboot_reorder_theme_options($sections,$organizer){
 		$sections = \WBF\includes\Utilities::associative_array_add_element_after($bh,"blog",$sections);
 	}
 	return $sections;
+}
+
+/**
+ * Rename the default label of admin menu
+ *
+ * @param $label
+ *
+ * @hooked 'wbf/admin_menu/label'
+ *
+ * @return string
+ */
+function waboot_wbf_admin_menu_label($label){
+	return "Waboot";
 }
