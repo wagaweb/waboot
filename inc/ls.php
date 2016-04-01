@@ -101,7 +101,8 @@ class Waboot_LS extends \WBF\includes\License implements \WBF\includes\License_I
 				curl_setopt($ch, CURLOPT_URL, $whmcsurl . $verifyfilepath);
 				curl_setopt($ch, CURLOPT_POST, 1);
 				curl_setopt($ch, CURLOPT_POSTFIELDS, $query_string);
-				curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+				//curl_setopt($ch, CURLOPT_TIMEOUT, 30); //original value
+				curl_setopt($ch, CURLOPT_TIMEOUT, 5);
 				curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 				$data = curl_exec($ch);
 				curl_close($ch);
@@ -153,7 +154,7 @@ class Waboot_LS extends \WBF\includes\License implements \WBF\includes\License_I
 					return $results;
 				}
 			}
-			if ($results['status'] == "Active") {
+			if (isset($results['status']) && $results['status'] == "Active") {
 				$results['checkdate'] = $checkdate;
 				$data_encoded = serialize($results);
 				$data_encoded = base64_encode($data_encoded);
