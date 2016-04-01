@@ -189,10 +189,11 @@ class Waboot_LS extends \WBF\includes\License implements \WBF\includes\License_I
 					update_option("waboot_license_localkey",$localkeydata);
 				}
 			}
-			return $results['status'];
-		}else{
-			return "no-license";
+			if(isset($results['status'])){
+				return $results['status'];
+			}
 		}
+		return "no-license";
 	}
 
 	public function print_license_status(){
