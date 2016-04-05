@@ -13,6 +13,7 @@ if(!function_exists("waboot_init")):
 			'commons/commons.php',
 			'inc/template-functions.php',
 			'inc/template-tags.php',
+			'inc/options.php',
 			'inc/behaviors.php',
 			'inc/init.php',
 			'inc/hooks.php',
