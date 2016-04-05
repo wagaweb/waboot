@@ -19,8 +19,19 @@ function mytheme_init(){
 add_action("after_setup_theme","mytheme_init");
 
 /*
- * For themes from waboot < 0.15.0, un-comment the following functions:
+ * BACKWARD COMPATIBILITY:
+ * For themes from waboot < 0.15.0 and wbf < 0.13.12, un-comment the following functions:
  */
+
+/*add_filter("wbft/compiler/output/directory",function($dir){
+	$base_dir = get_stylesheet_directory()."/assets/css";
+	return $base_dir;
+});
+
+add_filter("wbft/compiler/output/uri",function($uri){
+	$base_uri = get_stylesheet_directory_uri()."/assets/css";
+	return $base_uri;
+});*/
 
 /**
  * Override of waboot function for older themes
