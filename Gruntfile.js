@@ -8,129 +8,116 @@ module.exports = function(grunt) {
         pkg: grunt.file.readJSON('package.json'),
         less: {
             dev:{
-                options:{
-                },
+                options:{},
                 files:{
-                    'assets/css/waboot.css': (function(){
-                        if(fs.existsSync('sources/less/tmp_waboot.less')){
-                            return 'sources/less/tmp_waboot.less';
-                        }
-                        return 'sources/less/waboot.less';
+                    'assets/dist/css/waboot.css': (function(){
+                        /*if(fs.existsSync('assets/src/less/tmp_waboot.less')){
+                            return 'assets/src/less/tmp_waboot.less';
+                        }*/
+                        return 'assets/src/less/waboot.less';
                     })(),
-                    'assets/css/bootstrap-pagebuilder.css': 'sources/less/bootstrap-pagebuilder.less',
-                    'assets/css/theme-options.css': 'sources/less/theme-options-gui.less',
-                    'assets/css/admin.css': 'sources/less/waboot-admin.less'
+                    'assets/dist/css/bootstrap-pagebuilder.css': 'assets/src/less/bootstrap-pagebuilder.less',
+                    'assets/dist/css/theme-options.css': 'assets/src/less/theme-options-gui.less',
+                    'assets/dist/css/admin.css': 'assets/src/less/waboot-admin.less'
                 }
-            },
-            production:{
-                options:{
-                    compress: true
+            }
+        },
+        postcss: {
+            options: {
+                map: {
+                    inline: false,
+                    annotation: 'assets/dist/css/'
                 },
-                files: ['<%= less.dev.files %>']
+                processors: [
+                    require('pixrem')(),
+                    require('autoprefixer')({browsers: 'last 2 versions'}),
+                    require('cssnano')()
+                ]
             },
-            waboot:{
-                options:{
-                    compress: true,
-                    sourceMap: true,
-                    sourceMapFilename: "assets/css/waboot.css.map",
-                    sourceMapBasepath: "assets/css"
-                },
-                files: {
-                    'assets/css/waboot.css': (function(){
-                        if(fs.existsSync('sources/less/tmp_waboot.less')){
-                            return 'sources/less/tmp_waboot.less';
-                        }
-                        return 'sources/less/waboot.less';
-                    })()
-                }                
+            dist: {
+                src: 'assets/dist/css/waboot.css'
             }
         },
         jshint : {
-            all : ['sources/js/**/*.js','!sources/js/waboot.js','!sources/js/vendor/offcanvas.js']
+            all : ['assets/src/js/**/*.js','!assets/src/js/waboot.js','!assets/src/js/vendor/offcanvas.js']
         },
         browserify: {
             dist: {
-                src: ['sources/js/main.js'],
-                dest: 'sources/js/waboot.js'
-            }
-        },
-        "jsbeautifier" : {
-            files : ['sources/js/main.js','sources/js/controllers/*.js','sources/js/views/*.js'],
-            options : {
+                src: ['assets/src/js/main.js'],
+                dest: 'assets/src/js/waboot.js'
             }
         },
         uglify: {
             options: {
-                // the banner is inserted at the top of the output
-                banner: '/*! <%= pkg.name %> <%= grunt.template.today("dd-mm-yyyy") %> */\n'
+                banner: '/*! <%= pkg.name %> <%= grunt.template.today("dd-mm-yyyy") %> */\n' // the banner is inserted at the top of the output
             },
             dist: {
                 files: {
-                    'assets/js/waboot.min.js': ['sources/js/waboot.js']
+                    'assets/dist/js/waboot.min.js': ['assets/src/js/waboot.js']
                 }
             }
         },
         copy:{
             all:{
                 files:[
-                    '<%= copy.bootstrap.files %>',
-                    '<%= copy.bower_components.files %>'
+                    '<%= copy.bootstrap_styles.files %>',
+                    '<%= copy.vendors.files %>'
                 ]
             },
-            bower_components:{
+            vendors:{
                 files:[
                     {
                         expand: true,
                         flatten: true,
-                        cwd: "bower_components/html5shiv/dist",
+                        cwd: "assets/src/bower_components/html5shiv/dist",
                         src: "html5shiv.min.js",
-                        dest: "assets/js"
+                        dest: "assets/dist/js"
                     },
                     {
                         expand: true,
                         flatten: true,
-                        cwd: "bower_components/respond/dest",
+                        cwd: "assets/src/bower_components/respond/dest",
                         src: "respond.min.js",
-                        dest: "assets/js"
+                        dest: "assets/dist/js"
                     },
                     {
                         expand: true,
                         flatten: true,
-                        cwd: "bower_components/fontawesome",
+                        cwd: "assets/src/bower_components/fontawesome",
                         src: "css/font-awesome.min.css",
-                        dest: "assets/css"
+                        dest: "assets/dist/css"
                     },
                     {
                         expand: true,
                         flatten: true,
-                        cwd: "bower_components/fontawesome",
+                        cwd: "assets/src/bower_components/fontawesome",
+                        src: "fonts/*",
+                        dest: "assets/fonts"
+                    },
+                    {
+                        expand: true,
+                        flatten: true,
+                        cwd: "assets/src/bower_components/bootstrap/dist",
+                        src: "js/bootstrap.min.js",
+                        dest: "assets/dist/js/"
+                    },
+                    {
+                        expand: true,
+                        flatten: true,
+                        cwd: "assets/src/bower_components/bootstrap/dist",
                         src: "fonts/*",
                         dest: "assets/fonts"
                     }
                 ]
             },
-            bootstrap:{
+            bootstrap_styles:{
                 files:[
                     {
                         expand: true,
                         flatten: true,
-                        cwd: "bower_components/bootstrap/dist",
-                        src: "fonts/*",
-                        dest: "assets/fonts"
-                    },
-                    {
-                        expand: true,
-                        flatten: true,
-                        cwd: "bower_components/bootstrap/dist",
-                        src: "js/bootstrap.min.js",
-                        dest: "assets/js/"
-                    },
-                    {
-                        expand: true,
-                        flatten: true,
-                        cwd: "bower_components/bootstrap/less",
+                        cwd: "assets/src/bower_components/bootstrap/less",
                         src: ['**/*','.csscomb.json','.csslintrc'],
-                        dest: "sources/bootstrap/"
+                        dest: "assets/src/less/bootstrap/"
                     }
                 ]
             },
@@ -152,10 +139,11 @@ module.exports = function(grunt) {
                             "!builds/**",
                             "!node_modules/**",
                             "!components/**/node_modules/**",
-                            "!bower_components/**",
+                            "!assets/src/bower_components/**",
                             "!components/**/bower_components/**",
                             "!assets/cache/**",
-                            "!wbf/**",
+                            "!wbf/options/*.css",
+                            "!wbf/options/*.less",
                             "!_bak/**"
                         ],
                         dest: "builds/waboot-<%= pkg.version %>/"
@@ -206,7 +194,7 @@ module.exports = function(grunt) {
         },
         watch: {
             less: {
-                files: 'sources/less/*.less',
+                files: 'assets/src/less/*.less',
                 tasks: ['less:dev']
             },
             scripts:{
@@ -224,16 +212,16 @@ module.exports = function(grunt) {
     grunt.registerTask('default', ['setup','watch']);
 
     //Setup task
-    grunt.registerTask('setup', ['bower-install','bower-update','copy:bower_components','less:dev']);
-
-    //Generate waboot.js
-    grunt.registerTask('js', ['browserify:dist']);
+    grunt.registerTask('setup', ['bower-install','bower-update','copy:bootstrap_styles','copy:vendors','compile_less','compile_js']);
 
     //Concat, beautify and minify js
-    grunt.registerTask('jsmin', ['js','uglify']);
+    grunt.registerTask('compile_js', ['browserify:dist','uglify']);
+
+    //Styles
+    grunt.registerTask('compile_less', ['less:dev','postcss']);
 
     //Build task
-    grunt.registerTask('build', ['bower-update','copy:bower_components','less:production','less:waboot','jsmin','pot','compress:build']);
+    grunt.registerTask('build', ['bower-update','copy:vendors','compile_less','compile_js','pot','compress:build']);
 
     //Runs bower install
     grunt.registerTask('bower-install', function() {

@@ -29,7 +29,7 @@ function waboot_theme_styles() {
 	}
 
 	/* Load theme styles */
-    wp_enqueue_style( 'font-awesome', wbf_locate_template_uri( 'assets/css/font-awesome.min.css' ), $theme['Version'], 'all' );
+    wp_enqueue_style( 'font-awesome', wbf_locate_template_uri( 'assets/dist/css/font-awesome.min.css' ), $theme['Version'], 'all' );
     wp_enqueue_style( 'main-style', $compiled_stylesheet_path, array( 'font-awesome' ), $main_style_version, 'all' );
 	wp_enqueue_style( 'core-style', get_stylesheet_uri(), array( 'font-awesome' ), $theme['Version'], 'all' ); //style.css
 }
@@ -37,7 +37,7 @@ add_action( 'wp_enqueue_scripts', 'waboot_theme_styles' );
 
 // Load backend styles
 function waboot_admin_styles(){
-	wp_enqueue_style( 'main-admin-style', wbf_locate_template_uri( "assets/css/admin.css" ));
+	wp_enqueue_style( 'main-admin-style', wbf_locate_template_uri( "assets/dist/css/admin.css" ));
 }
 add_action( 'admin_enqueue_scripts', 'waboot_admin_styles' );
 
@@ -50,7 +50,7 @@ add_action( 'admin_enqueue_scripts', 'waboot_admin_styles' );
  */
 function waboot_editor_styles() {
 	$theme_name = waboot_get_compiled_stylesheet_name();
-	add_editor_style(wbf_locate_template_uri("assets/css/{$theme_name}.css"));
+	add_editor_style(wbf_locate_template_uri("assets/dist/css/{$theme_name}.css"));
 }
 add_action('init', 'waboot_editor_styles');
 
@@ -66,9 +66,9 @@ function waboot_post_type_editor_styles() {
 		$post_type = get_post_type($post->ID);
 		$editor_style = 'tinymce-' . $post_type . '.css'; //Es: tinymce-post.css
 		if(function_exists("wbf_locate_template_uri")) :
-			$style_uri = wbf_locate_template_uri("assets/css/{$editor_style}");
+			$style_uri = wbf_locate_template_uri("assets/dist/css/{$editor_style}");
 			if(!empty($style_uri)){
-				add_editor_style(wbf_locate_template_uri("assets/css/{$editor_style}"));
+				add_editor_style(wbf_locate_template_uri("assets/dist/css/{$editor_style}"));
 			}
 		endif;
 	}

@@ -346,9 +346,13 @@ class SlideshowComponent extends \WBF\modules\components\Component{
     }
 
     public function shortcode($atts){
-        if(isset($atts['id'])){
+        $output = "";
+	    if(isset($atts['id'])){
+	        ob_start();
             $this->display_slideshow($atts['id']);
+	        $output = ob_get_clean();
         }
+	    return $output;
     }
 
     public function register_metabox(){

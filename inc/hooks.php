@@ -5,16 +5,6 @@ require_once("hooks/entry-footer.php");
 require_once("hooks/layout.php");
 require_once("hooks/ajax.php");
 
-if(!function_exists("wbft_header_flush")):
-	/**
-	 * Flush(); after the header: https://developer.yahoo.com/performance/rules.html
-	 */
-	function wbft_header_flush(){
-		flush();
-	}
-	add_action( 'waboot_head_after', 'wbft_header_flush', 0 );
-endif;
-
 if(!function_exists('waboot_behaviors_cpts_blacklist')):
     /**
      * Puts some custom post types into blacklist (in these post types the behavior will never be displayed)
@@ -67,7 +57,7 @@ if(!is_admin() && !function_exists("waboot_mobile_body_class") && class_exists("
 	 * Adds mobile classes to body
 	 */
 	function waboot_mobile_body_class($classes){
-		$md = WBF::get_mobile_detect();
+		$md = WBF::getInstance()->get_mobile_detect();
 		if($md->isMobile()){
 			$classes[] = "mobile";
 			if($md->is_ios()) $classes[] = "mobile-ios";
@@ -131,8 +121,16 @@ endif;
 /*
  * COMPILER
  */
+
 if(is_multisite() && !function_exists("wbft_multisite_output_stylesheet_name")):
 	add_filter("wbft/compiler/output/filename","wbft_multisite_output_stylesheet_name");
+	/**
+	 * Alter the compiled stylesheet name in multisite environment
+	 *
+	 * @param $filename
+	 *
+	 * @return string
+	 */
 	function wbft_multisite_output_stylesheet_name($filename){
 		if(wbft_wbf_in_use()){
 			$blogname = wbf_get_sanitized_blogname();
