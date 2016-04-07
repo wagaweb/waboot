@@ -25,10 +25,11 @@ if(!function_exists("waboot_init")):
 		$wb = Waboot();
 		
 		//Build up the theme
+		$wb->layout->create_zone("header",new \WBF\includes\mvc\HTMLView("templates/header.php"));
 		$wb->layout->create_zone("aside-primary",new \WBF\includes\mvc\HTMLView("templates/aside.php"));
 		$wb->layout->create_zone("main",new \WBF\includes\mvc\HTMLView("templates/main.php"));
 		$wb->layout->create_zone("aside-secondary",new \WBF\includes\mvc\HTMLView("templates/aside.php"));
-		$wb->layout->create_zone("footer",new \WBF\includes\mvc\HTMLView("templates/aside.php"));
+		$wb->layout->create_zone("footer",new \WBF\includes\mvc\HTMLView("templates/footer.php"));
 	}
 	waboot_init();
 endif;
