@@ -30,6 +30,14 @@ if(!function_exists("waboot_init")):
 		$wb->layout->create_zone("main",new \WBF\includes\mvc\HTMLView("templates/main.php"));
 		$wb->layout->create_zone("aside-secondary",new \WBF\includes\mvc\HTMLView("templates/aside.php"));
 		$wb->layout->create_zone("footer",new \WBF\includes\mvc\HTMLView("templates/footer.php"));
+
+		//Loads std hooks
+		$zone_std_hooks_file = locate_template("inc/hooks/zones_std_hooks.php");
+		if($zone_std_hooks_file){
+			require_once $zone_std_hooks_file;
+		}else{
+			trigger_error(sprintf(__('Error locating %s for inclusion', 'waboot'), $zone_std_hooks_file), E_USER_ERROR);
+		}
 	}
 	waboot_init();
 endif;

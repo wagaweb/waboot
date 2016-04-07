@@ -101,7 +101,7 @@ class Layout{
 	 *
 	 * @throws \Exception
 	 */
-	public function add_zone_action($slug,$function_to_call,$priority,$accepted_args){
+	public function add_zone_action($slug,$function_to_call,$priority = 10,$accepted_args = 1){
 		$this->check_zone($slug);
 
 		$zone = $this->zones[$slug];
