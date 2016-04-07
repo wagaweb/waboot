@@ -1,3 +1,8 @@
+<?php
+/*
+ * Included into head.php via 'waboot/head/start'
+ */
+?>
 <meta charset="<?php bloginfo( 'charset' ); ?>" />
 <!-- [if IE]> <meta http-equiv="X-UA-Compatible" content="IE=Edge"/> <! [endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1">
