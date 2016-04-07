@@ -8,7 +8,8 @@ if(!function_exists("waboot_init")):
 		$waboot_includes = [
 			'inc/template-functions.php',
 			'inc/template-tags.php',
-			'inc/Waboot.php'
+			'inc/Layout.php',
+			'inc/Theme.php'
 		];
 
 		//Require mandatory files
@@ -21,7 +22,13 @@ if(!function_exists("waboot_init")):
 		unset($file, $filepath);
 
 		//Init
-		\Waboot\Theme::getInstance();
+		$wb = Waboot();
+		
+		//Build up the theme
+		$wb->layout->create_zone("aside-primary",new \WBF\includes\mvc\HTMLView("templates/aside.php"));
+		$wb->layout->create_zone("main",new \WBF\includes\mvc\HTMLView("templates/main.php"));
+		$wb->layout->create_zone("aside-secondary",new \WBF\includes\mvc\HTMLView("templates/aside.php"));
+		$wb->layout->create_zone("footer",new \WBF\includes\mvc\HTMLView("templates/aside.php"));
 	}
 	waboot_init();
 endif;

@@ -3,12 +3,17 @@
 namespace Waboot;
 
 use WBF\includes\mvc\HTMLView;
+use wbf\includes\mvc\View;
 
 class Layout{
 	/**
 	 * @var Layout
 	 */
 	private static $instance;
+	/**
+	 * @var array
+	 */
+	private $zones = [];
 	
 	/**
 	 * Returns the *Singleton* instance.
@@ -22,23 +27,62 @@ class Layout{
 
 		return static::$instance;
 	}
-	
+
 	/**
-	 * Renders the main
+	 * Creates a new template zone
+	 *
+	 * @param $slug
+	 * @param $template
+	 *
+	 * @return $this
+	 * @throws \Exception
 	 */
-	public function main(){
-		(new HTMLView("templates/main.php"))->clean()->display([]);
+	public function create_zone($slug,$template){
+		//Checks for valid template
+		if(!is_string($template) && !is_array($template) && !$template instanceof View){
+			throw new \Exception("You cannot create a zone thats is neither a string, an array or a View instance");
+		}
+		//Check template existence
+		if(is_string($template) || is_array($template)){
+			if(is_array($template)){
+				$template = implode("-",$template);
+			}
+			$tpl_file = locate_template($template);
+			if(!$tpl_file){
+				throw new \Exception("The {$template} for the zone {$slug} does not exists");
+			}
+		}
+		//Save the zone
+		$this->zones[$slug] = [
+			'slug' => $slug,
+			'template' => $template
+		];
+		return $this;
 	}
-	
+
 	/**
-	 * Renders an aside
-	 * 
-	 * @param $name
+	 * Renders a template zone
+	 *
+	 * @param $slug
+	 *
+	 * @throws \Exception
 	 */
-	public function aside($name){
-		(new HTMLView("templates/aside.php"))->clean()->display([
-			'name' => $name
-		]);
+	public function render_zone($slug){
+		if(!isset($this->zones[$slug])) throw new \Exception("Zone {$slug} not found");
+
+		$zone = $this->zones[$slug];
+
+		if(is_string($zone['template'])){
+			get_template_part($zone['template']);
+		}elseif(is_array($zone['template'])){
+			list($template,$part) = $zone['template'];
+			get_template_part($template,$part);
+		}else{
+			//Here we have a View instance
+			$zone['template']->clean()->display([
+				"name" => $zone['slug']
+			]);
+		}
 	}
 
 	/**

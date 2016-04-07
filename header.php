@@ -1,6 +1,4 @@
-<?php get_template_part("/templates/parts/heade"); ?>
+<?php get_template_part("/templates/parts/head"); ?>
 <?php do_action( 'waboot_head_after' ); ?>
 <body <?php body_class(); ?> >
-    <header>
-        <?php do_action("waboot_header"); ?>
-    </header>
+	<?php Waboot()->layout->render_zone("header"); ?>

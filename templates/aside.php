@@ -1,3 +1,3 @@
 <aside id="<?php echo $name ?>">
-	Test
+	Waboot Aside
 </aside>
