@@ -38,6 +38,10 @@ class Layout{
 	 * @throws \Exception
 	 */
 	public function create_zone($slug,$template){
+		//Check for valid slug
+		if(preg_match("/ /",$slug)){
+			throw new \Exception("You cannot have whitespaces in a zone slug");
+		}
 		//Checks for valid template
 		if(!is_string($template) && !is_array($template) && !$template instanceof View){
 			throw new \Exception("You cannot create a zone thats is neither a string, an array or a View instance");
@@ -55,7 +59,9 @@ class Layout{
 		//Save the zone
 		$this->zones[$slug] = [
 			'slug' => $slug,
-			'template' => $template
+			'template' => $template,
+			'actions_hook' => 'waboot/zones/'.$slug,
+			'actions' => []
 		];
 		return $this;
 	}
@@ -68,7 +74,7 @@ class Layout{
 	 * @throws \Exception
 	 */
 	public function render_zone($slug){
-		if(!isset($this->zones[$slug])) throw new \Exception("Zone {$slug} not found");
+		$this->check_zone($slug);
 
 		$zone = $this->zones[$slug];
 
@@ -83,6 +89,52 @@ class Layout{
 				"name" => $zone['slug']
 			]);
 		}
+	}
+
+	/**
+	 * Adds an action to the zone
+	 * 
+	 * @param $slug
+	 * @param $function_to_call
+	 * @param $priority
+	 * @param $accepted_args
+	 *
+	 * @throws \Exception
+	 */
+	public function add_zone_action($slug,$function_to_call,$priority,$accepted_args){
+		$this->check_zone($slug);
+
+		$zone = $this->zones[$slug];
+		
+		add_action($zone['actions_hook'],$function_to_call,$priority,$accepted_args);
+	}
+
+	/**
+	 * Performs zone actions
+	 * 
+	 * @param $slug
+	 *
+	 * @throws \Exception
+	 */
+	public function do_zone_action($slug){
+		$this->check_zone($slug);
+
+		$zone = $this->zones[$slug];
+		
+		do_action($zone['actions_hook']);
+	}
+
+	/**
+	 * Checks whether a zone exists or not
+	 * 
+	 * @param $slug
+	 *
+	 * @return bool
+	 * @throws \Exception
+	 */
+	private function check_zone($slug){
+		if(!isset($this->zones[$slug])) throw new \Exception("Zone {$slug} not found");
+		return true;
 	}
 
 	/**
