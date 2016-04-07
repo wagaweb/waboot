@@ -39,7 +39,7 @@ class TopNavWrapperComponent extends \WBF\modules\components\Component{
 	}
 	
 	public function display_tpl(){
-		$v = new \WBF\includes\mvc\HTMLView("components/topNavWrapper/templates/tpl.php");
+		$v = new \WBF\includes\mvc\HTMLView($this->relative_path."/templates/tpl.php");
 		
 		$social_class = call_user_func(function(){
 			$social_position = wb_get_option('social_position');
