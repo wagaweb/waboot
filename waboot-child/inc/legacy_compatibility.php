@@ -1,10 +1,14 @@
 <?php
 /*
  * BACKWARD COMPATIBILITY:
- * For themes from waboot < 0.15.0 and wbf < 0.13.12, un-comment the following functions:
+ * For themes from waboot < 0.15.0 and wbf < 0.13.12
+ *
+ * ADDITIONAL TO-DO:
+ *
+ * If your child theme has the incorrect path to waboot.less in /sources/less/waboot-child.less, fix it with:
+ * @import '../../../waboot/assets/src/less/waboot.less';
+ *
  */
-
-
 if(!function_exists("is_ipad")){
 	function is_ipad(){
 		return wb_is_ipad();
