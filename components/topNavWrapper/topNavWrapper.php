@@ -71,8 +71,13 @@ class TopNavWrapperComponent extends \WBF\modules\components\Component{
 			'topnav-inner_class' => wb_get_option('topnav_width','container-fluid')
 		]);
 	}
+	
+	/*public function register_options() {
+		parent::register_options();
+		$orgzr = \WBF\modules\options\Organizer::getInstance();
+	}*/
 
-    public function theme_options($options){
+	public function theme_options($options){
         $options = parent::theme_options($options);
         //Do stuff...
         $options[] = array(
