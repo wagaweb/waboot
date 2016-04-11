@@ -34,10 +34,10 @@ class Theme{
 	 */
 	public function load_hooks(){
 		$hooks_files = [
-			'init.php',
-			'hooks.php',
-			'stylesheets.php',
-			'scripts.php',
+			'inc/hooks/init.php',
+			'inc/hooks/hooks.php',
+			'inc/hooks/stylesheets.php',
+			'inc/hooks/scripts.php',
 		];
 		foreach($hooks_files as $file){
 			if (!$filepath = locate_template($file)) {
@@ -45,6 +45,7 @@ class Theme{
 			}
 			require_once $filepath;
 		}
+		return $this;
 	}
 
 	/**
