@@ -38,7 +38,7 @@ class TopNavWrapperComponent extends \WBF\modules\components\Component{
 			$display_zone = call_user_func(function(){
 				$zone = "header";
 				if(function_exists("wb_get_option")){
-					$zone_opt = wb_get_option($this->name."_display_zone");
+					$zone_opt = wb_get_option(strtolower($this->name)."_display_zone");
 					if($zone_opt){
 						$zone = $zone_opt;
 					}
@@ -48,7 +48,7 @@ class TopNavWrapperComponent extends \WBF\modules\components\Component{
 			$display_priority = call_user_func(function(){
 				$p = "10";
 				if(function_exists("wb_get_option")){
-					$p_opt = wb_get_option($this->name."_display_priority");
+					$p_opt = wb_get_option(strtolower($this->name)."_display_priority");
 					if($p_opt){
 						$p = $p_opt;
 					}
@@ -105,7 +105,13 @@ class TopNavWrapperComponent extends \WBF\modules\components\Component{
 		$zones = Waboot()->layout->getZones();
 		if(empty($zones) || !isset($zones['header'])) return $options;
 
-		$zones = array_keys($zones);
+		$zone_options = call_user_func(function() use($zones){
+			$opts = [];
+			foreach($zones as $k => $v){
+				$opts[$k] = $v['slug'];
+			}
+			return $opts;
+		});
 
         $options[] = array(
             'name' => _x( 'Zone Settings', 'component settings', 'waboot' ),
@@ -115,15 +121,15 @@ class TopNavWrapperComponent extends \WBF\modules\components\Component{
         $options[] = array(
             'name' => _x( 'Position', 'component settings', 'waboot' ),
             'desc' => _x( 'Choose in which zone you want to display', 'component_settings', 'waboot' ),
-            'id'   => $this->name.'_display_zone',
+            'id'   => strtolower($this->name).'_display_zone',
             'std'  => 'header',
-			'options' => $zones,
+			'options' => $zone_options,
             'type' => 'select'
         );
 		$options[] = array(
 			'name' => _x( 'Priority', 'component settings', 'waboot' ),
 			'desc' => _x( 'Choose the display priority', 'component_settings', 'waboot' ),
-			'id'   => $this->name.'_display_priority',
+			'id'   => strtolower($this->name).'_display_priority',
 			'std'  => '10',
 			'type' => 'text'
 		);
