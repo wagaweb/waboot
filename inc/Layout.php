@@ -113,6 +113,11 @@ class Layout{
 		$this->check_zone($slug);
 
 		$zone = $this->zones[$slug];
+
+		$this->zones[$slug]['actions'][] = [
+			"callable" =>  $function_to_call,
+			"priority" => $priority
+		]; 
 		
 		add_action($zone['actions_hook'],$function_to_call,$priority,$accepted_args);
 	}
