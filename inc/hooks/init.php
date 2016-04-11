@@ -108,4 +108,4 @@ add_action("after_setup_theme",__NAMESPACE__."\\register_menus",11);
 function set_wbf_admin_menu_label($label){
 	return "Waboot";
 }
-add_filter("wbf/admin_menu/label",__NAMESPACE__."set_wbf_admin_menu_label");
+add_filter("wbf/admin_menu/label",__NAMESPACE__."\\set_wbf_admin_menu_label");
