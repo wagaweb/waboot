@@ -33,8 +33,29 @@ class TopNavWrapperComponent extends \WBF\modules\components\Component{
 			}
 			return $can_display;
 		});
+		$can_display = true;
 		if($can_display){
-			Waboot()->layout->add_zone_action("header",[$this,"display_tpl"]);
+			$display_zone = call_user_func(function(){
+				$zone = "header";
+				if(function_exists("wb_get_option")){
+					$zone_opt = wb_get_option($this->name."_display_zone");
+					if($zone_opt){
+						$zone = $zone_opt;
+					}
+				}
+				return $zone;
+			});
+			$display_priority = call_user_func(function(){
+				$p = "10";
+				if(function_exists("wb_get_option")){
+					$p_opt = wb_get_option($this->name."_display_priority");
+					if($p_opt){
+						$p = $p_opt;
+					}
+				}
+				return $p;
+			});
+			Waboot()->layout->add_zone_action($display_zone,[$this,"display_tpl"],intval($display_priority));
 		}
 	}
 	
@@ -71,27 +92,42 @@ class TopNavWrapperComponent extends \WBF\modules\components\Component{
 			'topnav-inner_class' => wb_get_option('topnav_width','container-fluid')
 		]);
 	}
-	
-	/*public function register_options() {
+
+	/*public function register_options(){
 		parent::register_options();
 		$orgzr = \WBF\modules\options\Organizer::getInstance();
 	}*/
 
 	public function theme_options($options){
-        $options = parent::theme_options($options);
-        //Do stuff...
+		$options = parent::theme_options($options);
+
+		if(!function_exists("Waboot")) return $options;
+		$zones = Waboot()->layout->getZones();
+		if(empty($zones) || !isset($zones['header'])) return $options;
+
+		$zones = array_keys($zones);
+
         $options[] = array(
-            'name' => __( 'Sample Info Box', 'waboot' ),
-            'desc' => __( 'This is a sample infobox', 'waboot' ),
+            'name' => _x( 'Zone Settings', 'component settings', 'waboot' ),
+            'desc' => _x( 'Choose zone settings for this component', 'component_settings', 'waboot' ),
             'type' => 'info'
         );
         $options[] = array(
-            'name' => __( 'Sample check box', 'waboot' ),
-            'desc' => __( 'This is a sample checkbox.', 'waboot' ),
-            'id'   => $this->name.'_sample_checkbox',
-            'std'  => '0', //not enabled by default
-            'type' => 'checkbox'
+            'name' => _x( 'Position', 'component settings', 'waboot' ),
+            'desc' => _x( 'Choose in which zone you want to display', 'component_settings', 'waboot' ),
+            'id'   => $this->name.'_display_zone',
+            'std'  => 'header',
+			'options' => $zones,
+            'type' => 'select'
         );
+		$options[] = array(
+			'name' => _x( 'Priority', 'component settings', 'waboot' ),
+			'desc' => _x( 'Choose the display priority', 'component_settings', 'waboot' ),
+			'id'   => $this->name.'_display_priority',
+			'std'  => '10',
+			'type' => 'text'
+		);
+
         return $options;
     }
 }
