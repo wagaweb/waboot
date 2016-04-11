@@ -20,9 +20,9 @@ function enqueue_js() {
 	$wpData = apply_filters("wbft/js/localization",array(
 			'ajaxurl' => admin_url('admin-ajax.php'),
 			'wpurl' => get_bloginfo('wpurl'),
-			'isMobile' => wbft_wbf_in_use() ? wb_is_mobile() : null,
+			'isMobile' => class_exists("WBF") ? wb_is_mobile() : null,
 			'isAdmin' => is_admin(),
-			'isDebug' => WP_DEBUG || WABOOT_ENV == "dev" || WBF_ENV == "dev",
+			'isDebug' => defined("WP_DEBUG") && WP_DEBUG,
 			'wp_screen' => function_exists("get_current_screen") ? get_current_screen() : null,
 			'components' => isset($GLOBALS['loaded_components']) ? $GLOBALS['loaded_components'] : null,
 			'components_js' => call_user_func(function(){
