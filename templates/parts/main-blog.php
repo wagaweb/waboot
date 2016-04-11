@@ -1,3 +1,8 @@
+<?php
+/*
+ * The main blog template. It is hooked at the "main" zone in "zones_std_hooks.php"
+ */
+?>
 <?php if ( have_posts() ) : ?>
 	<div>
 		<?php while(have_posts()) :  the_post(); ?>
