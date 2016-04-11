@@ -9,7 +9,7 @@ function Waboot(){
 	return \Waboot\Theme::getInstance();
 }
 
-if(!function_exists("wb_get_option") && function_exists('\WBF\modules\options\of_get_option')):
+if(!function_exists("wb_get_option")):
 	/**
 	 * Wrapper for \WBF\modules\options\of_get_option
 	 *
