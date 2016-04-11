@@ -144,7 +144,10 @@ module.exports = function(grunt) {
                             "!assets/cache/**",
                             "!wbf/options/*.css",
                             "!wbf/options/*.less",
-                            "!_bak/**"
+                            "!_bak/**",
+                            "waboot-child/Gruntfile.js",
+                            "waboot-child/.gitignore",
+                            "waboot-child/package.json"
                         ],
                         dest: "builds/waboot-<%= pkg.version %>/"
                     }
