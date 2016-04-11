@@ -31,13 +31,14 @@ class Layout{
 	/**
 	 * Creates a new template zone
 	 *
-	 * @param $slug
-	 * @param $template
+	 * @param string $slug
+	 * @param string|array|View $template
+	 * @param array $args
 	 *
 	 * @return $this
 	 * @throws \Exception
 	 */
-	public function create_zone($slug,$template){
+	public function create_zone($slug,$template,$args = []){
 		//Check for valid slug
 		if(preg_match("/ /",$slug)){
 			throw new \Exception("You cannot have whitespaces in a zone slug");
@@ -57,11 +58,16 @@ class Layout{
 			}
 		}
 		//Save the zone
+		$args = wp_parse_args($args,[
+			'always_load' => false
+		]);
+
 		$this->zones[$slug] = [
 			'slug' => $slug,
 			'template' => $template,
 			'actions_hook' => 'waboot/zones/'.$slug,
-			'actions' => []
+			'actions' => [],
+			'options' => $args
 		];
 		return $this;
 	}
@@ -78,16 +84,18 @@ class Layout{
 
 		$zone = $this->zones[$slug];
 
-		if(is_string($zone['template'])){
-			get_template_part($zone['template']);
-		}elseif(is_array($zone['template'])){
-			list($template,$part) = $zone['template'];
-			get_template_part($template,$part);
-		}else{
-			//Here we have a View instance
-			$zone['template']->clean()->display([
-				"name" => $zone['slug']
-			]);
+		if($zone['options']['always_load'] || !empty($zone['actions'])){ //Render the zone only if need to...
+			if(is_string($zone['template'])){
+				get_template_part($zone['template']);
+			}elseif(is_array($zone['template'])){
+				list($template,$part) = $zone['template'];
+				get_template_part($template,$part);
+			}else{
+				//Here we have a View instance
+				$zone['template']->clean()->display([
+					"name" => $zone['slug']
+				]);
+			}
 		}
 	}
 
@@ -122,6 +130,15 @@ class Layout{
 		$zone = $this->zones[$slug];
 		
 		do_action($zone['actions_hook']);
+	}
+
+	/**
+	 * Get the available zones
+	 *
+	 * @return array
+	 */
+	public function getZones(){
+		return $this->zones;
 	}
 
 	/**
