@@ -73,6 +73,20 @@ class Layout{
 	}
 
 	/**
+	 * Set an attribute value (the options array) to a zone
+	 *
+	 * @param $zone_slug
+	 * @param $zone_attr
+	 * @param $attr_value
+	 *
+	 * @throws \Exception
+	 */
+	public function set_zone_attr($zone_slug,$zone_attr,$attr_value){
+		$this->check_zone($zone_slug);
+		$this->zones[$zone_slug]['options'][$zone_attr] = $attr_value;
+	}
+
+	/**
 	 * Renders a template zone
 	 *
 	 * @param $slug
@@ -117,7 +131,7 @@ class Layout{
 		$this->zones[$slug]['actions'][] = [
 			"callable" =>  $function_to_call,
 			"priority" => $priority
-		]; 
+		];
 		
 		add_action($zone['actions_hook'],$function_to_call,$priority,$accepted_args);
 	}
