@@ -93,10 +93,99 @@ class TopNavWrapperComponent extends \WBF\modules\components\Component{
 		]);
 	}
 
-	/*public function register_options(){
+	public function register_options(){
 		parent::register_options();
 		$orgzr = \WBF\modules\options\Organizer::getInstance();
-	}*/
+
+		$imagepath = WBF()->resources->get_admin_assets_uri()."/images/";
+
+		$orgzr->set_group($this->name."_component");
+
+		$orgzr->add_section("layout",_x("Layout","Theme options section","waboot"));
+		$orgzr->add_section("header",_x("Header","Theme options section","waboot"));
+		$orgzr->add_section("social",_x("Socials","Theme options section","waboot"));
+
+		$orgzr->add(array(
+			'name' => __('Top Nav', 'waboot'),
+			'desc' => __('Select Top Nav width. Fluid or Boxed?', 'waboot'),
+			'id' => 'waboot_topnav_width',
+			'std' => 'container',
+			'type' => 'images',
+			'options' => array(
+				'container-fluid' => array (
+					'label' => 'Fluid',
+					'value' => $imagepath . 'layout/top-nav-fluid.png'
+				),
+				'container' => array (
+					'label' => 'Boxed',
+					'value' => $imagepath . 'layout/top-nav-boxed.png'
+				)
+			)
+		),"layout");
+
+		$orgzr->add(array(
+			'name' => __('Top Nav Menu Position', 'waboot'),
+			'desc' => __('Select the Top Nav Menu position', 'waboot'),
+			'id' => 'topnavmenu_position',
+			'std' => 'left',
+			'type' => 'images',
+			'options' => array(
+				'left' => array (
+					'label' => 'Left',
+					'value' => $imagepath . 'topnav/top-nav-left.png'
+				),
+				'right' => array (
+					'label' => 'Right',
+					'value' => $imagepath . 'topnav/top-nav-right.png'
+				)
+			)
+		),"header");
+
+		$orgzr->add(array(
+			'name' => __( 'Social Position', 'waboot' ),
+			'desc' => __( 'Select one of the following positions for the social links', 'waboot' ),
+			'id' => 'social_position',
+			'type' => 'images',
+			'std'  => 'navigation',
+			'options' => array(
+				'footer' =>  array(
+					'label' => 'Footer',
+					'value' => $imagepath . 'social/footer.png'
+				),
+				'header-right' =>  array(
+					'label' => 'Header Right',
+					'value' => $imagepath . 'social/header-right.png'
+				),
+				'header-left' =>  array(
+					'label' => 'Header Left',
+					'value' => $imagepath . 'social/header-left.png'
+				),
+				'topnav-right' =>  array(
+					'label' => 'Topnav Right',
+					'value' => $imagepath . 'social/topnav-right.png'
+				),
+				'topnav-left' =>  array(
+					'label' => 'Topnav Left',
+					'value' => $imagepath . 'social/topnav-left.png'
+				),
+				'navigation' =>  array(
+					'label' => 'Navigation',
+					'value' => $imagepath . 'social/nav.png'
+				)
+			)
+		),"social");
+
+		$orgzr->add(array(
+			'name' => __( 'Do not use any of the previous positions', 'waboot' ),
+			'desc' => __( 'You can manually place the social links with the <strong>waboot social widget</strong> (even if one of the previous positions is selected)', 'waboot' ),
+			'id'   => 'social_position_none',
+			'std'  => '0',
+			'type' => 'checkbox'
+		),"social");
+
+		$orgzr->reset_group();
+		$orgzr->reset_section();
+	}
 
 	public function theme_options($options){
 		$options = parent::theme_options($options);
