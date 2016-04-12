@@ -105,83 +105,83 @@ class TopNavWrapperComponent extends \WBF\modules\components\Component{
 		$orgzr->add_section("header",_x("Header","Theme options section","waboot"));
 		$orgzr->add_section("social",_x("Socials","Theme options section","waboot"));
 
-		$orgzr->add(array(
+		$orgzr->add([
 			'name' => __('Top Nav', 'waboot'),
 			'desc' => __('Select Top Nav width. Fluid or Boxed?', 'waboot'),
 			'id' => 'waboot_topnav_width',
 			'std' => 'container',
 			'type' => 'images',
-			'options' => array(
-				'container-fluid' => array (
+			'options' => [
+				'container-fluid' => [
 					'label' => 'Fluid',
 					'value' => $imagepath . 'layout/top-nav-fluid.png'
-				),
-				'container' => array (
+				],
+				'container' => [
 					'label' => 'Boxed',
 					'value' => $imagepath . 'layout/top-nav-boxed.png'
-				)
-			)
-		),"layout");
+				]
+			]
+		],"layout");
 
-		$orgzr->add(array(
+		$orgzr->add([
 			'name' => __('Top Nav Menu Position', 'waboot'),
 			'desc' => __('Select the Top Nav Menu position', 'waboot'),
 			'id' => 'topnavmenu_position',
 			'std' => 'left',
 			'type' => 'images',
-			'options' => array(
-				'left' => array (
+			'options' => [
+				'left' => [
 					'label' => 'Left',
 					'value' => $imagepath . 'topnav/top-nav-left.png'
-				),
-				'right' => array (
+				],
+				'right' => [
 					'label' => 'Right',
 					'value' => $imagepath . 'topnav/top-nav-right.png'
-				)
-			)
-		),"header");
+				]
+			]
+		],"header");
 
-		$orgzr->add(array(
+		$orgzr->add([
 			'name' => __( 'Social Position', 'waboot' ),
 			'desc' => __( 'Select one of the following positions for the social links', 'waboot' ),
 			'id' => 'social_position',
 			'type' => 'images',
 			'std'  => 'navigation',
-			'options' => array(
-				'footer' =>  array(
+			'options' => [
+				'footer' =>  [
 					'label' => 'Footer',
 					'value' => $imagepath . 'social/footer.png'
-				),
-				'header-right' =>  array(
+				],
+				'header-right' =>  [
 					'label' => 'Header Right',
 					'value' => $imagepath . 'social/header-right.png'
-				),
-				'header-left' =>  array(
+				],
+				'header-left' =>  [
 					'label' => 'Header Left',
 					'value' => $imagepath . 'social/header-left.png'
-				),
-				'topnav-right' =>  array(
+				],
+				'topnav-right' =>  [
 					'label' => 'Topnav Right',
 					'value' => $imagepath . 'social/topnav-right.png'
-				),
-				'topnav-left' =>  array(
+				],
+				'topnav-left' =>  [
 					'label' => 'Topnav Left',
 					'value' => $imagepath . 'social/topnav-left.png'
-				),
-				'navigation' =>  array(
+				],
+				'navigation' =>  [
 					'label' => 'Navigation',
 					'value' => $imagepath . 'social/nav.png'
-				)
-			)
-		),"social");
+				]
+			]
+		],"social");
 
-		$orgzr->add(array(
+		$orgzr->add([
 			'name' => __( 'Do not use any of the previous positions', 'waboot' ),
 			'desc' => __( 'You can manually place the social links with the <strong>waboot social widget</strong> (even if one of the previous positions is selected)', 'waboot' ),
 			'id'   => 'social_position_none',
 			'std'  => '0',
 			'type' => 'checkbox'
-		),"social");
+		],"social");
 
 		$orgzr->reset_group();
 		$orgzr->reset_section();
@@ -202,26 +202,26 @@ class TopNavWrapperComponent extends \WBF\modules\components\Component{
 			return $opts;
 		});
 
-        $options[] = array(
+        $options[] = [
             'name' => _x( 'Zone Settings', 'component settings', 'waboot' ),
             'desc' => _x( 'Choose zone settings for this component', 'component_settings', 'waboot' ),
             'type' => 'info'
-        );
-        $options[] = array(
+        ];
+        $options[] = [
             'name' => _x( 'Position', 'component settings', 'waboot' ),
             'desc' => _x( 'Choose in which zone you want to display', 'component_settings', 'waboot' ),
             'id'   => strtolower($this->name).'_display_zone',
             'std'  => 'header',
 			'options' => $zone_options,
             'type' => 'select'
-        );
-		$options[] = array(
+        ];
+		$options[] = [
 			'name' => _x( 'Priority', 'component settings', 'waboot' ),
 			'desc' => _x( 'Choose the display priority', 'component_settings', 'waboot' ),
 			'id'   => strtolower($this->name).'_display_priority',
 			'std'  => '10',
 			'type' => 'text'
-		);
+		];
 
         return $options;
     }
