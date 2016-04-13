@@ -7,6 +7,7 @@ if(!function_exists("waboot_wbf_customizations")):
 	function waboot_wbf_customizations(){
 		add_filter("wbf/modules/options/organizer/sections","waboot_reorder_theme_options",10,2);
 		add_filter("wbf/admin_menu/label","waboot_wbf_admin_menu_label");
+		add_filter("wbf/modules/options/theme_options_input_file_location/main","waboot_wbf_set_tof_loc");
 	}
 	add_action("after_setup_theme","waboot_wbf_customizations");
 endif;
@@ -143,4 +144,13 @@ function waboot_reorder_theme_options($sections,$organizer){
  */
 function waboot_wbf_admin_menu_label($label){
 	return "Waboot";
+}
+
+/**
+ * Set the directory of _theme_options_generated.cmp file
+ *
+ * @hooked "wbf/modules/options/theme_options_input_file_location/main"
+ */
+function waboot_wbf_set_tof_loc(){
+	return get_template_directory()."/assets/src/less/_theme-options-generated.less.cmp";
 }
