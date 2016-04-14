@@ -47,3 +47,12 @@ function waboot_init(){
 		trigger_error(sprintf(__('Error locating %s for inclusion', 'waboot'), $zone_std_hooks_file), E_USER_ERROR);
 	}
 }
+
+/**
+ * Returns an instance of Theme
+ *
+ * @return \Waboot\Theme
+ */
+function Waboot(){
+	return \Waboot\Theme::getInstance();
+}

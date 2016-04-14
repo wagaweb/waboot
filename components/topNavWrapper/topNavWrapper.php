@@ -21,7 +21,7 @@ class TopNavWrapperComponent extends \WBF\modules\components\Component{
 	 */
 	public function run(){
 		parent::run();
-		$social_position = wb_get_option('social_position');
+		$social_position = Waboot\functions\get_option('social_position');
 		$can_display = call_user_func(function() use($social_position){
 			$can_display = false;
 			if(
@@ -38,7 +38,7 @@ class TopNavWrapperComponent extends \WBF\modules\components\Component{
 			$display_zone = call_user_func(function(){
 				$zone = "header";
 				if(function_exists("wb_get_option")){
-					$zone_opt = wb_get_option(strtolower($this->name)."_display_zone");
+					$zone_opt = Waboot\functions\get_option(strtolower($this->name)."_display_zone");
 					if($zone_opt){
 						$zone = $zone_opt;
 					}
@@ -48,7 +48,7 @@ class TopNavWrapperComponent extends \WBF\modules\components\Component{
 			$display_priority = call_user_func(function(){
 				$p = "10";
 				if(function_exists("wb_get_option")){
-					$p_opt = wb_get_option(strtolower($this->name)."_display_priority");
+					$p_opt = Waboot\functions\get_option(strtolower($this->name)."_display_priority");
 					if($p_opt){
 						$p = $p_opt;
 					}
@@ -63,7 +63,7 @@ class TopNavWrapperComponent extends \WBF\modules\components\Component{
 		$v = new \WBF\includes\mvc\HTMLView($this->relative_path."/templates/tpl.php");
 		
 		$social_class = call_user_func(function(){
-			$social_position = wb_get_option('social_position');
+			$social_position = Waboot\functions\get_option('social_position');
 			$class = "";
 			if($social_position == "topnav-right"){
 				$class = "pull-right";
@@ -74,7 +74,7 @@ class TopNavWrapperComponent extends \WBF\modules\components\Component{
 		});
 
 		$topnav_class = call_user_func(function(){
-			$social_position = wb_get_option('topnavmenu_position');
+			$social_position = Waboot\functions\get_option('topnavmenu_position');
 			$class = "";
 			if($social_position == "right"){
 				$class = "pull-right";
@@ -85,11 +85,11 @@ class TopNavWrapperComponent extends \WBF\modules\components\Component{
 		});
 		
 		$v->clean()->display([
-			'display_socials' => wb_get_option("social_position_none") == 1 || $social_class == "" ? false : true,
-			'display_topnav' => in_array(wb_get_option("topnavmenu_position"),['left','right']) ? true : false,
+			'display_socials' => Waboot\functions\get_option("social_position_none") == 1 || $social_class == "" ? false : true,
+			'display_topnav' => in_array(Waboot\functions\get_option("topnavmenu_position"),['left','right']) ? true : false,
 			'social_position_class' => $social_class,
 			'topnavmenu_position_class' => $topnav_class,
-			'topnav-inner_class' => wb_get_option('topnav_width','container-fluid')
+			'topnav-inner_class' => Waboot\functions\get_option('topnav_width','container-fluid')
 		]);
 	}
 

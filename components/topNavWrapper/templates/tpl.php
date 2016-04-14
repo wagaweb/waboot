@@ -1,5 +1,5 @@
 <div id="topnav-wrapper">
-	<div id="topnav-inner" class="<?php echo wb_get_option( 'waboot_topnav_width','container-fluid' ); ?> ">
+	<div id="topnav-inner" class="<?php echo Waboot\functions\get_option( 'waboot_topnav_width','container-fluid' ); ?> ">
 		<?php if($display_socials): ?>
 			<div class="<?php echo $social_position_class ?>">
 				<?php get_template_part('/templates/parts/social-widget'); ?>
