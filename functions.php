@@ -17,7 +17,8 @@ function waboot_init(){
 		'inc/template-functions.php',
 		'inc/template-tags.php',
 		'inc/Layout.php',
-		'inc/Theme.php'
+		'inc/Theme.php',
+		'inc/Component.php'
 	];
 
 	//Require mandatory files
