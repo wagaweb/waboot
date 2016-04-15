@@ -13,6 +13,7 @@ class Navbar_Classic extends \Waboot\Component{
 	 */
 	public function setup(){
 		parent::setup();
+		add_filter("waboot/navigation/main/class",[$this,"set_main_navigation_class"]);
 	}
 
 	public function run(){
@@ -29,10 +30,37 @@ class Navbar_Classic extends \Waboot\Component{
 			'display_socials' => Waboot\functions\get_option("social_position_none") == 1 || Waboot\functions\get_option('social_position') != "navigation" ? false : true,
 			'dispaly_searchbar' => Waboot\functions\get_option("display_search_bar_in_header") == 1
 		]);
+		$header_layout = call_user_func(function(){
+			if(\WBF\modules\components\ComponentsManager::is_active("header_classic")){
+				return "header_classic";
+			}elseif(\WBF\modules\components\ComponentsManager::is_active("navbar_classic")){
+				return "navbar_classic";
+			}elseif(\WBF\modules\components\ComponentsManager::is_active("navbar_logo")){
+				return "navbar_logo";
+			}
+			return false;
+		});
 		$wrapper->clean()->display([
 			"navbar_width" => Waboot\functions\get_option("navbar_width"),
-			'content' => $content
+			"navbar_class" => $header_layout ? "nav-".$header_layout : "nav",
+			'content' => $content,
 		]);
+	}
+
+	/**
+	 * Set the classes to the main navigation
+	 *
+	 * @param $class
+	 *
+	 * @return mixed
+	 */
+	public function set_main_navigation_classes($class){
+		$classes = [$class,"nav"];
+		$options = \Waboot\functions\get_option('navbar_align'); //todo: add this
+		if(is_array($options) && !empty($options)){
+			$classes = array_merge($classes,$options);
+		}
+		return implode(' ', $classes);
 	}
 
 	public function register_options() {
@@ -54,12 +82,12 @@ class Navbar_Classic extends \Waboot\Component{
 			'std' => 'offcanvas',
 			'type' => 'images',
 			'options' => array(
-				'bootstrap' => array(
-					'label' => 'Bootstrap',
+				'inline' => array(
+					'label' => _x('Inline',"mobilenav_style","waboot"),
 					'value' => $imagepath . 'mobile/nav-bootstrap.png'
 				),
 				'offcanvas' => array(
-					'label' => 'OffCanvas',
+					'label' => _x('OffCanvas',"mobilenav_style","waboot"),
 					'value' => $imagepath . 'mobile/nav-offcanvas.png'
 				)
 			)
@@ -99,7 +127,7 @@ class Navbar_Classic extends \Waboot\Component{
 			'std'  => 'navigation',
 			'options' => [
 				'navigation' =>  [
-					'label' => 'Navigation',
+					'label' => _x('Navigation',"social_position","waboot"),
 					'value' => $imagepath . 'social/nav.png'
 				]
 			]

@@ -1,7 +1,7 @@
-<div id="navbar-wrapper" class="nav-<?php echo of_get_option( 'waboot_header_layout' ); ?>">
-	<div id="navbar-inner" class="<?php echo of_get_option( 'waboot_navbar_width' ); ?>">
+<div id="navbar-wrapper" class="<?php echo $navbar_class; ?>">
+	<div id="navbar-inner" class="<?php echo $navbar_width; ?>">
 		<nav class="navbar navbar-default main-navigation" role="navigation">
-			<?php get_template_part('/templates/parts/nav-main'); ?>
+			<?php echo $content; ?>
 			<?php if ( of_get_option('waboot_mobilenav_style') === 'offcanvas' ) { get_template_part('/templates/parts/nav-offcanvas'); } ?>
 		</nav>
 	</div>

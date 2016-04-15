@@ -16,12 +16,12 @@
 		</button>	
 	<?php endif; ?>
 
-	<?php if(waboot_get_desktop_logo() != ""): ?>
+	<?php if(\Waboot\template_tags\get_desktop_logo() != ""): ?>
 		<a class="navbar-brand" href="<?php echo home_url( '/' ); ?>">
-			<?php waboot_desktop_logo(); ?>
+			<?php \Waboot\template_tags\desktop_logo(); ?>
 		</a>
 	<?php else : ?>
-		<?php waboot_site_title(); ?>
+		<?php get_bloginfo("title"); ?>
 	<?php endif; ?>
 </div>
 
@@ -39,10 +39,10 @@
 	<?php endif; ?>
 	<?php wp_nav_menu([
 		'theme_location' => 'main',
-		'depth'          => 0,
-		'container'      => false,
-		'menu_class'     => apply_filters('waboot_mainnav_class', array('nav', 'navbar-nav')),
-		'walker'	     => class_exists('WabootNavMenuWalker') ? new WabootNavMenuWalker() : "", //todo: includere in Waboot on in wbf?
+		'depth' => 0,
+		'container' => false,
+		'menu_class' => apply_filters('waboot/navigation/main/class', 'navbar-nav'),
+		'walker' => class_exists('WabootNavMenuWalker') ? new WabootNavMenuWalker() : "", //todo: includere in Waboot on in wbf?
 		'fallback_cb' => 'waboot_nav_menu_fallback'
 	]); 
 	?>
