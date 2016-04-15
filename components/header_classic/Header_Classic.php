@@ -7,7 +7,7 @@ Author: WAGA Team <dev@waga.it>
 Author URI: http://www.waga.it
  */
 
-class HeaderClassicComponent extends \Waboot\Component{
+class Header_Classic extends \Waboot\Component{
 	/**
 	 * This method will be executed at Wordpress startup (every page load)
 	 */
