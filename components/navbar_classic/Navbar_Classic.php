@@ -27,6 +27,7 @@ class Navbar_Classic extends \Waboot\Component{
 		$content = (new \WBF\includes\mvc\HTMLView($this->relative_path."/templates/navbar_content.php"))->clean()->get([
 			'show_mobile_nav' => Waboot\functions\get_option('mobilenav_style') == "offcavas",
 			'display_socials' => Waboot\functions\get_option("social_position_none") == 1 || Waboot\functions\get_option('social_position') != "navigation" ? false : true,
+			'dispaly_searchbar' => Waboot\functions\get_option("display_search_bar_in_header") == 1
 		]);
 		$wrapper->clean()->display([
 			"navbar_width" => Waboot\functions\get_option("navbar_width"),
@@ -63,6 +64,14 @@ class Navbar_Classic extends \Waboot\Component{
 				)
 			)
 		],"header");
+
+		$orgzr->update('search_bar',[
+			'name' => __( 'Show search bar in Header?', 'waboot' ),
+			'desc' => __( 'Default is enabled. Uncheck this box to turn it off.', 'waboot' ),
+			'id'   => 'display_search_bar_in_header',
+			'std'  => '0',
+			'type' => 'checkbox'
+		],'header');
 
 		$orgzr->update("navbar_width", [
 			'name' => __( 'Navbar', 'waboot' ),
