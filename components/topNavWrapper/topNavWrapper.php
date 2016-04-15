@@ -68,7 +68,7 @@ class TopNavWrapperComponent extends \Waboot\Component{
 		
 		$v->clean()->display([
 			'display_socials' => Waboot\functions\get_option("social_position_none") == 1 || $social_class == "" ? false : true,
-			'display_topnav' => in_array(Waboot\functions\get_option("topnavmenu_position"),['left','right']) ? true : false,
+			'display_topnav' => has_nav_menu( 'top' ) ? true : false,
 			'social_position_class' => $social_class,
 			'topnavmenu_position_class' => $topnav_class,
 			'topnav-inner_class' => Waboot\functions\get_option('topnav_width','container-fluid')
@@ -128,7 +128,7 @@ class TopNavWrapperComponent extends \Waboot\Component{
 			'desc' => __( 'Select one of the following positions for the social links', 'waboot' ),
 			'id' => 'social_position',
 			'type' => 'images',
-			'std'  => 'navigation',
+			'std'  => 'topnav-right',
 			'options' => [
 				'topnav-right' =>  [
 					'label' => 'Topnav Right',

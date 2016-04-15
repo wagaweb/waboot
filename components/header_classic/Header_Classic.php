@@ -5,7 +5,7 @@ Description: Header Classic Component
 Version: 1.0
 Author: WAGA Team <dev@waga.it>
 Author URI: http://www.waga.it
- */
+*/
 
 class Header_Classic extends \Waboot\Component{
 	/**
@@ -24,10 +24,11 @@ class Header_Classic extends \Waboot\Component{
 	
 	public function display_tpl(){
 		$v = new \WBF\includes\mvc\HTMLView($this->relative_path."/templates/logo-top-center.php");
+		$social_position = Waboot\functions\get_option('social_position');
 		$v->clean()->display([
 			"header_width" => Waboot\functions\get_option("header_width"),
-			"social_position" => $social_position = Waboot\functions\get_option('social_position'),
-			'display_socials' => Waboot\functions\get_option("social_position_none") == 1 ? false : true,
+			"social_position" => $social_position,
+			'display_socials' => Waboot\functions\get_option("social_position_none") == 1 || !in_array($social_position,['header-right','header-left']) ? false : true,
 		]);
 	}
 	
@@ -65,7 +66,7 @@ class Header_Classic extends \Waboot\Component{
 			'desc' => __( 'Select one of the following positions for the social links', 'waboot' ),
 			'id' => 'social_position',
 			'type' => 'images',
-			'std'  => 'navigation',
+			'std'  => 'header-right',
 			'options' => [
 				'header-right' =>  [
 					'label' => 'Header Right',

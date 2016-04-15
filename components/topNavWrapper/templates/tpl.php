@@ -7,7 +7,7 @@
 		<?php endif; ?>
 		<?php if($display_topnav): ?>
 			<div class="<?php echo $topnavmenu_position_class; ?>">
-				<?php the_widget('Waboot\inc\widgets\Social'); ?>
+				<?php get_template_part("components/topNavWrappers/templates/parts/nav","top"); ?>
 			</div>
 		<?php endif; ?>
 		<?php dynamic_sidebar( 'topbar' ); ?>
