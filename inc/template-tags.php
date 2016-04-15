@@ -34,7 +34,7 @@ function breadcrumb($post_id = null, $current_location = "", $args = array()) {
 		));
 
 		$allowed_locations = call_user_func(function(){
-			$bc_locations = \Waboot\functions\get_option('breadcrumb_locations',[]);
+			$bc_locations = \Waboot\functions\get_option('breadcrumb_locations',[]); //todo: add this
 			$allowed = array();
 			foreach($bc_locations as $k => $v){
 				if($v == "1"){
@@ -74,4 +74,63 @@ function breadcrumb($post_id = null, $current_location = "", $args = array()) {
 			}
 		}
 	}
+}
+
+/**
+ * Prints the mobile logo
+ *
+ * @param string $context
+ * @param bool $linked
+ */
+function mobile_logo($context = "header", $linked = false){
+	if($linked){
+		$tpl = "<a href='%s'><img src='%s' class='img-responsive' /></a>";
+		printf($tpl,home_url( '/' ),get_mobile_logo($context));
+	}else{
+		$tpl = "<img src='%s' class='img-responsive' />";
+		printf($tpl,get_mobile_logo($context));
+	}
+}
+
+/**
+ * Get the mobile logo, or an empty string.
+ *
+ * @param string $context
+ *
+ * @return string
+ */
+function get_mobile_logo($context = "header"){
+	switch($context){
+		case "offcanvas":
+			$mobile_logo = \Waboot\functions\get_option('mobile_offcanvas_logo', ""); //todo: add this
+			break;
+		default:
+			$mobile_logo = \Waboot\functions\get_option('mobile_logo', ""); //todo: add this
+			break;
+	}
+	return $mobile_logo;
+}
+
+/**
+ * Prints the desktop logo
+ *
+ * @param bool $linked
+ */
+function desktop_logo($linked = false){
+	if($linked){
+		$tpl = "<a href='%s'><img src='%s' class='waboot-desktop-logo' /></a>";
+		printf($tpl,home_url( '/' ),get_desktop_logo());
+	}else{
+		$tpl = "<img src='%s' class='waboot-desktop-logo' />";
+		printf($tpl,get_desktop_logo());
+	}
+}
+
+/**
+ * Get the desktop logo, or an empty string
+ * @return string
+ */
+function get_desktop_logo(){
+	$desktop_logo = \Waboot\functions\get_option('logo_in_navbar', ""); //todo: add this
+	return $desktop_logo;
 }
