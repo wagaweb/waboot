@@ -56,11 +56,11 @@ class TopNavWrapperComponent extends \Waboot\Component{
 		});
 
 		$topnav_class = call_user_func(function(){
-			$social_position = Waboot\functions\get_option('topnavmenu_position');
+			$topnavmenu_position = Waboot\functions\get_option('topnavmenu_position');
 			$class = "";
-			if($social_position == "right"){
+			if($topnavmenu_position == "right"){
 				$class = "pull-right";
-			}elseif($social_position == "left"){
+			}elseif($topnavmenu_position == "left"){
 				$class = "pull-left";
 			}
 			return $class;
@@ -123,25 +123,13 @@ class TopNavWrapperComponent extends \Waboot\Component{
 			]
 		],"header");
 
-		$orgzr->add([
+		$orgzr->update([
 			'name' => __( 'Social Position', 'waboot' ),
 			'desc' => __( 'Select one of the following positions for the social links', 'waboot' ),
 			'id' => 'social_position',
 			'type' => 'images',
 			'std'  => 'navigation',
 			'options' => [
-				'footer' =>  [
-					'label' => 'Footer',
-					'value' => $imagepath . 'social/footer.png'
-				],
-				'header-right' =>  [
-					'label' => 'Header Right',
-					'value' => $imagepath . 'social/header-right.png'
-				],
-				'header-left' =>  [
-					'label' => 'Header Left',
-					'value' => $imagepath . 'social/header-left.png'
-				],
 				'topnav-right' =>  [
 					'label' => 'Topnav Right',
 					'value' => $imagepath . 'social/topnav-right.png'
@@ -149,15 +137,11 @@ class TopNavWrapperComponent extends \Waboot\Component{
 				'topnav-left' =>  [
 					'label' => 'Topnav Left',
 					'value' => $imagepath . 'social/topnav-left.png'
-				],
-				'navigation' =>  [
-					'label' => 'Navigation',
-					'value' => $imagepath . 'social/nav.png'
 				]
 			]
 		],"social");
 
-		$orgzr->add([
+		$orgzr->update([
 			'name' => __( 'Do not use any of the previous positions', 'waboot' ),
 			'desc' => __( 'You can manually place the social links with the <strong>waboot social widget</strong> (even if one of the previous positions is selected)', 'waboot' ),
 			'id'   => 'social_position_none',

@@ -81,6 +81,19 @@ function register_widget_areas(){
 		];
 		register_sidebar($args);
 	}
+	
+	$widgets = [
+		'Waboot\inc\widgets\Social' => 'inc/widgets/Social.php',
+		'Waboot\inc\widgets\RecentPosts' => 'inc/widgets/RecentPosts.php'
+	];
+
+	foreach ($widgets as $name => $file) {
+		if ($filepath = locate_template($file)) {
+			require_once $filepath;
+			if($name == 'Waboot\inc\widgets\RecentPosts' && !function_exists("wbf_get_posts")) continue;
+			register_widget( $name );
+		}
+	}
 }
 add_action("widgets_init",__NAMESPACE__."\\register_widget_areas");
 

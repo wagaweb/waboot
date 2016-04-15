@@ -17,19 +17,17 @@ class HeaderClassicComponent extends \Waboot\Component{
 
 	public function run(){
 		parent::run();
-		$can_display = Waboot\functions\get_option("header_layout") == "classic";
-		if($can_display){
-			$display_zone = $this->get_display_zone();
-			$display_priority = $this->get_display_priority();
-			Waboot()->layout->add_zone_action($display_zone,[$this,"display_tpl"],intval($display_priority));
-		}
+		$display_zone = $this->get_display_zone();
+		$display_priority = $this->get_display_priority();
+		Waboot()->layout->add_zone_action($display_zone,[$this,"display_tpl"],intval($display_priority));
 	}
 	
 	public function display_tpl(){
 		$v = new \WBF\includes\mvc\HTMLView($this->relative_path."/templates/logo-top-center.php");
 		$v->clean()->display([
-			"header_layout" => 'classic',
-			"header_width" => Waboot\functions\get_option("header_width")
+			"header_width" => Waboot\functions\get_option("header_width"),
+			"social_position" => $social_position = Waboot\functions\get_option('social_position'),
+			'display_socials' => Waboot\functions\get_option("social_position_none") == 1 ? false : true,
 		]);
 	}
 	
@@ -41,22 +39,8 @@ class HeaderClassicComponent extends \Waboot\Component{
 
 		$orgzr->set_group($this->name."_component");
 
-		$orgzr->add_section("header",_x("Header","Theme options section","waboot"));
 		$orgzr->add_section("layout",_x("Layout","Theme options section","waboot"));
-
-		$orgzr->update("header_layout",[
-			'name' => __( 'Header', 'waboot' ),
-			'desc' => __( 'Select your header layout' ,'waboot' ),
-			'id'   => 'header_layout',
-			'std' => 'classic',
-			'type' => 'images',
-			'options' => [
-				'classic' => array(
-					'label' => 'classic',
-					'value' => $imagepath . 'header/header-1.png'
-				)
-			]
-		],"header");
+		$orgzr->add_section("social",_x("Socials","Theme options section","waboot"));
 
 		$orgzr->update('header_width',[
 			'name' => __( 'Header', 'waboot' ),
@@ -75,6 +59,32 @@ class HeaderClassicComponent extends \Waboot\Component{
 				]
 			]
 		],"layout");
+
+		$orgzr->update([
+			'name' => __( 'Social Position', 'waboot' ),
+			'desc' => __( 'Select one of the following positions for the social links', 'waboot' ),
+			'id' => 'social_position',
+			'type' => 'images',
+			'std'  => 'navigation',
+			'options' => [
+				'header-right' =>  [
+					'label' => 'Header Right',
+					'value' => $imagepath . 'social/header-right.png'
+				],
+				'header-left' =>  [
+					'label' => 'Header Left',
+					'value' => $imagepath . 'social/header-left.png'
+				]
+			]
+		],"social");
+
+		$orgzr->update([
+			'name' => __( 'Do not use any of the previous positions', 'waboot' ),
+			'desc' => __( 'You can manually place the social links with the <strong>waboot social widget</strong> (even if one of the previous positions is selected)', 'waboot' ),
+			'id'   => 'social_position_none',
+			'std'  => '0',
+			'type' => 'checkbox'
+		],"social");
 
 		$orgzr->reset_group();
 		$orgzr->reset_section();
