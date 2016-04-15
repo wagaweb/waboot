@@ -123,7 +123,7 @@ class TopNavWrapperComponent extends \Waboot\Component{
 			]
 		],"header");
 
-		$orgzr->update([
+		$orgzr->update("social_position",[
 			'name' => __( 'Social Position', 'waboot' ),
 			'desc' => __( 'Select one of the following positions for the social links', 'waboot' ),
 			'id' => 'social_position',
@@ -141,7 +141,7 @@ class TopNavWrapperComponent extends \Waboot\Component{
 			]
 		],"social");
 
-		$orgzr->update([
+		$orgzr->update("social_position_none",[
 			'name' => __( 'Do not use any of the previous positions', 'waboot' ),
 			'desc' => __( 'You can manually place the social links with the <strong>waboot social widget</strong> (even if one of the previous positions is selected)', 'waboot' ),
 			'id'   => 'social_position_none',
