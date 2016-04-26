@@ -1,0 +1,15 @@
+{
+    "name": "waga/waboot",
+    "type": "wordpress-theme",
+    "require-dev": {
+        "10up/wp_mock": "^0.1.1"
+    },
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "WAGA",
+            "email": "dev@waga.it"
+        }
+    ],
+    "require": {}
+}

@@ -89,3 +89,4 @@ temp/
 .svn
 
 *.codekit
+/vendor/
