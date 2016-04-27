@@ -73,6 +73,9 @@ class LayoutTest extends \PHPUnit_Framework_TestCase{
 		$this->layout = Layout::getInstance();
 	}
 
+	/**
+	 * Checks if Layout can be correctly created
+	 */
 	public function testLayoutExists(){
 		$this->assertInstanceOf("Waboot\\Layout",$this->layout);
 	}
