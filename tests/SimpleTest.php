@@ -1,5 +1,8 @@
 <?php
-class SimpleTest extends PHPUnit_Framework_TestCase{
+
+namespace tests;
+
+class SimpleTest extends \PHPUnit_Framework_TestCase{
 	public function testSimple(){
 		$a = true;
 		$b = true;

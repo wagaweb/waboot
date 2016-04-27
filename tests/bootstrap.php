@@ -1,4 +1,11 @@
 <?php
-$current_path = dirname(__FILE__);
+define("WBTEST_CURRENT_PATH",dirname(__FILE__));
+define("WBTEST_WP_CONTENT_PATH",dirname(dirname(dirname(WBTEST_CURRENT_PATH))));
+define("WBTEST_WORDPRESS_PATH",dirname(dirname(dirname(dirname(WBTEST_CURRENT_PATH)))));
+if(!defined("ABSPATH")){
+	define("ABSPATH",WBTEST_WORDPRESS_PATH."/");
+}
 
-require_once dirname($current_path)."/vendor/autoload.php";
+if(!defined("WPINC")) define("WPINC",WBTEST_WORDPRESS_PATH."/wp-includes");
+
+require_once dirname(WBTEST_CURRENT_PATH)."/vendor/autoload.php";
