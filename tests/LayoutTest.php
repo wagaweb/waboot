@@ -57,7 +57,7 @@ class LayoutTest extends \PHPUnit_Framework_TestCase{
 
 		\WP_Mock::wpFunction('wp_get_theme',[
 			'args' => [],
-			'return' => new WP_Theme()
+			'return' => new \WP_Theme()
 		]);
 
 		\WP_Mock::wpFunction('plugin_basename',[
@@ -82,23 +82,5 @@ class LayoutTest extends \PHPUnit_Framework_TestCase{
 	
 	public function tearDown() {
 		\WP_Mock::tearDown();
-	}
-}
-
-class WP_Theme{
-	var $stylesheet;
-	var $template;
-
-	public function __construct(){
-		$this->stylesheet = "waboot";
-		$this->template = "waboot";
-	}
-
-	public function get_stylesheet(){
-		return $this->stylesheet;
-	}
-
-	public function get_template(){
-		return $this->template;
 	}
 }
