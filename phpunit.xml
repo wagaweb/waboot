@@ -9,6 +9,7 @@
             <file phpVersion="5.3.0" phpVersionOperator=">=">tests/SimpleTest.php</file>
             <file phpVersion="5.3.0" phpVersionOperator=">=">tests/LayoutTest.php</file>
             <file phpVersion="5.3.0" phpVersionOperator=">=">tests/ThemeTest.php</file>
+            <exclude>tests/bootstrap-wp.php</exclude>
         </testsuite>
     </testsuites>
     <logging>
