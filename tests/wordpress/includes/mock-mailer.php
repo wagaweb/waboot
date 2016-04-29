@@ -1,10 +1,8 @@
 <?php
 
-namespace tests;
-
 require_once( ABSPATH . '/wp-includes/class-phpmailer.php' );
 
-class MockPHPMailer extends \PHPMailer {
+class MockPHPMailer extends PHPMailer {
 	var $mock_sent = array();
 
 	function preSend() {

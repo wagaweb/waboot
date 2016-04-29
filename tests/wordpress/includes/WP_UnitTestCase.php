@@ -1,7 +1,5 @@
 <?php
 
-namespace tests;
-
 require_once dirname( __FILE__ ) . '/factory.php';
 require_once dirname( __FILE__ ) . '/trac.php';
 
@@ -14,7 +12,7 @@ require_once dirname( __FILE__ ) . '/trac.php';
  *
  * All WordPress unit tests should inherit from this class.
  */
-class WP_UnitTestCase extends \PHPUnit_Framework_TestCase {
+class WP_UnitTestCase extends PHPUnit_Framework_TestCase {
 
 	protected static $forced_tickets = array();
 	protected $expected_deprecated = array();

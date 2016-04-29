@@ -1,7 +1,5 @@
 <?php
 
-namespace tests;
-
 /**
  * A child class of the PHP test runner.
  *
@@ -15,7 +13,7 @@ namespace tests;
  * If WP_TESTS_FORCE_KNOWN_BUGS is already set in wp-tests-config.php, then
  * how you call phpunit has no effect.
  */
-class WP_PHPUnit_Util_Getopt extends \PHPUnit_Util_Getopt {
+class WP_PHPUnit_Util_Getopt extends PHPUnit_Util_Getopt {
 	protected $longOptions = array(
 		'exclude-group=',
 		'group=',
@@ -26,10 +24,10 @@ class WP_PHPUnit_Util_Getopt extends \PHPUnit_Util_Getopt {
 		while ( list( $i, $arg ) = each( $argv ) ) {
 			try {
 				if ( strlen( $arg ) > 1 && $arg[0] === '-' && $arg[1] === '-' ) {
-					\PHPUnit_Util_Getopt::parseLongOption( substr( $arg, 2 ), $this->longOptions, $options, $argv );
+					PHPUnit_Util_Getopt::parseLongOption( substr( $arg, 2 ), $this->longOptions, $options, $argv );
 				}
 			}
-			catch ( \PHPUnit_Framework_Exception $e ) {
+			catch ( PHPUnit_Framework_Exception $e ) {
 				// Enforcing recognized arguments or correctly formed arguments is
 				// not really the concern here.
 				continue;

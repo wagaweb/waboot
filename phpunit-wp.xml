@@ -1,11 +1,12 @@
 <phpunit
-        bootstrap="tests/bootstrap-wp.php"
+        bootstrap="tests/wordpress/bootstrap-wp.php"
         backupGlobals="false"
         colors="true"
 >
     <testsuites>
-        <testsuite name="Example Test Suite">
-            <directory suffix=".php">tests/tests-wp</directory>
+        <testsuite name="Wordpress Waboot Test Suite">
+            <directory suffix=".php">tests/wordpress/tests</directory>
+            <file phpVersion="5.3.0" phpVersionOperator=">=">tests/wordpress/tests/WP_ThemeTest.php</file>
         </testsuite>
     </testsuites>
     <logging>

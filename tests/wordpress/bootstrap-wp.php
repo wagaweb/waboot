@@ -1,5 +1,6 @@
 <?php
-error_reporting( E_ALL & ~E_DEPRECATED & ~E_STRICT );
+
+//error_reporting( E_ALL & ~E_DEPRECATED & ~E_STRICT );
 
 define("WBTEST_CURRENT_PATH",dirname(__FILE__));
 define("WBTEST_WP_CONTENT_PATH",dirname(dirname(dirname(WBTEST_CURRENT_PATH))));
@@ -15,7 +16,7 @@ require_once dirname(WBTEST_CURRENT_PATH)."/vendor/autoload.php";
 global $wpdb, $current_site, $current_blog, $wp_rewrite, $shortcode_tags, $wp;
 
 //Load configs
-if(!is_readable( WBTEST_CONFIG_PATH)){
+if(!is_readable(WBTEST_CONFIG_PATH)){
 	die( "ERROR: wp-tests-config.php is missing! Please use wp-tests-config-sample.php to create a config file.\n" );
 }
 require_once WBTEST_CONFIG_PATH;
@@ -42,7 +43,7 @@ $PHP_SELF = $GLOBALS['PHP_SELF'] = $_SERVER['PHP_SELF'] = '/index.php';
 
 //Override the PHPMailer
 require_once( WBTEST_CURRENT_PATH . '/includes/mock-mailer.php' );
-$phpmailer = new tests\MockPHPMailer();
+$phpmailer = new MockPHPMailer();
 
 $GLOBALS['_wp_die_disabled'] = false;
 //Allow tests to override wp_die
@@ -67,4 +68,4 @@ require_once ABSPATH . '/wp-settings.php';
 
 //Load this strange class...
 require_once WBTEST_CURRENT_PATH . '/includes/WP_PHPUnit_Util_Getopt.php';
-new tests\WP_PHPUnit_Util_Getopt( $_SERVER['argv'] );
+new WP_PHPUnit_Util_Getopt( $_SERVER['argv'] );

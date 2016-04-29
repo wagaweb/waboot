@@ -4,12 +4,10 @@
         colors="true"
 >
     <testsuites>
-        <testsuite name="Example Test Suite">
-            <directory suffix=".php">tests/tests-core</directory>
-            <file phpVersion="5.3.0" phpVersionOperator=">=">tests/tests-core/SimpleTest.php</file>
-            <file phpVersion="5.3.0" phpVersionOperator=">=">tests/tests-core/LayoutTest.php</file>
-            <file phpVersion="5.3.0" phpVersionOperator=">=">tests/tests-core/ThemeTest.php</file>
-            <exclude>tests/bootstrap-wp.php</exclude>
+        <testsuite name="Waboot Core Test Suite">
+            <directory suffix=".php">tests/waboot</directory>
+            <file phpVersion="5.3.0" phpVersionOperator=">=">tests/waboot/LayoutTest.php</file>
+            <file phpVersion="5.3.0" phpVersionOperator=">=">tests/waboot/ThemeTest.php</file>
         </testsuite>
     </testsuites>
     <logging>
