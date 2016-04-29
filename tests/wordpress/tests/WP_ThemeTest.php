@@ -1,7 +1,12 @@
 <?php
 
 class WP_ThemeTest extends WP_UnitTestCase{
-	function testEnv() {
+	public function setUp() {
+		parent::setUp();
+		require_once WBTEST_WP_CONTENT_PATH."/plugins/wbf/wbf.php";
+	}
+
+	public function testEnv() {
 		//Check the theme
 		$this->assertEquals( 'waboot' , wp_get_theme()->template );
 
@@ -9,5 +14,10 @@ class WP_ThemeTest extends WP_UnitTestCase{
 		$plugins = get_option('active_plugins', []);
 		$this->assertTrue(is_array($plugins));
 		$this->assertTrue(in_array("wbf/wbf.php",$plugins));
+		$this->assertTrue(class_exists("WBF"));
+	}
+	
+	public function testHooks(){
+		global $wp_filter;
 	}
 }
