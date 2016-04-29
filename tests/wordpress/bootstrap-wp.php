@@ -98,6 +98,9 @@ function _manually_load_environment() {
 //Load WordPress
 require_once ABSPATH . '/wp-settings.php';
 
+// Delete any default posts & related data
+//_delete_all_posts();
+
 //Requirements
 require WBTEST_CURRENT_PATH . '/includes/WP_UnitTestCase.php';
 require WBTEST_CURRENT_PATH . '/includes/exceptions.php';
