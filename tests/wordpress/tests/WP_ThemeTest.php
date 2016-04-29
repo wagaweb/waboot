@@ -1,7 +1,5 @@
 <?php
 
-namespace tests;
-
 class WP_ThemeTest extends WP_UnitTestCase{
 	function testSample() {
 		$this->assertTrue( 'Your Theme' == wp_get_theme() );

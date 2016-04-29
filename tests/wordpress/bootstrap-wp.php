@@ -1,13 +1,11 @@
 <?php
 
-//error_reporting( E_ALL & ~E_DEPRECATED & ~E_STRICT );
+error_reporting( E_ALL & ~E_DEPRECATED & ~E_STRICT );
 
 define("WBTEST_CURRENT_PATH",dirname(__FILE__));
-define("WBTEST_WP_CONTENT_PATH",dirname(dirname(dirname(WBTEST_CURRENT_PATH))));
-define("WBTEST_WORDPRESS_PATH",dirname(dirname(dirname(dirname(WBTEST_CURRENT_PATH)))));
+define("WBTEST_WORDPRESS_PATH",dirname(dirname(dirname(dirname(dirname(WBTEST_CURRENT_PATH))))));
+define("WBTEST_WP_CONTENT_PATH",dirname(dirname(dirname(dirname(WBTEST_CURRENT_PATH)))));
 define("WBTEST_CONFIG_PATH",WBTEST_CURRENT_PATH.'/configs/wp-tests-config.php');
-
-require_once dirname(WBTEST_CURRENT_PATH)."/vendor/autoload.php";
 
 /*
  * Globalize some WordPress variables, because PHPUnit loads this file inside a function
@@ -66,6 +64,7 @@ if(isset($GLOBALS['wp_tests_options'])){
 //Load WordPress
 require_once ABSPATH . '/wp-settings.php';
 
-//Load this strange class...
+//Requirements
+require_once WBTEST_CURRENT_PATH . '/includes/WP_UnitTestCase.php';
 require_once WBTEST_CURRENT_PATH . '/includes/WP_PHPUnit_Util_Getopt.php';
 new WP_PHPUnit_Util_Getopt( $_SERVER['argv'] );
