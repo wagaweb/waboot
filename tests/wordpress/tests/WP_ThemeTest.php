@@ -3,7 +3,11 @@
 class WP_ThemeTest extends WP_UnitTestCase{
 	public function setUp() {
 		parent::setUp();
-		require_once WBTEST_WP_CONTENT_PATH."/plugins/wbf/wbf.php";
+		switch_theme('waboot');
+	}
+
+	function tearDown(){
+		parent::tearDown();
 	}
 
 	public function testEnv() {
