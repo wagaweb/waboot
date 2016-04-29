@@ -1,6 +1,6 @@
 <?php
 
-if(!class_exists("WBF")){
+if(!class_exists("WBF") && !defined('WBTEST_CURRENT_PATH')){
 	add_action("init",function(){
 		echo "This theme requires WBF Framework to work properly, please install";
 	});
@@ -8,8 +8,6 @@ if(!class_exists("WBF")){
 }else{
 	waboot_init();
 }
-
-waboot_init();
 
 /**
  * Initialize Waboot
