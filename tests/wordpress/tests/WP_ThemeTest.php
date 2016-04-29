@@ -1,8 +1,13 @@
 <?php
 
 class WP_ThemeTest extends WP_UnitTestCase{
-	function testSample() {
-		$this->assertTrue( 'Your Theme' == wp_get_theme() );
-		$this->assertTrue( is_plugin_active('your-plugin/your-plugin.php') );
+	function testEnv() {
+		//Check the theme
+		$this->assertEquals( 'waboot' , wp_get_theme()->template );
+
+		//Check WBF
+		$plugins = get_option('active_plugins', []);
+		$this->assertTrue(is_array($plugins));
+		$this->assertTrue(in_array("wbf/wbf.php",$plugins));
 	}
 }

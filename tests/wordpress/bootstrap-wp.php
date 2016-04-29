@@ -91,9 +91,11 @@ function _manually_load_environment() {
 	$plugins_to_active = [
 		'wbf/wbf.php'
 	];
-	update_option( 'active_plugins', $plugins_to_active );
+	global $wpdb;
+	$wpdb->query("UPDATE {$wpdb->options} SET option_value = '".serialize($plugins_to_active)."' WHERE option_name = 'active_plugins'");
+	//update_option( 'active_plugins', $plugins_to_active );
 }
-//tests_add_filter('muplugins_loaded', '_manually_load_environment');
+tests_add_filter('muplugins_loaded', '_manually_load_environment');
 
 //Load WordPress
 require_once ABSPATH . '/wp-settings.php';
