@@ -7,6 +7,8 @@ define("WBTEST_WORDPRESS_PATH",dirname(dirname(dirname(dirname(dirname(WBTEST_CU
 define("WBTEST_WP_CONTENT_PATH",dirname(dirname(dirname(dirname(WBTEST_CURRENT_PATH)))));
 define("WBTEST_CONFIG_PATH",WBTEST_CURRENT_PATH.'/configs/wp-tests-config.php');
 
+define("WBF_PREVENT_STARTUP", true);
+
 /*
  * Globalize some WordPress variables, because PHPUnit loads this file inside a function
  * See: https://github.com/sebastianbergmann/phpunit/issues/325
@@ -82,24 +84,6 @@ if(isset($GLOBALS['wp_tests_options'])){
 		tests_add_filter('pre_option_'.$key, 'wp_tests_options');
 	}
 }
-
-//Load environment
-function _manually_load_environment() {
-	//Update array with plugins to include ...
-	$plugins_to_active = [
-		'wbf/wbf.php'
-	];
-	global $wpdb;
-	$wpdb->query("UPDATE {$wpdb->options} SET option_value = '".serialize($plugins_to_active)."' WHERE option_name = 'active_plugins'");
-	//update_option( 'active_plugins', $plugins_to_active );
-	switch_theme('waboot');
-}
-tests_add_filter('muplugins_loaded', '_manually_load_environment');
-
-function _manually_load_plugin() {
-	require_once WBTEST_WP_CONTENT_PATH."/plugins/wbf/wbf.php";
-}
-//tests_add_filter( 'muplugins_loaded', '_manually_load_plugin' );
 
 //Load WordPress
 require_once ABSPATH . '/wp-settings.php';
