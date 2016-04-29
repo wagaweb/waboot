@@ -17,14 +17,18 @@ global $wpdb, $current_site, $current_blog, $wp_rewrite, $shortcode_tags, $wp;
 if(!is_readable(WBTEST_CONFIG_PATH)){
 	die( "ERROR: wp-tests-config.php is missing! Please use wp-tests-config-sample.php to create a config file.\n" );
 }
+
 require_once WBTEST_CONFIG_PATH;
 
 //Load utility functions
 require_once WBTEST_CURRENT_PATH . '/includes/functions.php';
 
-global $table_prefix;
+tests_reset__SERVER();
 
-define('WP_TESTS_TABLE_PREFIX', $table_prefix);
+define('WP_TESTS_TABLE_PREFIX', $table_prefix); //ATTENTION: Do not use "global $table_prefix;"
+define('DIR_TESTDATA', WBTEST_CURRENT_PATH . '/data');
+
+define('WP_LANG_DIR', DIR_TESTDATA . '/languages');
 
 if(!defined('WP_TESTS_FORCE_KNOWN_BUGS')){
 	define('WP_TESTS_FORCE_KNOWN_BUGS',false);
@@ -39,9 +43,27 @@ $_SERVER['SERVER_PROTOCOL'] = 'HTTP/1.1';
 $_SERVER['HTTP_HOST'] = WP_TESTS_DOMAIN;
 $PHP_SELF = $GLOBALS['PHP_SELF'] = $_SERVER['PHP_SELF'] = '/index.php';
 
+//Should we run in multisite mode?
+$multisite = '1' == getenv('WP_MULTISITE');
+$multisite = $multisite || ( defined('WP_TESTS_MULTISITE') && WP_TESTS_MULTISITE);
+$multisite = $multisite || ( defined('MULTISITE') && MULTISITE);
+
 //Override the PHPMailer
 require_once( WBTEST_CURRENT_PATH . '/includes/mock-mailer.php' );
 $phpmailer = new MockPHPMailer();
+
+//Install WP
+//system( WP_PHP_BINARY . ' ' . escapeshellarg( dirname( __FILE__ ) . '/install.php' ) . ' ' . escapeshellarg( WBTEST_CONFIG_PATH ) . ' ' . $multisite );
+
+if($multisite){
+	//echo "Running as multisite..." . PHP_EOL;
+	defined( 'MULTISITE' ) or define( 'MULTISITE', true );
+	defined( 'SUBDOMAIN_INSTALL' ) or define( 'SUBDOMAIN_INSTALL', false );
+	$GLOBALS['base'] = '/';
+}else{
+	//echo "Running as single site... To run multisite, use -c tests/phpunit/multisite.xml" . PHP_EOL;
+}
+unset( $multisite );
 
 $GLOBALS['_wp_die_disabled'] = false;
 //Allow tests to override wp_die
@@ -65,6 +87,10 @@ if(isset($GLOBALS['wp_tests_options'])){
 require_once ABSPATH . '/wp-settings.php';
 
 //Requirements
-require_once WBTEST_CURRENT_PATH . '/includes/WP_UnitTestCase.php';
+require WBTEST_CURRENT_PATH . '/includes/WP_UnitTestCase.php';
+require WBTEST_CURRENT_PATH . '/includes/exceptions.php';
+require WBTEST_CURRENT_PATH . '/includes/utils.php';
+require WBTEST_CURRENT_PATH . '/includes/spy-rest-server.php';
+
 require_once WBTEST_CURRENT_PATH . '/includes/WP_PHPUnit_Util_Getopt.php';
 new WP_PHPUnit_Util_Getopt( $_SERVER['argv'] );

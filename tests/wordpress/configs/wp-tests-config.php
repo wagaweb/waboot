@@ -17,7 +17,7 @@ define( 'DB_HOST', 'localhost' );
 define( 'DB_CHARSET', 'utf8' );
 define( 'DB_COLLATE', '' );
 
-$table_prefix  = 'wp_';   // Only numbers, letters, and underscores please!
+$table_prefix = 'wp_';   // Only numbers, letters, and underscores please!
 
 // ** Site settings ** //
 define( 'WP_TESTS_DOMAIN', 'waboot.dev' );
