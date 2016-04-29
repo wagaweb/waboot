@@ -1,0 +1,14 @@
+<phpunit
+        bootstrap="tests/bootstrap-wp.php"
+        backupGlobals="false"
+        colors="true"
+>
+    <testsuites>
+        <testsuite name="Example Test Suite">
+            <directory suffix=".php">tests/tests-wp</directory>
+        </testsuite>
+    </testsuites>
+    <logging>
+        <log type="junit" target="builds/logs/junit-wp.xml" logIncompleteSkipped="false"/>
+    </logging>
+</phpunit>

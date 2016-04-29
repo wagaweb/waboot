@@ -42,7 +42,7 @@ $PHP_SELF = $GLOBALS['PHP_SELF'] = $_SERVER['PHP_SELF'] = '/index.php';
 
 //Override the PHPMailer
 require_once( WBTEST_CURRENT_PATH . '/includes/mock-mailer.php' );
-$phpmailer = new MockPHPMailer();
+$phpmailer = new tests\MockPHPMailer();
 
 $GLOBALS['_wp_die_disabled'] = false;
 //Allow tests to override wp_die
@@ -67,4 +67,4 @@ require_once ABSPATH . '/wp-settings.php';
 
 //Load this strange class...
 require_once WBTEST_CURRENT_PATH . '/includes/WP_PHPUnit_Util_Getopt.php';
-new WP_PHPUnit_Util_Getopt( $_SERVER['argv'] );
+new tests\WP_PHPUnit_Util_Getopt( $_SERVER['argv'] );
