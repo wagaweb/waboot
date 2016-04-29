@@ -84,9 +84,7 @@ if(isset($GLOBALS['wp_tests_options'])){
 }
 
 //Load environment
-//require_once WBTEST_WP_CONTENT_PATH."/plugins/wbf/wbf.php";
 function _manually_load_environment() {
-	switch_theme('waboot');
 	//Update array with plugins to include ...
 	$plugins_to_active = [
 		'wbf/wbf.php'
@@ -94,8 +92,14 @@ function _manually_load_environment() {
 	global $wpdb;
 	$wpdb->query("UPDATE {$wpdb->options} SET option_value = '".serialize($plugins_to_active)."' WHERE option_name = 'active_plugins'");
 	//update_option( 'active_plugins', $plugins_to_active );
+	switch_theme('waboot');
 }
 tests_add_filter('muplugins_loaded', '_manually_load_environment');
+
+function _manually_load_plugin() {
+	require_once WBTEST_WP_CONTENT_PATH."/plugins/wbf/wbf.php";
+}
+//tests_add_filter( 'muplugins_loaded', '_manually_load_plugin' );
 
 //Load WordPress
 require_once ABSPATH . '/wp-settings.php';
