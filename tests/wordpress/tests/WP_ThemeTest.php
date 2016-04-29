@@ -3,7 +3,7 @@
 class WP_ThemeTest extends WP_UnitTestCase{
 	public function setUp() {
 		parent::setUp();
-		switch_theme('waboot');
+		WBF()->startup();
 	}
 
 	function tearDown(){
@@ -23,5 +23,6 @@ class WP_ThemeTest extends WP_UnitTestCase{
 	
 	public function testHooks(){
 		global $wp_filter;
+		var_dump(has_action("waboot/head/meta"));
 	}
 }

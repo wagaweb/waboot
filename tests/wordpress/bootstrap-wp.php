@@ -85,6 +85,12 @@ if(isset($GLOBALS['wp_tests_options'])){
 	}
 }
 
+//Load environment
+function _manually_load_environment() {
+	switch_theme('waboot');
+}
+tests_add_filter('muplugins_loaded', '_manually_load_environment');
+
 //Load WordPress
 require_once ABSPATH . '/wp-settings.php';
 
