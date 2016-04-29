@@ -75,3 +75,17 @@ if ( $multisite ) {
 	populate_network( 1, WP_TESTS_DOMAIN, WP_TESTS_EMAIL, $title, '/', $subdomain_install );
 	$wp_rewrite->set_permalink_structure( '' );
 }
+
+
+//WAGA MOD:
+
+/**
+ * Load WBF
+ */
+function _manually_load_plugins() {
+	$plugins_to_active = [
+		'wbf/wbf.php'
+	];
+	update_option( 'active_plugins', $plugins_to_active );
+}
+_manually_load_plugins();
