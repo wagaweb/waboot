@@ -21,8 +21,24 @@ class WP_ThemeTest extends WP_UnitTestCase{
 		$this->assertTrue(class_exists("WBF"));
 	}
 	
-	public function testHooks(){
-		global $wp_filter;
-		var_dump(has_action("waboot/head/meta"));
+	public function testWBFMenuLabelRenamed(){
+		$label = apply_filters("wbf/admin_menu/label","WBF");
+		$this->assertEquals("Waboot",$label);
+	}
+
+	public function testNavMenus(){
+		$nav_menus = get_registered_nav_menus();
+		$this->assertTrue(array_key_exists("top",$nav_menus));
+		$this->assertTrue(array_key_exists("main",$nav_menus));
+		$this->assertTrue(array_key_exists("bottom",$nav_menus));
+	}
+
+	public function testHasWidgetAreas(){
+		global $wp_registered_sidebars;
+		$areas = \Waboot\functions\get_widget_areas();
+		
+		foreach($areas as $name => $args){
+			$this->assertTrue(array_key_exists($name,$wp_registered_sidebars));
+		}
 	}
 }
