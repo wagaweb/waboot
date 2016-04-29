@@ -53,7 +53,7 @@ require_once( WBTEST_CURRENT_PATH . '/includes/mock-mailer.php' );
 $phpmailer = new MockPHPMailer();
 
 //Install WP
-//system( WP_PHP_BINARY . ' ' . escapeshellarg( dirname( __FILE__ ) . '/install.php' ) . ' ' . escapeshellarg( WBTEST_CONFIG_PATH ) . ' ' . $multisite );
+system( WP_PHP_BINARY . ' ' . escapeshellarg( WBTEST_CURRENT_PATH . '/includes/install.php' ) . ' ' . escapeshellarg( WBTEST_CONFIG_PATH ) . ' ' . $multisite );
 
 if($multisite){
 	//echo "Running as multisite..." . PHP_EOL;
@@ -82,6 +82,18 @@ if(isset($GLOBALS['wp_tests_options'])){
 		tests_add_filter('pre_option_'.$key, 'wp_tests_options');
 	}
 }
+
+//Load environment
+//require_once WBTEST_WP_CONTENT_PATH."/plugins/wbf/wbf.php";
+function _manually_load_environment() {
+	switch_theme('waboot');
+	//Update array with plugins to include ...
+	$plugins_to_active = [
+		'wbf/wbf.php'
+	];
+	update_option( 'active_plugins', $plugins_to_active );
+}
+//tests_add_filter('muplugins_loaded', '_manually_load_environment');
 
 //Load WordPress
 require_once ABSPATH . '/wp-settings.php';

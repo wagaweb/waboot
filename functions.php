@@ -9,6 +9,8 @@ if(!class_exists("WBF")){
 	waboot_init();
 }
 
+waboot_init();
+
 /**
  * Initialize Waboot
  */
