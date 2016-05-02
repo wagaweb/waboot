@@ -4,12 +4,13 @@
         colors="true"
 >
     <testsuites>
-        <testsuite name="Example Test Suite">
-            <directory suffix=".php">tests</directory>
-            <file phpVersion="5.3.0" phpVersionOperator=">=">tests/SimpleTest.php</file>
+        <testsuite name="Waboot Core Test Suite">
+            <directory suffix=".php">tests/waboot</directory>
+            <file phpVersion="5.3.0" phpVersionOperator=">=">tests/waboot/LayoutTest.php</file>
+            <file phpVersion="5.3.0" phpVersionOperator=">=">tests/waboot/ThemeTest.php</file>
         </testsuite>
     </testsuites>
     <logging>
-        <log type="junit" target="builds/logs/junit.xml" logIncompleteSkipped="false"/>
+        <log type="junit" target="builds/logs/junit-core.xml" logIncompleteSkipped="false"/>
     </logging>
 </phpunit>

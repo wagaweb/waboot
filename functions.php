@@ -1,6 +1,6 @@
 <?php
 
-if(!class_exists("WBF")){
+if(!class_exists("WBF") && !defined('WBTEST_CURRENT_PATH')){
 	add_action("init",function(){
 		echo "This theme requires WBF Framework to work properly, please install";
 	});
@@ -22,8 +22,9 @@ function waboot_init(){
 	];
 
 	//Require mandatory files
-	foreach ($waboot_includes as $file) {
-		if (!$filepath = locate_template($file)) {
+	foreach($waboot_includes as $file){
+		$filepath = locate_template($file);
+		if(!$filepath) {
 			trigger_error(sprintf(__('Error locating %s for inclusion', 'waboot'), $file), E_USER_ERROR);
 		}
 		require_once $filepath;
