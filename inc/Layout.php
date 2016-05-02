@@ -52,11 +52,15 @@ class Layout{
 			if(is_array($template)){
 				$template = implode("-",$template);
 			}
-			$tpl_file = locate_template($template);
+			$tpl_file = \locate_template($template);
 			if(!$tpl_file){
 				throw new \Exception("The {$template} for the zone {$slug} does not exists");
 			}
 		}
+		if(!is_array($args)){
+			throw new \Exception('$args must be an array');
+		}
+		
 		//Save the zone
 		$args = wp_parse_args($args,[
 			'always_load' => false
