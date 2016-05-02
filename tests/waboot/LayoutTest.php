@@ -119,30 +119,38 @@ class LayoutTest extends \PHPUnit_Framework_TestCase{
 
 	public function testCreateZonesWithErrors_1(){
 		$this->add_zones_mocks();
-
-		$this->expectException(\Exception::class);
-		$this->layout->create_zone("head er",new HTMLView("templates/header.php")); //The slug cannot have spaces
+		
+		try{
+			$this->layout->create_zone("head er",new HTMLView("templates/header.php")); //The slug cannot have spaces
+			$this->fail();
+		}catch(\Exception $e){}
 	}
 	
 	public function testCreateZonesWithErrors_2(){
 		$this->add_zones_mocks();
 
-		$this->expectException(\Exception::class);
-		$this->layout->create_zone("header",new \stdClass()); //The template must be a string, an array or a View
+		try{
+			$this->layout->create_zone("header",new \stdClass()); //The template must be a string, an array or a View
+			$this->fail();
+		}catch(\Exception $e){}
 	}
 
 	public function testCreateZonesWithErrors_3(){
 		$this->add_zones_mocks();
 
-		$this->expectException(\Exception::class);
-		$this->layout->create_zone("header",12); //The template must be a string, an array or a View
+		try{
+			$this->layout->create_zone("header",12); //The template must be a string, an array or a View
+			$this->fail();
+		}catch(\Exception $e){}
 	}
 
 	public function testCreateZonesWithErrors_4(){
 		$this->add_zones_mocks();
 
-		$this->expectException(\Exception::class);
-		$this->layout->create_zone("header",new HTMLView("templates/header.php"),false); //The args must be an array
+		try{
+			$this->layout->create_zone("header",new HTMLView("templates/header.php"),false); //The args must be an array
+			$this->fail();
+		}catch(\Exception $e){}
 	}
 
 	private function add_zones_mocks(){
