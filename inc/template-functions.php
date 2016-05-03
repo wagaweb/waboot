@@ -1,6 +1,7 @@
 <?php
 
 namespace Waboot\functions;
+use WBF\includes\mvc\HTMLView;
 
 /**
  * Wrapper for \WBF\modules\options\of_get_option
@@ -46,6 +47,12 @@ function count_widgets_in_area($prefix,$limit = 4){
 function print_widgets_in_area($prefix,$limit = 4){
 	$count = count_widgets_in_area($prefix,$limit);
 	if($count === 0) return;
+	$sidebar_class = get_grid_class_for_alignment($count);
+	(new HTMLView("templates/widget-area.php"))->clean()->display([
+		'widget_area_prefix' => $prefix,
+		'widget_count' => $count,
+		'sidebar_class' => $sidebar_class
+	]);
 }
 
 /**
@@ -58,23 +65,32 @@ function print_widgets_in_area($prefix,$limit = 4){
  */
 function get_grid_class_for_alignment($count = 4){
 	$class = '';
-	switch($count ) {
-		case '1':
-			$class = ' col-sm-12';
+	$count = intval($count);
+	switch($count) {
+		case 1:
+			$class = 'col-sm-12';
 			break;
-		case '2':
-			$class = ' col-sm-6';
+		case 2:
+			$class = 'col-sm-6';
 			break;
-		case '3':
-			$class = ' col-sm-4';
+		case 3:
+			$class = 'col-sm-4';
 			break;
-		case '4':
-			$class = ' col-sm-3';
+		case 4:
+			$class = 'col-sm-3';
 			break;
+		default:
+			$class = 'col-sm-1';
 	}
-
+	$class = apply_filters("waboot/layout/grid_class_for_alignment",$class,$count);
 	return $class;
 }
+
+/**
+ * Gets theme widget areas
+ *
+ * @return array
+ */
 function get_widget_areas(){
 	$areas = [
 		'sidebar-1' => [
@@ -117,6 +133,8 @@ function get_widget_areas(){
 			'name' => __('Header Right')
 		],
 	];
+
+	$areas = apply_filters("waboot/widget_areas",$areas);
 
 	return $areas;
 }

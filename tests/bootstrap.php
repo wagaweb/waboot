@@ -9,6 +9,7 @@ if(!defined("ABSPATH")){
 if(!defined("WPINC")) define("WPINC",WBTEST_WORDPRESS_PATH."/wp-includes");
 
 require_once dirname(WBTEST_CURRENT_PATH)."/vendor/autoload.php";
+require_once "waboot/Waboot_TestCase.php";
 
 class WP_Theme{
 	var $stylesheet;
