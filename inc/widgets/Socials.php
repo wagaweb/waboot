@@ -15,14 +15,14 @@ class Social extends \WP_Widget {
 		<div class="wb-social-widget" class="widget widget_text">
 		<?php
 
-		$socials = waboot_get_available_socials();
+		$socials = \Waboot\functions\get_available_socials();
 
 		foreach($socials as $name => $opt) :
-			$opt_name = "waboot_social_".$name;
-			$opt_value = of_get_option( $opt_name );
+			$opt_name = "social_".$name;
+			$opt_value = \Waboot\functions\get_option($opt_name);
 			if($opt_value) :
 		?>
-				<a href="<?php echo of_get_option( $opt_name ); ?>"><i class="fa <?php echo $opt['icon_class'] ?>"></i></a>
+				<a href="<?php echo \Waboot\functions\get_option($opt_name); ?>"><i class="fa <?php echo $opt['icon_class'] ?>"></i></a>
 		<?php
 			endif;
 		endforeach;
