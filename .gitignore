@@ -8,6 +8,8 @@ Movefile
 ## VENDORS
 ############
 /vendor/
+/assets/vendor
+/assets/fonts/*.*
 
 ############
 ## WBF TMP FILE

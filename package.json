@@ -43,8 +43,8 @@
     ]
   },
   "browser": {
-    "FastClick": "./assets/src/bower_components/fastclick/lib/fastclick.js",
-    "TouchSwipe": "./assets/src/bower_components/jquery-touchswipe/jquery.touchSwipe.js"
+    "FastClick": "./assets/vendor/fastclick/lib/fastclick.js",
+    "TouchSwipe": "./assets/vendor/jquery-touchswipe/jquery.touchSwipe.js"
   },
   "browserify-shim": {
     "jquery": "global:jQuery",

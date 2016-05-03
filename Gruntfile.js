@@ -16,9 +16,9 @@ module.exports = function(grunt) {
                         }*/
                         return 'assets/src/less/waboot.less';
                     })(),
-                    'assets/dist/css/bootstrap-pagebuilder.css': 'assets/src/less/bootstrap-pagebuilder.less',
-                    'assets/dist/css/theme-options.css': 'assets/src/less/theme-options-gui.less',
-                    'assets/dist/css/admin.css': 'assets/src/less/waboot-admin.less'
+                    'assets/dist/css/bootstrap-pagebuilder.css': 'assets/src/less/waboot/admin/bootstrap-pagebuilder.less',
+                    'assets/dist/css/theme-options.css': 'assets/src/less/waboot/admin/theme-options-gui.less',
+                    'assets/dist/css/admin.css': 'assets/src/less/waboot/admin/waboot-admin.less'
                 }
             }
         },
@@ -39,12 +39,12 @@ module.exports = function(grunt) {
             }
         },
         jshint : {
-            all : ['assets/src/js/**/*.js','!assets/src/js/waboot.js','!assets/src/js/vendor/offcanvas.js']
+            all : ['assets/src/js/**/*.js','!assets/src/js/vendor/offcanvas.js']
         },
         browserify: {
             dist: {
                 src: ['assets/src/js/main.js'],
-                dest: 'assets/src/js/waboot.js'
+                dest: 'assets/dist/js/waboot.js'
             }
         },
         uglify: {
@@ -53,7 +53,7 @@ module.exports = function(grunt) {
             },
             dist: {
                 files: {
-                    'assets/dist/js/waboot.min.js': ['assets/src/js/waboot.js']
+                    'assets/dist/js/waboot.min.js': ['assets/dist/js/waboot.js']
                 }
             }
         },
@@ -69,55 +69,44 @@ module.exports = function(grunt) {
                     {
                         expand: true,
                         flatten: true,
-                        cwd: "assets/src/bower_components/html5shiv/dist",
+                        cwd: "assets/vendor/html5shiv/dist",
                         src: "html5shiv.min.js",
                         dest: "assets/dist/js"
                     },
                     {
                         expand: true,
                         flatten: true,
-                        cwd: "assets/src/bower_components/respond/dest",
+                        cwd: "assets/vendor/respond/dest",
                         src: "respond.min.js",
                         dest: "assets/dist/js"
                     },
                     {
                         expand: true,
                         flatten: true,
-                        cwd: "assets/src/bower_components/fontawesome",
+                        cwd: "assets/vendor/fontawesome",
                         src: "css/font-awesome.min.css",
                         dest: "assets/dist/css"
                     },
                     {
                         expand: true,
                         flatten: true,
-                        cwd: "assets/src/bower_components/fontawesome",
+                        cwd: "assets/vendor/fontawesome",
                         src: "fonts/*",
                         dest: "assets/fonts"
                     },
                     {
                         expand: true,
                         flatten: true,
-                        cwd: "assets/src/bower_components/bootstrap/dist",
+                        cwd: "assets/vendor/bootstrap/dist",
                         src: "js/bootstrap.min.js",
                         dest: "assets/dist/js/"
                     },
                     {
                         expand: true,
                         flatten: true,
-                        cwd: "assets/src/bower_components/bootstrap/dist",
+                        cwd: "assets/vendor/bootstrap/dist",
                         src: "fonts/*",
                         dest: "assets/fonts"
-                    }
-                ]
-            },
-            bootstrap_styles:{
-                files:[
-                    {
-                        expand: true,
-                        flatten: true,
-                        cwd: "assets/src/bower_components/bootstrap/less",
-                        src: ['**/*','.csscomb.json','.csslintrc'],
-                        dest: "assets/src/less/bootstrap/"
                     }
                 ]
             },
@@ -129,6 +118,12 @@ module.exports = function(grunt) {
                         src: [
                             "**/*",
                             "!.*",
+                            "!builds/**",
+                            "!components/**/node_modules/**",
+                            "!components/**/bower_components/**",
+                            "!node_modules/**",
+                            "!assets/vendor/**",
+                            "!assets/cache/**",
                             "!Gruntfile.js",
                             "!package.json",
                             "!.jshintrc",
@@ -136,15 +131,8 @@ module.exports = function(grunt) {
                             "!bower.json",
                             "!Movefile-sample",
                             "!Movefile",
-                            "!builds/**",
-                            "!node_modules/**",
-                            "!components/**/node_modules/**",
-                            "!assets/src/bower_components/**",
-                            "!components/**/bower_components/**",
-                            "!assets/cache/**",
-                            "!wbf/options/*.css",
-                            "!wbf/options/*.less",
-                            "!_bak/**"
+                            "!_bak/**",
+                            "assets/vendor/bootstrap/less"
                         ],
                         dest: "builds/waboot-<%= pkg.version %>/"
                     }
@@ -212,7 +200,7 @@ module.exports = function(grunt) {
     grunt.registerTask('default', ['setup','watch']);
 
     //Setup task
-    grunt.registerTask('setup', ['bower-install','bower-update','copy:bootstrap_styles','copy:vendors','compile_less','compile_js']);
+    grunt.registerTask('setup', ['bower-install','bower-update','copy:vendors','compile_less','compile_js']);
 
     //Concat, beautify and minify js
     grunt.registerTask('compile_js', ['browserify:dist','uglify']);
