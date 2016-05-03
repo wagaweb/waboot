@@ -18,6 +18,63 @@ function get_option($name, $default = false){
 	}
 }
 
+/**
+ * Checks if at least one widget area with $prefix is active (eg: footer-1, footer-2, footer-3...)
+ *
+ * @param $prefix
+ *
+ * @param int $limit (default: 4)
+ *
+ * @return bool
+ */
+function count_widgets_in_area($prefix,$limit = 4){
+	$count = 0;
+	for($i = 1; $i <= $limit; $i++) {
+		if(is_active_sidebar($prefix . "-" . $i)) {
+			$count++;
+		}
+	}
+	return $count;
+}
+
+/**
+ * Prints out a waboot-type widget area
+ *
+ * @param $prefix
+ * @param int $limit
+ */
+function print_widgets_in_area($prefix,$limit = 4){
+	$count = count_widgets_in_area($prefix,$limit);
+	if($count === 0) return;
+}
+
+/**
+ * Get the correct CSS class to align $count containers
+ *
+ * @param int $count
+ *
+ * @return string
+ *
+ */
+function get_grid_class_for_alignment($count = 4){
+	$class = '';
+	switch($count ) {
+		case '1':
+			$class = ' col-sm-12';
+			break;
+		case '2':
+			$class = ' col-sm-6';
+			break;
+		case '3':
+			$class = ' col-sm-4';
+			break;
+		case '4':
+			$class = ' col-sm-3';
+			break;
+	}
+
+	return $class;
+}
 function get_widget_areas(){
 	$areas = [
 		'sidebar-1' => [
