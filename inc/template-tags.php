@@ -134,3 +134,7 @@ function get_desktop_logo(){
 	$desktop_logo = \Waboot\functions\get_option('logo_in_navbar', ""); //todo: add this
 	return $desktop_logo;
 }
+
+function wrapped_archive_page_title($prefix,$suffix,$classes,$display = true){
+	
+}

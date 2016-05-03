@@ -118,6 +118,24 @@ class Layout{
 	}
 
 	/**
+	 * Renders wordpress theme hierarchy templates through our template system
+	 * 
+	 * @param $template
+	 */
+	public function render_wp_template_content($template){
+		switch($template){
+			case "archive.php":
+				$template_file = "templates/wordpress/archive-content";
+				\Waboot\functions\render_archives($template_file);
+				break;
+			case "page.php":
+				break;
+			case "single.php":
+				break;
+		}
+	}
+
+	/**
 	 * Adds an action to the zone
 	 * 
 	 * @param $slug
