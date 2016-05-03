@@ -13,7 +13,7 @@ class Navbar_Classic extends \Waboot\Component{
 	 */
 	public function setup(){
 		parent::setup();
-		add_filter("waboot/navigation/main/class",[$this,"set_main_navigation_class"]);
+		add_filter("waboot/navigation/main/class",[$this,"set_main_navigation_classes"]);
 	}
 
 	public function run(){
@@ -28,7 +28,7 @@ class Navbar_Classic extends \Waboot\Component{
 		$content = (new \WBF\includes\mvc\HTMLView($this->relative_path."/templates/navbar_content.php"))->clean()->get([
 			'show_mobile_nav' => Waboot\functions\get_option('mobilenav_style') == "offcavas",
 			'display_socials' => Waboot\functions\get_option("social_position_none") == 1 || Waboot\functions\get_option('social_position') != "navigation" ? false : true,
-			'dispaly_searchbar' => Waboot\functions\get_option("display_search_bar_in_header") == 1
+			'display_searchbar' => Waboot\functions\get_option("display_search_bar_in_header") == 1
 		]);
 		$header_layout = call_user_func(function(){
 			if(\WBF\modules\components\ComponentsManager::is_active("header_classic")){
