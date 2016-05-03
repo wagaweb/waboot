@@ -1,7 +1,5 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: LostCore
- * Date: 28/04/2016
- * Time: 16:07
- */
+<div id="contentbottom-wrapper">
+	<div id="contentbottom-inner" class="<?php echo Waboot\functions\get_option('bottom_width','container'); ?>">
+		<?php dynamic_sidebar('contentbottom'); ?>
+	</div>
+</div>
