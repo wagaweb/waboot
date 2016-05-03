@@ -1,3 +1,8 @@
+<?php
+/*
+ * Waboot View
+ */
+?>
 <footer>
 	Waboot Footer
 	<?php Waboot()->layout->do_zone_action($name); ?>

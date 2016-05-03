@@ -1,5 +1,5 @@
 <?php
-/**
+/*
  * Waboot View
  */
 ?>

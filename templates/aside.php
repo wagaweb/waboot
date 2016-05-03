@@ -1,3 +1,8 @@
+<?php
+/*
+ * Waboot View
+ */
+?>
 <aside id="<?php echo $name ?>">
 	Waboot Aside
 	<?php Waboot()->layout->do_zone_action($name); ?>
