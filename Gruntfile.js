@@ -43,6 +43,9 @@ module.exports = function(grunt) {
         },
         browserify: {
             dist: {
+                options: {
+                    transform: [ ['babelify',{presets:['es2015']}] ]
+                },
                 src: ['assets/src/js/main.js'],
                 dest: 'assets/dist/js/waboot.js'
             }
@@ -202,7 +205,7 @@ module.exports = function(grunt) {
     //Setup task
     grunt.registerTask('setup', ['bower-install','bower-update','copy:vendors','compile_less','compile_js']);
 
-    //Concat, beautify and minify js
+    //Scripts
     grunt.registerTask('compile_js', ['browserify:dist','uglify']);
 
     //Styles
