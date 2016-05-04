@@ -28,9 +28,7 @@ export default class extends Backbone.Model{
         $('[data-wbShow]').on('click', function() {
             let itemToShow = $($(this).attr("data-trgShow"));
             if (itemToShow.hasClass('modal')) {
-                $('.modal').each(function(index) {
-                    $(this).modal("hide");
-                });
+                $('.modal').each(index => $(this).modal("hide"));
                 itemToShow.modal("show");
             } else {
                 itemToShow.show();
@@ -64,7 +62,7 @@ export default class extends Backbone.Model{
             //swipe = require("TouchSwipe");
             //http://getbootstrap.com/getting-started/#support
             if (navigator.userAgent.match(/IEMobile\/10\.0/)) {
-                let msViewportStyle = document.createElement('style')
+                let msViewportStyle = document.createElement('style');
                 msViewportStyle.appendChild(
                     document.createTextNode(
                         '@-ms-viewport{width:auto!important}'

@@ -4,7 +4,6 @@ import $ from "jquery";
 export default class extends Backbone.Model{
     initialize(){
         "use strict";
-        console.log("It'admin time!");
         this.do_stuff();
     }
     do_stuff(){
@@ -34,11 +33,11 @@ export default class extends Backbone.Model{
          * RECENT POST WIDGET
          */
         if($recent_posts_widget_pt_selector.length > 0){
-            var get_checkboxes_status = function($container){
+            let get_checkboxes_status = function($container){
                 //Get the state of all checkboxes
-                var $checkboxes = $container.find("input[type=checkbox]"),
+                let $checkboxes = $container.find("input[type=checkbox]"),
                     states = [];
-                $checkboxes.each(function(){
+                $checkboxes.each(() => {
                     states.push({
                         name: $(this).attr("value"),
                         checked: $(this).is(":checked") ? 1 : 0
@@ -47,7 +46,7 @@ export default class extends Backbone.Model{
                 return states;
             };
 
-            var make_term_request = function(data){
+            let make_term_request = function(data){
                 return $.ajax(wbData.ajaxurl,{
                     data: data,
                     dataType: "json",
