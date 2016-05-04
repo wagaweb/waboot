@@ -1,10 +1,13 @@
-module.exports = Backbone.Model.extend({
-    initialize: function() {
+import * as Backbone from "backbone";
+import * as FastClick from "FastClick"; 
+import $ from "jquery";
+
+export default class extends Backbone.Model{
+    initialize() {
         "use strict";
-        console.log("It'frontend time!");
-        this.do_stuff(jQuery);
-    },
-    do_stuff: function($){
+        this.do_stuff();
+    }
+    do_stuff(){
         "use strict";
         /*
          * Bootstrapping html elements
@@ -23,7 +26,7 @@ module.exports = Backbone.Model.extend({
          * These will make any element that has data-wbShow\wbHide="<selector>" act has visibily toggle for <selector>
          */
         $('[data-wbShow]').on('click', function() {
-            var itemToShow = $($(this).attr("data-trgShow"));
+            let itemToShow = $($(this).attr("data-trgShow"));
             if (itemToShow.hasClass('modal')) {
                 $('.modal').each(function(index) {
                     $(this).modal("hide");
@@ -34,7 +37,7 @@ module.exports = Backbone.Model.extend({
             }
         });
         $('[data-wbHide]').on('click', function() {
-            var itemToShow = $($(this).attr("data-trgHide"));
+            let itemToShow = $($(this).attr("data-trgHide"));
             if (itemToShow.hasClass('modal')) {
                 itemToShow.modal("hide");
             } else {
@@ -49,7 +52,7 @@ module.exports = Backbone.Model.extend({
             $contactForm = $("[data-contactForm]");
         //Init search windows
         if ($contactForm.length > 0) {
-            var contactWindow = new ContactFormView({
+            let contactWindow = new ContactFormView({
                 model: new ContactFormModel(),
                 el: $contactForm
             });
@@ -57,12 +60,11 @@ module.exports = Backbone.Model.extend({
         /*
          * MOBILE ACTIONS
          */
-        if (wbData.isMobile) {
-            var fs = require("FastClick");
+        if (wbData.isMobile){
             //swipe = require("TouchSwipe");
             //http://getbootstrap.com/getting-started/#support
             if (navigator.userAgent.match(/IEMobile\/10\.0/)) {
-                var msViewportStyle = document.createElement('style')
+                let msViewportStyle = document.createElement('style')
                 msViewportStyle.appendChild(
                     document.createTextNode(
                         '@-ms-viewport{width:auto!important}'
@@ -70,7 +72,7 @@ module.exports = Backbone.Model.extend({
                 );
                 document.querySelector('head').appendChild(msViewportStyle);
             }
-            fs.FastClick.attach(document.body);
+            FastClick.attach(document.body);
             /*$("body").swipe({
                 swipeRight: function(event, direction, distance, duration, fingerCount) {
                     if ($(".navbar-mobile-collapse").css('right') == '0px') {
@@ -108,4 +110,4 @@ module.exports = Backbone.Model.extend({
         $(".nav-tabs li:first-child").addClass("active");
         $(".tab-content .tab-pane:first-child").addClass("active");
     }
-});
+}

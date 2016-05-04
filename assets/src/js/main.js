@@ -1,3 +1,6 @@
+import FrontEnd from "./controllers/frontend.js";
+import Dashboard from "./controllers/dashboard.js";
+
 jQuery(document).ready(function($) {
     "use strict";
     if (wbData.isAdmin) {
@@ -6,15 +9,13 @@ jQuery(document).ready(function($) {
          * ADMIN
          *************
          *************/
-        var dashboard = require("./controllers/dashboard.js");
-        new dashboard();
+        new Dashboard();
     }else{
         /*************
          *************
          * PUBLIC
          *************
          *************/
-        var frontend = require("./controllers/frontend.js");
-        new frontend();
+        new FrontEnd();
     }
 });

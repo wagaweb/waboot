@@ -1,16 +1,18 @@
-module.exports = Backbone.Model.extend({
-    initialize: function() {
+import * as Backbone from "backbone";
+import $ from "jquery";
+
+export default class extends Backbone.Model{
+    initialize(){
         "use strict";
         console.log("It'admin time!");
         this.do_stuff();
-    },
-    do_stuff: function(){
+    }
+    do_stuff(){
         "use strict";
-        var $ = jQuery,
-            $mailtable = $("#waboot-received-mails-view"),
+        var $mailtable = $("#waboot-received-mails-view"),
             $recent_posts_widget_pt_selector = $("#widgets-right [data-wbrw-post-type-selector]");
         /**
-         * Init received mails viewerr
+         * Init received mails viewer
          */
         if($mailtable.length > 0){
             var MailListView = require("../views/mailList.js"),
@@ -102,4 +104,4 @@ module.exports = Backbone.Model.extend({
             });
         }
     }
-});
+}
