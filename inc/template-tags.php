@@ -1,6 +1,7 @@
 <?php
 
 namespace Waboot\template_tags;
+use WBF\includes\mvc\HTMLView;
 use WBF\includes\Utilities;
 
 /**
@@ -135,6 +136,66 @@ function get_desktop_logo(){
 	return $desktop_logo;
 }
 
-function wrapped_archive_page_title($prefix,$suffix,$classes,$display = true){
-	
+/**
+ * Display the content navigation
+ *
+ * @throws \Exception
+ *
+ * @param string $nav_id
+ * @param bool $show_pagination
+ * @param bool $query
+ * @param bool $current_page
+ */
+function post_navigation($nav_id, $show_pagination = false, $query = false, $current_page = false){
+	//Setting up the query
+	if(!$query){
+		global $wp_query;
+		$query = $wp_query;
+	}else{
+		if(!$query instanceof \WP_Query){
+			throw new \Exception("Invalid query provided for post_navigation $nav_id");
+		}
+	}
+
+	//Setup nav class
+	$nav_class = 'site-navigation paging-navigation';
+	if(is_single()){
+		$nav_class .= ' post-navigation';
+	}else{
+		$nav_class .= ' paging-navigation';
+	}
+	$nav_class = apply_filters("waboot/layout/post_navigation/nav_class",$nav_class);
+
+	if(!is_single()){
+		$can_display_pagination = $query->max_num_pages > 1 && (is_home() || is_archive() || is_search() || is_singular());
+		$can_display_pagination = apply_filters("waboot/layout/post_navigation/can_display_navigation",$can_display_pagination,$query,$current_page);
+	}else{
+		$can_display_pagination = false;
+	}
+
+	if($can_display_pagination && $show_pagination){
+		$big = 999999999; // need an unlikely integer
+		$paginate = paginate_links([
+			'base' => str_replace( $big, '%#%', esc_url( get_pagenum_link( $big ) ) ),
+			'format' => '?paged=%#%',
+			'current' => $current_page ? $current_page : max( 1, get_query_var('paged') ),
+			'total' => $query->max_num_pages
+		]);
+		$paginate_array = explode("\n",$paginate);
+		foreach($paginate_array as $k => $link){
+			$paginate_array[$k] = "<li>".$link."</li>";
+		}
+		$pagination = implode("\n",$paginate_array);
+	}else{
+		$pagination = "";
+	}
+
+	(new HTMLView("templates/view-parts/post-navigation.php"))->clean()->display([
+		'nav_id' => $nav_id,
+		'nav_class' => $nav_class,
+		'can_display_pagination' => $can_display_pagination,
+		'show_pagination' => $show_pagination,
+		'pagination' => $pagination,
+		'max_num_pages' => $query->max_num_pages
+	]);
 }

@@ -118,7 +118,9 @@ class Layout{
 	}
 
 	/**
-	 * Renders wordpress theme hierarchy templates through our template system
+	 * Renders wordpress theme hierarchy templates through our template system.
+	 * 
+	 * This function is a draft. For now we prefer to user WP native get_template_parts for bettere compatibility.
 	 * 
 	 * @param $template
 	 */
@@ -133,6 +135,29 @@ class Layout{
 			case "single.php":
 				break;
 		}
+	}
+
+	/**
+	 * Get the variables needed for render a specific Wordpress template.
+	 * 
+	 * We use this function to avoid conditionals and stuff in our templates.
+	 * 
+	 * @param $template
+	 * 
+	 * @return array
+	 */
+	public function get_wp_template_vars($template){
+		$vars = [];
+		switch($template){
+			case "archive.php":
+				$vars = \Waboot\functions\get_archives_vars();
+				break;
+			case "page.php":
+				break;
+			case "single.php":
+				break;
+		}
+		return $vars;
 	}
 
 	/**

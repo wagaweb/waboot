@@ -191,7 +191,9 @@ function get_available_socials(){
 }
 
 /**
- * @return mixed
+ * Returns the appropriate title for the archive page
+ *
+ * @return string
  */
 function get_archive_page_title(){
 	global $post;
@@ -232,4 +234,37 @@ function get_archive_page_title(){
 			return $arch_obj->name;
 		return __( 'Archives', 'waboot' );
 	}
+}
+
+/**
+ * Return the current blog layout or the default one ("classic")
+ * @return bool|string
+ */
+function get_blog_layout(){
+	$blog_style = \Waboot\functions\get_option("blogpage_layout");
+	if (!$blog_style || $blog_style == "") $blog_style = "classic";
+
+	return $blog_style;
+}
+
+/**
+ * Return the class relative to the $blog_layout (by default the current blog layout)
+ *
+ * @param bool $blog_layout
+ * @return mixed
+ */
+function get_blog_class($blog_layout = false){
+	if(!$blog_layout){
+		$blog_layout = get_blog_layout();
+	}
+
+	$classes = array(
+		"blog-".$blog_layout
+	);
+
+	if($blog_layout == "masonry"){
+		$classes[] = "row";
+	}
+
+	return implode(" ",$classes);
 }
