@@ -11,7 +11,10 @@ use WBF\includes\mvc\HTMLView;
 function display_title($post = null){
 	if(!$post) global $post;
 	
-	$can_display_title = $post instanceof \WP_Post && (bool) \Waboot\functions\get_behavior("show-title",true) && \Waboot\functions\get_behavior('title-position',"bottom") == "bottom"; //todo: add this
+	$can_display_title = $post instanceof \WP_Post && 
+	                     (bool) \Waboot\functions\get_behavior("show-title",true) && 
+	                     \Waboot\functions\get_behavior('title-position',"bottom") == "bottom"; //todo: add this
+	
 	if(!$can_display_title) return;
 	
 	if(is_singular()){
