@@ -2,6 +2,7 @@
 
 namespace Waboot\functions;
 use WBF\includes\mvc\HTMLView;
+use WBF\includes\Utilities;
 
 /**
  * Wrapper for \WBF\modules\options\of_get_option
@@ -16,6 +17,23 @@ function get_option($name, $default = false){
 		return \WBF\modules\options\of_get_option($name,$default);
 	}else{
 		return $default;
+	}
+}
+
+/**
+ * Wrapper for \WBF\modules\behaviors\get_behavior
+ *
+ * @param $name
+ * @param int $post_id
+ * @param string $return
+ *
+ * @return array|bool|mixed|string
+ */
+function get_behavior($name, $post_id = 0, $return = "value"){
+	if(class_exists("WBF")){
+		return \WBF\modules\behaviors\get_behavior($name, $post_id, $return);
+	}else{
+		return false;
 	}
 }
 
@@ -233,6 +251,46 @@ function get_archive_page_title(){
 		$arch_obj = get_queried_object();
 		if(isset($arch_obj->name)) return $arch_obj->name;
 		return __('Archives', 'waboot');
+	}
+}
+
+/**
+ * Gets the body layout
+ *
+ * @return string
+ */
+function get_body_layout(){
+	$current_page_type = Utilities::get_current_page_type();
+	if($current_page_type == Utilities::PAGE_TYPE_BLOG_PAGE || $current_page_type == Utilities::PAGE_TYPE_DEFAULT_HOME || is_archive()) {
+		$layout = \Waboot\functions\get_option('blogpage_sidebar_layout'); //todo: add this
+	}else{
+		$layout = \Waboot\functions\get_behavior('layout'); //todo: add this
+	}
+	$layout = apply_filters("waboot/layout/body_layout",$layout);
+	return $layout;
+}
+
+/**
+ * Checks if body layout is full width
+ *
+ * @return bool
+ */
+function body_layout_is_full_width(){
+	$body_layout = get_body_layout();
+	return $body_layout == "full-width";
+}
+
+/**
+ * Checks if the body layout has two sidebars
+ * 
+ * @return bool
+ */
+function body_layout_has_two_sidebars(){
+	$body_layout = get_body_layout();
+	if(in_array($body_layout,array("two-sidebars","two-sidebars-right","two-sidebars-left"))){
+		return true;
+	}else{
+		return false;
 	}
 }
 

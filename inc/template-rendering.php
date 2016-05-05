@@ -33,15 +33,42 @@ function get_archives_template_vars(){
 }
 
 /**
- * Renders page.php content
+ * Gets the additional variables needed to render an aside.php
+ *
+ * @param $slug
+ *
+ * @return array
  */
-function render_page(){
-	
-}
+function get_aside_template_vars($slug){
+	$vars = [];
+	switch($slug){
+		case "aside-primary":
+			$vars['classes'] = call_user_func(function(){
+				if(has_filter("waboot_primary_container_class")){
+					return apply_filters('waboot_primary_container_class', 'col-sm-4'); //backward compatibility
+				}else{
+					return apply_filters('waboot/layout/sidebar/primary/classes', 'col-sm-4');
+				}
+			});
+			break;
+		case "aside-secondary":
+			$vars['classes'] = call_user_func(function(){
+				if(has_filter("waboot_primary_container_class")){
+					return apply_filters('waboot_secondary_container_class', 'col-sm-4'); //backward compatibility
+				}else{
+					return apply_filters('waboot/layout/sidebar/secondary/classes', 'col-sm-4');
+				}
+			});
+			break;
+	}
 
-/**
- * Renders single.php content
- */
-function render_single(){
-	
+	$vars['container_classes'] = call_user_func(function(){
+		if(has_filter("waboot_sidebar_container_class")){
+			return apply_filters('waboot_sidebar_container_class', 'widget-area'); //backward compatibility
+		}else{
+			return apply_filters('waboot/layout/sidebar/container/classes', 'widget-area');
+		}
+	});
+
+	return $vars;
 }
