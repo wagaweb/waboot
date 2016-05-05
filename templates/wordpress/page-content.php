@@ -6,3 +6,7 @@
 		<?php edit_post_link( __(' Edit', 'waboot'), '<span class="edit-link pull-right"><i class="glyphicon glyphicon-pencil"></i>', '</span>'); ?>
 	</div><!-- .entry-content -->
 </article><!-- #post-<?php the_ID(); ?> -->
+<?php 
+if(comments_open() || '0' != get_comments_number()){
+	comments_template('/comments.php',true);
+}

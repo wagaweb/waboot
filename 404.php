@@ -1,9 +1,0 @@
-<?php get_header(); ?>
-	<div id="main-wrap">
-		<?php Waboot()->layout->render_zone("aside-primary"); ?>
-		<main>
-			404
-		</main>
-		<?php Waboot()->layout->render_zone("aside-secondary"); ?>
-	</div><!-- #main-wrap -->
-<?php get_footer(); ?>
