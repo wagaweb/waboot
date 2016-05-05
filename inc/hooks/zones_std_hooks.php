@@ -75,7 +75,7 @@ function display_footer_closure(){
 	$default_footer_text = '&copy; ' . date('Y') . ' ' . get_bloginfo('name');
 	$footer_text = \Waboot\functions\get_option('custom_footer_toggle') ? \Waboot\functions\get_option('waboot_custom_footer_text') : $default_footer_text; //todo: add this
 
-	(new HTMLView("templates/footer-closure.php"))->clean()->display([
+	(new HTMLView("templates/view-parts/footer-closure.php"))->clean()->display([
 		'closure_width' => \Waboot\functions\get_option('closure_width','container'), //todo: add this
 		'footer_text' => $footer_text,
 		'display_socials' => \Waboot\functions\get_option("social_position_none") != 1 && \Waboot\functions\get_option('social_position') == "footer" //todo: tadd "social_position = footer" in some way
