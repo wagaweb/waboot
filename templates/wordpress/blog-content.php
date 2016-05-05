@@ -4,11 +4,9 @@
  */
 ?>
 <?php if(have_posts()): ?>
-	<div>
-		<?php while(have_posts()) :  the_post(); ?>
-			<?php get_template_part( '/templates/post-formats/content', get_post_format() ); ?>
-		<?php endwhile; ?>
-	</div>
+	<?php while(have_posts()) :  the_post(); ?>
+		<?php get_template_part( '/templates/post-formats/content', get_post_format() ); ?>
+	<?php endwhile; ?>
 <?php else: ?>
 	<?php get_template_part('/templates/parts/content', 'none'); // No results ?>
 <?php endif; //have_posts ?>

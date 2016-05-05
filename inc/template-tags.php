@@ -217,12 +217,22 @@ function wrapped_title($prefix,$suffix,$title,\WP_Post $post = null){
 }
 
 /**
- * Prints out the main wrapper classes
+ * Prints out the main-wrapper classes
  */
 function main_wrapper_classes(){
+	$classes = "site-main ";
+	$classes .= \Waboot\functions\get_option("content_width","container"); //todo: add this
+	$classes = apply_filters("waboot/layout/container/classes",$classes);
+	echo $classes;
+}
+
+/**
+ * Prints out the main classes
+ */
+function main_classes(){
 	if(has_filter("waboot_mainwrap_container_class")){
 		echo apply_filters('waboot_mainwrap_container_class','content-area col-sm-8'); //backward compatibility
 	}else{
-		echo apply_filters('waboot/layout/main-wrapper-classes','content-area col-sm-8');	
+		echo apply_filters('waboot/layout/main-wrapper-classes','content-area col-sm-8');
 	}
 }
