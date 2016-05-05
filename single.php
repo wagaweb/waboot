@@ -2,7 +2,11 @@
 	<div id="main-wrap">
 		<?php Waboot()->layout->render_zone("aside-primary"); ?>
 		<main>
-			Single
+			<?php if(have_posts()): the_post(); ?>
+				<?php get_template_part("templates/wordpress/single","content"); ?>
+			<?php else: ?>
+				<?php get_template_part("templates/parts/content","none"); ?>
+			<?php endif; ?>
 		</main>
 		<?php Waboot()->layout->render_zone("aside-secondary"); ?>
 	</div><!-- #main-wrap -->
