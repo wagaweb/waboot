@@ -197,6 +197,7 @@ function get_available_socials(){
  */
 function get_archive_page_title(){
 	global $post;
+	
 	if ( is_category() ) {
 		return single_cat_title('',false);
 	} elseif ( is_tag() ) {
@@ -230,9 +231,8 @@ function get_archive_page_title(){
 		return __( 'Chats', 'waboot' );
 	} else {
 		$arch_obj = get_queried_object();
-		if(isset($arch_obj->name))
-			return $arch_obj->name;
-		return __( 'Archives', 'waboot' );
+		if(isset($arch_obj->name)) return $arch_obj->name;
+		return __('Archives', 'waboot');
 	}
 }
 

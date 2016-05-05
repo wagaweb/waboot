@@ -199,3 +199,19 @@ function post_navigation($nav_id, $show_pagination = false, $query = false, $cur
 		'max_num_pages' => $query->max_num_pages
 	]);
 }
+
+/**
+ * Return the $title wrapped between $prefix and $suffix.
+ *
+ * @param $prefix
+ * @param $suffix
+ * @param $title
+ * @param \WP_Post|null $post
+ */
+function wrapped_title($prefix,$suffix,$title,\WP_Post $post = null){
+	global $wp_query;
+	if(!$post) global $post;
+	$prefix = apply_filters("waboot/entry/title/prefix",$prefix,$post, $wp_query);
+	$suffix = apply_filters("waboot/entry/title/suffix",$suffix,$post, $wp_query);
+	echo $prefix.$title.$suffix;
+}
