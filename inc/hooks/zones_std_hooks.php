@@ -18,13 +18,13 @@ function add_main_content(){
 
 	switch($page_type){
 		case Utilities::PAGE_TYPE_DEFAULT_HOME:
-			get_template_part("templates/parts/main","blog");
+			get_template_part("templates/wordpress/blog","content");
 			break;
 		case Utilities::PAGE_TYPE_STATIC_HOME:
 			get_template_part("templates/wordpress/page","content");
 			break;
 		case Utilities::PAGE_TYPE_BLOG_PAGE:
-			get_template_part("templates/parts/main","blog");
+			get_template_part("templates/wordpress/blog","content");
 			break;
 		case Utilities::PAGE_TYPE_COMMON:
 			if($wp_query->is_single()){
