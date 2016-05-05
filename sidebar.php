@@ -1,1 +1,4 @@
-<?php Waboot()->layout->render_zone("aside-secondary");
+<?php
+
+Waboot()->layout->render_zone("aside-primary");
+Waboot()->layout->render_zone("aside-secondary");
