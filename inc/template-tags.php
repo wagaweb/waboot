@@ -215,3 +215,14 @@ function wrapped_title($prefix,$suffix,$title,\WP_Post $post = null){
 	$suffix = apply_filters("waboot/entry/title/suffix",$suffix,$post, $wp_query);
 	echo $prefix.$title.$suffix;
 }
+
+/**
+ * Prints out the main wrapper classes
+ */
+function main_wrapper_classes(){
+	if(has_filter("waboot_mainwrap_container_class")){
+		echo apply_filters('waboot_mainwrap_container_class','content-area col-sm-8'); //backward compatibility
+	}else{
+		echo apply_filters('waboot/layout/main-wrapper-classes','content-area col-sm-8');	
+	}
+}
