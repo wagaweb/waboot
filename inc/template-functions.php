@@ -24,16 +24,21 @@ function get_option($name, $default = false){
  * Wrapper for \WBF\modules\behaviors\get_behavior
  *
  * @param $name
+ * @param $default
  * @param int $post_id
  * @param string $return
  *
  * @return array|bool|mixed|string
  */
-function get_behavior($name, $post_id = 0, $return = "value"){
+function get_behavior($name, $default = "", $post_id = 0, $return = "value"){
 	if(class_exists("WBF")){
-		return \WBF\modules\behaviors\get_behavior($name, $post_id, $return);
+		$result = \WBF\modules\behaviors\get_behavior($name, $post_id, $return);
+		if(!$result){
+			return $default;
+		}
+		return $result;
 	}else{
-		return false;
+		return $default;
 	}
 }
 
