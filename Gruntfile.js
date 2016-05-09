@@ -215,7 +215,7 @@ module.exports = function(grunt) {
     grunt.registerTask('default', ['setup','watch']);
 
     //Setup task
-    grunt.registerTask('setup', ['bower-install','bower-update','copy:bootstrap_styles','copy:vendors','compile_less','compile_js']);
+    grunt.registerTask('setup', ['bower-install','bower-update','copy:vendors','compile_less','compile_js','pot']);
 
     //Concat, beautify and minify js
     grunt.registerTask('compile_js', ['browserify:dist','uglify']);
