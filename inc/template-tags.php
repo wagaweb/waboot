@@ -6,11 +6,10 @@ use WBF\includes\Utilities;
 
 /**
  * Display the breadcrumb for $post_id or global $post->ID
- * @param null $post_id
- * @param string $current_location the current location of breadcrumb. Not used at the moment, but it can be any arbitrary string
- * @param array $args settings for breadcrumb (see: waboot_breadcrumb_trail() documentation)
  *
- * @since 0.3.10
+ * @param null $post_id
+ * @param string $current_location the current location of breadcrumb. Not used at the moment, but it can be any arbitrary string.
+ * @param array $args settings for breadcrumb (see: wbf_breadcrumb_trail() documentation)
  */
 function breadcrumb($post_id = null, $current_location = "", $args = array()) {
 	global $post;
@@ -70,7 +69,7 @@ function breadcrumb($post_id = null, $current_location = "", $args = array()) {
 					$show_bc = true;
 				}
 				if($show_bc){
-					waboot_breadcrumb_trail($args);
+					wbf_breadcrumb_trail($args);
 				}
 			}
 		}
@@ -217,9 +216,9 @@ function wrapped_title($prefix,$suffix,$title,\WP_Post $post = null){
 }
 
 /**
- * Prints out the main-wrapper classes
+ * Prints out the container-relative classes
  */
-function main_wrapper_classes(){
+function container_classes(){
 	$classes = "site-main ";
 	$classes .= \Waboot\functions\get_option("content_width","container"); //todo: add this
 	$classes = apply_filters("waboot/layout/container/classes",$classes);
@@ -227,12 +226,12 @@ function main_wrapper_classes(){
 }
 
 /**
- * Prints out the main classes
+ * Prints out the main-relative classes
  */
 function main_classes(){
 	if(has_filter("waboot_mainwrap_container_class")){
 		echo apply_filters('waboot_mainwrap_container_class','content-area col-sm-8'); //backward compatibility
 	}else{
-		echo apply_filters('waboot/layout/main-wrapper-classes','content-area col-sm-8');
+		echo apply_filters('waboot/layout/main/classes','content-area col-sm-8');
 	}
 }

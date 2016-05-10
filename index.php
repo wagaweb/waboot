@@ -1,8 +1,12 @@
 <?php get_header(); ?>
-    <div id="main-wrapper" class="<?php \Waboot\template_tags\main_wrapper_classes(); ?>">
-	    <div class="row">
-		    <?php if(function_exists("Waboot")): ?>
-		        <?php
+    <div id="main-wrapper">
+	    <div class="<?php \Waboot\template_tags\container_classes(); ?>">
+		    <div class="row">
+			    <?php if(function_exists("Waboot")): ?>
+				    <?php
+				    /*
+				     * main zone
+				     */
 				    try{
 					    Waboot()->layout->render_zone("main");
 				    }catch(Exception $e){
@@ -11,9 +15,15 @@
 						    'message' => $e->getMessage()
 					    ]);
 				    }
-				 ?>
-			    <?php get_sidebar(); ?>
-			<?php endif; ?>
-	    </div><!-- .row -->
+				    ?>
+				    <?php
+				    /*
+				     * sidebars
+				     */
+				    ?>
+				    <?php get_sidebar(); ?>
+			    <?php endif; ?>
+		    </div><!-- .row -->
+	    </div><!-- container -->
     </div><!-- #main-wrapper -->
 <?php get_footer(); ?>
