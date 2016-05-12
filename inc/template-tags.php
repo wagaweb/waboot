@@ -864,13 +864,13 @@ if(!function_exists('waboot_get_first_video' )):
 
 			$first_oembed = $custom_field[0];
 
-			$video_width  = (int) apply_filters( 'wb_video_width', 1132 );
+			$video_width  = (int) apply_filters( 'wb_video_width', 100 );
 			$video_height = (int) apply_filters( 'wb_video_height', 480 );
 
 			$first_oembed = preg_replace( '/<embed /', '<embed wmode="transparent" ', $first_oembed );
 			$first_oembed = preg_replace( '/<\/object>/','<param name="wmode" value="transparent" /></object>', $first_oembed );
 
-			$first_oembed = preg_replace( "/width=\"[0-9]*\"/", "width={$video_width}", $first_oembed );
+			$first_oembed = preg_replace( "/width=\"[0-9]*\"/", "width={$video_width}%", $first_oembed );
 			$first_oembed = preg_replace( "/height=\"[0-9]*\"/", "height={$video_height}", $first_oembed );
 
 			break;
