@@ -1,6 +1,6 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# This file is distributed under the same license as the Waboot package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 #: inc/options.php:778 inc/options.php:828
@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Waboot 0.15.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-13 18:26+0200\n"
+"POT-Creation-Date: 2016-05-18 12:02+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1519,7 +1519,7 @@ msgid "Logged in as"
 msgstr ""
 
 #: inc/widgets/widget-login-form.php:192
-#: inc/widgets/widget-recent-posts.php:120 inc/widgets/widget-social.php:39
+#: inc/widgets/widget-recent-posts.php:120 inc/widgets/widget-social.php:42
 msgid "Title:"
 msgstr ""
 
@@ -1753,7 +1753,7 @@ msgstr ""
 msgid "A widget to show the social buttons in custom positions"
 msgstr ""
 
-#: inc/widgets/widget-social.php:40
+#: inc/widgets/widget-social.php:43
 msgid "New title"
 msgstr ""
 
