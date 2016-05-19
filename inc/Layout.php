@@ -32,31 +32,35 @@ class Layout{
 	 * Creates a new template zone
 	 *
 	 * @param string $slug
-	 * @param string|array|View $template
+	 * @param string|array|View|bool $template
 	 * @param array $args
 	 *
 	 * @return $this
 	 * @throws \Exception
 	 */
-	public function create_zone($slug,$template,$args = []){
+	public function create_zone($slug,$template = false,$args = []){
 		//Check for valid slug
 		if(preg_match("/ /",$slug)){
 			throw new \Exception("You cannot have whitespaces in a zone slug");
 		}
-		//Checks for valid template
-		if(!is_string($template) && !is_array($template) && !$template instanceof View){
-			throw new \Exception("You cannot create a zone thats is neither a string, an array or a View instance");
-		}
-		//Check template existence
-		if(is_string($template) || is_array($template)){
-			if(is_array($template)){
-				$template = implode("-",$template);
+		
+		if(isset($template) && $template !== false){
+			//Checks for valid template
+			if(!is_string($template) && !is_array($template) && !$template instanceof View){
+				throw new \Exception("You cannot create a zone thats is neither a string, an array or a View instance");
 			}
-			$tpl_file = \locate_template($template);
-			if(!$tpl_file){
-				throw new \Exception("The {$template} for the zone {$slug} does not exists");
+			//Check template existence
+			if(is_string($template) || is_array($template)){
+				if(is_array($template)){
+					$template = implode("-",$template);
+				}
+				$tpl_file = \locate_template($template);
+				if(!$tpl_file){
+					throw new \Exception("The {$template} for the zone {$slug} does not exists");
+				}
 			}
 		}
+			
 		if(!is_array($args)){
 			throw new \Exception('$args must be an array');
 		}
@@ -108,11 +112,13 @@ class Layout{
 			}elseif(is_array($zone['template'])){
 				list($template,$part) = $zone['template'];
 				get_template_part($template,$part);
-			}else{
-				//Here we have a View instance
+			}elseif($zone['template'] instanceof View){
 				$zone['template']->clean()->display([
 					"name" => $zone['slug']
 				]);
+			}else{
+				//Here we do not have a template
+				$this->do_zone_action($slug);
 			}
 		}
 	}
@@ -216,7 +222,14 @@ class Layout{
 	 * @throws \Exception
 	 */
 	private function check_zone($slug){
-		if(!isset($this->zones[$slug])) throw new \Exception("Zone {$slug} not found");
+		if(!is_string($slug)){
+			throw new \Exception("Zone slug must be a string");
+		}elseif(empty($slug)){
+			throw new \Exception("Empty slug provided");
+		}
+		if(!isset($this->zones[$slug])){
+			throw new \Exception("Zone {$slug} not found");
+		}
 		return true;
 	}
 

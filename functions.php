@@ -37,11 +37,11 @@ function waboot_init(){
 	$wb = Waboot()->load_hooks();
 
 	//Build up the theme
-	$wb->layout->create_zone("header",new \WBF\includes\mvc\HTMLView("templates/header.php"),["always_load"=>true]);
+	$wb->layout->create_zone("header",false,["always_load"=>true]);
 	$wb->layout->create_zone("aside-primary",new \WBF\includes\mvc\HTMLView("templates/aside.php"));
 	$wb->layout->create_zone("main",new \WBF\includes\mvc\HTMLView("templates/main.php"),["always_load"=>true]);
 	$wb->layout->create_zone("aside-secondary",new \WBF\includes\mvc\HTMLView("templates/aside.php"));
-	$wb->layout->create_zone("footer",new \WBF\includes\mvc\HTMLView("templates/footer.php"),["always_load"=>true]);
+	$wb->layout->create_zone("footer",false,["always_load"=>true]);
 
 	//Loads std hooks
 	$zone_std_hooks_file = locate_template("inc/hooks/zones_std_hooks.php");
