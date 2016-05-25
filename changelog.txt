@@ -1,5 +1,18 @@
 == Change log ==
 
+Version 0.15.0 - 25/05/2016
+---------------------------------
+
+- Ora il timeout del server della licenza è stato abbassato a 5 secondi.
+- Fixato il caso in cui lo status della licenza non risultava settato
+- Ora Waboot rinomina la label del menu di WBF in "Waboot"
+- Fixata la visualizzazione dello shortcode slideshow
+- Ora options e behavior vengono caricati tramite filtri, non più tramite la ricerca da parte di WBF di specifiche funzioni nel tema.
+- Il path del file di compilazione delle theme options viene ora settato da filtro
+- Refactoring dei file less
+- Fix video width e social widget
+- Aggiunto layer retrocompatibilità con temi <= 0.14.4
+
 Version 0.14.4 - 31/03/2016
 ---------------------------------
 
