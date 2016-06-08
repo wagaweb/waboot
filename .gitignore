@@ -20,6 +20,8 @@ assets/dist/css/*.css
 assets/dist/css/*.map
 assets/src/js/waboot.js
 assets/dist/js/*.js
+assets/dist/fonts/*.*
+assets/fonts/*.*
 
 ############
 ## CHILD ASSETS
