@@ -92,7 +92,7 @@ module.exports = function(grunt) {
                         flatten: true,
                         cwd: "assets/src/bower_components/fontawesome",
                         src: "fonts/*",
-                        dest: "assets/fonts"
+                        dest: "assets/dist/fonts"
                     },
                     {
                         expand: true,
