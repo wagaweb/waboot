@@ -8,8 +8,18 @@
 						<?php the_widget('Waboot\inc\widgets\Social'); ?>
 					<?php endif; ?>
 					<?php dynamic_sidebar( 'header-left' ); ?>
-				</div>
-				<div id="header-right" class="col-md-3 vcenter">
+				</div><!--
+		        --><div id="logo" class="col-md-6 vcenter">
+					<?php if ( waboot_get_desktop_logo() != "" ) : ?>
+						<?php waboot_desktop_logo(true); ?>
+					<?php else : ?>
+						<?php
+						waboot_site_title();
+						waboot_site_description();
+						?>
+					<?php endif; ?>
+				</div><!--
+		        --><div id="header-right" class="col-md-3 vcenter">
 					<?php if($display_socials && $social_position == "header-right"): ?>
 						<?php the_widget('Waboot\inc\widgets\Social'); ?>
 					<?php endif; ?>
