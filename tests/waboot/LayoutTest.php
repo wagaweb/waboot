@@ -4,7 +4,7 @@ namespace tests;
 
 use Patchwork\Exceptions\Exception;
 use Waboot\Layout;
-use WBF\includes\mvc\HTMLView;
+use WBF\components\mvc\HTMLView;
 
 class LayoutTest extends Waboot_TestCase{
 	/**

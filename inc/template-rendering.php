@@ -1,7 +1,7 @@
 <?php
 
 namespace Waboot\functions;
-use WBF\includes\mvc\HTMLView;
+use WBF\components\mvc\HTMLView;
 
 /**
  * Renders archive.php content

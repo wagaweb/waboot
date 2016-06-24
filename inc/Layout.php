@@ -2,8 +2,8 @@
 
 namespace Waboot;
 
-use WBF\includes\mvc\HTMLView;
-use wbf\includes\mvc\View;
+use WBF\components\mvc\HTMLView;
+use WBF\components\mvc\View;
 
 class Layout{
 	/**

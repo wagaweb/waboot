@@ -1,8 +1,8 @@
 <?php
 
 namespace Waboot\template_tags;
-use WBF\includes\mvc\HTMLView;
-use WBF\includes\Utilities;
+use WBF\components\mvc\HTMLView;
+use WBF\components\utils\Utilities;
 
 /**
  * Display the breadcrumb for $post_id or global $post->ID

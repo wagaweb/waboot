@@ -1,8 +1,8 @@
 <?php
 
 namespace Waboot\functions;
-use WBF\includes\mvc\HTMLView;
-use WBF\includes\Utilities;
+use WBF\components\mvc\HTMLView;
+use WBF\components\utils\Utilities;
 
 /**
  * Wrapper for \WBF\modules\options\of_get_option

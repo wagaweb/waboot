@@ -2,8 +2,8 @@
 
 namespace Waboot\hooks;
 
-use WBF\includes\mvc\HTMLView;
-use WBF\includes\Utilities;
+use WBF\components\mvc\HTMLView;
+use WBF\components\utils\Utilities;
 
 /**
  * Renders main content into the "main" zone.

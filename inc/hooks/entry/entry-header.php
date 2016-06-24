@@ -1,7 +1,7 @@
 <?php
 
 namespace Waboot\hooks\entry;
-use WBF\includes\mvc\HTMLView;
+use WBF\components\mvc\HTMLView;
 
 /**
  * Display title in entry header

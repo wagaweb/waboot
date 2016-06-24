@@ -10,7 +10,7 @@
 				    try{
 					    Waboot()->layout->render_zone("main");
 				    }catch(Exception $e){
-					    (new \WBF\includes\mvc\HTMLView("templates/view-parts/main-errors.php"))->clean()->display([
+					    (new \WBF\components\mvc\HTMLView("templates/view-parts/main-errors.php"))->clean()->display([
 						    'Error' => $e,
 						    'message' => $e->getMessage()
 					    ]);

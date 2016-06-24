@@ -2,7 +2,7 @@
 
 namespace Waboot\inc\widgets;
 
-use WBF\includes\mvc\HTMLView;
+use WBF\components\mvc\HTMLView;
 
 class RecentPosts extends \WP_Widget{
 
