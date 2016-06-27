@@ -48,7 +48,7 @@ class Component extends \WBF\modules\components\Component{
 
 	public function get_display_zone(){
 		$zone = $this->default_zone;
-		if(function_exists("wb_get_option")){
+		if(function_exists("\\Waboot\\functions\\get_option")){
 			$zone_opt = \Waboot\functions\get_option(strtolower($this->name)."_display_zone");
 			if($zone_opt){
 				$zone = $zone_opt;
