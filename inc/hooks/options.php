@@ -26,13 +26,15 @@ function register(){
 		'type' => 'info'
 	));
 
+	$orgzr->set_group("css_injection");
+
 	$orgzr->add(array(
 		'name' => _x('Background Page', 'Theme options', 'Theme options', 'waboot'),
 		'desc' => _x('Change the page background color.', 'Theme options', 'waboot'),
 		'id' => 'waboot_page_bgcolor',
 		'type' => 'color',
 		'std' => '#ffffff',
-		'recompile_styles' => true
+		'save_action' => "\\Waboot\\functions\\deploy_theme_options_css"
 	));
 
 	$orgzr->add(array(
@@ -40,7 +42,7 @@ function register(){
 		'desc' => _x('Change the content background color.', 'Theme options', 'waboot'),
 		'id' => 'waboot_content_bgcolor',
 		'type' => 'color',
-		'recompile_styles' => true
+		'save_action' => "\\Waboot\\functions\\deploy_theme_options_css"
 	));
 
 	$orgzr->add(array(
@@ -49,7 +51,7 @@ function register(){
 		'id' => 'waboot_bottom_bgcolor',
 		'type' => 'color',
 		'std' => '#ededed',
-		'recompile_styles' => true
+		'save_action' => "\\Waboot\\functions\\deploy_theme_options_css"
 	));
 
 	$orgzr->add(array(
@@ -58,7 +60,7 @@ function register(){
 		'id' => 'waboot_body_bgimage',
 		'std' => '',
 		'type' => 'upload',
-		'recompile_styles' => true
+		'save_action' => "\\Waboot\\functions\\deploy_theme_options_css"
 	));
 
 	$orgzr->add(array(
@@ -67,7 +69,7 @@ function register(){
 		'id' => 'waboot_body_bgcolor',
 		'std' => "#ededed",
 		'type' => 'color',
-		'recompile_styles' => true
+		'save_action' => "\\Waboot\\functions\\deploy_theme_options_css"
 	));
 
 	$orgzr->add(array(
@@ -76,7 +78,7 @@ function register(){
 		'id' => 'waboot_body_bgrepeat',
 		'type' => 'select',
 		'options' => array( 'no-repeat' => 'No Repeat', 'repeat' => 'Repeat','repeat-x' => 'Repeat Horizontally', 'repeat-y' => 'Repeat Vertically' ),
-		'recompile_styles' => true
+		'save_action' => "\\Waboot\\functions\\deploy_theme_options_css"
 	));
 
 	$orgzr->add(array(
@@ -90,7 +92,7 @@ function register(){
 			'center left' => 'center left', 'center center' => 'center center', 'center right' => 'center right',
 			'bottom left' => 'bottom left', 'bottom center' => 'bottom center', 'bottom right' => 'bottom right'
 		),
-		'recompile_styles' => true
+		'save_action' => "\\Waboot\\functions\\deploy_theme_options_css"
 	));
 
 	$orgzr->add(array(
@@ -100,7 +102,7 @@ function register(){
 		'std' => 'scroll',
 		'type' => 'select',
 		'options' => array( 'scroll' => 'scroll','fixed' => 'fixed' ),
-		'recompile_styles' => true
+		'save_action' => "\\Waboot\\functions\\deploy_theme_options_css"
 	));
 
 	$orgzr->add(array(
@@ -109,8 +111,11 @@ function register(){
 		'id' => 'waboot_footer_bgcolor',
 		'type' => 'color',
 		'std' => '#f6f6f6',
-		'recompile_styles' => true
+		'save_action' => "\\Waboot\\functions\\deploy_theme_options_css"
 	));
+
+	$orgzr->reset_group();
+	$orgzr->set_group("std_options");
 
 	/*
 	 * BOOTSTRAP VARIABLES TAB
@@ -122,12 +127,15 @@ function register(){
 		'type' => 'info'
 	));
 
+	$orgzr->set_group("css_injection");
+
 	$orgzr->add(array(
 		'name' => _x('Primary color', 'Theme options', 'waboot'),
 		'desc' => _x('Change the color of @brand-primary.', 'Theme options', 'waboot'),
 		'id' => 'btstrp_brand_primary',
 		'std' => "#428bca",
-		'type' => 'color'
+		'type' => 'color',
+		'save_action' => "\\Waboot\\functions\\deploy_theme_options_css"
 	));
 
 	$orgzr->add(array(
@@ -135,7 +143,8 @@ function register(){
 		'desc' => _x('Change the color of @text-color.', 'Theme options', 'waboot'),
 		'id' => 'btstrp_text_color',
 		'std' => "#333333",
-		'type' => 'color'
+		'type' => 'color',
+		'save_action' => "\\Waboot\\functions\\deploy_theme_options_css"
 	));
 
 	$orgzr->add(array(
@@ -143,7 +152,8 @@ function register(){
 		'desc' => _x('Change the color of @brand-info.', 'Theme options', 'waboot'),
 		'id' => 'btstrp_brand_info',
 		'std' => "#5bc0de",
-		'type' => 'color'
+		'type' => 'color',
+		'save_action' => "\\Waboot\\functions\\deploy_theme_options_css"
 	));
 
 	$orgzr->add(array(
@@ -151,7 +161,8 @@ function register(){
 		'desc' => _x('Change the color of @brand-success.', 'Theme options', 'waboot'),
 		'id' => 'btstrp_brand_success',
 		'std' => "#5cb85c",
-		'type' => 'color'
+		'type' => 'color',
+		'save_action' => "\\Waboot\\functions\\deploy_theme_options_css"
 	));
 
 	$orgzr->add(array(
@@ -159,7 +170,8 @@ function register(){
 		'desc' => _x('Change the color of @brand-warning.', 'Theme options', 'waboot'),
 		'id' => 'btstrp_brand_warning',
 		'std' => "#f0ad4e",
-		'type' => 'color'
+		'type' => 'color',
+		'save_action' => "\\Waboot\\functions\\deploy_theme_options_css"
 	));
 
 	$orgzr->add(array(
@@ -167,7 +179,8 @@ function register(){
 		'desc' => _x('Change the color of @brand-danger.', 'Theme options', 'waboot'),
 		'id' => 'btstrp_brand_danger',
 		'std' => "#d9534f",
-		'type' => 'color'
+		'type' => 'color',
+		'save_action' => "\\Waboot\\functions\\deploy_theme_options_css"
 	));
 
 	$orgzr->add(array(
@@ -175,7 +188,8 @@ function register(){
 		'desc' => _x('Change the width in pixel of @border-radius-base.', 'Theme options', 'waboot'),
 		'id' => 'btstrp_border_radius_base',
 		'std' => "4",
-		'type' => 'text'
+		'type' => 'text',
+		'save_action' => "\\Waboot\\functions\\deploy_theme_options_css"
 	));
 
 	$orgzr->add(array(
@@ -183,7 +197,8 @@ function register(){
 		'desc' => _x('Change the width in pixel of @border-radius-large.', 'Theme options', 'waboot'),
 		'id' => 'btstrp_border_radius_lg',
 		'std' => "6",
-		'type' => 'text'
+		'type' => 'text',
+		'save_action' => "\\Waboot\\functions\\deploy_theme_options_css"
 	));
 
 	$orgzr->add(array(
@@ -191,7 +206,8 @@ function register(){
 		'desc' => _x('Change the width in pixel of @border-radius-small.', 'Theme options', 'waboot'),
 		'id' => 'btstrp_border_radius_sm',
 		'std' => "3",
-		'type' => 'text'
+		'type' => 'text',
+		'save_action' => "\\Waboot\\functions\\deploy_theme_options_css"
 	));
 
 	$orgzr->add(array(
@@ -199,8 +215,12 @@ function register(){
 		'desc' => _x('Change the color of @well-bg.', "Theme Options", 'waboot'),
 		'id' => 'btstrp_well_bg',
 		'std' => "#f5f5f5",
-		'type' => 'color'
+		'type' => 'color',
+		'save_action' => "\\Waboot\\functions\\deploy_theme_options_css"
 	));
+
+	$orgzr->reset_group();
+	$orgzr->set_group("std_options");
 
 	/*
 	 * TYPOGRAPHY
@@ -211,6 +231,8 @@ function register(){
 		'desc' => _x( 'Settings about typography', 'Theme options', 'waboot' ),
 		'type' => 'info'
 	));
+
+	$orgzr->set_group("css_injection");
 
 	$orgzr->add(array(
 		'name' => _x('Primary font (body, p, ul, li)', "Theme Options", "waboot"),
@@ -223,7 +245,7 @@ function register(){
 		),
 		'type' => 'typography',
 		'fonts_type' => 'google',
-		'recompile_styles' => true
+		'save_action' => "\\Waboot\\functions\\deploy_theme_options_css"
 	));
 
 	$orgzr->add(array(
@@ -237,8 +259,11 @@ function register(){
 		),
 		'type' => 'typography',
 		'fonts_type' => 'google',
-		'recompile_styles' => true
+		'save_action' => "\\Waboot\\functions\\deploy_theme_options_css"
 	));
+
+	$orgzr->reset_group();
+	$orgzr->set_group("std_options");
 
 	/*
 	 * FAVICON

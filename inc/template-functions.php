@@ -331,3 +331,14 @@ function get_blog_class($blog_layout = false){
 
 	return implode(" ",$classes);
 }
+
+/**
+ * Print out the custom css file from the theme options value. Called during "update_option". It's a option save action callback defined in options.phps
+ *
+ * @param $option
+ * @param $old_value
+ * @param $value
+ */
+function deploy_theme_options_css($option, $old_value, $value){
+	//Todo
+}
