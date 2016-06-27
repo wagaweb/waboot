@@ -10,12 +10,12 @@
 					<?php dynamic_sidebar( 'header-left' ); ?>
 				</div><!--
 		        --><div id="logo" class="col-md-6 vcenter">
-					<?php if ( waboot_get_desktop_logo() != "" ) : ?>
-						<?php waboot_desktop_logo(true); ?>
+					<?php if ( \Waboot\template_tags\get_desktop_logo() != "" ) : ?>
+						<?php \Waboot\template_tags\desktop_logo(true); ?>
 					<?php else : ?>
 						<?php
-						waboot_site_title();
-						waboot_site_description();
+						\Waboot\template_tags\site_title();
+						\Waboot\template_tags\site_description();
 						?>
 					<?php endif; ?>
 				</div><!--

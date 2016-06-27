@@ -23,7 +23,7 @@ class Header_Classic extends \Waboot\Component{
 	}
 	
 	public function display_tpl(){
-		$v = new \WBF\components\mvc\HTMLView($this->relative_path."/templates/logo-top-center.php");
+		$v = new \WBF\components\mvc\HTMLView($this->relative_path."/templates/header-classic.php");
 		$social_position = Waboot\functions\get_option('social_position');
 		$v->clean()->display([
 			"header_width" => Waboot\functions\get_option("header_width"),
