@@ -27,10 +27,14 @@ class Footer_Classic extends \Waboot\Component {
 	
 	public function display_tpl(){
 		$v = new \WBF\components\mvc\HTMLView($this->relative_path."/templates/footer-classic.php");
+
+		$default_footer_text = '&copy; ' . date('Y') . ' ' . get_bloginfo('name');
+		$footer_text = \Waboot\functions\get_option('custom_footer_toggle') ? \Waboot\functions\get_option('custom_footer_text') : $default_footer_text;
+
 		$args = [
 			'closure_width' => of_get_option( 'closure_width','container' ),
 			'custom_footer_toggle' => of_get_option( 'custom_footer_toggle','container' ),
-			'custom_footer_text' => of_get_option( 'custom_footer_toggle','container' ),
+			'footer_text' => $footer_text,
 			"social_position" => Waboot\functions\get_option('social_position'),
 			'display_socials' => Waboot\functions\get_option("social_position_none") == 1 || Waboot\functions\get_option('social_position') != "navigation" ? false : true,
 		];
