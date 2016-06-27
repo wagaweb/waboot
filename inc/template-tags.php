@@ -77,6 +77,39 @@ function breadcrumb($post_id = null, $current_location = "", $args = array()) {
 }
 
 /**
+ * Displays site title
+ * @since 0.13.4
+ */
+function site_title() {
+	$element = apply_filters("waboot/site_title/tag",'h1');
+	$display_name = call_user_func(function(){
+		$custom_name = of_get_option("custom_site_title","");
+		if($custom_name && !empty($custom_name)){
+			return $custom_name;
+		}else{
+			return get_bloginfo("name");
+		}
+	});
+	$link = sprintf( '<a href="%s" title="%s" class="navbar-brand" rel="home">%s</a>', trailingslashit( home_url() ), esc_attr( get_bloginfo( 'name' ) ), $display_name );
+	$output = '<' . $element . ' id="site-title" class="site-title">' . $link . '</' . $element .'>';
+	echo apply_filters( 'waboot/site_title/markup', $output );
+}
+
+/**
+ * Displays site description
+ * @since 0.13.4
+ */
+function site_description() {
+	if(!of_get_option("show_site_description",0)) return;
+	// Use H2
+	$element = 'h2';
+	// Put it all together
+	$description = '<' . $element . ' id="site-description" class="site-description">' . esc_html( get_bloginfo( 'description' ) ) . '</' . $element . '>';
+	// Echo the description
+	echo apply_filters( 'waboot/site_description/markup', $description );
+}
+
+/**
  * Prints the mobile logo
  *
  * @param string $context
