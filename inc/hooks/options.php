@@ -14,7 +14,23 @@ function register(){
 
 	$orgzr->set_group("std_options");
 
-	$orgzr->add_section("global",_x("Global","Theme options","waboot"));
+	$orgzr->add_section("global",_x("Global", "Theme options","waboot"));
+
+	$orgzr->add([
+		'name' => _x('Site title custom text', "Theme options", 'waboot'),
+		'desc' => _x('When logo is empty, the site title will be used instead. You can customize here the text that will be displayed', "Theme options", 'waboot'),
+		'id' => 'custom_site_title',
+		'std' => get_bloginfo('name'),
+		'type' => 'text',
+	]);
+
+	$orgzr->add([
+		'name' => _x('Show site description', "Theme options", 'waboot'),
+		'desc' => _x('Choose visibility of site description', "Theme options", 'waboot'),
+		'id'   => 'show_site_description',
+		'std'  => '0',
+		'type' => 'checkbox'
+	]);
 
 	/*
 	 * BACKGROUNDS
