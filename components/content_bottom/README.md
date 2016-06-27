@@ -1,0 +1,1 @@
+Qui ci va la parte che in waboot 1 contiene la widget area content bottom
