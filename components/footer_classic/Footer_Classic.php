@@ -9,7 +9,7 @@ Author URI: http://www.waga.it
 
 class Footer_Classic extends \Waboot\Component {
 
-	var $default_zone = "header";
+	var $default_zone = "footer";
 	
 	/**
 	 * This method will be executed at Wordpress startup (every page load)
