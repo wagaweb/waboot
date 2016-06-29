@@ -28,24 +28,3 @@ function add_banner_wrapper(){
 	get_template_part("templates/parts/banner-wrapper");
 }
 add_action("waboot/header",__NAMESPACE__."\\add_banner_wrapper");
-
-/**
- * Adds breadcrumb
- */
-function add_breadcrumb(){
-	if(function_exists('is_woocommerce') && is_woocommerce()){ //@woocommerce hard-coded integration
-		woocommerce_breadcrumb([
-			'wrap_before'   => '<div class="breadcrumb-trail breadcrumbs" itemprop="breadcrumb"><div class="container">',
-			'wrap_after'   => '</div></div>',
-			'delimiter'  => '<span class="sep">&nbsp;&#47;&nbsp;</span>'
-		]);
-	}else{
-		global $post;
-		if(!isset($post)) return;
-		\Waboot\template_tags\breadcrumb($post->ID, 'before_inner', [
-			'wrapper_start' => '<div class="container">', 
-			'wrapper_end' => '</div>'
-		]);
-	}
-}
-add_action("waboot/main/before",__NAMESPACE__."\\add_breadcrumb");
