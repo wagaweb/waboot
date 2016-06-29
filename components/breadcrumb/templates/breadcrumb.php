@@ -6,5 +6,5 @@ if($is_woocommerce){
 		'delimiter'  => '<span class="sep">&nbsp;&#47;&nbsp;</span>'
 	]);
 }else{
-	\Waboot\template_tags\breadcrumb(null, 'before_inner', ['wrapper_start' => '<div class="container">', 'wrapper_end' => '</div>']);
+	Breadcrumb::do_breadcrumb(null, 'before_inner', ['wrapper_start' => '<div class="container">', 'wrapper_end' => '</div>']);
 }

@@ -24,9 +24,17 @@ class Breadcrumb extends \Waboot\Component {
 		parent::run();
 		$display_zone = $this->get_display_zone();
 		$display_priority = $this->get_display_priority();
-		Waboot()->layout->add_zone_action($display_zone,[$this,"display_tpl"],intval($display_priority));
+
+		if($display_zone == "header"){
+			add_action("waboot/main/before",[$this,"display_tpl"]);
+		}else{
+			Waboot()->layout->add_zone_action($display_zone,[$this,"display_tpl"],intval($display_priority));
+		}
 	}
 
+	/**
+	 * Display component template
+	 */
 	public function display_tpl(){
 		$v = new \WBF\components\mvc\HTMLView($this->relative_path."/templates/breadcrumb.php");
 		$args = [
@@ -35,6 +43,9 @@ class Breadcrumb extends \Waboot\Component {
 		$v->clean()->display($args);
 	}
 
+	/**
+	 * Register components options
+	 */
 	public function register_options() {
 		parent::register_options();
 
@@ -98,7 +109,7 @@ class Breadcrumb extends \Waboot\Component {
 	 * @param string $current_location the current location of breadcrumb. Not used at the moment, but it can be any arbitrary string.
 	 * @param array $args settings for breadcrumb (see: wbf_breadcrumb_trail() documentation)
 	 */
-	public function do_breadcrumb($post_id = null, $current_location = "", $args = array()) {
+	public static function do_breadcrumb($post_id = null, $current_location = "", $args = array()) {
 		global $post;
 
 		//Get post ID
