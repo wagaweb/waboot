@@ -119,56 +119,56 @@ class Breadcrumb extends \Waboot\Component {
 			}
 		}
 
-		if(function_exists('wbf_breadcrumb_trail')) {
-			if(is_404()) return;
+		if(!function_exists("\\WBF\\components\\breadcrumb\\wbf_breadcrumb_trail")) return;
 
-			$current_page_type = \WBF\components\utils\Utilities::get_current_page_type();
+		if(is_404()) return;
 
-			$args = wp_parse_args($args, array(
-				'container' => "div",
-				'separator' => "/",
-				'show_browse' => false,
-				'additional_classes' => ""
-			));
+		$current_page_type = \WBF\components\utils\Utilities::get_current_page_type();
 
-			$allowed_locations = call_user_func(function(){
-				$bc_locations = \Waboot\functions\get_option('breadcrumb_locations',[]);
-				$allowed = array();
-				foreach($bc_locations as $k => $v){
-					if($v == "1"){
-						$allowed[] = $k;
-					}
+		$args = wp_parse_args($args, array(
+			'container' => "div",
+			'separator' => "/",
+			'show_browse' => false,
+			'additional_classes' => ""
+		));
+
+		$allowed_locations = call_user_func(function(){
+			$bc_locations = \Waboot\functions\get_option('breadcrumb_locations',[]);
+			$allowed = array();
+			foreach($bc_locations as $k => $v){
+				if($v == "1"){
+					$allowed[] = $k;
 				}
-				return $allowed;
-			});
+			}
+			return $allowed;
+		});
 
-			if($current_page_type != "common"){
-				//We are in some sort of homepage
-				if(in_array("homepage", $allowed_locations)) {
-					wbf_breadcrumb_trail($args);
+		if($current_page_type != "common"){
+			//We are in some sort of homepage
+			if(in_array("homepage", $allowed_locations)) {
+				\WBF\components\breadcrumb\wbf_breadcrumb_trail($args);
+			}
+		}else{
+			//We are NOT in some sort of homepage
+			if(!is_archive() && !is_search() && isset($post_id)){
+				//We are in a common page
+				$current_post_type = get_post_type($post_id);
+				if (!isset($post_id) || $post_id == 0 || !$current_post_type) return;
+				if(in_array($current_post_type, $allowed_locations)) {
+					\WBF\components\breadcrumb\wbf_breadcrumb_trail($args);
 				}
 			}else{
-				//We are NOT in some sort of homepage
-				if(!is_archive() && !is_search() && isset($post_id)){
-					//We are in a common page
-					$current_post_type = get_post_type($post_id);
-					if (!isset($post_id) || $post_id == 0 || !$current_post_type) return;
-					if(in_array($current_post_type, $allowed_locations)) {
-						wbf_breadcrumb_trail($args);
-					}
-				}else{
-					//We are in some sort of archive
-					$show_bc = false;
-					if(is_tag() && in_array('tag',$allowed_locations)){
-						$show_bc = true;
-					}elseif(is_tax() && in_array('tax',$allowed_locations)){
-						$show_bc = true;
-					}elseif(is_archive() && in_array('archive',$allowed_locations)){
-						$show_bc = true;
-					}
-					if($show_bc){
-						wbf_breadcrumb_trail($args);
-					}
+				//We are in some sort of archive
+				$show_bc = false;
+				if(is_tag() && in_array('tag',$allowed_locations)){
+					$show_bc = true;
+				}elseif(is_tax() && in_array('tax',$allowed_locations)){
+					$show_bc = true;
+				}elseif(is_archive() && in_array('archive',$allowed_locations)){
+					$show_bc = true;
+				}
+				if($show_bc){
+					\WBF\components\breadcrumb\wbf_breadcrumb_trail($args);
 				}
 			}
 		}
