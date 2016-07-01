@@ -7,9 +7,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Waboot 0.15.0\n"
+"Project-Id-Version: Waboot 0.15.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-08 12:05+0200\n"
+"POT-Creation-Date: 2016-07-01 17:02+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -79,8 +79,8 @@ msgid ""
 "\"gallery\">%8$s</a>"
 msgstr ""
 
-#: image.php:34 image.php:80 inc/template-tags.php:307
-#: inc/template-tags.php:326
+#: image.php:34 image.php:80 inc/template-tags.php:322
+#: inc/template-tags.php:341
 msgid "Edit"
 msgstr ""
 
@@ -154,7 +154,7 @@ msgstr ""
 msgid "All images"
 msgstr ""
 
-#: components/colorbox/colorbox.php:42 inc/template-functions.php:55
+#: components/colorbox/colorbox.php:42 inc/template-functions.php:68
 msgid "Galleries"
 msgstr ""
 
@@ -170,7 +170,7 @@ msgstr ""
 msgid "Enter a custom selector for colobox"
 msgstr ""
 
-#: components/cookielaw/cookielaw.php:63 inc/template-tags.php:696
+#: components/cookielaw/cookielaw.php:63 inc/template-tags.php:711
 msgid "Message"
 msgstr ""
 
@@ -1223,147 +1223,147 @@ msgstr ""
 msgid "An error was triggered by this field"
 msgstr ""
 
-#: inc/template-functions.php:45
+#: inc/template-functions.php:58
 #, php-format
 msgid "Author: %s"
 msgstr ""
 
-#: inc/template-functions.php:47
+#: inc/template-functions.php:60
 #, php-format
 msgid "Day: %s"
 msgstr ""
 
-#: inc/template-functions.php:49
+#: inc/template-functions.php:62
 #, php-format
 msgid "Month: %s"
 msgstr ""
 
-#: inc/template-functions.php:51
+#: inc/template-functions.php:64
 #, php-format
 msgid "Year: %s"
 msgstr ""
 
-#: inc/template-functions.php:53
+#: inc/template-functions.php:66
 msgid "Asides"
 msgstr ""
 
-#: inc/template-functions.php:57
+#: inc/template-functions.php:70
 msgid "Images"
 msgstr ""
 
-#: inc/template-functions.php:59
+#: inc/template-functions.php:72
 msgid "Videos"
 msgstr ""
 
-#: inc/template-functions.php:61
+#: inc/template-functions.php:74
 msgid "Quotes"
 msgstr ""
 
-#: inc/template-functions.php:63
+#: inc/template-functions.php:76
 msgid "Links"
 msgstr ""
 
-#: inc/template-functions.php:65
+#: inc/template-functions.php:78
 msgid "Statuses"
 msgstr ""
 
-#: inc/template-functions.php:67
+#: inc/template-functions.php:80
 msgid "Audios"
 msgstr ""
 
-#: inc/template-functions.php:69
+#: inc/template-functions.php:82
 msgid "Chats"
 msgstr ""
 
-#: inc/template-functions.php:74
+#: inc/template-functions.php:87
 msgid "Archives"
 msgstr ""
 
-#: inc/template-functions.php:122
+#: inc/template-functions.php:135
 msgid "Facebook"
 msgstr ""
 
-#: inc/template-functions.php:123
+#: inc/template-functions.php:136
 msgid "Enter your facebook fan page link"
 msgstr ""
 
-#: inc/template-functions.php:127
+#: inc/template-functions.php:140
 msgid "Twitter"
 msgstr ""
 
-#: inc/template-functions.php:128
+#: inc/template-functions.php:141
 msgid "Enter your twitter page link"
 msgstr ""
 
-#: inc/template-functions.php:132
+#: inc/template-functions.php:145
 msgid "Google+"
 msgstr ""
 
-#: inc/template-functions.php:133
+#: inc/template-functions.php:146
 msgid "Enter your google+ page link"
 msgstr ""
 
-#: inc/template-functions.php:137
+#: inc/template-functions.php:150
 msgid "YouTube"
 msgstr ""
 
-#: inc/template-functions.php:138
+#: inc/template-functions.php:151
 msgid "Enter your youtube page link"
 msgstr ""
 
-#: inc/template-functions.php:142
+#: inc/template-functions.php:155
 msgid "Pinterest"
 msgstr ""
 
-#: inc/template-functions.php:143
+#: inc/template-functions.php:156
 msgid "Enter your pinterest page link"
 msgstr ""
 
-#: inc/template-functions.php:147
+#: inc/template-functions.php:160
 msgid "Linkedin"
 msgstr ""
 
-#: inc/template-functions.php:148
+#: inc/template-functions.php:161
 msgid "Enter your linkedin page link"
 msgstr ""
 
-#: inc/template-functions.php:152
+#: inc/template-functions.php:165
 msgid "Instagram"
 msgstr ""
 
-#: inc/template-functions.php:153
+#: inc/template-functions.php:166
 msgid "Enter your instagram page link"
 msgstr ""
 
-#: inc/template-functions.php:157
+#: inc/template-functions.php:170
 msgid "Feed RSS"
 msgstr ""
 
-#: inc/template-functions.php:158
+#: inc/template-functions.php:171
 msgid "Enter your feed RSS link"
 msgstr ""
 
-#: inc/template-functions.php:201
+#: inc/template-functions.php:214
 msgid "No sidebar"
 msgstr ""
 
-#: inc/template-functions.php:206
+#: inc/template-functions.php:219
 msgid "Sidebar right"
 msgstr ""
 
-#: inc/template-functions.php:211
+#: inc/template-functions.php:224
 msgid "Sidebar left"
 msgstr ""
 
-#: inc/template-functions.php:216
+#: inc/template-functions.php:229
 msgid "2 Sidebars"
 msgstr ""
 
-#: inc/template-functions.php:221
+#: inc/template-functions.php:234
 msgid "2 Sidebars right"
 msgstr ""
 
-#: inc/template-functions.php:226
+#: inc/template-functions.php:239
 msgid "2 Sidebars left"
 msgstr ""
 
@@ -1385,58 +1385,58 @@ msgstr ""
 msgid "<span class=\"meta-nav\">&laquo;</span> Previous page"
 msgstr ""
 
-#: inc/template-tags.php:307
+#: inc/template-tags.php:322
 msgid "Pingback:"
 msgstr ""
 
-#: inc/template-tags.php:317
+#: inc/template-tags.php:332
 #, php-format
 msgid "%s <span class=\"says\">says:</span>"
 msgstr ""
 
-#: inc/template-tags.php:323
+#: inc/template-tags.php:338
 #, php-format
 msgctxt "1: date, 2: time"
 msgid "%1$s at %2$s"
 msgstr ""
 
-#: inc/template-tags.php:330
+#: inc/template-tags.php:345
 msgid "Your comment is awaiting moderation."
 msgstr ""
 
-#: inc/template-tags.php:365
+#: inc/template-tags.php:380
 msgid "You must specify a prefix when using waboot_do_sidebar."
 msgstr ""
 
-#: inc/template-tags.php:416
+#: inc/template-tags.php:431
 msgid "You must specify a prefix when using waboot_sidebar_class."
 msgstr ""
 
-#: inc/template-tags.php:676
+#: inc/template-tags.php:691
 msgid "Name"
 msgstr ""
 
-#: inc/template-tags.php:681
+#: inc/template-tags.php:696
 msgid "Surname"
 msgstr ""
 
-#: inc/template-tags.php:686
+#: inc/template-tags.php:701
 msgid "Phone"
 msgstr ""
 
-#: inc/template-tags.php:691
+#: inc/template-tags.php:706
 msgid "Email"
 msgstr ""
 
-#: inc/template-tags.php:704
+#: inc/template-tags.php:719
 msgid "By submitting this form you agree to our terms and our privacy policy."
 msgstr ""
 
-#: inc/template-tags.php:714
+#: inc/template-tags.php:729
 msgid "Send"
 msgstr ""
 
-#: inc/template-tags.php:911
+#: inc/template-tags.php:926
 msgid ""
 "You must specify the output you want - either \"link\" or \"post_content\"."
 msgstr ""
