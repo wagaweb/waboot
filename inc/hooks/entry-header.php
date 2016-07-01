@@ -57,7 +57,7 @@ function waboot_print_entry_title_before_inner(){
     }
     elseif( function_exists('is_shop') && is_shop() ){ //@woocommerce hard-coded integration
         if ( of_get_option('woocommerce_shop_title_position') == "top" ) {
-            waboot_index_title('<div class="title-wrapper"><div class="container"><h1 class=\'entry-header\' itemprop=\'name\'>', '</h1></div></div>');
+	        waboot_wc_shop_title('<div class="title-wrapper"><div class="container"><h1 class=\'entry-header\' itemprop=\'name\'>', '</h1></div></div>');
         }
     }
     elseif( is_archive() ){

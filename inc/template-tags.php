@@ -216,6 +216,21 @@ if(!function_exists("waboot_index_title")):
 	}
 endif;
 
+if(!function_exists("waboot_wc_shop_title")):
+	function waboot_wc_shop_title($prefix = "", $suffix = "", $display = true) {
+		if (of_get_option('waboot_blogpage_displaytitle') == "1") {
+			$title = $prefix . apply_filters('waboot_index_title_text', waboot_get_wc_shop_page_title()) . $suffix;
+		} else {
+			$title = "";
+		}
+
+		if ($display) {
+			echo $title;
+		}
+		return $title;
+	}
+endif;
+
 if(!function_exists("waboot_archive_page_title")):
 	/**
 	 * Format archives page title
