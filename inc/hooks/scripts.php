@@ -18,12 +18,19 @@ function enqueue_js() {
 
 	//Main scripts:
 	$wpData = apply_filters("wbft/js/localization",array(
+			//Std
 			'ajaxurl' => admin_url('admin-ajax.php'),
 			'wpurl' => get_bloginfo('wpurl'),
 			'isMobile' => class_exists("WBF") ? wb_is_mobile() : null,
 			'isAdmin' => is_admin(),
 			'isDebug' => defined("WP_DEBUG") && WP_DEBUG,
 			'wp_screen' => function_exists("get_current_screen") ? get_current_screen() : null,
+			//WooCommerce
+			'has_woocommerce' => function_exists("is_woocommerce"),
+			'is_woocommerce' => function_exists("is_woocommerce") && is_woocommerce(),
+			'is_cart' => function_exists("is_cart") && is_cart(),
+			'is_checkout' => function_exists("is_checkout") && is_checkout(),
+			//Components
 			'components' => isset($GLOBALS['loaded_components']) ? $GLOBALS['loaded_components'] : null,
 			'components_js' => call_user_func(function(){
 				global $loaded_components;
