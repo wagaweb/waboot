@@ -1,6 +1,6 @@
 {
   "name": "Waboot",
-  "version": "0.15.0",
+  "version": "0.15.2",
   "dependencies": {
     "html5shiv": "~3.7.3",
     "respond": "~1.4.0",
