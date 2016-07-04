@@ -10,11 +10,7 @@ add_action("wbf/theme_options/register","optionsframework_options");
 function optionsframework_options($orgzr) {
 
     // If using image radio buttons, define a directory path
-	if(wbft_wbf_in_use()){
-        $imagepath = WBF::prefix_url('admin/images/');
-	}else{
-		$imagepath = get_template_directory_uri() . '/assets/images/options';
-	}
+	$imagepath = get_template_directory_uri() . '/assets/images/theme_options/';
 
     // WABOOT SETTINGS TABS
 

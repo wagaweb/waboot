@@ -38,6 +38,7 @@ add_action( 'wp_enqueue_scripts', 'waboot_theme_styles' );
 // Load backend styles
 function waboot_admin_styles(){
 	wp_enqueue_style( 'main-admin-style', wbf_locate_template_uri( "assets/dist/css/admin.css" ));
+	wp_enqueue_style( 'theme-options-admin-style', wbf_locate_template_uri( "assets/dist/css/theme-options.css" ));
 }
 add_action( 'admin_enqueue_scripts', 'waboot_admin_styles' );
 
