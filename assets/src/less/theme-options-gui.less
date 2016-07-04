@@ -1,44 +1,44 @@
-@img_dir: "..images";
+@img_dir: "../../images/theme_options";
 
 div#optionsframework-wrap {
   /* Vertical Tabbed Navigation */
 
   div.nav-tab-wrapper{
-    .layout-tab {
-      background-image: url("@{img_dir}/icons/layout-icon.svg");
+    .layout_heading-tab {
+      background-image: url("@{img_dir}/icons/layout-icon.svg") !important;
     }
-    .backgrounds-tab {
-      background-image: url("@{img_dir}/icons/backgrounds-icon.svg");
+    .backgrounds_heading-tab {
+      background-image: url("@{img_dir}/icons/backgrounds-icon.svg") !important;
     }
-    .style-tab {
-      background-image: url("@{img_dir}/icons/style-icon.svg");
+    .style_heading-tab {
+      background-image: url("@{img_dir}/icons/style-icon.svg") !important;
     }
-    .typography-tab {
-      background-image: url("@{img_dir}/icons/typography-icon.svg");
+    .typography_heading-tab {
+      background-image: url("@{img_dir}/icons/typography-icon.svg") !important;
     }
-    .topnav-tab {
-      background-image: url("@{img_dir}/icons/top-nav-icon.svg");
+    .topnav_heading-tab {
+      background-image: url("@{img_dir}/icons/top-nav-icon.svg") !important;
     }
-    .header-tab {
-      background-image: url("@{img_dir}/icons/header-icon.svg");
+    .header_heading-tab {
+      background-image: url("@{img_dir}/icons/header-icon.svg") !important;
     }
-    .footer-tab {
-      background-image: url("@{img_dir}/icons/closure-icon.svg");
+    .footer_heading-tab {
+      background-image: url("@{img_dir}/icons/closure-icon.svg") !important;
     }
-    .postspages-tab {
-      background-image: url("@{img_dir}/icons/behaviour-icon.svg");
+    .postspages_heading-tab {
+      background-image: url("@{img_dir}/icons/behaviour-icon.svg") !important;
     }
-    .blog-tab {
-      background-image: url("@{img_dir}/icons/blog-icon.svg");
+    .blog_heading-tab {
+      background-image: url("@{img_dir}/icons/blog-icon.svg") !important;
     }
-    .postmeta-tab {
-      background-image: url("@{img_dir}/icons/posts-icon.svg");
+    .postmeta_heading-tab {
+      background-image: url("@{img_dir}/icons/posts-icon.svg") !important;
     }
-    .social-tab {
-      background-image: url("@{img_dir}/icons/social-icon.svg");
+    .social_heading-tab {
+      background-image: url("@{img_dir}/icons/social-icon.svg") !important;
     }
-    .customcss-tab {
-      background-image: url("@{img_dir}/icons/custom-css.svg");
+    .customcss_heading-tab {
+      background-image: url("@{img_dir}/icons/custom-css.svg") !important;
     }
   }
 }
@@ -51,6 +51,10 @@ div#optionsframework-wrap {
 }
 
 #optionsframework {
+
+  .group {
+    min-height: 702px;
+  }
 
   /* Layout */
 
@@ -265,6 +269,10 @@ div#optionsframework-wrap {
     width: 50%;
   }
 
+  #section-waboot_header_layout {
+    min-height: 735px;
+  }
+
 
   /* Footer */
 
@@ -274,12 +282,13 @@ div#optionsframework-wrap {
 
   /* Posts & Pages */
 
-  .postspages .section-info {
+  .behaviors .section-info,
+  .behaviors .section-images {
     width: 100%;
     border-right: none;
   }
 
-  .postspages .section:nth-child(6n+5) {
+  .behaviors .section:nth-child(6n+5) {
     width: 100%;
     padding-left: 0;
     padding-right: 0;
@@ -287,23 +296,43 @@ div#optionsframework-wrap {
 
   /* Post Meta */
 
-  .postmeta .section:nth-child(even) {
+  .post_meta .section:nth-child(even) {
     border-right: 1px solid #ddd;
   }
 
-  .postmeta .section:nth-child(odd) {
+  .post_meta .section:nth-child(odd) {
     border-right: none;
+  }
+
+  /* Contact form */
+
+  #section-contact_form_mail_recipient_type {
+    border-right: 1px solid #ddd;
+  }
+
+  #section-contact_form_privacy_text {
+    width: 100%;
+  }
+
+  /* Favicon */
+
+  .favicons .section:nth-child(odd) {
+    border-right: none;
+  }
+
+  .favicons .section:nth-child(even) {
+    border-right: 1px solid #ddd;
   }
 
 
   /* Social */
 
   .social .section:nth-child(odd) {
-    border-right: 1px solid #ddd;
+    border-right: none;
   }
 
   .social .section:nth-child(even) {
-    border-right: none;
+    border-right: 1px solid #ddd;
   }
 
   .social #section-waboot_social_position,
