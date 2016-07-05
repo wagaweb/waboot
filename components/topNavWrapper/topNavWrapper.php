@@ -79,7 +79,7 @@ class TopNavWrapperComponent extends \Waboot\Component{
 		parent::register_options();
 		$orgzr = \WBF\modules\options\Organizer::getInstance();
 
-		$imagepath = WBF()->resources->get_admin_assets_uri()."/images/";
+		$imagepath = get_template_directory_uri()."/assets/images/options/";
 
 		$orgzr->set_group($this->name."_component");
 
