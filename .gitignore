@@ -2,7 +2,13 @@ node_modules/
 bower_components/
 builds/
 npm-debug.log
+
+############
+## WP
+############
 Movefile
+languages/*
+!languages/.gitkeep
 
 ############
 ## VENDORS
