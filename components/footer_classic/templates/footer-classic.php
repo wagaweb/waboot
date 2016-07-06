@@ -1,10 +1,6 @@
 <div id="footer-wrapper">
 	<div id="footer-inner" class="<?php echo Waboot\functions\get_option('waboot_footer_width', 'container'); ?>">
 		<?php
-		// Content bottom todo: componente a parte?
-		if(is_active_sidebar("contentbottom")){
-			get_template_part("components/footer_classic/templates/parts/contentbottom");
-		}
 		// Footer widgets
 		if(\Waboot\functions\count_widgets_in_area("footer") == 0){
 			\Waboot\functions\print_widgets_in_area('footer');

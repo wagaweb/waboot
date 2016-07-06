@@ -116,45 +116,48 @@ function get_grid_class_for_alignment($count = 4){
  */
 function get_widget_areas(){
 	$areas = [
-		'sidebar-1' => [
-			'name' =>  __('Secondary Sidebar', 'waboot'),
-			'description' => __( 'The main widget area displayed in the sidebar.', 'waboot' )
+		'header' => [
+			'name' =>  __('Header', 'waboot'),
+			'description' => __( 'The main widget area displayed in the header.', 'waboot' ),
+			'render_zone' => 'header'
 		],
-		'sidebar-2' => [
-			'name' => __('Secondary Sidebar', 'waboot'),
-			'description' => __( 'The main widget area displayed in the sidebar.', 'waboot' )
+		'main_top' => [
+			'name' => __('Main Top', 'waboot'),
+			'description' => __( 'Widget area displayed above the content and the sidebars.', 'waboot' ),
+			'render_zone' => 'main_top'
 		],
-		'footer-1' => [
-			'name' => __('Footer 1', 'waboot'),
-			'description' => __('The footer widget area displayed after all content.', 'waboot' )
+		'sidebar_left' => [
+			'name' => __('Sidebar left', 'waboot'),
+			'description' => __('Widget area displayed in left aside', 'waboot' ),
+			'render_zone' => 'aside-primary'
 		],
-		'footer-2' => [
-			'name' => __('Footer 2', 'waboot'),
-			'description' => __('The second footer widget area, displayed below the Footer widget area.', 'waboot' )
+		'content_top' => [
+			'name' => __('Content Top', 'waboot'),
+			'description' => __('Widget area displayed above the content', 'waboot' ),
+			'render_zone' => 'content',
+			'render_priority' => 10
 		],
-		'footer-3' => [
-			'name' => __('Footer 3', 'waboot'),
-			'description' => __('The third footer widget area, displayed below the Footer widget area.', 'waboot' )
+		'content_bottom' => [
+			'name' => __('Content Bottom', 'waboot'),
+			'description' => __('Widget area displayed below the content', 'waboot' ),
+			'render_zone' => 'content',
+			'render_priority' => 90
 		],
-		'footer-4' => [
-			'name' => __('Footer 4', 'waboot'),
-			'description' => __('The fourth footer widget area, displayed below the Footer widget area.', 'waboot' )
+		'sidebar_right' => [
+			'name' => __('Sidebar right', 'waboot'),
+			'description' => __('Widget area displayed in right aside', 'waboot' ),
+			'render_zone' => 'aside-secondary'
 		],
-		'topbar' => [
-			'name' => __('Top Bar', 'waboot'),
+		'main_bottom' => [
+			'name' => __('Main Bottom', 'waboot'),
+			'description' => __( 'Widget area displayed below the content and the sidebars.', 'waboot' ),
+			'render_zone' => 'main-bottom'
 		],
-		'banner' => [
-			'name' => __('Banner', 'waboot')
-		],
-		'contentbottom' => [
-			'name' => __('Content Bottom')
-		],
-		'header-left' => [
-			'name' => __('Header Left')
-		],
-		'header-right' => [
-			'name' => __('Header Right')
-		],
+		'footer' => [
+			'name' => __('Footer', 'waboot'),
+			'description' => __( 'The main widget area displayed in the footer.', 'waboot' ),
+			'render_zone' => 'footer'
+		]
 	];
 
 	$areas = apply_filters("waboot/widget_areas",$areas);

@@ -48,7 +48,7 @@ function add_main_content(){
 			break;
 	}
 }
-\Waboot()->layout->add_zone_action("main",__NAMESPACE__."\\add_main_content");
+\Waboot()->layout->add_zone_action("content",__NAMESPACE__."\\add_main_content");
 
 /**
  * Adds aside actions to display sidebars

@@ -40,6 +40,16 @@ function register_widget_areas(){
 			'after_title' => '</h2>',
 		];
 		register_sidebar($args);
+
+		//Add Widget Area to zone
+		if(isset($area_args['render_zone'])){
+			$priority = isset($area_args['render_priority']) ? intval($area_args['render_priority']) : 50;
+			if(is_active_sidebar($area_id)){
+				Waboot()->layout->add_zone_action($area_args['render_zone'],function() use($area_id){
+					dynamic_sidebar($area_id);
+				},$priority);
+			}
+		}
 	}
 	
 	$widgets = [
