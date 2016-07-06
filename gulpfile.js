@@ -22,6 +22,7 @@ var gulp = require('gulp'),
     runSequence  = require('run-sequence'),
     wpPot = require('gulp-wp-pot'),
     sort = require('gulp-sort'),
+    merge  = require('merge-stream'),
     path = require('path'); //Required by gulp-less
 
 var theme_slug = "waboot";
@@ -33,6 +34,8 @@ var paths = {
     bundlejs: ['./assets/dist/js/waboot.js'],
     lesses: './assets/src/less/**/*.less',
     mainless: './assets/src/less/waboot.less',
+    main_admin_less: './assets/src/less/waboot-admin.less',
+    tinymce_admin_less: './assets/src/less/waboot-admin/tinymce.less',
     build: [
         "**/*",
         "!.*" ,
@@ -55,13 +58,32 @@ gulp.task('compile_css',function(){
         autoprefixer({browsers: ['last 1 version']}),
         cssnano()
     ];
-    return gulp.src(paths.mainless)
+
+    var frontend = gulp.src(paths.mainless)
         .pipe(sourcemaps.init())
         .pipe(less())
         .pipe(postcss(processors))
         .pipe(rename(theme_slug+'.min.css'))
         .pipe(sourcemaps.write("."))
         .pipe(gulp.dest('./assets/dist/css'));
+
+    var backend = gulp.src(paths.main_admin_less)
+        .pipe(sourcemaps.init())
+        .pipe(less())
+        .pipe(postcss(processors))
+        .pipe(rename(theme_slug+'-admin.min.css'))
+        .pipe(sourcemaps.write("."))
+        .pipe(gulp.dest('./assets/dist/css'));
+
+    var tinymce = gulp.src(paths.tinymce_admin_less)
+        .pipe(sourcemaps.init())
+        .pipe(less())
+        .pipe(postcss(processors))
+        .pipe(rename(theme_slug+'-admin-tinymce.min.css'))
+        .pipe(sourcemaps.write("."))
+        .pipe(gulp.dest('./assets/dist/css'));
+
+    return merge(frontend,backend,tinymce);
 });
 
 /**
