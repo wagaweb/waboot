@@ -32,7 +32,7 @@ class Component extends \WBF\modules\components\Component{
 			'name' => _x( 'Position', 'component settings', 'waboot' ),
 			'desc' => _x( 'Choose in which zone you want to display', 'component_settings', 'waboot' ),
 			'id'   => strtolower($this->name).'_display_zone',
-			'std'  => 'header',
+			'std'  => isset($this->default_zone) ? $this->default_zone : "header",
 			'options' => $zone_options,
 			'type' => 'select'
 		];
@@ -40,7 +40,7 @@ class Component extends \WBF\modules\components\Component{
 			'name' => _x( 'Priority', 'component settings', 'waboot' ),
 			'desc' => _x( 'Choose the display priority', 'component_settings', 'waboot' ),
 			'id'   => strtolower($this->name).'_display_priority',
-			'std'  => '10',
+			'std'  => isset($this->default_prority) ? (string) $this->default_prority : "10",
 			'type' => 'text'
 		];
 
