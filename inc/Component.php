@@ -25,7 +25,8 @@ class Component extends \WBF\modules\components\Component{
 		$options[] = [
 			'name' => _x( 'Zone Settings', 'component settings', 'waboot' ),
 			'desc' => _x( 'Choose zone settings for this component', 'component_settings', 'waboot' ),
-			'type' => 'info'
+			'type' => 'info',
+			'id'   => strtolower($this->name).'_zone-settings_info'
 		];
 		$options[] = [
 			'name' => _x( 'Position', 'component settings', 'waboot' ),
