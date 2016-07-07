@@ -2,7 +2,7 @@
     <div id="main-wrapper">
 	    <?php
 	    /*
-		 * main_top zone
+		 * main-top zone
 		 */
 	    Waboot()->layout->render_zone("main-top");
 	    ?>
@@ -29,7 +29,7 @@
 	    </div><!-- container -->
 	    <?php
 	    /*
-		 * main_bottom zone
+		 * main-bottom zone
 		 */
 	    Waboot()->layout->render_zone("main-bottom");
 	    ?>

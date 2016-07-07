@@ -124,7 +124,7 @@ function get_widget_areas(){
 		'main_top' => [
 			'name' => __('Main Top', 'waboot'),
 			'description' => __( 'Widget area displayed above the content and the sidebars.', 'waboot' ),
-			'render_zone' => 'main_top'
+			'render_zone' => 'main-top'
 		],
 		'sidebar_left' => [
 			'name' => __('Sidebar left', 'waboot'),
