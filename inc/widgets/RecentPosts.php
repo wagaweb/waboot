@@ -109,7 +109,8 @@ class RecentPosts extends \WP_Widget{
 		$instance = wp_parse_args( (array) $instance, $this->get_defaults() );
 		$post_types = get_post_types(array('public' => true), 'objects');
 		$post_status = get_available_post_statuses();
-		(new HTMLView("templates/admin/widgets/recent-posts/form.php"))->clean()->display([
+		$v = new HTMLView("templates/admin/widgets/recents-posts/form.php");
+		$v->clean()->display([
 			'instance' => $instance,
 			'post_types' => $post_types,
 			'post_status' => $post_status,
