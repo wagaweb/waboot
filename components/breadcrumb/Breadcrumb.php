@@ -79,7 +79,7 @@ class Breadcrumb extends \Waboot\Component {
 
 			$orgzr->set_group($this->name."_component");
 
-			$orgzr->add_section("breadcrumb",_x("Breadcrumb","Theme options section","waboot"));
+			$orgzr->add_section("layout",_x("Layout","Theme options section","waboot"));
 
 			$orgzr->add(array(
 				'id' => 'breadcrumb_locations',
@@ -95,7 +95,7 @@ class Breadcrumb extends \Waboot\Component {
 					'tag' => 1,
 					'tax' => 1
 				)
-			),"breadcrumb");
+			),"layout");
 
 			$orgzr->reset_group();
 			$orgzr->reset_section();
