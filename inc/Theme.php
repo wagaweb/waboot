@@ -36,6 +36,7 @@ class Theme{
 		$hooks_files = [
 			'inc/hooks/init.php',
 			'inc/hooks/hooks.php',
+			'inc/hooks/widget_areas.php',
 			'inc/hooks/options.php',
 			'inc/hooks/entry/entry-header.php',
 			'inc/hooks/stylesheets.php',

@@ -49,34 +49,3 @@ function add_main_content(){
 	}
 }
 \Waboot()->layout->add_zone_action("content",__NAMESPACE__."\\add_main_content");
-
-/**
- * Adds aside actions to display sidebars
- */
-function display_sidebars(){
-	if(!\Waboot\functions\body_layout_is_full_width()){
-		\Waboot()->layout->add_zone_action("aside-primary",__NAMESPACE__."\\display_primary_sidebar");
-		if(\Waboot\functions\body_layout_has_two_sidebars()){
-			\Waboot()->layout->add_zone_action("aside-secondary",__NAMESPACE__."\\display_secondary_sidebar");
-		}
-	}
-}
-add_action("after_setup_theme",__NAMESPACE__."\\display_sidebars", 11);
-
-/**
- * Display the primary sidebar
- */
-function display_primary_sidebar(){
-	do_action("waboot/sidebar/primary/widgets/before");
-	get_template_part("templates/widget_areas/aside-primary");
-	do_action("waboot/sidebar/primary/widgets/after");
-}
-
-/**
- * Display the secondary sidebar
- */
-function display_secondary_sidebar(){
-	do_action("waboot/sidebar/secondary/widgets/before");
-	get_template_part("templates/widget_areas/aside-secondary");
-	do_action("waboot/sidebar/secondary/widgets/after");
-}
