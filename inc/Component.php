@@ -26,7 +26,9 @@ class Component extends \WBF\modules\components\Component{
 			'name' => _x( 'Zone Settings', 'component settings', 'waboot' ),
 			'desc' => _x( 'Choose zone settings for this component', 'component_settings', 'waboot' ),
 			'type' => 'info',
-			'id'   => strtolower($this->name).'_zone-settings_info'
+			'id'   => strtolower($this->name).'_zone-settings_info',
+			'component' => true,
+			'component_name' => $this->name
 		];
 		$options[] = [
 			'name' => _x( 'Position', 'component settings', 'waboot' ),
@@ -34,14 +36,18 @@ class Component extends \WBF\modules\components\Component{
 			'id'   => strtolower($this->name).'_display_zone',
 			'std'  => isset($this->default_zone) ? $this->default_zone : "header",
 			'options' => $zone_options,
-			'type' => 'select'
+			'type' => 'select',
+			'component' => true,
+			'component_name' => $this->name
 		];
 		$options[] = [
 			'name' => _x( 'Priority', 'component settings', 'waboot' ),
 			'desc' => _x( 'Choose the display priority', 'component_settings', 'waboot' ),
 			'id'   => strtolower($this->name).'_display_priority',
 			'std'  => isset($this->default_prority) ? (string) $this->default_prority : "10",
-			'type' => 'text'
+			'type' => 'text',
+			'component' => true,
+			'component_name' => $this->name
 		];
 
 		return $options;
