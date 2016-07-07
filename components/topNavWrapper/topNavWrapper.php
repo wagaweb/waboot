@@ -123,6 +123,19 @@ class TopNavWrapperComponent extends \Waboot\Component{
 			]
 		],"header");
 
+		$socials = \Waboot\functions\get_available_socials();
+
+		foreach($socials as $k => $s){
+			$opt_id = 'social_'.$k;
+			$orgzr->update($opt_id,[
+				'name' => $s['name'],
+				'desc' => $s['theme_options_desc'],
+				'id'   => $opt_id,
+				'type' => 'text',
+				'std'  => ''
+			],"social");
+		}
+
 		$orgzr->update("social_position",[
 			'name' => __( 'Social Position', 'waboot' ),
 			'desc' => __( 'Select one of the following positions for the social links', 'waboot' ),
