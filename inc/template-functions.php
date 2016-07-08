@@ -1,6 +1,7 @@
 <?php
 
 namespace Waboot\functions;
+use Waboot\Layout;
 use WBF\components\mvc\HTMLView;
 use WBF\components\utils\Utilities;
 
@@ -333,6 +334,66 @@ function get_blog_class($blog_layout = false){
 	}
 
 	return implode(" ",$classes);
+}
+
+/**
+ * Get the specified sidebar size
+ * @param $name ("primary" or "secondary")
+ *
+ * @return bool
+ */
+function get_sidebar_size($name){
+	$page_type = Utilities::get_current_page_type();
+
+	if($name == "primary"){
+		$size = $page_type == Utilities::PAGE_TYPE_BLOG_PAGE || $page_type == Utilities::PAGE_TYPE_DEFAULT_HOME ?
+			of_get_option("blog_primary_sidebar_size") : get_behavior('primary-sidebar-size');
+
+		return $size;
+	}elseif($name == "secondary"){
+		$size = $page_type == Utilities::PAGE_TYPE_BLOG_PAGE || $page_type == Utilities::PAGE_TYPE_DEFAULT_HOME ?
+			of_get_option("blog_secondary_sidebar_size") : get_behavior('secondary-sidebar-size');
+
+		return $size;
+	}
+	return false;
+}
+
+/**
+ * Returns the sizes of each column available into current layout
+ * @return array of integers
+ */
+function get_cols_sizes(){
+	$result = array("main"=>12);
+	if (\Waboot\functions\body_layout_has_two_sidebars()) {
+		//Primary size
+		$primary_sidebar_width = get_sidebar_size("primary");
+		if(!$primary_sidebar_width) $primary_sidebar_width = 0;
+		//Secondary size
+		$secondary_sidebar_width = get_sidebar_size("secondary");
+		if(!$secondary_sidebar_width) $secondary_sidebar_width = 0;
+		//Main size
+		$mainwrap_size = 12 - Layout::layout_width_to_int($primary_sidebar_width) - Layout::layout_width_to_int($secondary_sidebar_width);
+
+		$result = [
+			"main" => $mainwrap_size,
+			"primary" => Layout::layout_width_to_int($primary_sidebar_width),
+			"secondary" => Layout::layout_width_to_int($secondary_sidebar_width)
+		];
+	}else{
+		if(\Waboot\functions\get_body_layout() != "full-width"){
+			$primary_sidebar_width = get_sidebar_size("primary");
+			if(!$primary_sidebar_width) $primary_sidebar_width = 0;
+			$mainwrap_size = 12 - Layout::layout_width_to_int($primary_sidebar_width);
+
+			$result = [
+				"main" => $mainwrap_size,
+				"primary" => Layout::layout_width_to_int($primary_sidebar_width)
+			];
+		}
+	}
+	$result = apply_filters("waboot/layout/get_cols_sizes",$result);
+	return $result;
 }
 
 /**

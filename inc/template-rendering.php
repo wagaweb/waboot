@@ -72,3 +72,12 @@ function get_aside_template_vars($slug){
 
 	return $vars;
 }
+
+/**
+ * Get additional variables needed to render the main wrapper
+ */
+function get_main_wrapper_template_vars(){
+	$vars['classes'] = apply_filters( 'waboot/layout/main_wrapper/classes', 'content-area col-sm-8' );
+	
+	return $vars;
+}

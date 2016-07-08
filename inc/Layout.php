@@ -4,6 +4,7 @@ namespace Waboot;
 
 use WBF\components\mvc\HTMLView;
 use WBF\components\mvc\View;
+use WBF\components\utils\Utilities;
 
 class Layout{
 	/**
@@ -231,6 +232,51 @@ class Layout{
 			throw new \Exception("Zone {$slug} not found");
 		}
 		return true;
+	}
+	
+	/*
+	 * Utilities
+	 */
+	
+	/**
+	 * Removes "col-" string values from an array
+	 * @param array $classes_array
+	 */
+	static function remove_cols_classes(array &$classes_array){
+		foreach($classes_array as $k => $v){
+			if(preg_match("/col-/",$v)){
+				unset($classes_array[$k]);
+			}
+		}
+	}
+
+	/**
+	 * Convert size labels (1/3, 2/3, ect) into size integers (for using into col-sm-<x>)
+	 * @param string $width the label
+	 *
+	 * @return int
+	 */
+	static function layout_width_to_int($width){
+		switch($width){
+			case '0':
+				return 0;
+				break;
+			case '1/2':
+				return 6;
+				break;
+			case '1/3':
+				return 4;
+				break;
+			case '1/4':
+				return 3;
+				break;
+			case '1/6':
+				return 2;
+				break;
+			default:
+				return 4;
+				break;
+		}
 	}
 
 	/**

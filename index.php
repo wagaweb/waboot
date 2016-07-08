@@ -1,5 +1,8 @@
 <?php get_header(); ?>
-    <div id="main-wrapper">
+	<?php
+		$main_wrapper_vars = \Waboot\functions\get_main_wrapper_template_vars();
+	?>
+	<div id="main-wrapper" class="<?php $main_wrapper_vars['classes']; ?>">
 	    <?php
 	    /*
 		 * main-top zone

@@ -4,9 +4,11 @@
  */
 ?>
 <?php if(have_posts()): ?>
+	<?php \Waboot\template_tags\post_navigation( 'nav-above' ); // display content nav above posts if needed ?>
 	<?php while(have_posts()) :  the_post(); ?>
 		<?php get_template_part( '/templates/post-formats/content', get_post_format() ); ?>
 	<?php endwhile; ?>
+	<?php \Waboot\template_tags\post_navigation( 'nav-below' ); // display content nav below posts if needed ?>
 <?php else: ?>
 	<?php get_template_part('/templates/parts/content', 'none'); // No results ?>
 <?php endif; //have_posts ?>
