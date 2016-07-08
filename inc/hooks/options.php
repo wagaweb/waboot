@@ -2,6 +2,7 @@
 
 namespace Waboot\hooks\options;
 
+use Waboot\Layout;
 use WBF\modules\options\Organizer;
 
 add_filter('wbf/modules/options/available', __NAMESPACE__.'\\register_options');
@@ -14,6 +15,10 @@ function register_options(){
 	$orgzr = Organizer::getInstance();
 
 	$orgzr->set_group("std_options");
+
+	/**********************
+	 * GLOBALS
+	 **********************/
 
 	$orgzr->add_section("global",_x("Global", "Theme options","waboot"));
 
@@ -345,6 +350,39 @@ function register_options(){
 
 	$orgzr->reset_group();
 	$orgzr->reset_section();
+
+	/**********************
+	 * LAYOUT
+	 **********************/
+
+	$orgzr->add_section("layout",__( 'Layout', 'waboot' ));
+
+	$orgzr->set_section("layout");
+
+	$layouts = \WBF\modules\options\of_add_default_key(_get_available_body_layouts());
+	if(isset($layouts['values'][0]['thumb'])){
+		$opt_type = "images";
+		foreach($layouts['values'] as $k => $v){
+			$final_layout[$v['value']]['label'] = $v['name'];
+			$final_layout[$v['value']]['value'] = isset($v['thumb']) ? $v['thumb'] : "";
+		}
+	}else{
+		$opt_type = "select";
+		foreach($layouts['values'] as $k => $v){
+			$final_layout[$v['value']]['label'] = $v['name'];
+		}
+	}
+	$orgzr->add(array(
+		'name' => __('Index page and blog page layout', 'waboot'),
+		'desc' => __('Select the layout that will be applied to main blog page (which can be the default index or a custom blog page)', 'waboot'),
+		'id' => 'blog_layout',
+		'std' => $layouts['default'],
+		'type' => $opt_type,
+		'options' => $final_layout
+	));
+
+	$orgzr->reset_group();
+	$orgzr->reset_section();
 }
 
 /**
@@ -562,32 +600,32 @@ function _get_available_body_layouts(){
 	return apply_filters("waboot/layout/options/available_body_layouts",[
 		[
 			"name" => __("No sidebar","waboot"),
-			"value" => "full-width",
+			"value" => Layout::LAYOUT_FULL_WIDTH,
 			"thumb"   => $imagepath . "behaviour/no-sidebar.png"
 		],
 		[
 			"name" => __("Sidebar right","waboot"),
-			"value" => "sidebar-right",
+			"value" => Layout::LAYOUT_PRIMARY_RIGHT,
 			"thumb"   => $imagepath . "behaviour/sidebar-right.png"
 		],
 		[
 			"name" => __("Sidebar left","waboot"),
-			"value" => "sidebar-left",
+			"value" => Layout::LAYOUT_PRIMARY_LEFT,
 			"thumb"   => $imagepath . "behaviour/sidebar-left.png"
 		],
 		[
 			"name" => __("2 Sidebars","waboot"),
-			"value" => "two-sidebars",
+			"value" => Layout::LAYOUT_TWO_SIDEBARS,
 			"thumb"   => $imagepath . "behaviour/sidebar-left-right.png"
 		],
 		[
 			"name" => __("2 Sidebars right","waboot"),
-			"value" => "two-sidebars-right",
+			"value" => Layout::LAYOUT_TWO_SIDEBARS_RIGHT,
 			"thumb"   => $imagepath . "behaviour/sidebar-right-2.png"
 		],
 		[
 			"name" => __("2 Sidebars left","waboot"),
-			"value" => "two-sidebars-left",
+			"value" => Layout::LAYOUT_TWO_SIDEBARS_LEFT,
 			"thumb"   => $imagepath . "behaviour/sidebar-left-2.png"
 		],
 		'_default' => 'sidebar-right'

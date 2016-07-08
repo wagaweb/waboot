@@ -271,9 +271,9 @@ function get_archive_page_title(){
 function get_body_layout(){
 	$current_page_type = Utilities::get_current_page_type();
 	if($current_page_type == Utilities::PAGE_TYPE_BLOG_PAGE || $current_page_type == Utilities::PAGE_TYPE_DEFAULT_HOME || is_archive()) {
-		$layout = \Waboot\functions\get_option('blogpage_sidebar_layout'); //todo: add this
+		$layout = \Waboot\functions\get_option('blog_layout');
 	}else{
-		$layout = \Waboot\functions\get_behavior('layout'); //todo: add this
+		$layout = \Waboot\functions\get_behavior('layout');
 	}
 	$layout = apply_filters("waboot/layout/body_layout",$layout);
 	return $layout;
@@ -286,7 +286,7 @@ function get_body_layout(){
  */
 function body_layout_is_full_width(){
 	$body_layout = get_body_layout();
-	return $body_layout == "full-width";
+	return $body_layout == Layout::LAYOUT_FULL_WIDTH;
 }
 
 /**
@@ -381,7 +381,7 @@ function get_cols_sizes(){
 			"secondary" => Layout::layout_width_to_int($secondary_sidebar_width)
 		];
 	}else{
-		if(\Waboot\functions\get_body_layout() != "full-width"){
+		if(\Waboot\functions\get_body_layout() != Layout::LAYOUT_FULL_WIDTH){
 			$primary_sidebar_width = get_sidebar_size("primary");
 			if(!$primary_sidebar_width) $primary_sidebar_width = 0;
 			$mainwrap_size = 12 - Layout::layout_width_to_int($primary_sidebar_width);

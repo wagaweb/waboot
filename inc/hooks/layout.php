@@ -5,6 +5,59 @@ use Waboot\Layout;
 use WBF\modules\behaviors\Behavior;
 
 /**
+ * Set the theme layout to "full-width" when the aside zone has no elements.
+ *
+ * @param $layout
+ *
+ * @return string
+ */
+function alter_body_layout_when_theme_has_no_sidebars($layout){
+	if($layout !== Layout::LAYOUT_FULL_WIDTH){
+		switch($layout){
+			case Layout::LAYOUT_PRIMARY_LEFT:
+			case Layout::LAYOUT_PRIMARY_RIGHT:
+				//If we have one sidebar, and its empty, go to full width
+				if(!Waboot()->layout->can_render_zone("aside-primary")){
+					$layout = Layout::LAYOUT_FULL_WIDTH;
+				}
+				break;
+			case Layout::LAYOUT_TWO_SIDEBARS:
+				//If we have two sidebar and the primary is empty, go full width
+				if(!Waboot()->layout->can_render_zone("aside-primary")){
+					$layout = Layout::LAYOUT_FULL_WIDTH;
+				}
+				//If we have two sidebar and the secondary is empty, go primary right
+				if(!Waboot()->layout->can_render_zone("aside-secondary")){
+					$layout = Layout::LAYOUT_PRIMARY_RIGHT;
+				}
+				break;
+			case Layout::LAYOUT_TWO_SIDEBARS_LEFT:
+				//If we have two sidebar and the primary is empty, go full width
+				if(!Waboot()->layout->can_render_zone("aside-primary")){
+					$layout = Layout::LAYOUT_FULL_WIDTH;
+				}
+				//If we have two sidebar to the left and the secondary is empty, go primary left
+				if(!Waboot()->layout->can_render_zone("aside-secondary")){
+					$layout = Layout::LAYOUT_PRIMARY_LEFT;
+				}
+				break;
+			case Layout::LAYOUT_TWO_SIDEBARS_RIGHT:
+				//If we have two sidebar and the primary is empty, go full width
+				if(!Waboot()->layout->can_render_zone("aside-primary")){
+					$layout = Layout::LAYOUT_FULL_WIDTH;
+				}
+				//If we have two sidebar to the right and the secondary is empty, go primary right
+				if(!Waboot()->layout->can_render_zone("aside-secondary")){
+					$layout = Layout::LAYOUT_PRIMARY_RIGHT;
+				}
+				break;
+		}
+	}
+	return $layout;
+}
+add_filter("waboot/layout/body_layout",__NAMESPACE__."\\alter_body_layout_when_theme_has_no_sidebars");
+
+/**
  * Prepare the classes for mainwrap container
  * 
  * @param $classes
@@ -16,7 +69,7 @@ function set_main_wrapper_container_classes($classes) {
 	$classes_array = explode(" ", $classes);
 
 	if($body_layout){
-		if ($body_layout == "full-width") {
+		if ($body_layout == Layout::LAYOUT_FULL_WIDTH) {
 			Layout::remove_cols_classes($classes_array); //Remove all col- classes
 			$classes_array[] = "col-sm-12";
 		} else {

@@ -16,6 +16,13 @@ class Layout{
 	 */
 	private $zones = [];
 	
+	const LAYOUT_FULL_WIDTH = "full-width";
+	const LAYOUT_PRIMARY_RIGHT = "sidebar-right";
+	const LAYOUT_PRIMARY_LEFT = "sidebar-right";
+	const LAYOUT_TWO_SIDEBARS = "two-sidebars";
+	const LAYOUT_TWO_SIDEBARS_LEFT = "two-sidebars-left";
+	const LAYOUT_TWO_SIDEBARS_RIGHT = "two-sidebars-right";
+	
 	/**
 	 * Returns the *Singleton* instance.
 	 *
@@ -122,6 +129,20 @@ class Layout{
 				$this->do_zone_action($slug);
 			}
 		}
+	}
+
+	/**
+	 * Checks if a zone can be rendered (is on "always_load" or has actions hooked.
+	 *
+	 * @param $slug
+	 *
+	 * @return bool
+	 * @throws \Exception
+	 */
+	public function can_render_zone($slug){
+		$this->check_zone($slug);
+		$zone = $this->zones[$slug];
+		return $zone['options']['always_load'] || !empty($zone['actions']);
 	}
 
 	/**
