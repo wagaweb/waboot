@@ -3,7 +3,7 @@
  * Waboot View
  */
 ?>
-<main id="main" role="main" class="<?php \Waboot\template_tags\main_classes(); ?>">
+<main id="main" role="main" class="<?php \Waboot\template_tags\main_classes(); ?>" data-zone="<?php echo $name ?>">
 	<div class="content-inner">
 		<?php do_action("waboot/main/before"); ?>
 		<?php Waboot()->layout->do_zone_action($name); ?>
