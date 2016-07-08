@@ -1,6 +1,7 @@
 <?php
 
 namespace Waboot\hooks\widget_areas;
+use WBF\components\mvc\HTMLView;
 
 /**
  * Register widget areas
@@ -25,7 +26,10 @@ function register_widget_areas(){
 			$priority = isset($area_args['render_priority']) ? intval($area_args['render_priority']) : 50;
 			if(is_active_sidebar($area_id)){
 				Waboot()->layout->add_zone_action($area_args['render_zone'],function() use($area_id){
-					dynamic_sidebar($area_id);
+					$v = new HTMLView("templates/widget_areas/standard.php");
+					$v->clean()->display([
+						'area_id' => $area_id
+					]);
 				},$priority);
 			}
 		}

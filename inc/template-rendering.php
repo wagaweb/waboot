@@ -64,9 +64,9 @@ function get_aside_template_vars($slug){
 
 	$vars['container_classes'] = call_user_func(function(){
 		if(has_filter("waboot_sidebar_container_class")){
-			return apply_filters('waboot_sidebar_container_class', 'widget-area'); //backward compatibility
+			return apply_filters('waboot_sidebar_container_class', 'aside-area'); //backward compatibility
 		}else{
-			return apply_filters('waboot/layout/sidebar/container/classes', 'widget-area');
+			return apply_filters('waboot/layout/sidebar/container/classes', 'aside-area');
 		}
 	});
 
