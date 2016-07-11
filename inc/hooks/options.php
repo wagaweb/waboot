@@ -428,6 +428,24 @@ function register_options(){
 		'options' => $final_layout
 	));
 
+	$orgzr->add(array(
+		'name' => __("Primary Sidebar width","waboot"),
+		'desc' => __("Choose the primary sidebar width","waboot"),
+		'id' => 'blog_primary_sidebar_size',
+		'std' => '1/4',
+		'type' => "select",
+		'options' => array("1/2"=>"1/2","1/3"=>"1/3","1/4"=>"1/4","1/6"=>"1/6")
+	));
+
+	$orgzr->add(array(
+		'name' => __("Secondary Sidebar width","waboot"),
+		'desc' => __("Choose the secondary sidebar width","waboot"),
+		'id' => 'blog_secondary_sidebar_size',
+		'std' => '1/4',
+		'type' => "select",
+		'options' => array("1/2"=>"1/2","1/3"=>"1/3","1/4"=>"1/4","1/6"=>"1/6")
+	));
+
 	$orgzr->reset_group();
 	$orgzr->reset_section();
 }
@@ -645,31 +663,37 @@ function _get_available_body_layouts(){
 	$imagepath = get_template_directory_uri() . '/assets/images/options/';
 
 	return apply_filters("waboot/layout/options/available_body_layouts",[
+		//1
 		[
 			"name" => __("No sidebar","waboot"),
 			"value" => Layout::LAYOUT_FULL_WIDTH,
 			"thumb"   => $imagepath . "behaviour/no-sidebar.png"
 		],
+		//2
 		[
 			"name" => __("Sidebar right","waboot"),
 			"value" => Layout::LAYOUT_PRIMARY_RIGHT,
 			"thumb"   => $imagepath . "behaviour/sidebar-right.png"
 		],
+		//3
 		[
 			"name" => __("Sidebar left","waboot"),
 			"value" => Layout::LAYOUT_PRIMARY_LEFT,
 			"thumb"   => $imagepath . "behaviour/sidebar-left.png"
 		],
+		//4
 		[
 			"name" => __("2 Sidebars","waboot"),
 			"value" => Layout::LAYOUT_TWO_SIDEBARS,
 			"thumb"   => $imagepath . "behaviour/sidebar-left-right.png"
 		],
+		//5
 		[
 			"name" => __("2 Sidebars right","waboot"),
 			"value" => Layout::LAYOUT_TWO_SIDEBARS_RIGHT,
 			"thumb"   => $imagepath . "behaviour/sidebar-right-2.png"
 		],
+		//6
 		[
 			"name" => __("2 Sidebars left","waboot"),
 			"value" => Layout::LAYOUT_TWO_SIDEBARS_LEFT,

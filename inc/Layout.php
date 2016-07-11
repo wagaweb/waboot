@@ -18,7 +18,7 @@ class Layout{
 	
 	const LAYOUT_FULL_WIDTH = "full-width";
 	const LAYOUT_PRIMARY_RIGHT = "sidebar-right";
-	const LAYOUT_PRIMARY_LEFT = "sidebar-right";
+	const LAYOUT_PRIMARY_LEFT = "sidebar-left";
 	const LAYOUT_TWO_SIDEBARS = "two-sidebars";
 	const LAYOUT_TWO_SIDEBARS_LEFT = "two-sidebars-left";
 	const LAYOUT_TWO_SIDEBARS_RIGHT = "two-sidebars-right";
