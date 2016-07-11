@@ -63,7 +63,7 @@ add_action('init', 'waboot_editor_styles');
  */
 function waboot_post_type_editor_styles() {
 	global $post;
-	if (isset($post->ID)) {
+	if(is_admin() && isset($post->ID)) {
 		$post_type = get_post_type($post->ID);
 		$editor_style = 'tinymce-' . $post_type . '.css'; //Es: tinymce-post.css
 		if(function_exists("wbf_locate_template_uri")) :
