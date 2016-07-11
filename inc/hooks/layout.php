@@ -34,9 +34,8 @@ function alter_body_layout_when_theme_has_no_sidebars($layout){
 				//If we have two sidebar and the primary is empty, go full width
 				if(!Waboot()->layout->can_render_zone("aside-primary")){
 					$layout = Layout::LAYOUT_FULL_WIDTH;
-				}
-				//If we have two sidebar to the left and the secondary is empty, go primary left
-				if(!Waboot()->layout->can_render_zone("aside-secondary")){
+				}elseif(!Waboot()->layout->can_render_zone("aside-secondary")){
+					//If we have two sidebar to the left and the secondary is empty, go primary left
 					$layout = Layout::LAYOUT_PRIMARY_LEFT;
 				}
 				break;
@@ -44,9 +43,8 @@ function alter_body_layout_when_theme_has_no_sidebars($layout){
 				//If we have two sidebar and the primary is empty, go full width
 				if(!Waboot()->layout->can_render_zone("aside-primary")){
 					$layout = Layout::LAYOUT_FULL_WIDTH;
-				}
-				//If we have two sidebar to the right and the secondary is empty, go primary right
-				if(!Waboot()->layout->can_render_zone("aside-secondary")){
+				}elseif(!Waboot()->layout->can_render_zone("aside-secondary")){
+					//If we have two sidebar to the right and the secondary is empty, go primary right
 					$layout = Layout::LAYOUT_PRIMARY_RIGHT;
 				}
 				break;
