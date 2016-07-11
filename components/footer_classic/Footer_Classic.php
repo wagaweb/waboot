@@ -70,9 +70,27 @@ class Footer_Classic extends \Waboot\Component {
 		),"footer");
 
 		$orgzr->add(array(
+			'name' => __( 'Footer Classic', 'waboot' ),
+			'desc' => __( 'Select footer width. Fluid or Boxed?', 'waboot' ),
+			'id' => 'footer_classic_width',
+			'std' => 'container',
+			'type' => 'images',
+			'options' => array(
+				'container-fluid' => array (
+					'label' => 'Fluid',
+					'value' => $imagepath . 'layout/footer-fluid.png'
+				),
+				'container' => array (
+					'label' => 'Boxed',
+					'value' => $imagepath . 'layout/footer-boxed.png'
+				)
+			)
+		));
+
+		$orgzr->add(array(
 			'name' => __( 'Closure', 'waboot' ),
 			'desc' => __( 'Select closure width. Fluid or Boxed?', 'waboot' ),
-			'id' => 'waboot_closure_width',
+			'id' => 'closure_width',
 			'std' => 'container',
 			'type' => 'images',
 			'options' => array(
