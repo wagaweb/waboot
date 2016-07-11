@@ -26,7 +26,7 @@ class Header_Classic extends \Waboot\Component{
 		$v = new \WBF\components\mvc\HTMLView($this->relative_path."/templates/header-classic.php");
 		$social_position = Waboot\functions\get_option('social_position');
 		$v->clean()->display([
-			"header_width" => Waboot\functions\get_option("header_width"),
+			"header_classic_width" => Waboot\functions\get_option("header_width"),
 			"social_position" => $social_position,
 			'display_socials' => Waboot\functions\get_option("social_position_none") == 1 || !in_array($social_position,['header-right','header-left']) ? false : true,
 		]);
@@ -43,10 +43,10 @@ class Header_Classic extends \Waboot\Component{
 		$orgzr->add_section("layout",_x("Layout","Theme options section","waboot"));
 		$orgzr->add_section("social",_x("Socials","Theme options section","waboot"));
 
-		$orgzr->update('header_width',[
-			'name' => __( 'Header', 'waboot' ),
+		$orgzr->update('header_classic_width',[
+			'name' => __( 'Header Classic Width', 'waboot' ),
 			'desc' => __( 'Select header width. Fluid or Boxed?', 'waboot' ),
-			'id' => 'header_width',
+			'id' => 'header_classic_width',
 			'std' => 'container-fluid',
 			'type' => 'images',
 			'options' => [

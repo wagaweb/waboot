@@ -1,5 +1,5 @@
-<div id="header-wrapper" class="header-wrapper classic">
-	<div id="header-inner" class="<?php echo $header_width; ?>">
+<div id="header-classic-wrapper" class="header-classic-wrapper">
+	<div class="header-classic-inner <?php echo $header_classic_width; ?>">
 		<!-- Header Classic -->
 		<div class="row header-blocks hidden-sm hidden-xs">
 			<div id="header-left" class="col-md-3 vcenter">

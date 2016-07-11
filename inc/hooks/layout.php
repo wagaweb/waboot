@@ -63,7 +63,7 @@ add_filter("waboot/layout/body_layout",__NAMESPACE__."\\alter_body_layout_when_t
  * @param $classes
  * @return string
  */
-function set_main_wrapper_container_classes($classes) {
+function set_main_classes($classes) {
 	$body_layout = \Waboot\functions\get_body_layout();
 	$cols_size = \Waboot\functions\get_cols_sizes();
 	$classes_array = explode(" ", $classes);
@@ -85,7 +85,7 @@ function set_main_wrapper_container_classes($classes) {
 	$classes = implode(" ",$classes_array);
 	return $classes;
 }
-add_filter("waboot/layout/main_wrapper/classes", __NAMESPACE__."\\set_main_wrapper_container_classes");
+add_filter("waboot/layout/main/classes", __NAMESPACE__."\\set_main_classes");
 
 /**
  * Prepare the classes for primary container (the primary sidebar)

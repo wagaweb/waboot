@@ -14,6 +14,8 @@ add_filter("wbf/modules/behaviors/available", __NAMESPACE__."\\register_behavior
 function register_options(){
 	$orgzr = Organizer::getInstance();
 
+	$imagepath = get_template_directory_uri()."/assets/images/options/";
+
 	$orgzr->set_group("std_options");
 
 	/**********************
@@ -53,7 +55,7 @@ function register_options(){
 	$orgzr->add(array(
 		'name' => _x('Background Page', 'Theme options', 'Theme options', 'waboot'),
 		'desc' => _x('Change the page background color.', 'Theme options', 'waboot'),
-		'id' => 'waboot_page_bgcolor',
+		'id' => 'page_bgcolor',
 		'type' => 'color',
 		'std' => '#ffffff',
 		'save_action' => "\\Waboot\\functions\\deploy_theme_options_css"
@@ -62,24 +64,15 @@ function register_options(){
 	$orgzr->add(array(
 		'name' => _x('Background Content', 'Theme options', 'Theme options', 'waboot'),
 		'desc' => _x('Change the content background color.', 'Theme options', 'waboot'),
-		'id' => 'waboot_content_bgcolor',
+		'id' => 'content_bgcolor',
 		'type' => 'color',
 		'save_action' => "\\Waboot\\functions\\deploy_theme_options_css"
 	));
-
-	$orgzr->add(array(
-		'name' => _x('Background Content Bottom', 'Theme options', 'Theme options', 'waboot'),
-		'desc' => _x('Change the content bottom background color.', 'Theme options', 'waboot'),
-		'id' => 'waboot_bottom_bgcolor',
-		'type' => 'color',
-		'std' => '#ededed',
-		'save_action' => "\\Waboot\\functions\\deploy_theme_options_css"
-	));
-
+	
 	$orgzr->add(array(
 		'name' => _x( 'Body Background Image', 'Theme options', 'waboot' ),
 		'desc' => _x( 'Upload a background image, or specify the image address of your image. (http://yoursite.com/image.png)', 'Theme options', 'waboot' ),
-		'id' => 'waboot_body_bgimage',
+		'id' => 'body_bgimage',
 		'std' => '',
 		'type' => 'upload',
 		'save_action' => "\\Waboot\\functions\\deploy_theme_options_css"
@@ -88,7 +81,7 @@ function register_options(){
 	$orgzr->add(array(
 		'name' => _x('Body Background Color', 'Theme options', 'waboot'),
 		'desc' => _x('Change the body background color.', 'Theme options', 'waboot'),
-		'id' => 'waboot_body_bgcolor',
+		'id' => 'body_bgcolor',
 		'std' => "#ededed",
 		'type' => 'color',
 		'save_action' => "\\Waboot\\functions\\deploy_theme_options_css"
@@ -97,7 +90,7 @@ function register_options(){
 	$orgzr->add(array(
 		'name' => _x( 'Body Background Image Repeat', 'Theme options', 'waboot' ),
 		'desc' => _x( 'Select how you want your background image to display.', 'waboot' ),
-		'id' => 'waboot_body_bgrepeat',
+		'id' => 'body_bgrepeat',
 		'type' => 'select',
 		'options' => array( 'no-repeat' => 'No Repeat', 'repeat' => 'Repeat','repeat-x' => 'Repeat Horizontally', 'repeat-y' => 'Repeat Vertically' ),
 		'save_action' => "\\Waboot\\functions\\deploy_theme_options_css"
@@ -106,7 +99,7 @@ function register_options(){
 	$orgzr->add(array(
 		'name' => _x( 'Body Background image position', 'Theme options', 'waboot' ),
 		'desc' => _x( 'Select how you would like to position the background', 'waboot' ),
-		'id' => 'waboot_body_bgpos',
+		'id' => 'body_bgpos',
 		'std' => 'top left',
 		'type' => 'select',
 		'options' => array(
@@ -120,7 +113,7 @@ function register_options(){
 	$orgzr->add(array(
 		'name' => _x( 'Body Background Attachment', 'Theme options', 'waboot' ),
 		'desc' => _x( 'Select whether the background should be fixed or move when the user scrolls', 'Theme options', 'waboot' ),
-		'id' => 'waboot_body_bgattach',
+		'id' => 'body_bgattach',
 		'std' => 'scroll',
 		'type' => 'select',
 		'options' => array( 'scroll' => 'scroll','fixed' => 'fixed' ),
@@ -130,7 +123,7 @@ function register_options(){
 	$orgzr->add(array(
 		'name' => _x('Background Footer', 'Theme options', 'waboot'),
 		'desc' => _x('Change the footer background color.', 'Theme options', 'waboot'),
-		'id' => 'waboot_footer_bgcolor',
+		'id' => 'footer_bgcolor',
 		'type' => 'color',
 		'std' => '#f6f6f6',
 		'save_action' => "\\Waboot\\functions\\deploy_theme_options_css"
@@ -358,6 +351,60 @@ function register_options(){
 	$orgzr->add_section("layout",__( 'Layout', 'waboot' ));
 
 	$orgzr->set_section("layout");
+
+	$orgzr->add(array(
+		'name' => __('Page', 'waboot'),
+		'desc' => __('Select page width. Fluid or Boxed?', 'waboot'),
+		'id' => 'page_width',
+		'std' => 'container',
+		'type' => 'images',
+		'options' => array(
+			'page-fluid' => array (
+				'label' => 'Fluid',
+				'value' => $imagepath . 'layout/page-fluid.png'
+			),
+			'container' => array (
+				'label' => 'Boxed',
+				'value' => $imagepath . 'layout/page-boxed.png'
+			)
+		)
+	));
+
+	$orgzr->add([
+		'name' => __( 'Header', 'waboot' ),
+		'desc' => __( 'Select header width. Fluid or Boxed?', 'waboot' ),
+		'id' => 'header_width',
+		'std' => 'container-fluid',
+		'type' => 'images',
+		'options' => [
+			'container-fluid' => [
+				'label' => 'Fluid',
+				'value' => $imagepath . 'layout/header-fluid.png'
+			],
+			'container' => [
+				'label' => 'Boxed',
+				'value' => $imagepath . 'layout/header-boxed.png'
+			]
+		]
+	]);
+
+	$orgzr->add(array(
+		'name' => __( 'Main', 'waboot' ),
+		'desc' => __( 'Select main width. Fluid or Boxed?', 'waboot' ),
+		'id' => 'main_width',
+		'std' => 'container',
+		'type' => 'images',
+		'options' => array(
+			'container-fluid' => array (
+				'label' => 'Fluid',
+				'value' => $imagepath . 'layout/content-fluid.png'
+			),
+			'container' => array (
+				'label' => 'Boxed',
+				'value' => $imagepath . 'layout/content-boxed.png'
+			)
+		)
+	));
 
 	$layouts = \WBF\modules\options\of_add_default_key(_get_available_body_layouts());
 	if(isset($layouts['values'][0]['thumb'])){
