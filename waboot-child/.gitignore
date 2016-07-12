@@ -5,7 +5,7 @@ npm-debug.log
 Movefile
 
 ############
-## SSETS
+## ASSETS
 ############
 assets/cache/*.*
 !assets/cache/.gitkeep
@@ -14,6 +14,8 @@ assets/dist/css/waboot-child.css.map
 assets/dist/css/client-custom.css
 assets/src/less/tmp_*.*
 assets/src/less/theme-options-generated.less
+assets/dist/css/*.*
+
 
 ############
 ## COMPONENTS ASSETS
