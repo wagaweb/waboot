@@ -8,6 +8,10 @@ use WBF\modules\options\Organizer;
 add_filter('wbf/modules/options/available', __NAMESPACE__.'\\register_options');
 add_filter("wbf/modules/behaviors/available", __NAMESPACE__."\\register_behaviors");
 
+//Ordering filters:
+add_filter("wbf/modules/options/organizer/sections",__NAMESPACE__."\\reorder_sections",10,2);
+add_filter("wbf/modules/options/organizer/output",__NAMESPACE__."\\reorder_output",10,2);
+
 /**
  * Register standard theme options
  */
@@ -719,4 +723,57 @@ function _get_available_body_layouts(){
 		],
 		'_default' => 'sidebar-right'
 	]);
+}
+
+/**
+ * Reorder theme options sections
+ *
+ * @param $sections
+ * @param $orgzr
+ *
+ * @return mixed
+ */
+function reorder_sections($sections,$orgzr){
+	$priorities = [
+		'global' => 0,
+		'default' => 1,
+		'layout' => 2,
+		'behaviors' => 98,
+		'etc' => 99
+	];
+
+	uksort($sections,function($a,$b) use($priorities){
+		if(preg_match("/_component/",$a)){
+			return 1;
+		}elseif(preg_match("/_component/",$b)){
+			return -1;
+		}else{
+			if(array_key_exists($a,$priorities)){
+				$a_val = $priorities[$a];
+			}else{
+				$a_val = $priorities['etc'];
+			}
+			if(array_key_exists($b,$priorities)){
+				$b_val = $priorities[$b];
+			}else{
+				$b_val = $priorities['etc'];
+			}
+			$r = $a_val < $b_val ? -1 : 1;
+			if($a_val == $b_val) $r = 1;
+			return $r;
+		}
+	});
+	return $sections;
+}
+
+/**
+ * Reorder theme options output
+ *
+ * @param $options
+ * @param $orgzr
+ *
+ * @return mixed
+ */
+function reorder_output($options,$orgzr){
+	return $options;
 }
