@@ -21,7 +21,7 @@ class Blog_Timeline extends \WBF\modules\components\Component{
 	 */
 	public function set_blog_template($tpl_args,$page_type){
 		if($page_type == \WBF\components\utils\Utilities::PAGE_TYPE_BLOG_PAGE || $page_type == \WBF\components\utils\Utilities::PAGE_TYPE_DEFAULT_HOME){
-			$tpl_args = ["components/blog_masonry/templates/content","blog-timeline"];
+			$tpl_args = ["components/blog_timeline/templates/content","blog-timeline"];
 		}
 		return $tpl_args;
 	}
