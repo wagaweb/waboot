@@ -18,27 +18,27 @@ function add_main_content(){
 
 	switch($page_type){
 		case Utilities::PAGE_TYPE_DEFAULT_HOME:
-			$tpl_part = ["templates/wordpress/content","blog"];
+			$tpl_part = ["templates/wordpress/blog",null];
 			break;
 		case Utilities::PAGE_TYPE_STATIC_HOME:
-			$tpl_part = ["templates/wordpress/content","page"];
+			$tpl_part = ["templates/wordpress/page",null];
 			break;
 		case Utilities::PAGE_TYPE_BLOG_PAGE:
-			$tpl_part = ["templates/wordpress/content","blog"];
+			$tpl_part = ["templates/wordpress/blog",null];
 			break;
 		case Utilities::PAGE_TYPE_COMMON:
 			if($wp_query->is_single()){
-				$tpl_part = ["templates/wordpress/content","single"];
+				$tpl_part = ["templates/wordpress/single",null];
 			}elseif($wp_query->is_page()){
-				$tpl_part = ["templates/wordpress/content","page"];
+				$tpl_part = ["templates/wordpress/page",null];
 			}elseif($wp_query->is_author()){
-				$tpl_part = ["templates/wordpress/content","author"];
+				$tpl_part = ["templates/wordpress/author",null];
 			}elseif($wp_query->is_search()){
-				$tpl_part = ["templates/wordpress/content","search"];
+				$tpl_part = ["templates/wordpress/search",null];
 			}elseif($wp_query->is_archive()){
-				$tpl_part = ["templates/wordpress/content","archive"];
+				$tpl_part = ["templates/wordpress/archive",null];
 			}elseif($wp_query->is_404()){
-				$tpl_part = ["templates/wordpress/content","404"];
+				$tpl_part = ["templates/wordpress/404",null];
 			}else{
 				throw new \Exception("Unrecognized content type");
 			}

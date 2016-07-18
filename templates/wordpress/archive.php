@@ -8,7 +8,7 @@
 		<?php //waboot_archive_sticky_posts($blog_style); // Display the sticky posts first... ?>
 		<?php while(have_posts()): ?>
 			<?php the_post(); ?>
-			<?php \Waboot\template_tags\get_template_part( '/templates/post-formats/content', get_post_format() ); ?>
+			<?php \Waboot\functions\get_template_part( '/templates/post-formats/content', get_post_format() ); ?>
 		<?php endwhile; ?>
 	</div>
 	<?php if($vars['display_nav_below']) \Waboot\template_tags\post_navigation('nav-below'); ?>

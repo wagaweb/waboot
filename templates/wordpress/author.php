@@ -19,7 +19,7 @@
 				<?php
 				while(have_posts()){
 					the_post();
-					\Waboot\template_tags\get_template_part( '/templates/post-formats/content', get_post_format() );
+					\Waboot\functions\get_template_part( '/templates/post-formats/content', get_post_format() );
 				}
 				?>
 			</div>
