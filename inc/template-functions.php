@@ -304,35 +304,16 @@ function body_layout_has_two_sidebars(){
 }
 
 /**
- * Return the current blog layout or the default one ("classic")
- * @return bool|string
- */
-function get_blog_layout(){
-	$blog_style = \Waboot\functions\get_option("blogpage_layout");
-	if (!$blog_style || $blog_style == "") $blog_style = "classic";
-
-	return $blog_style;
-}
-
-/**
  * Return the class relative to the $blog_layout (by default the current blog layout)
  *
  * @param bool $blog_layout
  * @return mixed
  */
-function get_blog_class($blog_layout = false){
-	if(!$blog_layout){
-		$blog_layout = get_blog_layout();
-	}
-
-	$classes = array(
-		"blog-".$blog_layout
-	);
-
-	if($blog_layout == "masonry"){
-		$classes[] = "row";
-	}
-
+function get_posts_wrapper_class(){
+	$classes = [
+		"blog-classic"
+	];
+	$classes = apply_filters("waboot/layout/posts_wrapper/class",$classes);
 	return implode(" ",$classes);
 }
 
@@ -394,6 +375,18 @@ function get_cols_sizes(){
 	}
 	$result = apply_filters("waboot/layout/get_cols_sizes",$result);
 	return $result;
+}
+
+/**
+ * Filterable version of get_template_part
+ *
+ * @param $slug
+ * @param null $name
+ */
+function get_template_part($slug,$name = null){
+	$page_type = Utilities::get_current_page_type();
+	$tpl_part = apply_filters("waboot/layout/template_parts",[$slug,$name],$page_type);
+	\get_template_part($tpl_part[0],$tpl_part[1]);
 }
 
 /**

@@ -8,17 +8,7 @@
 		<?php //waboot_archive_sticky_posts($blog_style); // Display the sticky posts first... ?>
 		<?php while(have_posts()): ?>
 			<?php the_post(); ?>
-			<?php
-			/* Include the Post-Format-specific template for the content.
-			 * If you want to override this in a child theme then include a file
-			 * called content-___.php (where ___ is the Post Format name) and that will be used instead.
-			 */
-			if($vars['blog_style'] == "classic"){
-				get_template_part('/templates/parts/content', get_post_format());
-			}else{
-				get_template_part('/templates/parts/content', "blog-".$vars['blog_style']);
-			}
-			?>
+			<?php \Waboot\template_tags\get_template_part( '/templates/post-formats/content', get_post_format() ); ?>
 		<?php endwhile; ?>
 	</div>
 	<?php if($vars['display_nav_below']) \Waboot\template_tags\post_navigation('nav-below'); ?>

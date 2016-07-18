@@ -2,6 +2,7 @@
 
 namespace Waboot\template_tags;
 use WBF\components\mvc\HTMLView;
+use WBF\components\utils\Utilities;
 
 /**
  * Displays site title
@@ -194,4 +195,11 @@ function main_classes(){
 	}else{
 		echo apply_filters('waboot/layout/main/classes','content-area col-sm-8');
 	}
+}
+
+/**
+ * Prints out posts wrapper classes
+ */
+function posts_wrapper_class(){
+	echo \Waboot\functions\get_posts_wrapper_class();
 }
