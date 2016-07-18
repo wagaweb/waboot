@@ -13,17 +13,35 @@ class Blog_Masonry extends \WBF\modules\components\Component{
 	 */
 	public function setup(){
 		parent::setup();
-		add_filter("waboot/layout/content/template",[$this,"set_blog_template"],10,2);
+		add_filter("waboot/layout/template_parts",[$this,"set_blog_template"],10,2);
+		add_filter("waboot/layout/posts_wrapper/class",[$this,"set_blog_class"],10);
 	}
 
 	/**
 	 * Set the blog template to render
 	 */
 	public function set_blog_template($tpl_args,$page_type){
-		if($page_type == \WBF\components\utils\Utilities::PAGE_TYPE_BLOG_PAGE || $page_type == \WBF\components\utils\Utilities::PAGE_TYPE_DEFAULT_HOME){
+		if( ( $page_type == \WBF\components\utils\Utilities::PAGE_TYPE_BLOG_PAGE || $page_type == \WBF\components\utils\Utilities::PAGE_TYPE_DEFAULT_HOME ) || $page_type == \WBF\components\utils\Utilities::PAGE_TYPE_COMMON && is_archive() ){
 			$tpl_args = ["components/blog_masonry/templates/content","blog-masonry"];
 		}
 		return $tpl_args;
+	}
+
+	/**
+	 * Set blog classes
+	 *
+	 * @param $classes
+	 *
+	 * @return mixed
+	 */
+	public function set_blog_class($classes){
+		//remove any blog-
+		$classes = array_filter($classes,function($class){
+			return !preg_match("/blog-/",$class);
+		});
+		//add our:
+		$classes[] = 'blog-masonry';
+		return $classes;
 	}
 
 	/**
