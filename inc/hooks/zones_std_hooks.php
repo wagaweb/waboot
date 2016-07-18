@@ -18,27 +18,27 @@ function add_main_content(){
 
 	switch($page_type){
 		case Utilities::PAGE_TYPE_DEFAULT_HOME:
-			get_template_part("templates/wordpress/blog","content");
+			$tpl_part = ["templates/wordpress/content","blog"];
 			break;
 		case Utilities::PAGE_TYPE_STATIC_HOME:
-			get_template_part("templates/wordpress/page","content");
+			$tpl_part = ["templates/wordpress/content","page"];
 			break;
 		case Utilities::PAGE_TYPE_BLOG_PAGE:
-			get_template_part("templates/wordpress/blog","content");
+			$tpl_part = ["templates/wordpress/content","blog"];
 			break;
 		case Utilities::PAGE_TYPE_COMMON:
 			if($wp_query->is_single()){
-				get_template_part("templates/wordpress/single","content");
+				$tpl_part = ["templates/wordpress/content","single"];
 			}elseif($wp_query->is_page()){
-				get_template_part("templates/wordpress/page","content");
+				$tpl_part = ["templates/wordpress/content","page"];
 			}elseif($wp_query->is_author()){
-				get_template_part("templates/wordpress/author","content");
+				$tpl_part = ["templates/wordpress/content","author"];
 			}elseif($wp_query->is_search()){
-				get_template_part("templates/wordpress/search","content");
+				$tpl_part = ["templates/wordpress/content","search"];
 			}elseif($wp_query->is_archive()){
-				get_template_part("templates/wordpress/archive","content");
+				$tpl_part = ["templates/wordpress/content","archive"];
 			}elseif($wp_query->is_404()){
-				get_template_part("templates/wordpress/404","content");
+				$tpl_part = ["templates/wordpress/content","404"];
 			}else{
 				throw new \Exception("Unrecognized content type");
 			}
@@ -46,6 +46,12 @@ function add_main_content(){
 		default:
 			throw new \Exception("Unrecognized page type");
 			break;
+	}
+
+	//Actually includes the template, making filterable.
+	if(isset($tpl_part)){
+		$tpl_part = apply_filters("waboot/layout/content/template",$tpl_part,$page_type);
+		get_template_part($tpl_part[0],$tpl_part[1]);
 	}
 }
 \Waboot()->layout->add_zone_action("content",__NAMESPACE__."\\add_main_content");
