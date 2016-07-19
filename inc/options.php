@@ -765,19 +765,19 @@ function optionsframework_options($orgzr) {
 
 	if(function_exists("is_woocommerce")){
 
-		$orgzr->add_section("woocommerce",__( 'Woocommerce', 'waboot' ));
+		$orgzr->add_section("woocommerce",__( 'WooCommerce', 'waboot' ));
 
 		$orgzr->set_section("woocommerce");
 
 	    $orgzr->add(array(
-	        'name' => __( 'Woocommerce Shop Page', 'waboot' ),
+	        'name' => __( 'WooCommerce Shop Page', 'waboot' ),
 	        'desc' => __( '', 'waboot' ),
 	        'type' => 'info'
 	    ));
 
 	    $orgzr->add(array(
-	        'name' => __('Woocommerce Shop Layout', 'waboot'),
-	        'desc' => __('Select Woocommerce shop page layout', 'waboot'),
+	        'name' => __('WooCommerce Shop Layout', 'waboot'),
+	        'desc' => __('Select WooCommerce shop page layout', 'waboot'),
 	        'id' => 'waboot_woocommerce_shop_sidebar_layout',
 	        'std' => $sidebar_layouts['default'],
 	        'type' => $opt_type,
@@ -803,7 +803,7 @@ function optionsframework_options($orgzr) {
 	    ));
 
 	    $orgzr->add(array(
-	        'name' => __( 'Display Woocommerce page title', 'waboot' ),
+	        'name' => __( 'Display WooCommerce page title', 'waboot' ),
 	        'desc' => __( 'Check this box to show page title.', 'waboot' ),
 	        'id'   => 'woocommerce_shop_displaytitle',
 	        'std'  => '1',
@@ -820,13 +820,13 @@ function optionsframework_options($orgzr) {
 	    ));
 
 	    $orgzr->add(array(
-	        'name' => __( 'Woocommerce Archives and Categories', 'waboot' ),
+	        'name' => __( 'WooCommerce Archives and Categories', 'waboot' ),
 	        'desc' => __( '', 'waboot' ),
 	        'type' => 'info'
 	    ));
 
 	    $orgzr->add(array(
-	        'name' => __('Woocommerce Archive Layout', 'waboot'),
+	        'name' => __('WooCommerce Archive Layout', 'waboot'),
 	        'desc' => __('Select Woocommerce archive layout', 'waboot'),
 	        'id' => 'waboot_woocommerce_sidebar_layout',
 	        'std' => $sidebar_layouts['default'],
@@ -853,7 +853,7 @@ function optionsframework_options($orgzr) {
 	    ));
 
 	    $orgzr->add(array(
-	        'name' => __( 'Display Woocommerce page title', 'waboot' ),
+	        'name' => __( 'Display WooCommerce page title', 'waboot' ),
 	        'desc' => __( 'Check this box to show page title.', 'waboot' ),
 	        'id'   => 'waboot_woocommerce_displaytitle',
 	        'std'  => '1',

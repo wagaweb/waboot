@@ -12,11 +12,19 @@ wbf/options/client-custom.css
 assets/src/less/tmp_*.*
 
 ############
+## SOURCES
+############
+sources/less/theme-options-generated.less
+sources/less/tmp_waboot.less
+
+############
 ## ASSETS
 ############
 assets/cache/*.*
 !assets/cache/.gitkeep
 assets/dist/css/*.css
+assets/css/waboot.css
+assets/css/waboot.css.map
 assets/dist/css/*.map
 assets/src/js/waboot.js
 assets/dist/js/*.js
