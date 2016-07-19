@@ -254,6 +254,29 @@ if(!function_exists("waboot_archive_page_title")):
 	}
 endif;
 
+if(!function_exists("waboot_wc_archive_page_title")):
+	/**
+	 * Format WC archives page title
+	 * @param string $prefix
+	 * @param string $suffix
+	 * @param bool|true $display
+	 *
+	 * @return string|void
+	 */
+	function waboot_wc_archive_page_title($prefix = "", $suffix = "", $display = true){
+		if (of_get_option('waboot_woocommerce_displaytitle') == "1") {
+			$output = waboot_get_archive_page_title();
+			$output = $prefix.$output.$suffix;
+		}else{
+			$output = "";
+		}
+		if($display){
+			echo $output;
+		}
+		return $output;
+	}
+endif;
+
 if(!function_exists('waboot_archive_sticky_posts')):
     /**
      * Display sticky posts on archive pages

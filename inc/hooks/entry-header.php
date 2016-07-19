@@ -49,7 +49,7 @@ function waboot_print_entry_title_before_inner(){
     }
     elseif( function_exists('is_product_category') && is_product_category() ){ //@woocommerce hard-coded integration
         if ( of_get_option('waboot_woocommerce_title_position') == "top" ) {
-            waboot_archive_page_title('<div class="title-wrapper"><div class="container"><h1 class=\'entry-header\' itemprop=\'name\'>', '</h1></div></div>');
+			waboot_wc_archive_page_title('<div class="title-wrapper"><div class="container"><h1 class=\'entry-header\' itemprop=\'name\'>', '</h1></div></div>');
             $term_description = term_description();
             if ( ! empty( $term_description ) )
                 printf( '<div class="taxonomy-description"><div class="container">%s</div></div>', $term_description );
