@@ -1,13 +1,13 @@
 <?php
 /**
-Component Name: Sample 01
-Description: Sample component
+Component Name: WooCommerce Standard
+Description: An initial customization for WooCommerce
 Version: 1.0
 Author: WAGA Team <dev@waga.it>
 Author URI: http://www.waga.it
 */
 
-class Woocoommerce_Standard extends \WBF\modules\components\Component{
+class Woocommerce_Standard extends \WBF\modules\components\Component{
 
     /**
      * This method will be executed at Wordpress startup (every page load)
@@ -22,9 +22,9 @@ class Woocoommerce_Standard extends \WBF\modules\components\Component{
 
     private function declare_hooks(){
 	    //Declare WooCommerce support
-	    add_action('after_setup_theme', function(){
+	    add_action('init', function(){
 		    add_theme_support( 'woocommerce' );
-	    });
+	    },20);
 
 		//Setup the wrapper
 	    remove_action('woocommerce_before_main_content', 'woocommerce_output_content_wrapper', 10);
@@ -54,7 +54,7 @@ class Woocoommerce_Standard extends \WBF\modules\components\Component{
 	    add_filter("wbf/modules/behaviors/get/secondary-sidebar-size", [$this,"secondary_sidebar_size_behavior"], 999);
 
 		// Theme Options
-	    add_action('init', [$this,"hidePriceAndCart"]);
+	    add_action('init', [$this,"hidePriceAndCart"], 20);
     }
 
 	/**
