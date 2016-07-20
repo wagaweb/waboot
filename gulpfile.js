@@ -157,7 +157,7 @@ gulp.task('make-pot', function () {
  * Copy vendors to destinations
  */
 gulp.task('copy-vendors',function() {
-    let cb = function(err,files){
+    var cb = function(err,files){
         if(err) return console.error(err);
         files.forEach(function(file) {
             console.log("Copied: "+file.relative);
