@@ -92,7 +92,7 @@ function desktop_logo($linked = false){
  * @return string
  */
 function get_desktop_logo(){
-	$desktop_logo = \Waboot\functions\get_option('logo_in_navbar', ""); //todo: add this
+	$desktop_logo = \Waboot\functions\get_option('desktop_logo', ""); //todo: add this
 	return $desktop_logo;
 }
 

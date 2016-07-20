@@ -28,6 +28,22 @@ function register_options(){
 
 	$orgzr->add_section("global",_x("Global", "Theme options","waboot"));
 
+	$orgzr->add(array(
+		'name' => __( 'Main logo', 'waboot' ),
+		'desc' => __( 'Choose the website main logo', 'waboot' ),
+		'id'   => 'desktop_logo',
+		'std'  => get_template_directory_uri()."/assets/images/default/waboot-color.png",
+		'type' => 'upload'
+	));
+
+	$orgzr->add(array(
+		'name' => __( 'Mobile logo', 'waboot' ),
+		'desc' => __( 'Choose website mobile logo', 'waboot' ),
+		'id'   => 'mobile_logo',
+		'std'  => '',
+		'type' => 'upload'
+	));
+
 	$orgzr->add([
 		'name' => _x('Site title custom text', "Theme options", 'waboot'),
 		'desc' => _x('When logo is empty, the site title will be used instead. You can customize here the text that will be displayed', "Theme options", 'waboot'),
