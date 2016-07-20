@@ -49,3 +49,18 @@ function set_wbf_admin_menu_label($label){
 	return "Waboot";
 }
 add_filter("wbf/admin_menu/label",__NAMESPACE__."\\set_wbf_admin_menu_label");
+
+/**
+ * Set the icon of admin menu
+ *
+ * @param $icon
+ *
+ * @hooked 'wbf/admin_menu/icon'
+ *
+ * @return string
+ */
+function set_wbf_admin_menu_icon($icon){
+	$icon = get_template_directory_uri()."/assets/images/options/icons/waboot-icon-20x20.svg";
+	return $icon;
+}
+add_filter("wbf/admin_menu/icon",__NAMESPACE__."\\set_wbf_admin_menu_icon");
