@@ -23,7 +23,7 @@ function is_shop($id){
  * @return string
  */
 function shop_title($prefix = "", $suffix = "", $display = true) {
-	if (of_get_option('waboot_blogpage_displaytitle') == "1") {
+	if (of_get_option('blogpage_displaytitle') == "1") { //todo: add this
 		$title = $prefix . apply_filters('waboot_index_title_text', get_wc_shop_page_title()) . $suffix;
 	} else {
 		$title = "";
@@ -45,7 +45,7 @@ function shop_title($prefix = "", $suffix = "", $display = true) {
  * @return string|void
  */
 function archive_page_title($prefix = "", $suffix = "", $display = true){
-	if (of_get_option('waboot_woocommerce_displaytitle') == "1") {
+	if (of_get_option('woocommerce_displaytitle') == "1") { //todo: add this
 		$output = \Waboot\functions\get_archive_page_title();
 		$output = $prefix.$output.$suffix;
 	}else{

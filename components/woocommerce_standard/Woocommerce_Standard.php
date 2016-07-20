@@ -292,23 +292,23 @@ class Woocoommerce_Standard extends \WBF\modules\components\Component{
 			}elseif(is_product_category()){
 				$sizes = array("main"=>12);
 				//Primary size
-				$primary_sidebar_width = of_get_option('waboot_woocommerce_primary_sidebar_size');
+				$primary_sidebar_width = of_get_option('woocommerce_primary_sidebar_size');
 				if(!$primary_sidebar_width) $primary_sidebar_width = 0;
 				//Secondary size
-				$secondary_sidebar_width = of_get_option('waboot_woocommerce_secondary_sidebar_size');
+				$secondary_sidebar_width = of_get_option('woocommerce_secondary_sidebar_size');
 				if(!$secondary_sidebar_width) $secondary_sidebar_width = 0;
 				$do_calc = true;
 			}
 
 			if($do_calc){
-				if (waboot_body_layout_has_two_sidebars()) {
+				if (\Waboot\functions\body_layout_has_two_sidebars()) {
 					//Main size
-					$mainwrap_size = 12 - _layout_width_to_int($primary_sidebar_width) - _layout_width_to_int($secondary_sidebar_width);
-					$sizes = array("main"=>$mainwrap_size,"primary"=>_layout_width_to_int($primary_sidebar_width),"secondary"=>_layout_width_to_int($secondary_sidebar_width));
+					$mainwrap_size = 12 - Waboot()->layout->layout_width_to_int($primary_sidebar_width) - Waboot()->layout->layout_width_to_int($secondary_sidebar_width);
+					$sizes = array("main"=>$mainwrap_size,"primary"=>Waboot()->layout->layout_width_to_int($primary_sidebar_width),"secondary"=>Waboot()->layout->layout_width_to_int($secondary_sidebar_width));
 				}else{
-					if(waboot_get_body_layout() != "full-width"){
-						$mainwrap_size = 12 - _layout_width_to_int($primary_sidebar_width);
-						$sizes = array("main"=>$mainwrap_size,"primary"=>_layout_width_to_int($primary_sidebar_width));
+					if(\Waboot\functions\get_body_layout() != "full-width"){
+						$mainwrap_size = 12 - Waboot()->layout->layout_width_to_int($primary_sidebar_width);
+						$sizes = array("main"=>$mainwrap_size,"primary"=>Waboot()->layout->layout_width_to_int($primary_sidebar_width));
 					}
 				}
 			}
