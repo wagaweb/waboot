@@ -6,38 +6,29 @@
  *
  * @author 		WooThemes
  * @package 	WooCommerce/Templates
- * @version     2.4.0
+ * @version     2.6.1
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-global $woocommerce_loop;
-
-// Store loop count we're currently on
-if ( empty( $woocommerce_loop['loop'] ) ) {
-    $woocommerce_loop['loop'] = 0;
-}
-
-// Store column count for displaying the grid
-if ( empty( $woocommerce_loop['columns'] ) ) {
-    $woocommerce_loop['columns'] = apply_filters( 'loop_shop_columns', 4 );
-}
-
-// Increase loop count
-$woocommerce_loop['loop']++;
+// Extra post classes
+$classes = array();
+$classes[] = of_get_option('waboot_woocommerce_cat_items', 'col-sm-3');
 ?>
-<div class="<?php echo of_get_option( 'waboot_woocommerce_cat_items', 'col-sm-3' ); ?> product-category product<?php
-    if ( ( $woocommerce_loop['loop'] - 1 ) % $woocommerce_loop['columns'] == 0 || $woocommerce_loop['columns'] == 1 )
-        echo ' first';
-	if ( $woocommerce_loop['loop'] % $woocommerce_loop['columns'] == 0 )
-		echo ' last';
-	?>">
+<div <?php wc_product_cat_class( $classes, $category ); ?>>
 
     <div class="wb-product-wrapper">
 
-        <?php do_action( 'woocommerce_before_subcategory', $category ); ?>
+        <?php
+        /**
+         * woocommerce_before_subcategory hook.
+         *
+         * @hooked woocommerce_template_loop_category_link_open - 10
+         */
+        do_action( 'woocommerce_before_subcategory', $category );
+        ?>
 
         <a href="<?php echo get_term_link( $category->slug, 'product_cat' ); ?>">
 

@@ -16,6 +16,9 @@ if(isset($woocommerce)):
 	add_action('woocommerce_before_main_content', 'waboot_woocommerce_wrapper_start', 10);
 	add_action('woocommerce_after_main_content', 'waboot_woocommerce_wrapper_end', 10);
 
+    //Disable the default Woocommerce stylesheet
+    add_filter( 'woocommerce_enqueue_styles', '__return_empty_array' );
+
 	//Disabling actions
 	remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_title', 5 );
 	remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_meta', 40 );
