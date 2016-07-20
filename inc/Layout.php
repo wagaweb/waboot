@@ -75,7 +75,8 @@ class Layout{
 		
 		//Save the zone
 		$args = wp_parse_args($args,[
-			'always_load' => false
+			'always_load' => false,
+			'can_render_callback' => null,
 		]);
 
 		$this->zones[$slug] = [
@@ -115,18 +116,25 @@ class Layout{
 		$zone = $this->zones[$slug];
 
 		if($zone['options']['always_load'] || !empty($zone['actions'])){ //Render the zone only if need to...
-			if(is_string($zone['template'])){
-				get_template_part($zone['template']);
-			}elseif(is_array($zone['template'])){
-				list($template,$part) = $zone['template'];
-				get_template_part($template,$part);
-			}elseif($zone['template'] instanceof View){
-				$zone['template']->clean()->display([
-					"name" => $zone['slug']
-				]);
-			}else{
-				//Here we do not have a template
-				$this->do_zone_action($slug);
+			$can_render = true;
+			if(isset($zone['options']['can_render_callback']) && is_callable($zone['options']['can_render_callback'])){
+				$can_render = false;
+				$can_render = call_user_func($zone['options']['can_render_callback']);
+			}
+			if($can_render){
+				if(is_string($zone['template'])){
+					get_template_part($zone['template']);
+				}elseif(is_array($zone['template'])){
+					list($template,$part) = $zone['template'];
+					get_template_part($template,$part);
+				}elseif($zone['template'] instanceof View){
+					$zone['template']->clean()->display([
+						"name" => $zone['slug']
+					]);
+				}else{
+					//Here we do not have a template
+					$this->do_zone_action($slug);
+				}
 			}
 		}
 	}

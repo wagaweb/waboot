@@ -39,9 +39,15 @@ function waboot_init(){
 	//Build up the theme
 	$wb->layout->create_zone("header",false,["always_load"=>true]);
 	$wb->layout->create_zone("main-top",new \WBF\components\mvc\HTMLView("templates/main-top.php"));
-	$wb->layout->create_zone("aside-primary",new \WBF\components\mvc\HTMLView("templates/aside.php"));
+	$wb->layout->create_zone("aside-primary",new \WBF\components\mvc\HTMLView("templates/aside.php"),["can_render_callback" => function(){
+		//todo: far si che torni true solo se abbiamo due sidebar o la sidebar left come layout
+		return true;
+	}]);
 	$wb->layout->create_zone("content",new \WBF\components\mvc\HTMLView("templates/content.php"),["always_load"=>true]);
-	$wb->layout->create_zone("aside-secondary",new \WBF\components\mvc\HTMLView("templates/aside.php"));
+	$wb->layout->create_zone("aside-secondary",new \WBF\components\mvc\HTMLView("templates/aside.php"),["can_render_callback" => function(){
+		//todo: far si che torni true solo se abbiamo due sidebar o la sidebar right come layout
+		return true;
+	}]);
 	$wb->layout->create_zone("main-bottom",new \WBF\components\mvc\HTMLView("templates/main-bottom.php"));
 	$wb->layout->create_zone("footer",false,["always_load"=>true]);
 
