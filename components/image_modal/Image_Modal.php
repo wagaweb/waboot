@@ -27,7 +27,7 @@ class Image_Modal extends \WBF\modules\components\Component{
 	 */
 	public function scripts(){
 		wp_register_script('component-image_modal-colorbox',$this->directory_uri . '/assets/vendor/jquery.colorbox-min.js',['jquery'],false,true);
-		wp_register_script('component-image_modal-custom',$this->directory_uri . '/assets/dist/ks/imagemodal.js',['jquery','component-image_modal-colorbox'],false,true);
+		wp_register_script('component-image_modal-custom',$this->directory_uri . '/assets/dist/js/imagemodal.js',['jquery','component-image_modal-colorbox'],false,true);
 
 		$cbox_elements = of_get_option($this->name.'_element');
 		if($cbox_elements == "") $cbox_elements = false;
