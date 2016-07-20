@@ -41,7 +41,7 @@
                     'depth' => 0,
                     'container' => false,
                     'menu_class' => apply_filters('waboot/navigation/main/class', 'navbar-nav'),
-                    'walker' => class_exists('WabootNavMenuWalker') ? new WabootNavMenuWalker() : "", //todo: includere in Waboot on in wbf?
+                    'walker' => class_exists('WabootNavMenuWalker') ? new WabootNavMenuWalker() : "",
                     'fallback_cb' => 'waboot_nav_menu_fallback'
                 ]);
                 ?>

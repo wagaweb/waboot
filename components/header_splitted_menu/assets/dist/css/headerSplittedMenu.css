@@ -8,10 +8,17 @@
 
 
 #masthead #logo {
-    margin: 20px 0;
+    margin: 0;
+    padding: 20px 0;
     text-align: center;
     position: absolute;
-    width: 100%;
+    top:0;
+    left: 50%;
+    z-index: 1;
+    width: auto;
+}
+.admin-bar #masthead #logo {
+    top: 32px;
 }
 
 
