@@ -186,6 +186,9 @@ gulp.task('copy-vendors',function() {
     copy([
         'font-awesome.min.css'
     ],'assets/dist/css',{cwd: 'assets/vendor/fontawesome/css'},cb);
+    copy([
+        'bootstrap.min.css'
+    ],'assets/dist/css',{cwd: 'assets/vendor/bootstrap/dist/css'},cb);
 });
 
 /**
