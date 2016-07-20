@@ -10,7 +10,9 @@ Author URI: http://www.waga.it
 class SampleComponent extends \WBF\modules\components\Component{
 
     /**
-     * This method will be executed at Wordpress startup (every page load)
+     * This method will be executed at Wordpress startup (every page load).
+     *
+     * This is called during "init", hooked at "wbf_init", which has a priority of 11. So if you want to hook at "init" you must begin with a priority of 12+.
      */
     public function setup(){
         parent::setup();

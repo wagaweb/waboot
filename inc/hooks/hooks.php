@@ -28,3 +28,16 @@ function add_banner_wrapper(){
 	get_template_part("templates/parts/banner-wrapper");
 }
 add_action("waboot/header",__NAMESPACE__."\\add_banner_wrapper");
+
+/**
+ * Adds Waboot credits
+ *
+ * @param $text
+ *
+ * @return mixed
+ */
+function add_credits($text){
+	$our_text = sprintf(__(", and <a href='%s'>Waboot</a>","waboot"),""); //todo: finire
+	return $text;
+}
+add_filter("admin_footer_text",__NAMESPACE__."\\add_credits");

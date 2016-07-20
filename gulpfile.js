@@ -83,7 +83,17 @@ gulp.task('compile_css',function(){
         .pipe(sourcemaps.write("."))
         .pipe(gulp.dest('./assets/dist/css'));
 
-    return merge(frontend,backend,tinymce);
+    //Components
+
+    var comp_woocommerce_standard = gulp.src("./components/woocommerce_standard/assets/src/less/woocommerce-standard.less")
+        .pipe(sourcemaps.init())
+        .pipe(less())
+        .pipe(postcss(processors))
+        .pipe(rename('woocommerce-standard.min.css'))
+        .pipe(sourcemaps.write("."))
+        .pipe(gulp.dest('./components/woocommerce_standard/assets/dist/css'));
+
+    return merge(frontend,backend,tinymce,comp_woocommerce_standard);
 });
 
 /**
@@ -176,6 +186,9 @@ gulp.task('copy-vendors',function() {
     copy([
         'font-awesome.min.css'
     ],'assets/dist/css',{cwd: 'assets/vendor/fontawesome/css'},cb);
+    copy([
+        'bootstrap.min.css'
+    ],'assets/dist/css',{cwd: 'assets/vendor/bootstrap/dist/css'},cb);
 });
 
 /**

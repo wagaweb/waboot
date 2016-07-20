@@ -41,27 +41,6 @@ export default class extends Backbone.Model{
         if (wbData.isMobile){
             this.do_mobile_actions();
         }
-        
-        /*
-         * WOOCOMMERCE
-         */
-        if(typeof wbData !== "undefined" && wbData.has_woocommerce){
-            this.do_wc_actions();
-        }
-        
-        //Enabling tab navigation
-        /*
-        $("[role=tablist] li a").each(function() {
-            var self = this;
-            $(this).on("click", function(e) {
-                e.preventDefault();
-                self.tab("show");
-            });
-        });
-        */
-        
-        $(".nav-tabs li:first-child").addClass("active");
-        $(".tab-content .tab-pane:first-child").addClass("active");
     }
 
     /**
@@ -71,14 +50,18 @@ export default class extends Backbone.Model{
         "use strict";
         $('input[type=text]').addClass('form-control');
         $('input[type=select]').addClass('form-control');
+        $('input[type=email]').addClass('form-control');
+        $('input[type=tel]').addClass('form-control');
+        $('input[type=submit]').addClass('btn btn-primary');
+        $('button[type=submit]').addClass('btn btn-primary');
         $('textarea').addClass('form-control');
         $('select').addClass('form-control');
-        $('input#submit').addClass('btn btn-primary');
+        // Gravity Form
         $('.gform_button').addClass('btn btn-primary btn-lg').removeClass('gform_button button');
         $('.validation_error').addClass('alert alert-danger').removeClass('validation_error');
         $('.gform_confirmation_wrapper').addClass('alert alert-success').removeClass('gform_confirmation_wrapper');
         // Tables
-        $('table').addClass('table');        
+        $('table').addClass('table');
     }
     
     /**
@@ -123,21 +106,5 @@ export default class extends Backbone.Model{
         if(typeof $metaslider !== "undefined"){
             $metaslider.addClass("noSwipe");
         }
-    }
-    
-    /**
-     * Performs some adjustment for WooCommerce
-     */
-    do_wc_actions(){
-        "use strict";
-        let $wc_container = $('.woocommerce'),
-            $wc_cart_table = $wc_container.find("table.cart");
-        
-        $wc_container.find('a.button').addClass('btn');
-        $wc_container.find('a.add_to_cart_button').addClass('btn-success');
-        $wc_container.find('a.button').removeClass('button');
-        
-        $wc_cart_table.addClass('table-striped');
-        $wc_cart_table.find('td.actions input.button').addClass('btn').addClass('btn-default').removeClass('button');
     }
 }

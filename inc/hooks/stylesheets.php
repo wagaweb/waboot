@@ -3,6 +3,18 @@
 namespace Waboot\hooks\styles;
 
 /**
+ * Loads bootstrap
+ */
+function register_bootstrap(){
+	$file = get_stylesheet_directory()."/assets/dist/css/bootstrap.min.css";
+	if(is_readable($file)){
+		$version = filemtime($file);
+		wp_enqueue_style('bootstrap-css', get_stylesheet_directory_uri()."/assets/dist/css/bootstrap.min.css", [], $version, 'all' );
+	}
+}
+add_action( 'wp_enqueue_scripts', __NAMESPACE__.'\\register_bootstrap' );
+
+/**
  * Loads font-awesome
  */
 function register_fa(){
@@ -21,7 +33,7 @@ function theme_styles() {
 	$file = get_stylesheet_directory()."/assets/dist/css/waboot.min.css";
 	if(is_readable($file)){
 		$version = filemtime($file);
-		wp_register_style('waboot-style', get_stylesheet_directory_uri()."/assets/dist/css/waboot.min.css", [], $version, 'all' );
+		wp_register_style('waboot-style', get_stylesheet_directory_uri()."/assets/dist/css/waboot.min.css", ['bootstrap-css'], $version, 'all' );
 	}
 	wp_enqueue_style('core-style', get_stylesheet_uri(), ['waboot-style'], false, 'all' ); //enqueue style.css
 }
