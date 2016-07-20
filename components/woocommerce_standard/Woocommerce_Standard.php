@@ -47,8 +47,8 @@ class Woocommerce_Standard extends \WBF\modules\components\Component{
 	    }, 20);
 
 		//Layout altering:
-	    add_filter("waboot_woocommerce_mainwrap_container_class", "wabppt_set_mainwrap_container_classes"); //todo: questa è una funzione generale che adesso è stata spostata
-	    add_filter("waboot/layout/body_layout/get", [$this,"alter_body_layout"], 90);
+	    add_filter("waboot/layout/main_wrapper/classes", [$this,"set_main_wrapper_classes"]);
+	    add_filter("waboot/layout/body_layout", [$this,"alter_body_layout"], 90);
 	    add_filter("waboot/layout/get_cols_sizes", [$this,"alter_col_sizes"], 90);
 	    add_filter("wbf/modules/behaviors/get/primary-sidebar-size", [$this,"primary_sidebar_size_behavior"], 999);
 	    add_filter("wbf/modules/behaviors/get/secondary-sidebar-size", [$this,"secondary_sidebar_size_behavior"], 999);
@@ -202,7 +202,7 @@ class Woocommerce_Standard extends \WBF\modules\components\Component{
 		$orgzr->add(array(
 			'name' => __( 'Display WooCommerce page title', 'waboot' ),
 			'desc' => __( 'Check this box to show page title.', 'waboot' ),
-			'id'   => 'waboot_woocommerce_displaytitle',
+			'id'   => 'woocommerce_displaytitle',
 			'std'  => '1',
 			'type' => 'checkbox'
 		));
@@ -253,29 +253,74 @@ class Woocommerce_Standard extends \WBF\modules\components\Component{
 		$orgzr->reset_section();
 	}
 
+	/**
+	 * Set the main wrapper classes
+	 *
+	 * @hooked 'waboot/layout/main_wrapper/classes'
+	 *
+	 * @param $classes
+	 *
+	 * @return mixed|void
+	 */
+	public function set_main_wrapper_classes($classes){
+		if(is_shop()){
+			$classes = apply_filters( 'waboot/woocommerce/layout/main/classes', 'content-area col-sm-8' );
+		}
+		return $classes;
+	}
+
+	/**
+	 * Set WooCommerce wrapper start tags
+	 *
+	 * @hooked 'woocommerce_before_main_content'
+	 */
 	public function wrapper_start() {
+		$main_wrapper_vars = \Waboot\functions\get_main_wrapper_template_vars();
 		?>
-		<div id="main-wrap" class="<?php echo apply_filters( 'waboot_woocommerce_mainwrap_container_class', 'content-area col-sm-8' ); ?>">
-		<main id="main" class="site-main" role="main">
+		<div id="main-wrapper" class="<?php echo $main_wrapper_vars['classes']; ?>">
+		<main id="main" role="main" class="<?php \Waboot\template_tags\main_classes(); ?>" data-zone="main">
 		<?php
 	}
 
+	/**
+	 * Set WooCommerce wrapper end tags
+	 *
+	 * @hooked 'woocommerce_after_main_content'
+	 */
 	public function wrapper_end() {
 		?>
 		</main>
-		</div><!-- #main-wrap -->
+		</div><!-- #main-wrapper -->
 		<?php
 	}
 
+	/**
+	 * Alter body layout for WooCommerce part of the site
+	 *
+	 * @hooked "waboot/layout/body_layout"
+	 *
+	 * @param $layout
+	 *
+	 * @return string
+	 */
 	public function alter_body_layout($layout){
 		if(function_exists('is_product_category') && is_product_category()){
-			$layout = of_get_option('waboot_woocommerce_sidebar_layout');
+			$layout = of_get_option('woocommerce_sidebar_layout');
 		}elseif(function_exists('is_shop') && is_shop()) {
-			$layout = of_get_option('waboot_woocommerce_shop_sidebar_layout');
+			$layout = of_get_option('woocommerce_shop_sidebar_layout');
 		}
 		return $layout;
 	}
 
+	/**
+	 * Alter col sizes for WooCommerce part of the site
+	 *
+	 * @hooked 'waboot/layout/get_cols_sizes'
+	 *
+	 * @param $sizes
+	 *
+	 * @return array
+	 */
 	public function alter_col_sizes($sizes){
 		if((function_exists('is_woocommerce') && is_woocommerce())) {
 			global $post;
@@ -317,6 +362,11 @@ class Woocommerce_Standard extends \WBF\modules\components\Component{
 		return $sizes;
 	}
 
+	/**
+	 * @param \WBF\modules\behaviors\Behavior $b
+	 *
+	 * @return \WBF\modules\behaviors\Behavior
+	 */
 	public function primary_sidebar_size_behavior(\WBF\modules\behaviors\Behavior $b){
 		if((function_exists('is_woocommerce') && is_woocommerce())) {
 			if(is_shop()){
@@ -333,6 +383,11 @@ class Woocommerce_Standard extends \WBF\modules\components\Component{
 		return $b;
 	}
 
+	/**
+	 * @param \WBF\modules\behaviors\Behavior $b
+	 *
+	 * @return \WBF\modules\behaviors\Behavior
+	 */
 	public function secondary_sidebar_size_behavior(\WBF\modules\behaviors\Behavior $b){
 		if((function_exists('is_woocommerce') && is_woocommerce())) {
 			if(is_shop()){
@@ -349,6 +404,11 @@ class Woocommerce_Standard extends \WBF\modules\components\Component{
 		return $b;
 	}
 
+	/**
+	 * ??
+	 *
+	 * @hooked 'init'
+	 */
 	function hidePriceAndCart(){
 		if((function_exists('is_woocommerce'))) {
 			if (of_get_option("woocommerce_hide_price") == 1) {
@@ -362,9 +422,3 @@ class Woocommerce_Standard extends \WBF\modules\components\Component{
 		}
 	}
 }
-
-/*
-class sampleWidget extends WP_Widget{
-	...
-}
-*/
