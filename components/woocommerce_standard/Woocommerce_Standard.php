@@ -50,6 +50,8 @@ class Woocommerce_Standard extends \WBF\modules\components\Component{
 	    add_filter("waboot/layout/main_wrapper/classes", [$this,"set_main_wrapper_classes"]);
 	    add_filter("waboot/layout/body_layout", [$this,"alter_body_layout"], 90);
 	    add_filter("waboot/layout/get_cols_sizes", [$this,"alter_col_sizes"], 90);
+
+	    //Behaviors
 	    add_filter("wbf/modules/behaviors/get/primary-sidebar-size", [$this,"primary_sidebar_size_behavior"], 999);
 	    add_filter("wbf/modules/behaviors/get/secondary-sidebar-size", [$this,"secondary_sidebar_size_behavior"], 999);
 
