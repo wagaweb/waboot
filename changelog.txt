@@ -1,5 +1,25 @@
 == Change log ==
 
+Version 0.15.3 - 20/07/2016
+---------------------------------
+
+- Fix: Ora il titolo delle pagine archivio di WooCommerce viene visualizzato correttamente.
+- Fix: "waboot_post_type_editor_styles" si attiva solo nell'admin.
+- Tweak: Migliorata la compatibilità con WooCommerce 2.6
+- Tweak: Migliorati gli stili per options e component framework
+
+Version 0.15.2 - 04/07/2016
+---------------------------------
+
+- Tweak: Spostate le immagini delle theme options dentro Waboot
+
+Version 0.15.1 - 01/07/2016
+---------------------------------
+
+- Fix: Ora i font dovrebbero essere presi con il path corretto.
+- Fix: Ora il titolo della pagina dello shop di WooCommerce viene visualizzato correttamente
+- Tweak: Migliorate le visualizzazioni di WooCommerce
+
 Version 0.15.0 - 25/05/2016
 ---------------------------------
 

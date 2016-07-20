@@ -7,9 +7,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Waboot 0.15.1\n"
+"Project-Id-Version: Waboot 0.15.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-07-04 17:43+0200\n"
+"POT-Creation-Date: 2016-07-20 17:22+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -79,8 +79,8 @@ msgid ""
 "\"gallery\">%8$s</a>"
 msgstr ""
 
-#: image.php:34 image.php:80 inc/template-tags.php:322
-#: inc/template-tags.php:341
+#: image.php:34 image.php:80 inc/template-tags.php:345
+#: inc/template-tags.php:364
 msgid "Edit"
 msgstr ""
 
@@ -170,7 +170,7 @@ msgstr ""
 msgid "Enter a custom selector for colobox"
 msgstr ""
 
-#: components/cookielaw/cookielaw.php:63 inc/template-tags.php:711
+#: components/cookielaw/cookielaw.php:63 inc/template-tags.php:734
 msgid "Message"
 msgstr ""
 
@@ -961,31 +961,31 @@ msgid "Select where to display page title"
 msgstr ""
 
 #: inc/options.php:768
-msgid "Woocommerce"
+msgid "WooCommerce"
 msgstr ""
 
 #: inc/options.php:773
-msgid "Woocommerce Shop Page"
+msgid "WooCommerce Shop Page"
 msgstr ""
 
 #: inc/options.php:779
-msgid "Woocommerce Shop Layout"
+msgid "WooCommerce Shop Layout"
 msgstr ""
 
 #: inc/options.php:780
-msgid "Select Woocommerce shop page layout"
+msgid "Select WooCommerce shop page layout"
 msgstr ""
 
 #: inc/options.php:806 inc/options.php:856
-msgid "Display Woocommerce page title"
+msgid "Display WooCommerce page title"
 msgstr ""
 
 #: inc/options.php:823
-msgid "Woocommerce Archives and Categories"
+msgid "WooCommerce Archives and Categories"
 msgstr ""
 
 #: inc/options.php:829
-msgid "Woocommerce Archive Layout"
+msgid "WooCommerce Archive Layout"
 msgstr ""
 
 #: inc/options.php:830
@@ -1385,58 +1385,58 @@ msgstr ""
 msgid "<span class=\"meta-nav\">&laquo;</span> Previous page"
 msgstr ""
 
-#: inc/template-tags.php:322
+#: inc/template-tags.php:345
 msgid "Pingback:"
 msgstr ""
 
-#: inc/template-tags.php:332
+#: inc/template-tags.php:355
 #, php-format
 msgid "%s <span class=\"says\">says:</span>"
 msgstr ""
 
-#: inc/template-tags.php:338
+#: inc/template-tags.php:361
 #, php-format
 msgctxt "1: date, 2: time"
 msgid "%1$s at %2$s"
 msgstr ""
 
-#: inc/template-tags.php:345
+#: inc/template-tags.php:368
 msgid "Your comment is awaiting moderation."
 msgstr ""
 
-#: inc/template-tags.php:380
+#: inc/template-tags.php:403
 msgid "You must specify a prefix when using waboot_do_sidebar."
 msgstr ""
 
-#: inc/template-tags.php:431
+#: inc/template-tags.php:454
 msgid "You must specify a prefix when using waboot_sidebar_class."
 msgstr ""
 
-#: inc/template-tags.php:691
+#: inc/template-tags.php:714
 msgid "Name"
 msgstr ""
 
-#: inc/template-tags.php:696
+#: inc/template-tags.php:719
 msgid "Surname"
 msgstr ""
 
-#: inc/template-tags.php:701
+#: inc/template-tags.php:724
 msgid "Phone"
 msgstr ""
 
-#: inc/template-tags.php:706
+#: inc/template-tags.php:729
 msgid "Email"
 msgstr ""
 
-#: inc/template-tags.php:719
+#: inc/template-tags.php:742
 msgid "By submitting this form you agree to our terms and our privacy policy."
 msgstr ""
 
-#: inc/template-tags.php:729
+#: inc/template-tags.php:752
 msgid "Send"
 msgstr ""
 
-#: inc/template-tags.php:926
+#: inc/template-tags.php:949
 msgid ""
 "You must specify the output you want - either \"link\" or \"post_content\"."
 msgstr ""
