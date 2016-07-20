@@ -51,6 +51,7 @@ waboot-child/assets/src/less/theme-options-generated.less
 components/**/node_modules
 components/**/bower_components
 components/**/bundle.js
+components/woocommerce_standard/assets/dist/css/*
 
 ############
 ## IDEs
