@@ -9,7 +9,7 @@ jQuery(document).ready(function($){
         var width = $('#logo a img').width(),
             height = $('#logo').outerHeight(),
             paddingNav = (height-50)/2,
-            selector = "ul li:nth-child("+ (wabootHeaderSplitted.count) +")";
+            selector = "ul li:nth-child("+wabootHeaderSplitted.count+")";
 
         $( '#logo' ).css('margin-left', (width/2)*-1);
         $( selector ).css('margin-right', width);
