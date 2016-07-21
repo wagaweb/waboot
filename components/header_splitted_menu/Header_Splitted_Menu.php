@@ -42,8 +42,16 @@ class Header_Splitted_Menu extends \Waboot\Component{
     public function scripts(){
         wp_register_script('component-header_splitted_menu', $this->directory_uri . '/assets/dist/js/headerSplittedMenu.js', ['jquery'], false, true);
 
-        $menu_items = wp_get_nav_menu_items('splitted');
-        $count = count($menu_items);
+	    $position = \Waboot\functions\get_option($this->name.'_item_select');
+	    $theme_locations = get_nav_menu_locations();
+	    $menu_obj = get_term( $theme_locations['main']);
+
+	    $count = ($position == 'middle')
+		    ? $menu_obj->count/2
+		    : $position;
+
+
+
         wp_localize_script('component-header_splitted_menu', 'wabootHeaderSplitted', array(
             'count' => $count
         ) );
@@ -77,24 +85,7 @@ class Header_Splitted_Menu extends \Waboot\Component{
 	 */
     public function register_options() {
         parent::register_options();
-        $orgzr = \WBF\modules\options\Organizer::getInstance();
 
-        $imagepath = get_template_directory_uri()."/assets/images/options/";
-
-        $orgzr->set_group($this->name."_component");
-
-        $orgzr->add_section("header",_x("Header","Theme options section","waboot"));
-
-        $orgzr->update('header_splitted_logo',[
-            'name' => __( 'Header Splitted Logo,', 'waboot' ),
-            'desc' => __( 'Select header logo.', 'waboot' ),
-            'id' => 'header_splitted_logo',
-            'std'  => get_template_directory_uri()."/assets/images/default/waboot-color.png",
-            'type' => 'upload'
-            ],"header");
-
-        $orgzr->reset_group();
-        $orgzr->reset_section();
     }
 
 	/**
@@ -105,21 +96,27 @@ class Header_Splitted_Menu extends \Waboot\Component{
 	 * @return array|mixed
 	 */
     public function theme_options($options){
-        $options = parent::theme_options($options);
-        //Do stuff...
-        $options[] = array(
-            'name' => __( 'Sample Info Box', 'waboot' ),
-            'desc' => __( 'This is a sample infobox', 'waboot' ),
-            'type' => 'info'
-        );
-        $options[] = array(
-            'name' => __( 'Sample check box', 'waboot' ),
-            'desc' => __( 'This is a sample checkbox.', 'waboot' ),
-            'id'   => $this->name.'_sample_checkbox',
-            'std'  => '0', //not enabled by default
-            'type' => 'checkbox'
-        );
-        return $options;
+	    $options = parent::theme_options($options);
+	    $nav_menu_locations = get_nav_menu_locations();
+	    $theme_locations = [];
+	    foreach ( $nav_menu_locations as $nav_menu_location_key=>$nav_menu_location_value ) {
+		    $theme_locations[$nav_menu_location_key] = $nav_menu_location_key;
+	    }
+
+	    $options[] = array(
+		    'name' => __( 'Splitted Menu Options and Settings', 'waboot' ),
+		    'desc' => __( 'Select Menu Location', 'waboot' ),
+		    'type' => 'info'
+	    );
+	    $options[] = array(
+		    'name' => __( 'Splitted Menu', 'waboot' ),
+		    'desc' => __( 'Select the position of the menu where you want to apply the margin (write the number or "middle" ), by default is the middle one. ', 'waboot' ),
+		    'id'   => $this->name.'_item_select',
+		    'std'  => 'middle', //not enabled by default
+		    'type' => 'text'
+	    );
+
+	    return $options;
     }
 
     public function onActivate(){

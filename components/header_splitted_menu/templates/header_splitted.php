@@ -69,17 +69,3 @@
         <!-- End Header splitted -->
     </div>
 </div><!-- #header-wrapper -->
-
-
-<div class="row">
-    <div class="col-sm-6">
-        <div class="well">
-            ciao
-        </div>
-    </div>
-    <div class="col-sm-6">
-        <div class="well">
-            ciao
-        </div>
-    </div>
-</div>
