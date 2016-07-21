@@ -40,13 +40,19 @@ function waboot_init(){
 	$wb->layout->create_zone("header",false,["always_load"=>true]);
 	$wb->layout->create_zone("main-top",new \WBF\components\mvc\HTMLView("templates/main-top.php"));
 	$wb->layout->create_zone("aside-primary",new \WBF\components\mvc\HTMLView("templates/aside.php"),["can_render_callback" => function(){
-		//todo: far si che torni true solo se abbiamo due sidebar o la sidebar left come layout
-		return true;
+		$body_layout = \Waboot\functions\get_body_layout();
+		if($body_layout == \Waboot\Layout::LAYOUT_PRIMARY_LEFT || \Waboot\functions\body_layout_has_two_sidebars()){
+			return true;
+		}
+		return false;
 	}]);
 	$wb->layout->create_zone("content",new \WBF\components\mvc\HTMLView("templates/content.php"),["always_load"=>true]);
 	$wb->layout->create_zone("aside-secondary",new \WBF\components\mvc\HTMLView("templates/aside.php"),["can_render_callback" => function(){
-		//todo: far si che torni true solo se abbiamo due sidebar o la sidebar right come layout
-		return true;
+		$body_layout = \Waboot\functions\get_body_layout();
+		if($body_layout == \Waboot\Layout::LAYOUT_PRIMARY_RIGHT || \Waboot\functions\body_layout_has_two_sidebars()){
+			return true;
+		}
+		return false;
 	}]);
 	$wb->layout->create_zone("main-bottom",new \WBF\components\mvc\HTMLView("templates/main-bottom.php"));
 	$wb->layout->create_zone("footer",false,["always_load"=>true]);
