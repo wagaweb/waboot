@@ -43,6 +43,7 @@ class Header_Splitted_Menu extends \Waboot\Component{
         wp_register_script('component-header_splitted_menu', $this->directory_uri . '/assets/dist/js/headerSplittedMenu.js', ['jquery'], false, true);
 
 	    $position = \Waboot\functions\get_option($this->name.'_item_select');
+	    $margin = \Waboot\functions\get_option($this->name.'_margin_select');
 	    $theme_locations = get_nav_menu_locations();
 	    $menu_obj = get_term( $theme_locations['main']);
 
@@ -53,7 +54,8 @@ class Header_Splitted_Menu extends \Waboot\Component{
 
 
         wp_localize_script('component-header_splitted_menu', 'wabootHeaderSplitted', array(
-            'count' => $count
+            'count' => $count,
+	        'margin' => $margin
         ) );
         wp_enqueue_script('component-header_splitted_menu');
     }
@@ -104,15 +106,22 @@ class Header_Splitted_Menu extends \Waboot\Component{
 	    }
 
 	    $options[] = array(
-		    'name' => __( 'Splitted Menu Options and Settings', 'waboot' ),
-		    'desc' => __( 'Select Menu Location', 'waboot' ),
+		    'name' => __( 'Splitted Menu Settings', 'waboot' ),
+		    'desc' => __( '', 'waboot' ),
 		    'type' => 'info'
 	    );
 	    $options[] = array(
-		    'name' => __( 'Splitted Menu', 'waboot' ),
-		    'desc' => __( 'Select the position of the menu where you want to apply the margin (write the number or "middle" ), by default is the middle one. ', 'waboot' ),
+		    'name' => __( 'Splitted Menu Position', 'waboot' ),
+		    'desc' => __( 'Select the item of the menu at which you want to apply the margin. By default is "middle" but you can insert any number. ', 'waboot' ),
 		    'id'   => $this->name.'_item_select',
-		    'std'  => 'middle', //not enabled by default
+		    'std'  => 'middle',
+		    'type' => 'text'
+	    );
+	    $options[] = array(
+		    'name' => __( 'Additional Margin', 'waboot' ),
+		    'desc' => __( 'An additional margin to increase spacing between logo and menu items. This number is applied to both sides of the logo, therefore consider it will be doubled', 'waboot' ),
+		    'id'   => $this->name.'_margin_select',
+		    'std'  => '0',
 		    'type' => 'text'
 	    );
 

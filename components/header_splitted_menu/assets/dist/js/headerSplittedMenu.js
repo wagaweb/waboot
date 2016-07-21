@@ -6,13 +6,21 @@ jQuery(document).ready(function($){
         centerLogo()
     });
     function centerLogo() {
-        var width = $('#logo a img').width(),
-            height = $('#logo').outerHeight(),
+        var logo = $('#logo'),
+            width = logo.find('a img').width(),
+            additionalMargin = parseInt(wabootHeaderSplitted.margin) * 2,
+            height = logo.outerHeight(),
             paddingNav = (height-50)/2,
-            selector = "ul li:nth-child("+wabootHeaderSplitted.count+")";
+            selector = "ul.navbar-nav.nav li:nth-child("+ wabootHeaderSplitted.count + ")",
+            topnavWrapperHeight = $('#topnav-wrapper').height();
 
-        $( '#logo' ).css('margin-left', (width/2)*-1);
-        $( selector ).css('margin-right', width);
+        logo.css('margin-left', (width/2)*-1);
+
+        // add top nav height, if any
+        if (topnavWrapperHeight > 1) {
+            logo.css('margin-top', topnavWrapperHeight);
+        }
+        $( selector ).css('margin-right', (width+additionalMargin));
         var paddingStyle = {
             'padding-top' : paddingNav+'px',
             'padding-bottom': paddingNav+'px'
