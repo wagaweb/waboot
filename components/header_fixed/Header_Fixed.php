@@ -32,6 +32,27 @@ class Header_Fixed extends \Waboot\Component{
 	 */
     public function scripts(){
         wp_register_script('component-header_fixed', $this->directory_uri . '/assets/dist/js/headerFixed.js', ['jquery'], false, true);
+
+	    $fixed_class = \Waboot\functions\get_option($this->name.'_fixed_class');
+	    $fixed_on_start = \Waboot\functions\get_option($this->name.'_fixed_on_start');
+	    $color_before = \Waboot\functions\get_option($this->name.'_color_before');
+	    $padding_before = \Waboot\functions\get_option($this->name.'_padding_before');
+	    $color_after = \Waboot\functions\get_option($this->name.'_color_after');
+	    $padding_after = \Waboot\functions\get_option($this->name.'_padding_after');
+	    $scroll_enter = \Waboot\functions\get_option($this->name.'_scroll_enter');
+	    $enter_after = \Waboot\functions\get_option($this->name.'_enter_after');
+
+
+	    wp_localize_script('component-header_fixed', 'wbHeaderFixed', array(
+		    'fixed_class' => $fixed_class,
+		    'fixed_on_start' => $fixed_on_start,
+		    'color_before' => $color_before,
+		    'padding_before' => $padding_before,
+		    'color_after' => $color_after,
+		    'padding_after' => $padding_after,
+		    'scroll_enter' => $scroll_enter,
+		    'enter_after' => $enter_after
+	    ) );
         wp_enqueue_script('component-header_fixed');
     }
 
@@ -41,6 +62,7 @@ class Header_Fixed extends \Waboot\Component{
 	 * Register component styles (called automatically)
 	 */
     public function styles(){
+
         wp_enqueue_style('component-header_fixed-style', $this->directory_uri . '/assets/dist/css/headerFixed.css');
     }
 
@@ -81,7 +103,69 @@ class Header_Fixed extends \Waboot\Component{
 	 */
     public function theme_options($options){
 	    $options = parent::theme_options($options);
-	    //Do stuff...
+
+	    $options[] = array(
+		    'name' => __( 'Fixed Menu Settings', 'waboot' ),
+		    'desc' => __( 'Customize your fixed header', 'waboot' ),
+		    'type' => 'info'
+	    );
+	    $options[] = array(
+		    'name' => __( 'Class to fix', 'waboot' ),
+		    'desc' => __( 'Select the class you want to fix. ', 'waboot' ),
+		    'id'   => $this->name.'_fixed_class',
+		    'std'  => 'header#masthead',
+		    'type' => 'text'
+	    );
+	    $options[] = array(
+		    'name' => __( 'Fixed Start', 'waboot' ),
+		    'desc' => __( 'check if you want the class to be fixed from the beginning', 'waboot' ),
+		    'id'   => $this->name.'_fixed_on_start',
+		    'std'  => '0',
+		    'type' => 'checkbox'
+	    );
+	    $options[] = array(
+		    'name' => __( 'Style Before - Color', 'waboot' ),
+		    'desc' => __( ' ', 'waboot' ),
+		    'id'   => $this->name.'_color_before',
+		    'std'  => '#fefefe',
+		    'type' => 'color'
+	    );
+	    $options[] = array(
+		    'name' => __( 'Style Before - Padding', 'waboot' ),
+		    'desc' => __( ' ', 'waboot' ),
+		    'id'   => $this->name.'_padding_before',
+		    'std'  => '50',
+		    'type' => 'text'
+	    );
+	    $options[] = array(
+		    'name' => __( 'Style After - Color', 'waboot' ),
+		    'desc' => __( ' ', 'waboot' ),
+		    'id'   => $this->name.'_color_after',
+		    'std'  => '#fefefe',
+		    'type' => 'color'
+	    );
+	    $options[] = array(
+		    'name' => __( 'Style After - Padding', 'waboot' ),
+		    'desc' => __( ' ', 'waboot' ),
+		    'id'   => $this->name.'_padding_after',
+		    'std'  => '50',
+		    'type' => 'text'
+	    );
+	    $options[] = array(
+		    'name' => __( 'Enter on Scroll Up', 'waboot' ),
+		    'desc' => __( 'check if you want the header to appear when scrolling the page up', 'waboot' ),
+		    'id'   => $this->name.'_scroll_enter',
+		    'std'  => '0',
+		    'type' => 'checkbox'
+	    );
+	    $options[] = array(
+		    'name' => __( 'Enter After', 'waboot' ),
+		    'desc' => __( 'the header enter after the specified number of pixels, if Enter on scroll Up is not checked', 'waboot' ),
+		    'id'   => $this->name.'_enter_after',
+		    'std'  => '50',
+		    'type' => 'text'
+	    );
+
 	    return $options;
     }
 

@@ -1,0 +1,5 @@
+.fixed_header_component {
+    position: fixed;
+    z-index: 1;
+    width: 100%;
+}
