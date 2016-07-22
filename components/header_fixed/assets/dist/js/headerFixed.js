@@ -11,8 +11,15 @@ jQuery(document).ready(function($){
         'padding-bottom': wbHeaderFixed.padding_before+'px',
         'background-color': wbHeaderFixed.color_before
     };
-    createClassStyleBefore();
-    createClassStyleAfter();
+
+    var styleAfter = {
+        'padding-top' : wbHeaderFixed.padding_after+'px',
+        'padding-bottom': wbHeaderFixed.padding_after+'px',
+        'background-color': wbHeaderFixed.color_after
+    };
+
+    // createClassStyleBefore();
+    // createClassStyleAfter();
     // if we want a fixed header from the beginning
     if (fixedOnStart) {
         // add the class fixed_header_component and the padding before
@@ -27,50 +34,11 @@ jQuery(document).ready(function($){
     });
 
     function manageHeader(scroll) {
-        var paddingBefore = wbHeaderFixed.padding_before,
-            paddingAfter = wbHeaderFixed.padding_after;
-        var styleAfter = {
-            'padding-top' : wbHeaderFixed.padding_after+'px',
-            'padding-bottom': wbHeaderFixed.padding_after+'px',
-            'background-color': wbHeaderFixed.color_after
-        };
-
         if (scroll > afterScroll) {
-            console.log('maggiore');
-            fixedHeader.animate({
-                'padding-top': paddingAfter
-            });
+            fixedHeader.stop().animate(styleAfter, 250);
         } else {
-            console.log('minore');
-            fixedHeader.animate({
-                'padding-top': paddingBefore
-            });
+            fixedHeader.stop().animate(styleBefore, 250);
         }
-
-
-    }
-
-    function createClassStyleBefore() {
-        var styleBefore = document.createElement('style');
-        style.type = 'text/css';
-        style.innerHTML = '.style_before { ' +
-            'padding-top : ' + wbHeaderFixed.padding_before + 'px;' +
-            'padding-bottom: ' + wbHeaderFixed.padding_before + 'px;' +
-            'background-color: ' + wbHeaderFixed.color_before + ';'
-        document.getElementsByTagName('head')[0].appendChild(styleBefore);
-
-        $(fixedHeader).addClass('cssClass');
-    }
-    function createClassStyleAfter() {
-        var styleAfter = document.createElement('style');
-        style.type = 'text/css';
-        style.innerHTML = '.style_after { ' +
-            'padding-top : ' + wbHeaderFixed.padding_after + 'px;' +
-            'padding-bottom: ' + wbHeaderFixed.padding_after + 'px;' +
-            'background-color: ' + wbHeaderFixed.color_after + ';'
-        document.getElementsByTagName('head')[0].appendChild(styleBefore);
-
-        $(fixedHeader).addClass('cssClass');
     }
 });
 
