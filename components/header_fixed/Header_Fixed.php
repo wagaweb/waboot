@@ -34,24 +34,22 @@ class Header_Fixed extends \Waboot\Component{
         wp_register_script('component-header_fixed', $this->directory_uri . '/assets/dist/js/headerFixed.js', ['jquery'], false, true);
 
 	    $fixed_class = \Waboot\functions\get_option($this->name.'_fixed_class');
-	    $fixed_on_start = \Waboot\functions\get_option($this->name.'_fixed_on_start');
+	    $mode = \Waboot\functions\get_option($this->name.'_mode');
 	    $color_before = \Waboot\functions\get_option($this->name.'_color_before');
 	    $padding_before = \Waboot\functions\get_option($this->name.'_padding_before');
 	    $color_after = \Waboot\functions\get_option($this->name.'_color_after');
 	    $padding_after = \Waboot\functions\get_option($this->name.'_padding_after');
-	    $scroll_enter = \Waboot\functions\get_option($this->name.'_scroll_enter');
-	    $enter_after = \Waboot\functions\get_option($this->name.'_enter_after');
+	    $breakpoint = \Waboot\functions\get_option($this->name.'_breakpoint');
 
 
 	    wp_localize_script('component-header_fixed', 'wbHeaderFixed', array(
 		    'fixed_class' => $fixed_class,
-		    'fixed_on_start' => $fixed_on_start,
+		    'modality' => $mode,
 		    'color_before' => $color_before,
 		    'padding_before' => $padding_before,
 		    'color_after' => $color_after,
 		    'padding_after' => $padding_after,
-		    'scroll_enter' => $scroll_enter,
-		    'enter_after' => $enter_after
+		    'breakpoint' => $breakpoint
 	    ) );
         wp_enqueue_script('component-header_fixed');
     }
@@ -117,11 +115,16 @@ class Header_Fixed extends \Waboot\Component{
 		    'type' => 'text'
 	    );
 	    $options[] = array(
-		    'name' => __( 'Fixed Start', 'waboot' ),
-		    'desc' => __( 'check if you want the class to be fixed from the beginning', 'waboot' ),
-		    'id'   => $this->name.'_fixed_on_start',
+		    'name' => __( 'Mode', 'waboot' ),
+		    'desc' => __( 'Choose if you want the class to be fixed from the beginning, after a breakpoint or on scroll up', 'waboot' ),
+		    'id'   => $this->name.'_mode',
 		    'std'  => '0',
-		    'type' => 'checkbox'
+		    'type' => 'select',
+		    'options' => [
+		    	'beginning' => __("From the Beginning","waboot"),
+			    'breakpoint' => __("After Breakpoint","waboot"),
+			    'scrollUp' => __("On Scroll Up","waboot")
+		    ]
 	    );
 	    $options[] = array(
 		    'name' => __( 'Style Before - Color', 'waboot' ),
@@ -152,16 +155,9 @@ class Header_Fixed extends \Waboot\Component{
 		    'type' => 'text'
 	    );
 	    $options[] = array(
-		    'name' => __( 'Enter on Scroll Up', 'waboot' ),
-		    'desc' => __( 'check if you want the header to appear when scrolling the page up', 'waboot' ),
-		    'id'   => $this->name.'_scroll_enter',
-		    'std'  => '0',
-		    'type' => 'checkbox'
-	    );
-	    $options[] = array(
-		    'name' => __( 'Enter After', 'waboot' ),
+		    'name' => __( 'Breakpoint', 'waboot' ),
 		    'desc' => __( 'the header enter after the specified number of pixels, if Enter on scroll Up is not checked', 'waboot' ),
-		    'id'   => $this->name.'_enter_after',
+		    'id'   => $this->name.'_breakpoint',
 		    'std'  => '50',
 		    'type' => 'text'
 	    );
