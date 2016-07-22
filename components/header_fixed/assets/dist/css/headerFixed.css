@@ -1,4 +1,4 @@
-.fixed_header_component {
+.fixed-header-component {
     position: fixed;
     z-index: 1;
     width: 100%;
@@ -7,6 +7,7 @@
     -o-transition: all .4s ease-in-out;
     transition: all .4s ease-in-out;
 }
+
 .fixed_after_start {
     top:0;
 }
