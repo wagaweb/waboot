@@ -13,6 +13,7 @@ module.exports = Backbone.Model.extend({
         $('input[type=select]').addClass('form-control');
         $('input[type=email]').addClass('form-control');
         $('input[type=tel]').addClass('form-control');
+        $('input[type=password]').addClass('form-control');
         $('textarea').addClass('form-control');
         $('select').addClass('form-control');
         $('input[type=submit]').addClass('btn btn-primary');
