@@ -2,6 +2,8 @@ jQuery(document).ready(function($){
 
 
     var fixedHeader = $(wbHeaderFixed.fixed_class),
+        mainWrapper = $('#main-wrapper'),
+        headerHeight = fixedHeader.outerHeight(),
         mode = wbHeaderFixed.modality,
         breakpoint = wbHeaderFixed.breakpoint;
 
@@ -17,6 +19,10 @@ jQuery(document).ready(function($){
         'background-color': wbHeaderFixed.color_after
     };
 
+
+    fixedHeader.css(styleBefore).addClass('fixed-header-component');
+    mainWrapper.css('padding-top', fixedHeader.outerHeight() );
+
     $( window ).scroll(function() {
         console.log($(document).scrollTop());
     });
@@ -24,8 +30,7 @@ jQuery(document).ready(function($){
     switch(mode) {
 
         case 'beginning':
-
-            fixedHeader.addClass('fixed-header-component');
+            fixedHeader.addClass('transition-all');
             enterFixed();
             // now we can change the css checking if the position of the window is before or after the breakpoint specified by the user
             $( window ).scroll(function() {
@@ -39,26 +44,25 @@ jQuery(document).ready(function($){
 
             // da dove partiamo
             var initialScroll = $(document).scrollTop(),
-                headerHeight = fixedHeader.outerHeight(),
+                newHeaderHeight = fixedHeader.outerHeight(),
                 sensitiveness = 15; // voglio filtrare per i movimenti decisi
+            fixedHeader.addClass('transition-all');
             $( window ).scroll(function() {
-                enterScrollUp(headerHeight, sensitiveness);
+                enterScrollUp(newHeaderHeight, sensitiveness);
             });
 
             break;
 
 
         case 'breakpoint':
-
-            // First apply the correct padding and background
-            fixedHeader.css(styleBefore).addClass('margin-top-animation');
-            // at the document ready apply the correct class
-            enterAfter();
-
+            var newHeaderHeight = fixedHeader.outerHeight();
+            fixedHeader.addClass('margin-top-animation');
             // then update the classes on window scroll
             $( window ).scroll(function() {
-                enterAfter();
+                enterAfter(newHeaderHeight);
             });
+
+            break;
     }
 
 
@@ -70,22 +74,16 @@ jQuery(document).ready(function($){
                 // fixedHeader.removeClass('fixed-header-component');
                 fixedHeader.css('margin-top', headerHeight * -1);
             } else if (delta < 0) { // altrimenti stiamo andando su
-                fixedHeader.addClass('fixed-header-component').css('margin-top', 0);
+                fixedHeader.css('margin-top', 0).css(styleAfter);
             }
         }
         // anyhow just reset margin and class if we are at the top
-        if (currentScroll<=headerHeight) {
+        if (currentScroll < breakpoint && currentScroll <= newHeaderHeight) {
             fixedHeader.css({
-                'margin-top': currentScroll,
-                'z-index': 2,
-                'position': 'relative'
-            }).removeClass('fixed-header-component');
-            $('#main-wrapper').css({
-                'margin-top': $(this).scrollTop() * -1,
-                'z-index': 1
-            });
+                'top': scroll * -1 + 32,
+                'margin-top': 0
+            }).css(styleBefore);
         }
-
         initialScroll = currentScroll; // a ogni scroll dobbiamo aggiornare la posizione iniziale attualizzandola con la posizione corrente
     }
 
@@ -100,18 +98,22 @@ jQuery(document).ready(function($){
     }
 
 
-    function enterAfter() {
-        var scroll = $(document).scrollTop(),
-            headerHeight = fixedHeader.outerHeight();
+    function enterAfter(newHeaderHeight) {
+        var scroll = $(document).scrollTop();
 
-        if (scroll < breakpoint && scroll <= headerHeight) {
-            fixedHeader.removeClass('fixed-header-component');
-            fixedHeader.css('margin-top', 0).css(styleBefore);
-        } else if (scroll < breakpoint && scroll > headerHeight) {
-            // fixedHeader.removeClass('fixed-header-component');
-            fixedHeader.css('margin-top', headerHeight*-1);
+        if (scroll < breakpoint && scroll <= newHeaderHeight) {
+            fixedHeader.css({
+                    'top': scroll*-1 + 32,
+                    'margin-top': 0
+            }).css(styleBefore);
+        } else if (scroll < breakpoint && scroll > newHeaderHeight) {
+            fixedHeader.css({
+                'top': scroll*-1 + 32,
+                'margin-top': newHeaderHeight*-1
+            });
         } else {
-            fixedHeader.addClass('fixed-header-component').css('margin-top', 0).css(styleAfter);
+            fixedHeader.css('margin-top', 0).css('top', '32px').css(styleAfter);
         }
     }
+    //
 });

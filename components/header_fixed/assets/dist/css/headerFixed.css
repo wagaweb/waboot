@@ -2,17 +2,19 @@
     position: fixed;
     z-index: 1;
     width: 100%;
-    -webkit-transition: all .4s ease-in-out;
-    -moz-transition: all .4s ease-in-out;
-    -o-transition: all .4s ease-in-out;
-    transition: all .4s ease-in-out;
 }
 .margin-top-animation {
-    -webkit-transition: margin-top .4s ease-in-out;
-    -moz-transition: margin-top .4s ease-in-out;
-    -o-transition: margin-top .4s ease-in-out;
-    transition: margin-top .4s ease-in-out;
+    -webkit-transition: margin-top .3s ease-in-out;
+    -moz-transition: margin-top .3s ease-in-out;
+    -o-transition: margin-top .3s ease-in-out;
+    transition: margin-top .3s ease-in-out;
 }
 .fixed_after_start {
     top:0;
+}
+.transition-all {
+    -webkit-transition: all .25s ease-in-out;
+    -moz-transition: all .25s ease-in-out;
+    -o-transition: all .25s ease-in-out;
+    transition: all .25s ease-in-out;
 }
