@@ -17,11 +17,10 @@ jQuery(document).ready(function($){
         'background-color': wbHeaderFixed.color_after
     };
 
+    $( window ).scroll(function() {
+        console.log($(document).scrollTop());
+    });
 
-    /**
-     * first case
-     * we have a fixed header form the beginning
-     */
     switch(mode) {
 
         case 'beginning':
@@ -36,17 +35,17 @@ jQuery(document).ready(function($){
             break;
 
 
-
         case 'scrollUp':
 
             // da dove partiamo
-            var initialScroll = $(document).scrollTop();
+            var initialScroll = $(document).scrollTop(),
+                headerHeight = fixedHeader.outerHeight(),
+                sensitiveness = 15; // voglio filtrare per i movimenti decisi
             $( window ).scroll(function() {
-                enterScrollUp();
+                enterScrollUp(headerHeight, sensitiveness);
             });
 
             break;
-
 
 
         case 'breakpoint':
@@ -60,17 +59,11 @@ jQuery(document).ready(function($){
             $( window ).scroll(function() {
                 enterAfter();
             });
-
     }
 
-    
-    
 
-
-    function enterScrollUp() {
+    function enterScrollUp(headerHeight, sensitiveness) {
         var currentScroll = $(this).scrollTop(), // lo scroll attuale
-            headerHeight = fixedHeader.outerHeight(),
-            sensitiveness = 15, // voglio filtrare per i movimenti decisi
             delta = currentScroll - initialScroll; // la differenza fra lo scroll attuale e il punto di partenza
         if (Math.abs(delta) > sensitiveness) {
             if (delta > 0) { // se il delta è maggiore di 0 stiamo andando giù
@@ -82,11 +75,20 @@ jQuery(document).ready(function($){
         }
         // anyhow just reset margin and class if we are at the top
         if (currentScroll<=headerHeight) {
-            fixedHeader.css('margin-top', $(this).scrollTop()).removeClass('fixed-header-component');
+            fixedHeader.css({
+                'margin-top': currentScroll,
+                'z-index': 2,
+                'position': 'relative'
+            }).removeClass('fixed-header-component');
+            $('#main-wrapper').css({
+                'margin-top': $(this).scrollTop() * -1,
+                'z-index': 1
+            });
         }
-        initialScroll = currentScroll; // a ogni scroll dobbiamo aggiornare la posizione iniziale attualizzandola con la posizione corrente
 
+        initialScroll = currentScroll; // a ogni scroll dobbiamo aggiornare la posizione iniziale attualizzandola con la posizione corrente
     }
+
 
     function enterFixed() {
         var scroll = $(document).scrollTop();
@@ -97,30 +99,19 @@ jQuery(document).ready(function($){
         }
     }
 
+
     function enterAfter() {
         var scroll = $(document).scrollTop(),
             headerHeight = fixedHeader.outerHeight();
-            console.log(scroll);
+
         if (scroll < breakpoint && scroll <= headerHeight) {
             fixedHeader.removeClass('fixed-header-component');
             fixedHeader.css('margin-top', 0).css(styleBefore);
-            $('.main-wrapper').css('padding-top', 0);
-
-
-
         } else if (scroll < breakpoint && scroll > headerHeight) {
             // fixedHeader.removeClass('fixed-header-component');
-
             fixedHeader.css('margin-top', headerHeight*-1);
-            $('.main-wrapper').css('padding-top', headerHeight);
-
-            setTimeout(function(){
-                fixedHeader.addClass('fixed-header-component');
-            }, 400);
-
-
         } else {
-            fixedHeader.addClass('fixed-header-component').css('margin-top', 0);
+            fixedHeader.addClass('fixed-header-component').css('margin-top', 0).css(styleAfter);
         }
     }
 });
