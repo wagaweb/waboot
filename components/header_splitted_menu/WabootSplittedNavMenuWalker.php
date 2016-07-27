@@ -5,12 +5,13 @@ class WabootSplittedNavMenuWalker extends BootstrapNavMenuWalker{
 	private $count = 0;
 	private $classes;
 	private $split_position;
+	private $menu_name;
 
 	function __construct($menu_position, $classes) {
 
-		$e = wp_get_nav_menus($menu_position);
-		$ee= $e[0]->name;
-		$n = wp_get_nav_menu_items($ee);
+		$menu = wp_get_nav_menus($menu_position);
+		$this->menu_name = $menu[0]->name;
+		$n = wp_get_nav_menu_items($this->menu_name);
 		$this->split_position = floor(count($n)/2);
 		$this->classes = $classes;
 	}
@@ -100,7 +101,7 @@ class WabootSplittedNavMenuWalker extends BootstrapNavMenuWalker{
 		if ($this->count == $this->split_position+1) {
 
 			$this->end_lvl( $output, $depth = 0, $args = array() );
-			$output .= '<ul id='.$id.' class="'.$this->classes.'">';
+			$output .= '<ul id=menu-'.$this->menu_name.'-right class="'.$this->classes.'">';
 		}
 		$indent = ( $depth ) ? str_repeat( "\t", $depth ) : '';
 
