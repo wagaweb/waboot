@@ -13,7 +13,10 @@ jQuery(document).ready(function($){
             additionalMargin = parseInt(wabootHeaderSplitted.margin) * 2,
             height = logo.outerHeight(),
             paddingNav = (height-50)/2,
-            nav = "ul.navbar-nav.nav",
+            nav = $("ul.navbar-nav.nav"),
+            navLeft = $('.main-navigation .navbar-nav.splitted:eq(0)'),
+            navRight = $('.main-navigation .navbar-nav.splitted:eq(1)'),
+            deltaWidth = navLeft.width() - navRight.width(),
             topnavWrapperHeight = $('#topnav-wrapper').height();
 
         logo.css('margin-left', (width/2)*-1);
@@ -27,8 +30,17 @@ jQuery(document).ready(function($){
             'padding-top' : paddingNav+'px',
             'padding-bottom': paddingNav+'px'
         };
-        $(nav).css(paddingStyle);
-        $('.main-navigation .navbar-nav.splitted:eq(0)').css('padding-right', width/2+additionalMargin);
-        $('.main-navigation .navbar-nav.splitted:eq(1)').css('padding-left', width/2+additionalMargin);
+        nav.css(paddingStyle);
+        navLeft.css('padding-right', width/2+additionalMargin);
+        navRight.css('padding-left', width/2+additionalMargin);
+
+        if (Math.abs(deltaWidth)> 0) {
+            if (navLeft.width() > navRight.width()){
+                navLeft.css('margin-left', deltaWidth*-1);
+            } else {
+                navRight.css('margin-right', deltaWidth);
+            }
+
+        }
     }
 });
