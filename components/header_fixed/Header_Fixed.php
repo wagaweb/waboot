@@ -130,8 +130,8 @@ class Header_Fixed extends \Waboot\Component{
 		    'name' => __( 'Style Before - Color', 'waboot' ),
 		    'desc' => __( ' ', 'waboot' ),
 		    'id'   => $this->name.'_color_before',
-		    'std'  => '#fefefe',
-		    'type' => 'color'
+		    'std'  => '',
+		    'type' => 'advanced_color'
 	    );
 	    $options[] = array(
 		    'name' => __( 'Style Before - Padding', 'waboot' ),
@@ -144,8 +144,8 @@ class Header_Fixed extends \Waboot\Component{
 		    'name' => __( 'Style After - Color', 'waboot' ),
 		    'desc' => __( ' ', 'waboot' ),
 		    'id'   => $this->name.'_color_after',
-		    'std'  => '#fefefe',
-		    'type' => 'color'
+		    'std'  => '',
+		    'type' => 'advanced_color'
 	    );
 	    $options[] = array(
 		    'name' => __( 'Style After - Padding', 'waboot' ),

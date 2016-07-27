@@ -2,10 +2,9 @@ jQuery(document).ready(function($){
 
 
     var fixedHeader = $(wbHeaderFixed.fixed_class),
-        mainWrapper = $('#main-wrapper'),
-        headerHeight = fixedHeader.outerHeight(),
         mode = wbHeaderFixed.modality,
-        breakpoint = wbHeaderFixed.breakpoint;
+        breakpoint = wbHeaderFixed.breakpoint,
+        isSelector = isNaN(breakpoint);
 
     var styleBefore = {
         'padding-top' : wbHeaderFixed.padding_before+'px',
@@ -19,13 +18,12 @@ jQuery(document).ready(function($){
         'background-color': wbHeaderFixed.color_after
     };
 
+    if (isSelector) {
+        var position = $(breakpoint).position();
+        breakpoint = position['top'];
+    }
 
     fixedHeader.css(styleBefore).addClass('fixed-header-component');
-    mainWrapper.css('padding-top', fixedHeader.outerHeight() );
-
-    $( window ).scroll(function() {
-        console.log($(document).scrollTop());
-    });
 
     switch(mode) {
 
@@ -56,7 +54,8 @@ jQuery(document).ready(function($){
 
         case 'breakpoint':
             var newHeaderHeight = fixedHeader.outerHeight();
-            fixedHeader.addClass('margin-top-animation');
+            fixedHeader.addClass('top-animation');
+            enterAfter(newHeaderHeight);
             // then update the classes on window scroll
             $( window ).scroll(function() {
                 enterAfter(newHeaderHeight);
@@ -102,17 +101,20 @@ jQuery(document).ready(function($){
         var scroll = $(document).scrollTop();
 
         if (scroll < breakpoint && scroll <= newHeaderHeight) {
-            fixedHeader.css({
+            fixedHeader.stop().css({
                     'top': scroll*-1 + 32,
                     'margin-top': 0
             }).css(styleBefore);
         } else if (scroll < breakpoint && scroll > newHeaderHeight) {
-            fixedHeader.css({
-                'top': scroll*-1 + 32,
-                'margin-top': newHeaderHeight*-1
+            fixedHeader.stop().css({
+                'top': newHeaderHeight*-1,
+                'margin-top': 0
             });
         } else {
-            fixedHeader.css('margin-top', 0).css('top', '32px').css(styleAfter);
+            fixedHeader.stop().css({
+                'margin-top': 0,
+                'top': '32px'
+            }).css(styleAfter);
         }
     }
     //
