@@ -68,14 +68,14 @@ jQuery(document).ready(function($){
         var currentScroll = $(this).scrollTop(), // lo scroll attuale
             delta = currentScroll - initialScroll, // la differenza fra lo scroll attuale e il punto di partenza
             newHeaderHeight = fixedHeader.outerHeight();
-        if (Math.abs(delta) > sensitiveness) {
-            if (delta > 0) { // se il delta è maggiore di 0 stiamo andando giù
-                // fixedHeader.removeClass('fixed-header-component');
-                fixedHeader.css('margin-top', newHeaderHeight * -1);
-            } else if (delta < 0) { // altrimenti stiamo andando su
-                fixedHeader.css('margin-top', 0).css(styleAfter);
-            }
+
+        if (delta > 0) { // se il delta è maggiore di 0 stiamo andando giù
+            // fixedHeader.removeClass('fixed-header-component');
+            fixedHeader.css('margin-top', newHeaderHeight * -1);
+        } else if (delta < 0 && Math.abs(delta) > sensitiveness) { // altrimenti stiamo andando su
+            fixedHeader.css('margin-top', 0).css(styleAfter);
         }
+
         // anyhow just reset margin and class if we are at the top
         if (currentScroll < breakpoint && currentScroll <= newHeaderHeight) {
             fixedHeader.css({
