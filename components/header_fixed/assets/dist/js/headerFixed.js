@@ -42,36 +42,36 @@ jQuery(document).ready(function($){
 
             // da dove partiamo
             var initialScroll = $(document).scrollTop(),
-                newHeaderHeight = fixedHeader.outerHeight(),
                 sensitiveness = 15; // voglio filtrare per i movimenti decisi
             fixedHeader.addClass('transition-all');
             $( window ).scroll(function() {
-                enterScrollUp(newHeaderHeight, sensitiveness);
+                enterScrollUp(sensitiveness);
             });
 
             break;
 
 
         case 'breakpoint':
-            var newHeaderHeight = fixedHeader.outerHeight();
+
             fixedHeader.addClass('top-animation');
-            enterAfter(newHeaderHeight);
+            enterAfter();
             // then update the classes on window scroll
             $( window ).scroll(function() {
-                enterAfter(newHeaderHeight);
+                enterAfter();
             });
 
             break;
     }
 
 
-    function enterScrollUp(headerHeight, sensitiveness) {
+    function enterScrollUp(sensitiveness) {
         var currentScroll = $(this).scrollTop(), // lo scroll attuale
-            delta = currentScroll - initialScroll; // la differenza fra lo scroll attuale e il punto di partenza
+            delta = currentScroll - initialScroll, // la differenza fra lo scroll attuale e il punto di partenza
+            newHeaderHeight = fixedHeader.outerHeight();
         if (Math.abs(delta) > sensitiveness) {
             if (delta > 0) { // se il delta è maggiore di 0 stiamo andando giù
                 // fixedHeader.removeClass('fixed-header-component');
-                fixedHeader.css('margin-top', headerHeight * -1);
+                fixedHeader.css('margin-top', newHeaderHeight * -1);
             } else if (delta < 0) { // altrimenti stiamo andando su
                 fixedHeader.css('margin-top', 0).css(styleAfter);
             }
@@ -79,7 +79,7 @@ jQuery(document).ready(function($){
         // anyhow just reset margin and class if we are at the top
         if (currentScroll < breakpoint && currentScroll <= newHeaderHeight) {
             fixedHeader.css({
-                'top': scroll * -1 + 32,
+                'top': scroll * -1,
                 'margin-top': 0
             }).css(styleBefore);
         }
@@ -97,12 +97,13 @@ jQuery(document).ready(function($){
     }
 
 
-    function enterAfter(newHeaderHeight) {
-        var scroll = $(document).scrollTop();
+    function enterAfter() {
+        var scroll = $(document).scrollTop(),
+            newHeaderHeight = fixedHeader.outerHeight();
 
         if (scroll < breakpoint && scroll <= newHeaderHeight) {
             fixedHeader.stop().css({
-                    'top': scroll*-1 + 32,
+                    'top': scroll*-1,
                     'margin-top': 0
             }).css(styleBefore);
         } else if (scroll < breakpoint && scroll > newHeaderHeight) {
@@ -113,7 +114,7 @@ jQuery(document).ready(function($){
         } else {
             fixedHeader.stop().css({
                 'margin-top': 0,
-                'top': '32px'
+                'top': 0
             }).css(styleAfter);
         }
     }
