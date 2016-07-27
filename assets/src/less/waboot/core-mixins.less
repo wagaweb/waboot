@@ -6,3 +6,63 @@
   -khtml-opacity: @opacity;
   opacity: @opacity;
 }
+
+table {
+  .table();
+}
+
+input[type='text'],
+input[type='select'],
+input[type='email'],
+input[type='tel'],
+input[type='password'],
+textarea,
+select {
+  &:extend(.form-control);
+}
+
+input[type=submit],
+button[type=submit] {
+  &:extend(.btn);
+  &:extend(.btn-primary);
+}
+
+
+
+
+.woocommerce a.button,
+.woocommerce table.cart td.actions input.button {
+  &:extend(.btn);
+}
+
+.woocommerce a.add_to_cart_button,
+.woocommerce .single_add_to_cart_button {
+  &:extend(.btn);
+  &:extend(.btn-success);
+}
+
+/*
+.woocommerce table.cart td.actions input.button {
+  &:extend(.btn-default);
+}
+*/
+
+.wc-proceed-to-checkout a {
+  &:extend(.btn);
+  &:extend(.btn-lg);
+  &:extend(.btn-primary);
+}
+
+.woocommerce table.cart {
+  &:extend(.table-striped);
+}
+
+.woocommerce-checkout .woocommerce-checkout-review-order-table {
+  &:extend(.table);
+}
+.woocommerce-checkout-payment input[type=submit] {
+  &:extend(.btn);
+  &:extend(.btn-lg);
+  &:extend(.btn-primary);
+}
+

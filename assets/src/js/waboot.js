@@ -1078,20 +1078,28 @@ module.exports = Backbone.Model.extend({
         /*
          * Bootstrapping html elements
          */
+        /*
         $('input[type=text]').addClass('form-control');
         $('input[type=select]').addClass('form-control');
         $('input[type=email]').addClass('form-control');
         $('input[type=tel]').addClass('form-control');
+        $('input[type=password]').addClass('form-control');
         $('textarea').addClass('form-control');
         $('select').addClass('form-control');
         $('input[type=submit]').addClass('btn btn-primary');
         $('button[type=submit]').addClass('btn btn-primary');
+        */
+
+        // Tables
+        //$('table').addClass('table');
+
         // Gravity Form
         $('.gform_button').addClass('btn btn-primary btn-lg').removeClass('gform_button button');
         $('.validation_error').addClass('alert alert-danger').removeClass('validation_error');
         $('.gform_confirmation_wrapper').addClass('alert alert-success').removeClass('gform_confirmation_wrapper');
-        // Tables
-        $('table').addClass('table');
+
+
+
         /*
          * These will make any element that has data-wbShow\wbHide="<selector>" act has visibily toggle for <selector>
          */
@@ -1162,17 +1170,18 @@ module.exports = Backbone.Model.extend({
         /*
          * WOOCOMMERCE
          */
-        $('.woocommerce a.button').addClass('btn');
+        //$('.woocommerce a.button').addClass('btn');
         $('.woocommerce a.add_to_cart_button').removeClass('btn-primary');
         $('.woocommerce .single_add_to_cart_button').removeClass('btn-primary');
-        $('.woocommerce a.add_to_cart_button').addClass('btn-success');
-        $('.woocommerce .single_add_to_cart_button').addClass('btn-success');
+        //$('.woocommerce a.add_to_cart_button').addClass('btn-success');
+        //$('.woocommerce .single_add_to_cart_button').addClass('btn-success');
         $('.woocommerce a.button').removeClass('button');
-        $('.woocommerce table.cart').addClass('table-striped');
-        $('.woocommerce table.cart td.actions input.button').addClass('btn');
-        $('.woocommerce table.cart td.actions input.button').addClass('btn-default');
+        //$('.woocommerce table.cart').addClass('table-striped');
+        //$('.woocommerce table.cart td.actions input.button').addClass('btn');
+        //$('.woocommerce table.cart td.actions input.button').addClass('btn-default');
         $('.woocommerce table.cart td.actions input.button').removeClass('button');
-        $('.wc-proceed-to-checkout a').addClass('btn btn-lg btn-primary');
+        //$('.wc-proceed-to-checkout a').addClass('btn btn-lg btn-primary');
+
         //Enabling tab navigation
         /*$("[role=tablist] li a").each(function() {
          var self = this;
@@ -1184,10 +1193,12 @@ module.exports = Backbone.Model.extend({
         $(".nav-tabs li:first-child").addClass("active");
         $(".tab-content .tab-pane:first-child").addClass("active");
 
+        /*
         $( document.body ).on( 'updated_checkout', function(){
             $('.woocommerce-checkout .woocommerce-checkout-review-order-table').addClass('table');
             $('.woocommerce-checkout-payment input[type=submit]').addClass('btn btn-lg btn-primary');
         });
+        */
     }
 });
 
