@@ -1,6 +1,8 @@
 jQuery(document).ready(function($){
 
-    centerLogo();
+    $(window).load(function () {
+        centerLogo();
+    });
 
     $(window).resize(function() {
         centerLogo()
@@ -11,7 +13,7 @@ jQuery(document).ready(function($){
             additionalMargin = parseInt(wabootHeaderSplitted.margin) * 2,
             height = logo.outerHeight(),
             paddingNav = (height-50)/2,
-            selector = "ul.navbar-nav.nav li:nth-child("+ wabootHeaderSplitted.count + ")",
+            nav = "ul.navbar-nav.nav",
             topnavWrapperHeight = $('#topnav-wrapper').height();
 
         logo.css('margin-left', (width/2)*-1);
@@ -20,11 +22,13 @@ jQuery(document).ready(function($){
         if (topnavWrapperHeight > 1) {
             logo.css('margin-top', topnavWrapperHeight);
         }
-        $( selector ).css('margin-right', (width+additionalMargin));
+        //$( selector ).css('margin-right', (width+additionalMargin));
         var paddingStyle = {
             'padding-top' : paddingNav+'px',
             'padding-bottom': paddingNav+'px'
         };
-        $('.main-navigation .navbar-nav').css(paddingStyle);
+        $(nav).css(paddingStyle);
+        $('.main-navigation .navbar-nav.splitted:eq(0)').css('padding-right', width/2+additionalMargin);
+        $('.main-navigation .navbar-nav.splitted:eq(1)').css('padding-left', width/2+additionalMargin);
     }
 });

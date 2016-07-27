@@ -35,13 +35,12 @@
 
             <div class="collapse navbar-collapse navbar-main-collapse">
 
-
                 <?php wp_nav_menu([
                     'theme_location' => 'main',
                     'depth' => 0,
                     'container' => false,
-                    'menu_class' => apply_filters('waboot/navigation/main/class', 'navbar-nav nav'),
-                    'walker' => class_exists('WabootNavMenuWalker') ? new WabootNavMenuWalker() : "",
+                    'menu_class' => apply_filters('waboot/navigation/main/class', 'navbar-nav nav splitted'),
+                    'walker' => class_exists('WabootSplittedNavMenuWalker') ? new WabootSplittedNavMenuWalker('main','navbar-nav nav splitted') : "",
                     'fallback_cb' => 'waboot_nav_menu_fallback'
                 ]);
                 ?>

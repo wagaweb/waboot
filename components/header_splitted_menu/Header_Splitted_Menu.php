@@ -15,8 +15,8 @@ class Header_Splitted_Menu extends \Waboot\Component{
     public function setup(){
         parent::setup();
         //Do stuff...
+	    require_once 'WabootSplittedNavMenuWalker.php';
     }
-
 
 
     /**
