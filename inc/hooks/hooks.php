@@ -41,3 +41,21 @@ function add_credits($text){
 	return $text;
 }
 add_filter("admin_footer_text",__NAMESPACE__."\\add_credits");
+
+/**
+ * Sets the default components
+ *
+ * @param $default_components
+ *
+ * @return array
+ */
+function set_default_components($default_components){
+	$default_components = [
+		'header_classic',
+		'footer_classic',
+		'breadcrumb',
+		'topNavWrapper',
+	];
+	return $default_components;
+}
+add_filter("wbf/modules/components/defaults",__NAMESPACE__."\\set_default_components");
