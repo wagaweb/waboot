@@ -7,9 +7,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Waboot 0.15.4\n"
+"Project-Id-Version: Waboot 0.15.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-02 10:49+0200\n"
+"POT-Creation-Date: 2016-08-04 17:24+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -79,8 +79,8 @@ msgid ""
 "\"gallery\">%8$s</a>"
 msgstr ""
 
-#: image.php:34 image.php:80 inc/template-tags.php:345
-#: inc/template-tags.php:364
+#: image.php:34 image.php:80 inc/template-tags.php:360
+#: inc/template-tags.php:379
 msgid "Edit"
 msgstr ""
 
@@ -170,7 +170,7 @@ msgstr ""
 msgid "Enter a custom selector for colobox"
 msgstr ""
 
-#: components/cookielaw/cookielaw.php:63 inc/template-tags.php:734
+#: components/cookielaw/cookielaw.php:63 inc/template-tags.php:749
 msgid "Message"
 msgstr ""
 
@@ -1397,76 +1397,76 @@ msgstr ""
 msgid "2 Sidebars left"
 msgstr ""
 
-#: inc/template-tags.php:131
+#: inc/template-tags.php:138
 msgctxt "Previous post link"
 msgid "&laquo;"
 msgstr ""
 
-#: inc/template-tags.php:132
+#: inc/template-tags.php:139
 msgctxt "Next post link"
 msgid "&raquo;"
 msgstr ""
 
-#: inc/template-tags.php:156
+#: inc/template-tags.php:171
 msgid "Next page <span class=\"meta-nav\">&raquo;</span>"
 msgstr ""
 
-#: inc/template-tags.php:160
+#: inc/template-tags.php:175
 msgid "<span class=\"meta-nav\">&laquo;</span> Previous page"
 msgstr ""
 
-#: inc/template-tags.php:345
+#: inc/template-tags.php:360
 msgid "Pingback:"
 msgstr ""
 
-#: inc/template-tags.php:355
+#: inc/template-tags.php:370
 #, php-format
 msgid "%s <span class=\"says\">says:</span>"
 msgstr ""
 
-#: inc/template-tags.php:361
+#: inc/template-tags.php:376
 #, php-format
 msgctxt "1: date, 2: time"
 msgid "%1$s at %2$s"
 msgstr ""
 
-#: inc/template-tags.php:368
+#: inc/template-tags.php:383
 msgid "Your comment is awaiting moderation."
 msgstr ""
 
-#: inc/template-tags.php:403
+#: inc/template-tags.php:418
 msgid "You must specify a prefix when using waboot_do_sidebar."
 msgstr ""
 
-#: inc/template-tags.php:454
+#: inc/template-tags.php:469
 msgid "You must specify a prefix when using waboot_sidebar_class."
 msgstr ""
 
-#: inc/template-tags.php:714
+#: inc/template-tags.php:729
 msgid "Name"
 msgstr ""
 
-#: inc/template-tags.php:719
+#: inc/template-tags.php:734
 msgid "Surname"
 msgstr ""
 
-#: inc/template-tags.php:724
+#: inc/template-tags.php:739
 msgid "Phone"
 msgstr ""
 
-#: inc/template-tags.php:729
+#: inc/template-tags.php:744
 msgid "Email"
 msgstr ""
 
-#: inc/template-tags.php:742
+#: inc/template-tags.php:757
 msgid "By submitting this form you agree to our terms and our privacy policy."
 msgstr ""
 
-#: inc/template-tags.php:752
+#: inc/template-tags.php:767
 msgid "Send"
 msgstr ""
 
-#: inc/template-tags.php:949
+#: inc/template-tags.php:964
 msgid ""
 "You must specify the output you want - either \"link\" or \"post_content\"."
 msgstr ""
