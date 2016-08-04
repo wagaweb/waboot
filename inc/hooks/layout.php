@@ -1,5 +1,23 @@
 <?php
 
+if(!function_exists("waboot_display_breadcrumb")):
+	/**
+	 * Display breadcrumb
+	 */
+	function waboot_insert_breadcrumb(){
+		if (function_exists('is_woocommerce') && is_woocommerce()) { //@woocommerce hard-coded integration
+			woocommerce_breadcrumb([
+				'wrap_before'   => '<div class="breadcrumb-trail breadcrumbs" itemprop="breadcrumb"><div class="container">',
+				'wrap_after'   => '</div></div>',
+				'delimiter'  => '<span class="sep">&nbsp;&#47;&nbsp;</span>'
+			]);
+		}else {
+			waboot_breadcrumb(null, 'before_inner', ['wrapper_start' => '<div class="container">', 'wrapper_end' => '</div>']);
+		}
+	}
+	add_action("waboot_before_inner","waboot_display_breadcrumb",5);
+endif;	
+
 if ( ! function_exists( 'waboot_set_mainwrap_container_classes' ) ):
 	/**
 	 * Prepare the classes for mainwrap container

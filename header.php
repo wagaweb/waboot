@@ -89,18 +89,8 @@
 
         <div id="content-wrapper">
             <?php
-            if (function_exists('is_woocommerce') && is_woocommerce()) { //@woocommerce hard-coded integration
-                woocommerce_breadcrumb([
-                    'wrap_before'   => '<div class="breadcrumb-trail breadcrumbs" itemprop="breadcrumb"><div class="container">',
-                    'wrap_after'   => '</div></div>',
-                    'delimiter'  => '<span class="sep">&nbsp;&#47;&nbsp;</span>'
-                ]);
-            }else {
-                waboot_breadcrumb(null, 'before_inner', ['wrapper_start' => '<div class="container">', 'wrapper_end' => '</div>']);
-            }
-            ?>
-            <?php
 	            /**
+	             * @waboot_insert_breadcrumb()
 	             * @waboot_print_entry_title_before_inner()
 	             */
 	            do_action("waboot_before_inner");

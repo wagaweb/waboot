@@ -2,6 +2,11 @@
 
 Version 0.15.4 - 02/08/2016
 ---------------------------------
+- Tweak: Ora il breadcrumb viene hookato a "waboot_before_inner" e non è più hardcodato nell'header.
+- Tweak: Potenziata funzione waboot_content_nav; ora è possibile fornirle il nome da assegnare alla variabile di paginazione per creare paginazioni multiple.
+
+Version 0.15.4 - 02/08/2016
+---------------------------------
 - Fix: Migliorata la compatibilità con WooCommerce
 - Tweak: Ora la compatibilità tra le classi di WooCommerce e Bootstrap è implementata tramite mixin less.
 
