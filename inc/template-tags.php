@@ -99,9 +99,16 @@ endif;
 if(!function_exists('waboot_content_nav' )):
 	/**
 	 * Display navigation to next/previous pages when applicable
+	 * 
+	 * @param string $nav_id
+	 * @param bool $show_pagination
+	 * @param WP_Query|bool $query
+	 * @param int|bool $current_page
+	 * @param string $paged_var_name You can supply different paged var name for multiple pagination. The name must be previously registered with add_rewrite_tag()
+	 * 
 	 * @from Waboot
 	 */
-	function waboot_content_nav( $nav_id, $show_pagination = false, $query = false, $current_page = false ) {
+	function waboot_content_nav( $nav_id, $show_pagination = false, $query = false, $current_page = false, $paged_var_name = "paged" ) {
 		// Return early if theme options are set to hide nav
 		if ( 'nav-below' == $nav_id && ! of_get_option( 'waboot_content_nav_below', 1 ) || 'nav-above' == $nav_id && ! of_get_option( 'waboot_content_nav_above' ) ) return;
 
@@ -136,10 +143,18 @@ if(!function_exists('waboot_content_nav' )):
 					 */
 					if($show_pagination){
 						$big = 999999999; // need an unlikely integer
+						if($paged_var_name != "paged"){
+							$base =  add_query_arg([
+								$paged_var_name => "%#%"
+							]);
+							$base = home_url().$base;
+						}else{
+							$base =  str_replace( $big, '%#%', esc_url( get_pagenum_link( $big ) ) );
+						}
 						$paginate = paginate_links(array(
-							'base' => str_replace( $big, '%#%', esc_url( get_pagenum_link( $big ) ) ),
-							'format' => '?paged=%#%',
-							'current' => $current_page ? $current_page : max( 1, get_query_var('paged') ),
+							'base' => $base,
+							'format' => '?'.$paged_var_name.'=%#%',
+							'current' => $current_page ? intval($current_page) : max( 1, intval(get_query_var($paged_var_name)) ),
 							'total' => $query->max_num_pages
 						));
 
