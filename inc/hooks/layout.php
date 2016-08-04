@@ -1,6 +1,6 @@
 <?php
 
-if(!function_exists("waboot_display_breadcrumb")):
+if(!function_exists("waboot_insert_breadcrumb")):
 	/**
 	 * Display breadcrumb
 	 */
@@ -15,7 +15,7 @@ if(!function_exists("waboot_display_breadcrumb")):
 			waboot_breadcrumb(null, 'before_inner', ['wrapper_start' => '<div class="container">', 'wrapper_end' => '</div>']);
 		}
 	}
-	add_action("waboot_before_inner","waboot_display_breadcrumb",5);
+	add_action("waboot_before_inner","waboot_insert_breadcrumb",5);
 endif;	
 
 if ( ! function_exists( 'waboot_set_mainwrap_container_classes' ) ):
