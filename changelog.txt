@@ -1,6 +1,6 @@
 == Change log ==
 
-Version 0.15.4 - 02/08/2016
+Version 0.15.5 - 02/08/2016
 ---------------------------------
 - Tweak: Ora il breadcrumb viene hookato a "waboot_before_inner" e non è più hardcodato nell'header.
 - Tweak: Potenziata funzione waboot_content_nav; ora è possibile fornirle il nome da assegnare alla variabile di paginazione per creare paginazioni multiple.
