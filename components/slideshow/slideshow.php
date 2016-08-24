@@ -439,11 +439,16 @@ class SlideshowComponent extends \WBF\modules\components\Component{
             <script type="text/javascript">
 	            jQuery(document).ready(function(){
 		            var current_owlcarousel_id = "owl-<?php echo $slideshow_post->post_name; ?>";
+		            if(typeof owlcarousel_params == "undefined"){
+		            	var owlcarousel_params = []; //make sure the params array exists, to avoid javascript errors.
+		            }else{
+			            console.log("Slideshow Component Debug: Unable find owlcarousel_params array.")
+		            }
 		            /*
 		             * It is possibile to set an object called owlcarousel_params with some preset params for each carousels id (= $slideshow_post->post_name).
 		             * You can also edit the owlcarousel_params object in owl.carousel-custom.js (preferred method)
 		             */
-		            if(owlcarousel_params[current_owlcarousel_id]){
+		            if(owlcarousel_params[current_owlcarousel_id] != "undefined"){
 			            //Merge any pre-existing owlcarousel_params[current_owlcarousel_id] with the options specified via dashboard
 			            owlcarousel_params[current_owlcarousel_id] = jQuery.extend(owlcarousel_params[current_owlcarousel_id],{
 				            items: <?php echo get_field('slideshow_items', $post_id); ?>,
@@ -464,7 +469,11 @@ class SlideshowComponent extends \WBF\modules\components\Component{
 			            };
 		            }
 		            //Start the current carousel:
-		            wb_slideshow_start(current_owlcarousel_id);
+		            if(typeof wb_slideshow_start != "undefined"){
+			            wb_slideshow_start(current_owlcarousel_id);
+		            }else{
+		            	console.log("Slideshow Component Debug: Unable to start slideshow.")
+		            }
 	            });
             </script>
 		<?php endif; ?>
