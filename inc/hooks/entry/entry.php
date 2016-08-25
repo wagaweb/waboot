@@ -84,10 +84,45 @@ function display_post_categories(){
 	echo \Waboot\template_tags\get_the_terms_list_hierarchical(get_the_ID(), 'category', '<span class="cat-links">', ', ', '</span>');
 }
 
+/**
+ * Display the list of post tags
+ */
 function display_post_tags(){
+	// Return early if theme options are set to hide tags
+	if(!\Waboot\functions\get_option('show_post_tags', true)) return;
 
+	$post_tags = get_the_tags();
+
+	if(is_array($post_tags) && !empty($post_tags)){
+		$wrapper_start = '<span class="tags-links">';
+		$wrapper_end = '</span>';
+		$num_tags = count( $post_tags );
+
+		echo $wrapper_start;
+
+		$tag_count = 1;
+		foreach( $post_tags as $tag ) {
+			$html_before = '<a href="%s" rel="tag nofollow" class="tag-text">';
+			$html_after = '</a>';
+			$sep = $tag_count < $num_tags ? ", " : '';
+
+			echo sprintf($html_before,get_tag_link($tag->term_id)) . $tag->name . $html_after . $sep;
+
+			$tag_count++;
+		}
+
+		echo $wrapper_end;
+	}
 }
 
+/**
+ * Display the "leave comment" link.
+ */
 function display_post_comment_link(){
+	// Return early if theme options are set to hide comment link
+	if(!\Waboot\functions\get_option('show_post_comments_link',true)) return;
 
+	$tpl = "templates/view-parts/entry-comment-link.php";
+
+	(new HTMLView($tpl))->display();
 }

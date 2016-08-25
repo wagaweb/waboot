@@ -85,6 +85,14 @@ function register_options(){
 	]);
 
 	$orgzr->add([
+		'name' => __( 'Show post tags?', 'waboot' ),
+		'desc' => __( 'Displays the tags attached to a post. Default is show. Uncheck this box to hide post tags.', 'waboot' ),
+		'id'   => 'show_post_tags',
+		'std'  => '1',
+		'type' => 'checkbox'
+	]);
+
+	$orgzr->add([
 		'name' => __( 'Show post author?', 'waboot' ),
 		'desc' => __( 'Displays the post author. Default is show. Uncheck this box to hide the post author.', 'waboot' ),
 		'id'   => 'show_post_author',
@@ -96,59 +104,59 @@ function register_options(){
 	 * BACKGROUNDS
 	 */
 
-	$orgzr->add(array(
+	$orgzr->add([
 		'name' => _x( 'Backgrounds', 'Theme options', 'waboot' ),
 		'desc' => _x( 'Settings about page backgrounds', 'waboot' ),
 		'type' => 'info'
-	));
+	]);
 
 	$orgzr->set_group("css_injection");
 
-	$orgzr->add(array(
+	$orgzr->add([
 		'name' => _x('Background Page', 'Theme options', 'Theme options', 'waboot'),
 		'desc' => _x('Change the page background color.', 'Theme options', 'waboot'),
 		'id' => 'page_bgcolor',
 		'type' => 'color',
 		'std' => '#ffffff',
 		'save_action' => "\\Waboot\\functions\\deploy_theme_options_css"
-	));
+	]);
 
-	$orgzr->add(array(
+	$orgzr->add([
 		'name' => _x('Background Content', 'Theme options', 'Theme options', 'waboot'),
 		'desc' => _x('Change the content background color.', 'Theme options', 'waboot'),
 		'id' => 'content_bgcolor',
 		'type' => 'color',
 		'save_action' => "\\Waboot\\functions\\deploy_theme_options_css"
-	));
+	]);
 	
-	$orgzr->add(array(
+	$orgzr->add([
 		'name' => _x( 'Body Background Image', 'Theme options', 'waboot' ),
 		'desc' => _x( 'Upload a background image, or specify the image address of your image. (http://yoursite.com/image.png)', 'Theme options', 'waboot' ),
 		'id' => 'body_bgimage',
 		'std' => '',
 		'type' => 'upload',
 		'save_action' => "\\Waboot\\functions\\deploy_theme_options_css"
-	));
+	]);
 
-	$orgzr->add(array(
+	$orgzr->add([
 		'name' => _x('Body Background Color', 'Theme options', 'waboot'),
 		'desc' => _x('Change the body background color.', 'Theme options', 'waboot'),
 		'id' => 'body_bgcolor',
 		'std' => "#ededed",
 		'type' => 'color',
 		'save_action' => "\\Waboot\\functions\\deploy_theme_options_css"
-	));
+	]);
 
-	$orgzr->add(array(
+	$orgzr->add([
 		'name' => _x( 'Body Background Image Repeat', 'Theme options', 'waboot' ),
 		'desc' => _x( 'Select how you want your background image to display.', 'waboot' ),
 		'id' => 'body_bgrepeat',
 		'type' => 'select',
 		'options' => array( 'no-repeat' => 'No Repeat', 'repeat' => 'Repeat','repeat-x' => 'Repeat Horizontally', 'repeat-y' => 'Repeat Vertically' ),
 		'save_action' => "\\Waboot\\functions\\deploy_theme_options_css"
-	));
+	]);
 
-	$orgzr->add(array(
+	$orgzr->add([
 		'name' => _x( 'Body Background image position', 'Theme options', 'waboot' ),
 		'desc' => _x( 'Select how you would like to position the background', 'waboot' ),
 		'id' => 'body_bgpos',
@@ -160,9 +168,9 @@ function register_options(){
 			'bottom left' => 'bottom left', 'bottom center' => 'bottom center', 'bottom right' => 'bottom right'
 		),
 		'save_action' => "\\Waboot\\functions\\deploy_theme_options_css"
-	));
+	]);
 
-	$orgzr->add(array(
+	$orgzr->add([
 		'name' => _x( 'Body Background Attachment', 'Theme options', 'waboot' ),
 		'desc' => _x( 'Select whether the background should be fixed or move when the user scrolls', 'Theme options', 'waboot' ),
 		'id' => 'body_bgattach',
@@ -170,16 +178,16 @@ function register_options(){
 		'type' => 'select',
 		'options' => array( 'scroll' => 'scroll','fixed' => 'fixed' ),
 		'save_action' => "\\Waboot\\functions\\deploy_theme_options_css"
-	));
+	]);
 
-	$orgzr->add(array(
+	$orgzr->add([
 		'name' => _x('Background Footer', 'Theme options', 'waboot'),
 		'desc' => _x('Change the footer background color.', 'Theme options', 'waboot'),
 		'id' => 'footer_bgcolor',
 		'type' => 'color',
 		'std' => '#f6f6f6',
 		'save_action' => "\\Waboot\\functions\\deploy_theme_options_css"
-	));
+	]);
 
 	$orgzr->reset_group();
 	$orgzr->set_group("std_options");
