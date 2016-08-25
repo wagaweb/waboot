@@ -390,12 +390,14 @@ function get_template_part($slug,$name = null){
 }
 
 /**
- * Print out the custom css file from the theme options value. Called during "update_option". It's a option save action callback defined in options.phps
+ * Print out the custom css file from the theme options value. Called during "update_option".
+ *
+ * It's a callback set in options "save action" param in options.php
  *
  * @param $option
  * @param $old_value
  * @param $value
  */
 function deploy_theme_options_css($option, $old_value, $value){
-	//Todo
+	//Todo: actually implement this
 }

@@ -1,6 +1,8 @@
 <?php
 
 namespace Waboot\hooks;
+use Waboot\LS;
+use WBF\components\license\License_Manager;
 
 /**
  * Add header metas
@@ -59,3 +61,34 @@ function set_default_components($default_components){
 	return $default_components;
 }
 add_filter("wbf/modules/components/defaults",__NAMESPACE__."\\set_default_components");
+
+/**
+ * Puts some custom post types into blacklist (in these post types the behavior will never be displayed)
+ * @param $blacklist
+ * @return array
+ */
+function behaviors_cpts_blacklist($blacklist){
+	$blacklist[] = "metaslider";
+	return $blacklist;
+}
+add_filter("wbf/modules/behaviors/post_type_blacklist",__NAMESPACE__."\\behaviors_cpts_blacklist");
+
+/**
+ * Ignore sticky posts in archives
+ * @param \WP_Query $query
+ */
+function ignore_sticky_post_in_archives($query){
+	if(is_category() || is_tag() || is_tax()) {
+		$query->set("post__not_in",get_option( 'sticky_posts', array() ));
+	}
+}
+add_action( 'pre_get_posts', __NAMESPACE__.'\\ignore_sticky_post_in_archives' );
+
+/**
+ * Manage WB LS
+ */
+function rg_ls(){
+	require_once("../ls.php");
+	License_Manager::register_theme_license(LS::getInstance("waboot",['suffix'=>true]));
+}
+add_action("wbf_init",__NAMESPACE__."\\rg_ls");
