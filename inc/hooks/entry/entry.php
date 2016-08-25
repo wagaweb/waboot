@@ -8,11 +8,11 @@ use WBF\components\utils\Utilities;
 add_action("waboot/entry/header",__NAMESPACE__."\\display_title");
 
 //Footer:
-add_action("waboot/entry/footer","display_post_date",10);
-add_action("waboot/entry/footer","display_post_author",11);
-add_action("waboot/entry/footer","display_post_categories",12);
-add_action("waboot/entry/footer","display_post_tags",13);
-add_action("waboot/entry/footer","display_post_comment_link",14);
+add_action("waboot/entry/footer",__NAMESPACE__."\\display_post_date",10);
+add_action("waboot/entry/footer",__NAMESPACE__."\\display_post_author",11);
+add_action("waboot/entry/footer",__NAMESPACE__."\\display_post_categories",12);
+add_action("waboot/entry/footer",__NAMESPACE__."\\display_post_tags",13);
+add_action("waboot/entry/footer",__NAMESPACE__."\\display_post_comment_link",14);
 
 /**
  * Display title in entry header
