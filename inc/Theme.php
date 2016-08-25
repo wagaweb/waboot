@@ -39,7 +39,9 @@ class Theme{
 			'inc/hooks/layout.php',
 			'inc/hooks/widget_areas.php',
 			'inc/hooks/options.php',
+			'inc/hooks/entry/entry.php',
 			'inc/hooks/entry/entry-header.php',
+			'inc/hooks/entry/entry-footer.php',
 			'inc/hooks/stylesheets.php',
 			'inc/hooks/scripts.php',
 		];

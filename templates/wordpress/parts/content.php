@@ -18,7 +18,7 @@
                     the_content();
                     wp_link_pages();
                 ?>
-                <?php do_action( 'waboot_entry_footer' ); ?>
+                <?php do_action( 'waboot/entry/footer' ); ?>
             </div>
         </div><!-- .entry-content -->
     <?php else : ?>
@@ -39,7 +39,7 @@
                         the_excerpt();
                         wp_link_pages();
                     ?>
-                    <?php do_action( 'waboot_entry_footer' ); ?>
+                    <?php do_action( 'waboot/entry/footer' ); ?>
                 </div>
             <?php else : ?>
                 <?php /* -------- article without thumbnail -------- */ ?>
@@ -49,7 +49,7 @@
                         the_excerpt();
                         wp_link_pages();
                     ?>
-                    <?php do_action( 'waboot_entry_footer' ); ?>
+                    <?php do_action( 'waboot/entry/footer' ); ?>
                 </div>
             <?php endif; ?>
         </div><!-- .entry-content -->

@@ -60,6 +60,38 @@ function register_options(){
 		'type' => 'checkbox'
 	]);
 
+	$orgzr->add([
+		'name' => __( 'Show post published date?', 'waboot' ),
+		'desc' => __( 'Displays the date the article was posted. Default is show. Uncheck this box to hide post published date.', 'waboot' ),
+		'id'   => 'show_post_date',
+		'std'  => '1',
+		'type' => 'checkbox'
+	]);
+
+	$orgzr->add([
+		'name' => __( 'Display published date using relative time format', 'waboot' ),
+		'desc' => __( 'Displays the date the article was posted using relative format (eg: one hour ago). Default is to use absolute format.', 'waboot' ),
+		'id'   => 'show_post_relative_time',
+		'std'  => '0',
+		'type' => 'checkbox'
+	]);
+
+	$orgzr->add([
+		'name' => __( 'Show post categories?', 'waboot' ),
+		'desc' => __( 'Displays the categories in which a post was published. Default is show. Uncheck this box to hide post categories.', 'waboot' ),
+		'id'   => 'show_post_categories',
+		'std'  => '1',
+		'type' => 'checkbox'
+	]);
+
+	$orgzr->add([
+		'name' => __( 'Show post author?', 'waboot' ),
+		'desc' => __( 'Displays the post author. Default is show. Uncheck this box to hide the post author.', 'waboot' ),
+		'id'   => 'show_post_author',
+		'std'  => '1',
+		'type' => 'checkbox'
+	]);
+
 	/*
 	 * BACKGROUNDS
 	 */

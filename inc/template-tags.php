@@ -203,3 +203,49 @@ function main_classes(){
 function posts_wrapper_class(){
 	echo \Waboot\functions\get_posts_wrapper_class();
 }
+
+/**
+ * Retrieve a post's terms as a list with specified format and in an hierarchical order
+ *
+ * @param int $id Post ID.
+ * @param string $taxonomy Taxonomy name.
+ * @param string $before Optional. Before list.
+ * @param string $sep Optional. Separate items using this.
+ * @param string $after Optional. After list.
+ *
+ * @use WBF\components\utils\Utilities::get_post_terms_hierarchical()
+ *
+ * @return string A list of terms on success, an empty string in case of failure or when no terms has been found.
+ */
+function get_the_terms_list_hierarchical( $id, $taxonomy, $before = '', $sep = '', $after = '' ) {
+	$terms = Utilities::get_post_terms_hierarchical($id, $taxonomy);
+
+	if( is_wp_error($terms) || empty($terms) ){
+		return "";
+	}
+
+	$links = array();
+
+	foreach ( $terms as $term ) {
+		if($term instanceof \stdClass){
+			$term = get_term($term->term_id,$taxonomy); //Restore the WP_Term
+		}
+		$link = get_term_link( $term, $taxonomy );
+		if ( is_wp_error( $link ) ) {
+			return $link;
+		}
+		$links[] = '<a href="' . esc_url( $link ) . '" rel="tag">' . $term->name . '</a>';
+	}
+
+	/**
+	 * Filter the term links for a given taxonomy.
+	 *
+	 * The dynamic portion of the filter name, `$taxonomy`, refers
+	 * to the taxonomy slug.
+	 *
+	 * @param array $links An array of term links.
+	 */
+	$term_links = apply_filters( "term_links-$taxonomy", $links );
+
+	return $before . join( $sep, $term_links ) . $after;
+}
