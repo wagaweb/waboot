@@ -34,7 +34,7 @@ function init_style_compiler(){
 	$output_dir = waboot_get_compiled_stylesheet_directory();
 	$output_uri = waboot_get_compiled_stylesheet_uri();
 
-	WBF::set_styles_compiler([
+	WBF()->set_styles_compiler([
 		"sets" => [
 			"theme_frontend" => [
 				"input" => get_stylesheet_directory()."/sources/less/{$inputFileName}.less",
