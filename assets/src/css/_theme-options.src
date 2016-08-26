@@ -1,0 +1,31 @@
+#topnav-wrapper {
+  background-color: {{ topnav_bgcolor }};
+}
+
+#header-wrapper {
+  background-color: {{ header_bgcolor }};
+}
+
+#navbar-wrapper {
+  background-color: {{ navbar_bgcolor }};
+}
+
+#banner-wrapper {
+  background-color: {{ banner_bgcolor }};
+}
+
+#content-wrapper {
+  background-color: {{ content_bgcolor }};
+}
+
+#contentbottom-wrapper {
+  background-color: {{ bottom_bgcolor }};
+}
+
+#footer-wrapper {
+  background-color: {{ footer_bgcolor }};
+}
+
+#page {
+  background-color: {{ page_bgcolor }};
+}
