@@ -397,7 +397,49 @@ function get_template_part($slug,$name = null){
  * @param $option
  * @param $old_value
  * @param $value
+ *
+ * @return FALSE|string
  */
 function deploy_theme_options_css($option, $old_value, $value){
-	//Todo: actually implement this
+	$input_file_path = apply_filters("waboot/assets/theme_options_style_file/source", get_template_directory()."/assets/src/css/_theme-options.src");
+	$output_file_path = apply_filters("waboot/assets/theme_options_style_file/destination", WBF()->resources->get_working_directory()."/theme-options.css");
+
+	if(!is_array($value)) return false;
+
+	$output_string = "";
+
+	$tmpFile = new \SplFileInfo($input_file_path);
+	if((!$tmpFile->isFile() || !$tmpFile->isWritable())){
+		return false;
+	}
+
+	$parsedFile = $output_file_path ? new \SplFileInfo($output_file_path) : null;
+	if(!is_dir($parsedFile->getPath())){
+		mkdir($parsedFile->getPath());
+	}
+
+	$genericOptionfindRegExp = "/{{ ?([a-zA-Z0-9\-_]+) ?}}/";
+
+	$tmpFileObj = $tmpFile->openFile( "r" );
+	$parsedFileObj = $parsedFile->openFile( "w" );
+	$byte_written = 0;
+
+	while(!$tmpFileObj->eof()){
+		$line = $tmpFileObj->fgets();
+		//Replace a generic of option
+		if(preg_match($genericOptionfindRegExp, $line, $matches)){
+			if(array_key_exists( $matches[1], $value)){
+				if($value[ $matches[1] ] != ""){
+					$line = preg_replace( $genericOptionfindRegExp, $value[$matches[1]], $line);
+				}else{
+					$line = "\t/*{$matches[1]} is empty*/\n";
+				}
+			}else{
+				$line = "\t/*{$matches[1]} not found*/\n";
+			}
+		}
+		$byte_written += $parsedFileObj->fwrite($line);
+	}
+
+	return $output_string;
 }
