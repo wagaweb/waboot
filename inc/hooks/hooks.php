@@ -88,7 +88,7 @@ add_action( 'pre_get_posts', __NAMESPACE__.'\\ignore_sticky_post_in_archives' );
  * Manage WB LS
  */
 function rg_ls(){
-	require_once("../ls.php");
+	require_once(get_template_directory()."/inc/ls.php");
 	License_Manager::register_theme_license(LS::getInstance("waboot",['suffix'=>true]));
 }
 add_action("wbf_init",__NAMESPACE__."\\rg_ls");
