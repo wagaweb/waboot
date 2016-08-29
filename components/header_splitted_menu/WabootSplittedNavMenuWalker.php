@@ -96,11 +96,10 @@ class WabootSplittedNavMenuWalker extends BootstrapNavMenuWalker{
 	 * @param int    $id     Current item ID.
 	 */
 	function start_el( &$output, $item, $depth = 0, $args = array(), $id = 0 ) {
-		$this->count += $depth === 0 ? 1 : 0;
+        $this->count += $depth === 0 ? 1 : 0;
 
 		if ($this->count == $this->split_position+1) {
-
-			$this->end_lvl( $output, $depth = 0, $args = array() );
+			$this->end_lvl( $output, 0, $args );
 			$output .= '<ul id=menu-'.$this->menu_name.'-right class="'.$this->classes.'">';
 		}
 		$indent = ( $depth ) ? str_repeat( "\t", $depth ) : '';
