@@ -107,7 +107,7 @@ class Breadcrumb extends \Waboot\Component {
 	 *
 	 * @param null $post_id
 	 * @param string $current_location the current location of breadcrumb. Not used at the moment, but it can be any arbitrary string.
-	 * @param array $args settings for breadcrumb (see: wbf_breadcrumb_trail() documentation)
+	 * @param array $args settings for breadcrumb (see: trail() documentation)
 	 */
 	public static function do_breadcrumb($post_id = null, $current_location = "", $args = array()) {
 		global $post;
@@ -119,7 +119,7 @@ class Breadcrumb extends \Waboot\Component {
 			}
 		}
 
-		if(!function_exists("\\WBF\\components\\breadcrumb\\wbf_breadcrumb_trail")) return;
+		if(!function_exists( "\\WBF\\components\\breadcrumb\\trail" )) return;
 
 		if(is_404()) return;
 
@@ -146,7 +146,7 @@ class Breadcrumb extends \Waboot\Component {
 		if($current_page_type != "common"){
 			//We are in some sort of homepage
 			if(in_array("homepage", $allowed_locations)) {
-				\WBF\components\breadcrumb\wbf_breadcrumb_trail($args);
+				\WBF\components\breadcrumb\trail($args);
 			}
 		}else{
 			//We are NOT in some sort of homepage
@@ -155,7 +155,7 @@ class Breadcrumb extends \Waboot\Component {
 				$current_post_type = get_post_type($post_id);
 				if (!isset($post_id) || $post_id == 0 || !$current_post_type) return;
 				if(in_array($current_post_type, $allowed_locations)) {
-					\WBF\components\breadcrumb\wbf_breadcrumb_trail($args);
+					\WBF\components\breadcrumb\trail($args);
 				}
 			}else{
 				//We are in some sort of archive
@@ -168,7 +168,7 @@ class Breadcrumb extends \Waboot\Component {
 					$show_bc = true;
 				}
 				if($show_bc){
-					\WBF\components\breadcrumb\wbf_breadcrumb_trail($args);
+					\WBF\components\breadcrumb\trail($args);
 				}
 			}
 		}
