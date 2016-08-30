@@ -156,7 +156,7 @@ class Header_Fixed extends \Waboot\Component{
 	    );
 	    $options[] = array(
 		    'name' => __( 'Breakpoint', 'waboot' ),
-		    'desc' => __( 'the header enter after the specified number of pixels, if Enter on scroll Up is not checked', 'waboot' ),
+		    'desc' => __( 'The header enter after the specified number of pixels or after a DOM element (e.g. section#second). Only valid for "Beginning" and "Breakpoint" modes.', 'waboot' ),
 		    'id'   => $this->name.'_breakpoint',
 		    'std'  => '50',
 		    'type' => 'text'
