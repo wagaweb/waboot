@@ -73,7 +73,7 @@ function print_widgets_in_area($prefix){
 	$count = count_widgets_in_area($prefix);
 	if($count === 0) return;
 	$sidebar_class = get_grid_class_for_alignment($count);
-	(new HTMLView("templates/widget_areas/multi-widget-area.php"))->clean()->display([
+	(new HTMLView("templates/widget_areas/parts/multi-widget-area.php"))->clean()->display([
 		'widget_area_prefix' => $prefix,
 		'widget_count' => $count,
 		'sidebar_class' => $sidebar_class
