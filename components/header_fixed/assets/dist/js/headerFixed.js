@@ -18,7 +18,7 @@ jQuery(document).ready(function($){
         'background-color': wbHeaderFixed.color_after
     };
 
-    if (isSelector) {
+    if (isSelector && $(breakpoint).length > 0) {
         var position = $(breakpoint).position();
         breakpoint = position['top'];
     }
