@@ -48,15 +48,17 @@ function get_behavior($name, $default = "", $post_id = 0, $return = "value"){
  *
  * @param $prefix
  *
- * @param int $limit (default: 4)
- *
  * @return bool
  */
-function count_widgets_in_area($prefix,$limit = 4){
+function count_widgets_in_area($prefix){
 	$count = 0;
-	for($i = 1; $i <= $limit; $i++) {
-		if(is_active_sidebar($prefix . "-" . $i)) {
-			$count++;
+	$areas = get_widget_areas();
+	if(isset($areas[$prefix]) || !isset($areas[$prefix]['type']) || $areas[$prefix]['type'] != "multiple"){
+		$limit = isset($areas[$prefix]['subareas']) && intval($areas[$prefix]['subareas']) > 0 ? $areas[$prefix]['subareas'] : 0;
+		for($i = 1; $i <= $limit; $i++) {
+			if(is_active_sidebar($prefix . "-" . $i)) {
+				$count++;
+			}
 		}
 	}
 	return $count;
@@ -66,13 +68,12 @@ function count_widgets_in_area($prefix,$limit = 4){
  * Prints out a waboot-type widget area
  *
  * @param $prefix
- * @param int $limit
  */
-function print_widgets_in_area($prefix,$limit = 4){
-	$count = count_widgets_in_area($prefix,$limit);
+function print_widgets_in_area($prefix){
+	$count = count_widgets_in_area($prefix);
 	if($count === 0) return;
 	$sidebar_class = get_grid_class_for_alignment($count);
-	(new HTMLView("templates/view-parts/widget-area.php"))->clean()->display([
+	(new HTMLView("templates/widget_areas/multi-widget-area.php"))->clean()->display([
 		'widget_area_prefix' => $prefix,
 		'widget_count' => $count,
 		'sidebar_class' => $sidebar_class
@@ -157,6 +158,8 @@ function get_widget_areas(){
 		'footer' => [
 			'name' => __('Footer', 'waboot'),
 			'description' => __( 'The main widget area displayed in the footer.', 'waboot' ),
+			'type' => 'multiple',
+			'subareas' => 4, //this will register footer-1, footer-2, footer-3 and footer-4 as widget areas
 			'render_zone' => 'footer'
 		]
 	];
