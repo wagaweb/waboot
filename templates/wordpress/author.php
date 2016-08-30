@@ -19,7 +19,7 @@
 				<?php
 				while(have_posts()){
 					the_post();
-					\Waboot\functions\get_template_part( '/templates/post-formats/content', get_post_format() );
+					\Waboot\functions\get_template_part( '/templates/wordpress/parts/content', get_post_format() );
 				}
 				?>
 			</div>
@@ -27,7 +27,7 @@
 			<?php
 		}else{
 			// No results
-			get_template_part( '/templates/parts/content', 'none' );
+			get_template_part( '/templates/wordpress/parts/content', 'none' );
 		} //have_posts ?>
 	</main><!-- #main -->
 </section><!-- #main-wrap -->
