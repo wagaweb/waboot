@@ -70,6 +70,6 @@
 		</footer><!-- .entry-meta -->
 	</article><!-- #post-<?php the_ID(); ?> -->
 
-	<?php comments_template(); ?>
+	<?php comments_template('/templates/wordpress/comments.php'); ?>
 
 <?php endwhile; // end of the loop. ?>

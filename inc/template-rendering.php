@@ -92,8 +92,9 @@ function render_comment($comment, $args, $depth){
 		'is_approved' => $comment->comment_approved  != '0',
 		'has_avatar' => $args['avatar_size'] != '0',
 		'avatar' => get_avatar( $comment, $args['avatar_size'] ),
+		'comment' => $comment,
 		'args' => $args,
-		'depth' => $d
+		'depth' => $depth
 	];
 
 	$template_file = "templates/view-parts/single-comment.php";
