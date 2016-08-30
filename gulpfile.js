@@ -15,6 +15,7 @@ var gulp = require('gulp'),
     zip = require('gulp-zip'),
     bower = require('gulp-bower'),
     copy = require('copy'),
+    gcopy = require('gulp-copy'),
     csso = require('gulp-csso'),
     postcss = require('gulp-postcss'),
     autoprefixer = require('autoprefixer'),
@@ -39,14 +40,20 @@ var paths = {
     build: [
         "**/*",
         "!.*" ,
-        "!Gruntfile.js",
         "!gulpfile.js",
         "!package.json",
+        "!phpunit.xml",
+        "!phpunit-wp.xml",
+        "!composer.json",
+        "!composer.lock",
         "!bower.json",
         "!Movefile-sample",
+        "!{tests,tests/**}",
+        "!{vendor,vendor/**}",
         "!{builds,builds/**}",
         "!{node_modules,node_modules/**}",
-        "!{bower_components,bower_components/**}"
+        "!{assets/vendor,assets/vendor/**}",
+        "!assets/cache/*"
     ]
 };
 
@@ -127,7 +134,7 @@ gulp.task('browserify', function(){
  */
 gulp.task('make-package', function(){
     return gulp.src(paths.build)
-        .pipe(copy(paths.builddir+"/pkg/"+theme_slug));
+        .pipe(gcopy(paths.builddir+"/pkg/"+theme_slug));
 });
 
 /**
