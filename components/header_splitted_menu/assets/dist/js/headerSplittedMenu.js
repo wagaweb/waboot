@@ -1,12 +1,17 @@
 jQuery(document).ready(function($){
 
     $(window).load(function () {
-        centerLogo();
+        // centerLogo();
     });
 
     $(window).resize(function() {
-        centerLogo()
+        // centerLogo()
     });
+
+
+    /**
+     * Center Logo - OLD FUNCTION
+     */
     function centerLogo() {
         var logo = $('#logo'),
             width = logo.find('a img').width(),
@@ -34,13 +39,13 @@ jQuery(document).ready(function($){
         navLeft.css('padding-right', width/2+additionalMargin);
         navRight.css('padding-left', width/2+additionalMargin);
 
-        if (Math.abs(deltaWidth)> 0) {
+        /*if (Math.abs(deltaWidth)> 0) {
             if (navLeft.width() > navRight.width()){
                 navLeft.css('margin-left', deltaWidth*-1);
             } else {
                 navRight.css('margin-right', deltaWidth);
             }
 
-        }
+        }*/
     }
 });

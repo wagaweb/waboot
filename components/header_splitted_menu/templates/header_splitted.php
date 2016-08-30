@@ -2,18 +2,6 @@
     <div class="header-splitted-inner">
         <!-- Header splitted -->
 
-        <div id="logo" class="hidden-sm hidden-xs">
-            <?php if ( \Waboot\template_tags\get_desktop_logo() != "" ) : ?>
-                <?php \Waboot\template_tags\desktop_logo(true); ?>
-            <?php else : ?>
-                <?php
-                \Waboot\template_tags\site_title();
-                \Waboot\template_tags\site_description();
-                ?>
-            <?php endif; ?>
-        </div>
-
-
         <nav class="navbar navbar-default main-navigation">
             <!-- Main Nav -->
             <div class="navbar-header">
@@ -35,31 +23,85 @@
 
             <div class="collapse navbar-collapse navbar-main-collapse">
 
-                <?php wp_nav_menu([
-                    'theme_location' => 'main',
-                    'depth' => 0,
-                    'container' => false,
-                    'menu_class' => apply_filters('waboot/navigation/main/class', 'navbar-nav nav splitted'),
-                    'walker' => class_exists('WabootSplittedNavMenuWalker') ? new WabootSplittedNavMenuWalker('main','navbar-nav nav splitted') : "",
-                    'fallback_cb' => 'waboot_nav_menu_fallback'
-                ]);
+                <?php
+                $theme_location = 'main';
+
+                if ( ($theme_location) && ($locations = get_nav_menu_locations()) && isset($locations[$theme_location]) ) {
+
+                    $menu_list = '<ul class="nav navbar-nav">' ."\n";
+
+                        $menu = get_term( $locations[$theme_location], 'nav_menu' );
+                        $menu_items = wp_get_nav_menu_items($menu->term_id);
+                        $count = call_user_func(function() use ($menu_items){
+                            $count = 0;
+                            foreach( $menu_items as $menu_item ) {
+                                if ($menu_item->menu_item_parent == 0) {
+                                    $count++;
+                                }
+                            }
+                            return $count;
+                        });
+                        $i = 1;
+
+                        foreach( $menu_items as $menu_item ) {
+                            if( $menu_item->menu_item_parent == 0 ) {
+
+                                $parent = $menu_item->ID;
+
+                                $menu_array = array();
+                                foreach( $menu_items as $submenu ) {
+                                    if( $submenu->menu_item_parent == $parent ) {
+                                        $bool = true;
+                                        $menu_array[] = '<li><a href="' . $submenu->url . '">' . $submenu->title . '</a></li>' ."\n";
+                                    }
+                                }
+
+                                if( isset($bool) && $bool == true && count( $menu_array ) > 0 ) {
+
+                                $menu_list .= '<li class="dropdown">' ."\n";
+                                $menu_list .= '<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">' . $menu_item->title . ' <span class="caret"></span></a>' ."\n";
+
+                                $menu_list .= '<ul class="dropdown-menu">' ."\n";
+                                    $menu_list .= implode( "\n", $menu_array );
+                                    $menu_list .= '</ul>' ."\n";
+
+                                } else {
+
+                                $menu_list .= '<li>' ."\n";
+                                $menu_list .= '<a href="' . $menu_item->url . '">' . $menu_item->title . '</a>' ."\n";
+                                }
+
+                            }
+
+                            // end <li>
+                            $menu_list .= '</li>' ."\n";
+
+                            if ($i==floor($count/2)) {
+
+                                if ( \Waboot\template_tags\get_desktop_logo() != "" ) {
+                                    $logo_menu_list = '<img src="' . \Waboot\template_tags\get_desktop_logo() . '"/>';
+                                } else {
+                                    $logo_menu_list = get_bloginfo("name");
+                                }
+
+                                $menu_list .='</ul>';
+                                $menu_list .='<div class="logonav hidden-sm hidden-xs"><a href="' . get_bloginfo('url') . '">' . $logo_menu_list . '</a></div>';
+                                $menu_list .='<ul class="nav navbar-nav">';
+
+                            } ?>
+
+                        <?php
+                        $i++;
+                        }
+
+                    $menu_list .= '</ul>' ."\n";
+
+                } else {
+                    $menu_list = '<!-- no menu defined in location "'.$theme_location.'" -->';
+                }
+
+                echo $menu_list;
                 ?>
-
-
-                <!--<ul>
-                    <?php /*
-                    $menu_items = wp_get_nav_menu_items('splitted');
-                    $count = count($menu_items);
-                    $i = 1;
-                    foreach ($menu_items as $menu_item) {
-                        ?>
-                        <li <?php if ($i==floor($count/2)) { ?>
-                            class="split"<?php } ?>
-                        ><?php echo $menu_item->title; ?></li>
-                        <?php $i++; ?>
-                    <?php } */ ?>
-
-                </ul>-->
 
             </div>
         </nav>
