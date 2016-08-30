@@ -80,3 +80,23 @@ function get_main_wrapper_template_vars(){
 	
 	return $vars;
 }
+
+/**
+ * Template for comments and pingbacks.
+ *
+ * Used as a callback by wp_list_comments() for displaying the comments.
+ */
+function render_comment($comment, $args, $depth){
+	$vars = [
+		'additional_comment_class' => empty( $args['has_children'] ) ? '' : 'parent',
+		'is_approved' => $comment->comment_approved  != '0',
+		'has_avatar' => $args['avatar_size'] != '0',
+		'avatar' => get_avatar( $comment, $args['avatar_size'] ),
+		'args' => $args,
+		'depth' => $d
+	];
+
+	$template_file = "templates/view-parts/single-comment.php";
+	$v = new HTMLView($template_file);
+	$v->display($vars);
+}

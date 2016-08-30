@@ -6,26 +6,31 @@ use WBF\components\utils\Utilities;
 
 /**
  * Displays site title
- * @since 0.13.4
  */
 function site_title() {
 	$element = apply_filters("waboot/site_title/tag",'h1');
-	$display_name = call_user_func(function(){
-		$custom_name = of_get_option("custom_site_title","");
-		if($custom_name && !empty($custom_name)){
-			return $custom_name;
-		}else{
-			return get_bloginfo("name");
-		}
-	});
+	$display_name = get_site_title();
 	$link = sprintf( '<a href="%s" title="%s" class="navbar-brand" rel="home">%s</a>', trailingslashit( home_url() ), esc_attr( get_bloginfo( 'name' ) ), $display_name );
 	$output = '<' . $element . ' id="site-title" class="site-title">' . $link . '</' . $element .'>';
 	echo apply_filters( 'waboot/site_title/markup', $output );
 }
 
 /**
+ * Get the site title
+ *
+ * @return string
+ */
+function get_site_title(){
+	$custom_name = of_get_option("custom_site_title","");
+	if($custom_name && !empty($custom_name)){
+		return $custom_name;
+	}else{
+		return get_bloginfo("name");
+	}
+}
+
+/**
  * Displays site description
- * @since 0.13.4
  */
 function site_description() {
 	if(!of_get_option("show_site_description",0)) return;
@@ -105,8 +110,9 @@ function get_desktop_logo(){
  * @param bool $show_pagination
  * @param bool $query
  * @param bool $current_page
+ * @param string $paged_var_name You can supply different paged var name for multiple pagination. The name must be previously registered with add_rewrite_tag()
  */
-function post_navigation($nav_id, $show_pagination = false, $query = false, $current_page = false){
+function post_navigation($nav_id, $show_pagination = false, $query = false, $current_page = false, $paged_var_name = "paged"){
 	//Setting up the query
 	if(!$query){
 		global $wp_query;
@@ -135,10 +141,18 @@ function post_navigation($nav_id, $show_pagination = false, $query = false, $cur
 
 	if($can_display_pagination && $show_pagination){
 		$big = 999999999; // need an unlikely integer
+		if($paged_var_name != "paged"){
+			$base =  add_query_arg([
+				$paged_var_name => "%#%"
+			]);
+			$base = home_url().$base;
+		}else{
+			$base =  str_replace( $big, '%#%', esc_url( get_pagenum_link( $big ) ) );
+		}
 		$paginate = paginate_links([
-			'base' => str_replace( $big, '%#%', esc_url( get_pagenum_link( $big ) ) ),
-			'format' => '?paged=%#%',
-			'current' => $current_page ? $current_page : max( 1, get_query_var('paged') ),
+			'base' => $base,
+			'format' => '?'.$paged_var_name.'=%#%',
+			'current' => $current_page ? intval($current_page) : max( 1, intval(get_query_var($paged_var_name)) ),
 			'total' => $query->max_num_pages
 		]);
 		$paginate_array = explode("\n",$paginate);
@@ -202,6 +216,88 @@ function main_classes(){
  */
 function posts_wrapper_class(){
 	echo \Waboot\functions\get_posts_wrapper_class();
+}
+
+/**
+ * Prints the attached image with a link to the next attached image.
+ */
+function the_attached_image() {
+	$post = get_post();
+	$attachment_size = apply_filters( 'waboot/post_types/attachment/size', [1200, 1200] );
+	$next_attachment_url = wp_get_attachment_url();
+
+	/*
+	 * Grab the IDs of all the image attachments in a gallery so we can get the
+	 * URL of the next adjacent image in a gallery, or the first image (if
+	 * we're looking at the last image in a gallery), or, in a gallery of one,
+	 * just the link to that image file.
+	 */
+	$attachment_ids = get_posts([
+		'post_parent' => $post->post_parent,
+		'fields' => 'ids',
+		'numberposts' => -1,
+		'post_status' => 'inherit',
+		'post_type' => 'attachment',
+		'post_mime_type' => 'image',
+		'order' => 'ASC',
+		'orderby' => 'menu_order ID'
+	]);
+
+	//If there is more than 1 attachment in a gallery...
+	if(count($attachment_ids) > 1){
+		foreach($attachment_ids as $attachment_id){
+			if($attachment_id == $post->ID){
+				$next_id = current($attachment_ids);
+				break;
+			}
+		}
+		//get the URL of the next image attachment... or get the URL of the first image attachment.
+		$next_attachment_url = isset($next_id) ? get_attachment_link($next_id) : get_attachment_link(array_shift($attachment_ids));
+	}
+
+	printf( '<a href="%1$s" title="%2$s" rel="attachment">%3$s</a>',
+		esc_url( $next_attachment_url ),
+		the_title_attribute( array( 'echo' => false ) ),
+		wp_get_attachment_image( $post->ID, $attachment_size )
+	);
+}
+
+/**
+ * Returns the first post link and/or post content without the link.
+ *
+ * Used for the "Link" post format.
+ *
+ * @param string $output_type "link" or "post_content"
+ * @return string Link or Post Content without link.
+ */
+function get_first_link_or_post_content($output_type = "link"){
+
+	$post_content = get_the_content();
+
+	$link = preg_match( '/<a\s[^>]*?href=[\'"](.+?)[\'"][^>]*>[^>]*>/is', $post_content, $matches );
+
+	if($link){
+		$link_url = $matches[1];
+		$post_content = substr( $post_content, strlen( $matches[0] ) );
+		if(!$post_content) $post_content = "";
+	}
+
+	$output = "";
+
+	switch($output_type){
+		case "link":
+			if(isset($link_url)){
+				$output = $link_url;
+			}
+			break;
+		case "post_content":
+			if(isset($post_content)){
+				$output = $post_content;
+			}
+			break;
+	}
+
+	return $output;
 }
 
 /**

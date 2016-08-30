@@ -27,7 +27,10 @@ function add_main_content(){
 			$tpl_part = ["templates/wordpress/blog",null];
 			break;
 		case Utilities::PAGE_TYPE_COMMON:
-			if($wp_query->is_single()){
+			if(is_attachment() && wp_attachment_is_image()){
+				$tpl_part = ["templates/wordpress/image",null]; //Note: this is a special case ported from Waboot 0.x
+			}
+			elseif($wp_query->is_single()){
 				$tpl_part = ["templates/wordpress/single",null];
 			}elseif($wp_query->is_page()){
 				$tpl_part = ["templates/wordpress/page",null];
