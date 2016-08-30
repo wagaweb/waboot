@@ -31,7 +31,9 @@ class Header_Splitted_Menu extends \Waboot\Component{
 
     public function display_tpl(){
         $menu = new \WBF\components\mvc\HTMLView($this->relative_path."/templates/header_splitted.php");
-        $menu->clean()->display();
+        $menu->clean()->display([
+            'name'=>$this->name
+        ]);
     }
 
 

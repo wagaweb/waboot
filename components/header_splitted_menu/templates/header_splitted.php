@@ -28,22 +28,29 @@
 
                 if ( ($theme_location) && ($locations = get_nav_menu_locations()) && isset($locations[$theme_location]) ) {
 
-                    $menu_list = '<ul class="nav navbar-nav">' ."\n";
+                    $menu_list = '<ul class="nav navbar-nav navbar-split-left">' ."\n";
 
                         $menu = get_term( $locations[$theme_location], 'nav_menu' );
                         $menu_items = wp_get_nav_menu_items($menu->term_id);
-                        $count = call_user_func(function() use ($menu_items){
-                            $count = 0;
-                            foreach( $menu_items as $menu_item ) {
-                                if ($menu_item->menu_item_parent == 0) {
-                                    $count++;
+
+                        $position = \Waboot\functions\get_option($name.'_item_select');
+                        if ($position == 'middle') {
+                            $count = call_user_func(function () use ($menu_items) {
+                                $count = 0;
+                                foreach ($menu_items as $menu_item) {
+                                    if ($menu_item->menu_item_parent == 0) {
+                                        $count++;
+                                    }
                                 }
-                            }
-                            return $count;
-                        });
-                        $i = 1;
+                                return floor($count/2);
+                            });
+                        } else {
+                            $count = intval($position);
+                        }
+                        $i = 0;
 
                         foreach( $menu_items as $menu_item ) {
+
                             if( $menu_item->menu_item_parent == 0 ) {
 
                                 $parent = $menu_item->ID;
@@ -62,36 +69,36 @@
                                 $menu_list .= '<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">' . $menu_item->title . ' <span class="caret"></span></a>' ."\n";
 
                                 $menu_list .= '<ul class="dropdown-menu">' ."\n";
-                                    $menu_list .= implode( "\n", $menu_array );
-                                    $menu_list .= '</ul>' ."\n";
+                                $menu_list .= implode( "\n", $menu_array );
+                                $menu_list .= '</ul>' ."\n";
+                                $menu_list .= '</li>' ."\n";
 
                                 } else {
 
                                 $menu_list .= '<li>' ."\n";
                                 $menu_list .= '<a href="' . $menu_item->url . '">' . $menu_item->title . '</a>' ."\n";
+                                $menu_list .= '</li>' ."\n";
+
+                                }
+
+                                $i++;
+
+                                if ($i==$count) {
+
+                                    if ( \Waboot\template_tags\get_desktop_logo() != "" ) {
+                                        $logo_menu_list = '<img src="' . \Waboot\template_tags\get_desktop_logo() . '"/>';
+                                    } else {
+                                        $logo_menu_list = get_bloginfo("name");
+                                    }
+
+                                    $menu_list .='</ul>';
+                                    $menu_list .='<div class="logonav hidden-sm hidden-xs"><a href="' . get_bloginfo('url') . '">' . $logo_menu_list . '</a></div>';
+                                    $menu_list .='<ul class="nav navbar-nav navbar-split-right">';
+
                                 }
 
                             }
 
-                            // end <li>
-                            $menu_list .= '</li>' ."\n";
-
-                            if ($i==floor($count/2)) {
-
-                                if ( \Waboot\template_tags\get_desktop_logo() != "" ) {
-                                    $logo_menu_list = '<img src="' . \Waboot\template_tags\get_desktop_logo() . '"/>';
-                                } else {
-                                    $logo_menu_list = get_bloginfo("name");
-                                }
-
-                                $menu_list .='</ul>';
-                                $menu_list .='<div class="logonav hidden-sm hidden-xs"><a href="' . get_bloginfo('url') . '">' . $logo_menu_list . '</a></div>';
-                                $menu_list .='<ul class="nav navbar-nav">';
-
-                            } ?>
-
-                        <?php
-                        $i++;
                         }
 
                     $menu_list .= '</ul>' ."\n";

@@ -2,6 +2,63 @@
     position: relative;
 }
 
+.header-splitted-wrapper .navbar-main-collapse {
+    position: relative;
+}
+
+@media only screen and (min-width: 991px) {
+    .header-splitted-wrapper .navbar-main-collapse .navbar-nav {
+        float: none;
+        width: 50%;
+        /* padding-top: 5px; TO CALCULATE */
+        display: inline-block;
+    }
+
+    .header-splitted-wrapper .navbar-main-collapse .navbar-split-left {
+        /* padding-right: 195px; TO CALCULATE */
+        text-align: right;
+    }
+
+    .header-splitted-wrapper .navbar-main-collapse .navbar-split-right {
+        /* padding-left: 195px; TO CALCULATE */
+        text-align: left;
+    }
+
+    .header-splitted-wrapper .navbar-main-collapse .navbar-nav > li {
+        float: none;
+        display: inline-block;
+    }
+
+    .header-splitted-wrapper .logonav {
+        position: absolute;
+        top: 0px;
+        left: 50%;
+        /* margin-left: -175px; TO CALCULATE */
+    }
+}
+
+
+@media only screen and (max-width: 991px) {
+    .header-splitted-wrapper .navbar-main-collapse .navbar-split-left {
+        padding-right: 0 !important;
+        text-align: center;
+    }
+
+    .header-splitted-wrapper .navbar-main-collapse .navbar-split-right {
+        padding-left:0 !important;
+        text-align: center;
+    }
+}
+
+/*
+@media only screen and (max-width: 1199px) {
+    .header-splitted-wrapper .logonav img {
+        width: 70%;
+    }
+}
+*/
+
+/*
 .header-splitted-wrapper #logo {
     margin-top: 0 !important;
     margin-bottom: 0 !important;
@@ -39,6 +96,7 @@
 .main-navigation .dropdown-menu {
     font-size: 1em;
 }
+*/
 
 .main-navigation .dropdown-menu > li > a {
     padding: 5px 15px;
