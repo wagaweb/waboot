@@ -96,4 +96,4 @@ function register_widget_areas(){
 		}
 	}
 }
-add_action("widgets_init",__NAMESPACE__."\\register_widget_areas");
+add_action("widgets_init",__NAMESPACE__."\\register_widget_areas", 12);
