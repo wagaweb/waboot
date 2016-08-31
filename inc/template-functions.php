@@ -158,13 +158,13 @@ function get_widget_areas(){
 		'footer' => [
 			'name' => __('Footer', 'waboot'),
 			'description' => __( 'The main widget area displayed in the footer.', 'waboot' ),
-			'type' => 'multiple',
-			'subareas' => 4, //this will register footer-1, footer-2, footer-3 and footer-4 as widget areas
+			//'type' => 'multiple',
+			//'subareas' => 4, //this will register footer-1, footer-2, footer-3 and footer-4 as widget areas
 			'render_zone' => 'footer'
 		]
 	];
 
-	$areas = apply_filters("waboot/widget_areas",$areas);
+	$areas = apply_filters("waboot/widget_areas/available",$areas);
 
 	return $areas;
 }
