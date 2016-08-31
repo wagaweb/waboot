@@ -36,6 +36,13 @@ function theme_styles() {
 		wp_register_style('waboot-style', get_template_directory_uri()."/assets/dist/css/waboot.min.css", ['bootstrap-css'], $version, 'all' );
 	}
 	wp_enqueue_style('core-style', get_stylesheet_uri(), ['waboot-style'], false, 'all' ); //enqueue style.css
+
+    $file = WBF()->resources->get_working_directory()."/theme-options.css";
+    if(is_readable($file)){
+        $version = filemtime($file);
+        wp_register_style('waboot-theme-options-style', WBF()->resources->get_working_directory_uri()."/theme-options.css", ['bootstrap-css'], $version, 'all' );
+        wp_enqueue_style('waboot-theme-options-style');
+    }
 }
 add_action( 'wp_enqueue_scripts', __NAMESPACE__.'\\theme_styles' );
 
