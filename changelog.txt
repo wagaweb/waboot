@@ -1,5 +1,9 @@
 == Change log ==
 
+Version 0.15.7 - 31/08/2016
+---------------------------------
+- Fix: Ora bootstrap non viene più caricato in modo asincrono
+
 Version 0.15.6 - 29/08/2016
 ---------------------------------
 - Tweak: Usato nuovo modalità di setting dei file di stile (richiede WBF 0.14.1)
