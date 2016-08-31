@@ -5,7 +5,8 @@ use WBF\components\mvc\HTMLView;
 use WBF\components\utils\Utilities;
 
 //Header:
-add_action("waboot/entry/header",__NAMESPACE__."\\display_title");
+add_action("waboot/entry/header",__NAMESPACE__."\\display_title_bottom");
+add_action("waboot/site-main/before",__NAMESPACE__."\\display_title_top");
 
 //Footer:
 add_action("waboot/entry/footer",__NAMESPACE__."\\display_post_date",10);
@@ -19,12 +20,37 @@ add_action("waboot/entry/footer",__NAMESPACE__."\\display_post_comment_link",14)
  *
  * @param \WP_Post $post
  */
-function display_title($post = null){
+function display_title_top($post = null){
+    if(!$post) global $post;
+
+    $can_display_title = $post instanceof \WP_Post &&
+        (bool) \Waboot\functions\get_behavior('show-title') == true &&
+        \Waboot\functions\get_behavior('title-position','bottom') == 'top';
+
+    if(!$can_display_title) return;
+
+    if(is_singular()){
+        $tpl = "templates/view-parts/entry-title-singular.php";
+    }else{
+        $tpl = "templates/view-parts/entry-title.php";
+    }
+
+    (new HTMLView($tpl))->display([
+        'title' => get_the_title($post->ID)
+    ]);
+}
+
+/**
+ * Display title in entry header
+ *
+ * @param \WP_Post $post
+ */
+function display_title_bottom($post = null){
 	if(!$post) global $post;
 
 	$can_display_title = $post instanceof \WP_Post &&
 	                     (bool) \Waboot\functions\get_behavior("show-title",true) &&
-	                     \Waboot\functions\get_behavior('title-position',"bottom") == "bottom"; //todo: add this
+	                     \Waboot\functions\get_behavior('title-position',"bottom") == "bottom";
 
 	if(!$can_display_title) return;
 

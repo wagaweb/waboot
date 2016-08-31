@@ -10,6 +10,7 @@
 			 */
 			Waboot()->layout->render_zone("main-top");
 			?>
+            <?php do_action("waboot/site-main/before"); ?>
 			<div class="<?php \Waboot\template_tags\container_classes(); ?>">
 				<div class="row">
 					<?php
@@ -37,6 +38,7 @@
 					<?php get_sidebar(); ?>
 				</div><!-- .row -->
 			</div><!-- site-main -->
+            <?php do_action("waboot/site-main/after"); ?>
 			<?php
 			/*
 			 * main-bottom zone
