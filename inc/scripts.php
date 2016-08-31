@@ -6,7 +6,7 @@
  * @since 0.1.0.0
  */
 function waboot_js_loader() {
-	wp_enqueue_script( 'bootstrap.js', wbf_locate_template_uri( 'assets/dist/js/bootstrap.min.js' )."#asyncload", array( 'jquery' ), false, true ); // Bootstrap JS components - Drop a custom build in your child theme's 'js' folder to override this one.
+	wp_enqueue_script( 'bootstrap.js', wbf_locate_template_uri( 'assets/dist/js/bootstrap.min.js' ), array( 'jquery' ), false, true ); // Bootstrap JS components - Drop a custom build in your child theme's 'js' folder to override this one.
 	wp_enqueue_script( 'offcanvas', wbf_locate_template_uri( 'assets/src/js/vendor/offcanvas.js' )."#asyncload", array( 'jquery' ), false, true );
 	waboot_enqueue_main_script();
     // Comment reply script
