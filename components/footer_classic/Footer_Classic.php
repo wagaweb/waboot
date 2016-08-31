@@ -28,7 +28,7 @@ class Footer_Classic extends \Waboot\Component {
 	public function widgets() {
 		add_filter("waboot/widget_areas/available",function($areas){
 			$areas['footer-classic'] = [
-				'name' => __('Footer Classic (Component)', 'waboot'),
+				'name' => __('Footer Classic {{ n }} (Component)', 'waboot'),
 				'description' => __( 'The widget areas registered by Footer Classic', 'waboot' ),
 				'type' => 'multiple',
 				'subareas' => 4,

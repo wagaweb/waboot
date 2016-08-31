@@ -44,7 +44,11 @@ function register_widget_areas(){
 			for($i = 1; $i<=intval($area_args['subareas']); $i++){
 				$my_args = $args;
 				$my_args['id'] = $args['id']."-".$i;
-				$my_args['name'] = $args['name']." ".$i;
+				if(preg_match("/\{\{ ?n ?\}\}/",$args['name'])){ //You can use {{ n }} in the widget area name to specify where to put the number in the name
+					$my_args['name'] = preg_replace("/\{\{ ?n ?\}\}/",$i,$args['name']);
+				}else{
+					$my_args['name'] = $args['name']." ".$i;
+				}
 				register_sidebar($my_args);
 			}
 		}else{
