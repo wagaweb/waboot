@@ -440,9 +440,7 @@ class SlideshowComponent extends \WBF\modules\components\Component{
 	            jQuery(document).ready(function(){
 		            var current_owlcarousel_id = "owl-<?php echo $slideshow_post->post_name; ?>";
 		            if(typeof owlcarousel_params == "undefined"){
-		            	var owlcarousel_params = []; //make sure the params array exists, to avoid javascript errors.
-		            }else{
-			            console.log("Slideshow Component Debug: Unable find owlcarousel_params array.")
+		            	owlcarousel_params = {}; //make sure the params array exists, to avoid javascript errors.
 		            }
 		            /*
 		             * It is possibile to set an object called owlcarousel_params with some preset params for each carousels id (= $slideshow_post->post_name).
