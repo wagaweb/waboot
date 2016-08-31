@@ -22,8 +22,12 @@
   background-color: {{ bottom_bgcolor }};
 }
 
-#footer-wrapper {
-  background-color: {{ footer_bgcolor }};
+.footer-wrapper {
+  background-color: {{ footer_classic_bgcolor }};
+}
+
+.closure {
+  background-color: {{ closure_bgcolor }};
 }
 
 #page {
