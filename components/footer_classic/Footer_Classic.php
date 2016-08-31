@@ -24,7 +24,20 @@ class Footer_Classic extends \Waboot\Component {
 		$display_priority = $this->get_display_priority();
 		Waboot()->layout->add_zone_action($display_zone,[$this,"display_tpl"],intval($display_priority));
 	}
-	
+
+	public function widgets() {
+		add_filter("waboot/widget_areas/available",function($areas){
+			$areas['footer-classic'] = [
+				'name' => __('Footer Classic (Component)', 'waboot'),
+				'description' => __( 'The widget areas registered by Footer Classic', 'waboot' ),
+				'type' => 'multiple',
+				'subareas' => 4,
+				'render_zone' => 'footer'
+			];
+			return $areas;
+		});
+	}
+
 	public function display_tpl(){
 		$v = new \WBF\components\mvc\HTMLView($this->relative_path."/templates/footer-classic.php");
 
