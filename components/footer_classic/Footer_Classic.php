@@ -66,24 +66,33 @@ class Footer_Classic extends \Waboot\Component {
 		$orgzr->add_section("social",_x("Socials","Theme options section","waboot"));
 		$orgzr->add_section("footer",_x( 'Footer',"Theme options section","waboot"));
 
-		$orgzr->add(array(
+		$orgzr->add([
 			'name' => __( 'Show custom footer text?', 'waboot' ),
 			'desc' => __( 'Default is disabled. Check this box to use custom footer text. Fill in your text below.', 'waboot' ),
 			'id'   => 'custom_footer_toggle',
 			'std'  => '1',
 			'type' => 'checkbox'
-		),"footer");
+		],"footer");
 
-		$orgzr->add(array(
+		$orgzr->add([
 			'name' => __( 'Custom footer text', 'waboot' ),
 			'desc' => __( 'Enter the text here that you would like displayed at the bottom of your site. This setting will be ignored if you do not enable "Show custom footer text" above.', 'waboot' ),
 			'id'   => 'custom_footer_text',
 			'std'  => '&copy; '.date("Y")." - you business name",
 			'type' => 'textarea'
-		),"footer");
+		],"footer");
 
-		$orgzr->add(array(
-			'name' => __( 'Footer Classic', 'waboot' ),
+        $orgzr->add([
+            'name' => _x('Footer Classic Background', 'Theme options', 'waboot'),
+            'desc' => _x('Change the footer background color.', 'Theme options', 'waboot'),
+            'id' => 'footer_classic_bgcolor',
+            'type' => 'color',
+            'std' => '#f6f6f6',
+            'save_action' => "\\Waboot\\functions\\deploy_theme_options_css"
+        ],"footer");
+
+		$orgzr->add([
+			'name' => __( 'Footer Classic Width', 'waboot' ),
 			'desc' => __( 'Select footer width. Fluid or Boxed?', 'waboot' ),
 			'id' => 'footer_classic_width',
 			'std' => 'container',
@@ -98,9 +107,18 @@ class Footer_Classic extends \Waboot\Component {
 					'value' => $imagepath . 'layout/footer-boxed.png'
 				)
 			)
-		));
+		],"footer");
 
-		$orgzr->add(array(
+        $orgzr->add([
+            'name' => _x('Closure Background', 'Theme options', 'waboot'),
+            'desc' => _x('Change the closure background color.', 'Theme options', 'waboot'),
+            'id' => 'closure_bgcolor',
+            'type' => 'color',
+            'std' => '#f6f6f6',
+            'save_action' => "\\Waboot\\functions\\deploy_theme_options_css"
+        ],"footer");
+
+		$orgzr->add([
 			'name' => __( 'Closure', 'waboot' ),
 			'desc' => __( 'Select closure width. Fluid or Boxed?', 'waboot' ),
 			'id' => 'closure_width',
@@ -116,7 +134,7 @@ class Footer_Classic extends \Waboot\Component {
 					'value' => $imagepath . 'layout/closure-boxed.png'
 				)
 			)
-		),"layout");
+		],"footer");
 
 		$socials = \Waboot\functions\get_available_socials();
 
