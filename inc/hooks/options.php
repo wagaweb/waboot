@@ -180,15 +180,6 @@ function register_options(){
 		'save_action' => "\\Waboot\\functions\\deploy_theme_options_css"
 	]);
 
-	$orgzr->add([
-		'name' => _x('Background Footer', 'Theme options', 'waboot'),
-		'desc' => _x('Change the footer background color.', 'Theme options', 'waboot'),
-		'id' => 'footer_bgcolor',
-		'type' => 'color',
-		'std' => '#f6f6f6',
-		'save_action' => "\\Waboot\\functions\\deploy_theme_options_css"
-	]);
-
 	$orgzr->reset_group();
 	$orgzr->set_group("std_options");
 
