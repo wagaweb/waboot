@@ -3,6 +3,9 @@
  * The main blog template. It is hooked at the "main" zone in "zones_std_hooks.php"
  */
 ?>
+<?php if(\Waboot\functions\get_option("blog_title_position") == "bottom") : ?>
+	<?php \Waboot\template_tags\index_page_title(); ?>
+<?php endif; ?>
 <?php if(have_posts()): ?>
 	<?php \Waboot\template_tags\post_navigation( 'nav-above' ); // display content nav above posts if needed ?>
 	<?php while(have_posts()) :  the_post(); ?>

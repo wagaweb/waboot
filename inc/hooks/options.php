@@ -498,6 +498,23 @@ function register_options(){
 	));
 
 	$orgzr->add(array(
+		'name' => __( 'Display Blog page title', 'waboot' ),
+		'desc' => __( 'Check this box to show blog page title.', 'waboot' ),
+		'id'   => 'blog_display_title',
+		'std'  => '1',
+		'type' => 'checkbox'
+	));
+
+	$orgzr->add(array(
+		'name' => __('Blog page title position', 'waboot'),
+		'desc' => __('Select where to display page title of blog page', 'waboot'),
+		'id' => 'blog_title_position',
+		'std' => 'top',
+		'type' => 'select',
+		'options' => array('top' => __("Above primary","waboot"), 'bottom' => __("Below primary","waboot"))
+	));
+
+	$orgzr->add(array(
 		'name' => __("Primary Sidebar width","waboot"),
 		'desc' => __("Choose the primary sidebar width","waboot"),
 		'id' => 'blog_primary_sidebar_size',

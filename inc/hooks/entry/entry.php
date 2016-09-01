@@ -5,8 +5,8 @@ use WBF\components\mvc\HTMLView;
 use WBF\components\utils\Utilities;
 
 //Header:
-add_action("waboot/entry/header",__NAMESPACE__."\\display_title_bottom");
-add_action("waboot/site-main/before",__NAMESPACE__."\\display_title_top");
+add_action("waboot/entry/header",__NAMESPACE__."\\display_title");
+add_action("waboot/site-main/before",__NAMESPACE__."\\display_title");
 
 //Footer:
 add_action("waboot/entry/footer",__NAMESPACE__."\\display_post_date",10);
@@ -16,16 +16,59 @@ add_action("waboot/entry/footer",__NAMESPACE__."\\display_post_tags",13);
 add_action("waboot/entry/footer",__NAMESPACE__."\\display_post_comment_link",14);
 
 /**
- * Display title in entry header
+ * Display entry title in entry header or outsite the entry itself
  *
  * @param \WP_Post $post
  */
-function display_title_top($post = null){
+function display_title($post = null){
     if(!$post) global $post;
 
-    $can_display_title = $post instanceof \WP_Post &&
-        (bool) \Waboot\functions\get_behavior('show-title') == true &&
-        \Waboot\functions\get_behavior('title-position','bottom') == 'top';
+	$title_position = current_filter() == "waboot/entry/header" ? "bottom" : "top";
+
+	if(Utilities::get_current_page_type() == Utilities::PAGE_TYPE_DEFAULT_HOME){
+		//If we are in the default homepage, only check for displaying the title inside the entries
+		$title = get_the_title($post->ID);
+		$can_display_title = $title_position == "bottom";
+	}else{
+		switch($title_position){
+			case "bottom":
+				//Print entry header INSIDE the entries
+				$title = get_the_title($post->ID);
+				if(is_archive()){
+					$can_display_title = true; //Always display title in the archives
+				}else{
+					if(Utilities::get_current_page_type() != Utilities::PAGE_TYPE_BLOG_PAGE){ //The display of blog\index page title is handled into blog.php
+						//Handles the posts titles... (here we are in a single post)
+						$can_display_title = (bool) \Waboot\functions\get_behavior('show-title') == true && \Waboot\functions\get_behavior('title-position') == $title_position;
+					}else{
+						//Here we are in user-defined blog page
+						$can_display_title = true;
+					}
+				}
+				break;
+			case "top":
+				//Print entry header OUTSIDE the single entry
+				if(Utilities::get_current_page_type() == Utilities::PAGE_TYPE_BLOG_PAGE){
+					$title = \Waboot\functions\get_index_page_title();
+					$can_display_title = (bool) \Waboot\functions\get_option('blog_display_title') == true && \Waboot\functions\get_option('blog_title_position') == $title_position;
+				}elseif(is_archive()){
+					$title = \Waboot\functions\get_archive_page_title();
+					$can_display_title =  (bool) \Waboot\functions\get_option('blog_display_title') == true && \Waboot\functions\get_option('blog_title_position') == $title_position;
+				}elseif(is_singular()){
+					$title = get_the_title($post->ID);
+					$can_display_title =  (bool) \Waboot\functions\get_behavior('show-title') == true && \Waboot\functions\get_behavior('title-position') == $title_position;
+				}
+				break;
+		}
+	}
+
+	if(!isset($title)){
+		$title = get_the_title($post->ID);
+	}
+
+	if(!isset($can_display_title)){
+		$can_display_title = true;
+	}
 
     if(!$can_display_title) return;
 
@@ -36,33 +79,8 @@ function display_title_top($post = null){
     }
 
     (new HTMLView($tpl))->display([
-        'title' => get_the_title($post->ID)
+        'title' => $title
     ]);
-}
-
-/**
- * Display title in entry header
- *
- * @param \WP_Post $post
- */
-function display_title_bottom($post = null){
-	if(!$post) global $post;
-
-	$can_display_title = $post instanceof \WP_Post &&
-	                     (bool) \Waboot\functions\get_behavior("show-title",true) &&
-	                     \Waboot\functions\get_behavior('title-position',"bottom") == "bottom";
-
-	if(!$can_display_title) return;
-
-	if(is_singular()){
-		$tpl = "templates/view-parts/entry-title-singular.php";
-	}else{
-		$tpl = "templates/view-parts/entry-title.php";
-	}
-
-	(new HTMLView($tpl))->display([
-		'title' => get_the_title($post->ID)
-	]);
 }
 
 /**

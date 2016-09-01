@@ -102,6 +102,17 @@ function get_desktop_logo(){
 }
 
 /**
+ * Print out the index page title
+ */
+function index_page_title(){
+	$title = \Waboot\functions\get_index_page_title();
+	$tpl = "templates/view-parts/entry-title-singular.php";
+	(new HTMLView($tpl))->display([
+		'title' => $title
+	]);
+}
+
+/**
  * Display the content navigation
  *
  * @throws \Exception

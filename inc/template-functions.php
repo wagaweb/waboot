@@ -34,7 +34,10 @@ function get_option($name, $default = false){
 function get_behavior($name, $default = "", $post_id = 0, $return = "value"){
 	if(class_exists("WBF")){
 		$result = \WBF\modules\behaviors\get_behavior($name, $post_id, $return);
-		if(!$result){
+		if($result === false || is_wp_error($result)){
+			if(is_wp_error($result) && isset($result->error_data['unable_to_retrieve_behavior']) && isset($result->error_data['unable_to_retrieve_behavior']['default'])){
+				$default = $result->error_data['unable_to_retrieve_behavior']['default'];
+			}
 			return $default;
 		}
 		return $result;
@@ -218,6 +221,15 @@ function get_available_socials(){
 		]
 	]);
 	return $socials;
+}
+
+/**
+ * Returns the index page title
+ *
+ * @return string|void
+ */
+function get_index_page_title(){
+	return single_post_title('', false);
 }
 
 /**
