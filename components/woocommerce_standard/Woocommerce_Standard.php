@@ -83,6 +83,20 @@ class Woocommerce_Standard extends \WBF\modules\components\Component{
 	public function register_options(){
 		$orgzr = \WBF\modules\options\Organizer::getInstance();
 
+		$layouts = \WBF\modules\options\of_add_default_key(\Waboot\hooks\options\_get_available_body_layouts());
+		if(isset($layouts['values'][0]['thumb'])){
+			$opt_type = "images";
+			foreach($layouts['values'] as $k => $v){
+				$final_layouts[$v['value']]['label'] = $v['name'];
+				$final_layouts[$v['value']]['value'] = isset($v['thumb']) ? $v['thumb'] : "";
+			}
+		}else{
+			$opt_type = "select";
+			foreach($layouts['values'] as $k => $v){
+				$final_layouts[$v['value']]['label'] = $v['name'];
+			}
+		}
+
 		/*
 		 * Standard group:
 		 */
@@ -124,14 +138,14 @@ class Woocommerce_Standard extends \WBF\modules\components\Component{
 			'type' => 'info'
 		));
 
-		/*$orgzr->add(array(
+		$orgzr->add(array(
 			'name' => __('WooCommerce Shop Layout', 'waboot'),
 			'desc' => __('Select WooCommerce shop page layout', 'waboot'),
 			'id' => 'woocommerce_shop_sidebar_layout',
-			'std' => $sidebar_layouts['default'],
+			'std' => $layouts['default'],
 			'type' => $opt_type,
-			'options' => $final_sidebar_layouts
-		));*/
+			'options' => $final_layouts
+		));
 
 		$orgzr->add(array(
 			'name' => __("Primary Sidebar width","waboot"),
@@ -154,7 +168,7 @@ class Woocommerce_Standard extends \WBF\modules\components\Component{
 		$orgzr->add(array(
 			'name' => __( 'Display WooCommerce page title', 'waboot' ),
 			'desc' => __( 'Check this box to show page title.', 'waboot' ),
-			'id'   => 'woocommerce_shop_displaytitle',
+			'id'   => 'woocommerce_shop_display_title',
 			'std'  => '1',
 			'type' => 'checkbox'
 		));
@@ -174,14 +188,14 @@ class Woocommerce_Standard extends \WBF\modules\components\Component{
 			'type' => 'info'
 		));
 
-		/*$orgzr->add(array(
+		$orgzr->add(array(
 			'name' => __('WooCommerce Archive Layout', 'waboot'),
 			'desc' => __('Select Woocommerce archive layout', 'waboot'),
 			'id' => 'woocommerce_sidebar_layout',
-			'std' => $sidebar_layouts['default'],
+			'std' => $layouts['default'],
 			'type' => $opt_type,
-			'options' => $final_sidebar_layouts
-		));*/
+			'options' => $final_layouts
+		));
 
 		$orgzr->add(array(
 			'name' => __("Primary Sidebar width","waboot"),
@@ -204,7 +218,7 @@ class Woocommerce_Standard extends \WBF\modules\components\Component{
 		$orgzr->add(array(
 			'name' => __( 'Display WooCommerce page title', 'waboot' ),
 			'desc' => __( 'Check this box to show page title.', 'waboot' ),
-			'id'   => 'woocommerce_displaytitle',
+			'id'   => 'woocommerce_display_title',
 			'std'  => '1',
 			'type' => 'checkbox'
 		));
