@@ -15,7 +15,8 @@ languages/*
 ############
 /vendor/
 /assets/vendor
-/assets/fonts/*.*
+/assets/dist/fonts/*.*
+!/assets/dist/fonts/.gitkeep
 
 ############
 ## WBF TMP FILE

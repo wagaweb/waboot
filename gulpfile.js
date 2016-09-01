@@ -183,11 +183,11 @@ gulp.task('copy-vendors',function() {
     //Copy fonts
     copy([
         '*.*'
-    ],'assets/fonts',{cwd: 'assets/vendor/bootstrap/dist/fonts'},cb);
+    ],'assets/dist/fonts',{cwd: 'assets/vendor/bootstrap/dist/fonts'},cb);
     copy([
         '*.*',
         '!4.4.0'
-    ],'assets/fonts',{cwd: 'assets/vendor/fontawesome/fonts'},cb);
+    ],'assets/dist/fonts',{cwd: 'assets/vendor/fontawesome/fonts'},cb);
 
     //Copy styles
     copy([
