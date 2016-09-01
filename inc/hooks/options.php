@@ -421,24 +421,6 @@ function register_options($orgzr){
 		)
 	));
 
-	$orgzr->add([
-		'name' => __( 'Header', 'waboot' ),
-		'desc' => __( 'Select header width. Fluid or Boxed?', 'waboot' ),
-		'id' => 'header_width',
-		'std' => 'container-fluid',
-		'type' => 'images',
-		'options' => [
-			'container-fluid' => [
-				'label' => 'Fluid',
-				'value' => $imagepath . 'layout/header-fluid.png'
-			],
-			'container' => [
-				'label' => 'Boxed',
-				'value' => $imagepath . 'layout/header-boxed.png'
-			]
-		]
-	]);
-
 	$layouts = \WBF\modules\options\of_add_default_key(_get_available_body_layouts());
 	if(isset($layouts['values'][0]['thumb'])){
 		$opt_type = "images";
