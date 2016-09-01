@@ -16,7 +16,7 @@ add_action("waboot/entry/footer",__NAMESPACE__."\\display_post_tags",13);
 add_action("waboot/entry/footer",__NAMESPACE__."\\display_post_comment_link",14);
 
 /**
- * Display entry title in entry header or outsite the entry itself
+ * Display entry title in entry header or outsite the entry itself. This is called both for a single entry and a list of entries (archives, blog page, index...)
  *
  * @param \WP_Post $post
  */
