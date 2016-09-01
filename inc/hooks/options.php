@@ -439,24 +439,6 @@ function register_options($orgzr){
 		]
 	]);
 
-	$orgzr->add(array(
-		'name' => __( 'Footer', 'waboot' ),
-		'desc' => __( 'Select footer width. Fluid or Boxed?', 'waboot' ),
-		'id' => 'footer_width',
-		'std' => 'container',
-		'type' => 'images',
-		'options' => array(
-			'container-fluid' => array (
-				'label' => 'Fluid',
-				'value' => $imagepath . 'layout/footer-fluid.png'
-			),
-			'container' => array (
-				'label' => 'Boxed',
-				'value' => $imagepath . 'layout/footer-boxed.png'
-			)
-		)
-	));
-
 	$layouts = \WBF\modules\options\of_add_default_key(_get_available_body_layouts());
 	if(isset($layouts['values'][0]['thumb'])){
 		$opt_type = "images";
