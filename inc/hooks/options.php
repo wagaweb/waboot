@@ -440,24 +440,6 @@ function register_options(){
 	]);
 
 	$orgzr->add(array(
-		'name' => __( 'Main', 'waboot' ),
-		'desc' => __( 'Select main width. Fluid or Boxed?', 'waboot' ),
-		'id' => 'main_width',
-		'std' => 'container',
-		'type' => 'images',
-		'options' => array(
-			'container-fluid' => array (
-				'label' => 'Fluid',
-				'value' => $imagepath . 'layout/content-fluid.png'
-			),
-			'container' => array (
-				'label' => 'Boxed',
-				'value' => $imagepath . 'layout/content-boxed.png'
-			)
-		)
-	));
-
-	$orgzr->add(array(
 		'name' => __( 'Footer', 'waboot' ),
 		'desc' => __( 'Select footer width. Fluid or Boxed?', 'waboot' ),
 		'id' => 'footer_width',
@@ -549,43 +531,43 @@ function register_behaviors($behaviors){
 
 	$imagepath = get_template_directory_uri() . '/assets/images/options';
 
-	$behaviors[] = array(
+	$behaviors[] = [
 		"name" => "show-title",
 		"title" => __("Display page title","waboot"),
 		"desc" => __("Default rendering value for page title","waboot"),
-		"options" => array(
-			array(
+		"options" => [
+			[
 				"name" => __("Yes"),
 				"value" => 1
-			),
-			array(
+			],
+			[
 				"name" => __("No"),
 				"value" => 0
-			)
-		),
+			]
+		],
 		"type" => "select",
 		"default" => 1,
-		"valid" => array("page","post","-{blog}","{cpt}","-slideshow","-{ctag:waboot_woocommerce_is_shop}")
-	);
+		"valid" => ["page","post","-{blog}","{cpt}","-slideshow","-{ctag:\\Waboot\\woocommerce\\is_shop}"]
+	];
 
-	$behaviors[] = array(
+	$behaviors[] = [
 		"name" => "title-position",
 		"title" => __("Title position","waboot"),
 		"desc" => __("Default title positioning in pages","waboot"),
 		"type" => "select",
-		"options" => array(
-			array(
+		"options" => [
+			[
 				"name" => __("Above primary","waboot"),
 				"value" => "top"
-			),
-			array(
+			],
+			[
 				"name" => __("Below primary","waboot"),
 				"value" => "bottom"
-			)
-		),
+			]
+		],
 		"default" => "top",
-		"valid" => array("page","post","-{blog}","{cpt}","-slideshow","-{ctag:waboot_woocommerce_is_shop}")
-	);
+		"valid" => ["page","post","-{blog}","{cpt}","-slideshow","-{ctag:\\Waboot\\woocommerce\\is_shop}"]
+	];
 
 	$body_layouts = \WBF\modules\options\of_add_default_key(_get_available_body_layouts());
 	$behaviors[] = array(
@@ -595,62 +577,83 @@ function register_behaviors($behaviors){
 		"options" => $body_layouts['values'],
 		"type" => "select",
 		"default" => $body_layouts['default'],
-		"valid" => array("page","post","-{blog}","{cpt}","-slideshow","-{ctag:waboot_woocommerce_is_shop}"),
+		"valid" => ["page","post","-{blog}","{cpt}","-slideshow","-{ctag:\\Waboot\\woocommerce\\is_shop}"],
 	);
 
-	$behaviors[] = array(
+	$behaviors[] = [
+		'name' => 'content-width',
+		'title' => __( 'Content Width', 'waboot' ),
+		'desc' => __( 'Select page content wrapper width. Fluid or Boxed?', 'waboot' ),
+		'type' => 'select',
+		'options' => [
+			[
+				'name' => 'Boxed',
+				'value' => "container",
+				'thumb' => $imagepath . '/layout/page-boxed.png'
+			],
+			[
+				'name' => 'Fluid',
+				'value' => "container-fluid",
+				'thumb' => $imagepath . '/layout/page-fluid.png'
+			],
+		],
+		'default' => 'container',
+		"valid" => ["page","post"]
+	];
+
+	$behaviors[] = [
 		'name' => 'primary-sidebar-size',
 		'title' => __("Primary Sidebar width","waboot"),
 		'desc' => __("Choose the primary sidebar width","waboot"),
 		'type' => "select",
-		'options' => array(
-			array(
+		'options' => [
+			[
 				"name" => __("1/2","waboot"),
 				"value" => "1/2"
-			),
-			array(
+			],
+			[
 				"name" => __("1/3","waboot"),
 				"value" => "1/3"
-			),
-			array(
+			],
+			[
 				"name" => __("1/4","waboot"),
 				"value" => "1/4"
-			),
-			array(
+			],
+			[
 				"name" => __("1/6","waboot"),
 				"value" => "1/6"
-			)
-		),
+			]
+		],
 		"default" => "1/4",
-		"valid" => array('*','-slideshow',"-{ctag:waboot_woocommerce_is_shop}","-{blog}")
-	);
+		"valid" => ['*','-slideshow',"-{ctag:\\Waboot\\woocommerce\\is_shop}","-{blog}"]
+	];
 
-	$behaviors[] = array(
+	$behaviors[] = [
 		'name' => 'secondary-sidebar-size',
 		'title' => __("Secondary Sidebar width","waboot"),
 		'desc' => __("Choose the secondary sidebar width","waboot"),
 		'type' => "select",
-		'options' => array(
-			array(
+		'options' => [
+			[
 				"name" => __("1/2","waboot"),
 				"value" => "1/2"
-			),
-			array(
+			],
+			[
 				"name" => __("1/3","waboot"),
 				"value" => "1/3"
-			),
-			array(
+			],
+			[
 				"name" => __("1/4","waboot"),
 				"value" => "1/4"
-			),
-			array(
+			],
+			[
 				"name" => __("1/6","waboot"),
 				"value" => "1/6"
-			)
-		),
+			]
+		],
 		"default" => "1/4",
-		"valid" => array('*','-slideshow',"-{ctag:waboot_woocommerce_is_shop}","-{blog}")
-	);
+		"valid" => ['*','-slideshow',"-{ctag:\\Waboot\\woocommerce\\is_shop}","-{blog}"]
+	];
 
 	/***********************************************
 	 ***************** SAMPLES *********************

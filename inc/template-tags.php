@@ -205,9 +205,12 @@ function wrapped_title($prefix,$suffix,$title,\WP_Post $post = null){
  * Prints out the container-relative classes
  */
 function container_classes(){
-	$classes = "site-main ";
-	$classes .= \Waboot\functions\get_option("content_width","container"); //todo: add this
+	$classes[] = "site-main";
+	$classes[] = \Waboot\functions\get_behavior("content-width");
 	$classes = apply_filters("waboot/layout/container/classes",$classes);
+	if(is_array($classes)){
+		$classes = implode(" ",$classes);
+	}
 	echo $classes;
 }
 
