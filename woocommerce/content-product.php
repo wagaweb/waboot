@@ -20,7 +20,7 @@ if ( ! $product || ! $product->is_visible() ) {
 
 // Extra post classes
 $classes = array();
-$classes[] = of_get_option('waboot_woocommerce_cat_items', 'col-sm-3');
+$classes[] = of_get_option('woocommerce_cat_items', 'col-sm-3');
 ?>
 <div <?php post_class( $classes ); ?>>
 

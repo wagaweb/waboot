@@ -28,14 +28,14 @@ get_header( 'shop' ); ?>
         <?php if ( apply_filters( 'woocommerce_show_page_title', true ) ) : ?>
 
             <?php if(is_shop()) : ?>
-                <?php if (of_get_option('woocommerce_shop_title_position') == "bottom" && of_get_option('woocommerce_shop_displaytitle') == "1") : ?>
+                <?php if (of_get_option('woocommerce_shop_title_position') == "bottom" && of_get_option('woocommerce_shop_display_title') == "1") : ?>
                     <div class="page-header">
                         <h1 class="page-title"><?php woocommerce_page_title(); ?></h1>
                         <?php do_action( 'woocommerce_archive_description' ); ?>
                     </div>
                 <?php endif; ?>
             <?php else : ?>
-                <?php if (of_get_option('waboot_woocommerce_title_position') == "bottom" && of_get_option('waboot_woocommerce_displaytitle') == "1") : ?>
+                <?php if (of_get_option('woocommerce_title_position') == "bottom" && of_get_option('woocommerce_display_title') == "1") : ?>
                     <div class="page-header">
                         <h1 class="page-title"><?php woocommerce_page_title(); ?></h1>
                         <?php do_action( 'woocommerce_archive_description' ); ?>
