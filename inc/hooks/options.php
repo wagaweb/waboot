@@ -598,7 +598,7 @@ function register_behaviors($behaviors){
 			],
 		],
 		'default' => 'container',
-		"valid" => ["page","post"]
+		"valid" => ["page","post","{cpt}"]
 	];
 
 	$behaviors[] = [
