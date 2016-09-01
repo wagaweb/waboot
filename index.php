@@ -3,7 +3,7 @@
 		$main_wrapper_vars = \Waboot\functions\get_main_wrapper_template_vars();
 	?>
 	<div id="main-wrapper" class="<?php echo $main_wrapper_vars['classes']; ?>">
-		<div class="main-inner" class="<?php echo of_get_option( 'main_width', 'container' ); ?>">
+		<div class="main-inner">
 			<?php
 			/*
 			 * main-top zone
