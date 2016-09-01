@@ -26,7 +26,8 @@ function waboot_init(){
 		'inc/template-rendering.php',
 		'inc/Layout.php',
 		'inc/Theme.php',
-		'inc/Component.php'
+		'inc/Component.php',
+		'inc/woocommerce/bootstrap.php'
 	];
 
 	//Require mandatory files

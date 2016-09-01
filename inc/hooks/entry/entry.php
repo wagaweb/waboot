@@ -71,6 +71,9 @@ function display_title($post = null){
 		$can_display_title = true;
 	}
 
+	$title = apply_filters("waboot/entry/title",$title,$current_title_position);
+	$can_display_title = apply_filters("waboot/entry/title/display_flag",$can_display_title,$current_title_position);
+
     if(!$can_display_title) return;
 
     if(is_singular()){
@@ -79,9 +82,13 @@ function display_title($post = null){
         $tpl = "templates/view-parts/entry-title.php";
     }
 
-    (new HTMLView($tpl))->display([
-        'title' => $title
-    ]);
+    $tpl = apply_filters("waboot/entry/title/tpl",$tpl,$current_title_position);
+	$tpl_args = [
+		'title' => $title
+	];
+	$tpl_args = apply_filters("waboot/entry/title/tpl_args",$tpl_args);
+
+    (new HTMLView($tpl))->display($tpl_args);
 }
 
 /**

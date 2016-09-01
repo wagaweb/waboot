@@ -5,7 +5,7 @@ namespace Waboot\hooks\options;
 use Waboot\Layout;
 use WBF\modules\options\Organizer;
 
-add_filter('wbf/modules/options/available', __NAMESPACE__.'\\register_options');
+add_action("wbf/theme_options/register", __NAMESPACE__.'\\register_options', 13);
 add_filter("wbf/modules/behaviors/available", __NAMESPACE__."\\register_behaviors");
 
 //Ordering filters:
@@ -14,10 +14,10 @@ add_filter("wbf/modules/options/organizer/output",__NAMESPACE__."\\reorder_outpu
 
 /**
  * Register standard theme options
+ *
+ * @param Organizer $orgzr
  */
-function register_options(){
-	$orgzr = Organizer::getInstance();
-
+function register_options($orgzr){
 	$imagepath = get_template_directory_uri()."/assets/images/options/";
 
 	$orgzr->set_group("std_options");

@@ -21,10 +21,12 @@ function is_shop($id){
  * @param bool $display
  *
  * @return string
+ * 
+ * @not-used-yet
  */
 function shop_title($prefix = "", $suffix = "", $display = true) {
 	if (of_get_option('blogpage_displaytitle') == "1") { //todo: add this
-		$title = $prefix . apply_filters('waboot_index_title_text', get_wc_shop_page_title()) . $suffix;
+		$title = $prefix . apply_filters('waboot_index_title_text', get_shop_page_title()) . $suffix;
 	} else {
 		$title = "";
 	}
@@ -43,6 +45,8 @@ function shop_title($prefix = "", $suffix = "", $display = true) {
  * @param bool|true $display
  *
  * @return string|void
+ *
+ * @not-used-yet
  */
 function archive_page_title($prefix = "", $suffix = "", $display = true){
 	if (of_get_option('woocommerce_displaytitle') == "1") { //todo: add this

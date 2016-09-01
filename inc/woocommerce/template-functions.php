@@ -7,7 +7,7 @@ namespace Waboot\woocommerce;
  *
  * @return bool|string
  */
-function get_wc_shop_page_title(){
+function get_shop_page_title(){
 	if(!function_exists("woocommerce_get_page_id")) return false;
 	$shop_page_id = wc_get_page_id('shop');
 	if($shop_page_id){
