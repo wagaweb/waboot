@@ -18,10 +18,10 @@ add_action("waboot/entry/footer",__NAMESPACE__."\\display_post_comment_link",14)
 /**
  * Display entry title in entry header or outsite the entry itself. This is called both for a single entry and a list of entries (archives, blog page, index...)
  *
- * @param \WP_Post $post
+ * @param string $type if we are cycling through a single or a list of entries.
  */
-function display_title($post = null){
-    if(!$post) global $post;
+function display_title($type = 'single'){
+    global $post;
 
 	$current_title_position = current_filter() == "waboot/entry/header" ? "bottom" : "top";
 
@@ -76,7 +76,7 @@ function display_title($post = null){
 
     if(!$can_display_title) return;
 
-    if(is_singular()){
+    if( is_singular() || (Utilities::get_current_page_type() == Utilities::PAGE_TYPE_BLOG_PAGE && $type == "single") ){
         $tpl = "templates/view-parts/entry-title-singular.php";
     }else{
         $tpl = "templates/view-parts/entry-title.php";
