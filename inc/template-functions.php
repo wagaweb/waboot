@@ -131,8 +131,8 @@ function get_widget_areas(){
 			'description' => __( 'Widget area displayed above the content and the sidebars.', 'waboot' ),
 			'render_zone' => 'main-top'
 		],
-		'sidebar_left' => [
-			'name' => __('Sidebar left', 'waboot'),
+		'sidebar_primary' => [
+			'name' => __('Sidebar primary', 'waboot'),
 			'description' => __('Widget area displayed in left aside', 'waboot' ),
 			'render_zone' => 'aside-primary'
 		],
@@ -148,8 +148,8 @@ function get_widget_areas(){
 			'render_zone' => 'content',
 			'render_priority' => 90
 		],
-		'sidebar_right' => [
-			'name' => __('Sidebar right', 'waboot'),
+		'sidebar_secondary' => [
+			'name' => __('Sidebar secondary', 'waboot'),
 			'description' => __('Widget area displayed in right aside', 'waboot' ),
 			'render_zone' => 'aside-secondary'
 		],
