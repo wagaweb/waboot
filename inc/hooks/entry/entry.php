@@ -76,7 +76,7 @@ function display_title($type = 'single'){
 
     if(!$can_display_title) return;
 
-    if( is_singular() || (Utilities::get_current_page_type() == Utilities::PAGE_TYPE_BLOG_PAGE && $type == "single") ){
+    if( (is_singular() || Utilities::get_current_page_type() == Utilities::PAGE_TYPE_BLOG_PAGE) && $type == "single" ){
         $tpl = "templates/view-parts/entry-title-singular.php";
     }else{
         $tpl = "templates/view-parts/entry-title.php";
