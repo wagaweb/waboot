@@ -23,6 +23,10 @@ add_action("waboot/entry/footer",__NAMESPACE__."\\display_post_comment_link",14)
 function display_title($type = 'single'){
     global $post;
 
+	if($type == ""){
+		$type = "single";
+	}
+
 	$current_title_position = current_filter() == "waboot/entry/header" ? "bottom" : "top";
 
 	if(Utilities::get_current_page_type() == Utilities::PAGE_TYPE_DEFAULT_HOME){
