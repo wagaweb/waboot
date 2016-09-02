@@ -24,11 +24,7 @@ add_filter("waboot/layout/main_wrapper/classes", __NAMESPACE__."\\set_main_wrapp
  * @hooked 'woocommerce_before_main_content'
  */
 function wrapper_start() {
-	$main_wrapper_vars = \Waboot\functions\get_main_wrapper_template_vars();
-	?>
-	<div id="main-wrapper" class="<?php echo $main_wrapper_vars['classes']; ?>">
-		<div class="main-inner">
-	<?php
+	\get_template_part("templates/wrapper","start");
 }
 
 /**
@@ -37,10 +33,7 @@ function wrapper_start() {
  * @hooked 'woocommerce_after_main_content'
  */
 function wrapper_end() {
-	?>
-		</div><!-- .main-inner -->
-	</div><!-- #main-wrapper -->
-	<?php
+	\get_template_part("templates/wrapper","end");
 }
 
 /**
