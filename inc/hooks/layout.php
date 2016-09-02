@@ -162,3 +162,32 @@ function set_secondary_sidebar_size(Behavior $b){
 	return $b;
 }
 add_filter("wbf/modules/behaviors/get/secondary-sidebar-size", __NAMESPACE__."\\set_secondary_sidebar_size");
+
+/**
+ * Alter the default comments template location
+ *
+ * @param $theme_template
+ *
+ * @return string
+ */
+function alter_comments_template($theme_template){
+	$theme_template = locate_template("templates/wordpress/comments.php");
+	return $theme_template;
+}
+add_filter('comments_template', __NAMESPACE__."\\alter_comments_template");
+
+/**
+ * Set the templates wrapper start for all waboot compatible plugins
+ */
+function include_default_plugins_template_wrapper_start(){
+	\get_template_part("templates/wrapper","start");
+}
+add_action("waboot-plugin/before_main_content",__NAMESPACE__."\\include_default_plugins_template_wrapper_start");
+
+/**
+ * Set the templates wrapper end for all waboot compatible plugins
+ */
+function include_default_plugins_template_wrapper_end(){
+	\get_template_part("templates/wrapper","end");
+}
+add_action("waboot-plugin/after_main_content",__NAMESPACE__."\\include_default_plugins_template_wrapper_end");
