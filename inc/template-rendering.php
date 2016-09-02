@@ -76,8 +76,9 @@ function get_aside_template_vars($slug){
  * Get additional variables needed to render the main wrapper
  */
 function get_main_wrapper_template_vars(){
-	$vars['classes'] = apply_filters( 'waboot/layout/main_wrapper/classes', 'main-wrapper content-area' );
-	
+	$classes = apply_filters( 'waboot/layout/main_wrapper/classes', ['main-wrapper','content-area']);
+	$vars['classes'] = implode(" ",array_unique($classes));
+
 	return $vars;
 }
 
