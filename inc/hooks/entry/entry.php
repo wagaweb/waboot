@@ -64,7 +64,7 @@ function display_title($post = null){
 	}
 
 	if(!isset($title)){
-		$title = get_the_title($post->ID);
+		$title = $post instanceof \WP_Post ? get_the_title($post->ID) : "";
 	}
 
 	if(!isset($can_display_title)){
