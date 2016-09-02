@@ -191,3 +191,16 @@ function include_default_plugins_template_wrapper_end(){
 	\get_template_part("templates/wrapper","end");
 }
 add_action("waboot-plugin/after_main_content",__NAMESPACE__."\\include_default_plugins_template_wrapper_end");
+
+
+/**
+ * Set post name as Body Class
+ */
+function add_slug_body_class( $classes ) {
+    global $post;
+    if ( isset( $post ) ) {
+        $classes[] = $post->post_type . '-' . $post->post_name;
+    }
+    return $classes;
+}
+add_filter( "body_class",__NAMESPACE__."\\add_slug_body_class" );
