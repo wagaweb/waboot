@@ -55,6 +55,19 @@ function alter_body_layout_when_theme_has_no_sidebars($layout){
 add_filter("waboot/layout/body_layout",__NAMESPACE__."\\alter_body_layout_when_theme_has_no_sidebars");
 
 /**
+ * Adds body layout to WP standard body class
+ *
+ * @param $classes
+ *
+ * @return array
+ */
+function alter_body_class($classes){
+	$classes[] = \Waboot\functions\get_body_layout();
+	return $classes;
+}
+add_filter('body_class', __NAMESPACE__.'\\alter_body_class');
+
+/**
  * Prepare the classes for mainwrap container
  * 
  * @param $classes
