@@ -36,7 +36,7 @@ class Breadcrumb extends \Waboot\Component {
 	 * Display component template
 	 */
 	public function display_tpl(){
-		$v = new \WBF\components\mvc\HTMLView($this->relative_path."/templates/breadcrumb.php");
+		$v = new \WBF\components\mvc\HTMLView($this->theme_relative_path."/templates/breadcrumb.php");
 		$args = [
 			'is_woocommerce' => function_exists('is_woocommerce') && is_woocommerce()
 		];

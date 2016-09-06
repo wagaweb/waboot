@@ -42,7 +42,7 @@ class TopNavWrapperComponent extends \Waboot\Component{
 	}
 	
 	public function display_tpl(){
-		$v = new \WBF\components\mvc\HTMLView($this->relative_path."/templates/tpl.php");
+		$v = new \WBF\components\mvc\HTMLView($this->theme_relative_path."/templates/tpl.php");
 		
 		$social_class = call_user_func(function(){
 			$social_position = Waboot\functions\get_option('social_position');

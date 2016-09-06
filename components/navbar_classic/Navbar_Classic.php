@@ -24,8 +24,8 @@ class Navbar_Classic extends \Waboot\Component{
 	}
 
 	public function display_tpl(){
-		$wrapper = new \WBF\components\mvc\HTMLView($this->relative_path."/templates/navbar_wrapper.php");
-		$content = (new \WBF\components\mvc\HTMLView($this->relative_path."/templates/navbar_content.php"))->clean()->get([
+		$wrapper = new \WBF\components\mvc\HTMLView($this->theme_relative_path."/templates/navbar_wrapper.php");
+		$content = (new \WBF\components\mvc\HTMLView($this->theme_relative_path."/templates/navbar_content.php"))->clean()->get([
 			'show_mobile_nav' => Waboot\functions\get_option('mobilenav_style') == "offcavas",
 			'display_socials' => Waboot\functions\get_option("social_position_none") == 1 || Waboot\functions\get_option('social_position') != "navigation" ? false : true,
 			'display_searchbar' => Waboot\functions\get_option("display_search_bar_in_header") == 1

@@ -3,9 +3,23 @@
 namespace Waboot;
 
 class Component extends \WBF\modules\components\Component{
-
+	/**
+	 * @var string
+	 */
 	var $default_zone = "header";
+	/**
+	 * @var int
+	 */
 	var $default_prority = 10;
+	/**
+	 * @var string
+	 */
+	var $theme_relative_path;
+
+	public function __construct( array $component ) {
+		parent::__construct( $component );
+		$this->theme_relative_path = "components/".$this->directory_name;
+	}
 
 	public function theme_options($options){
 		$options = parent::theme_options($options);

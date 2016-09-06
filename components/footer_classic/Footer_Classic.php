@@ -39,7 +39,7 @@ class Footer_Classic extends \Waboot\Component {
 	}
 
 	public function display_tpl(){
-		$v = new \WBF\components\mvc\HTMLView($this->relative_path."/templates/footer-classic.php");
+		$v = new \WBF\components\mvc\HTMLView($this->theme_relative_path."/templates/footer-classic.php");
 
 		$default_footer_text = '&copy; ' . date('Y') . ' ' . get_bloginfo('name');
 		$footer_text = \Waboot\functions\get_option('custom_footer_toggle') ? \Waboot\functions\get_option('custom_footer_text') : $default_footer_text;
