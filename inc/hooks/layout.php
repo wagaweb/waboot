@@ -190,23 +190,6 @@ function alter_comments_template($theme_template){
 add_filter('comments_template', __NAMESPACE__."\\alter_comments_template");
 
 /**
- * Set the templates wrapper start for all waboot compatible plugins
- */
-function include_default_plugins_template_wrapper_start(){
-	\get_template_part("templates/wrapper","start");
-}
-add_action("waboot-plugin/before_main_content",__NAMESPACE__."\\include_default_plugins_template_wrapper_start");
-
-/**
- * Set the templates wrapper end for all waboot compatible plugins
- */
-function include_default_plugins_template_wrapper_end(){
-	\get_template_part("templates/wrapper","end");
-}
-add_action("waboot-plugin/after_main_content",__NAMESPACE__."\\include_default_plugins_template_wrapper_end");
-
-
-/**
  * Set post name as Body Class
  */
 function add_slug_body_class( $classes ) {
@@ -217,3 +200,20 @@ function add_slug_body_class( $classes ) {
     return $classes;
 }
 add_filter( "body_class",__NAMESPACE__."\\add_slug_body_class" );
+
+_adds_plugins_wrappers();
+
+/**
+ * Automatically adds actions for WBF plugins content wrappers.
+ */
+function _adds_plugins_wrappers(){
+	$plugins = WBF()->get_registered_plugins();
+	foreach ($plugins as $name => $params){
+		add_action("{$name}/before_main_content",function(){
+			\get_template_part("templates/wrapper","start");
+		});
+		add_action("{$name}/after_main_content",function(){
+			\get_template_part("templates/wrapper","end");
+		});
+	}
+}
