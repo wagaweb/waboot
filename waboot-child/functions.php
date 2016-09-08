@@ -23,8 +23,8 @@ add_action("wp_enqueue_scripts", function(){
 			'enqueue_callback' => false, //A valid callable that must be return true or false
 			'in_footer' => false, //Used for scripts
 			'enqueue' => true //If FALSE the script\css will only be registered
-		],
-		'theme-style' => [
+		]
+		/*'theme-style' => [
 			'uri' => get_stylesheet_directory_uri()."/assets/dist/css/".$theme->stylesheet."/".$theme->stylesheet.".css",
 			'path' => get_stylesheet_directory()."/assets/dist/css/".$theme->stylesheet."/".$theme->stylesheet.".css",
 			'type' => 'css'
@@ -32,7 +32,7 @@ add_action("wp_enqueue_scripts", function(){
 		'theme-scripts' => [
 			'uri' => get_stylesheet_directory_uri()."/assets/dist/js/".$theme->stylesheet."/".$theme->stylesheet.".js",
 			'path' => get_stylesheet_directory()."/assets/dist/js/".$theme->stylesheet."/".$theme->stylesheet.".js",
-		]
+		]*/
 	];
 
 	$am = new \WBF\components\assets\AssetsManager($assets);
