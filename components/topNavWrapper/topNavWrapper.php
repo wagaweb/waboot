@@ -2,6 +2,8 @@
 /**
 Component Name: Top Nav Wrapper
 Description: Top Nav Wrapper Component
+Category: Layout
+Tags: Navigation
 Version: 1.0
 Author: WAGA Team <dev@waga.it>
 Author URI: http://www.waga.it

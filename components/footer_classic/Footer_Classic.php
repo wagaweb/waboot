@@ -2,6 +2,8 @@
 /**
 Component Name: Footer Classic
 Description: Footer Classic Component
+Category: Layout
+Tags: jQuery, Colorbox
 Version: 1.0
 Author: WAGA Team <dev@waga.it>
 Author URI: http://www.waga.it

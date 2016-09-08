@@ -2,6 +2,8 @@
 /**
 Component Name: Blog - Masonry
 Description: Enable masonry visualization for blog posts.
+Category: Layout
+Tags: jQuery, Masonry
 Version: 1.0
 Author: WAGA Team <dev@waga.it>
 Author URI: http://www.waga.it

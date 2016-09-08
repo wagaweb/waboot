@@ -2,6 +2,8 @@
 /**
 Component Name: Image Modal
 Description: Enable modal visualization on images.
+Category: Effects
+Tags: jQuery, Colorbox
 Version: 1.0
 Author: WAGA Team <dev@waga.it>
 Author URI: http://www.waga.it

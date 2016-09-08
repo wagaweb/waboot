@@ -2,6 +2,8 @@
 /**
 Component Name: Blog - Timeline
 Description: Enable timeline visualization for blog posts.
+Category: Layout
+Tags: jQuery, Timeline
 Version: 1.0
 Author: WAGA Team <dev@waga.it>
 Author URI: http://www.waga.it

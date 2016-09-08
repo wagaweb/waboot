@@ -2,6 +2,8 @@
 /**
 Component Name: Header Fixed
 Description: A fixed Header
+Category: Effects
+Tags: jQuery, Header
 Version: 1.0
 Author: WAGA Team <dev@waga.it>
 Author URI: http://www.waga.it
