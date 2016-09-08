@@ -140,7 +140,7 @@ function get_widget_areas(){
 			'name' => __('Content Top', 'waboot'),
 			'description' => __('Widget area displayed above the content', 'waboot' ),
 			'render_zone' => 'content',
-			'render_priority' => 10
+			'render_priority' => 9
 		],
 		'content_bottom' => [
 			'name' => __('Content Bottom', 'waboot'),
