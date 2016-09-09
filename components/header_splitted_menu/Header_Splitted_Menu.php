@@ -19,7 +19,6 @@ class Header_Splitted_Menu extends \Waboot\Component{
     public function setup(){
         parent::setup();
         //Do stuff...
-	    //require_once 'WabootSplittedNavMenuWalker.php';
     }
 
 
@@ -35,20 +34,15 @@ class Header_Splitted_Menu extends \Waboot\Component{
 
     public function display_tpl(){
 
-	    $position = \Waboot\functions\get_option($this->name.'_item_select');
-	    $menu_name = \Waboot\functions\get_option($this->name.'_menu_name');
-		    /*? \Waboot\functions\get_option($this->name.'_item_select')
-	    : "main";
-	    */
-
-	    $menu_name = (\Waboot\functions\get_option($this->name.'_menu_name'))
-		    ? \Waboot\functions\get_option($this->name.'_menu_name')
+        // retrieve the user options
+	    $menu_name = (\Waboot\functions\get_option('header_splitted_menu'))
+		    ? \Waboot\functions\get_option('header_splitted_menu')
 		    : 'main';
-	    $position = (\Waboot\functions\get_option($this->name.'_item_select'))
-		    ? \Waboot\functions\get_option($this->name.'_item_select')
+	    $position = (\Waboot\functions\get_option('header_splitted_position'))
+		    ? \Waboot\functions\get_option('header_splitted_position')
 		    : 'middle';
 
-	    $walker = new WabootSplittedNavMenuWalker( $position, $menu_name); //position, menu_name
+	    $walker = new WabootSplittedNavMenuWalker( $position, $menu_name);
 
     	$menu = new \WBF\components\mvc\HTMLView($this->theme_relative_path."/templates/header_splitted.php");
         $menu->clean()->display([
@@ -57,20 +51,19 @@ class Header_Splitted_Menu extends \Waboot\Component{
     }
 
 
-
 	/**
 	 * Register component scripts (called automatically)
 	 */
     public function scripts(){
         wp_register_script('component-header_splitted_menu', $this->directory_uri . '/assets/dist/js/headerSplittedMenu.js', ['jquery'], false, true);
-	    $margin = \Waboot\functions\get_option($this->name.'_margin_select');
-
+	    $additional_margin = (\Waboot\functions\get_option('header_splitted_margin'))
+		    ? \Waboot\functions\get_option('header_splitted_margin')
+		    : 10;
         wp_localize_script('component-header_splitted_menu', 'wabootHeaderSplitted', array(
-	        'margin' => $margin
+	        'margin' => $additional_margin
         ) );
         wp_enqueue_script('component-header_splitted_menu');
     }
-
 
 
 	/**
@@ -79,7 +72,6 @@ class Header_Splitted_Menu extends \Waboot\Component{
     public function styles(){
         wp_enqueue_style('component-header_splitted-style', $this->directory_uri . '/assets/dist/css/headerSplittedMenu.css');
     }
-
 
 
 	/**
@@ -97,8 +89,37 @@ class Header_Splitted_Menu extends \Waboot\Component{
 	 * Here you can use WBF Organizer to set component options
 	 */
     public function register_options() {
-        parent::register_options();
+	    parent::register_options();
 
+	    $orgzr = \WBF\modules\options\Organizer::getInstance();
+
+	    $imagepath = get_template_directory_uri()."/assets/images/options/";
+
+	    $orgzr->set_group($this->name."_component");
+
+	    $orgzr->add_section("header",_x("Header","Theme options section","waboot"));
+
+	    $orgzr->update('header_splitted_position',[
+			    'name' => __( 'Splitted Menu Position', 'waboot' ),
+			    'desc' => __( 'Select the item of the menu at which you want to apply the margin. By default is "middle" but you can insert any number. ', 'waboot' ),
+			    'id'   => $this->name.'_item_select',
+			    'type' => 'text'
+		    ],"header");
+	    $orgzr->update('header_splitted_margin',[
+			    'name' => __( 'Header Splitted Additional Margin', 'waboot' ),
+			    'desc' => __( 'An additional margin to increase spacing between logo and menu items. This number is applied to both sides of the logo, therefore consider it will be doubled. Default is 10px', 'waboot' ),
+			    'id'   => $this->name.'_margin_select',
+			    'type' => 'text'
+		    ],"header");
+	    $orgzr->update('header_splitted_menu',[
+			    'name' => __( 'Header Splitted Menu', 'waboot' ),
+			    'desc' => __( 'The name of the menu that will be splitted, Default is "main"', 'waboot' ),
+			    'id'   => $this->name.'_menu_select',
+			    'type' => 'text'
+		    ],"header");
+
+	    $orgzr->reset_group();
+	    $orgzr->reset_section();
     }
 
 	/**
@@ -135,7 +156,6 @@ class Header_Splitted_Menu extends \Waboot\Component{
 		    'std'  => '0',
 		    'type' => 'text'
 	    );
-
 	    return $options;
     }
 

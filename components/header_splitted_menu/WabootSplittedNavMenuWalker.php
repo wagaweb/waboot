@@ -8,7 +8,7 @@ class WabootSplittedNavMenuWalker extends BootstrapNavMenuWalker{
 	function __construct($position, $menu_name) {
 
 		$this->split_position = ($position == "middle")
-			? ceil(count(wp_get_nav_menu_items($menu_name))/2)
+			? floor(count(wp_get_nav_menu_items($menu_name))/2)
 			: intval($position) ;
 	}
 
@@ -18,19 +18,17 @@ class WabootSplittedNavMenuWalker extends BootstrapNavMenuWalker{
 		 * here start the logic that split the menu in two and insert the log inbetween
 		 */
 
-		if ($depth==0 && $this->count==0){
+		if ($depth==0 && $this->count == 0){
 
 			//open the first splitted ul
 			$cb_args = array_merge( [&$output], $args);
 			call_user_func_array([&$this, 'start_splitted_ul'], $cb_args);
 
-		} elseif ($depth==0 && $this->count==$this->split_position ) {
+		} elseif ($depth==0 && $this->count == ($this->split_position+1) ) {
 
 			// close the ul, insert the logo and opent he new ul
 			$cb_args = array_merge( [&$output], $args);
 			call_user_func_array([&$this, 'insert_logo'], $cb_args);
-		} else {
-			$output	   .= "\n<!-- display sub el-->\n";
 		}
 
 		// here ends the logic
