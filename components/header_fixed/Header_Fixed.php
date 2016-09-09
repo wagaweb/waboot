@@ -90,6 +90,73 @@ class Header_Fixed extends \Waboot\Component{
 
         $orgzr->add_section("header",_x("Header","Theme options section","waboot"));
 
+	    $orgzr->add([
+		    'name' => 'Header Fixed',
+		    'desc' => __( 'Edit default options for Header Fixed post type', 'waboot' ),
+		    'type' => 'info'
+	    ], "header");
+
+	    $orgzr->update($this->name.'_fixed_class',[
+		    'name' => __( 'Class to fix', 'waboot' ),
+		    'desc' => __( 'Select the class you want to fix. ', 'waboot' ),
+		    'id'   => $this->name.'_fixed_class',
+		    'std'  => 'header#masthead',
+		    'type' => 'text'
+	    ],"header");
+
+	    $orgzr->update($this->name.'_mode',[
+		    'name' => __( 'Mode', 'waboot' ),
+		    'desc' => __( 'Choose if you want the class to be fixed from the beginning, after a breakpoint or on scroll up', 'waboot' ),
+		    'id'   => $this->name.'_mode',
+		    'std'  => '0',
+		    'type' => 'select',
+		    'options' => [
+			    'beginning' => __("From the Beginning","waboot"),
+			    'breakpoint' => __("After Breakpoint","waboot"),
+			    'scrollUp' => __("On Scroll Up","waboot")
+		    ]
+	    ],"header");
+
+	    $orgzr->update($this->name.'_color_before',[
+		    'name' => __( 'Style Before - Color', 'waboot' ),
+		    'desc' => __( ' ', 'waboot' ),
+		    'id'   => $this->name.'_color_before',
+		    'std'  => '',
+		    'type' => 'advanced_color'
+	    ],"header");
+
+	    $orgzr->update($this->name.'_padding_before',[
+		    'name' => __( 'Style Before - Padding', 'waboot' ),
+		    'desc' => __( ' ', 'waboot' ),
+		    'id'   => $this->name.'_padding_before',
+		    'std'  => '50',
+		    'type' => 'text'
+	    ],"header");
+
+	    $orgzr->update($this->name.'advanced_color',[
+		    'name' => __( 'Style After - Color', 'waboot' ),
+		    'desc' => __( ' ', 'waboot' ),
+		    'id'   => $this->name.'_color_after',
+		    'std'  => '',
+		    'type' => 'advanced_color'
+	    ],"header");
+
+	    $orgzr->update($this->name.'_padding_after',[
+		    'name' => __( 'Style After - Padding', 'waboot' ),
+		    'desc' => __( ' ', 'waboot' ),
+		    'id'   => $this->name.'_padding_after',
+		    'std'  => '50',
+		    'type' => 'text'
+	    ],"header");
+
+	    $orgzr->update($this->name.'_breakpoint',[
+		    'name' => __( 'Breakpoint', 'waboot' ),
+		    'desc' => __( 'The header enter after the specified number of pixels or after a DOM element (e.g. section#second). Only valid for "Beginning" and "Breakpoint" modes.', 'waboot' ),
+		    'id'   => $this->name.'_breakpoint',
+		    'std'  => '50',
+		    'type' => 'text'
+	    ],"header");
+
         $orgzr->reset_group();
         $orgzr->reset_section();
     }
@@ -103,67 +170,6 @@ class Header_Fixed extends \Waboot\Component{
 	 */
     public function theme_options($options){
 	    $options = parent::theme_options($options);
-
-	    $options[] = array(
-		    'name' => __( 'Fixed Menu Settings', 'waboot' ),
-		    'desc' => __( 'Customize your fixed header', 'waboot' ),
-		    'type' => 'info'
-	    );
-	    $options[] = array(
-		    'name' => __( 'Class to fix', 'waboot' ),
-		    'desc' => __( 'Select the class you want to fix. ', 'waboot' ),
-		    'id'   => $this->name.'_fixed_class',
-		    'std'  => 'header#masthead',
-		    'type' => 'text'
-	    );
-	    $options[] = array(
-		    'name' => __( 'Mode', 'waboot' ),
-		    'desc' => __( 'Choose if you want the class to be fixed from the beginning, after a breakpoint or on scroll up', 'waboot' ),
-		    'id'   => $this->name.'_mode',
-		    'std'  => '0',
-		    'type' => 'select',
-		    'options' => [
-		    	'beginning' => __("From the Beginning","waboot"),
-			    'breakpoint' => __("After Breakpoint","waboot"),
-			    'scrollUp' => __("On Scroll Up","waboot")
-		    ]
-	    );
-	    $options[] = array(
-		    'name' => __( 'Style Before - Color', 'waboot' ),
-		    'desc' => __( ' ', 'waboot' ),
-		    'id'   => $this->name.'_color_before',
-		    'std'  => '',
-		    'type' => 'advanced_color'
-	    );
-	    $options[] = array(
-		    'name' => __( 'Style Before - Padding', 'waboot' ),
-		    'desc' => __( ' ', 'waboot' ),
-		    'id'   => $this->name.'_padding_before',
-		    'std'  => '50',
-		    'type' => 'text'
-	    );
-	    $options[] = array(
-		    'name' => __( 'Style After - Color', 'waboot' ),
-		    'desc' => __( ' ', 'waboot' ),
-		    'id'   => $this->name.'_color_after',
-		    'std'  => '',
-		    'type' => 'advanced_color'
-	    );
-	    $options[] = array(
-		    'name' => __( 'Style After - Padding', 'waboot' ),
-		    'desc' => __( ' ', 'waboot' ),
-		    'id'   => $this->name.'_padding_after',
-		    'std'  => '50',
-		    'type' => 'text'
-	    );
-	    $options[] = array(
-		    'name' => __( 'Breakpoint', 'waboot' ),
-		    'desc' => __( 'The header enter after the specified number of pixels or after a DOM element (e.g. section#second). Only valid for "Beginning" and "Breakpoint" modes.', 'waboot' ),
-		    'id'   => $this->name.'_breakpoint',
-		    'std'  => '50',
-		    'type' => 'text'
-	    );
-
 	    return $options;
     }
 
