@@ -2,14 +2,9 @@ jQuery(document).ready(function($){
 
     defineLogo();
 
-    $(window).load(function () {
-
-    });
-
     $(window).resize(function() {
         defineLogo()
     });
-
 
     /**
      * Define Logo
@@ -37,6 +32,4 @@ jQuery(document).ready(function($){
         navLeft.css('padding-right', width/2+additionalMargin);
         navRight.css('padding-left', width/2+additionalMargin);
     }
-
-
 });

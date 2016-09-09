@@ -9,6 +9,8 @@ Author: WAGA Team <dev@waga.it>
 Author URI: http://www.waga.it
 */
 
+require_once( dirname(__FILE__).'/WabootSplittedNavMenuWalker.php');
+
 class Header_Splitted_Menu extends \Waboot\Component{
 
     /**
@@ -32,9 +34,25 @@ class Header_Splitted_Menu extends \Waboot\Component{
     }
 
     public function display_tpl(){
-        $menu = new \WBF\components\mvc\HTMLView($this->theme_relative_path."/templates/header_splitted.php");
+
+	    $position = \Waboot\functions\get_option($this->name.'_item_select');
+	    $menu_name = \Waboot\functions\get_option($this->name.'_menu_name');
+		    /*? \Waboot\functions\get_option($this->name.'_item_select')
+	    : "main";
+	    */
+
+	    $menu_name = (\Waboot\functions\get_option($this->name.'_menu_name'))
+		    ? \Waboot\functions\get_option($this->name.'_menu_name')
+		    : 'main';
+	    $position = (\Waboot\functions\get_option($this->name.'_item_select'))
+		    ? \Waboot\functions\get_option($this->name.'_item_select')
+		    : 'middle';
+
+	    $walker = new WabootSplittedNavMenuWalker( $position, $menu_name); //position, menu_name
+
+    	$menu = new \WBF\components\mvc\HTMLView($this->theme_relative_path."/templates/header_splitted.php");
         $menu->clean()->display([
-            'name'=>$this->name
+	        'walker'    => $walker
         ]);
     }
 
@@ -45,20 +63,9 @@ class Header_Splitted_Menu extends \Waboot\Component{
 	 */
     public function scripts(){
         wp_register_script('component-header_splitted_menu', $this->directory_uri . '/assets/dist/js/headerSplittedMenu.js', ['jquery'], false, true);
-
-	    $position = \Waboot\functions\get_option($this->name.'_item_select');
 	    $margin = \Waboot\functions\get_option($this->name.'_margin_select');
-	    $theme_locations = get_nav_menu_locations();
-	    $menu_obj = get_term( $theme_locations['main']);
-
-	    $count = ($position == 'middle')
-		    ? $menu_obj->count/2
-		    : $position;
-
-
 
         wp_localize_script('component-header_splitted_menu', 'wabootHeaderSplitted', array(
-            'count' => $count,
 	        'margin' => $margin
         ) );
         wp_enqueue_script('component-header_splitted_menu');

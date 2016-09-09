@@ -24,7 +24,16 @@
             <div class="collapse navbar-collapse navbar-main-collapse">
 
                 <?php
-                $theme_location = 'main';
+                wp_nav_menu([
+                    'theme_location' => 'main',
+                    'items_wrap' => '<div id="%1$s">%3$s</div>',
+                    'container' => false,
+                    'menu_class' => apply_filters('waboot/navigation/main/class', 'splitted-nav'),
+                    'walker' => $walker
+                ]);
+                ?>
+                <?php
+                /*$theme_location = 'main';
 
                 if ( ($theme_location) && ($locations = get_nav_menu_locations()) && isset($locations[$theme_location]) ) {
 
@@ -107,7 +116,7 @@
                     $menu_list = '<!-- no menu defined in location "'.$theme_location.'" -->';
                 }
 
-                echo $menu_list;
+                echo $menu_list;*/
                 ?>
 
             </div>
