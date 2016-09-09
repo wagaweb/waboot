@@ -93,8 +93,8 @@ class WabootSplittedNavMenuWalker extends BootstrapNavMenuWalker{
 			$logo_menu_list = get_bloginfo("name");
 		}
 
-		$output .= "\n</ul>\n";
-		$output .= "\n<div class='logonav hidden-sm hidden-xs'><a href='" . get_bloginfo('url') . "'>" . $logo_menu_list . "</a></div>\n";
-		$output .= "\n<ul class='nav navbar-nav navbar-split-right'>\n";
+		$output .= "</ul>";
+		$output .= "<div class='logonav hidden-sm hidden-xs'><a href='" . get_bloginfo('url') . "'>" . $logo_menu_list . "</a></div>";
+		$output .= "<ul class='nav navbar-nav navbar-split-right'>";
 	}
 }
