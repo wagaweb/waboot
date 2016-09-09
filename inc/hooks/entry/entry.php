@@ -9,11 +9,13 @@ add_action("waboot/entry/header",__NAMESPACE__."\\display_title");
 add_action("waboot/site-main/before",__NAMESPACE__."\\display_title");
 
 //Footer:
-add_action("waboot/entry/footer",__NAMESPACE__."\\display_post_date",10);
-add_action("waboot/entry/footer",__NAMESPACE__."\\display_post_author",11);
-add_action("waboot/entry/footer",__NAMESPACE__."\\display_post_categories",12);
-add_action("waboot/entry/footer",__NAMESPACE__."\\display_post_tags",13);
-add_action("waboot/entry/footer",__NAMESPACE__."\\display_post_comment_link",14);
+add_action("waboot/entry/footer",__NAMESPACE__."\\entry_footer_wrapper_start",10);
+add_action("waboot/entry/footer",__NAMESPACE__."\\display_post_date",11);
+add_action("waboot/entry/footer",__NAMESPACE__."\\display_post_author",12);
+add_action("waboot/entry/footer",__NAMESPACE__."\\display_post_categories",13);
+add_action("waboot/entry/footer",__NAMESPACE__."\\display_post_tags",14);
+add_action("waboot/entry/footer",__NAMESPACE__."\\display_post_comment_link",15);
+add_action("waboot/entry/footer",__NAMESPACE__."\\entry_footer_wrapper_end",9999);
 
 /**
  * Display entry title in entry header or outsite the entry itself. This is called both for a single entry and a list of entries (archives, blog page, index...)
@@ -181,4 +183,18 @@ function display_post_comment_link(){
 	$tpl = "templates/view-parts/entry-comment-link.php";
 
 	(new HTMLView($tpl))->display();
+}
+
+/**
+ * Prints out the entry footer wrapper start
+ */
+function entry_footer_wrapper_start(){
+	echo '<footer class="entry-footer">';
+}
+
+/**
+ * Prints out the entry footer wrapper end
+ */
+function entry_footer_wrapper_end(){
+	echo '</footer>';
 }

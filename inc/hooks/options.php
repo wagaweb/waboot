@@ -60,6 +60,22 @@ function register_options($orgzr){
 		'type' => 'checkbox'
 	]);
 
+	$orgzr->add(array(
+		'name' => __( 'Show content navigation above posts?', 'waboot' ),
+		'desc' => __( 'Displays links to next and previous posts above the current post and above the posts on the index page. Default is hide. Check this box to show content nav above posts.', 'waboot' ),
+		'id'   => 'show_content_nav_above',
+		'std'  => '0',
+		'type' => 'checkbox'
+	));
+
+	$orgzr->add(array(
+		'name' => __( 'Show content navigation below posts?', 'waboot' ),
+		'desc' => __( 'Displays links to next and previous posts below the current post and below the posts on the index page. Default is show. Uncheck this box to hide content nav above posts.', 'waboot' ),
+		'id'   => 'show_content_nav_below',
+		'std'  => '1',
+		'type' => 'checkbox'
+	));
+
 	$orgzr->add([
 		'name' => __( 'Show post published date?', 'waboot' ),
 		'desc' => __( 'Displays the date the article was posted. Default is show. Uncheck this box to hide post published date.', 'waboot' ),
@@ -99,6 +115,14 @@ function register_options($orgzr){
 		'std'  => '1',
 		'type' => 'checkbox'
 	]);
+
+	$orgzr->add(array(
+		'name' => __( 'Show link to comments?', 'waboot' ),
+		'desc' => __( 'Displays the number of comments and/or a Leave a comment message on posts. Default is show. Uncheck this box to hide.' ,'waboot' ),
+		'id'   => 'show_post_comments_link',
+		'std'  => '1',
+		'type' => 'checkbox'
+	));
 
 	/*
 	 * BACKGROUNDS

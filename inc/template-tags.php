@@ -117,13 +117,19 @@ function index_page_title(){
  *
  * @throws \Exception
  *
- * @param string $nav_id
+ * @param string $nav_id (you can use 'nav-below' or 'nav-above')
  * @param bool $show_pagination
  * @param bool $query
  * @param bool $current_page
  * @param string $paged_var_name You can supply different paged var name for multiple pagination. The name must be previously registered with add_rewrite_tag()
  */
 function post_navigation($nav_id, $show_pagination = false, $query = false, $current_page = false, $paged_var_name = "paged"){
+	// Return early if theme options are set to hide nav
+	if(
+		'nav-below' == $nav_id && (bool) !\Waboot\functions\get_option('show_content_nav_below') ||
+		'nav-above' == $nav_id && (bool) !\Waboot\functions\get_option('show_content_nav_above')
+	) return;
+
 	//Setting up the query
 	if(!$query){
 		global $wp_query;
@@ -317,9 +323,9 @@ function get_first_link_or_post_content($output_type = "link"){
 /**
  * A version of the_excerpt() that applies the trim function to the predefined excerpt as well
  *
- * @param bool $length
- * @param bool|null $more
- * @param null $post_id
+ * @param int|bool $length
+ * @param string|null $more
+ * @param int|null $post_id
  * @param string $use is "content_also" then the content will be trimmed if the excerpt is empty
  */
 function the_trimmed_excerpt($length = false,$more = null,$post_id = null, $use = "excerpt_only"){
