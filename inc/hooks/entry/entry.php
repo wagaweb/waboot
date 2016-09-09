@@ -9,11 +9,11 @@ add_action("waboot/entry/header",__NAMESPACE__."\\display_title");
 add_action("waboot/site-main/before",__NAMESPACE__."\\display_title");
 
 //Footer:
-add_action("waboot/entry/footer",__NAMESPACE__."\\display_post_date",10);
-add_action("waboot/entry/footer",__NAMESPACE__."\\display_post_author",11);
-add_action("waboot/entry/footer",__NAMESPACE__."\\display_post_categories",12);
-add_action("waboot/entry/footer",__NAMESPACE__."\\display_post_tags",13);
-add_action("waboot/entry/footer",__NAMESPACE__."\\display_post_comment_link",14);
+add_action("waboot/entry/footer",__NAMESPACE__."\\display_post_date",11);
+add_action("waboot/entry/footer",__NAMESPACE__."\\display_post_author",12);
+add_action("waboot/entry/footer",__NAMESPACE__."\\display_post_categories",13);
+add_action("waboot/entry/footer",__NAMESPACE__."\\display_post_tags",14);
+add_action("waboot/entry/footer",__NAMESPACE__."\\display_post_comment_link",15);
 
 /**
  * Display entry title in entry header or outsite the entry itself. This is called both for a single entry and a list of entries (archives, blog page, index...)

@@ -8,7 +8,7 @@ namespace Waboot\hooks\entry;
 function entry_footer_wrapper_start(){
 	echo '<footer class="entry-footer">';
 }
-add_action("waboot/entry/footer",__NAMESPACE__."\\entry_footer_wrapper_start");
+add_action("waboot/entry/footer",__NAMESPACE__."\\entry_footer_wrapper_start",10);
 
 /**
  * Prints out the entry footer wrapper end
