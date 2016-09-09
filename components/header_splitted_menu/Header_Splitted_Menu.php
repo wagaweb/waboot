@@ -92,27 +92,28 @@ class Header_Splitted_Menu extends \Waboot\Component{
 	    parent::register_options();
 
 	    $orgzr = \WBF\modules\options\Organizer::getInstance();
-
-	    $imagepath = get_template_directory_uri()."/assets/images/options/";
-
 	    $orgzr->set_group($this->name."_component");
-
 	    $orgzr->add_section("header",_x("Header","Theme options section","waboot"));
 
+	    $orgzr->add([
+		    'name' => 'Header Splitted',
+		    'desc' => __( 'Edit default options for Header Fixed post type', 'waboot' ),
+		    'type' => 'info'
+	    ], "header");
 	    $orgzr->update('header_splitted_position',[
-			    'name' => __( 'Splitted Menu Position', 'waboot' ),
+			    'name' => __( 'Menu Position', 'waboot' ),
 			    'desc' => __( 'Select the item of the menu at which you want to apply the margin. By default is "middle" but you can insert any number. ', 'waboot' ),
 			    'id'   => $this->name.'_item_select',
 			    'type' => 'text'
 		    ],"header");
 	    $orgzr->update('header_splitted_margin',[
-			    'name' => __( 'Header Splitted Additional Margin', 'waboot' ),
+			    'name' => __( 'Additional Margin', 'waboot' ),
 			    'desc' => __( 'An additional margin to increase spacing between logo and menu items. This number is applied to both sides of the logo, therefore consider it will be doubled. Default is 10px', 'waboot' ),
 			    'id'   => $this->name.'_margin_select',
 			    'type' => 'text'
 		    ],"header");
 	    $orgzr->update('header_splitted_menu',[
-			    'name' => __( 'Header Splitted Menu', 'waboot' ),
+			    'name' => __( 'Menu Name', 'waboot' ),
 			    'desc' => __( 'The name of the menu that will be splitted, Default is "main"', 'waboot' ),
 			    'id'   => $this->name.'_menu_select',
 			    'type' => 'text'
