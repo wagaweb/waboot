@@ -126,7 +126,7 @@ function index_page_title(){
 function post_navigation($nav_id, $show_pagination = false, $query = false, $current_page = false, $paged_var_name = "paged"){
 	// Return early if theme options are set to hide nav
 	if(
-		'nav-below' == $nav_id && (bool) !\Waboot\functions\get_option('show_content_nav_below', true) ||
+		'nav-below' == $nav_id && (bool) !\Waboot\functions\get_option('show_content_nav_below') ||
 		'nav-above' == $nav_id && (bool) !\Waboot\functions\get_option('show_content_nav_above')
 	) return;
 
