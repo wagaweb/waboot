@@ -92,3 +92,28 @@ function rg_ls(){
 	License_Manager::register_theme_license(LS::getInstance("waboot",['suffix'=>true]));
 }
 add_action("wbf_init",__NAMESPACE__."\\rg_ls");
+
+/**
+ * @param array $page_templates
+ * @param \WP_Theme $theme
+ * @param \WP_Theme|null $post
+ */
+function inject_templates($page_templates, \WP_Theme $theme, $post){
+	$template_directory = get_stylesheet_directory()."/templates/wordpress/parts-tpl";
+	$template_directory = apply_filters("waboot/custom_template_parts_directory",$template_directory);
+	$tpls = glob($template_directory."/content-*.php");
+	foreach ($tpls as $tpl){
+		$basename = basename($tpl);
+		$name = call_user_func(function() use ($basename) {
+			preg_match("/^content-([a-z]+)/",$basename,$matches);
+			if(isset($matches[1])){
+				$name = $matches[1];
+			}
+			if(isset($name)) return $name; else return false;
+		});
+		if(!$name) continue;
+		$page_templates[$name] = ucfirst($name)." "._x("(parts)","Waboot Template Partials","waboot");
+	}
+	return $page_templates;
+}
+add_filter("theme_page_templates",__NAMESPACE__."\\inject_templates", 999, 3);
