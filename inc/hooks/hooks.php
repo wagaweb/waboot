@@ -2,6 +2,7 @@
 
 namespace Waboot\hooks;
 use Waboot\LS;
+use WBF\components\customupdater\Theme_Update_Checker;
 use WBF\components\license\License_Manager;
 
 /**
@@ -85,18 +86,21 @@ function ignore_sticky_post_in_archives($query){
 add_action( 'pre_get_posts', __NAMESPACE__.'\\ignore_sticky_post_in_archives' );
 
 /**
- * Manage WB LS
+ * Manage Waboot Update Server
  */
-function rg_ls(){
-	require_once(get_template_directory()."/inc/ls.php");
-	License_Manager::register_theme_license(LS::getInstance("waboot",['suffix'=>true]));
+function set_update_server(){
+	$tup = new Theme_Update_Checker("waboot","http://beta.update.waboot.org/resource/info/theme/waboot");
 }
-add_action("wbf_init",__NAMESPACE__."\\rg_ls");
+add_action("wbf_init",__NAMESPACE__."\\set_update_server");
 
 /**
+ * Injects Waboot custom templates
+ *
  * @param array $page_templates
  * @param \WP_Theme $theme
  * @param \WP_Theme|null $post
+ *
+ * @return array
  */
 function inject_templates($page_templates, \WP_Theme $theme, $post){
 	$template_directory = get_stylesheet_directory()."/templates/wordpress/parts-tpl";
