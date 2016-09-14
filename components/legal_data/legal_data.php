@@ -1,6 +1,6 @@
 <?php
 /**
-Component Name: Legal Informations
+Component Name: Legal Data
 Description: Provides four shortcodes to display legal informations throughout your website (i.e. name, address, mail, tel )
 Category: Utilities
 Tags: Legal, Address, Company, Tel, Info
