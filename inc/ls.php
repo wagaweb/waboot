@@ -3,7 +3,7 @@
 class Waboot_LS extends \WBF\includes\License implements \WBF\includes\License_Interface{
 
 	var $nicename = "Waboot";
-	var $metadata_call = "http://update.waboot.org/?action=get_metadata&slug=waboot";
+	var $metadata_call = "http://beta.update.waboot.org/resource/info/theme/waboot/0.x";
 	var $type = "theme";
 	var $option_name = "waboot_license";
 
