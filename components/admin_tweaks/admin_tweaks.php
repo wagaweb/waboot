@@ -73,8 +73,8 @@ class Admin_Tweaks extends \WBF\modules\components\Component {
 			add_action( 'wp_dashboard_setup', [$this,'dashboard_hide_wp_widgets'] );
 		}
 		if (\Waboot\functions\get_option($this->name.'_dashboard_content_for_admin') == true); {
-			//require_once 'widget/WpContentFolder.php';
-			//WpContentFolder::init(['wpcontent']);
+			require_once 'widget/WpContentFolder.php';
+			WpContentFolder::init('wpcontent');
 		}
 	}
 

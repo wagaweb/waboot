@@ -19,7 +19,7 @@ class WpContentFolder
 	 *
 	 * @since   2.3.7
 	 */
-	const TRANSI = 'mtt_folder_sizes_';
+	const TRANSI = 'at_folder_sizes_';
 
 	/**
 	 * Select widget
