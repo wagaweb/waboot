@@ -64,21 +64,3 @@ function set_wbf_admin_menu_icon($icon){
 	return $icon;
 }
 add_filter("wbf/admin_menu/icon",__NAMESPACE__."\\set_wbf_admin_menu_icon");
-
-/**
- * Set the pagebuilder
- *
- * @param $name
- *
- * @return string
- */
-function set_pagebuilder($name){
-	return [
-		//in future, we might have multiple pagebuilder, so let's prepare for this
-		[
-			"classname" => "\\Waboot\\pagebuilders\\BootstrapPageBuilder",
-			"filename" => "BootstrapPageBuilder.php"
-		]
-	];
-}
-add_filter("wbf/modules/pagebuilder/current_builder",__NAMESPACE__."\\set_pagebuilder");
