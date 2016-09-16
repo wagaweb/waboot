@@ -10,117 +10,6 @@ Author URI: http://www.waga.it
  */
 
 class Admin_Tweaks extends \WBF\modules\components\Component {
-
-	/**
-	 * This method will be executed at Wordpress startup (every page load)
-	 */
-	public function setup(){
-		parent::setup();
-
-
-		/*
-		 * * ******************* *
-		 * | GENERAL HOOKS GROUP |
-		 * * ******************* *
-		 */
-
-		if (!empty(\Waboot\functions\get_option($this->name.'_general_footer_message'))) {
-			add_filter( 'admin_footer_text', [ $this, "general_footer_message" ] );
-		}
-		if (!empty(\Waboot\functions\get_option($this->name.'_general_extra_css'))) {
-			add_action('admin_head', [$this,"general_extra_css"]);
-		}
-		if (\Waboot\functions\get_option($this->name.'_general_shortcodes') == true) {
-			add_filter( 'widget_text', 'do_shortcode');
-		}
-		if (\Waboot\functions\get_option($this->name.'_general_shortcodes') == true) {
-			add_action( 'admin_init', [$this,'hide_update_msg'], 1 );
-		}
-		if (\Waboot\functions\get_option($this->name.'_general_hide_wp_logo') == true) {
-			add_action( 'admin_bar_menu', [$this,'remove_wp_logo'], 999 );
-		}
-
-
-		/*
-		 * * ***************** *
-		 * | LOGIN HOOKS GROUP |
-		 * * ***************** *
-		 */
-		if (! empty(\Waboot\functions\get_option($this->name.'_login_logo_image'))) {
-			add_action( 'login_enqueue_scripts', [$this,'login_logo_image'] );
-		}
-		if (! empty(\Waboot\functions\get_option($this->name.'_login_logo_url'))) {
-			add_filter( 'login_headerurl', [$this,'login_logo_url'] );
-		}
-		if (! empty(\Waboot\functions\get_option($this->name.'_login_logo_title'))) {
-			add_filter( 'login_headertitle', [$this,'login_logo_title'] );
-		}
-		if (! empty(\Waboot\functions\get_option($this->name.'_login_background_image'))) {
-			add_action( 'login_head', [$this,'login_background_image'] );
-		}
-
-
-		/*
-		 * * ********************* *
-		 * | DASHBOARD HOOKS GROUP |
-		 * * ********************* *
-		 */
-
-		if (\Waboot\functions\get_option($this->name.'_dashboard_add_cpt_rightnow') == true); {
-			add_action('dashboard_glance_items', [$this,'dashboard_add_cpt_rightnow']);
-		}
-		if (\Waboot\functions\get_option($this->name.'_dashboard_hide_wp_widgets') == true); {
-			add_action( 'wp_dashboard_setup', [$this,'dashboard_hide_wp_widgets'] );
-		}
-		if (\Waboot\functions\get_option($this->name.'_dashboard_content_for_admin') == true); {
-			require_once 'widget/WpContentFolder.php';
-			WpContentFolder::init('wpcontent');
-		}
-	}
-
-
-	/**
-	 * This method will be executed on the "wp" action in pages where the component must be loaded
-	 */
-	public function run(){
-		parent::run();
-	}
-
-
-	/**
-	 * Register component scripts (called automatically)
-	 */
-	public function scripts(){
-		//wp_register_script('component-header_fixed', $this->directory_uri . '/assets/dist/js/headerFixed.js', ['jquery'], false, true);
-
-		/*wp_localize_script('component-header_fixed', 'wbHeaderFixed', array(
-			'company_name' => $company,
-			'address' => $address,
-			'mail' => $mail,
-			'tel' => $tel,
-		) );
-		wp_enqueue_script('component-header_fixed');*/
-	}
-
-
-	/**
-	 * Register component styles (called automatically)
-	 */
-	public function styles(){
-		//wp_enqueue_style('component-header_fixed-style', $this->directory_uri . '/assets/dist/css/headerFixed.css');
-	}
-
-
-	/**
-	 * Register component widgets (called automatically).
-	 *
-	 * @hooked 'widgets_init'
-	 */
-	public function widgets(){
-		//register_widget("sampleWidget");
-	}
-
-
 	/**
 	 * This is an action callback.
 	 *
@@ -140,14 +29,11 @@ class Admin_Tweaks extends \WBF\modules\components\Component {
 		$orgzr->add_section($section_name,$this->name." Component",null,$additional_params);
 		$orgzr->set_section($section_name);
 
-
-
-		/*
+		/**
 		 * * ******************** *
 		 * | GENERAL TWEAKS GROUP |
 		 * * ******************** *
 		 */
-
 		$orgzr->add([
 			'type' => 'info',
 			'name' => 'General Tweaks',
@@ -189,13 +75,11 @@ class Admin_Tweaks extends \WBF\modules\components\Component {
 		],null,null,$additional_params);
 
 
-
-		/*
+		/**
 		 * * ****************** *
 		 * | LOGIN SCREEN GROUP |
 		 * * ****************** *
 		 */
-
 		$orgzr->add([
 			'type' => 'info',
 			'name' => 'Login Screen',
@@ -207,6 +91,13 @@ class Admin_Tweaks extends \WBF\modules\components\Component {
 			'id'   => $this->name.'_login_logo_image',
 			'std'  => '',
 			'type' => 'upload'
+		],null,null,$additional_params);
+		$orgzr->add([
+			'name' => __( 'Logo height', 'waboot' ),
+			'desc' => __( '', 'waboot' ),
+			'id'   => $this->name.'_login_logo_height',
+			'std'  => '',
+			'type' => 'text'
 		],null,null,$additional_params);
 		$orgzr->add([
 			'name' => __( 'Logo Url', 'waboot' ),
@@ -237,8 +128,7 @@ class Admin_Tweaks extends \WBF\modules\components\Component {
 		],null,null,$additional_params);
 
 
-
-		/*
+		/**
 		 * * ********************** *
 		 * | DASHBOARD TWEAKS GROUP |
 		 * * ********************** *
@@ -262,38 +152,58 @@ class Admin_Tweaks extends \WBF\modules\components\Component {
 			'std'  => '',
 			'type' => 'checkbox'
 		],null,null,$additional_params);
-		$orgzr->add([
-			'name' => __( 'Wp-content widget only for admin', 'waboot' ),
-			'desc' => __( '', 'waboot' ),
-			'id'   => $this->name.'_dashboard_content_for_admin',
-			'std'  => '',
-			'type' => 'checkbox'
-		],null,null,$additional_params);
 
 
-
-		/*
+		/**
 		 * * ****************** *
 		 * | MEDIA TWEAKS GROUP |
 		 * * ****************** *
 		 */
-	/*	$orgzr->add([
+		$orgzr->add([
 			'type' => 'info',
-			'name' => 'Media Tweaks'
+			'name' => 'Media Tweaks',
+			'desc' => 'Customize Media'
+		],null,null,$additional_params);
+		$orgzr->add([
+			'name' => __( 'Allow svg upload and add svg support for dimensions', 'waboot' ),
+			'desc' => __( '', 'waboot' ),
+			'id'   => $this->name.'_media_allow_svg_upload',
+			'std'  => '',
+			'type' => 'checkbox'
+		],null,null,$additional_params);
+		$orgzr->add([
+			'name' => __( 'Sharpen resized images (only jpg)', 'waboot' ),
+			'desc' => __( '', 'waboot' ),
+			'id'   => $this->name.'_media_sharpen_resized',
+			'std'  => '',
+			'type' => 'checkbox'
 		],null,null,$additional_params);
 		$orgzr->add([
 			'name' => __( 'Bigger thumbnails in the default column', 'waboot' ),
 			'desc' => __( '', 'waboot' ),
-			'id'   => $this->name.'_media_bigger_thumb',
+			'id'   => $this->name.'_media_bigger_thumbs',
 			'std'  => '',
 			'type' => 'checkbox'
 		],null,null,$additional_params);
 		$orgzr->add([
-			'name' => __( 'Add image size column', 'waboot' ),
+			'name' => __( 'Include all custom sizes', 'waboot' ),
 			'desc' => __( '', 'waboot' ),
-			'id'   => $this->name.'_media_add_image_size',
+			'id'   => $this->name.'_media_include_sizes',
 			'std'  => '',
 			'type' => 'checkbox'
+		],null,null,$additional_params);
+		$orgzr->add([
+			'name' => __( 'Remove Meta Boxes (Discussion, Comments)', 'waboot' ),
+			'desc' => __( '', 'waboot' ),
+			'id'   => $this->name.'_media_remove_metaboxes',
+			'std'  => '',
+			'type' => 'multicheck',
+			'options' => [
+				'author'        => 'Author',
+				'comments'      => 'Comments',
+				'slug'          => 'Slug',
+				'discussion'    => 'Discussion'
+			]
 		],null,null,$additional_params);
 		$orgzr->add([
 			'name' => __( 'Add a column that lists all thumbnails of the image, with direct link to it.', 'waboot' ),
@@ -309,42 +219,123 @@ class Admin_Tweaks extends \WBF\modules\components\Component {
 			'std'  => '',
 			'type' => 'checkbox'
 		],null,null,$additional_params);
-		$orgzr->add([
-			'name' => __( 'Remove Meta Boxes (Discussion, Comments)', 'waboot' ),
-			'desc' => __( '', 'waboot' ),
-			'id'   => $this->name.'_media_remove_metaboxes',
-			'std'  => '',
-			'type' => 'checkbox'
-		],null,null,$additional_params);
-		$orgzr->add([
-			'name' => __( 'Include all custom sizes', 'waboot' ),
-			'desc' => __( '', 'waboot' ),
-			'id'   => $this->name.'_media_include_sizes',
-			'std'  => '',
-			'type' => 'checkbox'
-		],null,null,$additional_params);
-		$orgzr->add([
-			'name' => __( 'Sharpen resized images (only jpg)', 'waboot' ),
-			'desc' => __( '', 'waboot' ),
-			'id'   => $this->name.'_media_sharpen_resized',
-			'std'  => '',
-			'type' => 'checkbox'
-		],null,null,$additional_params);
 
-*/
 
 		$orgzr->reset_group();
 		$orgzr->reset_section();
 	}
+	/**
+	 * This method will be executed at Wordpress startup (every page load)
+	 */
+	public function setup() {
+		parent::setup();
 
-	public function onActivate(){
-		parent::onActivate();
-		//Do stuff...
+
+		/**
+		 * * ******************* *
+		 * | GENERAL HOOKS GROUP |
+		 * * ******************* *
+		 */
+		if ( ! empty( \Waboot\functions\get_option( $this->name . '_general_footer_message' ) ) ) {
+			add_filter( 'admin_footer_text', [ $this, "general_footer_message" ] );
+		}
+		if ( ! empty( \Waboot\functions\get_option( $this->name . '_general_extra_css' ) ) ) {
+			add_action( 'admin_head', [ $this, "general_extra_css" ] );
+		}
+		if ( \Waboot\functions\get_option( $this->name . '_general_shortcodes' ) == true ) {
+			add_filter( 'widget_text', 'do_shortcode' );
+		}
+		if ( \Waboot\functions\get_option( $this->name . '_general_shortcodes' ) == true ) {
+			add_action( 'admin_init', [ $this, 'hide_update_msg' ], 1 );
+		}
+		if ( \Waboot\functions\get_option( $this->name . '_general_hide_wp_logo' ) == true ) {
+			add_action( 'admin_bar_menu', [ $this, 'remove_wp_logo' ], 999 );
+		}
+
+
+		/**
+		 * * ***************** *
+		 * | LOGIN HOOKS GROUP |
+		 * * ***************** *
+		 */
+		if ( ! empty( \Waboot\functions\get_option( $this->name . '_login_logo_image' ) ) ) {
+			add_action( 'login_enqueue_scripts', [ $this, 'login_logo' ] );
+		}
+		if ( ! empty( \Waboot\functions\get_option( $this->name . '_login_logo_height' ) ) ) {
+			add_action( 'login_enqueue_scripts', [ $this, 'login_logo' ] );
+		}
+		if ( ! empty( \Waboot\functions\get_option( $this->name . '_login_logo_url' ) ) ) {
+			add_filter( 'login_headerurl', [ $this, 'login_logo_url' ] );
+		}
+		if ( ! empty( \Waboot\functions\get_option( $this->name . '_login_logo_title' ) ) ) {
+			add_filter( 'login_headertitle', [ $this, 'login_logo_title' ] );
+		}
+		if ( ! empty( \Waboot\functions\get_option( $this->name . '_login_background_image' ) ) ) {
+			add_action( 'login_head', [ $this, 'login_background_image' ] );
+		}
+
+		/**
+		 * * ********************* *
+		 * | DASHBOARD HOOKS GROUP |
+		 * * ********************* *
+		 */
+		if ( \Waboot\functions\get_option( $this->name . '_dashboard_add_cpt_rightnow' ) == true ) {
+			add_action( 'dashboard_glance_items', [ $this, 'dashboard_add_cpt_rightnow' ] );
+		}
+		if ( \Waboot\functions\get_option( $this->name . '_dashboard_hide_wp_widgets' ) == true ) {
+			add_action( 'wp_dashboard_setup', [ $this, 'dashboard_hide_wp_widgets' ] );
+		}
+
+
+		/**
+		 * * ***************** *
+		 * | MEDIA HOOKS GROUP |
+		 * * ***************** *
+		 */
+		if ( \Waboot\functions\get_option( $this->name . '_media_allow_svg_upload' ) == true ) {
+			add_filter( 'upload_mimes', [ $this, 'media_allow_svg_uploads' ]);
+			add_filter( 'wp_prepare_attachment_for_js', [ $this, 'media_allow_svg_adjust_response'], 10, 3 );
+			add_action( 'admin_enqueue_scripts', [ $this, 'media_allow_svg_administration_styles' ]);
+			add_action( 'wp_head', [ $this, 'media_allow_svg_public_styles' ]);
+		}
+		if ( \Waboot\functions\get_option( $this->name . '_media_sharpen_resized' ) == true ) {
+			add_filter( 'image_make_intermediate_size', [ $this, 'media_sharpen_resized' ] );
+		}
+		if ( \Waboot\functions\get_option( $this->name . '_media_bigger_thumbs' ) == true ) {
+			add_action( 'admin_head', [ $this, 'media_bigger_thumbs' ] );
+		}
+		if ( \Waboot\functions\get_option( $this->name . '_media_include_sizes' ) == true ) {
+			add_filter( 'image_size_names_choose', [ $this, 'media_include_sizes' ] );
+		}
+		if ( ! empty(\Waboot\functions\get_option( $this->name . '_media_remove_metaboxes' )) ) {
+			add_filter( 'add_meta_boxes', [ $this, 'media_remove_metaboxes' ] );
+		}
+		if ( ! empty(\Waboot\functions\get_option( $this->name . '_media_add_thumbnail_column' )) ) {
+			add_filter('manage_upload_columns', [$this, 'media_add_thumbnail_column_define']);
+			add_action('manage_media_custom_column', [$this, 'media_add_thumbnail_column_display'], 10, 2);
+		}
+		if( \Waboot\functions\get_option( $this->name . '_media_download_link' ) == true ) {
+			add_action('admin_footer-upload.php', [$this, 'print_download_js'] );
+			add_filter('media_row_actions', [$this, 'row_download_link'], 10, 3);
+			add_action('admin_head-upload.php', [$this, 'download_button_css'] );
+		}
+
 	}
 
-	public function onDeactivate(){
-		parent::onDeactivate();
-		//Do stuff...
+
+	/**
+	 * Register component scripts (called automatically)
+	 */
+	public function scripts(){
+		//wp_register_script('component-header_fixed', $this->directory_uri . '/assets/dist/js/headerFixed.js', ['jquery'], false, true);
+
+		/*wp_localize_script('component-header_fixed', 'wbHeaderFixed', array(
+			'company_name' => $company,
+			'address' => $address,
+			'mail' => $mail,
+			'tel' => $tel,
+		) );
+		wp_enqueue_script('component-header_fixed');*/
 	}
 
 
@@ -355,22 +346,22 @@ class Admin_Tweaks extends \WBF\modules\components\Component {
 	 * * ******************** *
 	 */
 
-	/*
-	 * hooked: admin_footer_text
+	/**
+	 * @hooked: admin_footer_text
 	 */
 	public function general_footer_message() {
 		echo \Waboot\functions\get_option($this->name.'_general_footer_message');
 	}
 
-	/*
-	 * hooked: admin_head
+	/**
+	 * @hooked: admin_head
 	 */
 	public function general_extra_css() {
 		$css = \Waboot\functions\get_option($this->name.'_general_extra_css');
 		echo '<style type="text/css">'.$css.'</style>';
 	}
 
-	/*
+	/**
 	 * hoked: admin_init
 	 * priority: 1
 	 */
@@ -379,8 +370,8 @@ class Admin_Tweaks extends \WBF\modules\components\Component {
 		and remove_action( 'admin_notices', 'update_nag', 3 );
 	}
 
-	/*
-	 * hooked: admin_bar_menu
+	/**
+	 * @hooked: admin_bar_menu
 	 * priority: 999
 	 */
 	public function remove_wp_logo( $wp_admin_bar ) {
@@ -388,53 +379,61 @@ class Admin_Tweaks extends \WBF\modules\components\Component {
 	}
 
 
-
-	/*
+	/**
 	 * * ******************** *
 	 * | LOGIN TWEAKS GROUP |
 	 * * ******************** *
 	 */
 
-	/*
-	 * Hooked: login_enqueue_scripts
+	/**
+	 * @hooked: login_enqueue_scripts
 	 */
-	public function login_logo_image() {
-		$url = \Waboot\functions\get_option($this->name.'_login_logo_image');
-		echo '<style type="text/css">
-			#login h1 a, .login h1 a {
-				background-image: url('.$url.');
-				padding-bottom: 30px;
-			}
-		</style>';
+	public function login_logo() {
+		$url = (!empty(\Waboot\functions\get_option($this->name.'_login_logo_image')))
+			? 'background-image: url('.\Waboot\functions\get_option($this->name.'_login_logo_image').');'
+			. 'background-size: contain;'
+		    . 'width: auto;'
+			. 'padding-bottom: 30px;'
+			: '';
+		$height = (!empty(\Waboot\functions\get_option($this->name.'_login_logo_height')))
+			? 'height: '
+			. \Waboot\functions\get_option($this->name.'_login_logo_height')
+			. 'px;'
+			: '';
+		echo '<style type="text/css">'
+			. '#login h1 a, .login h1 a {'
+				. $url
+				. $height
+			. '}'
+		. '</style>';
 	}
 
-	/*
-	 * Hooked: login_headerurl
+	/**
+	 * @hooked: login_headerurl
 	 */
 	public function login_logo_url() {
 		return \Waboot\functions\get_option($this->name.'_login_logo_url');
 	}
 
-	/*
-	 * Hooked: login_headertitle
+	/**
+	 * @hooked: login_headertitle
 	 */
 	function login_logo_title() {
 		return \Waboot\functions\get_option($this->name.'_login_logo_title');
 	}
 
-	/*
-	 * Hooked: login_head
+	/**
+	 * @hooked: login_head
 	 */
 	public function login_background_image(){
 		$url = \Waboot\functions\get_option($this->name.'_login_background_image');
 		echo '<style type="text/css">
 			body.login {
-				background-image: url('.$url.');
-				padding-bottom: 30px;
+				background: url('.$url.') center no-repeat;
+				background-size: cover;
 			}
 		</style>';
 	}
-
 
 
 	/*
@@ -443,9 +442,8 @@ class Admin_Tweaks extends \WBF\modules\components\Component {
 	 * * ************************ *
 	 */
 
-
-	/*
-	 * Hooked: dashboard_glance_items
+	/**
+	 * @hooked: dashboard_glance_items
 	 */
 	public function dashboard_add_cpt_rightnow() {
 		$glances = array();
@@ -481,8 +479,8 @@ class Admin_Tweaks extends \WBF\modules\components\Component {
 		return $glances;
 	}
 
-	/*
-	 * Hooked: 'wp_dashboard_setup'
+	/**
+	 * @hooked: 'wp_dashboard_setup'
 	 */
 	public function dashboard_hide_wp_widgets() {
 		//remove_meta_box( 'dashboard_right_now', 'dashboard', 'normal' );   // Right Now
@@ -494,6 +492,275 @@ class Admin_Tweaks extends \WBF\modules\components\Component {
 		remove_meta_box( 'dashboard_primary', 'dashboard', 'side' );   // WordPress blog
 		remove_meta_box( 'dashboard_secondary', 'dashboard', 'side' );   // Other WordPress News
 		// use 'dashboard-network' as the second parameter to remove widgets from a network dashboard.
+	}
+
+	/*
+	 * Manipulates thumbnails attributes and properties in wp-admin/upload.php
+	 * @hooked: 'wp_dashboard_setup'
+	 */
+	public function media_bigger_thumbs() {
+		?>
+		<script type="text/javascript" id="waboot-admin-tweaks-bigger-thumb">
+			jQuery(document).ready( function($) {
+				$(window).load(function(){
+					$('table.media .image-icon img').each(function () {
+						$(this)
+							.removeAttr('width').css('max-width', '100%')
+							.removeAttr('height').css('max-height', '100%')
+							.removeAttr('srcset')
+							.removeAttr('sizes');
+					});
+					$('.image-icon').css('width', '150px');
+				})
+			});
+		</script>
+		<?php
+	}
+
+	/**
+	 * @hooked: 'image_size_names_choose'
+	 */
+	public function media_include_sizes($sizes) {
+		global $_wp_additional_image_sizes;
+		if( empty( $_wp_additional_image_sizes ) )
+			return $sizes;
+
+		foreach( $_wp_additional_image_sizes as $id => $data )
+		{
+			if( !isset( $sizes[$id] ) )
+				$sizes[$id] = ucfirst( str_replace( '-', ' ', $id ) );
+		}
+		return $sizes;
+	}
+
+	/**
+	 *
+	 * @hooked: 'image_make_intermediate_size'
+	 * @param $resized_file
+	 * @return WP_Error
+	 */
+	public function media_sharpen_resized( $resized_file ) {
+
+		$image = $this->my_wp_load_image( $resized_file );
+		if( !is_resource( $image ) )
+			return new WP_Error( 'error_loading_image', $image);
+
+		$size = @getimagesize( $resized_file );
+		if( !$size )
+			return new WP_Error( 'invalid_image', __( 'Could not read image size' ));
+		list($orig_w, $orig_h, $orig_type) = $size;
+
+		switch( $orig_type )
+		{
+			case IMAGETYPE_JPEG:
+				$matrix = array(
+					array( -1, -1, -1 ),
+					array( -1, 16, -1 ),
+					array( -1, -1, -1 ),
+				);
+
+				$divisor = array_sum( array_map( 'array_sum', $matrix ) );
+				$offset	 = 0;
+				imageconvolution( $image, $matrix, $divisor, $offset );
+				imagejpeg( $image, $resized_file, apply_filters( 'jpeg_quality', 90, 'edit_image' ) );
+				break;
+			case IMAGETYPE_PNG:
+				return $resized_file;
+			case IMAGETYPE_GIF:
+				return $resized_file;
+		}
+
+		return $resized_file;
+	}
+
+	/*
+	 * load image as {resource}
+	 */
+	public function my_wp_load_image($file) {
+
+		if ( is_numeric( $file ) )
+			$file = get_attached_file( $file );
+
+		if ( ! is_file( $file ) )
+			return sprintf(__('File &#8220;%s&#8221; doesn&#8217;t exist?'), $file);
+
+		if ( ! function_exists('imagecreatefromstring') )
+			return __('The GD image library is not installed.');
+
+		// Set artificially high because GD uses uncompressed images in memory.
+		wp_raise_memory_limit( 'image' );
+
+		$image = imagecreatefromstring( file_get_contents( $file ) );
+
+		if ( !is_resource( $image ) )
+			return sprintf(__('File &#8220;%s&#8221; is not an image.'), $file);
+
+		return $image;
+	}
+
+
+	/**
+	 * Manage Meta Boxes removal
+	 *
+	 * @hooked: 'add_meta_boxes'
+	 */
+	public function media_remove_metaboxes(){
+		$options = \Waboot\functions\get_option( $this->name . '_media_remove_metaboxes' );
+		if($options['author']) {
+			remove_meta_box( 'authordiv', 'attachment', 'normal' );
+		}
+		if($options['comments']) {
+			remove_meta_box( 'commentsdiv', 'attachment', 'normal' );
+		}
+		if($options['slug']) {
+			remove_meta_box( 'slugdiv', 'attachment', 'normal' );
+		}
+		if($options['discussion']) {
+			remove_meta_box( 'commentstatusdiv', 'attachment', 'normal' );
+		}
+	}
+
+	/*
+	 * @hooked: 'manage_upload_columns'
+	 */
+	public function media_add_thumbnail_column_define($columns){
+		$columns['all_thumbs'] = 'All Thumbs';
+		return $columns;
+	}
+
+	/*
+	 * @hooked: 'manage_media_custom_column'
+	 */
+	public function media_add_thumbnail_column_display($column_name, $post_id) {
+		if( 'all_thumbs' != $column_name || !wp_attachment_is_image( $post_id ) )
+			return;
+
+		$full_size = wp_get_attachment_image_src( $post_id, 'full' );
+		echo '<div style="clear:both">FULL SIZE : ' . $full_size[1] . ' x ' . $full_size[2] . '</div>';
+
+		$size_names = get_intermediate_image_sizes();
+
+		foreach( $size_names as $name ){
+			// TODO: CHECK THIS: http://wordpress.org/support/topic/wp_get_attachment_image_src-problem
+			$the_list = wp_get_attachment_image_src( $post_id, $name );
+
+			if( $the_list[3] )
+				echo '<div style="clear:both"><a href="' . $the_list[0] . '" target="_blank">' . $name . '</a> : ' . $the_list[1] . ' x ' . $the_list[2] . '</div>';
+		}
+	}
+
+
+	/**
+	 * Enqueue download script
+	 *
+	 * @hooked: 'admin_footer-upload.php'
+	 */
+	public function print_download_js(){ ?>
+		<script>
+			jQuery(document).ready( function($)
+			{
+				$('.mtt-downloader').click( function(e)
+				{
+					e.preventDefault();
+					window.open($(this).attr('href'));
+				});
+			});
+		</script>
+	<?php }
+
+	/**
+	 * Add download link to row actions in wp-admin/upload.php
+	 *
+	 * @param array $actions
+	 * @param $post
+	 * @return string
+	 * @hooked 'media_row_actions'
+	 */
+	public function row_download_link( $actions, $post ) {
+		$actions['Download'] = '<a href="'
+		                       . wp_get_attachment_url( $post->ID )
+		                       . '" class="mtt-downloader" alt="Download link" title="'
+		                       . __( 'Right click and choose Save As', 'mtt' )
+		                       . '">Download</a>';
+
+		return $actions;
+	}
+
+	/**
+	 * Print custom columns CSS
+	 * @hooked: 'admin_head-upload.php'
+	 */
+	public function download_button_css()
+	{
+		echo '<style type="text/css">.mtt-downloader{cursor:pointer}</style>' . "\r\n";
+	}
+
+	/**
+	 * Allow svg update
+	 *
+	 * @param array $existing_mime_types
+	 *
+	 * @return array
+	 *
+	 * @hooked: 'upload_mimes'
+	 */
+	public function media_allow_svg_uploads( $existing_mime_types = array() ) {
+		return $existing_mime_types + array( 'svg' => 'image/svg+xml' );
+	}
+
+	/**
+	 * Consider this the "server side" fix for dimensions.
+	 * Which is needed for the Media Grid within the Administratior.
+	 *
+	 * @see https://github.com/grok/wordpress-plugin-scalable-vector-graphics/blob/master/scalable-vector-graphics.php
+	 *
+	 * @param $response
+	 * @param $attachment
+	 * @param $meta
+	 *
+	 * @return mixed
+	 *
+	 * @hooked 'wp_prepare_attachment_for_js'
+	 */
+	public function media_allow_svg_adjust_response( $response, $attachment, $meta ) {
+		if( $response['mime'] == 'image/svg+xml' && empty( $response['sizes'] ) ) {
+			$svg_file_path = get_attached_file( $attachment->ID );
+			$dimensions = WBF\components\utils\Utilities::get_svg_dimensions( $svg_file_path );
+			$response[ 'sizes' ] = array(
+				'full' => array(
+					'url' => $response[ 'url' ],
+					'width' => $dimensions->width,
+					'height' => $dimensions->height,
+					'orientation' => $dimensions->width > $dimensions->height ? 'landscape' : 'portrait'
+				)
+			);
+		}
+		return $response;
+	}
+
+	/**
+	 * Consider this the "client side" fix for dimensions. But only for the Administrator.
+	 *
+	 * @see https://github.com/grok/wordpress-plugin-scalable-vector-graphics/blob/master/scalable-vector-graphics.php
+	 * @hooked 'admin_enqueue_scripts'
+	 */
+	function media_allow_svg_administration_styles() {
+		// Media Listing Fix
+		wp_add_inline_style( 'wp-admin', ".media .media-icon img[src$='.svg'] { width: auto; height: auto; }" );
+		// Featured Image Fix
+		wp_add_inline_style( 'wp-admin', "#postimagediv .inside img[src$='.svg'] { width: 100%; height: auto; }" );
+	}
+
+
+	/**
+	 * Consider this the "client side" fix for dimensions. But only for the End User
+	 *
+	 * @see https://github.com/grok/wordpress-plugin-scalable-vector-graphics/blob/master/scalable-vector-graphics.php
+	 * @hooked 'wp_head'
+	 */
+	function media_allow_svg_public_styles() {
+		// Featured Image Fix
+		echo "<style>.post-thumbnail img[src$='.svg'] { width: 100%; height: auto; }</style>";
 	}
 
 }
