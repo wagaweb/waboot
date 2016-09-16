@@ -270,6 +270,9 @@ class Admin_Tweaks extends \WBF\modules\components\Component {
 		if ( ! empty( \Waboot\functions\get_option( $this->name . '_login_logo_title' ) ) ) {
 			add_filter( 'login_headertitle', [ $this, 'login_logo_title' ] );
 		}
+		if ( ! empty( \Waboot\functions\get_option( $this->name . '_login_custom_css' ) ) ) {
+			add_action( 'login_head', [ $this, "login_custom_css" ] );
+		}
 		if ( ! empty( \Waboot\functions\get_option( $this->name . '_login_background_image' ) ) ) {
 			add_action( 'login_head', [ $this, 'login_background_image' ] );
 		}
@@ -420,6 +423,14 @@ class Admin_Tweaks extends \WBF\modules\components\Component {
 	 */
 	function login_logo_title() {
 		return \Waboot\functions\get_option($this->name.'_login_logo_title');
+	}
+
+	/**
+	 * @hooked: login_head
+	 */
+	public function login_custom_css() {
+		$css = \Waboot\functions\get_option($this->name.'_login_custom_css');
+		echo '<style type="text/css">'.$css.'</style>';
 	}
 
 	/**
