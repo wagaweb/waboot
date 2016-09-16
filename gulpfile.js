@@ -182,20 +182,20 @@ gulp.task('copy-vendors',function() {
 
     //Copy fonts
     copy([
-        '*.*'
-    ],'assets/dist/fonts',{cwd: 'assets/vendor/bootstrap/dist/fonts'},cb);
+        'assets/vendor/bootstrap/dist/fonts/*.*'
+    ],'assets/dist/fonts',{flatten: true},cb);
     copy([
-        '*.*',
-        '!4.4.0'
-    ],'assets/dist/fonts',{cwd: 'assets/vendor/fontawesome/fonts'},cb);
+        'assets/vendor/fontawesome/fonts/*.*',
+        '!assets/vendor/fontawesome/fonts/4.4.0'
+    ],'assets/dist/fonts',{flatten: true},cb);
 
     //Copy styles
     copy([
-        'font-awesome.min.css'
-    ],'assets/dist/css',{cwd: 'assets/vendor/fontawesome/css'},cb);
+        'assets/vendor/fontawesome/css/font-awesome.min.css'
+    ],'assets/dist/css',{flatten: true},cb);
     copy([
-        'bootstrap.min.css'
-    ],'assets/dist/css',{cwd: 'assets/vendor/bootstrap/dist/css'},cb);
+        'assets/vendor/bootstrap/dist/css/bootstrap.min.css'
+    ],'assets/dist/css',{flatten: true},cb);
 });
 
 /**
