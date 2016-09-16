@@ -177,12 +177,12 @@ gulp.task('copy-vendors',function() {
     copy([
         'assets/vendor/html5shiv/dist/html5shiv.min.js',
         'assets/vendor/respond/dest/respond.min.js',
-        'assets/vendor/bootstrap/dist/js/bootstrap.min.js'
+        'assets/vendor/bootstrap-sass/assets/javascripts/bootstrap.min.js'
     ],'assets/dist/js',{flatten: true},cb);
 
     //Copy fonts
     copy([
-        'assets/vendor/bootstrap/dist/fonts/*.*'
+        'assets/vendor/bootstrap-sass/assets/fonts/bootstrap/*.*'
     ],'assets/dist/fonts',{flatten: true},cb);
     copy([
         'assets/vendor/fontawesome/fonts/*.*',

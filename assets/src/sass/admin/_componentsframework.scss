@@ -1,0 +1,21 @@
+/*
+Custom style for Theme Options panel
+Version: 1.0
+Author: Waga
+Author URI: https://waga.it
+*/
+
+@img_dir: "../../images/options";
+
+@import "../../../vendor/bootstrap/less/mixins";
+
+/* General rules */
+
+#componentframework-wrapper {
+
+  #componentframework .group > h3 {
+    background-position: 97.5% center;
+    background-repeat: no-repeat;
+    background-image: url("@{img_dir}/icons/waboot-icon-64x64-tr.svg");
+  }
+}

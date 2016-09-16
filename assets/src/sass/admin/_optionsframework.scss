@@ -1,0 +1,471 @@
+/*
+Custom style for Theme Options panel
+Version: 1.0
+Author: Waga
+Author URI: https://waga.it
+*/
+
+@img_dir: "../../images/options";
+
+@import "../../../vendor/bootstrap/less/mixins";
+
+/* General rules */
+
+div#optionsframework-wrap {
+
+  /* Vertical Tabbed Navigation */
+
+  div.nav-tab-wrapper{
+    .layout_heading-tab {
+      background-image: url("@{img_dir}/icons/layout-icon.svg") !important;
+    }
+    .backgrounds_heading-tab {
+      background-image: url("@{img_dir}/icons/backgrounds-icon.svg") !important;
+    }
+    .style_heading-tab {
+      background-image: url("@{img_dir}/icons/style-icon.svg") !important;
+    }
+    .typography_heading-tab {
+      background-image: url("@{img_dir}/icons/typography-icon.svg") !important;
+    }
+    .topnav_heading-tab {
+      background-image: url("@{img_dir}/icons/top-nav-icon.svg") !important;
+    }
+    .header_heading-tab {
+      background-image: url("@{img_dir}/icons/header-icon.svg") !important;
+    }
+    .footer_heading-tab {
+      background-image: url("@{img_dir}/icons/closure-icon.svg") !important;
+    }
+    .blog_heading-tab {
+      background-image: url("@{img_dir}/icons/blog-icon.svg") !important;
+    }
+    .behaviors_heading-tab {
+      background-image: url("@{img_dir}/icons/behaviour-icon.svg") !important;
+    }
+    .woocommerce_heading-tab {
+      background-image: url("@{img_dir}/icons/woocommerce-icon.svg") !important;
+    }
+    .post_meta_heading-tab {
+      background-image: url("@{img_dir}/icons/behaviour-icon.svg") !important;
+    }
+    .contact_form_heading-tab {
+      background-image: url("@{img_dir}/icons/behaviour-icon.svg") !important;
+    }
+    .favicons_heading-tab {
+      background-image: url("@{img_dir}/icons/behaviour-icon.svg") !important;
+    }
+    .social_heading-tab {
+      background-image: url("@{img_dir}/icons/social-icon.svg") !important;
+    }
+    .custom_css_heading-tab {
+      background-image: url("@{img_dir}/icons/custom-css.svg") !important;
+    }
+  }
+
+  #optionsframework .group > h3 {
+    background-position: 97.5% center;
+    background-repeat: no-repeat;
+    background-image: url("@{img_dir}/icons/waboot-icon-64x64-tr.svg");
+  }
+}
+
+#optionsframework .group > h3,
+#componentframework .group > h3{
+  margin: 0;
+  padding: 1em;
+  background-color: #222;
+}
+
+#optionsframework {
+
+  .group {
+    min-height: 771px;
+  }
+
+  /* Layout */
+
+  .layout .section {
+    min-height: 0;
+  }
+
+  .layout .section:nth-child(even) {
+    border-right: none;
+  }
+
+  .layout .section:nth-child(odd) {
+    border-right: 1px solid #ddd;
+    clear: both;
+  }
+
+  .layout #section-waboot_page_width,
+  .layout #section-waboot_page_bgcolor {
+    border-right: none;
+    width: 100%;
+  }
+
+  .layout .section-images {
+    border-bottom: 0;
+  }
+
+  .layout .section-color .heading,
+  .layout .section-color .explain {
+    text-align: center;
+    padding-left: 0;
+  }
+
+  .layout .section-color .heading {
+    display: none;
+  }
+
+  .layout .section-color .wp-picker-container {
+    float: none;
+  }
+  /*
+  .layout #section-waboot_page_width {
+    border-right: none;
+  }
+
+  #section-waboot_page_width {
+    width: 100%;
+    border-right: none;
+  }
+  */
+
+  /*
+  #section-waboot_page_bgcolor {
+    background-image: url("@{img_dir}/style/page-color.png");
+  }
+
+  #section-waboot_topnav_bgcolor {
+    background-image: url("@{img_dir}/style/top-nav-color.png");
+  }
+
+  #section-waboot_header_bgcolor {
+    background-image: url("@{img_dir}/style/header-color.png");
+  }
+
+  #section-waboot_navbar_bgcolor {
+    background-image: url("@{img_dir}/style/navbar-color.png");
+  }
+
+  #section-waboot_banner_bgcolor {
+    background-image: url("@{img_dir}/style/banner-color.png");
+  }
+
+  #section-waboot_content_bgcolor {
+    background-image: url("@{img_dir}/style/content-color.png");
+  }
+
+  #section-waboot_bottom_bgcolor {
+    background-image: url("@{img_dir}/style/content-bottom-color.png");
+  }
+
+  #section-waboot_footer_bgcolor {
+    background-image: url("@{img_dir}/style/footer-color.png");
+  }
+
+  #section-waboot_closure_bgcolor {
+    background-image: url("@{img_dir}/style/closure-color.png");
+  }
+  */
+
+  /* Backgrounds */
+
+  .backgrounds .section:nth-child(2) {
+    border-right: none;
+  }
+
+  .backgrounds .section:nth-child(3),
+  .backgrounds .section:nth-child(5),
+  .backgrounds .section:nth-child(8),
+  .backgrounds .section:nth-child(10),
+  .backgrounds .section:nth-child(12),
+  .backgrounds .section:nth-child(14),
+  .backgrounds .section:nth-child(16){
+    border-right: 1px solid #ddd;
+  }
+
+  .backgrounds .section:nth-child(4),
+  .backgrounds .section:nth-child(6),
+  .backgrounds .section:nth-child(9),
+  .backgrounds .section:nth-child(11),
+  .backgrounds .section:nth-child(13),
+  .backgrounds .section:nth-child(15) {
+    border-right: none;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .backgrounds .section:nth-child(7) {
+    border-right: none;
+  }
+
+  #section-waboot_body_bgimage {
+    width: 100%;
+  }
+
+  #section-waboot_body_bgcolor {
+    background-image: url("@{img_dir}/style/body-background-color.png");
+  }
+
+  /* Bootstrap */
+
+  .style .section {
+    width: 33.3333%;
+  }
+
+  .style .section{
+    border-right: 1px solid #ddd;
+  }
+
+  .style .section:nth-child(4),
+  .style .section:nth-child(7){
+    border-right: none;
+  }
+
+
+  /* Typography */
+
+  .typography .section {
+    width: 100%;
+  }
+
+  .typography .section .font-family-selector,
+  .typography .section .font-style-selector,
+  .typography .section .font-charset-selector,
+  .typography .section .wp-picker-container {
+    float: left;
+    width: 49%;
+    margin: 0 0 15px;
+  }
+
+  .typography .section .font-family-selector,
+  .typography .section .font-style-selector {
+    margin-right: 2%;
+  }
+
+  .typography .section .font-style-selector,
+  .typography .section .font-charset-selector {
+    padding: 10px 0;
+    box-shadow: 0 0 0 1px #ddd;
+  }
+
+  .typography .section .font-style-selector {
+    clear: left;
+  }
+
+  .typography .section .wp-picker-container .wp-color-result {
+    margin: 0;
+  }
+
+  .typography .section .font-preview {
+    width: 100%;
+    border: 1px solid #ddd;
+    background-color: #f7f7f7;
+    clear: both;
+    padding: 15px 0px;
+  }
+
+  .typography .section .font-preview p {
+    font-size: 2em;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Top Nav */
+
+
+
+  /* Header */
+
+  .header .section {
+    width: 100%;
+  }
+
+  .header .section:nth-child(4),
+  .header .section:nth-child(6),
+  .header .section:nth-child(8) {
+    border-right: 1px solid #ddd;
+    width: 50%;
+  }
+
+  .header .section:nth-child(5),
+  .header .section:nth-child(7),
+  .header .section:nth-child(9) {
+    border-right: 0;
+    width: 50%;
+  }
+
+  #section-waboot_header_layout {
+    min-height: 735px;
+    width: 100%;
+  }
+
+
+  /* Footer */
+
+  .footer .section {
+    width: 100%;
+  }
+
+  /* Posts & Pages */
+
+  .behaviors .section-info,
+  .behaviors .section-images {
+    width: 100%;
+    border-right: none;
+  }
+
+  .behaviors .section:nth-child(6n+5) {
+    width: 100%;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  /* Post Meta */
+
+  .post_meta .section:nth-child(even) {
+    border-right: 1px solid #ddd;
+  }
+
+  .post_meta .section:nth-child(odd) {
+    border-right: none;
+  }
+
+  /* Contact form */
+
+  #section-contact_form_mail_recipient_type {
+    border-right: 1px solid #ddd;
+  }
+
+  #section-contact_form_privacy_text {
+    width: 100%;
+  }
+
+  /* Favicon */
+
+  .favicons .section:nth-child(odd) {
+    border-right: none;
+  }
+
+  .favicons .section:nth-child(even) {
+    border-right: 1px solid #ddd;
+  }
+
+
+  /* Social */
+
+  .social .section:nth-child(odd) {
+    border-right: none;
+  }
+
+  .social .section:nth-child(even) {
+    border-right: 1px solid #ddd;
+  }
+
+  .social #section-waboot_social_position,
+  .social #section-social_position_none {
+    width: 100%;
+  }
+
+  .social .section {
+    background-position: 35px 35px;
+  }
+
+  .social .controls {
+    text-align: left;
+    padding-left: 80px;
+  }
+
+  .social #section-waboot_social_position .controls {
+    text-align: center;
+    padding-left: 0;
+  }
+
+  .social .section .heading,
+  .social .section .explain {
+    text-align: left;
+    padding-left: 80px;
+  }
+
+  .social #section-waboot_social_position,
+  .social #section-social_position_none{
+    .heading{
+      text-align: center;
+      padding-left: 0px;
+    }
+    .explain{
+      text-align: center;
+      padding-left: 0px;
+    }
+    .controls{
+      padding-left: 0;
+    }
+  }
+
+  #section-waboot_social_facebook {
+    background-image: url("@{img_dir}/social/facebook.png");
+  }
+
+  #section-waboot_social_twitter {
+    background-image: url("@{img_dir}/social/twitter.png");
+  }
+
+  #section-waboot_social_google {
+    background-image: url("@{img_dir}/social/googleplus.png");
+  }
+
+  #section-waboot_social_youtube {
+    background-image: url("@{img_dir}/social/youtube.png");
+  }
+
+  #section-waboot_social_pinterest {
+    background-image: url("@{img_dir}/social/pinterest.png");
+  }
+
+  #section-waboot_social_linkedin {
+    background-image: url("@{img_dir}/social/linkedin.png");
+  }
+
+  #section-waboot_social_instagram {
+    background-image: url("@{img_dir}/social/instagram.png");
+  }
+
+  #section-waboot_social_feedrss {
+    background-image: url("@{img_dir}/social/rss.png");
+  }
+
+  /* Custom CSS */
+
+  #section-waboot_custom_css {
+    width: 100%;
+    border-right: none;
+  }
+
+  /* Blog */
+  .blog .section:nth-child(2),
+  .blog .section:nth-child(3){
+    width: 100%;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .blog .section:nth-child(4){
+    width: 50%;
+    border-right: 1px solid #ddd;
+  }
+
+  .blog .section:nth-child(5){
+    width: 50%;
+    border-right: none;
+  }
+
+  /* WooCommerce */
+  .woocommerce #section-waboot_woocommerce_shop_sidebar_layout,
+  .woocommerce #section-waboot_woocommerce_sidebar_layout {
+    width: 100%;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+}
