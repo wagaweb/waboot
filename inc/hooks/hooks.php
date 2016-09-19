@@ -109,14 +109,14 @@ function inject_templates($page_templates, \WP_Theme $theme, $post){
 	foreach ($tpls as $tpl){
 		$basename = basename($tpl);
 		$name = call_user_func(function() use ($basename) {
-			preg_match("/^content-([a-z]+)/",$basename,$matches);
+			preg_match("/^content-([a-z_-]+)/",$basename,$matches);
 			if(isset($matches[1])){
 				$name = $matches[1];
 			}
 			if(isset($name)) return $name; else return false;
 		});
 		if(!$name) continue;
-		$page_templates[$name] = ucfirst($name)." "._x("(parts)","Waboot Template Partials","waboot");
+		$page_templates[$name] = str_replace("_"," ",ucfirst($name))." "._x("(parts)","Waboot Template Partials","waboot");
 	}
 	return $page_templates;
 }
