@@ -179,6 +179,13 @@ class Admin_Tweaks extends \WBF\modules\components\Component {
 			'type' => 'checkbox'
 		],null,null,$additional_params);
 		$orgzr->add([
+			'name' => __( 'Wraps the content of a WordPress media gallery in a Twitter\'s Bootstrap grid', 'waboot' ),
+			'desc' => __( '', 'waboot' ),
+			'id'   => $this->name.'_media_bootstrap_galleries',
+			'std'  => '',
+			'type' => 'checkbox'
+		],null,null,$additional_params);
+		$orgzr->add([
 			'name' => __( 'Bigger thumbnails in the default column', 'waboot' ),
 			'desc' => __( '', 'waboot' ),
 			'id'   => $this->name.'_media_bigger_thumbs',
@@ -304,6 +311,11 @@ class Admin_Tweaks extends \WBF\modules\components\Component {
 		if ( \Waboot\functions\get_option( $this->name . '_media_sharpen_resized' ) == true ) {
 			add_filter( 'image_make_intermediate_size', [ $this, 'media_sharpen_resized' ] );
 		}
+		if ( \Waboot\functions\get_option( $this->name . '_media_bootstrap_galleries' ) == true ) {
+			require_once 'includes/bootstrap_galleries/BootstrapGalleries.php';
+			add_filter( 'post_gallery', [ 'BootstrapGalleries', 'media_bootstrap_galleries' ], 10, 2 );
+		}
+
 		if ( \Waboot\functions\get_option( $this->name . '_media_bigger_thumbs' ) == true ) {
 			add_action( 'admin_head', [ $this, 'media_bigger_thumbs' ] );
 		}
