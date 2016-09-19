@@ -99,14 +99,20 @@ function display_title($type = 'single'){
 
 /**
  * Prints HTML with date posted information for the current post.
+ * 
+ * @param null $print_relative
  */
-function display_post_date(){
+function display_post_date($print_relative = null){
 	// Return early if theme options are set to hide date
 	if(!\Waboot\functions\get_option('show_post_date', true)) return;
 
 	$tpl = "templates/view-parts/entry-date.php";
 
-	$relative_time = \Waboot\functions\get_option('show_post_relative_time', false);
+    if(!isset($print_relative)){
+        $relative_time = \Waboot\functions\get_option('show_post_relative_time', false);
+    }else{
+        $relative_time = $print_relative;
+    }
 
 	(new HTMLView($tpl))->display([
 		'tag_date' => esc_attr(get_the_date('c')),
