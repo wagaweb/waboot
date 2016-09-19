@@ -102,70 +102,6 @@ class Legal_Data extends \Waboot\Component{
 	public function register_options() {
 		parent::register_options();
 
-
-		/*
-
-		$orgzr = \WBF\modules\options\Organizer::getInstance();
-
-		$orgzr->set_group($this->name."_component");
-
-		$orgzr->add_section("legal",_x("Legal","Theme options section","waboot"));
-
-		$orgzr->add([
-			'name' => 'Legal Information',
-			'desc' => __( 'Edit default options for Header Fixed post type', 'waboot' ),
-			'type' => 'info'
-		], "legal");
-
-		$orgzr->update($this->name.'_company_name',[
-			'name' => __( 'Class to fix', 'waboot' ),
-			'desc' => __( 'Select the class you want to fix. ', 'waboot' ),
-			'id'   => $this->name.'_company_name',
-			'std'  => '',
-			'type' => 'text'
-		],"legal");
-
-		$orgzr->update($this->name.'_address',[
-			'name' => __( 'Mode', 'waboot' ),
-			'desc' => __( 'Choose if you want the class to be fixed from the beginning, after a breakpoint or on scroll up', 'waboot' ),
-			'id'   => $this->name.'_address',
-			'std'  => '',
-			'type' => 'text',
-		],"legal");
-
-		$orgzr->update($this->name.'_mail',[
-			'name' => __( 'Style Before - Color', 'waboot' ),
-			'desc' => __( ' ', 'waboot' ),
-			'id'   => $this->name.'_mail',
-			'std'  => '',
-			'type' => 'text'
-		],"legal");
-
-		$orgzr->update($this->name.'_tel',[
-			'name' => __( 'Style Before - Padding', 'waboot' ),
-			'desc' => __( ' ', 'waboot' ),
-			'id'   => $this->name.'_tel',
-			'std'  => '',
-			'type' => 'text'
-		],"legal");
-
-		$orgzr->reset_group();
-		$orgzr->reset_section();
-
-		*/
-
-
-
-
-
-		/*
-
-		$company = \Waboot\functions\get_option($this->name.'_company_name');
-		$address = \Waboot\functions\get_option($this->name.'_address');
-		$mail = \Waboot\functions\get_option($this->name.'_mail');
-		$tel = \Waboot\functions\get_option($this->name.'_tel');
-
-		*/
 	}
 
 	/**
@@ -176,37 +112,37 @@ class Legal_Data extends \Waboot\Component{
 	 * @return array|mixed
 	 */
 	public function theme_options($options){
-		$options = parent::theme_options($options);
+		// $options = parent::theme_options($options);
 
 		$options[] = array(
 			'name' => 'Legal Information',
-			'desc' => __( '', 'waboot' ),
+			'desc' => '',
 			'type' => 'info'
 		);
 		$options[] = array(
-			'name' => __( 'Name', 'waboot' ),
-			'desc' => __( 'Your Company Name', 'waboot' ),
+			'name' => __( 'Company Name', 'waboot' ),
+			'desc' => __( '[wb_legal_name]', 'waboot' ),
 			'id'   => $this->name.'_company_name',
 			'std'  => '',
 			'type' => 'text'
 		);
 		$options[] = array(
-			'name' => __( 'Address', 'waboot' ),
-			'desc' => __( 'Your Company Address', 'waboot' ),
+			'name' => __( 'Company Address', 'waboot' ),
+			'desc' => __( '[wb_legal_address]', 'waboot' ),
 			'id'   => $this->name.'_address',
 			'std'  => '',
 			'type' => 'text',
 		);
 		$options[] = array(
-			'name' => __( 'Mail', 'waboot' ),
-			'desc' => __( 'choose an email address', 'waboot' ),
+			'name' => __( 'Company Mail', 'waboot' ),
+			'desc' => __( '[wb_legal_mail]', 'waboot' ),
 			'id'   => $this->name.'_mail',
 			'std'  => '',
 			'type' => 'text'
 		);
 		$options[] = array(
-			'name' => __( 'Tel', 'waboot' ),
-			'desc' => __( 'Choose a telephone Number', 'waboot' ),
+			'name' => __( 'Company Telephone', 'waboot' ),
+			'desc' => __( '[wb_legal_tel]', 'waboot' ),
 			'id'   => $this->name.'_tel',
 			'std'  => '',
 			'type' => 'text'
