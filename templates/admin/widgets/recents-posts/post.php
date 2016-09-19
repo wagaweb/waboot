@@ -7,12 +7,16 @@
 			<header>
 				<h4><a href="<?php the_permalink(); ?>" title="<?php echo $link_title; ?>"><?php echo apply_filters("waboot_entry_title_text",get_the_title()); ?></a></h4>
 			</header>
-			<footer class="entry-footer">
-				<?php $footer; ?>
-			</footer>
-			<div class="entry-content">
-				<?php $excerpt; ?>
-			</div>
+			<?php if($footer): ?>
+				<footer class="entry-footer">
+					<?php echo $footer; ?>
+				</footer>
+			<?php endif; ?>
+			<?php if($excerpt): ?>
+				<div class="entry-content">
+					<?php echo $excerpt; ?>
+				</div>
+			<?php endif; ?>
 		</div>
 
 	<?php else: ?>
@@ -20,12 +24,16 @@
 			<header>
 				<h4><a href="<?php the_permalink(); ?>" title="<?php echo $link_title; ?>"><?php echo apply_filters("waboot_entry_title_text",get_the_title()); ?></a></h4>
 			</header>
+			<?php if($footer): ?>
 			<footer class="entry-footer">
-				<?php $footer; ?>
+				<?php echo $footer; ?>
 			</footer>
+			<?php endif; ?>
+			<?php if($excerpt): ?>
 			<div class="entry-content">
-				<?php $excerpt; ?>
+				<?php echo $excerpt; ?>
 			</div>
+			<?php endif; ?>
 		</div>
 	<?php endif; ?>
 </article>
