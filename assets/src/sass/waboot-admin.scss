@@ -1,5 +1,13 @@
-@import "admin/componentsframework";
-@import "admin/optionsframework";
-@import "admin/pagebuilder";
-@import "admin/theme-options-gui";
-@import "admin/tinymce";
+$pagebuilder_img_dir: "../../images/pagebuilder";
+$theme_options_img_dir: "../../images/options";
+
+/*!
+ * Waboot Admin v2.0.0
+ */
+
+@import "admin/global";
+
+//Extensions and plugins compatibilities
+@import "admin/extensions/wbf/components";
+@import "admin/extensions/wbf/theme-options";
+@import "admin/extensions/wb-contact-form";

@@ -1,0 +1,223 @@
+// WOOCOMMERCE
+
+// General rules
+
+.woocommerce .navbar-brand img {
+  max-width: none; // fix chrome logo disappear
+}
+
+// Single Product
+
+.woocommerce #content .product div.images,
+.woocommerce .product div.images,
+.woocommerce-page #content .product div.images,
+.woocommerce-page .product div.images {
+  float: none;
+  width: 100%;
+  max-width: 100%;
+}
+
+.woocommerce .product div.images img {
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+
+.woocommerce .product div.thumbnails {
+  margin: 10px -5px 0;
+}
+
+.woocommerce .product div.thumbnails a {
+  padding: 0 5px;
+  width: 33.3333%;
+  float: left;
+}
+
+.woocommerce .product div.thumbnails img {
+  padding: 5px;
+  border: 1px solid #ddd;
+}
+
+.woocommerce .product .product-info .prod-category {
+  margin-bottom: 0;
+  font-size: 0.9em;
+  text-transform: uppercase;
+}
+
+.woocommerce .product .product-info .prod-category:after {
+  content: ' ';
+  width: 100px;
+  height: 1px;
+  background-color: #ddd;
+  margin: 10px 0;
+  display: block;
+}
+
+.woocommerce .product .product-info h1 {
+  margin-bottom: 0;
+  font-weight: 700;
+}
+
+.woocommerce .product .product-info .price {
+  font-size: 2em;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 10px;
+}
+
+.woocommerce .product .product-info .price ins {
+  background-color: transparent;
+}
+
+.woocommerce .product .product-info form.cart {
+  margin-bottom: 20px;
+}
+
+.woocommerce .product .product-details {
+  margin-top: 20px;
+}
+
+.woocommerce .product .product-details .tab-content > .tab-pane {
+  padding: 20px 0;
+}
+
+
+
+// Products List
+
+.woocommerce .products {
+  clear: both;
+}
+
+.woocommerce .products .product img {
+  padding: 5px;
+  border: 1px solid #ddd;
+  margin-bottom: 10px;
+}
+
+.woocommerce .products .product p.wb-product-cat {
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  font-size: 0.9em;
+}
+
+.woocommerce .products .product p.wb-product-cat:after {
+  content: ' ';
+  width: 100px;
+  height: 1px;
+  background-color: #ddd;
+  margin: 5px auto 10px;
+  display: block;
+}
+
+.woocommerce .products .product h4 {
+  margin: 0 0 10px 0;
+}
+
+.woocommerce .products .product h4 mark {
+  padding: 0;
+  background-color: transparent;
+}
+
+.woocommerce .products .star-rating {
+  display: inline-block;
+  float: none;
+  margin-bottom: 0 auto;
+}
+
+.woocommerce .products .product .price {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.woocommerce .products .product .price .amount {
+  font-weight: 700;
+}
+
+.woocommerce .products .product .price del {
+  display: inline-block;
+}
+
+.woocommerce .products .product .price del .amount {
+  font-weight: normal;
+}
+
+.woocommerce .woocommerce-result-count,
+.woocommerce-page .woocommerce-result-count {
+  float: left;
+}
+
+
+
+// Products Widget
+
+.woocommerce ul.cart_list li,
+.woocommerce ul.product_list_widget li {
+  padding-top: 0;
+  padding-bottom: 5px;
+  margin-bottom: 5px;
+}
+
+.woocommerce ul.cart_list li img,
+.woocommerce ul.product_list_widget li img {
+  margin-right: 10px;
+  margin-left: 0;
+  float: left;
+  width: 70px;
+  padding: 5px;
+  border: 1px solid #ddd;
+  background-color: #fff;
+}
+
+
+// Cart
+
+.woocommerce table.cart {
+  margin-top: 0;
+}
+
+.woocommerce-cart table.cart img {
+  padding: 4px;
+  border: 1px solid #ddd;
+  background-color: #fff;
+  width: 60px;
+}
+
+.woocommerce #content table.cart td.actions .input-text,
+.woocommerce table.cart td.actions .input-text,
+.woocommerce-page #content table.cart td.actions .input-text,
+.woocommerce-page table.cart td.actions .input-text {
+  width: auto;
+}
+
+.woocommerce-cart .cart-collaterals .cart_totals table {
+  border: 1px solid #ddd;
+  margin: 0;
+}
+
+.woocommerce-cart .cart-collaterals .cart_totals table td,
+.woocommerce-cart .cart-collaterals .cart_totals table th {
+  padding: 8px;
+}
+
+.woocommerce-cart .cart-collaterals .cart_totals label {
+  display: inline;
+}
+
+
+// Checkout
+
+.woocommerce-checkout #order_review label {
+  display: inline;
+}
+
+.woocommerce-checkout .select2-container {
+  padding: 0;
+  border: 0;
+  height: auto;
+  background-color: transparent;
+}
+
+.woocommerce-checkout #ship-to-different-address label {
+  font-weight: normal;
+  margin: 0;
+  display: inline;
+}

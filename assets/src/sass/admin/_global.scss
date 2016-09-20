@@ -1,0 +1,56 @@
+/* Toolbar */
+
+#wp-toolbar{
+  .wbf-toolbar-compile-theme-styles-button{
+    a{
+      &:before{
+        content: "\f495";
+        margin-top: 2px;
+      }
+    }
+  }
+  .wbf-toolbar-env-notice{
+    a{
+      &:before{
+        content: "\f108";
+        margin-top: 2px;
+      }
+    }
+  }
+}
+
+/** RECENT POST **/
+
+.wbrw-column{
+  overflow: hidden;
+  float: left;
+  width: 31%;
+  margin-right: 3.5%;
+  &.last{
+    float: right;
+    margin-right: 0;
+  }
+  .multiple-check{
+    margin: 1em 0;
+    ul{
+      border: 1px solid #eee;
+      padding: 10px;
+      max-height: 110px;
+      overflow: auto;
+      margin-top: 0;
+    }
+    &.loading{
+      ul{
+        background-color: #eee;
+        color: #aaa;
+      }
+      input[type='checkbox']{
+        border: 0;
+      }
+    }
+  }
+}
+
+.wbrw-clear{
+  clear: both;
+}

@@ -1,59 +1,72 @@
-@img_dir: "../../images/theme_options";
+/*!
+Custom style for Theme Options panel
+Version: 1.0
+Author: Waga
+Author URI: https://waga.it
+*/
+
+/* General rules */
 
 div#optionsframework-wrap {
+
   /* Vertical Tabbed Navigation */
 
   div.nav-tab-wrapper{
     .layout_heading-tab {
-      background-image: url("@{img_dir}/icons/layout-icon.svg") !important;
+      background-image: url("#{$theme_options_img_dir}/icons/layout-icon.svg") !important;
     }
     .backgrounds_heading-tab {
-      background-image: url("@{img_dir}/icons/backgrounds-icon.svg") !important;
+      background-image: url("#{$theme_options_img_dir}/icons/backgrounds-icon.svg") !important;
     }
     .style_heading-tab {
-      background-image: url("@{img_dir}/icons/style-icon.svg") !important;
+      background-image: url("#{$theme_options_img_dir}/icons/style-icon.svg") !important;
     }
     .typography_heading-tab {
-      background-image: url("@{img_dir}/icons/typography-icon.svg") !important;
+      background-image: url("#{$theme_options_img_dir}/icons/typography-icon.svg") !important;
     }
     .topnav_heading-tab {
-      background-image: url("@{img_dir}/icons/top-nav-icon.svg") !important;
+      background-image: url("#{$theme_options_img_dir}/icons/top-nav-icon.svg") !important;
     }
     .header_heading-tab {
-      background-image: url("@{img_dir}/icons/header-icon.svg") !important;
+      background-image: url("#{$theme_options_img_dir}/icons/header-icon.svg") !important;
     }
     .footer_heading-tab {
-      background-image: url("@{img_dir}/icons/closure-icon.svg") !important;
+      background-image: url("#{$theme_options_img_dir}/icons/closure-icon.svg") !important;
     }
     .blog_heading-tab {
-      background-image: url("@{img_dir}/icons/blog-icon.svg") !important;
+      background-image: url("#{$theme_options_img_dir}/icons/blog-icon.svg") !important;
     }
     .behaviors_heading-tab {
-      background-image: url("@{img_dir}/icons/behaviour-icon.svg") !important;
+      background-image: url("#{$theme_options_img_dir}/icons/behaviour-icon.svg") !important;
     }
     .woocommerce_heading-tab {
-      background-image: url("@{img_dir}/icons/woocommerce-icon.svg") !important;
+      background-image: url("#{$theme_options_img_dir}/icons/woocommerce-icon.svg") !important;
     }
     .post_meta_heading-tab {
-      background-image: url("@{img_dir}/icons/behaviour-icon.svg") !important;
+      background-image: url("#{$theme_options_img_dir}/icons/behaviour-icon.svg") !important;
     }
     .contact_form_heading-tab {
-      background-image: url("@{img_dir}/icons/behaviour-icon.svg") !important;
+      background-image: url("#{$theme_options_img_dir}/icons/behaviour-icon.svg") !important;
     }
     .favicons_heading-tab {
-      background-image: url("@{img_dir}/icons/behaviour-icon.svg") !important;
+      background-image: url("#{$theme_options_img_dir}/icons/behaviour-icon.svg") !important;
     }
     .social_heading-tab {
-      background-image: url("@{img_dir}/icons/social-icon.svg") !important;
+      background-image: url("#{$theme_options_img_dir}/icons/social-icon.svg") !important;
     }
     .custom_css_heading-tab {
-      background-image: url("@{img_dir}/icons/custom-css.svg") !important;
+      background-image: url("#{$theme_options_img_dir}/icons/custom-css.svg") !important;
     }
+  }
+
+  #optionsframework .group > h3 {
+    background-position: 97.5% center;
+    background-repeat: no-repeat;
+    background-image: url("#{$theme_options_img_dir}/icons/waboot-icon-64x64-tr.svg");
   }
 }
 
-#optionsframework .group > h3,
-#componentframework .group > h3{
+#optionsframework .group > h3{
   margin: 0;
   padding: 1em;
   background-color: #222;
@@ -116,39 +129,39 @@ div#optionsframework-wrap {
 
   /*
   #section-waboot_page_bgcolor {
-    background-image: url("@{img_dir}/style/page-color.png");
+    background-image: url("#{$theme_options_img_dir}/style/page-color.png");
   }
 
   #section-waboot_topnav_bgcolor {
-    background-image: url("@{img_dir}/style/top-nav-color.png");
+    background-image: url("#{$theme_options_img_dir}/style/top-nav-color.png");
   }
 
   #section-waboot_header_bgcolor {
-    background-image: url("@{img_dir}/style/header-color.png");
+    background-image: url("#{$theme_options_img_dir}/style/header-color.png");
   }
 
   #section-waboot_navbar_bgcolor {
-    background-image: url("@{img_dir}/style/navbar-color.png");
+    background-image: url("#{$theme_options_img_dir}/style/navbar-color.png");
   }
 
   #section-waboot_banner_bgcolor {
-    background-image: url("@{img_dir}/style/banner-color.png");
+    background-image: url("#{$theme_options_img_dir}/style/banner-color.png");
   }
 
   #section-waboot_content_bgcolor {
-    background-image: url("@{img_dir}/style/content-color.png");
+    background-image: url("#{$theme_options_img_dir}/style/content-color.png");
   }
 
   #section-waboot_bottom_bgcolor {
-    background-image: url("@{img_dir}/style/content-bottom-color.png");
+    background-image: url("#{$theme_options_img_dir}/style/content-bottom-color.png");
   }
 
   #section-waboot_footer_bgcolor {
-    background-image: url("@{img_dir}/style/footer-color.png");
+    background-image: url("#{$theme_options_img_dir}/style/footer-color.png");
   }
 
   #section-waboot_closure_bgcolor {
-    background-image: url("@{img_dir}/style/closure-color.png");
+    background-image: url("#{$theme_options_img_dir}/style/closure-color.png");
   }
   */
 
@@ -187,7 +200,7 @@ div#optionsframework-wrap {
   }
 
   #section-waboot_body_bgcolor {
-    background-image: url("@{img_dir}/style/body-background-color.png");
+    background-image: url("#{$theme_options_img_dir}/style/body-background-color.png");
   }
 
   /* Bootstrap */
@@ -245,7 +258,7 @@ div#optionsframework-wrap {
     border: 1px solid #ddd;
     background-color: #f7f7f7;
     clear: both;
-    padding: 15px 0px;
+    padding: 15px 0;
   }
 
   .typography .section .font-preview p {
@@ -374,11 +387,11 @@ div#optionsframework-wrap {
   .social #section-social_position_none{
     .heading{
       text-align: center;
-      padding-left: 0px;
+      padding-left: 0;
     }
     .explain{
       text-align: center;
-      padding-left: 0px;
+      padding-left: 0;
     }
     .controls{
       padding-left: 0;
@@ -386,35 +399,35 @@ div#optionsframework-wrap {
   }
 
   #section-waboot_social_facebook {
-    background-image: url("@{img_dir}/social/facebook.png");
+    background-image: url("#{$theme_options_img_dir}/social/facebook.png");
   }
 
   #section-waboot_social_twitter {
-    background-image: url("@{img_dir}/social/twitter.png");
+    background-image: url("#{$theme_options_img_dir}/social/twitter.png");
   }
 
   #section-waboot_social_google {
-    background-image: url("@{img_dir}/social/googleplus.png");
+    background-image: url("#{$theme_options_img_dir}/social/googleplus.png");
   }
 
   #section-waboot_social_youtube {
-    background-image: url("@{img_dir}/social/youtube.png");
+    background-image: url("#{$theme_options_img_dir}/social/youtube.png");
   }
 
   #section-waboot_social_pinterest {
-    background-image: url("@{img_dir}/social/pinterest.png");
+    background-image: url("#{$theme_options_img_dir}/social/pinterest.png");
   }
 
   #section-waboot_social_linkedin {
-    background-image: url("@{img_dir}/social/linkedin.png");
+    background-image: url("#{$theme_options_img_dir}/social/linkedin.png");
   }
 
   #section-waboot_social_instagram {
-    background-image: url("@{img_dir}/social/instagram.png");
+    background-image: url("#{$theme_options_img_dir}/social/instagram.png");
   }
 
   #section-waboot_social_feedrss {
-    background-image: url("@{img_dir}/social/rss.png");
+    background-image: url("#{$theme_options_img_dir}/social/rss.png");
   }
 
   /* Custom CSS */

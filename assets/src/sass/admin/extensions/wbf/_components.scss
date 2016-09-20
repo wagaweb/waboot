@@ -1,13 +1,9 @@
-/*
-Custom style for Theme Options panel
+/*!
+Custom style for Components panel
 Version: 1.0
 Author: Waga
 Author URI: https://waga.it
 */
-
-@img_dir: "../../images/options";
-
-@import "../../../vendor/bootstrap/less/mixins";
 
 /* General rules */
 
@@ -16,6 +12,12 @@ Author URI: https://waga.it
   #componentframework .group > h3 {
     background-position: 97.5% center;
     background-repeat: no-repeat;
-    background-image: url("@{img_dir}/icons/waboot-icon-64x64-tr.svg");
+    background-image: url("#{$theme_options_img_dir}/icons/waboot-icon-64x64-tr.svg");
   }
+}
+
+#componentframework .group > h3{
+  margin: 0;
+  padding: 1em;
+  background-color: #222;
 }
