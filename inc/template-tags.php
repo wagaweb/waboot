@@ -323,18 +323,18 @@ function get_first_link_or_post_content($output_type = "link"){
 /**
  * A version of the_excerpt() that applies the trim function to the predefined excerpt as well
  *
- * @param int|bool $length
+ * @param int|null $length
  * @param string|null $more
  * @param int|null $post_id
  * @param string $use is "content_also" then the content will be trimmed if the excerpt is empty
  */
-function the_trimmed_excerpt($length = false,$more = null,$post_id = null, $use = "excerpt_only"){
-    if(is_bool($length) && !$length){
+function the_trimmed_excerpt($length = null,$more = null,$post_id = null, $use = "excerpt_only"){
+    if(!isset($length)){
         $excerpt_length = apply_filters( 'excerpt_length', 55 );
     }else{
         $excerpt_length = $length;
     }
-    if(is_null($more)){
+    if(!isset($more)){
         $excerpt_more = apply_filters( 'excerpt_more', ' ' . '[&hellip;]' );
     }else{
         $excerpt_more = $more;
