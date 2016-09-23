@@ -80,7 +80,7 @@ class Component extends \WBF\modules\components\Component{
 
 	public function get_display_priority(){
 		$p = $this->default_prority;
-		if(function_exists("wb_get_option")){
+		if(function_exists("\\Waboot\\functions\\get_option")){
 			$p_opt = \Waboot\functions\get_option(strtolower($this->name)."_display_priority");
 			if($p_opt){
 				$p = $p_opt;
