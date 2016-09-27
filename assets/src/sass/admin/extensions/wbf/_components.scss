@@ -1,0 +1,23 @@
+/*!
+Custom style for Components panel
+Version: 1.0
+Author: Waga
+Author URI: https://waga.it
+*/
+
+/* General rules */
+
+#componentframework-wrapper {
+
+  #componentframework .group > h3 {
+    background-position: 97.5% center;
+    background-repeat: no-repeat;
+    background-image: url("#{$theme_options_img_dir}/icons/waboot-icon-64x64-tr.svg");
+  }
+}
+
+#componentframework .group > h3{
+  margin: 0;
+  padding: 1em;
+  background-color: #222;
+}

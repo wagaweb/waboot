@@ -6,6 +6,7 @@
     "respond": "~1.4.0",
     "modernizr": "~2.8.0",
     "bootstrap": "~3.3.0",
+    "bootstrap-sass": "~3.3.0",
     "fontawesome": "^4.5.0",
     "fastclick": "~1.0.6"
   }

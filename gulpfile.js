@@ -33,10 +33,11 @@ var paths = {
     scripts: ['./assets/src/js/**/*.js'],
     mainjs: ['./assets/src/js/main.js'],
     bundlejs: ['./assets/dist/js/waboot.js'],
-    lesses: './assets/src/less/**/*.less',
-    mainless: './assets/src/less/waboot.less',
-    main_admin_less: './assets/src/less/waboot-admin.less',
-    tinymce_admin_less: './assets/src/less/waboot-admin/tinymce.less',
+    scsses: './assets/src/sass/**/*.scss',
+    main_scss: './assets/src/sass/waboot.scss',
+    main_classic_scss: './assets/src/sass/waboot-classic-bootstrap.scss',
+    main_admin_scss: './assets/src/sass/waboot-admin.scss',
+    tinymce_admin_scss: './assets/src/sass/admin/tinymce.scss',
     build: [
         "**/*",
         "!.*" ,
@@ -66,25 +67,33 @@ gulp.task('compile_css',function(){
         cssnano()
     ];
 
-    var frontend = gulp.src(paths.mainless)
+    var frontend = gulp.src(paths.main_scss)
         .pipe(sourcemaps.init())
-        .pipe(less())
+        .pipe(sass({includePaths: ["assets/vendor/bootstrap-sass/assets/stylesheets"]}).on('error', sass.logError))
         .pipe(postcss(processors))
         .pipe(rename(theme_slug+'.min.css'))
         .pipe(sourcemaps.write("."))
         .pipe(gulp.dest('./assets/dist/css'));
 
-    var backend = gulp.src(paths.main_admin_less)
+    var frontend_classic = gulp.src(paths.main_classic_scss)
         .pipe(sourcemaps.init())
-        .pipe(less())
+        .pipe(sass({includePaths: ["assets/vendor/bootstrap-sass/assets/stylesheets"]}).on('error', sass.logError))
+        .pipe(postcss(processors))
+        .pipe(rename(theme_slug+'-classic.min.css'))
+        .pipe(sourcemaps.write("."))
+        .pipe(gulp.dest('./assets/dist/css'));
+
+    var backend = gulp.src(paths.main_admin_scss)
+        .pipe(sourcemaps.init())
+        .pipe(sass().on('error', sass.logError))
         .pipe(postcss(processors))
         .pipe(rename(theme_slug+'-admin.min.css'))
         .pipe(sourcemaps.write("."))
         .pipe(gulp.dest('./assets/dist/css'));
 
-    var tinymce = gulp.src(paths.tinymce_admin_less)
+    var tinymce = gulp.src(paths.tinymce_admin_scss)
         .pipe(sourcemaps.init())
-        .pipe(less())
+        .pipe(sass().on('error', sass.logError))
         .pipe(postcss(processors))
         .pipe(rename(theme_slug+'-admin-tinymce.min.css'))
         .pipe(sourcemaps.write("."))
@@ -100,7 +109,7 @@ gulp.task('compile_css',function(){
         .pipe(sourcemaps.write("."))
         .pipe(gulp.dest('./components/woocommerce_standard/assets/dist/css'));
 
-    return merge(frontend,backend,tinymce,comp_woocommerce_standard);
+    return merge(frontend,frontend_classic,backend,tinymce,comp_woocommerce_standard);
 });
 
 /**
@@ -177,12 +186,12 @@ gulp.task('copy-vendors',function() {
     copy([
         'assets/vendor/html5shiv/dist/html5shiv.min.js',
         'assets/vendor/respond/dest/respond.min.js',
-        'assets/vendor/bootstrap/dist/js/bootstrap.min.js'
+        'assets/vendor/bootstrap-sass/assets/javascripts/bootstrap.min.js'
     ],'assets/dist/js',{flatten: true},cb);
 
     //Copy fonts
     copy([
-        'assets/vendor/bootstrap/dist/fonts/*.*'
+        'assets/vendor/bootstrap-sass/assets/fonts/bootstrap/*.*'
     ],'assets/dist/fonts',{flatten: true},cb);
     copy([
         'assets/vendor/fontawesome/fonts/*.*',
@@ -193,9 +202,9 @@ gulp.task('copy-vendors',function() {
     copy([
         'assets/vendor/fontawesome/css/font-awesome.min.css'
     ],'assets/dist/css',{flatten: true},cb);
-    copy([
+    /*copy([
         'assets/vendor/bootstrap/dist/css/bootstrap.min.css'
-    ],'assets/dist/css',{flatten: true},cb);
+    ],'assets/dist/css',{flatten: true},cb);*/
 });
 
 /**

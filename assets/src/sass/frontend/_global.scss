@@ -1,0 +1,286 @@
+/******************* Images */
+
+p img {
+  margin-bottom: 0.5em;
+  margin-top: 0.4em;
+}
+
+#content .gallery .gallery-icon img {
+  border: 1px solid #ddd;
+  height: auto;
+  padding: 6px;
+}
+
+img.header-image,
+img.wp-post-image,
+img.avatar,
+img[class*="align"],
+img[class*="wp-image-"],
+img[class*="attachment-"],
+.comment-content img,
+.widget img {
+  height: auto;
+  max-width: 100%;
+  padding: 0;
+}
+
+.wp-caption {
+  border: 1px solid #ccc;
+  margin-bottom: 1.5em;
+  max-width: 100%;
+}
+
+.wp-caption img {
+  display: block;
+  margin: 1.2% auto 0;
+  max-width: 98%;
+}
+
+.wp-caption .wp-caption-text,
+.gallery-caption {
+  margin: 0.8075em 0;
+  padding-left: 10px;
+}
+
+/******************* End Images */
+
+/******************* Social Widget */
+
+.wb-social-widget{
+  margin: 0;
+  display: inline-block;
+  a{
+    display: inline-block;
+    margin: 0px 5px;
+    width: 24px;
+    height: 24px;
+    line-height: 24px;
+    font-size: 0.9em;
+    text-align: center;
+    border-radius: 50%;
+    background-color: #666;
+    color: #fff;
+    i{
+      line-height: 24px;
+    }
+  }
+}
+
+.main-navigation .wb-social-widget {
+  float: right;
+  a{
+    margin: 13px 5px;
+  }
+}
+
+/******************* End Social Widget */
+
+/******************* Search  */
+
+#searchsubmit,
+.search-form input[type=submit] {
+  display: none;
+}
+
+/******************* End Search  */
+
+/******************* Featured Posts */
+
+.carousel-indicators {
+  /*bottom: -10px;*/
+}
+
+.carousel-indicators li,
+.carousel-indicators .active {
+  height: 8px;
+  width: 8px;
+  margin: 2px;
+}
+
+.carousel-caption {
+  background-color: rgba(0, 0, 0, 0.5);
+  bottom: 0;
+  left: 0;
+  padding: 0px 15px;
+  width: 100%;
+}
+
+.carousel-caption h3 {
+  margin: 10px 0;
+  font-size: 1em;
+}
+
+/******************* End Featured Posts */
+
+/******************* Blog Article */
+
+.blog article,
+.archive article,
+.category article{
+  border-bottom: 1px solid #eee;
+  padding-bottom: 20px;
+}
+
+.single .entry-image img {
+  min-width: 100%;
+  margin-bottom: 20px;
+}
+
+.entry-footer {
+  clear: both;
+  text-transform: uppercase;
+  font-size: 0.9em;
+}
+
+.single .entry-footer {
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+  padding: 10px 0;
+}
+
+.entry-footer .glyphicon {
+  margin-right: 5px;
+}
+
+.entry-footer .byline,
+.entry-footer .cat-links,
+.entry-footer .comments-link,
+.entry-footer .published-date,
+.entry-footer .tags-links {
+  margin-right: 10px;
+}
+
+#nav-below {
+  clear: both;
+}
+
+/******************* End Blog Article */
+
+/******************* Post formats  */
+
+.format-video .wb-video-container iframe {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.format-quote {
+  background: url("img/quote.png") no-repeat scroll left top;
+  background-size: 20px 20px;
+  margin-top: 15px;
+  padding: 10px 0 0;
+}
+
+.format-quote cite {
+  font-style: italic;
+}
+
+.format-quote blockquote {
+  border-left: 0;
+  margin: 0 0 20px 15px;
+}
+
+.format-quote blockquote p {
+  font-style: italic;
+}
+
+/******************* End Post formats  */
+
+/******************* Comments */
+
+#comments {
+  border-top: 1px solid #eee;
+  padding-top: 40px;
+}
+.thread-even > .comment-body {
+  background: none repeat scroll 0 0 rgba(0, 0, 0, 0.03);
+}
+.comment-body {
+  margin-bottom: 20px;
+  padding: 15px;
+}
+#comments cite {
+  font-size: 1.1em;
+  font-weight: bold;
+}
+.comment-meta {
+  font-size: 0.9em;
+}
+.comment-list {
+  list-style-type: none;
+  padding: 0;
+}
+.comment-author {
+  margin-bottom: 7px;
+}
+.comment-content {
+  margin-top: 7px;
+}
+.comment-author > .avatar {
+  margin-right: 1em;
+}
+#comments ul.children {
+  margin-left: 20px;
+}
+#comments ul.children li {
+  border-top: 1px solid #e6e6e6;
+  list-style-type: none;
+}
+.bypostauthor > article {
+  background: none repeat scroll 0 0 rgba(70, 165, 70, 0.09);
+}
+.bypostauthor > article .avatar {
+  border-bottom: 4px solid #46a546;
+}
+.form-allowed-tags code {
+  white-space: normal;
+}
+.input-comment-author,
+.input-comment-email,
+.input-comment-url {
+  width: 35%;
+}
+
+/******************* End Comments */
+
+/******************* 404 Page */
+
+.error404 .img404 {
+  background-color: #dddddd;
+  margin: 0 -20px 20px;
+}
+
+.error404 .title404 {
+  font-size: 5em;
+  opacity: 0.5;
+}
+
+.error404 .search-form label,
+.error404 .search-form input.search-field {
+  width: 80%;
+  margin: 15px auto;
+}
+
+/******************* End 404 Page */
+
+/******************* Miscellaneous */
+
+.browsehappy {
+  margin-bottom: 0;
+  text-align: center;
+}
+
+.browsehappy .alert-link {
+  text-decoration: underline;
+}
+
+mark,
+ins {
+  background: #fff9c0;
+  text-decoration: none;
+}
+
+.alert strong {
+  font-size: 1.15em;
+}
+
+/******************* End Miscellaneous */
