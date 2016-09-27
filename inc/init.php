@@ -82,7 +82,7 @@ if(!function_exists('init_style_compiler') && wbft_wbf_in_use()) :
 		$output_dir = waboot_get_compiled_stylesheet_directory();
 		$output_uri = waboot_get_compiled_stylesheet_uri();
 
-		WBF()->set_styles_compiler([
+		$compiler_args = [
 			"sets" => [
 				"theme_frontend" => [
 					"input" => get_stylesheet_directory()."/assets/src/less/{$inputFileName}.less",
@@ -95,7 +95,9 @@ if(!function_exists('init_style_compiler') && wbft_wbf_in_use()) :
 				]
 			],
 			"sources_path" => get_stylesheet_directory()."/assets/src/less/"
-		]);
+		];
+
+		WBF()->set_styles_compiler($compiler_args);
 
 		//Run a compilation if the styles file is not present
 		global $wbf_styles_compiler;
