@@ -1,6 +1,6 @@
 <?php
 
-class WabootSplittedNavMenuWalker extends BootstrapNavMenuWalker{
+class WabootSplittedNavMenuWalker extends \WBF\components\navwalker\Bootstrap_NavWalker {
 
 	private $count = 0;
 	private $split_position;
