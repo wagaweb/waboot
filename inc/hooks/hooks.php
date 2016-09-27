@@ -86,10 +86,23 @@ function ignore_sticky_post_in_archives($query){
 add_action( 'pre_get_posts', __NAMESPACE__.'\\ignore_sticky_post_in_archives' );
 
 /**
+ * Manage LS
+ */
+function set_ls(){
+	$ls = LS::getInstance("waboot",['suffix'=>true]);
+	License_Manager::register_theme_license($ls);
+}
+//add_action("wbf_init",__NAMESPACE__."\\set_ls");
+
+/**
  * Manage Waboot Update Server
  */
 function set_update_server(){
-	$tup = new Theme_Update_Checker("waboot","http://beta.update.waboot.org/resource/info/theme/waboot");
+	require_once get_template_directory()."/inc/ls.php";
+	$ls = LS::getInstance("waboot",['suffix'=>true]);
+	$slug = $ls->slug; //waboot
+	$metadata_call = $ls->metadata_call; //http://beta.update.waboot.org/resource/info/theme/waboot
+	$tup = new Theme_Update_Checker($slug,$metadata_call);
 }
 add_action("wbf_init",__NAMESPACE__."\\set_update_server");
 
