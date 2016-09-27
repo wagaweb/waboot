@@ -113,7 +113,17 @@ endif;
 if(!function_exists('waboot_rg_ls') && class_exists('\WBF\components\license\License_Manager')):
 	function waboot_rg_ls(){
 		require_once("ls.php");
-		\WBF\components\license\License_Manager::register_theme_license(Waboot_LS::getInstance("waboot",['suffix'=>true]));
+		$ls = Waboot_LS::getInstance("waboot",['suffix'=>true]);
+		\WBF\components\license\License_Manager::register_theme_license($ls);
+		/**
+		 * Set update server
+		 */
+		if(class_exists('\WBF\components\customupdater\Theme_Update_Checker')){
+			$GLOBALS['WBFThemeUpdateChecker'] = new \WBF\components\customupdater\Theme_Update_Checker(
+				$ls->slug,
+				$ls->metadata_call
+			);
+		}
 	}
 	add_action("wbf_init","waboot_rg_ls");
 endif;
