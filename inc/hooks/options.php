@@ -324,7 +324,17 @@ function register_options($orgzr){
 
 	$orgzr->set_group("css_injection");
 
-	$orgzr->add(array(
+	$orgzr->add([
+		'name' => _x('Fonts to load', "Theme Options", "waboot"),
+		'id' => 'fonts',
+		'css_selectors' => ['body,p,ul', 'h1,h2,h3', 'h4,h5,h6'],
+		'std' => [],
+		'type' => 'fonts_selector',
+		'fonts_type' => 'google',
+		'save_action' => "\\Waboot\\functions\\deploy_theme_options_css"
+	]);
+
+	/*$orgzr->add(array(
 		'name' => _x('Primary font (body, p, ul, li)', "Theme Options", "waboot"),
 		'id' => 'typo_primary_font',
 		'std' => array(
@@ -350,7 +360,7 @@ function register_options($orgzr){
 		'type' => 'typography',
 		'fonts_type' => 'google',
 		'save_action' => "\\Waboot\\functions\\deploy_theme_options_css"
-	));
+	));*/
 
 	$orgzr->reset_group();
 	$orgzr->set_group("std_options");

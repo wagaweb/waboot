@@ -221,6 +221,36 @@ div#optionsframework-wrap {
 
   /* Typography */
 
+  #section-fonts {
+    width:100%;
+
+    .section {
+      width: 100%;
+    }
+  }
+  #multiple-font-selector {
+    float: left;
+  }
+  .font-weight-selector {
+    margin-top: 25px;
+    margin-bottom: 75px;
+  }
+  .font-weight-selector-preview {
+    max-width:120px;
+    margin-right: 10px;
+    display: inline-block;
+  }
+  .font-weight-selector .font-weight-selector-preview p {
+    text-align: left;
+  }
+
+  .section.font-selector {
+    width:80%;
+    min-height: 25px;
+    .font-subset-radio{
+      margin-left: 15px;
+    }
+  }
   .typography .section {
     width: 100%;
   }
@@ -258,7 +288,7 @@ div#optionsframework-wrap {
     border: 1px solid #ddd;
     background-color: #f7f7f7;
     clear: both;
-    padding: 15px 0;
+    padding: 15px 0px;
   }
 
   .typography .section .font-preview p {

@@ -434,6 +434,8 @@ function deploy_theme_options_css($option, $old_value, $value){
 	}
 
 	$genericOptionfindRegExp = "/{{ ?([a-zA-Z0-9\-_]+) ?}}/";
+	$fontOptionfindRegExp = "/\{\{ ?font: ?([a-z]+) ?\}\}/";
+	$assignOptionFindRegExp = "/\{\{ ?font-assignment: ?([a-z]+) ?\}\}/";
 
 	$tmpFileObj = $tmpFile->openFile( "r" );
 	$parsedFileObj = $parsedFile->openFile( "w" );
@@ -441,7 +443,7 @@ function deploy_theme_options_css($option, $old_value, $value){
 
 	while(!$tmpFileObj->eof()){
 		$line = $tmpFileObj->fgets();
-		//Replace a generic of option
+		//Replace {{ <theme-option-id> }}
 		if(preg_match($genericOptionfindRegExp, $line, $matches)){
 			if(array_key_exists( $matches[1], $value)){
 				if($value[ $matches[1] ] != ""){
@@ -453,6 +455,96 @@ function deploy_theme_options_css($option, $old_value, $value){
 				$line = "\t/*{$matches[1]} not found*/\n";
 			}
 		}
+
+		//Replace {{ font: <theme-option-id> }}
+		if(preg_match($fontOptionfindRegExp, $line, $matches)){
+			if(array_key_exists( $matches[1], $value) && $value[ $matches[1] ] != "" && isset($value[ $matches[1] ]['import'])){
+				$fonts = $value[ $matches[1] ]['import'];
+				$families = '';
+				$subsets = '';
+				$arr_subsets = [];
+
+				if (is_array($fonts) && count($fonts) > 0) {
+					$i = 0;
+					foreach ( $fonts as $font ) {
+						$families_separator = ($i>0) ? '|' : '';
+
+						if (count($font['weight']) == 1){
+							if ($font['weight'][0] == 'regular') {
+								$weight = "";
+							} else {
+								$weight = ":" . implode(",", $font['weight']);
+							}
+						} else if (count($font['weight'])>1) {
+							$weight = ":".implode(",", $font['weight']);
+							$weight = str_replace ( "regular" , "400" , $weight);
+						} else {
+							$weight = "";
+						}
+
+						$font['family'] = preg_replace("/[\s]/", "+", $font['family']);
+						$families .= $families_separator . $font['family'] . $weight;
+
+						// builds an array with all the subsets of all the selected fonts
+						foreach ( $font['subset'] as $subset ) {
+							if ($subset != 'latin') {       // latin is excluded
+								array_push($arr_subsets, $subset);
+							}
+						}
+						$i++;
+					}
+
+					$arr_subsets = array_unique($arr_subsets);
+					if (count($arr_subsets) > 0) {          // if we have some subset different from latin
+						// another loop for array of subsets
+						$j = 0;
+						foreach ( $arr_subsets as $subset ) {
+							$subsets_start = ($j==0) ? '&subset=' : '';
+							$subsets_separator = ($j>0) ? ',' : '';
+							$subsets .= $subsets_start . $subsets_separator . $subset; // e.g. &subset=greek,latin-ext';
+
+							$j++;
+						}
+					}
+
+					$css_rule = "@import 'https://fonts.googleapis.com/css?family=".$families."".$subsets."';";
+					$line = preg_replace( $fontOptionfindRegExp, $css_rule, $line);
+				} else {
+					$line = "\t/*{$matches[1]} no fonts assigned*/\n";
+				}
+			}else{
+				$line = "\t/*{$matches[1]} not found or invalid*/\n";
+			}
+		}
+
+		//Replace {{ font-assignment: <theme-option-id> }}
+		if(preg_match($assignOptionFindRegExp, $line, $matches)){
+			if(array_key_exists( $matches[1], $value) &&  $value[ $matches[1] ] != "" && isset($value[ $matches[1] ]['assign'])){
+				$assignments = $value[ $matches[1] ]['assign'];
+				$css_rule = "";
+				foreach($assignments as $selector => $props){
+
+					if($props['weight'] == "regular") {
+						$props['weight'] = "400";
+					} elseif (preg_match('/italic/', $props['weight'])) {
+						$props['weight'] = preg_replace('/italic/', '', $props['weight']);
+						if ($props['weight'] == '') $props['weight'] = '400';
+						$props['style'] = 'italic';
+					}
+					$selector = preg_replace('/-/',',', $selector);
+
+					$css_rule .= "{$selector}{\n";
+					$css_rule .= "\tfont-family: '{$props['family']}';\n";
+					$css_rule .= "\tfont-weight: {$props['weight']};\n";
+					if ($props['style'] != '') $css_rule .= "\tfont-style: {$props['style']};\n";
+					$css_rule .= "}\n";
+				}
+				$line = preg_replace( $assignOptionFindRegExp, $css_rule, $line);
+			}else{
+				$line = "\t/*{$matches[1]} not found*/\n";
+			}
+		}
+
 		$byte_written += $parsedFileObj->fwrite($line);
 	}
 

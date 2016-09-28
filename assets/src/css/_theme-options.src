@@ -1,3 +1,7 @@
+{{ font: fonts }}
+
+{{ font-assignment: fonts }}
+
 #topnav-wrapper {
   background-color: {{ topnav_bgcolor }};
 }
