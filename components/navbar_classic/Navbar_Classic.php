@@ -75,7 +75,6 @@ class Navbar_Classic extends \Waboot\Component{
 
 		$orgzr->add_section("header",_x("Header","Theme options section","waboot"));
 		$orgzr->add_section("layout",_x("Layout","Theme options section","waboot"));
-		$orgzr->add_section("social",_x("Socials","Theme options section","waboot"));
 
 		$orgzr->update('mobilenav_style',[
 			'name' => __( 'Mobile Nav Style', 'waboot' ),
@@ -120,33 +119,6 @@ class Navbar_Classic extends \Waboot\Component{
 				)
 			)
 		],'layout');
-
-		$socials = \Waboot\functions\get_available_socials();
-
-		foreach($socials as $k => $s){
-			$opt_id = 'social_'.$k;
-			$orgzr->update($opt_id,[
-				'name' => $s['name'],
-				'desc' => $s['theme_options_desc'],
-				'id'   => $opt_id,
-				'type' => 'text',
-				'std'  => ''
-			],"social");
-		}
-		
-		$orgzr->update("social_position",[
-			'name' => __( 'Social Position', 'waboot' ),
-			'desc' => __( 'Select one of the following positions for the social links', 'waboot' ),
-			'id' => 'social_position',
-			'type' => 'images',
-			'std'  => 'navigation',
-			'options' => [
-				'navigation' =>  [
-					'label' => _x('Navigation',"social_position","waboot"),
-					'value' => $imagepath . 'social/nav.png'
-				]
-			]
-		],"social");
 
 		$orgzr->reset_group();
 		$orgzr->reset_section();

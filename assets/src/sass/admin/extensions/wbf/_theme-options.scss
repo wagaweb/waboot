@@ -165,7 +165,11 @@ div#optionsframework-wrap {
   }
   */
 
-  /* Backgrounds */
+
+
+
+
+  /* Backgrounds
 
   .backgrounds .section:nth-child(2) {
     border-right: none;
@@ -202,8 +206,9 @@ div#optionsframework-wrap {
   #section-waboot_body_bgcolor {
     background-image: url("#{$theme_options_img_dir}/style/body-background-color.png");
   }
+*/
 
-  /* Bootstrap */
+  /* Bootstrap
 
   .style .section {
     width: 33.3333%;
@@ -217,9 +222,10 @@ div#optionsframework-wrap {
   .style .section:nth-child(7){
     border-right: none;
   }
+   */
 
 
-  /* Typography */
+  /* Typography
 
   #section-fonts {
     width:100%;
@@ -296,12 +302,11 @@ div#optionsframework-wrap {
     margin: 0;
     padding: 0;
   }
-
-  /* Top Nav */
-
+   */
 
 
-  /* Header */
+
+  /* Header
 
   .header .section {
     width: 100%;
@@ -325,15 +330,16 @@ div#optionsframework-wrap {
     min-height: 735px;
     width: 100%;
   }
+*/
 
-
-  /* Footer */
+  /* Footer
 
   .footer .section {
     width: 100%;
   }
+   */
 
-  /* Posts & Pages */
+  /* Posts & Pages
 
   .behaviors .section-info,
   .behaviors .section-images {
@@ -346,8 +352,9 @@ div#optionsframework-wrap {
     padding-left: 0;
     padding-right: 0;
   }
+   */
 
-  /* Post Meta */
+  /* Post Meta
 
   .post_meta .section:nth-child(even) {
     border-right: 1px solid #ddd;
@@ -356,8 +363,9 @@ div#optionsframework-wrap {
   .post_meta .section:nth-child(odd) {
     border-right: none;
   }
+   */
 
-  /* Contact form */
+  /* Contact form
 
   #section-contact_form_mail_recipient_type {
     border-right: 1px solid #ddd;
@@ -366,8 +374,9 @@ div#optionsframework-wrap {
   #section-contact_form_privacy_text {
     width: 100%;
   }
+   */
 
-  /* Favicon */
+  /* Favicon
 
   .favicons .section:nth-child(odd) {
     border-right: none;
@@ -376,9 +385,10 @@ div#optionsframework-wrap {
   .favicons .section:nth-child(even) {
     border-right: 1px solid #ddd;
   }
+   */
 
 
-  /* Social */
+  /* Social
 
   .social .section:nth-child(odd) {
     border-right: none;
@@ -459,15 +469,17 @@ div#optionsframework-wrap {
   #section-waboot_social_feedrss {
     background-image: url("#{$theme_options_img_dir}/social/rss.png");
   }
+   */
 
-  /* Custom CSS */
+  /* Custom CSS
 
   #section-waboot_custom_css {
     width: 100%;
     border-right: none;
   }
+   */
 
-  /* Blog */
+  /* Blog
   .blog .section:nth-child(2),
   .blog .section:nth-child(3){
     width: 100%;
@@ -484,13 +496,15 @@ div#optionsframework-wrap {
     width: 50%;
     border-right: none;
   }
+   */
 
-  /* WooCommerce */
+  /* WooCommerce
   .woocommerce #section-waboot_woocommerce_shop_sidebar_layout,
   .woocommerce #section-waboot_woocommerce_sidebar_layout {
     width: 100%;
     padding-left: 0;
     padding-right: 0;
   }
+   */
 
 }

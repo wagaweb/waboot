@@ -1,10 +1,14 @@
 /* Container */
 
 #page{
-  &.container{
+  &.container,
+  &.container-fluid{
+    padding: 0 0;
+  }
+  .container{
     padding: 0 20px;
   }
-  &.container-fluid{
+  .container-fluid{
     padding: 0 20px;
     > .row{
       margin-left: 0;
@@ -44,89 +48,6 @@
 
 /* End Top Navigation */
 
-/* Header */
-
-#masthead{
-  #site-title {
-    margin-bottom: 0;
-    display: inline;
-    font-size: 2.5em;
-  }
-  #logo {
-    margin: 20px 0;
-    img {
-      max-width: 100%;
-    }
-  }
-  .widget {
-    margin: 0;
-  }
-  #header-left,
-  #header-right {
-    margin-bottom: 20px;
-    margin-top: 20px;
-  }
-  #header-right {
-    text-align: right;
-  }
-}
-
-.header1{
-  #logo {
-    text-align: center;
-  }
-}
-
-.header2{
-  #header-right {
-    .widget {
-      float: right;
-      margin-left: 20px;
-    }
-  }
-}
-
-/* End Header */
-
-
-
-/* Navbar */
-
-.main-navigation {
-  background-color: transparent;
-  margin-bottom: 0;
-  border: 0;
-  border-radius: 0;
-  .navbar-brand {
-    padding: 10px 0;
-    img {
-      height: 30px;
-    }
-  }
-  .menudescription {
-    font-size: 0.9em;
-    color: #999;
-    display: block;
-  }
-  .dropdown-menu {
-    font-size: 1em;
-    > li > a {
-      padding: 5px 15px;
-    }
-  }
-}
-
-.nav-header1 .main-navigation,
-.nav-header2 .main-navigation {
-  margin-right: -10px;
-  margin-left: -10px;
-}
-
-.nav-header3 .main-navigation .navbar-right {
-  margin-right: 0;
-}
-
-/* End Navbar */
 
 /* Banner */
 

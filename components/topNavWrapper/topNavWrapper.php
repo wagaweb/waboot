@@ -87,7 +87,6 @@ class TopNavWrapperComponent extends \Waboot\Component{
 
 		$orgzr->add_section("layout",_x("Layout","Theme options section","waboot"));
 		$orgzr->add_section("header",_x("Header","Theme options section","waboot"));
-		$orgzr->add_section("social",_x("Socials","Theme options section","waboot"));
 
 		$orgzr->add([
 			'name' => __('Top Nav', 'waboot'),
@@ -124,45 +123,6 @@ class TopNavWrapperComponent extends \Waboot\Component{
 				]
 			]
 		],"header");
-
-		$socials = \Waboot\functions\get_available_socials();
-
-		foreach($socials as $k => $s){
-			$opt_id = 'social_'.$k;
-			$orgzr->update($opt_id,[
-				'name' => $s['name'],
-				'desc' => $s['theme_options_desc'],
-				'id'   => $opt_id,
-				'type' => 'text',
-				'std'  => ''
-			],"social");
-		}
-
-		$orgzr->update("social_position",[
-			'name' => __( 'Social Position', 'waboot' ),
-			'desc' => __( 'Select one of the following positions for the social links', 'waboot' ),
-			'id' => 'social_position',
-			'type' => 'images',
-			'std'  => 'topnav-right',
-			'options' => [
-				'topnav-right' =>  [
-					'label' => 'Topnav Right',
-					'value' => $imagepath . 'social/topnav-right.png'
-				],
-				'topnav-left' =>  [
-					'label' => 'Topnav Left',
-					'value' => $imagepath . 'social/topnav-left.png'
-				]
-			]
-		],"social");
-
-		$orgzr->update("social_position_none",[
-			'name' => __( 'Do not use any of the previous positions', 'waboot' ),
-			'desc' => __( 'You can manually place the social links with the <strong>waboot social widget</strong> (even if one of the previous positions is selected)', 'waboot' ),
-			'id'   => 'social_position_none',
-			'std'  => '0',
-			'type' => 'checkbox'
-		],"social");
 
 		$orgzr->reset_group();
 		$orgzr->reset_section();

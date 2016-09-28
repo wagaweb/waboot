@@ -455,6 +455,31 @@ function register_options($orgzr){
 		)
 	));
 
+    /**********************
+     * BLOG
+     **********************/
+
+    $orgzr->add_section("blog",__( 'Blog', 'waboot' ));
+
+    $orgzr->set_section("blog");
+
+    $orgzr->add(array(
+        'name' => __( 'Display Blog page title', 'waboot' ),
+        'desc' => __( 'Check this box to show blog page title.', 'waboot' ),
+        'id'   => 'blog_display_title',
+        'std'  => '1',
+        'type' => 'checkbox'
+    ));
+
+    $orgzr->add(array(
+        'name' => __('Blog page title position', 'waboot'),
+        'desc' => __('Select where to display page title of blog page', 'waboot'),
+        'id' => 'blog_title_position',
+        'std' => 'top',
+        'type' => 'select',
+        'options' => array('top' => __("Above primary","waboot"), 'bottom' => __("Below primary","waboot"))
+    ));
+
 	$layouts = \WBF\modules\options\of_add_default_key(_get_available_body_layouts());
 	if(isset($layouts['values'][0]['thumb'])){
 		$opt_type = "images";
@@ -475,23 +500,6 @@ function register_options($orgzr){
 		'std' => $layouts['default'],
 		'type' => $opt_type,
 		'options' => $final_layout
-	));
-
-	$orgzr->add(array(
-		'name' => __( 'Display Blog page title', 'waboot' ),
-		'desc' => __( 'Check this box to show blog page title.', 'waboot' ),
-		'id'   => 'blog_display_title',
-		'std'  => '1',
-		'type' => 'checkbox'
-	));
-
-	$orgzr->add(array(
-		'name' => __('Blog page title position', 'waboot'),
-		'desc' => __('Select where to display page title of blog page', 'waboot'),
-		'id' => 'blog_title_position',
-		'std' => 'top',
-		'type' => 'select',
-		'options' => array('top' => __("Above primary","waboot"), 'bottom' => __("Below primary","waboot"))
 	));
 
 	$orgzr->add(array(
@@ -803,8 +811,13 @@ function reorder_sections($sections,$orgzr){
 		'global' => 0,
 		'default' => 1,
 		'layout' => 2,
-		'behaviors' => 98,
-		'etc' => 99
+        'header' => 3,
+        'navigation' => 4,
+        'footer' => 5,
+        'blog' => 6,
+        'behaviors' => 90,
+        'etc' => 95,
+        'custom_css' => 99
 	];
 
 	uksort($sections,function($a,$b) use($priorities){

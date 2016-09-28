@@ -88,7 +88,6 @@ function register_widget_areas(){
 	}
 
 	$widgets = [
-		'Waboot\inc\widgets\Social' => 'inc/widgets/Socials.php',
 		'Waboot\inc\widgets\RecentPosts' => 'inc/widgets/RecentPosts.php'
 	];
 

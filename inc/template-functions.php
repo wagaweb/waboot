@@ -173,57 +173,6 @@ function get_widget_areas(){
 }
 
 /**
- * Get available socials
- * 
- * @return mixed
- */
-function get_available_socials(){
-	$socials = apply_filters("waboot/socials/available",[
-		'facebook' => [
-			'name' => __( 'Facebook', 'waboot' ),
-			'theme_options_desc' => __( 'Enter your facebook fan page link', 'waboot' ),
-			'icon_class' => 'fa-facebook'
-		],
-		'twitter'  => [
-			'name' => __( 'Twitter', 'waboot' ),
-			'theme_options_desc' => __( 'Enter your twitter page link', 'waboot' ),
-			'icon_class' => 'fa-twitter'
-		],
-		'google'  => [
-			'name' => __( 'Google+', 'waboot' ),
-			'theme_options_desc' => __( 'Enter your google+ page link', 'waboot' ),
-			'icon_class' => 'fa-google-plus'
-		],
-		'youtube'  => [
-			'name' => __( 'YouTube', 'waboot' ),
-			'theme_options_desc' => __( 'Enter your youtube page link', 'waboot' ),
-			'icon_class' => 'fa-youtube'
-		],
-		'pinterest'  => [
-			'name' => __( 'Pinterest', 'waboot' ),
-			'theme_options_desc' => __( 'Enter your pinterest page link', 'waboot' ),
-			'icon_class' => 'fa-pinterest'
-		],
-		'linkedin'  => [
-			'name' => __( 'Linkedin', 'waboot' ),
-			'theme_options_desc' => __( 'Enter your linkedin page link', 'waboot' ),
-			'icon_class' => 'fa-linkedin'
-		],
-		'instagram'  => [
-			'name' => __( 'Instagram', 'waboot' ),
-			'theme_options_desc' => __( 'Enter your instagram page link', 'waboot' ),
-			'icon_class' => 'fa-instagram'
-		],
-		'feedrss'  => [
-			'name' => __( 'Feed RSS', 'waboot' ),
-			'theme_options_desc' => __( 'Enter your feed RSS link', 'waboot' ),
-			'icon_class' => 'fa-rss'
-		]
-	]);
-	return $socials;
-}
-
-/**
  * Returns the index page title
  *
  * @return string|void

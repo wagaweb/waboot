@@ -8,10 +8,8 @@ use WBF\components\utils\Utilities;
  * Displays site title
  */
 function site_title() {
-	$element = apply_filters("waboot/site_title/tag",'h1');
 	$display_name = get_site_title();
-	$link = sprintf( '<a href="%s" title="%s" class="navbar-brand" rel="home">%s</a>', trailingslashit( home_url() ), esc_attr( get_bloginfo( 'name' ) ), $display_name );
-	$output = '<' . $element . ' id="site-title" class="site-title">' . $link . '</' . $element .'>';
+    $output = $display_name;
 	echo apply_filters( 'waboot/site_title/markup', $output );
 }
 
@@ -42,40 +40,6 @@ function site_description() {
 	echo apply_filters( 'waboot/site_description/markup', $description );
 }
 
-/**
- * Prints the mobile logo
- *
- * @param string $context
- * @param bool $linked
- */
-function mobile_logo($context = "header", $linked = false){
-	if($linked){
-		$tpl = "<a href='%s'><img src='%s' class='img-responsive' /></a>";
-		printf($tpl,home_url( '/' ),get_mobile_logo($context));
-	}else{
-		$tpl = "<img src='%s' class='img-responsive' />";
-		printf($tpl,get_mobile_logo($context));
-	}
-}
-
-/**
- * Get the mobile logo, or an empty string.
- *
- * @param string $context
- *
- * @return string
- */
-function get_mobile_logo($context = "header"){
-	switch($context){
-		case "offcanvas":
-			$mobile_logo = \Waboot\functions\get_option('mobile_offcanvas_logo', ""); //todo: add this
-			break;
-		default:
-			$mobile_logo = \Waboot\functions\get_option('mobile_logo', ""); //todo: add this
-			break;
-	}
-	return $mobile_logo;
-}
 
 /**
  * Prints the desktop logo
@@ -97,9 +61,35 @@ function desktop_logo($linked = false){
  * @return string
  */
 function get_desktop_logo(){
-	$desktop_logo = \Waboot\functions\get_option('desktop_logo', ""); //todo: add this
+	$desktop_logo = \Waboot\functions\get_option('desktop_logo', ""); //
 	return $desktop_logo;
 }
+
+
+/**
+ * Prints the mobile logo
+ * 
+ * @param bool $linked
+ */
+function mobile_logo($linked = false) {
+    if($linked){
+        $tpl = "<a href='%s'><img src='%s' class='waboot-mobile-logo' /></a>";
+        printf($tpl,home_url( '/' ),get_mobile_logo());
+    }else{
+        $tpl = "<img src='%s' class='waboot-mobile-logo' />";
+        printf($tpl,get_mobile_logo());
+    }
+}
+
+/**
+ * Get the mobile logo, or an empty string
+ * @return string
+ */
+function get_mobile_logo(){
+    $mobile_logo = \Waboot\functions\get_option('mobile_logo', "");
+    return $mobile_logo;
+}
+
 
 /**
  * Print out the index page title
