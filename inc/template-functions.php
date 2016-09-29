@@ -354,6 +354,62 @@ function get_template_part($slug,$name = null){
 }
 
 /**
+ * Save theme options favicon as WordPress favicon
+ *
+ * @global \wpdb $wpdb
+ * @global \WP_Site_Icon $wp_site_icon
+ */
+function deploy_favicon($option, $old_value, $value){
+	if(!isset($value['favicon']) || $value['favicon'] == "") return;
+	global $wpdb,$wp_site_icon;
+	//Retrieve the attachment
+	$attachment_id = call_user_func(function() use($value){
+		global $wpdb;
+		$attachment = $wpdb->get_col($wpdb->prepare("SELECT ID FROM $wpdb->posts WHERE guid='%s';", $value['favicon'] ));
+		if(isset($attachment[0])) return absint($attachment[0]);
+		else return false;
+	});
+	if(!$attachment_id) return;
+
+	//The code below is a slightly adapted version of: wp_ajax_crop_image() for 'site-icon'
+
+	$attachment_metadata = wp_get_attachment_metadata($attachment_id);
+	$context = "site-icon";
+	$cropDetails = [
+		'x1' => 0,
+		'y1' => 0,
+		'x2' => $attachment_metadata['width'],
+		'y2' => $attachment_metadata['height'],
+		'width' => $attachment_metadata['width'],
+		'height' => $attachment_metadata['height'],
+		'dst_width' => 512,
+		'dst_height' => 512
+	];
+	$data = array_map( 'absint', $cropDetails );
+	$cropped = wp_crop_image( $attachment_id, 0, 0, $data['width'], $data['height'], $data['dst_width'], $data['dst_height'] );
+	if ( ! $cropped || is_wp_error( $cropped ) ) return;
+
+	/** This filter is documented in wp-admin/custom-header.php */
+	$cropped = apply_filters( 'wp_create_file_in_uploads', $cropped, $attachment_id ); // For replication.
+	$object  = $wp_site_icon->create_attachment_object( $cropped, $attachment_id );
+	unset( $object['ID'] );
+
+	// Update the attachment.
+	add_filter( 'intermediate_image_sizes_advanced', array( $wp_site_icon, 'additional_sizes' ) );
+	$attachment_id = $wp_site_icon->insert_attachment( $object, $cropped );
+	remove_filter( 'intermediate_image_sizes_advanced', array( $wp_site_icon, 'additional_sizes' ) );
+
+	// Additional sizes in wp_prepare_attachment_for_js().
+	add_filter( 'image_size_names_choose', array( $wp_site_icon, 'additional_sizes' ) );
+
+	//Update the theme option
+	//$value['favicon'] = $object->guid; //no we can't here...
+
+	//Update the option
+	$wpdb->update($wpdb->options,['option_value' => $attachment_id],['option_name' => 'site_icon']);
+}
+
+/**
  * Print out the custom css file from the theme options value. Called during "update_option".
  *
  * It's a callback set in options "save action" param in options.php

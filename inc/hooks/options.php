@@ -375,7 +375,7 @@ function register_options($orgzr){
 		'type' => 'info'
 	));
 
-	$orgzr->add(array(
+	/*$orgzr->add(array(
 		'name' => _x( 'Icon', 'waboot' ),
 		'desc' => _x( 'Upload a favicon (only .png and .ico files are allowed).', "Theme Options", 'waboot' ),
 		'id' => 'favicon_icon',
@@ -384,7 +384,8 @@ function register_options($orgzr){
 		'readonly' => true,
 		'upload_to' => ABSPATH,
 		'upload_as' => 'favicon',
-		'allowed_extensions' => array("png","ico")
+		'allowed_extensions' => array("png","ico"),
+		'save_action' => "\\Waboot\\functions\\deploy_favicon"
 	));
 
 	$orgzr->add(array(
@@ -396,19 +397,19 @@ function register_options($orgzr){
 		'readonly' => true,
 		'upload_to' => ABSPATH,
 		'upload_as' => 'touch-icon-iphone-retina',
-		'allowed_extensions' => array("png","ico")
-	));
+		'allowed_extensions' => array("png","ico"),
+		'save_action' => "\\Waboot\\functions\\deploy_favicon"
+	));*/
 
 	$orgzr->add(array(
-		'name' => _x( 'Apple Touch 152x152 Icon', "Theme Options", 'waboot' ),
-		'desc' => _x( 'Upload a favicon (only .png and .ico files are allowed).', "Theme Options", 'waboot' ),
-		'id' => 'favicon_apple152',
+		'name' => _x( 'Favicon (at least 152x152)', "Theme Options", 'waboot' ),
+		'desc' => _x( 'Upload a favicon (only .png, .ico and .jpg files are allowed).', "Theme Options", 'waboot' ),
+		'id' => 'favicon',
 		'std' => '',
 		'type' => 'upload',
 		'readonly' => true,
-		'upload_to' => ABSPATH,
-		'upload_as' => 'touch-icon-ipad-retina',
-		'allowed_extensions' => array("png","ico")
+		'allowed_extensions' => array("png","ico","jpg","jpeg"),
+		'save_action' => "\\Waboot\\functions\\deploy_favicon"
 	));
 
 	/*
