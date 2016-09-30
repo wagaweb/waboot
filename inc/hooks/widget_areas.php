@@ -37,8 +37,8 @@ function register_widget_areas(){
 			'id' => $area_id,
 			'before_widget' => '<div id="%1$s" class="widget %2$s">',
 			'after_widget' => '</div>',
-			'before_title' => '<h2 class="rounded">',
-			'after_title' => '</h2>',
+			'before_title' => '<h3 class="widget-title">',
+			'after_title' => '</h3>',
 		];
 		if(isset($area_args['type']) && $area_args['type'] == "multiple" && isset($area_args['subareas']) && intval($area_args['subareas']) > 0){
 			for($i = 1; $i<=intval($area_args['subareas']); $i++){
