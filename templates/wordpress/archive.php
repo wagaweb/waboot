@@ -1,7 +1,4 @@
 <?php $vars = \Waboot\functions\get_archives_template_vars(); ?>
-<?php if($vars['display_title']): ?>
-	<?php \Waboot\template_tags\wrapped_title('<h1 class="page-title">','</h1>',$vars['page_title']); ?>
-<?php endif; ?>
 <?php if(have_posts()) : ?>
 	<?php if($vars['display_nav_above']) \Waboot\template_tags\post_navigation('nav-above'); ?>
 	<div class="<?php echo $vars['blog_class']; ?>">
