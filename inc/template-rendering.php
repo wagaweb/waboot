@@ -21,7 +21,6 @@ function render_archives($template_file){
 function get_archives_template_vars(){
 	$vars = [];
 
-	$vars['display_title'] = (bool) \Waboot\functions\get_option("blogpage_display_title",true) && \Waboot\functions\get_option("blogpage_title_position","bottom") == "bottom"; //todo: add this
 	$vars['page_title'] = get_archive_page_title();
 	$vars['term_description'] = term_description();
 	$vars['blog_class'] = get_posts_wrapper_class();
