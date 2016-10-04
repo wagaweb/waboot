@@ -15,7 +15,7 @@ languages/*
 ############
 /vendor/
 /assets/vendor
-/assets/dist/fonts/*.*
+/assets/dist/fonts/**/*.*
 !/assets/dist/fonts/.gitkeep
 
 ############
