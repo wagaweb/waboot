@@ -1,5 +1,9 @@
 == Change log ==
 
+Version 0.15.8 - 05/10/2016
+---------------------------------
+- Tweak: Ora il check sulla licenza usa un transient
+
 Version 0.15.7 - 14/09/2016
 ---------------------------------
 - Fix: Ora bootstrap non viene più caricato in modo asincrono
