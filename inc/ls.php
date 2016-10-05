@@ -1,11 +1,9 @@
 <?php
 
-namespace Waboot;
-
 use WBF\components\license\License;
 use WBF\components\license\License_Interface;
 
-class LS extends License implements License_Interface{
+class Waboot_LS extends License implements License_Interface{
 
 	var $nicename = "Waboot";
 	var $metadata_call = "http://update.waboot.org/resource/info/theme/waboot/0.x";
