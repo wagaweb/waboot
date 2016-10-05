@@ -1,9 +1,14 @@
 <?php
 
-class Waboot_LS extends \WBF\includes\License implements \WBF\includes\License_Interface{
+namespace Waboot;
+
+use WBF\components\license\License;
+use WBF\components\license\License_Interface;
+
+class LS extends License implements License_Interface{
 
 	var $nicename = "Waboot";
-	var $metadata_call = "http://beta.update.waboot.org/resource/info/theme/waboot/0.x";
+	var $metadata_call = "http://update.waboot.org/resource/info/theme/waboot/0.x";
 	var $type = "theme";
 	var $option_name = "waboot_license";
 
@@ -13,6 +18,9 @@ class Waboot_LS extends \WBF\includes\License implements \WBF\includes\License_I
 
 	function __construct($license_slug,$args = []){
 		parent::__construct($license_slug,$args = []);
+		add_action("wbf/license_updated", function(){
+			delete_transient("waboot_license_status");
+		});
 	}
 
 	/*
@@ -20,6 +28,11 @@ class Waboot_LS extends \WBF\includes\License implements \WBF\includes\License_I
 	 */
 
 	public function check_license($licensekey, $localkey='') {
+
+		$results = get_transient("waboot_license_status");
+		if($results) return $results;
+
+		$results = [];
 
 		// -----------------------------------
 		//  -- Configuration Values --
@@ -167,6 +180,9 @@ class Waboot_LS extends \WBF\includes\License implements \WBF\includes\License_I
 			$results['remotecheck'] = true;
 		}
 		unset($postfields,$data,$matches,$whmcsurl,$licensing_secret_key,$checkdate,$usersip,$localkeydays,$allowcheckfaildays,$md5hash);
+
+		set_transient("waboot_license_status",$results);
+
 		return $results;
 	}
 
