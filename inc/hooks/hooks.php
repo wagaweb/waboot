@@ -89,6 +89,7 @@ add_action( 'pre_get_posts', __NAMESPACE__.'\\ignore_sticky_post_in_archives' );
  * Manage LS
  */
 function set_ls(){
+	require_once get_template_directory()."/inc/ls.php";
 	$ls = LS::getInstance("waboot",['suffix'=>true]);
 	License_Manager::register_theme_license($ls);
 }
