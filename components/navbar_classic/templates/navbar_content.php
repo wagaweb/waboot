@@ -26,9 +26,6 @@
 </div>
 
 <div class="collapse navbar-collapse navbar-main-collapse">
-	<?php if($display_socials): ?>
-		<?php the_widget('Waboot\inc\widgets\Social'); ?>
-	<?php endif; ?>
 	<?php if($display_searchbar): ?>
 		<form id="searchform" class="navbar-form navbar-right" role="search" action="<?php echo site_url(); ?>" method="get">
 			<div class="form-group">
