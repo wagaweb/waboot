@@ -17,17 +17,17 @@ function theme_styles(){
 	];
 	//Waboot style version
 	if(defined('WABOOT_BOOTSTRAP_CLASSIC_STYLE') && WABOOT_BOOTSTRAP_CLASSIC_STYLE){
-		$assets['waboot-style'] = [
-			'uri' => get_template_directory_uri()."/assets/dist/css/waboot.min.css",
-			'path' => get_template_directory()."/assets/dist/css/waboot.min.css",
-			'type' => 'css'
-		];
+        $assets['waboot-style'] = [
+            'uri' => get_template_directory_uri()."/assets/dist/css/waboot-classic.min.css",
+            'path' => get_template_directory()."/assets/dist/css/waboot-classic.min.css",
+            'type' => 'css'
+        ];
 	}else{
-		$assets['waboot-style'] = [
-			'uri' => get_template_directory_uri()."/assets/dist/css/waboot-classic.min.css",
-			'path' => get_template_directory()."/assets/dist/css/waboot-classic.min.css",
-			'type' => 'css'
-		];
+        $assets['waboot-style'] = [
+            'uri' => get_template_directory_uri()."/assets/dist/css/waboot.min.css",
+            'path' => get_template_directory()."/assets/dist/css/waboot.min.css",
+            'type' => 'css'
+        ];
 	}
 	//Theme options style
 	$file = WBF()->resources->get_working_directory()."/theme-options.css";
