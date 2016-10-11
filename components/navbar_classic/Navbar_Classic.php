@@ -18,6 +18,11 @@ class Navbar_Classic extends \Waboot\Component{
 		add_filter("waboot/navigation/main/class",[$this,"set_main_navigation_classes"]);
 	}
 
+    public function styles(){
+        parent::styles();
+        wp_enqueue_style('navbar_classic_style', $this->directory_uri . '/assets/dist/css/navbarClassic.css');
+    }
+
 	public function run(){
 		parent::run();
 		$display_zone = $this->get_display_zone();

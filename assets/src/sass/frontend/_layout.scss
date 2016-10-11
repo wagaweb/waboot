@@ -9,14 +9,18 @@
     padding: 0 20px;
   }
   .container-fluid{
-    padding: 0 20px;
-    > .row{
+    padding: 0;
+    .row{
       margin-left: 0;
       margin-right: 0;
       > .col-sm-12{
         padding-left: 0;
         padding-right: 0;
       }
+    }
+    .container .row {
+      margin-left: -10px;
+      margin-right: -10px;
     }
   }
 }

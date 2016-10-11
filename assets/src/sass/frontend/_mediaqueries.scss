@@ -1,3 +1,68 @@
+@media only screen and (min-width: #{$screen-lg}) {
+  body {font-size: 16px;}
+  h1 {font-size: 2.6em;}
+  h2 {font-size: 2.15em;}
+  h3 {font-size: 1.7em;}
+  h4 {font-size: 1.25em;}
+  h5 {font-size: 1em;}
+  h6 {font-size: 0.85em;}
+}
+@media only screen and (max-width: #{$screen-md-max}) and (max-width: #{$screen-md}) {
+  body {font-size: 14px;}
+  h1 {font-size: 2.6em;}
+  h2 {font-size: 2.15em;}
+  h3 {font-size: 1.7em;}
+  h4 {font-size: 1.25em;}
+  h5 {font-size: 1em;}
+  h6 {font-size: 0.85em;}
+}
+@media only screen and (max-width: #{$screen-sm-max}) and (max-width: #{$screen-sm}) {
+  body {font-size: 13px;}
+  h1 {font-size: 2.6em;}
+  h2 {font-size: 2.15em;}
+  h3 {font-size: 1.7em;}
+  h4 {font-size: 1.25em;}
+  h5 {font-size: 1em;}
+  h6 {font-size: 0.85em;}
+}
+@media only screen and (max-width: #{$screen-xs-max}) {
+  body {font-size: 14px;}
+  h1 {font-size: 2.6em;}
+  h2 {font-size: 2.15em;}
+  h3 {font-size: 1.7em;}
+  h4 {font-size: 1.25em;}
+  h5 {font-size: 1em;}
+  h6 {font-size: 0.85em;}
+}
+
+/* max-width 767px (xs) */
+@media only screen and (max-width: #{$screen-xs-max}) {
+
+  .sidebar-left #secondary,
+  .sidebar-right #secondary {
+    width: 100%;
+  }
+
+  .site-footer {
+    text-align: center;
+  }
+
+  .site-footer .footer-text,
+  .site-footer .footer-nav {
+    text-align: center;
+    margin-bottom: 10px;
+  }
+
+  .footer-sidebar-row .sidebar {
+    margin-bottom: 20px;
+  }
+
+  .footer-sidebar-row .sidebar h3 {
+    margin-bottom: 10px;
+  }
+
+}
+
 /* min-width 768px (sm, md and lg) */
 @media only screen and (min-width: #{$screen-sm}) {
 
@@ -338,8 +403,7 @@
 
 
 /* Table Responsive */
-
-@media only screen and (max-width: 480px) {
+@media only screen and (max-width: #{$screen-xs-max}) {
 
   /* Force table to not be like tables anymore */
   table,
