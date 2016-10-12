@@ -20,7 +20,7 @@ class Navbar_Classic extends \Waboot\Component{
 
     public function styles(){
         parent::styles();
-        wp_enqueue_style('navbar_classic_style', $this->directory_uri . '/assets/dist/css/navbarClassic.css');
+        wp_enqueue_style('navbar_classic_style', $this->directory_uri . '/assets/css/navbarClassic.css');
     }
 
 	public function run(){

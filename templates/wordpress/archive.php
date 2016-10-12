@@ -1,8 +1,8 @@
 <?php $vars = \Waboot\functions\get_archives_template_vars(); ?>
 <?php $tx = get_queried_object()->taxonomy; ?>
 
-<?php if(locate_template("templates/wordpress/parts/archive-".$tx.".php", false, false) != '') : ?>
-    <?php get_template_part('templates/wordpress/parts/archive', $tx); ?>
+<?php if(locate_template("templates/wordpress/archive/taxonomy-".$tx.".php", false, false) != '') : ?>
+    <?php get_template_part('templates/wordpress/archive/taxonomy', $tx); ?>
 <?php else: ?>
     <?php if(have_posts()) : ?>
         <?php if($vars['display_nav_above']) \Waboot\template_tags\post_navigation('nav-above'); ?>
