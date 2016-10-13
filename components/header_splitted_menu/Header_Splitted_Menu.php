@@ -40,7 +40,7 @@ class Header_Splitted_Menu extends \Waboot\Component{
 		    : 'main';
 	    $position = (\Waboot\functions\get_option('header_splitted_position'))
 		    ? \Waboot\functions\get_option('header_splitted_position')
-		    : 'middle';
+		    : '';
 
 	    $walker = new WabootSplittedNavMenuWalker( $position, $menu_name);
 
@@ -102,9 +102,10 @@ class Header_Splitted_Menu extends \Waboot\Component{
 	    ], "header");
 	    $orgzr->update('header_splitted_position',[
 			    'name' => __( 'Menu Position', 'waboot' ),
-			    'desc' => __( 'Select the item of the menu at which you want to apply the margin. By default is "middle" but you can insert any number. ', 'waboot' ),
+                'desc' => __( 'Select the item of the menu at which you want to apply the margin. By default split at the middle.', 'waboot' ),
 			    'id'   => $this->name.'_item_select',
-			    'type' => 'text'
+			    'type' => 'text',
+                'std' => ''
 		    ],"header");
 	    $orgzr->update('header_splitted_margin',[
 			    'name' => __( 'Additional Margin', 'waboot' ),
@@ -121,43 +122,6 @@ class Header_Splitted_Menu extends \Waboot\Component{
 
 	    $orgzr->reset_group();
 	    $orgzr->reset_section();
-    }
-
-	/**
-	 * This is a filter callback. You can't use WBF Organizer.
-	 *
-	 * @param $options
-	 *
-	 * @return array|mixed
-	 */
-    public function theme_options($options){
-	    $options = parent::theme_options($options);
-	    $nav_menu_locations = get_nav_menu_locations();
-	    $theme_locations = [];
-	    foreach ( $nav_menu_locations as $nav_menu_location_key=>$nav_menu_location_value ) {
-		    $theme_locations[$nav_menu_location_key] = $nav_menu_location_key;
-	    }
-
-	    $options[] = array(
-		    'name' => __( 'Splitted Menu Settings', 'waboot' ),
-		    'desc' => __( '', 'waboot' ),
-		    'type' => 'info'
-	    );
-	    $options[] = array(
-		    'name' => __( 'Splitted Menu Position', 'waboot' ),
-		    'desc' => __( 'Select the item of the menu at which you want to apply the margin. By default is "middle" but you can insert any number. ', 'waboot' ),
-		    'id'   => $this->name.'_item_select',
-		    'std'  => 'middle',
-		    'type' => 'text'
-	    );
-	    $options[] = array(
-		    'name' => __( 'Additional Margin', 'waboot' ),
-		    'desc' => __( 'An additional margin to increase spacing between logo and menu items. This number is applied to both sides of the logo, therefore consider it will be doubled', 'waboot' ),
-		    'id'   => $this->name.'_margin_select',
-		    'std'  => '0',
-		    'type' => 'text'
-	    );
-	    return $options;
     }
 
     public function onActivate(){

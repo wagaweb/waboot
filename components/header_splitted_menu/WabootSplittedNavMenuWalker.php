@@ -7,7 +7,7 @@ class WabootSplittedNavMenuWalker extends \WBF\components\navwalker\Bootstrap_Na
 
 	function __construct($position, $menu_name) {
 
-		$this->split_position = ($position == "middle")
+		$this->split_position = ($position == "0" || empty($position) )
 			? floor(count(wp_get_nav_menu_items($menu_name))/2)
 			: intval($position) ;
 	}
@@ -24,7 +24,7 @@ class WabootSplittedNavMenuWalker extends \WBF\components\navwalker\Bootstrap_Na
 			$cb_args = array_merge( [&$output], $args);
 			call_user_func_array([&$this, 'start_splitted_ul'], $cb_args);
 
-		} elseif ($depth==0 && $this->count == ($this->split_position+1) ) {
+		} elseif ($depth==0 && $this->count == ($this->split_position) ) {
 
 			// close the ul, insert the logo and opent he new ul
 			$cb_args = array_merge( [&$output], $args);

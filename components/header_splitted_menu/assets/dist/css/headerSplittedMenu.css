@@ -1,3 +1,22 @@
+.main-navigation {
+    background-color: transparent;
+    margin-bottom: 0;
+    border: 0;
+    border-radius: 0;
+}
+
+.main-navigation .dropdown-menu {
+    font-size: 1em;
+}
+
+.main-navigation .dropdown-menu > li > a {
+    padding: 5px 15px;
+}
+
+.main-navigation .navbar-right {
+    margin-right: 0;
+}
+
 .header-splitted-wrapper {
     position: relative;
 }
@@ -109,6 +128,7 @@
 .navbar-default .navbar-nav>.open>a:focus,
 .navbar-default .navbar-nav>.open>a:hover {
     background-color: inherit;
+    color: inherit;
 }
 
 /* min-width 768px (sm, md and lg) */
