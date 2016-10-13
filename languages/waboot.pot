@@ -7,9 +7,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Waboot 0.15.6\n"
+"Project-Id-Version: Waboot 0.15.8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-29 16:36+0200\n"
+"POT-Creation-Date: 2016-10-11 10:10+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -254,6 +254,36 @@ msgstr ""
 msgid "Sample check box"
 msgstr ""
 
+#: components/sharebuttons/sharebuttons.php:57
+msgid "Share title"
+msgstr ""
+
+#: components/sharebuttons/sharebuttons.php:59
+msgid "The text before the buttons"
+msgstr ""
+
+#: components/sharebuttons/sharebuttons.php:61
+msgid "Share"
+msgstr ""
+
+#: components/sharebuttons/sharebuttons.php:80
+msgid "Display social network name"
+msgstr ""
+
+#: components/sharebuttons/sharebuttons.php:82
+msgid "Display social network name aside the icon"
+msgstr ""
+
+#: components/sharebuttons/sharebuttons.php:88
+#: components/sharebuttons/sharebuttons.php:90
+msgid "Display social buttons before the content"
+msgstr ""
+
+#: components/sharebuttons/sharebuttons.php:96
+#: components/sharebuttons/sharebuttons.php:98
+msgid "Display social buttons after the content"
+msgstr ""
+
 #: components/slideshow/slideshow.php:25
 msgid "Slideshows"
 msgstr ""
@@ -278,15 +308,15 @@ msgstr ""
 msgid "Copy & paste the shortcode directly into any WordPress post or page."
 msgstr ""
 
-#: components/slideshow/slideshow.php:516
+#: components/slideshow/slideshow.php:514
 msgid "Choose the slideshow to display:"
 msgstr ""
 
-#: components/slideshow/slideshow.php:518
+#: components/slideshow/slideshow.php:516
 msgid "Select a slideshow:"
 msgstr ""
 
-#: components/slideshow/slideshow.php:526
+#: components/slideshow/slideshow.php:524
 msgid "No slideshow defined"
 msgstr ""
 
@@ -369,63 +399,63 @@ msgstr ""
 msgid "Choose the secondary sidebar width"
 msgstr ""
 
-#: inc/hooks.php:150 inc/hooks.php:156 inc/hooks.php:164
+#: inc/hooks.php:160 inc/hooks.php:166 inc/hooks.php:174
 msgid "Inbox"
 msgstr ""
 
-#: inc/hooks.php:171 inc/hooks.php:228
+#: inc/hooks.php:181 inc/hooks.php:238
 msgid "Select all"
 msgstr ""
 
-#: inc/hooks.php:174 inc/hooks.php:231
+#: inc/hooks.php:184 inc/hooks.php:241
 msgid "Recipient"
 msgstr ""
 
-#: inc/hooks.php:177 inc/hooks.php:234
+#: inc/hooks.php:187 inc/hooks.php:244
 msgid "From"
 msgstr ""
 
-#: inc/hooks.php:180 inc/hooks.php:237
+#: inc/hooks.php:190 inc/hooks.php:247
 msgid "Source"
 msgstr ""
 
-#: inc/hooks.php:183 inc/hooks.php:240
+#: inc/hooks.php:193 inc/hooks.php:250
 msgid "Date submitted"
 msgstr ""
 
-#: inc/hooks.php:186 inc/hooks.php:243
+#: inc/hooks.php:196 inc/hooks.php:253
 msgid "Received status"
 msgstr ""
 
-#: inc/hooks.php:194
+#: inc/hooks.php:204
 msgid "Select this mail"
 msgstr ""
 
-#: inc/hooks.php:201
+#: inc/hooks.php:211
 msgid "View"
 msgstr ""
 
-#: inc/hooks.php:205
+#: inc/hooks.php:215
 msgid "Delete"
 msgstr ""
 
-#: inc/hooks.php:250
+#: inc/hooks.php:260
 msgid "email/s"
 msgstr ""
 
-#: inc/hooks.php:252
+#: inc/hooks.php:262
 msgid "Go back to the first page"
 msgstr ""
 
-#: inc/hooks.php:253
+#: inc/hooks.php:263
 msgid "Go back to the previous page"
 msgstr ""
 
-#: inc/hooks.php:255
+#: inc/hooks.php:265
 msgid "Go back to the next page"
 msgstr ""
 
-#: inc/hooks.php:256
+#: inc/hooks.php:266
 msgid "Go back to the last page"
 msgstr ""
 
@@ -494,7 +524,7 @@ msgstr ""
 msgid "Bottom Menu"
 msgstr ""
 
-#: inc/ls.php:215
+#: inc/ls.php:229
 msgid "No license provided"
 msgstr ""
 
