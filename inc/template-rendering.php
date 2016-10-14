@@ -27,6 +27,15 @@ function get_archives_template_vars(){
 	$vars['display_nav_above'] = (bool) \Waboot\functions\get_option('content_nav_above', 1); //todo: add this
 	$vars['display_nav_below'] =  (bool) \Waboot\functions\get_option('content_nav_below', 1); //todo: add this
 
+	$o = get_queried_object();
+	$tpl = "";
+	if($o instanceof \WP_Term){
+		$tpl = "taxonomy-".$o->taxonomy;
+	}elseif($o instanceof \WP_Post_Type){
+		$tpl = "archive-".$o->name;
+	}
+	$vars['tpl'] = $tpl;
+
 	return $vars;
 }
 
