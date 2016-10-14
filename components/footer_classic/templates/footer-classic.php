@@ -4,6 +4,7 @@
 		// Footer widgets
 		\Waboot\functions\print_widgets_in_area('footer-classic');
 		?>
+		<?php do_action('waboot/component/footer-classic/after_widgets')?>
 	</div>
 </div>
 <div data-cookieonly class="site-footer closure" id="colophon" role="contentinfo">
