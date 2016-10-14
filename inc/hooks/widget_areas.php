@@ -60,28 +60,32 @@ function register_widget_areas(){
 			$priority = isset($area_args['render_priority']) ? intval($area_args['render_priority']) : 50;
 			if(is_active_sidebar($area_id)){
 				//Adds an action to the "render_zone" to display the widget area.
-				Waboot()->layout->add_zone_action($area_args['render_zone'],function() use($area_id){
-					$tpl = "templates/widget_areas/standard.php"; //standard widget area tpl
+				Waboot()->layout->add_zone_action($area_args['render_zone'],function() use($area_id,$area_args){
+					if(isset($area_args['type']) && $area_args['type'] == "multiple"){
+						\Waboot\functions\print_widgets_in_area($area_id);
+					}else{
+						$tpl = "templates/widget_areas/standard.php"; //standard widget area tpl
 
-					//Search for specific widget areas templates
-					$search_in = [
-						get_stylesheet_directory(),
-						get_template_directory()
-					];
-					$search_in = array_unique($search_in);
-					foreach($search_in as $dirname){
-						$filename = $dirname."/templates/widget_areas/".$area_id.".php";
-						if(file_exists($filename)){
-							$tpl = "templates/widget_areas/".$area_id.".php";
-							break;
+						//Search for specific widget areas templates
+						$search_in = [
+							get_stylesheet_directory(),
+							get_template_directory()
+						];
+						$search_in = array_unique($search_in);
+						foreach($search_in as $dirname){
+							$filename = $dirname."/templates/widget_areas/".$area_id.".php";
+							if(file_exists($filename)){
+								$tpl = "templates/widget_areas/".$area_id.".php";
+								break;
+							}
 						}
+
+						$v = new HTMLView($tpl);
+
+						$v->clean()->display([
+							'area_id' => $area_id
+						]);
 					}
-
-					$v = new HTMLView($tpl);
-
-					$v->clean()->display([
-						'area_id' => $area_id
-					]);
 				},$priority);
 			}
 		}
