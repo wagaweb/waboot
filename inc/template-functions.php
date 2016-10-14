@@ -193,6 +193,8 @@ function get_archive_page_title(){
 		return single_cat_title('',false);
 	} elseif ( is_tag() ) {
 		return single_tag_title('',false);
+	} elseif ( is_post_type_archive() ) {
+		return post_type_archive_title('', false);
 	} elseif ( is_author() ) {
 		$author_name = get_the_author_meta("display_name",$post->post_author);
 		return sprintf( __( 'Author: %s', 'waboot' ), '<span class="vcard"><a class="url fn n" href="' . get_author_posts_url( $post->post_author ) . '" title="' . esc_attr( $author_name ) . '" rel="me">' . $author_name . '</a></span>' );
