@@ -33,8 +33,7 @@ class Footer_Classic extends \Waboot\Component {
 				'name' => __('Footer Classic {{ n }} (Component)', 'waboot'),
 				'description' => __( 'The widget areas registered by Footer Classic', 'waboot' ),
 				'type' => 'multiple',
-				'subareas' => 4,
-				'render_zone' => 'footer'
+				'subareas' => 4
 			];
 			return $areas;
 		});
