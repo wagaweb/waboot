@@ -227,3 +227,22 @@ function _layout_width_to_int($width){
 			break;
 	}
 }
+
+_adds_plugins_wrappers();
+
+/**
+ * Automatically adds actions for WBF plugins content wrappers.
+ */
+function _adds_plugins_wrappers(){
+	$plugins = WBF()->get_registered_plugins();
+	foreach ($plugins as $name => $params){
+		remove_all_actions("{$name}/before_main_content", 10);
+		add_action("{$name}/before_main_content",function(){
+			get_template_part("templates/wrapper","start");
+		});
+		remove_all_actions("{$name}/after_main_content", 10);
+		add_action("{$name}/after_main_content",function(){
+			get_template_part("templates/wrapper","end");
+		});
+	}
+}
