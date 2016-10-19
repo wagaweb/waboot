@@ -1,5 +1,10 @@
 == Change log ==
 
+Version 0.15.9 -
+---------------------------------
+- Feature: Auto-hook dei content wrapper per i plugin di WBF
+- Tweak: Inseriti i wrapper start\end come template separate
+
 Version 0.15.8 - 05/10/2016
 ---------------------------------
 - Tweak: Ora il check sulla licenza usa un transient
