@@ -85,6 +85,8 @@ function display_title($type = 'single'){
 	//Detecting template (here we prefer these many if statement because they are more readable):
 	if($type == "list"){
 		$tpl = "templates/view-parts/entry-title.php";
+	}elseif($type == "single"){
+		$tpl = "templates/view-parts/entry-title-singular.php";
 	}else{
 		$tpl = "templates/view-parts/entry-title.php"; //starting as list
 		if(is_singular() || $type == "single"){
