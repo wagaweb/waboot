@@ -1,6 +1,19 @@
 == Change log ==
 
-Version 2.0.0 -
+Version 2.0.2 - 10/20/2016
+---------------------------------
+
+- Fix: now the entry title is displayed correctly on archives
+- Fix: now multiple widgets area are displayed correctly
+
+Version 2.0.1 - 10/13/2016
+---------------------------------
+
+- Fix: Header Splitted component has been fixed
+- Fix: Navbar classic assets now load correctly
+- Tweak: Archive page template now support taxonomy- templates
+
+Version 2.0.0 - 10/10/2016
 ---------------------------------
 
 - Initial
