@@ -82,11 +82,20 @@ function display_title($type = 'single'){
 
     if(!$can_display_title) return;
 
-    if( ( (is_singular() || Utilities::get_current_page_type() == Utilities::PAGE_TYPE_BLOG_PAGE) && $type == "single" ) || is_archive() ){
-        $tpl = "templates/view-parts/entry-title-singular.php";
-    }else{
-        $tpl = "templates/view-parts/entry-title.php";
-    }
+	//Detecting template (here we prefer these many if statement because they are more readable):
+	$tpl = "templates/view-parts/entry-title.php";
+	if(is_singular() || $type == "single"){
+		$tpl = "templates/view-parts/entry-title-singular.php";
+	}
+	if(\WBF\components\utils\Utilities::get_current_page_type() == Utilities::PAGE_TYPE_BLOG_PAGE && $type == "single"){
+		$tpl = "templates/view-parts/entry-title-singular.php";
+	}
+	if(is_archive()){
+		$tpl = "templates/view-parts/entry-title-singular.php";
+	}
+	if($type == "list"){
+		$tpl = "templates/view-parts/entry-title.php";
+	}
 
     $tpl = apply_filters("waboot/entry/title/tpl",$tpl,$current_title_position);
 	$tpl_args = [
