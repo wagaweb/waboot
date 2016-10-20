@@ -22,6 +22,7 @@ function waboot_init(){
 	$waboot_includes = [
 		'inc/template-functions.php',
 		'inc/template-tags.php',
+		'inc/postformat-helpers.php',
 		'inc/terms-tags.php',
 		'inc/template-rendering.php',
 		'inc/Layout.php',

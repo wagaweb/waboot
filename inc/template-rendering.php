@@ -110,3 +110,17 @@ function render_comment($comment, $args, $depth){
 	$v = new HTMLView($template_file);
 	$v->display($vars);
 }
+
+/**
+ * Wraps the post video oembed within a post that is not video format
+ *
+ * todo: verify this
+ *
+ * @param $video
+ *
+ * @return string
+ */
+function wraps_video_embed_html($video) {
+	return "<div class='wb-video-container'>{$video}</div>";
+}
+add_filter( 'embed_oembed_html', 'wraps_video_embed_html' );
