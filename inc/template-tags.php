@@ -903,9 +903,10 @@ endif;
 
 /* Post Format Video */
 function waboot_video_embed_html($video) {
-	return "<div class='wb_post_video'>{$video}</div>";
+	return "<div class='wb-video-container'>{$video}</div>";
 }
 add_filter( 'embed_oembed_html', 'waboot_video_embed_html' );
+
 
 if(!function_exists('waboot_get_first_video' )):
 	function waboot_get_first_video() {
@@ -914,8 +915,9 @@ if(!function_exists('waboot_get_first_video' )):
 
 		foreach ( $custom_fields as $key => $custom_field ) {
 			if ( 0 !== strpos( $key, '_oembed_' ) ) continue;
+            if ( $custom_field[0] == '{{unknown}}' ) continue;
 
-			$first_oembed = $custom_field[0];
+            $first_oembed = $custom_field[0];
 
 			$video_width  = (int) apply_filters( 'wb_video_width', 100 );
 			$video_height = (int) apply_filters( 'wb_video_height', 480 );
