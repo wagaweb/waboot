@@ -1,5 +1,12 @@
 == Change log ==
 
+Version 2.0.3 - 10/25/2016
+---------------------------------
+
+- Feature: added post forma templates
+- Tweak: refactor styles priority
+- Fix: header splitted components errors
+
 Version 2.0.2 - 10/20/2016
 ---------------------------------
 
