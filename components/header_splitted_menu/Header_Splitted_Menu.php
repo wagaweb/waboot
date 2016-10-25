@@ -35,14 +35,14 @@ class Header_Splitted_Menu extends \Waboot\Component{
     public function display_tpl(){
 
         // retrieve the user options
-	    $menu_name = (\Waboot\functions\get_option('header_splitted_menu'))
+	    $menu_position = (\Waboot\functions\get_option('header_splitted_menu'))
 		    ? \Waboot\functions\get_option('header_splitted_menu')
 		    : 'main';
-	    $position = (\Waboot\functions\get_option('header_splitted_position'))
+	    $split_position = (\Waboot\functions\get_option('header_splitted_position'))
 		    ? \Waboot\functions\get_option('header_splitted_position')
 		    : '';
 
-	    $walker = new WabootSplittedNavMenuWalker( $position, $menu_name);
+	    $walker = new WabootSplittedNavMenuWalker( $split_position, $menu_position);
 
     	$menu = new \WBF\components\mvc\HTMLView($this->theme_relative_path."/templates/header_splitted.php");
         $menu->clean()->display([
@@ -114,8 +114,8 @@ class Header_Splitted_Menu extends \Waboot\Component{
 			    'type' => 'text'
 		    ],"header");
 	    $orgzr->update('header_splitted_menu',[
-			    'name' => __( 'Menu Name', 'waboot' ),
-			    'desc' => __( 'The name of the menu that will be splitted, Default is "main"', 'waboot' ),
+			    'name' => __( 'Menu Theme Position', 'waboot' ),
+			    'desc' => __( 'The Theme position of the menu that will be splitted, Default is "main"', 'waboot' ),
 			    'id'   => $this->name.'_menu_select',
 			    'type' => 'text'
 		    ],"header");

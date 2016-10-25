@@ -5,11 +5,14 @@ class WabootSplittedNavMenuWalker extends \WBF\components\navwalker\Bootstrap_Na
 	private $count = 0;
 	private $split_position;
 
-	function __construct($position, $menu_name) {
+	function __construct($split_position, $menu_position) {
+		$theme_locations = get_nav_menu_locations();
+		$menu_obj = get_term( $theme_locations[$menu_position], 'nav_menu' );
+		$menu_name = $menu_obj->name;
 
-		$this->split_position = ($position == "0" || empty($position) )
+		$this->split_position = ($split_position == "0" || empty($split_position) )
 			? floor(count(wp_get_nav_menu_items($menu_name))/2)
-			: intval($position) ;
+			: intval($split_position) ;
 	}
 
 	function display_element( $element, &$children_elements, $max_depth, $depth=0, $args, &$output ) {
@@ -75,7 +78,7 @@ class WabootSplittedNavMenuWalker extends \WBF\components\navwalker\Bootstrap_Na
 		$cb_args = array_merge( array(&$output, $element, $depth), $args);
 		call_user_func_array(array(&$this, 'end_el'), $cb_args);
 
-		$this->count++;
+		if($depth==0) $this->count++;
 
 	}
 
