@@ -24,9 +24,13 @@ jQuery(document).ready(function($){
         if (height > 50) {
             navLeft.css('padding-top', (height-50)/2);
             navRight.css('padding-top', (height-50)/2);
+            navLeft.css('padding-bottom', (height-50)/2);
+            navRight.css('padding-bottom', (height-50)/2);
         }else{
             navLeft.css('padding-top', 0);
             navRight.css('padding-top', 0);
+            navLeft.css('padding-bottom', 0);
+            navRight.css('padding-bottom', 0);
         }
 
         navLeft.css('padding-right', width/2+additionalMargin);
