@@ -55,6 +55,20 @@ class Legal_Data extends \Waboot\Component{
 			$return_string = trim( preg_replace( "|[\r\n\t]|", "", ob_get_clean() ) );
 			return $return_string;
 		});
+		add_shortcode("wb_legal_siteurl", function(){
+			ob_start();
+			$siteurl = empty(\Waboot\functions\get_option($this->name.'_siteurl')) ? preg_replace('/http:\/\//', '', get_home_url()) : \Waboot\functions\get_option($this->name.'_siteurl');
+			echo $siteurl;
+			$return_string = trim( preg_replace( "|[\r\n\t]|", "", ob_get_clean() ) );
+			return $return_string;
+		});
+		add_shortcode("wb_legal_rep", function(){
+			ob_start();
+			$siteurl = empty(\Waboot\functions\get_option($this->name.'_rep')) ? "Company Legal Representative" : \Waboot\functions\get_option($this->name.'_rep');
+			echo $siteurl;
+			$return_string = trim( preg_replace( "|[\r\n\t]|", "", ob_get_clean() ) );
+			return $return_string;
+		});
 	}
 
 
@@ -112,7 +126,6 @@ class Legal_Data extends \Waboot\Component{
 	 * @return array|mixed
 	 */
 	public function theme_options($options){
-		// $options = parent::theme_options($options);
 
 		$options[] = array(
 			'name' => 'Legal Information',
@@ -144,6 +157,20 @@ class Legal_Data extends \Waboot\Component{
 			'name' => __( 'Company Telephone', 'waboot' ),
 			'desc' => __( '[wb_legal_tel]', 'waboot' ),
 			'id'   => $this->name.'_tel',
+			'std'  => '',
+			'type' => 'text'
+		);
+		$options[] = array(
+			'name' => __( 'Domain Name', 'waboot' ),
+			'desc' => __( '[wb_legal_siteurl]', 'waboot' ),
+			'id'   => $this->name.'_siteurl',
+			'std'  => preg_replace('/http:\/\//', '', get_bloginfo('url') ),
+			'type' => 'text'
+		);
+		$options[] = array(
+			'name' => __( 'Legal Representative', 'waboot' ),
+			'desc' => __( '[wb_legal_rep]', 'waboot' ),
+			'id'   => $this->name.'_rep',
 			'std'  => '',
 			'type' => 'text'
 		);
