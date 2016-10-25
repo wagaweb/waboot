@@ -133,7 +133,7 @@ class Header_Fixed extends \Waboot\Component{
 		    'type' => 'text'
 	    ],"header");
 
-	    $orgzr->update($this->name.'advanced_color',[
+	    $orgzr->update($this->name.'_color_after',[
 		    'name' => __( 'Style After - Color', 'waboot' ),
 		    'desc' => __( ' ', 'waboot' ),
 		    'id'   => $this->name.'_color_after',
