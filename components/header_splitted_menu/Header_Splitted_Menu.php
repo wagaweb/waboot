@@ -55,14 +55,27 @@ class Header_Splitted_Menu extends \Waboot\Component{
 	 * Register component scripts (called automatically)
 	 */
     public function scripts(){
-        wp_register_script('component-header_splitted_menu', $this->directory_uri . '/assets/dist/js/headerSplittedMenu.js', ['jquery'], false, true);
 	    $additional_margin = (\Waboot\functions\get_option('header_splitted_margin'))
 		    ? \Waboot\functions\get_option('header_splitted_margin')
 		    : 10;
-        wp_localize_script('component-header_splitted_menu', 'wabootHeaderSplitted', array(
-	        'margin' => $additional_margin
-        ) );
-        wp_enqueue_script('component-header_splitted_menu');
+
+        $scripts = [
+            'component-header_splitted_menu' => [
+                'uri' => $this->directory_uri . '/assets/dist/js/headerSplittedMenu.js',
+                'path' => $this->directory . '/assets/dist/js/headerSplittedMenu.js',
+                'type' => 'js',
+                'deps' => ['jquery'],
+                'i10n' => [
+                    'name' => "wabootHeaderSplitted",
+                    'params' => [
+                        'margin' => $additional_margin
+                    ]
+                ]
+            ]
+        ];
+
+        $am = new \WBF\components\assets\AssetsManager($scripts);
+        $am->enqueue();
     }
 
 
