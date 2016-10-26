@@ -55,7 +55,7 @@ function waboot_init(){
 		}
 		return false;
 	}]);
-	$wb->layout->create_zone("content",new \WBF\components\mvc\HTMLView("templates/content.php"),["always_load"=>true]);
+	$wb->layout->create_zone("content",false,["always_load"=>true]);
 	$wb->layout->create_zone("aside-secondary",new \WBF\components\mvc\HTMLView("templates/aside.php"),["can_render_callback" => function(){
 		//Callback called to decide whether print out the zone or not
 		if(\Waboot\functions\body_layout_has_two_sidebars()){
