@@ -123,4 +123,4 @@ function render_comment($comment, $args, $depth){
 function wraps_video_embed_html($video) {
 	return "<div class='wb-video-container'>{$video}</div>";
 }
-add_filter( 'embed_oembed_html', 'wraps_video_embed_html' );
+add_filter( 'embed_oembed_html', __NAMESPACE__. '\wraps_video_embed_html' );

@@ -2,5 +2,5 @@
 	<div class="entry-content">
 		<?php the_content(); ?>
 	</div>
-	<?php do_action( 'waboot/entry/footer' ); ?>
+    <?php do_action( 'waboot/entry/footer' ); ?>
 </article><!-- #post -->

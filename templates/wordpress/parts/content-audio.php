@@ -1,8 +1,14 @@
 <article role="article" id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-	<?php do_action( 'waboot/entry/header' ); ?>
-	<div class="entry-content">
-		<?php echo do_shortcode( '[audio]' ); ?>
-		<?php wp_link_pages(); ?>
-	</div><!-- .entry-content -->
-	<?php do_action( 'waboot/entry/footer' ); ?>
-</article><!-- #post-<?php the_ID(); ?> -->
+    <div class="entry-content">
+        <?php if(is_singular()) : ?>
+            <?php do_action( 'waboot/entry/header' ); ?>
+            <?php echo do_shortcode( '[audio]' ); ?>
+            <?php the_content(); ?>
+        <?php else : ?>
+            <?php do_action( 'waboot/entry/header', 'list' ); ?>
+            <?php echo do_shortcode( '[audio]' ); ?>
+            <?php the_excerpt(); ?>
+        <?php endif; ?>
+    </div><!-- .entry-content -->
+    <?php do_action( 'waboot/entry/footer' ); ?>
+</article>
