@@ -16,7 +16,7 @@ use WBF\components\utils\Utilities;
  *
  * @return string A list of terms on success, an empty string in case of failure or when no terms has been found.
  */
-function get_the_terms_list_hierarchical( $id, $taxonomy, $before = '', $sep = '', $after = '' ) {
+function get_the_terms_list_hierarchical( $id, $taxonomy, $before = '', $sep = '', $after = '', $linked = true ) {
 	$terms = Utilities::get_post_terms_hierarchical($id, $taxonomy);
 
 	if( is_wp_error($terms) || empty($terms) ){
@@ -33,7 +33,11 @@ function get_the_terms_list_hierarchical( $id, $taxonomy, $before = '', $sep = '
 		if ( is_wp_error( $link ) ) {
 			return $link;
 		}
-		$links[] = '<a href="' . esc_url( $link ) . '" rel="tag">' . $term->name . '</a>';
+        if ($linked) {
+            $links[] = '<a href="' . esc_url( $link ) . '" rel="tag">' . $term->name . '</a>';
+        }else{
+            $links[] = $term->name;
+        }
 	}
 
 	/**
