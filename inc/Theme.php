@@ -14,6 +14,11 @@ class Theme{
 	var $layout;
 
 	/**
+	 * @var array
+	 */
+	var $inline_styles;
+
+	/**
 	 * Returns the *Singleton* instance.
 	 *
 	 * @return Theme The *Singleton* instance.
@@ -27,6 +32,7 @@ class Theme{
 
 	protected function __construct(){
 		$this->layout = Layout::getInstance();
+		add_action("waboot/head/end", [$this,"print_inline_styles"]);
 	}
 
 	/**
@@ -50,6 +56,18 @@ class Theme{
 			require_once $filepath;
 		}
 		return $this;
+	}
+
+	public function add_inline_style($handle,$path){
+		$this->inline_styles[$handle] = $path;
+	}
+
+	public function print_inline_styles(){
+		$output = "";
+		foreach ($this->inline_styles as $style){
+
+		}
+		echo $output;
 	}
 
 	/**

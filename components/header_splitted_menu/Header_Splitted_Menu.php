@@ -83,7 +83,8 @@ class Header_Splitted_Menu extends \Waboot\Component{
 	 * Register component styles (called automatically)
 	 */
     public function styles(){
-        wp_enqueue_style('component-header_splitted-style', $this->directory_uri . '/assets/dist/css/headerSplittedMenu.css');
+        //wp_enqueue_style('component-header_splitted-style', $this->directory_uri . '/assets/dist/css/headerSplittedMenu.css');
+	    Waboot()->add_inline_style('component-header_splitted-style', $this->directory_uri . '/assets/dist/css/headerSplittedMenu.css');
     }
 
 
