@@ -37,3 +37,11 @@
 #page {
   background-color: {{ page_bgcolor }};
 }
+
+/*
+* Override Bootstrap Styles
+*/
+
+a {
+  color: {{ btstrp_brand_primary }};
+}
