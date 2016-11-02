@@ -72,13 +72,13 @@ class Theme{
 	 * @param $handle
 	 * @param $path
 	 */
-	public function add_inline_style($handle,$path){
-		if(preg_match("/^https?/",$path)){
-			$path = Utilities::url_to_path($path);
+	public function add_inline_style($handle,$src, $deps = array(), $ver = false, $media = 'all'){
+		if(preg_match("/^https?/",$src)){
+			$src = Utilities::url_to_path($src);
 		}
-		if(!file_exists($path)) return;
+		if(!file_exists($src)) return;
 		$this->inline_styles[] = $handle;
-		$this->custom_styles_handler->add($handle,$path);
+		$this->custom_styles_handler->add($handle,$src, $deps, $ver);
 	}
 
 	/**
@@ -103,6 +103,7 @@ class Theme{
 				$content = file_get_contents($current_style->src);
 				//Append:
 				if($content){
+					$output .= "/********* $current_style->handle **********/\n";
 					$output .= $content."\n";
 				}
 			}
