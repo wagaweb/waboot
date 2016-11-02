@@ -45,3 +45,7 @@
 a {
   color: {{ btstrp_brand_primary }};
 }
+
+a:hover{
+    color: {{ apply:waboot_styles_adjustBrightness(btstrp_brand_primary,-60) }}
+}

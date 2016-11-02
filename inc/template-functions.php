@@ -441,6 +441,7 @@ function deploy_theme_options_css($option, $old_value, $value){
 	}
 
 	$genericOptionfindRegExp = "/{{ ?([a-zA-Z0-9\-_]+) ?}}/";
+	$funcRegExp = "/{{ ?apply:([a-zA-Z\-_]+)\(([a-zA-Z0-9\-_, ]+)\) ?}}/";
 	$fontOptionfindRegExp = "/\{\{ ?font: ?([a-z]+) ?\}\}/";
 	$assignOptionFindRegExp = "/\{\{ ?font-assignment: ?([a-z]+) ?\}\}/";
 
@@ -460,6 +461,28 @@ function deploy_theme_options_css($option, $old_value, $value){
 				}
 			}else{
 				$line = "\t/*{$matches[1]} not found*/\n";
+			}
+		}
+
+		//Replace {{ apply:<func>(<theme-option-id>) }}
+		if(preg_match($funcRegExp, $line, $matches)){
+			require_once get_template_directory()."/inc/styles-functions.php";
+			if(count($matches) == 3 && function_exists($matches[1])){
+				$func = $matches[1];
+				$args = explode(",",$matches[2]);
+				foreach ($args as $k => $v){
+					if(isset($value[$v])){
+						$args[$k] = $value[$v]; //If one of the args is a theme option name, replace it with it's value!
+					}
+				}
+				if(function_exists($func)){
+					$r = call_user_func($func,$args);
+					$line = preg_replace( $funcRegExp, $r, $line);
+				}else{
+					$line = "\t/*$func not found*/\n";
+				}
+			}else{
+				$line = "\t/*Invalid function call*/\n";
 			}
 		}
 
