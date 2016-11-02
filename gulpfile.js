@@ -192,7 +192,7 @@ gulp.task('copy-vendors',function() {
     //Copy fonts
     copy([
         'assets/vendor/bootstrap-sass/assets/fonts/bootstrap/*.*'
-    ],'assets/dist/fonts/bootstrap',{flatten: true},cb);
+    ],'assets/dist/fonts',{flatten: true},cb);
     copy([
         'assets/vendor/fontawesome/fonts/*.*',
         '!assets/vendor/fontawesome/fonts/4.4.0'
