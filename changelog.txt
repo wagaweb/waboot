@@ -1,5 +1,10 @@
 == Change log ==
 
+Version 2.0.4 -
+---------------------------------
+- Feature: added the ability to enqueue inline styles
+- Tweak: now components enqueues inline style
+
 Version 2.0.3 - 10/25/2016
 ---------------------------------
 
