@@ -60,8 +60,9 @@ class Woocommerce_Standard extends \WBF\modules\components\Component{
 	 * Register component styles (called automatically)
 	 */
     public function styles(){
-    	wp_register_style("component-{$this->name}-style",$this->directory_uri . '/assets/dist/css/woocommerce-standard.min.css');
-	    wp_enqueue_style("component-{$this->name}-style");
+    	//wp_register_style("component-{$this->name}-style",$this->directory_uri . '/assets/dist/css/woocommerce-standard.min.css');
+	    //wp_enqueue_style("component-{$this->name}-style");
+	    Waboot()->add_inline_style("component-{$this->name}-style",$this->directory_uri . '/assets/dist/css/woocommerce-standard.min.css');
     }
 
 	/**

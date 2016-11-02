@@ -19,13 +19,19 @@ class Header_Classic extends \Waboot\Component{
 
     public function styles(){
         parent::styles();
-        wp_enqueue_style('header_classic_style', $this->directory_uri . '/assets/dist/css/headerClassic.css');
-        wp_enqueue_style('offcanvas_style', $this->directory_uri . '/assets/dist/css/offcanvas.css');
-        // wp_enqueue_script('header_classic_js', $this->directory_uri . '/assets/dist/js/headerClassic.js', ['jquery'], false, true);
-        wp_enqueue_script('offcanvas_js', $this->directory_uri . '/assets/dist/js/offcanvas.js', ['jquery'], false, true);
+        //wp_enqueue_style('header_classic_style', $this->directory_uri . '/assets/dist/css/headerClassic.css');
+        //wp_enqueue_style('offcanvas_style', $this->directory_uri . '/assets/dist/css/offcanvas.css');
+        Waboot()->add_inline_style('header_classic_style', $this->directory_uri . '/assets/dist/css/headerClassic.css');
+        Waboot()->add_inline_style('offcanvas_style', $this->directory_uri . '/assets/dist/css/offcanvas.css');
     }
 
-    public function run(){
+    public function scripts() {
+	    parent::scripts();
+	    // wp_enqueue_script('header_classic_js', $this->directory_uri . '/assets/dist/js/headerClassic.js', ['jquery'], false, true);
+	    wp_enqueue_script('offcanvas_js', $this->directory_uri . '/assets/dist/js/offcanvas.js', ['jquery'], false, true);
+    }
+
+	public function run(){
 		parent::run();
 		$display_zone = $this->get_display_zone();
 		$display_priority = $this->get_display_priority();

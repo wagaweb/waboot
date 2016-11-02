@@ -57,7 +57,8 @@ class Blog_Timeline extends \WBF\modules\components\Component{
 	 * Enqueue component styles
 	 */
 	public function styles(){
-		wp_enqueue_style('component-blog_timeline-style', $this->directory_uri . '/assets/dist/css/blog-timeline.css');
+		//wp_enqueue_style('component-blog_timeline-style', $this->directory_uri . '/assets/dist/css/blog-timeline.css');
+		Waboot()->add_inline_style('component-blog_timeline-style', $this->directory_uri . '/assets/dist/css/blog-timeline.css');
 	}
 
 	/**

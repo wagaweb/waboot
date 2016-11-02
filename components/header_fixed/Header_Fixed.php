@@ -62,8 +62,8 @@ class Header_Fixed extends \Waboot\Component{
 	 * Register component styles (called automatically)
 	 */
     public function styles(){
-
-        wp_enqueue_style('component-header_fixed-style', $this->directory_uri . '/assets/dist/css/headerFixed.css');
+        //wp_enqueue_style('component-header_fixed-style', $this->directory_uri . '/assets/dist/css/headerFixed.css');
+	    Waboot()->add_inline_style('component-header_fixed-style', $this->directory_uri . '/assets/dist/css/headerFixed.css');
     }
 
 
