@@ -1,5 +1,5 @@
 import * as Backbone from "backbone";
-import * as FastClick from "FastClick"; 
+import * as FS from "FastClick";
 import $ from "jquery";
 
 export default class extends Backbone.Model{
@@ -83,8 +83,9 @@ export default class extends Backbone.Model{
             document.querySelector('head').appendChild(msViewportStyle);
         }
         
-        if(typeof FastClick !== "undefined"){
-            FastClick.attach(document.body);   
+        if(typeof FS !== "undefined"){
+            debugger;
+            FS.FastClick.attach(document.body);
         }
         
         /*
