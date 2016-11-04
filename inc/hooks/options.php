@@ -220,6 +220,24 @@ function register_options($orgzr){
 	$orgzr->set_group("css_injection");
 
 	$orgzr->add(array(
+		'name' => _x('Text color', 'Theme options', 'waboot'),
+		'desc' => _x('Change the color of html, body, p, ul, li', 'Theme options', 'waboot'),
+		'id' => 'btstrp_text_color',
+		'std' => "#333333",
+		'type' => 'color',
+		'save_action' => "\\Waboot\\functions\\deploy_theme_options_css"
+	));
+
+	$orgzr->add(array(
+		'name' => _x('Title color', 'Theme options', 'waboot'),
+		'desc' => _x('Change the color of h1, h2, h3, h4, h5, h6', 'Theme options', 'waboot'),
+		'id' => 'btstrp_title_color',
+		'std' => "#333333",
+		'type' => 'color',
+		'save_action' => "\\Waboot\\functions\\deploy_theme_options_css"
+	));
+
+	$orgzr->add(array(
 		'name' => _x('Primary color', 'Theme options', 'waboot'),
 		'desc' => _x('Change the color of @brand-primary.', 'Theme options', 'waboot'),
 		'id' => 'btstrp_brand_primary',
@@ -228,29 +246,20 @@ function register_options($orgzr){
 		'save_action' => "\\Waboot\\functions\\deploy_theme_options_css"
 	));
 
-	$orgzr->add(array(
-		'name' => _x('Text color', 'Theme options', 'waboot'),
-		'desc' => _x('Change the color of @text-color.', 'Theme options', 'waboot'),
-		'id' => 'btstrp_text_color',
-		'std' => "#333333",
-		'type' => 'color',
-		'save_action' => "\\Waboot\\functions\\deploy_theme_options_css"
-	));
+    $orgzr->add(array(
+        'name' => _x('Success color', 'Theme options', 'waboot'),
+        'desc' => _x('Change the color of @brand-success.', 'Theme options', 'waboot'),
+        'id' => 'btstrp_brand_success',
+        'std' => "#5cb85c",
+        'type' => 'color',
+        'save_action' => "\\Waboot\\functions\\deploy_theme_options_css"
+    ));
 
 	$orgzr->add(array(
 		'name' => _x('Info color', 'Theme options', 'waboot'),
 		'desc' => _x('Change the color of @brand-info.', 'Theme options', 'waboot'),
 		'id' => 'btstrp_brand_info',
 		'std' => "#5bc0de",
-		'type' => 'color',
-		'save_action' => "\\Waboot\\functions\\deploy_theme_options_css"
-	));
-
-	$orgzr->add(array(
-		'name' => _x('Success color', 'Theme options', 'waboot'),
-		'desc' => _x('Change the color of @brand-success.', 'Theme options', 'waboot'),
-		'id' => 'btstrp_brand_success',
-		'std' => "#5cb85c",
 		'type' => 'color',
 		'save_action' => "\\Waboot\\functions\\deploy_theme_options_css"
 	));
