@@ -1,15 +1,15 @@
 <?php
 /**
-Component Name: Navbar Classic
-Description: Navbar Classic Component
+Component Name: Header Bootstrap
+Description: Header Bootstrap Component
 Category: Layout
-Tags: Navbar
+Tags: Header
 Version: 1.0
 Author: WAGA Team <dev@waga.it>
 Author URI: http://www.waga.it
 */
 
-class Navbar_Classic extends \Waboot\Component{
+class Header_Bootstrap extends \Waboot\Component{
 	/**
 	 * This method will be executed at Wordpress startup (every page load)
 	 */
@@ -20,8 +20,13 @@ class Navbar_Classic extends \Waboot\Component{
 
     public function styles(){
         parent::styles();
-        //wp_enqueue_style('navbar_classic_style', $this->directory_uri . '/assets/css/navbarClassic.css');
-        Waboot()->add_inline_style('navbar_classic_style', $this->directory_uri . '/assets/css/navbarClassic.css');
+        Waboot()->add_inline_style('header_bootstrap_style', $this->directory_uri . '/assets/css/headerBootstrap.css');
+        Waboot()->add_inline_style('offcanvas_style', $this->directory_uri . '/assets/dist/css/offcanvas.css');
+    }
+
+    public function scripts() {
+        parent::scripts();
+        wp_enqueue_script('offcanvas_js', $this->directory_uri . '/assets/dist/js/offcanvas.js', ['jquery'], false, true);
     }
 
 	public function run(){
@@ -32,22 +37,12 @@ class Navbar_Classic extends \Waboot\Component{
 	}
 
 	public function display_tpl(){
-		$wrapper = new \WBF\components\mvc\HTMLView($this->theme_relative_path."/templates/navbar_wrapper.php");
-		$content = (new \WBF\components\mvc\HTMLView($this->theme_relative_path."/templates/navbar_content.php"))->clean()->get([
+		$wrapper = new \WBF\components\mvc\HTMLView($this->theme_relative_path."/templates/header_wrapper.php");
+		$content = (new \WBF\components\mvc\HTMLView($this->theme_relative_path."/templates/header_content.php"))->clean()->get([
 			'show_mobile_nav' => Waboot\functions\get_option('mobilenav_style') == "offcavas",
-			'display_socials' => Waboot\functions\get_option("social_position_none") == 1 || Waboot\functions\get_option('social_position') != "navigation" ? false : true,
 			'display_searchbar' => Waboot\functions\get_option("display_search_bar_in_header") == 1
 		]);
-		$header_layout = call_user_func(function(){
-			if(\WBF\modules\components\ComponentsManager::is_active("header_classic")){
-				return "header_classic";
-			}elseif(\WBF\modules\components\ComponentsManager::is_active("navbar_classic")){
-				return "navbar_classic";
-			}elseif(\WBF\modules\components\ComponentsManager::is_active("navbar_logo")){
-				return "navbar_logo";
-			}
-			return false;
-		});
+		$header_layout = "header_bootstrap";
 		$wrapper->clean()->display([
 			"navbar_width" => Waboot\functions\get_option("navbar_width"),
 			"navbar_class" => $header_layout ? "nav-".$header_layout : "nav",
@@ -64,7 +59,7 @@ class Navbar_Classic extends \Waboot\Component{
 	 */
 	public function set_main_navigation_classes($class){
 		$classes = [$class,"nav"];
-		$options = \Waboot\functions\get_option('navbar_align'); //todo: add this
+		$options = \Waboot\functions\get_option('navbar_align');
 		if(is_array($options) && !empty($options)){
 			$classes = array_merge($classes,$options);
 		}
@@ -80,7 +75,6 @@ class Navbar_Classic extends \Waboot\Component{
 		$orgzr->set_group($this->name."_component");
 
 		$orgzr->add_section("header",_x("Header","Theme options section","waboot"));
-		$orgzr->add_section("layout",_x("Layout","Theme options section","waboot"));
 
 		$orgzr->update('mobilenav_style',[
 			'name' => __( 'Mobile Nav Style', 'waboot' ),
@@ -124,7 +118,19 @@ class Navbar_Classic extends \Waboot\Component{
 					'value' => $imagepath . 'layout/header-boxed.png'
 				)
 			)
-		],'layout');
+		],'header');
+
+        $orgzr->update("navbar_align", [
+            'name' => __( 'Navbar Align', 'waboot' ),
+            'desc' => __( 'Select navbar align. Left or Right?', 'waboot' ),
+            'id' => 'navbar_align',
+            'std' => 'left',
+            'type' => 'select',
+            'options' => [
+                'left' => 'Left',
+                'right' => 'Right'
+            ]
+        ],'header');
 
 		$orgzr->reset_group();
 		$orgzr->reset_section();

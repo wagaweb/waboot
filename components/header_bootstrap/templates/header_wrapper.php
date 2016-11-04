@@ -1,5 +1,5 @@
-<div id="navbar-wrapper" class="<?php echo $navbar_class; ?>">
-	<div id="navbar-inner" class="<?php echo $navbar_width; ?>">
+<div id="navbar-wrapper" class="navbar-wrapper <?php echo $navbar_class; ?>">
+	<div id="navbar-inner" class="navbar-inner <?php echo $navbar_width; ?>">
 		<nav class="navbar navbar-default main-navigation" role="navigation">
 			<?php echo $content; ?>
 			<?php if ( of_get_option('waboot_mobilenav_style') === 'offcanvas' ) { get_template_part('/templates/parts/nav-offcanvas'); } ?>
