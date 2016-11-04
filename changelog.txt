@@ -1,10 +1,12 @@
 == Change log ==
 
-Version 2.0.4 -
+Version 2.0.4 - 11/04/2016
 ---------------------------------
 - Feature: added the ability to enqueue inline styles
 - Feature: is now possible to use custom functions into _theme-options.src
 - Tweak: now components enqueues inline style
+- Tweak: the theme options style file has been completed
+- Fix: components layout and options has been adjusted
 
 Version 2.0.3 - 10/25/2016
 ---------------------------------
