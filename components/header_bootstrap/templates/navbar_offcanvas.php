@@ -1,8 +1,8 @@
 <div class="collapse navbar-collapse navbar-mobile-collapse offcanvas">
-    
-    <?php if( ($logo_offcanvas) && ( \Waboot\functions\get_option('offcanvas_logo') != '' ) ) : ?>
+
+    <?php if($logo_offcanvas_show) : ?>
         <div class="logo-offcanvas">
-            <img src="<?php echo \Waboot\functions\get_option('offcanvas_logo', ""); ?>">
+            <img src="<?php echo $logo_offcanvas; ?>">
         </div>
     <?php endif; ?>
 
@@ -11,16 +11,7 @@
         'depth'          => 0,
         'container'      => false,
         'menu_class'     => 'nav navbar-nav',
-        'walker'	     => new WabootNavMenuWalker(),
-        'fallback_cb' => 'waboot_nav_menu_fallback'
-    )); ?>
-
-    <?php wp_nav_menu( array(
-        'theme_location' => 'top',
-        'depth' => 0,
-        'container' => false,
-        'menu_class' => 'nav navbar-nav',
-        'walker' => new WabootNavMenuWalker(),
+        'walker'         => new \WBF\components\navwalker\Bootstrap_NavWalker(),
         'fallback_cb' => 'waboot_nav_menu_fallback'
     )); ?>
 

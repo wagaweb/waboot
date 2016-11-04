@@ -15,12 +15,11 @@ class Navbar_Vertical extends \Waboot\Component{
 	 */
 	public function setup(){
 		parent::setup();
-		add_filter("waboot/navigation/main/class",[$this,"set_main_navigation_classes"]);
 	}
 
     public function styles(){
         parent::styles();
-        Waboot()->add_inline_style('navbar_vertical_style', $this->directory_uri . '/assets/css/navbarVertical.css');
+        Waboot()->add_inline_style('navbar_vertical_style', $this->directory_uri . '/assets/dist/css/navbarVertical.css');
         Waboot()->add_inline_style('offcanvas_style', $this->directory_uri . '/assets/dist/css/offcanvas.css');
     }
 
@@ -37,16 +36,23 @@ class Navbar_Vertical extends \Waboot\Component{
 	}
 
 	public function display_tpl(){
-		$wrapper = new \WBF\components\mvc\HTMLView($this->theme_relative_path."/templates/navbar_wrapper.php");
-		$content = (new \WBF\components\mvc\HTMLView($this->theme_relative_path."/templates/navbar_content.php"))->clean()->get([
-			'show_mobile_nav' => Waboot\functions\get_option('mobilenav_style') == "offcavas",
-			'display_searchbar' => Waboot\functions\get_option("display_search_bar_in_header") == 1
-		]);
         $header_layout = "navbar_vertical";
-		$wrapper->clean()->display([
-			"navbar_class" => $header_layout ? "nav-".$header_layout : "nav",
-			'content' => $content,
-		]);
+
+        $vWrapper = new \WBF\components\mvc\HTMLView($this->theme_relative_path."/templates/navbar_wrapper.php");
+        $vNavbar = new \WBF\components\mvc\HTMLView($this->theme_relative_path."/templates/navbar_content.php");
+        $vOffcanvas = new \WBF\components\mvc\HTMLView($this->theme_relative_path."/templates/navbar_offcanvas.php");
+
+        $vWrapper->clean()->display([
+			"navbar_class" => $header_layout,
+
+            "navbar_content" => $vNavbar->get([
+                "offcanvas" => Waboot\functions\get_option("navbarvertical_mobilestyle") == "offcanvas",
+                "display_searchbar" => Waboot\functions\get_option("navbarvertical_searchbar"),
+                "navbar_offcanvas" => $vOffcanvas->get([
+                    "display_searchbar" => Waboot\functions\get_option("navbarvertical_searchbar"),
+                ])
+            ])
+        ]);
 	}
 
 	public function register_options() {
@@ -59,11 +65,11 @@ class Navbar_Vertical extends \Waboot\Component{
 
 		$orgzr->add_section("navigation",_x("Navigation","Theme options section","waboot"));
 
-		$orgzr->update('mobilenav_style',[
+		$orgzr->update('navbarvertical_mobilestyle',[
 			'name' => __( 'Mobile Nav Style', 'waboot' ),
 			'desc' => __( 'Select your mobile nav style' ,'waboot' ),
-			'id'   => 'mobilenav_style',
-			'std' => 'offcanvas',
+			'id'   => 'navbarvertical_mobilestyle',
+			'std' => 'inline',
 			'type' => 'images',
 			'options' => array(
 				'inline' => array(
@@ -77,10 +83,10 @@ class Navbar_Vertical extends \Waboot\Component{
 			)
 		],"navigation");
 
-		$orgzr->update('search_bar',[
+		$orgzr->update('navbarvertical_searchbar',[
 			'name' => __( 'Show search bar in Header?', 'waboot' ),
 			'desc' => __( 'Default is enabled. Uncheck this box to turn it off.', 'waboot' ),
-			'id'   => 'display_search_bar_in_header',
+			'id'   => 'navbarvertical_searchbar',
 			'std'  => '0',
 			'type' => 'checkbox'
 		],'navigation');

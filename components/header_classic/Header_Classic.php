@@ -15,7 +15,8 @@ class Header_Classic extends \Waboot\Component{
 	 */
 	public function setup(){
 		parent::setup();
-	}
+        add_filter("waboot/navigation/main/class",[$this,"set_main_navigation_classes"]);
+    }
 
     public function styles(){
         parent::styles();
@@ -50,26 +51,24 @@ class Header_Classic extends \Waboot\Component{
     }
 	
 	public function display_tpl(){
-		$v = new \WBF\components\mvc\HTMLView($this->theme_relative_path."/templates/header-wrapper.php");
-
+        $vWrapper = new \WBF\components\mvc\HTMLView($this->theme_relative_path."/templates/header-wrapper.php");
         $vHeader = new \WBF\components\mvc\HTMLView($this->theme_relative_path."/templates/header-content.php");
         $vNavbar = new \WBF\components\mvc\HTMLView($this->theme_relative_path."/templates/navbar-content.php");
-        $vOffcanvas = new \WBF\components\mvc\HTMLView($this->theme_relative_path."/templates/navbar-offcanvas.php");
-        
-        $v->clean()->display([
+        $vOffcanvas = new \WBF\components\mvc\HTMLView($this->theme_relative_path."/templates/navbar_offcanvas.php");
+
+        $vWrapper->clean()->display([
             "header_width" => Waboot\functions\get_option("headerclassic_header_width"),
             "navbar_width" => Waboot\functions\get_option("headerclassic_nav_width"),
             "header_content" => $vHeader->get([
                 "logo_position" => Waboot\functions\get_option("headerclassic_logo_position"),
             ]),
 			"navbar_content" => $vNavbar->get([
-                "nav_align" => Waboot\functions\get_option("headerclassic_nav_align"),
                 "offcanvas" => Waboot\functions\get_option("headerclassic_nav_mobilestyle") == "offcanvas",
                 "display_searchbar" => Waboot\functions\get_option("headerclassic_nav_searchbar"),
                 "navbar_offcanvas" => $vOffcanvas->get([
                     "display_searchbar" => Waboot\functions\get_option("headerclassic_nav_searchbar"),
-                    "logo_mobile" => Waboot\functions\get_option("mobile_logo"),
-                    "logo_offcanvas" => Waboot\functions\get_option("show_offcanvas_logo"),
+                    "logo_offcanvas" => Waboot\functions\get_option("headerclassic_offcanvas_logo"),
+                    "logo_offcanvas_show" => Waboot\functions\get_option("headerclassic_show_offcanvas_logo") && Waboot\functions\get_option("headerclassic_offcanvas_logo") != '',
                 ])
             ])
 		]);
@@ -82,7 +81,7 @@ class Header_Classic extends \Waboot\Component{
 		$imagepath = get_template_directory_uri()."/assets/images/options/";
 
 		$orgzr->set_group($this->name."_component");
-        
+
         $orgzr->add_section("header",_x("Header","Theme options section","waboot"));
         $orgzr->add_section("navigation",_x("Navigation","Theme options section","waboot"));
 
@@ -160,7 +159,7 @@ class Header_Classic extends \Waboot\Component{
             'name' => __( 'Navbar Mobile Style', 'waboot' ),
             'desc' => __( 'Select your mobile nav style' ,'waboot' ),
             'id'   => 'headerclassic_nav_mobilestyle',
-            'std' => 'offcanvas',
+            'std' => 'inline',
             'type' => 'images',
             'options' => array(
                 'inline' => array(
@@ -174,18 +173,18 @@ class Header_Classic extends \Waboot\Component{
             )
         ],"navigation");
 
-        $orgzr->update('show_offcanvas_logo',[
+        $orgzr->update('headerclassic_show_offcanvas_logo',[
             'name' => __( 'Show Logo in Offcanvas Mobile Nav?', 'waboot' ),
             'desc' => __( 'Choose the visibility of site logo in mobile navigation.', 'waboot' ),
-            'id'   => 'show_offcanvas_logo',
+            'id'   => 'headerclassic_show_offcanvas_logo',
             'std'  => '1',
             'type' => 'checkbox'
         ],"navigation");
 
-        $orgzr->update('offcanvas_logo',[
+        $orgzr->update('headerclassic_offcanvas_logo',[
             'name' => __( 'Mobile Offcanvas logo', 'waboot' ),
             'desc' => __( 'Choose the logo to display in mobile offcanvas navigation bar', 'waboot' ),
-            'id'   => 'offcanvas_logo',
+            'id'   => 'headerclassic_offcanvas_logo',
             'std'  => '',
             'type' => 'upload'
         ],"navigation");
@@ -193,4 +192,25 @@ class Header_Classic extends \Waboot\Component{
 		$orgzr->reset_group();
 		$orgzr->reset_section();
 	}
+
+
+    /*
+     *
+     * CUSTOM HOOKS
+     *
+     */
+
+    /**
+     * Set the classes to the main navigation
+     * @param $class
+     * @return mixed
+     */
+    public function set_main_navigation_classes($class){
+        $classes = [$class,"nav"];
+        $options = \Waboot\functions\get_option('navbar_align');
+        if(is_array($options) && !empty($options)){
+            $classes = array_merge($classes,$options);
+        }
+        return implode(' ', $classes);
+    }
 }

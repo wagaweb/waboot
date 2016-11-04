@@ -31,7 +31,7 @@
 		'theme_location' => 'main',
 		'depth' => 0,
 		'container' => false,
-        'menu_class' => apply_filters('waboot/navigation/main/class', 'nav navbar-nav'),
+		'menu_class' => apply_filters('waboot/navigation/main/class', 'nav navbar-nav'),
         'walker' => new \WBF\components\navwalker\Bootstrap_NavWalker(),
 		'fallback_cb' => 'waboot_nav_menu_fallback'
 	]); 

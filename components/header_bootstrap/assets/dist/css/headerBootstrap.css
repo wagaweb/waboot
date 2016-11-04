@@ -33,4 +33,10 @@
     margin-right: 0;
 }
 
+@media only screen and (max-width: 991px) {
+    .main-navigation .navbar-toggle {
+        padding: 10px 0px;
+    }
+}
+
 /* End Navbar */

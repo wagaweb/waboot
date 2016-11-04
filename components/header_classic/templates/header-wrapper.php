@@ -5,9 +5,9 @@
 </div>
 
 <div id="navbar-wrapper" class="navbar-wrapper">
-    <div id="navbar-inner" class="<?php echo $navbar_width; ?>">
+    <div id="navbar-inner" class="navbar-inner <?php echo $navbar_width; ?>">
         <nav class="navbar navbar-default main-navigation" role="navigation">
             <?php echo $navbar_content; ?>
         </nav>
     </div>
-</div><!-- #navbar-wrapper -->
+</div>

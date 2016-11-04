@@ -20,7 +20,7 @@ class Header_Bootstrap extends \Waboot\Component{
 
     public function styles(){
         parent::styles();
-        Waboot()->add_inline_style('header_bootstrap_style', $this->directory_uri . '/assets/css/headerBootstrap.css');
+        Waboot()->add_inline_style('header_bootstrap_style', $this->directory_uri . '/assets/dist/css/headerBootstrap.css');
         Waboot()->add_inline_style('offcanvas_style', $this->directory_uri . '/assets/dist/css/offcanvas.css');
     }
 
@@ -37,33 +37,26 @@ class Header_Bootstrap extends \Waboot\Component{
 	}
 
 	public function display_tpl(){
-		$wrapper = new \WBF\components\mvc\HTMLView($this->theme_relative_path."/templates/header_wrapper.php");
-		$content = (new \WBF\components\mvc\HTMLView($this->theme_relative_path."/templates/header_content.php"))->clean()->get([
-			'show_mobile_nav' => Waboot\functions\get_option('mobilenav_style') == "offcavas",
-			'display_searchbar' => Waboot\functions\get_option("display_search_bar_in_header") == 1
-		]);
-		$header_layout = "header_bootstrap";
-		$wrapper->clean()->display([
-			"navbar_width" => Waboot\functions\get_option("navbar_width"),
-			"navbar_class" => $header_layout ? "nav-".$header_layout : "nav",
-			'content' => $content,
-		]);
-	}
+        $header_layout = "header_bootstrap";
 
-	/**
-	 * Set the classes to the main navigation
-	 *
-	 * @param $class
-	 *
-	 * @return mixed
-	 */
-	public function set_main_navigation_classes($class){
-		$classes = [$class,"nav"];
-		$options = \Waboot\functions\get_option('navbar_align');
-		if(is_array($options) && !empty($options)){
-			$classes = array_merge($classes,$options);
-		}
-		return implode(' ', $classes);
+        $vWrapper = new \WBF\components\mvc\HTMLView($this->theme_relative_path."/templates/header_wrapper.php");
+        $vNavbar = new \WBF\components\mvc\HTMLView($this->theme_relative_path."/templates/navbar_content.php");
+        $vOffcanvas = new \WBF\components\mvc\HTMLView($this->theme_relative_path."/templates/navbar_offcanvas.php");
+
+        $vWrapper->clean()->display([
+            "header_class" => $header_layout,
+            "header_width" => Waboot\functions\get_option("headerbotstrap_width"),
+
+            "navbar_content" => $vNavbar->get([
+                "offcanvas" => Waboot\functions\get_option("headerbotstrap_nav_mobilestyle") == "offcanvas",
+                "display_searchbar" => Waboot\functions\get_option("headerbotstrap_nav_searchbar"),
+                "navbar_offcanvas" => $vOffcanvas->get([
+                    "display_searchbar" => Waboot\functions\get_option("headerbotstrap_nav_searchbar"),
+                    "logo_offcanvas" => Waboot\functions\get_option("headerbotstrap_offcanvas_logo"),
+                    "logo_offcanvas_show" => Waboot\functions\get_option("headerbotstrap_show_offcanvas_logo") && Waboot\functions\get_option("headerbotstrap_offcanvas_logo") != '',
+                ])
+            ])
+        ]);
 	}
 
 	public function register_options() {
@@ -76,11 +69,49 @@ class Header_Bootstrap extends \Waboot\Component{
 
 		$orgzr->add_section("header",_x("Header","Theme options section","waboot"));
 
-		$orgzr->update('mobilenav_style',[
+        $orgzr->update("headerbotstrap_width", [
+            'name' => __( 'Header', 'waboot' ),
+            'desc' => __( 'Select header width. Fluid or Boxed?', 'waboot' ),
+            'id' => 'headerbotstrap_width',
+            'std' => 'container',
+            'type' => 'images',
+            'options' => array(
+                'container-fluid' => array (
+                    'label' => 'Fluid',
+                    'value' => $imagepath . 'layout/header-fluid.png'
+                ),
+                'container' => array (
+                    'label' => 'Boxed',
+                    'value' => $imagepath . 'layout/header-boxed.png'
+                )
+            )
+        ],'header');
+
+        $orgzr->update("headerbotstrap_nav_align", [
+            'name' => __( 'Navbar Align', 'waboot' ),
+            'desc' => __( 'Select navbar align. Left or Right?', 'waboot' ),
+            'id' => 'headerbotstrap_nav_align',
+            'std' => 'left',
+            'type' => 'select',
+            'options' => [
+                'left' => 'Left',
+                'right' => 'Right'
+            ]
+        ],'header');
+
+        $orgzr->update('headerbotstrap_nav_searchbar',[
+            'name' => __( 'Show search bar in Header?', 'waboot' ),
+            'desc' => __( 'Default is enabled. Uncheck this box to turn it off.', 'waboot' ),
+            'id'   => 'headerbotstrap_nav_searchbar',
+            'std'  => '0',
+            'type' => 'checkbox'
+        ],'header');
+
+		$orgzr->update('headerbotstrap_nav_mobilestyle',[
 			'name' => __( 'Mobile Nav Style', 'waboot' ),
 			'desc' => __( 'Select your mobile nav style' ,'waboot' ),
-			'id'   => 'mobilenav_style',
-			'std' => 'offcanvas',
+			'id'   => 'headerbotstrap_nav_mobilestyle',
+			'std' => 'inline',
 			'type' => 'images',
 			'options' => array(
 				'inline' => array(
@@ -94,45 +125,43 @@ class Header_Bootstrap extends \Waboot\Component{
 			)
 		],"header");
 
-		$orgzr->update('search_bar',[
-			'name' => __( 'Show search bar in Header?', 'waboot' ),
-			'desc' => __( 'Default is enabled. Uncheck this box to turn it off.', 'waboot' ),
-			'id'   => 'display_search_bar_in_header',
-			'std'  => '0',
-			'type' => 'checkbox'
-		],'header');
+        $orgzr->update('headerbotstrap_show_offcanvas_logo',[
+            'name' => __( 'Show Logo in Offcanvas Mobile Nav?', 'waboot' ),
+            'desc' => __( 'Choose the visibility of site logo in mobile navigation.', 'waboot' ),
+            'id'   => 'headerbotstrap_show_offcanvas_logo',
+            'std'  => '1',
+            'type' => 'checkbox'
+        ],"navigation");
 
-		$orgzr->update("navbar_width", [
-			'name' => __( 'Navbar', 'waboot' ),
-			'desc' => __( 'Select navbar width. Fluid or Boxed?', 'waboot' ),
-			'id' => 'navbar_width',
-			'std' => 'container',
-			'type' => 'images',
-			'options' => array(
-				'container-fluid' => array (
-					'label' => 'Fluid',
-					'value' => $imagepath . 'layout/header-fluid.png'
-				),
-				'container' => array (
-					'label' => 'Boxed',
-					'value' => $imagepath . 'layout/header-boxed.png'
-				)
-			)
-		],'header');
-
-        $orgzr->update("navbar_align", [
-            'name' => __( 'Navbar Align', 'waboot' ),
-            'desc' => __( 'Select navbar align. Left or Right?', 'waboot' ),
-            'id' => 'navbar_align',
-            'std' => 'left',
-            'type' => 'select',
-            'options' => [
-                'left' => 'Left',
-                'right' => 'Right'
-            ]
-        ],'header');
+        $orgzr->update('headerbotstrap_offcanvas_logo',[
+            'name' => __( 'Mobile Offcanvas logo', 'waboot' ),
+            'desc' => __( 'Choose the logo to display in mobile offcanvas navigation bar', 'waboot' ),
+            'id'   => 'headerbotstrap_offcanvas_logo',
+            'std'  => '',
+            'type' => 'upload'
+        ],"navigation");
 
 		$orgzr->reset_group();
 		$orgzr->reset_section();
 	}
+
+    /*
+     *
+     * CUSTOM HOOKS
+     *
+     */
+
+    /**
+     * Set the classes to the main navigation
+     * @param $class
+     * @return mixed
+     */
+    public function set_main_navigation_classes($class){
+        $classes = [$class,"nav"];
+        $options = \Waboot\functions\get_option('navbar_align');
+        if(is_array($options) && !empty($options)){
+            $classes = array_merge($classes,$options);
+        }
+        return implode(' ', $classes);
+    }
 }

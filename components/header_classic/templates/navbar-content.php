@@ -24,7 +24,6 @@
             \Waboot\template_tags\site_title();
         }?>
     </a>
-
 </div>
 
 <div class="collapse navbar-collapse navbar-main-collapse">
@@ -40,8 +39,8 @@
         'theme_location' => 'main',
         'depth' => 0,
         'container' => false,
-        'menu_class' => apply_filters('waboot/navigation/main/class', 'nav navbar-nav'.' navbar-'.$nav_align),
-        'walker' => class_exists('WabootNavMenuWalker') ? new WabootNavMenuWalker() : "", //todo: includere in Waboot on in wbf?
+        'menu_class' => apply_filters('waboot/navigation/main/class', 'nav navbar-nav'),
+        'walker' => new \WBF\components\navwalker\Bootstrap_NavWalker(),
         'fallback_cb' => 'waboot_nav_menu_fallback'
     ]);
     ?>
