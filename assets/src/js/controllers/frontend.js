@@ -84,7 +84,6 @@ export default class extends Backbone.Model{
         }
         
         if(typeof FS !== "undefined"){
-            debugger;
             FS.FastClick.attach(document.body);
         }
         
