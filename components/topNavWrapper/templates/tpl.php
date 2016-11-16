@@ -2,7 +2,7 @@
 	<div id="topnav-inner" class="<?php echo Waboot\functions\get_option( 'waboot_topnav_width','container-fluid' ); ?> ">
 		<?php if($display_socials): ?>
 			<div class="<?php echo $social_position_class ?>">
-				<?php the_widget('Waboot\inc\widgets\Social'); ?>
+				<?php //the_widget('Waboot\inc\widgets\Social'); ?>
 			</div>
 		<?php endif; ?>
 		<?php if($display_topnav): ?>
