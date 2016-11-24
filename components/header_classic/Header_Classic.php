@@ -206,10 +206,11 @@ class Header_Classic extends \Waboot\Component{
      * @return mixed
      */
     public function set_main_navigation_classes($class){
-        $classes = [$class,"nav"];
-        $options = \Waboot\functions\get_option('navbar_align');
-        if(is_array($options) && !empty($options)){
-            $classes = array_merge($classes,$options);
+        //$classes = [$class,"navbar"];
+        $options = \Waboot\functions\get_option('headerclassic_nav_align');
+        if(isset($options) && !empty($options)){
+            $options = 'navbar-'.$options;
+            $classes = [$class,$options];
         }
         return implode(' ', $classes);
     }
