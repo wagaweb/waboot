@@ -1,4 +1,4 @@
-<div id="footer-classic-wrapper">
+<div id="footer-classic-wrapper" class="footer-classic-wrapper">
 	<div class="footer-classic-inner <?php echo Waboot\functions\get_option('footer_classic_width', 'container'); ?>">
 		<?php
 		// Footer widgets

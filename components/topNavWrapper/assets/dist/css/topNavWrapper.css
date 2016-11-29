@@ -1,0 +1,15 @@
+.topnav-wrapper .navbar{
+    background-color: transparent;
+    margin: 0;
+    border: 0;
+    border-radius: 0;
+}
+.topnav-wrapper >.widget{
+     float: left;
+}
+.topnav-wrapper .widget_search{
+    margin-top: 7px;
+}
+.topnav-wrapper .widget_search label {
+    margin: 0;
+}

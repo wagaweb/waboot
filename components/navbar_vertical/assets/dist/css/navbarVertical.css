@@ -33,6 +33,20 @@
 }
 
 @media (min-width: 992px) {
+
+    .header-wrapper {
+        float: left;
+        width: 25%;
+    }
+    .main-wrapper {
+        float: right;
+        width: 75%;
+        padding: 30px;
+    }
+    .footer-wrapper {
+        clear: both;
+    }
+
     .main-navigation .navbar-header {
         float: none;
     }
@@ -41,6 +55,9 @@
         height: auto;
         display: block;
         padding: 20px 10px;
+    }
+    .main-navigation .navbar-brand img {
+        max-width: 100%;
     }
 }
 
