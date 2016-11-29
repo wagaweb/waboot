@@ -7,17 +7,14 @@ var gulp = require('gulp'),
     jsmin = require('gulp-jsmin'),
     uglify = require('gulp-uglify'),
     sass = require('gulp-sass'),
-    less = require('gulp-less'),
     browserify = require('browserify'),
     source = require('vinyl-source-stream'), //https://www.npmjs.com/package/vinyl-source-stream
     buffer = require('vinyl-buffer'), //https://www.npmjs.com/package/vinyl-buffer
     babelify = require('babelify'),
-    bower = require('gulp-bower'),
     postcss = require('gulp-postcss'),
     autoprefixer = require('autoprefixer'),
     cssnano = require('cssnano'),
     runSequence  = require('run-sequence'),
-    wpPot = require('gulp-wp-pot'),
     sort = require('gulp-sort'),
     merge  = require('merge-stream'),
     path = require('path'); //Required by gulp-less
@@ -27,9 +24,9 @@ var theme_slug = "waboot-child";
 var paths = {
     scripts: ['./assets/src/js/**/*.js'],
     main_js: ['./assets/src/js/main.js'],
-    bundle_js: ['./assets/dist/js/waboot.js'],
-    styles: './assets/src/less/**/*.less',
-    main_style: './assets/src/less/theme.less'
+    bundle_js: ['./assets/dist/js/'+theme_slug+'.js'],
+    styles: './assets/src/sass/**/*.scss',
+    main_style: './assets/src/sass/main.scss'
 };
 
 /**
@@ -43,7 +40,7 @@ gulp.task('compile_css',function(){
 
     var frontend = gulp.src(paths.main_style)
         .pipe(sourcemaps.init())
-        .pipe(less())
+        .pipe(sass())
         .pipe(postcss(processors))
         .pipe(rename(theme_slug+'.min.css'))
         .pipe(sourcemaps.write("."))
@@ -83,34 +80,6 @@ gulp.task('browserify', function(){
 });
 
 /**
- * Make the pot file
- */
-gulp.task('make-pot', function () {
-    return gulp.src(['*.php', 'src/**/*.php'])
-        .pipe(sort())
-        .pipe(wpPot( {
-            domain: theme_slug,
-            destFile: theme_slug+'.pot',
-            team: 'Waga <info@waga.it>'
-        } ))
-        .pipe(gulp.dest('languages/'));
-});
-
-/**
- * Bower vendors Install
- */
-gulp.task('bower-install',function(){
-    return bower();
-});
-
-/**
- * Bower Update
- */
-gulp.task('bower-update',function(){
-    return bower({cmd: 'update'});
-});
-
-/**
  * Runs a build
  */
 gulp.task('setup', function(callback) {
@@ -122,7 +91,7 @@ gulp.task('setup', function(callback) {
  */
 gulp.task('watch', function() {
     gulp.watch(paths.scripts, ['compile_js']);
-    gulp.watch(paths.lesses, ['compile_css']);
+    gulp.watch(paths.styles, ['compile_css']);
 });
 
 /**
