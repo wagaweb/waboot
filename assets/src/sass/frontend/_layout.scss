@@ -1,19 +1,20 @@
 /* Container */
-
-#page{
-  &.container,
-  &.container-fluid{
-    padding: 0 0;
+.site {
+  padding: 0 0;
+  &.container {
+    .container {
+      width: 100%;
+    }
   }
-  .container{
+  .container {
     padding: 0 20px;
   }
-  .container-fluid{
+  .container-fluid {
     padding: 0;
-    .row{
+    .row {
       margin-left: 0;
       margin-right: 0;
-      > .col-sm-12{
+      > .col-sm-12 {
         padding-left: 0;
         padding-right: 0;
       }
@@ -24,55 +25,10 @@
     }
   }
 }
-
 /* End Container */
 
-/* Top Navigation */
-
-#topnav-wrapper{
-  .navbar{
-    background-color: transparent;
-    margin: 0;
-    border: 0;
-    border-radius: 0;
-  }
-  >.widget{
-    float: left;
-  }
-  .wb-social-widget{
-    padding: 13px 0;
-  }
-  .widget_search{
-    margin-top: 7px;
-    label{
-      margin: 0;
-    }
-  }
-}
-
-/* End Top Navigation */
-
-
-/* Banner */
-
-#banner-wrapper{
-  #banner-inner {
-    padding: 0;
-    .widget {
-      margin: 0;
-    }
-  }
-}
-
-/* End Banner */
 
 /* Content */
-
-#content-inner {
-  padding-top: 20px;
-  padding-bottom: 20px;
-}
-
 .breadcrumb-trail {
   padding: 10px 0;
   font-size: 0.9em;
@@ -88,32 +44,10 @@ article {
   margin: 0 0 20px 0;
   padding: 0;
 }
-
 /* End Content */
 
-/* Content Bottom */
-
-#contentbottom-inner {
-  padding-top: 20px;
-  padding-bottom: 20px;
-  .widget {
-    margin: 0;
-  }
-}
-
-/* End Content Bottom */
-
-/* Footer */
-
-#footer-inner {
-  padding-top: 20px;
-  padding-bottom: 20px;
-}
-
-/* End Footer */
 
 /* Closure */
-
 .site-footer {
   padding-top: 20px;
   padding-bottom: 20px;
@@ -134,5 +68,4 @@ article {
     }
   }
 }
-
 /* End Closure */

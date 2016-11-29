@@ -454,7 +454,7 @@ function register_options($orgzr){
 		'std' => 'container',
 		'type' => 'images',
 		'options' => array(
-			'page-fluid' => array (
+			'container-fluid' => array (
 				'label' => 'Fluid',
 				'value' => $imagepath . 'layout/page-fluid.png'
 			),
