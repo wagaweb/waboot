@@ -78,8 +78,13 @@ function waboot_init(){
 /**
  * Returns an instance of Theme
  *
- * @return \Waboot\Theme
+ * @return \Waboot\Theme|WP_Error
  */
 function Waboot(){
-	return \Waboot\Theme::getInstance();
+	if(class_exists("\\Waboot\\Theme")){
+		return \Waboot\Theme::getInstance();
+	}else{
+		trigger_error("Waboot was not initialized. Missing WBF?", E_USER_NOTICE);
+		return new WP_Error("waboot-not-initialized","Waboot was not initialized. Missing WBF?");
+	}
 }
