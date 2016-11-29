@@ -125,7 +125,7 @@ class BootstrapGalleries {
 				</{$captiontag}>";
 			}
 			$output .= "</div>";
-			if($columns == 6)
+			/*if($columns == 6)
 			{
 				if(0 == ($i % 6)){$output .= '<div class="clearfix visible-md visible-lg"></div>'; }
 				if(0 == ($i % 4)){$output .= '<div class="clearfix visible-sm"></div>'; }
@@ -149,7 +149,7 @@ class BootstrapGalleries {
 			{
 				if(0 == ($i % 2)){$output .= '<div class="clearfix invisible-xs"></div>'; }
 			}
-			$i++;
+			$i++;*/
 		}
 		$output .= "
 		</div>\n";
