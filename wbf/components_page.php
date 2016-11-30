@@ -105,7 +105,7 @@ if($last_error): ?>
 						<a href="#">[open]</a>
 					</div>
 					<?php if(\WBF\modules\components\ComponentsManager::is_active($component)): ?>
-					<div class="component-options">
+					<div class="component-options" style="display: none;">
 						<div data-fieldgroup>
 							<h3><?php _e(sprintf("%s Settings",isset($data['Name']) ? $data['Name'] : ucfirst($component->name)),"wbf"); ?></h3>
 							<?php \WBF\modules\options\GUI::print_fields($compiled_components_options[$component->name]); ?>
