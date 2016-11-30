@@ -31,7 +31,7 @@ if($last_error): ?>
 			<!-- Components List -->
 			<?php foreach($registered_components as $component): ?>
 				<?php $data = ComponentFactory::get_component_data( $component->file ); ?>
-				<div id="<?php echo $component->name; ?>" class="component" data-category="<?php echo str_replace(" ","_",strtolower($component->category)); ?>">
+				<div id="<?php echo $component->name; ?>" class="component" data-component="<?php echo $component->name; ?>" data-category="<?php echo str_replace(" ","_",strtolower($component->category)); ?>">
 					<div class="component-preview">
 						<img src="http://placehold.it/135x95">
 					</div>
@@ -101,11 +101,13 @@ if($last_error): ?>
 							</li>
 						</ul>
 					</div>
-					<div data-action="open-details">
+					<?php if(\WBF\modules\components\ComponentsManager::is_active($component)): ?>
+                    <div data-action="open-details">
 						<a href="#">[open]</a>
 					</div>
+					<?php endif; ?>
 					<?php if(\WBF\modules\components\ComponentsManager::is_active($component)): ?>
-					<div class="component-options" style="display: none;">
+					<div class="component-options" style="display: none;" data-component-options>
 						<div data-fieldgroup>
 							<h3><?php _e(sprintf("%s Settings",isset($data['Name']) ? $data['Name'] : ucfirst($component->name)),"wbf"); ?></h3>
 							<?php \WBF\modules\options\GUI::print_fields($compiled_components_options[$component->name]); ?>
