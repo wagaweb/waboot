@@ -1,6 +1,6 @@
 <?php
 
-if(!class_exists("WBF") && !defined('WBTEST_CURRENT_PATH')){
+if(class_exists("WBF")){
 	add_action("init",function(){
 		if(is_admin()) return;
 		_e( "Waboot theme requires WBF Framework to work properly, please install", 'Waboot' );
@@ -10,10 +10,9 @@ if(!class_exists("WBF") && !defined('WBTEST_CURRENT_PATH')){
 		$message = __( "Waboot theme requires WBF Framework to work properly, please install", 'Waboot' );
 		printf( '<div class="%1$s"><p>%2$s</p></div>', $class, $message );
 	});
-	return;
-}else{
-	waboot_init();
 }
+
+waboot_init();
 
 /**
  * Initialize Waboot
@@ -40,6 +39,8 @@ function waboot_init(){
 		require_once $filepath;
 	}
 	unset($file, $filepath);
+
+	if(is_wp_error(Waboot())) return;
 
 	//Init
 	$wb = Waboot()->load_hooks();
