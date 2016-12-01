@@ -9,6 +9,8 @@ Author: WAGA Team <dev@waga.it>
 Author URI: http://www.waga.it
 */
 
+if(!class_exists("\\Waboot\\Component")) return;
+
 require_once( dirname(__FILE__).'/WabootSplittedNavMenuWalker.php');
 
 class Header_Splitted_Menu extends \Waboot\Component{

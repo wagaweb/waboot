@@ -9,6 +9,8 @@ Author: WAGA Team <dev@waga.it>
 Author URI: http://www.waga.it
 */
 
+if(!class_exists("\\Waboot\\Component")) return;
+
 class Header_Bootstrap extends \Waboot\Component{
 	/**
 	 * This method will be executed at Wordpress startup (every page load)
