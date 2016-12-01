@@ -1,5 +1,15 @@
 == Change log ==
 
+Version 2.0.5 - 12/01/2016
+---------------------------------
+- Fix: Misc fixes to components
+- Tweak: Improved Waboot fault resistance in WBF absence
+- Tweak: Child theme refactored
+
+---------------------------------
+---------------------------------
+---------------------------------
+
 Version 2.0.4 - 11/04/2016
 ---------------------------------
 - Feature: added the ability to enqueue inline styles

@@ -9,6 +9,8 @@ Author: WAGA Team <dev@waga.it>
 Author URI: http://www.waga.it
 */
 
+if(!class_exists("\\WBF\\modules\\components\\Component")) return;
+
 class SampleComponent extends \WBF\modules\components\Component{
 
     /**

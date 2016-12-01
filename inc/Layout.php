@@ -99,8 +99,10 @@ class Layout{
 	 * @throws \Exception
 	 */
 	public function set_zone_attr($zone_slug,$zone_attr,$attr_value){
-		$this->check_zone($zone_slug);
-		$this->zones[$zone_slug]['options'][$zone_attr] = $attr_value;
+		try{
+			$this->check_zone($zone_slug);
+			$this->zones[$zone_slug]['options'][$zone_attr] = $attr_value;
+		}catch(\Exception $e){}
 	}
 
 	/**
@@ -111,32 +113,34 @@ class Layout{
 	 * @throws \Exception
 	 */
 	public function render_zone($slug){
-		$this->check_zone($slug);
+		try {
+			$this->check_zone( $slug );
 
-		$zone = $this->zones[$slug];
+			$zone = $this->zones[ $slug ];
 
-		if($zone['options']['always_load'] || !empty($zone['actions'])){ //Render the zone only if need to...
-			$can_render = true;
-			if(isset($zone['options']['can_render_callback']) && is_callable($zone['options']['can_render_callback'])){
-				$can_render = false;
-				$can_render = call_user_func($zone['options']['can_render_callback']);
-			}
-			if($can_render){
-				if(is_string($zone['template'])){
-					get_template_part($zone['template']);
-				}elseif(is_array($zone['template'])){
-					list($template,$part) = $zone['template'];
-					get_template_part($template,$part);
-				}elseif($zone['template'] instanceof View){
-					$zone['template']->clean()->display([
-						"name" => $zone['slug']
-					]);
-				}else{
-					//Here we do not have a template
-					$this->do_zone_action($slug);
+			if ( $zone['options']['always_load'] || ! empty( $zone['actions'] ) ) { //Render the zone only if need to...
+				$can_render = true;
+				if ( isset( $zone['options']['can_render_callback'] ) && is_callable( $zone['options']['can_render_callback'] ) ) {
+					$can_render = false;
+					$can_render = call_user_func( $zone['options']['can_render_callback'] );
+				}
+				if ( $can_render ) {
+					if ( is_string( $zone['template'] ) ) {
+						get_template_part( $zone['template'] );
+					} elseif ( is_array( $zone['template'] ) ) {
+						list( $template, $part ) = $zone['template'];
+						get_template_part( $template, $part );
+					} elseif ( $zone['template'] instanceof View ) {
+						$zone['template']->clean()->display( [
+							"name" => $zone['slug']
+						] );
+					} else {
+						//Here we do not have a template
+						$this->do_zone_action( $slug );
+					}
 				}
 			}
-		}
+		}catch (\Exception $e){}
 	}
 
 	/**
@@ -148,9 +152,13 @@ class Layout{
 	 * @throws \Exception
 	 */
 	public function can_render_zone($slug){
-		$this->check_zone($slug);
-		$zone = $this->zones[$slug];
-		return $zone['options']['always_load'] || !empty($zone['actions']);
+		try{
+			$this->check_zone($slug);
+			$zone = $this->zones[$slug];
+			return $zone['options']['always_load'] || !empty($zone['actions']);
+		}catch (\Exception $e){
+			return false;
+		}
 	}
 
 	/**
@@ -207,16 +215,18 @@ class Layout{
 	 * @throws \Exception
 	 */
 	public function add_zone_action($slug,$function_to_call,$priority = 10,$accepted_args = 1){
-		$this->check_zone($slug);
+		try{
+			$this->check_zone($slug);
 
-		$zone = $this->zones[$slug];
+			$zone = $this->zones[$slug];
 
-		$this->zones[$slug]['actions'][] = [
-			"callable" =>  $function_to_call,
-			"priority" => $priority
-		];
-		
-		add_action($zone['actions_hook'],$function_to_call,$priority,$accepted_args);
+			$this->zones[$slug]['actions'][] = [
+				"callable" =>  $function_to_call,
+				"priority" => $priority
+			];
+
+			add_action($zone['actions_hook'],$function_to_call,$priority,$accepted_args);
+		}catch (\Exception $e){}
 	}
 
 	/**
@@ -227,11 +237,13 @@ class Layout{
 	 * @throws \Exception
 	 */
 	public function do_zone_action($slug){
-		$this->check_zone($slug);
+		try{
+			$this->check_zone($slug);
 
-		$zone = $this->zones[$slug];
-		
-		do_action($zone['actions_hook']);
+			$zone = $this->zones[$slug];
+
+			do_action($zone['actions_hook']);
+		}catch (\Exception $e){}
 	}
 
 	/**

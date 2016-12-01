@@ -9,6 +9,8 @@ Author: WAGA Team <dev@waga.it>
 Author URI: http://www.waga.it
  */
 
+if(!class_exists("\\WBF\\modules\\components\\Component")) return;
+
 class LazyloadComponent extends \WBF\modules\components\Component{
 	public function setup(){
 		parent::setup();

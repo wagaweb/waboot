@@ -9,6 +9,8 @@ Author: WAGA Team <dev@waga.it>
 Author URI: http://www.waga.it
  */
 
+if(!class_exists("\\Waboot\\Component")) return;
+
 class Footer_Classic extends \Waboot\Component {
 
 	var $default_zone = "footer";

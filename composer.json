@@ -1,6 +1,5 @@
 {
     "name": "waga/waboot",
-    "version": "2.0.4",
     "description": "",
     "type": "wordpress-theme",
     "require-dev": {
