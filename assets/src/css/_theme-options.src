@@ -2,6 +2,10 @@
 
 {{ font-assignment: fonts }}
 
+body {
+  background-color: {{ body_bgcolor }};
+}
+
 .page-wrapper {
   background-color: {{ page_bgcolor }};
 }
