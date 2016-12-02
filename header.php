@@ -6,6 +6,7 @@
 ?>
 <?php do_action( 'waboot_head_after' ); ?>
 <body <?php body_class(); ?> >
+    <?php if(function_exists("Waboot")) Waboot()->layout->render_zone("page-before"); ?>
 	<div id="page" class="<?php echo of_get_option( 'page_width','container' ); ?> hfeed site">
 	<!-- BEGIN: header -->
 	<header id="masthead" class="site-header header-wrapper" role="banner" data-zone="header">

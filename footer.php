@@ -8,5 +8,6 @@
 		<!-- END: footer -->
 		<?php wp_footer(); ?>
 	</div><!-- END: page -->
+    <?php if(function_exists("Waboot")) Waboot()->layout->render_zone("page-after"); ?>
 	</body>
 </html>
