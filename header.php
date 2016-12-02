@@ -8,7 +8,7 @@
 <body <?php body_class(); ?> >
     <?php if(function_exists("Waboot")) Waboot()->layout->render_zone("page-before"); ?>
 	<div id="page-wrapper" class="page-wrapper hfeed site">
-		<div id="page" class="page <?php echo of_get_option( 'page_width','container' ); ?>">
+		<div id="page-inner" class="page-inner <?php echo of_get_option( 'page_width','container' ); ?>">
 		<!-- BEGIN: header -->
 		<header id="masthead" class="site-header header-wrapper" role="banner" data-zone="header">
 			<div class="header-inner">
