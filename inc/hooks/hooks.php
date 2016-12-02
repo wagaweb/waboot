@@ -148,6 +148,7 @@ add_filter("theme_page_templates",__NAMESPACE__."\\inject_templates", 999, 3);
  * @return mixed
  */
 function automatically_set_enabled_status_for_components($options,$registered_components){
+    if(!is_array($registered_components)) return $options;
 	foreach($registered_components as $name => $data){
 		if(isset($options[$name."_load_locations_ids"])){
 			$load_locations_by_ids = $options[$name."_load_locations_ids"];
