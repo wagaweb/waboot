@@ -39,6 +39,7 @@ class Woocommerce_Standard extends \WBF\modules\components\Component{
 	    }, 20);
 
 		//Layout altering:
+	    add_filter("waboot/entry/title/display_flag", [$this,"alter_entry_title_visibility"], 10, 2);
 	    add_filter("waboot/layout/body_layout", [$this,"alter_body_layout"], 90);
 	    add_filter("waboot/layout/get_cols_sizes", [$this,"alter_col_sizes"], 90);
 
@@ -208,7 +209,7 @@ class Woocommerce_Standard extends \WBF\modules\components\Component{
 		$orgzr->add(array(
 			'name' => __( 'Display WooCommerce page title', 'waboot' ),
 			'desc' => __( 'Check this box to show page title.', 'waboot' ),
-			'id'   => 'woocommerce_display_title',
+			'id'   => 'woocommerce_archives_display_title',
 			'std'  => '1',
 			'type' => 'checkbox'
 		));
@@ -216,7 +217,7 @@ class Woocommerce_Standard extends \WBF\modules\components\Component{
 		$orgzr->add(array(
 			'name' => __('Title position', 'waboot'),
 			'desc' => __('Select where to display page title', 'waboot'),
-			'id' => 'woocommerce_title_position',
+			'id' => 'woocommerce_archives_title_position',
 			'std' => 'top',
 			'type' => 'select',
 			'options' => array('top' => __("Above primary","waboot"), 'bottom' => __("Below primary","waboot"))
@@ -257,6 +258,36 @@ class Woocommerce_Standard extends \WBF\modules\components\Component{
 
 		$orgzr->reset_group();
 		$orgzr->reset_section();
+	}
+
+	/**
+	 * Adds conditions by title displaying
+	 *
+	 * @param $can_display_title
+	 * @param $current_title_position
+	 *
+	 * @return bool
+	 */
+	public function alter_entry_title_visibility($can_display_title, $current_title_position){
+		switch($current_title_position){
+			//Print entry header INSIDE the entries:
+			case "bottom":
+				if(\is_product_category()){
+					$can_display_title = \Waboot\functions\get_option("woocommerce_archives_title_position") == "bottom" && (bool) \Waboot\functions\get_option("woocommerce_shop_archives_title");
+				}elseif(\is_shop()){
+					$can_display_title = \Waboot\functions\get_option("woocommerce_shop_title_position") == "bottom" && (bool) \Waboot\functions\get_option("woocommerce_shop_display_title");
+				}
+				break;
+			//Print entry header OUTSIDE the single entry:
+			case "top":
+				if(\is_product_category()){
+					$can_display_title = \Waboot\functions\get_option("woocommerce_archives_title_position") == "top" && (bool) \Waboot\functions\get_option("woocommerce_shop_archives_title");
+				}elseif(\is_shop()){
+					$can_display_title = \Waboot\functions\get_option("woocommerce_shop_title_position") == "top" && (bool) \Waboot\functions\get_option("woocommerce_shop_display_title");
+				}
+				break;
+		}
+		return $can_display_title;
 	}
 
 	/**
