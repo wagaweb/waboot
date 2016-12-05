@@ -32,23 +32,22 @@ class Woocommerce_Standard extends \WBF\modules\components\Component{
 	    remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_meta', 40 );
 	    remove_action( 'woocommerce_before_main_content', 'woocommerce_breadcrumb', 20 );
 
-		//Enable the modification of woocommerce product x page
-	    add_filter("loop_shop_per_page",function($cols){
-		    $n = apply_filters("waboot/woocommerce/loop_shop_per_page/cols",of_get_option("woocommerce_products_per_page",$cols));
-		    return (int) $n;
-	    }, 20);
+		//Enable the modification of woocommerce query and loop
+	    add_filter("loop_shop_per_page", [$this,"alter_posts_per_page"], 20);
+	    add_filter("post_class", [$this,"alter_post_class"], 20, 3);
 
 		//Layout altering:
 	    add_filter("waboot/entry/title/display_flag", [$this,"alter_entry_title_visibility"], 10, 2);
 	    add_filter("waboot/layout/body_layout", [$this,"alter_body_layout"], 90);
 	    add_filter("waboot/layout/get_cols_sizes", [$this,"alter_col_sizes"], 90);
+	    add_action('init', [$this,"hidePriceAndCart"], 20);
 
 	    //Behaviors
 	    add_filter("wbf/modules/behaviors/get/primary-sidebar-size", [$this,"primary_sidebar_size_behavior"], 999);
 	    add_filter("wbf/modules/behaviors/get/secondary-sidebar-size", [$this,"secondary_sidebar_size_behavior"], 999);
 
 		// Theme Options
-	    add_action('init', [$this,"hidePriceAndCart"], 20);
+
     }
 
 	/**
@@ -272,6 +271,7 @@ class Woocommerce_Standard extends \WBF\modules\components\Component{
 		switch($current_title_position){
 			//Print entry header INSIDE the entries:
 			case "bottom":
+				//PLEASE NOTE: in reality, we need the "top" condition ONLY. The bottom condition is handled in our archive-product.php
 				if(\is_product_category()){
 					$can_display_title = \Waboot\functions\get_option("woocommerce_archives_title_position") == "bottom" && (bool) \Waboot\functions\get_option("woocommerce_shop_archives_title");
 				}elseif(\is_shop()){
@@ -415,7 +415,47 @@ class Woocommerce_Standard extends \WBF\modules\components\Component{
 	}
 
 	/**
-	 * ??
+	 * Alter product per page
+	 *
+	 * @hooked 'loop_shop_per_page'
+	 *
+	 * @param string|int $posts_per_page
+	 *
+	 * @return int
+	 */
+	public function alter_posts_per_page($posts_per_page){
+		$n = intval(\Waboot\functions\get_option('woocommerce_products_per_page'));
+		if(is_integer($n)){
+			$posts_per_page = $n;
+		}
+		return $posts_per_page;
+	}
+
+	/**
+	 * Alter post class to display a different number or product per row
+	 *
+	 * @param $classes
+	 * @param string $class
+	 * @param string $post_id
+	 *
+	 * @hooked 'post_class'
+	 *
+	 * @return array
+	 */
+	public function alter_post_class($classes,$class = '', $post_id = ''){
+		if ( ! $post_id || 'product' !== get_post_type( $post_id ) ) {
+			return $classes;
+		}
+
+		if(is_admin()) return $classes;
+
+		$classes[] = of_get_option('woocommerce_cat_items', 'col-sm-3');
+
+		return $classes;
+	}
+
+	/**
+	 * Hides prices (in catalog) and add-to-cart button
 	 *
 	 * @hooked 'init'
 	 */
