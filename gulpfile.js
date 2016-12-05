@@ -49,6 +49,8 @@ var paths = {
         "!composer.lock",
         "!bower.json",
         "!Movefile-sample",
+        "!yarn.lock",
+        "!*.log",
         "!{tests,tests/**}",
         "!{vendor,vendor/**}",
         "!{builds,builds/**}",
