@@ -1,5 +1,11 @@
 == Change log ==
 
+Version 2.0.6 - 12/05/2016
+---------------------------------
+- Fix: Now WooCommerce Standard components options work correctly
+- Tweak: Added page-wrapper to templates
+- Tweak: Added "page-before" and "page-after" zones
+
 Version 2.0.5 - 12/01/2016
 ---------------------------------
 - Fix: Misc fixes to components
