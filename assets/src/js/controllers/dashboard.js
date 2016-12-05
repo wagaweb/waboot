@@ -107,8 +107,10 @@ export default class extends Backbone.Model{
             let $components = $("[data-component]"),
                 $my_component = $(this).parents("[data-component]");
 
-            $components.find("[data-component-options]").hide();
-            $my_component.find("[data-component-options]").show();
+            //$components.find("[data-component-options]").hide();
+            //$my_component.find("[data-component-options]").show();
+            $my_component.find("[data-component-options]").slideToggle("slow");
+            $my_component.find("img").toggleClass("active");
         });
     }
 }
