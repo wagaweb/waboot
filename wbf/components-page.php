@@ -31,7 +31,7 @@ use WBF\modules\components\GUI;
                     $data = ComponentFactory::get_component_data( $component->file );
                     $screenshot = file_exists($component->directory."/screenshot.png") ? \WBF\components\utils\Utilities::path_to_url($component->directory)."/screenshot.png" : false;
                 ?>
-				<div id="component-<?php echo $component->name; ?>" class="component" data-component="<?php echo $component->name; ?>" data-category="<?php echo str_replace(" ","_",strtolower($component->category)); ?>">
+				<section id="component-<?php echo $component->name; ?>" class="section-group section-component" data-component="<?php echo $component->name; ?>" data-category="<?php echo str_replace(" ","_",strtolower($component->category)); ?>">
                     <div class="component-inner">
                         <?php if($screenshot): ?>
                         <div class="component-preview">
@@ -121,7 +121,7 @@ use WBF\modules\components\GUI;
 						</div>
 					</div>
 					<?php endif; ?>
-				</div>
+				</section>
 			<?php endforeach;?>
 			<!-- Components List -->
 			<div id="componentframework-submit">
