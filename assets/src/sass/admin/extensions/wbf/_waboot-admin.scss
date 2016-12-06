@@ -80,13 +80,23 @@ Author URI: https://waga.it
 
   .categories-header {
     background-color: #76B5CB;
+    ul {
+      overflow: auto;
+    }
     li {
       display: inline-block;
-      padding: 15px 20px;
+      float: left;
+      padding: 15px 20px 10px;
       margin: 0;
       color: #fff;
       border-right: 1px solid;
-      border-color: rgba(0,0,0,0.15);
+      border-right-color: rgba(0,0,0,0.15);
+      border-bottom: 5px solid;
+      border-bottom-color: rgba(0,0,0,0);
+      cursor: pointer;
+    }
+    li.active {
+      border-bottom-color: rgba(0,0,0,0.15);
     }
   }
 
