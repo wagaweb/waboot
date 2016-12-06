@@ -95,7 +95,7 @@ Author URI: https://waga.it
     padding: 15px;
     .options-group-data {
       margin: 0 -8px;
-      > div {
+      .field-option {
         padding: 0 8px;
         margin-bottom: 15px;
         h4 {
@@ -107,20 +107,19 @@ Author URI: https://waga.it
           margin: 0 0 5px;
         }
       }
+      .full_option {
+        width: 100%;
+        clear: both;
+      }
+      .half_option {
+        width: 50%;
+        float: left;
+      }
     }
     h3 {
       display: none;
     }
-    .full_option {
-      width: 100%;
-      clear: both;
-    }
-    .half_option {
-      width: 50%;
-      float: left;
-    }
   }
-
 }
 
 
