@@ -102,12 +102,15 @@ Author URI: https://waga.it
 
   .options-group {
     background-color: #fff;
-    padding: 15px;
+    overflow: auto;
+    padding: 15px 15px 0;
     .options-group-data {
       margin: 0 -8px;
       .field-option {
         padding: 0 8px;
-        margin-bottom: 15px;
+        margin-bottom: 30px;
+        width: 100%;
+        clear: both;
         h4 {
           margin: 0 0 5px;
         }
@@ -124,6 +127,7 @@ Author URI: https://waga.it
       .half_option {
         width: 50%;
         float: left;
+        clear: none;
       }
     }
     h3 {
@@ -133,8 +137,140 @@ Author URI: https://waga.it
 }
 
 
-/* Checkbox Switch */
-.componentframework-wrapper {
+/* Form Selector Style */
+.admin-wrapper {
+
+  .section-info {
+    width: 100%;
+    clear: both;
+    min-height: 0;
+    margin: 0 0 15px;
+    padding: 10px 7px;
+    background-color: #f7f7f7;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    h4 {
+      font-size: 1.2em;
+      margin: 0px;
+    }
+    p {
+      margin-bottom: 0px;
+    }
+  }
+
+  .field-option {
+    &.field-option-upload {
+      input[type='text'] {
+        width: 50%;
+        display: inline-block;
+      }
+      .of-metabox-desc {
+        display: block;
+        font-size: 0.9em;
+        opacity: 0.7;
+      }
+    }
+    .controls {
+      padding: 0;
+      box-sizing: border-box;
+    }
+    .check-wrapper,
+    .radio-wrapper {
+      display: inline-block;
+      margin: 5px;
+    }
+    .controls .option-wrap {
+      display: inline-block;
+    }
+    .controls .option-wrap span {
+      line-height: 2em;
+      text-transform: capitalize;
+      display: block;
+      background-color: #f9f9f9;
+      margin: 0 10px;
+      text-align: center;
+    }
+    .controls .option-wrap img {
+      margin: 0 10px 0px;
+      max-height: 110px;
+    }
+    .controls img {
+      max-width: 350px;
+      max-height: 250px;
+    }
+    .controls .of-radio-img-selected {
+      border: 3px solid #666;
+    }
+
+    .wp-picker-holder {
+      position: absolute;
+      z-index: 99;
+    }
+
+    .screenshot {
+      margin: 20px 0 0;
+      width: 100%;
+    }
+    .screenshot img {
+      border: 1px solid #ddd;
+    }
+
+    .screenshot .remove-image {
+      display: none;
+    }
+
+    .section-fonts_selector {
+      > .option,
+      > .section {
+        width: 50%;
+        float: left;
+        border: 0;
+      }
+      .option .font-selector {
+        padding: 0;
+        border: 0;
+        > div {
+          margin-top: 20px;
+        }
+        .font-subset-wrap {
+          padding: 10px 0
+        }
+        .font-weight-selector {
+          padding: 15px;
+          background-color: #f7f7f7;
+          .font-weight-selector-preview {
+            overflow: auto;
+            display: block;
+            padding: 0 0 5px 0;
+            margin: 0 0 5px 0;
+            border-bottom: 1px solid #fff;
+            p {
+              margin-top: 0;
+              margin-bottom: 5px;
+            }
+          }
+        }
+      }
+      div[data-font-assign] {
+        > div {
+          margin-bottom: 20px;
+          border-bottom: 1px solid #ddd;
+        }
+        h4 {
+          font-size: 1.2em;
+        }
+        select {
+          width: 100%;
+        }
+        span[data-weight-assigned-list] {
+          padding: 10px 0;
+          display: block;
+        }
+      }
+    }
+  }
+
+
   .wb-onoffswitch {
     position: relative;
     width: 60px;
