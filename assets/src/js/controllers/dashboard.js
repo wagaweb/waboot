@@ -10,6 +10,7 @@ export default class extends Backbone.Model{
         "use strict";
         this.manage_recent_post_widget();
         this.manage_components_page();
+        this.manage_theme_options_page();
     }
     /**
      * RECENT POST WIDGET
@@ -138,6 +139,42 @@ export default class extends Backbone.Model{
                 $components_categories_tabs.removeClass("active");
                 $(this).addClass("active");
                 toggle_components(selected_category);
+            });
+        }
+    }
+    manage_theme_options_page(){
+        "use strict";
+        let $options_page_wrapper = $("#optionsframework-wrapper");
+
+        if($options_page_wrapper.length <= 0){
+            return;
+        }
+
+        //Options tabs
+        let toggle_option_groups = function(category){
+            let $option_groups = $("section[data-category]");
+            $option_groups.each(function (index) {
+                if($(this).is("[data-category='"+category+"']")){
+                    $(this).show();
+                }else{
+                    $(this).hide();
+                }
+            });
+        };
+        let $options_categories_tabs = $("li[data-category]");
+
+        //Activate the first category
+        let first_category = $($options_categories_tabs[0]).data("category");
+        $($options_categories_tabs[0]).addClass("active");
+        toggle_option_groups(first_category);
+
+        if($options_categories_tabs.length > 0){
+            $options_categories_tabs.on("click",function(e){
+                e.preventDefault();
+                let selected_category = $(this).data("category");
+                $options_categories_tabs.removeClass("active");
+                $(this).addClass("active");
+                toggle_option_groups(selected_category);
             });
         }
     }
