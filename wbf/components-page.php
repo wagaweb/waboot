@@ -2,21 +2,7 @@
 use WBF\modules\components\GUI;
 ?>
 
-<div class="waboot-header">
-    <div class="waboot-header-inner">
-        <div class="waboot-header-logo">
-            <img src="<?php echo get_template_directory_uri(); ?>/assets/images/waboot-marchio.png" />
-        </div>
-        <div class="waboot-header-nav">
-            <ul>
-                <li><a href="/wp-admin/admin.php?page=wbf_options">Theme Options</a></li>
-                <li class="active"><a href="/wp-admin/admin.php?page=wbf_components">Components</a></li>
-                <!--<li><a href="#">Plugins</a></li>-->
-                <li><a href="/wp-admin/admin.php?page=wbf_status">WBF Status</a></li>
-            </ul>
-        </div>
-    </div>
-</div>
+<?php require_once get_template_directory() . '/wbf/admin-header.php'; ?>
 
 <?php if($last_error) : ?>
 	<div class="error">
@@ -36,7 +22,7 @@ use WBF\modules\components\GUI;
 	</div>
 <?php return; endif; ?>
 
-<div id="componentframework-wrapper" class="componentframework-wrapper wrap" data-components-gui>
+<div id="componentframework-wrapper" class="componentframework-wrapper admin-wrapper wrap" data-components-gui>
 	<div class="categories-header">
 		<ul>
 			<?php foreach($categorized_registered_components as $category => $components): ?>
@@ -117,11 +103,11 @@ use WBF\modules\components\GUI;
 
                             <div class="wb-onoffswitch">
                                 <?php if(!\WBF\modules\components\ComponentsManager::is_active($component)): ?>
-                                    <input type="checkbox" name="<?php echo $component->name; ?>_status" class="wb-onoffswitch-checkbox" id="<?php echo $component->name; ?>_status">
+                                    <input type="checkbox" name="components_status[<?php echo $component->name; ?>]" class="wb-onoffswitch-checkbox" id="components_status[<?php echo $component->name; ?>]">
                                 <?php else: ?>
-                                    <input type="checkbox" name="<?php echo $component->name; ?>_status" class="wb-onoffswitch-checkbox" id="<?php echo $component->name; ?>_status" checked>
+                                    <input type="checkbox" name="components_status[<?php echo $component->name; ?>]" class="wb-onoffswitch-checkbox" id="components_status[<?php echo $component->name; ?>]" checked>
                                 <?php endif; ?>
-                                <label class="wb-onoffswitch-label" for="<?php echo $component->name; ?>_status">
+                                <label class="wb-onoffswitch-label" for="components_status[<?php echo $component->name; ?>]">
                                     <span class="wb-onoffswitch-inner"></span>
                                     <span class="wb-onoffswitch-switch"></span>
                                 </label>
