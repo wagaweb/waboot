@@ -38,7 +38,7 @@ use WBF\modules\components\GUI;
                     $data = ComponentFactory::get_component_data( $component->file );
                     $screenshot = file_exists($component->directory."/screenshot.png") ? \WBF\components\utils\Utilities::path_to_url($component->directory)."/screenshot.png" : false;
                 ?>
-				<div id="<?php echo $component->name; ?>" class="component" data-component="<?php echo $component->name; ?>" data-category="<?php echo str_replace(" ","_",strtolower($component->category)); ?>">
+				<div id="component-<?php echo $component->name; ?>" class="component" data-component="<?php echo $component->name; ?>" data-category="<?php echo str_replace(" ","_",strtolower($component->category)); ?>">
                     <div class="component-inner">
                         <?php if($screenshot): ?>
                         <div class="component-preview">
@@ -121,8 +121,8 @@ use WBF\modules\components\GUI;
                         <?php endif; ?>
                     </div>
 					<?php if(\WBF\modules\components\ComponentsManager::is_active($component)): ?>
-					<div class="component-options" style="display: none;" data-component-options>
-						<div data-fieldgroup>
+					<div class="options-group" style="display: none;" data-component-options>
+						<div class="options-group-data" data-fieldgroup>
 							<h3><?php _e(sprintf("%s Settings",isset($data['Name']) ? $data['Name'] : ucfirst($component->name)),"wbf"); ?></h3>
 							<?php \WBF\modules\options\GUI::print_fields($compiled_components_options[$component->name]); ?>
 						</div>
@@ -130,7 +130,7 @@ use WBF\modules\components\GUI;
 					<?php endif; ?>
 				</div>
 			<?php endforeach;?>
-			<!-- /Components List -->
+			<!-- Components List -->
 			<div id="componentframework-submit">
 				<input type="submit" name="submit-components-options" id="submit" class="button button-primary" value="Save Changes">
 				<input type="submit" class="reset-button button-secondary" name="restore_defaults_components" value="<?php esc_attr_e( 'Restore default component status', 'wbf' ); ?>" onclick="return confirm( '<?php print esc_js( __( 'Click OK to restore defaults. Any theme settings will be lost!', 'wbf' ) ); ?>' );" />
