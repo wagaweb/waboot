@@ -112,5 +112,33 @@ export default class extends Backbone.Model{
             $my_component.find("[data-component-options]").slideToggle("slow");
             $my_component.find("img").toggleClass("active");
         });
+
+        //Components tabs
+        let toggle_components = function(category){
+            let $component_blocks = $("[data-component]");
+            $component_blocks.each(function (index) {
+                if($(this).is("[data-category='"+category+"']")){
+                    $(this).show();
+                }else{
+                    $(this).hide();
+                }
+            });
+        };
+        let $components_categories_tabs = $("li[data-category]");
+
+        //Activate the first category
+        let first_category = $($components_categories_tabs[0]).data("category");
+        $($components_categories_tabs[0]).addClass("active");
+        toggle_components(first_category);
+
+        if($components_categories_tabs.length > 0){
+            $components_categories_tabs.on("click",function(e){
+                e.preventDefault();
+                let selected_category = $(this).data("category");
+                $components_categories_tabs.removeClass("active");
+                $(this).addClass("active");
+                toggle_components(selected_category);
+            });
+        }
     }
 }
