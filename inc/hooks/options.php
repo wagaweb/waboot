@@ -231,6 +231,7 @@ function register_options($orgzr){
 	$orgzr->add(array(
 		'name' => _x('Text color', 'Theme options', 'waboot'),
 		'desc' => _x('Change the color of html, body, p, ul, li', 'Theme options', 'waboot'),
+        'class' => 'half_option',
 		'id' => 'btstrp_text_color',
 		'std' => "#333333",
 		'type' => 'color',
@@ -240,6 +241,7 @@ function register_options($orgzr){
 	$orgzr->add(array(
 		'name' => _x('Title color', 'Theme options', 'waboot'),
 		'desc' => _x('Change the color of h1, h2, h3, h4, h5, h6', 'Theme options', 'waboot'),
+        'class' => 'half_option',
 		'id' => 'btstrp_title_color',
 		'std' => "#333333",
 		'type' => 'color',
@@ -249,6 +251,7 @@ function register_options($orgzr){
 	$orgzr->add(array(
 		'name' => _x('Primary color', 'Theme options', 'waboot'),
 		'desc' => _x('Change the color of @brand-primary.', 'Theme options', 'waboot'),
+        'class' => 'half_option',
 		'id' => 'btstrp_brand_primary',
 		'std' => "#428bca",
 		'type' => 'color',
@@ -258,6 +261,7 @@ function register_options($orgzr){
     $orgzr->add(array(
         'name' => _x('Success color', 'Theme options', 'waboot'),
         'desc' => _x('Change the color of @brand-success.', 'Theme options', 'waboot'),
+        'class' => 'half_option',
         'id' => 'btstrp_brand_success',
         'std' => "#5cb85c",
         'type' => 'color',
@@ -267,6 +271,7 @@ function register_options($orgzr){
 	$orgzr->add(array(
 		'name' => _x('Info color', 'Theme options', 'waboot'),
 		'desc' => _x('Change the color of @brand-info.', 'Theme options', 'waboot'),
+        'class' => 'half_option',
 		'id' => 'btstrp_brand_info',
 		'std' => "#5bc0de",
 		'type' => 'color',
@@ -276,6 +281,7 @@ function register_options($orgzr){
 	$orgzr->add(array(
 		'name' => _x('Warning color', 'Theme options', 'waboot'),
 		'desc' => _x('Change the color of @brand-warning.', 'Theme options', 'waboot'),
+        'class' => 'half_option',
 		'id' => 'btstrp_brand_warning',
 		'std' => "#f0ad4e",
 		'type' => 'color',
@@ -285,15 +291,27 @@ function register_options($orgzr){
 	$orgzr->add(array(
 		'name' => _x('Danger color', 'Theme options', 'waboot'),
 		'desc' => _x('Change the color of @brand-danger.', 'Theme options', 'waboot'),
+        'class' => 'half_option',
 		'id' => 'btstrp_brand_danger',
 		'std' => "#d9534f",
 		'type' => 'color',
 		'save_action' => "\\Waboot\\functions\\deploy_theme_options_css"
 	));
 
+    $orgzr->add(array(
+        'name' => _x('Well background', "Theme Options", 'waboot'),
+        'desc' => _x('Change the color of @well-bg.', "Theme Options", 'waboot'),
+        'class' => 'half_option',
+        'id' => 'btstrp_well_bg',
+        'std' => "#f5f5f5",
+        'type' => 'color',
+        'save_action' => "\\Waboot\\functions\\deploy_theme_options_css"
+    ));
+
 	$orgzr->add(array(
 		'name' => _x('Border radius base', 'Theme options', 'waboot'),
 		'desc' => _x('Change the width in pixel of @border-radius-base.', 'Theme options', 'waboot'),
+        'class' => 'half_option',
 		'id' => 'btstrp_border_radius_base',
 		'std' => "4",
 		'type' => 'text',
@@ -303,6 +321,7 @@ function register_options($orgzr){
 	$orgzr->add(array(
 		'name' => _x('Border radius large', 'Theme options', 'waboot'),
 		'desc' => _x('Change the width in pixel of @border-radius-large.', 'Theme options', 'waboot'),
+        'class' => 'half_option',
 		'id' => 'btstrp_border_radius_lg',
 		'std' => "6",
 		'type' => 'text',
@@ -312,18 +331,10 @@ function register_options($orgzr){
 	$orgzr->add(array(
 		'name' => _x('Border radius small', 'Theme options', 'waboot'),
 		'desc' => _x('Change the width in pixel of @border-radius-small.', 'Theme options', 'waboot'),
+        'class' => 'half_option',
 		'id' => 'btstrp_border_radius_sm',
 		'std' => "3",
 		'type' => 'text',
-		'save_action' => "\\Waboot\\functions\\deploy_theme_options_css"
-	));
-
-	$orgzr->add(array(
-		'name' => _x('Well background', "Theme Options", 'waboot'),
-		'desc' => _x('Change the color of @well-bg.', "Theme Options", 'waboot'),
-		'id' => 'btstrp_well_bg',
-		'std' => "#f5f5f5",
-		'type' => 'color',
 		'save_action' => "\\Waboot\\functions\\deploy_theme_options_css"
 	));
 
