@@ -199,3 +199,34 @@ function automatically_set_enabled_status_for_component_on_activate(Component $c
     }
 }
 add_action("wbf/modules/components/on_activate", __NAMESPACE__."\\automatically_set_enabled_status_for_component_on_activate");
+
+/**
+ * Sort components categories
+ */
+function sort_components_categories($categories){
+    if(array_key_exists('Layout',$categories)){
+        $categories['Layout'] = 0;
+    }
+    return $categories;
+}
+add_filter("wbf/modules/components/categories_weights", __NAMESPACE__."\\sort_components_categories");
+
+/**
+ * Adds custom classes to components default options fields
+ *
+ * @param $options
+ * @param $component
+ *
+ * @return mixed
+ */
+function add_classes_to_component_default_options($options,$component){
+    foreach ($options as $k => $v){
+        if(isset($options[$k]['class'])){
+            $options[$k]['class'] = $options[$k]['class'] . " full_option";
+        }else{
+	        $options[$k]['class'] = "full_option";
+        }
+    }
+    return $options;
+}
+add_filter("wbf/modules/components/component/default_options",__NAMESPACE__ ."\\add_classes_to_component_default_options",10,2);
