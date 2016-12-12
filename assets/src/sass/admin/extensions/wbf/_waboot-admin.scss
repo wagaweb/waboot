@@ -111,6 +111,7 @@ Author URI: https://waga.it
         margin-bottom: 30px;
         width: 100%;
         clear: both;
+        overflow: auto;
         h4 {
           margin: 0 0 5px;
         }
@@ -219,10 +220,11 @@ Author URI: https://waga.it
       display: none;
     }
 
-    .section-fonts_selector {
+    &.field-option-fonts_selector {
       > .option,
       > .section {
         width: 50%;
+        padding: 0 8px;
         float: left;
         border: 0;
       }
@@ -258,9 +260,6 @@ Author URI: https://waga.it
         }
         h4 {
           font-size: 1.2em;
-        }
-        select {
-          width: 100%;
         }
         span[data-weight-assigned-list] {
           padding: 10px 0;
