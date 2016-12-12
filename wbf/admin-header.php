@@ -2,7 +2,7 @@
     <div class="waboot-header-inner">
         <div class="waboot-header-logo">
             <img src="<?php echo get_template_directory_uri(); ?>/assets/images/waboot-marchio.png" />
-            <?php // echo esc_html( $menu['page_title'] ); ?>
+            <?php if(isset($page_title)) echo $page_title; ?>
         </div>
         <div class="waboot-header-nav">
             <ul>
