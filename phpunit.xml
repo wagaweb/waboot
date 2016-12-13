@@ -1,0 +1,16 @@
+<phpunit
+        bootstrap="tests/bootstrap.php"
+        backupGlobals="false"
+        colors="true"
+>
+    <testsuites>
+        <testsuite name="Waboot Core Test Suite">
+            <directory suffix=".php">tests/waboot</directory>
+            <file phpVersion="5.3.0" phpVersionOperator=">=">tests/waboot/LayoutTest.php</file>
+            <file phpVersion="5.3.0" phpVersionOperator=">=">tests/waboot/ThemeTest.php</file>
+        </testsuite>
+    </testsuites>
+    <logging>
+        <log type="junit" target="builds/logs/junit-core.xml" logIncompleteSkipped="false"/>
+    </logging>
+</phpunit>

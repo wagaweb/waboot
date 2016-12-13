@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 // Extra post classes
 $classes = array();
-$classes[] = of_get_option('waboot_woocommerce_cat_items', 'col-sm-3');
+$classes[] = of_get_option('woocommerce_cat_items', 'col-sm-3');
 ?>
 <div <?php wc_product_cat_class( $classes, $category ); ?>>
 

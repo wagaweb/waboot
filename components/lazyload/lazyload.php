@@ -1,11 +1,15 @@
 <?php
 /**
 Component Name: Lazyload
-Description: Lazyload component
+Description: Enable Lazyloading on images
+Category: Effects
+Tags: jQuery, Lazyload
 Version: 1.0
 Author: WAGA Team <dev@waga.it>
 Author URI: http://www.waga.it
  */
+
+if(!class_exists("\\WBF\\modules\\components\\Component")) return;
 
 class LazyloadComponent extends \WBF\modules\components\Component{
 	public function setup(){
@@ -36,7 +40,7 @@ class LazyloadComponent extends \WBF\modules\components\Component{
 
 	public function scripts(){
 		//Enqueue scripts
-		wp_register_script('layzr',$this->directory_uri . '/js/vendor/layzr.min.js');
-		wp_enqueue_script('lazyload-component-js',$this->directory_uri . '/js/main.js',['layzr'], false, true);
+		wp_register_script('layzr',$this->directory_uri . '/assets/vendor/layzr.min.js');
+		wp_enqueue_script('lazyload-component-js',$this->directory_uri . '/assets/dist/js/lazyload.js',['layzr'], false, true);
 	}
 }

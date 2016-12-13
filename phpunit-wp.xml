@@ -1,0 +1,15 @@
+<phpunit
+        bootstrap="tests/wordpress/bootstrap-wp.php"
+        backupGlobals="false"
+        colors="true"
+>
+    <testsuites>
+        <testsuite name="Wordpress Waboot Test Suite">
+            <directory suffix=".php">tests/wordpress/tests</directory>
+            <file phpVersion="5.3.0" phpVersionOperator=">=">tests/wordpress/tests/WP_ThemeTest.php</file>
+        </testsuite>
+    </testsuites>
+    <logging>
+        <log type="junit" target="builds/logs/junit-wp.xml" logIncompleteSkipped="false"/>
+    </logging>
+</phpunit>

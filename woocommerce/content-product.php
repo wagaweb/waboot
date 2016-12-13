@@ -18,11 +18,8 @@ if ( ! $product || ! $product->is_visible() ) {
     return;
 }
 
-// Extra post classes
-$classes = array();
-$classes[] = of_get_option('waboot_woocommerce_cat_items', 'col-sm-3');
 ?>
-<div <?php post_class( $classes ); ?>>
+<div <?php post_class(); ?>>
 
     <div class="wb-product-wrapper">
 

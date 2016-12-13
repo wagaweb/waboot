@@ -2,7 +2,22 @@ node_modules/
 bower_components/
 builds/
 npm-debug.log
+yarn.lock
+
+############
+## WP
+############
 Movefile
+languages/*
+!languages/.gitkeep
+
+############
+## VENDORS
+############
+/vendor/
+/assets/vendor
+/assets/dist/fonts/**/*.*
+!/assets/dist/fonts/.gitkeep
 
 ############
 ## WBF TMP FILE
@@ -12,24 +27,15 @@ wbf/options/client-custom.css
 assets/src/less/tmp_*.*
 
 ############
-## SOURCES
-############
-sources/less/theme-options-generated.less
-sources/less/tmp_waboot.less
-
-############
 ## ASSETS
 ############
 assets/cache/*.*
 !assets/cache/.gitkeep
 assets/dist/css/*.css
-assets/css/waboot.css
-assets/css/waboot.css.map
 assets/dist/css/*.map
 assets/src/js/waboot.js
 assets/dist/js/*.js
-assets/dist/fonts/*.*
-assets/fonts/*.*
+assets/dist/js/*.map
 
 ############
 ## CHILD ASSETS
@@ -47,6 +53,7 @@ waboot-child/assets/src/less/theme-options-generated.less
 components/**/node_modules
 components/**/bower_components
 components/**/bundle.js
+components/woocommerce_standard/assets/dist/css/*
 
 ############
 ## IDEs
@@ -99,3 +106,4 @@ temp/
 .svn
 
 *.codekit
+/vendor/

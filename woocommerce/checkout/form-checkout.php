@@ -59,19 +59,15 @@ if ( ! $checkout->enable_signup && ! $checkout->enable_guest_checkout && ! is_us
 
         <div class="<?php echo apply_filters("waboot/woocommerce/layout/checkout/side_col_class","col-sm-4") ?>">
 
-            <div class="woocommerce-checkout-sidebar">
+            <h3 id="order_review_heading"><?php _e( 'Your order', 'woocommerce' ); ?></h3>
 
-                <h3 id="order_review_heading"><?php _e( 'Your order', 'woocommerce' ); ?></h3>
+            <?php do_action( 'woocommerce_checkout_before_order_review' ); ?>
 
-                <?php do_action( 'woocommerce_checkout_before_order_review' ); ?>
-
-                <div id="order_review" class="woocommerce-checkout-review-order">
-                    <?php do_action( 'woocommerce_checkout_order_review' ); ?>
-                </div>
-
-                <?php do_action( 'woocommerce_checkout_after_order_review' ); ?>
-
+            <div id="order_review" class="woocommerce-checkout-review-order">
+                <?php do_action( 'woocommerce_checkout_order_review' ); ?>
             </div>
+
+            <?php do_action( 'woocommerce_checkout_after_order_review' ); ?>
 
         </div>
     </div>

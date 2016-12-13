@@ -20,30 +20,31 @@ get_header( 'shop' ); ?>
          * woocommerce_before_main_content hook
          *
          * @hooked woocommerce_output_content_wrapper - 10 (outputs opening divs for the content)
+         * @hooked Waboot\woocommerce\woocommerce_output_content_wrapper - 10
          * @hooked woocommerce_breadcrumb - 20
          */
         do_action( 'woocommerce_before_main_content' );
     ?>
 
-        <?php if ( apply_filters( 'woocommerce_show_page_title', true ) ) : ?>
+    <?php if ( apply_filters( 'woocommerce_show_page_title', true ) ) : ?>
 
-            <?php if(is_shop()) : ?>
-                <?php if (of_get_option('woocommerce_shop_title_position') == "bottom" && of_get_option('woocommerce_shop_displaytitle') == "1") : ?>
-                    <div class="page-header">
-                        <h1 class="page-title"><?php woocommerce_page_title(); ?></h1>
-                        <?php do_action( 'woocommerce_archive_description' ); ?>
-                    </div>
-                <?php endif; ?>
-            <?php else : ?>
-                <?php if (of_get_option('waboot_woocommerce_title_position') == "bottom" && of_get_option('waboot_woocommerce_displaytitle') == "1") : ?>
-                    <div class="page-header">
-                        <h1 class="page-title"><?php woocommerce_page_title(); ?></h1>
-                        <?php do_action( 'woocommerce_archive_description' ); ?>
-                    </div>
-                <?php endif; ?>
+        <?php if(is_shop()) : ?>
+            <?php if (of_get_option('woocommerce_shop_title_position') == "bottom" && of_get_option('woocommerce_shop_display_title') == "1") : ?>
+                <div class="title-wrapper">
+                    <h1 class="page-title"><?php woocommerce_page_title(); ?></h1>
+                    <?php do_action( 'woocommerce_archive_description' ); ?>
+                </div>
             <?php endif; ?>
-
+        <?php else : ?>
+            <?php if (of_get_option('woocommerce_title_position') == "bottom" && of_get_option('woocommerce_display_title') == "1") : ?>
+                <div class="title-wrapper">
+                    <h1 class="page-title"><?php woocommerce_page_title(); ?></h1>
+                    <?php do_action( 'woocommerce_archive_description' ); ?>
+                </div>
+            <?php endif; ?>
         <?php endif; ?>
+
+    <?php endif; ?>
 
 
     <?php if ( have_posts() ) : ?>
@@ -90,6 +91,7 @@ get_header( 'shop' ); ?>
      * woocommerce_after_main_content hook
      *
      * @hooked woocommerce_output_content_wrapper_end - 10 (outputs closing divs for the content)
+     * @hooked Waboot\woocommerce\woocommerce_output_content_wrapper_end - 10
      */
     do_action( 'woocommerce_after_main_content' );
     ?>

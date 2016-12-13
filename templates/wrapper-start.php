@@ -1,9 +1,17 @@
 <?php
-	$main_wrap_classes = apply_filters( 'waboot_mainwrap_container_class', 'content-area col-sm-8' );
-	if(is_404() || is_attachment()){
-		$main_wrap_classes = "content-area col-sm-12";
-	}
+$main_wrapper_vars = \Waboot\functions\get_main_wrapper_template_vars();
 ?>
-
-<div id="main-wrap" class="<?php echo $main_wrap_classes; ?>">
-	<main id="main" class="site-main" role="main">
+<div id="main-wrapper" class="<?php echo $main_wrapper_vars['classes']; ?>">
+	<div class="main-inner">
+		<?php
+		/*
+		 * main-top zone
+		 */
+		Waboot()->layout->render_zone("main-top");
+		?>
+		<?php do_action("waboot/site-main/before"); ?>
+		<div class="<?php \Waboot\template_tags\container_classes(); ?>">
+			<div class="row">
+				<main id="main" role="main" class="<?php \Waboot\template_tags\main_classes(); ?>" data-zone="<?php echo $name ?>">
+						<div class="content-inner">
+							<?php do_action("waboot/main/before"); ?>

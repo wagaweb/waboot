@@ -1,42 +1,24 @@
-module.exports = Backbone.Model.extend({
-    initialize: function() {
+import * as Backbone from "backbone";
+import $ from "jquery";
+
+export default class extends Backbone.Model{
+    initialize(){
         "use strict";
-        console.log("It'admin time!");
         this.do_stuff();
-    },
-    do_stuff: function(){
+    }
+    do_stuff(){
         "use strict";
-        var $ = jQuery,
-            $mailtable = $("#waboot-received-mails-view"),
-            $recent_posts_widget_pt_selector = $("#widgets-right [data-wbrw-post-type-selector]");
-        /**
-         * Init received mails viewerr
-         */
-        if($mailtable.length > 0){
-            var MailListView = require("../views/mailList.js"),
-                MailListModel = require("./mailList.js"),
-                MailWindow = new MailListView({
-                    model: new MailListModel({
-                        emails_data: (function(){
-                            if(!_.isUndefined(wbData.contactForm.mails)){
-                                return jQuery.parseJSON(wbData.contactForm.mails);
-                            }else{
-                                return [];
-                            }
-                        })()
-                    }),
-                    el: $mailtable
-                });
-        }
+        var $recent_posts_widget_pt_selector = $("#widgets-right [data-wbrw-post-type-selector]");
+        
         /**
          * RECENT POST WIDGET
          */
         if($recent_posts_widget_pt_selector.length > 0){
-            var get_checkboxes_status = function($container){
+            let get_checkboxes_status = function($container){
                 //Get the state of all checkboxes
-                var $checkboxes = $container.find("input[type=checkbox]"),
+                let $checkboxes = $container.find("input[type=checkbox]"),
                     states = [];
-                $checkboxes.each(function(){
+                $checkboxes.each(() => {
                     states.push({
                         name: $(this).attr("value"),
                         checked: $(this).is(":checked") ? 1 : 0
@@ -45,7 +27,7 @@ module.exports = Backbone.Model.extend({
                 return states;
             };
 
-            var make_term_request = function(data){
+            let make_term_request = function(data){
                 return $.ajax(wbData.ajaxurl,{
                     data: data,
                     dataType: "json",
@@ -102,4 +84,4 @@ module.exports = Backbone.Model.extend({
             });
         }
     }
-});
+}

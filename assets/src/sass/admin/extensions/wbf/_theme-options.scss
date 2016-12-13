@@ -1,0 +1,65 @@
+/*!
+Custom style for Theme Options panel
+Version: 1.0
+Author: Waga
+Author URI: https://waga.it
+*/
+
+/* General rules */
+
+.optionsframework-wrap {
+
+  .nav-tab-wrapper{
+    .layout_heading-tab {
+      background-image: url("#{$theme_options_img_dir}/icons/layout-icon.svg") !important;
+    }
+    .backgrounds_heading-tab {
+      background-image: url("#{$theme_options_img_dir}/icons/backgrounds-icon.svg") !important;
+    }
+    .style_heading-tab {
+      background-image: url("#{$theme_options_img_dir}/icons/style-icon.svg") !important;
+    }
+    .typography_heading-tab {
+      background-image: url("#{$theme_options_img_dir}/icons/typography-icon.svg") !important;
+    }
+    .topnav_heading-tab {
+      background-image: url("#{$theme_options_img_dir}/icons/top-nav-icon.svg") !important;
+    }
+    .header_heading-tab {
+      background-image: url("#{$theme_options_img_dir}/icons/header-icon.svg") !important;
+    }
+    .footer_heading-tab {
+      background-image: url("#{$theme_options_img_dir}/icons/closure-icon.svg") !important;
+    }
+    .blog_heading-tab {
+      background-image: url("#{$theme_options_img_dir}/icons/blog-icon.svg") !important;
+    }
+    .behaviors_heading-tab {
+      background-image: url("#{$theme_options_img_dir}/icons/behaviour-icon.svg") !important;
+    }
+    .woocommerce_heading-tab {
+      background-image: url("#{$theme_options_img_dir}/icons/woocommerce-icon.svg") !important;
+    }
+    .post_meta_heading-tab {
+      background-image: url("#{$theme_options_img_dir}/icons/behaviour-icon.svg") !important;
+    }
+    .contact_form_heading-tab {
+      background-image: url("#{$theme_options_img_dir}/icons/behaviour-icon.svg") !important;
+    }
+    .favicons_heading-tab {
+      background-image: url("#{$theme_options_img_dir}/icons/behaviour-icon.svg") !important;
+    }
+    .social_heading-tab {
+      background-image: url("#{$theme_options_img_dir}/icons/social-icon.svg") !important;
+    }
+    .custom_css_heading-tab {
+      background-image: url("#{$theme_options_img_dir}/icons/custom-css.svg") !important;
+    }
+  }
+
+  .optionsframework .group > h3 {
+    background-position: 97.5% center;
+    background-repeat: no-repeat;
+    background-image: url("#{$theme_options_img_dir}/icons/waboot-icon-64x64-tr.svg");
+  }
+}
