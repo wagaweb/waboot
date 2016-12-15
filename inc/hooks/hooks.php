@@ -207,6 +207,12 @@ function sort_components_categories($categories){
     if(array_key_exists('Layout',$categories)){
         $categories['Layout'] = 0;
     }
+    if(array_key_exists('Effects',$categories)){
+        $categories['Effects'] = 1;
+    }
+    if(array_key_exists('Utilities',$categories)){
+        $categories['Utilities'] = 2;
+    }
     return $categories;
 }
 add_filter("wbf/modules/components/categories_weights", __NAMESPACE__."\\sort_components_categories");
