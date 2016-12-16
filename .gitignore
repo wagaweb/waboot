@@ -36,6 +36,7 @@ assets/dist/css/*.map
 assets/src/js/waboot.js
 assets/dist/js/*.js
 assets/dist/js/*.map
+assets/dist/fonts
 
 ############
 ## CHILD ASSETS
