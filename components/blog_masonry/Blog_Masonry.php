@@ -92,10 +92,10 @@ class Blog_Masonry extends \WBF\modules\components\Component{
 		 * Blog Masonry Tab
 		 */
 
-		$orgzr->add_section( "blog_masonry", _x( "Blog Masonry", "Blog Masonry options tab label", "waboot" ));
+		$orgzr->add_section("blog",__( 'Blog', 'waboot' ));
 
 		$orgzr->add([
-			'name' => _x( 'Width Column',"Blog Masonry Component Option", 'waboot' ),
+			'name' => _x( 'Masonry width column',"Blog Masonry Component Option", 'waboot' ),
 			'desc' => _x( 'This is a sample checkbox.',"Blog Masonry Component Option", 'waboot' ),
 			'id'   => $this->name.'_column_width',
 			'std' => 'col-sm-4',
@@ -104,7 +104,7 @@ class Blog_Masonry extends \WBF\modules\components\Component{
 				'col-sm-4' => 'col-sm-4',
 				'col-sm-3' => 'col-sm-3'
 			)
-		],"blog_masonry");
+		],"blog");
 
 		$orgzr->reset_group();
 		$orgzr->reset_section();
