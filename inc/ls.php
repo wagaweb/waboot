@@ -2,8 +2,10 @@
 
 namespace Waboot;
 
+use WBF\components\customupdater\Theme_Update_Checker;
 use WBF\components\license\License;
 use WBF\components\license\License_Interface;
+use WBF\components\utils\Utilities;
 
 class LS extends License implements License_Interface{
 
@@ -21,6 +23,8 @@ class LS extends License implements License_Interface{
 		add_action("wbf/license_updated", function(){
 			delete_transient("waboot_license_status");
 		});
+		add_filter("wbf/custom_theme_updater/can_update", [$this, "allow_updates"], 10, 2);
+		add_action("wbf/custom_theme_updater/after_update_inject", [$this, "update_available_notice"], 10, 2);
 	}
 
 	/*
@@ -212,6 +216,9 @@ class LS extends License implements License_Interface{
 		return "no-license";
 	}
 
+	/**
+	 * Print license status
+	 */
 	public function print_license_status(){
 		$status = $this->get_license_status();
 		switch($status) {
@@ -236,9 +243,46 @@ class LS extends License implements License_Interface{
 		}
 	}
 
+	/**
+	 * Check if license is valid
+	 *
+	 * @return bool
+	 */
 	public function is_valid(){
 		$status = $this->get_license_status();
 		return $status == "Active";
+	}
+
+	/**
+	 * Allows updating
+	 *
+	 * @param $can_update
+	 *
+	 * @hooked "wbf/custom_theme_updater/can_update"
+	 *
+	 * @return bool
+	 */
+	public function allow_updates($can_update){
+		if($this->is_valid()){
+			$can_update = true;
+		}
+		return $can_update;
+	}
+
+	/**
+	 * Show the update notice
+	 *
+	 * @param Theme_Update_Checker $checker
+	 * @param boolean $can_update
+	 *
+	 * @hooked "wbf/custom_theme_updater/after_update_inject"
+	 */
+	public function update_available_notice(Theme_Update_Checker $checker, $can_update){
+		if(!$can_update){
+			$message = sprintf(__( 'A new version of %s is available! <a href="%s" title="Enter a valid license">Enter a valid license</a> to get latest updates.', 'wbf' ),$this->theme,"admin.php?page=wbf_licenses");
+			$message = apply_filters("wbf/custom_theme_updater/admin_message", $message);
+			WBF()->notice_manager->add_notice($checker->theme."-update",$message,"nag","base",__NAMESPACE__."\\Can_Update","theme_".$checker->theme);
+		}
 	}
 
 	private function __clone() {}
