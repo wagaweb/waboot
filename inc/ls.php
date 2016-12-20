@@ -279,7 +279,7 @@ class LS extends License implements License_Interface{
 	 */
 	public function update_available_notice(Theme_Update_Checker $checker, $can_update){
 		if(!$can_update){
-			$message = sprintf(__( 'A new version of %s is available! <a href="%s" title="Enter a valid license">Enter a valid license</a> to get latest updates.', 'wbf' ),$this->theme,"admin.php?page=wbf_licenses");
+			$message = sprintf(__( 'A new version of %s is available! <a href="%s" title="Enter a valid license">Enter a valid license</a> to get latest updates.', 'wbf' ),$this->nicename,"admin.php?page=wbf_licenses");
 			$message = apply_filters("wbf/custom_theme_updater/admin_message", $message);
 			WBF()->notice_manager->add_notice($checker->theme."-update",$message,"nag","base",__NAMESPACE__."\\Can_Update","theme_".$checker->theme);
 		}
