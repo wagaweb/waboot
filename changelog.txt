@@ -1,5 +1,13 @@
 == Change log ==
 
+Version 2.0.7 - 12/22/2016
+---------------------------------
+- Fix: container and container fluid CSS layout
+- Fix: blog posgt wrapper moved outside the while
+- Fix: fixed headerFixed.css
+- Tweak: license now refactored for new Theme_Updater
+- Tweak: masonry options moved to blog
+
 Version 2.0.6 - 12/05/2016
 ---------------------------------
 - Fix: Now WooCommerce Standard components options work correctly
