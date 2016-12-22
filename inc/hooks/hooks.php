@@ -139,6 +139,41 @@ function inject_templates($page_templates, \WP_Theme $theme, $post){
 }
 add_filter("theme_page_templates",__NAMESPACE__."\\inject_templates", 999, 3);
 
+/**
+ * Automatically set the "_enabled_for_all_pages" value accordingly to load_locations and load_locations_ids when components options are saved or components status are changed
+ *
+ * @param $options
+ * @param $registered_components
+ *
+ * @return mixed
+ */
+function automatically_set_enabled_status_for_components($options,$registered_components){
+    if(!is_array($registered_components)) return $options;
+	foreach($registered_components as $name => $data){
+		if(isset($options[$name."_load_locations_ids"])){
+			$load_locations_by_ids = $options[$name."_load_locations_ids"];
+			$load_locations = isset($options[$name."_load_locations"]) ? $options[$name."_load_locations"] : [];
+			$load_locations = array_filter($load_locations); //remove FALSE elements
+			if($load_locations_by_ids == "" && empty($load_locations)){
+				$options[$name."_enabled_for_all_pages"] = "on";
+			}else{
+				$options[$name."_enabled_for_all_pages"] = "off";
+			}
+		}elseif(isset($_POST['components_status']) && array_key_exists($name,$_POST['components_status']) && $_POST['components_status'][$name] == "on"){
+			$saved_options = Framework::get_saved_options();
+			$load_locations_by_ids = isset($saved_options[$name."_load_locations_ids"]) ? $saved_options[$name."_load_locations_ids"] : "";
+			$load_locations = isset($saved_options[$name."_load_locations"]) ? $saved_options[$name."_load_locations"] : [];
+			$load_locations = array_filter($load_locations); //remove FALSE elements
+			if($load_locations_by_ids == "" && empty($load_locations)){
+				$options[$name."_enabled_for_all_pages"] = "on";
+			}else{
+				$options[$name."_enabled_for_all_pages"] = "off";
+			}
+        }
+	}
+	return $options;
+}
+add_filter("wbf/modules/components/options_sanitization_before_save",__NAMESPACE__."\\automatically_set_enabled_status_for_components", 10, 2);
 
 /**
  * Automatically set the "_enabled_for_all_pages" value accordingly to load_locations and load_locations_ids when a components is activated
@@ -161,36 +196,43 @@ function automatically_set_enabled_status_for_component_on_activate(Component $c
 	    $options_to_update = wp_parse_args($options_to_update,$options);
 
 	    $r = update_option(Framework::get_options_root_id(),$options_to_update);
-
-	    add_filter("wbf/modules/components/options_sanitization_before_save",__NAMESPACE__."\\automatically_set_enabled_status_for_components", 10, 2);
     }
 }
 add_action("wbf/modules/components/on_activate", __NAMESPACE__."\\automatically_set_enabled_status_for_component_on_activate");
 
 /**
- * Automatically set the "_enabled_for_all_pages" value accordingly to load_locations and load_locations_ids when components are activated.
- *
- * Hooked by automatically_set_enabled_status_for_component_on_activate() at "wbf/modules/components/options_sanitization_before_save"
+ * Sort components categories
+ */
+function sort_components_categories($categories){
+    if(array_key_exists('Layout',$categories)){
+        $categories['Layout'] = 0;
+    }
+    if(array_key_exists('Effects',$categories)){
+        $categories['Effects'] = 1;
+    }
+    if(array_key_exists('Utilities',$categories)){
+        $categories['Utilities'] = 2;
+    }
+    return $categories;
+}
+add_filter("wbf/modules/components/categories_weights", __NAMESPACE__."\\sort_components_categories");
+
+/**
+ * Adds custom classes to components default options fields
  *
  * @param $options
- * @param $registered_components
+ * @param $component
  *
  * @return mixed
  */
-function automatically_set_enabled_status_for_components($options,$registered_components){
-	if(!isset($_POST['components_status'])) return $options;
-	foreach($registered_components as $name => $data){
-		if(array_key_exists($name,$_POST['components_status']) && $_POST['components_status'][$name] == "on"){
-			$saved_options = Framework::get_saved_options();
-			$load_locations_by_ids = isset($saved_options[$name."_load_locations_ids"]) ? $saved_options[$name."_load_locations_ids"] : "";
-			$load_locations = isset($saved_options[$name."_load_locations"]) ? $saved_options[$name."_load_locations"] : [];
-			$load_locations = array_filter($load_locations); //remove FALSE elements
-			if($load_locations_by_ids == "" && empty($load_locations)){
-				$options[$name."_enabled_for_all_pages"] = "on";
-			}else{
-				$options[$name."_enabled_for_all_pages"] = "off";
-			}
-		}
-	}
-	return $options;
+function add_classes_to_component_default_options($options,$component){
+    foreach ($options as $k => $v){
+        if(isset($options[$k]['class'])){
+            $options[$k]['class'] = $options[$k]['class'] . " full_option";
+        }else{
+	        $options[$k]['class'] = "full_option";
+        }
+    }
+    return $options;
 }
+add_filter("wbf/modules/components/component/default_options",__NAMESPACE__ ."\\add_classes_to_component_default_options",10,2);

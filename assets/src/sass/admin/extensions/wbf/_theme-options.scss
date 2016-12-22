@@ -7,9 +7,9 @@ Author URI: https://waga.it
 
 /* General rules */
 
-.optionsframework-wrap {
+.optionsframework-wrapper {
 
-  .nav-tab-wrapper{
+  /*.categories-header {
     .layout_heading-tab {
       background-image: url("#{$theme_options_img_dir}/icons/layout-icon.svg") !important;
     }
@@ -55,11 +55,16 @@ Author URI: https://waga.it
     .custom_css_heading-tab {
       background-image: url("#{$theme_options_img_dir}/icons/custom-css.svg") !important;
     }
+  }*/
+
+  .optionsframework-content {
+    .group {
+      background-color: #fff;
+      border: 1px solid #ddd;
+      margin-bottom: 10px;
+      padding: 15px;
+      overflow: auto;
+    }
   }
 
-  .optionsframework .group > h3 {
-    background-position: 97.5% center;
-    background-repeat: no-repeat;
-    background-image: url("#{$theme_options_img_dir}/icons/waboot-icon-64x64-tr.svg");
-  }
 }

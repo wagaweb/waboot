@@ -5,19 +5,88 @@ Author: Waga
 Author URI: https://waga.it
 */
 
-/* General rules */
+.componentframework-wrapper {
 
-#componentframework-wrapper {
-
-  #componentframework .group > h3 {
-    background-position: 97.5% center;
-    background-repeat: no-repeat;
-    background-image: url("#{$theme_options_img_dir}/icons/waboot-icon-64x64-tr.svg");
+  .section-component {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    margin-bottom: 10px;
+    overflow: auto;
   }
-}
 
-#componentframework .group > h3{
-  margin: 0;
-  padding: 1em;
-  background-color: #222;
+  .component-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 7px;
+    > div {
+      padding: 7px;
+    }
+    .component-content {
+      flex-grow: 2;
+      h2 {
+        margin: 0 0 5px;
+      }
+      .component-description p {
+        margin: 0 0 10px;
+      }
+      .author-version {
+        font-size: 0.9em;
+        display: inline-block;
+        margin-right: 15px;
+      }
+      .tags {
+        font-size: 0.9em;
+        display: inline-block;
+        ul {
+          list-style-type: none;
+          display: inline;
+          margin-left: 5px;
+          li {
+            margin-right: 5px;
+            padding: 0 3px;
+            border: 1px solid #ddd;
+            display: inline;
+          }
+        }
+      }
+    }
+    .components-actions {
+      align-self: stretch;
+      display: flex;
+      align-items: center;
+      img {
+        width: 25px;
+      }
+      .wb-onoffswitch {
+        margin: 0 15px;
+      }
+    }
+    .open-details {
+      align-self: stretch;
+      display: flex;
+      align-items: center;
+      border-left: 1px solid #ddd;
+      padding-left: 14px;
+      img {
+        display: none;
+        cursor: pointer;
+      }
+      img.active {
+        display: block;
+      }
+    }
+  }
+
+  .options-group {
+    display: none;
+    border-top: 1px solid #ddd;
+    .enabled_for_all_pages {
+      display: none;
+    }
+    .load_locations .check-wrapper {
+      display: inline-block;
+      width: 19%;
+    }
+  }
 }

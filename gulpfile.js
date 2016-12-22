@@ -242,7 +242,7 @@ gulp.task('build', function(callback) {
  */
 gulp.task('watch', function() {
     gulp.watch(paths.scripts, ['compile_js']);
-    gulp.watch(paths.lesses, ['compile_css']);
+    gulp.watch(paths.scsses, ['compile_css']);
 });
 
 /**

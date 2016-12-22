@@ -8,6 +8,7 @@ $theme_options_img_dir: "../../images/options";
 @import "admin/global";
 
 //Extensions and plugins compatibilities
+@import "admin/extensions/wbf/waboot-admin";
 @import "admin/extensions/wbf/components";
 @import "admin/extensions/wbf/theme-options";
 @import "admin/extensions/wb-contact-form";
