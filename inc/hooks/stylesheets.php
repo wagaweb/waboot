@@ -69,7 +69,7 @@ function admin_styles(){
 	$am = new AssetsManager($assets);
 	$am->enqueue();
 }
-add_action( 'admin_enqueue_scripts', __NAMESPACE__.'\\admin_styles' );
+add_action( 'admin_enqueue_scripts', __NAMESPACE__.'\\admin_styles', 100 );
 
 /**
  * Apply custom stylesheet to the wordpress visual editor.

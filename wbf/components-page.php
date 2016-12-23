@@ -16,14 +16,14 @@ use WBF\modules\components\GUI;
 <?php return; endif; ?>
 
 <div id="componentframework-wrapper" class="componentframework-wrapper admin-wrapper wrap" data-components-gui>
-	<div class="categories-header">
-		<ul>
+    <div class="componentframework-nav" data-nav>
+        <ul>
 			<?php foreach($categorized_registered_components as $category => $components): ?>
 				<li data-category="<?php echo str_replace(" ","_",strtolower($category)); ?>"><?php echo $category?></li>
 			<?php endforeach; ?>
 		</ul>
 	</div>
-	<div id="componentframework-content">
+	<div id="componentframework-content" class="componentframework-content">
 		<form method="post" action="admin.php?page=<?php echo GUI::$wp_menu_slug; ?>">
 			<!-- Components List -->
 			<?php foreach($registered_components as $component): ?>

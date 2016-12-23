@@ -4,8 +4,8 @@
 
     <?php WBF()->notice_manager->show_notices(); ?>
 
-    <div class="categories-header">
-        <!-- Navigation -->
+    <!-- Navigation -->
+    <div class="optionsframework-nav">
         <ul>
             <?php $counter = 0; foreach ($tabs as $value) : ?>
                 <?php
@@ -16,8 +16,8 @@
                 <li data-category="category-<?php echo $counter; ?>"><?php echo esc_html( $value['name'] ); ?></li>
             <?php endforeach; ?>
         </ul>
-        <!-- /Navigation -->
     </div>
+    <!-- /Navigation -->
 
     <div id="optionsframework-content" class="optionsframework-content">
         <?php settings_errors( 'options-framework' ); ?>
