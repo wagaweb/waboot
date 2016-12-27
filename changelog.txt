@@ -1,5 +1,9 @@
 == Change log ==
 
+Version 2.0.8 - 12/27/2016
+---------------------------------
+- Fix: fixes to Theme Options and Components CSS
+
 Version 2.0.7 - 12/22/2016
 ---------------------------------
 - Fix: container and container fluid CSS layout
