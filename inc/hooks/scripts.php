@@ -64,8 +64,8 @@ function enqueue_js() {
 	wp_localize_script( 'waboot', 'wbData', $wpData);
 	wp_enqueue_script( 'waboot');
 }
-add_action('wp_enqueue_scripts', __NAMESPACE__."\\enqueue_js", 90 );
-add_action('admin_enqueue_scripts', __NAMESPACE__."\\enqueue_js", 90);
+add_action('wp_enqueue_scripts', __NAMESPACE__."\\enqueue_js");
+add_action('admin_enqueue_scripts', __NAMESPACE__."\\enqueue_js");
 
 /**
  * Add IE compatibility scripts
