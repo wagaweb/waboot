@@ -24,4 +24,10 @@ Components hook to zones with a specific weight. Components with lowest weight a
  
 You can move around components by edit their render zone and weight through WordPress dashboard.
 
-[...]
+Learn more about [zones]({{ site.baseurl }}/zones) and [components](#).
+
+## No more template overriding
+
+Waboot feature a revisited template hierarchy system which goal is to keep template overriding at minimum.
+
+Learn more about [here](#).
