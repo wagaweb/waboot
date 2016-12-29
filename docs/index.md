@@ -16,12 +16,12 @@ A sample theme child is provided to get you started immediately.
 
 Waboot is based on the concept of **zones** and built through **components**. 
 
-Components are self-contained micro-plugins that implements specific feature (like: breadcrumbs, lazyloading, different types of headers and footers...).
+Components are self-contained micro-plugins that implement specific feature (like: breadcrumbs, lazyloading, different types of headers and footers...).
 
 Zones are layout partials that, by default, are rendered blank (or not rendered at all) unless some component hooks to them. 
 
 Components hook to zones with a specific weight. Components with lowest weight are rendered before components with higher weight.
  
-You can move around components by edit render zone and weight through WordPress dashboard.
+You can move around components by edit their render zone and weight through WordPress dashboard.
 
 [...]
