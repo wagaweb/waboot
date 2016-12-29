@@ -14,11 +14,11 @@ A sample theme child is provided to get you started immediately.
 
 ## Key concepts
 
-Waboot is based on the concept of **zones** and built through **components**. 
+Waboot is based on the concept of **zones** and is built through **components**. 
 
 Components are self-contained micro-plugins that implement specific feature (like: breadcrumbs, lazyloading, different types of headers and footers...).
 
-Zones are layout partials that, by default, are rendered blank (or not rendered at all) unless some component hooks to them. 
+Zones are layout partials that, by default, are rendered blank (or not rendered at all) unless some component is attached to them. 
 
 Components hook to zones with a specific weight. Components with lowest weight are rendered before components with higher weight.
  
