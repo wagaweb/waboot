@@ -8,4 +8,6 @@ A sample theme child is provided to get you started immediately.
 
 - Download the precompiled version [here](http://update.waboot.org/resource/get/theme/waboot) or download this repository.
 - Copy `waboot-child` directory into `wb-content/` and rename it accordingly to your project.
-- Follow the readme inside the child theme. 
+- Follow the readme inside the child theme.
+ 
+More documentation is available [here](https://wagaweb.github.io/waboot/).
