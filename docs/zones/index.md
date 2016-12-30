@@ -36,7 +36,7 @@ Create a new zone is easy:
 
 - Render the zone
 
-    To render a zone, you only need to call `Waboot()->layout->render_zone("main-top");` where you want to render it.
+    To render a zone, you only need to call `Waboot()->layout->render_zone(<zone_name>);` where you want to render it.
     
     If a template is assigned to the zone, make sure you included `Waboot()->layout->do_zone_action(<zone_name>);` within the that template.
 
