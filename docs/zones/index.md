@@ -16,7 +16,7 @@ Here you can change the component position (zone) and priority (weight). Like Wo
 
 Waboot feature some predefined zones that can be visualized here:
 
-## Adavanced topics
+## Advanced topics
 
 Under the hood zones are just WordPress actions with standardized names. \Waboot\Layout provides a quick API to them.
 
@@ -24,7 +24,8 @@ Under the hood zones are just WordPress actions with standardized names. \Waboot
 
 Create a new zone is easy:
 
-- Register the zone
+- Register the zone  
+
     ```
     Waboot()->layout->create_zone(string <zone_name>, [\WBF\components\mvc\View|string|FALSE <zone_view>, array <zone_params>]);
     ```
