@@ -6,7 +6,9 @@ Waboot provide flexibility through **zones**. Zones are layout partials to which
 
 Components can be easily moved between zones through WordPress dashboard:
 
-![alt text]({{ site.baseurl/assets/images/zones_01.png }} "Selecting a zone")
+!["Selecting a zone"]({{ site.baseurl/assets/images/zones_01.png }})
+
+
 
 
 
