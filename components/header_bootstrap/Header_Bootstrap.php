@@ -158,12 +158,12 @@ class Header_Bootstrap extends \Waboot\Component{
      * @param $class
      * @return mixed
      */
-    public function set_main_navigation_classes($class){
-        $classes = [$class,"nav"];
-        $options = \Waboot\functions\get_option('navbar_align');
-        if(is_array($options) && !empty($options)){
-            $classes = array_merge($classes,$options);
-        }
-        return implode(' ', $classes);
-    }
+	public function set_main_navigation_classes($class){
+		$options = \Waboot\functions\get_option('headerbotstrap_nav_align');
+		if(isset($options) && !empty($options)){
+			$options = 'navbar-'.$options;
+			$classes = [$class,$options];
+		}
+		return implode(' ', $classes);
+	}
 }
