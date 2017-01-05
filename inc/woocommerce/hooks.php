@@ -47,7 +47,7 @@ function wrapper_end() {
  */
 function set_main_wrapper_classes($classes){
 	if(\is_shop()){
-		$new_classes = apply_filters( 'waboot/woocommerce/layout/main/classes', ['content-area','col-sm-8']);
+		$new_classes = apply_filters( 'waboot/woocommerce/layout/main/classes', ['shop-content']);
 		foreach ($new_classes as $c){
 			$classes[] = $c;
 		}
