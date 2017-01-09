@@ -115,7 +115,7 @@ use WBF\modules\components\GUI;
                     </div>
 					<?php if(\WBF\modules\components\ComponentsManager::is_active($component)): ?>
 					<div class="options-group" style="display: none;" data-component-options>
-						<div class="options-group-data" data-fieldgroup>
+						<div class="options-group-data">
 							<h3><?php _e(sprintf("%s Settings",isset($data['Name']) ? $data['Name'] : ucfirst($component->name)),"wbf"); ?></h3>
 							<?php \WBF\modules\options\GUI::print_fields($compiled_components_options[$component->name]); ?>
 						</div>
