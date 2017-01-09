@@ -374,6 +374,9 @@ function deploy_favicon($option, $old_value, $value){
 	if(!$attachment_id) return;
 
 	//The code below is a slightly adapted version of: wp_ajax_crop_image() for 'site-icon'
+	if(!isset($wp_site_icon)){
+		$wp_site_icon = new \WP_Site_Icon();
+	}
 
 	$attachment_metadata = wp_get_attachment_metadata($attachment_id);
 	$context = "site-icon";
@@ -388,7 +391,15 @@ function deploy_favicon($option, $old_value, $value){
 		'dst_height' => 512
 	];
 	$data = array_map( 'absint', $cropDetails );
+
+	//Waboot S3-Compatibility HACK
+	add_filter("waboot-s3-manager/get_attached_file/must_download",function($must_download,$file,$attachment_id){
+		return true; //This will make wp_crop_image to download the file on get_attached_file()
+	}, 10, 3);
+	//---|
+
 	$cropped = wp_crop_image( $attachment_id, 0, 0, $data['width'], $data['height'], $data['dst_width'], $data['dst_height'] );
+
 	if ( ! $cropped || is_wp_error( $cropped ) ) return;
 
 	/** This filter is documented in wp-admin/custom-header.php */
@@ -398,7 +409,16 @@ function deploy_favicon($option, $old_value, $value){
 
 	// Update the attachment.
 	add_filter( 'intermediate_image_sizes_advanced', array( $wp_site_icon, 'additional_sizes' ) );
+
+	//Waboot S3-Compatibility HACK
+	do_action("waboot-s3-manager/clear_attachment",$attachment_id);
+	add_action("waboot-s3-manager/before_remove_base_image_from_local_fs", function($pathname,$data,$attachment_id,$module){
+		$r = $module->plugin->upload_file($pathname);
+	}, 10, 4);
+	//---|
+
 	$attachment_id = $wp_site_icon->insert_attachment( $object, $cropped );
+
 	remove_filter( 'intermediate_image_sizes_advanced', array( $wp_site_icon, 'additional_sizes' ) );
 
 	// Additional sizes in wp_prepare_attachment_for_js().
