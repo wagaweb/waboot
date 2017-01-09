@@ -61,78 +61,6 @@ function register_options($orgzr){
 		'type' => 'checkbox'
 	]);
 
-	$orgzr->add(array(
-		'name' => __( 'Show content navigation above posts?', 'waboot' ),
-		'desc' => __( 'Displays links to next and previous posts above the current post and above the posts on the index page. Default is hide. Check this box to show content nav above posts.', 'waboot' ),
-        'class' => 'half_option',
-        'id'   => 'show_content_nav_above',
-		'std'  => '0',
-		'type' => 'checkbox'
-	));
-
-	$orgzr->add(array(
-		'name' => __( 'Show content navigation below posts?', 'waboot' ),
-		'desc' => __( 'Displays links to next and previous posts below the current post and below the posts on the index page. Default is show. Uncheck this box to hide content nav above posts.', 'waboot' ),
-        'class' => 'half_option',
-        'id'   => 'show_content_nav_below',
-		'std'  => '1',
-		'type' => 'checkbox'
-	));
-
-	$orgzr->add([
-		'name' => __( 'Show post published date?', 'waboot' ),
-		'desc' => __( 'Displays the date the article was posted. Default is show. Uncheck this box to hide post published date.', 'waboot' ),
-        'class' => 'half_option',
-        'id'   => 'show_post_date',
-		'std'  => '1',
-		'type' => 'checkbox'
-	]);
-
-	$orgzr->add([
-		'name' => __( 'Display published date using relative time format', 'waboot' ),
-		'desc' => __( 'Displays the date the article was posted using relative format (eg: one hour ago). Default is to use absolute format.', 'waboot' ),
-        'class' => 'half_option',
-        'id'   => 'show_post_relative_time',
-		'std'  => '0',
-		'type' => 'checkbox'
-	]);
-
-	$orgzr->add([
-		'name' => __( 'Show post categories?', 'waboot' ),
-		'desc' => __( 'Displays the categories in which a post was published. Default is show. Uncheck this box to hide post categories.', 'waboot' ),
-        'class' => 'half_option',
-        'id'   => 'show_post_categories',
-		'std'  => '1',
-		'type' => 'checkbox'
-	]);
-
-	$orgzr->add([
-		'name' => __( 'Show post tags?', 'waboot' ),
-		'desc' => __( 'Displays the tags attached to a post. Default is show. Uncheck this box to hide post tags.', 'waboot' ),
-        'class' => 'half_option',
-        'id'   => 'show_post_tags',
-		'std'  => '1',
-		'type' => 'checkbox'
-	]);
-
-	$orgzr->add([
-		'name' => __( 'Show post author?', 'waboot' ),
-		'desc' => __( 'Displays the post author. Default is show. Uncheck this box to hide the post author.', 'waboot' ),
-        'class' => 'half_option',
-        'id'   => 'show_post_author',
-		'std'  => '1',
-		'type' => 'checkbox'
-	]);
-
-	$orgzr->add(array(
-		'name' => __( 'Show link to comments?', 'waboot' ),
-		'desc' => __( 'Displays the number of comments and/or a Leave a comment message on posts. Default is show. Uncheck this box to hide.' ,'waboot' ),
-        'class' => 'half_option',
-        'id'   => 'show_post_comments_link',
-		'std'  => '1',
-		'type' => 'checkbox'
-	));
-
 	/*
 	 * BACKGROUNDS
 	 */
@@ -145,22 +73,14 @@ function register_options($orgzr){
 
 	$orgzr->set_group("css_injection");
 
-	$orgzr->add([
-		'name' => _x('Background Page', 'Theme options', 'Theme options', 'waboot'),
-		'desc' => _x('Change the page background color.', 'Theme options', 'waboot'),
-		'id' => 'page_bgcolor',
-		'type' => 'color',
-		'std' => '#ffffff',
-		'save_action' => "\\Waboot\\functions\\deploy_theme_options_css"
-	]);
-
-	$orgzr->add([
-		'name' => _x('Background Content', 'Theme options', 'Theme options', 'waboot'),
-		'desc' => _x('Change the content background color.', 'Theme options', 'waboot'),
-		'id' => 'content_bgcolor',
-		'type' => 'color',
-		'save_action' => "\\Waboot\\functions\\deploy_theme_options_css"
-	]);
+    $orgzr->add([
+        'name' => _x('Body Background Color', 'Theme options', 'waboot'),
+        'desc' => _x('Change the body background color.', 'Theme options', 'waboot'),
+        'id' => 'body_bgcolor',
+        'std' => "#ededed",
+        'type' => 'color',
+        'save_action' => "\\Waboot\\functions\\deploy_theme_options_css"
+    ]);
 	
 	$orgzr->add([
 		'name' => _x( 'Body Background Image', 'Theme options', 'waboot' ),
@@ -168,15 +88,6 @@ function register_options($orgzr){
 		'id' => 'body_bgimage',
 		'std' => '',
 		'type' => 'upload',
-		'save_action' => "\\Waboot\\functions\\deploy_theme_options_css"
-	]);
-
-	$orgzr->add([
-		'name' => _x('Body Background Color', 'Theme options', 'waboot'),
-		'desc' => _x('Change the body background color.', 'Theme options', 'waboot'),
-		'id' => 'body_bgcolor',
-		'std' => "#ededed",
-		'type' => 'color',
 		'save_action' => "\\Waboot\\functions\\deploy_theme_options_css"
 	]);
 
@@ -363,34 +274,6 @@ function register_options($orgzr){
 		'save_action' => "\\Waboot\\functions\\deploy_theme_options_css"
 	]);
 
-	/*$orgzr->add(array(
-		'name' => _x('Primary font (body, p, ul, li)', "Theme Options", "waboot"),
-		'id' => 'typo_primary_font',
-		'std' => array(
-			'family' => 'Source Sans Pro',
-			'style'  => 'regular',
-			'charset' => 'latin',
-			'color'  => '#666666'
-		),
-		'type' => 'typography',
-		'fonts_type' => 'google',
-		'save_action' => "\\Waboot\\functions\\deploy_theme_options_css"
-	));
-
-	$orgzr->add(array(
-		'name' => _x('Secondary font (h1, h2, h3, h4, h5, h6)', 'Theme options', "waboot"),
-		'id' => 'typo_secondary_font',
-		'std' => array(
-			'family' => 'Source Sans Pro',
-			'style'  => 'bold',
-			'charset' => 'latin',
-			'color'  => '#666666'
-		),
-		'type' => 'typography',
-		'fonts_type' => 'google',
-		'save_action' => "\\Waboot\\functions\\deploy_theme_options_css"
-	));*/
-
 	$orgzr->reset_group();
 	$orgzr->set_group("std_options");
 
@@ -403,32 +286,6 @@ function register_options($orgzr){
 		'desc' => _x( 'Settings about typography', 'Theme options', 'waboot' ),
 		'type' => 'info'
 	));
-
-	/*$orgzr->add(array(
-		'name' => _x( 'Icon', 'waboot' ),
-		'desc' => _x( 'Upload a favicon (only .png and .ico files are allowed).', "Theme Options", 'waboot' ),
-		'id' => 'favicon_icon',
-		'std' => '',
-		'type' => 'upload',
-		'readonly' => true,
-		'upload_to' => ABSPATH,
-		'upload_as' => 'favicon',
-		'allowed_extensions' => array("png","ico"),
-		'save_action' => "\\Waboot\\functions\\deploy_favicon"
-	));
-
-	$orgzr->add(array(
-		'name' => _x( 'Apple Touch 120x120 Icon', "Theme Options", 'waboot' ),
-		'desc' => _x( 'Upload a favicon (only .png and .ico files are allowed).', "Theme Options", 'waboot' ),
-		'id' => 'favicon_apple120',
-		'std' => '',
-		'type' => 'upload',
-		'readonly' => true,
-		'upload_to' => ABSPATH,
-		'upload_as' => 'touch-icon-iphone-retina',
-		'allowed_extensions' => array("png","ico"),
-		'save_action' => "\\Waboot\\functions\\deploy_favicon"
-	));*/
 
 	$orgzr->add(array(
 		'name' => _x( 'Favicon (at least 152x152)', "Theme Options", 'waboot' ),
@@ -485,6 +342,23 @@ function register_options($orgzr){
 		)
 	));
 
+    $orgzr->add([
+        'name' => _x('Background Page', 'Theme options', 'Theme options', 'waboot'),
+        'desc' => _x('Change the page background color.', 'Theme options', 'waboot'),
+        'id' => 'page_bgcolor',
+        'type' => 'color',
+        'std' => '#ffffff',
+        'save_action' => "\\Waboot\\functions\\deploy_theme_options_css"
+    ]);
+
+    $orgzr->add([
+        'name' => _x('Background Content', 'Theme options', 'Theme options', 'waboot'),
+        'desc' => _x('Change the content background color.', 'Theme options', 'waboot'),
+        'id' => 'content_bgcolor',
+        'type' => 'color',
+        'save_action' => "\\Waboot\\functions\\deploy_theme_options_css"
+    ]);
+
     /**********************
      * BLOG
      **********************/
@@ -496,6 +370,7 @@ function register_options($orgzr){
     $orgzr->add(array(
         'name' => __( 'Display Blog page title', 'waboot' ),
         'desc' => __( 'Check this box to show blog page title.', 'waboot' ),
+        'class' => 'half_option',
         'id'   => 'blog_display_title',
         'std'  => '1',
         'type' => 'checkbox'
@@ -504,6 +379,7 @@ function register_options($orgzr){
     $orgzr->add(array(
         'name' => __('Blog page title position', 'waboot'),
         'desc' => __('Select where to display page title of blog page', 'waboot'),
+        'class' => 'half_option',
         'id' => 'blog_title_position',
         'std' => 'top',
         'type' => 'select',
@@ -535,6 +411,7 @@ function register_options($orgzr){
 	$orgzr->add(array(
 		'name' => __("Primary Sidebar width","waboot"),
 		'desc' => __("Choose the primary sidebar width","waboot"),
+        'class' => 'half_option',
 		'id' => 'blog_primary_sidebar_size',
 		'std' => '1/4',
 		'type' => "select",
@@ -544,11 +421,84 @@ function register_options($orgzr){
 	$orgzr->add(array(
 		'name' => __("Secondary Sidebar width","waboot"),
 		'desc' => __("Choose the secondary sidebar width","waboot"),
+        'class' => 'half_option',
 		'id' => 'blog_secondary_sidebar_size',
 		'std' => '1/4',
 		'type' => "select",
 		'options' => array("1/2"=>"1/2","1/3"=>"1/3","1/4"=>"1/4","1/6"=>"1/6")
 	));
+
+    $orgzr->add(array(
+        'name' => __( 'Show content navigation above posts?', 'waboot' ),
+        'desc' => __( 'Displays links to next and previous posts above the current post and above the posts on the index page. Default is hide. Check this box to show content nav above posts.', 'waboot' ),
+        'class' => 'half_option',
+        'id'   => 'show_content_nav_above',
+        'std'  => '0',
+        'type' => 'checkbox'
+    ));
+
+    $orgzr->add(array(
+        'name' => __( 'Show content navigation below posts?', 'waboot' ),
+        'desc' => __( 'Displays links to next and previous posts below the current post and below the posts on the index page. Default is show. Uncheck this box to hide content nav above posts.', 'waboot' ),
+        'class' => 'half_option',
+        'id'   => 'show_content_nav_below',
+        'std'  => '1',
+        'type' => 'checkbox'
+    ));
+
+    $orgzr->add([
+        'name' => __( 'Show post published date?', 'waboot' ),
+        'desc' => __( 'Displays the date the article was posted. Default is show. Uncheck this box to hide post published date.', 'waboot' ),
+        'class' => 'half_option',
+        'id'   => 'show_post_date',
+        'std'  => '1',
+        'type' => 'checkbox'
+    ]);
+
+    $orgzr->add([
+        'name' => __( 'Display published date using relative time format', 'waboot' ),
+        'desc' => __( 'Displays the date the article was posted using relative format (eg: one hour ago). Default is to use absolute format.', 'waboot' ),
+        'class' => 'half_option',
+        'id'   => 'show_post_relative_time',
+        'std'  => '0',
+        'type' => 'checkbox'
+    ]);
+
+    $orgzr->add([
+        'name' => __( 'Show post categories?', 'waboot' ),
+        'desc' => __( 'Displays the categories in which a post was published. Default is show. Uncheck this box to hide post categories.', 'waboot' ),
+        'class' => 'half_option',
+        'id'   => 'show_post_categories',
+        'std'  => '1',
+        'type' => 'checkbox'
+    ]);
+
+    $orgzr->add([
+        'name' => __( 'Show post tags?', 'waboot' ),
+        'desc' => __( 'Displays the tags attached to a post. Default is show. Uncheck this box to hide post tags.', 'waboot' ),
+        'class' => 'half_option',
+        'id'   => 'show_post_tags',
+        'std'  => '1',
+        'type' => 'checkbox'
+    ]);
+
+    $orgzr->add([
+        'name' => __( 'Show post author?', 'waboot' ),
+        'desc' => __( 'Displays the post author. Default is show. Uncheck this box to hide the post author.', 'waboot' ),
+        'class' => 'half_option',
+        'id'   => 'show_post_author',
+        'std'  => '1',
+        'type' => 'checkbox'
+    ]);
+
+    $orgzr->add(array(
+        'name' => __( 'Show link to comments?', 'waboot' ),
+        'desc' => __( 'Displays the number of comments and/or a Leave a comment message on posts. Default is show. Uncheck this box to hide.' ,'waboot' ),
+        'class' => 'half_option',
+        'id'   => 'show_post_comments_link',
+        'std'  => '1',
+        'type' => 'checkbox'
+    ));
 
 	$orgzr->reset_group();
 	$orgzr->reset_section();
@@ -571,6 +521,7 @@ function register_behaviors($behaviors){
 		"name" => "show-title",
 		"title" => __("Display page title","waboot"),
 		"desc" => __("Default rendering value for page title","waboot"),
+        'class' => 'half_option',
 		"options" => [
 			[
 				"name" => __("Yes"),
@@ -590,6 +541,7 @@ function register_behaviors($behaviors){
 		"name" => "title-position",
 		"title" => __("Title position","waboot"),
 		"desc" => __("Default title positioning in pages","waboot"),
+        'class' => 'half_option',
 		"type" => "select",
 		"options" => [
 			[
@@ -641,6 +593,7 @@ function register_behaviors($behaviors){
 		'name' => 'primary-sidebar-size',
 		'title' => __("Primary Sidebar width","waboot"),
 		'desc' => __("Choose the primary sidebar width","waboot"),
+        'class' => 'half_option',
 		'type' => "select",
 		'options' => [
 			[
@@ -668,6 +621,7 @@ function register_behaviors($behaviors){
 		'name' => 'secondary-sidebar-size',
 		'title' => __("Secondary Sidebar width","waboot"),
 		'desc' => __("Choose the secondary sidebar width","waboot"),
+        'class' => 'half_option',
 		'type' => "select",
 		'options' => [
 			[

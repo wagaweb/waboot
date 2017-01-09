@@ -42,9 +42,7 @@ Author URI: https://waga.it
   }
 }
 
-
 .admin-wrapper {
-  width: 800px;
   margin: 0 auto;
   padding: 0;
 
@@ -77,6 +75,17 @@ Author URI: https://waga.it
     padding: 10px 7px;
   }
 
+}
+
+@media (min-width: 1200px) {
+  .waboot-header {
+    .waboot-header-inner {
+      width: 960px;
+    }
+  }
+  .admin-wrapper {
+    width: 960px;
+  }
 }
 
 

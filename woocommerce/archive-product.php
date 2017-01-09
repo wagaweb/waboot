@@ -31,14 +31,14 @@ get_header( 'shop' ); ?>
         <?php if(is_shop()) : ?>
             <?php if (of_get_option('woocommerce_shop_title_position') == "bottom" && of_get_option('woocommerce_shop_display_title') == "1") : ?>
                 <div class="title-wrapper">
-                    <h1 class="page-title"><?php woocommerce_page_title(); ?></h1>
+                    <h1 class="page-title entry-title"><?php woocommerce_page_title(); ?></h1>
                     <?php do_action( 'woocommerce_archive_description' ); ?>
                 </div>
             <?php endif; ?>
         <?php else : ?>
             <?php if (of_get_option('woocommerce_title_position') == "bottom" && of_get_option('woocommerce_display_title') == "1") : ?>
                 <div class="title-wrapper">
-                    <h1 class="page-title"><?php woocommerce_page_title(); ?></h1>
+                    <h1 class="page-title entry-title"><?php woocommerce_page_title(); ?></h1>
                     <?php do_action( 'woocommerce_archive_description' ); ?>
                 </div>
             <?php endif; ?>

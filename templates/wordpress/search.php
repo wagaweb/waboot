@@ -1,6 +1,6 @@
 <?php if ( have_posts() ) : ?>
 	<header id="search-results-header" class="page-header">
-		<h1 id="search-results-title" class="page-title"><?php printf( __( 'Search Results for: %s', 'waboot' ), '<span>' . get_search_query() . '</span>' ); ?></h1>
+		<h1 id="search-results-title" class="page-title entry-title"><?php printf( __( 'Search Results for: %s', 'waboot' ), '<span>' . get_search_query() . '</span>' ); ?></h1>
 	</header>
 	<?php \Waboot\template_tags\post_navigation( 'nav-above' ); // display content nav above posts? ?>
 	<?php

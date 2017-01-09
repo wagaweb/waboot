@@ -4,7 +4,7 @@
 		<?php if (of_get_option('waboot_blogpage_title_position') == "bottom" && of_get_option('waboot_blogpage_displaytitle') == "1") : ?>
 			<header class="page-header">
 				<?php if($vars['display_title']): ?>
-					<?php \Waboot\template_tags\wrapped_title('<h1 class="page-title">','</h1>',$vars['page_title']); ?>
+					<?php \Waboot\template_tags\wrapped_title('<h1 class="page-title entry-title">','</h1>',$vars['page_title']); ?>
 				<?php endif; ?>
 				<?php
 				$author_description = get_the_author_meta("description",$post->post_author);
