@@ -447,7 +447,7 @@ class Woocommerce_Standard extends \WBF\modules\components\Component{
 			return $classes;
 		}
 
-		if(is_admin()) return $classes;
+		if(is_admin() || !is_shop()) return $classes;
 
 		$classes[] = of_get_option('woocommerce_cat_items', 'col-sm-3');
 
