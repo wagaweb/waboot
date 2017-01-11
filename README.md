@@ -18,7 +18,7 @@ Components are self-contained micro-plugins that implement specific feature (lik
 
 Zones are layout partials that, by default, are rendered blank (or not rendered at all) unless some component is attached to them. 
 
-Components hook to zones with a specific weight. Components with lowest weight are rendered before components with higher weight.
+Components hook to zones with a specific weight. Components with lower weight are rendered before components with higher weight.
  
 You can move around components by edit their render zone and weight through WordPress dashboard.
 
