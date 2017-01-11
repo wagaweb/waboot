@@ -84,7 +84,19 @@ When a zone is registered, Waboot prepares an action with a name like: "`waboot/
 # Components
 <a href="#components"></a>
 
-Waboot components leverage on
+Waboot components leverage on [WBF Components](https://github.com/wagaweb/wbf/tree/master/src/modules/components) to provide a flexible, multi-purpose environment.
+
+Waboot ships with some default components ready to be used; you can also develop your custom components or install third-party components.
+
+Refer to WBF docs to learn how to develop custom components.
+
+## Usage
+
+You manage components through dashboard.
+
+!["Selecting a zone"](docs/assets/images/components-01.png).
+
+For your convenience defaults components are categorized under three main categories: **Layout**, **Effects** and **Utilities**.
 
 # Template system
 <a href="#template"></a>
