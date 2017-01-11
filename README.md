@@ -92,11 +92,15 @@ Refer to WBF docs to learn how to develop custom components.
 
 ## Usage
 
-You manage components through dashboard.
+You can manage components through dashboard.
 
 !["Selecting a zone"](docs/assets/images/components-01.png).
 
 For your convenience defaults components are categorized under three main categories: **Layout**, **Effects** and **Utilities**.
+
+Each component has specific and layout-related settings. Specific settings (render zone, visibility, weight...) can be customized directly through components UI. 
+
+Theme Options page aggregates and organize layout settings of active components. 
 
 # Template system
 <a href="#template"></a>
