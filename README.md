@@ -47,6 +47,8 @@ Here you can change the component position (zone) and priority (weight). Like Wo
 
 Waboot feature some predefined zones that can be visualized here:
 
+!["Selecting a zone"](docs/assets/images/layout-structure.jpg)
+
 ## Advanced topics
 
 Under the hood zones are just WordPress actions with standardized names. `\Waboot\Layout` provides a quick API to them.
@@ -57,7 +59,7 @@ Create a new zone is easy:
 
 - Register the zone  
 
-    ```
+    ```php
     Waboot()->layout->create_zone(string <zone_name>, [\WBF\components\mvc\View|string|FALSE <zone_view>, array <zone_params>]);
     ```
     
@@ -81,6 +83,8 @@ When a zone is registered, Waboot prepares an action with a name like: "`waboot/
 
 # Components
 <a href="#components"></a>
+
+Waboot components leverage on
 
 # Template system
 <a href="#template"></a>
