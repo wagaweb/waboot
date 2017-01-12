@@ -111,7 +111,7 @@ In particular:
 
 - The first entrance point is the `index.php` file. In classic WordPress this file is used as last resort solution.
 
-    We have did that in order to keep the template files in the folder root at minimum and to avoid to repeat get_header\get_footer\get_sidebar and other wrappers multiple time.
+    We have did that in order to keep the template files in the root folder at minimum and to avoid to repeat get_header\get_footer\get_sidebar and other wrappers multiple time.
     
     `index.php` acts as a router and includes the correct template based on current request.
     
