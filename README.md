@@ -64,9 +64,9 @@ Create a new zone is easy:
     Waboot()->layout->create_zone(string <zone_name>, [\WBF\components\mvc\View|string|FALSE <zone_view>, array <zone_params>]);
     ```
     
-    The only required param is the zone name. Zone name can be any `[a-z-]` string. 
+    The only required param is the zone name. Zone name can be any `[a-z-]+` string. 
     
-    The view (when provided) can be a WBF View or a string. If a string is provided, the template will be retrieved via locate_template.
+    The view (when provided) can be a [WBF View](https://github.com/wagaweb/wbf/tree/master/src/components/mvc) or a string. If a string is provided, the template will be retrieved via `locate_template()`.
 
 - Render the zone
 
@@ -127,7 +127,7 @@ In particular:
     
 - Classic WordPress template files can be found under `templates/wordpress`.
 
-    These templates are stripped of the usual partials (header,footer,sidebar), which are handled by `index.php`.
+    These templates are stripped of the usual header, footer and sidebar includes, which are handled by `index.php`.
         
 - Archive templates can be easily customized in child themes without many `archive-$posttype.php` or `taxonomy-$taxonomy.php` files in root folder.
 
