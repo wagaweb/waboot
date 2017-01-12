@@ -1,7 +1,7 @@
 [Zones](#zones) | [Components](#components) | [Template system](#template) | [Theme Options](#themeoptions)
-<a name="#waboot"></a>
 
 # Waboot Theme
+<a name="#waboot"></a>
 
 Waboot aims to be a general purpose theme focused on development speed and flexibility; plus, it's component-based nature allows developers to use only the features they need and helps them to keep the source organized and easy to maintain.
 
@@ -110,7 +110,7 @@ Theme Options page aggregates and organize layout settings of active components.
 <span style="font-size:smaller"><a href="#waboot">Back to top.</a></span> 
 
 # Template system
-<a name="#template"></a>
+<a name="#template">permalink</a>
 
 With Waboot, we revisited some features of the WordPress template system with the following goals:
 
@@ -147,3 +147,8 @@ In particular:
     Views can be found under: `templates/view-parts`.    
     
 <span style="font-size:smaller"><a href="#waboot">Back to top.</a></span>
+
+#Theme Options
+<a name="#themeoptions">permalink</a>
+
+[...]
