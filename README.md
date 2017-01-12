@@ -105,3 +105,15 @@ Theme Options page aggregates and organize layout settings of active components.
 # Template system
 <a href="#template"></a>
 
+With Waboot, we revisited some features of the WordPress template system with the goal to stay as [KISS](https://en.wikipedia.org/wiki/KISS_principle) as possible.
+ 
+In particular:
+
+- The first entrance point is the `index.php` file. In classic WordPress this file is used as last resort solution.
+
+    We have did that in order to keep the template files in the folder root at minimum and to avoid to repeat get_header\get_footer\get_sidebar and other wrappers multiple time.
+    
+    `index.php` acts as a router and includes the correct template based on current request.
+    
+    We achieved that by rendering here a [zone](#zones) called "content", which has (as primary default hook) a [function](https://github.com/wagaweb/waboot/blob/master/inc/hooks/zones_std_hooks.php) that respond to requests and includes the correct partial.
+
