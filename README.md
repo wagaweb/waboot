@@ -1,5 +1,5 @@
 [Zones](#zones) | [Components](#components) | [Template system](#template) | [Theme Options](#themeoptions)
-<a href="#top"></a>
+<a href="#waboot"></a>
 
 # Waboot Theme
 
@@ -84,7 +84,7 @@ When a zone is registered, Waboot prepares an action with a name like: "`waboot/
 \Waboot()->layout->add_zone_action(<zone_name>,<call_back>);
 ```
 
-<span style="font-size:smaller"><a href="#top">Back to top.</a></span>
+<span style="font-size:smaller"><a href="#waboot">Back to top.</a></span>
 
 # Components
 <a href="#components"></a>
@@ -107,7 +107,7 @@ Each component has specific and layout-related settings. Specific settings (rend
 
 Theme Options page aggregates and organize layout settings of active components.
  
-<span style="font-size:smaller"><a href="#top">Back to top.</a></span> 
+<span style="font-size:smaller"><a href="#waboot">Back to top.</a></span> 
 
 # Template system
 <a href="#template"></a>
@@ -146,4 +146,4 @@ In particular:
 
     Views can be found under: `templates/view-parts`.    
     
-<span style="font-size:smaller"><a href="#top">Back to top.</a></span>
+<span style="font-size:smaller"><a href="#waboot">Back to top.</a></span>
