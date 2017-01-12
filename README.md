@@ -30,7 +30,7 @@ Learn more about [zones](#zones) and [components](#components).
 
 Waboot feature a revisited template hierarchy system which goal is to keep template overriding at minimum.
 
-Learn more about [here](#template).
+Learn more about [here](#template-system).
 
 # Zones
 
