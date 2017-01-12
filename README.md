@@ -1,3 +1,6 @@
+[Zones](#zones) | [Components](#components) | [Template system](#template) | [Theme Options](#themeoptions)
+<a href="#top"></a>
+
 # Waboot Theme
 
 Waboot aims to be a general purpose theme focused on development speed and flexibility; plus, it's component-based nature allows developers to use only the features they need and helps them to keep the source organized and easy to maintain.
@@ -81,6 +84,8 @@ When a zone is registered, Waboot prepares an action with a name like: "`waboot/
 \Waboot()->layout->add_zone_action(<zone_name>,<call_back>);
 ```
 
+<span style="font-size:smaller"><a href="top">Back to top.</a></span>
+
 # Components
 <a href="#components"></a>
 
@@ -100,7 +105,9 @@ For your convenience defaults components are categorized under three main catego
 
 Each component has specific and layout-related settings. Specific settings (render zone, visibility, weight...) can be customized directly through components UI. 
 
-Theme Options page aggregates and organize layout settings of active components. 
+Theme Options page aggregates and organize layout settings of active components.
+ 
+<span style="font-size:smaller"><a href="top">Back to top.</a></span> 
 
 # Template system
 <a href="#template"></a>
@@ -139,4 +146,4 @@ In particular:
 
     Views can be found under: `templates/view-parts`.    
     
-
+<span style="font-size:smaller"><a href="top">Back to top.</a></span>
