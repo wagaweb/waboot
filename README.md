@@ -105,15 +105,38 @@ Theme Options page aggregates and organize layout settings of active components.
 # Template system
 <a href="#template"></a>
 
-With Waboot, we revisited some features of the WordPress template system with the goal to stay as [KISS](https://en.wikipedia.org/wiki/KISS_principle) as possible.
+With Waboot, we revisited some features of the WordPress template system with the following goals:
+
+- To stay as [KISS](https://en.wikipedia.org/wiki/KISS_principle) as possible.
+- To make as much agile as possible the practice of templates overriding in child themes.
+- To adhere to a "Convention over configuration" principle.
  
 In particular:
 
 - The first entrance point is the `index.php` file. In classic WordPress this file is used as last resort solution.
 
-    We have did that in order to keep the template files in the root folder at minimum and to avoid to repeat get_header\get_footer\get_sidebar and other wrappers multiple time.
+    We have did that in order to keep the template files in the root folder at minimum and to avoid the repeating of get_header\get_footer\get_sidebar and layout wrappers among multiple files.
     
-    `index.php` acts as a router and includes the correct template based on current request.
+    `index.php` acts as a router and includes the correct template partial based on current request.
     
     We achieved that by rendering here a [zone](#zones) called "content", which has (as primary default hook) a [function](https://github.com/wagaweb/waboot/blob/master/inc/hooks/zones_std_hooks.php) that respond to requests and includes the correct partial.
+    
+- Classic WordPress template files can be found under `templates/wordpress`.
+
+    These templates are stripped of the usual partials (header,footer,sidebar), that are handled by `index.php`.
+        
+- Archive templates can be easily customized in child themes without many `archive-$posttype.php` or `taxonomy-$taxonomy.php` files in root folder.
+
+    Waboot [`archive.php`](https://github.com/wagaweb/waboot/blob/master/templates/wordpress/archive.php) file automatically includes the right `archive-$posttype.php` or `taxonomy-$taxonomy.php` file under `templates/wordpress/archive` folder.
+    
+- Custom templates (those that are selectable from the dashboard) can be treated as partials as well.
+
+    Waboot automatically recognizes any file called `content-[a-z]+` under `templates/wordpress/parts-tpl` as custom template partial and make it selectable from the dashboard.
+    
+    Then, [`page.php`](https://github.com/wagaweb/waboot/blob/master/templates/wordpress/page.php) automatically includes the partial you selected.
+    
+- We used [WBF Views](https://github.com/wagaweb/wbf/tree/master/src/components/mvc) wherever possible. WBF Views has some advantages over classic `get_template_part()` function.
+
+    Views can be found under: `templates/view-parts`.    
+    
 
