@@ -1,5 +1,5 @@
 [Zones](#zones) | [Components](#components) | [Template system](#template) | [Theme Options](#themeoptions)
-<a href="#waboot"></a>
+<a name="#waboot"></a>
 
 # Waboot Theme
 
@@ -34,7 +34,7 @@ Waboot feature a revisited template hierarchy system which goal is to keep templ
 Learn more about [here](#template).
 
 # Zones
-<a href="#zones"></a>
+<a name="#zones"></a>
 
 Waboot provide flexibility through **zones**. Zones are layout partials to which components can attach. 
 
@@ -87,7 +87,7 @@ When a zone is registered, Waboot prepares an action with a name like: "`waboot/
 <span style="font-size:smaller"><a href="#waboot">Back to top.</a></span>
 
 # Components
-<a href="#components"></a>
+<a name="#components"></a>
 
 Waboot components leverage on [WBF Components](https://github.com/wagaweb/wbf/tree/master/src/modules/components) to provide a flexible, multi-purpose environment.
 
@@ -110,7 +110,7 @@ Theme Options page aggregates and organize layout settings of active components.
 <span style="font-size:smaller"><a href="#waboot">Back to top.</a></span> 
 
 # Template system
-<a href="#template"></a>
+<a name="#template"></a>
 
 With Waboot, we revisited some features of the WordPress template system with the following goals:
 
