@@ -1,7 +1,6 @@
-[Zones](#zones) | [Components](#components) | [Template system](#template) | [Theme Options](#themeoptions)
+[Zones](#zones) | [Components](#components) | [Template system](#template-system) | [Theme Options](#theme-options)
 
 # Waboot Theme
-<a name="#waboot"></a>
 
 Waboot aims to be a general purpose theme focused on development speed and flexibility; plus, it's component-based nature allows developers to use only the features they need and helps them to keep the source organized and easy to maintain.
 
@@ -34,7 +33,6 @@ Waboot feature a revisited template hierarchy system which goal is to keep templ
 Learn more about [here](#template).
 
 # Zones
-<a name="#zones"></a>
 
 Waboot provide flexibility through **zones**. Zones are layout partials to which components can attach. 
 
@@ -84,7 +82,7 @@ When a zone is registered, Waboot prepares an action with a name like: "`waboot/
 \Waboot()->layout->add_zone_action(<zone_name>,<call_back>);
 ```
 
-<span style="font-size:smaller"><a href="#waboot">Back to top.</a></span>
+<span style="font-size:smaller"><a href="#waboot-theme">Back to top.</a></span>
 
 # Components
 <a name="#components"></a>
@@ -107,10 +105,9 @@ Each component has specific and layout-related settings. Specific settings (rend
 
 Theme Options page aggregates and organize layout settings of active components.
  
-<span style="font-size:smaller"><a href="#waboot">Back to top.</a></span> 
+<span style="font-size:smaller"><a href="#waboot-theme">Back to top.</a></span> 
 
 # Template system
-<a name="#template">permalink</a>
 
 With Waboot, we revisited some features of the WordPress template system with the following goals:
 
@@ -146,9 +143,8 @@ In particular:
 
     Views can be found under: `templates/view-parts`.    
     
-<span style="font-size:smaller"><a href="#waboot">Back to top.</a></span>
+<span style="font-size:smaller"><a href="#waboot-theme">Back to top.</a></span>
 
 #Theme Options
-<a name="#themeoptions">permalink</a>
 
 [...]
