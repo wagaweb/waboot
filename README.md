@@ -123,7 +123,7 @@ In particular:
     
 - Classic WordPress template files can be found under `templates/wordpress`.
 
-    These templates are stripped of the usual partials (header,footer,sidebar), that are handled by `index.php`.
+    These templates are stripped of the usual partials (header,footer,sidebar), which are handled by `index.php`.
         
 - Archive templates can be easily customized in child themes without many `archive-$posttype.php` or `taxonomy-$taxonomy.php` files in root folder.
 
