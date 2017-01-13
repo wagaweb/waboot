@@ -34,7 +34,17 @@ Learn more about [here](#template-system).
 
 # Zones
 
-Waboot provide flexibility through **zones**. Zones are layout partials to which components can attach. 
+Waboot provide flexibility through **zones**. Zones are layout partials to which components and widget areas can attach.
+
+Like in WordPress hook system, lower priority components\widget areas are rendered before higher ones.
+
+## Predefined zones
+
+Waboot ships with some predefined zones that can be visualized here:
+
+!["Waboot layout structure"](docs/assets/images/layout-structure.jpg)
+
+**Widget areas** are attached to zones with a default weight of **50**.
 
 ## Zones and components
 
@@ -42,13 +52,9 @@ Components can be easily moved between zones through WordPress dashboard:
 
 !["Selecting a zone"](docs/assets/images/zones_01.png)
 
-Here you can change the component position (zone) and priority (weight). Like WordPress hook system, lower priority components are rendered before higher ones.
+Here you can change the component position (zone) and priority (weight).
 
-## Predefined zones
-
-Waboot feature some predefined zones that can be visualized here:
-
-!["Waboot layout structure"](docs/assets/images/layout-structure.jpg)
+For example, in the case of the Breadcrumb component shown above, you can choose to move it from the header zone to the sidebar primary zone, and fine-tuning its position above or below other components or widget areas.
 
 ## Advanced topics
 
@@ -83,6 +89,10 @@ When a zone is registered, Waboot prepares an action with a name like: "`waboot/
 ```
 
 <span style="font-size:smaller"><a href="#waboot-theme">Back to top.</a></span>
+
+### Zones and widget areas
+
+[...]
 
 # Components
 <a name="#components"></a>
