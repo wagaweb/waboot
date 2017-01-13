@@ -1,4 +1,4 @@
-[Zones](#zones) | [Components](#components) | [Template system](#template-system) | [Theme Options](#theme-options)
+[Zones](#zones) | [Components](#components) | [Template system](#template-system) | [Theme Options](#theme-options) | [Roadmap](#roadmap)
 
 # Waboot Theme
 
@@ -174,4 +174,19 @@ Later, when editing a specific post or page, you can change the default values s
 Refers to [WBF Behaviors module](https://github.com/wagaweb/wbf/tree/master/src/modules/behaviors) to learn more about behaviors and how to implement them.
 
 <span style="font-size:smaller"><a href="#waboot-theme">Back to top.</a></span>
+
+# Roadmap
+
+**v2.0.x**
+
+Bugfix releases and Waboot launch.
+
+**v2.1.x**
+
+- Implementation of tests
+- Full support for customizer
+- Bugfix
+
+<span style="font-size:smaller"><a href="#waboot-theme">Back to top.</a></span>
+
 
