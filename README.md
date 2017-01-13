@@ -48,7 +48,7 @@ Here you can change the component position (zone) and priority (weight). Like Wo
 
 Waboot feature some predefined zones that can be visualized here:
 
-!["Selecting a zone"](docs/assets/images/layout-structure.jpg)
+!["Waboot layout structure"](docs/assets/images/layout-structure.jpg)
 
 ## Advanced topics
 
@@ -97,7 +97,7 @@ Refer to WBF docs to learn how to develop custom components.
 
 You can manage components through dashboard.
 
-!["Components"](docs/assets/images/components-01.png).
+!["Components"](docs/assets/images/components-01.png)
 
 For your convenience defaults components are categorized under three main categories: **Layout**, **Effects** and **Utilities**.
 
@@ -153,13 +153,13 @@ Refers to [WBF Options module](https://github.com/wagaweb/wbf/tree/master/src/mo
 
 Of particular interest is the section denominated "**Posts and Pages**". In this section there are special kind of options called "**Behaviors**". 
 
-!["Behaviors"](docs/assets/images/behaviors-01.png).
+!["Behaviors"](docs/assets/images/behaviors-01.png)
 
 **Behaviors are options that can be customized on post\page basis.** In "Posts and Pages" section you can set their default values relatively to the available post-types.
 
 Later, when editing a specific post or page, you can change the default values specifically for that post, as shown below:
   
-!["Behaviors"](docs/assets/images/behaviors-02.png).
+!["Behaviors"](docs/assets/images/behaviors-02.png)
 
 Refers to [WBF Behaviors module](https://github.com/wagaweb/wbf/tree/master/src/modules/behaviors) to learn more about behaviors and how to implement them.
 
