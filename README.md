@@ -147,7 +147,9 @@ In particular:
 
 #Theme Options
 
-Waboot features many predefined theme options that allow the customization of many aspects of the theme. Child themes can additional enrich these options. Refers to [WBF Options module](https://github.com/wagaweb/wbf/tree/master/src/modules/options) to learn how to implement new options.
+Waboot features many predefined options that allow the customization of many aspects of the theme. Child themes can additional enrich them. 
+
+Refers to [WBF Options module](https://github.com/wagaweb/wbf/tree/master/src/modules/options) to learn how to implement new options.
 
 Of particular interest is the section denominated "**Posts and Pages**". In this section there are special kind of options called "**Behaviors**". 
 
@@ -155,7 +157,7 @@ Of particular interest is the section denominated "**Posts and Pages**". In this
 
 **Behaviors are options that can be customized on post\page basis.** In "Posts and Pages" section you can set their default values relatively to the available post-types.
 
-Later, when editing a specific post or page, it will possible to change the default values specifically for that post, as shown below:
+Later, when editing a specific post or page, you can change the default values specifically for that post, as shown below:
   
 !["Behaviors"](docs/assets/images/behaviors-02.png).
 
