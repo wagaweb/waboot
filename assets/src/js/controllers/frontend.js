@@ -69,9 +69,7 @@ export default class extends Backbone.Model{
      */
     do_mobile_actions(){
         "use strict";
-        let $metaslider = $(".metaslider");
-        //let swipe = require("TouchSwipe");
-        
+
         //http://getbootstrap.com/getting-started/#support
         if (navigator.userAgent.match(/IEMobile\/10\.0/)) {
             let msViewportStyle = document.createElement('style');
@@ -82,29 +80,23 @@ export default class extends Backbone.Model{
             );
             document.querySelector('head').appendChild(msViewportStyle);
         }
-        
+
         if(typeof FS !== "undefined"){
-            FS.FastClick.attach(document.body);
-        }
-        
-        /*
-        $("body").swipe({
-            swipeRight: function(event, direction, distance, duration, fingerCount) {
-                if ($(".navbar-mobile-collapse").css('right') == '0px') {
-                    $('button.navbar-toggle').trigger('click');
-                }
-            },
-            swipeLeft: function(event, direction, distance, duration, fingerCount) {
-                if ($(".navbar-mobile-collapse").css('right') == '0px') {
-                    $('button.navbar-toggle').trigger('click');
-                }
+            //Prepare fastclick-select2 fix
+            //https://github.com/select2/select2/issues/3222
+            //https://github.com/almasaeed2010/AdminLTE/issues/802
+            //https://github.com/select2/select2/issues/3381
+            if(typeof jQuery.fn.select2 !== "undefined"){
+                let $customSelects = $('select'),
+                    $select2_containers = $(".select2-container");
+
+                $customSelects.addClass("needsclick");
+                $select2_containers.find("span").addClass("needsclick");
+                $select2_containers.find("*").addClass("needsclick");
             }
-         });
-         */
-        
-        //Disable for Metaslider
-        if(typeof $metaslider !== "undefined"){
-            $metaslider.addClass("noSwipe");
+
+            //Attach Fastclickl
+            FS.FastClick.attach(document.body);
         }
     }
 }
