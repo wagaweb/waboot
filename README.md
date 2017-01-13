@@ -88,11 +88,11 @@ When a zone is registered, Waboot prepares an action with a name like: "`waboot/
 \Waboot()->layout->add_zone_action(<zone_name>,<call_back>);
 ```
 
-<span style="font-size:smaller"><a href="#waboot-theme">Back to top.</a></span>
-
 ### Zones and widget areas
 
 [...]
+
+<span style="font-size:smaller"><a href="#waboot-theme">Back to top.</a></span>
 
 # Components
 <a name="#components"></a>
@@ -113,7 +113,7 @@ For your convenience defaults components are categorized under three main catego
 
 Each component has specific and layout-related settings. Specific settings (render zone, visibility, weight...) can be customized directly through components UI. 
 
-Theme Options page aggregates and organize layout settings of active components.
+[Theme Options](#theme-options) page aggregates and organize layout settings of active components.
  
 <span style="font-size:smaller"><a href="#waboot-theme">Back to top.</a></span> 
 
