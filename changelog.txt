@@ -1,5 +1,9 @@
 == Change log ==
 
+Version 2.0.10 - 01/09/2017
+---------------------------------
+- Fix: Fixed compatibiliy between select2 and fastclick
+
 Version 2.0.9 - 01/09/2017
 ---------------------------------
 - Fix: removed data-fieldgroup from components page
