@@ -109,10 +109,10 @@ _Standard wordpress sidebar params_ (see, for example, `twentysixteen_widgets_in
 
 - `name`: the widget area name (default to: the slug)
 - `description`: the widget area description (default to empty string)
-- `before_widget`: html to print before the widget area (default to: <div id="%1$s" class="widget %2$s">)
+- `before_widget`: html to print before the widget area (default to: `<div id="%1$s" class="widget %2$s">`)
 - `after_widget`: html to print after the widget area (default to: </div>)
-- `before_title`: html to print before the name (default to: <h3 class="widget-title">)
-- `after_title`: html to print after the name (default to: </h3>)
+- `before_title`: html to print before the name (default to: `<h3 class="widget-title">`)
+- `after_title`: html to print after the name (default to: `</h3>`)
 
 _Custom Waboot params_
 
