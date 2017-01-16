@@ -164,7 +164,7 @@ Each component has specific and layout-related settings. Specific settings (rend
 
 With Waboot, we revisited some features of the WordPress template system with the following goals:
 
-- To stay as [KISS](https://en.wikipedia.org/wiki/KISS_principle) as possible.
+- To stay as [DRY](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself) as possible.
 - To make as much agile as possible the practice of templates overriding in child themes.
 - To adhere to a "Convention over configuration" principle.
  
