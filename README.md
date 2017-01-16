@@ -56,7 +56,7 @@ Here you can change the component position (zone) and priority (weight).
 
 For example, in the case of the Breadcrumb component shown above, you can choose to move it from the header zone to the sidebar primary zone, and fine-tuning its position above or below other components or widget areas.
 
-## Advanced topics
+## Advanced topics on zones
 
 Under the hood zones are just WordPress actions with standardized names. `\Waboot\Layout` provides a quick API to them.
 
@@ -90,7 +90,35 @@ When a zone is registered, Waboot prepares an action with a name like: "`waboot/
 
 ### Zones and widget areas
 
-[...]
+Waboot features an easy way to register new widgets areas, edit the default ones and attach them to zones.
+
+The function [`Waboot\functions\get_widget_areas`](https://github.com/wagaweb/waboot/blob/master/inc/template-functions.php) is called during `widgets_init` by [`Waboot\hooks\widget_areas\register_widget_areas`](https://github.com/wagaweb/waboot/blob/master/inc/hooks/widget_areas.php).
+
+You can edit or add new widgets area through `"waboot/widget_areas/available"` filter.
+
+```php
+add_filter("waboot/widget_areas/available", function($widget_areas){
+    //Edit, add, remove widget areas from $widget_areas array
+    return $widget_areas;
+});
+```
+
+`$widget_areas` is an associative array where the keys are widget area slugs. Every widget area can have a set of params.
+
+_Standard wordpress sidebar params_ (see, for example, `twentysixteen_widgets_init()` in twentysixteen theme):
+
+- `name`: the widget area name (default to: the slug)
+- `description`: the widget area description (default to empty string)
+- `before_widget`: html to print before the widget area (default to: <div id="%1$s" class="widget %2$s">)
+- `after_widget`: html to print after the widget area (default to: </div>)
+- `before_title`: html to print before the name (default to: <h3 class="widget-title">)
+- `after_title`: html to print after the name (default to: </h3>)
+
+_Custom Waboot params_
+
+- `render_zone`: ...
+- `type`: ...
+- `subareas`: ...
 
 <span style="font-size:smaller"><a href="#waboot-theme">Back to top.</a></span>
 
