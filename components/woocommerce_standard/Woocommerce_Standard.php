@@ -447,7 +447,18 @@ class Woocommerce_Standard extends \WBF\modules\components\Component{
 			return $classes;
 		}
 
-		if(is_admin() || !is_shop()) return $classes;
+		global $woocommerce_loop;
+
+		if(is_admin()) return $classes; //skip for admin
+
+		if(is_single()){
+			//skip for single
+			$related = isset($woocommerce_loop['name']) && $woocommerce_loop['name'] == "related";
+
+			if(!isset($woocommerce_loop) || !$related){
+				return $classes; //skip if we are not in related products
+			}
+		}
 
 		$classes[] = of_get_option('woocommerce_cat_items', 'col-sm-3');
 
