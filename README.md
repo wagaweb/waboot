@@ -116,9 +116,16 @@ _Standard wordpress sidebar params_ (see, for example, `twentysixteen_widgets_in
 
 _Custom Waboot params_
 
-- `render_zone`: ...
-- `type`: ...
-- `subareas`: ...
+- `render_zone`: the zone slug in which the widget area has to be rendered
+- `type`: the widget area type (can be `simple` or `multiple`, default to: `simple`)  
+
+    When type is multiple, Waboot creates a number of widget areas accordingly to `subareas` param.
+    
+    These widget areas are named, by default, as `"$name.' '.$index"` (eg: "footer 1", "footer 2", ect...).
+    
+    You can control where the index is inserted by putting an `{{ n }}` placeholder in `name` param.
+    
+- `subareas`: the number of subareas when type is `multiple`.
 
 <span style="font-size:smaller"><a href="#waboot-theme">Back to top.</a></span>
 
