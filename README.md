@@ -125,7 +125,7 @@ _Custom Waboot params_
     
     You can control where the index is inserted by putting an `{{ n }}` placeholder in `name` param.
     
-    Area slug\id dictates which template is used to rendere the area: 
+    Area slug\id dictates which template is used to render the area: 
     
     - When type is `single` the widget area is rendered using: `templates/widget_areas/standard.php` view.
     
