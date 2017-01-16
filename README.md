@@ -103,7 +103,7 @@ add_filter("waboot/widget_areas/available", function($widget_areas){
 });
 ```
 
-`$widget_areas` is an associative array where the keys are widget area slugs. Every widget area can have a set of params.
+`$widget_areas` is an associative array where the keys are widget area slugs or id. Every widget area can have a set of params.
 
 _Standard wordpress sidebar params_ (see, for example, `twentysixteen_widgets_init()` in twentysixteen theme):
 
@@ -119,11 +119,19 @@ _Custom Waboot params_
 - `render_zone`: the zone slug in which the widget area has to be rendered
 - `type`: the widget area type (can be `simple` or `multiple`, default to: `simple`)  
 
-    When type is multiple, Waboot creates a number of widget areas accordingly to `subareas` param.
+    When type is `multiple`, Waboot creates a number of widget areas accordingly to `subareas` param.
     
     These widget areas are named, by default, as `"$name.' '.$index"` (eg: "footer 1", "footer 2", ect...).
     
     You can control where the index is inserted by putting an `{{ n }}` placeholder in `name` param.
+    
+    Area slug\id dictates which template is used to rendere the area: 
+    
+    - When type is `single` the widget area is rendered using: `templates/widget_areas/standard.php` view.
+    
+        If a file named `templates/widget_areas/{$area_id}.php` (eg: `templates/widget_areas/footer.php`) exists, then this file is used as template.
+    
+    - When type is `multiple` the widget area is rendered using: `templates/widget_areas/parts/multi-widget-area.php` view.
     
 - `subareas`: the number of subareas when type is `multiple`.
 
