@@ -41,6 +41,8 @@ class Breadcrumb extends \Waboot\Component {
 	 * Display component template
 	 */
 	public function display_tpl(){
+		if(!$this->can_display()) return;
+
 		$v = new \WBF\components\mvc\HTMLView($this->theme_relative_path."/templates/breadcrumb.php");
 		$args = [
 			'is_woocommerce' => function_exists('is_woocommerce') && is_woocommerce()
@@ -79,6 +81,8 @@ class Breadcrumb extends \Waboot\Component {
 
 		$bd_locs = array_merge(array("homepage"=>"Homepage"),wbf_get_filtered_post_types(),$get_archive_pages_type());
 
+		$bd_locs = apply_filters("waboot/component/breadcrumb/locations", $bd_locs);
+
 		if (!empty($bd_locs)) {
 			$orgzr = \WBF\modules\options\Organizer::getInstance();
 
@@ -86,7 +90,7 @@ class Breadcrumb extends \Waboot\Component {
 
 			$orgzr->add_section("layout",_x("Layout","Theme options section","waboot"));
 
-			$orgzr->add(array(
+			$orgzr->add([
 				'id' => 'breadcrumb_locations',
 				'name' => __('Breadcrumb Locations', 'waboot'),
 				'desc' => __('Where to show breadcrumb', 'waboot'),
@@ -100,7 +104,7 @@ class Breadcrumb extends \Waboot\Component {
 					'tag' => 1,
 					'tax' => 1
 				)
-			),"layout");
+			],"layout");
 
 			$orgzr->reset_group();
 			$orgzr->reset_section();
@@ -115,6 +119,28 @@ class Breadcrumb extends \Waboot\Component {
 	 * @param array $args settings for breadcrumb (see: trail() documentation)
 	 */
 	public static function do_breadcrumb($post_id = null, $current_location = "", $args = array()) {
+		if(!function_exists( "\\WBF\\components\\breadcrumb\\trail" )) return;
+
+		$args = wp_parse_args($args, array(
+			'container' => "div",
+			'separator' => "/",
+			'show_browse' => false,
+			'additional_classes' => ""
+		));
+
+		\WBF\components\breadcrumb\trail($args);
+	}
+
+	/**
+	 * Checks if breadcrumb can be displayed
+	 *
+	 * @return bool
+	 */
+	private function can_display(){
+		$show_bc = false;
+
+		if(is_404()) return false;
+
 		global $post;
 
 		//Get post ID
@@ -123,19 +149,6 @@ class Breadcrumb extends \Waboot\Component {
 				$post_id = $post->ID;
 			}
 		}
-
-		if(!function_exists( "\\WBF\\components\\breadcrumb\\trail" )) return;
-
-		if(is_404()) return;
-
-		$current_page_type = \WBF\components\utils\Utilities::get_current_page_type();
-
-		$args = wp_parse_args($args, array(
-			'container' => "div",
-			'separator' => "/",
-			'show_browse' => false,
-			'additional_classes' => ""
-		));
 
 		$allowed_locations = call_user_func(function(){
 			$bc_locations = \Waboot\functions\get_option('breadcrumb_locations',[]);
@@ -148,19 +161,21 @@ class Breadcrumb extends \Waboot\Component {
 			return $allowed;
 		});
 
+		$current_page_type = \WBF\components\utils\Utilities::get_current_page_type();
+
 		if($current_page_type != "common"){
 			//We are in some sort of homepage
 			if(in_array("homepage", $allowed_locations)) {
-				\WBF\components\breadcrumb\trail($args);
+				$show_bc = true;
 			}
 		}else{
 			//We are NOT in some sort of homepage
 			if(!is_archive() && !is_search() && isset($post_id)){
 				//We are in a common page
 				$current_post_type = get_post_type($post_id);
-				if (!isset($post_id) || $post_id == 0 || !$current_post_type) return;
+				if (!isset($post_id) || $post_id == 0 || !$current_post_type) return false;
 				if(in_array($current_post_type, $allowed_locations)) {
-					\WBF\components\breadcrumb\trail($args);
+					$show_bc = true;
 				}
 			}else{
 				//We are in some sort of archive
@@ -172,10 +187,9 @@ class Breadcrumb extends \Waboot\Component {
 				}elseif(is_archive() && in_array('archive',$allowed_locations)){
 					$show_bc = true;
 				}
-				if($show_bc){
-					\WBF\components\breadcrumb\trail($args);
-				}
 			}
 		}
+
+		return $show_bc;
 	}
 }
