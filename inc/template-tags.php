@@ -316,35 +316,56 @@ function get_first_link_or_post_content($output_type = "link"){
  * @param int|null $length
  * @param string|null $more
  * @param int|null $post_id
- * @param string $use is "content_also" then the content will be trimmed if the excerpt is empty
+ * @param bool $fallback_to_content use the post content if the excerpt is empty
+ *
+ * @return string
  */
-function the_trimmed_excerpt($length = null,$more = null,$post_id = null, $use = "excerpt_only"){
-    if(!isset($length)){
-        $excerpt_length = apply_filters( 'excerpt_length', 55 );
-    }else{
-        $excerpt_length = $length;
-    }
-    if(!isset($more)){
-        $excerpt_more = apply_filters( 'excerpt_more', ' ' . '[&hellip;]' );
-    }else{
-        $excerpt_more = $more;
-    }
+function get_the_trimmed_excerpt($length = null,$more = null,$post_id = null, $fallback_to_content = false){
+	if(!isset($length)){
+		$excerpt_length = apply_filters( 'excerpt_length', 55 );
+	}else{
+		$excerpt_length = $length;
+	}
+	if(!isset($more)){
+		$excerpt_more = apply_filters( 'excerpt_more', ' ' . '[&hellip;]' );
+	}else{
+		$excerpt_more = $more;
+	}
 
-    if(isset($post_id)){
-        $post = get_post($post_id);
-        if($use == "content_also" && $post->post_excerpt == ""){
-            $text = apply_filters('the_content', $post->post_content);
-        }else{
-            $text = $post->post_excerpt;
-        }
-    }else{
-        global $post;
-        if($use == "content_also" && $post->post_excerpt == ""){
-            $text = get_the_content();
-        }else{
-            $text = get_the_excerpt();
-        }
-    }
+	if($fallback_to_content == "content_also"){
+		$fallback_to_content = true; //backward compatibility
+	}
+	if($fallback_to_content == "excerpt_only"){
+		$fallback_to_content = false; //backward compatibility
+	}
 
-    echo  wp_trim_words($text,$excerpt_length,$excerpt_more);
+	if(isset($post_id)){
+		$post = get_post($post_id);
+		if($fallback_to_content && $post->post_excerpt == ""){
+			$text = apply_filters('the_content', $post->post_content);
+		}else{
+			$text = $post->post_excerpt;
+		}
+	}else{
+		global $post;
+		if($fallback_to_content && $post->post_excerpt == ""){
+			$text = get_the_content();
+		}else{
+			$text = get_the_excerpt();
+		}
+	}
+
+	return wp_trim_words($text,$excerpt_length,$excerpt_more);
+}
+
+/**
+ * A version of the_excerpt() that applies the trim function to the predefined excerpt as well
+ *
+ * @param int|null $length
+ * @param string|null $more
+ * @param int|null $post_id
+ * @param bool $fallback_to_content use the post content if the excerpt is empty
+ */
+function the_trimmed_excerpt($length = null,$more = null,$post_id = null, $fallback_to_content = false){
+    echo get_the_trimmed_excerpt($length,$more,$post_id,$fallback_to_content);
 }
