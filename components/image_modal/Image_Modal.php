@@ -30,20 +30,40 @@ class Image_Modal extends \WBF\modules\components\Component{
 	 * Enqueue component scripts
 	 */
 	public function scripts(){
-		wp_register_script('component-image_modal-colorbox',$this->directory_uri . '/assets/vendor/jquery.colorbox-min.js',['jquery'],false,true);
-		wp_register_script('component-image_modal-custom',$this->directory_uri . '/assets/dist/js/imagemodal.js',['jquery','component-image_modal-colorbox'],false,true);
-
 		$cbox_elements = of_get_option($this->name.'_element');
 		if($cbox_elements == "") $cbox_elements = false;
 		$cbox_custom_elements = of_get_option($this->name.'_custom_element');
 		if($cbox_custom_elements == "") $cbox_custom_elements = false;
 
-		wp_localize_script('component-image_modal-custom', 'wabootCbox', array(
-			'elements' => $cbox_elements,
-			'custom_elements' => isset($cbox_custom_elements) ? $cbox_custom_elements : false,
-			'current' => __("image {current} of {total}","waboot")
-		) );
-		wp_enqueue_script('component-image_modal-custom');
+		$scripts = [
+			'component-image_modal-colorbox' => [
+				'uri' => $this->directory_uri . '/assets/vendor/jquery.colorbox-min.js', //A valid uri
+				'path' => $this->directory . '/assets/vendor/jquery.colorbox-min.js', //A valid path
+				'deps' => ['jquery'],
+				'type' => 'js',
+				'enqueue_callback' => false,
+				'in_footer' => true,
+				'enqueue' => false
+			],
+			'component-image_modal-custom2' => [ //For some reason, only this name works o.O
+				'uri' => $this->directory_uri . '/assets/dist/js/imagemodal.js',
+				'path' => $this->directory . '/assets/dist/js/imagemodal.js',
+				'deps' => ['jquery','component-image_modal-colorbox'],
+				'type' => 'js',
+				'i10n' => [
+					'name' => 'wabootCbox',
+					'params' => [
+						'elements' => $cbox_elements,
+						'custom_elements' => isset($cbox_custom_elements) ? $cbox_custom_elements : false,
+						'current' => __("image {current} of {total}","waboot")
+					]
+				]
+			]
+		];
+
+		$am = new \WBF\components\assets\AssetsManager($scripts);
+
+		$am->enqueue();
 	}
 
 	/**
