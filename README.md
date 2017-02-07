@@ -134,6 +134,7 @@ _Custom Waboot params_
     - When type is `multiple` the widget area is rendered using: `templates/widget_areas/parts/multi-widget-area.php` view.
     
 - `subareas`: the number of subareas when type is `multiple`.
+- `render_priority`: A number which specify rendering priority for the area, a lower number means higher priority (Defaults to 50).
 
 <span style="font-size:smaller"><a href="#waboot-theme">Back to top.</a></span>
 

@@ -40,6 +40,7 @@ function register_widget_areas(){
 			'before_title' => '<h3 class="widget-title">',
 			'after_title' => '</h3>',
 		];
+		$args = wp_parse_args($area_args, $args);
 		if(isset($area_args['type']) && $area_args['type'] == "multiple" && isset($area_args['subareas']) && intval($area_args['subareas']) > 0){
 			for($i = 1; $i<=intval($area_args['subareas']); $i++){
 				$my_args = $args;
