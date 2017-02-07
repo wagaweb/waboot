@@ -25,6 +25,8 @@
 			} ?>
 		</div>
 
+		<?php do_action('waboot/component/footer-classic/after_bottom_navigation')?>
+
 		<?php if ( $social_position == 'footer' && $display_socials ) : ?>
 			<?php get_template_part( 'templates/parts/social-widget'); ?>
 		<?php endif; ?>
