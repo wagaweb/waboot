@@ -103,6 +103,17 @@ function index_page_title(){
 }
 
 /**
+ * Print out the archive page title
+ */
+function archive_page_title(){
+    $title = \Waboot\functions\get_archive_page_title();
+    $tpl = "templates/view-parts/entry-title-singular.php";
+    (new HTMLView($tpl))->display([
+        'title' => $title
+    ]);
+}
+
+/**
  * Display the content navigation
  *
  * @throws \Exception
