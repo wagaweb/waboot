@@ -23,6 +23,11 @@ class TopNavWrapperComponent extends \Waboot\Component{
         parent::setup();
     }
 
+    public function styles(){
+        parent::styles();
+        Waboot()->add_inline_style('topnav_style', $this->directory_uri . '/assets/dist/css/topNavWrapper.css');
+    }
+
     public function run(){
         parent::run();
         $display_zone = $this->get_display_zone();
