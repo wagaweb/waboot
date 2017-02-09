@@ -35,7 +35,9 @@ function display_title($type = 'single'){
 		//Here we are in the default homepage and we are parsing one of the many posts.
 		$title = get_the_title($post->ID);
 		$can_display_title = $current_title_position == "bottom"; //So always show the title inside the entry.
-	}else{
+	}elseif(is_search()){
+        $can_display_title = false;
+    }else{
 		switch($current_title_position){
 			//Print entry header INSIDE the entries:
 			case "bottom":
