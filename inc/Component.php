@@ -10,7 +10,7 @@ class Component extends \WBF\modules\components\Component{
 	/**
 	 * @var int
 	 */
-	var $default_prority = 10;
+	var $default_priority = 10;
 	/**
 	 * @var string
 	 */
@@ -60,7 +60,7 @@ class Component extends \WBF\modules\components\Component{
 			'desc' => _x( 'Choose the display priority', 'component_settings', 'waboot' ),
             'class' => 'zone_priority half_option',
 			'id'   => strtolower($this->name).'_display_priority',
-			'std'  => isset($this->default_prority) ? (string) $this->default_prority : "10",
+			'std'  => isset($this->default_priority) ? (string) $this->default_priority : "10",
 			'type' => 'text',
 			'component' => true,
 			'component_name' => $this->name
@@ -81,7 +81,7 @@ class Component extends \WBF\modules\components\Component{
 	}
 
 	public function get_display_priority(){
-		$p = $this->default_prority;
+		$p = $this->default_priority;
 		if(function_exists("\\Waboot\\functions\\get_option")){
 			$p_opt = \Waboot\functions\get_option(strtolower($this->name)."_display_priority");
 			if($p_opt){
