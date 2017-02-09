@@ -10,6 +10,8 @@ if(!class_exists("WBF") && !defined('WBTEST_CURRENT_PATH')){
 		$message = __( "Waboot theme requires WBF Framework to work properly, please install.", 'Waboot' );
 		printf( '<div class="%1$s"><p>%2$s</p></div>', $class, $message );
 	});
+
+	return;
 }
 
 waboot_init();
