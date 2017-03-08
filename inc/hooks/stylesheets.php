@@ -5,6 +5,8 @@ use WBF\components\assets\AssetsManager;
 
 function waboot_style(){
 	//Waboot style version
+    if(defined('WABOOT_EXCLUDE_STYLES') && WABOOT_EXCLUDE_STYLES) return;
+
 	if(defined('WABOOT_BOOTSTRAP_CLASSIC_STYLE') && WABOOT_BOOTSTRAP_CLASSIC_STYLE){
 		$assets['waboot-style'] = [
 			'uri' => get_template_directory_uri()."/assets/dist/css/waboot-classic.min.css",
