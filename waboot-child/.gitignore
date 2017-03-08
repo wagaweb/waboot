@@ -9,12 +9,12 @@ Movefile
 ############
 assets/cache/*.*
 !assets/cache/.gitkeep
-assets/dist/css/waboot-child.css
-assets/dist/css/waboot-child.css.map
-assets/dist/css/client-custom.css
-assets/src/less/tmp_*.*
-assets/src/less/theme-options-generated.less
+
 assets/dist/css/*.*
+!assets/dist/css/.gitkeep
+
+assets/dist/js/*.*
+!assets/dist/js/.gitkeep
 
 
 ############
@@ -42,6 +42,7 @@ local.properties
 .cproject
 .buildpath
 nbproject/
+.idea/
 
 ############
 ## OSes
@@ -67,7 +68,6 @@ tmp/
 *.cpr
 *.orig
 *.php.in
-.idea/
 temp/
 ._*
 .Trashes

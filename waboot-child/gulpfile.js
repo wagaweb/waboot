@@ -19,12 +19,10 @@ var gulp = require('gulp'),
     merge  = require('merge-stream'),
     path = require('path'); //Required by gulp-less
 
-var theme_slug = "waboot-child";
-
 var paths = {
     scripts: ['./assets/src/js/**/*.js'],
     main_js: ['./assets/src/js/main.js'],
-    bundle_js: ['./assets/dist/js/'+theme_slug+'.js'],
+    bundle_js: ['./assets/dist/js/main.pkg.js'],
     styles: './assets/src/sass/**/*.scss',
     main_style: './assets/src/sass/main.scss'
 };
@@ -42,7 +40,7 @@ gulp.task('compile_css',function(){
         .pipe(sourcemaps.init())
         .pipe(sass())
         .pipe(postcss(processors))
-        .pipe(rename(theme_slug+'.min.css'))
+        .pipe(rename('main.min.css'))
         .pipe(sourcemaps.write("."))
         .pipe(gulp.dest('./assets/dist/css'));
 
@@ -60,7 +58,7 @@ gulp.task('compile_js', ['browserify'] ,function(){
     return gulp.src(paths.bundle_js)
         .pipe(sourcemaps.init())
         .pipe(uglify())
-        .pipe(rename(theme_slug+'.min.js'))
+        .pipe(rename('main.min.js'))
         .pipe(sourcemaps.write('.'))
         .pipe(gulp.dest('./assets/dist/js'));
 });
@@ -74,7 +72,7 @@ gulp.task('browserify', function(){
         debug: true
     })
         .transform("babelify", {presets: ["es2015"]}).bundle()
-        .pipe(source(theme_slug+'.js'))
+        .pipe(source('main.pkg.js'))
         .pipe(buffer()) //This might be not required, it works even if commented
         .pipe(gulp.dest('./assets/dist/js'));
 });
