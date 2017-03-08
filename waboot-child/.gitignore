@@ -7,9 +7,6 @@ Movefile
 ############
 ## ASSETS
 ############
-assets/cache/*.*
-!assets/cache/.gitkeep
-
 assets/dist/css/*.*
 !assets/dist/css/.gitkeep
 
