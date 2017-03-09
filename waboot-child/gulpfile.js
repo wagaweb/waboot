@@ -44,11 +44,7 @@ gulp.task('compile_css',function(){
         .pipe(sourcemaps.write("."))
         .pipe(gulp.dest('./assets/dist/css'));
 
-    var wp_style = gulp.src("./style.css")
-        .pipe(postcss(processors))
-        .pipe(gulp.dest('./'));
-
-    return merge(frontend,wp_style);
+    return merge(frontend);
 });
 
 /**
