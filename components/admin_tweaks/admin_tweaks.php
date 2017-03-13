@@ -45,7 +45,7 @@ class Admin_Tweaks extends \WBF\modules\components\Component {
 			'name' => __( 'Footer Message', 'waboot' ),
 			'desc' => __( '', 'waboot' ),
 			'id'   => $this->name.'_general_footer_message',
-			'std'  => __( 'Thank you for creating with <a href="http://waboot.org/">Waboot</a>', 'waboot'),
+			'std'  => __( 'Thank you for creating with <a href="http://waboot.io/">Waboot</a>', 'waboot'),
 			'type' => 'textarea'
 		],null,null,$additional_params);
 		$orgzr->add([
