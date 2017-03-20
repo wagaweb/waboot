@@ -1,0 +1,11 @@
+{
+  "name": "Generator template",
+  "components": ["component_a","component_b"],
+  "preview": "path/to/preview",
+  "options": {
+    "option-a": "value-a",
+    "option-b": "value-b"
+  },
+  "classname": "GeneratorTemplate",
+  "actions": ["action_a","action_b"]
+}

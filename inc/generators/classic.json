@@ -1,0 +1,4 @@
+{
+  "name": "Classic layout",
+  "components": ["header_classic","footer_classic"]
+}

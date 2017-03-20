@@ -1,0 +1,9 @@
+{
+  "name": "Bootstrap layout",
+  "components": ["header_bootstrap","footer_classic"],
+  "options": {
+    "custom_site_title": "Test"
+  },
+  "classname": "BootstrapGenerator",
+  "actions": ["method_a","method_b","method_c"]
+}

@@ -3,6 +3,8 @@
 namespace Waboot;
 
 use WBF\components\utils\Utilities;
+use WBF\modules\components\ComponentsManager;
+use WBF\modules\options\Framework;
 
 class Theme{
 	/**
@@ -110,6 +112,110 @@ class Theme{
 		}
 		$output = sprintf( "<style id='%s-inline-css' type='text/css'>\n%s\n</style>\n", "components", $output );
 		echo $output;
+	}
+
+	/**
+	 * Get theme generators
+	 *
+	 * @return array
+	 */
+	public static function get_generators(){
+		$generators_directories = [
+			get_stylesheet_directory()."/inc/generators",
+			get_template_directory()."/inc/generators",
+		];
+
+		$generators_directories = array_unique(apply_filters("waboot/generators/directories",$generators_directories));
+
+		$generators_files = [];
+
+		$generators = [];
+
+		foreach($generators_directories as $directory){
+			$files = glob($directory."/*.json");
+			if(is_array($files)){
+				$files = array_filter($files,function($el){
+					if(basename($el) == "generator-template.json") return false;
+					return true;
+				});
+				if(!empty($files)){
+					$generators_files = array_merge($generators_files,$files);
+				}
+			}
+		}
+
+		foreach ($generators_files as $generators_file){
+			$content = file_get_contents($generators_file);
+			$parsed = json_decode($content);
+			if(!is_null($parsed)){
+				$slug = rtrim(basename($generators_file),".json");
+				$parsed->file = $generators_file;
+				$parsed->slug = $slug;
+				$generators[$slug] = $parsed;
+			}
+		}
+
+		return $generators;
+	}
+
+	/**
+	 * Handle a generator
+	 */
+	public function handle_generator($generator_slug){
+		$generators = Theme::get_generators();
+		if(array_key_exists($generator_slug,$generators)){
+			try{
+				$selected_generator = $generators[$generator_slug];
+
+				//Toggle components
+				$registered_components = ComponentsManager::getAllComponents();
+				foreach ($registered_components as $component_name => $component_data){ //Disable all components
+					ComponentsManager::disable($component_name);
+				}
+				if(isset($selected_generator->components) && is_array($selected_generator->components) && !empty($selected_generator->components)){
+					foreach ($selected_generator->components as $component_to_enable){
+						ComponentsManager::enable($component_to_enable); //Selectively enable components
+					}
+				}
+
+				//Setup options
+				if(isset($selected_generator->options)){
+					$options = json_decode(json_encode($selected_generator->options), true); //stdClass to array
+					if(is_array($options) && !empty($options)){
+						$options_to_set = [];
+						foreach ($selected_generator->options as $option_name => $option_value){
+							$current_option = Framework::get_option_object($option_name);
+							if(is_array($current_option)){
+								$options_to_set[$option_name] = $option_value;
+								Framework::set_option_value($option_name,$option_value);
+							}
+						}
+					}
+				}
+
+				//Do actions
+				if(isset($selected_generator->actions) && is_array($selected_generator->actions) && !empty($selected_generator->actions)){
+					//Require the generator php file
+					$generator_filename = dirname($selected_generator->file)."/".$generator_slug.".php";
+					if(file_exists($generator_filename)){
+						require_once $generator_filename;
+						if(isset($selected_generator->classname) && class_exists($selected_generator->classname)){
+							$generator_instance = new $selected_generator->classname;
+							foreach ($selected_generator->actions as $method_name){
+								if(method_exists($generator_instance,$method_name)){
+									call_user_func([$generator_instance,$method_name]);
+								}
+							}
+						}
+					}
+				}
+
+				return true;
+			}catch (\Exception $e){
+				return false;
+			}
+		}
+		return false;
 	}
 
 	/**
