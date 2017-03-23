@@ -10,9 +10,21 @@ function check_for_wizard(){
 	$wizard_done = get_option("waboot-done-wizard",false);
 	if(!$wizard_done){
 		//Add the notice to wizard
+		$start_wizard_link = admin_url("admin.php?page=waboot_setup_wizard");
+		$dismiss_wizard_link = add_query_arg(["waboot_dismiss_wizard"=>1],admin_url("themes.php"));
+		$msg = sprintf(__("Thank you to have chosen Waboot! If you want, our wizard will help you to kickstart your theme with some initiali settings: click <a href='%s'>here</a> to start or <a href='%s'>here</a> to dismiss this notice.","waboot"),$start_wizard_link,$dismiss_wizard_link);
+		WBF()->notice_manager->add_notice("waboot-wizard",$msg,"nag","base","\\Waboot\\DoneWizardCondition",["_file"=>get_template_directory()."/inc/DoneWizardCondition.php"]);
 	}
 }
 add_action("after_switch_theme", __NAMESPACE__."\\check_for_wizard");
+
+function dismiss_wizard_notice(){
+	if(!isset($_GET['waboot_dismiss_wizard'])) return;
+	if($_GET['waboot_dismiss_wizard'] == 1){
+		WBF()->notice_manager->remove_notice("waboot-wizard");
+	}
+}
+add_action("admin_init",__NAMESPACE__."\\dismiss_wizard_notice");
 
 function setup() {
 	//Make theme available for translation.
@@ -96,6 +108,7 @@ function handle_wizard(){
 
 	if($r){
 		WBF()->notice_manager->add_notice("waboot_wizard_completed",__("Wizard completed successfully","waboot"),"updated","_flash_");
+		update_option("waboot-done-wizard",true);
 	}else{
 		WBF()->notice_manager->add_notice("waboot_wizard_completed",__("Wizard encountered some errors","waboot"),"error","_flash_");
 	}
