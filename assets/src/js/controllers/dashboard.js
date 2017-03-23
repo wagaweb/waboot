@@ -180,7 +180,6 @@ export default class extends Backbone.Model{
 
         // Find if a selected tab is saved in localStorage
         let active_tab = this.get_active_tab(theme_options_saved_selected_category_var_name);
-        debugger;
         if (active_tab != '' && $("[data-category='"+active_tab+"']").length > 0) {
             toggle_option_groups(active_tab);
         }else{
