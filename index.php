@@ -1,4 +1,4 @@
-<?php get_header(); ?>
+<?php get_header(apply_filters("waboot/get_header",'')); ?>
 	<?php get_template_part("templates/wrapper","start"); ?>
 	<?php
 	/*
@@ -17,4 +17,4 @@
 	}
 	?>
 	<?php get_template_part("templates/wrapper","end"); ?>
-<?php get_footer(); ?>
+<?php get_footer(apply_filters("waboot/get_footer",'')); ?>
