@@ -60,9 +60,9 @@ jQuery(document).ready(function($){
     // Main Wrapper Padding Top
 
     if (window.matchMedia('(max-width: 991px)').matches) {
-        $('.main-wrapper').css('padding-top', fixedHeader.height()+20+'px');
+        $('.main-wrapper').css('padding-top', fixedHeader.height()+'px');
     }else{
-        $('.main-wrapper').css('padding-top', fixedHeader.height()+(wbHeaderFixed.padding_before*2)+20+'px');
+        $('.main-wrapper').css('padding-top', fixedHeader.height()+(wbHeaderFixed.padding_before*2)+'px');
     }
 
 
