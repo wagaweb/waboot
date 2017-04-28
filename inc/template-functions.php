@@ -235,13 +235,16 @@ function get_archive_page_title(){
  * @return string
  */
 function get_body_layout(){
-	$current_page_type = Utilities::get_current_page_type();
-	if($current_page_type == Utilities::PAGE_TYPE_BLOG_PAGE || $current_page_type == Utilities::PAGE_TYPE_DEFAULT_HOME || is_archive()) {
-		$layout = \Waboot\functions\get_option('blog_layout');
-	}else{
-		$layout = \Waboot\functions\get_behavior('layout');
+	static $layout;
+	if(!isset($layout)){
+		$current_page_type = Utilities::get_current_page_type();
+		if($current_page_type == Utilities::PAGE_TYPE_BLOG_PAGE || $current_page_type == Utilities::PAGE_TYPE_DEFAULT_HOME || is_archive()) {
+			$layout = \Waboot\functions\get_option('blog_layout');
+		}else{
+			$layout = \Waboot\functions\get_behavior('layout');
+		}
+		$layout = apply_filters("waboot/layout/body_layout",$layout);
 	}
-	$layout = apply_filters("waboot/layout/body_layout",$layout);
 	return $layout;
 }
 
@@ -262,11 +265,19 @@ function body_layout_is_full_width(){
  */
 function body_layout_has_two_sidebars(){
 	$body_layout = get_body_layout();
-	if(in_array($body_layout,array("two-sidebars","two-sidebars-right","two-sidebars-left"))){
-		return true;
-	}else{
-		return false;
-	}
+	return in_array($body_layout,array("two-sidebars","two-sidebars-right","two-sidebars-left"));
+}
+
+/**
+ * Checks if the body layout features at least one sidebar
+ *
+ * @use body_layout_has_two_sidebars()
+ *
+ * @return bool
+ */
+function body_layout_has_sidebar(){
+	$body_layout = get_body_layout();
+	return $body_layout == Layout::LAYOUT_PRIMARY_LEFT || $body_layout == Layout::LAYOUT_PRIMARY_RIGHT || body_layout_has_two_sidebars();
 }
 
 /**

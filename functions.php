@@ -53,19 +53,12 @@ function waboot_init(){
 	$wb->layout->create_zone("main-top",new \WBF\components\mvc\HTMLView("templates/main-top.php"));
 	$wb->layout->create_zone("aside-primary",new \WBF\components\mvc\HTMLView("templates/aside.php"),["can_render_callback" => function(){
 		//Callback called to decide whether print out the zone or not
-		$body_layout = \Waboot\functions\get_body_layout();
-		if($body_layout == \Waboot\Layout::LAYOUT_PRIMARY_LEFT || $body_layout == \Waboot\Layout::LAYOUT_PRIMARY_RIGHT || \Waboot\functions\body_layout_has_two_sidebars()){
-			return true;
-		}
-		return false;
+		return \Waboot\functions\body_layout_has_sidebar();
 	}]);
 	$wb->layout->create_zone("content",false,["always_load"=>true]);
 	$wb->layout->create_zone("aside-secondary",new \WBF\components\mvc\HTMLView("templates/aside.php"),["can_render_callback" => function(){
 		//Callback called to decide whether print out the zone or not
-		if(\Waboot\functions\body_layout_has_two_sidebars()){
-			return true;
-		}
-		return false;
+		return \Waboot\functions\body_layout_has_two_sidebars();
 	}]);
 	$wb->layout->create_zone("main-bottom",new \WBF\components\mvc\HTMLView("templates/main-bottom.php"));
 	$wb->layout->create_zone("page-after",false);
