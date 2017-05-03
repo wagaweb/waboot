@@ -88,7 +88,7 @@ When a zone is registered, Waboot prepares an action with a name like: "`waboot/
 \Waboot()->layout->add_zone_action(<zone_name>,<call_back>);
 ```
 
-**Beware:** due to the fact that in WordPress the child functions.php is loaded before the parent one, the `Waboot()` will not be available outside hooks. The above line must be run at least during `init`.
+**Beware:** due to the fact that in WordPress the child functions.php is loaded before the parent one, the `Waboot()` will not be available outside hooks. To work, the above line must be run during an hook, for example: `init`.
 
 ```php
 //Example: include a template in a specific zone (main-bottom):
