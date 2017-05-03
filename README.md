@@ -88,6 +88,19 @@ When a zone is registered, Waboot prepares an action with a name like: "`waboot/
 \Waboot()->layout->add_zone_action(<zone_name>,<call_back>);
 ```
 
+**Beware:** due to the fact that in WordPress the child functions.php is loaded before the parent one, the `Waboot()` will not be available outside hooks. The above line must be run at least during `init`.
+
+```php
+//Example: include a template in a specific zone (main-bottom):
+add_action("init",function(){
+    \Waboot()->layout->add_zone_action("main-bottom","append_foo_bar");
+},14);
+
+function append_foo_bar(){
+    get_template_part('templates/foo','bar');
+}
+```
+
 ### Zones and widget areas
 
 Waboot features an easy way to register new widgets areas, edit the default ones and attach them to zones.
