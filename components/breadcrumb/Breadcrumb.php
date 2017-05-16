@@ -31,7 +31,7 @@ class Breadcrumb extends \Waboot\Component {
 		$display_priority = $this->get_display_priority();
 
 		if($display_zone == "header"){
-			add_action("waboot/main/before",[$this,"display_tpl"]);
+			add_action("waboot/header",[$this,"display_tpl"]);
 		}else{
 			Waboot()->layout->add_zone_action($display_zone,[$this,"display_tpl"],intval($display_priority));
 		}
