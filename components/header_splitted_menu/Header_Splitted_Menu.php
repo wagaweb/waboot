@@ -9,7 +9,9 @@ Author: WAGA Team <dev@waga.it>
 Author URI: http://www.waga.it
  */
 
-if(!class_exists("\\Waboot\\Component")) return;
+if(!class_exists("\\Waboot\\Component")){
+	require_once '../../inc/Component.php';
+};
 
 require_once( dirname(__FILE__).'/WabootSplittedNavMenuWalker.php');
 
