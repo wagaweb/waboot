@@ -409,7 +409,8 @@ function deploy_favicon($option, $old_value, $value){
 	}, 10, 3);
 	//---|
 
-	$cropped = wp_crop_image( $attachment_id, 0, 0, $data['width'], $data['height'], $data['dst_width'], $data['dst_height'] );
+	$src = \WBF\components\utils\Paths::url_to_path(wp_get_attachment_image_url($attachment_id));
+	$cropped = wp_crop_image( $src, 0, 0, $data['width'], $data['height'], $data['dst_width'], $data['dst_height'] );
 
 	if ( ! $cropped || is_wp_error( $cropped ) ) return;
 
