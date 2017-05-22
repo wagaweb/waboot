@@ -171,7 +171,7 @@ add_filter("wbf/modules/components/options_sanitization_before_save",__NAMESPACE
 function automatically_set_enabled_status_for_component_on_activate(Component $component){
 	//Update "Enabled on all pages"
     $options = Framework::get_saved_options();
-    if(array_key_exists($component->name."_enabled_for_all_pages",$options)){
+    if(is_array($options) && array_key_exists($component->name."_enabled_for_all_pages",$options)){
 	    $load_locations_by_ids = isset($options[$component->name."_load_locations_ids"]) ? $options[$component->name."_load_locations_ids"] : "";
 	    $load_locations = isset($options[$component->name."_load_locations"]) ? $options[$component->name."_load_locations"] : [];
 	    $load_locations = array_filter($load_locations); //remove FALSE elements
@@ -184,6 +184,11 @@ function automatically_set_enabled_status_for_component_on_activate(Component $c
 	    $options_to_update = wp_parse_args($options_to_update,$options);
 
 	    $r = update_option(Framework::get_options_root_id(),$options_to_update);
+    }else{
+        //todo: check if the following behavior has meaning
+	    /*$r = update_option(Framework::get_options_root_id(),[
+		    $component->name."_enabled_for_all_pages" => 1
+        ]);*/
     }
 }
 add_action("wbf/modules/components/on_activate", __NAMESPACE__."\\automatically_set_enabled_status_for_component_on_activate");
