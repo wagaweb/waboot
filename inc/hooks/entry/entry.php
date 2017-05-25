@@ -23,7 +23,7 @@ add_action("waboot/entry/footer",__NAMESPACE__."\\entry_footer_wrapper_end",9999
  * @param string $type if we are cycling through a single or a list of entries.
  */
 function display_title($type = 'single'){
-    global $post;
+    global $post, $wp_query;
 
 	if($type == ""){
 		$type = "single";
@@ -38,15 +38,24 @@ function display_title($type = 'single'){
 	}elseif(is_search()){
         $can_display_title = false;
     }else{
-		if(Utilities::get_current_page_type() == Utilities::PAGE_TYPE_BLOG_PAGE){
-			$title = \Waboot\functions\get_index_page_title();
-			$can_display_title = (bool) \Waboot\functions\get_option('blog_display_title') == true && \Waboot\functions\get_option('blog_title_position') == $current_title_position;
-		}elseif(is_archive()){
-			$title = \Waboot\functions\get_archive_page_title();
-			$can_display_title =  (bool) \Waboot\functions\get_option('blog_display_title') == true && \Waboot\functions\get_option('blog_title_position') == $current_title_position;
-		}elseif(is_singular()){
+		if($wp_query->in_the_loop){
 			$title = get_the_title($post->ID);
-			$can_display_title =  (bool) \Waboot\functions\get_behavior('show-title') == true && \Waboot\functions\get_behavior('title-position') == $current_title_position;
+			if(Utilities::get_current_page_type() == Utilities::PAGE_TYPE_BLOG_PAGE || is_archive()){
+				$can_display_title = true; //We are cycling blog posts, so we sure needs their titles
+			}elseif(is_singular()){
+				$can_display_title =  (bool) \Waboot\functions\get_behavior('show-title') == true && \Waboot\functions\get_behavior('title-position') == $current_title_position;
+			}
+		}else{
+			if(Utilities::get_current_page_type() == Utilities::PAGE_TYPE_BLOG_PAGE){
+				$title = \Waboot\functions\get_index_page_title();
+				$can_display_title = (bool) \Waboot\functions\get_option('blog_display_title') == true && \Waboot\functions\get_option('blog_title_position') == $current_title_position;
+			}elseif(is_archive()){
+				$title = \Waboot\functions\get_archive_page_title();
+				$can_display_title =  (bool) \Waboot\functions\get_option('blog_display_title') == true && \Waboot\functions\get_option('blog_title_position') == $current_title_position;
+			}elseif(is_singular()){
+				$title = get_the_title($post->ID);
+				$can_display_title =  (bool) \Waboot\functions\get_behavior('show-title') == true && \Waboot\functions\get_behavior('title-position') == $current_title_position;
+			}
 		}
 	}
 
