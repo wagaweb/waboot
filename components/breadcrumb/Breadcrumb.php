@@ -81,7 +81,18 @@ class Breadcrumb extends \Waboot\Component {
 			return $result;
 		};
 
-		$bd_locs = array_merge(array("homepage"=>"Homepage"),wbf_get_filtered_post_types(),$get_archive_pages_type());
+		$show_on_front_setting = get_option("show_on_front","posts");
+
+		if($show_on_front_setting == "page"){
+			$bd_locs = array_merge([
+				"homepage" => "Homepage",
+				"posts_page" => _x("Posts page","Breadcrumb location","waboot")
+			],wbf_get_filtered_post_types(),$get_archive_pages_type());
+		}else{
+			$bd_locs = array_merge([
+				"homepage" => "Homepage"
+			],wbf_get_filtered_post_types(),$get_archive_pages_type());
+		}
 
 		$bd_locs = apply_filters("waboot/component/breadcrumb/locations", $bd_locs);
 
@@ -92,20 +103,26 @@ class Breadcrumb extends \Waboot\Component {
 
 			$orgzr->add_section("layout",_x("Layout","Theme options section","waboot"));
 
+			$std = [
+				'homepage' => 1,
+				'post' => 1,
+				'page' => 1,
+				'archive' => 1,
+				'tag' => 1,
+				'tax' => 1
+			];
+
+			if(isset($bd_locs['posts_page'])){
+				$std['posts_page'] = 1;
+			}
+
 			$orgzr->add([
 				'id' => 'breadcrumb_locations',
 				'name' => __('Breadcrumb Locations', 'waboot'),
 				'desc' => __('Where to show breadcrumb', 'waboot'),
 				'type' => 'multicheck',
 				'options' => $bd_locs,
-				'std' => array(
-					'homepage' => 1,
-					'post' => 1,
-					'page' => 1,
-					'archive' => 1,
-					'tag' => 1,
-					'tax' => 1
-				)
+				'std' => $std
 			],"layout");
 
 			$orgzr->reset_group();
@@ -167,8 +184,17 @@ class Breadcrumb extends \Waboot\Component {
 
 		if($current_page_type != "common"){
 			//We are in some sort of homepage
-			if(in_array("homepage", $allowed_locations)) {
-				$show_bc = true;
+			$show_on_front_setting = get_option("show_on_front","posts");
+			if($show_on_front_setting == "page"){
+				if($current_page_type == \WBF\components\utils\Query::PAGE_TYPE_STATIC_HOME && in_array("homepage", $allowed_locations)){
+					$show_bc = true;
+				}elseif($current_page_type == \WBF\components\utils\Query::PAGE_TYPE_BLOG_PAGE && in_array("posts_page", $allowed_locations)){
+					$show_bc = true;
+				}
+			}else{
+				if(in_array("homepage", $allowed_locations)) {
+					$show_bc = true;
+				}
 			}
 		}else{
 			//We are NOT in some sort of homepage
