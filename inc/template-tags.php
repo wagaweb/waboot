@@ -343,11 +343,13 @@ function get_the_trimmed_excerpt($length = null,$more = null,$post_id = null, $f
 		$excerpt_more = $more;
 	}
 
-	if($fallback_to_content == "content_also"){
-		$fallback_to_content = true; //backward compatibility
-	}
-	if($fallback_to_content == "excerpt_only"){
-		$fallback_to_content = false; //backward compatibility
+	if(is_string($fallback_to_content)){ //backward compatibility
+		$fallback_to_content = false;
+		if($fallback_to_content == "content_also"){
+			$fallback_to_content = true;
+		}elseif($fallback_to_content == "excerpt_only"){
+			$fallback_to_content = false;
+		}
 	}
 
 	if(isset($post_id)){
