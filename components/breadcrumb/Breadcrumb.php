@@ -86,7 +86,7 @@ class Breadcrumb extends \Waboot\Component {
 		if($show_on_front_setting == "page"){
 			$bd_locs = array_merge([
 				"homepage" => "Homepage",
-				"posts_page" => _x("Posts page","Breadcrumb location","waboot")
+				"posts_page" => _x("Blog","Breadcrumb location","waboot")
 			],wbf_get_filtered_post_types(),$get_archive_pages_type());
 		}else{
 			$bd_locs = array_merge([
