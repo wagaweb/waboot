@@ -125,11 +125,23 @@ function archive_page_title(){
  * @param string $paged_var_name You can supply different paged var name for multiple pagination. The name must be previously registered with add_rewrite_tag()
  */
 function post_navigation($nav_id, $show_pagination = false, $query = false, $current_page = false, $paged_var_name = "paged"){
-	// Return early if theme options are set to hide nav
-	if(
-		'nav-below' == $nav_id && (bool) !\Waboot\functions\get_option('show_content_nav_below') ||
-		'nav-above' == $nav_id && (bool) !\Waboot\functions\get_option('show_content_nav_above')
-	) return;
+	$can_show_nav = call_user_func(function() use($nav_id){
+		if(is_category()){
+			switch($nav_id){
+				case 'nav-below':
+					return (bool) \Waboot\functions\get_option('show_content_nav_below');
+					break;
+				case 'nav-above':
+					return (bool) \Waboot\functions\get_option('show_content_nav_above');
+					break;
+				default:
+					return false;
+					break;
+			}
+		}
+		return true;
+	});
+	if(!$can_show_nav) return; // Return early if theme options are set to hide nav
 
 	//Setting up the query
 	if(!$query){
