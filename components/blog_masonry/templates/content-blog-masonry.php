@@ -1,4 +1,4 @@
-<div class="item <?php echo \Waboot\functions\get_option('masonry_column_width','col-sm-4'); ?>">
+<div class="item <?php echo \Waboot\functions\get_option('blog_masonry_column_width','col-sm-4'); ?>">
     <div class="post-inner well">
         <a href="<?php the_permalink(); ?>">
             <?php

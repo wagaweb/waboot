@@ -102,7 +102,8 @@ class Blog_Masonry extends \WBF\modules\components\Component{
 			'type' => 'select',
 			'options' => array(
 				'col-sm-4' => 'col-sm-4',
-				'col-sm-3' => 'col-sm-3'
+				'col-sm-3' => 'col-sm-3',
+				'col-sm-6' => 'col-sm-6'
 			)
 		],"blog");
 
