@@ -1,5 +1,19 @@
 == Change log ==
 
+Version 2.1.0
+---------------------------------
+- Fix: Now the fallback callback for menus is really a callback
+- Fix: "blog_masonry_column_width" option now works correctly
+- Fix: Various fixes to post_navigation
+- Fix: Fixed favicon deployment
+- Fix: The awful notice that appeared when the user saved the components should be gone
+- Fix: Misc fixes
+- Tweak: Breadcrumb settings: now homepage and "posts page" are split when homepage is not the posts page
+- Tweak: Better page title detection in entry.php
+- Feature: filters "waboot/get_header" and "waboot/get_footer" ti allows the override of headers and footers parts via code
+- Feature: Introduced shortcode to display the breadcrumb (wb_breadcrumb)
+- Feature: Introduced Waboot Generators (beta)
+
 Version 2.0.12
 ---------------------------------
 - Fix: Refined child theme template
