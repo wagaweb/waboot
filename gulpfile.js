@@ -41,8 +41,8 @@ var paths = {
     build: [
         "**/*",
         "!.*" ,
-        "!gulpfile.js",
-        "!package.json",
+        "!./gulpfile.js",
+        "!./package.json",
         "!phpunit.xml",
         "!phpunit-wp.xml",
         "!composer.json",
