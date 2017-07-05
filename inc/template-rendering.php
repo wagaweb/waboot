@@ -21,13 +21,40 @@ function render_archives($template_file){
 function get_archives_template_vars(){
 	$vars = [];
 
+	$o = get_queried_object();
+	$post_type = call_user_func(function() use($o){
+		if(is_category()){
+			return 'post';
+		}else{
+			//Now we have to get the post type associated with the taxonomy:
+			//todo: for future release, WBF will have: \WBF\components\utils\Terms::get_post_type_of_taxonomy() and \WBF\components\utils\Terms::get_post_type_of_term()
+			global $wp_taxonomies;
+			if($o instanceof \WP_Term){
+				$taxonomy = $o->taxonomy;
+			}elseif($o instanceof \WP_Post_Type){
+				$taxonomy = $o->name;
+			}
+			if(isset($taxonomy) && isset($wp_taxonomies[$taxonomy])){
+				$tax_obj = $wp_taxonomies[$taxonomy];
+				if(is_array($tax_obj->object_type) && !empty($tax_obj->object_type)){
+					return $tax_obj->object_type[0];
+				}
+			}
+		}
+		return 'post';
+	});
+
 	$vars['page_title'] = get_archive_page_title();
 	$vars['term_description'] = term_description();
 	$vars['blog_class'] = get_posts_wrapper_class();
 	$vars['display_nav_above'] = (bool) \Waboot\functions\get_option('content_nav_above', 1); //todo: add this
 	$vars['display_nav_below'] =  (bool) \Waboot\functions\get_option('content_nav_below', 1); //todo: add this
+	$vars['options']['display_title'] = get_archive_option("display_title",$post_type);
+	$vars['options']['title_position'] = get_archive_option("title_position",$post_type);
+	$vars['options']['layout'] = get_archive_option("layout",$post_type);
+	$vars['options']['primary_sidebar_size'] = get_archive_option("primary_sidebar_size",$post_type);
+	$vars['options']['secondary_sidebar_size'] = get_archive_option("secondary_sidebar_size",$post_type);
 
-	$o = get_queried_object();
 	$tpl = "";
 	if($o instanceof \WP_Term){
 		$tpl = "taxonomy-".$o->taxonomy;

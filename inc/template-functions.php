@@ -13,7 +13,7 @@ use WBF\components\utils\Utilities;
  *
  * @return bool|mixed
  */
-function get_option($name, $default = false){
+function get_option($name, $default = null){
 	if(class_exists("WBF")){
 		return \WBF\modules\options\of_get_option($name,$default);
 	}else{
@@ -227,6 +227,30 @@ function get_archive_page_title(){
 		if(isset($arch_obj->name)) return $arch_obj->name;
 		return __('Archives', 'waboot');
 	}
+}
+
+/**
+ * Handles the different theme options values that can be set for archives pages. If the $post_type is 'post', then
+ * the Blog options are used, otherwise the function looks for the option specific to that $post_type.
+ * Look options.php at "Archives" section for more info.
+ *
+ * @param string $provided_option_name (without suffix, so for: 'blog_display_title', 'display_title' is enough )
+ * @param string $post_type
+ *
+ * @return string
+ */
+function get_archive_option($provided_option_name,$post_type){
+	$default_value = \Waboot\functions\get_option("blog_".$provided_option_name); //Default to blog values
+
+	if($post_type === "post"){
+		$option_name = "blog_".$provided_option_name;
+	}else{
+		$option_name = "archive_".$post_type."_".$provided_option_name;
+	}
+
+	$value = \Waboot\functions\get_option($option_name,$default_value);
+
+	return $value;
 }
 
 /**

@@ -20,6 +20,21 @@ add_filter("wbf/modules/options/organizer/output",__NAMESPACE__."\\reorder_outpu
 function register_options($orgzr){
 	$imagepath = get_template_directory_uri()."/assets/images/options/";
 
+	$layouts = \WBF\modules\options\of_add_default_key(_get_available_body_layouts());
+	$final_layout = [];
+	if(isset($layouts['values'][0]['thumb'])){
+		$opt_type_for_layouts = "images";
+		foreach($layouts['values'] as $k => $v){
+			$final_layout[$v['value']]['label'] = $v['name'];
+			$final_layout[$v['value']]['value'] = isset($v['thumb']) ? $v['thumb'] : "";
+		}
+	}else{
+		$opt_type_for_layouts = "select";
+		foreach($layouts['values'] as $k => $v){
+			$final_layout[$v['value']]['label'] = $v['name'];
+		}
+	}
+
 	$orgzr->set_group("std_options");
 
 	/**********************
@@ -386,25 +401,12 @@ function register_options($orgzr){
         'options' => array('top' => __("Above primary","waboot"), 'bottom' => __("Below primary","waboot"))
     ));
 
-	$layouts = \WBF\modules\options\of_add_default_key(_get_available_body_layouts());
-	if(isset($layouts['values'][0]['thumb'])){
-		$opt_type = "images";
-		foreach($layouts['values'] as $k => $v){
-			$final_layout[$v['value']]['label'] = $v['name'];
-			$final_layout[$v['value']]['value'] = isset($v['thumb']) ? $v['thumb'] : "";
-		}
-	}else{
-		$opt_type = "select";
-		foreach($layouts['values'] as $k => $v){
-			$final_layout[$v['value']]['label'] = $v['name'];
-		}
-	}
 	$orgzr->add(array(
 		'name' => __('Index page and blog page layout', 'waboot'),
 		'desc' => __('Select the layout that will be applied to main blog page (which can be the default index or a custom blog page)', 'waboot'),
 		'id' => 'blog_layout',
 		'std' => $layouts['default'],
-		'type' => $opt_type,
+		'type' => $opt_type_for_layouts,
 		'options' => $final_layout
 	));
 
@@ -499,6 +501,73 @@ function register_options($orgzr){
         'std'  => '1',
         'type' => 'checkbox'
     ));
+
+	/**********************
+	 * ARCHIVES
+	 **********************/
+
+	$orgzr->add_section("archives",__( 'Archives', 'waboot' ));
+
+	$orgzr->set_section("archives");
+
+	$post_types = apply_filters("waboot/theme_options/archives_post_types",wbf_get_filtered_post_types(['post']));
+
+	foreach ($post_types as $ptSlug => $ptLabel){
+		//Post type heading
+		$orgzr->add([
+			'name' => $ptLabel,
+			'desc' => sprintf(__( 'Edit default options for "%s" archives', 'waboot' ),strtolower($ptLabel)),
+			'type' => 'info'
+		]);
+
+		$orgzr->add(array(
+			'name' => __( 'Display archive page title', 'waboot' ),
+			'desc' => __( 'Check this box to show blog page title.', 'waboot' ),
+			'class' => 'half_option',
+			'id'   => 'archive_'.$ptSlug.'_display_title',
+			'std'  => '1',
+			'type' => 'checkbox'
+		));
+
+		$orgzr->add(array(
+			'name' => __('Archive page title position', 'waboot'),
+			'desc' => __('Select where to display page title of the archive page', 'waboot'),
+			'class' => 'half_option',
+			'id' => 'archive_'.$ptSlug.'_title_position',
+			'std' => 'top',
+			'type' => 'select',
+			'options' => array('top' => __("Above primary","waboot"), 'bottom' => __("Below primary","waboot"))
+		));
+
+		$orgzr->add(array(
+			'name' => __('Archive page layout', 'waboot'),
+			'desc' => __('Select the layout that will be applied to the archive page', 'waboot'),
+			'id' => 'archive_'.$ptSlug.'_layout',
+			'std' => $layouts['default'],
+			'type' => $opt_type_for_layouts,
+			'options' => $final_layout
+		));
+
+		$orgzr->add(array(
+			'name' => __("Primary Sidebar width","waboot"),
+			'desc' => __("Choose the primary sidebar width","waboot"),
+			'class' => 'half_option',
+			'id' => 'archive_'.$ptSlug.'_primary_sidebar_size',
+			'std' => '1/4',
+			'type' => "select",
+			'options' => array("1/2"=>"1/2","1/3"=>"1/3","1/4"=>"1/4","1/6"=>"1/6")
+		));
+
+		$orgzr->add(array(
+			'name' => __("Secondary Sidebar width","waboot"),
+			'desc' => __("Choose the secondary sidebar width","waboot"),
+			'class' => 'half_option',
+			'id' => 'archive_'.$ptSlug.'_secondary_sidebar_size',
+			'std' => '1/4',
+			'type' => "select",
+			'options' => array("1/2"=>"1/2","1/3"=>"1/3","1/4"=>"1/4","1/6"=>"1/6")
+		));
+	}
 
 	$orgzr->reset_group();
 	$orgzr->reset_section();
