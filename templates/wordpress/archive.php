@@ -1,6 +1,6 @@
 <?php $vars = \Waboot\functions\get_archives_template_vars(); ?>
 
-<?php if(\Waboot\functions\get_option("blog_title_position") == "bottom") : ?>
+<?php if($vars['options']['title_position'] === "bottom") : ?>
     <?php \Waboot\template_tags\archive_page_title(); ?>
 <?php endif; ?>
 <?php if(!empty($vars['tpl']) && locate_template("templates/wordpress/archive/".$vars['tpl'].".php", false, false) != '') : ?>
