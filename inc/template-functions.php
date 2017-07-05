@@ -3,6 +3,7 @@
 namespace Waboot\functions;
 use Waboot\Layout;
 use WBF\components\mvc\HTMLView;
+use WBF\components\utils\Query;
 use WBF\components\utils\Utilities;
 
 /**
@@ -322,23 +323,25 @@ function get_posts_wrapper_class(){
  * Get the specified sidebar size
  * @param $name ("primary" or "secondary")
  *
- * @return bool
+ * @return string|false
  */
 function get_sidebar_size($name){
+	$size = false;
+
 	$page_type = Utilities::get_current_page_type();
 
-	if($name == "primary"){
-		$size = $page_type == Utilities::PAGE_TYPE_BLOG_PAGE || $page_type == Utilities::PAGE_TYPE_DEFAULT_HOME ?
-			of_get_option("blog_primary_sidebar_size") : get_behavior('primary-sidebar-size');
-
-		return $size;
-	}elseif($name == "secondary"){
-		$size = $page_type == Utilities::PAGE_TYPE_BLOG_PAGE || $page_type == Utilities::PAGE_TYPE_DEFAULT_HOME ?
-			of_get_option("blog_secondary_sidebar_size") : get_behavior('secondary-sidebar-size');
-
-		return $size;
+	if($page_type == Utilities::PAGE_TYPE_BLOG_PAGE || $page_type == Utilities::PAGE_TYPE_DEFAULT_HOME || is_category()){
+		$size = of_get_option("blog_".$name."_sidebar_size");
+	}elseif(is_archive() || is_tax()){
+		$post_type = Query::get_queried_object_post_type();
+		if($post_type){
+			$size = get_archive_option($name."_sidebar_size",$post_type);
+		}
+	}else{
+		$size = get_behavior($name.'-sidebar-size');
 	}
-	return false;
+
+	return $size;
 }
 
 /**

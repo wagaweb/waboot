@@ -2,6 +2,7 @@
 
 namespace Waboot\functions;
 use WBF\components\mvc\HTMLView;
+use WBF\components\utils\Query;
 
 /**
  * Renders archive.php content
@@ -24,24 +25,14 @@ function get_archives_template_vars(){
 	$o = get_queried_object();
 	$post_type = call_user_func(function() use($o){
 		if(is_category()){
-			return 'post';
+			$post_type = 'post';
 		}else{
-			//Now we have to get the post type associated with the taxonomy:
-			//todo: for future release, WBF will have: \WBF\components\utils\Terms::get_post_type_of_taxonomy() and \WBF\components\utils\Terms::get_post_type_of_term()
-			global $wp_taxonomies;
-			if($o instanceof \WP_Term){
-				$taxonomy = $o->taxonomy;
-			}elseif($o instanceof \WP_Post_Type){
-				$taxonomy = $o->name;
-			}
-			if(isset($taxonomy) && isset($wp_taxonomies[$taxonomy])){
-				$tax_obj = $wp_taxonomies[$taxonomy];
-				if(is_array($tax_obj->object_type) && !empty($tax_obj->object_type)){
-					return $tax_obj->object_type[0];
-				}
+			$post_type = Query::get_queried_object_post_type();
+			if(!$post_type){
+				$post_type = 'post';
 			}
 		}
-		return 'post';
+		return $post_type;
 	});
 
 	$vars['page_title'] = get_archive_page_title();

@@ -1,7 +1,9 @@
 <?php
 
 namespace Waboot\hooks\layout;
+use function Waboot\functions\get_archive_option;
 use Waboot\Layout;
+use WBF\components\utils\Query;
 use WBF\modules\behaviors\Behavior;
 
 /**
@@ -151,9 +153,16 @@ add_filter("waboot/layout/sidebar/secondary/classes", __NAMESPACE__."\\set_secon
  */
 function set_primary_sidebar_size(Behavior $b){
 	if(is_archive()){
-		$primary_sidebar_width = of_get_option("blog_primary_sidebar_size");
-		if(!$primary_sidebar_width) $primary_sidebar_width = 0;
-		$b->value = $primary_sidebar_width;
+		if(is_category()){
+			$sidebar_width = of_get_option("blog_primary_sidebar_size");
+		}else{
+			$post_type = Query::get_queried_object_post_type();
+			$sidebar_width = get_archive_option('primary_sidebar_size',$post_type);
+		}
+		if(!isset($sidebar_width) || !$sidebar_width || is_null($sidebar_width)){
+			$sidebar_width = 0;
+		}
+		$b->value = $sidebar_width;
 	}
 	return $b;
 }
@@ -168,9 +177,16 @@ add_filter("wbf/modules/behaviors/get/primary-sidebar-size", __NAMESPACE__."\\se
  */
 function set_secondary_sidebar_size(Behavior $b){
 	if(is_archive()){
-		$primary_sidebar_width = of_get_option("blog_secondary_sidebar_size");
-		if(!$primary_sidebar_width) $primary_sidebar_width = 0;
-		$b->value = $primary_sidebar_width;
+		if(is_category()){
+			$sidebar_width = of_get_option("blog_secondary_sidebar_size");
+		}else{
+			$post_type = Query::get_queried_object_post_type();
+			$sidebar_width = get_archive_option('secondary_sidebar_size',$post_type);
+		}
+		if(!isset($sidebar_width) || !$sidebar_width || is_null($sidebar_width)){
+			$sidebar_width = 0;
+		}
+		$b->value = $sidebar_width;
 	}
 	return $b;
 }
