@@ -22,6 +22,7 @@ class Breadcrumb extends \Waboot\Component {
 	 */
 	public function setup(){
 		parent::setup();
+		add_action("init",[$this,'add_shortcode'],15);
 	}
 
 	/**
@@ -41,9 +42,11 @@ class Breadcrumb extends \Waboot\Component {
 
 	/**
 	 * Display component template
+	 *
+	 * @param bool $force
 	 */
-	public function display_tpl(){
-		if(!$this->can_display()) return;
+	public function display_tpl($force = false){
+		if(!$this->can_display() && !$force) return;
 
 		$v = new \WBF\components\mvc\HTMLView($this->theme_relative_path."/templates/breadcrumb.php");
 		$args = [
@@ -219,5 +222,19 @@ class Breadcrumb extends \Waboot\Component {
 		}
 
 		return $show_bc;
+	}
+
+	/**
+	 * Adding the breadcrumb shortcode
+	 *
+	 * @hooked 'init'
+	 */
+	public function add_shortcode(){
+		add_shortcode('wb_breadcrumb', function(){
+			ob_start();
+			$this->display_tpl(true);
+			$output = trim(preg_replace( "|[\r\n\t]|", "", ob_get_clean()));
+			return $output;
+		});
 	}
 }

@@ -33,7 +33,7 @@
 		'container' => false,
         'menu_class' => apply_filters('waboot/navigation/main/class', 'nav navbar-nav'),
         'walker' => new \WBF\components\navwalker\Bootstrap_NavWalker(),
-		'fallback_cb' => 'waboot_nav_menu_fallback'
+		'fallback_cb' => '\WBF\components\navwalker\Bootstrap_NavWalker::fallback'
 	]); 
 	?>
     <?php if($display_searchbar): ?>
