@@ -1,7 +1,9 @@
 <?php
 
 namespace Waboot\hooks\entry;
+use function Waboot\functions\get_archive_option;
 use WBF\components\mvc\HTMLView;
+use WBF\components\utils\Query;
 use WBF\components\utils\Utilities;
 
 //Header:
@@ -51,7 +53,17 @@ function display_title($type = 'single'){
 				$can_display_title = (bool) \Waboot\functions\get_option('blog_display_title') == true && \Waboot\functions\get_option('blog_title_position') == $current_title_position;
 			}elseif(is_archive()){
 				$title = \Waboot\functions\get_archive_page_title();
-				$can_display_title =  (bool) \Waboot\functions\get_option('blog_display_title') == true && \Waboot\functions\get_option('blog_title_position') == $current_title_position;
+				if(is_category()){
+					$can_display_title = (bool) \Waboot\functions\get_option('blog_display_title') == true && \Waboot\functions\get_option('blog_title_position') == $current_title_position;
+				}else{
+					$post_type = Query::get_queried_object_post_type();
+					if($post_type){
+						$can_display_title = (bool) get_archive_option('display_title',$post_type) == true && get_archive_option('title_position',$post_type) == $current_title_position;
+					}else{
+						//Default to blog settings
+						$can_display_title = (bool) \Waboot\functions\get_option('blog_display_title') == true && \Waboot\functions\get_option('blog_title_position') == $current_title_position;
+					}
+				}
 			}elseif(is_singular()){
 				$title = get_the_title($post->ID);
 				$can_display_title =  (bool) \Waboot\functions\get_behavior('show-title') == true && \Waboot\functions\get_behavior('title-position') == $current_title_position;

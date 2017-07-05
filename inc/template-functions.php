@@ -236,14 +236,14 @@ function get_archive_page_title(){
  * Look options.php at "Archives" section for more info.
  *
  * @param string $provided_option_name (without suffix, so for: 'blog_display_title', 'display_title' is enough )
- * @param string $post_type
+ * @param string|false $post_type
  *
  * @return string
  */
 function get_archive_option($provided_option_name,$post_type){
 	$default_value = \Waboot\functions\get_option("blog_".$provided_option_name); //Default to blog values
 
-	if($post_type === "post"){
+	if($post_type === "post" || !$post_type){
 		$option_name = "blog_".$provided_option_name;
 	}else{
 		$option_name = "archive_".$post_type."_".$provided_option_name;
@@ -263,9 +263,12 @@ function get_body_layout(){
 	static $layout;
 	if(!isset($layout)){
 		$current_page_type = Utilities::get_current_page_type();
-		if($current_page_type == Utilities::PAGE_TYPE_BLOG_PAGE || $current_page_type == Utilities::PAGE_TYPE_DEFAULT_HOME || is_archive()) {
+		if($current_page_type == Utilities::PAGE_TYPE_BLOG_PAGE || $current_page_type == Utilities::PAGE_TYPE_DEFAULT_HOME || is_category()) {
 			$layout = \Waboot\functions\get_option('blog_layout');
-		}else{
+		}elseif(is_archive()){
+			$layout = get_archive_option('layout',Query::get_queried_object_post_type());
+		}
+		else{
 			$layout = \Waboot\functions\get_behavior('layout');
 		}
 		$layout = apply_filters("waboot/layout/body_layout",$layout);
