@@ -19,7 +19,7 @@ class GeneratorsHandler{
             this.updateStatus('Processing...',0,wbData.generators_steps.length);
             //Go!
             let data = {
-                'generator': this.$form.find("input[name='generator']").val(),
+                'generator': this.$form.find("input[name='generator']:checked").val(),
                 'step': wbData.generators_first_step_slug
             };
             this.handleGenerator(data).then((status) => {
