@@ -38,7 +38,6 @@ class GeneratorsHandler{
             method: "POST",
             dataType: "JSON"
         }).then((result,textStatus,jqx) => {
-            debugger;
             switch(result.data.status){
                 case "run":
                     this.updateStatus('Progressing...',_.indexOf(wbData.generators_steps,result.data.next_step),wbData.generators_steps.length);
