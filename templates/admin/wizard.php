@@ -1,4 +1,4 @@
-<form action="<?php echo admin_url("admin.php?page=waboot_setup_wizard"); ?>" method="post">
+<form id="waboot-wizard-form" action="<?php echo admin_url("admin.php?page=waboot_setup_wizard"); ?>" method="post">
 	<?php foreach($generators as $generator_slug => $generator_data): ?>
 		<label>
 			<?php if(isset($generator_data->preview)): ?>

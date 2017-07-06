@@ -1,4 +1,6 @@
 {
   "name": "Bootstrap layout",
-  "components": ["header_bootstrap","footer_classic"]
+  "components": ["header_bootstrap","footer_classic"],
+  "classname": "BootstrapGenerator",
+  "actions": ["action_a","action_b"]
 }

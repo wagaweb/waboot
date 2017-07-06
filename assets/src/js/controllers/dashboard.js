@@ -1,5 +1,6 @@
 import * as Backbone from "backbone";
 import $ from "jquery";
+import { GeneratorsHandler } from "./generatorsHandler";
 
 export default class extends Backbone.Model{
     initialize(){
@@ -11,6 +12,17 @@ export default class extends Backbone.Model{
         this.manage_recent_post_widget();
         this.manage_components_page();
         this.manage_theme_options_page();
+        this.manage_generators_page();
+    }
+
+    /**
+     *
+     */
+    manage_generators_page(){
+        let $form = $("#waboot-wizard-form");
+        if($form.length > 0){
+            new GeneratorsHandler($form,wbData.ajaxurl,wbData.generators_action);
+        }
     }
     /**
      * RECENT POST WIDGET
