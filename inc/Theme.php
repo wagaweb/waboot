@@ -261,11 +261,17 @@ class Theme{
 						}
 					}
 				}else{
+					$methods = get_class_methods($generator_instance);
+					if(!is_array($methods) || empty($methods)){
+						throw new \Exception("No methods found on generator instance.");
+					}
 					$method_name = $action;
+					if(!$method_name || $method_name === 'false'){
+						$method_name = $methods[0];
+					}
 					if(!method_exists($generator_instance,$method_name)){
 						throw new \Exception("$method_name does not exists on generator instance.");
 					}
-					$methods = get_class_methods($generator_instance);
 					$method_key = array_search($method_name,$methods);
 					call_user_func([$generator_instance,$method_name]);
 					if($method_key == count($methods)-1){
