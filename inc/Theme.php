@@ -209,7 +209,6 @@ class Theme{
 				}
 				if($step == self::GENERATOR_STEP_COMPONENTS){
 					return wp_parse_args([
-						'step' => 'components',
 						'next_step' => self::GENERATOR_STEP_OPTIONS,
 						'status' => 'success'
 					],$default_return);
@@ -233,7 +232,6 @@ class Theme{
 				}
 				if($step == self::GENERATOR_STEP_OPTIONS){
 					return wp_parse_args([
-						'step' => 'options',
 						'next_step' => self::GENERATOR_STEP_ACTIONS,
 						'status' => 'success'
 					],$default_return);
@@ -273,7 +271,6 @@ class Theme{
 					if($method_key == count($methods)-1){
 						//This is the last method
 						return wp_parse_args([
-							'step' => $step,
 							'next_step' => false,
 							'next_action' => false,
 							'status' => 'success',
@@ -282,7 +279,6 @@ class Theme{
 					}else{
 						//This is not the last method
 						return wp_parse_args([
-							'step' => $step,
 							'next_step' => $step,
 							'next_action' => $methods[$method_key+1],
 							'status' => 'success'
@@ -297,8 +293,6 @@ class Theme{
 			],$default_return);
 		}catch (\Exception $e){
 			return wp_parse_args([
-				'step' => $step,
-				'action' => $action,
 				'status' => 'failed',
 				'message' => $e->getMessage()
 			],$default_return);
