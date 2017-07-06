@@ -28,6 +28,10 @@ function enqueue_js() {
                 Theme::GENERATOR_STEP_OPTIONS,
                 Theme::GENERATOR_STEP_ACTIONS
             ],
+			'generators_labels' => [
+                'processing' => _x('Processing...','Generators','waboot'),
+                'completed' => _x('Wizard completed successfully!','Generators','waboot')
+            ],
 			'wpurl' => get_bloginfo('wpurl'),
 			'isMobile' => class_exists("WBF") ? wb_is_mobile() : null,
 			'isAdmin' => is_admin(),

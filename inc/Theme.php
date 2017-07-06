@@ -241,7 +241,12 @@ class Theme{
 			if($step == self::GENERATOR_STEP_ALL || $step == self::GENERATOR_STEP_ACTIONS){
 				//Do actions
 				if(!isset($selected_generator->actions) || !is_array($selected_generator->actions) || empty($selected_generator->actions)){
-					throw new \Exception("No action available or found.");
+					return wp_parse_args([
+						'next_step' => false,
+						'next_action' => false,
+						'status' => 'success',
+						'complete' => true
+					],$default_return);
 				}
 				$generator_filename = dirname($selected_generator->file)."/".$generator_slug.".php";
 				if(!file_exists($generator_filename)){

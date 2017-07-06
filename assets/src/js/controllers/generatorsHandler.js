@@ -16,7 +16,7 @@ class GeneratorsHandler{
             //Disable button
             $form_submit_button.attr("disabled",true);
             //Update status
-            this.updateStatus('Processing...',0,wbData.generators_steps.length);
+            this.updateStatus(wbData.generators_labels.processing,0,wbData.generators_steps.length);
             //Go!
             let data = {
                 'generator': this.$form.find("input[name='generator']:checked").val(),
@@ -40,7 +40,7 @@ class GeneratorsHandler{
         }).then((result,textStatus,jqx) => {
             switch(result.data.status){
                 case "run":
-                    this.updateStatus('Progressing...',_.indexOf(wbData.generators_steps,result.data.next_step),wbData.generators_steps.length);
+                    this.updateStatus(wbData.generators_labels.processing,_.indexOf(wbData.generators_steps,result.data.next_step),wbData.generators_steps.length);
                     return this.handleGenerator({
                         'generator': result.data.generator,
                         'step': result.data.next_step,
@@ -48,7 +48,7 @@ class GeneratorsHandler{
                     });
                     break;
                 case "complete":
-                    this.updateStatus('Completed!',wbData.generators_steps.length,wbData.generators_steps.length);
+                    this.updateStatus(wbData.generators_labels.completed,wbData.generators_steps.length,wbData.generators_steps.length);
                     return "complete";
                     break;
             }
