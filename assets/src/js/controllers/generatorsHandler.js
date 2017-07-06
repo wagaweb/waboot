@@ -16,7 +16,7 @@ class GeneratorsHandler{
             $form_submit_button.attr("disabled",true);
             let data = {
                 'generator': this.$form.find("input[name='generator']").val(),
-                'step': 'OPTIONS'
+                'step': wbData.generators_first_step_slug
             };
             this.handleGenerator(data).then((status) => {
                 $form_submit_button.attr("disabled",false);

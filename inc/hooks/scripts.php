@@ -1,6 +1,7 @@
 <?php
 
 namespace Waboot\hooks\scripts;
+use Waboot\Theme;
 
 /**
  * Loads javascript modules
@@ -21,6 +22,7 @@ function enqueue_js() {
 			//Std
 			'ajaxurl' => admin_url('admin-ajax.php'),
 			'generators_action' => 'handle_generator',
+			'generators_first_step_slug' => Theme::GENERATOR_STEP_OPTIONS,
 			'wpurl' => get_bloginfo('wpurl'),
 			'isMobile' => class_exists("WBF") ? wb_is_mobile() : null,
 			'isAdmin' => is_admin(),
