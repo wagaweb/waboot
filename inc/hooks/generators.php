@@ -5,6 +5,9 @@ namespace Waboot\hooks\generators;
 use Waboot\Theme;
 use WBF\components\mvc\HTMLView;
 
+/*
+ * Handles wizard submit via AJAX
+ */
 add_action("wp_ajax_handle_generator", function(){
 	$selected_generator = isset($_POST['params']) && isset($_POST['params']['generator']) ? sanitize_text_field($_POST['params']['generator']) : false;
 	$step = isset($_POST['params']) && isset($_POST['params']['step']) ? sanitize_text_field($_POST['params']['step']) : Theme::GENERATOR_STEP_ALL;
@@ -30,10 +33,9 @@ add_action("wp_ajax_handle_generator", function(){
 });
 
 /**
- * Handle wizard submit
+ * Handle wizard submit via page refresh (not used anymore)
  *
  * @hooked 'admin_init'
- *
  */
 function handle_wizard(){
 	if(!isset($_POST['waboot_wizard_nonce'])) return;
