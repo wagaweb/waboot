@@ -38,7 +38,11 @@ function display_title($type = 'single'){
 		$title = get_the_title($post->ID);
 		$can_display_title = $current_title_position == "bottom"; //So always show the title inside the entry.
 	}elseif(is_search()){
-        $can_display_title = false;
+		if($type === 'list'){
+			$can_display_title = true;
+		}else{
+			$can_display_title = false;
+		}
     }else{
 		if($wp_query->in_the_loop){
 			$title = get_the_title($post->ID);

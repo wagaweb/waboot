@@ -9,7 +9,7 @@
 			</h2>
 		</header><!-- .entry-header -->
 	<?php else: ?>
-		<?php do_action( 'waboot/entry/header' ); ?>
+		<?php do_action( 'waboot/entry/header', 'list' ); ?>
 	<?php endif; ?>
 	<div class="entry-content">
 		<?php if(has_post_thumbnail() && ! has_post_format( 'gallery' )): ?>
