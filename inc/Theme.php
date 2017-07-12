@@ -59,7 +59,7 @@ class Theme{
 			'inc/hooks/init.php',
 			'inc/hooks/hooks.php',
 			'inc/hooks/generators.php',
-			'inc/hooks/layout.php',
+			//'inc/hooks/layout.php',
 			'inc/hooks/widget_areas.php',
 			'inc/hooks/options.php',
 			'inc/hooks/entry/entry.php',

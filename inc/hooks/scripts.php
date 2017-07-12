@@ -64,12 +64,12 @@ function enqueue_js() {
 	$deps = array('jquery','jquery-ui-core','jquery-ui-dialog','backbone','underscore');
 
 	if((defined('SCRIPT_DEBUG') && SCRIPT_DEBUG)){
-		wp_register_script( 'waboot', wbf_locate_template_uri('assets/dist/js/waboot.js' ), $deps, false, true);
+		wp_register_script( 'waboot', get_template_directory_uri().'/assets/dist/js/waboot.js', $deps, false, true);
 	}else{
 		if(is_file(get_template_directory()."/assets/dist/js/waboot.min.js")){
-			wp_enqueue_script( 'waboot', wbf_locate_template_uri( 'assets/dist/js/waboot.min.js' ), $deps, false, true);
+			wp_enqueue_script( 'waboot', get_template_directory_uri(). '/assets/dist/js/waboot.min.js', $deps, false, true);
 		}else{
-			wp_enqueue_script( 'waboot', wbf_locate_template_uri( 'assets/dist/js/waboot.js' ), $deps, false, true); //Load the source file if minified is not available
+			wp_enqueue_script( 'waboot', get_template_directory_uri(). '/assets/dist/js/waboot.js', $deps, false, true); //Load the source file if minified is not available
 		}
 	}
 

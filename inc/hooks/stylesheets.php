@@ -61,6 +61,7 @@ add_action( 'wp_enqueue_scripts', __NAMESPACE__.'\\theme_styles' );
  * Loads backend styles
  */
 function admin_styles(){
+	if(!class_exists('\WBF\components\assets\AssetsManager')) return;
 	$assets = [
 		'waboot-admin-style' => [
 			'uri' =>  get_template_directory_uri()."/assets/dist/css/waboot-admin.min.css",
