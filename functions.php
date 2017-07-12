@@ -2,13 +2,35 @@
 
 if(!class_exists("WBF") && !defined('WBTEST_CURRENT_PATH')){
 	add_action("init",function(){
-		if(is_admin()) return;
-		_e( "Waboot theme requires WBF Framework to work properly, please install.", 'Waboot' );
+		if(is_admin()){
+			require_once get_template_directory().'/inc/Theme.php';
+			require_once get_template_directory().'/inc/Layout.php';
+			\Waboot\Theme::preload_generators_page();
+		}else{
+			_e( "Waboot theme requires WBF Framework to work properly, please install.", 'Waboot' );
+		}
+		return;
 	});
 	add_action("admin_notices", function(){
-		$class = 'notice notice-error';
-		$message = __( "Waboot theme requires <a href='http://update.waboot.org/resource/get/plugin/wbf'>WBF Framework</a> plugin to work properly, please install.", 'Waboot' );
-		printf( '<div class="%1$s"><p>%2$s</p></div>', $class, $message );
+		require_once get_template_directory().'/inc/Theme.php';
+		require_once get_template_directory().'/inc/Layout.php';
+		\Waboot\Theme::preload_generators_page();
+		if(!\Waboot\Theme::is_wizard_done()){
+			$class = 'notice notice-error';
+			$wizard_url = !class_exists("WBF") && !defined('WBTEST_CURRENT_PATH') ? admin_url('/tools.php?page=waboot_setup_wizard') : admin_url('/admin.php?page=waboot_setup_wizard');
+			$message = sprintf(
+				__( "Waboot theme is missing some requirements to work properly. You can run the <a href='%s'>Wizard</a> to take care of them.", 'Waboot' ),
+				$wizard_url
+			);
+			printf( '<div class="%1$s"><p>%2$s</p></div>', $class, $message );
+		}else{
+			$class = 'notice notice-error';
+			$message = sprintf(
+				__( "Waboot theme requires <a href='%s'>WBF Framework</a> plugin to work properly, please install.", 'Waboot' ),
+				'http://update.waboot.org/resource/get/plugin/wbf'
+			);
+			printf( '<div class="%1$s"><p>%2$s</p></div>', $class, $message );
+		}
 	});
 
 	return;
@@ -79,7 +101,7 @@ function waboot_init(){
  * @return \Waboot\Theme|WP_Error
  */
 function Waboot(){
-	if(class_exists("\\Waboot\\Theme")){
+	if(class_exists("\\Waboot\\Theme") && class_exists('WBF')){
 		return \Waboot\Theme::getInstance();
 	}else{
 		trigger_error("Waboot was not initialized. Missing WBF?", E_USER_NOTICE);

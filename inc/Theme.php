@@ -311,6 +311,30 @@ class Theme{
 	}
 
 	/**
+	 * Loads the hooks for displaying the generators page only
+	 */
+	public static function preload_generators_page(){
+		locate_template('inc/hooks/generators.php', true);
+	}
+
+	/**
+	 * Checks if the wizard (aka: the generators page) han been run once
+	 *
+	 * @return bool
+	 */
+	public static function is_wizard_done(){
+		return false;
+		//return get_option('waboot-done-wizard',false);
+	}
+
+	/**
+	 * Set the wizard (aka: the the generators page) as run
+	 */
+	public static function set_wizard_as_done(){
+		update_option('waboot-done-wizard',true);
+	}
+
+	/**
 	 * Private clone method to prevent cloning of the instance of the *Singleton* instance.
 	 */
 	private function __clone(){}

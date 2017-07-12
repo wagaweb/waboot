@@ -16,6 +16,6 @@ class DoneWizardCondition implements Condition{
 		if(isset($_GET['page']) && $_GET['page'] == "waboot_setup_wizard"){
 			return true;
 		}
-		return get_option("waboot-done-wizard",false);
+		return Theme::is_wizard_done();
 	}
 }
