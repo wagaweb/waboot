@@ -31,6 +31,8 @@ class Theme{
 	const GENERATOR_STEP_COMPONENTS = "COMPONENTS";
 	const GENERATOR_STEP_OPTIONS = "OPTIONS";
 	const GENERATOR_STEP_ACTIONS = "ACTIONS";
+	const GENERATOR_STEP_ACTIONS_BEFORE = "ACTIONS_BEFORE";
+	const GENERATOR_STEP_ACTIONS_AFTER = "ACTIONS_AFTER";
 	const GENERATOR_ACTION_ALL = "ALL_ACTIONS";
 
 	/**
@@ -195,6 +197,17 @@ class Theme{
 		}
 		try{
 			$selected_generator = $generators[$generator_slug];
+
+			if($step == self::GENERATOR_STEP_ALL || $step == self::GENERATOR_STEP_ACTIONS_BEFORE){
+				//Do actions before
+				if(!isset($selected_generator->actions_before) || !is_array($selected_generator->actions_before) || empty($selected_generator->actions_before)){
+					return wp_parse_args([
+						'next_step' => self::GENERATOR_STEP_COMPONENTS,
+						'status' => 'success',
+					],$default_return);
+				}
+
+			}
 
 			if($step == self::GENERATOR_STEP_ALL || $step == self::GENERATOR_STEP_COMPONENTS){
 				//Toggle components
