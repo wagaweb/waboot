@@ -27,6 +27,12 @@ class Theme{
 	 */
 	var $custom_styles_handler;
 
+	const GENERATOR_STEP_ALL = "ALL";
+	const GENERATOR_STEP_COMPONENTS = "COMPONENTS";
+	const GENERATOR_STEP_OPTIONS = "OPTIONS";
+	const GENERATOR_STEP_ACTIONS = "ACTIONS";
+	const GENERATOR_ACTION_ALL = "ALL_ACTIONS";
+
 	/**
 	 * Returns the *Singleton* instance.
 	 *
@@ -52,6 +58,7 @@ class Theme{
 		$hooks_files = [
 			'inc/hooks/init.php',
 			'inc/hooks/hooks.php',
+			'inc/hooks/generators.php',
 			'inc/hooks/layout.php',
 			'inc/hooks/widget_areas.php',
 			'inc/hooks/options.php',
@@ -160,13 +167,36 @@ class Theme{
 
 	/**
 	 * Handle a generator
+	 *
+	 * @param $generator_slug
+	 * @param string $step
+	 * @param string $action
+	 *
+	 * @return array
 	 */
-	public function handle_generator($generator_slug){
+	public function handle_generator($generator_slug, $step = self::GENERATOR_STEP_ALL, $action = self::GENERATOR_ACTION_ALL){
 		$generators = Theme::get_generators();
-		if(array_key_exists($generator_slug,$generators)){
-			try{
-				$selected_generator = $generators[$generator_slug];
+		$default_return = [
+			'generator' => $generator_slug,
+			'step' => $step,
+			'next_step' => false,
+			'action' => $action,
+			'next_action' => false,
+			'status' => false,
+			'message' => '',
+			'complete' => false
+		];
+		if(!array_key_exists($generator_slug,$generators)){
+			return wp_parse_args([
+				'step' => $step,
+				'status' => 'failed',
+				'message' => 'No generator found'
+			],$default_return);
+		}
+		try{
+			$selected_generator = $generators[$generator_slug];
 
+			if($step == self::GENERATOR_STEP_ALL || $step == self::GENERATOR_STEP_COMPONENTS){
 				//Toggle components
 				$registered_components = ComponentsManager::getAllComponents();
 				foreach ($registered_components as $component_name => $component_data){ //Disable all components
@@ -177,7 +207,15 @@ class Theme{
 						ComponentsManager::enable($component_to_enable); //Selectively enable components
 					}
 				}
+				if($step == self::GENERATOR_STEP_COMPONENTS){
+					return wp_parse_args([
+						'next_step' => self::GENERATOR_STEP_OPTIONS,
+						'status' => 'success'
+					],$default_return);
+				}
+			}
 
+			if($step == self::GENERATOR_STEP_ALL || $step == self::GENERATOR_STEP_OPTIONS){
 				//Setup options
 				if(isset($selected_generator->options)){
 					$options = json_decode(json_encode($selected_generator->options), true); //stdClass to array
@@ -192,30 +230,84 @@ class Theme{
 						}
 					}
 				}
+				if($step == self::GENERATOR_STEP_OPTIONS){
+					return wp_parse_args([
+						'next_step' => self::GENERATOR_STEP_ACTIONS,
+						'status' => 'success'
+					],$default_return);
+				}
+			}
 
+			if($step == self::GENERATOR_STEP_ALL || $step == self::GENERATOR_STEP_ACTIONS){
 				//Do actions
-				if(isset($selected_generator->actions) && is_array($selected_generator->actions) && !empty($selected_generator->actions)){
-					//Require the generator php file
-					$generator_filename = dirname($selected_generator->file)."/".$generator_slug.".php";
-					if(file_exists($generator_filename)){
-						require_once $generator_filename;
-						if(isset($selected_generator->classname) && class_exists($selected_generator->classname)){
-							$generator_instance = new $selected_generator->classname;
-							foreach ($selected_generator->actions as $method_name){
-								if(method_exists($generator_instance,$method_name)){
-									call_user_func([$generator_instance,$method_name]);
-								}
-							}
+				if(!isset($selected_generator->actions) || !is_array($selected_generator->actions) || empty($selected_generator->actions)){
+					return wp_parse_args([
+						'next_step' => false,
+						'next_action' => false,
+						'status' => 'success',
+						'complete' => true
+					],$default_return);
+				}
+				$generator_filename = dirname($selected_generator->file)."/".$generator_slug.".php";
+				if(!file_exists($generator_filename)){
+					throw new \Exception("Generator file not found.");
+				}
+				//Require the generator php file
+				$generator_filename = dirname($selected_generator->file)."/".$generator_slug.".php";
+				require_once $generator_filename;
+				if(!isset($selected_generator->classname) || !class_exists($selected_generator->classname)){
+					throw new \Exception("Cannot instantiate $selected_generator->classname.");
+				}
+				$generator_instance = new $selected_generator->classname;
+				if($action == self::GENERATOR_ACTION_ALL){
+					foreach ($selected_generator->actions as $method_name){
+						if(method_exists($generator_instance,$method_name)){
+							call_user_func([$generator_instance,$method_name]);
 						}
 					}
+				}else{
+					$methods = get_class_methods($generator_instance);
+					if(!is_array($methods) || empty($methods)){
+						throw new \Exception("No methods found on generator instance.");
+					}
+					$method_name = $action;
+					if(!$method_name || $method_name === 'false'){
+						$method_name = $methods[0];
+					}
+					if(!method_exists($generator_instance,$method_name)){
+						throw new \Exception("$method_name does not exists on generator instance.");
+					}
+					$method_key = array_search($method_name,$methods);
+					call_user_func([$generator_instance,$method_name]);
+					if($method_key == count($methods)-1){
+						//This is the last method
+						return wp_parse_args([
+							'next_step' => false,
+							'next_action' => false,
+							'status' => 'success',
+							'complete' => true
+						],$default_return);
+					}else{
+						//This is not the last method
+						return wp_parse_args([
+							'next_step' => $step,
+							'next_action' => $methods[$method_key+1],
+							'status' => 'success'
+						],$default_return);
+					}
 				}
-
-				return true;
-			}catch (\Exception $e){
-				return false;
 			}
+
+			return wp_parse_args([
+				'status' => 'success',
+				'complete' => true
+			],$default_return);
+		}catch (\Exception $e){
+			return wp_parse_args([
+				'status' => 'failed',
+				'message' => $e->getMessage()
+			],$default_return);
 		}
-		return false;
 	}
 
 	/**

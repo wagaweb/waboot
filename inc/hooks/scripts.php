@@ -1,6 +1,7 @@
 <?php
 
 namespace Waboot\hooks\scripts;
+use Waboot\Theme;
 
 /**
  * Loads javascript modules
@@ -20,6 +21,17 @@ function enqueue_js() {
 	$wpData = apply_filters("wbft/js/localization",array(
 			//Std
 			'ajaxurl' => admin_url('admin-ajax.php'),
+			'generators_action' => 'handle_generator',
+			'generators_first_step_slug' => Theme::GENERATOR_STEP_COMPONENTS,
+			'generators_steps' => [
+                Theme::GENERATOR_STEP_COMPONENTS,
+                Theme::GENERATOR_STEP_OPTIONS,
+                Theme::GENERATOR_STEP_ACTIONS
+            ],
+			'generators_labels' => [
+                'processing' => _x('Processing...','Generators','waboot'),
+                'completed' => _x('Wizard completed successfully!','Generators','waboot')
+            ],
 			'wpurl' => get_bloginfo('wpurl'),
 			'isMobile' => class_exists("WBF") ? wb_is_mobile() : null,
 			'isAdmin' => is_admin(),
