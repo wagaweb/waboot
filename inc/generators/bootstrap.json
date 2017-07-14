@@ -2,5 +2,6 @@
   "name": "Bootstrap layout",
   "components": ["header_bootstrap","footer_classic"],
   "classname": "BootstrapGenerator",
-  "actions": ["download_wbf","install_wbf"]
+  "pre_actions": ["download_wbf","install_wbf"],
+  "actions": ["action_a","action_b"]
 }

@@ -20,7 +20,8 @@ class GeneratorsHandler{
             //Go!
             let data = {
                 'generator': this.$form.find("input[name='generator']:checked").val(),
-                'step': wbData.generators_first_step_slug
+                'step': wbData.generators_first_step_slug,
+                'action': null
             };
             this.handleGenerator(data).then((status) => {
                 $form_submit_button.attr("disabled",false);

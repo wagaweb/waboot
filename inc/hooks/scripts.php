@@ -22,8 +22,9 @@ function enqueue_js() {
 			//Std
 			'ajaxurl' => admin_url('admin-ajax.php'),
 			'generators_action' => 'handle_generator',
-			'generators_first_step_slug' => Theme::GENERATOR_STEP_COMPONENTS,
+			'generators_first_step_slug' => Theme::GENERATOR_STEP_PRE_ACTIONS,
 			'generators_steps' => [
+                Theme::GENERATOR_STEP_PRE_ACTIONS,
                 Theme::GENERATOR_STEP_COMPONENTS,
                 Theme::GENERATOR_STEP_OPTIONS,
                 Theme::GENERATOR_STEP_ACTIONS

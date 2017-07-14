@@ -16,7 +16,12 @@ abstract class WabootGenerator{
 	 * @return boolean
 	 */
 	protected function is_wbf_installed(){
-		return get_option('wbf_installed',false);
+		$is_installed = get_option('wbf_installed',false);
+		if($is_installed){
+			$path = $this->get_wbf_path();
+			return is_dir($path);
+		}
+		return false;
 	}
 
 	/**
