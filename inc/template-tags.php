@@ -174,11 +174,11 @@ function post_navigation($nav_id, $show_pagination = false, $query = false, $cur
 	}
 	$nav_class = apply_filters("waboot/layout/post_navigation/nav_class",$nav_class);
 
-	if(!is_single()){
+	if(is_single()){
+		$can_display_pagination = false; //Single post cannot have pagination ([1],[2]... [n] links)
+	}else{
 		$can_display_pagination = $query->max_num_pages > 1 && (is_home() || is_archive() || is_search() || is_singular());
 		$can_display_pagination = apply_filters("waboot/layout/post_navigation/can_display_navigation",$can_display_pagination,$query,$current_page);
-	}else{
-		$can_display_pagination = false;
 	}
 
 	if($can_display_pagination && $show_pagination){
