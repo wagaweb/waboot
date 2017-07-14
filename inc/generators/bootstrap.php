@@ -67,14 +67,15 @@ class BootstrapGenerator extends WabootGenerator {
 		$hello_post = get_posts([
 			'name'        => 'hello-waboot',
 			'post_type'   => 'post',
-			'post_status' => 'publish',
+			'post_status' => 'draft',
 			'numberposts' => 1
 		]);
 		if(!$hello_post || empty($hello_post)){
 			wp_insert_post([
 				'post_name' => 'hello-waboot',
 				'post_title' => 'Hello Waboot!',
-				'post_content' => 'We want to thank you for using Waboot. Enjoy and create amazing things!'
+				'post_content' => 'We want to thank you for using Waboot. Enjoy and create amazing things!',
+				'post_status' => 'draft'
 			]);
 		}
 	}
