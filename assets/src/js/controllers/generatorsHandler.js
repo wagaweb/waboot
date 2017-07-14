@@ -40,6 +40,10 @@ class GeneratorsHandler{
             dataType: "JSON"
         }).then((result,textStatus,jqx) => {
             switch(result.data.status){
+                case "failed":
+                    this.updateStatus(result.data.message,wbData.generators_steps.length,wbData.generators_steps.length);
+                    return "failed";
+                    break;
                 case "run":
                     this.updateStatus(wbData.generators_labels.processing,_.indexOf(wbData.generators_steps,result.data.next_step),wbData.generators_steps.length);
                     return this.handleGenerator({

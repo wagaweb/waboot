@@ -15,13 +15,15 @@ add_action("wp_ajax_handle_generator", function(){
 
 	if($selected_generator){
 		$r = Theme::getInstance()->handle_generator($selected_generator,$step,$action);
-		if($r['status'] == 'success'){
+		if($r['status'] === 'success'){
 			if($r['complete']){
 				$r['status'] = "complete";
 			}else{
 				$r['status'] = "run";
 			}
 			wp_send_json_success($r);
+		}elseif($r['status'] === 'failed'){
+			wp_send_json_error($r);
 		}else{
 			$r['status'] = "complete";
 			wp_send_json_error($r);
