@@ -15,13 +15,15 @@ add_action("wp_ajax_handle_generator", function(){
 
 	if($selected_generator){
 		$r = Theme::getInstance()->handle_generator($selected_generator,$step,$action);
-		if($r['status'] == 'success'){
+		if($r['status'] === 'success'){
 			if($r['complete']){
 				$r['status'] = "complete";
 			}else{
 				$r['status'] = "run";
 			}
 			wp_send_json_success($r);
+		}elseif($r['status'] === 'failed'){
+			wp_send_json_error($r);
 		}else{
 			$r['status'] = "complete";
 			wp_send_json_error($r);
@@ -50,7 +52,7 @@ function handle_wizard(){
 
 	if($r){
 		WBF()->notice_manager->add_notice("waboot_wizard_completed",__("Wizard completed successfully","waboot"),"updated","_flash_");
-		update_option("waboot-done-wizard",true);
+		Theme::set_wizard_as_done();
 	}else{
 		WBF()->notice_manager->add_notice("waboot_wizard_completed",__("Wizard encountered some errors","waboot"),"error","_flash_");
 	}
@@ -72,18 +74,41 @@ function add_wizard_page($menu_slug){
 		'menu_slug'  => "waboot_setup_wizard"
 	];
 
-	add_submenu_page( $menu_slug, $menu['page_title'], $menu['menu_title'], $menu['capability'], $menu['menu_slug'], function(){
+	add_submenu_page( $menu_slug, $menu['page_title'], $menu['menu_title'], $menu['capability'], $menu['menu_slug'], __NAMESPACE__.'\display_wizard_page');
+}
 
+/**
+ * Prints out the wizard page
+ */
+function display_wizard_page(){
+	$generators = Theme::get_generators();
+
+	if(class_exists('WBF\components\mvc\HTMLView')){
 		$v = new HTMLView("templates/admin/wizard.php");
-
-		$generators = Theme::get_generators();
-
 		$v->for_dashboard()->display([
 			"page_title" => __("Setup Wizard","waboot"),
 			"generators" => $generators,
 			"nonce_action" => "waboot_submit_wizard",
 			"nonce_name" => "waboot_wizard_nonce"
 		]);
-	});
+	}else{
+		$page_title = __("Setup Wizard","waboot");
+		$nonce_action = "waboot_submit_wizard";
+		$nonce_name = "waboot_wizard_nonce";
+		require_once get_template_directory().'/templates/admin/wizard.php';
+	}
 }
-add_action("wbf_admin_submenu",__NAMESPACE__."\\add_wizard_page");
+
+if(!class_exists("WBF") && !defined('WBTEST_CURRENT_PATH')){
+	add_action('admin_menu', function(){
+		$menu = [
+			'page_title' => __("Waboot Setup Wizard","waboot"),
+			'menu_title' => __("Waboot Setup Wizard","waboot"),
+			'capability' => "manage_options",
+			'menu_slug'  => "waboot_setup_wizard"
+		];
+		\add_management_page( $menu['page_title'], $menu['menu_title'], $menu['capability'], $menu['menu_slug'], __NAMESPACE__.'\display_wizard_page');
+	});
+}else{
+	add_action("wbf_admin_submenu",__NAMESPACE__."\\add_wizard_page");
+}

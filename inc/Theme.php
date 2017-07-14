@@ -30,6 +30,7 @@ class Theme{
 	const GENERATOR_STEP_ALL = "ALL";
 	const GENERATOR_STEP_COMPONENTS = "COMPONENTS";
 	const GENERATOR_STEP_OPTIONS = "OPTIONS";
+	const GENERATOR_STEP_PRE_ACTIONS = "PRE_ACTIONS";
 	const GENERATOR_STEP_ACTIONS = "ACTIONS";
 	const GENERATOR_ACTION_ALL = "ALL_ACTIONS";
 
@@ -59,7 +60,7 @@ class Theme{
 			'inc/hooks/init.php',
 			'inc/hooks/hooks.php',
 			'inc/hooks/generators.php',
-			'inc/hooks/layout.php',
+			//'inc/hooks/layout.php',
 			'inc/hooks/widget_areas.php',
 			'inc/hooks/options.php',
 			'inc/hooks/entry/entry.php',
@@ -196,6 +197,34 @@ class Theme{
 		try{
 			$selected_generator = $generators[$generator_slug];
 
+			if($step == self::GENERATOR_STEP_ALL || $step == self::GENERATOR_STEP_PRE_ACTIONS){
+				//Do actions before
+				if(!isset($selected_generator->pre_actions) || !is_array($selected_generator->pre_actions) || empty($selected_generator->pre_actions)){
+					return wp_parse_args([
+						'next_step' => self::GENERATOR_STEP_COMPONENTS,
+						'status' => 'success',
+					],$default_return);
+				}
+				$generator_instance = $this->get_generator_instance($generator_slug,$selected_generator);
+				$method_name = $action;
+				$methods = $this->get_generator_methods($selected_generator,$generator_instance,self::GENERATOR_STEP_PRE_ACTIONS);
+				$method_key = $this->execute_generator_method($method_name,$selected_generator,$generator_instance,self::GENERATOR_STEP_PRE_ACTIONS);
+				if($method_key == count($methods)-1){
+					//This is the last method
+					return wp_parse_args([
+						'next_step' => self::GENERATOR_STEP_COMPONENTS,
+						'status' => 'success'
+					],$default_return);
+				}else{
+					//This is not the last method
+					return wp_parse_args([
+						'next_step' => $step,
+						'next_action' => $methods[$method_key+1],
+						'status' => 'success'
+					],$default_return);
+				}
+			}
+
 			if($step == self::GENERATOR_STEP_ALL || $step == self::GENERATOR_STEP_COMPONENTS){
 				//Toggle components
 				$registered_components = ComponentsManager::getAllComponents();
@@ -248,17 +277,7 @@ class Theme{
 						'complete' => true
 					],$default_return);
 				}
-				$generator_filename = dirname($selected_generator->file)."/".$generator_slug.".php";
-				if(!file_exists($generator_filename)){
-					throw new \Exception("Generator file not found.");
-				}
-				//Require the generator php file
-				$generator_filename = dirname($selected_generator->file)."/".$generator_slug.".php";
-				require_once $generator_filename;
-				if(!isset($selected_generator->classname) || !class_exists($selected_generator->classname)){
-					throw new \Exception("Cannot instantiate $selected_generator->classname.");
-				}
-				$generator_instance = new $selected_generator->classname;
+				$generator_instance = $this->get_generator_instance($generator_slug,$selected_generator);
 				if($action == self::GENERATOR_ACTION_ALL){
 					foreach ($selected_generator->actions as $method_name){
 						if(method_exists($generator_instance,$method_name)){
@@ -266,19 +285,9 @@ class Theme{
 						}
 					}
 				}else{
-					$methods = get_class_methods($generator_instance);
-					if(!is_array($methods) || empty($methods)){
-						throw new \Exception("No methods found on generator instance.");
-					}
 					$method_name = $action;
-					if(!$method_name || $method_name === 'false'){
-						$method_name = $methods[0];
-					}
-					if(!method_exists($generator_instance,$method_name)){
-						throw new \Exception("$method_name does not exists on generator instance.");
-					}
-					$method_key = array_search($method_name,$methods);
-					call_user_func([$generator_instance,$method_name]);
+					$methods = $this->get_generator_methods($selected_generator,$generator_instance,self::GENERATOR_STEP_ACTIONS);
+					$method_key = $this->execute_generator_method($method_name,$selected_generator,$generator_instance,self::GENERATOR_STEP_ACTIONS);
 					if($method_key == count($methods)-1){
 						//This is the last method
 						return wp_parse_args([
@@ -308,6 +317,93 @@ class Theme{
 				'message' => $e->getMessage()
 			],$default_return);
 		}
+	}
+
+	/**
+	 * @param $generator_slug
+	 * @param $generator_params
+	 *
+	 * @return object
+	 * @throws \Exception
+	 */
+	private function get_generator_instance($generator_slug,$generator_params){
+		$generator_filename = dirname($generator_params->file)."/".$generator_slug.".php";
+		if(!file_exists($generator_filename)){
+			throw new \Exception("Generator file not found.");
+		}
+		require_once $generator_filename; //Require the generator php file
+		if(!isset($generator_params->classname) || !class_exists($generator_params->classname)){
+			throw new \Exception("Cannot instantiate $generator_params->classname.");
+		}
+		$generator_instance = new $generator_params->classname;
+		return $generator_instance;
+	}
+
+	/**
+	 * @param $generator_params
+	 * @param $generator_instance
+	 * @param $context
+	 *
+	 * @return array
+	 * @throws \Exception
+	 */
+	private function get_generator_methods($generator_params,$generator_instance,$context){
+		if($context === self::GENERATOR_STEP_PRE_ACTIONS){
+			$methods = $generator_params->pre_actions;
+		}elseif($context === self::GENERATOR_STEP_ACTIONS){
+			$methods = $generator_params->actions;
+		}else{
+			$methods = [];
+		}
+		$real_methods = get_class_methods($generator_instance);
+		$methods = array_filter($methods,function($var) use($real_methods){
+			return in_array($var,$real_methods);
+		});
+		if(!is_array($methods) || empty($methods)){
+			throw new \Exception("No methods found on generator instance.");
+		}
+		return $methods;
+	}
+
+	/**
+	 * @param $method_name
+	 * @param $generator_instance
+	 *
+	 * @return int
+	 * @throws \Exception
+	 */
+	private function execute_generator_method($method_name,$generator_params,$generator_instance,$context){
+		$methods = $this->get_generator_methods($generator_params,$generator_instance,$context);
+		if(!$method_name || $method_name === '' || $method_name === 'false'){
+			$method_name = $methods[0];
+		}
+		$method_key = array_search($method_name,$methods);
+		call_user_func([$generator_instance,$method_name]);
+		return $method_key;
+	}
+
+	/**
+	 * Loads the hooks for displaying the generators page only
+	 */
+	public static function preload_generators_page(){
+		locate_template('inc/hooks/generators.php', true);
+	}
+
+	/**
+	 * Checks if the wizard (aka: the generators page) han been run once
+	 *
+	 * @return bool
+	 */
+	public static function is_wizard_done(){
+		return false;
+		//return get_option('waboot-done-wizard',false);
+	}
+
+	/**
+	 * Set the wizard (aka: the the generators page) as run
+	 */
+	public static function set_wizard_as_done(){
+		update_option('waboot-done-wizard',true);
 	}
 
 	/**

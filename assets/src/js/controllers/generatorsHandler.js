@@ -20,7 +20,8 @@ class GeneratorsHandler{
             //Go!
             let data = {
                 'generator': this.$form.find("input[name='generator']:checked").val(),
-                'step': wbData.generators_first_step_slug
+                'step': wbData.generators_first_step_slug,
+                'action': null
             };
             this.handleGenerator(data).then((status) => {
                 $form_submit_button.attr("disabled",false);
@@ -39,6 +40,10 @@ class GeneratorsHandler{
             dataType: "JSON"
         }).then((result,textStatus,jqx) => {
             switch(result.data.status){
+                case "failed":
+                    this.updateStatus(result.data.message,wbData.generators_steps.length,wbData.generators_steps.length);
+                    return "failed";
+                    break;
                 case "run":
                     this.updateStatus(wbData.generators_labels.processing,_.indexOf(wbData.generators_steps,result.data.next_step),wbData.generators_steps.length);
                     return this.handleGenerator({

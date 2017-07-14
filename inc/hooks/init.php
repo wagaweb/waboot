@@ -7,7 +7,7 @@ use WBF\components\mvc\HTMLView;
 use WBF\components\notices\Notice_Manager;
 
 function check_for_wizard(){
-	$wizard_done = get_option("waboot-done-wizard",false);
+	$wizard_done = Theme::is_wizard_done();
 	if(!$wizard_done){
 		//Add the notice to wizard
 		$start_wizard_link = admin_url("admin.php?page=waboot_setup_wizard");
