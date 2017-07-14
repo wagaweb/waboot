@@ -374,7 +374,7 @@ class Theme{
 	 */
 	private function execute_generator_method($method_name,$generator_params,$generator_instance,$context){
 		$methods = $this->get_generator_methods($generator_params,$generator_instance,$context);
-		if(!$method_name || $method_name === ''){
+		if(!$method_name || $method_name === '' || $method_name === 'false'){
 			$method_name = $methods[0];
 		}
 		$method_key = array_search($method_name,$methods);

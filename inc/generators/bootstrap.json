@@ -3,5 +3,5 @@
   "components": ["header_bootstrap","footer_classic"],
   "classname": "BootstrapGenerator",
   "pre_actions": ["download_wbf","install_wbf"],
-  "actions": ["action_a","action_b"]
+  "actions": ["sayHello"]
 }
