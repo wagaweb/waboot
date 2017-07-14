@@ -431,8 +431,8 @@ function register_options($orgzr){
 	));
 
     $orgzr->add(array(
-        'name' => __( 'Show content navigation above posts?', 'waboot' ),
-        'desc' => __( 'Displays links to next and previous posts above the current post and above the posts on the index page. Default is hide. Check this box to show content nav above posts.', 'waboot' ),
+        'name' => __( 'Show navigation above posts?', 'waboot' ),
+        'desc' => __( 'Displays page navigation above category archives. Default is hide. Check this box to show content nav above posts.', 'waboot' ),
         'class' => 'half_option',
         'id'   => 'show_content_nav_above',
         'std'  => '0',
@@ -440,8 +440,8 @@ function register_options($orgzr){
     ));
 
     $orgzr->add(array(
-        'name' => __( 'Show content navigation below posts?', 'waboot' ),
-        'desc' => __( 'Displays links to next and previous posts below the current post and below the posts on the index page. Default is show. Uncheck this box to hide content nav above posts.', 'waboot' ),
+        'name' => __( 'Show navigation below posts?', 'waboot' ),
+        'desc' => __( 'Displays page navigation below category archives. Default is show. Uncheck this box to hide content nav above posts.', 'waboot' ),
         'class' => 'half_option',
         'id'   => 'show_content_nav_below',
         'std'  => '1',
@@ -657,6 +657,24 @@ function register_behaviors($behaviors){
 		'default' => 'container',
 		"valid" => ["page","post","{cpt}"]
 	];
+
+	$behaviors[] = array(
+		"name" => "show-content-nav-above",
+		"title" => __( 'Show content navigation above posts?', 'waboot' ),
+		"desc" => __( 'Displays links to next and previous posts above single post content. Default is hide. Check this box to show content nav above posts.', 'waboot' ),
+		"type" => "checkbox",
+		"default" => "0",
+		"valid" => array("post","page","{cpt}")
+	);
+
+	$behaviors[] = array(
+		"name" => "show-content-nav-below",
+		"title" => __( 'Show content navigation below post?', 'waboot' ),
+		"desc" => __( 'Displays links to next and previous posts below single post content. Default is show. Uncheck this box to hide content nav above posts.', 'waboot' ),
+		"type" => "checkbox",
+		"default" => "1",
+		"valid" => array("post","page","{cpt}")
+	);
 
 	$behaviors[] = [
 		'name' => 'primary-sidebar-size',

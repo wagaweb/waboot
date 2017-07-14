@@ -138,6 +138,18 @@ function post_navigation($nav_id, $show_pagination = false, $query = false, $cur
 					return false;
 					break;
 			}
+		}elseif(is_single()){
+			switch($nav_id){
+				case 'nav-below':
+					return (bool) \Waboot\functions\get_behavior('show-content-nav-below');
+					break;
+				case 'nav-above':
+					return (bool) \Waboot\functions\get_behavior('show-content-nav-above');
+					break;
+				default:
+					return false;
+					break;
+			}
 		}
 		return true;
 	});
@@ -154,7 +166,7 @@ function post_navigation($nav_id, $show_pagination = false, $query = false, $cur
 	}
 
 	//Setup nav class
-	$nav_class = 'site-navigation paging-navigation';
+	$nav_class = 'site-navigation';
 	if(is_single()){
 		$nav_class .= ' post-navigation';
 	}else{
