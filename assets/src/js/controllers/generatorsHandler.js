@@ -23,8 +23,16 @@ class GeneratorsHandler{
                 'step': wbData.generators_first_step_slug,
                 'action': null
             };
+            $("#setup-finish-btn").remove();
             this.handleGenerator(data).then((status) => {
+                if(status === "complete"){
+                    let finish_btn_tpl = _.template($("#finish-tpl").html()),
+                        finish_btn = finish_btn_tpl();
+                    $(finish_btn).insertBefore($form_submit_button);
+                }
                 $form_submit_button.attr("disabled",false);
+                $form_submit_button.addClass("run-once",false);
+                $form_submit_button.html(wbData.generators_labels.rerun_wizard);
             });
         });
     }

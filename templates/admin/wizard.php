@@ -75,3 +75,6 @@
         <div class="progress-bar" style="text-align: center; width: <%= current_percentage %>%; background-color: #00a8c6;"><%= current_percentage %>%</div>
     </div>
 </script>
+<script type="text/template" id="finish-tpl">
+    <a id="setup-finish-btn" title="<?php _ex('Go to theme options page','wizard', 'waboot'); ?>" href="<?php echo admin_url('admin.php?page=wbf_options') ?>" class="setup-finish-btn"><?php _ex('Customize Settings', 'wizard', 'waboot'); ?></a>
+</script>

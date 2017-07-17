@@ -32,7 +32,8 @@ function enqueue_js() {
             ],
 			'generators_labels' => [
                 'processing' => _x('Processing...','Generators','waboot'),
-                'completed' => sprintf(_x('Wizard completed successfully! <a href="%s">Enjoy</a>!','Generators','waboot'),admin_url('admin.php?page=wbf_options'))
+                'completed' => sprintf(_x('Wizard completed successfully!','Generators','waboot'),admin_url('admin.php?page=wbf_options')),
+                'rerun_wizard' => _x('Run again','Generators', 'waboot')
             ],
 			'wpurl' => get_bloginfo('wpurl'),
 			'isMobile' => class_exists("WBF") ? wb_is_mobile() : null,

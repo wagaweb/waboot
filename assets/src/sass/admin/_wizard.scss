@@ -1,3 +1,31 @@
+@mixin wizard_btn_primary($color){
+  background-color: $color;
+  border-color: $color;
+  border: 1px solid;
+  border-radius: 8px;
+  color: #fff;
+  width: 80%;
+  margin: 0 auto 10px;
+  padding: 14px;
+  cursor: pointer;
+  display: block;
+  font-size: 1.5em;
+  text-transform: uppercase;
+}
+
+@mixin wizard_btn_secondary(){
+  display: block;
+  background-color: #aaa;
+  border: 1px solid #aaa;
+  border-radius: 5px;
+  padding: 8px;
+  text-decoration: none;
+  color: #fff;
+  margin: 0 auto;
+  width: 70%;
+  text-align: center;
+}
+
 .wizard-wrapper{
   box-sizing: border-box;
   .title-wrapper{
@@ -59,30 +87,15 @@
       .submit-wrapper{
         width: 50%;
         button[type="submit"]{
-          background-color: $waboot_color;
-          border-color: $waboot_color;
-          border: 1px solid;
-          border-radius: 8px;
-          color: #fff;
-          width: 80%;
-          margin: 0 auto 10px;
-          padding: 14px;
-          cursor: pointer;
-          display: block;
-          font-size: 1.5em;
-          text-transform: uppercase;
+          @include wizard_btn_primary($waboot_color);
+        }
+        a.setup-finish-btn{
+          @include wizard_btn_primary(#4CAF50);
+          text-decoration: none;
+          text-align: center;
         }
         a.manual-setup{
-          display: block;
-          background-color: #aaa;
-          border: 1px solid #aaa;
-          border-radius: 5px;
-          padding: 8px;
-          text-decoration: none;
-          color: #fff;
-          margin: 0 auto;
-          width: 70%;
-          text-align: center;
+          @include wizard_btn_secondary();
         }
       }
       .info{
