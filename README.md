@@ -249,6 +249,10 @@ Bugfix releases and Waboot launch.
 
 **v2.1.x**
 
+Generators introduction and bugfix releases.
+
+**v2.2.x**
+
 - Implementation of tests
 - Full support for customizer
 - Bugfix
