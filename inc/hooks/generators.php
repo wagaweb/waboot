@@ -29,10 +29,12 @@ function add_wizard_notice(){
 	if($wizard_done) return;
 	//Add the notice to wizard
 	if(wbf_exists()){
-		$start_wizard_link = get_start_wizard_link();
-		$dismiss_wizard_link = add_query_arg(["waboot_dismiss_wizard"=>1],admin_url("themes.php"));
-		$msg = sprintf(__("Thank you choosing Waboot! If you want, our wizard will help you to kickstart your theme with some initial settings: click <a href='%s'>here</a> to start or <a href='%s'>here</a> to dismiss this notice.","waboot"),$start_wizard_link,$dismiss_wizard_link);
-		WBF()->notice_manager->add_notice("waboot-wizard",$msg,"nag","_flash_");
+		if(!\WBF::is_wbf_admin_page()){
+			$start_wizard_link = get_start_wizard_link();
+			$dismiss_wizard_link = add_query_arg(["waboot_dismiss_wizard"=>1],admin_url("themes.php"));
+			$msg = sprintf(__("Thank you choosing Waboot! If you want, our wizard will help you to kickstart your theme with some initial settings: click <a href='%s'>here</a> to start or <a href='%s'>here</a> to dismiss this notice.","waboot"),$start_wizard_link,$dismiss_wizard_link);
+			WBF()->notice_manager->add_notice("waboot-wizard",$msg,"nag","_flash_");
+		}
 	}else{
 		if(!\Waboot\Theme::is_wizard_done()){
 			$class = 'notice notice-error';
