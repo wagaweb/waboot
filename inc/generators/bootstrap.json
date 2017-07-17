@@ -1,7 +1,9 @@
 {
   "name": "Bootstrap layout",
+  "description": "Navbar aligned with logo",
   "components": ["header_bootstrap","footer_classic"],
   "classname": "BootstrapGenerator",
   "pre_actions": ["download_wbf","install_wbf"],
+  "preview": "assets/images/wizard/bootstrap.png",
   "actions": ["sayHello"]
 }

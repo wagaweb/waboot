@@ -1,4 +1,6 @@
 {
   "name": "Vertical layout",
+  "description": "Left fixed sidebar",
+  "preview": "assets/images/wizard/vertical.png",
   "components": ["navbar_vertical"]
 }

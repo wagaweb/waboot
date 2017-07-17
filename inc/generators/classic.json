@@ -1,4 +1,6 @@
 {
   "name": "Classic layout",
+  "description": "Navbar below logo",
+  "preview": "assets/images/wizard/classic.png",
   "components": ["header_classic","footer_classic"]
 }

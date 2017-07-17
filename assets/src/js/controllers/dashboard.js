@@ -16,12 +16,23 @@ export default class extends Backbone.Model{
     }
 
     /**
-     *
+     * Manage Generator page actions
      */
     manage_generators_page(){
-        let $form = $("#waboot-wizard-form");
+        let $form = $("#waboot-wizard-form"),
+            $selectors = $("img[data-select]");
         if($form.length > 0){
             new GeneratorsHandler($form,wbData.ajaxurl,wbData.generators_action);
+        }
+        if($selectors.length > 0){
+            $selectors.on('click', function(){
+                let value = $(this).data('select'),
+                    $radio = $("input[name='generator']");
+                $selectors.removeClass('selected');
+                $(this).addClass('selected');
+                $radio.prop('checked',false);
+                $("input[value='"+value+"']").prop('checked',true);
+            });
         }
     }
     /**

@@ -5,7 +5,10 @@ $theme_options_img_dir: "../../images/options";
  * Waboot Admin v2.0.0
  */
 
+$waboot_color: #76B5CB;
+
 @import "admin/global";
+@import "admin/wizard";
 
 //Extensions and plugins compatibilities
 @import "admin/extensions/wbf/waboot-admin";

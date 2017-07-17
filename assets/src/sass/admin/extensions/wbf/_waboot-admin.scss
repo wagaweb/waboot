@@ -5,10 +5,9 @@ Author: Waga
 Author URI: https://waga.it
 */
 
-
 .waboot-header {
   background-color: #fff;
-  border-bottom: 1px solid #76B5CB;
+  border-bottom: 1px solid $waboot_color;
   padding: 10px 0;
   margin: 0 0 0 -20px;
   overflow: auto;
@@ -32,9 +31,9 @@ Author URI: https://waga.it
         display: inline-block;
         line-height: 25px;
         margin: 0 0 0 25px;
-        color: #76B5CB;
+        color: $waboot_color;
         a {
-          color: #76B5CB;
+          color: $waboot_color;
           text-decoration: none;
         }
       }
@@ -135,7 +134,7 @@ Author URI: https://waga.it
   .wb-onoffswitch-inner:before {
     content: "ON";
     padding-left: 10px;
-    background-color: #76B5CB;
+    background-color: $waboot_color;
     color: #FFFFFF;
   }
   .wb-onoffswitch-inner:after {

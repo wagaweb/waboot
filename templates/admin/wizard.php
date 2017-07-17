@@ -1,20 +1,56 @@
-<form id="waboot-wizard-form" action="<?php echo admin_url("admin.php?page=waboot_setup_wizard"); ?>" method="post">
-	<?php foreach($generators as $generator_slug => $generator_data): ?>
-		<label>
-			<?php if(isset($generator_data->preview)): ?>
-				<img src="<?php echo $generator_data->preview ?>" width="100px" height="100px" title="<?php echo $generator_data->name; ?>" alt="[ <?php echo $generator_data->name; ?> preview]" />
-			<?php else: ?>
-				<img src="http://placehold.it/250x300" width="250px" height="300px" title="<?php echo $generator_data->name; ?>" alt="[ <?php echo $generator_data->name; ?> preview]" />
-			<?php endif; ?>
-			<input type="radio" name="generator" value="<?php echo $generator_slug ?>"><?php echo $generator_data->name; ?>
-		</label>
-	<?php endforeach; ?>
-    <div id="progress-status" class="progress-status"></div>
-	<p class="submit">
-		<button type="submit" class="button button-primary"><?php _e("Start wizard","waboot"); ?></button>
-	</p>
-	<?php wp_nonce_field( $nonce_action, $nonce_name ); ?>
-</form>
+<div class="wizard-wrapper">
+    <form id="waboot-wizard-form" action="<?php echo admin_url("admin.php?page=waboot_setup_wizard"); ?>" method="post">
+        <div class="title-wrapper">
+            <h1 class="title"><img src="<?php echo $images_uri.'/wizard/waboot-logo.png' ?>" alt="Waboot" /></h1>
+        </div>
+        <div class="content-wrapper">
+            <p class="headline">
+                <?php _ex('Choose the layout to start your project!','Wizard','waboot'); ?>
+            </p>
+            <div class="content">
+                <div class="generators">
+		            <?php foreach($generators as $generator_slug => $generator_data): ?>
+                        <div class="generator-selector">
+                            <?php if(isset($generator_data->name)) : ?>
+                            <p>
+                                <span class="title"><?php echo $generator_data->name; ?></span>
+                                <?php if(isset($generator_data->description)): ?>
+                                    <br />
+                                    <span class="description"><?php echo $generator_data->description; ?></span>
+                                <?php endif; ?>
+                            </p>
+                            <?php endif; ?>
+				            <?php if(isset($generator_data->preview)): ?>
+                                <img data-select='<?php echo $generator_slug; ?>' src="<?php echo get_template_directory_uri().'/'.$generator_data->preview ?>" title="<?php echo $generator_data->name; ?>" alt="[ <?php echo $generator_data->name; ?> preview]" />
+				            <?php else: ?>
+                                <img data-select='<?php echo $generator_slug; ?>' src="http://placehold.it/250x300" width="250px" height="300px" title="<?php echo $generator_data->name; ?>" alt="[ <?php echo $generator_data->name; ?> preview]" />
+				            <?php endif; ?>
+                            <label class="generator">
+                                <input type="radio" name="generator" value="<?php echo $generator_slug ?>"><?php echo $generator_data->name; ?>
+                            </label>
+                        </div>
+		            <?php endforeach; ?>
+                </div>
+
+            </div>
+            <div class="footer">
+                <div id="progress-status" class="progress-status"></div>
+                <div class="submit-wrapper">
+                    <button type="submit"><?php _e("Start wizard","waboot"); ?></button>
+                    <a href="<?php echo admin_url('admin.php?page=wbf_components') ?>" class="manual-setup"><?php _ex('Manual setup', 'wizard', 'waboot'); ?></a>
+                </div>
+                <div class="info">
+                    <h3><?php _ex('Learn more', 'wizard', 'waboot') ?></h3>
+                    <ul>
+                        <li><a target="_blank" href="https://www.waboot.io"><?php _ex('Learn more about Waboot','wizard','waboot'); ?></a></li>
+                        <li><a target="_blank" href="https://github.com/wagaweb/waboot"><?php _ex('Waboot docs','wizard','waboot'); ?></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <?php wp_nonce_field( $nonce_action, $nonce_name ); ?>
+    </form>
+</div>
 <script type="text/template" id="progress-tpl">
     <div class="progress-meter">
         <%= step_message %>

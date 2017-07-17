@@ -86,8 +86,9 @@ function display_wizard_page(){
 	if(class_exists('WBF\components\mvc\HTMLView')){
 		$v = new HTMLView("templates/admin/wizard.php");
 		$v->for_dashboard()->display([
-			"page_title" => __("Setup Wizard","waboot"),
+			"page_title" => '',
 			"generators" => $generators,
+			"images_uri" => get_template_directory_uri().'/assets/images',
 			"nonce_action" => "waboot_submit_wizard",
 			"nonce_name" => "waboot_wizard_nonce"
 		]);
@@ -95,6 +96,7 @@ function display_wizard_page(){
 		$page_title = __("Setup Wizard","waboot");
 		$nonce_action = "waboot_submit_wizard";
 		$nonce_name = "waboot_wizard_nonce";
+		$images_uri = get_template_directory_uri().'/assets/images';
 		require_once get_template_directory().'/templates/admin/wizard.php';
 	}
 }
