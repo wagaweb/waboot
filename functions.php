@@ -27,7 +27,7 @@ function waboot_init(){
 	}
 	unset($file, $filepath);
 
-	if(!class_exists("WBF") && !defined('WBTEST_CURRENT_PATH')){
+	if(!\Waboot\functions\wbf_exists()){
 		add_action("init",function(){
 			if(is_admin()){
 				\Waboot\Theme::preload_generators_page();
@@ -39,7 +39,7 @@ function waboot_init(){
 			\Waboot\Theme::preload_generators_page();
 			if(!\Waboot\Theme::is_wizard_done()){
 				$class = 'notice notice-error';
-				$wizard_url = !class_exists("WBF") && !defined('WBTEST_CURRENT_PATH') ? admin_url('/tools.php?page=waboot_setup_wizard') : admin_url('/admin.php?page=waboot_setup_wizard');
+				$wizard_url = !\Waboot\functions\wbf_exists() ? admin_url('/tools.php?page=waboot_setup_wizard') : admin_url('/admin.php?page=waboot_setup_wizard');
 				$message = sprintf(
 					__( "Waboot theme is missing some requirements to work properly. You can run the <a href='%s'>Wizard</a> to take care of them.", 'Waboot' ),
 					$wizard_url

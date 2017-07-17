@@ -395,8 +395,7 @@ class Theme{
 	 * @return bool
 	 */
 	public static function is_wizard_done(){
-		return false;
-		//return get_option('waboot-done-wizard',false);
+		return get_option('waboot-done-wizard',false);
 	}
 
 	/**

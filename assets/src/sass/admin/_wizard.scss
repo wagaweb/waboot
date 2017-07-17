@@ -3,15 +3,15 @@
     margin: 0 auto;
     h1.title{
       text-align: center;
+      margin-bottom: 20px;
     }
   }
   .content-wrapper{
     width: 47%;
     margin: 0 auto;
     background-color: #fff;
-    p.headline{
+    .headline{
       padding: 20px;
-      font-weight: bold;
       border-bottom: 1px solid $waboot_color;
     }
     .content{

@@ -4,9 +4,28 @@
             <h1 class="title"><img src="<?php echo $images_uri.'/wizard/waboot-logo.png' ?>" alt="Waboot" /></h1>
         </div>
         <div class="content-wrapper">
-            <p class="headline">
-                <?php _ex('Choose the layout to start your project!','Wizard','waboot'); ?>
-            </p>
+            <div class="headline">
+                <p><strong><?php _ex('Thank you for choosing Waboot!','Wizard','waboot'); ?></strong></p>
+                <?php if(!\Waboot\functions\wbf_exists()): ?>
+                    <p>
+	                    <?php _ex('Choose one of the layouts below to install all requirements and startup your new project with some predefined options.','Wizard','waboot'); ?>
+                    </p>
+                <?php else: ?>
+                    <p>
+                        <?php
+                        printf(
+                            _x(
+                                'Choose one of the layouts below to startup your new project with some predefined options, or head directly to <a href="%s" title="Go to components page">components</a> or <a href="%s" title="Go to theme options page">theme options</a> page.',
+                                'Wizard',
+                                'waboot'
+                            ),
+	                        admin_url('admin.php?page=wbf_components'),
+	                        admin_url('admin.php?page=wbf_options')
+                        );
+                        ?>
+                    </p>
+                <?php endif; ?>
+            </div>
             <div class="content">
                 <div class="generators">
 		            <?php foreach($generators as $generator_slug => $generator_data): ?>
@@ -37,7 +56,7 @@
                 <div id="progress-status" class="progress-status"></div>
                 <div class="submit-wrapper">
                     <button type="submit"><?php _e("Start wizard","waboot"); ?></button>
-                    <a href="<?php echo admin_url('admin.php?page=wbf_components') ?>" class="manual-setup"><?php _ex('Manual setup', 'wizard', 'waboot'); ?></a>
+                    <a title="<?php _ex('Go to components page','wizard', 'waboot'); ?>" href="<?php echo admin_url('admin.php?page=wbf_components') ?>" class="manual-setup"><?php _ex('Manual setup', 'wizard', 'waboot'); ?></a>
                 </div>
                 <div class="info">
                     <h3><?php _ex('Learn more', 'wizard', 'waboot') ?></h3>

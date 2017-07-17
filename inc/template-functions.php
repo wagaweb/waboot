@@ -642,3 +642,15 @@ function deploy_theme_options_css($option, $old_value, $value){
 
 	return $output_string;
 }
+
+/**
+ * Detect the existence of WBF
+ *
+ * @return bool
+ */
+function wbf_exists(){
+	if(class_exists("WBF") || defined('WBTEST_CURRENT_PATH')){
+		return true;
+	}
+	return false;
+}

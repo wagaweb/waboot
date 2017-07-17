@@ -2,8 +2,47 @@
 
 namespace Waboot\hooks\generators;
 
+use function Waboot\functions\wbf_exists;
 use Waboot\Theme;
 use WBF\components\mvc\HTMLView;
+
+/**
+ * Redirect to Wizard page after the first theme switch
+ */
+function redirect_to_wizard(){
+	$wizard_done = Theme::is_wizard_done();
+	if(!$wizard_done){
+		$start_wizard_link = admin_url("admin.php?page=waboot_setup_wizard");
+		wp_redirect($start_wizard_link);
+	}
+}
+add_action("after_switch_theme", __NAMESPACE__."\\redirect_to_wizard");
+
+/**
+ * Adds the notice if the Wizard has never been done
+ */
+function add_wizard_notice(){
+	if(isset($_GET['page']) && $_GET['page'] == 'waboot_setup_wizard') return;
+	$wizard_done = Theme::is_wizard_done();
+	if($wizard_done) return;
+	//Add the notice to wizard
+	$start_wizard_link = admin_url("admin.php?page=waboot_setup_wizard");
+	$dismiss_wizard_link = add_query_arg(["waboot_dismiss_wizard"=>1],admin_url("themes.php"));
+	$msg = sprintf(__("Thank you choosing Waboot! If you want, our wizard will help you to kickstart your theme with some initiali settings: click <a href='%s'>here</a> to start or <a href='%s'>here</a> to dismiss this notice.","waboot"),$start_wizard_link,$dismiss_wizard_link);
+	WBF()->notice_manager->add_notice("waboot-wizard",$msg,"nag","_flash_");
+}
+add_action("admin_init",__NAMESPACE__."\\add_wizard_notice");
+
+/**
+ * Handles the dismissing of the Wizard notice
+ */
+function dismiss_wizard_notice(){
+	if(!isset($_GET['waboot_dismiss_wizard'])) return;
+	if($_GET['waboot_dismiss_wizard'] == 1){
+		WBF()->notice_manager->remove_notice("waboot-wizard");
+	}
+}
+add_action("admin_init",__NAMESPACE__."\\dismiss_wizard_notice");
 
 /*
  * Handles wizard submit via AJAX
@@ -101,7 +140,7 @@ function display_wizard_page(){
 	}
 }
 
-if(!class_exists("WBF") && !defined('WBTEST_CURRENT_PATH')){
+if(!wbf_exists()){
 	add_action('admin_menu', function(){
 		$menu = [
 			'page_title' => __("Waboot Setup Wizard","waboot"),
