@@ -132,7 +132,7 @@ if(wbf_exists()) add_action('admin_init',__NAMESPACE__."\\handle_wizard",11);
 function add_wizard_page($menu_slug){
 	$menu = [
 		'page_title' => __("Setup Wizard","waboot"),
-		'menu_title' => __("Setup Wizard","waboot"),
+		'menu_title' => Theme::is_wizard_done() ? __("Setup Wizard (Admin only)","waboot") : __("Setup Wizard","waboot"),
 		'capability' => "manage_options",
 		'menu_slug'  => "waboot_setup_wizard"
 	];
@@ -175,7 +175,7 @@ if(!wbf_exists()){
 		\add_management_page( $menu['page_title'], $menu['menu_title'], $menu['capability'], $menu['menu_slug'], __NAMESPACE__.'\display_wizard_page');
 	});
 }else{
-	if(!Theme::is_wizard_done()){
+	if(!Theme::is_wizard_done() || current_user_can('manage_options')){
 		add_action("wbf_admin_submenu",__NAMESPACE__."\\add_wizard_page");
 	}
 }
