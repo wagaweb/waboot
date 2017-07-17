@@ -173,5 +173,7 @@ if(!wbf_exists()){
 		\add_management_page( $menu['page_title'], $menu['menu_title'], $menu['capability'], $menu['menu_slug'], __NAMESPACE__.'\display_wizard_page');
 	});
 }else{
-	add_action("wbf_admin_submenu",__NAMESPACE__."\\add_wizard_page");
+	if(!Theme::is_wizard_done()){
+		add_action("wbf_admin_submenu",__NAMESPACE__."\\add_wizard_page");
+	}
 }
