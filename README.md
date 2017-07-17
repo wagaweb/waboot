@@ -1,4 +1,4 @@
-[Zones](#zones) | [Components](#components) | [Template system](#template-system) | [Theme Options](#theme-options) | [Roadmap](#roadmap)
+[Zones](#zones) | [Components](#components) | [Template system](#template-system) | [Theme Options](#theme-options) | [Generators](#generators) | [Roadmap](#roadmap)
 
 # Waboot Theme
 
@@ -231,6 +231,14 @@ Later, when editing a specific post or page, you can change the default values s
 Refers to [WBF Behaviors module](https://github.com/wagaweb/wbf/tree/master/src/modules/behaviors) to learn more about behaviors and how to implement them.
 
 <span style="font-size:smaller"><a href="#waboot-theme">Back to top.</a></span>
+
+#Generators
+
+Generators are a feature that allows developers to specify configurations in JSON files (_generators_), that can be later imported.
+
+Generators are good to create different startup configurations for your child themes. In Waboot they are used to bootstrap different configurations of Components and Theme Options.
+
+More informations and tutorials [here](#).
 
 # Roadmap
 
