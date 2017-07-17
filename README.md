@@ -212,7 +212,7 @@ In particular:
     
 <span style="font-size:smaller"><a href="#waboot-theme">Back to top.</a></span>
 
-#Theme Options
+# Theme Options
 
 Waboot features many predefined options that allow the customization of many aspects of the theme. Child themes can additional enrich them. 
 
@@ -232,13 +232,14 @@ Refers to [WBF Behaviors module](https://github.com/wagaweb/wbf/tree/master/src/
 
 <span style="font-size:smaller"><a href="#waboot-theme">Back to top.</a></span>
 
-#Generators
+# Generators
+<a name="#generators"></a>
 
 Generators are a feature that allows developers to specify configurations in JSON files (_generators_), that can be later imported.
 
 Generators are good to create different startup configurations for your child themes. In Waboot they are used to bootstrap different configurations of Components and Theme Options.
 
-More informations and tutorials [here](#).
+More informations and tutorials [here](https://github.com/wagaweb/waboot/tree/master/inc/generators).
 
 # Roadmap
 
