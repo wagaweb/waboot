@@ -23,6 +23,7 @@ add_action("after_switch_theme", __NAMESPACE__."\\redirect_to_wizard");
  * Adds the notice if the Wizard has never been done
  */
 function add_wizard_notice(){
+	if(wp_doing_ajax()) return;
 	if(isset($_GET['page']) && $_GET['page'] == 'waboot_setup_wizard') return;
 	$wizard_done = Theme::is_wizard_done();
 	if($wizard_done) return;
@@ -88,8 +89,9 @@ add_action("wp_ajax_handle_generator", function(){
 			wp_send_json_error($r);
 		}
 	}else{
-		$r['status'] = "complete";
-		wp_send_json_error();
+		$r['status'] = 'failed';
+		$r['message'] = 'No options selected';
+		wp_send_json_error($r);
 	}
 });
 

@@ -42,7 +42,7 @@ function waboot_init(){
 	$wb = Waboot()->load_hooks();
 
 	if(!class_exists("\\Waboot\\Theme") || !\Waboot\functions\wbf_exists()){
-		if(!is_admin()){
+		if(!is_admin() && !wp_doing_ajax()){
 			trigger_error("Waboot was not initialized. Missing WBF?", E_USER_NOTICE);
 		}
 		return; //Stop here if WBF is not present

@@ -2,6 +2,7 @@
 
 namespace Waboot;
 
+use function Waboot\functions\wbf_exists;
 use WBF\components\utils\Utilities;
 use WBF\modules\components\ComponentsManager;
 use WBF\modules\options\Framework;
@@ -226,6 +227,7 @@ class Theme{
 			}
 
 			if($step == self::GENERATOR_STEP_ALL || $step == self::GENERATOR_STEP_COMPONENTS){
+				if(!wbf_exists()) throw new \Exception("WBF not detected");
 				//Toggle components
 				$registered_components = ComponentsManager::getAllComponents();
 				foreach ($registered_components as $component_name => $component_data){ //Disable all components
@@ -245,6 +247,7 @@ class Theme{
 			}
 
 			if($step == self::GENERATOR_STEP_ALL || $step == self::GENERATOR_STEP_OPTIONS){
+				if(!wbf_exists()) throw new \Exception("WBF not detected");
 				//Setup options
 				if(isset($selected_generator->options)){
 					$options = json_decode(json_encode($selected_generator->options), true); //stdClass to array
@@ -268,6 +271,7 @@ class Theme{
 			}
 
 			if($step == self::GENERATOR_STEP_ALL || $step == self::GENERATOR_STEP_ACTIONS){
+				if(!wbf_exists()) throw new \Exception("WBF not detected");
 				//Do actions
 				if(!isset($selected_generator->actions) || !is_array($selected_generator->actions) || empty($selected_generator->actions)){
 					return wp_parse_args([
