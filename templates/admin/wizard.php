@@ -1,11 +1,11 @@
-<div class="wizard-wrapper">
+<div id="wizard-wrapper" class="admin-wrapper wizard-wrapper">
     <form id="waboot-wizard-form" action="<?php echo admin_url("admin.php?page=waboot_setup_wizard"); ?>" method="post">
         <div class="title-wrapper">
             <h1 class="title"><img src="<?php echo $images_uri.'/wizard/waboot-logo.png' ?>" alt="Waboot" /></h1>
         </div>
-        <div class="content-wrapper">
+        <div class="wizard-content">
             <div class="headline">
-                <p><strong><?php _ex('Thank you for choosing Waboot!','Wizard','waboot'); ?></strong></p>
+                <h2><?php _ex('Thank you for choosing Waboot!','Wizard','waboot'); ?></h2>
                 <?php if(!\Waboot\functions\wbf_exists()): ?>
                     <p>
 	                    <?php _ex('Choose one of the layouts below to install all requirements and startup your new project with some predefined options.','Wizard','waboot'); ?>
@@ -15,7 +15,7 @@
                         <?php
                         printf(
                             _x(
-                                'Choose one of the layouts below to startup your new project with some predefined options, or head directly to <a href="%s" title="Go to components page">components</a> or <a href="%s" title="Go to theme options page">theme options</a> page.',
+                                'Choose one of the layouts below to startup your new project with some predefined options, or use manual setup button below.',
                                 'Wizard',
                                 'waboot'
                             ),
@@ -31,13 +31,10 @@
 		            <?php foreach($generators as $generator_slug => $generator_data): ?>
                         <div class="generator-selector">
                             <?php if(isset($generator_data->name)) : ?>
-                            <p>
-                                <span class="title"><?php echo $generator_data->name; ?></span>
-                                <?php if(isset($generator_data->description)): ?>
-                                    <br />
-                                    <span class="description"><?php echo $generator_data->description; ?></span>
-                                <?php endif; ?>
-                            </p>
+                            <h3><?php echo $generator_data->name; ?></h3>
+                            <?php if(isset($generator_data->description)): ?>
+                                <p class="description"><?php echo $generator_data->description; ?></p>
+                            <?php endif; ?>
                             <?php endif; ?>
 				            <?php if(isset($generator_data->preview)): ?>
                                 <img data-select='<?php echo $generator_slug; ?>' src="<?php echo get_template_directory_uri().'/'.$generator_data->preview ?>" title="<?php echo $generator_data->name; ?>" alt="[ <?php echo $generator_data->name; ?> preview]" />

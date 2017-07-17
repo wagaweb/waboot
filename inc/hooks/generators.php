@@ -146,7 +146,7 @@ function display_wizard_page(){
 
 	if(class_exists('WBF\components\mvc\HTMLView')){
 		$v = new HTMLView("templates/admin/wizard.php");
-		$v->for_dashboard()->display([
+		$v->display([
 			"page_title" => '',
 			"generators" => $generators,
 			"images_uri" => get_template_directory_uri().'/assets/images',
