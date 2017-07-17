@@ -1,4 +1,5 @@
 .wizard-wrapper{
+  box-sizing: border-box;
   .title-wrapper{
     margin: 0 auto;
     h1.title{
@@ -6,37 +7,42 @@
       margin-bottom: 20px;
     }
   }
-  .content-wrapper{
-    width: 47%;
-    margin: 0 auto;
+  .wizard-content{
+    margin: 0;
     background-color: #fff;
     .headline{
       padding: 20px;
       border-bottom: 1px solid $waboot_color;
     }
     .content{
-      padding: 20px;
+      padding: 10px 20px 0 20px;
       label.generator{
         display: none;
       }
       .generators{
         display: flex;
         flex-flow: row wrap;
+        margin: 0 -10px;
         .generator-selector{
           width: 100%;
+          padding: 0 10px;
           @include min-medium{
-            width: 33%;
+            width: 33.3333%;
           }
           img{
             max-width: 100%;
+            width: 100%;
+            cursor: pointer;
+            padding: 20px;
+            background-color: #eee;
             &.selected{
               border: 3px solid $waboot_color;
             }
           }
-          .title{
-            font-weight: bold;
+          h3{
+            margin-bottom: 0;
           }
-          .description{
+          p.description{
             color: #ccc;
           }
         }
@@ -48,7 +54,7 @@
       padding: 20px;
       .progress-status{
         width: 100%;
-        margin-bottom: 50px;
+        margin-bottom: 20px;
       }
       .submit-wrapper{
         width: 50%;
@@ -58,19 +64,25 @@
           border: 1px solid;
           border-radius: 8px;
           color: #fff;
-          width: 86%;
+          width: 80%;
+          margin: 0 auto 10px;
           padding: 14px;
+          cursor: pointer;
+          display: block;
+          font-size: 1.5em;
+          text-transform: uppercase;
         }
         a.manual-setup{
           display: block;
           background-color: #aaa;
           border: 1px solid #aaa;
-          border-radius: 8px;
-          padding: 5px;
+          border-radius: 5px;
+          padding: 8px;
           text-decoration: none;
           color: #fff;
-          margin-top: 12px;
-          width: 80px;
+          margin: 0 auto;
+          width: 70%;
+          text-align: center;
         }
       }
       .info{
