@@ -386,6 +386,8 @@ class Theme{
 	 * Loads the hooks for displaying the generators page only
 	 */
 	public static function preload_generators_page(){
+		locate_template('inc/hooks/stylesheets.php', true);
+		locate_template('inc/hooks/scripts.php', true);
 		locate_template('inc/hooks/generators.php', true);
 	}
 

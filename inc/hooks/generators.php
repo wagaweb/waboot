@@ -2,6 +2,7 @@
 
 namespace Waboot\hooks\generators;
 
+use function Waboot\functions\get_start_wizard_link;
 use function Waboot\functions\wbf_exists;
 use Waboot\Theme;
 use WBF\components\mvc\HTMLView;
@@ -12,7 +13,7 @@ use WBF\components\mvc\HTMLView;
 function redirect_to_wizard(){
 	$wizard_done = Theme::is_wizard_done();
 	if(!$wizard_done){
-		$start_wizard_link = admin_url("admin.php?page=waboot_setup_wizard");
+		$start_wizard_link = get_start_wizard_link();
 		wp_redirect($start_wizard_link);
 	}
 }
@@ -26,12 +27,31 @@ function add_wizard_notice(){
 	$wizard_done = Theme::is_wizard_done();
 	if($wizard_done) return;
 	//Add the notice to wizard
-	$start_wizard_link = admin_url("admin.php?page=waboot_setup_wizard");
-	$dismiss_wizard_link = add_query_arg(["waboot_dismiss_wizard"=>1],admin_url("themes.php"));
-	$msg = sprintf(__("Thank you choosing Waboot! If you want, our wizard will help you to kickstart your theme with some initiali settings: click <a href='%s'>here</a> to start or <a href='%s'>here</a> to dismiss this notice.","waboot"),$start_wizard_link,$dismiss_wizard_link);
-	WBF()->notice_manager->add_notice("waboot-wizard",$msg,"nag","_flash_");
+	if(wbf_exists()){
+		$start_wizard_link = get_start_wizard_link();
+		$dismiss_wizard_link = add_query_arg(["waboot_dismiss_wizard"=>1],admin_url("themes.php"));
+		$msg = sprintf(__("Thank you choosing Waboot! If you want, our wizard will help you to kickstart your theme with some initial settings: click <a href='%s'>here</a> to start or <a href='%s'>here</a> to dismiss this notice.","waboot"),$start_wizard_link,$dismiss_wizard_link);
+		WBF()->notice_manager->add_notice("waboot-wizard",$msg,"nag","_flash_");
+	}else{
+		if(!\Waboot\Theme::is_wizard_done()){
+			$class = 'notice notice-error';
+			$wizard_url = \Waboot\functions\get_start_wizard_link();
+			$message = sprintf(
+				__( "Waboot theme is missing some requirements to work properly. You can run the <a href='%s'>Wizard</a> to take care of them.", 'Waboot' ),
+				$wizard_url
+			);
+			printf( '<div class="%1$s"><p>%2$s</p></div>', $class, $message );
+		}else{
+			$class = 'notice notice-error';
+			$message = sprintf(
+				__( "Waboot theme requires <a href='%s'>WBF Framework</a> plugin to work properly, please install.", 'Waboot' ),
+				'http://update.waboot.org/resource/get/plugin/wbf'
+			);
+			printf( '<div class="%1$s"><p>%2$s</p></div>', $class, $message );
+		}
+	}
 }
-add_action("admin_init",__NAMESPACE__."\\add_wizard_notice");
+add_action("admin_init",__NAMESPACE__."\\add_wizard_notice",11);
 
 /**
  * Handles the dismissing of the Wizard notice
@@ -42,7 +62,7 @@ function dismiss_wizard_notice(){
 		WBF()->notice_manager->remove_notice("waboot-wizard");
 	}
 }
-add_action("admin_init",__NAMESPACE__."\\dismiss_wizard_notice");
+add_action("admin_init",__NAMESPACE__."\\dismiss_wizard_notice",11);
 
 /*
  * Handles wizard submit via AJAX
@@ -96,7 +116,7 @@ function handle_wizard(){
 		WBF()->notice_manager->add_notice("waboot_wizard_completed",__("Wizard encountered some errors","waboot"),"error","_flash_");
 	}
 }
-add_action('admin_init',__NAMESPACE__."\\handle_wizard",10);
+if(wbf_exists()) add_action('admin_init',__NAMESPACE__."\\handle_wizard",11);
 
 /**
  * Adds and display Waboot Wizard page

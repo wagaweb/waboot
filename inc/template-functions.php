@@ -644,6 +644,20 @@ function deploy_theme_options_css($option, $old_value, $value){
 }
 
 /**
+ * Get the start wizard link
+ *
+ * @return string
+ */
+function get_start_wizard_link(){
+	if(wbf_exists()){
+		$start_wizard_link = admin_url("admin.php?page=waboot_setup_wizard");
+	}else{
+		$start_wizard_link = admin_url("tools.php?page=waboot_setup_wizard");
+	}
+	return $start_wizard_link;
+}
+
+/**
  * Detect the existence of WBF
  *
  * @return bool

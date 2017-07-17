@@ -1,6 +1,7 @@
 <?php
 
 namespace Waboot\hooks\scripts;
+use function Waboot\functions\wbf_exists;
 use Waboot\Theme;
 
 /**
@@ -12,7 +13,7 @@ function enqueue_js() {
 		wp_enqueue_script( 'comment-reply' );
 	}
 	
-	if(!is_admin()){
+	if(!is_admin() && wbf_exists()){
 		//Bootstrap
 		wp_enqueue_script( 'bootstrap.js', wbf_locate_template_uri( 'assets/dist/js/bootstrap.min.js' )."#asyncload", array( 'jquery' ), false, true );
 	}
@@ -43,24 +44,27 @@ function enqueue_js() {
 			'is_woocommerce' => function_exists("is_woocommerce") && is_woocommerce(),
 			'is_cart' => function_exists("is_cart") && is_cart(),
 			'is_checkout' => function_exists("is_checkout") && is_checkout(),
-			//Components
-			'components' => isset($GLOBALS['loaded_components']) ? $GLOBALS['loaded_components'] : null,
-			'components_js' => call_user_func(function(){
-				global $loaded_components;
-				if(!isset($loaded_components)) return null;
-				foreach($loaded_components as $c){
-					$dir = dirname($c->file);
-					$js = $dir."/".$c->name."-module.js";
-					if(!file_exists($js)) $js = $dir."/assets/js/".$c->name."-module.js";
-					if(!file_exists($js)) $js = $dir."/js/".$c->name."-module.js";
-					if(!file_exists($js)) continue;
-					$components_js[] = $js;
-				}
-				if(empty($components_js)) return null;
-				return $components_js;
-			})
 		)
 	);
+
+	if(wbf_exists()){
+		//Components
+		$wpData['components'] = isset($GLOBALS['loaded_components']) ? $GLOBALS['loaded_components'] : null;
+        $wpData['components_js'] = call_user_func(function(){
+			global $loaded_components;
+			if(!isset($loaded_components)) return null;
+			foreach($loaded_components as $c){
+				$dir = dirname($c->file);
+				$js = $dir."/".$c->name."-module.js";
+				if(!file_exists($js)) $js = $dir."/assets/js/".$c->name."-module.js";
+				if(!file_exists($js)) $js = $dir."/js/".$c->name."-module.js";
+				if(!file_exists($js)) continue;
+				$components_js[] = $js;
+			}
+			if(empty($components_js)) return null;
+			return $components_js;
+		});
+    }
 
 	$deps = array('jquery','jquery-ui-core','jquery-ui-dialog','backbone','underscore');
 

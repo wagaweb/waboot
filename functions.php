@@ -14,7 +14,10 @@ function waboot_init(){
 		'inc/template-rendering.php',
 		'inc/Layout.php',
 		'inc/Theme.php',
-		'inc/woocommerce/bootstrap.php'
+		'inc/woocommerce/bootstrap.php',
+		'inc/hooks/stylesheets.php',
+		'inc/hooks/scripts.php',
+		'inc/hooks/generators.php',
 	];
 
 	//Require mandatory files
@@ -29,29 +32,8 @@ function waboot_init(){
 
 	if(!\Waboot\functions\wbf_exists()){
 		add_action("init",function(){
-			if(is_admin()){
-				\Waboot\Theme::preload_generators_page();
-			}else{
+			if(!is_admin()){
 				_e( "Waboot theme requires WBF Framework to work properly, please install.", 'Waboot' );
-			}
-		});
-		add_action("admin_notices", function(){
-			\Waboot\Theme::preload_generators_page();
-			if(!\Waboot\Theme::is_wizard_done()){
-				$class = 'notice notice-error';
-				$wizard_url = !\Waboot\functions\wbf_exists() ? admin_url('/tools.php?page=waboot_setup_wizard') : admin_url('/admin.php?page=waboot_setup_wizard');
-				$message = sprintf(
-					__( "Waboot theme is missing some requirements to work properly. You can run the <a href='%s'>Wizard</a> to take care of them.", 'Waboot' ),
-					$wizard_url
-				);
-				printf( '<div class="%1$s"><p>%2$s</p></div>', $class, $message );
-			}else{
-				$class = 'notice notice-error';
-				$message = sprintf(
-					__( "Waboot theme requires <a href='%s'>WBF Framework</a> plugin to work properly, please install.", 'Waboot' ),
-					'http://update.waboot.org/resource/get/plugin/wbf'
-				);
-				printf( '<div class="%1$s"><p>%2$s</p></div>', $class, $message );
 			}
 		});
 	}
@@ -59,11 +41,11 @@ function waboot_init(){
 	//Init hooks
 	$wb = Waboot()->load_hooks();
 
-	if(!class_exists("\\Waboot\\Theme") || !class_exists('WBF')){
+	if(!class_exists("\\Waboot\\Theme") || !\Waboot\functions\wbf_exists()){
 		if(!is_admin()){
 			trigger_error("Waboot was not initialized. Missing WBF?", E_USER_NOTICE);
 		}
-		return;
+		return; //Stop here if WBF is not present
 	}
 
 	locate_template('inc/Component.php',true);
