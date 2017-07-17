@@ -38,9 +38,6 @@ function waboot_init(){
 		});
 	}
 
-	//Init hooks
-	$wb = Waboot()->load_hooks();
-
 	if(!class_exists("\\Waboot\\Theme") || !\Waboot\functions\wbf_exists()){
 		if(!is_admin() && !wp_doing_ajax()){
 			trigger_error("Waboot was not initialized. Missing WBF?", E_USER_NOTICE);
@@ -48,7 +45,8 @@ function waboot_init(){
 		return; //Stop here if WBF is not present
 	}
 
-	locate_template('inc/Component.php',true);
+	//Init hooks
+	$wb = Waboot()->load_hooks()->load_dependencies();
 
 	//Build up the theme
 	$wb->layout->create_zone("header",false,["always_load"=>true]);

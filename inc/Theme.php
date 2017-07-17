@@ -60,13 +60,28 @@ class Theme{
 		$hooks_files = [
 			'inc/hooks/init.php',
 			'inc/hooks/hooks.php',
-			'inc/hooks/generators.php',
 			//'inc/hooks/layout.php',
 			'inc/hooks/widget_areas.php',
 			'inc/hooks/options.php',
 			'inc/hooks/entry/entry.php',
-			'inc/hooks/stylesheets.php',
-			'inc/hooks/scripts.php',
+		];
+		foreach($hooks_files as $file){
+			if (!$filepath = locate_template($file)) {
+				trigger_error(sprintf(__('Error locating %s for inclusion', 'waboot'), $file), E_USER_ERROR);
+			}
+			require_once $filepath;
+		}
+		return $this;
+	}
+
+	/**
+	 * Loads all theme dependecies
+	 *
+	 * @return $this
+	 */
+	public function load_dependencies(){
+		$hooks_files = [
+			'inc/Component.php',
 		];
 		foreach($hooks_files as $file){
 			if (!$filepath = locate_template($file)) {

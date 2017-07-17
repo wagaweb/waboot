@@ -23,8 +23,12 @@
         display: flex;
         flex-flow: row wrap;
         .generator-selector{
-          width: 33%;
+          width: 100%;
+          @include min-medium{
+            width: 33%;
+          }
           img{
+            max-width: 100%;
             &.selected{
               border: 3px solid $waboot_color;
             }

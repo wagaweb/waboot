@@ -1,11 +1,16 @@
-$pagebuilder_img_dir: "../../images/pagebuilder";
-$theme_options_img_dir: "../../images/options";
-
 /*!
  * Waboot Admin v2.0.0
  */
 
+$pagebuilder_img_dir: "../../images/pagebuilder";
+$theme_options_img_dir: "../../images/options";
 $waboot_color: #76B5CB;
+
+@mixin min-medium {
+  @media screen and (min-width: 768px) {
+    @content;
+  }
+}
 
 @import "admin/global";
 @import "admin/wizard";
