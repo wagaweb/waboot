@@ -4,6 +4,7 @@ Version 2.1.1 - 07/18/2017
 ---------------------------------
 - Tweak: Generators are now run via Ajax
 - Tweak: Wizard page completed
+- Tweak: New behavior to specify the post navigation position in every single post
 - Docs: Generators documentation
 
 Version 2.1.0 - 07/03/2017
