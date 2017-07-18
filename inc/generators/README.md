@@ -29,3 +29,12 @@ Only **name** in mandatory. **classname** is mandatory only if **pre_actions** o
 **pre_actions** and **actions** keys specify methods to execute on **classname** instance.
 
 These methods can do every you can think of, but they have to return `true` or throw an `\Exception`.
+
+## How it works
+
+When the user select a generator from the interface, Waboot proceeds to apply the configuration specified in it by perform the operations in a specific order:
+
+- If **pre_actions** are defined, a new instance of **classname** is created and the methods specified in **pre_actions** are executed in order.
+- If **components** are defined, they are activated (and all other components are disabled)
+- If **options** are defined, Waboot executes `update_option()` for each of them.
+- If **actions** are defined, a new instance of **classname** is created and the methods specified in **actions** are executed in order.
