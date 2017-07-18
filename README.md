@@ -245,13 +245,21 @@ More informations and tutorials [here](https://github.com/wagaweb/waboot/tree/ma
 
 **v2.0.x**
 
-Bugfix releases and Waboot launch.
+Bugfix releases.
 
 **v2.1.x**
 
 Generators introduction and bugfix releases.
 
 **v2.2.x**
+
+Bootstrap will become optional (available as component) and Waboot will use a proprietary grid system.
+
+Developers will be able to use their grid system by hooking into filters and specify their grid classes.
+
+Bugfix.
+
+**v2.3.x**
 
 - Implementation of tests
 - Full support for customizer
