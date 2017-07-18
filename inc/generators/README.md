@@ -49,6 +49,6 @@ There is a filter available: `waboot/generators/directories` . It takes the curr
 
 **preview** is a relative path name to the preview image of the generator.
 
-If the generator json file is in a theme, the base path for that preview will be the theme directory, otherwise the `dirname()` of the file will be used.
+If the generator json file is in a theme, the base path for that preview will be the theme directory uri, otherwise the `WBF\components\utils\Paths::path_to_url()` of the file will be used.
 
 During `Waboot\Theme::get_generators()` execution the property `preview_basepath` is added to the properties of the generator.

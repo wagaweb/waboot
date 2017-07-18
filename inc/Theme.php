@@ -3,6 +3,7 @@
 namespace Waboot;
 
 use function Waboot\functions\wbf_exists;
+use WBF\components\utils\Paths;
 use WBF\components\utils\Utilities;
 use WBF\modules\components\ComponentsManager;
 use WBF\modules\options\Framework;
@@ -182,13 +183,13 @@ class Theme{
 				//Preview actions
 				if(isset($parsed->preview)){
 					if(preg_match('|'.$child_dirpath.'|',$generators_file)){
-						$basepath = $child_dirpath;
+						$baseuri = get_stylesheet_directory_uri();
 					}elseif(preg_match('|'.$parent_dirpath.'|',$generators_file)){
-						$basepath = $parent_dirpath;
+						$baseuri = get_template_directory_uri();
 					}else{
-						$basepath = dirname($generators_file);
+						$baseuri = Paths::path_to_url(dirname($generators_file));
 					}
-					$parsed->preview_basepath = $basepath;
+					$parsed->preview_basepath = $baseuri;
 				}
 
 				$generators[$slug] = $parsed;
