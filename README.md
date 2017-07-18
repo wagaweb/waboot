@@ -245,7 +245,7 @@ More informations and tutorials [here](https://github.com/wagaweb/waboot/tree/ma
 
 **v2.0.x**
 
-Bugfix releases.
+:white_check_mark: Bugfix releases.
 
 **v2.1.x**
 
