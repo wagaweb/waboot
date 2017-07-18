@@ -249,7 +249,9 @@ More informations and tutorials [here](https://github.com/wagaweb/waboot/tree/ma
 
 **v2.1.x**
 
-Generators introduction and bugfix releases.
+- :white_check_mark: Generators introduction 
+
+- Bugfix releases.
 
 **v2.2.x**
 
