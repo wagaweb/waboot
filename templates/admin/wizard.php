@@ -37,7 +37,7 @@
                             <?php endif; ?>
                             <?php endif; ?>
 				            <?php if(isset($generator_data->preview)): ?>
-                                <img data-select='<?php echo $generator_slug; ?>' src="<?php echo get_template_directory_uri().'/'.$generator_data->preview ?>" title="<?php echo $generator_data->name; ?>" alt="[ <?php echo $generator_data->name; ?> preview]" />
+                                <img data-select='<?php echo $generator_slug; ?>' src="<?php echo $generator_data->preview_basepath.'/'.$generator_data->preview ?>" title="<?php echo $generator_data->name; ?>" alt="[ <?php echo $generator_data->name; ?> preview]" />
 				            <?php else: ?>
                                 <img data-select='<?php echo $generator_slug; ?>' src="http://placehold.it/250x300" width="250px" height="300px" title="<?php echo $generator_data->name; ?>" alt="[ <?php echo $generator_data->name; ?> preview]" />
 				            <?php endif; ?>

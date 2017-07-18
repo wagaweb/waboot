@@ -144,9 +144,12 @@ class Theme{
 	 * @return array
 	 */
 	public static function get_generators(){
+		$parent_dirpath = get_template_directory();
+		$child_dirpath = get_stylesheet_directory();
+
 		$generators_directories = [
-			get_stylesheet_directory()."/inc/generators",
-			get_template_directory()."/inc/generators",
+			$child_dirpath."/inc/generators",
+			$parent_dirpath."/inc/generators",
 		];
 
 		$generators_directories = array_unique(apply_filters("waboot/generators/directories",$generators_directories));
@@ -175,6 +178,19 @@ class Theme{
 				$slug = rtrim(basename($generators_file),".json");
 				$parsed->file = $generators_file;
 				$parsed->slug = $slug;
+
+				//Preview actions
+				if(isset($parsed->preview)){
+					if(preg_match('|'.$child_dirpath.'|',$generators_file)){
+						$basepath = $child_dirpath;
+					}elseif(preg_match('|'.$parent_dirpath.'|',$generators_file)){
+						$basepath = $parent_dirpath;
+					}else{
+						$basepath = dirname($generators_file);
+					}
+					$parsed->preview_basepath = $basepath;
+				}
+
 				$generators[$slug] = $parsed;
 			}
 		}
