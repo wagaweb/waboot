@@ -259,6 +259,8 @@ Developers will be able to use their grid system by hooking into filters and spe
 
 Bugfix.
 
+:tada: Official Waboot launch! :rocket:
+
 **v2.3.x**
 
 - Implementation of tests
