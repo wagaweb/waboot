@@ -4,6 +4,10 @@
 
 body {
   background-color: {{ body_bgcolor }};
+  background-image: url("{{ body_bgimage }}");
+  background-repeat: {{ body_bgrepeat }};
+  background-position: {{ body_bgpos }};
+  background-attachment: {{ body_bgattach }};
 }
 
 .page-wrapper {
