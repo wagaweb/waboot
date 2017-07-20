@@ -24,9 +24,10 @@ add_action("after_switch_theme", __NAMESPACE__."\\redirect_to_wizard");
  */
 function add_wizard_notice(){
 	if(wp_doing_ajax()) return;
-	if(isset($_GET['page']) && $_GET['page'] == 'waboot_setup_wizard') return;
+	if(isset($_GET['page']) && $_GET['page'] === 'waboot_setup_wizard') return;
 	$wizard_done = Theme::is_wizard_done();
-	if($wizard_done) return;
+	$wizard_skipped = Theme::is_wizard_skipped();
+	if($wizard_done || $wizard_skipped) return;
 	//Add the notice to wizard
 	if(wbf_exists()){
 		if(!\WBF::is_wbf_admin_page()){
@@ -36,22 +37,13 @@ function add_wizard_notice(){
 			WBF()->notice_manager->add_notice("waboot-wizard",$msg,"nag","_flash_");
 		}
 	}else{
-		if(!\Waboot\Theme::is_wizard_done()){
-			$class = 'notice notice-error';
-			$wizard_url = \Waboot\functions\get_start_wizard_link();
-			$message = sprintf(
-				__( "Waboot theme is missing some requirements to work properly. You can run the <a href='%s'>Wizard</a> to take care of them.", 'Waboot' ),
-				$wizard_url
-			);
-			printf( '<div class="%1$s"><p>%2$s</p></div>', $class, $message );
-		}else{
-			$class = 'notice notice-error';
-			$message = sprintf(
-				__( "Waboot theme requires <a href='%s'>WBF Framework</a> plugin to work properly, please install.", 'Waboot' ),
-				'http://update.waboot.org/resource/get/plugin/wbf'
-			);
-			printf( '<div class="%1$s"><p>%2$s</p></div>', $class, $message );
-		}
+		$class = 'notice notice-error';
+		$wizard_url = \Waboot\functions\get_start_wizard_link();
+		$message = sprintf(
+			__( "Waboot theme is missing some requirements to work properly. You can run the <a href='%s'>Wizard</a> to take care of them.", 'Waboot' ),
+			$wizard_url
+		);
+		printf( '<div class="%1$s"><p>%2$s</p></div>', $class, $message );
 	}
 }
 add_action("admin_init",__NAMESPACE__."\\add_wizard_notice",11);
@@ -63,14 +55,27 @@ function dismiss_wizard_notice(){
 	if(!isset($_GET['waboot_dismiss_wizard'])) return;
 	if($_GET['waboot_dismiss_wizard'] == 1){
 		WBF()->notice_manager->remove_notice("waboot-wizard");
+		Theme::set_wizard_as_skipped();
 	}
 }
 add_action("admin_init",__NAMESPACE__."\\dismiss_wizard_notice",11);
 
-/*
+/**
+ * Handles the resets of Wizard options
+ */
+function reset_wizard_status(){
+	if(!isset($_GET['waboot_reset_wizard'])) return;
+	if($_GET['waboot_reset_wizard'] == 1){
+		WBF()->notice_manager->remove_notice("waboot-wizard");
+		Theme::reset_wizard();
+	}
+}
+add_action("admin_init",__NAMESPACE__."\\reset_wizard_status",11);
+
+/**
  * Handles wizard submit via AJAX
  */
-add_action("wp_ajax_handle_generator", function(){
+function handle_wizard_via_ajax(){
 	$selected_generator = isset($_POST['params']) && isset($_POST['params']['generator']) ? sanitize_text_field($_POST['params']['generator']) : false;
 	$step = isset($_POST['params']) && isset($_POST['params']['step']) ? sanitize_text_field($_POST['params']['step']) : Theme::GENERATOR_STEP_ALL;
 	$action = isset($_POST['params']) && isset($_POST['params']['action']) ? sanitize_text_field($_POST['params']['action']) : Theme::GENERATOR_ACTION_ALL;
@@ -80,6 +85,7 @@ add_action("wp_ajax_handle_generator", function(){
 		if($r['status'] === 'success'){
 			if($r['complete']){
 				$r['status'] = "complete";
+				Theme::set_wizard_as_done();
 			}else{
 				$r['status'] = "run";
 			}
@@ -95,7 +101,8 @@ add_action("wp_ajax_handle_generator", function(){
 		$r['message'] = 'No options selected';
 		wp_send_json_error($r);
 	}
-});
+}
+add_action("wp_ajax_handle_generator", __NAMESPACE__."\\handle_wizard_via_ajax");
 
 /**
  * Handle wizard submit via page refresh (not used anymore)
@@ -175,7 +182,14 @@ if(!wbf_exists()){
 		\add_management_page( $menu['page_title'], $menu['menu_title'], $menu['capability'], $menu['menu_slug'], __NAMESPACE__.'\display_wizard_page');
 	});
 }else{
-	if(!Theme::is_wizard_done() || current_user_can('manage_options')){
-		add_action("wbf_admin_submenu",__NAMESPACE__."\\add_wizard_page");
+	if(!Theme::is_wizard_done()){
+		add_action("wbf_admin_submenu",__NAMESPACE__."\\add_wizard_page",13);
 	}
 }
+
+function print_debug_actions(){
+	?>
+	<li><a href="<?php echo add_query_arg('waboot_reset_wizard',1); ?>"><?php _e('Reset Waboot Wizard Status','waboot'); ?></a></li>
+	<?php
+}
+add_action("wbf/admins/status_page/administration_console_table/actions_list",__NAMESPACE__."\\print_debug_actions");

@@ -36,6 +36,16 @@ function waboot_init(){
 				_e( "Waboot theme requires WBF Framework to work properly, please install.", 'Waboot' );
 			}
 		});
+		if(!\Waboot\Theme::is_wizard_done() || !\Waboot\Theme::is_wizard_skipped()){
+			add_action('admin_notices',function(){
+				$class = 'notice notice-error';
+				$message = sprintf(
+					__( "Waboot theme requires <a href='%s'>WBF Framework</a> plugin to work properly, please install.", 'Waboot' ),
+					'http://update.waboot.org/resource/get/plugin/wbf'
+				);
+				printf( '<div class="%1$s"><p>%2$s</p></div>', $class, $message );
+			});
+		}
 	}
 
 	if(!class_exists("\\Waboot\\Theme") || !\Waboot\functions\wbf_exists()){

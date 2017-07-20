@@ -436,11 +436,30 @@ class Theme{
 		return (bool) get_option('waboot-done-wizard',false);
 	}
 
+	public static function is_wizard_skipped(){
+		return (bool) get_option('waboot-skipped-wizard',false);
+	}
+
 	/**
 	 * Set the wizard (aka: the the generators page) as run
 	 */
 	public static function set_wizard_as_done(){
 		update_option('waboot-done-wizard',true);
+	}
+
+	/**
+	 * Set the wizard (aka: the the generators page) as run
+	 */
+	public static function set_wizard_as_skipped(){
+		update_option('waboot-skipped-wizard',true);
+	}
+
+	/**
+	 * Reset wizard options
+	 */
+	public static function reset_wizard(){
+		delete_option('waboot-done-wizard');
+		delete_option('waboot-skipped-wizard');
 	}
 
 	/**
