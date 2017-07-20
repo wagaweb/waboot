@@ -126,7 +126,7 @@ function archive_page_title(){
  */
 function post_navigation($nav_id, $show_pagination = false, $query = false, $current_page = false, $paged_var_name = "paged"){
 	$can_show_nav = call_user_func(function() use($nav_id){
-		if(is_category()){
+		if(is_category() || is_home()){
 			switch($nav_id){
 				case 'nav-below':
 					return (bool) \Waboot\functions\get_option('show_content_nav_below');
