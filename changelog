@@ -4,6 +4,8 @@ Version 2.1.2 - 07/19/2017
 ---------------------------------
 - Fix: Restored layout.php
 - Fix: Now all background options are compiled into theme-options.css
+- Fix: Now Wizard admin notice behave correctly
+- Tweak: a link to reset wizard status can now be found under WBF Status
 
 Version 2.1.1 - 07/18/2017
 ---------------------------------
