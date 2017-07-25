@@ -10,7 +10,7 @@ use WBF\components\utils\Utilities;
 add_action("waboot/entry/header",__NAMESPACE__."\\display_title");
 add_action("waboot/site-main/before",__NAMESPACE__."\\display_title");
 add_action("waboot/site-main/before",__NAMESPACE__."\\display_title");
-//add_action("waboot/layout/archive/page_title/after",__NAMESPACE__."\\display_title");
+add_action("waboot/layout/archive/page_title/after",__NAMESPACE__."\\display_taxonomy_description");
 
 //Footer:
 add_action("waboot/entry/footer",__NAMESPACE__."\\entry_footer_wrapper_start",10);
@@ -223,4 +223,13 @@ function entry_footer_wrapper_start(){
  */
 function entry_footer_wrapper_end(){
 	echo '</footer>';
+}
+
+/**
+ * Prints out the taxonomy descriptions
+ */
+function display_taxonomy_description(){
+	$tpl = "templates/view-parts/archive-description.php";
+
+	(new HTMLView($tpl))->display();
 }

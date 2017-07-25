@@ -64,7 +64,7 @@ class Theme{
 			'inc/hooks/layout.php',
 			'inc/hooks/widget_areas.php',
 			'inc/hooks/options.php',
-			'inc/hooks/entry/entry.php',
+			'inc/hooks/posts_and_pages.php',
 		];
 		foreach($hooks_files as $file){
 			if (!$filepath = locate_template($file)) {

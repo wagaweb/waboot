@@ -5,11 +5,7 @@
             <div class="col-md-8 pull-right-md">
 				<?php do_action( 'waboot/entry/header', 'list' ); ?>
             </div>
-            <div class="entry-image col-sm-4 ">
-                <a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( 'Link to %s', 'waboot' ), the_title_attribute( 'echo=0' ) ); ?>">
-					<?php echo get_the_post_thumbnail( $post->ID, 'thumbnail', array( 'class' => 'img-responsive', 'title' => "" ) ); ?>
-                </a>
-            </div>
+            <?php get_template_part('/templates/view-parts/entry','thumbnail'); ?>
             <div class="col-sm-8 pull-right-sm">
 				<?php
 				the_excerpt();
