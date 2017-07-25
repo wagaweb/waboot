@@ -29,11 +29,11 @@ add_action("waboot/entry/footer",__NAMESPACE__."\\entry_footer_wrapper_end",9999
 function display_title($type = 'single'){
     global $post, $wp_query;
 
-	if($type == ""){
+	if($type === ""){
 		$type = "single";
 	}
 
-	$current_title_position = current_filter() == "waboot/entry/header" ? "bottom" : "top";
+	$current_title_position = current_filter() === "waboot/entry/header" ? "bottom" : "top";
 
 	if(Utilities::get_current_page_type() == Utilities::PAGE_TYPE_DEFAULT_HOME){
 		//Here we are in the default homepage and we are parsing one of the many posts.
@@ -95,6 +95,9 @@ function display_title($type = 'single'){
 		$tpl = "templates/view-parts/entry-title-list.php";
 	}elseif($type === "single"){
 		$tpl = "templates/view-parts/entry-title-singular.php";
+		if(is_archive()){
+			$tpl = "templates/view-parts/archive-title.php";
+		}
 	}else{
 		$tpl = "templates/view-parts/entry-title-list.php"; //starting as list
 		if(is_singular() || $type === "single"){
