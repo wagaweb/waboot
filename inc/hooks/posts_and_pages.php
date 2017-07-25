@@ -1,6 +1,6 @@
 <?php
 
-namespace Waboot\hooks\entry;
+namespace Waboot\hooks;
 use function Waboot\functions\get_archive_option;
 use WBF\components\mvc\HTMLView;
 use WBF\components\utils\Query;
@@ -11,21 +11,21 @@ add_action("waboot/entry/header",__NAMESPACE__."\\display_title");
 add_action("waboot/site-main/before",__NAMESPACE__."\\display_title");
 add_action("waboot/site-main/before",__NAMESPACE__."\\display_title");
 
-add_action("waboot/layout/archive/page_title/after",__NAMESPACE__."\\display_title_wrapper_start");
-add_action("waboot/layout/archive/page_title/before",__NAMESPACE__."\\display_title_wrapper_end");
+add_action("waboot/layout/archive/page_title/before",__NAMESPACE__."\\display_title_wrapper_start",10);
+add_action("waboot/layout/archive/page_title/after",__NAMESPACE__."\\display_title_wrapper_end",90);
 
 add_action("waboot/layout/singular/page_title/before",__NAMESPACE__."\\display_title_wrapper_start");
 add_action("waboot/layout/singular/page_title/after",__NAMESPACE__."\\display_title_wrapper_end");
 
-add_action("waboot/layout/archive/page_title/after",__NAMESPACE__."\\display_taxonomy_description",11);
+add_action("waboot/layout/archive/page_title/after",__NAMESPACE__."\\display_taxonomy_description",20);
 
 //Footer:
 add_action("waboot/entry/footer",__NAMESPACE__."\\entry_footer_wrapper_start",10);
-add_action("waboot/entry/footer",__NAMESPACE__."\\display_post_date",11);
-add_action("waboot/entry/footer",__NAMESPACE__."\\display_post_author",12);
-add_action("waboot/entry/footer",__NAMESPACE__."\\display_post_categories",13);
-add_action("waboot/entry/footer",__NAMESPACE__."\\display_post_tags",14);
-add_action("waboot/entry/footer",__NAMESPACE__."\\display_post_comment_link",15);
+add_action("waboot/entry/footer",__NAMESPACE__."\\display_post_date",20);
+add_action("waboot/entry/footer",__NAMESPACE__."\\display_post_author",30);
+add_action("waboot/entry/footer",__NAMESPACE__."\\display_post_categories",40);
+add_action("waboot/entry/footer",__NAMESPACE__."\\display_post_tags",50);
+add_action("waboot/entry/footer",__NAMESPACE__."\\display_post_comment_link",60);
 add_action("waboot/entry/footer",__NAMESPACE__."\\entry_footer_wrapper_end",9999);
 
 /**
@@ -256,7 +256,6 @@ function display_title_wrapper_start(){
 		$can_display = true;
 	}else{
 		if(\Waboot\functions\get_behavior('title-position') === 'top'){
-			echo '<div class="container">';
 			$can_display = true;
 		}
 	}
@@ -278,7 +277,6 @@ function display_title_wrapper_end(){
 		$can_display = true;
 	}else{
 		if(\Waboot\functions\get_behavior('title-position') === 'top'){
-			echo '<div class="container">';
 			$can_display = true;
 		}
 	}
