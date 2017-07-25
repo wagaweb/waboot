@@ -5,16 +5,9 @@
   "homepage": "http://www.waga.it/",
   "repository": {
     "type": "git",
-    "url": "https://bitbucket.org/waga/waboot"
+    "url": "https://github.com/wagaweb/waboot"
   },
-  "bugs": {
-    "url": "https://bitbucket.org/waga/waboot/issues?status=new&status=open"
-  },
-  "licenses": [
-    {
-      "type": "proprietary"
-    }
-  ],
+  "license": "GPL-2.0+",
   "engines": {
     "node": ">= 4.4.3"
   },

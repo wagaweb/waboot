@@ -3,13 +3,7 @@
   "version": "1.0.0",
   "author": "Foobar",
   "homepage": "http://www.foo.bar/",
-  "repository": {},
-  "bugs": {},
-  "licenses": [
-    {
-      "type": "proprietary"
-    }
-  ],
+  "license": "GPL-2.0+",
   "engines": {
     "node": ">= 0.10.0"
   },
