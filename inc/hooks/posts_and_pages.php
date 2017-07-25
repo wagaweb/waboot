@@ -248,7 +248,20 @@ function display_taxonomy_description(){
  * Prints out the title wrapper start
  */
 function display_title_wrapper_start(){
-	if(\Waboot\functions\get_behavior('title-position') === 'top'){
+	$can_display = false;
+
+	if(is_home() && \Waboot\functions\get_option('blog_title_position') === 'top'){
+		$can_display = true;
+	}elseif(is_archive()) {
+		$can_display = true;
+	}else{
+		if(\Waboot\functions\get_behavior('title-position') === 'top'){
+			echo '<div class="container">';
+			$can_display = true;
+		}
+	}
+
+	if($can_display){
 		echo '<div class="container">';
 	}
 }
@@ -257,7 +270,20 @@ function display_title_wrapper_start(){
  * Prints out the title wrapper end
  */
 function display_title_wrapper_end(){
-	if(\Waboot\functions\get_behavior('title-position') === 'top') {
+	$can_display = false;
+
+	if(is_home() && \Waboot\functions\get_option('blog_title_position') === 'top'){
+		$can_display = true;
+	}elseif(is_archive()) {
+		$can_display = true;
+	}else{
+		if(\Waboot\functions\get_behavior('title-position') === 'top'){
+			echo '<div class="container">';
+			$can_display = true;
+		}
+	}
+
+	if($can_display){
 		echo '</div>';
 	}
 }

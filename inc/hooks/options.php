@@ -512,11 +512,16 @@ function register_options($orgzr){
 
 	$post_types = apply_filters("waboot/theme_options/archives_post_types",wbf_get_filtered_post_types(['post']));
 
-	foreach ($post_types as $ptSlug => $ptLabel){
+	$taxonomies = get_taxonomies();
+	$taxonomies = array_filter($taxonomies,function($v){
+		return !in_array($v,['nav_menu','post_tag','category','product_shipping_class','product_cat','product_tag','pa_color','post_format','product_type']);
+	});
+
+	foreach ($taxonomies as $tax_slug){
 		//Post type heading
 		$orgzr->add([
-			'name' => $ptLabel,
-			'desc' => sprintf(__( 'Edit default options for "%s" archives', 'waboot' ),strtolower($ptLabel)),
+			'name' => $tax_slug,
+			'desc' => sprintf(__( 'Edit default options for "%s" archives', 'waboot' ),strtolower($tax_slug)),
 			'type' => 'info'
 		]);
 
@@ -524,7 +529,7 @@ function register_options($orgzr){
 			'name' => __( 'Display archive page title', 'waboot' ),
 			'desc' => __( 'Check this box to show blog page title.', 'waboot' ),
 			'class' => 'half_option',
-			'id'   => 'archive_'.$ptSlug.'_display_title',
+			'id'   => 'archive_'.$tax_slug.'_display_title',
 			'std'  => '1',
 			'type' => 'checkbox'
 		));
@@ -533,7 +538,7 @@ function register_options($orgzr){
 			'name' => __('Archive page title position', 'waboot'),
 			'desc' => __('Select where to display page title of the archive page', 'waboot'),
 			'class' => 'half_option',
-			'id' => 'archive_'.$ptSlug.'_title_position',
+			'id' => 'archive_'.$tax_slug.'_title_position',
 			'std' => 'top',
 			'type' => 'select',
 			'options' => array('top' => __("Above primary","waboot"), 'bottom' => __("Below primary","waboot"))
@@ -542,7 +547,7 @@ function register_options($orgzr){
 		$orgzr->add(array(
 			'name' => __('Archive page layout', 'waboot'),
 			'desc' => __('Select the layout that will be applied to the archive page', 'waboot'),
-			'id' => 'archive_'.$ptSlug.'_layout',
+			'id' => 'archive_'.$tax_slug.'_layout',
 			'std' => $layouts['default'],
 			'type' => $opt_type_for_layouts,
 			'options' => $final_layout
@@ -552,7 +557,7 @@ function register_options($orgzr){
 			'name' => __("Primary Sidebar width","waboot"),
 			'desc' => __("Choose the primary sidebar width","waboot"),
 			'class' => 'half_option',
-			'id' => 'archive_'.$ptSlug.'_primary_sidebar_size',
+			'id' => 'archive_'.$tax_slug.'_primary_sidebar_size',
 			'std' => '1/4',
 			'type' => "select",
 			'options' => array("1/2"=>"1/2","1/3"=>"1/3","1/4"=>"1/4","1/6"=>"1/6")
@@ -562,7 +567,7 @@ function register_options($orgzr){
 			'name' => __("Secondary Sidebar width","waboot"),
 			'desc' => __("Choose the secondary sidebar width","waboot"),
 			'class' => 'half_option',
-			'id' => 'archive_'.$ptSlug.'_secondary_sidebar_size',
+			'id' => 'archive_'.$tax_slug.'_secondary_sidebar_size',
 			'std' => '1/4',
 			'type' => "select",
 			'options' => array("1/2"=>"1/2","1/3"=>"1/3","1/4"=>"1/4","1/6"=>"1/6")
