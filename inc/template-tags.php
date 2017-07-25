@@ -107,7 +107,7 @@ function index_page_title(){
  */
 function archive_page_title(){
     $title = \Waboot\functions\get_archive_page_title();
-    $tpl = "templates/view-parts/entry-title-singular.php";
+    $tpl = "templates/view-parts/archive-title.php";
     (new HTMLView($tpl))->display([
         'title' => $title
     ]);

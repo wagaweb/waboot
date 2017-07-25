@@ -9,6 +9,8 @@ use WBF\components\utils\Utilities;
 //Header:
 add_action("waboot/entry/header",__NAMESPACE__."\\display_title");
 add_action("waboot/site-main/before",__NAMESPACE__."\\display_title");
+add_action("waboot/site-main/before",__NAMESPACE__."\\display_title");
+//add_action("waboot/layout/archive/page_title/after",__NAMESPACE__."\\display_title");
 
 //Footer:
 add_action("waboot/entry/footer",__NAMESPACE__."\\entry_footer_wrapper_start",10);
@@ -89,20 +91,20 @@ function display_title($type = 'single'){
     if(!$can_display_title) return;
 
 	//Detecting template (here we prefer these many if statement because they are more readable):
-	if($type == "list"){
-		$tpl = "templates/view-parts/entry-title.php";
-	}elseif($type == "single"){
+	if($type === "list"){
+		$tpl = "templates/view-parts/entry-title-list.php";
+	}elseif($type === "single"){
 		$tpl = "templates/view-parts/entry-title-singular.php";
 	}else{
-		$tpl = "templates/view-parts/entry-title.php"; //starting as list
-		if(is_singular() || $type == "single"){
+		$tpl = "templates/view-parts/entry-title-list.php"; //starting as list
+		if(is_singular() || $type === "single"){
 			$tpl = "templates/view-parts/entry-title-singular.php";
 		}
-		if(\WBF\components\utils\Utilities::get_current_page_type() == Utilities::PAGE_TYPE_BLOG_PAGE && $type == "single"){
+		if(\WBF\components\utils\Utilities::get_current_page_type() == Utilities::PAGE_TYPE_BLOG_PAGE && $type === "single"){
 			$tpl = "templates/view-parts/entry-title-singular.php";
 		}
 		if(is_archive()){
-			$tpl = "templates/view-parts/entry-title-singular.php";
+			$tpl = "templates/view-parts/archive-title.php";
 		}
 	}
 
