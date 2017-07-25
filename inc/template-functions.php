@@ -231,22 +231,22 @@ function get_archive_page_title(){
 }
 
 /**
- * Handles the different theme options values that can be set for archives pages. If the $post_type is 'post', then
- * the Blog options are used, otherwise the function looks for the option specific to that $post_type.
+ * Handles the different theme options values that can be set for archives pages. If the $taxonomy is 'category', then
+ * the Blog options are used, otherwise the function looks for the option specific to that $taxonomy.
  * Look options.php at "Archives" section for more info.
  *
  * @param string $provided_option_name (without suffix, so for: 'blog_display_title', 'display_title' is enough )
- * @param string|false $post_type
+ * @param string|false $taxonomy
  *
  * @return string
  */
-function get_archive_option($provided_option_name,$post_type){
+function get_archive_option($provided_option_name,$taxonomy){
 	$default_value = \Waboot\functions\get_option("blog_".$provided_option_name); //Default to blog values
 
-	if($post_type === "post" || !$post_type){
+	if($taxonomy === "category" || !$taxonomy){
 		$option_name = "blog_".$provided_option_name;
 	}else{
-		$option_name = "archive_".$post_type."_".$provided_option_name;
+		$option_name = "archive_".$taxonomy."_".$provided_option_name;
 	}
 
 	$value = \Waboot\functions\get_option($option_name,$default_value);

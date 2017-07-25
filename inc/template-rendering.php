@@ -23,28 +23,17 @@ function get_archives_template_vars(){
 	$vars = [];
 
 	$o = get_queried_object();
-	$post_type = call_user_func(function() use($o){
-		if(is_category()){
-			$post_type = 'post';
-		}else{
-			$post_type = Query::get_queried_object_post_type();
-			if(!$post_type){
-				$post_type = 'post';
-			}
-		}
-		return $post_type;
-	});
 
 	$vars['page_title'] = get_archive_page_title();
 	$vars['term_description'] = term_description();
 	$vars['blog_class'] = get_posts_wrapper_class();
 	$vars['display_nav_above'] = (bool) \Waboot\functions\get_option('content_nav_above', 1); //todo: add this
 	$vars['display_nav_below'] =  (bool) \Waboot\functions\get_option('content_nav_below', 1); //todo: add this
-	$vars['options']['display_title'] = get_archive_option("display_title",$post_type);
-	$vars['options']['title_position'] = get_archive_option("title_position",$post_type);
-	$vars['options']['layout'] = get_archive_option("layout",$post_type);
-	$vars['options']['primary_sidebar_size'] = get_archive_option("primary_sidebar_size",$post_type);
-	$vars['options']['secondary_sidebar_size'] = get_archive_option("secondary_sidebar_size",$post_type);
+	$vars['options']['display_title'] = get_archive_option("display_title",$o->taxonomy);
+	$vars['options']['title_position'] = get_archive_option("title_position",$o->taxonomy);
+	$vars['options']['layout'] = get_archive_option("layout",$o->taxonomy);
+	$vars['options']['primary_sidebar_size'] = get_archive_option("primary_sidebar_size",$o->taxonomy);
+	$vars['options']['secondary_sidebar_size'] = get_archive_option("secondary_sidebar_size",$o->taxonomy);
 
 	$tpl = "";
 	if($o instanceof \WP_Term){

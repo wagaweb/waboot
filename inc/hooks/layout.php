@@ -156,8 +156,8 @@ function set_primary_sidebar_size(Behavior $b){
 		if(is_category()){
 			$sidebar_width = of_get_option("blog_primary_sidebar_size");
 		}else{
-			$post_type = Query::get_queried_object_post_type();
-			$sidebar_width = get_archive_option('primary_sidebar_size',$post_type);
+			$o = get_queried_object();
+			$sidebar_width = get_archive_option('primary_sidebar_size',$o->taxonomy);
 		}
 		if(!isset($sidebar_width) || !$sidebar_width || is_null($sidebar_width)){
 			$sidebar_width = 0;
@@ -166,7 +166,8 @@ function set_primary_sidebar_size(Behavior $b){
 	}
 	return $b;
 }
-add_filter("wbf/modules/behaviors/get/primary-sidebar-size", __NAMESPACE__."\\set_primary_sidebar_size");
+//Removed on 07-25-2017: Archives can't have behaviors
+//add_filter("wbf/modules/behaviors/get/primary-sidebar-size", __NAMESPACE__."\\set_primary_sidebar_size");
 
 /**
  * Use of_get_option('secondary-sidebar-size') for sidebar size in archive pages
@@ -180,8 +181,8 @@ function set_secondary_sidebar_size(Behavior $b){
 		if(is_category()){
 			$sidebar_width = of_get_option("blog_secondary_sidebar_size");
 		}else{
-			$post_type = Query::get_queried_object_post_type();
-			$sidebar_width = get_archive_option('secondary_sidebar_size',$post_type);
+			$o = get_queried_object();
+			$sidebar_width = get_archive_option('secondary_sidebar_size',$o->taxonomy);
 		}
 		if(!isset($sidebar_width) || !$sidebar_width || is_null($sidebar_width)){
 			$sidebar_width = 0;
@@ -190,7 +191,8 @@ function set_secondary_sidebar_size(Behavior $b){
 	}
 	return $b;
 }
-add_filter("wbf/modules/behaviors/get/secondary-sidebar-size", __NAMESPACE__."\\set_secondary_sidebar_size");
+//Removed on 07-25-2017: Archives can't have behaviors
+//add_filter("wbf/modules/behaviors/get/secondary-sidebar-size", __NAMESPACE__."\\set_secondary_sidebar_size");
 
 /**
  * Alter the default comments template location
