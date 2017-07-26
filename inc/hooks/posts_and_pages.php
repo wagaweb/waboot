@@ -275,7 +275,6 @@ function display_title_wrapper_end(){
 	if(is_home() && \Waboot\functions\get_option('blog_title_position') === 'top'){
 		$can_display = true;
 	}elseif(is_archive()) {
-		$o = get_queried_object();
 		if(get_archive_option('title_position') === 'top'){
 			$can_display = true;
 		}
