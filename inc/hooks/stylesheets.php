@@ -25,7 +25,7 @@ function waboot_style(){
 		$am = new AssetsManager($assets);
 		$am->enqueue();
 	}else{
-		wp_enqueue_script('waboot-admin-style',get_template_directory_uri()."/assets/dist/css/waboot.min.css");
+		wp_enqueue_style('waboot-style',get_template_directory_uri()."/assets/dist/css/waboot.min.css");
 	}
 }
 add_action( 'wp_enqueue_scripts', __NAMESPACE__.'\\waboot_style', 8 );
