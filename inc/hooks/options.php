@@ -506,72 +506,83 @@ function register_options($orgzr){
 	 * ARCHIVES
 	 **********************/
 
-	$orgzr->add_section("archives",__( 'Archives', 'waboot' ));
-
-	$orgzr->set_section("archives");
-
-	$post_types = apply_filters("waboot/theme_options/archives_post_types",wbf_get_filtered_post_types(['post']));
-
-	$taxonomies = get_taxonomies();
-	$taxonomies = array_filter($taxonomies,function($v){
-		return !in_array($v,['nav_menu','post_tag','category','product_shipping_class','product_cat','product_tag','pa_color','post_format','product_type']);
+	$taxonomies = call_user_func(function(){
+		$taxs = get_taxonomies([
+			'public'   => true,
+			'_builtin' => false
+		],'objects');
+		$taxs = array_filter($taxs,function($v){
+			$itsok = true;
+			$unwanted = ['nav_menu','post_tag','category','post_format'];
+			if(in_array($v->name,$unwanted)) $itsok = false;
+			if(preg_match('/^product_|pa_/',$v->name)) $itsok = false;
+			return $itsok;
+		});
+		$taxs = apply_filters('waboot/options/archives_taxonomies',$taxs);
+		return $taxs;
 	});
 
-	foreach ($taxonomies as $tax_slug){
-		//Post type heading
-		$orgzr->add([
-			'name' => $tax_slug,
-			'desc' => sprintf(__( 'Edit default options for "%s" archives', 'waboot' ),strtolower($tax_slug)),
-			'type' => 'info'
-		]);
+	if(is_array($taxonomies) && !empty($taxonomies)){
+		$orgzr->add_section("archives",__( 'Archives', 'waboot' ));
 
-		$orgzr->add(array(
-			'name' => __( 'Display archive page title', 'waboot' ),
-			'desc' => __( 'Check this box to show blog page title.', 'waboot' ),
-			'class' => 'half_option',
-			'id'   => 'archive_'.$tax_slug.'_display_title',
-			'std'  => '1',
-			'type' => 'checkbox'
-		));
+		$orgzr->set_section("archives");
 
-		$orgzr->add(array(
-			'name' => __('Archive page title position', 'waboot'),
-			'desc' => __('Select where to display page title of the archive page', 'waboot'),
-			'class' => 'half_option',
-			'id' => 'archive_'.$tax_slug.'_title_position',
-			'std' => 'top',
-			'type' => 'select',
-			'options' => array('top' => __("Above primary","waboot"), 'bottom' => __("Below primary","waboot"))
-		));
+		foreach ($taxonomies as $tax_slug => $taxonomy){
+			//Post type heading
+			$orgzr->add([
+				'name' => $taxonomy->label.' ('.$taxonomy->name.')',
+				'desc' => sprintf(__( 'Edit default options for "%s" archives', 'waboot' ),$taxonomy->label.' ('.$taxonomy->name.')'),
+				'type' => 'info'
+			]);
 
-		$orgzr->add(array(
-			'name' => __('Archive page layout', 'waboot'),
-			'desc' => __('Select the layout that will be applied to the archive page', 'waboot'),
-			'id' => 'archive_'.$tax_slug.'_layout',
-			'std' => $layouts['default'],
-			'type' => $opt_type_for_layouts,
-			'options' => $final_layout
-		));
+			$orgzr->add(array(
+				'name' => __( 'Display archive page title', 'waboot' ),
+				'desc' => __( 'Check this box to show blog page title.', 'waboot' ),
+				'class' => 'half_option',
+				'id'   => 'archive_'.$tax_slug.'_display_title',
+				'std'  => '1',
+				'type' => 'checkbox'
+			));
 
-		$orgzr->add(array(
-			'name' => __("Primary Sidebar width","waboot"),
-			'desc' => __("Choose the primary sidebar width","waboot"),
-			'class' => 'half_option',
-			'id' => 'archive_'.$tax_slug.'_primary_sidebar_size',
-			'std' => '1/4',
-			'type' => "select",
-			'options' => array("1/2"=>"1/2","1/3"=>"1/3","1/4"=>"1/4","1/6"=>"1/6")
-		));
+			$orgzr->add(array(
+				'name' => __('Archive page title position', 'waboot'),
+				'desc' => __('Select where to display page title of the archive page', 'waboot'),
+				'class' => 'half_option',
+				'id' => 'archive_'.$tax_slug.'_title_position',
+				'std' => 'top',
+				'type' => 'select',
+				'options' => array('top' => __("Above primary","waboot"), 'bottom' => __("Below primary","waboot"))
+			));
 
-		$orgzr->add(array(
-			'name' => __("Secondary Sidebar width","waboot"),
-			'desc' => __("Choose the secondary sidebar width","waboot"),
-			'class' => 'half_option',
-			'id' => 'archive_'.$tax_slug.'_secondary_sidebar_size',
-			'std' => '1/4',
-			'type' => "select",
-			'options' => array("1/2"=>"1/2","1/3"=>"1/3","1/4"=>"1/4","1/6"=>"1/6")
-		));
+			$orgzr->add(array(
+				'name' => __('Archive page layout', 'waboot'),
+				'desc' => __('Select the layout that will be applied to the archive page', 'waboot'),
+				'id' => 'archive_'.$tax_slug.'_layout',
+				'std' => $layouts['default'],
+				'type' => $opt_type_for_layouts,
+				'options' => $final_layout
+			));
+
+			$orgzr->add(array(
+				'name' => __("Primary Sidebar width","waboot"),
+				'desc' => __("Choose the primary sidebar width","waboot"),
+				'class' => 'half_option',
+				'id' => 'archive_'.$tax_slug.'_primary_sidebar_size',
+				'std' => '1/4',
+				'type' => "select",
+				'options' => array("1/2"=>"1/2","1/3"=>"1/3","1/4"=>"1/4","1/6"=>"1/6")
+			));
+
+			$orgzr->add(array(
+				'name' => __("Secondary Sidebar width","waboot"),
+				'desc' => __("Choose the secondary sidebar width","waboot"),
+				'class' => 'half_option',
+				'id' => 'archive_'.$tax_slug.'_secondary_sidebar_size',
+				'std' => '1/4',
+				'type' => "select",
+				'options' => array("1/2"=>"1/2","1/3"=>"1/3","1/4"=>"1/4","1/6"=>"1/6")
+			));
+		}
 	}
 
 	$orgzr->reset_group();
