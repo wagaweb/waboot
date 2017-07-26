@@ -240,7 +240,11 @@ function get_archive_page_title(){
  *
  * @return string
  */
-function get_archive_option($provided_option_name,$taxonomy){
+function get_archive_option($provided_option_name,$taxonomy = null){
+	if(!isset($taxonomy)){
+		$taxonomy = get_current_taxonomy();
+	}
+
 	$default_value = \Waboot\functions\get_option("blog_".$provided_option_name); //Default to blog values
 
 	if($taxonomy === "category" || !$taxonomy){
@@ -266,7 +270,7 @@ function get_body_layout(){
 		if($current_page_type == Utilities::PAGE_TYPE_BLOG_PAGE || $current_page_type == Utilities::PAGE_TYPE_DEFAULT_HOME || is_category()) {
 			$layout = \Waboot\functions\get_option('blog_layout');
 		}elseif(is_archive()){
-			$layout = get_archive_option('layout',Query::get_queried_object_post_type());
+			$layout = get_archive_option('layout');
 		}
 		else{
 			$layout = \Waboot\functions\get_behavior('layout');
@@ -336,10 +340,7 @@ function get_sidebar_size($name){
 	if($page_type == Utilities::PAGE_TYPE_BLOG_PAGE || $page_type == Utilities::PAGE_TYPE_DEFAULT_HOME || is_category()){
 		$size = of_get_option("blog_".$name."_sidebar_size");
 	}elseif(is_archive() || is_tax()){
-		$post_type = Query::get_queried_object_post_type();
-		if($post_type){
-			$size = get_archive_option($name."_sidebar_size",$post_type);
-		}
+		$size = get_archive_option($name."_sidebar_size");
 	}else{
 		$size = get_behavior($name.'-sidebar-size');
 	}
@@ -655,6 +656,21 @@ function get_start_wizard_link(){
 		$start_wizard_link = admin_url("tools.php?page=waboot_setup_wizard");
 	}
 	return $start_wizard_link;
+}
+
+/**
+ * Return current taxonomy name
+ *
+ * @return bool|string
+ */
+function get_current_taxonomy(){
+	$o = get_queried_object();
+	if($o instanceof \WP_Term){
+		return $o->taxonomy;
+	}elseif($o instanceof \WP_Taxonomy){
+		return $o->name;
+	}
+	return false;
 }
 
 /**
