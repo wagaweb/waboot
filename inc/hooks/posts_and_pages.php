@@ -8,8 +8,8 @@ use WBF\components\utils\Utilities;
 
 //Header:
 add_action("waboot/entry/header",__NAMESPACE__."\\display_title");
-add_action("waboot/site-main/before",__NAMESPACE__."\\display_title");
-add_action("waboot/site-main/before",__NAMESPACE__."\\display_title");
+add_action("waboot/site-main/before",__NAMESPACE__."\\display_singular_title");
+add_action("waboot/site-main/before",__NAMESPACE__."\\display_singular_title");
 
 add_action("waboot/layout/archive/page_title/before",__NAMESPACE__."\\display_title_wrapper_start",10);
 add_action("waboot/layout/archive/page_title/after",__NAMESPACE__."\\display_title_wrapper_end",90);
@@ -34,54 +34,74 @@ add_action("waboot/entry/footer",__NAMESPACE__."\\entry_footer_wrapper_end",9999
  * @param string $type if we are cycling through a single or a list of entries.
  */
 function display_title($type = 'single'){
-    global $post, $wp_query;
 
 	if($type === ""){
 		$type = "single";
 	}
 
-	$current_title_position = current_filter() === "waboot/entry/header" ? "bottom" : "top";
+	switch ($type){
+		case 'single':
+			display_singular_title();
+			break;
+		case 'list':
+			display_list_element_title();
+			break;
+	}
+}
 
-	if(Utilities::get_current_page_type() == Utilities::PAGE_TYPE_DEFAULT_HOME){
-		//Here we are in the default homepage and we are parsing one of the many posts.
+/**
+ * Display the title of a node in a list context (a loop over a list of posts)
+ */
+function display_list_element_title(){
+	global $post;
+
+	$title = get_the_title($post->ID);
+
+	$title = apply_filters("waboot/post_list/entry/title",$title,$post);
+	$can_display_title = apply_filters("waboot/post_list/entry/title/display_flag",true,$post);
+
+	if(!$can_display_title) return;
+
+	$tpl = apply_filters("waboot/post_list/entry/title/tpl","templates/view-parts/entry-title-list.php",$post);
+	$tpl_args = [
+		'title' => $title
+	];
+	$tpl_args = apply_filters("waboot/post_list/entry/title/tpl_args",$tpl_args,$post);
+
+	(new HTMLView($tpl))->display($tpl_args);
+}
+
+/**
+ * Display the title of a single node in a singular context (not in a loop over a list of posts)
+ *
+ * In Waboot we can either display that title in "waboot/site-main/before" (in wrapper-start.php) or in the content-specific templates (eg: page.php). The latter case occurs if
+ * the option\behavior of 'title position' in 'bottom'
+ */
+function display_singular_title(){
+	global $post;
+	$page_type = Utilities::get_current_page_type();
+
+	$current_title_context = current_filter() === "waboot/entry/header" ? "bottom" : "top"; //current_filter() is expected to be "waboot/site-main/before" || "waboot/entry/header"
+
+	if($page_type === Utilities::PAGE_TYPE_DEFAULT_HOME || $page_type === Utilities::PAGE_TYPE_BLOG_PAGE){
+		$title = \Waboot\functions\get_index_page_title();
+		$can_display_title = (bool) \Waboot\functions\get_option('blog_display_title') && \Waboot\functions\get_option('blog_title_position') === $current_title_context;
+	}elseif(is_archive()){
+		$title = \Waboot\functions\get_archive_page_title();
+		if(is_category()){
+			$can_display_title = (bool) \Waboot\functions\get_option('blog_display_title') && \Waboot\functions\get_option('blog_title_position') === $current_title_context;
+		}else{
+			$o = get_queried_object();
+			if($o && $o instanceof \WP_Term){
+				$can_display_title = (bool) get_archive_option('display_title',$o->taxonomy) && get_archive_option('title_position',$o->taxonomy) === $current_title_context;
+			}else{
+				//Default to blog settings
+				$can_display_title = (bool) \Waboot\functions\get_option('blog_display_title') && \Waboot\functions\get_option('blog_title_position') === $current_title_context;
+			}
+		}
+	}elseif(is_singular()){
 		$title = get_the_title($post->ID);
-		$can_display_title = $current_title_position == "bottom"; //So always show the title inside the entry.
-	}elseif(is_search()){
-		if($type === 'list'){
-			$can_display_title = true;
-		}else{
-			$can_display_title = false;
-		}
-    }else{
-		if($wp_query->in_the_loop){
-			$title = get_the_title($post->ID);
-			if(Utilities::get_current_page_type() == Utilities::PAGE_TYPE_BLOG_PAGE || is_archive()){
-				$can_display_title = true; //We are cycling blog posts, so we sure needs their titles
-			}elseif(is_singular()){
-				$can_display_title =  (bool) \Waboot\functions\get_behavior('show-title') == true && \Waboot\functions\get_behavior('title-position') == $current_title_position;
-			}
-		}else{
-			if(Utilities::get_current_page_type() == Utilities::PAGE_TYPE_BLOG_PAGE){
-				$title = \Waboot\functions\get_index_page_title();
-				$can_display_title = (bool) \Waboot\functions\get_option('blog_display_title') == true && \Waboot\functions\get_option('blog_title_position') == $current_title_position;
-			}elseif(is_archive()){
-				$title = \Waboot\functions\get_archive_page_title();
-				if(is_category()){
-					$can_display_title = (bool) \Waboot\functions\get_option('blog_display_title') == true && \Waboot\functions\get_option('blog_title_position') == $current_title_position;
-				}else{
-					$o = get_queried_object();
-					if($o && $o instanceof \WP_Term){
-						$can_display_title = (bool) get_archive_option('display_title',$o->taxonomy) == true && get_archive_option('title_position',$o->taxonomy) == $current_title_position;
-					}else{
-						//Default to blog settings
-						$can_display_title = (bool) \Waboot\functions\get_option('blog_display_title') == true && \Waboot\functions\get_option('blog_title_position') == $current_title_position;
-					}
-				}
-			}elseif(is_singular()){
-				$title = get_the_title($post->ID);
-				$can_display_title =  (bool) \Waboot\functions\get_behavior('show-title') == true && \Waboot\functions\get_behavior('title-position') == $current_title_position;
-			}
-		}
+		$can_display_title =  (bool) \Waboot\functions\get_behavior('show-title') && \Waboot\functions\get_behavior('title-position') === $current_title_context;
 	}
 
 	if(!isset($title)){
@@ -92,39 +112,24 @@ function display_title($type = 'single'){
 		$can_display_title = true;
 	}
 
-	$title = apply_filters("waboot/entry/title",$title,$current_title_position);
-	$can_display_title = apply_filters("waboot/entry/title/display_flag",$can_display_title,$current_title_position);
+	$title = apply_filters("waboot/singular/title",$title,$current_title_context);
+	$can_display_title = apply_filters("waboot/singular/title/display_flag",$can_display_title,$current_title_context);
 
-    if(!$can_display_title) return;
+	if(!$can_display_title) return;
 
-	//Detecting template (here we prefer these many if statement because they are more readable):
-	if($type === "list"){
-		$tpl = "templates/view-parts/entry-title-list.php";
-	}elseif($type === "single"){
-		$tpl = "templates/view-parts/entry-title-singular.php";
-		if(is_archive()){
-			$tpl = "templates/view-parts/archive-title.php";
-		}
+	if(is_archive()){
+		$tpl = "templates/view-parts/archive-title.php";
 	}else{
-		$tpl = "templates/view-parts/entry-title-list.php"; //starting as list
-		if(is_singular() || $type === "single"){
-			$tpl = "templates/view-parts/entry-title-singular.php";
-		}
-		if(\WBF\components\utils\Utilities::get_current_page_type() == Utilities::PAGE_TYPE_BLOG_PAGE && $type === "single"){
-			$tpl = "templates/view-parts/entry-title-singular.php";
-		}
-		if(is_archive()){
-			$tpl = "templates/view-parts/archive-title.php";
-		}
+		$tpl = "templates/view-parts/entry-title-singular.php";
 	}
 
-    $tpl = apply_filters("waboot/entry/title/tpl",$tpl,$current_title_position);
+	$tpl = apply_filters("waboot/singular/title/tpl",$tpl,$current_title_context);
 	$tpl_args = [
 		'title' => $title
 	];
-	$tpl_args = apply_filters("waboot/entry/title/tpl_args",$tpl_args);
+	$tpl_args = apply_filters("waboot/singular/title/tpl_args",$tpl_args);
 
-    (new HTMLView($tpl))->display($tpl_args);
+	(new HTMLView($tpl))->display($tpl_args);
 }
 
 /**
