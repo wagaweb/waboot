@@ -156,8 +156,7 @@ function set_primary_sidebar_size(Behavior $b){
 		if(is_category()){
 			$sidebar_width = of_get_option("blog_primary_sidebar_size");
 		}else{
-			$o = get_queried_object();
-			$sidebar_width = get_archive_option('primary_sidebar_size',$o->taxonomy);
+			$sidebar_width = get_archive_option('primary_sidebar_size');
 		}
 		if(!isset($sidebar_width) || !$sidebar_width || is_null($sidebar_width)){
 			$sidebar_width = 0;
@@ -181,8 +180,7 @@ function set_secondary_sidebar_size(Behavior $b){
 		if(is_category()){
 			$sidebar_width = of_get_option("blog_secondary_sidebar_size");
 		}else{
-			$o = get_queried_object();
-			$sidebar_width = get_archive_option('secondary_sidebar_size',$o->taxonomy);
+			$sidebar_width = get_archive_option('secondary_sidebar_size');
 		}
 		if(!isset($sidebar_width) || !$sidebar_width || is_null($sidebar_width)){
 			$sidebar_width = 0;

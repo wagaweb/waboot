@@ -91,13 +91,7 @@ function display_singular_title(){
 		if(is_category()){
 			$can_display_title = (bool) \Waboot\functions\get_option('blog_display_title') && \Waboot\functions\get_option('blog_title_position') === $current_title_context;
 		}else{
-			$o = get_queried_object();
-			if($o && $o instanceof \WP_Term){
-				$can_display_title = (bool) get_archive_option('display_title',$o->taxonomy) && get_archive_option('title_position',$o->taxonomy) === $current_title_context;
-			}else{
-				//Default to blog settings
-				$can_display_title = (bool) \Waboot\functions\get_option('blog_display_title') && \Waboot\functions\get_option('blog_title_position') === $current_title_context;
-			}
+			$can_display_title = (bool) get_archive_option('display_title') && get_archive_option('title_position') === $current_title_context;
 		}
 	}elseif(is_singular()){
 		$title = get_the_title($post->ID);
@@ -258,8 +252,7 @@ function display_title_wrapper_start(){
 	if(is_home() && \Waboot\functions\get_option('blog_title_position') === 'top'){
 		$can_display = true;
 	}elseif(is_archive()) {
-		$o = get_queried_object();
-		if($o && $o instanceof \WP_Term && get_archive_option('title_position',$o->taxonomy) === 'top'){
+		if(get_archive_option('title_position') === 'top'){
 			$can_display = true;
 		}
 	}else{
@@ -283,7 +276,7 @@ function display_title_wrapper_end(){
 		$can_display = true;
 	}elseif(is_archive()) {
 		$o = get_queried_object();
-		if($o && $o instanceof \WP_Term && get_archive_option('title_position',$o->taxonomy) === 'top'){
+		if(get_archive_option('title_position') === 'top'){
 			$can_display = true;
 		}
 	}else{
