@@ -36,6 +36,7 @@ function get_archives_template_vars(){
 	$vars['options']['secondary_sidebar_size'] = get_archive_option("secondary_sidebar_size",$tax);
 
 	$tpl = "";
+	$o = get_queried_object();
 	if($o instanceof \WP_Term){
 		$tpl = "taxonomy-".$o->taxonomy;
 	}elseif($o instanceof \WP_Post_Type){
