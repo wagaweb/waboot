@@ -94,6 +94,40 @@ class Theme{
 	}
 
 	/**
+	 * A version of WP locate_template() that returns only the template name of located files
+	 *
+	 * @param array|string $template_names
+	 * @param string $extension if the extension of the template files to look for
+	 *
+	 * @return string
+	 */
+	public function locate_template($template_names,$extension = '.php'){
+		foreach ( (array) $template_names as $template_name ) {
+			if ( !$template_name )
+				continue;
+
+			if(!preg_match('/'.$extension.'$/',$template_name)){
+				$template_filename = $template_name.$extension;
+			}else{
+				$template_filename = $template_name;
+			}
+
+			if ( file_exists(STYLESHEETPATH . '/' . $template_filename)) {
+				return $template_name;
+				break;
+			} elseif ( file_exists(TEMPLATEPATH . '/' . $template_filename) ) {
+				return $template_name;
+				break;
+			} elseif ( file_exists( ABSPATH . WPINC . '/theme-compat/' . $template_filename ) ) {
+				return $template_name;
+				break;
+			}
+		}
+
+		return '';
+	}
+
+	/**
 	 * Adds a new inline style. Inline styles will be printed during "waboot/head/end" action.
 	 *
 	 * @param $handle

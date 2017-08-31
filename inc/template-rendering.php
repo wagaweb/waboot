@@ -5,7 +5,7 @@ use WBF\components\mvc\HTMLView;
 use WBF\components\utils\Query;
 
 /**
- * Renders archive.php content
+ * Renders archive.php content. This is not used ATM.
  *
  * @param $template_file
  */
@@ -35,13 +35,21 @@ function get_archives_template_vars(){
 	$vars['options']['primary_sidebar_size'] = get_archive_option("primary_sidebar_size",$tax);
 	$vars['options']['secondary_sidebar_size'] = get_archive_option("secondary_sidebar_size",$tax);
 
-	$tpl = "";
 	$o = get_queried_object();
+
+	$tpl_base = "templates/wordpress/archive/";
+
 	if($o instanceof \WP_Term){
-		$tpl = "taxonomy-".$o->taxonomy;
+		$tpl[] = $tpl_base.$o->taxonomy.'-'.$o->slug;
+		$tpl[] = $tpl_base.'taxonomy-'.$o->taxonomy.'-'.$o->slug;
+		$tpl[] = $tpl_base.'taxonomy-'.$o->taxonomy;
+		$tpl = Waboot()->locate_template($tpl);
 	}elseif($o instanceof \WP_Post_Type){
-		$tpl = "archive-".$o->name;
+		$tpl = $tpl_base."archive-".$o->name;
+	}else{
+		$tpl = "";
 	}
+
 	$vars['tpl'] = $tpl;
 
 	return $vars;

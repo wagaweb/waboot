@@ -3,8 +3,8 @@
 <?php if($vars['options']['title_position'] === "bottom") : ?>
     <?php \Waboot\template_tags\archive_page_title(); ?>
 <?php endif; ?>
-<?php if(!empty($vars['tpl']) && locate_template("templates/wordpress/archive/".$vars['tpl'].".php", false, false) != '') : ?>
-    <?php get_template_part('templates/wordpress/archive/'.$vars['tpl']); ?>
+<?php if(!empty($vars['tpl'])) : ?>
+    <?php get_template_part($vars['tpl']); ?>
 <?php else: ?>
     <?php if(have_posts()) : ?>
         <?php if($vars['display_nav_above']) \Waboot\template_tags\post_navigation('nav-above'); ?>
