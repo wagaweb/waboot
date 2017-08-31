@@ -4,6 +4,8 @@ Version 2.1.4 - 08/31/2017
 ---------------------------------
 - Tweak: Better archives template detection
 - Tweak: New screenshots and default theme option logo
+- Tweak: Added 'waboot/layout/post_navigation/display_numeric_pagination' filter.
+- Tweak: Now show_pagination is TRUE by default
 
 Version 2.1.3 - 07/27/2017
 ---------------------------------
