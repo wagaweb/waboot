@@ -124,7 +124,7 @@ function archive_page_title(){
  * @param bool $current_page
  * @param string $paged_var_name You can supply different paged var name for multiple pagination. The name must be previously registered with add_rewrite_tag()
  */
-function post_navigation($nav_id, $show_pagination = false, $query = false, $current_page = false, $paged_var_name = "paged"){
+function post_navigation($nav_id, $show_pagination = true, $query = false, $current_page = false, $paged_var_name = "paged"){
 	$can_show_nav = call_user_func(function() use($nav_id){
 		if(is_category() || is_home()){
 			switch($nav_id){
@@ -180,6 +180,8 @@ function post_navigation($nav_id, $show_pagination = false, $query = false, $cur
 		$can_display_pagination = $query->max_num_pages > 1 && (is_home() || is_archive() || is_search() || is_singular());
 		$can_display_pagination = apply_filters("waboot/layout/post_navigation/can_display_navigation",$can_display_pagination,$query,$current_page);
 	}
+
+	$show_pagination = apply_filters('waboot/layout/post_navigation/display_numeric_pagination',$show_pagination,$nav_id);
 
 	if($can_display_pagination && $show_pagination){
 		$big = 999999999; // need an unlikely integer
