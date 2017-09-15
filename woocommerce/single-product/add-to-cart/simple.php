@@ -42,7 +42,7 @@ if ( ! $product->is_purchasable() ) {
                         'max_value' => apply_filters( 'woocommerce_quantity_input_max', $product->backorders_allowed() ? '' : $product->get_stock_quantity(), $product )
                     ) );
             ?>
-            <input type="hidden" class="form-control" name="add-to-cart" value="<?php echo esc_attr( $product->id ); ?>" />
+            <input type="hidden" class="form-control" name="add-to-cart" value="<?php echo esc_attr( $product->get_id() ); ?>" />
         </div>
 
 	 	<button type="submit" class="single_add_to_cart_button btn btn-success"><?php echo $product->single_add_to_cart_text(); ?></button>
