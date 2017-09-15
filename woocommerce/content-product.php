@@ -50,7 +50,7 @@ if ( ! $product || ! $product->is_visible() ) {
 
             <p class="wb-product-cat">
                 <?php
-                $products_cats = $product->get_categories();
+                $products_cats = wc_get_product_category_list($product->get_id());
                 list($firstpart) = explode(',', $products_cats);
                 echo $firstpart;
                 ?>
