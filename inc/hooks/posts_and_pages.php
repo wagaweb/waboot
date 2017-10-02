@@ -84,6 +84,10 @@ function display_singular_title(){
 
 	if($page_type === Utilities::PAGE_TYPE_DEFAULT_HOME || $page_type === Utilities::PAGE_TYPE_BLOG_PAGE){
 		$title = \Waboot\functions\get_index_page_title();
+		if(!isset($title)){
+			//We are in the "default_home" case
+			$title = apply_filters('waboot/default_home/title','');
+		}
 		$can_display_title = (bool) \Waboot\functions\get_option('blog_display_title') && \Waboot\functions\get_option('blog_title_position') === $current_title_context;
 	}elseif(is_search()){
 		$title = sprintf( __( 'Search Results for: %s', 'waboot' ), '<span>' . get_search_query() . '</span>' );
