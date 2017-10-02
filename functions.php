@@ -90,8 +90,11 @@ function waboot_init(){
  * @return \Waboot\Theme|boolean
  */
 function Waboot(){
+	static $waboot = null;
+	if(isset($waboot) && $waboot instanceof \Waboot\Theme) return $waboot;
 	if(class_exists("\\Waboot\\Theme")){
-		return \Waboot\Theme::getInstance();
+		$waboot = new Waboot\Theme(new \Waboot\Layout(),new \WP_Styles());
+		return $waboot;
 	}else{
 		trigger_error("Unable to find \Waboot\Theme class", E_USER_NOTICE);
 		return false;

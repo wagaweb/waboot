@@ -8,13 +8,13 @@ use WBF\components\utils\Utilities;
 
 class Layout{
 	/**
-	 * @var Layout
-	 */
-	private static $instance;
-	/**
 	 * @var array
 	 */
 	private $zones = [];
+	/**
+	 * @var array
+	 */
+	private $grid_classes = [];
 	
 	const LAYOUT_FULL_WIDTH = "full-width";
 	const LAYOUT_PRIMARY_RIGHT = "sidebar-right";
@@ -22,18 +22,19 @@ class Layout{
 	const LAYOUT_TWO_SIDEBARS = "two-sidebars";
 	const LAYOUT_TWO_SIDEBARS_LEFT = "two-sidebars-left";
 	const LAYOUT_TWO_SIDEBARS_RIGHT = "two-sidebars-right";
-	
-	/**
-	 * Returns the *Singleton* instance.
-	 *
-	 * @return Layout The *Singleton* instance.
-	 */
-	public static function getInstance(){
-		if (null === static::$instance) {
-			static::$instance = new static();
-		}
 
-		return static::$instance;
+	/**
+	 * Layout constructor.
+	 *
+	 * @param array $params
+	 */
+	public function __construct($params = []) {
+		$default_grid_classes = [];
+		if(isset($params['grid_classes'])){
+			$this->grid_classes = wp_parse_args($params['grid_classes'],$default_grid_classes);
+		}else{
+			$this->grid_classes = $default_grid_classes;
+		}
 	}
 
 	/**
@@ -274,6 +275,7 @@ class Layout{
 		}
 		return true;
 	}
+
 	
 	/*
 	 * Utilities
@@ -319,14 +321,4 @@ class Layout{
 				break;
 		}
 	}
-
-	/**
-	 * Private clone method to prevent cloning of the instance of the *Singleton* instance.
-	 */
-	private function __clone(){}
-
-	/**
-	 * Private unserialize method to prevent unserializing of the *Singleton* instance.
-	 */
-	private function __wakeup(){}
 }

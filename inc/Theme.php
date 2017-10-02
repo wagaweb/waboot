@@ -10,20 +10,13 @@ use WBF\modules\options\Framework;
 
 class Theme{
 	/**
-	 * @var Theme
-	 */
-	private static $instance;
-
-	/**
 	 * @var Layout
 	 */
 	var $layout;
-
 	/**
 	 * @var array
 	 */
 	var $inline_styles;
-
 	/**
 	 * @var \WP_Styles
 	 */
@@ -36,21 +29,9 @@ class Theme{
 	const GENERATOR_STEP_ACTIONS = "ACTIONS";
 	const GENERATOR_ACTION_ALL = "ALL_ACTIONS";
 
-	/**
-	 * Returns the *Singleton* instance.
-	 *
-	 * @return Theme The *Singleton* instance.
-	 */
-	public static function getInstance(){
-		if (null === static::$instance) {
-			static::$instance = new static();
-		}
-		return static::$instance;
-	}
-
-	protected function __construct(){
-		$this->layout = Layout::getInstance();
-		$this->custom_styles_handler = new \WP_Styles();
+	public function __construct(Layout $layout_handler, \WP_Dependencies $styles_handler){
+		$this->layout = $layout_handler;
+		$this->custom_styles_handler = $styles_handler;
 		add_action("waboot/head/end", [$this,"print_inline_styles"]);
 	}
 
@@ -495,14 +476,4 @@ class Theme{
 		delete_option('waboot-done-wizard');
 		delete_option('waboot-skipped-wizard');
 	}
-
-	/**
-	 * Private clone method to prevent cloning of the instance of the *Singleton* instance.
-	 */
-	private function __clone(){}
-
-	/**
-	 * Private unserialize method to prevent unserializing of the *Singleton* instance.
-	 */
-	private function __wakeup(){}
 }
