@@ -11,13 +11,13 @@
 	<?php
 	// Start the Loop
 	while ( have_posts() ) : the_post();
-		get_template_part( '/templates/wordpress/parts/content', 'search' );
+		get_template_part( '/templates/parts/content', 'search' );
 	endwhile;
 	?>
 	<?php \Waboot\template_tags\post_navigation( 'nav-below' ); // display content nav below posts? ?>
 <?php else : ?>
 	<?php
 	// No results
-	get_template_part( '/templates/wordpress/parts/content', 'none' );
+	get_template_part( '/templates/parts/content', 'none' );
 	?>
 <?php endif; ?>

@@ -37,7 +37,7 @@ function get_archives_template_vars(){
 
 	$o = get_queried_object();
 
-	$tpl_base = "templates/wordpress/archive/";
+	$tpl_base = "templates/archive/";
 
 	if($o instanceof \WP_Term){
 		$tpl[] = $tpl_base.$o->taxonomy.'-'.$o->slug;

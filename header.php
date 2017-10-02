@@ -2,7 +2,7 @@
 	/*
 	 * Prints out <head> section
 	 */
-	get_template_part("/templates/wordpress/parts/head");
+	get_template_part("/templates/parts/head");
 ?>
 <?php do_action( 'waboot_head_after' ); ?>
 <body <?php body_class(); ?> >

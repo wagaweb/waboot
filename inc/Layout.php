@@ -171,7 +171,7 @@ class Layout{
 	public function render_wp_template_content($template){
 		switch($template){
 			case "archive.php":
-				$template_file = "templates/wordpress/archive-content";
+				$template_file = "templates/archive-content";
 				\Waboot\functions\render_archives($template_file);
 				break;
 			case "page.php":

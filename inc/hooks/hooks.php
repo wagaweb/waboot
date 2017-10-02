@@ -12,7 +12,7 @@ use WBF\modules\options\Framework;
  * Add header metas
  */
 function add_header_metas(){
-	get_template_part("templates/wordpress/parts/meta");
+	get_template_part("templates/parts/meta");
 }
 add_action("waboot/head/start",__NAMESPACE__."\\add_header_metas");
 
@@ -108,7 +108,7 @@ add_action("wbf_init",__NAMESPACE__."\\set_update_server");
  * @return array
  */
 function inject_templates($page_templates, \WP_Theme $theme, $post){
-	$template_directory = get_stylesheet_directory()."/templates/wordpress/parts-tpl";
+	$template_directory = get_stylesheet_directory()."/templates/parts-tpl";
 	$template_directory = apply_filters("waboot/custom_template_parts_directory",$template_directory);
 	$tpls = glob($template_directory."/content-*.php");
 	foreach ($tpls as $tpl){

@@ -192,7 +192,7 @@ In particular:
     
     We achieved that by rendering here a [zone](#zones) called "content", which has (as primary default hook) a [function](https://github.com/wagaweb/waboot/blob/master/inc/hooks/zones_std_hooks.php) that respond to requests and includes the correct partial.
     
-- Classic WordPress template files can be found under `templates/wordpress`.
+- Classic WordPress template files can be found under `templates/`.
 
     These templates are stripped of the usual header, footer and sidebar includes, which are handled by `index.php`.
         
@@ -202,9 +202,9 @@ In particular:
     
 - Custom templates (those that are selectable from the dashboard) can be treated as partials as well.
 
-    Waboot automatically recognizes any file called `content-[a-z]+` under `templates/wordpress/parts-tpl` as custom template partial and make it selectable from the dashboard.
+    Waboot automatically recognizes any file called `content-[a-z]+` under `templates/parts-tpl` as custom template partial and make it selectable from the dashboard.
     
-    Then, [`page.php`](https://github.com/wagaweb/waboot/blob/master/templates/wordpress/page.php) automatically includes the partial you selected.
+    Then, [`page.php`](https://github.com/wagaweb/waboot/blob/master/templates/page.php) automatically includes the partial you selected.
     
 - We used [WBF Views](https://github.com/wagaweb/wbf/tree/master/src/components/mvc) wherever possible. WBF Views has some advantages over classic `get_template_part()` function.
 

@@ -200,7 +200,7 @@ function set_secondary_sidebar_size(Behavior $b){
  * @return string
  */
 function alter_comments_template($theme_template){
-	$theme_template = locate_template("templates/wordpress/comments.php");
+	$theme_template = locate_template("templates/comments.php");
 	return $theme_template;
 }
 add_filter('comments_template', __NAMESPACE__."\\alter_comments_template");
