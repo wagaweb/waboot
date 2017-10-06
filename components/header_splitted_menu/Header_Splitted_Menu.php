@@ -10,8 +10,8 @@ Author URI: http://www.waga.it
  */
 
 if(!class_exists("\\Waboot\\Component")){
-	require_once '../../inc/Component.php';
-};
+	require_once get_template_directory().'/inc/Component.php';
+}
 
 require_once( dirname(__FILE__).'/WabootSplittedNavMenuWalker.php');
 
