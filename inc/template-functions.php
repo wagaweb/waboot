@@ -679,7 +679,7 @@ function get_current_taxonomy(){
  * @return bool
  */
 function wbf_exists(){
-	if(class_exists("WBF") || defined('WBTEST_CURRENT_PATH')){
+	if(class_exists("\WBF\PluginCore") || defined('WBTEST_CURRENT_PATH')){
 		return true;
 	}
 	return false;
