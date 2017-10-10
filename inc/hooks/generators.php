@@ -34,7 +34,7 @@ function add_wizard_notice(){
 			$start_wizard_link = get_start_wizard_link();
 			$dismiss_wizard_link = add_query_arg(["waboot_dismiss_wizard"=>1],admin_url("themes.php"));
 			$msg = sprintf(__("Thank you choosing Waboot! If you want, our wizard will help you to kickstart your theme with some initial settings: click <a href='%s'>here</a> to start or <a href='%s'>here</a> to dismiss this notice.","waboot"),$start_wizard_link,$dismiss_wizard_link);
-			WBF()->notice_manager->add_notice("waboot-wizard",$msg,"nag","_flash_");
+			WBF()->services()->get_notice_manager()->add_notice("waboot-wizard",$msg,"nag","_flash_");
 		}
 	}else{
 		$class = 'notice notice-error';
@@ -54,7 +54,7 @@ add_action("admin_init",__NAMESPACE__."\\add_wizard_notice",11);
 function dismiss_wizard_notice(){
 	if(!isset($_GET['waboot_dismiss_wizard'])) return;
 	if($_GET['waboot_dismiss_wizard'] == 1){
-		WBF()->notice_manager->remove_notice("waboot-wizard");
+		WBF()->services()->get_notice_manager()->remove_notice("waboot-wizard");
 		Theme::set_wizard_as_skipped();
 	}
 }
@@ -66,7 +66,7 @@ add_action("admin_init",__NAMESPACE__."\\dismiss_wizard_notice",11);
 function reset_wizard_status(){
 	if(!isset($_GET['waboot_reset_wizard'])) return;
 	if($_GET['waboot_reset_wizard'] == 1){
-		WBF()->notice_manager->remove_notice("waboot-wizard");
+		WBF()->services()->get_notice_manager()->remove_notice("waboot-wizard");
 		Theme::reset_wizard();
 	}
 }
@@ -121,10 +121,10 @@ function handle_wizard(){
 	}
 
 	if($r){
-		WBF()->notice_manager->add_notice("waboot_wizard_completed",__("Wizard completed successfully","waboot"),"updated","_flash_");
+		WBF()->services()->get_notice_manager()->add_notice("waboot_wizard_completed",__("Wizard completed successfully","waboot"),"updated","_flash_");
 		Theme::set_wizard_as_done();
 	}else{
-		WBF()->notice_manager->add_notice("waboot_wizard_completed",__("Wizard encountered some errors","waboot"),"error","_flash_");
+		WBF()->services()->get_notice_manager()->add_notice("waboot_wizard_completed",__("Wizard encountered some errors","waboot"),"error","_flash_");
 	}
 }
 if(wbf_exists()) add_action('admin_init',__NAMESPACE__."\\handle_wizard",11);

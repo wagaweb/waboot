@@ -487,7 +487,7 @@ function deploy_favicon($option, $old_value, $value){
  */
 function deploy_theme_options_css($option, $old_value, $value){
 	$input_file_path = apply_filters("waboot/assets/theme_options_style_file/source", get_template_directory()."/assets/src/css/_theme-options.src");
-	$output_file_path = apply_filters("waboot/assets/theme_options_style_file/destination", WBF()->resources->get_working_directory()."/theme-options.css");
+	$output_file_path = apply_filters("waboot/assets/theme_options_style_file/destination", WBF()->get_working_directory()."/theme-options.css");
 
 	if(!is_array($value)) return false;
 

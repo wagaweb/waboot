@@ -2,7 +2,7 @@
 
 <div id="optionsframework-wrapper" class="optionsframework-wrapper admin-wrapper wrap" data-options-gui>
 
-    <?php WBF()->notice_manager->show_notices(); ?>
+    <?php WBF()->services()->get_notice_manager()->show_notices(); ?>
 
     <!-- Navigation -->
     <div class="optionsframework-nav">
