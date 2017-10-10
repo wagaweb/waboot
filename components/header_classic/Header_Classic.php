@@ -215,6 +215,8 @@ class Header_Classic extends \Waboot\Component{
         if(isset($options) && !empty($options)){
             $options = 'navbar-'.$options;
             $classes = [$class,$options];
+        }else{
+        	$classes = [];
         }
         return implode(' ', $classes);
     }
