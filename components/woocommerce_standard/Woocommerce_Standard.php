@@ -24,6 +24,11 @@ class Woocommerce_Standard extends \WBF\modules\components\Component{
     }
 
     private function declare_hooks(){
+	    //Disable the default display action for the page title
+	    add_action('woocommerce_before_main_content', function(){
+		    remove_action("waboot/site-main/before",'Waboot\hooks\display_singular_title');
+	    },9);
+
 		//Disable the default Woocommerce stylesheet
 	    add_filter( 'woocommerce_enqueue_styles', '__return_empty_array' );
 
