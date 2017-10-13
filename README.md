@@ -255,9 +255,9 @@ More informations and tutorials [here](https://github.com/wagaweb/waboot/tree/ma
 
 **v2.2.x**
 
-Bootstrap will become optional (available as component) and Waboot will use a proprietary grid system.
+:white_check_mark: The "wordpress" template directory will be removed.
 
-Developers will be able to use their grid system by hooking into filters and specify their grid classes.
+We are studying a way to make Bootstrap optional (available as component) and to allow developers to use their grid system by hooking into filters and specify their grid classes.
 
 Bugfix.
 
