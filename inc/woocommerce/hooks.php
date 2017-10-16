@@ -17,6 +17,16 @@ add_action('woocommerce_after_main_content', __NAMESPACE__."\\wrapper_end", 10);
 
 //Layout altering:
 add_filter("waboot/layout/main_wrapper/classes", __NAMESPACE__."\\set_main_wrapper_classes");
+add_action("waboot/woocommerce/loop", __NAMESPACE__."\\loop_template");
+
+/**
+ * Set the main loop template
+ *
+ * @hooked 'waboot/woocommerce/loop'
+ */
+function loop_template(){
+	\get_template_part('woocommerce/loop/waboot','loop');
+}
 
 /**
  * Set WooCommerce wrapper start tags
