@@ -1,7 +1,7 @@
 <?php
 /**
 Component Name: Breadcrumb Component
-Description: Breadcrumb Component
+Description: Display a breadcrumb. You can customize where it should be displayed in Theme Options page.
 Category: Layout
 Tags: Breadcrumb
 Version: 1.0
