@@ -690,7 +690,8 @@ function wbf_exists(){
  */
 function has_wbf_required_version($required_version){
 	if(!wbf_exists()) return false;
-	$wbf_version = WBF()::version;
+	$wbf = WBF();
+	$wbf_version = $wbf::version;
 	$r = version_compare($wbf_version,$required_version,'>=');
 	return $r;
 }
