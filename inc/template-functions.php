@@ -684,3 +684,12 @@ function wbf_exists(){
 	}
 	return false;
 }
+
+/*
+ * Check if WBF is at least at the required version
+ */
+function has_wbf_required_version($required_version){
+	if(!wbf_exists()) return false;
+	$wbf_version = WBF()::version;
+	return version_compare($required_version,$wbf_version,'>=');
+}
