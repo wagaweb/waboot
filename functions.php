@@ -48,9 +48,9 @@ function waboot_init(){
 		}
 	}
 
-	if(!class_exists("\\Waboot\\Theme") || !\Waboot\functions\wbf_exists()){
+	if(!class_exists("\\Waboot\\Theme") || !\Waboot\functions\has_wbf_required_version('1.1.0')){
 		if(!is_admin() && !wp_doing_ajax()){
-			trigger_error("Waboot was not initialized. Missing WBF?", E_USER_NOTICE);
+			trigger_error("Waboot was not initialized. Missing or wrong WBF version?", E_USER_NOTICE);
 		}
 		return; //Stop here if WBF is not present
 	}
