@@ -1,8 +1,9 @@
 == Change log ==
 
-Version 2.2.1 - 10/26/2017
+Version 2.2.1 -
 ---------------------------------
 - Tweak: Compatibility with WBF 1.1.0
+- Feature: Support for the new WBF Update Channels module
 
 Version 2.2.0 - 10/26/2017
 ---------------------------------
