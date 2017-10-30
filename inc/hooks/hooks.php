@@ -99,6 +99,26 @@ function set_update_server(){
 add_action("wbf_init",__NAMESPACE__."\\set_update_server");
 
 /**
+ * Adds the Waboot Update channels
+ *
+ * @param $channels
+ *
+ * @return mixed
+ */
+function set_update_channels($channels){
+    $channels['waboot'] = [
+        'name' => 'Waboot Theme',
+        'slug' => 'waboot_theme',
+        'channels' => [
+            'Stable' => 'stable',
+            'Beta' => 'beta'
+        ]
+    ];
+    return $channels;
+}
+add_filter('wbf/update_channels/available',__NAMESPACE__.'\\set_update_channels');
+
+/**
  * Injects Waboot custom templates
  *
  * @param array $page_templates
