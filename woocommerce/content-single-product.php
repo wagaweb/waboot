@@ -50,7 +50,7 @@ if ( post_password_required() ) {
 
         <?php echo get_the_term_list( $post->ID, 'product_cat', '<p class="prod-category">', ' - ', '</p>' ); ?>
 
-        <?php do_action( 'waboot_entry_header' ); ?>
+        <?php do_action( 'waboot/entry/header' ); ?>
 
         <?php
         /**
