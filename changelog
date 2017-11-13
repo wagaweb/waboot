@@ -3,6 +3,7 @@
 Version 2.2.1 -
 ---------------------------------
 - Fix: Now title in shop page behave as expected accordingly to the theme options.
+- Fix: Now title in product pages behave as expected accordingly to the theme options and behaviors.
 - Fix: Now sidebar classes behave as expected accordingly to the theme options.
 - Fix: Generators works with child-side components.
 - Tweak: Compatibility with WBF 1.1.0.
