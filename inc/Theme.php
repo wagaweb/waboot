@@ -277,12 +277,20 @@ class Theme{
 				if(!wbf_exists()) throw new \Exception("WBF not detected");
 				//Toggle components
 				$registered_components = ComponentsManager::getAllComponents();
+				$child_components = [];
 				foreach ($registered_components as $component_name => $component_data){ //Disable all components
-					ComponentsManager::disable($component_name);
+					if($component_data->is_child_component){
+						$child_components[] = $component_name;
+					}
+					ComponentsManager::disable($component_name,$component_data->is_child_component);
 				}
 				if(isset($selected_generator->components) && is_array($selected_generator->components) && !empty($selected_generator->components)){
 					foreach ($selected_generator->components as $component_to_enable){
-						ComponentsManager::enable($component_to_enable); //Selectively enable components
+						if(in_array($component_to_enable,$child_components)){
+							ComponentsManager::enable($component_to_enable, true); //Selectively enable components
+						}else{
+							ComponentsManager::enable($component_to_enable); //Selectively enable components
+						}
 					}
 				}
 				if($step == self::GENERATOR_STEP_COMPONENTS){
