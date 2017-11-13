@@ -245,6 +245,13 @@ function get_archive_option($provided_option_name,$taxonomy = null){
 		$taxonomy = get_current_taxonomy();
 	}
 
+	if(!$taxonomy && is_archive()){
+		global $wp_query;
+		$taxonomy = isset($wp_query->query['post_type']) ? $wp_query->query['post_type'] : false;
+	}
+
+	$taxonomy = apply_filters('waboot/archive_option/taxonomy',$taxonomy);
+
 	$default_value = \Waboot\functions\get_option("blog_".$provided_option_name); //Default to blog values
 
 	if($taxonomy === "category" || !$taxonomy){
