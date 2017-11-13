@@ -37,7 +37,7 @@ class Woocommerce_Standard extends \WBF\modules\components\Component{
 	    add_filter("post_class", [$this,"alter_post_class"], 20, 3);
 
 		//Layout altering:
-	    add_filter("waboot/entry/title/display_flag", [$this,"alter_entry_title_visibility"], 10, 2);
+	    add_filter("waboot/singular/title/display_flag",[$this,'alter_entry_title_visibility'],10,2);
 	    add_filter("waboot/layout/body_layout", [$this,"alter_body_layout"], 90);
 	    add_filter("waboot/layout/get_cols_sizes", [$this,"alter_col_sizes"], 90);
 	    add_action('init', [$this,"hidePriceAndCart"], 20);
