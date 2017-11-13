@@ -35,6 +35,7 @@ class Woocommerce_Standard extends \WBF\modules\components\Component{
 		//Enable the modification of woocommerce query and loop
 	    add_filter("loop_shop_per_page", [$this,"alter_posts_per_page"], 20);
 	    add_filter("post_class", [$this,"alter_post_class"], 20, 3);
+	    add_filter("post_type_archive_title",[$this,"alter_archive_page_title"],10,2);
 
 		//Layout altering:
 	    add_filter("waboot/singular/title/display_flag",[$this,'alter_entry_title_visibility'],10,2);
@@ -289,6 +290,19 @@ class Woocommerce_Standard extends \WBF\modules\components\Component{
 				break;
 		}
 		return $can_display_title;
+	}
+
+	/**
+	 * @hooked 'post_type_archive_title'
+	 *
+	 * @param $title
+	 * @param $post_type
+	 *
+	 * @return mixed
+	 */
+	public function alter_archive_page_title($title,$post_type){
+		if($post_type !== 'product') return $title;
+		return \Waboot\woocommerce\get_shop_page_title();
 	}
 
 	/**
