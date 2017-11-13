@@ -275,7 +275,7 @@ class Woocommerce_Standard extends \WBF\modules\components\Component{
 			case "bottom":
 				//PLEASE NOTE: in reality, we need the "top" condition ONLY. The bottom condition is handled in our archive-product.php
 				if(\is_product_category()){
-					$can_display_title = \Waboot\functions\get_option("woocommerce_archives_title_position") == "bottom" && (bool) \Waboot\functions\get_option("woocommerce_shop_archives_title");
+					$can_display_title = \Waboot\functions\get_option("woocommerce_archives_title_position") == "bottom" && (bool) \Waboot\functions\get_option("woocommerce_archives_display_title");
 				}elseif(\is_shop()){
 					$can_display_title = \Waboot\functions\get_option("woocommerce_shop_title_position") == "bottom" && (bool) \Waboot\functions\get_option("woocommerce_shop_display_title");
 				}
@@ -283,7 +283,7 @@ class Woocommerce_Standard extends \WBF\modules\components\Component{
 			//Print entry header OUTSIDE the single entry:
 			case "top":
 				if(\is_product_category()){
-					$can_display_title = \Waboot\functions\get_option("woocommerce_archives_title_position") == "top" && (bool) \Waboot\functions\get_option("woocommerce_shop_archives_title");
+					$can_display_title = \Waboot\functions\get_option("woocommerce_archives_title_position") == "top" && (bool) \Waboot\functions\get_option("woocommerce_archives_display_title");
 				}elseif(\is_shop()){
 					$can_display_title = \Waboot\functions\get_option("woocommerce_shop_title_position") == "top" && (bool) \Waboot\functions\get_option("woocommerce_shop_display_title");
 				}
