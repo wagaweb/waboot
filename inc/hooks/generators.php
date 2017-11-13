@@ -81,7 +81,7 @@ function handle_wizard_via_ajax(){
 	$action = isset($_POST['params']) && isset($_POST['params']['action']) ? sanitize_text_field($_POST['params']['action']) : Theme::GENERATOR_ACTION_ALL;
 
 	if($selected_generator){
-		$r = Theme::getInstance()->handle_generator($selected_generator,$step,$action);
+		$r = Waboot()->handle_generator($selected_generator,$step,$action);
 		if($r['status'] === 'success'){
 			if($r['complete']){
 				$r['status'] = "complete";
@@ -117,7 +117,7 @@ function handle_wizard(){
 	//Check generators
 	$selected_generator = isset($_POST['generator']) ? sanitize_text_field($_POST['generator']) : false;
 	if($selected_generator){
-		$r = Theme::getInstance()->handle_generator($selected_generator);
+		$r = Waboot()->handle_generator($selected_generator);
 	}
 
 	if($r){
