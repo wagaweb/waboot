@@ -47,7 +47,8 @@ class Woocommerce_Standard extends \WBF\modules\components\Component{
 	    add_filter("wbf/modules/behaviors/get/secondary-sidebar-size", [$this,"secondary_sidebar_size_behavior"], 999);
 
 		// Theme Options
-
+	    add_filter("wbf/theme_options/get/blog_primary_sidebar_size",[$this,"primary_sidebar_size_option"],999);
+	    add_filter("wbf/theme_options/get/blog_secondary_sidebar_size",[$this,"primary_sidebar_size_option"],999);
     }
 
 	/**
@@ -390,6 +391,31 @@ class Woocommerce_Standard extends \WBF\modules\components\Component{
 	}
 
 	/**
+	 * @param $value
+	 *
+	 * @return bool|int|mixed
+	 */
+	public function primary_sidebar_size_option($value){
+		if(!is_woocommerce()) return $value;
+
+		if(is_shop()){
+			$primary_sidebar_width = \Waboot\functions\get_option('woocommerce_shop_primary_sidebar_size');
+			if(!$primary_sidebar_width){
+				$primary_sidebar_width = 0;
+			}
+			$value = $primary_sidebar_width;
+		}elseif(is_product_category()){
+			$primary_sidebar_width = \Waboot\functions\get_option('woocommerce_primary_sidebar_size');
+			if(!$primary_sidebar_width){
+				$primary_sidebar_width = 0;
+			}
+			$value = $primary_sidebar_width;
+		}
+
+		return $value;
+	}
+
+	/**
 	 * @param \WBF\modules\behaviors\Behavior $b
 	 *
 	 * @return \WBF\modules\behaviors\Behavior
@@ -412,6 +438,31 @@ class Woocommerce_Standard extends \WBF\modules\components\Component{
 		}
 
 		return $b;
+	}
+
+	/**
+	 * @param $value
+	 *
+	 * @return bool|int|mixed
+	 */
+	public function primary_secondary_size_option($value){
+		if(!is_woocommerce()) return $value;
+
+		if(is_shop()){
+			$primary_sidebar_width = \Waboot\functions\get_option('woocommerce_shop_secondary_sidebar_size');
+			if(!$primary_sidebar_width){
+				$primary_sidebar_width = 0;
+			}
+			$value = $primary_sidebar_width;
+		}elseif(is_product_category()){
+			$primary_sidebar_width = \Waboot\functions\get_option('woocommerce_secondary_sidebar_size');
+			if(!$primary_sidebar_width){
+				$primary_sidebar_width = 0;
+			}
+			$value = $primary_sidebar_width;
+		}
+
+		return $value;
 	}
 
 	/**
