@@ -1,5 +1,7 @@
 <?php
 
+define('WBF_MIN_VER', '1.1.0');
+
 waboot_init();
 
 /**
@@ -18,6 +20,7 @@ function waboot_init(){
 		'inc/hooks/stylesheets.php',
 		'inc/hooks/scripts.php',
 		'inc/hooks/generators.php',
+		'inc/hooks/wbf_installer.php',
 	];
 
 	//Require mandatory files
@@ -30,25 +33,28 @@ function waboot_init(){
 	}
 	unset($file, $filepath);
 
-	if(!\Waboot\functions\has_wbf_required_version('1.1.0')){
+	if(!\Waboot\functions\has_wbf_required_version(WBF_MIN_VER)){
 		add_action("init",function(){
 			if(!is_admin()){
-				_e( "Waboot theme requires WBF Framework at least at v1.1.0 to work properly, please install.", 'Waboot' );
+				$message = sprintf(
+					__( "Waboot theme requires <a href='%s'>WBF Framework</a> plugin at least at v%s to work properly. You can <a href='%s'>download it manually</a> or <a href='%s'>go to the dashboard</a> for the auto-installer.", 'Waboot' ),
+					'https://www.waboot.io',
+					WBF_MIN_VER,
+					'http://update.waboot.org/resource/get/plugin/wbf',
+					admin_url()
+				);
+				echo $message;
 			}
 		});
+		add_action( 'admin_init' , function(){
+			\Waboot\hooks\wbf_installer\install_wbf_wp_update_hooks();
+		});
 		if(!\Waboot\Theme::is_wizard_done() || !\Waboot\Theme::is_wizard_skipped()){
-			add_action('admin_notices',function(){
-				$class = 'notice notice-error';
-				$message = sprintf(
-					__( "Waboot theme requires <a href='%s'>WBF Framework</a> plugin at least at v1.1.0 to work properly, please install.", 'Waboot' ),
-					'http://update.waboot.org/resource/get/plugin/wbf'
-				);
-				printf( '<div class="%1$s"><p>%2$s</p></div>', $class, $message );
-			});
+			\Waboot\hooks\wbf_installer\notice_install_requirements();
 		}
 	}
 
-	if(!class_exists("\\Waboot\\Theme") || !\Waboot\functions\has_wbf_required_version('1.1.0')){
+	if(!class_exists("\\Waboot\\Theme") || !\Waboot\functions\has_wbf_required_version(WBF_MIN_VER)){
 		if(!is_admin() && !wp_doing_ajax()){
 			trigger_error("Waboot was not initialized. Missing or wrong WBF version?", E_USER_NOTICE);
 		}
