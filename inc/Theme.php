@@ -18,7 +18,7 @@ class Theme{
 	 */
 	var $inline_styles;
 	/**
-	 * @var
+	 * @var array
 	 */
 	var $merged_styles;
 	/**
