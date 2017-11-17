@@ -179,25 +179,18 @@ class Theme{
 		}
 	}
 
+	public function build_merged_styles_file(){
+
+	}
+
 	/**
 	 * Print registered inline styles
 	 *
 	 * @hooked "waboot/head/end"
 	 */
 	public function print_inline_styles(){
-		$parsed_handlers = [];
-
-		foreach($this->inline_styles as $inline_style_handle => $inline_style_params){
-			$parsed_handlers[] = $inline_style_handle;
-			$this->custom_styles_handler->add($inline_style_params['handle'],$inline_style_params['src'], $inline_style_params['deps'], $inline_style_params['ver']);
-		}
-
 		$output = "";
-		/*
-		 * We enqueue the registered inline styles. We hope that those steps will resolve dependencies
-		 */
-		$this->custom_styles_handler->all_deps($parsed_handlers);
-		$items = $this->custom_styles_handler->to_do;
+		$items = $this->collect_custom_type_styles(self::CUSTOM_STYLE_TYPE_INLINE);
 		/*
 		 * We cycle through the registered styles. We suppose that those styles are already ordered by dependency (it's the reason we used WP_Styles in the first place)
 		 */
@@ -215,6 +208,28 @@ class Theme{
 		}
 		$output = sprintf( "<style id='%s-inline-css' type='text/css'>\n%s\n</style>\n", "components", $output );
 		echo $output;
+	}
+
+	/**
+	 * @param $type
+	 *
+	 * @return array
+	 */
+	private function collect_custom_type_styles($type){
+		$parsed_handlers = [];
+		$required_styles = $type === self::CUSTOM_STYLE_TYPE_INLINE ? $this->inline_styles : $this->merged_styles;
+
+		foreach($required_styles as $style_handle => $style_params){
+			$parsed_handlers[] = $style_handle;
+			$this->custom_styles_handler->add($style_params['handle'],$style_params['src'], $style_params['deps'], $style_params['ver']);
+		}
+
+		/*
+		 * We enqueue the registered inline styles. We hope that those steps will resolve dependencies
+		 */
+		$this->custom_styles_handler->all_deps($parsed_handlers);
+		$items = $this->custom_styles_handler->to_do;
+		return $items;
 	}
 
 	/**
