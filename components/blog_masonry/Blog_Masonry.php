@@ -52,7 +52,8 @@ class Blog_Masonry extends \WBF\modules\components\Component{
 	 * Enqueue component scripts
 	 */
 	public function scripts(){
-		wp_register_script('component-blog_masonry-script',$this->directory_uri . '/assets/vendor/masonry.pkgd.min.js',['jquery','imagesLoaded-js'],false,true);
+		wp_register_script('component-blog_masonry-imagesloaded-script',$this->directory_uri . '/assets/vendor/imagesloaded.pkgd.min.js',['jquery'],false,true);
+		wp_register_script('component-blog_masonry-script',$this->directory_uri . '/assets/vendor/masonry.pkgd.min.js',['jquery','component-blog_masonry-imagesloaded-script'],false,true);
 		wp_register_script('component-blog_masonry-custom-script',$this->directory_uri . '/assets/dist/js/blog-masonry.js',['jquery','component-blog_masonry-script'],false,true);
 		wp_enqueue_script('component-blog_masonry-custom-script');
 	}
