@@ -18,6 +18,10 @@ class Theme{
 	 */
 	var $inline_styles;
 	/**
+	 * @var
+	 */
+	var $merged_styles;
+	/**
 	 * @var \WP_Styles
 	 */
 	var $custom_styles_handler;
@@ -28,6 +32,9 @@ class Theme{
 	const GENERATOR_STEP_PRE_ACTIONS = "PRE_ACTIONS";
 	const GENERATOR_STEP_ACTIONS = "ACTIONS";
 	const GENERATOR_ACTION_ALL = "ALL_ACTIONS";
+
+	const CUSTOM_STYLE_TYPE_INLINE = "INLINE";
+	const CUSTOM_STYLE_TYPE_MERGED = "MERGED";
 
 	public function __construct(Layout $layout_handler, \WP_Dependencies $styles_handler){
 		$this->layout = $layout_handler;
@@ -111,16 +118,65 @@ class Theme{
 	/**
 	 * Adds a new inline style. Inline styles will be printed during "waboot/head/end" action.
 	 *
+	 * @use add_custom_type_style()
+	 *
 	 * @param $handle
-	 * @param $path
+	 * @param $src
+	 * @param array $deps
+	 * @param bool $ver
+	 * @param string $media
 	 */
 	public function add_inline_style($handle,$src, $deps = array(), $ver = false, $media = 'all'){
+		$this->add_custom_type_style(self::CUSTOM_STYLE_TYPE_INLINE,$handle,$src,$deps,$ver,$media);
+	}
+
+	/**
+	 * Adds a new merged style. Merged styles will be included in one file that will be enqueued afterward.
+	 *
+	 * @use add_custom_type_style()
+	 *
+	 * @param $handle
+	 * @param $src
+	 * @param array $deps
+	 * @param bool $ver
+	 * @param string $media
+	 */
+	public function add_merged_style($handle,$src, $deps = array(), $ver = false, $media = 'all'){
+		$this->add_custom_type_style(self::CUSTOM_STYLE_TYPE_MERGED,$handle,$src,$deps,$ver,$media);
+	}
+
+	/**
+	 * @param $type
+	 * @param $handle
+	 * @param $src
+	 * @param array $deps
+	 * @param bool $ver
+	 * @param string $media
+	 */
+	private function add_custom_type_style($type, $handle, $src, $deps = array(), $ver = false, $media = 'all'){
 		if(preg_match("/^https?/",$src)){
 			$src = Utilities::url_to_path($src);
 		}
 		if(!file_exists($src)) return;
-		$this->inline_styles[] = $handle;
-		$this->custom_styles_handler->add($handle,$src, $deps, $ver);
+
+		switch($type){
+			case self::CUSTOM_STYLE_TYPE_INLINE:
+				$this->inline_styles[$handle] = [
+					'handle' => $handle,
+					'src' => $src,
+					'deps' => $deps,
+					'ver' => $ver
+				];
+				break;
+			case self::CUSTOM_STYLE_TYPE_MERGED:
+				$this->merged_styles[$handle] = [
+					'handle' => $handle,
+					'src' => $src,
+					'deps' => $deps,
+					'ver' => $ver
+				];
+				break;
+		}
 	}
 
 	/**
@@ -129,11 +185,18 @@ class Theme{
 	 * @hooked "waboot/head/end"
 	 */
 	public function print_inline_styles(){
+		$parsed_handlers = [];
+
+		foreach($this->inline_styles as $inline_style_handle => $inline_style_params){
+			$parsed_handlers[] = $inline_style_handle;
+			$this->custom_styles_handler->add($inline_style_params['handle'],$inline_style_params['src'], $inline_style_params['deps'], $inline_style_params['ver']);
+		}
+
 		$output = "";
 		/*
 		 * We enqueue the registered inline styles. We hope that those steps will resolve dependencies
 		 */
-		$this->custom_styles_handler->all_deps($this->inline_styles);
+		$this->custom_styles_handler->all_deps($parsed_handlers);
 		$items = $this->custom_styles_handler->to_do;
 		/*
 		 * We cycle through the registered styles. We suppose that those styles are already ordered by dependency (it's the reason we used WP_Styles in the first place)
