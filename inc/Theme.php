@@ -20,7 +20,7 @@ class Theme{
 	/**
 	 * @var array
 	 */
-	var $merged_styles;
+	var $components_styles;
 	/**
 	 * @var \WP_Styles
 	 */
@@ -33,19 +33,19 @@ class Theme{
 	const GENERATOR_STEP_ACTIONS = "ACTIONS";
 	const GENERATOR_ACTION_ALL = "ALL_ACTIONS";
 
-	const CUSTOM_STYLE_TYPE_INLINE = "INLINE";
-	const CUSTOM_STYLE_TYPE_MERGED = "MERGED";
-
 	public function __construct(Layout $layout_handler, \WP_Dependencies $styles_handler){
 		$this->layout = $layout_handler;
 		$this->custom_styles_handler = $styles_handler;
-		add_action("waboot/head/end", [$this,"print_inline_styles"]);
 	}
 
 	/**
 	 * Loads all theme hooks
 	 */
 	public function load_hooks(){
+		add_action("waboot/head/end", [$this,"print_inline_styles"]);
+		add_action('wbf/modules/components/after_components_options_saved',[$this,'build_components_style_file'],10,4);
+		add_action('wp_enqueue_scripts', [$this,'enqueue_components_styles']);
+
 		$hooks_files = [
 			'inc/hooks/init.php',
 			'inc/hooks/hooks.php',
@@ -60,6 +60,9 @@ class Theme{
 			}
 			require_once $filepath;
 		}
+
+		do_action_ref_array('waboot/hooks_loaded',array(&$this));
+
 		return $this;
 	}
 
@@ -127,60 +130,12 @@ class Theme{
 	 * @param string $media
 	 */
 	public function add_inline_style($handle,$src, $deps = array(), $ver = false, $media = 'all'){
-		$this->add_custom_type_style(self::CUSTOM_STYLE_TYPE_INLINE,$handle,$src,$deps,$ver,$media);
-	}
-
-	/**
-	 * Adds a new merged style. Merged styles will be included in one file that will be enqueued afterward.
-	 *
-	 * @use add_custom_type_style()
-	 *
-	 * @param $handle
-	 * @param $src
-	 * @param array $deps
-	 * @param bool $ver
-	 * @param string $media
-	 */
-	public function add_merged_style($handle,$src, $deps = array(), $ver = false, $media = 'all'){
-		$this->add_custom_type_style(self::CUSTOM_STYLE_TYPE_MERGED,$handle,$src,$deps,$ver,$media);
-	}
-
-	/**
-	 * @param $type
-	 * @param $handle
-	 * @param $src
-	 * @param array $deps
-	 * @param bool $ver
-	 * @param string $media
-	 */
-	private function add_custom_type_style($type, $handle, $src, $deps = array(), $ver = false, $media = 'all'){
 		if(preg_match("/^https?/",$src)){
 			$src = Utilities::url_to_path($src);
 		}
 		if(!file_exists($src)) return;
-
-		switch($type){
-			case self::CUSTOM_STYLE_TYPE_INLINE:
-				$this->inline_styles[$handle] = [
-					'handle' => $handle,
-					'src' => $src,
-					'deps' => $deps,
-					'ver' => $ver
-				];
-				break;
-			case self::CUSTOM_STYLE_TYPE_MERGED:
-				$this->merged_styles[$handle] = [
-					'handle' => $handle,
-					'src' => $src,
-					'deps' => $deps,
-					'ver' => $ver
-				];
-				break;
-		}
-	}
-
-	public function build_merged_styles_file(){
-
+		$this->inline_styles[] = $handle;
+		$this->custom_styles_handler->add($handle,$src, $deps, $ver);
 	}
 
 	/**
@@ -189,8 +144,19 @@ class Theme{
 	 * @hooked "waboot/head/end"
 	 */
 	public function print_inline_styles(){
+		$output = $this->get_inline_styles_content();
+		$output = sprintf( "<style id='%s-inline-css' type='text/css'>\n%s\n</style>\n", "components", $output );
+		echo $output;
+	}
+
+	/**
+	 * Retrieve a string that is the the result of all custom style type files merged.
+	 *
+	 * @return string
+	 */
+	private function get_inline_styles_content(){
 		$output = "";
-		$items = $this->collect_custom_type_styles(self::CUSTOM_STYLE_TYPE_INLINE);
+		$items = $this->collect_inline_styles();
 		/*
 		 * We cycle through the registered styles. We suppose that those styles are already ordered by dependency (it's the reason we used WP_Styles in the first place)
 		 */
@@ -206,18 +172,17 @@ class Theme{
 				}
 			}
 		}
-		$output = sprintf( "<style id='%s-inline-css' type='text/css'>\n%s\n</style>\n", "components", $output );
-		echo $output;
+		return $output;
 	}
 
 	/**
-	 * @param $type
+	 * Collect all inline styles
 	 *
 	 * @return array
 	 */
-	private function collect_custom_type_styles($type){
+	private function collect_inline_styles(){
 		$parsed_handlers = [];
-		$required_styles = $type === self::CUSTOM_STYLE_TYPE_INLINE ? $this->inline_styles : $this->merged_styles;
+		$required_styles = $this->inline_styles;
 
 		foreach($required_styles as $style_handle => $style_params){
 			$parsed_handlers[] = $style_handle;
@@ -230,6 +195,98 @@ class Theme{
 		$this->custom_styles_handler->all_deps($parsed_handlers);
 		$items = $this->custom_styles_handler->to_do;
 		return $items;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function get_components_styles(){
+		if(isset($this->components_styles) && is_array($this->components_styles) && !empty($this->components_styles)){
+			return $this->components_styles;
+		}
+		return [];
+	}
+
+	/**
+	 * Set a style file to be merged
+	 *
+	 * @param $handle
+	 * @param $src
+	 * @param array $deps
+	 * @param bool $ver
+	 * @param string $media
+	 *
+	 */
+	public function add_component_style($handle,$src, $deps = array(), $ver = false, $media = 'all'){
+		$this->components_styles[$handle] = [
+			'src' => $src,
+			'deps' => $deps,
+			'ver' => $ver,
+			'media' => $media
+		];
+	}
+
+	/**
+	 * Create a new style file from all the merged-type custom styles
+	 *
+	 * @hooked 'wbf/modules/components/after_components_options_saved'
+	 */
+	public function build_components_style_file($registered_components,$categorized_registered_components,$compiled_components_options,$options_updated_flag){
+		/*$registered_components = ComponentsManager::getAllComponents();
+		$styles = [];
+
+		foreach ($registered_components as $component_name => $component){
+			if($component instanceof Component){
+				$current_styles = $component->get_registered_styles();
+				if(!empty($current_styles)){
+					$styles = array_merge($styles,$current_styles);
+				}
+			}
+		}*/
+
+		$output = "";
+
+		if(is_array($this->components_styles) && !empty($this->components_styles)){
+			foreach($this->components_styles as $handler => $style){
+				$current_style_src = Paths::url_to_path($style['src']);
+				if(is_file($current_style_src)){
+					//Read the file:
+					$content = file_get_contents($current_style_src);
+					//Append:
+					if($content){
+						$output .= "/********* $handler **********/\n";
+						$output .= $content."\n";
+					}
+				}
+			}
+		}
+
+		if(!empty($output)){
+			$filename = $this->get_components_style_file_name();
+			if(is_file($filename)){
+				unlink($filename);
+			}
+			file_put_contents($filename,$output);
+		}
+	}
+
+	/**
+	 * @return string
+	 */
+	private function get_components_style_file_name(){
+		$filename = WBF()->get_working_directory();
+		$filename .= '/current-active-components-style.css';
+		return $filename;
+	}
+
+	/**
+	 * Enqueue the components style file
+	 */
+	public function enqueue_components_styles(){
+		$filename = $this->get_components_style_file_name();
+		if(!is_file($filename)) return;
+		$ver = filemtime($filename);
+		wp_enqueue_style('components-merged-style-file',Paths::path_to_url($filename),[],$ver);
 	}
 
 	/**
