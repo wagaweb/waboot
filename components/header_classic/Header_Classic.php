@@ -20,12 +20,12 @@ class Header_Classic extends \Waboot\Component{
 	public function setup(){
 		parent::setup();
         add_filter("waboot/navigation/main/class",[$this,"set_main_navigation_classes"]);
+		Waboot()->add_component_style('header_classic_style', $this->directory_uri . '/assets/dist/css/headerClassic.css');
+		Waboot()->add_component_style('offcanvas_style', $this->directory_uri . '/assets/dist/css/offcanvas.css');
     }
 
     public function styles(){
         parent::styles();
-        Waboot()->add_inline_style('header_classic_style', $this->directory_uri . '/assets/dist/css/headerClassic.css');
-        Waboot()->add_inline_style('offcanvas_style', $this->directory_uri . '/assets/dist/css/offcanvas.css');
     }
 
     public function scripts() {

@@ -17,6 +17,7 @@ class Image_Modal extends \WBF\modules\components\Component{
 	 */
 	public function setup(){
 		parent::setup();
+		Waboot()->add_component_style('component-colorbox-style',$this->directory_uri . '/assets/dist/css/imagemodal.css');
 	}
 
 	/**
@@ -71,7 +72,6 @@ class Image_Modal extends \WBF\modules\components\Component{
 	 */
 	public function styles(){
 		//wp_enqueue_style('component-colorbox-style',$this->directory_uri . '/assets/dist/css/imagemodal.css');
-		Waboot()->add_inline_style('component-colorbox-style',$this->directory_uri . '/assets/dist/css/imagemodal.css');
 	}
 
 	/**

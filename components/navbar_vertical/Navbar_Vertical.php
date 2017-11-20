@@ -19,12 +19,12 @@ class Navbar_Vertical extends \Waboot\Component{
 	 */
 	public function setup(){
 		parent::setup();
+		Waboot()->add_component_style('navbar_vertical_style', $this->directory_uri . '/assets/dist/css/navbarVertical.css');
+		Waboot()->add_component_style('offcanvas_style', $this->directory_uri . '/assets/dist/css/offcanvas.css');
 	}
 
     public function styles(){
         parent::styles();
-        Waboot()->add_inline_style('navbar_vertical_style', $this->directory_uri . '/assets/dist/css/navbarVertical.css');
-        Waboot()->add_inline_style('offcanvas_style', $this->directory_uri . '/assets/dist/css/offcanvas.css');
     }
 
     public function scripts() {
