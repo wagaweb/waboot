@@ -184,6 +184,10 @@ class Theme{
 		$parsed_handlers = [];
 		$required_styles = $this->inline_styles;
 
+		if(!\is_array($required_styles) || empty($required_styles)){
+			return [];
+		}
+
 		foreach($required_styles as $style_handle => $style_params){
 			$parsed_handlers[] = $style_handle;
 			$this->custom_styles_handler->add($style_params['handle'],$style_params['src'], $style_params['deps'], $style_params['ver']);
