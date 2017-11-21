@@ -18,6 +18,8 @@ add_action('woocommerce_after_main_content', __NAMESPACE__."\\wrapper_end", 10);
 //Layout altering:
 add_filter("waboot/layout/main_wrapper/classes", __NAMESPACE__."\\set_main_wrapper_classes");
 add_action("waboot/woocommerce/loop", __NAMESPACE__."\\loop_template");
+remove_action( 'woocommerce_shop_loop_item_title', 'woocommerce_template_loop_product_title', 10 );
+
 
 /**
  * Set the main loop template
