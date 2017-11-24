@@ -220,6 +220,18 @@ function comment_reply_link_classes( $link ) {
 add_filter( 'comment_reply_link', __NAMESPACE__."\\comment_reply_link_classes" );
 
 /**
+ * Style the excerpt continuation
+ *
+ * @param string $more
+ *
+ * @return string
+ */
+function alter_excerpt_more( $more ) {
+	return ' ... <a href="'. get_permalink( get_the_ID() ) . '">'. __( 'Continue Reading ', 'wbf' ) .' &raquo;</a>';
+}
+add_filter('excerpt_more',  __NAMESPACE__."\\alter_excerpt_more" );
+
+/**
  * Set post name as Body Class
  */
 function add_slug_body_class( $classes ) {
