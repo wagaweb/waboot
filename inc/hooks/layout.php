@@ -205,6 +205,20 @@ function alter_comments_template($theme_template){
 }
 add_filter('comments_template', __NAMESPACE__."\\alter_comments_template");
 
+
+/**
+ * Style comment reply links as buttons
+ * @since 0.1.0
+ *
+ * @param string $link
+ *
+ * @return string
+ */
+function comment_reply_link_classes( $link ) {
+	return str_replace( 'comment-reply-link', 'btn btn-default btn-xs', $link );
+}
+add_filter( 'comment_reply_link', __NAMESPACE__."\\comment_reply_link_classes" );
+
 /**
  * Set post name as Body Class
  */
