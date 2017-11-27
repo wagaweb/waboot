@@ -1,9 +1,8 @@
-import * as Backbone from "backbone";
 import $ from "jquery";
 import { GeneratorsHandler } from "./generatorsHandler";
 
-export default class extends Backbone.Model{
-    initialize(){
+export default class{
+    constructor(){
         "use strict";
         this.do_stuff();
     }
