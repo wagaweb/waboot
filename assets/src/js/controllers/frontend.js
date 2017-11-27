@@ -1,9 +1,9 @@
-import * as Backbone from "backbone";
+
 import * as FS from "FastClick";
 import $ from "jquery";
 
-export default class extends Backbone.Model{
-    initialize() {
+export default class{
+    constructor() {
         "use strict";
         this.on_ready();
     }
