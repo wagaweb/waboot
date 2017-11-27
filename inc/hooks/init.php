@@ -68,3 +68,31 @@ function set_wbf_admin_menu_icon($icon){
 	return $icon;
 }
 add_filter("wbf/admin_menu/icon",__NAMESPACE__."\\set_wbf_admin_menu_icon");
+
+/**
+ * Display the custom Waboot components repository page
+ *
+ * @param $view
+ *
+ * @return array
+ */
+function display_components_add_new_page($view){
+	if(isset($_GET['section']) && $_GET['section'] === 'add_new'){
+		$view['file'] = 'templates/admin/add-new-components.php';
+		$view['plugin'] = null;
+	}
+	return $view;
+}
+add_filter('wbf/modules/components/views/components-page/file', __NAMESPACE__."\\display_components_add_new_page");
+
+/**
+ * Set the custom view params for the Waboot components repository page
+ *
+ * @param $args
+ *
+ * @return array
+ */
+function inject_components_add_new_page_args($args){
+	return $args;
+}
+add_filter('wbf/modules/components/views/components-page/args', __NAMESPACE__."\\inject_components_add_new_page_args");
