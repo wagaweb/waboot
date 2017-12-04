@@ -7,7 +7,6 @@ var gulp = require('gulp'),
     jsmin = require('gulp-jsmin'),
     uglify = require('gulp-uglify'),
     sass = require('gulp-sass'),
-    less = require('gulp-less'),
     browserify = require('browserify'),
     source = require('vinyl-source-stream'), //https://www.npmjs.com/package/vinyl-source-stream
     buffer = require('vinyl-buffer'), //https://www.npmjs.com/package/vinyl-buffer
@@ -103,9 +102,9 @@ gulp.task('compile_css',function(){
 
     //Components
 
-    var comp_woocommerce_standard = gulp.src("./components/woocommerce_standard/assets/src/less/woocommerce-standard.less")
+    var comp_woocommerce_standard = gulp.src("./components/woocommerce_standard/assets/src/sass/woocommerce-standard.scss")
         .pipe(sourcemaps.init())
-        .pipe(less())
+        .pipe(sass().on('error', sass.logError))
         .pipe(postcss(processors))
         .pipe(rename('woocommerce-standard.min.css'))
         .pipe(sourcemaps.write("."))
@@ -134,7 +133,7 @@ gulp.task('browserify', function(){
         insertGlobals : true,
         debug: true
     })
-        .transform("babelify", {presets: ["es2015"]}).bundle()
+        .transform("babelify", {presets: ["env"]}).bundle()
         .pipe(source('waboot.js'))
         .pipe(buffer()) //This might be not required, it works even if commented
         .pipe(gulp.dest('./assets/dist/js'));

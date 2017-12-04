@@ -32,11 +32,11 @@ add_action( 'wp_enqueue_scripts', __NAMESPACE__.'\\waboot_style', 8 );
 
 function theme_options_style(){
 	//Theme options style
-	$file = WBF()->resources->get_working_directory()."/theme-options.css";
+	$file = WBF()->get_working_directory()."/theme-options.css";
 	if(is_readable($file)){
 		$assets['waboot-theme-options-style'] = [
-			'uri' => WBF()->resources->get_working_directory_uri()."/theme-options.css",
-			'path' => WBF()->resources->get_working_directory()."/theme-options.css",
+			'uri' => WBF()->get_working_directory_uri()."/theme-options.css",
+			'path' => WBF()->get_working_directory()."/theme-options.css",
 			'type' => 'css'
 		];
 		$am = new AssetsManager($assets);

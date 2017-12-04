@@ -2,7 +2,7 @@
 
 <div id="optionsframework-wrapper" class="optionsframework-wrapper admin-wrapper wrap" data-options-gui>
 
-    <?php WBF()->notice_manager->show_notices(); ?>
+    <?php WBF()->services()->get_notice_manager()->show_notices(); ?>
 
     <!-- Navigation -->
     <div class="optionsframework-nav">
@@ -31,7 +31,7 @@
                 <input type="submit" class="button-primary" name="update_theme_options" value="<?php esc_attr_e( 'Save Options', "wbf" ); ?>" />
                 <input type="submit" class="reset-button button-secondary" name="restore_theme_options" value="<?php esc_attr_e( 'Restore Defaults', 'wbf' ); ?>" onclick="return confirm( '<?php print esc_js( __( 'Click OK to restore defaults', 'wbf' ) ); ?>' );" />&nbsp;
                 <input type="submit" class="reset-button button-secondary" name="reset_theme_options" value="<?php esc_attr_e( 'Reset Options', 'wbf' ); ?>" onclick="return confirm( '<?php print esc_js( __( 'Click OK to reset. Any theme settings will be lost!', 'wbf' ) ); ?>' );" />
-                <?php do_action("wbf/modules/options/view/options_page/after_submit_buttons",WBF::getInstance()->wp_menu_slug); ?>
+                <?php do_action("wbf/modules/options/view/options_page/after_submit_buttons",WBF()->wp_menu_slug); ?>
                 <div class="clear"></div>
             </div>
         </form>

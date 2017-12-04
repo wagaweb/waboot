@@ -18,6 +18,10 @@ class Theme{
 	 */
 	var $inline_styles;
 	/**
+	 * @var array
+	 */
+	var $components_styles;
+	/**
 	 * @var \WP_Styles
 	 */
 	var $custom_styles_handler;
@@ -32,13 +36,16 @@ class Theme{
 	public function __construct(Layout $layout_handler, \WP_Dependencies $styles_handler){
 		$this->layout = $layout_handler;
 		$this->custom_styles_handler = $styles_handler;
-		add_action("waboot/head/end", [$this,"print_inline_styles"]);
 	}
 
 	/**
 	 * Loads all theme hooks
 	 */
 	public function load_hooks(){
+		add_action("waboot/head/end", [$this,"print_inline_styles"]);
+		add_action('wbf/modules/components/after_components_options_saved',[$this,'build_components_style_file'],10,4);
+		add_action('wp_enqueue_scripts', [$this,'enqueue_components_styles']);
+
 		$hooks_files = [
 			'inc/hooks/init.php',
 			'inc/hooks/hooks.php',
@@ -53,6 +60,9 @@ class Theme{
 			}
 			require_once $filepath;
 		}
+
+		do_action_ref_array('waboot/hooks_loaded',array(&$this));
+
 		return $this;
 	}
 
@@ -111,8 +121,13 @@ class Theme{
 	/**
 	 * Adds a new inline style. Inline styles will be printed during "waboot/head/end" action.
 	 *
+	 * @use add_custom_type_style()
+	 *
 	 * @param $handle
-	 * @param $path
+	 * @param $src
+	 * @param array $deps
+	 * @param bool $ver
+	 * @param string $media
 	 */
 	public function add_inline_style($handle,$src, $deps = array(), $ver = false, $media = 'all'){
 		if(preg_match("/^https?/",$src)){
@@ -129,12 +144,19 @@ class Theme{
 	 * @hooked "waboot/head/end"
 	 */
 	public function print_inline_styles(){
+		$output = $this->get_inline_styles_content();
+		$output = sprintf( "<style id='%s-inline-css' type='text/css'>\n%s\n</style>\n", "components", $output );
+		echo $output;
+	}
+
+	/**
+	 * Retrieve a string that is the the result of all custom style type files merged.
+	 *
+	 * @return string
+	 */
+	private function get_inline_styles_content(){
 		$output = "";
-		/*
-		 * We enqueue the registered inline styles. We hope that those steps will resolve dependencies
-		 */
-		$this->custom_styles_handler->all_deps($this->inline_styles);
-		$items = $this->custom_styles_handler->to_do;
+		$items = $this->collect_inline_styles();
 		/*
 		 * We cycle through the registered styles. We suppose that those styles are already ordered by dependency (it's the reason we used WP_Styles in the first place)
 		 */
@@ -150,8 +172,125 @@ class Theme{
 				}
 			}
 		}
-		$output = sprintf( "<style id='%s-inline-css' type='text/css'>\n%s\n</style>\n", "components", $output );
-		echo $output;
+		return $output;
+	}
+
+	/**
+	 * Collect all inline styles
+	 *
+	 * @return array
+	 */
+	private function collect_inline_styles(){
+		$parsed_handlers = [];
+		$required_styles = $this->inline_styles;
+
+		if(!\is_array($required_styles) || empty($required_styles)){
+			return [];
+		}
+
+		foreach($required_styles as $style_handle => $style_params){
+			$parsed_handlers[] = $style_handle;
+			$this->custom_styles_handler->add($style_params['handle'],$style_params['src'], $style_params['deps'], $style_params['ver']);
+		}
+
+		/*
+		 * We enqueue the registered inline styles. We hope that those steps will resolve dependencies
+		 */
+		$this->custom_styles_handler->all_deps($parsed_handlers);
+		$items = $this->custom_styles_handler->to_do;
+		return $items;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function get_components_styles(){
+		if(isset($this->components_styles) && is_array($this->components_styles) && !empty($this->components_styles)){
+			return $this->components_styles;
+		}
+		return [];
+	}
+
+	/**
+	 * Set a style file to be merged
+	 *
+	 * @param $handle
+	 * @param $src
+	 * @param array $deps
+	 * @param bool $ver
+	 * @param string $media
+	 *
+	 */
+	public function add_component_style($handle,$src, $deps = array(), $ver = false, $media = 'all'){
+		$this->components_styles[$handle] = [
+			'src' => $src,
+			'deps' => $deps,
+			'ver' => $ver,
+			'media' => $media
+		];
+	}
+
+	/**
+	 * Create a new style file from all the merged-type custom styles
+	 *
+	 * @hooked 'wbf/modules/components/after_components_options_saved'
+	 */
+	public function build_components_style_file($registered_components,$categorized_registered_components,$compiled_components_options,$options_updated_flag){
+		/*$registered_components = ComponentsManager::getAllComponents();
+		$styles = [];
+
+		foreach ($registered_components as $component_name => $component){
+			if($component instanceof Component){
+				$current_styles = $component->get_registered_styles();
+				if(!empty($current_styles)){
+					$styles = array_merge($styles,$current_styles);
+				}
+			}
+		}*/
+
+		$output = "";
+
+		if(is_array($this->components_styles) && !empty($this->components_styles)){
+			foreach($this->components_styles as $handler => $style){
+				$current_style_src = Paths::url_to_path($style['src']);
+				if(is_file($current_style_src)){
+					//Read the file:
+					$content = file_get_contents($current_style_src);
+					//Append:
+					if($content){
+						$output .= "/********* $handler **********/\n";
+						$output .= $content."\n";
+					}
+				}
+			}
+		}
+
+		if(!empty($output)){
+			$filename = $this->get_components_style_file_name();
+			if(is_file($filename)){
+				unlink($filename);
+			}
+			file_put_contents($filename,$output);
+		}
+	}
+
+	/**
+	 * @return string
+	 */
+	private function get_components_style_file_name(){
+		$filename = WBF()->get_working_directory();
+		$filename .= '/current-active-components-style.css';
+		return $filename;
+	}
+
+	/**
+	 * Enqueue the components style file
+	 */
+	public function enqueue_components_styles(){
+		$filename = $this->get_components_style_file_name();
+		if(!is_file($filename)) return;
+		$ver = filemtime($filename);
+		wp_enqueue_style('components-merged-style-file',Paths::path_to_url($filename),[],$ver);
 	}
 
 	/**
@@ -277,12 +416,20 @@ class Theme{
 				if(!wbf_exists()) throw new \Exception("WBF not detected");
 				//Toggle components
 				$registered_components = ComponentsManager::getAllComponents();
+				$child_components = [];
 				foreach ($registered_components as $component_name => $component_data){ //Disable all components
-					ComponentsManager::disable($component_name);
+					if($component_data->is_child_component){
+						$child_components[] = $component_name;
+					}
+					ComponentsManager::disable($component_name,$component_data->is_child_component);
 				}
 				if(isset($selected_generator->components) && is_array($selected_generator->components) && !empty($selected_generator->components)){
 					foreach ($selected_generator->components as $component_to_enable){
-						ComponentsManager::enable($component_to_enable); //Selectively enable components
+						if(in_array($component_to_enable,$child_components)){
+							ComponentsManager::enable($component_to_enable, true); //Selectively enable components
+						}else{
+							ComponentsManager::enable($component_to_enable); //Selectively enable components
+						}
 					}
 				}
 				if($step == self::GENERATOR_STEP_COMPONENTS){

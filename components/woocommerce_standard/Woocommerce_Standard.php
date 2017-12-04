@@ -21,6 +21,7 @@ class Woocommerce_Standard extends \WBF\modules\components\Component{
         parent::setup();
 	    if(!isset($woocommerce)) return;
 	    $this->declare_hooks();
+	    Waboot()->add_component_style("component-{$this->name}-style",$this->directory_uri . '/assets/dist/css/woocommerce-standard.min.css');
     }
 
     private function declare_hooks(){
@@ -40,9 +41,10 @@ class Woocommerce_Standard extends \WBF\modules\components\Component{
 		//Enable the modification of woocommerce query and loop
 	    add_filter("loop_shop_per_page", [$this,"alter_posts_per_page"], 20);
 	    add_filter("post_class", [$this,"alter_post_class"], 20, 3);
+	    add_filter("post_type_archive_title",[$this,"alter_archive_page_title"],10,2);
 
 		//Layout altering:
-	    add_filter("waboot/entry/title/display_flag", [$this,"alter_entry_title_visibility"], 10, 2);
+	    add_filter("waboot/singular/title/display_flag",[$this,'alter_entry_title_visibility'],10,2);
 	    add_filter("waboot/layout/body_layout", [$this,"alter_body_layout"], 90);
 	    add_filter("waboot/layout/get_cols_sizes", [$this,"alter_col_sizes"], 90);
 	    add_action('init', [$this,"hidePriceAndCart"], 20);
@@ -52,7 +54,8 @@ class Woocommerce_Standard extends \WBF\modules\components\Component{
 	    add_filter("wbf/modules/behaviors/get/secondary-sidebar-size", [$this,"secondary_sidebar_size_behavior"], 999);
 
 		// Theme Options
-
+	    add_filter("wbf/theme_options/get/blog_primary_sidebar_size",[$this,"primary_sidebar_size_option"],999);
+	    add_filter("wbf/theme_options/get/blog_secondary_sidebar_size",[$this,"primary_sidebar_size_option"],999);
     }
 
 	/**
@@ -69,7 +72,6 @@ class Woocommerce_Standard extends \WBF\modules\components\Component{
     public function styles(){
     	//wp_register_style("component-{$this->name}-style",$this->directory_uri . '/assets/dist/css/woocommerce-standard.min.css');
 	    //wp_enqueue_style("component-{$this->name}-style");
-	    Waboot()->add_inline_style("component-{$this->name}-style",$this->directory_uri . '/assets/dist/css/woocommerce-standard.min.css');
     }
 
 	/**
@@ -278,7 +280,7 @@ class Woocommerce_Standard extends \WBF\modules\components\Component{
 			case "bottom":
 				//PLEASE NOTE: in reality, we need the "top" condition ONLY. The bottom condition is handled in our archive-product.php
 				if(\is_product_category()){
-					$can_display_title = \Waboot\functions\get_option("woocommerce_archives_title_position") == "bottom" && (bool) \Waboot\functions\get_option("woocommerce_shop_archives_title");
+					$can_display_title = \Waboot\functions\get_option("woocommerce_archives_title_position") == "bottom" && (bool) \Waboot\functions\get_option("woocommerce_archives_display_title");
 				}elseif(\is_shop()){
 					$can_display_title = \Waboot\functions\get_option("woocommerce_shop_title_position") == "bottom" && (bool) \Waboot\functions\get_option("woocommerce_shop_display_title");
 				}
@@ -286,13 +288,26 @@ class Woocommerce_Standard extends \WBF\modules\components\Component{
 			//Print entry header OUTSIDE the single entry:
 			case "top":
 				if(\is_product_category()){
-					$can_display_title = \Waboot\functions\get_option("woocommerce_archives_title_position") == "top" && (bool) \Waboot\functions\get_option("woocommerce_shop_archives_title");
+					$can_display_title = \Waboot\functions\get_option("woocommerce_archives_title_position") == "top" && (bool) \Waboot\functions\get_option("woocommerce_archives_display_title");
 				}elseif(\is_shop()){
 					$can_display_title = \Waboot\functions\get_option("woocommerce_shop_title_position") == "top" && (bool) \Waboot\functions\get_option("woocommerce_shop_display_title");
 				}
 				break;
 		}
 		return $can_display_title;
+	}
+
+	/**
+	 * @hooked 'post_type_archive_title'
+	 *
+	 * @param $title
+	 * @param $post_type
+	 *
+	 * @return mixed
+	 */
+	public function alter_archive_page_title($title,$post_type){
+		if($post_type !== 'product') return $title;
+		return \Waboot\woocommerce\get_shop_page_title();
 	}
 
 	/**
@@ -395,6 +410,31 @@ class Woocommerce_Standard extends \WBF\modules\components\Component{
 	}
 
 	/**
+	 * @param $value
+	 *
+	 * @return bool|int|mixed
+	 */
+	public function primary_sidebar_size_option($value){
+		if(!is_woocommerce()) return $value;
+
+		if(is_shop()){
+			$primary_sidebar_width = \Waboot\functions\get_option('woocommerce_shop_primary_sidebar_size');
+			if(!$primary_sidebar_width){
+				$primary_sidebar_width = 0;
+			}
+			$value = $primary_sidebar_width;
+		}elseif(is_product_category()){
+			$primary_sidebar_width = \Waboot\functions\get_option('woocommerce_primary_sidebar_size');
+			if(!$primary_sidebar_width){
+				$primary_sidebar_width = 0;
+			}
+			$value = $primary_sidebar_width;
+		}
+
+		return $value;
+	}
+
+	/**
 	 * @param \WBF\modules\behaviors\Behavior $b
 	 *
 	 * @return \WBF\modules\behaviors\Behavior
@@ -417,6 +457,31 @@ class Woocommerce_Standard extends \WBF\modules\components\Component{
 		}
 
 		return $b;
+	}
+
+	/**
+	 * @param $value
+	 *
+	 * @return bool|int|mixed
+	 */
+	public function primary_secondary_size_option($value){
+		if(!is_woocommerce()) return $value;
+
+		if(is_shop()){
+			$primary_sidebar_width = \Waboot\functions\get_option('woocommerce_shop_secondary_sidebar_size');
+			if(!$primary_sidebar_width){
+				$primary_sidebar_width = 0;
+			}
+			$value = $primary_sidebar_width;
+		}elseif(is_product_category()){
+			$primary_sidebar_width = \Waboot\functions\get_option('woocommerce_secondary_sidebar_size');
+			if(!$primary_sidebar_width){
+				$primary_sidebar_width = 0;
+			}
+			$value = $primary_sidebar_width;
+		}
+
+		return $value;
 	}
 
 	/**

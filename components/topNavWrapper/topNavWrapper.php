@@ -10,8 +10,8 @@ Author URI: http://www.waga.it
  */
 
 if(!class_exists("\\Waboot\\Component")){
-	require_once '../../inc/Component.php';
-};
+	require_once get_template_directory().'/inc/Component.php';
+}
 
 class TopNavWrapperComponent extends \Waboot\Component{
 
@@ -23,11 +23,11 @@ class TopNavWrapperComponent extends \Waboot\Component{
      */
     public function setup(){
         parent::setup();
+	    Waboot()->add_component_style('topnav_style', $this->directory_uri . '/assets/dist/css/topNavWrapper.css');
     }
 
     public function styles(){
         parent::styles();
-        Waboot()->add_inline_style('topnav_style', $this->directory_uri . '/assets/dist/css/topNavWrapper.css');
     }
 
     public function run(){

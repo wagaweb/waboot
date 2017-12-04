@@ -10,8 +10,8 @@ Author URI: http://www.waga.it
 */
 
 if(!class_exists("\\Waboot\\Component")){
-	require_once '../../inc/Component.php';
-};
+	require_once get_template_directory().'/inc/Component.php';
+}
 
 class Header_Bootstrap extends \Waboot\Component{
 	/**
@@ -20,12 +20,12 @@ class Header_Bootstrap extends \Waboot\Component{
 	public function setup(){
 		parent::setup();
 		add_filter("waboot/navigation/main/class",[$this,"set_main_navigation_classes"]);
+		Waboot()->add_component_style('header_bootstrap_style', $this->directory_uri . '/assets/dist/css/headerBootstrap.css');
+		Waboot()->add_component_style('offcanvas_style', $this->directory_uri . '/assets/dist/css/offcanvas.css');
 	}
 
     public function styles(){
         parent::styles();
-        Waboot()->add_inline_style('header_bootstrap_style', $this->directory_uri . '/assets/dist/css/headerBootstrap.css');
-        Waboot()->add_inline_style('offcanvas_style', $this->directory_uri . '/assets/dist/css/offcanvas.css');
     }
 
     public function scripts() {

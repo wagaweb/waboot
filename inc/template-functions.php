@@ -245,6 +245,13 @@ function get_archive_option($provided_option_name,$taxonomy = null){
 		$taxonomy = get_current_taxonomy();
 	}
 
+	if(!$taxonomy && is_archive()){
+		global $wp_query;
+		$taxonomy = isset($wp_query->query['post_type']) ? $wp_query->query['post_type'] : false;
+	}
+
+	$taxonomy = apply_filters('waboot/archive_option/taxonomy',$taxonomy);
+
 	$default_value = \Waboot\functions\get_option("blog_".$provided_option_name); //Default to blog values
 
 	if($taxonomy === "category" || !$taxonomy){
@@ -487,7 +494,7 @@ function deploy_favicon($option, $old_value, $value){
  */
 function deploy_theme_options_css($option, $old_value, $value){
 	$input_file_path = apply_filters("waboot/assets/theme_options_style_file/source", get_template_directory()."/assets/src/css/_theme-options.src");
-	$output_file_path = apply_filters("waboot/assets/theme_options_style_file/destination", WBF()->resources->get_working_directory()."/theme-options.css");
+	$output_file_path = apply_filters("waboot/assets/theme_options_style_file/destination", WBF()->get_working_directory()."/theme-options.css");
 
 	if(!is_array($value)) return false;
 
@@ -679,8 +686,19 @@ function get_current_taxonomy(){
  * @return bool
  */
 function wbf_exists(){
-	if(class_exists("WBF") || defined('WBTEST_CURRENT_PATH')){
+	if(class_exists("\WBF\PluginCore") || defined('WBTEST_CURRENT_PATH')){
 		return true;
 	}
 	return false;
+}
+
+/*
+ * Check if WBF is at least at the required version
+ */
+function has_wbf_required_version($required_version){
+	if(!wbf_exists()) return false;
+	$wbf = WBF();
+	$wbf_version = $wbf::version;
+	$r = version_compare($wbf_version,$required_version,'>=');
+	return $r;
 }

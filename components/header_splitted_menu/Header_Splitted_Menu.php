@@ -10,8 +10,8 @@ Author URI: http://www.waga.it
  */
 
 if(!class_exists("\\Waboot\\Component")){
-	require_once '../../inc/Component.php';
-};
+	require_once get_template_directory().'/inc/Component.php';
+}
 
 require_once( dirname(__FILE__).'/WabootSplittedNavMenuWalker.php');
 
@@ -22,9 +22,9 @@ class Header_Splitted_Menu extends \Waboot\Component{
      */
     public function setup(){
         parent::setup();
+	    Waboot()->add_component_style('component-header_splitted-style', $this->directory_uri . '/assets/dist/css/headerSplittedMenu.css');
         //Do stuff...
     }
-
 
     /**
      * This method will be executed on the "wp" action in pages where the component must be loaded
@@ -53,7 +53,6 @@ class Header_Splitted_Menu extends \Waboot\Component{
             'walker'    => $walker
         ]);
     }
-
 
     /**
      * Register component scripts (called automatically)
@@ -93,15 +92,12 @@ class Header_Splitted_Menu extends \Waboot\Component{
         $am->enqueue();
     }
 
-
     /**
      * Register component styles (called automatically)
      */
     public function styles(){
         //wp_enqueue_style('component-header_splitted-style', $this->directory_uri . '/assets/dist/css/headerSplittedMenu.css');
-        Waboot()->add_inline_style('component-header_splitted-style', $this->directory_uri . '/assets/dist/css/headerSplittedMenu.css');
     }
-
 
     /**
      * Register component widgets (called automatically).

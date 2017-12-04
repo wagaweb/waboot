@@ -15,6 +15,10 @@ class Component extends \WBF\modules\components\Component{
 	 * @var string
 	 */
 	var $theme_relative_path;
+	/**
+	 * @var array
+	 */
+	var $registered_style_assets = [];
 
 	public function __construct( array $component ) {
 		parent::__construct( $component );

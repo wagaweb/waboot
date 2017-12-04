@@ -1,7 +1,7 @@
 <?php
 /**
 Component Name: Breadcrumb Component
-Description: Breadcrumb Component
+Description: Display a breadcrumb. You can customize where it should be displayed in Theme Options page.
 Category: Layout
 Tags: Breadcrumb
 Version: 1.0
@@ -10,7 +10,7 @@ Author URI: http://www.waga.it
 */
 
 if(!class_exists("\\Waboot\\Component")){
-	require_once '../../inc/Component.php';
+	require_once get_template_directory().'/inc/Component.php';
 };
 
 class Breadcrumb extends \Waboot\Component {

@@ -1,5 +1,17 @@
 == Change log ==
 
+Version 2.3.0 - 12/04/2017
+---------------------------------
+- Fix: Now title in shop page behave as expected accordingly to the theme options.
+- Fix: Now title in product pages behave as expected accordingly to the theme options and behaviors.
+- Fix: Now sidebar classes behave as expected accordingly to the theme options.
+- Fix: Generators works with child-side components.
+- Fix: WooCommerce templates upgraded.
+- Tweak: Compatibility with WBF 1.1.0.
+- Feature: Added WBF auto-installer.
+- Feature: Support for the new WBF Update Channels module.
+- Features: Now some components compiles their styles in an unified .css file.
+
 Version 2.2.0 - 10/26/2017
 ---------------------------------
 - Tweak: Removed "WordPress" directory

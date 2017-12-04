@@ -10,8 +10,8 @@ Author URI: http://www.waga.it
 */
 
 if(!class_exists("\\Waboot\\Component")){
-	require_once '../../inc/Component.php';
-};
+	require_once get_template_directory().'/inc/Component.php';
+}
 
 class Header_Fixed extends \Waboot\Component{
 
@@ -20,10 +20,9 @@ class Header_Fixed extends \Waboot\Component{
      */
     public function setup(){
         parent::setup();
+	    Waboot()->add_component_style('component-header_fixed-style', $this->directory_uri . '/assets/dist/css/headerFixed.css');
         //Do stuff...
     }
-
-
 
     /**
      * This method will be executed on the "wp" action in pages where the component must be loaded
@@ -31,7 +30,6 @@ class Header_Fixed extends \Waboot\Component{
     public function run(){
         parent::run();
     }
-
 
 	/**
 	 * Register component scripts (called automatically)
@@ -60,17 +58,12 @@ class Header_Fixed extends \Waboot\Component{
         wp_enqueue_script('component-header_fixed');
     }
 
-
-
 	/**
 	 * Register component styles (called automatically)
 	 */
     public function styles(){
         //wp_enqueue_style('component-header_fixed-style', $this->directory_uri . '/assets/dist/css/headerFixed.css');
-	    Waboot()->add_inline_style('component-header_fixed-style', $this->directory_uri . '/assets/dist/css/headerFixed.css');
     }
-
-
 
 	/**
 	 * Register component widgets (called automatically).

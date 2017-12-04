@@ -7,6 +7,7 @@ use WBF\components\license\License_Manager;
 use WBF\modules\components\Component;
 use WBF\modules\components\ComponentsManager;
 use WBF\modules\options\Framework;
+use function WBF\modules\update_channels\get_update_channel;
 
 /**
  * Add header metas
@@ -93,10 +94,37 @@ add_action( 'pre_get_posts', __NAMESPACE__.'\\ignore_sticky_post_in_archives' );
  */
 function set_update_server(){
 	$slug = "waboot";
-	$metadata_call = "http://update.waboot.org/resource/info/theme/waboot";
+
+	$channel = get_update_channel('waboot_theme');
+	if(!$channel || $channel === 'stable'){
+		$metadata_call = "http://update.waboot.org/resource/info/theme/waboot";
+    }else{
+		$metadata_call = "http://update.waboot.org/resource/info/theme/waboot?channel=".$channel;
+	}
+
 	$tup = new Theme_Update_Checker($slug,$metadata_call);
 }
 add_action("wbf_init",__NAMESPACE__."\\set_update_server");
+
+/**
+ * Adds the Waboot Update channels
+ *
+ * @param $channels
+ *
+ * @return mixed
+ */
+function set_update_channels($channels){
+    $channels['waboot'] = [
+        'name' => 'Waboot Theme',
+        'slug' => 'waboot_theme',
+        'channels' => [
+            'Stable' => 'stable',
+            'Beta' => 'beta'
+        ]
+    ];
+    return $channels;
+}
+add_filter('wbf/update_channels/available',__NAMESPACE__.'\\set_update_channels');
 
 /**
  * Injects Waboot custom templates

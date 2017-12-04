@@ -9,7 +9,9 @@ Author: WAGA Team <dev@waga.it>
 Author URI: http://www.waga.it
  */
 
-if(!class_exists("\\Waboot\\Component")) return;
+if(!class_exists("\\Waboot\\Component")){
+	require_once get_template_directory().'/inc/Component.php';
+}
 
 class Footer_Classic extends \Waboot\Component {
 

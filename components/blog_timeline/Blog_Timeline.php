@@ -19,6 +19,7 @@ class Blog_Timeline extends \WBF\modules\components\Component{
 		parent::setup();
 		add_filter("waboot/layout/template_parts",[$this,"set_blog_template"],10,2);
 		add_filter("waboot/layout/posts_wrapper/class",[$this,"set_blog_class"],10);
+		Waboot()->add_component_style('component-blog_timeline-style', $this->directory_uri . '/assets/dist/css/blog-timeline.css');
 	}
 
 	/**
@@ -60,7 +61,6 @@ class Blog_Timeline extends \WBF\modules\components\Component{
 	 */
 	public function styles(){
 		//wp_enqueue_style('component-blog_timeline-style', $this->directory_uri . '/assets/dist/css/blog-timeline.css');
-		Waboot()->add_inline_style('component-blog_timeline-style', $this->directory_uri . '/assets/dist/css/blog-timeline.css');
 	}
 
 	/**
