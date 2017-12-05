@@ -134,7 +134,13 @@ class Theme{
 			$src = Utilities::url_to_path($src);
 		}
 		if(!file_exists($src)) return;
-		$this->inline_styles[] = $handle;
+		$this->inline_styles[$handle] = [
+			'handle' => $handle,
+			'src' => $src,
+			'deps' => $deps,
+			'ver' => $ver,
+			'media' => $media
+		];
 		$this->custom_styles_handler->add($handle,$src, $deps, $ver);
 	}
 
