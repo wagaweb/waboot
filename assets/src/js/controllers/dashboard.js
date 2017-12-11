@@ -21,8 +21,7 @@ export default class{
      */
     manage_generators_page(){
         let $form = $("#waboot-wizard-form"),
-            $selectors = $("img[data-select]"),
-            $addNewComponentsPage = $("#addNewComponents");
+            $selectors = $("img[data-select]");
 
         if($form.length > 0){
             new GeneratorsHandler($form,wbData.ajaxurl,wbData.generators_action);
@@ -37,11 +36,6 @@ export default class{
                 $radio.prop('checked',false);
                 $("input[value='"+value+"']").prop('checked',true);
             });
-        }
-
-        if($addNewComponentsPage.length > 0){
-            //Initialize the Vue App
-            new Vue(AddNewComponentsPageHandlerParams);
         }
     }
     /**
@@ -130,6 +124,12 @@ export default class{
         let $component_page_wrapper = $("#componentframework-wrapper"),
             $components_nav = $(".componentframework-nav");
         const components_saved_selected_category_var_name = "waboot_wbf_components_active_tab";
+
+        let $addNewComponentsPage = $("#addNewComponents");
+        if($addNewComponentsPage.length > 0){
+            //Initialize the Vue App
+            new Vue(AddNewComponentsPageHandlerParams);
+        }
 
         if($component_page_wrapper.length <= 0){
             return;
