@@ -1,16 +1,17 @@
 let AppData = {
-    testData: 'Hello World!'
+    testData: 'Hello World!',
+    available_components: []
 };
 
 let AppParams = {
     el: '#addNewComponents',
     data: AppData,
     mounted: function(){
-        alert(this.testData)
+        this.available_components = this.getComponentsFromRepository();
     },
     components: {
         'waboot-component': {
-
+            props: ['data']
         }
     },
     methods: {
