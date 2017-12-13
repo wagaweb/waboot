@@ -14,7 +14,12 @@ let AppParams = {
             props: ['data'],
             methods: {
                 downloadComponent: function(){
-                    alert('Download '+this.data.title+'!');
+                    this.requestComponentInstallation(this.data.slug)
+                        .then((data, textStatus, jqXHR ) => {
+                            console.log('Installed');
+                        }, (jqXHR, textStatus, errorThrown) => {
+                            console.log(errorThrown);
+                        });
                 }
             }
         }
@@ -41,6 +46,20 @@ let AppParams = {
                 dataType: "json",
                 data: {
                     'action': 'get_available_components'
+                }
+            });
+        },
+        /**
+         * return {jqXHR}
+         */
+        requestComponentInstallation: function(slug){
+            return jQuery.ajax({
+                url: wbData.ajaxurl,
+                method: 'POST',
+                dataType: "json",
+                data: {
+                    'action': 'install_remote_component',
+                    'slug': slug
                 }
             });
         }
