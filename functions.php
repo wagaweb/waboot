@@ -21,6 +21,7 @@ function waboot_init(){
 		'inc/hooks/scripts.php',
 		'inc/hooks/generators.php',
 		'inc/hooks/wbf_installer.php',
+		'inc/hooks/components_installer.php',
 	];
 
 	//Require mandatory files
