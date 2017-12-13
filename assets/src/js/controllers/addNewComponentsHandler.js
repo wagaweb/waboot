@@ -20,23 +20,29 @@ let AppParams = {
                 {
                     'slug': 'component-a',
                     'title': 'Component a',
+                    'thumbnail': 'http://via.placeholder.com/128x128',
                     'description': 'Component A Desc',
                     'tags': ['tag-a','tab-b'],
-                    'download_url': '#'
+                    'download_url': '#',
+                    'author': 'WAGA'
                 },
                 {
                     'slug': 'component-b',
                     'title': 'Component b',
+                    'thumbnail': 'http://via.placeholder.com/128x128',
                     'description': 'Component B Desc',
                     'tags': ['tag-a','tab-c'],
-                    'download_url': '#'
+                    'download_url': '#',
+                    'author': 'WAGA'
                 },
                 {
                     'slug': 'component-c',
                     'title': 'Component C',
+                    'thumbnail': 'http://via.placeholder.com/128x128',
                     'description': 'Component C Desc',
                     'tags': ['tag-b','tab-c'],
-                    'download_url': '#'
+                    'download_url': '#',
+                    'author': 'WAGA'
                 }
             ];
         }
