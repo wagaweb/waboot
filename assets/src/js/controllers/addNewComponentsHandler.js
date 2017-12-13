@@ -11,7 +11,12 @@ let AppParams = {
     },
     components: {
         'waboot-component': {
-            props: ['data']
+            props: ['data'],
+            methods: {
+                downloadComponent: function(){
+                    alert('Download '+this.data.title+'!');
+                }
+            }
         }
     },
     methods: {
