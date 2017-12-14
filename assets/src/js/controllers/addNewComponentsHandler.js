@@ -14,7 +14,7 @@ let AppParams = {
             props: ['data'],
             methods: {
                 downloadComponent: function(){
-                    this.requestComponentInstallation(this.data.slug)
+                    this.$parent.requestComponentInstallation(this.data.slug)
                         .then((data, textStatus, jqXHR ) => {
                             console.log('Installed');
                         }, (jqXHR, textStatus, errorThrown) => {

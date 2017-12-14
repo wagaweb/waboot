@@ -20,7 +20,7 @@ function request_components(){
 			'thumbnail' => 'http://via.placeholder.com/128x128',
 			'description' => 'Component A Desc',
 			'tags' => ['tag-a','tab-b'],
-			'download_url' => '#',
+			'package' => 'http://cdn.wagahost.net/components/waboot/header_classic.zip',
 			'author' => 'WAGA'
 		],
 		[
@@ -29,7 +29,7 @@ function request_components(){
 			'thumbnail' => 'http://via.placeholder.com/128x128',
 			'description' => 'Component B Desc',
 			'tags' => ['tag-a','tab-c'],
-			'download_url' => '#',
+			'package' => 'http://cdn.wagahost.net/components/waboot/header_classic.zip',
 			'author' => 'WAGA'
 		],
 		[
@@ -38,7 +38,7 @@ function request_components(){
 			'thumbnail' => 'http://via.placeholder.com/128x128',
 			'description' => 'Component C Desc',
 			'tags' => ['tag-b','tab-c'],
-			'download_url' => '#',
+			'package' => 'http://cdn.wagahost.net/components/waboot/header_classic.zip',
 			'author' => 'WAGA'
 		]
 	];
@@ -57,10 +57,88 @@ function request_single_component($slug){
 		'thumbnail' => 'http://via.placeholder.com/128x128',
 		'description' => 'Component A Desc',
 		'tags' => ['tag-a','tab-b'],
-		'download_url' => '#',
+		'package' => 'http://cdn.wagahost.net/components/waboot/header_classic.zip',
 		'author' => 'WAGA'
 	];
 	return $component;
+}
+
+/**
+ * Creates and return the tmp download directory
+ *
+ * @throws \Exception
+ */
+function get_tmp_download_directory(){
+	$download_location = WBF()->get_working_directory().'/tmp/components-downloads';
+	if(!is_dir($download_location)){
+		$r = wp_mkdir_p($download_location);
+		if(!$r){
+			throw new \Exception('Unable to create download folder');
+		}
+	}
+	return $download_location.'/';
+}
+
+/**
+ * Creates and return the current component directory
+ *
+ * @return string
+ * @throws \Exception
+ */
+function get_current_components_directory(){
+	$dir = get_stylesheet_directory().'/components';
+	if(!is_dir($dir)){
+		$r = wp_mkdir_p($dir);
+		if(!$r){
+			throw new \Exception('Unable to create components folder');
+		}
+	}
+	return $dir.'/';
+}
+
+/**
+ * Download a component package
+ *
+ * @param string $package the package url
+ * @param int $timeout
+ *
+ * @return string|\WP_Error
+ * @throws \Exception
+ */
+function download_component_package($package, $timeout = 300){
+	$url_filename = basename( parse_url( $package, PHP_URL_PATH ) );
+
+	$tmpfname = wp_tempnam( $url_filename, get_tmp_download_directory() );
+
+	$response = wp_safe_remote_get($package,['timeout'=>$timeout,'stream'=>true,'filename'=>$tmpfname]);
+
+	if(is_wp_error($response)){
+		unlink($tmpfname);
+		return $response;
+	}
+
+	return $tmpfname;
+}
+
+/**
+ * @param $origin
+ * @param $to
+ *
+ * @return boolean
+ * @throws \Exception
+ */
+function unzip_component_package($origin,$to){
+	if(class_exists('ZipArchive', false)){
+		$zip = new \ZipArchive();
+		if($zip->open($origin) === TRUE){
+			$zip->extractTo($to);
+			$zip->close();
+			return true;
+		}else{
+			throw new \Exception('Unable to unzip component file');
+		}
+	}
+	throw new \Exception('ZipArchive class not found');
 }
 
 /**
@@ -95,9 +173,31 @@ function ajax_install_remote_component(){
 	}
 
 	//Download the component file:
-	//...
+	if(!isset($component['package'])){
+		wp_send_json_error('No package found for the component: '.$slug);
+	}
 
-	//Install the component:
-	//...
+	try{
+		$download_file = download_component_package($component['package']);
+
+		if(is_wp_error($download_file)){
+			wp_send_json_error($download_file->get_error_message());
+		}
+
+		//Install the component:
+		$install_directory = get_current_components_directory();
+		if(is_dir($install_directory.$slug)){
+			wp_send_json_error('Component directory already exists');
+		}
+
+		unzip_component_package($download_file,$install_directory);
+
+		//Then delete the temp file
+		unlink($download_file);
+
+		wp_send_json_success();
+	}catch(\Exception $e){
+		wp_send_json_error($e->getMessage());
+	}
 }
 
