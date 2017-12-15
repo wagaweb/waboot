@@ -14,10 +14,14 @@ let AppParams = {
             props: ['data'],
             methods: {
                 downloadComponent: function(){
+                    let $installButton = jQuery(this.$el).find('[data-install-button]');
+                    $installButton.html(wbData.components_installer_labels.installing);
                     this.$parent.requestComponentInstallation(this.data.slug)
                         .then((data, textStatus, jqXHR ) => {
-                            console.log('Installed');
+                            console.log(data);
+                            $installButton.html(wbData.components_installer_labels.activate);
                         }, (jqXHR, textStatus, errorThrown) => {
+                            $installButton.html(wbData.components_installer_labels.installFailedShort);
                             console.log(errorThrown);
                         });
                 }

@@ -2,7 +2,9 @@
 
 namespace Waboot\hooks\components_installer;
 
-add_action('wp_ajax_get_available_components', __NAMESPACE__.'\\ajax_get_available_components');
+use WBF\components\utils\Paths;
+
+add_action('wp_ajax_get_available_components', __NAMESPACE__ . '\\ajax_get_available_components');
 add_action('wp_ajax_nopriv_get_available_components', __NAMESPACE__.'\\ajax_get_available_components');
 add_action('wp_ajax_install_remote_component', __NAMESPACE__.'\\ajax_install_remote_component');
 add_action('wp_ajax_nopriv_install_remote_component', __NAMESPACE__.'\\ajax_install_remote_component');
@@ -121,17 +123,32 @@ function download_component_package($package, $timeout = 300){
 }
 
 /**
+ * Unzip the component package to che components directory
+ *
  * @param $origin
- * @param $to
+ * @param $slug
  *
  * @return boolean
  * @throws \Exception
  */
-function unzip_component_package($origin,$to){
+function unzip_component_package($origin,$slug,$delete_existing_directory = false){
 	if(class_exists('ZipArchive', false)){
+		$base_install_directory = get_current_components_directory();
+		$install_directory = rtrim($base_install_directory,'/').'/'.$slug;
+		if(is_dir($install_directory)){
+			if(!$delete_existing_directory){
+				throw new \Exception('Component directory already exists');
+			}else{
+				Paths::deltree($install_directory);
+				if(is_dir($install_directory)){
+					throw new \Exception('Unable to remove already existing component directory');
+				}
+			}
+		}
+
 		$zip = new \ZipArchive();
 		if($zip->open($origin) === TRUE){
-			$zip->extractTo($to);
+			$zip->extractTo($base_install_directory);
 			$zip->close();
 			return true;
 		}else{
@@ -185,12 +202,7 @@ function ajax_install_remote_component(){
 		}
 
 		//Install the component:
-		$install_directory = get_current_components_directory();
-		if(is_dir($install_directory.$slug)){
-			wp_send_json_error('Component directory already exists');
-		}
-
-		unzip_component_package($download_file,$install_directory);
+		unzip_component_package($download_file,$slug);
 
 		//Then delete the temp file
 		unlink($download_file);

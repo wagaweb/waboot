@@ -21,7 +21,7 @@
                     </div>
                     <div class="action-links">
                         <ul class="component-action-buttons">
-                            <li><a href="#" class="button download-now" v-on:click.prevent="downloadComponent">Download</a></li>
+                            <li><a href="#" class="button download-now" v-on:click.prevent="downloadComponent" data-install-button>Download</a></li>
                         </ul>
                     </div>
                 </div>
