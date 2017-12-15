@@ -16,6 +16,7 @@ let AppParams = {
                 return {
                     'installed': false,
                     'installing': false,
+                    'activating': false,
                     'activated': false,
                     'installationFailed': false,
                 }
@@ -26,6 +27,8 @@ let AppParams = {
                         return wbData.components_installer_labels.installFailedShort;
                     }else if(this.installing){
                         return wbData.components_installer_labels.installing;
+                    }else if(this.activating){
+                        return wbData.components_installer_labels.activating;
                     }else if(this.installed && !this.activated){
                         return wbData.components_installer_labels.activate;
                     }else if(this.installed && this.activated){
@@ -68,8 +71,21 @@ let AppParams = {
                  * Activate the component
                  */
                 activateComponent: function(){
-                    this.activated = true;
-                    this.$emit('activated',this.component_data.slug);
+                    this.activating = true;
+                    this.$parent.requestComponentActivation(this.component_data.slug)
+                        .then((data, textStatus, jsXHR) => {
+                            if(!data.success){
+                                this.installationFailed = true;
+                                this.activating = false;
+                                console.log(data);
+                            }else{
+                                this.activated = true;
+                                this.activating = false;
+                                this.$emit('activated',this.component_data.slug);
+                            }
+                        }, (jqXHR, textStatus, errorThrown) => {
+                            console.log(errorThrown);
+                        });
                 }
             }
         }
@@ -133,6 +149,17 @@ let AppParams = {
                 dataType: "json",
                 data: {
                     'action': 'install_remote_component',
+                    'slug': slug
+                }
+            });
+        },
+        requestComponentActivation: function(slug){
+            return jQuery.ajax({
+                url: wbData.ajaxurl,
+                method: 'POST',
+                dataType: "json",
+                data: {
+                    'action': 'activate_component_from_installer',
                     'slug': slug
                 }
             });

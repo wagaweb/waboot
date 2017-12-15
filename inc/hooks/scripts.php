@@ -38,6 +38,7 @@ function enqueue_js() {
 			'components_installer_labels' => [
                 'download' => __('Download'),
 				'installing' => __( 'Installing...' ), //@see: script-loader.php
+				'activating' => _x( 'Activating...', 'Components Installer', 'waboot'),
 				'installFailedShort' => __( 'Install Failed!' ), //@see: script-loader.php
 				'activate' => __( 'Activate' ), //@see: class-wp-plugin-install-list-table.php
 				'active' => __( 'Active' )

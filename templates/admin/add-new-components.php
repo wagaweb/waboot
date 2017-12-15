@@ -23,8 +23,8 @@
                         <ul class="component-action-buttons">
                             <li>
                                 <a href="#" class="button download-now" v-on:click.prevent="downloadComponent" :disabled="installing" data-install-button v-if="component_data.status === 0">{{ actionButtonLabel }}</a>
-                                <a href="#" class="button activate-now" v-on:click.prevent="activateComponent" data-activate-button v-else-if="component_data.status === 1">{{ actionButtonLabel }}</a>
-                                <a href="#" class="button activate-now" v-on:click.prevent v-else>Active</a>
+                                <a href="#" class="button activate-now" v-on:click.prevent="activateComponent" :disabled="activating" data-activate-button v-else-if="component_data.status === 1">{{ actionButtonLabel }}</a>
+                                <a href="#" class="button activate-now" disabled="disable" v-on:click.prevent v-else>Active</a>
                             </li>
                         </ul>
                     </div>
