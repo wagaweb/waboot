@@ -18,10 +18,13 @@ let AppParams = {
                     $installButton.html(wbData.components_installer_labels.installing);
                     this.$parent.requestComponentInstallation(this.data.slug)
                         .then((data, textStatus, jqXHR ) => {
-                            console.log(data);
-                            $installButton.html(wbData.components_installer_labels.activate);
+                            if(!data.success){
+                                $installButton.html(wbData.components_installer_labels.installFailedShort);
+                                console.log(data);
+                            }else{
+                                $installButton.html(wbData.components_installer_labels.activate);
+                            }
                         }, (jqXHR, textStatus, errorThrown) => {
-                            $installButton.html(wbData.components_installer_labels.installFailedShort);
                             console.log(errorThrown);
                         });
                 }

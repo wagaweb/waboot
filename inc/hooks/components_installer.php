@@ -198,7 +198,7 @@ function ajax_install_remote_component(){
 		$download_file = download_component_package($component['package']);
 
 		if(is_wp_error($download_file)){
-			wp_send_json_error($download_file->get_error_message());
+			wp_send_json_error($download_file);
 		}
 
 		//Install the component:
