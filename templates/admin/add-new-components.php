@@ -4,24 +4,27 @@
 
 <div id="addNewComponents">
     <div class="componentsWrapper">
-        <waboot-component v-for="component in available_components" :data="component" :key="component.slug" inline-template>
-            <div class="component-card" :data-component="data.slug">
+        <waboot-component v-on:installed="componentInstalled" v-on:activated="componentActivated" v-for="component_data in available_components" :component_data="component_data" :key="component_data.slug" inline-template>
+            <div class="component-card" :data-component="component_data.slug">
                 <div class="component-card-top">
                     <div class="thumbnail column-thumbnail">
-                        <img :src="data.thumbnail" class="component-icon" />
+                        <img :src="component_data.thumbnail" class="component-icon" />
                     </div>
                     <div class="desc column-description">
-                        <h3>{{ data.title }}</h3>
+                        <h3>{{ component_data.title }}</h3>
                         <p>
-                            {{ data.description }}
+                            {{ component_data.description }}
                         </p>
                         <p class="authors">
-                            <cite>By </cite>{{ data.author }}
+                            <cite>By </cite>{{ component_data.author }}
                         </p>
                     </div>
                     <div class="action-links">
                         <ul class="component-action-buttons">
-                            <li><a href="#" class="button download-now" v-on:click.prevent="downloadComponent" data-install-button>Download</a></li>
+                            <li>
+                                <a href="#" class="button download-now" v-on:click.prevent="downloadComponent" data-install-button>Download</a>
+                                <a href="#" class="button activate-now" v-on:click.prevent="activateComponent" data-activate-button style="display: none;">Activate</a>
+                            </li>
                         </ul>
                     </div>
                 </div>
