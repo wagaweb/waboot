@@ -153,6 +153,11 @@ let AppParams = {
                 }
             });
         },
+        /**
+         * Ajax request for activating a component
+         * @param {string} slug
+         * return {jqXHR}
+         */
         requestComponentActivation: function(slug){
             return jQuery.ajax({
                 url: wbData.ajaxurl,
