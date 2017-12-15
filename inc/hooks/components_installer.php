@@ -16,7 +16,7 @@ add_action('wp_ajax_nopriv_install_remote_component', __NAMESPACE__.'\\ajax_inst
  */
 function request_components(){
 	$components = [
-		[
+		'component-a' => [
 			'slug' => 'component-a',
 			'title' => 'Component a',
 			'thumbnail' => 'http://via.placeholder.com/128x128',
@@ -25,7 +25,7 @@ function request_components(){
 			'package' => 'http://cdn.wagahost.net/components/waboot/header_classic.zip',
 			'author' => 'WAGA'
 		],
-		[
+		'component-b' => [
 			'slug' => 'component-b',
 			'title' => 'Component b',
 			'thumbnail' => 'http://via.placeholder.com/128x128',
@@ -34,7 +34,7 @@ function request_components(){
 			'package' => 'http://cdn.wagahost.net/components/waboot/header_classic.zip',
 			'author' => 'WAGA'
 		],
-		[
+		'component-c' => [
 			'slug' => 'component-c',
 			'title' => 'Component C',
 			'thumbnail' => 'http://via.placeholder.com/128x128',
@@ -44,6 +44,16 @@ function request_components(){
 			'author' => 'WAGA'
 		]
 	];
+
+	//Set the current status:
+	foreach ($components as $k => $component){
+		if($component['slug'] === 'component-b'){
+			$components[$k]['status'] = 1; //0 = not installed, 1 = installed, 2 = active
+		}else{
+			$components[$k]['status'] = 0;
+		}
+	}
+
 	return $components;
 }
 

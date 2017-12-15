@@ -1,8 +1,6 @@
 let AppData = {
-    testData: 'Hello World!',
     available_components: [],
-    available_components_status: [],
-    actionCounter: 0
+    isLoadingComponents: false
 };
 
 let AppParams = {
@@ -17,30 +15,58 @@ let AppParams = {
             data: function(){
                 return {
                     'installed': false,
-                    'activated': false
+                    'installing': false,
+                    'activated': false,
+                    'installationFailed': false,
+                }
+            },
+            computed: {
+                actionButtonLabel: function(){
+                    if(this.installationFailed){
+                        return wbData.components_installer_labels.installFailedShort;
+                    }else if(this.installing){
+                        return wbData.components_installer_labels.installing;
+                    }else if(this.installed && !this.activated){
+                        return wbData.components_installer_labels.activate;
+                    }else if(this.installed && this.activated){
+                        return wbData.components_installer_labels.active;
+                    }else{
+                        return wbData.components_installer_labels.download;
+                    }
+                }
+            },
+            mounted: function(){
+                if(this.component_data.status === 1){
+                    this.installed = true;
+                }else if(this.component_data.status === 2){
+                    this.installed = true;
+                    this.activated = true;
                 }
             },
             methods: {
+                /**
+                 * Download the component
+                 */
                 downloadComponent: function(){
-                    let $installButton = jQuery(this.$el).find('[data-install-button]');
-                    let $activateButton = jQuery(this.$el).find('[data-activate-button]');
-                    $installButton.html(wbData.components_installer_labels.installing);
-                    $installButton.attr('disabled','disabled');
+                    this.installing = true;
                     this.$parent.requestComponentInstallation(this.component_data.slug)
                         .then((data, textStatus, jqXHR ) => {
                             if(!data.success){
-                                $installButton.html(wbData.components_installer_labels.installFailedShort);
+                                this.installationFailed = true;
+                                this.installing = false;
                                 console.log(data);
                             }else{
                                 this.installed = true;
+                                this.installing = false;
                                 this.$emit('installed',this.component_data.slug);
-                                $installButton.hide();
-                                $activateButton.show();
                             }
                         }, (jqXHR, textStatus, errorThrown) => {
                             console.log(errorThrown);
                         });
                 },
+                /**
+                 * Activate the component
+                 */
                 activateComponent: function(){
                     this.activated = true;
                     this.$emit('activated',this.component_data.slug);
@@ -49,20 +75,40 @@ let AppParams = {
         }
     },
     methods: {
-        componentInstalled: function(slug){},
-        componentActivated: function(slug){},
+        /**
+         * Component installed event callback
+         * @param {string} slug
+         */
+        componentInstalled: function(slug){
+            if(typeof this.available_components[""+slug+""] !== "undefined"){
+                this.available_components[""+slug+""].status = 1;
+            }
+        },
+        /**
+         * Component activated event callback
+         * @param {string} slug
+         */
+        componentActivated: function(slug){
+            if(typeof this.available_components[""+slug+""] !== "undefined"){
+                this.available_components[""+slug+""].status = 2;
+            }
+        },
+        /**
+         * Get components from repository
+         */
         getComponentsFromRepository: function(){
-            jQuery(this.$el).addClass('loading');
+            this.isLoadingComponents = true;
             this.requestComponentsFromRepository()
                 .then((data, textStatus, jqXHR ) => {
-                    jQuery(this.$el).removeClass('loading');
+                    this.isLoadingComponents = false;
                     this.available_components = data.data;
                 },(jqXHR, textStatus, errorThrown) => {
                     console.log(errorThrown);
-                    jQuery(this.$el).removeClass('loading');
+                    this.isLoadingComponents = false;
                 })
         },
         /**
+         * Ajax request for getting components
          * return {jqXHR}
          */
         requestComponentsFromRepository: function(){
@@ -76,6 +122,8 @@ let AppParams = {
             });
         },
         /**
+         * Ajax request for installing a component
+         * @param {string} slug
          * return {jqXHR}
          */
         requestComponentInstallation: function(slug){
