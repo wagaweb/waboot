@@ -18,66 +18,55 @@ add_action('wp_ajax_nopriv_activate_component_from_installer', __NAMESPACE__.'\\
  * Request all available remote components
  *
  * @return array
+ * @throws \Exception
  */
 function request_components(){
-	$components = [
-		'component-a' => [
-			'slug' => 'component-a',
-			'title' => 'Component a',
-			'thumbnail' => 'http://via.placeholder.com/128x128',
-			'description' => 'Component A Desc',
-			'tags' => ['tag-a','tab-b'],
-			'package' => 'http://cdn.wagahost.net/components/waboot/header_classic.zip',
-			'author' => 'WAGA'
-		],
-		'component-b' => [
-			'slug' => 'component-b',
-			'title' => 'Component b',
-			'thumbnail' => 'http://via.placeholder.com/128x128',
-			'description' => 'Component B Desc',
-			'tags' => ['tag-a','tab-c'],
-			'package' => 'http://cdn.wagahost.net/components/waboot/header_classic.zip',
-			'author' => 'WAGA'
-		],
-		'component-c' => [
-			'slug' => 'component-c',
-			'title' => 'Component C',
-			'thumbnail' => 'http://via.placeholder.com/128x128',
-			'description' => 'Component C Desc',
-			'tags' => ['tag-b','tab-c'],
-			'package' => 'http://cdn.wagahost.net/components/waboot/header_classic.zip',
-			'author' => 'WAGA'
-		]
-	];
+	$remote_components_request = wp_remote_get('http://update.waboot.org/resource/list/components?basetheme=waboot');
 
-	//Set the current status:
-	foreach ($components as $k => $component){
-		if($component['slug'] === 'component-b'){
-			$components[$k]['status'] = 1; //0 = not installed, 1 = installed, 2 = active
+	if(is_wp_error($remote_components_request)){
+		throw new \Exception($remote_components_request->get_error_message());
+	}
+
+	if($remote_components_request['response']['code'] !== 200){
+		throw new \Exception('Unable to retrieve remote components');
+	}
+
+	$remote_components = json_decode($remote_components_request['body'],true);
+
+	//Set the current status (0 = not installed, 1 = installed, 2 = active):
+	foreach ($remote_components as $k => $component){
+		if(ComponentsManager::is_active($component['slug'])){
+			$remote_components[$k]['status'] = 2;
+		}elseif(ComponentsManager::is_present($component['slug'])){
+			$remote_components[$k]['status'] = 1;
 		}else{
-			$components[$k]['status'] = 0;
+			$remote_components[$k]['status'] = 0;
 		}
 	}
 
-	return $components;
+	return $remote_components;
 }
 
 /**
  * Request single remote component data
  *
  * @return array
+ * @throws \Exception
  */
 function request_single_component($slug){
-	$component = [
-		'slug' => 'component-a',
-		'title' => 'Component a',
-		'thumbnail' => 'http://via.placeholder.com/128x128',
-		'description' => 'Component A Desc',
-		'tags' => ['tag-a','tab-b'],
-		'package' => 'http://cdn.wagahost.net/components/waboot/header_classic.zip',
-		'author' => 'WAGA'
-	];
-	return $component;
+	$remote_component_request = wp_remote_get('http://update.waboot.org/resource/info/component/'.$slug.'/?basetheme=waboot');
+
+	if(is_wp_error($remote_component_request)){
+		throw new \Exception($remote_component_request->get_error_message());
+	}
+
+	if($remote_component_request['response']['code'] !== 200){
+		throw new \Exception('Unable to retrieve remote component');
+	}
+
+	$remote_component = json_decode($remote_component_request['body'],true);
+
+	return $remote_component;
 }
 
 /**
@@ -181,8 +170,12 @@ function ajax_get_available_components(){
 		return;
 	}
 
-	$components = request_components();
-	wp_send_json_success($components);
+	try{
+		$components = request_components();
+		wp_send_json_success($components);
+	}catch (\Exception $e){
+		wp_send_json_error($e->getMessage());
+	}
 }
 
 /**
