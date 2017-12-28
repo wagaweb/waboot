@@ -199,6 +199,8 @@ In particular:
 - Archive templates can be easily customized in child themes without many `archive-$posttype.php` or `taxonomy-$taxonomy.php` files in root folder.
 
     Waboot [`archive.php`](https://github.com/wagaweb/waboot/blob/master/templates/archive.php) file automatically includes the right `archive-$posttype.php` or `taxonomy-$taxonomy.php` file under `templates/archive` folder.
+
+- Author templates follows a similar logic: Waboot [`author.php`](https://github.com/wagaweb/waboot/blob/master/templates/author.php) file automatically includes the right `author-$nicename.php` or `taxonomy-$id.php` file under `templates/author` folder.
     
 - Custom templates (those that are selectable from the dashboard) can be treated as partials as well.
 

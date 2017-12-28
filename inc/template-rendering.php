@@ -25,7 +25,11 @@ function get_archives_template_vars(){
 	$tax = get_current_taxonomy();
 
 	$vars['page_title'] = get_archive_page_title();
-	$vars['term_description'] = term_description();
+	if(is_author()){
+		$vars['term_description'] = get_the_author_meta('description');
+	}else{
+		$vars['term_description'] = term_description();
+	}
 	$vars['blog_class'] = get_posts_wrapper_class();
 	$vars['display_nav_above'] = (bool) \Waboot\functions\get_option('content_nav_above', 1); //todo: add this
 	$vars['display_nav_below'] =  (bool) \Waboot\functions\get_option('content_nav_below', 1); //todo: add this
@@ -37,17 +41,22 @@ function get_archives_template_vars(){
 
 	$o = get_queried_object();
 
-	$tpl_base = "templates/archive/";
-
-	if($o instanceof \WP_Term){
-		$tpl[] = $tpl_base.$o->taxonomy.'-'.$o->slug;
-		$tpl[] = $tpl_base.'taxonomy-'.$o->taxonomy.'-'.$o->slug;
-		$tpl[] = $tpl_base.'taxonomy-'.$o->taxonomy;
-		$tpl = Waboot()->locate_template($tpl);
-	}elseif($o instanceof \WP_Post_Type){
-		$tpl = $tpl_base."archive-".$o->name;
+	if(is_author()){
+		$tpl_base = "templates/author/";
+		$tpl[] = $tpl_base.'author-'.get_the_author_meta('user_nicename');
+		$tpl[] = $tpl_base.'author-'.get_the_author_meta('ID');
 	}else{
-		$tpl = "";
+		$tpl_base = "templates/archive/";
+		if($o instanceof \WP_Term){
+			$tpl[] = $tpl_base.$o->taxonomy.'-'.$o->slug;
+			$tpl[] = $tpl_base.'taxonomy-'.$o->taxonomy.'-'.$o->slug;
+			$tpl[] = $tpl_base.'taxonomy-'.$o->taxonomy;
+			$tpl = Waboot()->locate_template($tpl);
+		}elseif($o instanceof \WP_Post_Type){
+			$tpl = $tpl_base."archive-".$o->name;
+		}else{
+			$tpl = "";
+		}
 	}
 
 	$vars['tpl'] = $tpl;
