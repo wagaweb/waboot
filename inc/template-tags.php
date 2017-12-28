@@ -125,7 +125,7 @@ function archive_page_title(){
  * @param string $paged_var_name You can supply different paged var name for multiple pagination. The name must be previously registered with add_rewrite_tag()
  */
 function post_navigation($nav_id, $show_pagination = true, $query = false, $current_page = false, $paged_var_name = "paged"){
-	$can_show_nav = call_user_func(function() use($nav_id){
+	$can_show_nav = \call_user_func(function() use($nav_id){
 		if(is_category() || is_home()){
 			switch($nav_id){
 				case 'nav-below':
@@ -185,7 +185,7 @@ function post_navigation($nav_id, $show_pagination = true, $query = false, $curr
 
 	if($can_display_pagination && $show_pagination){
 		$big = 999999999; // need an unlikely integer
-		if($paged_var_name != "paged"){
+		if($paged_var_name !== "paged"){
 			$base =  add_query_arg([
 				$paged_var_name => "%#%"
 			]);
