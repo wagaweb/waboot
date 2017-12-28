@@ -3,7 +3,7 @@
 <?php if($vars['options']['title_position'] === "bottom") : ?>
     <?php \Waboot\template_tags\archive_page_title(); ?>
     <?php
-    $author_description = get_the_author_meta("description",$post->post_author);
+    $author_description = $vars['term_description'];
     if ( ! empty( $author_description ) )
         printf( '<div class="author-description">%s</div>', $author_description );
     ?>
