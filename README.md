@@ -257,17 +257,27 @@ More informations and tutorials [here](https://github.com/wagaweb/waboot/tree/ma
 
 **v2.2.x**
 
-:white_check_mark: The "wordpress" template directory will be removed.
+- :white_check_mark: The "wordpress" template directory will be removed.
 
-:white_check_mark: Bugfix.
-
-:tada: Official Waboot launch! :rocket:
+- :white_check_mark: Bugfix.
 
 **v2.3.x**
 
-- Implementation of tests
-- Full support for customizer
+- :white_check_mark: Exclusive support for WBF 1.1.0
+
 - Bugfix
+
+:tada: Official Waboot launch! :rocket:
+
+**v2.4.x**
+
+- Components repository
+
+**Future releases**
+
+- Full support for customizer
+
+- Implementation of tests
 
 We are studying a way to make Bootstrap optional (available as component) and to allow developers to use their grid system by hooking into filters and specify their grid classes.
 
