@@ -253,15 +253,13 @@ More informations and tutorials [here](https://github.com/wagaweb/waboot/tree/ma
 
 - :white_check_mark: Generators introduction 
 
-- Bugfix releases.
+- :white_check_mark: Bugfix releases.
 
 **v2.2.x**
 
 :white_check_mark: The "wordpress" template directory will be removed.
 
-We are studying a way to make Bootstrap optional (available as component) and to allow developers to use their grid system by hooking into filters and specify their grid classes.
-
-Bugfix.
+:white_check_mark: Bugfix.
 
 :tada: Official Waboot launch! :rocket:
 
@@ -270,6 +268,8 @@ Bugfix.
 - Implementation of tests
 - Full support for customizer
 - Bugfix
+
+We are studying a way to make Bootstrap optional (available as component) and to allow developers to use their grid system by hooking into filters and specify their grid classes.
 
 <span style="font-size:smaller"><a href="#waboot-theme">Back to top.</a></span>
 
