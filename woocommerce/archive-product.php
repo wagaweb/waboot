@@ -6,7 +6,7 @@
  *
  * @author 		WooThemes
  * @package 	WooCommerce/Templates
- * @version     2.0.0
+ * @version     3.3.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -17,11 +17,11 @@ get_header( 'shop' ); ?>
 
     <?php
         /**
-         * woocommerce_before_main_content hook
+         * Hook: woocommerce_before_main_content.
          *
          * @hooked woocommerce_output_content_wrapper - 10 (outputs opening divs for the content)
-         * @hooked Waboot\woocommerce\woocommerce_output_content_wrapper - 10
          * @hooked woocommerce_breadcrumb - 20
+         * @hooked WC_Structured_Data::generate_website_data() - 30
          */
         do_action( 'woocommerce_before_main_content' );
     ?>
@@ -39,7 +39,15 @@ get_header( 'shop' ); ?>
             </div>
 	    <?php endif; ?>
 
-	    <?php do_action( 'woocommerce_archive_description' ); ?>
+	    <?php
+	    /**
+	     * Hook: woocommerce_archive_description.
+	     *
+	     * @hooked woocommerce_taxonomy_archive_description - 10
+	     * @hooked woocommerce_product_archive_description - 10
+	     */
+        do_action( 'woocommerce_archive_description' );
+        ?>
 
     <?php endif; ?>
 
@@ -47,7 +55,7 @@ get_header( 'shop' ); ?>
 
     <?php
     /**
-     * woocommerce_after_main_content hook
+     * Hook: woocommerce_after_main_content.
      *
      * @hooked woocommerce_output_content_wrapper_end - 10 (outputs closing divs for the content)
      * @hooked Waboot\woocommerce\woocommerce_output_content_wrapper_end - 10
@@ -57,7 +65,7 @@ get_header( 'shop' ); ?>
 
     <?php
     /**
-     * woocommerce_sidebar hook
+     * Hook: woocommerce_sidebar.
      *
      * @hooked woocommerce_get_sidebar - 10
      */
