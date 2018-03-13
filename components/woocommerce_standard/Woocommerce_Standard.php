@@ -50,6 +50,7 @@ class Woocommerce_Standard extends \WBF\modules\components\Component{
 	    add_filter("waboot/layout/body_layout", [$this,"alter_body_layout"], 90);
 	    add_filter("waboot/layout/get_cols_sizes", [$this,"alter_col_sizes"], 90);
 	    add_action('init', [$this,"hidePriceAndCart"], 20);
+	    add_filter("waboot/layout/container/classes",[$this,'alter_container_classes_for_shop_page']);
 
 	    //Behaviors
 	    add_filter("wbf/modules/behaviors/get/primary-sidebar-size", [$this,"primary_sidebar_size_behavior"], 999);
@@ -268,7 +269,6 @@ class Woocommerce_Standard extends \WBF\modules\components\Component{
 		$orgzr->reset_section();
 	}
 
-
 	/**
 	 * Inject WooCommerce-specific conditions for displaying the page title in 'above_primary' context. The 'below-primary' context in managed in archive-product.php
 	 *
@@ -292,6 +292,28 @@ class Woocommerce_Standard extends \WBF\modules\components\Component{
 			return $can_display_title;
 		},10,2);
 		remove_action("waboot/layout/archive/page_title/after",'Waboot\hooks\display_taxonomy_description',20);
+	}
+
+	/**
+	 * Retrieves the correct behavior value for shop page and 'content-width' behavior
+	 *
+	 * @param array $classes
+	 *
+	 * @hooked "waboot/layout/container/classes"
+	 *
+	 * @return array
+	 */
+	public function alter_container_classes_for_shop_page($classes){
+		if(is_shop()){
+			$page_shop_id = wc_get_page_id( 'shop' );
+			foreach ($classes as $k => $class_name){
+				if($class_name === 'container' || $class_name === 'container-fluid'){
+					$classes[$k] = \WBF\modules\behaviors\get_behavior('content-width',$page_shop_id);
+					break;
+				}
+			}
+		}
+		return $classes;
 	}
 
 	/**
