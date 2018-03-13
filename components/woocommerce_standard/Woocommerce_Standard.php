@@ -276,16 +276,18 @@ class Woocommerce_Standard extends \WBF\modules\components\Component{
 	 */
 	public function alter_archive_title_when_shop_title_above_primary(){
 		add_filter("waboot/singular/title", function($title,$current_title_context){
-			if($current_title_context === 'top'){
+			if($current_title_context === 'top' && is_shop()){
 				$title = woocommerce_page_title(false);
 			}
 			return $title;
 		},10,2);
 		add_filter("waboot/singular/title/display_flag",function($can_display_title,$current_title_context){
-			if($current_title_context === 'top'){
-				$wb_wc_title_position_opt = is_shop() ? 'woocommerce_shop_title_position' : 'woocommerce_archives_title_position';
-				$wb_wc_title_display_opt = is_shop() ? 'woocommerce_shop_display_title' : 'woocommerce_archives_display_title';
-				$can_display_title = apply_filters( 'woocommerce_show_page_title', \Waboot\functions\get_option($wb_wc_title_display_opt) ) && \Waboot\functions\get_option($wb_wc_title_position_opt) === "top";
+			if(is_shop()){
+				if($current_title_context === 'top'){
+					$wb_wc_title_position_opt = 'woocommerce_shop_title_position';
+					$wb_wc_title_display_opt = 'woocommerce_shop_display_title';
+					$can_display_title = apply_filters( 'woocommerce_show_page_title', \Waboot\functions\get_option($wb_wc_title_display_opt) ) && \Waboot\functions\get_option($wb_wc_title_position_opt) === "top";
+				}
 			}
 			return $can_display_title;
 		},10,2);
