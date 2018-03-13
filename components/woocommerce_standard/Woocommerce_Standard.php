@@ -28,6 +28,7 @@ class Woocommerce_Standard extends \WBF\modules\components\Component{
 	    //Disable the default display action for the page title
 	    add_action('woocommerce_before_main_content', function(){
 		    remove_action("waboot/site-main/before",'Waboot\hooks\display_singular_title');
+		    add_action("waboot/site-main/before",[$this,'display_shop_title_above_primary']);
 	    },9);
 
 		//Disable the default Woocommerce stylesheet
@@ -264,6 +265,24 @@ class Woocommerce_Standard extends \WBF\modules\components\Component{
 
 		$orgzr->reset_group();
 		$orgzr->reset_section();
+	}
+
+	/**
+	 * Display the shop title when 'title_position' === 'above_primary'
+	 *
+	 * @hooked 'woocommerce_before_main_content'
+	 */
+	public function display_shop_title_above_primary(){
+		$wb_wc_title_position_opt = is_shop() ? 'woocommerce_shop_title_position' : 'woocommerce_archives_title_position';
+		if( apply_filters( 'woocommerce_show_page_title', true ) && \Waboot\functions\get_option($wb_wc_title_position_opt) === "top"){
+			$current_title_context = 'top';
+			$tpl = apply_filters("waboot/singular/title/tpl","templates/view-parts/entry-title-singular.php",$current_title_context);
+			$tpl_args = [
+				'title' => woocommerce_page_title(false)
+			];
+			$tpl_args = apply_filters("waboot/singular/title/tpl_args",$tpl_args);
+			(new \WBF\components\mvc\HTMLView($tpl))->display($tpl_args);
+		}
 	}
 
 	/**
