@@ -5,9 +5,7 @@ namespace Waboot\woocommerce;
 use WBF\modules\options\Organizer;
 
 //Declare WooCommerce support
-add_action('init', function(){
-	add_theme_support( 'woocommerce' );
-},20);
+add_theme_support( 'woocommerce' );
 
 //Setup the wrapper
 remove_action('woocommerce_before_main_content', 'woocommerce_output_content_wrapper', 10);
