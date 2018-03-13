@@ -26,10 +26,11 @@ class Woocommerce_Standard extends \WBF\modules\components\Component{
 
     private function declare_hooks(){
 	    //Disable the default display action for the page title
-	    add_action('woocommerce_before_main_content', function(){
+	    /*add_action('woocommerce_before_main_content', function(){
 		    remove_action("waboot/site-main/before",'Waboot\hooks\display_singular_title');
 		    add_action("waboot/site-main/before",[$this,'display_shop_title_above_primary']);
-	    },9);
+	    },9);*/
+	    add_action('woocommerce_before_main_content', [$this,'alter_archive_title_when_shop_title_above_primary'],9);
 
 		//Disable the default Woocommerce stylesheet
 	    add_filter( 'woocommerce_enqueue_styles', '__return_empty_array' );
@@ -267,10 +268,36 @@ class Woocommerce_Standard extends \WBF\modules\components\Component{
 		$orgzr->reset_section();
 	}
 
+
+	/**
+	 * Inject WooCommerce-specific conditions for displaying the page title in 'above_primary' context. The 'below-primary' context in managed in archive-product.php
+	 *
+	 * @hooked 'woocommerce_before_main_content'
+	 */
+	public function alter_archive_title_when_shop_title_above_primary(){
+		add_filter("waboot/singular/title", function($title,$current_title_context){
+			if($current_title_context === 'top'){
+				$title = woocommerce_page_title(false);
+			}
+			return $title;
+		},10,2);
+		add_filter("waboot/singular/title/display_flag",function($can_display_title,$current_title_context){
+			if($current_title_context === 'top'){
+				$wb_wc_title_position_opt = is_shop() ? 'woocommerce_shop_title_position' : 'woocommerce_archives_title_position';
+				$wb_wc_title_display_opt = is_shop() ? 'woocommerce_shop_display_title' : 'woocommerce_archives_display_title';
+				$can_display_title = apply_filters( 'woocommerce_show_page_title', \Waboot\functions\get_option($wb_wc_title_display_opt) ) && \Waboot\functions\get_option($wb_wc_title_position_opt) === "top";
+			}
+			return $can_display_title;
+		},10,2);
+		remove_action("waboot/layout/archive/page_title/after",'Waboot\hooks\display_taxonomy_description',20);
+	}
+
 	/**
 	 * Display the shop title when 'title_position' === 'above_primary'
 	 *
 	 * @hooked 'woocommerce_before_main_content'
+	 *
+	 * @deprecated
 	 */
 	public function display_shop_title_above_primary(){
 		$wb_wc_title_position_opt = is_shop() ? 'woocommerce_shop_title_position' : 'woocommerce_archives_title_position';
