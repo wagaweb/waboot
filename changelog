@@ -3,6 +3,7 @@
 Version 2.3.1 - 03/12/2018
 ---------------------------------
 - Fix: get_archive_page_title() fixed
+- Fix: WooCommerce theme support fixed
 - Tweak: Updated author template
 - Tweak: Now 'templates/archive.php' automatically detect 'templates/author/$author-nicename' and 'templates/author/$author-ID'
 - Tweak: Now recent posts widget uses col-xs-* for mobile
