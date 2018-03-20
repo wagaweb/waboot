@@ -1,4 +1,4 @@
-<div class="entry-image col-sm-4 ">
+<div class="entry-image">
 	<?php
 		$thumb_preset = apply_filters('waboot/layout/entry/thumbnail/preset','thumbnail');
 		$thumb_classes = apply_filters('waboot/layout/entry/thumbnail/class','img-responsive');

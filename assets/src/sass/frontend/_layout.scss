@@ -1,9 +1,5 @@
 /* Container */
 .site {
-  padding: 0 0;
-  .container {
-    padding: 0 20px;
-  }
   .container-fluid {
     padding: 0;
     > .row {
@@ -15,6 +11,8 @@
       }
     }
   }
+
+
   .page-inner.container {
     .container {
       width: 100%;
@@ -23,41 +21,3 @@
   }
 }
 /* End Container */
-
-
-/* Content */
-.breadcrumb-trail {
-  padding: 10px 0;
-  font-size: 0.9em;
-  margin-bottom: 15px;
-}
-
-article {
-  margin-bottom: 20px;
-}
-
-/* End Content */
-
-
-/* Closure */
-.site-footer {
-  padding-top: 20px;
-  padding-bottom: 20px;
-  font-size: 0.9em;
-  line-height: 24px;
-  .footer-nav {
-    padding: 0;
-    margin: 0;
-    list-style-type: none;
-    display: inline-block;
-    li {
-      padding: 0;
-      margin: 0 5px;
-      display: inline-block;
-    }
-    .sub-menu {
-      display: none;
-    }
-  }
-}
-/* End Closure */

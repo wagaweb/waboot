@@ -1,3 +1,40 @@
+@include up($xlarge) {
+  body {font-size: 16px;}
+  h1 {font-size: 2.6em;}
+  h2 {font-size: 2.15em;}
+  h3 {font-size: 1.7em;}
+  h4 {font-size: 1.25em;}
+  h5 {font-size: 1em;}
+  h6 {font-size: 0.85em;}
+}
+@include between($large,$xlarge) {
+  body {font-size: 14px;}
+  h1 {font-size: 2.6em;}
+  h2 {font-size: 2.15em;}
+  h3 {font-size: 1.7em;}
+  h4 {font-size: 1.25em;}
+  h5 {font-size: 1em;}
+  h6 {font-size: 0.85em;}
+}
+@include between($medium,$large) {
+  body {font-size: 13px;}
+  h1 {font-size: 2.6em;}
+  h2 {font-size: 2.15em;}
+  h3 {font-size: 1.7em;}
+  h4 {font-size: 1.25em;}
+  h5 {font-size: 1em;}
+  h6 {font-size: 0.85em;}
+}
+@include down($medium) {
+  body {font-size: 14px;}
+  h1 {font-size: 2.6em;}
+  h2 {font-size: 2.15em;}
+  h3 {font-size: 1.7em;}
+  h4 {font-size: 1.25em;}
+  h5 {font-size: 1em;}
+  h6 {font-size: 0.85em;}
+}
+
 h1, .h1, h2, .h2, h3, .h3 {
   margin-top: 0;
   margin-bottom: 20px;
@@ -59,6 +96,30 @@ table td {
   border-top: 1px solid #ddd;
 }
 
+p img {
+  margin-bottom: 0.5em;
+  margin-top: 0.4em;
+}
+
+img.header-image,
+img.wp-post-image,
+img.avatar,
+img[class*="align"],
+img[class*="wp-image-"],
+img[class*="attachment-"],
+.comment-content img,
+.widget img {
+  height: auto;
+  max-width: 100%;
+  padding: 0;
+}
+
+mark,
+ins {
+  background: #fff9c0;
+  text-decoration: none;
+}
+
 .sticky {
   display: block;
 }
@@ -90,3 +151,4 @@ table td {
 .title-wrapper h1 {
   margin-bottom: 0px;
 }
+

@@ -1,28 +1,16 @@
-/*
- * Waboot Custom Variables and Mixins
- * https://laracasts.com/discuss/channels/elixir/how-to-modify-things-inside-bootstrap-sass
- */
-
+@import "frontend/reset";
 @import "frontend/variables";
-
-/*
- * Bootstrap v3.3.7 (http://getbootstrap.com)
- * Copyright 2011-2016 Twitter, Inc.
- * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
- */
-
-@import "../../vendor/bootstrap-sass/assets/stylesheets/bootstrap";
-
-/*!
- * Waboot v2.0.0
- */
-
+@import "frontend/mixins";
+@import "frontend/grid";
 @import "frontend/typography";
+@import "frontend/components";
 @import "frontend/layout";
 @import "frontend/global";
-@import "frontend/mediaqueries";
+@import "frontend/blog";
+@import "frontend/postsformat";
+@import "frontend/global";
 
 //Extensions and plugins compatibilities
 @import "frontend/extensions/wb-contact-form";
 @import "frontend/extensions/woocommerce";
-@import "frontend/extensions/offcanvas";
+//@import "frontend/extensions/offcanvas";

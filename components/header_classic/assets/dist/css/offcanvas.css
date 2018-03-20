@@ -24,3 +24,93 @@
     right: 0px !important;
     opacity: 0 !important;
 }
+
+@media only screen and (max-width: 991px) {
+
+
+    /* ------ Off Canvas Mobile Menu ------ */
+
+    .main-navigation .navbar-mobile-collapse {
+        background-color: #444;
+        border: 0;
+        width: 240px;
+        height: auto;
+        top: 0;
+        right: -240px;
+        bottom: 0;
+        padding: 10px 0;
+        overflow-y: auto;
+        position: fixed;
+        z-index: 1030;
+        /* -webkit-box-shadow:inset 3px 0 3px 0 rgba(0,0,0,0.5);
+        box-shadow:inset 3px 0 6px 0 rgba(0,0,0,0.5); */
+    }
+
+    .main-navigation .navbar-mobile-collapse .navbar-nav {
+        margin: 0;
+        width: 100%;
+    }
+
+    .main-navigation .navbar-mobile-collapse .navbar-nav li {
+        margin: 0;
+        width: 100%;
+    }
+
+    .main-navigation .navbar-mobile-collapse .navbar-nav a {
+        border-bottom: 1px solid #555;
+        font-size: 1.2em;
+        text-align: left;
+    }
+
+    .main-navigation .navbar-mobile-collapse .navbar-nav a:link,
+    .main-navigation .navbar-mobile-collapse .navbar-nav a:visited {
+        background-color: #444;
+        color: #ccc;
+    }
+
+    .main-navigation .navbar-mobile-collapse .navbar-nav a:hover,
+    .main-navigation .navbar-mobile-collapse .navbar-nav a:active {
+        background-color: #333;
+        color: #fff;
+    }
+
+    .main-navigation .navbar-mobile-collapse .navbar-nav a:before {
+        content: "\f105";
+        font-family: "FontAwesome";
+        color: #848484;
+        margin-right: 10px;
+    }
+
+    .main-navigation .navbar-mobile-collapse .navbar-nav .current-menu-item a {
+        background-color: #111;
+        color: #fff;
+    }
+
+    .main-navigation .navbar-mobile-collapse .navbar-nav > .open > a,
+    .main-navigation .navbar-mobile-collapse .navbar-nav > .open > a:hover,
+    .main-navigation .navbar-mobile-collapse .navbar-nav > .open > a:focus {
+        background-color: #333;
+        color: #ccc;
+    }
+
+    .main-navigation .navbar-mobile-collapse .navbar-nav .open .dropdown-menu > li > a {
+        background-color: #333;
+        line-height: 20px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+
+    .main-navigation .navbar-mobile-collapse .navbar-nav {
+        margin-bottom: 25px;
+    }
+
+    .main-navigation .navbar-mobile-collapse .logo-menu {
+        width: 200px;
+        margin-left: 10px;
+        margin-top: 16px;
+        margin-bottom: 16px;
+    }
+
+    /* ------ End Off Canvas Mobile Menu ------ */
+
+}
