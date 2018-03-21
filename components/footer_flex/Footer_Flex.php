@@ -100,14 +100,14 @@ class Footer_Flex extends \Waboot\Component {
 			'name' => __( 'Footer Width', 'waboot' ),
 			'desc' => __( 'Select footer width. Fluid or Boxed?', 'waboot' ),
 			'id' => 'footer_flex_width',
-			'std' => 'container',
+			'std' => 'wbcontainer',
 			'type' => 'images',
 			'options' => array(
-				'container-fluid' => array (
+				'wbcontainer-fluid' => array (
 					'label' => 'Fluid',
 					'value' => $imagepath . 'layout/footer-fluid.png'
 				),
-				'container' => array (
+				'wbcontainer' => array (
 					'label' => 'Boxed',
 					'value' => $imagepath . 'layout/footer-boxed.png'
 				)
@@ -127,14 +127,14 @@ class Footer_Flex extends \Waboot\Component {
 			'name' => __( 'Closure', 'waboot' ),
 			'desc' => __( 'Select closure width. Fluid or Boxed?', 'waboot' ),
 			'id' => 'closure_width',
-			'std' => 'container',
+			'std' => 'wbcontainer',
 			'type' => 'images',
 			'options' => array(
-				'container-fluid' => array (
+				'wbcontainer-fluid' => array (
 					'label' => 'Fluid',
 					'value' => $imagepath . 'layout/closure-fluid.png'
 				),
-				'container' => array (
+				'wbcontainer' => array (
 					'label' => 'Boxed',
 					'value' => $imagepath . 'layout/closure-boxed.png'
 				)
