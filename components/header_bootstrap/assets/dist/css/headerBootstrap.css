@@ -2,13 +2,15 @@
 
 .main-navigation {
     background-color: transparent;
+    background-image: none;
     margin-bottom: 0;
     border: 0;
     border-radius: 0;
+    box-shadow: 0 0 0;
 }
 
 .main-navigation .navbar-brand {
-    padding: 10px 0px;
+    padding: 10px 0;
 }
 
 .main-navigation .navbar-brand img {
@@ -19,6 +21,12 @@
     font-size: 0.9em;
     color: #999;
     display: block;
+}
+
+.main-navigation .navbar-nav>.active>a,
+.main-navigation .navbar-nav>.open>a {
+    background-image: none;
+    box-shadow: 0 0 0;
 }
 
 .main-navigation .dropdown-menu {
@@ -33,13 +41,18 @@
     margin-right: 0;
 }
 
-@media only screen and (max-width: 991px) {
-    .main-navigation .navbar-toggle {
-        padding: 10px 0px;
-    }
+.main-navigation .navbar-toggle {
+    padding: 10px 0;
 }
 
 /* End Navbar */
+
+
+@media only screen and (min-width: 992px) {
+    .main-navigation .navbar-mobile-collapse {
+        display: none !important;
+    }
+}
 
 
 @media only screen and (max-width: 991px) {

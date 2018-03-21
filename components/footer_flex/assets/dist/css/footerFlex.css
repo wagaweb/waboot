@@ -1,0 +1,25 @@
+@media(min-width: 768px) {
+    .footer-widgetarea-wrap {
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: center;
+        margin: 0 -10px;
+    }
+    .footer-widgetarea {
+        padding: 0 10px;
+    }
+    .closure-inner {
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: space-between;
+    }
+}
+
+ul.closure-nav {
+    list-style-type: none;
+    margin: 0;
+}
+ul.closure-nav li {
+    display: inline-block;
+    padding: 0 5px;
+}

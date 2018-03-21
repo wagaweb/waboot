@@ -38,13 +38,25 @@ class BootstrapComponent extends \WBF\modules\components\Component{
 	 */
     public function scripts(){
         //Enqueue scripts
-
-        wp_register_script('bootstrap-script',$this->directory_uri . '/assets/vendor/bootstrap-3/js/bootstrap.min.js',['jquery'],'3.3.7',true);
-        wp_register_script('bootstrap-waboot-script',$this->directory_uri . '/assets/dist/js/waboot-bootstrap.js',['jquery'],false,true);
-
-        wp_enqueue_script('bootstrap-script');
-        wp_enqueue_script('bootstrap-waboot-script');
-
+        $assets = [
+            'bootstrap-script' => [
+                'uri' => $this->directory_uri . '/assets/vendor/bootstrap-3/js/bootstrap.min.js', //A valid uri
+                'path' => $this->directory . '/assets/vendor/bootstrap-3/js/bootstrap.min.js', //A valid path
+                'version' => '3.3.7',
+                'deps' => ['jquery'],
+                'in_footer' => false,
+                'enqueue' => true
+            ],
+            'bootstrap-waboot-script' => [
+                'uri' => $this->directory_uri . '/assets/dist/js/waboot-bootstrap.js', //A valid uri
+                'path' => $this->directory . '/assets/dist/js/waboot-bootstrap.js', //A valid path
+                'deps' => ['bootstrap-script'],
+                'in_footer' => false,
+                'enqueue' => true
+            ],
+        ];
+        $a = new \WBF\components\assets\AssetsManager($assets);
+        $a->enqueue();
     }
 
 	/**
@@ -54,10 +66,10 @@ class BootstrapComponent extends \WBF\modules\components\Component{
         //Enqueue styles
 
         wp_register_style('bootstrap-style',$this->directory_uri . '/assets/vendor/bootstrap-3/css/bootstrap.min.css');
-        wp_register_style('bootstrap-theme-style',$this->directory_uri . '/assets/vendor/bootstrap-3/css/bootstrap-theme.min.css');
+        //wp_register_style('bootstrap-theme-style',$this->directory_uri . '/assets/vendor/bootstrap-3/css/bootstrap-theme.min.css');
 
         wp_enqueue_style('bootstrap-style');
-        wp_enqueue_style('bootstrap-theme-style');
+        //wp_enqueue_style('bootstrap-theme-style');
     }
 
 	/**
