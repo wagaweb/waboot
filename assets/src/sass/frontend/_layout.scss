@@ -1,23 +1,37 @@
 /* Container */
+
+/*
 .site {
-  .container-fluid {
+  .container-fluid,
+  .wbcontainer-fluid {
     padding: 0;
-    > .row {
+    > .row,
+    > .wbrow {
       margin-left: 0;
       margin-right: 0;
-      > .col-sm-12 {
+      > .col-sm-12,
+      > .wbcol-sm-12 {
         padding-left: 0;
         padding-right: 0;
       }
     }
   }
 
-
-  .page-inner.container {
-    .container {
+  .page-inner.container,
+  .page-inner.wbcontainer {
+    .container,
+    .wbcontainer {
       width: 100%;
       padding: 0;
     }
   }
 }
+
+*/
+
+.page-inner {
+  padding: 0 !important;
+}
+
+
 /* End Container */

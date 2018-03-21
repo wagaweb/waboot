@@ -1,9 +1,9 @@
 jQuery(document).ready(function($){
 
-    $('.menu-item-has-children').click(function(e) {
+    $('.menu-item-has-children > a').click(function(e) {
         e.preventDefault();
         $(".sub-menu").hide();
-        $(this).find(".sub-menu").slideToggle();
+        $(this).next(".sub-menu").slideToggle();
     });
 
 
