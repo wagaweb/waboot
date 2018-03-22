@@ -24,12 +24,15 @@ class Header_Flex extends \Waboot\Component{
 
     public function styles(){
         parent::styles();
+        wp_enqueue_style('dashicons');
         Waboot()->add_inline_style('header_flex_style', $this->directory_uri . '/assets/dist/css/headerFlex.css');
+
     }
 
     public function scripts() {
 	    parent::scripts();
 	    wp_enqueue_script('header_flex_scripts', $this->directory_uri . '/assets/dist/js/headerFlex.js', ['jquery'], false, true);
+
     }
 
 	public function run(){
