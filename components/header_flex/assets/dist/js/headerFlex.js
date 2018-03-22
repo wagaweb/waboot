@@ -1,24 +1,34 @@
 jQuery(document).ready(function($){
 
-    /*$(document).click(function() {
-        $(".sub-menu").hide();
-    });*/
-    $('.menu-item-has-children > a').click(function(e) {
+    /**
+     * Enables the Dropdown functionality
+     * @param {string} el the menu with .sub-menu elements
+     */
+    var Dropdown = function(el){
+      this.last_menu_id = "";
+      this.hideMenus = function(){
+        jQuery('.sub-menu').hide();
+      };
+      var self = this;
+      $(el+' > a').on('click', function(e){
+        var $target = $(e.currentTarget),
+            $submenu = $target.next('.sub-menu'),
+            $menu = $target.parents('li'),
+            menu_id = $menu.attr('id');
+        if(menu_id === self.last_menu_id){
+          $submenu.slideUp();
+          self.last_menu_id = "";
+        }else{
+          self.hideMenus();
+          $submenu.slideDown();
+          self.last_menu_id = menu_id;
+        }
+      });
+    };
 
-        var $target = $(e.currentTarget);
-        $('.sub-menu').each( function(index,el){
-            if($(el).prev('a') != $target){
-                $(this).hide();
-            }else{
-                console.log('dentro');
-                $(this).slideToggle();
-            }
-        });
-
-        //e.stopPropagation();
-        e.preventDefault();
-    });
-
+    if($('.menu-item-has-children').length > 0){
+        new Dropdown('.menu-item-has-children');
+    }
 
     $('.navbar-toggle').click(function(){
         $('.main-navigation').toggle({
@@ -29,5 +39,4 @@ jQuery(document).ready(function($){
     $(window).on('resize', function(){
 
     });
-
 });
