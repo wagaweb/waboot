@@ -1,9 +1,22 @@
 jQuery(document).ready(function($){
 
-    $('.menu-item-has-children > a').click(function(e) {
-        e.preventDefault();
+    /*$(document).click(function() {
         $(".sub-menu").hide();
-        $(this).next(".sub-menu").slideToggle();
+    });*/
+    $('.menu-item-has-children > a').click(function(e) {
+
+        var $target = $(e.currentTarget);
+        $('.sub-menu').each( function(index,el){
+            if($(el).prev('a') != $target){
+                $(this).hide();
+            }else{
+                console.log('dentro');
+                $(this).slideToggle();
+            }
+        });
+
+        //e.stopPropagation();
+        e.preventDefault();
     });
 
 
