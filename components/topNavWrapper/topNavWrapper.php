@@ -53,7 +53,7 @@ class TopNavWrapperComponent extends \Waboot\Component{
         $v = new \WBF\components\mvc\HTMLView($this->theme_relative_path."/templates/topnav.php");
 
         $args = [
-            'topnav_width' => of_get_option( 'topnav_width','wbcontainer' ),
+            'topnav_width' => of_get_option( 'topnav_width',WabootLayout()->get_grid_class('container') ),
         ];
         $v->clean()->display($args);
 
@@ -74,14 +74,14 @@ class TopNavWrapperComponent extends \Waboot\Component{
             'name' => __('Top Nav Wrapper Width', 'waboot'),
             'desc' => __('Select Top Nav Wrapper width. Fluid or Boxed?', 'waboot'),
             'id' => 'topnav_width',
-            'std' => 'wbcontainer',
+            'std' => WabootLayout()->get_grid_class('container'),
             'type' => 'images',
             'options' => [
-                'wbcontainer-fluid' => [
+	            WabootLayout()->get_grid_class('container-fluid') => [
                     'label' => 'Fluid',
                     'value' => $imagepath . 'layout/top-nav-fluid.png'
                 ],
-                'wbcontainer' => [
+	            WabootLayout()->get_grid_class('container') => [
                     'label' => 'Boxed',
                     'value' => $imagepath . 'layout/top-nav-boxed.png'
                 ]

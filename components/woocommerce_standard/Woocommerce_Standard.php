@@ -307,7 +307,7 @@ class Woocommerce_Standard extends \WBF\modules\components\Component{
 		if(is_shop()){
 			$page_shop_id = wc_get_page_id( 'shop' );
 			foreach ($classes as $k => $class_name){
-				if($class_name === 'wbcontainer' || $class_name === 'wbcontainer-fluid'){
+				if($class_name === WabootLayout()->get_grid_class('container') || $class_name === WabootLayout()->get_grid_class('container-fluid')){
 					$classes[$k] = \WBF\modules\behaviors\get_behavior('content-width',$page_shop_id);
 					break;
 				}
@@ -601,7 +601,7 @@ class Woocommerce_Standard extends \WBF\modules\components\Component{
 			}
 		}
 
-		$classes[] = of_get_option('woocommerce_cat_items', 'col-sm-3');
+		$classes[] = of_get_option('woocommerce_cat_items', WabootLayout()->get_col_grid_class().'sm-3');
 
 		return $classes;
 	}

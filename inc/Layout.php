@@ -23,18 +23,29 @@ class Layout{
 	const LAYOUT_TWO_SIDEBARS_LEFT = "two-sidebars-left";
 	const LAYOUT_TWO_SIDEBARS_RIGHT = "two-sidebars-right";
 
+	const GRID_CLASS_ROW = 'row';
+	const GRID_CLASS_CONTAINER = 'container';
+	const GRID_CLASS_CONTAINER_FLUID = 'container-fluid';
+	const GRID_CLASS_COL_SUFFIX = 'col_suffix';
+
 	/**
 	 * Layout constructor.
 	 *
 	 * @param array $params
 	 */
 	public function __construct($params = []) {
-		$default_grid_classes = [];
+		$default_grid_classes = [
+			'row' => 'wbrow',
+			'container' => 'wbcontainer',
+			'container-fluid' => 'wbcontainer-fluid',
+			'col_suffix' => 'wbcol-'
+		];
 		if(isset($params['grid_classes'])){
-			$this->grid_classes = wp_parse_args($params['grid_classes'],$default_grid_classes);
+			$grid_classes = wp_parse_args($params['grid_classes'],$default_grid_classes);
 		}else{
-			$this->grid_classes = $default_grid_classes;
+			$grid_classes = $default_grid_classes;
 		}
+		$this->grid_classes = apply_filters('waboot/layout/grid_classes',$grid_classes);
 	}
 
 	/**
@@ -276,6 +287,24 @@ class Layout{
 		return true;
 	}
 
+	/**
+	 * @param $type
+	 *
+	 * @return mixed|string
+	 */
+	public function get_grid_class($type){
+		if(array_key_exists($type,$this->grid_classes)){
+			return $this->grid_classes[$type];
+		}
+		return '';
+	}
+
+	/**
+	 * @return string
+	 */
+	public function get_col_grid_class(){
+		return $this->get_grid_class(Layout::GRID_CLASS_COL_SUFFIX);
+	}
 	
 	/*
 	 * Utilities

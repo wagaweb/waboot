@@ -83,10 +83,10 @@ function set_main_classes($classes) {
 	if($body_layout){
 		if ($body_layout == Layout::LAYOUT_FULL_WIDTH) {
 			Layout::remove_cols_classes($classes_array); //Remove all col- classes
-			$classes_array[] = "wbcol-sm-12";
+			$classes_array[] = WabootLayout()->get_col_grid_class()."sm-12";
 		} else {
 			Layout::remove_cols_classes($classes_array); //Remove all col- classes
-			$classes_array[] = "wbcol-sm-".$cols_size['main'];
+			$classes_array[] = WabootLayout()->get_col_grid_class()."sm-".$cols_size['main'];
 			//Three cols with main in the middle? Then add pull and push
 			//if($body_layout == "two-sidebars"){
 				//$classes_array[] = "col-sm-push-".$cols_size['primary'];
@@ -111,7 +111,7 @@ function set_primary_sidebar_container_classes($classes){
 
 	if($size){
 		Layout::remove_cols_classes($classes_array); //Remove all col- classes
-		$classes_array[] = "wbcol-sm-".Layout::layout_width_to_int($size);
+		$classes_array[] = WabootLayout()->get_col_grid_class()."sm-".Layout::layout_width_to_int($size);
 		//Three cols with main in the middle? Then add pull and push
 		//if(\Waboot\functions\get_body_layout() == "two-sidebars"){
 			//$cols_size = \Waboot\functions\get_cols_sizes();
@@ -136,7 +136,7 @@ function set_secondary_sidebar_container_classes($classes){
 
 	if($size){
 		Layout::remove_cols_classes($classes_array); //Remove all col- classes
-		$classes_array[] = "wbcol-sm-".Layout::layout_width_to_int($size);
+		$classes_array[] = WabootLayout()->get_col_grid_class()."sm-".Layout::layout_width_to_int($size);
 	}
 
 	$classes = implode(" ",$classes_array);

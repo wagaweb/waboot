@@ -77,14 +77,14 @@ class Header_Bootstrap extends \Waboot\Component{
             'name' => __( 'Header', 'waboot' ),
             'desc' => __( 'Select header width. Fluid or Boxed?', 'waboot' ),
             'id' => 'headerbotstrap_width',
-            'std' => 'wbcontainer',
+            'std' => WabootLayout()->get_grid_class('container'),
             'type' => 'images',
             'options' => array(
-                'wbcontainer-fluid' => array (
+	            WabootLayout()->get_grid_class('container-fluid') => array (
                     'label' => 'Fluid',
                     'value' => $imagepath . 'layout/header-fluid.png'
                 ),
-                'wbcontainer' => array (
+	            WabootLayout()->get_grid_class('container') => array (
                     'label' => 'Boxed',
                     'value' => $imagepath . 'layout/header-boxed.png'
                 )

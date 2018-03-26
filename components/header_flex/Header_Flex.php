@@ -92,14 +92,14 @@ class Header_Flex extends \Waboot\Component{
 			'name' => __( 'Header Width', 'waboot' ),
 			'desc' => __( 'Select header width. Fluid or Boxed?', 'waboot' ),
 			'id' => 'headerflex_header_width',
-			'std' => 'wbcontainer',
+			'std' => WabootLayout()->get_grid_class('container'),
 			'type' => 'images',
 			'options' => [
-				'wbcontainer-fluid' => [
+				WabootLayout()->get_grid_class('container-fluid') => [
 					'label' => 'Fluid',
 					'value' => $imagepath . 'layout/header-fluid.png'
 				],
-				'wbcontainer' => [
+				WabootLayout()->get_grid_class('container') => [
 					'label' => 'Boxed',
 					'value' => $imagepath . 'layout/header-boxed.png'
 				]
@@ -148,14 +148,14 @@ class Header_Flex extends \Waboot\Component{
             'name' => __( 'Navbar Width', 'waboot' ),
             'desc' => __( 'Select navbar width. Fluid or Boxed?', 'waboot' ),
             'id' => 'headerflex_nav_width',
-            'std' => 'wbcontainer',
+            'std' => WabootLayout()->get_grid_class('container'),
             'type' => 'images',
             'options' => array(
-                'wbcontainer-fluid' => array (
+	            WabootLayout()->get_grid_class('container-fluid') => array (
                     'label' => 'Fluid',
                     'value' => $imagepath . 'layout/header-fluid.png'
                 ),
-                'wbcontainer' => array (
+	            WabootLayout()->get_grid_class('container') => array (
                     'label' => 'Boxed',
                     'value' => $imagepath . 'layout/header-boxed.png'
                 )
