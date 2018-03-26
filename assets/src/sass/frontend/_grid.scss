@@ -28,13 +28,12 @@
 
 .row,
 .wbrow {
-  display: flex;
-  flex-wrap: wrap;
   margin-right: -10px;
   margin-left: -10px;
-  @include up($medium) {
-    flex-wrap: nowrap;
-  }
+}
+
+.wbrow {
+  display: flex;
 }
 
 .wbcol-sm-1,

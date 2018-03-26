@@ -236,9 +236,9 @@ class Woocommerce_Standard extends \WBF\modules\components\Component{
 			'name' => __('Items for Row', 'waboot'),
 			'desc' => __('How many items display for row', 'waboot'),
 			'id' => 'woocommerce_cat_items',
-			'std' => 'col-sm-3',
+			'std' => WabootLayout()->get_col_grid_class().'sm-3',
 			'type' => 'select',
-			'options' => array('col-sm-3' => '4', 'col-sm-4' => '3')
+			'options' => array(WabootLayout()->get_col_grid_class().'sm-3' => '4', WabootLayout()->get_col_grid_class().'sm-4' => '3')
 		));
 
 		$orgzr->add(array(
