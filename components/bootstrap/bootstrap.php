@@ -1,7 +1,7 @@
 <?php
 /**
 Component Name: Bootstrap
-Description: Bootstrap component
+Description: Enables Bootstrap on Waboot
 Category: Layout
 Tags: Bootstrap, Grid, Layout
 Version: 1.0
@@ -13,35 +13,39 @@ if(!class_exists("\\WBF\\modules\\components\\Component")) return;
 
 class BootstrapComponent extends \WBF\modules\components\Component{
 
-    /**
-     * This method will be executed at Wordpress startup (every page load).
-     *
-     * This is called during "init", hooked at "wbf_init", which has a priority of 11. So if you want to hook at "init" you must begin with a priority of 12+.
-     */
     public function setup(){
         parent::setup();
-
-
-        //Do stuff...
+        apply_filters('waboot/layout/grid_classes', [$this,'alter_grid_classes']);
     }
 
-    /**
-     * This method will be executed on the "wp" action in pages where the component must be loaded
-     */
-    public function run(){
-        parent::run();
-        //Do stuff...
+	/**
+	 * @param array $classes
+	 *
+	 * @hooked 'waboot/layout/grid_classes'
+	 *
+	 * @return array
+	 */
+    public function alter_grid_classes($classes){
+	    $classes = [
+		    'row' => 'row',
+		    'container' => 'container',
+		    'container-fluid' => 'container-fluid',
+		    'col_suffix' => 'col-'
+	    ];
+    	return $classes;
     }
 
 	/**
 	 * Register component scripts (called automatically)
 	 */
     public function scripts(){
+    	$bv = \Waboot\functions\get_option($this->name.'_bootstrap_version');
+
         //Enqueue scripts
         $assets = [
             'bootstrap-script' => [
-                'uri' => $this->directory_uri . '/assets/vendor/bootstrap-3/js/bootstrap.min.js', //A valid uri
-                'path' => $this->directory . '/assets/vendor/bootstrap-3/js/bootstrap.min.js', //A valid path
+                'uri' => $this->directory_uri . '/assets/vendor/bootstrap-'.$bv.'/js/bootstrap.min.js', //A valid uri
+                'path' => $this->directory . '/assets/vendor/bootstrap-'.$bv.'/js/bootstrap.min.js', //A valid path
                 'version' => '3.3.7',
                 'deps' => ['jquery'],
                 'in_footer' => false,
@@ -63,73 +67,55 @@ class BootstrapComponent extends \WBF\modules\components\Component{
 	 * Register component styles (called automatically)
 	 */
     public function styles(){
+	    $bv = \Waboot\functions\get_option($this->name.'_bootstrap_version');
+
         //Enqueue styles
-
-        wp_register_style('bootstrap-style',$this->directory_uri . '/assets/vendor/bootstrap-3/css/bootstrap.min.css');
-        //wp_register_style('bootstrap-theme-style',$this->directory_uri . '/assets/vendor/bootstrap-3/css/bootstrap-theme.min.css');
-
-        wp_enqueue_style('bootstrap-style');
-        //wp_enqueue_style('bootstrap-theme-style');
+	    $assets = [
+		    'bootstrap-style' => [
+			    'uri' => $this->directory_uri . '/assets/vendor/bootstrap-'.$bv.'/css/bootstrap.min.css', //A valid uri
+			    'path' => $this->directory . '/assets/vendor/bootstrap-'.$bv.'/css/bootstrap-theme.min.css', //A valid path
+			    'version' => '3.3.7',
+			    'enqueue' => true
+		    ],
+		    'bootstrap-theme-style' => [
+			    'uri' => $this->directory_uri . '/assets/vendor/bootstrap-'.$bv.'/css/bootstrap.min.css', //A valid uri
+			    'path' => $this->directory . '/assets/vendor/bootstrap-'.$bv.'/css/bootstrap-theme.min.css', //A valid path
+			    'version' => '3.3.7',
+			    'enqueue' => false
+		    ]
+	    ];
+	    $a = new \WBF\components\assets\AssetsManager($assets);
+	    $a->enqueue();
     }
 
-	/**
-	 * Register component widgets (called automatically).
-	 *
-	 * @hooked 'widgets_init'
-	 */
-	public function widgets(){
-		//register_widget("sampleWidget");
-	}
-
-	/**
-	 * This is an action callback.
-	 *
-	 * Here you can use WBF Organizer to set component options
-	 */
 	public function register_options(){
 		parent::register_options();
-		//$orgzr = \WBF\modules\options\Organizer::getInstance();
-		//Do stuff...
+		$orgzr = \WBF\modules\options\Organizer::getInstance();
+
+		$orgzr->set_group('components');
+
+		$section_name = $this->name."_component";
+		$additional_params = [
+			'component' => true,
+			'component_name' => $this->name
+		];
+
+		$orgzr->add_section($section_name,$this->name." Component",null,$additional_params);
+		$orgzr->set_section($section_name);
+
+		$orgzr->add([
+			'name' => __( 'Bootstrap version', 'waboot' ),
+			'desc' => __( 'Choose the Bootstrap version to include', 'waboot' ),
+			'id'   => $this->name.'_bootstrap_version',
+			'std'  => '3',
+			'type' => "radio",
+			'options' => [
+				"3" => __("Bootstrap 3","waboot"),
+				"4" => __("Bootstrap 4","waboot"),
+			],
+		],null,null,$additional_params);
+
+		$orgzr->reset_group();
+		$orgzr->reset_section();
 	}
-
-	/**
-	 * This is a filter callback. You can't use WBF Organizer.
-	 *
-	 * @param $options
-	 *
-	 * @return array|mixed
-	 */
-    public function theme_options($options){
-        $options = parent::theme_options($options);
-        //Do stuff...
-        $options[] = array(
-            'name' => __( 'Sample Info Box', 'waboot' ),
-            'desc' => __( 'This is a sample infobox', 'waboot' ),
-            'type' => 'info'
-        );
-        $options[] = array(
-            'name' => __( 'Sample check box', 'waboot' ),
-            'desc' => __( 'This is a sample checkbox.', 'waboot' ),
-            'id'   => $this->name.'_sample_checkbox',
-            'std'  => '0', //not enabled by default
-            'type' => 'checkbox'
-        );
-        return $options;
-    }
-
-    public function onActivate(){
-        parent::onActivate();
-        //Do stuff...
-    }
-
-    public function onDeactivate(){
-        parent::onDeactivate();
-        //Do stuff...
-    }
 }
-
-/*
-class sampleWidget extends WP_Widget{
-	...
-}
-*/
