@@ -589,7 +589,8 @@ class Woocommerce_Standard extends \WBF\modules\components\Component{
 
 		global $woocommerce_loop;
 
-		if(is_admin()) return $classes; //skip for admin
+		$doing_ajax = defined('DOING_AJAX') && DOING_AJAX;
+		if(is_admin() && !$doing_ajax) return $classes; //skip for admin
 
 		if(is_single()){
 			//skip for single
