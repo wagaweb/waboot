@@ -15,7 +15,7 @@ class BootstrapComponent extends \WBF\modules\components\Component{
 
     public function setup(){
         parent::setup();
-        apply_filters('waboot/layout/grid_classes', [$this,'alter_grid_classes']);
+        add_filter('waboot/layout/grid_classes', [$this,'alter_grid_classes']);
     }
 
 	/**

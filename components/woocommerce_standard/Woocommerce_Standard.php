@@ -236,9 +236,12 @@ class Woocommerce_Standard extends \WBF\modules\components\Component{
 			'name' => __('Items for Row', 'waboot'),
 			'desc' => __('How many items display for row', 'waboot'),
 			'id' => 'woocommerce_cat_items',
-			'std' => WabootLayout()->get_col_grid_class().'sm-3',
+			'std' => '3',
 			'type' => 'select',
-			'options' => array(WabootLayout()->get_col_grid_class().'sm-3' => '4', WabootLayout()->get_col_grid_class().'sm-4' => '3')
+			'options' => array(
+				'3' => '3',
+				'4' => '4'
+			)
 		));
 
 		$orgzr->add(array(
@@ -601,7 +604,15 @@ class Woocommerce_Standard extends \WBF\modules\components\Component{
 			}
 		}
 
-		$classes[] = of_get_option('woocommerce_cat_items', WabootLayout()->get_col_grid_class().'sm-3');
+		$cat_items = of_get_option('woocommerce_cat_items','3');
+		if($cat_items === '3'){
+			$cat_items_class = WabootLayout()->get_col_grid_class().'sm-4';
+		}elseif($cat_items === '4'){
+			$cat_items_class = WabootLayout()->get_col_grid_class().'sm-3';
+		}else{
+			$cat_items_class = WabootLayout()->get_col_grid_class().'sm-4';
+		}
+		$classes[] = $cat_items_class;
 
 		return $classes;
 	}

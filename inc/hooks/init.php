@@ -41,6 +41,14 @@ function register_menus(){
 add_action("after_setup_theme",__NAMESPACE__."\\register_menus",11);
 
 /**
+ * Allows developers to edit the Layout grid classes
+ */
+function register_grid_classes(){
+	WabootLayout()->update_grid_classes(apply_filters('waboot/layout/grid_classes',[]));
+}
+add_action("init",__NAMESPACE__."\\register_grid_classes",15);
+
+/**
  * Rename the default label of admin menu
  *
  * @param $label

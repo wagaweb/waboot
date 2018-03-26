@@ -45,7 +45,7 @@ class Layout{
 		}else{
 			$grid_classes = $default_grid_classes;
 		}
-		$this->grid_classes = apply_filters('waboot/layout/grid_classes',$grid_classes);
+		$this->grid_classes = $grid_classes;
 	}
 
 	/**
@@ -285,6 +285,17 @@ class Layout{
 			throw new \Exception("Zone {$slug} not found");
 		}
 		return true;
+	}
+
+	/**
+	 * Update the current grid classes
+	 *
+	 * Called during 'init'.
+	 */
+	public function update_grid_classes($classes){
+		$default_grid_classes = $this->grid_classes;
+		$classes = wp_parse_args($classes,$default_grid_classes);;
+		$this->grid_classes = $classes;
 	}
 
 	/**
