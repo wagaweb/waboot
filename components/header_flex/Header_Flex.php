@@ -88,87 +88,91 @@ class Header_Flex extends \Waboot\Component{
         $orgzr->add_section("header",_x("Header","Theme options section","waboot"));
         $orgzr->add_section("navigation",_x("Navigation","Theme options section","waboot"));
 
-		$orgzr->update('headerflex_header_width',[
-			'name' => __( 'Header Width', 'waboot' ),
-			'desc' => __( 'Select header width. Fluid or Boxed?', 'waboot' ),
-			'id' => 'headerflex_header_width',
-			'std' => WabootLayout()->get_grid_class('container'),
-			'type' => 'images',
-			'options' => [
-				WabootLayout()->get_grid_class('container-fluid') => [
-					'label' => 'Fluid',
-					'value' => $imagepath . 'layout/header-fluid.png'
-				],
-				WabootLayout()->get_grid_class('container') => [
-					'label' => 'Boxed',
-					'value' => $imagepath . 'layout/header-boxed.png'
+		try{
+			$orgzr->update('headerflex_header_width',[
+				'name' => __( 'Header Width', 'waboot' ),
+				'desc' => __( 'Select header width. Fluid or Boxed?', 'waboot' ),
+				'id' => 'headerflex_header_width',
+				'std' => WabootLayout()->get_grid_class('container'),
+				'type' => 'images',
+				'options' => [
+					WabootLayout()->get_grid_class('container-fluid') => [
+						'label' => 'Fluid',
+						'value' => $imagepath . 'layout/header-fluid.png'
+					],
+					WabootLayout()->get_grid_class('container') => [
+						'label' => 'Boxed',
+						'value' => $imagepath . 'layout/header-boxed.png'
+					]
 				]
-			]
-		],"header");
+			],"header");
 
-        $orgzr->update('headerflex_logo_position',[
-            'name' => __( 'Logo Position', 'waboot' ),
-            'desc' => __( 'Select logo align position', 'waboot' ),
-            'id' => 'headerflex_logo_position',
-            'std' => 'center',
-            'type' => 'select',
-            'options' => [
-                'center' => 'Center',
-                'left' => 'Left',
-                'right' => 'Right'
-            ]
-        ],"header");
+			$orgzr->update('headerflex_logo_position',[
+				'name' => __( 'Logo Position', 'waboot' ),
+				'desc' => __( 'Select logo align position', 'waboot' ),
+				'id' => 'headerflex_logo_position',
+				'std' => 'center',
+				'type' => 'select',
+				'options' => [
+					'center' => 'Center',
+					'left' => 'Left',
+					'right' => 'Right'
+				]
+			],"header");
 
-        $orgzr->update("headerflex_nav_position", [
-            'name' => __( 'Navbar Position', 'waboot' ),
-            'desc' => __( 'Select navbar position. Aligned or Below Logo?', 'waboot' ),
-            'id' => 'headerflex_nav_position',
-            'std' => 'aligned',
-            'type' => 'select',
-            'options' => [
-                'aligned' => 'Align to Logo',
-                'below' => 'Below Logo'
-            ]
-        ],'navigation');
+			$orgzr->update("headerflex_nav_position", [
+				'name' => __( 'Navbar Position', 'waboot' ),
+				'desc' => __( 'Select navbar position. Aligned or Below Logo?', 'waboot' ),
+				'id' => 'headerflex_nav_position',
+				'std' => 'aligned',
+				'type' => 'select',
+				'options' => [
+					'aligned' => 'Align to Logo',
+					'below' => 'Below Logo'
+				]
+			],'navigation');
 
-        $orgzr->update('headerflex_nav_align',[
-            'name' => __( 'Navbar Align', 'waboot' ),
-            'desc' => __( 'Select navbar align position', 'waboot' ),
-            'id' => 'headerflex_nav_align',
-            'std' => 'center',
-            'type' => 'select',
-            'options' => [
-                'center' => 'Center',
-                'left' => 'Left',
-                'right' => 'Right'
-            ]
-        ],"navigation");
+			$orgzr->update('headerflex_nav_align',[
+				'name' => __( 'Navbar Align', 'waboot' ),
+				'desc' => __( 'Select navbar align position', 'waboot' ),
+				'id' => 'headerflex_nav_align',
+				'std' => 'center',
+				'type' => 'select',
+				'options' => [
+					'center' => 'Center',
+					'left' => 'Left',
+					'right' => 'Right'
+				]
+			],"navigation");
 
-        $orgzr->update("headerflex_nav_width", [
-            'name' => __( 'Navbar Width', 'waboot' ),
-            'desc' => __( 'Select navbar width. Fluid or Boxed?', 'waboot' ),
-            'id' => 'headerflex_nav_width',
-            'std' => WabootLayout()->get_grid_class('container'),
-            'type' => 'images',
-            'options' => array(
-	            WabootLayout()->get_grid_class('container-fluid') => array (
-                    'label' => 'Fluid',
-                    'value' => $imagepath . 'layout/header-fluid.png'
-                ),
-	            WabootLayout()->get_grid_class('container') => array (
-                    'label' => 'Boxed',
-                    'value' => $imagepath . 'layout/header-boxed.png'
-                )
-            )
-        ],'navigation');
+			$orgzr->update("headerflex_nav_width", [
+				'name' => __( 'Navbar Width', 'waboot' ),
+				'desc' => __( 'Select navbar width. Fluid or Boxed?', 'waboot' ),
+				'id' => 'headerflex_nav_width',
+				'std' => WabootLayout()->get_grid_class('container'),
+				'type' => 'images',
+				'options' => array(
+					WabootLayout()->get_grid_class('container-fluid') => array (
+						'label' => 'Fluid',
+						'value' => $imagepath . 'layout/header-fluid.png'
+					),
+					WabootLayout()->get_grid_class('container') => array (
+						'label' => 'Boxed',
+						'value' => $imagepath . 'layout/header-boxed.png'
+					)
+				)
+			],'navigation');
 
-        $orgzr->update('headerflex_nav_searchbar',[
-            'name' => __( 'Show search bar in Navbar?', 'waboot' ),
-            'desc' => __( 'Default is enabled. Uncheck this box to turn it off.', 'waboot' ),
-            'id'   => 'headerclassic_nav_searchbar',
-            'std'  => '0',
-            'type' => 'checkbox'
-        ],'navigation');
+			$orgzr->update('headerflex_nav_searchbar',[
+				'name' => __( 'Show search bar in Navbar?', 'waboot' ),
+				'desc' => __( 'Default is enabled. Uncheck this box to turn it off.', 'waboot' ),
+				'id'   => 'headerclassic_nav_searchbar',
+				'std'  => '0',
+				'type' => 'checkbox'
+			],'navigation');
+		}catch (\Exception $e){
+			trigger_error($e->getMessage());
+		}
 
 		$orgzr->reset_group();
 		$orgzr->reset_section();

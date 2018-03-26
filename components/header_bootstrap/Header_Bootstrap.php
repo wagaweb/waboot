@@ -73,77 +73,81 @@ class Header_Bootstrap extends \Waboot\Component{
 
 		$orgzr->add_section("header",_x("Header","Theme options section","waboot"));
 
-        $orgzr->update("headerbotstrap_width", [
-            'name' => __( 'Header', 'waboot' ),
-            'desc' => __( 'Select header width. Fluid or Boxed?', 'waboot' ),
-            'id' => 'headerbotstrap_width',
-            'std' => WabootLayout()->get_grid_class('container'),
-            'type' => 'images',
-            'options' => array(
-	            WabootLayout()->get_grid_class('container-fluid') => array (
-                    'label' => 'Fluid',
-                    'value' => $imagepath . 'layout/header-fluid.png'
-                ),
-	            WabootLayout()->get_grid_class('container') => array (
-                    'label' => 'Boxed',
-                    'value' => $imagepath . 'layout/header-boxed.png'
-                )
-            )
-        ],'header');
-
-        $orgzr->update("headerbotstrap_nav_align", [
-            'name' => __( 'Navbar Align', 'waboot' ),
-            'desc' => __( 'Select navbar align. Left or Right?', 'waboot' ),
-            'id' => 'headerbotstrap_nav_align',
-            'std' => 'left',
-            'type' => 'select',
-            'options' => [
-                'left' => 'Left',
-                'right' => 'Right'
-            ]
-        ],'header');
-
-        $orgzr->update('headerbotstrap_nav_searchbar',[
-            'name' => __( 'Show search bar in Header?', 'waboot' ),
-            'desc' => __( 'Default is enabled. Uncheck this box to turn it off.', 'waboot' ),
-            'id'   => 'headerbotstrap_nav_searchbar',
-            'std'  => '0',
-            'type' => 'checkbox'
-        ],'header');
-
-		$orgzr->update('headerbotstrap_nav_mobilestyle',[
-			'name' => __( 'Mobile Nav Style', 'waboot' ),
-			'desc' => __( 'Select your mobile nav style' ,'waboot' ),
-			'id'   => 'headerbotstrap_nav_mobilestyle',
-			'std' => 'inline',
-			'type' => 'images',
-			'options' => array(
-				'inline' => array(
-					'label' => _x('Inline',"mobilenav_style","waboot"),
-					'value' => $imagepath . 'mobile/nav-bootstrap.png'
-				),
-				'offcanvas' => array(
-					'label' => _x('OffCanvas',"mobilenav_style","waboot"),
-					'value' => $imagepath . 'mobile/nav-offcanvas.png'
+		try{
+			$orgzr->update("headerbotstrap_width", [
+				'name' => __( 'Header', 'waboot' ),
+				'desc' => __( 'Select header width. Fluid or Boxed?', 'waboot' ),
+				'id' => 'headerbotstrap_width',
+				'std' => WabootLayout()->get_grid_class('container'),
+				'type' => 'images',
+				'options' => array(
+					WabootLayout()->get_grid_class('container-fluid') => array (
+						'label' => 'Fluid',
+						'value' => $imagepath . 'layout/header-fluid.png'
+					),
+					WabootLayout()->get_grid_class('container') => array (
+						'label' => 'Boxed',
+						'value' => $imagepath . 'layout/header-boxed.png'
+					)
 				)
-			)
-		],"header");
+			],'header');
 
-        $orgzr->update('headerbotstrap_show_offcanvas_logo',[
-            'name' => __( 'Show Logo in Offcanvas Mobile Nav?', 'waboot' ),
-            'desc' => __( 'Choose the visibility of site logo in mobile navigation.', 'waboot' ),
-            'id'   => 'headerbotstrap_show_offcanvas_logo',
-            'std'  => '1',
-            'type' => 'checkbox'
-        ],"navigation");
+			$orgzr->update("headerbotstrap_nav_align", [
+				'name' => __( 'Navbar Align', 'waboot' ),
+				'desc' => __( 'Select navbar align. Left or Right?', 'waboot' ),
+				'id' => 'headerbotstrap_nav_align',
+				'std' => 'left',
+				'type' => 'select',
+				'options' => [
+					'left' => 'Left',
+					'right' => 'Right'
+				]
+			],'header');
 
-        $orgzr->update('headerbotstrap_offcanvas_logo',[
-            'name' => __( 'Mobile Offcanvas logo', 'waboot' ),
-            'desc' => __( 'Choose the logo to display in mobile offcanvas navigation bar', 'waboot' ),
-            'id'   => 'headerbotstrap_offcanvas_logo',
-            'std'  => '',
-            'type' => 'upload'
-        ],"navigation");
+			$orgzr->update('headerbotstrap_nav_searchbar',[
+				'name' => __( 'Show search bar in Header?', 'waboot' ),
+				'desc' => __( 'Default is enabled. Uncheck this box to turn it off.', 'waboot' ),
+				'id'   => 'headerbotstrap_nav_searchbar',
+				'std'  => '0',
+				'type' => 'checkbox'
+			],'header');
+
+			$orgzr->update('headerbotstrap_nav_mobilestyle',[
+				'name' => __( 'Mobile Nav Style', 'waboot' ),
+				'desc' => __( 'Select your mobile nav style' ,'waboot' ),
+				'id'   => 'headerbotstrap_nav_mobilestyle',
+				'std' => 'inline',
+				'type' => 'images',
+				'options' => array(
+					'inline' => array(
+						'label' => _x('Inline',"mobilenav_style","waboot"),
+						'value' => $imagepath . 'mobile/nav-bootstrap.png'
+					),
+					'offcanvas' => array(
+						'label' => _x('OffCanvas',"mobilenav_style","waboot"),
+						'value' => $imagepath . 'mobile/nav-offcanvas.png'
+					)
+				)
+			],"header");
+
+			$orgzr->update('headerbotstrap_show_offcanvas_logo',[
+				'name' => __( 'Show Logo in Offcanvas Mobile Nav?', 'waboot' ),
+				'desc' => __( 'Choose the visibility of site logo in mobile navigation.', 'waboot' ),
+				'id'   => 'headerbotstrap_show_offcanvas_logo',
+				'std'  => '1',
+				'type' => 'checkbox'
+			],"navigation");
+
+			$orgzr->update('headerbotstrap_offcanvas_logo',[
+				'name' => __( 'Mobile Offcanvas logo', 'waboot' ),
+				'desc' => __( 'Choose the logo to display in mobile offcanvas navigation bar', 'waboot' ),
+				'id'   => 'headerbotstrap_offcanvas_logo',
+				'std'  => '',
+				'type' => 'upload'
+			],"navigation");
+		}catch(\Exception $e){
+			trigger_error($e->getMessage());
+		}
 
 		$orgzr->reset_group();
 		$orgzr->reset_section();
