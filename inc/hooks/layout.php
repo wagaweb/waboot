@@ -19,33 +19,33 @@ function alter_body_layout_when_theme_has_no_sidebars($layout){
 			case Layout::LAYOUT_PRIMARY_LEFT:
 			case Layout::LAYOUT_PRIMARY_RIGHT:
 				//If we have one sidebar, and its empty, go to full width
-				if(!Waboot()->layout->can_render_zone("aside-primary")){
+				if(!WabootLayout()->can_render_zone("aside-primary")){
 					$layout = Layout::LAYOUT_FULL_WIDTH;
 				}
 				break;
 			case Layout::LAYOUT_TWO_SIDEBARS:
 				//If we have two sidebar and the primary is empty, go full width
-				if(!Waboot()->layout->can_render_zone("aside-primary")){
+				if(!WabootLayout()->can_render_zone("aside-primary")){
 					$layout = Layout::LAYOUT_FULL_WIDTH;
-				}elseif(!Waboot()->layout->can_render_zone("aside-secondary")){
+				}elseif(!WabootLayout()->can_render_zone("aside-secondary")){
 					//If we have two sidebar and the secondary is empty, go primary right
 					$layout = Layout::LAYOUT_PRIMARY_RIGHT;
 				}
 				break;
 			case Layout::LAYOUT_TWO_SIDEBARS_LEFT:
 				//If we have two sidebar and the primary is empty, go full width
-				if(!Waboot()->layout->can_render_zone("aside-primary")){
+				if(!WabootLayout()->can_render_zone("aside-primary")){
 					$layout = Layout::LAYOUT_FULL_WIDTH;
-				}elseif(!Waboot()->layout->can_render_zone("aside-secondary")){
+				}elseif(!WabootLayout()->can_render_zone("aside-secondary")){
 					//If we have two sidebar to the left and the secondary is empty, go primary left
 					$layout = Layout::LAYOUT_PRIMARY_LEFT;
 				}
 				break;
 			case Layout::LAYOUT_TWO_SIDEBARS_RIGHT:
 				//If we have two sidebar and the primary is empty, go full width
-				if(!Waboot()->layout->can_render_zone("aside-primary")){
+				if(!WabootLayout()->can_render_zone("aside-primary")){
 					$layout = Layout::LAYOUT_FULL_WIDTH;
-				}elseif(!Waboot()->layout->can_render_zone("aside-secondary")){
+				}elseif(!WabootLayout()->can_render_zone("aside-secondary")){
 					//If we have two sidebar to the right and the secondary is empty, go primary right
 					$layout = Layout::LAYOUT_PRIMARY_RIGHT;
 				}

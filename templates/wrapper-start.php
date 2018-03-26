@@ -7,7 +7,7 @@ $main_wrapper_vars = \Waboot\functions\get_main_wrapper_template_vars();
 		/*
 		 * main-top zone
 		 */
-		Waboot()->layout->render_zone("main-top");
+        WabootLayout()->render_zone("main-top");
 		?>
 		<?php
         /*

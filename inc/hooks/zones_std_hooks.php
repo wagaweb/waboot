@@ -57,4 +57,4 @@ function add_main_content(){
 		get_template_part($tpl_part[0],$tpl_part[1]);
 	}
 }
-\Waboot()->layout->add_zone_action("content",__NAMESPACE__."\\add_main_content");
+\WabootLayout()->add_zone_action("content",__NAMESPACE__."\\add_main_content");

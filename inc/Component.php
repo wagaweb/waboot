@@ -29,7 +29,7 @@ class Component extends \WBF\modules\components\Component{
 		$options = parent::theme_options($options);
 
 		if(!function_exists("Waboot")) return $options;
-		$zones = Waboot()->layout->getZones();
+		$zones = WabootLayout()->getZones();
 		if(empty($zones) || !isset($zones['header'])) return $options;
 
 		$zone_options = call_user_func(function() use($zones){

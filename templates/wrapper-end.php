@@ -11,7 +11,7 @@
 	/*
 	 * main-bottom zone
 	 */
-	Waboot()->layout->render_zone("main-bottom");
+	WabootLayout()->render_zone("main-bottom");
 	?>
 	</div><!-- .main-inner -->
 </div><!-- #main-wrapper -->

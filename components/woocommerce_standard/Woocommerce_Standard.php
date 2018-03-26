@@ -441,12 +441,12 @@ class Woocommerce_Standard extends \WBF\modules\components\Component{
 		if($do_calc){
 			if (\Waboot\functions\body_layout_has_two_sidebars()) {
 				//Main size
-				$mainwrap_size = 12 - Waboot()->layout->layout_width_to_int($primary_sidebar_width) - Waboot()->layout->layout_width_to_int($secondary_sidebar_width);
-				$sizes = array("main"=>$mainwrap_size,"primary"=>Waboot()->layout->layout_width_to_int($primary_sidebar_width),"secondary"=>Waboot()->layout->layout_width_to_int($secondary_sidebar_width));
+				$mainwrap_size = 12 - WabootLayout()->layout_width_to_int($primary_sidebar_width) - WabootLayout()->layout_width_to_int($secondary_sidebar_width);
+				$sizes = array("main"=>$mainwrap_size,"primary"=> WabootLayout()->layout_width_to_int($primary_sidebar_width),"secondary"=> WabootLayout()->layout_width_to_int($secondary_sidebar_width));
 			}else{
 				if(\Waboot\functions\get_body_layout() != "full-width"){
-					$mainwrap_size = 12 - Waboot()->layout->layout_width_to_int($primary_sidebar_width);
-					$sizes = array("main"=>$mainwrap_size,"primary"=>Waboot()->layout->layout_width_to_int($primary_sidebar_width));
+					$mainwrap_size = 12 - WabootLayout()->layout_width_to_int($primary_sidebar_width);
+					$sizes = array("main"=>$mainwrap_size,"primary"=> WabootLayout()->layout_width_to_int($primary_sidebar_width));
 				}
 			}
 		}
