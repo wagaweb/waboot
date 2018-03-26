@@ -292,7 +292,8 @@ class Layout{
 	 *
 	 * Called during 'init'.
 	 */
-	public function update_grid_classes($classes){
+	public function update_grid_classes(){
+		$classes = apply_filters('waboot/layout/grid_classes',[]);
 		$default_grid_classes = $this->grid_classes;
 		$classes = wp_parse_args($classes,$default_grid_classes);;
 		$this->grid_classes = $classes;
