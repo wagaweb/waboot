@@ -317,12 +317,12 @@ function do_backups_before_updates($params, $WP_Upgrader){
         if(!\is_array($themes_to_backup) || empty($themes_to_backup)) return;
 
 	    //Do theme options backups
-	    $waboot_updates = get_option('waboot_updates_backups_theme_options',[]);
+	    $waboot_updates = \get_option('waboot_updates_backups_theme_options',[]);
         foreach ($themes_to_backup as $theme){
             if(!$theme instanceof \WP_Theme) continue;
             try{
 	            $filename = backup_theme_options($theme);
-	            $hash = $params['current_version'].'_'.$params['new_version'];
+	            $hash = $params['current_version'].'_'.$params['new_version'].'_'.$theme->get_stylesheet();
 	            $waboot_updates[$hash] = [
 		            'from' => $params['current_version'],
 		            'to' => $params['new_version'],
@@ -333,15 +333,15 @@ function do_backups_before_updates($params, $WP_Upgrader){
                 continue;
             }
         }
-	    update_option('waboot_updates_backups_theme_options',$waboot_updates);
+	    \update_option('waboot_updates_backups_theme_options',$waboot_updates);
 
         //Do components backup
-	    $waboot_updates = get_option('waboot_updates_backups_components',[]);
+	    $waboot_updates = \get_option('waboot_updates_backups_components',[]);
 	    foreach ($themes_to_backup as $theme){
 		    if(!$theme instanceof \WP_Theme) continue;
 		    try{
 			    $filename = backup_components_states($theme);
-			    $hash = $params['current_version'].'_'.$params['new_version'];
+			    $hash = $params['current_version'].'_'.$params['new_version'].'_'.$theme->get_stylesheet();
 			    $waboot_updates[$hash] = [
 				    'from' => $params['current_version'],
 				    'to' => $params['new_version'],
@@ -352,7 +352,7 @@ function do_backups_before_updates($params, $WP_Upgrader){
 		        continue;
             }
 	    }
-	    update_option('waboot_updates_backups_components',$waboot_updates);
+	    \update_option('waboot_updates_backups_components',$waboot_updates);
 
     }catch(\Exception $e){}
 }

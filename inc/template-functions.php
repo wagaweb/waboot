@@ -756,7 +756,7 @@ function backup_theme_options($theme, $filename = null){
 		$theme = wp_get_theme($theme);
 	}
 	if(!$theme instanceof \WP_Theme) return false;
-	$theme_options = get_option("wbf_".$theme->get_stylesheet()."_options",[]);
+	$theme_options = \get_option("wbf_".$theme->get_stylesheet()."_options",[]);
 	if(!\is_array($theme_options) || empty($theme_options)) return false;
 
 	//Actually backup theme options
@@ -767,17 +767,22 @@ function backup_theme_options($theme, $filename = null){
 	if(is_dir($backup_path)){
 		if(!isset($filename) || !\is_string($filename)){
 			$date = date( 'Y-m-d-His' );
-			$backup_filename = $theme->get_stylesheet() . "-" . $date . ".options";
+			$backup_filename = 'wbf_'.$theme->get_stylesheet() . "_options-" . $date . ".options";
 		}else{
 			$backup_filename = $filename;
 			if(strpos($backup_filename,'.options') === false){
 				$backup_filename.= '.options';
 			}
 		}
+
+		if(is_file($backup_path . "/" . $backup_filename)){
+			unlink($backup_path . "/" . $backup_filename);
+		}
+
 		if ( ! file_put_contents( $backup_path . "/" . $backup_filename, base64_encode( json_encode( $theme_options ) ) ) ) {
 			throw new \Exception( __( "Unable to create the backup file: " . $backup_path . "/" . $backup_filename ) );
 		}
-		return $backup_filename;
+		return $backup_path . "/" . $backup_filename;
 	}
 	return false;
 }
@@ -799,13 +804,13 @@ function backup_components_states($theme, $filename = null){
 	if(!$theme instanceof \WP_Theme) return false;
 
 	$states = \call_user_func(function() use($theme){
-		$opt = get_option("wbf_".$theme->get_stylesheet()."_components_state", []);
+		$opt = \get_option("wbf_".$theme->get_stylesheet()."_components_state", []);
 		$opt = apply_filters("wbf/modules/components/states",$opt,$theme->get_stylesheet());
 		return $opt;
 	});
 
 	//Actually backup components options
-	$backup_path = WBF()->get_working_directory(true) . "/{$theme->get_stylesheet()}/theme-options-backups";
+	$backup_path = WBF()->get_working_directory(true) . "/{$theme->get_stylesheet()}/components-backups";
 	if(!is_dir($backup_path)){
 		wp_mkdir_p($backup_path);
 	}
@@ -819,10 +824,15 @@ function backup_components_states($theme, $filename = null){
 				$backup_filename.= '.components';
 			}
 		}
+
+		if(is_file($backup_path . "/" . $backup_filename)){
+			unlink($backup_path . "/" . $backup_filename);
+		}
+
 		if ( ! file_put_contents( $backup_path . "/" . $backup_filename, serialize( $states ) ) ) {
 			throw new \Exception( __( "Unable to create the backup file: " . $backup_path . "/" . $backup_filename ) );
 		}
-		return $backup_filename;
+		return $backup_path . "/" . $backup_filename;
 	}
 	return false;
 }
