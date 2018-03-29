@@ -2,7 +2,6 @@ node_modules/
 bower_components/
 builds/
 npm-debug.log
-yarn.lock
 
 ############
 ## WP
@@ -32,6 +31,7 @@ assets/src/less/tmp_*.*
 assets/cache/*.*
 !assets/cache/.gitkeep
 assets/dist/css/*.css
+!assets/dist/css/font-awesome-4.7.0.min.css
 assets/dist/css/*.map
 assets/src/js/waboot.js
 assets/dist/js/*.js
