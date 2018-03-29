@@ -54,5 +54,8 @@
   "browserify-shim": {
     "jquery": "global:jQuery",
     "underscore": "global:_"
+  },
+  "dependencies": {
+    "vue": "^2.5.8"
   }
 }
