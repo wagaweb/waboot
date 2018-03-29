@@ -1,5 +1,11 @@
 == Change log ==
 
+Version 2.3.2 -
+---------------------------------
+- Tweak: Update FontAwesome
+- Feature: Added an option to select which FontAwesome version to include
+- Feature: Added an auto-backup feature when updating the theme
+
 Version 2.3.1 - 03/12/2018
 ---------------------------------
 - Fix: get_archive_page_title() fixed
