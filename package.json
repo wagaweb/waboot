@@ -12,24 +12,24 @@
     "node": ">= 4.4.3"
   },
   "devDependencies": {
-    "autoprefixer": "^7.0.0",
+    "autoprefixer": "^8.2.0",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "babelify": "^8.0.0",
-    "browserify": "^14.5.0",
+    "browserify": "^16.1.1",
     "browserify-shim": "^3.8.14",
     "copy": "^0.3.1",
     "cssnano": "^3.10.0",
     "gulp": "^3.8.11",
-    "gulp-bower": "0.0.13",
+    "gulp-bower": "0.0.14",
     "gulp-concat": "^2.5.2",
     "gulp-copy": "^1.0.0",
     "gulp-csso": "^3.0.0",
     "gulp-jsmin": "^0.1.5",
     "gulp-postcss": "^7.0.0",
     "gulp-rename": "^1.2.2",
-    "gulp-sass": "^3.0.0",
+    "gulp-sass": "^3.2.1",
     "gulp-sort": "^2.0.0",
     "gulp-sourcemaps": "^2.6.0",
     "gulp-uglify": "^3.0.0",
@@ -37,10 +37,10 @@
     "gulp-zip": "^4.0.0",
     "merge-stream": "^1.0.0",
     "pixrem": "^4.0.1",
-    "require-dir": "^0.3.2",
+    "require-dir": "^1.0.0",
     "run-sequence": "^2.2.0",
     "vinyl-buffer": "^1.0.0",
-    "vinyl-source-stream": "^1.1.0"
+    "vinyl-source-stream": "^2.0.0"
   },
   "browserify": {
     "transform": [
@@ -54,5 +54,8 @@
   "browserify-shim": {
     "jquery": "global:jQuery",
     "underscore": "global:_"
+  },
+  "dependencies": {
+    "npm": "^5.8.0"
   }
 }
