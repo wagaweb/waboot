@@ -94,6 +94,8 @@ add_action( 'pre_get_posts', __NAMESPACE__.'\\ignore_sticky_post_in_archives' );
  */
 function set_update_server(){
     if(\defined('WABOOT_NO_UPDATE') && WABOOT_NO_UPDATE) return;
+    $no_update = get_option('WABOOT_NO_UPDATE',false);
+    if($no_update) return;
 
 	$slug = "waboot";
 
