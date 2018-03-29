@@ -1,0 +1,28 @@
+/*!
+ * Bootstrap v3.3.7 (http://getbootstrap.com)
+ * Copyright 2011-2016 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+ */
+
+//Bootstrap browser compatibility
+//http://getbootstrap.com/getting-started/#support
+@-webkit-viewport   { width: device-width; }
+@-moz-viewport      { width: device-width; }
+@-ms-viewport       { width: device-width; }
+@-o-viewport        { width: device-width; }
+@viewport           { width: device-width; }
+
+//** Padding between columns. Gets divided in half for the left and right.
+$grid-gutter-width: 20px; //Was: 30px !default;
+
+// Small screen / tablet
+$container-tablet: (720px + $grid-gutter-width); //Was: (720px + $grid-gutter-width) !default
+
+// Medium screen / desktop
+$container-desktop: (948px + $grid-gutter-width); //Was: (940px + $grid-gutter-width) !default
+
+// Large screen / wide desktop
+$container-large-desktop: (1152px + $grid-gutter-width); //Was: (1140px + $grid-gutter-width) !default
+
+
+@import "../../../../../assets/vendor/bootstrap-sass/assets/stylesheets/bootstrap";

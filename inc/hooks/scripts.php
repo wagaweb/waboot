@@ -12,11 +12,6 @@ function enqueue_js() {
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ){
 		wp_enqueue_script( 'comment-reply' );
 	}
-	
-	if(!is_admin() && wbf_exists()){
-		//Bootstrap
-		wp_enqueue_script( 'bootstrap.js', wbf_locate_template_uri( 'assets/dist/js/bootstrap.min.js' )."#asyncload", array( 'jquery' ), false, true );
-	}
 
 	//Main scripts:
 	$wpData = apply_filters("wbft/js/localization",array(

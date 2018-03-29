@@ -34,7 +34,6 @@ var paths = {
     bundlejs: ['./assets/dist/js/waboot.js'],
     scsses: './assets/src/sass/**/*.scss',
     main_scss: './assets/src/sass/waboot.scss',
-    main_classic_scss: './assets/src/sass/waboot-classic-bootstrap.scss',
     main_admin_scss: './assets/src/sass/waboot-admin.scss',
     tinymce_admin_scss: './assets/src/sass/admin/tinymce.scss',
     build: [
@@ -76,14 +75,6 @@ gulp.task('compile_css',function(){
         .pipe(sourcemaps.write("."))
         .pipe(gulp.dest('./assets/dist/css'));
 
-    var frontend_classic = gulp.src(paths.main_classic_scss)
-        .pipe(sourcemaps.init())
-        .pipe(sass({includePaths: ["assets/vendor/bootstrap-sass/assets/stylesheets"]}).on('error', sass.logError))
-        .pipe(postcss(processors))
-        .pipe(rename(theme_slug+'-classic.min.css'))
-        .pipe(sourcemaps.write("."))
-        .pipe(gulp.dest('./assets/dist/css'));
-
     var backend = gulp.src(paths.main_admin_scss)
         .pipe(sourcemaps.init())
         .pipe(sass().on('error', sass.logError))
@@ -110,7 +101,7 @@ gulp.task('compile_css',function(){
         .pipe(sourcemaps.write("."))
         .pipe(gulp.dest('./components/woocommerce_standard/assets/dist/css'));
 
-    return merge(frontend,frontend_classic,backend,tinymce,comp_woocommerce_standard);
+    return merge(frontend,backend,tinymce,comp_woocommerce_standard);
 });
 
 /**

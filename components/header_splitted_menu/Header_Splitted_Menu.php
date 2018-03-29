@@ -33,7 +33,7 @@ class Header_Splitted_Menu extends \Waboot\Component{
         parent::run();
         $display_zone = $this->get_display_zone();
         $display_priority = $this->get_display_priority();
-        Waboot()->layout->add_zone_action($display_zone,[$this,"display_tpl"],intval($display_priority));
+	    WabootLayout()->add_zone_action($display_zone,[$this,"display_tpl"],intval($display_priority));
     }
 
     public function display_tpl(){

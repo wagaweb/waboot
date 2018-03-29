@@ -28,7 +28,7 @@ class Footer_Classic extends \Waboot\Component {
 		parent::run();
 		$display_zone = $this->get_display_zone();
 		$display_priority = $this->get_display_priority();
-		Waboot()->layout->add_zone_action($display_zone,[$this,"display_tpl"],intval($display_priority));
+		WabootLayout()->add_zone_action($display_zone,[$this,"display_tpl"],intval($display_priority));
 	}
 
 	public function widgets() {
@@ -50,8 +50,8 @@ class Footer_Classic extends \Waboot\Component {
 		$footer_text = \Waboot\functions\get_option('custom_footer_toggle') ? \Waboot\functions\get_option('custom_footer_text') : $default_footer_text;
 
 		$args = [
-			'closure_width' => of_get_option( 'closure_width','container' ),
-			'custom_footer_toggle' => of_get_option( 'custom_footer_toggle','container' ),
+			'closure_width' => of_get_option( 'closure_width',WabootLayout()->get_grid_class('container') ),
+			'custom_footer_toggle' => of_get_option( 'custom_footer_toggle',WabootLayout()->get_grid_class('container') ),
 			'footer_text' => $footer_text,
 			"social_position" => Waboot\functions\get_option('social_position'),
 			'display_socials' => Waboot\functions\get_option("social_position_none") == 1 || Waboot\functions\get_option('social_position') != "navigation" ? false : true,
@@ -99,14 +99,14 @@ class Footer_Classic extends \Waboot\Component {
 			'name' => __( 'Footer Classic Width', 'waboot' ),
 			'desc' => __( 'Select footer width. Fluid or Boxed?', 'waboot' ),
 			'id' => 'footer_classic_width',
-			'std' => 'container',
+			'std' => WabootLayout()->get_grid_class('container'),
 			'type' => 'images',
 			'options' => array(
-				'container-fluid' => array (
+				WabootLayout()->get_grid_class('container-fluid') => array (
 					'label' => 'Fluid',
 					'value' => $imagepath . 'layout/footer-fluid.png'
 				),
-				'container' => array (
+				WabootLayout()->get_grid_class('container') => array (
 					'label' => 'Boxed',
 					'value' => $imagepath . 'layout/footer-boxed.png'
 				)
@@ -126,14 +126,14 @@ class Footer_Classic extends \Waboot\Component {
 			'name' => __( 'Closure', 'waboot' ),
 			'desc' => __( 'Select closure width. Fluid or Boxed?', 'waboot' ),
 			'id' => 'closure_width',
-			'std' => 'container',
+			'std' => WabootLayout()->get_grid_class('container'),
 			'type' => 'images',
 			'options' => array(
-				'container-fluid' => array (
+				WabootLayout()->get_grid_class('container-fluid') => array (
 					'label' => 'Fluid',
 					'value' => $imagepath . 'layout/closure-fluid.png'
 				),
-				'container' => array (
+				WabootLayout()->get_grid_class('container') => array (
 					'label' => 'Boxed',
 					'value' => $imagepath . 'layout/closure-boxed.png'
 				)

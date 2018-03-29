@@ -83,7 +83,7 @@ function waboot_init(){
 		$wb->layout->create_zone("page-after",false);
 		$wb->layout->create_zone("footer",false,["always_load"=>true]);
 	}catch(\Exception $e){
-		trigger_error($e->getMessage(), E_USER_ERROR);
+		trigger_error($e->getMessage());
 	}
 
 	//Loads std hooks
@@ -106,6 +106,21 @@ function Waboot(){
 	if(class_exists("\\Waboot\\Theme")){
 		$waboot = new Waboot\Theme(new \Waboot\Layout(),new \WP_Styles());
 		return $waboot;
+	}else{
+		trigger_error("Unable to find \Waboot\Theme class", E_USER_NOTICE);
+		return false;
+	}
+}
+
+/**
+ * Returns Theme Layout() instance
+ *
+ * @return bool|\Waboot\Layout
+ */
+function WabootLayout(){
+	$waboot = Waboot();
+	if($waboot instanceof \Waboot\Theme){
+		return $waboot->layout;
 	}else{
 		trigger_error("Unable to find \Waboot\Theme class", E_USER_NOTICE);
 		return false;

@@ -36,7 +36,7 @@ class Navbar_Vertical extends \Waboot\Component{
 		parent::run();
 		$display_zone = $this->get_display_zone();
 		$display_priority = $this->get_display_priority();
-		Waboot()->layout->add_zone_action($display_zone,[$this,"display_tpl"],intval($display_priority));
+		WabootLayout()->add_zone_action($display_zone,[$this,"display_tpl"],intval($display_priority));
 	}
 
 	public function display_tpl(){
@@ -69,31 +69,35 @@ class Navbar_Vertical extends \Waboot\Component{
 
 		$orgzr->add_section("navigation",_x("Navigation","Theme options section","waboot"));
 
-		$orgzr->update('navbarvertical_mobilestyle',[
-			'name' => __( 'Mobile Nav Style', 'waboot' ),
-			'desc' => __( 'Select your mobile nav style' ,'waboot' ),
-			'id'   => 'navbarvertical_mobilestyle',
-			'std' => 'inline',
-			'type' => 'images',
-			'options' => array(
-				'inline' => array(
-					'label' => _x('Inline',"mobilenav_style","waboot"),
-					'value' => $imagepath . 'mobile/nav-bootstrap.png'
-				),
-				'offcanvas' => array(
-					'label' => _x('OffCanvas',"mobilenav_style","waboot"),
-					'value' => $imagepath . 'mobile/nav-offcanvas.png'
+		try{
+			$orgzr->update('navbarvertical_mobilestyle',[
+				'name' => __( 'Mobile Nav Style', 'waboot' ),
+				'desc' => __( 'Select your mobile nav style' ,'waboot' ),
+				'id'   => 'navbarvertical_mobilestyle',
+				'std' => 'inline',
+				'type' => 'images',
+				'options' => array(
+					'inline' => array(
+						'label' => _x('Inline',"mobilenav_style","waboot"),
+						'value' => $imagepath . 'mobile/nav-bootstrap.png'
+					),
+					'offcanvas' => array(
+						'label' => _x('OffCanvas',"mobilenav_style","waboot"),
+						'value' => $imagepath . 'mobile/nav-offcanvas.png'
+					)
 				)
-			)
-		],"navigation");
+			],"navigation");
 
-		$orgzr->update('navbarvertical_searchbar',[
-			'name' => __( 'Show search bar in Header?', 'waboot' ),
-			'desc' => __( 'Default is enabled. Uncheck this box to turn it off.', 'waboot' ),
-			'id'   => 'navbarvertical_searchbar',
-			'std'  => '0',
-			'type' => 'checkbox'
-		],'navigation');
+			$orgzr->update('navbarvertical_searchbar',[
+				'name' => __( 'Show search bar in Header?', 'waboot' ),
+				'desc' => __( 'Default is enabled. Uncheck this box to turn it off.', 'waboot' ),
+				'id'   => 'navbarvertical_searchbar',
+				'std'  => '0',
+				'type' => 'checkbox'
+			],'navigation');
+		}catch (\Exception $e){
+			trigger_error($e->getMessage());
+		}
 
 		$orgzr->reset_group();
 		$orgzr->reset_section();

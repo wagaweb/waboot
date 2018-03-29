@@ -236,9 +236,12 @@ class Woocommerce_Standard extends \WBF\modules\components\Component{
 			'name' => __('Items for Row', 'waboot'),
 			'desc' => __('How many items display for row', 'waboot'),
 			'id' => 'woocommerce_cat_items',
-			'std' => 'col-sm-3',
+			'std' => '3',
 			'type' => 'select',
-			'options' => array('col-sm-3' => '4', 'col-sm-4' => '3')
+			'options' => array(
+				'3' => '3',
+				'4' => '4'
+			)
 		));
 
 		$orgzr->add(array(
@@ -307,7 +310,7 @@ class Woocommerce_Standard extends \WBF\modules\components\Component{
 		if(is_shop()){
 			$page_shop_id = wc_get_page_id( 'shop' );
 			foreach ($classes as $k => $class_name){
-				if($class_name === 'container' || $class_name === 'container-fluid'){
+				if($class_name === WabootLayout()->get_grid_class('container') || $class_name === WabootLayout()->get_grid_class('container-fluid')){
 					$classes[$k] = \WBF\modules\behaviors\get_behavior('content-width',$page_shop_id);
 					break;
 				}
@@ -441,12 +444,12 @@ class Woocommerce_Standard extends \WBF\modules\components\Component{
 		if($do_calc){
 			if (\Waboot\functions\body_layout_has_two_sidebars()) {
 				//Main size
-				$mainwrap_size = 12 - Waboot()->layout->layout_width_to_int($primary_sidebar_width) - Waboot()->layout->layout_width_to_int($secondary_sidebar_width);
-				$sizes = array("main"=>$mainwrap_size,"primary"=>Waboot()->layout->layout_width_to_int($primary_sidebar_width),"secondary"=>Waboot()->layout->layout_width_to_int($secondary_sidebar_width));
+				$mainwrap_size = 12 - WabootLayout()->layout_width_to_int($primary_sidebar_width) - WabootLayout()->layout_width_to_int($secondary_sidebar_width);
+				$sizes = array("main"=>$mainwrap_size,"primary"=> WabootLayout()->layout_width_to_int($primary_sidebar_width),"secondary"=> WabootLayout()->layout_width_to_int($secondary_sidebar_width));
 			}else{
 				if(\Waboot\functions\get_body_layout() != "full-width"){
-					$mainwrap_size = 12 - Waboot()->layout->layout_width_to_int($primary_sidebar_width);
-					$sizes = array("main"=>$mainwrap_size,"primary"=>Waboot()->layout->layout_width_to_int($primary_sidebar_width));
+					$mainwrap_size = 12 - WabootLayout()->layout_width_to_int($primary_sidebar_width);
+					$sizes = array("main"=>$mainwrap_size,"primary"=> WabootLayout()->layout_width_to_int($primary_sidebar_width));
 				}
 			}
 		}
@@ -589,7 +592,8 @@ class Woocommerce_Standard extends \WBF\modules\components\Component{
 
 		global $woocommerce_loop;
 
-		if(is_admin()) return $classes; //skip for admin
+		$doing_ajax = defined('DOING_AJAX') && DOING_AJAX;
+		if(is_admin() && !$doing_ajax) return $classes; //skip for admin
 
 		if(is_single()){
 			//skip for single
@@ -600,7 +604,15 @@ class Woocommerce_Standard extends \WBF\modules\components\Component{
 			}
 		}
 
-		$classes[] = of_get_option('woocommerce_cat_items', 'col-sm-3');
+		$cat_items = of_get_option('woocommerce_cat_items','3');
+		if($cat_items === '3'){
+			$cat_items_class = WabootLayout()->get_col_grid_class().'sm-4';
+		}elseif($cat_items === '4'){
+			$cat_items_class = WabootLayout()->get_col_grid_class().'sm-3';
+		}else{
+			$cat_items_class = WabootLayout()->get_col_grid_class().'sm-4';
+		}
+		$classes[] = $cat_items_class;
 
 		return $classes;
 	}

@@ -40,7 +40,7 @@ if ( post_password_required() ) {
 
 <article id="product-<?php the_ID(); ?>" <?php post_class(); ?>>
 
-<div class="row">
+<div class="wbrow">
     <div class="col-sm-6 product-gallery">
         <?php
         /**

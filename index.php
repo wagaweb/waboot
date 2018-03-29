@@ -10,7 +10,7 @@
 		 *
 		 * @\Waboot\hooks\add_main_content()
 		 */
-		Waboot()->layout->render_zone("content");
+		WabootLayout()->render_zone("content");
 	}catch(Exception $error){
 		$e = new \WBF\components\mvc\HTMLView("templates/view-parts/content-errors.php");
 		$e->clean()->display(['Error' => $error,'message' => $error->getMessage()]);
