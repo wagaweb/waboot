@@ -49,6 +49,7 @@ var paths = {
         "!bower.json",
         "!Movefile-sample",
         "!yarn.lock",
+        "!./package-lock.json",
         "!*.log",
         "!{tests,tests/**}",
         "!{vendor,vendor/**}",
