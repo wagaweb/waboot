@@ -93,6 +93,8 @@ add_action( 'pre_get_posts', __NAMESPACE__.'\\ignore_sticky_post_in_archives' );
  * Manage Waboot Update Server
  */
 function set_update_server(){
+    if(\defined('WABOOT_NO_UPDATE') && WABOOT_NO_UPDATE) return;
+
 	$slug = "waboot";
 
 	$channel = get_update_channel('waboot_theme');
