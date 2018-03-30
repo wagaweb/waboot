@@ -1,6 +1,8 @@
 <?php
 
 namespace Waboot\hooks;
+use function Waboot\functions\backup_components_states;
+use function Waboot\functions\backup_theme_options;
 use Waboot\LS;
 use WBF\components\customupdater\Theme_Update_Checker;
 use WBF\components\license\License_Manager;
