@@ -298,6 +298,17 @@ function on_before_update($reply, $package, $WP_Upgrader){
 add_filter('upgrader_pre_download', __NAMESPACE__."\\on_before_update",99,3);
 
 /**
+ * Save the current Waboot version before the actual update
+ *
+ * @param $params
+ * @param $WP_Upgrader
+ */
+function save_waboot_version_before_update($params, $WP_Upgrader){
+    update_option('waboot_pre_upgrade_version', wp_get_theme('waboot')['Version']);
+}
+add_action('waboot/before_update', __NAMESPACE__."\\save_waboot_version_before_update",10,2);
+
+/**
  * Create a theme options backup before an update
  *
  * @param $params
