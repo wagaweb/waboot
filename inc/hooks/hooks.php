@@ -275,13 +275,14 @@ add_filter("wbf/modules/components/component/default_options",__NAMESPACE__ ."\\
  */
 function on_before_update($reply, $package, $WP_Upgrader){
 	if(!$WP_Upgrader instanceof  \Theme_Upgrader) return $reply;
-	if(strpos( $package, 'waboot' ) !== false) return $reply;
+	$package = "http://update.waboot.org/resource/get/theme/waboot/2.3.1";
+	if(strpos( $package, 'waboot' ) === false) return $reply;
 
 	//Detect update infos
 	$theme = wp_get_theme('waboot');
 	$current_version = $theme['Version'];
 	$new_version = \call_user_func(function() use($package){
-		preg_match('/-([0-9.]+)/',$package,$matches);
+		preg_match('/\/-?([0-9.]+)/',$package,$matches);
 		if(\is_array($matches) && !empty($matches)){
 			return $matches[1];
 		}
@@ -302,6 +303,17 @@ function on_before_update($reply, $package, $WP_Upgrader){
     return $reply;
 }
 add_filter('upgrader_pre_download', __NAMESPACE__."\\on_before_update",99,3);
+
+/**
+ * Save the current Waboot version before the actual update
+ *
+ * @param $params
+ * @param $WP_Upgrader
+ */
+function save_waboot_version_before_update($params, $WP_Upgrader){
+    update_option('waboot_pre_upgrade_version', wp_get_theme('waboot')['Version']);
+}
+add_action('waboot/before_update', __NAMESPACE__."\\save_waboot_version_before_update",10,2);
 
 /**
  * Create a theme options backup before an update
