@@ -275,7 +275,6 @@ add_filter("wbf/modules/components/component/default_options",__NAMESPACE__ ."\\
  */
 function on_before_update($reply, $package, $WP_Upgrader){
 	if(!$WP_Upgrader instanceof  \Theme_Upgrader) return $reply;
-	$package = "http://update.waboot.org/resource/get/theme/waboot/2.3.1";
 	if(strpos( $package, 'waboot' ) === false) return $reply;
 
 	//Detect update infos
