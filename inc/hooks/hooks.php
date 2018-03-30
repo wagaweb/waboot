@@ -3,6 +3,7 @@
 namespace Waboot\hooks;
 use function Waboot\functions\backup_components_states;
 use function Waboot\functions\backup_theme_options;
+use function Waboot\functions\get_waboot_children;
 use Waboot\LS;
 use WBF\components\customupdater\Theme_Update_Checker;
 use WBF\components\license\License_Manager;
@@ -271,13 +272,14 @@ add_filter("wbf/modules/components/component/default_options",__NAMESPACE__ ."\\
  */
 function on_before_update($reply, $package, $WP_Upgrader){
 	if(!$WP_Upgrader instanceof  \Theme_Upgrader) return $reply;
-	if(strpos( $package, 'waboot' ) !== false) return $reply;
+	$package = "http://update.waboot.org/resource/get/theme/waboot/2.3.1";
+	if(strpos( $package, 'waboot' ) === false) return $reply;
 
 	//Detect update infos
 	$theme = wp_get_theme('waboot');
 	$current_version = $theme['Version'];
 	$new_version = \call_user_func(function() use($package){
-		preg_match('/-([0-9.]+)/',$package,$matches);
+		preg_match('/\/-?([0-9.]+)/',$package,$matches);
 		if(\is_array($matches) && !empty($matches)){
 			return $matches[1];
 		}
