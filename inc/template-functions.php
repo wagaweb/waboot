@@ -188,24 +188,50 @@ function get_index_page_title(){
  * @return string
  */
 function get_archive_page_title(){
+	$display_prefix = apply_filters('waboot/layout/archive_page_title/prepend_prefix', false);
+
 	if ( is_category() ) {
 		/* translators: Category archive title. 1: Category name */
-		$title = sprintf( __( 'Category: %s' ), single_cat_title( '', false ) );
+		if($display_prefix){
+			$title = sprintf( __( 'Category: %s' ), single_cat_title( '', false ) );
+		}else{
+			$title = sprintf( __( '%s' ), single_cat_title( '', false ) );
+		}
 	} elseif ( is_tag() ) {
 		/* translators: Tag archive title. 1: Tag name */
-		$title = sprintf( __( 'Tag: %s' ), single_tag_title( '', false ) );
+		if($display_prefix){
+			$title = sprintf( __( 'Tag: %s' ), single_tag_title( '', false ) );
+		}else{
+			$title = sprintf( __( '%s' ), single_tag_title( '', false ) );
+		}
 	} elseif ( is_author() ) {
 		/* translators: Author archive title. 1: Author name */
-		$title = sprintf( __( 'Author: %s' ), '<span class="vcard">' . get_the_author() . '</span>' );
+		if($display_prefix){
+			$title = sprintf( __( 'Author: %s' ), '<span class="vcard">' . get_the_author() . '</span>' );
+		}else{
+			$title = sprintf( __( '%s' ), '<span class="vcard">' . get_the_author() . '</span>' );
+		}
 	} elseif ( is_year() ) {
 		/* translators: Yearly archive title. 1: Year */
-		$title = sprintf( __( 'Year: %s' ), get_the_date( _x( 'Y', 'yearly archives date format' ) ) );
+		if($display_prefix){
+			$title = sprintf( __( 'Year: %s' ), get_the_date( _x( 'Y', 'yearly archives date format' ) ) );
+		}else{
+			$title = sprintf( __( '%s' ), get_the_date( _x( 'Y', 'yearly archives date format' ) ) );
+		}
 	} elseif ( is_month() ) {
 		/* translators: Monthly archive title. 1: Month name and year */
-		$title = sprintf( __( 'Month: %s' ), get_the_date( _x( 'F Y', 'monthly archives date format' ) ) );
+		if($display_prefix){
+			$title = sprintf( __( 'Month: %s' ), get_the_date( _x( 'F Y', 'monthly archives date format' ) ) );
+		}else{
+			$title = sprintf( __( '%s' ), get_the_date( _x( 'F Y', 'monthly archives date format' ) ) );
+		}
 	} elseif ( is_day() ) {
 		/* translators: Daily archive title. 1: Date */
-		$title = sprintf( __( 'Day: %s' ), get_the_date( _x( 'F j, Y', 'daily archives date format' ) ) );
+		if($display_prefix){
+			$title = sprintf( __( 'Day: %s' ), get_the_date( _x( 'F j, Y', 'daily archives date format' ) ) );
+		}else{
+			$title = sprintf( __( '%s' ), get_the_date( _x( 'F j, Y', 'daily archives date format' ) ) );
+		}
 	} elseif ( is_tax( 'post_format' ) ) {
 		if ( is_tax( 'post_format', 'post-format-aside' ) ) {
 			$title = _x( 'Asides', 'post format archive title' );
@@ -228,11 +254,19 @@ function get_archive_page_title(){
 		}
 	} elseif ( is_post_type_archive() ) {
 		/* translators: Post type archive title. 1: Post type name */
-		$title = sprintf( __( 'Archives: %s' ), post_type_archive_title( '', false ) );
+		if($display_prefix){
+			$title = sprintf( __( 'Archives: %s' ), post_type_archive_title( '', false ) );
+		}else{
+			$title = sprintf( __( '%s' ), post_type_archive_title( '', false ) );
+		}
 	} elseif ( is_tax() ) {
 		$tax = get_taxonomy( get_queried_object()->taxonomy );
 		/* translators: Taxonomy term archive title. 1: Taxonomy singular name, 2: Current taxonomy term */
-		$title = sprintf( __( '%1$s: %2$s' ), $tax->labels->singular_name, single_term_title( '', false ) );
+		if($display_prefix){
+			$title = sprintf( __( '%1$s: %2$s' ), $tax->labels->singular_name, single_term_title( '', false ) );
+		}else{
+			$title = sprintf( __( '%1$s' ), single_term_title( '', false ) );
+		}
 	} else {
 		$arch_obj = get_queried_object();
 		if(isset($arch_obj->name)){
