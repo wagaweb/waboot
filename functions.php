@@ -10,6 +10,7 @@ waboot_init();
 function waboot_init(){
 	$waboot_includes = [
 		'inc/template-functions.php',
+		'inc/components-functions.php',
 		'inc/template-tags.php',
 		'inc/postformat-helpers.php',
 		'inc/terms-tags.php',
