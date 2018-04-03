@@ -2,6 +2,7 @@
 
 namespace Waboot;
 
+use function Waboot\functions\components\install_remote_component;
 use function Waboot\functions\wbf_exists;
 use WBF\components\utils\Paths;
 use WBF\components\utils\Utilities;
@@ -359,6 +360,34 @@ class Theme{
 		return $generators;
 	}
 
+	/*
+	public function read_generator_steps($generator_slug){
+		$generators = Theme::get_generators();
+		$steps = [];
+		if(!array_key_exists($generator_slug,$generators)){
+			return $steps;
+		}
+		$selected_generator = $generators[$generator_slug];
+		try{
+			$generator_instance = $this->get_generator_instance($generator_slug,$selected_generator);
+			if(isset($selected_generator->pre_actions) && \is_array($selected_generator->pre_actions) && !empty($selected_generator->pre_actions)){
+				$methods = $this->get_generator_methods($selected_generator,$generator_instance,self::GENERATOR_STEP_PRE_ACTIONS);
+				foreach ($methods as $method_key => $method_name){
+					$steps = [
+						'context' => self::GENERATOR_STEP_PRE_ACTIONS,
+						'type' => 'method',
+						'action' => 'execute',
+						'action_name' => $method_name,
+						'action_subject' => $selected_generator
+					];
+				}
+			}
+		}catch(\Exception $e){
+			return $steps;
+		}
+	}*/
+
+
 	/**
 	 * Handle a generator
 	 *
@@ -431,10 +460,17 @@ class Theme{
 				}
 				if(isset($selected_generator->components) && is_array($selected_generator->components) && !empty($selected_generator->components)){
 					foreach ($selected_generator->components as $component_to_enable){
-						if(in_array($component_to_enable,$child_components)){
-							ComponentsManager::enable($component_to_enable, true); //Selectively enable components
+						if(!ComponentsManager::is_present($component_to_enable)){
+							$component_installed = install_remote_component($component_to_enable);
 						}else{
-							ComponentsManager::enable($component_to_enable); //Selectively enable components
+							$component_installed = true;
+						}
+						if($component_installed){
+							if(\in_array($component_to_enable,$child_components)){
+								ComponentsManager::enable($component_to_enable, true); //Selectively enable components
+							}else{
+								ComponentsManager::enable($component_to_enable); //Selectively enable components
+							}
 						}
 					}
 				}
