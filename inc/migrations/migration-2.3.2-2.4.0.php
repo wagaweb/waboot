@@ -29,6 +29,7 @@ add_action('init', function(){
 			$states = file_get_contents($last_backupped_components_states_update['file']);
 			$states = unserialize($states);
 			if(is_array($states) && !empty($states)){
+				$states['bootstrap'] = 1; //Force bootstrap
 				foreach($states as $component_slug => $state){
 					if($state === 1){
 						$installed_component = array_key_exists('installed_component_'.$component_slug,$current_migration) && $current_migration['installed_component_'.$component_slug];
