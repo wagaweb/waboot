@@ -8,6 +8,7 @@ use function Waboot\functions\components\install_remote_component;
 
 add_action('init', function(){
 	$migrations = \get_option('waboot-migrations', []);
+
 	if(array_key_exists('2.3.2-2.4.0',$migrations) && isset($migrations['2.3.2-2.4.0']['status']) && $migrations['2.3.2-2.4.0']['status'] === 'done') return;
 
 	if(!isset($migrations['2.3.2-2.4.0'])){
@@ -17,7 +18,7 @@ add_action('init', function(){
 	}
 
 	$current_migration = $migrations['2.3.2-2.4.0'];
-	$complete = true;
+	$complete = false;
 
 	if(is_admin()){
 		$backupped_components_states = \get_option('waboot_updates_backups_components');
@@ -32,18 +33,19 @@ add_action('init', function(){
 					if($state === 1){
 						$installed_component = array_key_exists('installed_component_'.$component_slug,$current_migration) && $current_migration['installed_component_'.$component_slug];
 						if(!$installed_component){
-							$complete = false;
-							$msg = sprintf(__('You must install and activate the component: %s. Please <a href="%s">click here</a> to do it'),$component_slug,add_query_arg(['waboot_perform_updates' => 'component','comp_slug' => $component_slug]));
+							$steps_to_performs[] = 'install-component_'.$component_slug;
+							$msg = sprintf(__('You must install and activate the component: %s. Please <a href="%s">click here</a> to do it'),$component_slug,add_query_arg(['waboot_perform_updates' => 'component','comp_slug' => $component_slug],admin_url()));
 							WBF()->get_service_manager()->get_notice_manager()->add_notice('must_install_component_'.$component_slug,$msg,'nag','_flash_');
 						}else{
 							WBF()->get_service_manager()->get_notice_manager()->remove_notice('must_install_component_'.$component_slug);
 						}
 					}
 				}
+				if(!isset($steps_to_performs) || empty($steps_to_performs)){
+					$complete = true;
+				}
 			}
 		}
-	}else{
-		$complete = false;
 	}
 
 	if($complete){
