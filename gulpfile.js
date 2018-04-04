@@ -59,6 +59,28 @@ var paths = {
     ]
 };
 
+var available_components = [
+    'admin_tweaks',
+    'blog_timeline',
+    'blog_masonry',
+    'bootstrap',
+    'breadcrumb',
+    'footer_classic',
+    'footer_flex',
+    'header_bootstrap',
+    'header_splitted_menu',
+    'header_classic',
+    'header_fixed',
+    'header_flex',
+    'image_modal',
+    'lazyload',
+    'legal_data',
+    'navbar_vertical',
+    'sample',
+    'topNavWrapper',
+    'woocommerce_standard'
+];
+
 /**
  * Compile .less into waboot.min.css
  */
@@ -227,6 +249,55 @@ gulp.task('setup', function(callback) {
 gulp.task('build', function(callback) {
     runSequence('bower-update', 'copy-vendors',['compile_js', 'compile_css'], 'make-package', 'archive', callback);
 });
+
+/*
+ * COMPONENTS: BEGIN
+ */
+
+/**
+ * Create directories for components
+ */
+gulp.task('components-add-dirs', function(){
+    var exec = require('child_process').exec;
+    var components = available_components;
+    for(var i = 0, len = components.length; i < len; i++){
+        console.log("*** Exec mkdir "+components[i]);
+        exec('mkdir components/'+components[i], function(err, stdout, stderr) {
+            if(err){
+                console.log(stderr);
+                return;
+            }
+        });
+    }
+});
+
+/**
+ * Create directories for components
+ */
+gulp.task('components-pull-remotes', function(){
+    var exec = require('child_process').exec;
+    var components = available_components;
+    for(var i = 0, len = components.length; i < len; i++){
+        console.log("*** Pulling "+components[i]);
+        exec('cd components/'+components[i]+' && git clone git@github.com:wagaweb/waboot-component-'+components[i]+'.git .', function(err, stdout, stderr) {
+            if(err){
+                console.log(stderr);
+                return;
+            }
+        });
+    }
+});
+
+/**
+ * Default task
+ */
+gulp.task('setup-components', function(callback){
+    runSequence('components-add-dirs', 'components-pull-remotes', callback);
+});
+
+/*
+ * COMPONENTS: END
+ */
 
 /**
  * Rerun the task when a file changes
