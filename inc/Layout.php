@@ -312,6 +312,22 @@ class Layout{
 	}
 
 	/**
+	 * Return the container class based on $type
+	 *
+	 * @param string $type
+	 *
+	 * @return string
+	 */
+	public function get_container_grid_class($type){
+		if($type === 'container' || $type === 'wbcontainer'){
+			$type = self::GRID_CLASS_CONTAINER;
+		}elseif($type === 'container-fluid' || $type === 'wbcontainer-fluid'){
+			$type = self::GRID_CLASS_CONTAINER_FLUID;
+		}
+		return $this->get_grid_class($type);
+	}
+
+	/**
 	 * @return string
 	 */
 	public function get_col_grid_class(){
