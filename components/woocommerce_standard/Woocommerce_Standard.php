@@ -311,7 +311,7 @@ class Woocommerce_Standard extends \WBF\modules\components\Component{
 			$page_shop_id = wc_get_page_id( 'shop' );
 			foreach ($classes as $k => $class_name){
 				if($class_name === WabootLayout()->get_grid_class('container') || $class_name === 'container-fluid'){
-					$classes[$k] = WabootLayout()->get_container_class(\WBF\modules\behaviors\get_behavior('content-width',$page_shop_id));
+					$classes[$k] = WabootLayout()->get_container_grid_class(\WBF\modules\behaviors\get_behavior('content-width',$page_shop_id));
 					break;
 				}
 			}

@@ -239,7 +239,7 @@ function wrapped_title($prefix,$suffix,$title,\WP_Post $post = null){
  */
 function container_classes(){
 	$classes[] = "site-main";
-	$classes[] = WabootLayout()->get_container_class(\Waboot\functions\get_behavior("content-width"));
+	$classes[] = WabootLayout()->get_container_grid_class(\Waboot\functions\get_behavior("content-width"));
 	$classes = apply_filters("waboot/layout/container/classes",$classes);
 	if(is_array($classes)){
 		$classes = implode(" ",$classes);
