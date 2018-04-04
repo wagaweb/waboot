@@ -310,7 +310,8 @@ add_filter('upgrader_pre_download', __NAMESPACE__."\\on_before_update",99,3);
  * @param $WP_Upgrader
  */
 function save_waboot_version_before_update($params, $WP_Upgrader){
-    update_option('waboot_pre_upgrade_version', wp_get_theme('waboot')['Version']);
+    $version = isset($params['current_version']) ? $params['current_version'] : wp_get_theme('waboot')['Version'];
+    update_option('waboot_pre_upgrade_version', $version);
 }
 add_action('waboot/before_update', __NAMESPACE__."\\save_waboot_version_before_update",10,2);
 
