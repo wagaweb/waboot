@@ -1,5 +1,7 @@
 <?php
 
+//This is an experimental migration, done in a hurry
+
 namespace Waboot\migrations;
 
 use function Waboot\functions\components\install_remote_component;
@@ -15,6 +17,7 @@ add_action('init', function(){
 	}
 
 	$current_migration = $migrations['2.3.2-2.4.0'];
+	$complete = true;
 
 	if(is_admin()){
 		$backupped_components_states = \get_option('waboot_updates_backups_components');
@@ -29,6 +32,7 @@ add_action('init', function(){
 					if($state === 1){
 						$installed_component = in_array('installed_component_'.$component_slug,$current_migration);
 						if(!$installed_component){
+							$complete = false;
 							$msg = sprintf(__('You must install and activate the component: %s. Please <a href="%s">click here</a> to do it'),$component_slug,add_query_arg(['waboot_perform_updates' => 'component','comp_slug' => $component_slug]));
 							WBF()->get_service_manager()->get_notice_manager()->add_notice('must_install_component_'.$component_slug,$msg,'nag');
 						}
@@ -36,6 +40,14 @@ add_action('init', function(){
 				}
 			}
 		}
+	}else{
+		$complete = false;
+	}
+
+	if($complete){
+		$current_migration['status'] = 'done';
+		$migrations['2.3.2-2.4.0'] = $current_migration;
+		\update_option('waboot-migrations',$migrations);
 	}
 });
 
@@ -61,7 +73,7 @@ function mig_232_240_install_component($component){
 	install_remote_component($component);
 
 	//Update the option
-	//$current_migration['installed_component_'.$component] = true;
-	//$migrations['2.3.2-2.4.0'] = $current_migration;
-	//\update_option('waboot-migrations',$migrations);
+	$current_migration['installed_component_'.$component] = true;
+	$migrations['2.3.2-2.4.0'] = $current_migration;
+	\update_option('waboot-migrations',$migrations);
 }
