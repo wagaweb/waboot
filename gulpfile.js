@@ -52,6 +52,7 @@ var paths = {
         "!*.log",
         "!{tests,tests/**}",
         "!{vendor,vendor/**}",
+        "!{components,components/**}",
         "!{builds,builds/**}",
         "!{node_modules,node_modules/**}",
         "!{assets/vendor,assets/vendor/**}",
