@@ -98,15 +98,18 @@ function get_current_components_directory(){
  * Download a component package
  *
  * @param string $package the package url
+ * @param null $target_filename
  * @param int $timeout
  *
  * @return string|\WP_Error
  * @throws \Exception
  */
-function download_component_package($package, $timeout = 300){
-	$url_filename = basename( parse_url( $package, PHP_URL_PATH ) );
+function download_component_package($package, $target_filename = null, $timeout = 300){
+	if(!isset($target_filename)){
+		$target_filename = basename( parse_url( $package, PHP_URL_PATH ) );
+	}
 
-	$tmpfname = wp_tempnam( $url_filename, get_tmp_download_directory() );
+	$tmpfname = wp_tempnam( $target_filename, get_tmp_download_directory() );
 
 	$response = wp_safe_remote_get($package,['timeout'=>$timeout,'stream'=>true,'filename'=>$tmpfname]);
 
@@ -175,7 +178,7 @@ function install_remote_component($slug){
 		throw new \Exception('No package found for the component: '.$slug);
 	}
 
-	$download_file = download_component_package($component['package']);
+	$download_file = download_component_package($component['package'],$component['slug'].'_'.$component['version']);
 
 	if(is_wp_error($download_file)){
 		throw new \Exception($download_file->get_error_message());
