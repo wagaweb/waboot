@@ -39,6 +39,20 @@ add_action('init', function(){
 	}
 });
 
+add_action('admin_init', function(){
+	if(!isset($_GET['waboot_perform_updates'])) return;
+
+	$operation = sanitize_text_field($_GET['waboot_perform_updates']);
+	switch($operation){
+		case 'component':
+			$slug = isset($_GET['comp_slug']) ? sanitize_text_field($_GET['comp_slug']) : false;
+			if($slug){
+				mig_232_240_install_component($slug);
+			}
+			break;
+	}
+});
+
 function mig_232_240_install_component($component){
 	$migrations = \get_option('waboot-migrations', []);
 	$current_migration = $migrations['2.3.2-2.4.0'];
