@@ -8,7 +8,7 @@ use function Waboot\functions\components\install_remote_component;
 
 add_action('init', function(){
 	$migrations = \get_option('waboot-migrations', []);
-	if(in_array('2.3.2-2.4.0',$migrations) && isset($migrations['2.3.2-2.4.0']['status']) && $migrations['2.3.2-2.4.0']['status'] === 'done') return;
+	if(array_key_exists('2.3.2-2.4.0',$migrations) && isset($migrations['2.3.2-2.4.0']['status']) && $migrations['2.3.2-2.4.0']['status'] === 'done') return;
 
 	if(!isset($migrations['2.3.2-2.4.0'])){
 		$migrations['2.3.2-2.4.0'] = [
@@ -30,11 +30,13 @@ add_action('init', function(){
 			if(is_array($states) && !empty($states)){
 				foreach($states as $component_slug => $state){
 					if($state === 1){
-						$installed_component = in_array('installed_component_'.$component_slug,$current_migration);
+						$installed_component = array_key_exists('installed_component_'.$component_slug,$current_migration) && $current_migration['installed_component_'.$component_slug];
 						if(!$installed_component){
 							$complete = false;
 							$msg = sprintf(__('You must install and activate the component: %s. Please <a href="%s">click here</a> to do it'),$component_slug,add_query_arg(['waboot_perform_updates' => 'component','comp_slug' => $component_slug]));
-							WBF()->get_service_manager()->get_notice_manager()->add_notice('must_install_component_'.$component_slug,$msg,'nag');
+							WBF()->get_service_manager()->get_notice_manager()->add_notice('must_install_component_'.$component_slug,$msg,'nag','_flash_');
+						}else{
+							WBF()->get_service_manager()->get_notice_manager()->remove_notice('must_install_component_'.$component_slug);
 						}
 					}
 				}
@@ -70,10 +72,14 @@ function mig_232_240_install_component($component){
 	$current_migration = $migrations['2.3.2-2.4.0'];
 
 	//Doing the update...
-	install_remote_component($component);
+	try{
+		install_remote_component($component);
 
-	//Update the option
-	$current_migration['installed_component_'.$component] = true;
-	$migrations['2.3.2-2.4.0'] = $current_migration;
-	\update_option('waboot-migrations',$migrations);
+		//Update the option
+		$current_migration['installed_component_'.$component] = true;
+		$migrations['2.3.2-2.4.0'] = $current_migration;
+		\update_option('waboot-migrations',$migrations);
+	}catch (\Exception $e){
+		WBF()->get_service_manager()->get_notice_manager()->add_notice('unable_to_install_component_'.$component,$e->getMessage(),'error','_flash_');
+	}
 }
