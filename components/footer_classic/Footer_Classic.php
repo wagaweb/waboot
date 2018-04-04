@@ -99,14 +99,14 @@ class Footer_Classic extends \Waboot\Component {
 			'name' => __( 'Footer Classic Width', 'waboot' ),
 			'desc' => __( 'Select footer width. Fluid or Boxed?', 'waboot' ),
 			'id' => 'footer_classic_width',
-			'std' => WabootLayout()->get_grid_class('container'),
+			'std' => 'container',
 			'type' => 'images',
 			'options' => array(
-				WabootLayout()->get_grid_class('container-fluid') => array (
+				'container-fluid' => array (
 					'label' => 'Fluid',
 					'value' => $imagepath . 'layout/footer-fluid.png'
 				),
-				WabootLayout()->get_grid_class('container') => array (
+				'container' => array (
 					'label' => 'Boxed',
 					'value' => $imagepath . 'layout/footer-boxed.png'
 				)
@@ -126,14 +126,14 @@ class Footer_Classic extends \Waboot\Component {
 			'name' => __( 'Closure', 'waboot' ),
 			'desc' => __( 'Select closure width. Fluid or Boxed?', 'waboot' ),
 			'id' => 'closure_width',
-			'std' => WabootLayout()->get_grid_class('container'),
+			'std' => 'container',
 			'type' => 'images',
 			'options' => array(
-				WabootLayout()->get_grid_class('container-fluid') => array (
+				'container-fluid' => array (
 					'label' => 'Fluid',
 					'value' => $imagepath . 'layout/closure-fluid.png'
 				),
-				WabootLayout()->get_grid_class('container') => array (
+				'container' => array (
 					'label' => 'Boxed',
 					'value' => $imagepath . 'layout/closure-boxed.png'
 				)

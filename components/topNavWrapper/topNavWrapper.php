@@ -74,14 +74,14 @@ class TopNavWrapperComponent extends \Waboot\Component{
             'name' => __('Top Nav Wrapper Width', 'waboot'),
             'desc' => __('Select Top Nav Wrapper width. Fluid or Boxed?', 'waboot'),
             'id' => 'topnav_width',
-            'std' => WabootLayout()->get_grid_class('container'),
+            'std' => 'container',
             'type' => 'images',
             'options' => [
-	            WabootLayout()->get_grid_class('container-fluid') => [
+	            'container-fluid' => [
                     'label' => 'Fluid',
                     'value' => $imagepath . 'layout/top-nav-fluid.png'
                 ],
-	            WabootLayout()->get_grid_class('container') => [
+	            'container' => [
                     'label' => 'Boxed',
                     'value' => $imagepath . 'layout/top-nav-boxed.png'
                 ]
