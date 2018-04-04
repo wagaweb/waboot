@@ -1,1 +1,0 @@
-Questo gestira la closure (attualmente il tab "footer" delle theme options) e altre opzioni.
