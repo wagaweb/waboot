@@ -4,6 +4,12 @@ builds/
 npm-debug.log
 
 ############
+## WABOOT
+############
+components/*
+!components/.gitkeep
+
+############
 ## WP
 ############
 Movefile
