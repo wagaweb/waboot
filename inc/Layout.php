@@ -35,10 +35,10 @@ class Layout{
 	 */
 	public function __construct($params = []) {
 		$default_grid_classes = [
-			'row' => 'wbrow',
-			'container' => 'wbcontainer',
-			'container-fluid' => 'wbcontainer-fluid',
-			'col_suffix' => 'wbcol-'
+			self::GRID_CLASS_ROW => 'wbrow',
+			self::GRID_CLASS_CONTAINER => 'wbcontainer',
+			self::GRID_CLASS_CONTAINER_FLUID => 'wbcontainer-fluid',
+			self::GRID_CLASS_COL_SUFFIX => 'wbcol-'
 		];
 		if(isset($params['grid_classes'])){
 			$grid_classes = wp_parse_args($params['grid_classes'],$default_grid_classes);
@@ -319,9 +319,9 @@ class Layout{
 	 * @return string
 	 */
 	public function get_container_grid_class($type){
-		if($type === 'container' || $type === 'wbcontainer'){
+		if($type === 'container' || $type === 'wbcontainer' || $type === 'boxed'){
 			$type = self::GRID_CLASS_CONTAINER;
-		}elseif($type === 'container-fluid' || $type === 'wbcontainer-fluid'){
+		}elseif($type === 'container-fluid' || $type === 'wbcontainer-fluid' || $type === 'fluid'){
 			$type = self::GRID_CLASS_CONTAINER_FLUID;
 		}
 		return $this->get_grid_class($type);
