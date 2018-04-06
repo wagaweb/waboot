@@ -136,5 +136,8 @@ function mig_232_240_get_components_states_backup(){
 	$backupped_components_states = \get_option('waboot_updates_backups_components');
 	$current_theme = wp_get_theme();
 	$hash = '2.3.2'.'_'.'2.4.0'.'_'.$current_theme->get_stylesheet();
-	return array_key_exists($hash,$backupped_components_states) ? $backupped_components_states[$hash] : false;
+	if(\is_array($backupped_components_states)){
+		return array_key_exists($hash,$backupped_components_states) ? $backupped_components_states[$hash] : false;
+	}
+	return false;
 }
