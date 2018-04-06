@@ -26,10 +26,6 @@ class Woocommerce_Standard extends \WBF\modules\components\Component{
 
     private function declare_hooks(){
 	    //Disable the default display action for the page title
-	    /*add_action('woocommerce_before_main_content', function(){
-		    remove_action("waboot/site-main/before",'Waboot\hooks\display_singular_title');
-		    add_action("waboot/site-main/before",[$this,'display_shop_title_above_primary']);
-	    },9);*/
 	    add_action('woocommerce_before_main_content', [$this,'alter_archive_title_when_shop_title_above_primary'],9);
 
 		//Disable the default Woocommerce stylesheet
@@ -42,8 +38,8 @@ class Woocommerce_Standard extends \WBF\modules\components\Component{
 
 		//Enable the modification of woocommerce query and loop
 	    add_filter("loop_shop_per_page", [$this,"alter_posts_per_page"], 20);
-	    add_filter("post_class", [$this,"alter_post_class"], 20, 3);
-	    add_filter("post_type_archive_title",[$this,"alter_archive_page_title"],10,2);
+        add_filter("loop_shop_columns", [$this,"alter_loop_columns"]);
+        add_filter("post_type_archive_title",[$this,"alter_archive_page_title"],10,2);
 
 		//Layout altering:
 	    add_filter("waboot/singular/title/display_flag",[$this,'alter_entry_title_visibility'],10,2);
@@ -65,16 +61,16 @@ class Woocommerce_Standard extends \WBF\modules\components\Component{
 	 * Register component scripts (called automatically)
 	 */
     public function scripts(){
-	    wp_register_script("component-{$this->name}-script",$this->directory_uri . '/assets/dist/js/woocommerce-standard.js', ['jquery'], false, false);
-	    wp_enqueue_script("component-{$this->name}-script");
+	    //wp_register_script("component-{$this->name}-script",$this->directory_uri . '/assets/dist/js/woocommerce-standard.js', ['jquery'], false, false);
+	    //wp_enqueue_script("component-{$this->name}-script");
     }
 
 	/**
 	 * Register component styles (called automatically)
 	 */
     public function styles(){
-    	//wp_register_style("component-{$this->name}-style",$this->directory_uri . '/assets/dist/css/woocommerce-standard.min.css');
-	    //wp_enqueue_style("component-{$this->name}-style");
+    	wp_register_style("component-{$this->name}-style",$this->directory_uri . '/assets/dist/css/woocommerce-standard.min.css');
+	    wp_enqueue_style("component-{$this->name}-style");
     }
 
 	/**
@@ -574,48 +570,13 @@ class Woocommerce_Standard extends \WBF\modules\components\Component{
 		return $posts_per_page;
 	}
 
-	/**
-	 * Alter post class to display a different number or product per row
-	 *
-	 * @param $classes
-	 * @param string $class
-	 * @param string $post_id
-	 *
-	 * @hooked 'post_class'
-	 *
-	 * @return array
-	 */
-	public function alter_post_class($classes,$class = '', $post_id = ''){
-		if ( ! $post_id || 'product' !== get_post_type( $post_id ) ) {
-			return $classes;
-		}
-
-		global $woocommerce_loop;
-
-		$doing_ajax = defined('DOING_AJAX') && DOING_AJAX;
-		if(is_admin() && !$doing_ajax) return $classes; //skip for admin
-
-		if(is_single()){
-			//skip for single
-			$related = isset($woocommerce_loop['name']) && $woocommerce_loop['name'] == "related";
-
-			if(!isset($woocommerce_loop) || !$related){
-				return $classes; //skip if we are not in related products
-			}
-		}
-
-		$cat_items = of_get_option('woocommerce_cat_items','3');
-		if($cat_items === '3'){
-			$cat_items_class = WabootLayout()->get_col_grid_class().'sm-4';
-		}elseif($cat_items === '4'){
-			$cat_items_class = WabootLayout()->get_col_grid_class().'sm-3';
-		}else{
-			$cat_items_class = WabootLayout()->get_col_grid_class().'sm-4';
-		}
-		$classes[] = $cat_items_class;
-
-		return $classes;
-	}
+    /**
+     * Alter loop colums
+     */
+	public function alter_loop_columns() {
+        $cat_items = of_get_option('woocommerce_cat_items','3');
+        return $cat_items;
+    }
 
 	/**
 	 * Hides prices (in catalog) and add-to-cart button
