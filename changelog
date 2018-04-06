@@ -3,6 +3,7 @@
 Version 2.4.0 --
 ---------------------------------
 - Tweak: Removed Bootstrap as core dependency
+- Tweak: Removed most of WooCommerce overridden templates
 - Feature: Added components repository (all components has been removed from the Waboot repo)
 
 Version 2.3.2 - 03/30/2018
