@@ -4,6 +4,11 @@
   margin-right: auto;
   margin-left: auto;
   padding: 0 20px;
+  &:after,
+  &:before {
+    content: " ";
+    display: table;
+  }
 }
 
 .container,
@@ -12,6 +17,7 @@
   margin-right: auto;
   margin-left: auto;
   padding: 0 20px;
+  overflow: auto;
   @include up($small) {
     max-width: 540px;
   }
@@ -34,6 +40,7 @@
 
 .wbrow {
   display: flex;
+  flex-wrap: wrap;
 }
 
 .wbcol-sm-1,
@@ -120,6 +127,14 @@
     }
     .aside-secondary {
       order: 2;
+    }
+  }
+  .sidebar-left {
+    .aside-primary {
+      order: 0;
+    }
+    .content-area {
+      order: 1;
     }
   }
 }
