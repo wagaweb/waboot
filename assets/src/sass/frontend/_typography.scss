@@ -49,12 +49,14 @@ h4, .h4, h5, .h5, h6, .h6 {
 
 p {
   margin-bottom: 15px;
+  margin-top: 0;
   word-wrap: break-word;
 }
 
 ul, ol {
   padding-left: 20px;
   margin-bottom: 15px;
+  margin-top: 0;
   word-wrap: break-word;
 }
 
@@ -83,17 +85,7 @@ span {
 }
 
 table {
-  border-right: 1px solid #ddd;
-  border-top: 1px solid #ddd;
-  border-bottom: 1px solid #ddd;
-  margin: 20px 0;
   width: 100%;
-}
-
-table th,
-table td {
-  border-left: 1px solid #ddd;
-  border-top: 1px solid #ddd;
 }
 
 p img {
@@ -145,10 +137,82 @@ ins {
 }
 
 .title-wrapper {
-  margin-bottom: 0px;
+  margin-bottom: 0;
+  h1 {
+    margin-bottom: 0;
+  }
 }
 
-.title-wrapper h1 {
-  margin-bottom: 0px;
+
+form {
+  label {
+    display: inline-block;
+    max-width: 100%;
+    margin-bottom: 5px;
+    font-weight: 700;
+  }
+  select,
+  textarea,
+  input[type="text"],
+  input[type="number"],
+  input[type="tel"],
+  input[type="email"],
+  input[type="password"] {
+    display: block;
+    width: 100%;
+    height: 34px;
+    padding: 6px 12px;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+  }
+  textarea {
+    height: auto;
+  }
+  input[type="submit"],
+  button[type="submit"],
+  input[type="reset"],
+  button[type="reset"],
+  input[type="button"],
+  button[type="button"] {
+      width: 100%;
+  }
 }
 
+
+
+//
+// Buttons
+// --------------------------------------------------
+
+.button,
+.btn {
+  display: inline-block;
+  margin-bottom: 0; // For input.btn
+  text-align: center;
+  vertical-align: middle;
+  touch-action: manipulation;
+  cursor: pointer;
+  background-image: none; // Reset unusual Firefox-on-Android default style; see https://github.com/necolas/normalize.css/issues/214
+  border: 1px solid transparent;
+  white-space: nowrap;
+  padding: 6px 12px;
+  font-size: 1em;
+  line-height: 1.4em;
+  color: #fff;
+
+  &:hover,
+  &:focus,
+  &.focus {
+    text-decoration: none;
+  }
+
+  &:active,
+  &.active {
+    outline: 0;
+    background-image: none;
+  }
+
+}

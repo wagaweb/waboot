@@ -1,6 +1,5 @@
 @import "frontend/reset";
-@import "frontend/variables";
-@import "frontend/mixins";
+@import "frontend/variables-and-mixins";
 @import "frontend/grid";
 @import "frontend/typography";
 @import "frontend/components";
@@ -9,8 +8,3 @@
 @import "frontend/blog";
 @import "frontend/postsformat";
 @import "frontend/global";
-
-//Extensions and plugins compatibilities
-@import "frontend/extensions/wb-contact-form";
-@import "frontend/extensions/woocommerce";
-//@import "frontend/extensions/offcanvas";
