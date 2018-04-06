@@ -55,14 +55,6 @@ waboot-child/assets/src/less/tmp_*.*
 waboot-child/assets/src/less/theme-options-generated.less
 
 ############
-## COMPONENTS ASSETS
-############
-components/**/node_modules
-components/**/bower_components
-components/**/bundle.js
-components/woocommerce_standard/assets/dist/css/*
-
-############
 ## IDEs
 ############
 
