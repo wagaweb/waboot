@@ -272,11 +272,13 @@ class Theme{
 			}
 		}
 
+		$filename = $this->get_components_style_file_name();
+
+		if(is_file($filename)){
+			unlink($filename);
+		}
+
 		if(!empty($output)){
-			$filename = $this->get_components_style_file_name();
-			if(is_file($filename)){
-				unlink($filename);
-			}
 			file_put_contents($filename,$output);
 		}
 	}
