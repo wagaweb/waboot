@@ -2,6 +2,7 @@
 
 namespace Waboot\functions\components;
 use WBF\components\utils\Paths;
+use WBF\modules\components\Component;
 use WBF\modules\components\ComponentsManager;
 
 
@@ -73,6 +74,10 @@ function request_components($endpoint = null){
  * @throws \Exception
  */
 function request_single_component($slug, $endpoint = null){
+	static $remote_components;
+
+	if(isset($remote_components[$slug]) && is_array($remote_components[$slug])) return $remote_components[$slug];
+
 	if(!isset($endpoint)){
 		$endpoint = get_api_single_component_endpoint($slug);
 	}
@@ -87,6 +92,8 @@ function request_single_component($slug, $endpoint = null){
 	}
 
 	$remote_component = json_decode($remote_component_request['body'],true);
+
+	$remote_components[$slug] = $remote_component;
 
 	return $remote_component;
 }
@@ -225,3 +232,100 @@ function install_remote_component($slug){
 
 	return $unzipped;
 }
+
+/**
+ * Get the components to update
+ *
+ * @return array
+ */
+function get_components_to_update(){
+	$components = ComponentsManager::getAllComponents();
+	$components_to_update = [];
+	foreach ($components as $component){
+		if(!$component instanceof Component) continue;
+		$transient = \get_transient('waboot_component_'.$component->name.'_updated_package');
+		$components_to_update[$component->name] = $transient;
+		$components_to_update[$component->name]['current_version'] = $component->get_version();
+	}
+	return $components_to_update;
+}
+
+/**
+ * Check if a component has an update
+ *
+ * @param Component $component
+ *
+ * @throws \Exception
+ *
+ * @return bool;
+ */
+function has_update($component){
+	$update_uri = get_update_uri($component);
+	$has_update = false;
+	if ( $update_uri !== '' ) {
+		try {
+			$data = request_single_component( $component->name, $update_uri );
+			if ( isset( $data['version'] ) ) {
+				$has_update = version_compare( $component->get_version(), $data['version'], '<' );
+			}
+		} catch ( \Exception $e ) {
+			throw new \Exception($e->getMessage());
+		}
+	}
+	return $has_update;
+}
+
+/**
+ * Setup the components updates cache
+ *
+ * @hooked 'admin_init'
+ *
+ * @param bool $force force the update retrieval for cached components
+ *
+ * @throws \Exception
+ */
+function setup_components_update_cache($force = false){
+	$components = ComponentsManager::getAllComponents();
+	$update_interval = (int) apply_filters('waboot/components/update_check_time_interval', 60*60*24);
+
+	foreach ($components as $component){
+		if(!$force){
+			$package = \get_transient('waboot_component_'.$component->name.'_updated_package');
+			if(\is_array($package)) continue;
+		}
+		try{
+			$needs_update = has_update($component);
+			if($needs_update){
+				$package = request_single_component($component->name, get_update_uri($component));
+				\set_transient('waboot_component_'.$component->name.'_updated_package',$package,$update_interval);
+			}
+		}catch(\Exception $e){
+			WBF()->get_service_manager()->get_notice_manager()->add_notice(
+				'unable_to_update_component_' . $component->name,
+				sprintf( __( 'Unable to check for updates of component: %s because of the error: %s' ), $component->name, $e->getMessage() ),
+				'error',
+				'_flash_'
+			);
+		}
+	}
+}
+
+/**
+ * Get the component update uri
+ *
+ * @param Component $component
+ *
+ * @return string
+ */
+function get_update_uri($component){
+	$component_data = get_file_data( $component->file, ['UpdateURI' => 'Update URI', 'Author' => 'Author', 'AuthorURI' => 'Author URI'] );
+	if(!isset($component_data['UpdateURI']) || $component_data['UpdateURI'] === ''){
+		if(isset($component_data['Author']) && strpos($component_data['Author'],'waga') !== false){
+			return get_api_single_component_endpoint($component->name);
+		}
+	}else{
+		return $component_data['UpdateURI'];
+	}
+	return '';
+}
+
