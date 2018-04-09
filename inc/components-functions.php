@@ -4,14 +4,40 @@ namespace Waboot\functions\components;
 use WBF\components\utils\Paths;
 use WBF\modules\components\ComponentsManager;
 
+
+/**
+ * Get the API endpoint for Components listing
+ *
+ * @return string
+ */
+function get_api_list_endpoint(){
+	return 'http://update.waboot.org/resource/list/components?basetheme=waboot';
+}
+
+/**
+ * The the API endpoint for single component data
+ *
+ * @param $slug
+ *
+ * @return string
+ */
+function get_api_single_component_endpoint($slug){
+	return 'http://update.waboot.org/resource/info/component/'.$slug.'/?basetheme=waboot';
+}
+
 /**
  * Request all available remote components
+ *
+ * @param string|null $endpoint
  *
  * @return array
  * @throws \Exception
  */
-function request_components(){
-	$remote_components_request = wp_remote_get('http://update.waboot.org/resource/list/components?basetheme=waboot');
+function request_components($endpoint = null){
+	if(!isset($endpoint)){
+		$endpoint = get_api_list_endpoint();
+	}
+	$remote_components_request = wp_remote_get($endpoint);
 
 	if(is_wp_error($remote_components_request)){
 		throw new \Exception($remote_components_request->get_error_message());
@@ -41,12 +67,16 @@ function request_components(){
  * Request single remote component data
  *
  * @param $slug
+ * @param string|null $endpoint
  *
  * @return array
  * @throws \Exception
  */
-function request_single_component($slug){
-	$remote_component_request = wp_remote_get('http://update.waboot.org/resource/info/component/'.$slug.'/?basetheme=waboot');
+function request_single_component($slug, $endpoint = null){
+	if(!isset($endpoint)){
+		$endpoint = get_api_single_component_endpoint($slug);
+	}
+	$remote_component_request = wp_remote_get($endpoint);
 
 	if(is_wp_error($remote_component_request)){
 		throw new \Exception($remote_component_request->get_error_message());
