@@ -4,6 +4,7 @@ namespace Waboot\hooks\components_updater;
 
 use function Waboot\functions\components\get_components_to_update;
 use function Waboot\functions\components\setup_components_update_cache;
+use WBF\components\mvc\HTMLView;
 
 add_action('admin_init', __NAMESPACE__ . '\\build_update_cache');
 add_filter('wp_get_update_data', __NAMESPACE__.'\\notify_updates',11,2);
@@ -43,4 +44,8 @@ function notify_updates($update_data, $titles){
  */
 function display_components_updates(){
 	$components = get_components_to_update();
+    (new HTMLView('templates/admin/components-updates-list.php'))->display([
+        'all_updated' => count($components) === 0,
+        'components_to_update' => $components
+    ]);
 }
