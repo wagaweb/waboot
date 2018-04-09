@@ -244,8 +244,10 @@ function get_components_to_update(){
 	foreach ($components as $component){
 		if(!$component instanceof Component) continue;
 		$transient = \get_transient('waboot_component_'.$component->name.'_updated_package');
-		$components_to_update[$component->name] = $transient;
-		$components_to_update[$component->name]['current_version'] = $component->get_version();
+		if(\is_array($transient)){
+			$components_to_update[$component->name] = $transient;
+			$components_to_update[$component->name]['current_version'] = $component->get_version();
+		}
 	}
 	return $components_to_update;
 }
@@ -298,6 +300,8 @@ function setup_components_update_cache($force = false){
 			if($needs_update){
 				$package = request_single_component($component->name, get_update_uri($component));
 				\set_transient('waboot_component_'.$component->name.'_updated_package',$package,$update_interval);
+			}else{
+				\delete_transient('waboot_component_'.$component->name.'_updated_package');
 			}
 		}catch(\Exception $e){
 			WBF()->get_service_manager()->get_notice_manager()->add_notice(
