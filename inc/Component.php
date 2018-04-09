@@ -19,10 +19,6 @@ class Component extends \WBF\modules\components\Component{
 	 * @var array
 	 */
 	var $registered_style_assets = [];
-	/**
-	 * @var string
-	 */
-	private $update_uri;
 
 	public function __construct( array $component ) {
 		parent::__construct( $component );
