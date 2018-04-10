@@ -243,9 +243,9 @@ function get_components_to_update(){
 	$components_to_update = [];
 	foreach ($components as $component){
 		if(!$component instanceof Component) continue;
-		$transient = \get_transient('waboot_component_'.$component->name.'_updated_package');
-		if(\is_array($transient)){
-			$components_to_update[$component->name] = $transient;
+		$pkg = \get_transient('waboot_component_'.$component->name.'_updated_package');
+		if(\is_array($pkg) && !empty($pkg)){
+			$components_to_update[$component->name] = $pkg;
 			$components_to_update[$component->name]['current_version'] = $component->get_version();
 		}
 	}
@@ -344,12 +344,12 @@ function setup_single_component_update_cache($component, $force = false){
 		if(\is_array($package)) return;
 	}
 	$needs_update = has_update($component);
+	$update_interval = (int) apply_filters('waboot/components/update_check_time_interval', 60*60*24);
 	if($needs_update){
 		$package = request_single_component($component->name, get_update_uri($component));
-		$update_interval = (int) apply_filters('waboot/components/update_check_time_interval', 60*60*24);
 		\set_transient('waboot_component_'.$component->name.'_updated_package',$package,$update_interval);
 	}else{
-		\delete_transient('waboot_component_'.$component->name.'_updated_package');
+		\set_transient('waboot_component_'.$component->name.'_updated_package',[],$update_interval);
 	}
 }
 
