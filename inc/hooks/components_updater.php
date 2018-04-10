@@ -59,6 +59,7 @@ function notify_updates($update_data, $titles){
  * @throws \Exception
  */
 function force_check_for_updates(){
+	if(isset($_GET['waboot_force_components_update_check'])) return;
 	setup_components_update_cache(true);
 }
 
@@ -98,9 +99,16 @@ function do_component_upgrade(){
 	}else{
 		$error = _x('Invalid component provided','Component Update Landing page','waboot');
 	}
+
+	$update_actions = [
+		'components_page' => '<a href="' . add_query_arg(['page' => 'wbf_components'],self_admin_url('admin.php')) . '" target="_parent">' . __( 'Return to Components page', 'waboot' ) . '</a>',
+		'updates_page' => '<a href="' . self_admin_url( 'update-core.php' ) . '" target="_parent">' . __( 'Return to WordPress Updates page' ) . '</a>'
+	];
+
 	(new HTMLView('templates/admin/components-update-landing-page.php'))->display([
 		'component_nicename' => $component_nicename,
 		'error_occurred' => isset($error),
-		'error' => isset($error) ? $error : false
+		'error' => isset($error) ? $error : false,
+		'update_actions' => $update_actions
 	]);
 }

@@ -4,6 +4,8 @@ namespace Waboot\functions\components;
 use WBF\components\utils\Paths;
 use WBF\modules\components\Component;
 use WBF\modules\components\ComponentsManager;
+use function WBF\modules\components\get_child_components_directory;
+use function WBF\modules\components\get_root_components_directory;
 
 
 /**
@@ -121,7 +123,7 @@ function get_tmp_download_directory(){
  * @throws \Exception
  */
 function get_current_components_directory(){
-	$dir = get_stylesheet_directory().'/components';
+	$dir = is_child_theme()? get_child_components_directory() : get_root_components_directory();
 	if(!is_dir($dir)){
 		$r = wp_mkdir_p($dir);
 		if(!$r){
@@ -221,7 +223,7 @@ function install_remote_component($slug, $overwrite_existing = false){
 	//Then delete the temp file
 	unlink($download_file);
 	//Finally, perform a new components detection
-	ComponentsManager::detect_components();
+	//ComponentsManager::detect_components();
 	return $unzipped;
 }
 
