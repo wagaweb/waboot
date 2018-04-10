@@ -303,6 +303,8 @@ function setup_components_update_cache($force = false){
  *
  * @uses has_update()
  * @uses request_single_component()
+ * @uses get_component_update_cache()
+ * @uses set_component_update_cache()
  *
  * @param Component $component
  * @param bool $force force the update retrieval for cached components
@@ -312,17 +314,41 @@ function setup_components_update_cache($force = false){
  */
 function setup_single_component_update_cache($component, $force = false, $always_get_update = false){
 	if(!$force){
-		$package = \get_transient('waboot_component_'.$component->name.'_updated_package');
+		$package = get_component_update_cache($component);
 		if(\is_array($package)) return;
 	}
 	$needs_update = has_update($component) || $always_get_update;
-	$update_interval = (int) apply_filters('waboot/components/update_check_time_interval', 60*60*24);
 	if($needs_update){
 		$package = request_single_component($component->name, get_update_uri($component));
-		\set_transient('waboot_component_'.$component->name.'_updated_package',$package,$update_interval);
+		set_component_update_cache($component,$package);
 	}else{
-		\set_transient('waboot_component_'.$component->name.'_updated_package',[],$update_interval);
+		set_component_update_cache($component,[]);
 	}
+}
+
+/**
+ * @param Component $component
+ *
+ * @return bool|array
+ */
+function get_component_update_cache($component){
+	return \get_transient('waboot_component_'.$component->name.'_updated_package');
+}
+
+/**
+ * @param Component $component
+ * @param array $package
+ */
+function set_component_update_cache($component, $package){
+	$update_interval = (int) apply_filters('waboot/components/update_check_time_interval', 60*60*24);
+	\set_transient('waboot_component_'.$component->name.'_updated_package',$package, $update_interval);
+}
+
+/**
+ * @param Component $component
+ */
+function delete_component_update_cache($component){
+	\delete_transient('waboot_component_'.$component->name.'_updated_package');
 }
 
 /**
