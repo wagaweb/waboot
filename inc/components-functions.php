@@ -264,11 +264,37 @@ function get_components_to_update(){
 function has_update($component){
 	$update_uri = get_update_uri($component);
 	$has_update = false;
+
 	if ( $update_uri !== '' ) {
 		try {
 			$data = request_single_component( $component->name, $update_uri );
 			if ( isset( $data['version'] ) ) {
-				$has_update = version_compare( $component->get_version(), $data['version'], '<' );
+				$current_version = $component->get_version();
+				$pkg_version = $data['version'];
+				if( \strlen($current_version) < \strlen($pkg_version) ){
+					/**
+					 * Modified version of version_compare to address non-standardized comparing (http://php.net/manual/en/function.version-compare.php)
+					 * @param string $version1
+					 * @param string $version2
+					 * @param string $operator
+					 *
+					 * @return int|bool
+					 */
+					$mod_version_compare = function($version1, $version2, $operator = null) {
+						$_fv = (int) trim( str_replace( '.', '', $version1 ) );
+						$_sv = (int) trim( str_replace( '.', '', $version2 ) );
+						if( \strlen ( $_fv ) > \strlen ( $_sv ) ){
+							$_sv = str_pad ( $_sv, \strlen ( $_fv ), 0 );
+						}
+						if(\strlen ( $_fv ) < \strlen ( $_sv ) ){
+							$_fv = str_pad ( $_fv, \strlen ( $_sv ), 0 );
+						}
+						return version_compare ( ( string ) $_fv, ( string ) $_sv, $operator );
+					};
+					$has_update = $mod_version_compare( $current_version, $pkg_version, '<' );
+				}else{
+					$has_update = version_compare( $current_version, $pkg_version, '<' );
+				}
 			}
 		} catch ( \Exception $e ) {
 			throw new \Exception($e->getMessage());
