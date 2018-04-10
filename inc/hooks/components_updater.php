@@ -20,7 +20,11 @@ add_action('core_upgrade_preamble', __NAMESPACE__.'\\display_components_updates'
  * @throws \Exception
  */
 function build_update_cache(){
-	setup_components_update_cache(true);
+	if(is_admin() && isset($_GET['waboot_force_components_update_check']) && $_GET['waboot_force_components_update_check'] === '1'){
+		setup_components_update_cache(true);
+	}else{
+		setup_components_update_cache();
+	}
 }
 
 /**
