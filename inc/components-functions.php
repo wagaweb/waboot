@@ -76,7 +76,7 @@ function request_components($endpoint = null){
 function request_single_component($slug, $endpoint = null){
 	static $remote_components;
 
-	if(isset($remote_components[$slug]) && is_array($remote_components[$slug])) return $remote_components[$slug];
+	if(isset($remote_components[$slug]) && \is_array($remote_components[$slug])) return $remote_components[$slug];
 
 	if(!isset($endpoint)){
 		$endpoint = get_api_single_component_endpoint($slug);
