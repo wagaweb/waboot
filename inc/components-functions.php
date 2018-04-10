@@ -145,16 +145,12 @@ function download_component_package($package, $target_filename = null, $timeout 
 	if(!isset($target_filename)){
 		$target_filename = basename( parse_url( $package, PHP_URL_PATH ) );
 	}
-
 	$tmpfname = wp_tempnam( $target_filename, get_tmp_download_directory() );
-
 	$response = wp_safe_remote_get($package,['timeout'=>$timeout,'stream'=>true,'filename'=>$tmpfname]);
-
 	if(is_wp_error($response)){
 		unlink($tmpfname);
 		return $response;
 	}
-
 	return $tmpfname;
 }
 
@@ -182,7 +178,6 @@ function unzip_component_package($origin,$slug,$delete_existing_directory = fals
 				}
 			}
 		}
-
 		$zip = new \ZipArchive();
 		if($zip->open($origin) === TRUE){
 			$zip->extractTo($base_install_directory);
@@ -198,6 +193,10 @@ function unzip_component_package($origin,$slug,$delete_existing_directory = fals
 /**
  * Install a remote component (do not check if the component is already available)
  *
+ * @uses request_single_component()
+ * @uses download_component_package()
+ * @uses unzip_component_package()
+ *
  * @param $slug
  * @throws \Exception
  *
@@ -205,31 +204,23 @@ function unzip_component_package($origin,$slug,$delete_existing_directory = fals
  */
 function install_remote_component($slug){
 	$component = request_single_component($slug);
-
 	if(!\is_array($component)){
 		throw new \Exception('Unable to find the remote component: '.$slug);
 	}
-
 	//Download the component file:
 	if(!isset($component['package'])){
 		throw new \Exception('No package found for the component: '.$slug);
 	}
-
 	$download_file = download_component_package($component['package'],$component['slug'].'_'.$component['version']);
-
 	if(is_wp_error($download_file)){
 		throw new \Exception($download_file->get_error_message());
 	}
-
 	//Install the component:
 	$unzipped = unzip_component_package($download_file,$slug);
-
 	//Then delete the temp file
 	unlink($download_file);
-
 	//Finally, perform a new components detection
 	ComponentsManager::detect_components();
-
 	return $unzipped;
 }
 
@@ -310,17 +301,21 @@ function setup_components_update_cache($force = false){
 /**
  * Setup single component updates cache
  *
+ * @uses has_update()
+ * @uses request_single_component()
+ *
  * @param Component $component
  * @param bool $force force the update retrieval for cached components
+ * @param bool $always_get_update if TRUE bypass the has_update() result
  *
  * @throws \Exception
  */
-function setup_single_component_update_cache($component, $force = false){
+function setup_single_component_update_cache($component, $force = false, $always_get_update = false){
 	if(!$force){
 		$package = \get_transient('waboot_component_'.$component->name.'_updated_package');
 		if(\is_array($package)) return;
 	}
-	$needs_update = has_update($component);
+	$needs_update = has_update($component) || $always_get_update;
 	$update_interval = (int) apply_filters('waboot/components/update_check_time_interval', 60*60*24);
 	if($needs_update){
 		$package = request_single_component($component->name, get_update_uri($component));
@@ -332,6 +327,8 @@ function setup_single_component_update_cache($component, $force = false){
 
 /**
  * Get the component update uri
+ *
+ * @uses get_api_single_component_endpoint()
  *
  * @param Component $component
  *
