@@ -8,6 +8,7 @@ use function Waboot\functions\components\set_component_update_cache;
 use function Waboot\functions\components\set_component_update_cache_as_updated;
 use function Waboot\functions\components\setup_components_update_cache;
 use WBF\components\mvc\HTMLView;
+use WBF\components\utils\WordPress;
 use WBF\modules\components\Component;
 use WBF\modules\components\ComponentFactory;
 
@@ -85,6 +86,7 @@ function display_components_updates(){
 function do_component_upgrade(){
 	$component_slug = isset($_GET['component']) ? $_GET['component'] : false;
 	$component_nicename = isset($_GET['nicename']) ? $_GET['nicename'] : $component_slug;
+	WordPress::maintenance_mode(true);
 	if(\is_string($component_slug) && $component_slug !== ''){
 		try{
 			$r = install_remote_component($component_slug, true);
@@ -105,6 +107,7 @@ function do_component_upgrade(){
 		'updates_page' => '<a href="' . self_admin_url( 'update-core.php' ) . '" target="_parent">' . __( 'Return to WordPress Updates page' ) . '</a>'
 	];
 
+	WordPress::maintenance_mode(false);
 	(new HTMLView('templates/admin/components-update-landing-page.php'))->display([
 		'component_nicename' => $component_nicename,
 		'error_occurred' => isset($error),
