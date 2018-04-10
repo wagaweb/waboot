@@ -13,7 +13,8 @@ use WBF\modules\components\ComponentFactory;
 
 add_action('admin_init', __NAMESPACE__ . '\\build_update_cache');
 add_filter('wp_get_update_data', __NAMESPACE__.'\\notify_updates',11,2);
-add_action('core_upgrade_preamble', __NAMESPACE__.'\\display_components_updates');
+add_action('core_upgrade_preamble', __NAMESPACE__.'\\force_check_for_updates');
+add_action('core_upgrade_preamble', __NAMESPACE__.'\\display_components_updates',11);
 add_action('update-core-custom_'.'do-component-upgrade', __NAMESPACE__.'\\do_component_upgrade');
 
 /**
@@ -54,9 +55,17 @@ function notify_updates($update_data, $titles){
 }
 
 /**
+ * Force check for updates in update-core.php page
+ * @throws \Exception
+ */
+function force_check_for_updates(){
+	setup_components_update_cache(true);
+}
+
+/**
  * Displays components updates in update-core.php
  *
- * @hooked 'core_upgrade_preamble'
+ * @hooked 'core_upgrade_preamble', 11
  */
 function display_components_updates(){
 	$components = get_components_to_update();
