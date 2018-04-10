@@ -1,6 +1,6 @@
 <h2><?php _ex('Components', 'Updates list', 'waboot'); ?></h2>
 <?php if($all_updated): ?>
-	<?php _ex('Your component are all up to date', 'Updates list', 'waboot'); ?>
+	<?php _ex('Your components are all up to date', 'Updates list', 'waboot'); ?>
 <?php else: ?>
     <table class="widefat updates-table" id="update-components-table">
         <thead>
