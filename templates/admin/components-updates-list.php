@@ -22,9 +22,15 @@
                     <img src="<?php echo $component['thumbnail'] ?>" width="85" height="64" class="updates-table-screenshot" alt="">
                     <strong><?php echo $component['name'] ?></strong>
 	                <?php _ex(
-	                        sprintf('You have version %s installed. <a href="">Update to %s</a>.',$component['current_version'],$component['version'],'#'),
+	                        sprintf(
+	                                'You have version %s installed. <a href="%s">Update to %s</a>.',
+                                    $component['current_version'],
+                                    add_query_arg(['component'=>$component['slug'],'nicename'=>$component['name']],$update_form_action),
+                                    $component['version']
+                            ),
                             'Updates list',
-                            'waboot');
+                            'waboot'
+                    );
 	                ?>
                 </p>
             </td>

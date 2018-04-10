@@ -198,11 +198,12 @@ function unzip_component_package($origin,$slug,$delete_existing_directory = fals
  * @uses unzip_component_package()
  *
  * @param $slug
- * @throws \Exception
+ * @param bool $overwrite_existing
  *
  * @return bool
+ * @throws \Exception
  */
-function install_remote_component($slug){
+function install_remote_component($slug, $overwrite_existing = false){
 	$component = request_single_component($slug);
 	if(!\is_array($component)){
 		throw new \Exception('Unable to find the remote component: '.$slug);
@@ -216,7 +217,7 @@ function install_remote_component($slug){
 		throw new \Exception($download_file->get_error_message());
 	}
 	//Install the component:
-	$unzipped = unzip_component_package($download_file,$slug);
+	$unzipped = unzip_component_package($download_file,$slug,$overwrite_existing);
 	//Then delete the temp file
 	unlink($download_file);
 	//Finally, perform a new components detection
@@ -286,7 +287,7 @@ function setup_components_update_cache($force = false){
 	$components = ComponentsManager::getAllComponents();
 	foreach ($components as $component){
 		try{
-			setup_single_component_update_cache($component, $force);
+			setup_single_component_update_cache($component, $force, true);
 		}catch(\Exception $e){
 			WBF()->get_service_manager()->get_notice_manager()->add_notice(
 				'unable_to_update_component_' . $component->name,
@@ -322,7 +323,7 @@ function setup_single_component_update_cache($component, $force = false, $always
 		$package = request_single_component($component->name, get_update_uri($component));
 		set_component_update_cache($component,$package);
 	}else{
-		set_component_update_cache($component,[]);
+		set_component_update_cache_as_updated($component);
 	}
 }
 
@@ -342,6 +343,14 @@ function get_component_update_cache($component){
 function set_component_update_cache($component, $package){
 	$update_interval = (int) apply_filters('waboot/components/update_check_time_interval', 60*60*24);
 	\set_transient('waboot_component_'.$component->name.'_updated_package',$package, $update_interval);
+}
+
+/**
+ * @param Component $component
+ */
+function set_component_update_cache_as_updated($component){
+	$update_interval = (int) apply_filters('waboot/components/update_check_time_interval', 60*60*24);
+	\set_transient('waboot_component_'.$component->name.'_updated_package',[], $update_interval);
 }
 
 /**

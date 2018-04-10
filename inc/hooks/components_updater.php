@@ -3,12 +3,18 @@
 namespace Waboot\hooks\components_updater;
 
 use function Waboot\functions\components\get_components_to_update;
+use function Waboot\functions\components\install_remote_component;
+use function Waboot\functions\components\set_component_update_cache;
+use function Waboot\functions\components\set_component_update_cache_as_updated;
 use function Waboot\functions\components\setup_components_update_cache;
 use WBF\components\mvc\HTMLView;
+use WBF\modules\components\Component;
+use WBF\modules\components\ComponentFactory;
 
 add_action('admin_init', __NAMESPACE__ . '\\build_update_cache');
 add_filter('wp_get_update_data', __NAMESPACE__.'\\notify_updates',11,2);
 add_action('core_upgrade_preamble', __NAMESPACE__.'\\display_components_updates');
+add_action('update-core-custom_'.'do-component-upgrade', __NAMESPACE__.'\\do_component_upgrade');
 
 /**
  * Setup the components updates cache
@@ -52,6 +58,36 @@ function display_components_updates(){
 	$components = get_components_to_update();
     (new HTMLView('templates/admin/components-updates-list.php'))->display([
         'all_updated' => \count($components) === 0,
-        'components_to_update' => $components
+        'components_to_update' => $components,
+	    'update_form_action' => admin_url('update-core.php?action=do-component-upgrade')
     ]);
+}
+
+/**
+ * Update single or multiple (in future) component
+ *
+ * @hooked update-core-custom_{$action}
+ */
+function do_component_upgrade(){
+	$component_slug = isset($_GET['component']) ? $_GET['component'] : false;
+	$component_nicename = isset($_GET['nicename']) ? $_GET['nicename'] : $component_slug;
+	if(\is_string($component_slug) && $component_slug !== ''){
+		try{
+			$r = install_remote_component($component_slug, true);
+			//Set as updated
+			$component = ComponentFactory::create_from_slug($component_slug);
+			if($component instanceof Component){
+				set_component_update_cache_as_updated($component);
+			}
+		}catch (\Exception $e){
+			$error = $e->getMessage();
+		}
+	}else{
+		$error = _x('Invalid component provided','Component Update Landing page','waboot');
+	}
+	(new HTMLView('templates/admin/components-update-landing-page.php'))->display([
+		'component_nicename' => $component_nicename,
+		'error_occurred' => isset($error),
+		'error' => isset($error) ? $error : false
+	]);
 }
