@@ -1,6 +1,8 @@
 <h2><?php _ex('Components', 'Updates list', 'waboot'); ?></h2>
-<?php if($all_updated): ?>
-	<?php _ex('Your components are all up to date', 'Updates list', 'waboot'); ?>
+<?php if($no_components): ?>
+    <?php _ex('You don\'t have any theme component yet.', 'Updates list', 'waboot'); ?>
+<?php elseif($all_updated): ?>
+	<?php _ex('Your components are all up to date.', 'Updates list', 'waboot'); ?>
 <?php else: ?>
     <table class="widefat updates-table" id="update-components-table">
         <thead>

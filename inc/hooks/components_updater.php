@@ -11,6 +11,7 @@ use WBF\components\mvc\HTMLView;
 use WBF\components\utils\WordPress;
 use WBF\modules\components\Component;
 use WBF\modules\components\ComponentFactory;
+use WBF\modules\components\ComponentsManager;
 
 add_action('admin_init', __NAMESPACE__ . '\\build_update_cache');
 add_filter('wp_get_update_data', __NAMESPACE__.'\\notify_updates',11,2);
@@ -73,6 +74,7 @@ function display_components_updates(){
 	$components = get_components_to_update();
     (new HTMLView('templates/admin/components-updates-list.php'))->display([
         'all_updated' => \count($components) === 0,
+        'no_components' => \count(ComponentsManager::getAllComponents()) === 0,
         'components_to_update' => $components,
 	    'update_form_action' => admin_url('update-core.php?action=do-component-upgrade')
     ]);
