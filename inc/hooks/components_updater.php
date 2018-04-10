@@ -26,8 +26,12 @@ add_action('update-core-custom_'.'do-component-upgrade', __NAMESPACE__.'\\do_com
  * @throws \Exception
  */
 function build_update_cache(){
-	if(is_admin() && isset($_GET['waboot_force_components_update_check']) && $_GET['waboot_force_components_update_check'] === '1'){
-		setup_components_update_cache(true);
+	if(is_admin() && isset($_GET['waboot_force_components_update_check'])){
+		if($_GET['waboot_force_components_update_check'] === '1'){
+			setup_components_update_cache(true);
+		}elseif($_GET['waboot_force_components_update_check'] === '2'){
+			setup_components_update_cache(true,true);
+		}
 	}else{
 		setup_components_update_cache();
 	}

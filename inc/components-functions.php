@@ -280,14 +280,15 @@ function has_update($component){
  * @hooked 'admin_init'
  *
  * @param bool $force force the update retrieval for cached components
+ * @param bool $always_get_update if TRUE bypass the has_update() result
  *
  * @throws \Exception
  */
-function setup_components_update_cache($force = false){
+function setup_components_update_cache($force = false, $always_get_update = false){
 	$components = ComponentsManager::getAllComponents();
 	foreach ($components as $component){
 		try{
-			setup_single_component_update_cache($component, $force, true);
+			setup_single_component_update_cache($component, $force, $always_get_update);
 		}catch(\Exception $e){
 			WBF()->get_service_manager()->get_notice_manager()->add_notice(
 				'unable_to_update_component_' . $component->name,
