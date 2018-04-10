@@ -280,6 +280,8 @@ function has_update($component){
 /**
  * Setup the components updates cache
  *
+ * @uses setup_single_component_update_cache()
+ *
  * @hooked 'admin_init'
  *
  * @param bool $force force the update retrieval for cached components
@@ -288,21 +290,9 @@ function has_update($component){
  */
 function setup_components_update_cache($force = false){
 	$components = ComponentsManager::getAllComponents();
-	$update_interval = (int) apply_filters('waboot/components/update_check_time_interval', 60*60*24);
-
 	foreach ($components as $component){
-		if(!$force){
-			$package = \get_transient('waboot_component_'.$component->name.'_updated_package');
-			if(\is_array($package)) continue;
-		}
 		try{
-			$needs_update = has_update($component);
-			if($needs_update){
-				$package = request_single_component($component->name, get_update_uri($component));
-				\set_transient('waboot_component_'.$component->name.'_updated_package',$package,$update_interval);
-			}else{
-				\delete_transient('waboot_component_'.$component->name.'_updated_package');
-			}
+			setup_single_component_update_cache($component, $force);
 		}catch(\Exception $e){
 			WBF()->get_service_manager()->get_notice_manager()->add_notice(
 				'unable_to_update_component_' . $component->name,
@@ -311,6 +301,29 @@ function setup_components_update_cache($force = false){
 				'_flash_'
 			);
 		}
+	}
+}
+
+/**
+ * Setup single component updates cache
+ *
+ * @param Component $component
+ * @param bool $force force the update retrieval for cached components
+ *
+ * @throws \Exception
+ */
+function setup_single_component_update_cache($component, $force = false){
+	if(!$force){
+		$package = \get_transient('waboot_component_'.$component->name.'_updated_package');
+		if(\is_array($package)) return;
+	}
+	$needs_update = has_update($component);
+	if($needs_update){
+		$package = request_single_component($component->name, get_update_uri($component));
+		$update_interval = (int) apply_filters('waboot/components/update_check_time_interval', 60*60*24);
+		\set_transient('waboot_component_'.$component->name.'_updated_package',$package,$update_interval);
+	}else{
+		\delete_transient('waboot_component_'.$component->name.'_updated_package');
 	}
 }
 
