@@ -49,6 +49,7 @@ var paths = {
         "!bower.json",
         "!Movefile-sample",
         "!yarn.lock",
+        "!./package-lock.json",
         "!*.log",
         "!{tests,tests/**}",
         "!{vendor,vendor/**}",
@@ -195,13 +196,13 @@ gulp.task('copy-vendors',function() {
         'assets/vendor/bootstrap-sass/assets/fonts/bootstrap/*.*'
     ],'assets/dist/fonts',{flatten: true},cb);
     copy([
-        'assets/vendor/fontawesome/fonts/*.*',
-        '!assets/vendor/fontawesome/fonts/4.4.0'
+        'assets/vendor/fontawesome/web-fonts-with-css/webfonts/*.*',
     ],'assets/dist/fonts',{flatten: true},cb);
 
     //Copy styles
     copy([
-        'assets/vendor/fontawesome/css/font-awesome.min.css'
+        'assets/vendor/fontawesome/web-fonts-with-css/css/fontawesome.min.css',
+        'assets/vendor/fontawesome/web-fonts-with-css/css/fontawesome-all.min.css'
     ],'assets/dist/css',{flatten: true},cb);
     /*copy([
         'assets/vendor/bootstrap/dist/css/bootstrap.min.css'

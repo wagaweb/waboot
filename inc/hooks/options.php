@@ -264,6 +264,15 @@ function register_options($orgzr){
 		'save_action' => "\\Waboot\\functions\\deploy_theme_options_css"
 	));
 
+	$orgzr->add([
+		'name' => _x( 'FontAwesome version', 'Theme options', 'waboot' ),
+		'desc' => _x( 'Choose the FontAwesome version to include', 'Theme options', 'waboot' ),
+		'id' => 'fa_version',
+		'std' => 'latest',
+		'type' => 'radio',
+		'options' => array( 'legacy' => 'Legacy (4.7.0)','latest' => 'Latest (5.x)' ),
+	]);
+
 	$orgzr->reset_group();
 	$orgzr->set_group("std_options");
 

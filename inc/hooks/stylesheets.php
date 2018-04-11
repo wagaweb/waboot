@@ -6,7 +6,7 @@ use WBF\components\assets\AssetsManager;
 
 function waboot_style(){
 	//Waboot style version
-    if(defined('WABOOT_EXCLUDE_STYLES') && WABOOT_EXCLUDE_STYLES) return;
+	if(defined('WABOOT_EXCLUDE_STYLES') && WABOOT_EXCLUDE_STYLES) return;
 
 	if(wbf_exists()){
 		if(defined('WABOOT_BOOTSTRAP_CLASSIC_STYLE') && WABOOT_BOOTSTRAP_CLASSIC_STYLE){
@@ -51,10 +51,17 @@ if(wbf_exists()) add_action( 'wp_enqueue_scripts', __NAMESPACE__.'\\theme_option
 function theme_styles(){
 	//Common styles
 	$assets = [
-		'font-awesome' => [
-			'uri' => get_template_directory_uri()."/assets/dist/css/font-awesome.min.css",
-			'path' => get_template_directory()."/assets/dist/css/font-awesome.min.css",
-			'type' => 'css'
+		'fontawesome-4' => [
+			'uri' => get_template_directory_uri()."/assets/dist/css/font-awesome-4.7.0.min.css",
+			'path' => get_template_directory()."/assets/dist/css/font-awesome-4.7.0.min.css",
+			'type' => 'css',
+			'enqueue' => \Waboot\functions\get_option('fa_version') === 'legacy'
+		],
+		'fontawesome' => [
+			'uri' => get_template_directory_uri()."/assets/dist/css/fontawesome-all.min.css",
+			'path' => get_template_directory()."/assets/dist/css/fontawesome-all.min.css",
+			'type' => 'css',
+			'enqueue' => \Waboot\functions\get_option('fa_version') === 'latest'
 		]
 	];
 	$am = new AssetsManager($assets);

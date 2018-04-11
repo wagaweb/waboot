@@ -188,24 +188,50 @@ function get_index_page_title(){
  * @return string
  */
 function get_archive_page_title(){
+	$display_prefix = apply_filters('waboot/layout/archive_page_title/prepend_prefix', false);
+
 	if ( is_category() ) {
 		/* translators: Category archive title. 1: Category name */
-		$title = sprintf( __( 'Category: %s' ), single_cat_title( '', false ) );
+		if($display_prefix){
+			$title = sprintf( __( 'Category: %s' ), single_cat_title( '', false ) );
+		}else{
+			$title = sprintf( __( '%s' ), single_cat_title( '', false ) );
+		}
 	} elseif ( is_tag() ) {
 		/* translators: Tag archive title. 1: Tag name */
-		$title = sprintf( __( 'Tag: %s' ), single_tag_title( '', false ) );
+		if($display_prefix){
+			$title = sprintf( __( 'Tag: %s' ), single_tag_title( '', false ) );
+		}else{
+			$title = sprintf( __( '%s' ), single_tag_title( '', false ) );
+		}
 	} elseif ( is_author() ) {
 		/* translators: Author archive title. 1: Author name */
-		$title = sprintf( __( 'Author: %s' ), '<span class="vcard">' . get_the_author() . '</span>' );
+		if($display_prefix){
+			$title = sprintf( __( 'Author: %s' ), '<span class="vcard">' . get_the_author() . '</span>' );
+		}else{
+			$title = sprintf( __( '%s' ), '<span class="vcard">' . get_the_author() . '</span>' );
+		}
 	} elseif ( is_year() ) {
 		/* translators: Yearly archive title. 1: Year */
-		$title = sprintf( __( 'Year: %s' ), get_the_date( _x( 'Y', 'yearly archives date format' ) ) );
+		if($display_prefix){
+			$title = sprintf( __( 'Year: %s' ), get_the_date( _x( 'Y', 'yearly archives date format' ) ) );
+		}else{
+			$title = sprintf( __( '%s' ), get_the_date( _x( 'Y', 'yearly archives date format' ) ) );
+		}
 	} elseif ( is_month() ) {
 		/* translators: Monthly archive title. 1: Month name and year */
-		$title = sprintf( __( 'Month: %s' ), get_the_date( _x( 'F Y', 'monthly archives date format' ) ) );
+		if($display_prefix){
+			$title = sprintf( __( 'Month: %s' ), get_the_date( _x( 'F Y', 'monthly archives date format' ) ) );
+		}else{
+			$title = sprintf( __( '%s' ), get_the_date( _x( 'F Y', 'monthly archives date format' ) ) );
+		}
 	} elseif ( is_day() ) {
 		/* translators: Daily archive title. 1: Date */
-		$title = sprintf( __( 'Day: %s' ), get_the_date( _x( 'F j, Y', 'daily archives date format' ) ) );
+		if($display_prefix){
+			$title = sprintf( __( 'Day: %s' ), get_the_date( _x( 'F j, Y', 'daily archives date format' ) ) );
+		}else{
+			$title = sprintf( __( '%s' ), get_the_date( _x( 'F j, Y', 'daily archives date format' ) ) );
+		}
 	} elseif ( is_tax( 'post_format' ) ) {
 		if ( is_tax( 'post_format', 'post-format-aside' ) ) {
 			$title = _x( 'Asides', 'post format archive title' );
@@ -228,11 +254,19 @@ function get_archive_page_title(){
 		}
 	} elseif ( is_post_type_archive() ) {
 		/* translators: Post type archive title. 1: Post type name */
-		$title = sprintf( __( 'Archives: %s' ), post_type_archive_title( '', false ) );
+		if($display_prefix){
+			$title = sprintf( __( 'Archives: %s' ), post_type_archive_title( '', false ) );
+		}else{
+			$title = sprintf( __( '%s' ), post_type_archive_title( '', false ) );
+		}
 	} elseif ( is_tax() ) {
 		$tax = get_taxonomy( get_queried_object()->taxonomy );
 		/* translators: Taxonomy term archive title. 1: Taxonomy singular name, 2: Current taxonomy term */
-		$title = sprintf( __( '%1$s: %2$s' ), $tax->labels->singular_name, single_term_title( '', false ) );
+		if($display_prefix){
+			$title = sprintf( __( '%1$s: %2$s' ), $tax->labels->singular_name, single_term_title( '', false ) );
+		}else{
+			$title = sprintf( __( '%1$s' ), single_term_title( '', false ) );
+		}
 	} else {
 		$arch_obj = get_queried_object();
 		if(isset($arch_obj->name)){
@@ -723,4 +757,116 @@ function has_wbf_required_version($required_version){
 	$wbf_version = $wbf::version;
 	$r = version_compare($wbf_version,$required_version,'>=');
 	return $r;
+}
+
+/**
+ * Gets Waboot installed children themes
+ * @return array
+ */
+function get_waboot_children(){
+	$themes = wp_get_themes();
+	$children = [];
+	if(\is_array($themes) && !empty($themes)){
+		foreach ($themes as $theme_slug => $WP_Theme){
+			if($WP_Theme->get_template() === 'waboot'){
+				$children[] = $WP_Theme;
+			}
+		}
+	}
+	return $children;
+}
+
+/**
+ * Backup theme options of a specific theme
+ *
+ * @param string WP_Theme|string $theme
+ * @param string|null $filename
+ *
+ * @return bool|string
+ * @throws \Exception
+ */
+function backup_theme_options($theme, $filename = null){
+	if(\is_string($theme)){
+		$theme = wp_get_theme($theme);
+	}
+	if(!$theme instanceof \WP_Theme) return false;
+	$theme_options = \get_option("wbf_".$theme->get_stylesheet()."_options",[]);
+	if(!\is_array($theme_options) || empty($theme_options)) return false;
+
+	//Actually backup theme options
+	$backup_path = WBF()->get_working_directory(true) . "/{$theme->get_stylesheet()}/theme-options-backups";
+	if(!is_dir($backup_path)){
+		wp_mkdir_p($backup_path);
+	}
+	if(is_dir($backup_path)){
+		if(!isset($filename) || !\is_string($filename)){
+			$date = date( 'Y-m-d-His' );
+			$backup_filename = 'wbf_'.$theme->get_stylesheet() . "_options-" . $date . ".options";
+		}else{
+			$backup_filename = $filename;
+			if(strpos($backup_filename,'.options') === false){
+				$backup_filename.= '.options';
+			}
+		}
+
+		if(is_file($backup_path . "/" . $backup_filename)){
+			unlink($backup_path . "/" . $backup_filename);
+		}
+
+		if ( ! file_put_contents( $backup_path . "/" . $backup_filename, base64_encode( json_encode( $theme_options ) ) ) ) {
+			throw new \Exception( __( "Unable to create the backup file: " . $backup_path . "/" . $backup_filename ) );
+		}
+		return $backup_path . "/" . $backup_filename;
+	}
+	return false;
+}
+
+/**
+ * Backups components states of a specific theme
+ *
+ * @param string $theme
+ *
+ * @param null $filename
+ *
+ * @return string|bool
+ * @throws \Exception
+ */
+function backup_components_states($theme, $filename = null){
+	if(\is_string($theme)){
+		$theme = wp_get_theme($theme);
+	}
+	if(!$theme instanceof \WP_Theme) return false;
+
+	$states = \call_user_func(function() use($theme){
+		$opt = \get_option("wbf_".$theme->get_stylesheet()."_components_state", []);
+		$opt = apply_filters("wbf/modules/components/states",$opt,$theme->get_stylesheet());
+		return $opt;
+	});
+
+	//Actually backup components options
+	$backup_path = WBF()->get_working_directory(true) . "/{$theme->get_stylesheet()}/components-backups";
+	if(!is_dir($backup_path)){
+		wp_mkdir_p($backup_path);
+	}
+	if(is_dir($backup_path)){
+		if(!isset($filename) || !\is_string($filename)){
+			$date = date( 'Y-m-d-His' );
+			$backup_filename = $theme->get_stylesheet() . "-" . $date . ".components";
+		}else{
+			$backup_filename = $filename;
+			if(strpos($backup_filename,'.components') === false){
+				$backup_filename.= '.components';
+			}
+		}
+
+		if(is_file($backup_path . "/" . $backup_filename)){
+			unlink($backup_path . "/" . $backup_filename);
+		}
+
+		if ( ! file_put_contents( $backup_path . "/" . $backup_filename, serialize( $states ) ) ) {
+			throw new \Exception( __( "Unable to create the backup file: " . $backup_path . "/" . $backup_filename ) );
+		}
+		return $backup_path . "/" . $backup_filename;
+	}
+	return false;
 }

@@ -1,6 +1,9 @@
 <?php
 
 namespace Waboot\hooks;
+use function Waboot\functions\backup_components_states;
+use function Waboot\functions\backup_theme_options;
+use function Waboot\functions\get_waboot_children;
 use Waboot\LS;
 use WBF\components\customupdater\Theme_Update_Checker;
 use WBF\components\license\License_Manager;
@@ -257,3 +260,108 @@ function add_classes_to_component_default_options($options,$component){
     return $options;
 }
 add_filter("wbf/modules/components/component/default_options",__NAMESPACE__ ."\\add_classes_to_component_default_options",10,2);
+
+/**
+ * Allows to bind actions before Waboot updates
+ *
+ * @param $reply
+ * @param $package
+ * @param \WP_Upgrader $WP_Upgrader
+ *
+ * @return mixed
+ */
+function on_before_update($reply, $package, $WP_Upgrader){
+	if(!$WP_Upgrader instanceof  \Theme_Upgrader) return $reply;
+	if(strpos( $package, 'waboot' ) === false) return $reply;
+
+	//Detect update infos
+	$theme = wp_get_theme('waboot');
+	$current_version = $theme['Version'];
+	$new_version = \call_user_func(function() use($package){
+		preg_match('/\/-?([0-9.]+)/',$package,$matches);
+		if(\is_array($matches) && !empty($matches)){
+			return $matches[1];
+		}
+		return false;
+	});
+	if(!$new_version) return $reply;
+
+	$infos = [
+		'parent_theme' => $theme,
+		'current_theme' => wp_get_theme(),
+		'current_version' => $current_version,
+		'new_version' => $new_version,
+		'package' => $package
+	];
+
+	do_action('waboot/before_update', $infos, $WP_Upgrader);
+
+	return $reply;
+}
+add_filter('upgrader_pre_download', __NAMESPACE__."\\on_before_update",99,3);
+
+/**
+ * Save the current Waboot version before the actual update
+ *
+ * @param $params
+ * @param $WP_Upgrader
+ */
+function save_waboot_version_before_update($params, $WP_Upgrader){
+    update_option('waboot_pre_upgrade_version', wp_get_theme('waboot')['Version']);
+}
+add_action('waboot/before_update', __NAMESPACE__."\\save_waboot_version_before_update",10,2);
+
+/**
+ * Create a theme options backup before an update
+ *
+ * @param $params
+ * @param \WP_Upgrader $WP_Upgrader
+ *
+ * @return void
+ */
+function do_backups_before_updates($params, $WP_Upgrader){
+	try{
+		$themes_to_backup = get_waboot_children();
+		if(!\is_array($themes_to_backup) || empty($themes_to_backup)) return;
+
+		//Do theme options backups
+		$waboot_updates = \get_option('waboot_updates_backups_theme_options',[]);
+		foreach ($themes_to_backup as $theme){
+			if(!$theme instanceof \WP_Theme) continue;
+			try{
+				$filename = backup_theme_options($theme);
+				$hash = $params['current_version'].'_'.$params['new_version'].'_'.$theme->get_stylesheet();
+				$waboot_updates[$hash] = [
+					'from' => $params['current_version'],
+					'to' => $params['new_version'],
+					'file' => $filename,
+					'theme' => $theme->get_stylesheet()
+				];
+			}catch(\Exception $e){
+				continue;
+			}
+		}
+		\update_option('waboot_updates_backups_theme_options',$waboot_updates);
+
+		//Do components backup
+		$waboot_updates = \get_option('waboot_updates_backups_components',[]);
+		foreach ($themes_to_backup as $theme){
+			if(!$theme instanceof \WP_Theme) continue;
+			try{
+				$filename = backup_components_states($theme);
+				$hash = $params['current_version'].'_'.$params['new_version'].'_'.$theme->get_stylesheet();
+				$waboot_updates[$hash] = [
+					'from' => $params['current_version'],
+					'to' => $params['new_version'],
+					'file' => $filename,
+					'theme' => $theme->get_stylesheet()
+				];
+			}catch (\Exception $e){
+				continue;
+			}
+		}
+		\update_option('waboot_updates_backups_components',$waboot_updates);
+
+	}catch(\Exception $e){}
+}
+add_action('waboot/before_update', __NAMESPACE__."\\do_backups_before_updates",10,2);
