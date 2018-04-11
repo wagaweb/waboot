@@ -318,7 +318,8 @@ gulp.task('setup-components', function(callback){
  */
 gulp.task('build-components', function(callback){
     let components = available_components;
-    let tasks = [];
+    let pkg_tasks = [];
+    let zip_tasks = [];
     let fs = require('fs');
     let del = require('del');
     for(var i = 0, len = components.length; i < len; i++){
@@ -334,14 +335,42 @@ gulp.task('build-components', function(callback){
                 return data;
             });
             if(current_version){
-                let current_zip_filename = components[i]+'-'+current_version+'.zip';
-                del('./builds/components'+current_zip_filename);
-                let current_task = gulp.src(current_directory+'/*').pipe(zip(current_zip_filename)).pipe(gulp.dest('./builds/components'));
-                tasks.push(current_task);
+                let current_pkg_name = components[i];
+                del.sync('./builds/components/'+current_pkg_name);
+                let current_pkg_task = gulp.src(current_directory+'/**/*').pipe(gulp.dest('./builds/components/'+current_pkg_name));
+                pkg_tasks.push(current_pkg_task);
             }
         }catch(e){}
     }
-    return merge(...tasks);
+    return merge(...pkg_tasks);
+});
+
+gulp.task('zip-components', ['build-components'], function(callback){
+    let components = available_components;
+    let zip_tasks = [];
+    let fs = require('fs');
+    let del = require('del');
+    for(var i = 0, len = components.length; i < len; i++){
+        let current_directory = './components/'+components[i];
+        try{
+            fs.lstatSync(current_directory+'/.version').isFile();
+            let current_version = fs.readFileSync(current_directory+'/.version', 'utf8', function(err,data){
+                if(err){
+                    console.log(err);
+                    return false;
+                }
+                return data;
+            });
+            if(current_version){
+                let current_zip_filename = components[i]+'-'+current_version+'.zip';
+                let current_pkg_name = components[i];
+                del.sync('./builds/components/'+current_zip_filename);
+                let current_zip_task = gulp.src('./builds/components/'+current_pkg_name+'/**/*', {base: './builds/components/'}).pipe(zip(current_zip_filename)).pipe(gulp.dest('./builds/components'));
+                zip_tasks.push(current_zip_task);
+            }
+        }catch(e){}
+    }
+    return merge(...zip_tasks);
 });
 
 /*
