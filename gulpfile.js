@@ -238,7 +238,7 @@ gulp.task('bower-update',function(){
 });
 
 /**
- * Runs a build
+ * Initial setup
  */
 gulp.task('setup', function(callback) {
     runSequence('bower-update', 'copy-vendors', ['compile_js', 'compile_css'], callback);
@@ -249,6 +249,21 @@ gulp.task('setup', function(callback) {
  */
 gulp.task('build', function(callback) {
     runSequence('bower-update', 'copy-vendors',['compile_js', 'compile_css'], 'make-package', 'archive', callback);
+});
+
+/**
+ * Rerun the task when a file changes
+ */
+gulp.task('watch', function() {
+    gulp.watch(paths.scripts, ['compile_js']);
+    gulp.watch(paths.scsses, ['compile_css']);
+});
+
+/**
+ * Default task
+ */
+gulp.task('default', function(callback){
+    runSequence('bower-install', ['compile_js', 'compile_css'], 'watch', callback);
 });
 
 /*
@@ -299,18 +314,3 @@ gulp.task('setup-components', function(callback){
 /*
  * COMPONENTS: END
  */
-
-/**
- * Rerun the task when a file changes
- */
-gulp.task('watch', function() {
-    gulp.watch(paths.scripts, ['compile_js']);
-    gulp.watch(paths.scsses, ['compile_css']);
-});
-
-/**
- * Default task
- */
-gulp.task('default', function(callback){
-    runSequence('bower-install', ['compile_js', 'compile_css'], 'watch', callback);
-});
