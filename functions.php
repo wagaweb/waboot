@@ -1,6 +1,6 @@
 <?php
 
-define('WBF_MIN_VER', '1.1.0');
+define('WBF_MIN_VER', '1.1.2');
 
 waboot_init();
 
@@ -9,7 +9,7 @@ waboot_init();
  */
 function waboot_init(){
 	$waboot_includes = [
-		'inc/migrations/migration-2.3.2-2.4.0.php',
+		'inc/migrations/migration-2.3.2-3.0.0.php',
 		'inc/template-functions.php',
 		'inc/components-functions.php',
 		'inc/template-tags.php',

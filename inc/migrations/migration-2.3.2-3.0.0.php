@@ -12,7 +12,7 @@ use function Waboot\hooks\save_waboot_version_before_update;
 	if(!isset($_GET['debug_mig'])) return;
 
 	$params = [
-		'new_version' => '2.4.0',
+		'new_version' => '3.0.0',
 		'current_version' => '2.3.2'
 	];
 
@@ -21,7 +21,7 @@ use function Waboot\hooks\save_waboot_version_before_update;
 	//do_backups_before_updates($params,null);
 
 	\update_option('waboot_updates_backups_components-migrations',[
-		'2.3.2_2.4.0_waboot-child' => [
+		'2.3.2_3.0.0_waboot-child' => [
 			'bootstrap' => 1,
 			'header_classic' => 1,
 			'footer_classic' => 1
@@ -40,7 +40,7 @@ add_action('init', function(){
 	$operation = sanitize_text_field($_GET['waboot_perform_updates']);
 
 	$migrations = \get_option('waboot-migrations', []);
-	$current_migration = $migrations['2.3.2-2.4.0'];
+	$current_migration = $migrations['2.3.2-3.0.0'];
 
 	switch($operation){
 		case 'component':
@@ -51,7 +51,7 @@ add_action('init', function(){
 					mig_232_240_install_component($slug);
 				}elseif($action === 'dismiss'){
 					$current_migration['installed_component_'.$slug] = true;
-					$migrations['2.3.2-2.4.0'] = $current_migration;
+					$migrations['2.3.2-3.0.0'] = $current_migration;
 					\update_option('waboot-migrations',$migrations);
 				}
 			}
@@ -62,15 +62,15 @@ add_action('init', function(){
 add_action('init', function(){
 	$migrations = \get_option('waboot-migrations', []);
 
-	if(array_key_exists('2.3.2-2.4.0',$migrations) && isset($migrations['2.3.2-2.4.0']['status']) && $migrations['2.3.2-2.4.0']['status'] === 'done') return;
+	if(array_key_exists('2.3.2-3.0.0',$migrations) && isset($migrations['2.3.2-3.0.0']['status']) && $migrations['2.3.2-3.0.0']['status'] === 'done') return;
 
-	if(!isset($migrations['2.3.2-2.4.0'])){
-		$migrations['2.3.2-2.4.0'] = [
+	if(!isset($migrations['2.3.2-3.0.0'])){
+		$migrations['2.3.2-3.0.0'] = [
 			'status' => 'incomplete'
 		];
 	}
 
-	$current_migration = $migrations['2.3.2-2.4.0'];
+	$current_migration = $migrations['2.3.2-3.0.0'];
 	$complete = false;
 
 	if(is_admin()){
@@ -110,14 +110,14 @@ add_action('init', function(){
 
 	if($complete){
 		$current_migration['status'] = 'done';
-		$migrations['2.3.2-2.4.0'] = $current_migration;
+		$migrations['2.3.2-3.0.0'] = $current_migration;
 		\update_option('waboot-migrations',$migrations);
 	}
 },11);
 
 function mig_232_240_install_component($component){
 	$migrations = \get_option('waboot-migrations', []);
-	$current_migration = $migrations['2.3.2-2.4.0'];
+	$current_migration = $migrations['2.3.2-3.0.0'];
 
 	//Doing the update...
 	try{
@@ -125,7 +125,7 @@ function mig_232_240_install_component($component){
 
 		//Update the option
 		$current_migration['installed_component_'.$component] = true;
-		$migrations['2.3.2-2.4.0'] = $current_migration;
+		$migrations['2.3.2-3.0.0'] = $current_migration;
 		\update_option('waboot-migrations',$migrations);
 	}catch (\Exception $e){
 		WBF()->get_service_manager()->get_notice_manager()->add_notice('unable_to_install_component_'.$component,$e->getMessage(),'error','_flash_');
@@ -135,7 +135,7 @@ function mig_232_240_install_component($component){
 function mig_232_240_get_components_states_backup(){
 	$backupped_components_states = \get_option('waboot_updates_backups_components');
 	$current_theme = wp_get_theme();
-	$hash = '2.3.2'.'_'.'2.4.0'.'_'.$current_theme->get_stylesheet();
+	$hash = '2.3.2'.'_'.'3.0.0'.'_'.$current_theme->get_stylesheet();
 	if(\is_array($backupped_components_states)){
 		return array_key_exists($hash,$backupped_components_states) ? $backupped_components_states[$hash] : false;
 	}

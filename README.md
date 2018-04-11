@@ -267,11 +267,13 @@ More informations and tutorials [here](https://github.com/wagaweb/waboot/tree/ma
 
 - Bugfix
 
-:tada: Official Waboot launch! :rocket:
+**v3.0.x**
 
-**v2.4.x**
+- Deprecation of Bootstrap dependency
 
 - Components repository
+
+:tada: Official Waboot launch! :rocket:
 
 **Future releases**
 
