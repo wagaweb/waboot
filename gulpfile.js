@@ -158,6 +158,8 @@ gulp.task('browserify', function(){
  * Creates the theme package
  */
 gulp.task('make-package', function(){
+    let del = require('del');
+    del(paths.builddir+'/pkg');
     return gulp.src(paths.build)
         .pipe(gcopy(paths.builddir+"/pkg/"+theme_slug));
 });
@@ -309,6 +311,37 @@ gulp.task('components-pull-remotes', function(){
  */
 gulp.task('setup-components', function(callback){
     runSequence('components-add-dirs', 'components-pull-remotes', callback);
+});
+
+/**
+ * Builds all components
+ */
+gulp.task('build-components', function(callback){
+    let components = available_components;
+    let tasks = [];
+    let fs = require('fs');
+    let del = require('del');
+    for(var i = 0, len = components.length; i < len; i++){
+        let current_directory = './components/'+components[i];
+        console.log(current_directory+'/.version ...');
+        try{
+            fs.lstatSync(current_directory+'/.version').isFile();
+            let current_version = fs.readFileSync(current_directory+'/.version', 'utf8', function(err,data){
+                if(err){
+                    console.log(err);
+                    return false;
+                }
+                return data;
+            });
+            if(current_version){
+                let current_zip_filename = components[i]+'-'+current_version+'.zip';
+                del('./builds/components'+current_zip_filename);
+                let current_task = gulp.src(current_directory+'/*').pipe(zip(current_zip_filename)).pipe(gulp.dest('./builds/components'));
+                tasks.push(current_task);
+            }
+        }catch(e){}
+    }
+    return merge(...tasks);
 });
 
 /*
