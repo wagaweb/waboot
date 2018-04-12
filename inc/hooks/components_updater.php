@@ -58,10 +58,13 @@ function notify_updates($update_data, $titles){
 
 /**
  * Force check for updates in update-core.php page
+ *
+ * @hooked 'core_upgrade_preamble'
+ *
  * @throws \Exception
  */
 function force_check_for_updates(){
-	if(isset($_GET['waboot_force_components_update_check'])) return;
+	if(!isset($_GET['force-check']) || $_GET['force-check'] !== '1') return;
 	setup_components_update_cache(true);
 }
 
