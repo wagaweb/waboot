@@ -77,43 +77,26 @@ function get_aside_template_vars($slug){
 		case "aside-primary":
 			$vars['classes'] = call_user_func(function(){
 				if(has_filter("waboot_primary_container_class")){
-					return apply_filters('waboot_primary_container_class', 'col-sm-4'); //backward compatibility
+					return apply_filters('waboot_primary_container_class', 'wbcol-4'); //backward compatibility
 				}else{
-					return apply_filters('waboot/layout/sidebar/primary/classes', 'col-sm-4');
+					return apply_filters('waboot/layout/sidebar/primary/classes', 'wbcol-4');
 				}
 			});
 			break;
 		case "aside-secondary":
 			$vars['classes'] = call_user_func(function(){
-				if(has_filter("waboot_primary_container_class")){
-					return apply_filters('waboot_secondary_container_class', 'col-sm-4'); //backward compatibility
+				if(has_filter("waboot_secondary_container_class")){
+					return apply_filters('waboot_secondary_container_class', 'wbcol-4'); //backward compatibility
 				}else{
-					return apply_filters('waboot/layout/sidebar/secondary/classes', 'col-sm-4');
+					return apply_filters('waboot/layout/sidebar/secondary/classes', 'wbcol-4');
 				}
 			});
 			break;
 	}
 
-	$vars['container_classes'] = call_user_func(function(){
-		if(has_filter("waboot_sidebar_container_class")){
-			return apply_filters('waboot_sidebar_container_class', 'aside-area'); //backward compatibility
-		}else{
-			return apply_filters('waboot/layout/sidebar/container/classes', 'aside-area');
-		}
-	});
-
 	return $vars;
 }
 
-/**
- * Get additional variables needed to render the main wrapper
- */
-function get_main_wrapper_template_vars(){
-	$classes = apply_filters( 'waboot/layout/main_wrapper/classes', ['main-wrapper']);
-	$vars['classes'] = implode(" ",array_unique($classes));
-
-	return $vars;
-}
 
 /**
  * Template for comments and pingbacks.

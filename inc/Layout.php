@@ -351,7 +351,7 @@ class Layout{
 	}
 
 	/**
-	 * Convert size labels (1/3, 2/3, ect) into size integers (for using into col-sm-<x>)
+	 * Convert size labels (1/3, 2/3, ect) into size integers (for using into wbcol-<x>)
 	 * @param string $width the label
 	 *
 	 * @return int

@@ -4,9 +4,10 @@
   margin-bottom: 15px;
 }
 
+
 /* Table Responsive */
 
-@include up($xsmall) {
+@include down($xsmall) {
 
   table.wb-table-responsive {
     border-top: 1px solid #ddd;

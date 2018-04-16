@@ -72,17 +72,17 @@ function waboot_init(){
 	try{
 		$wb->layout->create_zone("header",false,["always_load"=>true]);
 		$wb->layout->create_zone("page-before",false);
-		$wb->layout->create_zone("main-top",new \WBF\components\mvc\HTMLView("templates/main-top.php"));
-		$wb->layout->create_zone("aside-primary",new \WBF\components\mvc\HTMLView("templates/aside.php"),["can_render_callback" => function(){
+		$wb->layout->create_zone("main-top",new \WBF\components\mvc\HTMLView("templates/zones/main-top.php"));
+		$wb->layout->create_zone("aside-primary",new \WBF\components\mvc\HTMLView("templates/zones/aside.php"),["can_render_callback" => function(){
 			//Callback called to decide whether print out the zone or not
 			return \Waboot\functions\body_layout_has_sidebar();
 		}]);
 		$wb->layout->create_zone("content",false,["always_load"=>true]);
-		$wb->layout->create_zone("aside-secondary",new \WBF\components\mvc\HTMLView("templates/aside.php"),["can_render_callback" => function(){
+		$wb->layout->create_zone("aside-secondary",new \WBF\components\mvc\HTMLView("templates/zones/aside.php"),["can_render_callback" => function(){
 			//Callback called to decide whether print out the zone or not
 			return \Waboot\functions\body_layout_has_two_sidebars();
 		}]);
-		$wb->layout->create_zone("main-bottom",new \WBF\components\mvc\HTMLView("templates/main-bottom.php"));
+		$wb->layout->create_zone("main-bottom",new \WBF\components\mvc\HTMLView("templates/zones/main-bottom.php"));
 		$wb->layout->create_zone("page-after",false);
 		$wb->layout->create_zone("footer",false,["always_load"=>true]);
 	}catch(\Exception $e){

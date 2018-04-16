@@ -1,8 +1,3 @@
-<?php
-/*
- * Waboot View
- */
-?>
 <div class="<?php echo $widget_area_prefix; ?>-sidebar-row row">
 	<?php do_action("waboot/widget_area/before"); ?>
 	<?php do_action("waboot/widget_area/{$widget_area_prefix}/before"); ?>

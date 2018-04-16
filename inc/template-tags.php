@@ -238,7 +238,7 @@ function wrapped_title($prefix,$suffix,$title,\WP_Post $post = null){
  * Prints out the container-relative classes
  */
 function container_classes(){
-	$classes[] = "site-main";
+	$classes[] = "site-main__wrapper";
 	$classes[] = WabootLayout()->get_container_grid_class(\Waboot\functions\get_behavior("content-width"));
 	$classes = apply_filters("waboot/layout/container/classes",$classes);
 	if(is_array($classes)){
@@ -252,9 +252,9 @@ function container_classes(){
  */
 function main_classes(){
 	if(has_filter("waboot_mainwrap_container_class")){
-		echo apply_filters('waboot_mainwrap_container_class','content-area col-sm-8'); //backward compatibility
+		echo apply_filters('waboot_mainwrap_container_class','content-area wbcol-8'); //backward compatibility
 	}else{
-		echo apply_filters('waboot/layout/main/classes','content-area col-sm-8');
+		echo apply_filters('waboot/layout/main/classes','content-area wbcol-8');
 	}
 }
 

@@ -1,8 +1,3 @@
-<?php
-/*
- * Waboot View
- */
-?>
 <div class="widget-area">
 	<?php
 	do_action("waboot/widget_area/before");

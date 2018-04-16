@@ -1,11 +1,19 @@
 <article role="article" id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-    <div class="entry-content">
+    <div class="entry__wrapper">
 
-		<?php if(has_post_thumbnail()) : ?>
-            <?php get_template_part('/templates/view-parts/entry','thumbnail'); ?>
+        <?php if(has_post_thumbnail()) : ?>
+            <div class="entry__image">
+                <?php
+                $thumb_preset = apply_filters('waboot/layout/entry/thumbnail/preset','thumbnail');
+                $thumb_classes = apply_filters('waboot/layout/entry/thumbnail/class','img-responsive');
+                ?>
+                <a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( 'Link to %s', 'waboot' ), the_title_attribute( 'echo=0' ) ); ?>">
+                    <?php echo get_the_post_thumbnail( $post->ID, $thumb_preset, array( 'class' => $thumb_classes, 'title' => "" ) ); ?>
+                </a>
+            </div>
         <?php endif; ?>
 
-        <div class="entry-text">
+        <div class="entry__content">
 
             <?php do_action( 'waboot/entry/header', 'list' ); ?>
 
@@ -15,6 +23,7 @@
             ?>
 
             <?php do_action( 'waboot/entry/footer' ); ?>
+
         </div>
 
     </div>

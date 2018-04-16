@@ -171,16 +171,7 @@ form {
   textarea {
     height: auto;
   }
-  input[type="submit"],
-  button[type="submit"],
-  input[type="reset"],
-  button[type="reset"],
-  input[type="button"],
-  button[type="button"] {
-      width: 100%;
-  }
 }
-
 
 
 //
@@ -201,7 +192,6 @@ form {
   padding: 6px 12px;
   font-size: 1em;
   line-height: 1.4em;
-  color: #fff;
 
   &:hover,
   &:focus,

@@ -1,10 +1,8 @@
 			<!-- BEGIN: footer -->
-			<footer id="footer-wrapper" class="footer-wrapper" data-zone="footer">
-				<div class="footer-inner">
-					<?php WabootLayout()->render_zone("footer"); ?>
-					<?php do_action("waboot/footer"); ?>
-				</div>
-			</footer>
+			<div id="site-footer" class="site-footer" data-zone="footer">
+                <?php WabootLayout()->render_zone("footer"); ?>
+                <?php do_action("waboot/footer"); ?>
+			</div>
 			<!-- END: footer -->
 			<?php wp_footer(); ?>
 		</div><!-- END: page-inner -->

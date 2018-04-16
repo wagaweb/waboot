@@ -97,19 +97,19 @@ function get_grid_class_for_alignment($count = 4){
 	$count = intval($count);
 	switch($count) {
 		case 1:
-			$class = 'col-sm-12';
+			$class = 'wbcol-12';
 			break;
 		case 2:
-			$class = 'col-sm-6';
+			$class = 'wbcol-6';
 			break;
 		case 3:
-			$class = 'col-sm-4';
+			$class = 'wbcol-4';
 			break;
 		case 4:
-			$class = 'col-sm-3';
+			$class = 'wbcol-3';
 			break;
 		default:
-			$class = 'col-sm-1';
+			$class = 'wbcol-1';
 	}
 	$class = apply_filters("waboot/layout/grid_class_for_alignment",$class,$count);
 	return $class;
@@ -162,8 +162,8 @@ function get_widget_areas(){
 		'footer' => [
 			'name' => __('Footer', 'waboot'),
 			'description' => __( 'The main widget area displayed in the footer.', 'waboot' ),
-			//'type' => 'multiple',
-			//'subareas' => 4, //this will register footer-1, footer-2, footer-3 and footer-4 as widget areas
+			'type' => 'multiple',
+			'subareas' => 4, //this will register footer-1, footer-2, footer-3 and footer-4 as widget areas
 			'render_zone' => 'footer'
 		]
 	];
