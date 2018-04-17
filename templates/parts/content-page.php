@@ -3,7 +3,7 @@
     <?php do_action( 'waboot/entry/header' ); ?>
 
     <div class="entry__content">
-		<?php the_content( __( 'Continue Reading &raquo;', 'waboot' ) ); ?>
+		<?php the_content( __( 'Continue reading', 'waboot' ) ); ?>
 		<?php wp_link_pages(); ?>
 		<?php edit_post_link( __(' Edit', 'waboot'), '<span class="edit-link pull-right"><i class="glyphicon glyphicon-pencil"></i>', '</span>'); ?>
 	</div>

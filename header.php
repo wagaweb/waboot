@@ -16,5 +16,3 @@
             <?php do_action("waboot/header"); ?>
 		</div>
 		<!-- END: site-header -->
-
-

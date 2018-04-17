@@ -23,4 +23,3 @@
     <?php do_action( 'waboot/entry/footer' ); ?>
 
 </article>
-<!-- #post-<?php the_ID(); ?> -->

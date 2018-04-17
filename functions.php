@@ -70,7 +70,7 @@ function waboot_init(){
 
 	//Build up the theme
 	try{
-		$wb->layout->create_zone("header",false,["always_load"=>true]);
+		$wb->layout->create_zone("header",false,["always_load"=>false]);
 		$wb->layout->create_zone("page-before",false);
 		$wb->layout->create_zone("main-top",new \WBF\components\mvc\HTMLView("templates/zones/main-top.php"));
 		$wb->layout->create_zone("aside-primary",new \WBF\components\mvc\HTMLView("templates/zones/aside.php"),["can_render_callback" => function(){
@@ -84,7 +84,7 @@ function waboot_init(){
 		}]);
 		$wb->layout->create_zone("main-bottom",new \WBF\components\mvc\HTMLView("templates/zones/main-bottom.php"));
 		$wb->layout->create_zone("page-after",false);
-		$wb->layout->create_zone("footer",false,["always_load"=>true]);
+		$wb->layout->create_zone("footer",false,["always_load"=>false]);
 	}catch(\Exception $e){
 		trigger_error($e->getMessage());
 	}

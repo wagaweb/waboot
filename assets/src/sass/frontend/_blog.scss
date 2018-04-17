@@ -42,59 +42,41 @@
 }
 
 
-/******************* Comments */
-
-#comments {
+.comments__area {
   border-top: 1px solid #eee;
   padding-top: 40px;
+  .thread-even > .comment__body {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.03);
+  }
+  .comment__body {
+    margin-bottom: 20px;
+    padding: 15px;
+  }
+  cite {
+    font-size: 1.1em;
+    font-weight: bold;
+  }
+  .comment__meta {
+    font-size: 0.9em;
+  }
+  .comment__list {
+    list-style-type: none;
+    padding: 0;
+  }
+  .comment__author {
+    margin-bottom: 7px;
+  }
+  .comment__content {
+    margin-top: 7px;
+  }
+  .comment__author > .avatar {
+    margin-right: 1em;
+  }
+  ul.children {
+    margin-left: 20px;
+    li {
+      border-top: 1px solid #e6e6e6;
+      list-style-type: none;
+    }
+  }
 }
-.thread-even > .comment-body {
-  background: none repeat scroll 0 0 rgba(0, 0, 0, 0.03);
-}
-.comment-body {
-  margin-bottom: 20px;
-  padding: 15px;
-}
-#comments cite {
-  font-size: 1.1em;
-  font-weight: bold;
-}
-.comment-meta {
-  font-size: 0.9em;
-}
-.comment-list {
-  list-style-type: none;
-  padding: 0;
-}
-.comment-author {
-  margin-bottom: 7px;
-}
-.comment-content {
-  margin-top: 7px;
-}
-.comment-author > .avatar {
-  margin-right: 1em;
-}
-#comments ul.children {
-  margin-left: 20px;
-}
-#comments ul.children li {
-  border-top: 1px solid #e6e6e6;
-  list-style-type: none;
-}
-.bypostauthor > article {
-  background: none repeat scroll 0 0 rgba(70, 165, 70, 0.09);
-}
-.bypostauthor > article .avatar {
-  border-bottom: 4px solid #46a546;
-}
-.form-allowed-tags code {
-  white-space: normal;
-}
-.input-comment-author,
-.input-comment-email,
-.input-comment-url {
-  width: 35%;
-}
-
-/******************* End Comments */

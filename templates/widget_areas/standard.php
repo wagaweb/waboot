@@ -1,4 +1,4 @@
-<div class="widget-area">
+<div class="widgetarea">
 	<?php
 	do_action("waboot/widget_area/before");
 	do_action("waboot/widget_area/{$area_id}/before");
