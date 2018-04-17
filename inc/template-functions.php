@@ -162,8 +162,8 @@ function get_widget_areas(){
 		'footer' => [
 			'name' => __('Footer', 'waboot'),
 			'description' => __( 'The main widget area displayed in the footer.', 'waboot' ),
-			'type' => 'multiple',
-			'subareas' => 4, //this will register footer-1, footer-2, footer-3 and footer-4 as widget areas
+			//'type' => 'multiple',
+			//'subareas' => 4, //this will register footer-1, footer-2, footer-3 and footer-4 as widget areas
 			'render_zone' => 'footer'
 		]
 	];

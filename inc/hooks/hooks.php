@@ -30,15 +30,6 @@ function add_apple_touch_icon(){
 add_action("waboot/head/meta",__NAMESPACE__."\\add_apple_touch_icon");
 
 /**
- * Adds banner sidebar zone to header
- */
-function add_banner_wrapper(){
-	if(!is_active_sidebar('banner')) return;
-	get_template_part("templates/parts/banner-wrapper");
-}
-add_action("waboot/header",__NAMESPACE__."\\add_banner_wrapper");
-
-/**
  * Adds Waboot credits
  *
  * @param $text

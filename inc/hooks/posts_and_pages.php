@@ -230,7 +230,7 @@ function display_post_comment_link(){
  * Prints out the entry footer wrapper start
  */
 function entry_footer_wrapper_start(){
-	echo '<footer class="entry-footer">';
+	echo '<footer class="entry__footer">';
 }
 
 /**

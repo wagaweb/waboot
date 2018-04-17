@@ -227,7 +227,7 @@ add_filter( 'comment_reply_link', __NAMESPACE__."\\comment_reply_link_classes" )
  * @return string
  */
 function alter_excerpt_more( $more ) {
-	return ' ... <a href="'. get_permalink( get_the_ID() ) . '">'. __( 'Continue Reading ', 'wbf' ) .' &raquo;</a>';
+	return ' ... <a href="'. get_permalink( get_the_ID() ) . '">'. __( 'Continue reading', 'waboot' ) .' &raquo;</a>';
 }
 add_filter('excerpt_more',  __NAMESPACE__."\\alter_excerpt_more" );
 
