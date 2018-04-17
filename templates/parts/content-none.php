@@ -1,6 +1,6 @@
 <article id="post-0" class="no-results not-found">
     <div class="entry__wrapper">
-        <header class="title__wrapper">
+        <header class="entry__header">
             <h1 class="entry__title"><?php _e( 'Nothing Found', 'waboot' ); ?></h1>
         </header>
 

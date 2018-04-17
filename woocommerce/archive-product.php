@@ -34,7 +34,7 @@ get_header( 'shop' ); ?>
         <?php $wb_wc_title_display_opt = is_shop() ? 'woocommerce_shop_display_title' : 'woocommerce_archives_display_title'; ?>
 
 	    <?php if (\Waboot\functions\get_option($wb_wc_title_display_opt) == "1") : ?>
-            <div class="title__wrapper">
+            <div class="entry__header">
                 <h1 class="entry__title archive__title"><?php woocommerce_page_title(); ?></h1>
             </div>
 	    <?php endif; ?>

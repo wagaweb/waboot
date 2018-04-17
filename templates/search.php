@@ -1,5 +1,5 @@
 <?php if(\Waboot\functions\get_option("blog_title_position") === "bottom") : ?>
-<header class="title__wrapper">
+<header class="entry__header">
     <h1 class="entry__title archive__title">
         <?php printf( __( 'Search Results for: %s', 'waboot' ), '<span>' . get_search_query() . '</span>' ); ?>
     </h1>

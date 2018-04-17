@@ -1,7 +1,7 @@
 <?php while ( have_posts() ) : the_post(); ?>
 
 	<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-		<header class="title__wrapper">
+		<header class="entry__header">
 			<?php the_title( '<h1 class="entry__title">', '</h1>' ); ?>
 
 			<div class="entry__meta">
