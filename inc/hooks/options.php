@@ -515,7 +515,7 @@ function register_options($orgzr){
 	 * ARCHIVES
 	 **********************/
 
-	$taxonomies = call_user_func(function(){
+	$taxonomies = \call_user_func(function(){
 		$taxs = get_taxonomies([
 			'public'   => true,
 			'_builtin' => false
@@ -531,7 +531,7 @@ function register_options($orgzr){
 		return $taxs;
 	});
 
-	if(is_array($taxonomies) && !empty($taxonomies)){
+	if(\is_array($taxonomies) && !empty($taxonomies)){
 		$orgzr->add_section("archives",__( 'Archives', 'waboot' ));
 
 		$orgzr->set_section("archives");
