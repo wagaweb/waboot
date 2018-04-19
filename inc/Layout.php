@@ -24,7 +24,7 @@ class Layout{
 	const LAYOUT_TWO_SIDEBARS_RIGHT = "two-sidebars-right";
 
 	const GRID_CLASS_ROW = 'row';
-	const GRID_CLASS_CONTAINER = 'container';
+	const GRID_CLASS_CONTAINER = 'container-boxed';
 	const GRID_CLASS_CONTAINER_FLUID = 'container-fluid';
 	const GRID_CLASS_COL_SUFFIX = 'col_suffix';
 
@@ -319,7 +319,7 @@ class Layout{
 	 * @return string
 	 */
 	public function get_container_grid_class($type){
-		if($type === 'container' || $type === 'wbcontainer' || $type === 'boxed'){
+		if($type === 'container' || $type === 'wbcontainer' || $type === 'boxed' || $type === 'container-boxed'){
 			$type = self::GRID_CLASS_CONTAINER;
 		}elseif($type === 'container-fluid' || $type === 'wbcontainer-fluid' || $type === 'fluid'){
 			$type = self::GRID_CLASS_CONTAINER_FLUID;

@@ -352,14 +352,14 @@ function register_options($orgzr){
 		'name' => __('Page', 'waboot'),
 		'desc' => __('Select page width. Fluid or Boxed?', 'waboot'),
 		'id' => 'page_width',
-		'std' => 'container',
+		'std' => Layout::GRID_CLASS_CONTAINER,
 		'type' => 'images',
 		'options' => array(
-			'container-fluid' => array (
+			Layout::GRID_CLASS_CONTAINER_FLUID => array (
 				'label' => 'Fluid',
 				'value' => $imagepath . 'layout/page-fluid.png'
 			),
-			'container' => array (
+			Layout::GRID_CLASS_CONTAINER => array (
 				'label' => 'Boxed',
 				'value' => $imagepath . 'layout/page-boxed.png'
 			)
@@ -670,16 +670,16 @@ function register_behaviors($behaviors){
 		'options' => [
 			[
 				'name' => 'Boxed',
-				'value' => 'container',
+				'value' => Layout::GRID_CLASS_CONTAINER,
 				'thumb' => $imagepath . '/layout/page-boxed.png'
 			],
 			[
 				'name' => 'Fluid',
-				'value' => 'container-fluid',
+				'value' => Layout::GRID_CLASS_CONTAINER_FLUID,
 				'thumb' => $imagepath . '/layout/page-fluid.png'
 			],
 		],
-		'default' => 'container',
+		'default' => Layout::GRID_CLASS_CONTAINER,
 		"valid" => ["page","post","{cpt}"]
 	];
 

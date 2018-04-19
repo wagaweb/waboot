@@ -8,7 +8,7 @@
 <body <?php body_class(); ?> >
     <?php if(function_exists("WabootLayout")) WabootLayout()->render_zone("page-before"); ?>
 	<div id="site-page" class="site-page hfeed site">
-		<div id="site-page__wrapper" class="site-page__wrapper <?php echo \Waboot\functions\get_option( 'page_width', WabootLayout()->get_grid_class('container') ); ?>">
+		<div id="site-page__wrapper" class="site-page__wrapper <?php echo WabootLayout()->get_container_grid_class(\Waboot\functions\get_option( 'page_width', WabootLayout()->get_grid_class('container') ) ); ?>">
 
 		<!-- BEGIN: site-header -->
 		<div class="site-header" data-zone="header">
