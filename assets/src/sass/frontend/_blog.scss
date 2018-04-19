@@ -41,6 +41,26 @@
   }
 }
 
+.blog-classic {
+  article {
+    .entry-content {
+      @include up($medium){
+        display: flex;
+        flex-wrap: wrap;
+        margin: 0 -10px;
+        .entry-image {
+          flex-basis: 33.33333%;
+          padding: 0 10px;
+        }
+        .entry-text {
+          flex-basis: 66.66666%;
+          padding: 0 10px;
+        }
+      }
+    }
+  }
+}
+
 
 .comments__area {
   border-top: 1px solid #eee;
