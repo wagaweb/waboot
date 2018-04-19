@@ -10,7 +10,7 @@ body {
   background-attachment: {{ body_bgattach }};
 }
 
-.page-wrapper {
+.site-page {
   background-color: {{ page_bgcolor }};
 }
 
@@ -18,7 +18,7 @@ body {
   background-color: {{ topnav_bgcolor }};
 }
 
-.header-wrapper {
+.header-site {
   background-color: {{ header_bgcolor }};
 }
 
@@ -38,7 +38,7 @@ body {
   background-color: {{ bottom_bgcolor }};
 }
 
-.footer-wrapper {
+.footer-site {
   background-color: {{ footer_classic_bgcolor }};
 }
 

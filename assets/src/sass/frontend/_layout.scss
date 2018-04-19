@@ -1,11 +1,13 @@
 .site-main__wrapper {
   display: flex;
   flex-wrap: wrap;
-  padding-left: 10px;
-  padding-right: 10px;
-  > [class*='wbcol-'] {
+  &.wbcontainer {
     padding-left: 10px;
     padding-right: 10px;
+    > [class*='wbcol-'] {
+      padding-left: 10px;
+      padding-right: 10px;
+    }
   }
 }
 
