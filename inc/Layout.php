@@ -344,7 +344,8 @@ class Layout{
 	 */
 	static function remove_cols_classes(array &$classes_array){
 		foreach($classes_array as $k => $v){
-			if(preg_match("/".WabootLayout()->get_col_grid_class()."/",$v)){
+			//if(preg_match("/".WabootLayout()->get_col_grid_class()."/",$v)){
+			if(preg_match("/col-/",$v)){
 				unset($classes_array[$k]);
 			}
 		}
