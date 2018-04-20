@@ -1,6 +1,8 @@
 <?php
 
 namespace Waboot\functions;
+use Waboot\exception\WBFVersionException;
+use Waboot\exceptions\WBFNotFoundException;
 use Waboot\Layout;
 use WBF\components\mvc\HTMLView;
 use WBF\components\utils\Query;
@@ -834,4 +836,20 @@ function backup_components_states($theme, $filename = null){
 		return $backup_path . "/" . $backup_filename;
 	}
 	return false;
+}
+
+/**
+ * Checks theme prerequisites
+ *
+ * @throws WBFNotFoundException
+ * @throws WBFVersionException
+ */
+function check_prerequisites(){
+	if(!function_exists('WBF')){
+		throw new WBFNotFoundException();
+	}
+
+	if(!\Waboot\functions\has_wbf_required_version(WBF_MIN_VER)){
+		throw new WBFVersionException();
+	}
 }
