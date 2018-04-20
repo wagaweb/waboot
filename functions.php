@@ -20,11 +20,7 @@ function waboot_init(){
 		'inc/Theme.php',
 		'inc/woocommerce/bootstrap.php',
 		'inc/hooks/stylesheets.php',
-		'inc/hooks/scripts.php',
-		'inc/hooks/generators.php',
-		'inc/hooks/wbf_installer.php',
-		'inc/hooks/components_installer.php',
-		'inc/hooks/components_updater.php',
+		'inc/hooks/scripts.php'
 	];
 
 	//Require mandatory files
