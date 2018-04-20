@@ -5,6 +5,7 @@ use Waboot\exception\WBFVersionException;
 use Waboot\exceptions\WBFNotFoundException;
 use Waboot\Layout;
 use WBF\components\mvc\HTMLView;
+use WBF\components\utils\Paths;
 use WBF\components\utils\Query;
 use WBF\components\utils\Utilities;
 
@@ -514,36 +515,53 @@ function deploy_favicon($option, $old_value, $value){
  * @param $value
  *
  * @return FALSE|string
+ * @throws \Exception
  */
 function deploy_theme_options_css($option, $old_value, $value){
-	$input_file_path = apply_filters("waboot/assets/theme_options_style_file/source", get_template_directory()."/assets/src/css/_theme-options.src");
-	$output_file_path = apply_filters("waboot/assets/theme_options_style_file/destination", WBF()->get_working_directory()."/theme-options.css");
+	$input_file_path = get_theme_options_css_src_path();
+	$output_file_path = get_theme_options_css_dest_path();
 
 	if(!is_array($value)) return false;
 
 	$output_string = "";
 
-	$tmpFile = new \SplFileInfo($input_file_path);
-	if((!$tmpFile->isFile() || !$tmpFile->isWritable())){
+	$inputFile = new \SplFileInfo($input_file_path);
+	if((!$inputFile->isFile() || !$inputFile->isWritable())){
 		return false;
 	}
 
-	$parsedFile = $output_file_path ? new \SplFileInfo($output_file_path) : null;
-	if(!is_dir($parsedFile->getPath())){
-		mkdir($parsedFile->getPath());
+	$outputFile = new \SplFileInfo($output_file_path);
+	if(!is_dir($outputFile->getPath())){
+		if(!wp_mkdir_p($output_file_path) && !is_dir($outputFile->getPath())){
+			return false;
+		}
 	}
 
-	$genericOptionfindRegExp = "/{{ ?([a-zA-Z0-9\-_]+) ?}}/";
-	$funcRegExp = "/{{ ?apply:([a-zA-Z\-_]+)\(([a-zA-Z0-9\-_, ]+)\) ?}}/";
-	$fontOptionfindRegExp = "/\{\{ ?font: ?([a-z]+) ?\}\}/";
-	$assignOptionFindRegExp = "/\{\{ ?font-assignment: ?([a-z]+) ?\}\}/";
+	if(has_filter('waboot/theme_options_css_file/content')){
+		$additional_content = apply_filters('waboot/theme_options_css_file/content','');
+		if(is_string($additional_content) && $additional_content !== ''){
+			$tmp_input_file_path = WBF()->get_working_directory().'/_theme-options.src.addons';
+			if(is_file($tmp_input_file_path)){
+				unlink($tmp_input_file_path);
+			}
+			$inputFile_content = file_get_contents($inputFile->getPathname());
+			$inputFile_content .= $additional_content;
+			$r = file_put_contents($tmp_input_file_path,$inputFile_content);
+			if(is_file($tmp_input_file_path)){
+				$inputFile = new \SplFileInfo($tmp_input_file_path);
+			}
+		}
+	}
 
-	$tmpFileObj = $tmpFile->openFile( "r" );
-	$parsedFileObj = $parsedFile->openFile( "w" );
+	$inputFileObj = $inputFile->openFile( "r" );
+	$outputFileObj = $outputFile->openFile( "w" );
 	$byte_written = 0;
 
-	while(!$tmpFileObj->eof()){
-		$line = $tmpFileObj->fgets();
+	$parseLine = function($line) use($option,$old_value,$value){
+		$genericOptionfindRegExp = "/{{ ?([a-zA-Z0-9\-_]+) ?}}/";
+		$funcRegExp = "/{{ ?apply:([a-zA-Z\-_]+)\(([a-zA-Z0-9\-_, ]+)\) ?}}/";
+		$fontOptionfindRegExp = "/\{\{ ?font: ?([a-z]+) ?\}\}/";
+		$assignOptionFindRegExp = "/\{\{ ?font-assignment: ?([a-z]+) ?\}\}/";
 		//Replace {{ <theme-option-id> }}
 		if(preg_match($genericOptionfindRegExp, $line, $matches)){
 			if(array_key_exists( $matches[1], $value)){
@@ -668,10 +686,42 @@ function deploy_theme_options_css($option, $old_value, $value){
 			}
 		}
 
-		$byte_written += $parsedFileObj->fwrite($line);
+		return $line;
+	};
+
+	while(!$inputFileObj->eof()){
+		$line = $inputFileObj->fgets();
+		$parsedLine = $parseLine($line);
+		$byte_written += $outputFileObj->fwrite($parsedLine);
 	}
 
 	return $output_string;
+}
+
+/**
+ * @return string|bool
+ */
+function get_theme_options_css_src_path(){
+	$path = apply_filters("waboot/assets/theme_options_style_file/source", get_template_directory()."/assets/src/css/_theme-options.src");
+	return is_string($path) ? $path : false;
+}
+
+/**
+ * @return string|bool
+ * @throws \Exception
+ */
+function get_theme_options_css_dest_path(){
+	$path = apply_filters("waboot/assets/theme_options_style_file/destination", WBF()->get_working_directory()."/theme-options.css");
+	return is_string($path) ? $path : false;
+}
+
+/**
+ * @return string|bool
+ * @throws \Exception
+ */
+function get_theme_options_css_dest_uri(){
+	$path = get_theme_options_css_dest_path();
+	return is_string($path) ? Paths::path_to_url($path) : false;
 }
 
 /**
@@ -845,7 +895,7 @@ function backup_components_states($theme, $filename = null){
  * @throws WBFVersionException
  */
 function check_prerequisites(){
-	if(!function_exists('WBF')){
+	if(!wbf_exists()){
 		throw new WBFNotFoundException();
 	}
 
