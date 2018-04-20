@@ -54,6 +54,10 @@ class Theme{
 			'inc/hooks/widget_areas.php',
 			'inc/hooks/options.php',
 			'inc/hooks/posts_and_pages.php',
+			'inc/hooks/generators.php',
+			'inc/hooks/wbf_installer.php',
+			'inc/hooks/components_installer.php',
+			'inc/hooks/components_updater.php',
 		];
 		foreach($hooks_files as $file){
 			if (!$filepath = locate_template($file)) {
