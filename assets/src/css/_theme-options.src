@@ -14,31 +14,23 @@ body {
   background-color: {{ page_bgcolor }};
 }
 
-.topnav-wrapper {
-  background-color: {{ topnav_bgcolor }};
-}
-
-.header-site {
+.site-header {
   background-color: {{ header_bgcolor }};
 }
 
-.navbar-wrapper {
+.topnav__wrapper {
+  background-color: {{ topnav_bgcolor }};
+}
+
+.navbar__wrapper {
   background-color: {{ navbar_bgcolor }};
 }
 
-.banner-wrapper {
-  background-color: {{ banner_bgcolor }};
-}
-
-.content-wrapper {
+.site-main {
   background-color: {{ content_bgcolor }};
 }
 
-.contentbottom-wrapper {
-  background-color: {{ bottom_bgcolor }};
-}
-
-.footer-site {
+.site-footer {
   background-color: {{ footer_classic_bgcolor }};
 }
 
@@ -222,34 +214,51 @@ a.text-danger:focus {
     Buttons
 \*------------------------------------*/
 
+button,
 .btn,
 .button {
   background-color: {{ btstrp_brand_primary }};
+  border-width: 1px;
+  border-style: solid;
   border-color:  {{ apply:waboot_styles_adjustBrightness(btstrp_brand_primary,-15) }};
+  color: #fff;
+  padding: 6px 12px;
+  font-size: 1em;
 }
 
+button:focus,
 .btn:focus,
 .btn.focus,
 .button:focus,
 .button.focus {
   background-color: {{ apply:waboot_styles_adjustBrightness(btstrp_brand_primary,-15) }};
   border-color: {{ apply:waboot_styles_adjustBrightness(btstrp_brand_primary,-20) }};
+  color: #fff;
 }
 
-.btn:hover {
+button:hover,
+.btn:hover,
 .button:hover {
   background-color: {{ apply:waboot_styles_adjustBrightness(btstrp_brand_primary,-15) }};
   border-color: {{ apply:waboot_styles_adjustBrightness(btstrp_brand_primary,-20) }};
+  color: #fff;
 }
 
+button:active,
+button.active,
 .btn:active,
 .button:active,
 .btn.active,
 .button.active {
   background-color: {{ apply:waboot_styles_adjustBrightness(btstrp_brand_primary,-15) }};
   border-color: {{ apply:waboot_styles_adjustBrightness(btstrp_brand_primary,-20) }};
+  color: #fff;
 }
 
+button:active:hover,
+button.active:hover,
+button:active:focus,
+button.active:focus,
 .btn:active:hover,
 .button:active:hover,
 .btn.active:hover,
@@ -264,6 +273,7 @@ a.text-danger:focus {
 .button.active.focus {
   background-color: {{ apply:waboot_styles_adjustBrightness(btstrp_brand_primary,-15) }};
   border-color: {{ apply:waboot_styles_adjustBrightness(btstrp_brand_primary,-20) }};
+  color: #fff;
 }
 
 .btn.disabled:hover,
@@ -283,7 +293,13 @@ a.text-danger:focus {
 }
 
 
-
+.btn-ghost,
+.button-ghost {
+  border-width: 2px;
+  border-style: solid;
+  border-color: {{ btstrp_brand_primary }};
+  color: {{ btstrp_brand_primary }};
+}
 
 
 
@@ -579,11 +595,6 @@ kbd {
 
 .pagination {
   border-radius: {{ btstrp_border_radius_base }};
-}
-
-.container .jumbotron,
-.container-fluid .jumbotron {
-  border-radius: {{ btstrp_border_radius_lg }};
 }
 
 .thumbnail {
