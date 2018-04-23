@@ -18,27 +18,13 @@ body {
   background-color: {{ header_bgcolor }};
 }
 
-.topnav__wrapper {
-  background-color: {{ topnav_bgcolor }};
-}
-
-.navbar__wrapper {
-  background-color: {{ navbar_bgcolor }};
-}
-
 .site-main {
   background-color: {{ content_bgcolor }};
 }
 
 .site-footer {
-  background-color: {{ footer_classic_bgcolor }};
+  background-color: {{ footer_bgcolor }};
 }
-
-.closure {
-  background-color: {{ closure_bgcolor }};
-}
-
-
 
 /*------------------------------------*\
     Links
@@ -57,10 +43,6 @@ a.text-primary:hover,
 a.text-primary:focus {
   color: {{ apply:waboot_styles_adjustBrightness(btstrp_brand_primary,-20) }};
 }
-
-
-
-
 
 /*------------------------------------*\
     Menu, Pagination, List, Various
@@ -122,14 +104,9 @@ a.thumbnail.active {
   border-color: {{ btstrp_brand_primary }};
 }
 
-
-
-
-
 /*------------------------------------*\
     Typography
 \*------------------------------------*/
-
 
 html,
 body,
@@ -194,9 +171,6 @@ a.text-danger:focus {
 }
 
 
-
-
-
 /*------------------------------------*\
     Well
 \*------------------------------------*/
@@ -205,10 +179,6 @@ a.text-danger:focus {
   background-color: {{ btstrp_well_bg }};
   border: 1px solid {{ apply:waboot_styles_adjustBrightness(btstrp_well_bg,-10) }};;
 }
-
-
-
-
 
 /*------------------------------------*\
     Buttons
@@ -301,8 +271,6 @@ button.active:focus,
   color: {{ btstrp_brand_primary }};
 }
 
-
-
 /*------------------------------------*\
     Button Success
 \*------------------------------------*/
@@ -359,10 +327,6 @@ fieldset[disabled] .btn-success.focus {
 .btn-success .badge {
   color: {{ btstrp_brand_success }};
 }
-
-
-
-
 
 /*------------------------------------*\
     #Bootstrap Button Warning
@@ -421,10 +385,6 @@ fieldset[disabled] .btn-warning.focus {
   color: {{ btstrp_brand_warning }};
 }
 
-
-
-
-
 /*------------------------------------*\
     #Bootstrap Button Danger
 \*------------------------------------*/
@@ -481,8 +441,6 @@ fieldset[disabled] .btn-danger.focus {
 .btn-danger .badge {
   color: {{ btstrp_brand_danger }};
 }
-
-
 
 /*------------------------------------*\
     #Bootstrap Border Radius
@@ -710,7 +668,6 @@ kbd {
   border-top-right-radius: {{ btstrp_border_radius_sm }};
 }
 
-
 /*------------------------------------*\
     #Bootstrap Labels
 \*------------------------------------*/
@@ -759,8 +716,6 @@ kbd {
 .label-danger[href]:focus {
   background-color: {{ apply:waboot_styles_adjustBrightness(btstrp_brand_danger,-15) }};
 }
-
-
 
 /*------------------------------------*\
     #Bootstrap Panels
@@ -888,10 +843,6 @@ kbd {
   border-bottom-color: {{ apply:waboot_styles_adjustBrightness(btstrp_brand_danger,15) }};
 }
 
-
-
-
-
 /*------------------------------------*\
     #Bootstrap Panels
 \*------------------------------------*/
@@ -951,10 +902,6 @@ kbd {
 .alert-danger .alert-link {
   color: {{ apply:waboot_styles_adjustBrightness(btstrp_brand_danger,-65) }};
 }
-
-
-
-
 
 /*------------------------------------*\
     #Bootstrap Table
