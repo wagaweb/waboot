@@ -375,7 +375,7 @@ function delete_component_update_cache($component){
 function get_update_uri($component){
 	$component_data = get_file_data( $component->file, ['UpdateURI' => 'Update URI', 'Author' => 'Author', 'AuthorURI' => 'Author URI'] );
 	if(!isset($component_data['UpdateURI']) || $component_data['UpdateURI'] === ''){
-		if(isset($component_data['Author']) && strpos($component_data['Author'],'waga') !== false){
+		if(isset($component_data['Author']) && strpos($component_data['Author'],'waboot') !== false){
 			return get_api_single_component_endpoint($component->name);
 		}
 	}else{
