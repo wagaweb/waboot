@@ -931,3 +931,19 @@ function safe_require_files($files){
 		require_once $filepath;
 	}
 }
+
+/**
+ * Get the theme version
+ *
+ * @return string
+ */
+function get_theme_version(){
+	$t = wp_get_theme('waboot');
+	if($t instanceof \WP_Theme){
+		$v = $t->get('Version');
+		if(is_string($v)){
+			return $v;
+		}
+	}
+	return '';
+}
