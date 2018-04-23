@@ -37,8 +37,10 @@ add_action("waboot/head/meta",__NAMESPACE__."\\add_apple_touch_icon");
  * @return mixed
  */
 function add_credits($text){
-	$our_text = sprintf(__(", and <a href='%s'>Waboot</a>","waboot"),""); //todo: finire
-	return $text;
+    $text = preg_replace('/.<\/span>$/','',$text);
+	$our_text = '</span>'.sprintf(__(" and <a href='%s'>Waboot</a>.","waboot"),"https://www.waboot.io");
+	$text.=$our_text;
+    return $text;
 }
 add_filter("admin_footer_text",__NAMESPACE__."\\add_credits");
 
