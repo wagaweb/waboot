@@ -1,0 +1,1 @@
+<span>(<em>Waboot v<?php echo \Waboot\functions\get_theme_version(); ?></em>, <em><?php echo $label ?> v<?php echo $version ?></em>)</span>
