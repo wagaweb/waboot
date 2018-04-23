@@ -233,7 +233,7 @@ function get_archive_page_title(){
 		/* translators: Post type archive title. 1: Post type name */
 		$title = sprintf( '%s', post_type_archive_title( '', false ) );
 	} elseif ( is_tax() ) {
-		/* translators: Taxonomy term archive title. 1: Taxonomy singular name, 2: Current taxonomy term */
+		/* translators: Taxonomy term archive title. 1: Current taxonomy term */
 		$title = sprintf( '%1$s', single_term_title( '', false ) );
 	} else {
 		$arch_obj = get_queried_object();
