@@ -1,0 +1,11 @@
+{
+  "name": "Layout Two",
+  "description": "Navbar below logo",
+  "preview": "assets/images/wizard/layout-two.png",
+  "classname": "LayoutTwoGenerator",
+  "components": ["header_flex","footer_flex"],
+  "options": {
+    "headerflex_nav_position": "below"
+  },
+  "pre_actions": ["download_wbf","install_wbf"]
+}
