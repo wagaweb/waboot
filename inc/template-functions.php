@@ -544,6 +544,7 @@ function deploy_theme_options_css($option, $old_value, $value){
 			if(is_file($tmp_input_file_path)){
 				unlink($tmp_input_file_path);
 			}
+			$additional_content = "\r\n".$additional_content."\r\n";
 			$inputFile_content = file_get_contents($inputFile->getPathname());
 			$inputFile_content .= $additional_content;
 			$r = file_put_contents($tmp_input_file_path,$inputFile_content);
