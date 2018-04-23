@@ -137,5 +137,4 @@ use WBF\modules\components\GUI;
 			</div>
 		</form>
 	</div><!-- #componentframework-wrap -->
-	<?php WBF()->print_copyright(); ?>
 </div><!-- .wrap: end -->
