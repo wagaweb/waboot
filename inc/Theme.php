@@ -458,12 +458,23 @@ class Theme{
 					if($component_data->is_child_component){
 						$child_components[] = $component_name;
 					}
-					ComponentsManager::disable($component_name,$component_data->is_child_component);
+					try{
+						ComponentsManager::disable($component_name,$component_data->is_child_component);
+					}catch(\Exception $e){}
 				}
+				unset($component_name);
+				unset($component_data);
 				if(isset($selected_generator->components) && is_array($selected_generator->components) && !empty($selected_generator->components)){
 					foreach ($selected_generator->components as $component_to_enable){
 						if(!ComponentsManager::is_present($component_to_enable)){
 							$component_installed = install_remote_component($component_to_enable);
+							ComponentsManager::detect_components(true);
+							if(is_child_theme()){
+								//The new component has been installed in the child
+								if(!\in_array($component_to_enable,$child_components)){
+									$child_components[] = $component_to_enable;
+								}
+							}
 						}else{
 							$component_installed = true;
 						}
