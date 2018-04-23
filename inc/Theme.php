@@ -323,12 +323,12 @@ class Theme{
 
 		foreach($generators_directories as $directory){
 			$files = glob($directory."/*.json");
-			if(is_array($files)){
+			if(is_array($files) && count($files) !== 0){
 				$files = array_filter($files,function($el){
 					if(basename($el) == "generator-template.json") return false;
 					return true;
 				});
-				if(!empty($files)){
+				if(count($files) !== 0){
 					$generators_files = array_merge($generators_files,$files);
 				}
 			}
@@ -338,7 +338,8 @@ class Theme{
 			$content = file_get_contents($generators_file);
 			$parsed = json_decode($content);
 			if(!is_null($parsed)){
-				$slug = rtrim(basename($generators_file),".json");
+				$pathinfo = pathinfo($generators_file);
+				$slug = $pathinfo['filename'];
 				$parsed->file = $generators_file;
 				$parsed->slug = $slug;
 
