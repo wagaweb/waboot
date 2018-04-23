@@ -1,0 +1,66 @@
+.componentsWrapper{
+  margin: 0 -10px;
+  @media(min-width: 767px){
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+}
+
+.component__card {
+  margin: 0 0 20px;
+  padding: 0 10px;
+  @media(min-width: 767px) {
+    flex-basis: 50%;
+    max-width: 50%;
+  }
+
+  .component__inner {
+    display: flex;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 20px;
+
+    .component__thumbnail {
+      width: 128px;
+      flex-basis: 128px;
+      flex-shrink: 0;
+      .component__image {
+        width: 100%;
+      }
+    }
+
+    .component__info {
+      flex-grow: 1;
+      padding: 0 20px;
+    }
+
+    .component__buttons {
+      a {
+        display: inline-block;
+        text-decoration: none;
+        line-height: 28px;
+        margin: 0;
+        padding: 0 10px;
+        border: 1px solid #cccccc;
+        border-radius: 3px;
+        white-space: nowrap;
+        color: #555;
+        background: #f7f7f7;
+        box-shadow: 0 1px 0 #cccccc;
+        vertical-align: top;
+        &[disabled="disabled"]{
+          opacity: .6;
+        }
+      }
+    }
+  }
+
+  h3 {
+    margin: 0 0 12px;
+    font-size: 18px;
+    line-height: 1.3;
+  }
+
+}

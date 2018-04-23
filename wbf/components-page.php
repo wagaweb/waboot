@@ -15,12 +15,6 @@ use WBF\modules\components\GUI;
 	</div>
 <?php return; endif; ?>
 
-<div class="actions">
-    <ul>
-        <li><a href="<?php echo admin_url('admin.php?page=wbf_components&section=add_new'); ?>">Add New</a></li>
-    </ul>
-</div>
-
 <div id="componentframework-wrapper" class="componentframework-wrapper admin-wrapper wrap" data-components-gui>
     <div class="componentframework-nav" data-nav>
         <ul>

@@ -5,32 +5,51 @@ Author: Waga
 Author URI: https://waga.it
 */
 
+body[class*='waboot-'] {
+  .notice, div.updated, div.error {
+    margin: 0 20px 10px 0;
+
+  }
+}
+
 .waboot-header {
-  background-color: #fff;
-  border-bottom: 1px solid $waboot_color;
-  padding: 10px 0;
-  margin: 0 0 20px -20px;
-  overflow: auto;
+  padding: 20px 0;
+  margin: 0 20px 0 0;
   .waboot-header-inner {
-    width: 800px;
-    margin: 0 auto;
-    overflow: auto;
+    width: 100%;
+    margin: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
     .waboot-header-logo {
-      float: left;
-      padding-left: 20px;
+      display: flex;
+      align-items: center;
+      h1 {
+        margin: 0 20px;
+      }
+      a.btn-add {
+        padding: 4px 8px;
+        position: relative;
+        text-decoration: none;
+        border: 1px solid #ccc;
+        border-radius: 2px;
+        background-color: #f7f7f7;
+        font-weight: 600;
+        cursor: pointer;
+      }
       img {
         height: 25px;
       }
     }
     .waboot-header-nav {
-      float: right;
       ul {
         margin: 0;
       }
       li {
         display: inline-block;
         line-height: 25px;
-        margin: 0 0 0 25px;
+        margin: 10px 10px 10px 0;
         color: $waboot_color;
         a {
           color: $waboot_color;
@@ -42,7 +61,8 @@ Author URI: https://waga.it
 }
 
 .admin-wrapper {
-  margin: 0 auto;
+  width: auto;
+  margin: 0 20px 0 0;
   padding: 0;
 
   input[type='text'],
@@ -74,17 +94,6 @@ Author URI: https://waga.it
     padding: 10px 7px;
   }
 
-}
-
-@media (min-width: 1200px) {
-  .waboot-header {
-    .waboot-header-inner {
-      width: 960px;
-    }
-  }
-  .admin-wrapper {
-    width: 960px;
-  }
 }
 
 

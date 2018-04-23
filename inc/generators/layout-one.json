@@ -1,6 +1,6 @@
 {
   "name": "Layout One",
-  "description": "Navbar aligned with logo",
+  "description": "Navbar aligned to logo",
   "preview": "assets/images/wizard/layout-one.png",
   "classname": "LayoutOneGenerator",
   "components": ["header_flex","footer_flex"],
