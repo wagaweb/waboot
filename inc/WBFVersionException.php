@@ -2,4 +2,6 @@
 
 namespace Waboot\exception;
 
-class WBFVersionException extends \Exception{}
+use Waboot\exceptions\WBFNotFoundException;
+
+class WBFVersionException extends WBFNotFoundException {}

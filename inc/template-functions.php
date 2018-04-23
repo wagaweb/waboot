@@ -896,10 +896,37 @@ function backup_components_states($theme, $filename = null){
  */
 function check_prerequisites(){
 	if(!wbf_exists()){
-		throw new WBFNotFoundException();
+		$message = sprintf(
+			__( "Waboot theme requires <a href='%s'>WBF Framework</a> plugin to work properly. You can <a href='%s'>download it manually</a> or <a href='%s'>go to the dashboard</a> for the auto-installer.", 'Waboot' ),
+			'https://www.waboot.io',
+			'http://update.waboot.org/resource/get/plugin/wbf',
+			admin_url()
+		);
+		throw new WBFNotFoundException($message);
 	}
-
 	if(!\Waboot\functions\has_wbf_required_version(WBF_MIN_VER)){
-		throw new WBFVersionException();
+		$message = sprintf(
+			__( "Waboot theme requires <a href='%s'>WBF Framework</a> plugin at least at v%s to work properly. You can <a href='%s'>download it manually</a> or <a href='%s'>go to the dashboard</a> for the auto-installer.", 'Waboot' ),
+			'https://www.waboot.io',
+			WBF_MIN_VER,
+			'http://update.waboot.org/resource/get/plugin/wbf',
+			admin_url()
+		);
+		throw new WBFVersionException($message);
+	}
+}
+
+/**
+ * Tries to require a list of files. Trigger a special error when can't.
+ *
+ * @param array $files
+ */
+function safe_require_files($files){
+	if(!is_array($files) || count($files) === 0) return;
+	foreach($files as $file){
+		if (!$filepath = locate_template($file)) {
+			trigger_error(sprintf(__('Error locating %s for inclusion', 'waboot'), $file), E_USER_ERROR);
+		}
+		require_once $filepath;
 	}
 }

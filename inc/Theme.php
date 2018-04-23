@@ -3,6 +3,7 @@
 namespace Waboot;
 
 use function Waboot\functions\components\install_remote_component;
+use function Waboot\functions\safe_require_files;
 use function Waboot\functions\wbf_exists;
 use WBF\components\utils\Paths;
 use WBF\components\utils\Utilities;
@@ -60,12 +61,8 @@ class Theme{
 			'inc/hooks/stylesheets.php',
 			'inc/hooks/scripts.php'
 		];
-		foreach($hooks_files as $file){
-			if (!$filepath = locate_template($file)) {
-				trigger_error(sprintf(__('Error locating %s for inclusion', 'waboot'), $file), E_USER_ERROR);
-			}
-			require_once $filepath;
-		}
+
+		safe_require_files($hooks_files);
 
 		do_action_ref_array('waboot/hooks_loaded',array(&$this));
 
@@ -73,20 +70,17 @@ class Theme{
 	}
 
 	/**
-	 * Loads all theme dependecies
-	 *
-	 * @return $this
+	 * Loads theme support functionality and extensions for vendor parts
 	 */
-	public function load_dependencies(){
-		$hooks_files = [
-			'inc/Component.php',
+	public function load_extensions(){
+		$ext_files = [
+			'inc/woocommerce/bootstrap.php',
 		];
-		foreach($hooks_files as $file){
-			if (!$filepath = locate_template($file)) {
-				trigger_error(sprintf(__('Error locating %s for inclusion', 'waboot'), $file), E_USER_ERROR);
-			}
-			require_once $filepath;
-		}
+
+		safe_require_files($ext_files);
+
+		do_action_ref_array('waboot/extensions_loaded',array(&$this));
+
 		return $this;
 	}
 
