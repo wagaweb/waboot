@@ -201,6 +201,8 @@ class Layout{
 	 * @param $template
 	 * 
 	 * @return array
+	 *
+	 * @not-used
 	 */
 	public function get_wp_template_vars($template){
 		$vars = [];
@@ -219,32 +221,32 @@ class Layout{
 	/**
 	 * Adds an action to the zone
 	 * 
-	 * @param $slug
-	 * @param $function_to_call
-	 * @param $priority
-	 * @param $accepted_args
+	 * @param string $slug
+	 * @param Callable $callable
+	 * @param integer $priority
+	 * @param integer $accepted_args
 	 *
 	 * @throws \Exception
 	 */
-	public function add_zone_action($slug,$function_to_call,$priority = 10,$accepted_args = 1){
+	public function add_zone_action($slug,$callable,$priority = 10,$accepted_args = 1){
 		try{
 			$this->check_zone($slug);
 
 			$zone = $this->zones[$slug];
 
 			$this->zones[$slug]['actions'][] = [
-				"callable" =>  $function_to_call,
+				"callable" =>  $callable,
 				"priority" => $priority
 			];
 
-			add_action($zone['actions_hook'],$function_to_call,$priority,$accepted_args);
+			add_action($zone['actions_hook'],$callable,$priority,$accepted_args);
 		}catch (\Exception $e){}
 	}
 
 	/**
 	 * Performs zone actions
 	 * 
-	 * @param $slug
+	 * @param string $slug
 	 *
 	 * @throws \Exception
 	 */
@@ -270,7 +272,7 @@ class Layout{
 	/**
 	 * Checks whether a zone exists or not
 	 * 
-	 * @param $slug
+	 * @param string $slug
 	 *
 	 * @return bool
 	 * @throws \Exception
@@ -300,7 +302,7 @@ class Layout{
 	}
 
 	/**
-	 * @param $type
+	 * @param string $type
 	 *
 	 * @return mixed|string
 	 */
