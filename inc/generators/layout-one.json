@@ -2,7 +2,7 @@
   "name": "Layout One",
   "description": "Navbar aligned with logo",
   "preview": "assets/images/wizard/layout-one.png",
-  "classname": "LayoutOne",
+  "classname": "LayoutOneGenerator",
   "components": ["header_flex","footer_flex"],
   "options": {
     "headerflex_nav_position": "aligned"
