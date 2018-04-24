@@ -28,6 +28,7 @@ languages/*
 ## WBF TMP FILE
 ############
 wbf/options/theme-options-generated.less
+_theme-options.src.addons
 wbf/options/client-custom.css
 assets/src/less/tmp_*.*
 
