@@ -184,7 +184,6 @@ a.text-danger:focus {
     Buttons
 \*------------------------------------*/
 
-button,
 .btn,
 .button {
   background-color: {{ btstrp_brand_primary }};
@@ -196,7 +195,6 @@ button,
   font-size: 1em;
 }
 
-button:focus,
 .btn:focus,
 .btn.focus,
 .button:focus,
@@ -206,7 +204,6 @@ button:focus,
   color: #fff;
 }
 
-button:hover,
 .btn:hover,
 .button:hover {
   background-color: {{ apply:waboot_styles_adjustBrightness(btstrp_brand_primary,-15) }};
@@ -214,8 +211,6 @@ button:hover,
   color: #fff;
 }
 
-button:active,
-button.active,
 .btn:active,
 .button:active,
 .btn.active,
@@ -225,10 +220,6 @@ button.active,
   color: #fff;
 }
 
-button:active:hover,
-button.active:hover,
-button:active:focus,
-button.active:focus,
 .btn:active:hover,
 .button:active:hover,
 .btn.active:hover,
