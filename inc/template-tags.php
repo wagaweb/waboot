@@ -46,14 +46,14 @@ function site_description() {
  *
  * @param bool $linked
  */
-function desktop_logo($linked = false){
-	if($linked){
-		$tpl = "<a href='%s'><img src='%s' class='waboot-desktop-logo' /></a>";
-		printf($tpl,home_url( '/' ),get_desktop_logo());
-	}else{
-		$tpl = "<img src='%s' class='waboot-desktop-logo' />";
-		printf($tpl,get_desktop_logo());
-	}
+function desktop_logo($linked = false, $class = ''){
+    if($linked){
+        $tpl = '<a href="%s"><img src="%s" class="'.$class.'" /></a>';
+        printf($tpl,home_url( '/' ),get_desktop_logo());
+    }else{
+        $tpl = '<img src="%s" class="'.$class.'" />';
+        printf($tpl,get_desktop_logo());
+    }
 }
 
 /**
@@ -61,22 +61,22 @@ function desktop_logo($linked = false){
  * @return string
  */
 function get_desktop_logo(){
-	$desktop_logo = \Waboot\functions\get_option('desktop_logo', ""); //
-	return $desktop_logo;
+    $desktop_logo = \Waboot\functions\get_option('desktop_logo', ""); //
+    return $desktop_logo;
 }
 
 
 /**
  * Prints the mobile logo
- * 
+ *
  * @param bool $linked
  */
-function mobile_logo($linked = false) {
+function mobile_logo($linked = false, $class = '') {
     if($linked){
-        $tpl = "<a href='%s'><img src='%s' class='waboot-mobile-logo' /></a>";
+        $tpl = '<a href="%s"><img src="%s" class="'.$class.'" /></a>';
         printf($tpl,home_url( '/' ),get_mobile_logo());
     }else{
-        $tpl = "<img src='%s' class='waboot-mobile-logo' />";
+        $tpl = '<img src="%s" class="'.$class.'" />';
         printf($tpl,get_mobile_logo());
     }
 }
