@@ -268,7 +268,7 @@ function display_title_wrapper_start(){
 	}
 
 	if($can_display){
-		echo '<div class="'.WabootLayout()->get_grid_class('container').'">';
+		echo '<div class="entry__wrapper">';
 	}
 }
 
