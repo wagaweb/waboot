@@ -45,6 +45,7 @@ function site_description() {
  * Prints the desktop logo
  *
  * @param bool $linked
+ * @param string $class
  */
 function desktop_logo($linked = false, $class = ''){
     if($linked){
@@ -70,6 +71,7 @@ function get_desktop_logo(){
  * Prints the mobile logo
  *
  * @param bool $linked
+ * @param string $class
  */
 function mobile_logo($linked = false, $class = '') {
     if($linked){
