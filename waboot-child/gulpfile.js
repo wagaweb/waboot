@@ -28,7 +28,7 @@ var paths = {
 };
 
 /**
- * Compile .less into waboot.min.css
+ * Compile .scss into main.min.css
  */
 gulp.task('compile_css',function(){
     var processors = [

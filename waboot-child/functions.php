@@ -34,7 +34,8 @@ add_action("wp_enqueue_scripts", function(){
 		/*'theme-scripts' => [
 			'uri' => get_stylesheet_directory_uri()."/assets/dist/js/main.min.js",
 			'path' => get_stylesheet_directory()."/assets/dist/js/main.min.js",
-			'type' => 'js'
+			'type' => 'js',
+		    'deps' => ['jquery'],
 		],*/
         //Decomment following lines if otherwise:
 		/*'snippets-script' => [
