@@ -100,7 +100,8 @@ function index_page_title(){
 	$title = \Waboot\functions\get_index_page_title();
 	$tpl = "templates/view-parts/entry-title-singular.php";
 	(new HTMLView($tpl))->display([
-		'title' => $title
+		'title' => $title,
+		'title_position' => \Waboot\functions\get_behavior('title-position')
 	]);
 }
 
