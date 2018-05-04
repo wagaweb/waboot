@@ -87,13 +87,13 @@ function ajax_activate_component_from_installer(){
 		return;
 	}
 
-	if(!isset($_POST['slug'])){
-		wp_send_json_error('No slug provided');
-	}
-
-	$slug = sanitize_text_field($_POST['slug']);
-
 	try{
+		if(!isset($_POST['slug'])){
+			throw new \Exception('No slug provided');
+		}
+
+		$slug = sanitize_text_field($_POST['slug']);
+
 		ComponentsManager::ensure_enabled($slug);
 		wp_send_json_success();
 	}catch(\Exception $e){
