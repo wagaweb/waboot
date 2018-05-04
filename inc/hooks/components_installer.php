@@ -68,7 +68,7 @@ function ajax_install_remote_component(){
 		}
 
 		//Install the component:
-		unzip_component_package($download_file,$slug);
+		unzip_component_package($download_file,$slug,true);
 
 		//Then delete the temp file
 		unlink($download_file);
