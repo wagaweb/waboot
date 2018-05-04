@@ -44,27 +44,27 @@ function ajax_install_remote_component(){
 		return;
 	}
 
-	if(!isset($_POST['slug'])){
-		wp_send_json_error('No slug provided');
-	}
-
-	$slug = sanitize_text_field($_POST['slug']);
-	$component = request_single_component($slug);
-
-	if(!is_array($component)){
-		wp_send_json_error('Unable to get info of component: '.$slug);
-	}
-
-	//Download the component file:
-	if(!isset($component['package'])){
-		wp_send_json_error('No package found for the component: '.$slug);
-	}
-
 	try{
+		if(!isset($_POST['slug'])){
+			throw new \Exception('No slug provided');
+		}
+
+		$slug = sanitize_text_field($_POST['slug']);
+		$component = request_single_component($slug);
+
+		if(!is_array($component)){
+			throw new \Exception('Unable to get info of component: '.$slug);
+		}
+
+		//Download the component file:
+		if(!isset($component['package'])){
+			throw new \Exception('No package found for the component: '.$slug);
+		}
+
 		$download_file = download_component_package($component['package']);
 
 		if(is_wp_error($download_file)){
-			wp_send_json_error($download_file);
+			throw new \Exception($download_file->get_error_message());
 		}
 
 		//Install the component:
