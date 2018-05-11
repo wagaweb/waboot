@@ -57,7 +57,8 @@ var paths = {
         "!{builds,builds/**}",
         "!{node_modules,node_modules/**}",
         "!{assets/vendor,assets/vendor/**}",
-        "!assets/cache/*"
+        "!assets/cache/*",
+        "!{waboot-child/node_modules,waboot-child/node_modules/**}"
     ]
 };
 
