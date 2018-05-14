@@ -118,6 +118,7 @@ use WBF\modules\components\GUI;
 						<div class="options-group-data">
 							<h3><?php _e(sprintf("%s Settings",isset($data['Name']) ? $data['Name'] : ucfirst($component->name)),"waboot"); ?></h3>
 							<?php \WBF\modules\options\GUI::print_fields($compiled_components_options[$component->name]); ?>
+							<?php do_action('wbf/modules/components/active_component/'.$comp_data->name.'/settings'); ?>
 						</div>
 					</div>
 					<?php endif; ?>
