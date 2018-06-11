@@ -1,4 +1,3 @@
-
 import * as FS from "FastClick";
 import $ from "jquery";
 
@@ -9,31 +8,6 @@ export default class{
     }
     on_ready(){
         "use strict";
-        
-        /*
-         * These will make any element that has data-wbShow\wbHide="<selector>" act has visibily toggle for <selector>
-         */
-        $('[data-wbShow]').on('click', function() {
-            let itemToShow = $($(this).attr("data-trgShow"));
-            if (itemToShow.hasClass('modal')) {
-                $('.modal').each(index => $(this).modal("hide"));
-                itemToShow.modal("show");
-            } else {
-                itemToShow.show();
-            }
-        });
-        $('[data-wbHide]').on('click', function() {
-            let itemToShow = $($(this).attr("data-trgHide"));
-            if (itemToShow.hasClass('modal')) {
-                itemToShow.modal("hide");
-            } else {
-                itemToShow.hide();
-            }
-        });
-        
-        /*
-         * MOBILE ACTIONS
-         */
         if (wbData.isMobile){
             this.do_mobile_actions();
         }
@@ -45,7 +19,7 @@ export default class{
     do_mobile_actions(){
         "use strict";
 
-        //http://getbootstrap.com/getting-started/#support
+        //https://getbootstrap.com/docs/3.3/getting-started/#third-parties
         if (navigator.userAgent.match(/IEMobile\/10\.0/)) {
             let msViewportStyle = document.createElement('style');
             msViewportStyle.appendChild(

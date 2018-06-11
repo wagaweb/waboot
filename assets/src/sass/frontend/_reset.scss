@@ -22,3 +22,7 @@ img {
 figure {
   margin: 0;
 }
+
+@-ms-viewport       { width: device-width; }
+@-o-viewport        { width: device-width; }
+@viewport           { width: device-width; }
