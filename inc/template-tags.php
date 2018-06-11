@@ -5,6 +5,20 @@ use WBF\components\mvc\HTMLView;
 use WBF\components\utils\Utilities;
 
 /**
+ * Renders a zone
+ *
+ * @param string $slug
+ */
+function render_zone($slug){
+	if(!function_exists('WabootLayout')) return;
+	try{
+		WabootLayout()->render_zone($slug);
+	}catch(\Exception $e){
+		echo $e->getMessage();
+	}
+}
+
+/**
  * Displays site title
  */
 function site_title() {

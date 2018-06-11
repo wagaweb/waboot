@@ -12,6 +12,6 @@
     /*
      * main-bottom zone
      */
-    WabootLayout()->render_zone("main-bottom");
+    \Waboot\template_tags\render_zone("main-bottom");
     ?>
 </div><!-- #site-main -->

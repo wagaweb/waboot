@@ -3,7 +3,7 @@
     /*
      * main-top zone
      */
-    WabootLayout()->render_zone("main-top");
+    \Waboot\template_tags\render_zone("main-top");
     ?>
 
     <?php
