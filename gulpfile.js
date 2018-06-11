@@ -202,14 +202,10 @@ gulp.task('copy-vendors',function() {
     //Copy scripts
     copy([
         'assets/vendor/html5shiv/dist/html5shiv.min.js',
-        'assets/vendor/respond/dest/respond.min.js',
-        'assets/vendor/bootstrap-sass/assets/javascripts/bootstrap.min.js'
+        'assets/vendor/respond/dest/respond.min.js'
     ],'assets/dist/js',{flatten: true},cb);
 
     //Copy fonts
-    copy([
-        'assets/vendor/bootstrap-sass/assets/fonts/bootstrap/*.*'
-    ],'assets/dist/fonts',{flatten: true},cb);
     copy([
         'assets/vendor/fontawesome/web-fonts-with-css/webfonts/*.*',
     ],'assets/dist/webfonts',{flatten: true},cb);
@@ -219,9 +215,6 @@ gulp.task('copy-vendors',function() {
         'assets/vendor/fontawesome/web-fonts-with-css/css/fontawesome.min.css',
         'assets/vendor/fontawesome/web-fonts-with-css/css/fontawesome-all.min.css'
     ],'assets/dist/css',{flatten: true},cb);
-    /*copy([
-        'assets/vendor/bootstrap/dist/css/bootstrap.min.css'
-    ],'assets/dist/css',{flatten: true},cb);*/
 });
 
 /**
