@@ -212,7 +212,7 @@ gulp.task('copy-vendors',function() {
     ],'assets/dist/fonts',{flatten: true},cb);
     copy([
         'assets/vendor/fontawesome/web-fonts-with-css/webfonts/*.*',
-    ],'assets/dist/fonts',{flatten: true},cb);
+    ],'assets/dist/webfonts',{flatten: true},cb);
 
     //Copy styles
     copy([
