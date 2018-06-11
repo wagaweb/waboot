@@ -23,6 +23,8 @@ languages/*
 /assets/vendor
 /assets/dist/fonts/**/*.*
 !/assets/dist/fonts/.gitkeep
+!/assets/dist/fonts/fontawesome-*.*
+!/assets/dist/fonts/FontAwesome.otf
 /assets/dist/webfonts/**/*.*
 !/assets/dist/webfonts/.gitkeep
 
