@@ -11,19 +11,11 @@ function waboot_style(){
 	if(defined('WABOOT_EXCLUDE_STYLES') && WABOOT_EXCLUDE_STYLES) return;
 
 	if(wbf_exists()){
-		if(defined('WABOOT_BOOTSTRAP_CLASSIC_STYLE') && WABOOT_BOOTSTRAP_CLASSIC_STYLE){
-			$assets['waboot-style'] = [
-				'uri' => get_template_directory_uri()."/assets/dist/css/waboot-classic.min.css",
-				'path' => get_template_directory()."/assets/dist/css/waboot-classic.min.css",
-				'type' => 'css'
-			];
-		}else{
-			$assets['waboot-style'] = [
-				'uri' => get_template_directory_uri()."/assets/dist/css/waboot.min.css",
-				'path' => get_template_directory()."/assets/dist/css/waboot.min.css",
-				'type' => 'css'
-			];
-		}
+		$assets['waboot-style'] = [
+			'uri' => get_template_directory_uri()."/assets/dist/css/waboot.min.css",
+			'path' => get_template_directory()."/assets/dist/css/waboot.min.css",
+			'type' => 'css'
+		];
 		$am = new AssetsManager($assets);
 		$am->enqueue();
 	}else{
