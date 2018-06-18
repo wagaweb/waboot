@@ -1,5 +1,10 @@
 == Change log ==
 
+Version 2.3.3 - 06/18/2018
+---------------------------------
+- Fix: Added webfonts directory for fontawesome 5
+- Tweak: Added the possibility to choose to not display the title prefix in archive page titles
+
 Version 2.3.2 - 03/30/2018
 ---------------------------------
 - Tweak: Update FontAwesome
