@@ -15,7 +15,7 @@ function waboot_init(){
 		$waboot_includes = [
 			'inc/WBFNotFoundException.php',
 			'inc/WBFVersionException.php',
-			'inc/migrations/migration-2.3.2-3.0.0.php',
+			'inc/migrations/migration-2.3.3-3.0.0.php',
 			'inc/components-functions.php',
 			'inc/template-tags.php',
 			'inc/postformat-helpers.php',
