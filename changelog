@@ -7,6 +7,11 @@ Version 3.0.0 --
 - Tweak: Removed most of WooCommerce overridden templates
 - Feature: Added components repository (all components has been removed from the Waboot repository)
 
+Version 2.3.3 - 06/18/2018
+---------------------------------
+- Fix: Added webfonts directory for fontawesome 5
+- Tweak: Added the possibility to choose to not display the title prefix in archive page titles
+
 Version 2.3.2 - 03/30/2018
 ---------------------------------
 - Tweak: Update FontAwesome
