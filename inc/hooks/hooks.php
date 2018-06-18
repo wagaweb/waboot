@@ -98,9 +98,11 @@ add_action( 'pre_get_posts', __NAMESPACE__.'\\ignore_sticky_post_in_archives' );
 function set_update_server(){
 	$slug = "waboot";
 
+	$allow_waboot3 = defined('ALLOW_WABOOT_3') && ALLOW_WABOOT_3;
+
 	$channel = get_update_channel('waboot_theme');
 	if(!$channel || $channel === 'stable'){
-		$metadata_call = "http://update.waboot.org/resource/info/theme/waboot";
+	    $metadata_call = $allow_waboot3 ? "http://update.waboot.org/resource/info/theme/waboot" : "http://update.waboot.org/resource/info/theme/waboot/2.x.x";
     }else{
 		$metadata_call = "http://update.waboot.org/resource/info/theme/waboot?channel=".$channel;
 	}
