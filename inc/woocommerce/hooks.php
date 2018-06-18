@@ -2,8 +2,6 @@
 
 namespace Waboot\woocommerce;
 
-use WBF\modules\options\Organizer;
-
 //Declare WooCommerce support
 add_theme_support( 'woocommerce' );
 
@@ -13,28 +11,13 @@ remove_action('woocommerce_after_main_content', 'woocommerce_output_content_wrap
 add_action('woocommerce_before_main_content', __NAMESPACE__."\\wrapper_start", 10);
 add_action('woocommerce_after_main_content', __NAMESPACE__."\\wrapper_end", 10);
 
-//Layout altering:
-add_filter("waboot/layout/main_wrapper/classes", __NAMESPACE__."\\set_main_wrapper_classes");
-add_action("waboot/woocommerce/loop", __NAMESPACE__."\\loop_template");
-remove_action( 'woocommerce_shop_loop_item_title', 'woocommerce_template_loop_product_title', 10 );
-
-
-/**
- * Set the main loop template
- *
- * @hooked 'waboot/woocommerce/loop'
- */
-function loop_template(){
-	\get_template_part('woocommerce/loop/waboot','loop');
-}
-
 /**
  * Set WooCommerce wrapper start tags
  *
  * @hooked 'woocommerce_before_main_content'
  */
 function wrapper_start() {
-	\get_template_part("templates/wrapper","start");
+    \get_template_part("templates/wrapper","start");
 }
 
 /**
@@ -43,7 +26,20 @@ function wrapper_start() {
  * @hooked 'woocommerce_after_main_content'
  */
 function wrapper_end() {
-	\get_template_part("templates/wrapper","end");
+    \get_template_part("templates/wrapper","end");
+}
+
+//Layout altering:
+add_filter("waboot/layout/main_wrapper/classes", __NAMESPACE__."\\set_main_wrapper_classes");
+add_action("waboot/woocommerce/loop", __NAMESPACE__."\\loop_template");
+
+/**
+ * Set the main loop template
+ *
+ * @hooked 'waboot/woocommerce/loop'
+ */
+function loop_template(){
+    \get_template_part('woocommerce/loop/waboot','loop');
 }
 
 /**
@@ -74,13 +70,3 @@ function alter_entry_title($title, $current_title_position){
 	return $title;
 }
 add_filter("waboot/entry/title", __NAMESPACE__."\\alter_entry_title", 10, 2);
-
-/**
- * Register WooCommerce Theme Options
- *
- * @param Organizer $orgzr
- */
-function register_options($orgzr){
-	//It is handled by "Woocommerce Standard" Component
-}
-add_action("wbf/theme_options/register", __NAMESPACE__.'\\register_options', 14);

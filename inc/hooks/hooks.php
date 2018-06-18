@@ -8,7 +8,6 @@ use Waboot\LS;
 use WBF\components\customupdater\Theme_Update_Checker;
 use WBF\components\license\License_Manager;
 use WBF\modules\components\Component;
-use WBF\modules\components\ComponentsManager;
 use WBF\modules\options\Framework;
 use function WBF\modules\update_channels\get_update_channel;
 
@@ -31,15 +30,6 @@ function add_apple_touch_icon(){
 add_action("waboot/head/meta",__NAMESPACE__."\\add_apple_touch_icon");
 
 /**
- * Adds banner sidebar zone to header
- */
-function add_banner_wrapper(){
-	if(!is_active_sidebar('banner')) return;
-	get_template_part("templates/parts/banner-wrapper");
-}
-add_action("waboot/header",__NAMESPACE__."\\add_banner_wrapper");
-
-/**
  * Adds Waboot credits
  *
  * @param $text
@@ -47,8 +37,10 @@ add_action("waboot/header",__NAMESPACE__."\\add_banner_wrapper");
  * @return mixed
  */
 function add_credits($text){
-	$our_text = sprintf(__(", and <a href='%s'>Waboot</a>","waboot"),""); //todo: finire
-	return $text;
+    $text = preg_replace('/.<\/span>$/','',$text);
+	$our_text = '</span>'.sprintf(__(" and <a href='%s'>Waboot</a>.","waboot"),"https://www.waboot.io");
+	$text.=$our_text;
+    return $text;
 }
 add_filter("admin_footer_text",__NAMESPACE__."\\add_credits");
 
@@ -96,6 +88,10 @@ add_action( 'pre_get_posts', __NAMESPACE__.'\\ignore_sticky_post_in_archives' );
  * Manage Waboot Update Server
  */
 function set_update_server(){
+    if(\defined('WABOOT_NO_UPDATE') && WABOOT_NO_UPDATE) return;
+    $no_update = get_option('WABOOT_NO_UPDATE',false);
+    if($no_update) return;
+
 	$slug = "waboot";
 
 	$allow_waboot3 = defined('ALLOW_WABOOT_3') && ALLOW_WABOOT_3;
@@ -289,16 +285,16 @@ function on_before_update($reply, $package, $WP_Upgrader){
 	if(!$new_version) return $reply;
 
 	$infos = [
-		'parent_theme' => $theme,
-		'current_theme' => wp_get_theme(),
-		'current_version' => $current_version,
-		'new_version' => $new_version,
-		'package' => $package
-	];
+	    'parent_theme' => $theme,
+        'current_theme' => wp_get_theme(),
+	    'current_version' => $current_version,
+        'new_version' => $new_version,
+        'package' => $package
+    ];
 
 	do_action('waboot/before_update', $infos, $WP_Upgrader);
 
-	return $reply;
+    return $reply;
 }
 add_filter('upgrader_pre_download', __NAMESPACE__."\\on_before_update",99,3);
 
@@ -309,7 +305,8 @@ add_filter('upgrader_pre_download', __NAMESPACE__."\\on_before_update",99,3);
  * @param $WP_Upgrader
  */
 function save_waboot_version_before_update($params, $WP_Upgrader){
-    update_option('waboot_pre_upgrade_version', wp_get_theme('waboot')['Version']);
+    $version = isset($params['current_version']) ? $params['current_version'] : wp_get_theme('waboot')['Version'];
+    update_option('waboot_pre_upgrade_version', $version);
 }
 add_action('waboot/before_update', __NAMESPACE__."\\save_waboot_version_before_update",10,2);
 
@@ -322,48 +319,48 @@ add_action('waboot/before_update', __NAMESPACE__."\\save_waboot_version_before_u
  * @return void
  */
 function do_backups_before_updates($params, $WP_Upgrader){
-	try{
-		$themes_to_backup = get_waboot_children();
-		if(!\is_array($themes_to_backup) || empty($themes_to_backup)) return;
+    try{
+        $themes_to_backup = get_waboot_children();
+        if(!\is_array($themes_to_backup) || empty($themes_to_backup)) return;
 
-		//Do theme options backups
-		$waboot_updates = \get_option('waboot_updates_backups_theme_options',[]);
-		foreach ($themes_to_backup as $theme){
-			if(!$theme instanceof \WP_Theme) continue;
-			try{
-				$filename = backup_theme_options($theme);
-				$hash = $params['current_version'].'_'.$params['new_version'].'_'.$theme->get_stylesheet();
-				$waboot_updates[$hash] = [
-					'from' => $params['current_version'],
-					'to' => $params['new_version'],
-					'file' => $filename,
-					'theme' => $theme->get_stylesheet()
-				];
-			}catch(\Exception $e){
-				continue;
-			}
-		}
-		\update_option('waboot_updates_backups_theme_options',$waboot_updates);
+	    //Do theme options backups
+	    $waboot_updates = \get_option('waboot_updates_backups_theme_options',[]);
+        foreach ($themes_to_backup as $theme){
+            if(!$theme instanceof \WP_Theme) continue;
+            try{
+	            $filename = backup_theme_options($theme);
+	            $hash = $params['current_version'].'_'.$params['new_version'].'_'.$theme->get_stylesheet();
+	            $waboot_updates[$hash] = [
+		            'from' => $params['current_version'],
+		            'to' => $params['new_version'],
+		            'file' => $filename,
+		            'theme' => $theme->get_stylesheet()
+	            ];
+            }catch(\Exception $e){
+                continue;
+            }
+        }
+	    \update_option('waboot_updates_backups_theme_options',$waboot_updates);
 
-		//Do components backup
-		$waboot_updates = \get_option('waboot_updates_backups_components',[]);
-		foreach ($themes_to_backup as $theme){
-			if(!$theme instanceof \WP_Theme) continue;
-			try{
-				$filename = backup_components_states($theme);
-				$hash = $params['current_version'].'_'.$params['new_version'].'_'.$theme->get_stylesheet();
-				$waboot_updates[$hash] = [
-					'from' => $params['current_version'],
-					'to' => $params['new_version'],
-					'file' => $filename,
-					'theme' => $theme->get_stylesheet()
-				];
-			}catch (\Exception $e){
-				continue;
-			}
-		}
-		\update_option('waboot_updates_backups_components',$waboot_updates);
+        //Do components backup
+	    $waboot_updates = \get_option('waboot_updates_backups_components',[]);
+	    foreach ($themes_to_backup as $theme){
+		    if(!$theme instanceof \WP_Theme) continue;
+		    try{
+			    $filename = backup_components_states($theme);
+			    $hash = $params['current_version'].'_'.$params['new_version'].'_'.$theme->get_stylesheet();
+			    $waboot_updates[$hash] = [
+				    'from' => $params['current_version'],
+				    'to' => $params['new_version'],
+				    'file' => $filename,
+				    'theme' => $theme->get_stylesheet()
+			    ];
+            }catch (\Exception $e){
+		        continue;
+            }
+	    }
+	    \update_option('waboot_updates_backups_components',$waboot_updates);
 
-	}catch(\Exception $e){}
+    }catch(\Exception $e){}
 }
 add_action('waboot/before_update', __NAMESPACE__."\\do_backups_before_updates",10,2);

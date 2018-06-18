@@ -1,9 +1,4 @@
-<?php
-/*
- * Waboot View
- */
-?>
-<div class="widget-area">
+<div class="widgetarea widgetarea__<?php echo $area_id; ?>">
 	<?php
 	do_action("waboot/widget_area/before");
 	do_action("waboot/widget_area/{$area_id}/before");

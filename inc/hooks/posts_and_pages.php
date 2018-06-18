@@ -10,11 +10,11 @@ use WBF\components\utils\Utilities;
 add_action("waboot/entry/header",__NAMESPACE__."\\display_title");
 add_action("waboot/site-main/before",__NAMESPACE__."\\display_singular_title");
 
-add_action("waboot/layout/archive/page_title/before",__NAMESPACE__."\\display_title_wrapper_start",10);
+/*add_action("waboot/layout/archive/page_title/before",__NAMESPACE__."\\display_title_wrapper_start",10);
 add_action("waboot/layout/archive/page_title/after",__NAMESPACE__."\\display_title_wrapper_end",90);
 
 add_action("waboot/layout/singular/page_title/before",__NAMESPACE__."\\display_title_wrapper_start",10);
-add_action("waboot/layout/singular/page_title/after",__NAMESPACE__."\\display_title_wrapper_end",90);
+add_action("waboot/layout/singular/page_title/after",__NAMESPACE__."\\display_title_wrapper_end",90);*/
 
 add_action("waboot/layout/archive/page_title/after",__NAMESPACE__."\\display_taxonomy_description",20);
 
@@ -117,16 +117,18 @@ function display_singular_title(){
 
 	if(!$can_display_title) return;
 
+	$tpl_args = [
+		'title' => $title,
+	];
+
 	if(is_archive()){
 		$tpl = "templates/view-parts/archive-title.php";
 	}else{
 		$tpl = "templates/view-parts/entry-title-singular.php";
+		$tpl_args['title_position'] = \Waboot\functions\get_behavior('title-position');
 	}
 
 	$tpl = apply_filters("waboot/singular/title/tpl",$tpl,$current_title_context);
-	$tpl_args = [
-		'title' => $title
-	];
 	$tpl_args = apply_filters("waboot/singular/title/tpl_args",$tpl_args);
 
 	(new HTMLView($tpl))->display($tpl_args);
@@ -230,7 +232,7 @@ function display_post_comment_link(){
  * Prints out the entry footer wrapper start
  */
 function entry_footer_wrapper_start(){
-	echo '<footer class="entry-footer">';
+	echo '<footer class="entry__footer">';
 }
 
 /**
@@ -268,7 +270,7 @@ function display_title_wrapper_start(){
 	}
 
 	if($can_display){
-		echo '<div class="container">';
+		echo '<div class="entry__wrapper">';
 	}
 }
 

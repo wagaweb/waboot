@@ -10,46 +10,24 @@ body {
   background-attachment: {{ body_bgattach }};
 }
 
-.page-wrapper {
+.site-page {
   background-color: {{ page_bgcolor }};
 }
 
-.topnav-wrapper {
-  background-color: {{ topnav_bgcolor }};
-}
-
-.header-wrapper {
+.site-header {
   background-color: {{ header_bgcolor }};
 }
 
-.navbar-wrapper {
-  background-color: {{ navbar_bgcolor }};
-}
-
-.banner-wrapper {
-  background-color: {{ banner_bgcolor }};
-}
-
-.content-wrapper {
+.site-main {
   background-color: {{ content_bgcolor }};
 }
 
-.contentbottom-wrapper {
-  background-color: {{ bottom_bgcolor }};
+.site-footer {
+  background-color: {{ footer_bgcolor }};
 }
-
-.footer-wrapper {
-  background-color: {{ footer_classic_bgcolor }};
-}
-
-.closure {
-  background-color: {{ closure_bgcolor }};
-}
-
-
 
 /*------------------------------------*\
-    #Bootstrap Links
+    Links
 \*------------------------------------*/
 
 a {
@@ -61,26 +39,18 @@ a:focus {
     color: {{ apply:waboot_styles_adjustBrightness(btstrp_brand_primary,-20) }};
 }
 
-.text-primary {
-  color: {{ btstrp_brand_primary }};
-}
-
 a.text-primary:hover,
 a.text-primary:focus {
   color: {{ apply:waboot_styles_adjustBrightness(btstrp_brand_primary,-20) }};
 }
 
-
-
-
-
 /*------------------------------------*\
-    #Bootstrap Menu, Pagination, List, Various
+    Menu, Pagination, List, Various
 \*------------------------------------*/
 
-.dropdown-menu > .active > a,
-.dropdown-menu > .active > a:hover,
-.dropdown-menu > .active > a:focus {
+.sub-menu > .active > a,
+.sub-menu > .active > a:hover,
+.sub-menu > .active > a:focus {
   color: #fff;
   background-color: {{ btstrp_brand_primary }};
 }
@@ -134,14 +104,9 @@ a.thumbnail.active {
   border-color: {{ btstrp_brand_primary }};
 }
 
-
-
-
-
 /*------------------------------------*\
-    #Bootstrap Text
+    Typography
 \*------------------------------------*/
-
 
 html,
 body,
@@ -206,11 +171,8 @@ a.text-danger:focus {
 }
 
 
-
-
-
 /*------------------------------------*\
-    #Bootstrap Well
+    Well
 \*------------------------------------*/
 
 .well {
@@ -218,73 +180,90 @@ a.text-danger:focus {
   border: 1px solid {{ apply:waboot_styles_adjustBrightness(btstrp_well_bg,-10) }};;
 }
 
-
-
-
-
 /*------------------------------------*\
-    #Bootstrap Button Primary
+    Buttons
 \*------------------------------------*/
 
-.btn-primary {
+.btn,
+.button {
   background-color: {{ btstrp_brand_primary }};
+  border-width: 1px;
+  border-style: solid;
   border-color:  {{ apply:waboot_styles_adjustBrightness(btstrp_brand_primary,-15) }};
+  color: #fff;
+  padding: 6px 12px;
+  font-size: 1em;
 }
 
-.btn-primary:focus,
-.btn-primary.focus {
+.btn:focus,
+.btn.focus,
+.button:focus,
+.button.focus {
   background-color: {{ apply:waboot_styles_adjustBrightness(btstrp_brand_primary,-15) }};
   border-color: {{ apply:waboot_styles_adjustBrightness(btstrp_brand_primary,-20) }};
+  color: #fff;
 }
 
-.btn-primary:hover {
+.btn:hover,
+.button:hover {
   background-color: {{ apply:waboot_styles_adjustBrightness(btstrp_brand_primary,-15) }};
   border-color: {{ apply:waboot_styles_adjustBrightness(btstrp_brand_primary,-20) }};
+  color: #fff;
 }
 
-.btn-primary:active,
-.btn-primary.active,
-.open > .dropdown-toggle.btn-primary {
+.btn:active,
+.button:active,
+.btn.active,
+.button.active {
   background-color: {{ apply:waboot_styles_adjustBrightness(btstrp_brand_primary,-15) }};
   border-color: {{ apply:waboot_styles_adjustBrightness(btstrp_brand_primary,-20) }};
+  color: #fff;
 }
 
-.btn-primary:active:hover,
-.btn-primary.active:hover,
-.open > .dropdown-toggle.btn-primary:hover,
-.btn-primary:active:focus,
-.btn-primary.active:focus,
-.open > .dropdown-toggle.btn-primary:focus,
-.btn-primary:active.focus,
-.btn-primary.active.focus,
-.open > .dropdown-toggle.btn-primary.focus {
+.btn:active:hover,
+.button:active:hover,
+.btn.active:hover,
+.button.active:hover,
+.btn:active:focus,
+.button:active:focus,
+.btn.active:focus,
+.button.active:focus,
+.btn:active.focus,
+.button:active.focus,
+.btn.active.focus,
+.button.active.focus {
   background-color: {{ apply:waboot_styles_adjustBrightness(btstrp_brand_primary,-15) }};
   border-color: {{ apply:waboot_styles_adjustBrightness(btstrp_brand_primary,-20) }};
+  color: #fff;
 }
 
-.btn-primary.disabled:hover,
-.btn-primary[disabled]:hover,
-fieldset[disabled] .btn-primary:hover,
-.btn-primary.disabled:focus,
-.btn-primary[disabled]:focus,
-fieldset[disabled] .btn-primary:focus,
-.btn-primary.disabled.focus,
-.btn-primary[disabled].focus,
-fieldset[disabled] .btn-primary.focus {
+.btn.disabled:hover,
+.button.disabled:hover,
+.btn[disabled]:hover,
+.button[disabled]:hover,
+.btn.disabled:focus,
+.button.disabled:focus,
+.btn[disabled]:focus,
+.button[disabled]:focus,
+.btn.disabled.focus,
+.button.disabled.focus,
+.btn[disabled].focus,
+.button[disabled].focus {
   background-color: {{ btstrp_brand_primary }};
   border-color: {{ apply:waboot_styles_adjustBrightness(btstrp_brand_primary,-15) }};
 }
 
-.btn-primary .badge {
+
+.btn-ghost,
+.button-ghost {
+  border-width: 2px;
+  border-style: solid;
+  border-color: {{ btstrp_brand_primary }};
   color: {{ btstrp_brand_primary }};
 }
 
-
-
-
-
 /*------------------------------------*\
-    #Bootstrap Button Success
+    Button Success
 \*------------------------------------*/
 
 .btn-success {
@@ -339,70 +318,6 @@ fieldset[disabled] .btn-success.focus {
 .btn-success .badge {
   color: {{ btstrp_brand_success }};
 }
-
-
-
-
-/*------------------------------------*\
-    #Bootstrap Button Info
-\*------------------------------------*/
-
-.btn-info {
-  background-color: {{ btstrp_brand_info }};
-  border-color: {{ apply:waboot_styles_adjustBrightness(btstrp_brand_info,-15) }};
-}
-
-.btn-info:focus,
-.btn-info.focus {
-  background-color: {{ apply:waboot_styles_adjustBrightness(btstrp_brand_info,-15) }};
-  border-color: {{ apply:waboot_styles_adjustBrightness(btstrp_brand_info,-20) }};
-}
-
-.btn-info:hover {
-  background-color: {{ apply:waboot_styles_adjustBrightness(btstrp_brand_info,-15) }};
-  border-color: {{ apply:waboot_styles_adjustBrightness(btstrp_brand_info,-20) }};
-}
-
-.btn-info:active,
-.btn-info.active,
-.open > .dropdown-toggle.btn-info {
-  background-color: {{ apply:waboot_styles_adjustBrightness(btstrp_brand_info,-15) }};
-  border-color: {{ apply:waboot_styles_adjustBrightness(btstrp_brand_info,-20) }};
-}
-
-.btn-info:active:hover,
-.btn-info.active:hover,
-.open > .dropdown-toggle.btn-info:hover,
-.btn-info:active:focus,
-.btn-info.active:focus,
-.open > .dropdown-toggle.btn-info:focus,
-.btn-info:active.focus,
-.btn-info.active.focus,
-.open > .dropdown-toggle.btn-info.focus {
-  background-color: {{ apply:waboot_styles_adjustBrightness(btstrp_brand_info,-15) }};
-  border-color: {{ apply:waboot_styles_adjustBrightness(btstrp_brand_info,-20) }};
-}
-
-.btn-info.disabled:hover,
-.btn-info[disabled]:hover,
-fieldset[disabled] .btn-info:hover,
-.btn-info.disabled:focus,
-.btn-info[disabled]:focus,
-fieldset[disabled] .btn-info:focus,
-.btn-info.disabled.focus,
-.btn-info[disabled].focus,
-fieldset[disabled] .btn-info.focus {
-  background-color: {{ apply:waboot_styles_adjustBrightness(btstrp_brand_info,-15) }};
-  border-color: {{ apply:waboot_styles_adjustBrightness(btstrp_brand_info,-20) }};
-}
-
-.btn-info .badge {
-  color: {{ btstrp_brand_info }};
-}
-
-
-
-
 
 /*------------------------------------*\
     #Bootstrap Button Warning
@@ -461,10 +376,6 @@ fieldset[disabled] .btn-warning.focus {
   color: {{ btstrp_brand_warning }};
 }
 
-
-
-
-
 /*------------------------------------*\
     #Bootstrap Button Danger
 \*------------------------------------*/
@@ -521,27 +432,6 @@ fieldset[disabled] .btn-danger.focus {
 .btn-danger .badge {
   color: {{ btstrp_brand_danger }};
 }
-
-
-
-
-
-/*------------------------------------*\
-    #Bootstrap Button Link
-\*------------------------------------*/
-
-
-.btn-link {
-  color: {{ btstrp_brand_primary }};
-}
-
-.btn-link:hover,
-.btn-link:focus {
-  color: {{ apply:waboot_styles_adjustBrightness(btstrp_brand_primary,-20) }};
-}
-
-
-
 
 /*------------------------------------*\
     #Bootstrap Border Radius
@@ -654,11 +544,6 @@ kbd {
 
 .pagination {
   border-radius: {{ btstrp_border_radius_base }};
-}
-
-.container .jumbotron,
-.container-fluid .jumbotron {
-  border-radius: {{ btstrp_border_radius_lg }};
 }
 
 .thumbnail {
@@ -774,7 +659,6 @@ kbd {
   border-top-right-radius: {{ btstrp_border_radius_sm }};
 }
 
-
 /*------------------------------------*\
     #Bootstrap Labels
 \*------------------------------------*/
@@ -823,8 +707,6 @@ kbd {
 .label-danger[href]:focus {
   background-color: {{ apply:waboot_styles_adjustBrightness(btstrp_brand_danger,-15) }};
 }
-
-
 
 /*------------------------------------*\
     #Bootstrap Panels
@@ -952,10 +834,6 @@ kbd {
   border-bottom-color: {{ apply:waboot_styles_adjustBrightness(btstrp_brand_danger,15) }};
 }
 
-
-
-
-
 /*------------------------------------*\
     #Bootstrap Panels
 \*------------------------------------*/
@@ -1015,10 +893,6 @@ kbd {
 .alert-danger .alert-link {
   color: {{ apply:waboot_styles_adjustBrightness(btstrp_brand_danger,-65) }};
 }
-
-
-
-
 
 /*------------------------------------*\
     #Bootstrap Table

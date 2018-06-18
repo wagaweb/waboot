@@ -28,12 +28,12 @@ var paths = {
 };
 
 /**
- * Compile .less into waboot.min.css
+ * Compile .scss into main.min.css
  */
 gulp.task('compile_css',function(){
     var processors = [
         autoprefixer({browsers: ['last 1 version']}),
-        cssnano()
+        cssnano({ zindex: false })
     ];
 
     var frontend = gulp.src(paths.main_style)

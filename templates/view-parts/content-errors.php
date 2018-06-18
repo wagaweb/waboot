@@ -1,11 +1,8 @@
-<?php
-/*
- * Waboot View 
- */
-?>
 <article role="article" id="post-template-error">
-	<h1><?php _e("Template error","waboot") ?></h1>
-	<div class="entry-content">
+    <header class="entry__header">
+        <h1 class="entry__title"><?php _e("Template error","waboot") ?></h1>
+    </header>
+	<div class="entry__content">
 		<?php echo $message; ?>
-	</div><!-- .entry-content -->
+	</div>
 </article>

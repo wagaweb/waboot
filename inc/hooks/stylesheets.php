@@ -1,6 +1,8 @@
 <?php
 
 namespace Waboot\hooks\styles;
+use function Waboot\functions\get_theme_options_css_dest_path;
+use function Waboot\functions\get_theme_options_css_dest_uri;
 use function Waboot\functions\wbf_exists;
 use WBF\components\assets\AssetsManager;
 
@@ -9,19 +11,11 @@ function waboot_style(){
 	if(defined('WABOOT_EXCLUDE_STYLES') && WABOOT_EXCLUDE_STYLES) return;
 
 	if(wbf_exists()){
-		if(defined('WABOOT_BOOTSTRAP_CLASSIC_STYLE') && WABOOT_BOOTSTRAP_CLASSIC_STYLE){
-			$assets['waboot-style'] = [
-				'uri' => get_template_directory_uri()."/assets/dist/css/waboot-classic.min.css",
-				'path' => get_template_directory()."/assets/dist/css/waboot-classic.min.css",
-				'type' => 'css'
-			];
-		}else{
-			$assets['waboot-style'] = [
-				'uri' => get_template_directory_uri()."/assets/dist/css/waboot.min.css",
-				'path' => get_template_directory()."/assets/dist/css/waboot.min.css",
-				'type' => 'css'
-			];
-		}
+		$assets['waboot-style'] = [
+			'uri' => get_template_directory_uri()."/assets/dist/css/waboot.min.css",
+			'path' => get_template_directory()."/assets/dist/css/waboot.min.css",
+			'type' => 'css'
+		];
 		$am = new AssetsManager($assets);
 		$am->enqueue();
 	}else{
@@ -30,20 +24,28 @@ function waboot_style(){
 }
 add_action( 'wp_enqueue_scripts', __NAMESPACE__.'\\waboot_style', 8 );
 
+/**
+ *
+ * @hooked 'wp_enqueue_scripts'
+ *
+ * @throws \Exception
+ */
 function theme_options_style(){
 	//Theme options style
-	$file = WBF()->get_working_directory()."/theme-options.css";
+	$file = get_theme_options_css_dest_path();
 	if(is_readable($file)){
 		$assets['waboot-theme-options-style'] = [
-			'uri' => WBF()->get_working_directory_uri()."/theme-options.css",
-			'path' => WBF()->get_working_directory()."/theme-options.css",
+			'uri' => get_theme_options_css_dest_uri(),
+			'path' => $file,
 			'type' => 'css'
 		];
 		$am = new AssetsManager($assets);
 		$am->enqueue();
 	}
 }
-if(wbf_exists()) add_action( 'wp_enqueue_scripts', __NAMESPACE__.'\\theme_options_style', 9 );
+if(wbf_exists()){
+	add_action( 'wp_enqueue_scripts', __NAMESPACE__.'\\theme_options_style', 9 );
+}
 
 /**
  * Loads frontend styles

@@ -1,9 +1,11 @@
 == Change log ==
 
-Version 2.3.3 - 06/18/2018
+Version 3.0.0 --
 ---------------------------------
-- Fix: Added webfonts directory for fontawesome 5
-- Tweak: Added the possibility to choose to not display the title prefix in archive page titles
+- Fix: Many fixes
+- Tweak: Removed Bootstrap as core dependency
+- Tweak: Removed most of WooCommerce overridden templates
+- Feature: Added components repository (all components has been removed from the Waboot repository)
 
 Version 2.3.2 - 03/30/2018
 ---------------------------------
@@ -32,6 +34,16 @@ Version 2.3.0 - 12/04/2017
 - Feature: Added WBF auto-installer.
 - Feature: Support for the new WBF Update Channels module.
 - Features: Now some components compiles their styles in an unified .css file.
+
+Version 2.2.1 -
+---------------------------------
+- Fix: Now title in shop page behave as expected accordingly to the theme options.
+- Fix: Now title in product pages behave as expected accordingly to the theme options and behaviors.
+- Fix: Now sidebar classes behave as expected accordingly to the theme options.
+- Fix: Generators works with child-side components.
+- Tweak: Compatibility with WBF 1.1.0.
+- Feature: Added WBF auto-installer.
+- Feature: Support for the new WBF Update Channels module.
 
 Version 2.2.0 - 10/26/2017
 ---------------------------------

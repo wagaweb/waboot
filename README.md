@@ -67,7 +67,7 @@ Create a new zone is easy:
 - Register the zone  
 
     ```php
-    Waboot()->layout->create_zone(string <zone_name>, [\WBF\components\mvc\View|string|FALSE <zone_view>, array <zone_params>]);
+    \WabootLayout()->create_zone(string <zone_name>, [\WBF\components\mvc\View|string|FALSE <zone_view>, array <zone_params>]);
     ```
     
     The only required param is the zone name. Zone name can be any `[a-z-]+` string. 
@@ -76,16 +76,16 @@ Create a new zone is easy:
 
 - Render the zone
 
-    To render a zone, you only need to call `Waboot()->layout->render_zone(<zone_name>);` where you want to render it.
+    To render a zone, you only need to call `\WabootLayout()->render_zone(<zone_name>);` where you want to render it.
     
-    If a template is assigned to the zone, make sure you included `Waboot()->layout->do_zone_action(<zone_name>);` within the that template.
+    If a template is assigned to the zone, make sure you included `\WabootLayout()->do_zone_action(<zone_name>);` within the that template.
 
 ### Hook to a zone programmatically
 
 When a zone is registered, Waboot prepares an action with a name like: "`waboot/zones/<zone_name>`". You can hook directly to this hook or use Layout API:
 
 ```php
-\Waboot()->layout->add_zone_action(<zone_name>,<call_back>);
+\WabootLayout()->add_zone_action(<zone_name>,<call_back>);
 ```
 
 **Beware:** due to the fact that in WordPress the child functions.php is loaded before the parent one, the `Waboot()` will not be available outside hooks. To work, the above line must be run during an hook, for example: `init`.
@@ -93,7 +93,7 @@ When a zone is registered, Waboot prepares an action with a name like: "`waboot/
 ```php
 //Example: include a template in a specific zone (main-bottom):
 add_action("init",function(){
-    \Waboot()->layout->add_zone_action("main-bottom","append_foo_bar");
+    \WabootLayout()->add_zone_action("main-bottom","append_foo_bar");
 },14);
 
 function append_foo_bar(){
@@ -267,14 +267,13 @@ More informations and tutorials [here](https://github.com/wagaweb/waboot/tree/ma
 
 - Bugfix
 
-:tada: Official Waboot launch! :rocket:
-
 **v3.0.x**
 
 - Deprecation of Bootstrap dependency
 
 - Components repository
 
+:tada: Official Waboot launch! :rocket:
 
 **Future releases**
 

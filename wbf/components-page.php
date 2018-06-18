@@ -8,9 +8,9 @@ use WBF\modules\components\GUI;
 
 <?php if(count($registered_components) <= 0) : ?>
 	<div class="wrap">
-		<h2><?php _e("Components", "wbf"); ?></h2>
+		<h2><?php _e("Components", "waboot"); ?></h2>
 		<p>
-			<?php _e("No components available in the current theme. You can create components into /components/ directory under theme directory.","wbf"); ?>
+			<?php _e("No components available in the current theme. You can create components into /components/ directory under theme directory.","waboot"); ?>
 		</p>
 	</div>
 <?php return; endif; ?>
@@ -46,11 +46,11 @@ use WBF\modules\components\GUI;
                                 </p>
                                 <?php if(\WBF\modules\components\ComponentsManager::is_child_component($component)): ?>
                                     <p class="child-component-notice">
-                                        <?php _e("This is a component of the current child theme", "wbf"); ?>
+                                        <?php _e("This is a component of the current child theme", "waboot"); ?>
                                         <?php
                                         if(isset($component->override)) {
                                             if($component->override){
-                                                _e(", and <strong>override a core component</strong>", "wbf");
+                                                _e(", and <strong>override a core component</strong>", "waboot");
                                             }
                                         }
                                         ?>
@@ -78,7 +78,7 @@ use WBF\modules\components\GUI;
                                     </div>
                                     <?php if(isset($component->tags) && !empty($component->tags)): ?>
                                         <div class="tags">
-                                            <strong><?php _ex("Tags:","Components Page","wbf"); ?></strong>
+                                            <strong><?php _ex("Tags:","Components Page","waboot"); ?></strong>
                                             <ul>
                                                 <?php foreach ($component->tags as $tag): ?>
                                                     <li class="tag-<?php echo str_replace(" ","_",strtolower($tag)); ?>"><?php echo $tag ?></li>
@@ -116,8 +116,9 @@ use WBF\modules\components\GUI;
 					<?php if(\WBF\modules\components\ComponentsManager::is_active($component)): ?>
 					<div class="options-group" style="display: none;" data-component-options>
 						<div class="options-group-data">
-							<h3><?php _e(sprintf("%s Settings",isset($data['Name']) ? $data['Name'] : ucfirst($component->name)),"wbf"); ?></h3>
+							<h3><?php _e(sprintf("%s Settings",isset($data['Name']) ? $data['Name'] : ucfirst($component->name)),"waboot"); ?></h3>
 							<?php \WBF\modules\options\GUI::print_fields($compiled_components_options[$component->name]); ?>
+							<?php do_action('wbf/modules/components/active_component/'.$comp_data->name.'/settings'); ?>
 						</div>
 					</div>
 					<?php endif; ?>
@@ -126,10 +127,9 @@ use WBF\modules\components\GUI;
 			<!-- Components List -->
 			<div id="componentframework-submit">
 				<input type="submit" name="submit-components-options" id="submit" class="button button-primary" value="Save Changes">
-				<input type="submit" class="reset-button button-secondary" name="restore_defaults_components" value="<?php esc_attr_e( 'Restore default component status', 'wbf' ); ?>" onclick="return confirm( '<?php print esc_js( __( 'Click OK to restore defaults. Any theme settings will be lost!', 'wbf' ) ); ?>' );" />
-				<input type="submit" class="reset-button button-secondary" name="reset_components" value="<?php esc_attr_e( 'Reset components status', 'wbf' ); ?>" onclick="return confirm( '<?php print esc_js( __( 'Click OK to reset. Any theme settings will be lost!', 'wbf' ) ); ?>' );" />
+				<input type="submit" class="reset-button button-secondary" name="restore_defaults_components" value="<?php esc_attr_e( 'Restore default component status', 'waboot' ); ?>" onclick="return confirm( '<?php print esc_js( __( 'Click OK to restore defaults. Any theme settings will be lost!', 'wbf' ) ); ?>' );" />
+				<input type="submit" class="reset-button button-secondary" name="reset_components" value="<?php esc_attr_e( 'Reset components status', 'waboot' ); ?>" onclick="return confirm( '<?php print esc_js( __( 'Click OK to reset. Any theme settings will be lost!', 'wbf' ) ); ?>' );" />
 			</div>
 		</form>
 	</div><!-- #componentframework-wrap -->
-	<?php WBF()->print_copyright(); ?>
 </div><!-- .wrap: end -->

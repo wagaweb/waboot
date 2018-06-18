@@ -12,11 +12,6 @@ function enqueue_js() {
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ){
 		wp_enqueue_script( 'comment-reply' );
 	}
-	
-	if(!is_admin() && wbf_exists()){
-		//Bootstrap
-		wp_enqueue_script( 'bootstrap.js', wbf_locate_template_uri( 'assets/dist/js/bootstrap.min.js' )."#asyncload", array( 'jquery' ), false, true );
-	}
 
 	//Main scripts:
 	$wpData = apply_filters("wbft/js/localization",array(
@@ -34,6 +29,14 @@ function enqueue_js() {
                 'processing' => _x('Processing...','Generators','waboot'),
                 'completed' => sprintf(_x('Wizard completed successfully!','Generators','waboot'),admin_url('admin.php?page=wbf_options')),
                 'rerun_wizard' => _x('Run again','Generators', 'waboot')
+            ],
+			'components_installer_labels' => [
+                'download' => __('Download'),
+				'installing' => __( 'Installing...' ), //@see: script-loader.php
+				'activating' => _x( 'Activating...', 'Components Installer', 'waboot'),
+				'installFailedShort' => __( 'Install Failed!' ), //@see: script-loader.php
+				'activate' => __( 'Activate' ), //@see: class-wp-plugin-install-list-table.php
+				'active' => __( 'Active' )
             ],
 			'wpurl' => get_bloginfo('wpurl'),
 			'isMobile' => class_exists("WBF") ? wb_is_mobile() : null,

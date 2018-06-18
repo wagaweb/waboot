@@ -34,14 +34,16 @@ var paths = {
     bundlejs: ['./assets/dist/js/waboot.js'],
     scsses: './assets/src/sass/**/*.scss',
     main_scss: './assets/src/sass/waboot.scss',
-    main_classic_scss: './assets/src/sass/waboot-classic-bootstrap.scss',
     main_admin_scss: './assets/src/sass/waboot-admin.scss',
     tinymce_admin_scss: './assets/src/sass/admin/tinymce.scss',
     build: [
         "**/*",
+        "./components/.gitkeep",
+        "!./components/**",
         "!.*" ,
         "!./gulpfile.js",
         "!./package.json",
+        "!./package-lock.json",
         "!phpunit.xml",
         "!phpunit-wp.xml",
         "!composer.json",
@@ -49,16 +51,35 @@ var paths = {
         "!bower.json",
         "!Movefile-sample",
         "!yarn.lock",
-        "!./package-lock.json",
         "!*.log",
         "!{tests,tests/**}",
         "!{vendor,vendor/**}",
         "!{builds,builds/**}",
         "!{node_modules,node_modules/**}",
         "!{assets/vendor,assets/vendor/**}",
-        "!assets/cache/*"
+        "!assets/cache/*",
+        "!{waboot-child/node_modules,waboot-child/node_modules/**}"
     ]
 };
+
+var available_components = [
+    'admin_tweaks',
+    'blog_timeline',
+    'blog_masonry',
+    'bootstrap',
+    'breadcrumb',
+    'footer_flex',
+    'header_bootstrap',
+    'header_splitted_menu',
+    'header_fixed',
+    'header_flex',
+    'image_modal',
+    'legal_data',
+    'navbar_vertical',
+    'sample',
+    'topNavWrapper',
+    'woocommerce_standard'
+];
 
 /**
  * Compile .less into waboot.min.css
@@ -66,7 +87,7 @@ var paths = {
 gulp.task('compile_css',function(){
     var processors = [
         autoprefixer({browsers: ['last 1 version']}),
-        cssnano()
+        cssnano({ zindex: false })
     ];
 
     var frontend = gulp.src(paths.main_scss)
@@ -74,14 +95,6 @@ gulp.task('compile_css',function(){
         .pipe(sass({includePaths: ["assets/vendor/bootstrap-sass/assets/stylesheets"]}).on('error', sass.logError))
         .pipe(postcss(processors))
         .pipe(rename(theme_slug+'.min.css'))
-        .pipe(sourcemaps.write("."))
-        .pipe(gulp.dest('./assets/dist/css'));
-
-    var frontend_classic = gulp.src(paths.main_classic_scss)
-        .pipe(sourcemaps.init())
-        .pipe(sass({includePaths: ["assets/vendor/bootstrap-sass/assets/stylesheets"]}).on('error', sass.logError))
-        .pipe(postcss(processors))
-        .pipe(rename(theme_slug+'-classic.min.css'))
         .pipe(sourcemaps.write("."))
         .pipe(gulp.dest('./assets/dist/css'));
 
@@ -111,7 +124,7 @@ gulp.task('compile_css',function(){
         .pipe(sourcemaps.write("."))
         .pipe(gulp.dest('./components/woocommerce_standard/assets/dist/css'));
 
-    return merge(frontend,frontend_classic,backend,tinymce,comp_woocommerce_standard);
+    return merge(frontend,backend,tinymce,comp_woocommerce_standard);
 });
 
 /**
@@ -144,6 +157,8 @@ gulp.task('browserify', function(){
  * Creates the theme package
  */
 gulp.task('make-package', function(){
+    let del = require('del');
+    del(paths.builddir+'/pkg');
     return gulp.src(paths.build)
         .pipe(gcopy(paths.builddir+"/pkg/"+theme_slug));
 });
@@ -187,14 +202,10 @@ gulp.task('copy-vendors',function() {
     //Copy scripts
     copy([
         'assets/vendor/html5shiv/dist/html5shiv.min.js',
-        'assets/vendor/respond/dest/respond.min.js',
-        'assets/vendor/bootstrap-sass/assets/javascripts/bootstrap.min.js'
+        'assets/vendor/respond/dest/respond.min.js'
     ],'assets/dist/js',{flatten: true},cb);
 
     //Copy fonts
-    copy([
-        'assets/vendor/bootstrap-sass/assets/fonts/bootstrap/*.*'
-    ],'assets/dist/fonts',{flatten: true},cb);
     copy([
         'assets/vendor/fontawesome/web-fonts-with-css/webfonts/*.*',
     ],'assets/dist/webfonts',{flatten: true},cb);
@@ -204,9 +215,6 @@ gulp.task('copy-vendors',function() {
         'assets/vendor/fontawesome/web-fonts-with-css/css/fontawesome.min.css',
         'assets/vendor/fontawesome/web-fonts-with-css/css/fontawesome-all.min.css'
     ],'assets/dist/css',{flatten: true},cb);
-    /*copy([
-        'assets/vendor/bootstrap/dist/css/bootstrap.min.css'
-    ],'assets/dist/css',{flatten: true},cb);*/
 });
 
 /**
@@ -224,7 +232,7 @@ gulp.task('bower-update',function(){
 });
 
 /**
- * Runs a build
+ * Initial setup
  */
 gulp.task('setup', function(callback) {
     runSequence('bower-update', 'copy-vendors', ['compile_js', 'compile_css'], callback);
@@ -251,3 +259,112 @@ gulp.task('watch', function() {
 gulp.task('default', function(callback){
     runSequence('bower-install', ['compile_js', 'compile_css'], 'watch', callback);
 });
+
+/*
+ * COMPONENTS: BEGIN
+ */
+
+/**
+ * Create directories for components
+ */
+gulp.task('components-add-dirs', function(){
+    var exec = require('child_process').exec;
+    var components = available_components;
+    for(var i = 0, len = components.length; i < len; i++){
+        console.log("*** Exec mkdir "+components[i]);
+        exec('mkdir components/'+components[i], function(err, stdout, stderr) {
+            if(err){
+                console.log(stderr);
+                return;
+            }
+        });
+    }
+});
+
+/**
+ * Create directories for components
+ */
+gulp.task('components-pull-remotes', function(){
+    var exec = require('child_process').exec;
+    var components = available_components;
+    for(var i = 0, len = components.length; i < len; i++){
+        console.log("*** Pulling "+components[i]);
+        exec('cd components/'+components[i]+' && git clone git@github.com:wagaweb/waboot-component-'+components[i]+'.git .', function(err, stdout, stderr) {
+            if(err){
+                console.log(stderr);
+                return;
+            }
+        });
+    }
+});
+
+/**
+ * Default task
+ */
+gulp.task('setup-components', function(callback){
+    runSequence('components-add-dirs', 'components-pull-remotes', callback);
+});
+
+/**
+ * Builds all components
+ */
+gulp.task('build-components', function(callback){
+    let components = available_components;
+    let pkg_tasks = [];
+    let zip_tasks = [];
+    let fs = require('fs');
+    let del = require('del');
+    for(var i = 0, len = components.length; i < len; i++){
+        let current_directory = './components/'+components[i];
+        console.log(current_directory+'/.version ...');
+        try{
+            fs.lstatSync(current_directory+'/.version').isFile();
+            let current_version = fs.readFileSync(current_directory+'/.version', 'utf8', function(err,data){
+                if(err){
+                    console.log(err);
+                    return false;
+                }
+                return data;
+            });
+            if(current_version){
+                let current_pkg_name = components[i];
+                del.sync('./builds/components/'+current_pkg_name);
+                let current_pkg_task = gulp.src(current_directory+'/**/*').pipe(gulp.dest('./builds/components/'+current_pkg_name));
+                pkg_tasks.push(current_pkg_task);
+            }
+        }catch(e){}
+    }
+    return merge(...pkg_tasks);
+});
+
+gulp.task('zip-components', ['build-components'], function(callback){
+    let components = available_components;
+    let zip_tasks = [];
+    let fs = require('fs');
+    let del = require('del');
+    for(var i = 0, len = components.length; i < len; i++){
+        let current_directory = './components/'+components[i];
+        try{
+            fs.lstatSync(current_directory+'/.version').isFile();
+            let current_version = fs.readFileSync(current_directory+'/.version', 'utf8', function(err,data){
+                if(err){
+                    console.log(err);
+                    return false;
+                }
+                return data;
+            });
+            if(current_version){
+                let current_zip_filename = components[i]+'-'+current_version+'.zip';
+                let current_pkg_name = components[i];
+                del.sync('./builds/components/'+current_zip_filename);
+                let current_zip_task = gulp.src('./builds/components/'+current_pkg_name+'/**/*', {base: './builds/components/'}).pipe(zip(current_zip_filename)).pipe(gulp.dest('./builds/components'));
+                zip_tasks.push(current_zip_task);
+            }
+        }catch(e){}
+    }
+    return merge(...zip_tasks);
+});
+
+/*
+ * COMPONENTS: END
+ */

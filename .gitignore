@@ -4,6 +4,12 @@ builds/
 npm-debug.log
 
 ############
+## WABOOT
+############
+components/*
+!components/.gitkeep
+
+############
 ## WP
 ############
 Movefile
@@ -26,6 +32,7 @@ languages/*
 ## WBF TMP FILE
 ############
 wbf/options/theme-options-generated.less
+_theme-options.src.addons
 wbf/options/client-custom.css
 assets/src/less/tmp_*.*
 
@@ -51,14 +58,6 @@ waboot-child/assets/dist/css/waboot-child.css
 waboot-child/assets/dist/css/waboot-child.css.map
 waboot-child/assets/src/less/tmp_*.*
 waboot-child/assets/src/less/theme-options-generated.less
-
-############
-## COMPONENTS ASSETS
-############
-components/**/node_modules
-components/**/bower_components
-components/**/bundle.js
-components/woocommerce_standard/assets/dist/css/*
 
 ############
 ## IDEs

@@ -5,6 +5,20 @@ use WBF\components\mvc\HTMLView;
 use WBF\components\utils\Utilities;
 
 /**
+ * Renders a zone
+ *
+ * @param string $slug
+ */
+function render_zone($slug){
+	if(!function_exists('WabootLayout')) return;
+	try{
+		WabootLayout()->render_zone($slug);
+	}catch(\Exception $e){
+		echo $e->getMessage();
+	}
+}
+
+/**
  * Displays site title
  */
 function site_title() {
@@ -45,15 +59,16 @@ function site_description() {
  * Prints the desktop logo
  *
  * @param bool $linked
+ * @param string $class
  */
-function desktop_logo($linked = false){
-	if($linked){
-		$tpl = "<a href='%s'><img src='%s' class='waboot-desktop-logo' /></a>";
-		printf($tpl,home_url( '/' ),get_desktop_logo());
-	}else{
-		$tpl = "<img src='%s' class='waboot-desktop-logo' />";
-		printf($tpl,get_desktop_logo());
-	}
+function desktop_logo($linked = false, $class = ''){
+    if($linked){
+        $tpl = '<a href="%s"><img src="%s" class="'.$class.'" /></a>';
+        printf($tpl,home_url( '/' ),get_desktop_logo());
+    }else{
+        $tpl = '<img src="%s" class="'.$class.'" />';
+        printf($tpl,get_desktop_logo());
+    }
 }
 
 /**
@@ -61,22 +76,23 @@ function desktop_logo($linked = false){
  * @return string
  */
 function get_desktop_logo(){
-	$desktop_logo = \Waboot\functions\get_option('desktop_logo', ""); //
-	return $desktop_logo;
+    $desktop_logo = \Waboot\functions\get_option('desktop_logo', ""); //
+    return $desktop_logo;
 }
 
 
 /**
  * Prints the mobile logo
- * 
+ *
  * @param bool $linked
+ * @param string $class
  */
-function mobile_logo($linked = false) {
+function mobile_logo($linked = false, $class = '') {
     if($linked){
-        $tpl = "<a href='%s'><img src='%s' class='waboot-mobile-logo' /></a>";
+        $tpl = '<a href="%s"><img src="%s" class="'.$class.'" /></a>';
         printf($tpl,home_url( '/' ),get_mobile_logo());
     }else{
-        $tpl = "<img src='%s' class='waboot-mobile-logo' />";
+        $tpl = '<img src="%s" class="'.$class.'" />';
         printf($tpl,get_mobile_logo());
     }
 }
@@ -98,7 +114,8 @@ function index_page_title(){
 	$title = \Waboot\functions\get_index_page_title();
 	$tpl = "templates/view-parts/entry-title-singular.php";
 	(new HTMLView($tpl))->display([
-		'title' => $title
+		'title' => $title,
+		'title_position' => \Waboot\functions\get_behavior('title-position')
 	]);
 }
 
@@ -238,8 +255,8 @@ function wrapped_title($prefix,$suffix,$title,\WP_Post $post = null){
  * Prints out the container-relative classes
  */
 function container_classes(){
-	$classes[] = "site-main";
-	$classes[] = \Waboot\functions\get_behavior("content-width");
+	$classes[] = "site-main__wrapper";
+	$classes[] = WabootLayout()->get_container_grid_class(\Waboot\functions\get_behavior("content-width"));
 	$classes = apply_filters("waboot/layout/container/classes",$classes);
 	if(is_array($classes)){
 		$classes = implode(" ",$classes);
@@ -252,9 +269,9 @@ function container_classes(){
  */
 function main_classes(){
 	if(has_filter("waboot_mainwrap_container_class")){
-		echo apply_filters('waboot_mainwrap_container_class','content-area col-sm-8'); //backward compatibility
+		echo apply_filters('waboot_mainwrap_container_class','content-area wbcol-8'); //backward compatibility
 	}else{
-		echo apply_filters('waboot/layout/main/classes','content-area col-sm-8');
+		echo apply_filters('waboot/layout/main/classes','content-area wbcol-8');
 	}
 }
 

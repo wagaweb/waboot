@@ -23,18 +23,29 @@ class Layout{
 	const LAYOUT_TWO_SIDEBARS_LEFT = "two-sidebars-left";
 	const LAYOUT_TWO_SIDEBARS_RIGHT = "two-sidebars-right";
 
+	const GRID_CLASS_ROW = 'row';
+	const GRID_CLASS_CONTAINER = 'container-boxed';
+	const GRID_CLASS_CONTAINER_FLUID = 'container-fluid';
+	const GRID_CLASS_COL_SUFFIX = 'col_suffix';
+
 	/**
 	 * Layout constructor.
 	 *
 	 * @param array $params
 	 */
 	public function __construct($params = []) {
-		$default_grid_classes = [];
+		$default_grid_classes = [
+			self::GRID_CLASS_ROW => 'wbrow',
+			self::GRID_CLASS_CONTAINER => 'wbcontainer',
+			self::GRID_CLASS_CONTAINER_FLUID => 'wbcontainer-fluid',
+			self::GRID_CLASS_COL_SUFFIX => 'wbcol-'
+		];
 		if(isset($params['grid_classes'])){
-			$this->grid_classes = wp_parse_args($params['grid_classes'],$default_grid_classes);
+			$grid_classes = wp_parse_args($params['grid_classes'],$default_grid_classes);
 		}else{
-			$this->grid_classes = $default_grid_classes;
+			$grid_classes = $default_grid_classes;
 		}
+		$this->grid_classes = $grid_classes;
 	}
 
 	/**
@@ -190,6 +201,8 @@ class Layout{
 	 * @param $template
 	 * 
 	 * @return array
+	 *
+	 * @not-used
 	 */
 	public function get_wp_template_vars($template){
 		$vars = [];
@@ -208,32 +221,32 @@ class Layout{
 	/**
 	 * Adds an action to the zone
 	 * 
-	 * @param $slug
-	 * @param $function_to_call
-	 * @param $priority
-	 * @param $accepted_args
+	 * @param string $slug
+	 * @param Callable $callable
+	 * @param integer $priority
+	 * @param integer $accepted_args
 	 *
 	 * @throws \Exception
 	 */
-	public function add_zone_action($slug,$function_to_call,$priority = 10,$accepted_args = 1){
+	public function add_zone_action($slug,$callable,$priority = 10,$accepted_args = 1){
 		try{
 			$this->check_zone($slug);
 
 			$zone = $this->zones[$slug];
 
 			$this->zones[$slug]['actions'][] = [
-				"callable" =>  $function_to_call,
+				"callable" =>  $callable,
 				"priority" => $priority
 			];
 
-			add_action($zone['actions_hook'],$function_to_call,$priority,$accepted_args);
+			add_action($zone['actions_hook'],$callable,$priority,$accepted_args);
 		}catch (\Exception $e){}
 	}
 
 	/**
 	 * Performs zone actions
 	 * 
-	 * @param $slug
+	 * @param string $slug
 	 *
 	 * @throws \Exception
 	 */
@@ -259,7 +272,7 @@ class Layout{
 	/**
 	 * Checks whether a zone exists or not
 	 * 
-	 * @param $slug
+	 * @param string $slug
 	 *
 	 * @return bool
 	 * @throws \Exception
@@ -276,6 +289,52 @@ class Layout{
 		return true;
 	}
 
+	/**
+	 * Update the current grid classes
+	 *
+	 * Called during 'init'.
+	 */
+	public function update_grid_classes(){
+		$classes = apply_filters('waboot/layout/grid_classes',[]);
+		$default_grid_classes = $this->grid_classes;
+		$classes = wp_parse_args($classes,$default_grid_classes);;
+		$this->grid_classes = $classes;
+	}
+
+	/**
+	 * @param string $type
+	 *
+	 * @return mixed|string
+	 */
+	public function get_grid_class($type){
+		if(array_key_exists($type,$this->grid_classes)){
+			return $this->grid_classes[$type];
+		}
+		return '';
+	}
+
+	/**
+	 * Return the container class based on $type
+	 *
+	 * @param string $type
+	 *
+	 * @return string
+	 */
+	public function get_container_grid_class($type){
+		if($type === 'container' || $type === 'wbcontainer' || $type === 'boxed' || $type === 'container-boxed'){
+			$type = self::GRID_CLASS_CONTAINER;
+		}elseif($type === 'container-fluid' || $type === 'wbcontainer-fluid' || $type === 'fluid'){
+			$type = self::GRID_CLASS_CONTAINER_FLUID;
+		}
+		return $this->get_grid_class($type);
+	}
+
+	/**
+	 * @return string
+	 */
+	public function get_col_grid_class(){
+		return $this->get_grid_class(Layout::GRID_CLASS_COL_SUFFIX);
+	}
 	
 	/*
 	 * Utilities
@@ -287,6 +346,7 @@ class Layout{
 	 */
 	static function remove_cols_classes(array &$classes_array){
 		foreach($classes_array as $k => $v){
+			//if(preg_match("/".WabootLayout()->get_col_grid_class()."/",$v)){
 			if(preg_match("/col-/",$v)){
 				unset($classes_array[$k]);
 			}
@@ -294,7 +354,7 @@ class Layout{
 	}
 
 	/**
-	 * Convert size labels (1/3, 2/3, ect) into size integers (for using into col-sm-<x>)
+	 * Convert size labels (1/3, 2/3, ect) into size integers (for using into wbcol-<x>)
 	 * @param string $width the label
 	 *
 	 * @return int

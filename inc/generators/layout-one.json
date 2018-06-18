@@ -1,0 +1,12 @@
+{
+  "name": "Layout One",
+  "description": "Navbar aligned to logo",
+  "preview": "assets/images/wizard/layout-one.png",
+  "classname": "LayoutOneGenerator",
+  "components": ["header_flex","footer_flex"],
+  "options": {
+    "headerflex_nav_position": "aligned"
+  },
+  "pre_actions": ["download_wbf","install_wbf"],
+  "actions": ["sayHello"]
+}

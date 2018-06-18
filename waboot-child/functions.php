@@ -11,6 +11,7 @@ add_action("after_setup_theme", function(){
  * Enqueue scripts and styles
  */
 add_action("wp_enqueue_scripts", function(){
+	if(!class_exists('\WBF\components\assets\AssetsManager')) return;
 	$theme = wp_get_theme();
 	$assets = [
 		'wp-style' => [
@@ -33,7 +34,8 @@ add_action("wp_enqueue_scripts", function(){
 		/*'theme-scripts' => [
 			'uri' => get_stylesheet_directory_uri()."/assets/dist/js/main.min.js",
 			'path' => get_stylesheet_directory()."/assets/dist/js/main.min.js",
-			'type' => 'js'
+			'type' => 'js',
+		    'deps' => ['jquery'],
 		],*/
         //Decomment following lines if otherwise:
 		/*'snippets-script' => [

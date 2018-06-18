@@ -1,5 +1,7 @@
 import $ from "jquery";
+import Vue from "vue/dist/vue";
 import { GeneratorsHandler } from "./generatorsHandler";
+import { AppData as AddNewComponentsPageHandlerData, AppParams as AddNewComponentsPageHandlerParams } from "./addNewComponentsHandler";
 
 export default class{
     constructor(){
@@ -20,8 +22,10 @@ export default class{
     manage_generators_page(){
         let $form = $("#waboot-wizard-form"),
             $selectors = $("img[data-select]");
+
         if($form.length > 0){
             new GeneratorsHandler($form,wbData.ajaxurl,wbData.generators_action);
+
         }
         if($selectors.length > 0){
             $selectors.on('click', function(){
@@ -120,6 +124,12 @@ export default class{
         let $component_page_wrapper = $("#componentframework-wrapper"),
             $components_nav = $(".componentframework-nav");
         const components_saved_selected_category_var_name = "waboot_wbf_components_active_tab";
+
+        let $addNewComponentsPage = $("#addNewComponents");
+        if($addNewComponentsPage.length > 0){
+            //Initialize the Vue App
+            new Vue(AddNewComponentsPageHandlerParams);
+        }
 
         if($component_page_wrapper.length <= 0){
             return;

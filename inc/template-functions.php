@@ -1,8 +1,11 @@
 <?php
 
 namespace Waboot\functions;
+use Waboot\exception\WBFVersionException;
+use Waboot\exceptions\WBFNotFoundException;
 use Waboot\Layout;
 use WBF\components\mvc\HTMLView;
+use WBF\components\utils\Paths;
 use WBF\components\utils\Query;
 use WBF\components\utils\Utilities;
 
@@ -97,19 +100,19 @@ function get_grid_class_for_alignment($count = 4){
 	$count = intval($count);
 	switch($count) {
 		case 1:
-			$class = 'col-sm-12';
+			$class = 'wbcol-12';
 			break;
 		case 2:
-			$class = 'col-sm-6';
+			$class = 'wbcol-6';
 			break;
 		case 3:
-			$class = 'col-sm-4';
+			$class = 'wbcol-4';
 			break;
 		case 4:
-			$class = 'col-sm-3';
+			$class = 'wbcol-3';
 			break;
 		default:
-			$class = 'col-sm-1';
+			$class = 'wbcol-1';
 	}
 	$class = apply_filters("waboot/layout/grid_class_for_alignment",$class,$count);
 	return $class;
@@ -183,55 +186,29 @@ function get_index_page_title(){
 }
 
 /**
- * Returns the appropriate title for the archive page. Clone of get_the_archive_title() with some additions.
+ * Returns the appropriate title for the archive page. Clone of get_the_archive_title() with some editing (eg: some suffix has been removed).
  *
  * @return string
  */
 function get_archive_page_title(){
-	$display_prefix = apply_filters('waboot/layout/archive_page_title/prepend_prefix', false);
-
 	if ( is_category() ) {
 		/* translators: Category archive title. 1: Category name */
-		if($display_prefix){
-			$title = sprintf( __( 'Category: %s' ), single_cat_title( '', false ) );
-		}else{
-			$title = sprintf( __( '%s' ), single_cat_title( '', false ) );
-		}
+		$title = sprintf( '%s', single_cat_title( '', false ) );
 	} elseif ( is_tag() ) {
 		/* translators: Tag archive title. 1: Tag name */
-		if($display_prefix){
-			$title = sprintf( __( 'Tag: %s' ), single_tag_title( '', false ) );
-		}else{
-			$title = sprintf( __( '%s' ), single_tag_title( '', false ) );
-		}
+		$title = sprintf( '%s', single_tag_title( '', false ) );
 	} elseif ( is_author() ) {
 		/* translators: Author archive title. 1: Author name */
-		if($display_prefix){
-			$title = sprintf( __( 'Author: %s' ), '<span class="vcard">' . get_the_author() . '</span>' );
-		}else{
-			$title = sprintf( __( '%s' ), '<span class="vcard">' . get_the_author() . '</span>' );
-		}
+		$title = sprintf( '%s', '<span class="vcard">' . get_the_author() . '</span>' );
 	} elseif ( is_year() ) {
 		/* translators: Yearly archive title. 1: Year */
-		if($display_prefix){
-			$title = sprintf( __( 'Year: %s' ), get_the_date( _x( 'Y', 'yearly archives date format' ) ) );
-		}else{
-			$title = sprintf( __( '%s' ), get_the_date( _x( 'Y', 'yearly archives date format' ) ) );
-		}
+		$title = sprintf( __( 'Year: %s' ), get_the_date( _x( 'Y', 'yearly archives date format' ) ) );
 	} elseif ( is_month() ) {
 		/* translators: Monthly archive title. 1: Month name and year */
-		if($display_prefix){
-			$title = sprintf( __( 'Month: %s' ), get_the_date( _x( 'F Y', 'monthly archives date format' ) ) );
-		}else{
-			$title = sprintf( __( '%s' ), get_the_date( _x( 'F Y', 'monthly archives date format' ) ) );
-		}
+		$title = sprintf( __( 'Month: %s' ), get_the_date( _x( 'F Y', 'monthly archives date format' ) ) );
 	} elseif ( is_day() ) {
 		/* translators: Daily archive title. 1: Date */
-		if($display_prefix){
-			$title = sprintf( __( 'Day: %s' ), get_the_date( _x( 'F j, Y', 'daily archives date format' ) ) );
-		}else{
-			$title = sprintf( __( '%s' ), get_the_date( _x( 'F j, Y', 'daily archives date format' ) ) );
-		}
+		$title = sprintf( __( 'Day: %s' ), get_the_date( _x( 'F j, Y', 'daily archives date format' ) ) );
 	} elseif ( is_tax( 'post_format' ) ) {
 		if ( is_tax( 'post_format', 'post-format-aside' ) ) {
 			$title = _x( 'Asides', 'post format archive title' );
@@ -254,19 +231,10 @@ function get_archive_page_title(){
 		}
 	} elseif ( is_post_type_archive() ) {
 		/* translators: Post type archive title. 1: Post type name */
-		if($display_prefix){
-			$title = sprintf( __( 'Archives: %s' ), post_type_archive_title( '', false ) );
-		}else{
-			$title = sprintf( __( '%s' ), post_type_archive_title( '', false ) );
-		}
+		$title = sprintf( '%s', post_type_archive_title( '', false ) );
 	} elseif ( is_tax() ) {
-		$tax = get_taxonomy( get_queried_object()->taxonomy );
-		/* translators: Taxonomy term archive title. 1: Taxonomy singular name, 2: Current taxonomy term */
-		if($display_prefix){
-			$title = sprintf( __( '%1$s: %2$s' ), $tax->labels->singular_name, single_term_title( '', false ) );
-		}else{
-			$title = sprintf( __( '%1$s' ), single_term_title( '', false ) );
-		}
+		/* translators: Taxonomy term archive title. 1: Current taxonomy term */
+		$title = sprintf( '%1$s', single_term_title( '', false ) );
 	} else {
 		$arch_obj = get_queried_object();
 		if(isset($arch_obj->name)){
@@ -547,36 +515,54 @@ function deploy_favicon($option, $old_value, $value){
  * @param $value
  *
  * @return FALSE|string
+ * @throws \Exception
  */
 function deploy_theme_options_css($option, $old_value, $value){
-	$input_file_path = apply_filters("waboot/assets/theme_options_style_file/source", get_template_directory()."/assets/src/css/_theme-options.src");
-	$output_file_path = apply_filters("waboot/assets/theme_options_style_file/destination", WBF()->get_working_directory()."/theme-options.css");
+	$input_file_path = get_theme_options_css_src_path();
+	$output_file_path = get_theme_options_css_dest_path();
 
 	if(!is_array($value)) return false;
 
 	$output_string = "";
 
-	$tmpFile = new \SplFileInfo($input_file_path);
-	if((!$tmpFile->isFile() || !$tmpFile->isWritable())){
+	$inputFile = new \SplFileInfo($input_file_path);
+	if((!$inputFile->isFile() || !$inputFile->isWritable())){
 		return false;
 	}
 
-	$parsedFile = $output_file_path ? new \SplFileInfo($output_file_path) : null;
-	if(!is_dir($parsedFile->getPath())){
-		mkdir($parsedFile->getPath());
+	$outputFile = new \SplFileInfo($output_file_path);
+	if(!is_dir($outputFile->getPath())){
+		if(!wp_mkdir_p($output_file_path) && !is_dir($outputFile->getPath())){
+			return false;
+		}
 	}
 
-	$genericOptionfindRegExp = "/{{ ?([a-zA-Z0-9\-_]+) ?}}/";
-	$funcRegExp = "/{{ ?apply:([a-zA-Z\-_]+)\(([a-zA-Z0-9\-_, ]+)\) ?}}/";
-	$fontOptionfindRegExp = "/\{\{ ?font: ?([a-z]+) ?\}\}/";
-	$assignOptionFindRegExp = "/\{\{ ?font-assignment: ?([a-z]+) ?\}\}/";
+	if(has_filter('waboot/theme_options_css_file/content')){
+		$additional_content = apply_filters('waboot/theme_options_css_file/content','');
+		if(is_string($additional_content) && $additional_content !== ''){
+			$tmp_input_file_path = WBF()->get_working_directory().'/_theme-options.src.addons';
+			if(is_file($tmp_input_file_path)){
+				unlink($tmp_input_file_path);
+			}
+			$additional_content = "\r\n".$additional_content."\r\n";
+			$inputFile_content = file_get_contents($inputFile->getPathname());
+			$inputFile_content .= $additional_content;
+			$r = file_put_contents($tmp_input_file_path,$inputFile_content);
+			if(is_file($tmp_input_file_path)){
+				$inputFile = new \SplFileInfo($tmp_input_file_path);
+			}
+		}
+	}
 
-	$tmpFileObj = $tmpFile->openFile( "r" );
-	$parsedFileObj = $parsedFile->openFile( "w" );
+	$inputFileObj = $inputFile->openFile( "r" );
+	$outputFileObj = $outputFile->openFile( "w" );
 	$byte_written = 0;
 
-	while(!$tmpFileObj->eof()){
-		$line = $tmpFileObj->fgets();
+	$parseLine = function($line) use($option,$old_value,$value){
+		$genericOptionfindRegExp = "/{{ ?([a-zA-Z0-9\-_]+) ?}}/";
+		$funcRegExp = "/{{ ?apply:([a-zA-Z\-_]+)\(([a-zA-Z0-9\-_, ]+)\) ?}}/";
+		$fontOptionfindRegExp = "/\{\{ ?font: ?([a-z]+) ?\}\}/";
+		$assignOptionFindRegExp = "/\{\{ ?font-assignment: ?([a-z]+) ?\}\}/";
 		//Replace {{ <theme-option-id> }}
 		if(preg_match($genericOptionfindRegExp, $line, $matches)){
 			if(array_key_exists( $matches[1], $value)){
@@ -701,10 +687,42 @@ function deploy_theme_options_css($option, $old_value, $value){
 			}
 		}
 
-		$byte_written += $parsedFileObj->fwrite($line);
+		return $line;
+	};
+
+	while(!$inputFileObj->eof()){
+		$line = $inputFileObj->fgets();
+		$parsedLine = $parseLine($line);
+		$byte_written += $outputFileObj->fwrite($parsedLine);
 	}
 
 	return $output_string;
+}
+
+/**
+ * @return string|bool
+ */
+function get_theme_options_css_src_path(){
+	$path = apply_filters("waboot/assets/theme_options_style_file/source", get_template_directory()."/assets/src/css/_theme-options.src");
+	return is_string($path) ? $path : false;
+}
+
+/**
+ * @return string|bool
+ * @throws \Exception
+ */
+function get_theme_options_css_dest_path(){
+	$path = apply_filters("waboot/assets/theme_options_style_file/destination", WBF()->get_working_directory()."/theme-options.css");
+	return is_string($path) ? $path : false;
+}
+
+/**
+ * @return string|bool
+ * @throws \Exception
+ */
+function get_theme_options_css_dest_uri(){
+	$path = get_theme_options_css_dest_path();
+	return is_string($path) ? Paths::path_to_url($path) : false;
 }
 
 /**
@@ -748,7 +766,7 @@ function wbf_exists(){
 	return false;
 }
 
-/*
+/**
  * Check if WBF is at least at the required version
  */
 function has_wbf_required_version($required_version){
@@ -869,4 +887,63 @@ function backup_components_states($theme, $filename = null){
 		return $backup_path . "/" . $backup_filename;
 	}
 	return false;
+}
+
+/**
+ * Checks theme prerequisites
+ *
+ * @throws WBFNotFoundException
+ * @throws WBFVersionException
+ */
+function check_prerequisites(){
+	if(!wbf_exists()){
+		$message = sprintf(
+			__( "Waboot theme requires <a href='%s'>WBF Framework</a> plugin to work properly. You can <a href='%s'>download it manually</a> or <a href='%s'>go to the dashboard</a> for the auto-installer.", 'Waboot' ),
+			'https://www.waboot.io',
+			'http://update.waboot.org/resource/get/plugin/wbf',
+			admin_url()
+		);
+		throw new WBFNotFoundException($message);
+	}
+	if(!\Waboot\functions\has_wbf_required_version(WBF_MIN_VER)){
+		$message = sprintf(
+			__( "Waboot theme requires <a href='%s'>WBF Framework</a> plugin at least at v%s to work properly. You can <a href='%s'>download it manually</a> or <a href='%s'>go to the dashboard</a> for the auto-installer.", 'Waboot' ),
+			'https://www.waboot.io',
+			WBF_MIN_VER,
+			'http://update.waboot.org/resource/get/plugin/wbf',
+			admin_url()
+		);
+		throw new WBFVersionException($message);
+	}
+}
+
+/**
+ * Tries to require a list of files. Trigger a special error when can't.
+ *
+ * @param array $files
+ */
+function safe_require_files($files){
+	if(!is_array($files) || count($files) === 0) return;
+	foreach($files as $file){
+		if (!$filepath = locate_template($file)) {
+			trigger_error(sprintf(__('Error locating %s for inclusion', 'waboot'), $file), E_USER_ERROR);
+		}
+		require_once $filepath;
+	}
+}
+
+/**
+ * Get the theme version
+ *
+ * @return string
+ */
+function get_theme_version(){
+	$t = wp_get_theme('waboot');
+	if($t instanceof \WP_Theme){
+		$v = $t->get('Version');
+		if(is_string($v)){
+			return $v;
+		}
+	}
+	return '';
 }

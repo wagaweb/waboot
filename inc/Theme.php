@@ -2,6 +2,8 @@
 
 namespace Waboot;
 
+use function Waboot\functions\components\install_remote_component;
+use function Waboot\functions\safe_require_files;
 use function Waboot\functions\wbf_exists;
 use WBF\components\utils\Paths;
 use WBF\components\utils\Utilities;
@@ -44,7 +46,7 @@ class Theme{
 	public function load_hooks(){
 		add_action("waboot/head/end", [$this,"print_inline_styles"]);
 		add_action('wbf/modules/components/after_components_options_saved',[$this,'build_components_style_file'],10,4);
-		add_action('wp_enqueue_scripts', [$this,'enqueue_components_styles']);
+		add_action('wp_enqueue_scripts', [$this,'enqueue_components_styles'],11);
 
 		$hooks_files = [
 			'inc/hooks/init.php',
@@ -53,13 +55,14 @@ class Theme{
 			'inc/hooks/widget_areas.php',
 			'inc/hooks/options.php',
 			'inc/hooks/posts_and_pages.php',
+			'inc/hooks/generators.php',
+			'inc/hooks/components_installer.php',
+			'inc/hooks/components_updater.php',
+			'inc/hooks/stylesheets.php',
+			'inc/hooks/scripts.php'
 		];
-		foreach($hooks_files as $file){
-			if (!$filepath = locate_template($file)) {
-				trigger_error(sprintf(__('Error locating %s for inclusion', 'waboot'), $file), E_USER_ERROR);
-			}
-			require_once $filepath;
-		}
+
+		safe_require_files($hooks_files);
 
 		do_action_ref_array('waboot/hooks_loaded',array(&$this));
 
@@ -67,20 +70,17 @@ class Theme{
 	}
 
 	/**
-	 * Loads all theme dependecies
-	 *
-	 * @return $this
+	 * Loads theme support functionality and extensions for vendor parts
 	 */
-	public function load_dependencies(){
-		$hooks_files = [
-			'inc/Component.php',
+	public function load_extensions(){
+		$ext_files = [
+			'inc/woocommerce/bootstrap.php',
 		];
-		foreach($hooks_files as $file){
-			if (!$filepath = locate_template($file)) {
-				trigger_error(sprintf(__('Error locating %s for inclusion', 'waboot'), $file), E_USER_ERROR);
-			}
-			require_once $filepath;
-		}
+
+		safe_require_files($ext_files);
+
+		do_action_ref_array('waboot/extensions_loaded',array(&$this));
+
 		return $this;
 	}
 
@@ -271,11 +271,13 @@ class Theme{
 			}
 		}
 
+		$filename = $this->get_components_style_file_name();
+
+		if(is_file($filename)){
+			unlink($filename);
+		}
+
 		if(!empty($output)){
-			$filename = $this->get_components_style_file_name();
-			if(is_file($filename)){
-				unlink($filename);
-			}
 			file_put_contents($filename,$output);
 		}
 	}
@@ -321,12 +323,12 @@ class Theme{
 
 		foreach($generators_directories as $directory){
 			$files = glob($directory."/*.json");
-			if(is_array($files)){
+			if(is_array($files) && count($files) !== 0){
 				$files = array_filter($files,function($el){
 					if(basename($el) == "generator-template.json") return false;
 					return true;
 				});
-				if(!empty($files)){
+				if(count($files) !== 0){
 					$generators_files = array_merge($generators_files,$files);
 				}
 			}
@@ -336,7 +338,8 @@ class Theme{
 			$content = file_get_contents($generators_file);
 			$parsed = json_decode($content);
 			if(!is_null($parsed)){
-				$slug = rtrim(basename($generators_file),".json");
+				$pathinfo = pathinfo($generators_file);
+				$slug = $pathinfo['filename'];
 				$parsed->file = $generators_file;
 				$parsed->slug = $slug;
 
@@ -358,6 +361,34 @@ class Theme{
 
 		return $generators;
 	}
+
+	/*
+	public function read_generator_steps($generator_slug){
+		$generators = Theme::get_generators();
+		$steps = [];
+		if(!array_key_exists($generator_slug,$generators)){
+			return $steps;
+		}
+		$selected_generator = $generators[$generator_slug];
+		try{
+			$generator_instance = $this->get_generator_instance($generator_slug,$selected_generator);
+			if(isset($selected_generator->pre_actions) && \is_array($selected_generator->pre_actions) && !empty($selected_generator->pre_actions)){
+				$methods = $this->get_generator_methods($selected_generator,$generator_instance,self::GENERATOR_STEP_PRE_ACTIONS);
+				foreach ($methods as $method_key => $method_name){
+					$steps = [
+						'context' => self::GENERATOR_STEP_PRE_ACTIONS,
+						'type' => 'method',
+						'action' => 'execute',
+						'action_name' => $method_name,
+						'action_subject' => $selected_generator
+					];
+				}
+			}
+		}catch(\Exception $e){
+			return $steps;
+		}
+	}*/
+
 
 	/**
 	 * Handle a generator
@@ -427,14 +458,32 @@ class Theme{
 					if($component_data->is_child_component){
 						$child_components[] = $component_name;
 					}
-					ComponentsManager::disable($component_name,$component_data->is_child_component);
+					try{
+						ComponentsManager::disable($component_name,$component_data->is_child_component);
+					}catch(\Exception $e){}
 				}
+				unset($component_name);
+				unset($component_data);
 				if(isset($selected_generator->components) && is_array($selected_generator->components) && !empty($selected_generator->components)){
 					foreach ($selected_generator->components as $component_to_enable){
-						if(in_array($component_to_enable,$child_components)){
-							ComponentsManager::enable($component_to_enable, true); //Selectively enable components
+						if(!ComponentsManager::is_present($component_to_enable)){
+							$component_installed = install_remote_component($component_to_enable);
+							ComponentsManager::detect_components(true);
+							if(is_child_theme()){
+								//The new component has been installed in the child
+								if(!\in_array($component_to_enable,$child_components)){
+									$child_components[] = $component_to_enable;
+								}
+							}
 						}else{
-							ComponentsManager::enable($component_to_enable); //Selectively enable components
+							$component_installed = true;
+						}
+						if($component_installed){
+							if(\in_array($component_to_enable,$child_components)){
+								ComponentsManager::enable($component_to_enable, true); //Selectively enable components
+							}else{
+								ComponentsManager::enable($component_to_enable); //Selectively enable components
+							}
 						}
 					}
 				}

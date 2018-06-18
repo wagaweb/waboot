@@ -1,17 +1,17 @@
-			<?php do_action("waboot/main/after"); ?>
-			</div><!-- .content-inner -->
-			</main><!-- #main -->
-			<!-- sidebars: BEGIN -->
-			<?php get_sidebar(); ?>
-			<!-- sidebars: END -->
-		</div><!-- .row -->
-	</div><!-- site-main -->
-	<?php do_action("waboot/site-main/after"); ?>
-	<?php
-	/*
-	 * main-bottom zone
-	 */
-	Waboot()->layout->render_zone("main-bottom");
-	?>
-	</div><!-- .main-inner -->
-</div><!-- #main-wrapper -->
+                <?php do_action("waboot/main/after"); ?>
+                </div><!-- .main__wrapper -->
+            </main>
+
+        <?php get_sidebar(); ?>
+
+        </div><!-- #site-main container -->
+
+    <?php do_action("waboot/site-main/after"); ?>
+
+    <?php
+    /*
+     * main-bottom zone
+     */
+    \Waboot\template_tags\render_zone("main-bottom");
+    ?>
+</div><!-- #site-main -->

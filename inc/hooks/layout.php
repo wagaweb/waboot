@@ -19,33 +19,33 @@ function alter_body_layout_when_theme_has_no_sidebars($layout){
 			case Layout::LAYOUT_PRIMARY_LEFT:
 			case Layout::LAYOUT_PRIMARY_RIGHT:
 				//If we have one sidebar, and its empty, go to full width
-				if(!Waboot()->layout->can_render_zone("aside-primary")){
+				if(!WabootLayout()->can_render_zone("aside-primary")){
 					$layout = Layout::LAYOUT_FULL_WIDTH;
 				}
 				break;
 			case Layout::LAYOUT_TWO_SIDEBARS:
 				//If we have two sidebar and the primary is empty, go full width
-				if(!Waboot()->layout->can_render_zone("aside-primary")){
+				if(!WabootLayout()->can_render_zone("aside-primary")){
 					$layout = Layout::LAYOUT_FULL_WIDTH;
-				}elseif(!Waboot()->layout->can_render_zone("aside-secondary")){
+				}elseif(!WabootLayout()->can_render_zone("aside-secondary")){
 					//If we have two sidebar and the secondary is empty, go primary right
 					$layout = Layout::LAYOUT_PRIMARY_RIGHT;
 				}
 				break;
 			case Layout::LAYOUT_TWO_SIDEBARS_LEFT:
 				//If we have two sidebar and the primary is empty, go full width
-				if(!Waboot()->layout->can_render_zone("aside-primary")){
+				if(!WabootLayout()->can_render_zone("aside-primary")){
 					$layout = Layout::LAYOUT_FULL_WIDTH;
-				}elseif(!Waboot()->layout->can_render_zone("aside-secondary")){
+				}elseif(!WabootLayout()->can_render_zone("aside-secondary")){
 					//If we have two sidebar to the left and the secondary is empty, go primary left
 					$layout = Layout::LAYOUT_PRIMARY_LEFT;
 				}
 				break;
 			case Layout::LAYOUT_TWO_SIDEBARS_RIGHT:
 				//If we have two sidebar and the primary is empty, go full width
-				if(!Waboot()->layout->can_render_zone("aside-primary")){
+				if(!WabootLayout()->can_render_zone("aside-primary")){
 					$layout = Layout::LAYOUT_FULL_WIDTH;
-				}elseif(!Waboot()->layout->can_render_zone("aside-secondary")){
+				}elseif(!WabootLayout()->can_render_zone("aside-secondary")){
 					//If we have two sidebar to the right and the secondary is empty, go primary right
 					$layout = Layout::LAYOUT_PRIMARY_RIGHT;
 				}
@@ -83,14 +83,14 @@ function set_main_classes($classes) {
 	if($body_layout){
 		if ($body_layout == Layout::LAYOUT_FULL_WIDTH) {
 			Layout::remove_cols_classes($classes_array); //Remove all col- classes
-			$classes_array[] = "col-sm-12";
+			$classes_array[] = WabootLayout()->get_col_grid_class()."12";
 		} else {
 			Layout::remove_cols_classes($classes_array); //Remove all col- classes
-			$classes_array[] = "col-sm-".$cols_size['main'];
+			$classes_array[] = WabootLayout()->get_col_grid_class().$cols_size['main'];
 			//Three cols with main in the middle? Then add pull and push
-			if($body_layout == "two-sidebars"){
-				$classes_array[] = "col-sm-push-".$cols_size['primary'];
-			}
+			//if($body_layout == "two-sidebars"){
+				//$classes_array[] = "col-sm-push-".$cols_size['primary'];
+			//}
 		}
 	}
 
@@ -111,12 +111,12 @@ function set_primary_sidebar_container_classes($classes){
 
 	if($size){
 		Layout::remove_cols_classes($classes_array); //Remove all col- classes
-		$classes_array[] = "col-sm-".Layout::layout_width_to_int($size);
+		$classes_array[] = WabootLayout()->get_col_grid_class().Layout::layout_width_to_int($size);
 		//Three cols with main in the middle? Then add pull and push
-		if(\Waboot\functions\get_body_layout() == "two-sidebars"){
-			$cols_size = \Waboot\functions\get_cols_sizes();
-			$classes_array[] = "col-sm-pull-".$cols_size['main'];
-		}
+		//if(\Waboot\functions\get_body_layout() == "two-sidebars"){
+			//$cols_size = \Waboot\functions\get_cols_sizes();
+			//$classes_array[] = "col-sm-pull-".$cols_size['main'];
+		//}
 	}
 
 	$classes = implode(" ",$classes_array);
@@ -136,7 +136,7 @@ function set_secondary_sidebar_container_classes($classes){
 
 	if($size){
 		Layout::remove_cols_classes($classes_array); //Remove all col- classes
-		$classes_array[] = "col-sm-".Layout::layout_width_to_int($size);
+		$classes_array[] = WabootLayout()->get_col_grid_class().Layout::layout_width_to_int($size);
 	}
 
 	$classes = implode(" ",$classes_array);
@@ -227,7 +227,7 @@ add_filter( 'comment_reply_link', __NAMESPACE__."\\comment_reply_link_classes" )
  * @return string
  */
 function alter_excerpt_more( $more ) {
-	return ' ... <a href="'. get_permalink( get_the_ID() ) . '">'. __( 'Continue Reading ', 'wbf' ) .' &raquo;</a>';
+	return ' ... <a href="'. get_permalink( get_the_ID() ) . '">'. __( 'Continue reading', 'waboot' ) .' &raquo;</a>';
 }
 add_filter('excerpt_more',  __NAMESPACE__."\\alter_excerpt_more" );
 

@@ -1,0 +1,86 @@
+$icon-font-path: "../fonts/"; //Was if($bootstrap-sass-asset-helper, "bootstrap/", "../fonts/bootstrap/") !default
+
+/* BreakPoints */
+
+$xlarge: 1200px;
+$large: 992px;
+$medium: 768px;
+$small: 480px;
+$xsmall: 320px;
+
+
+/* Media Query Mixins */
+@mixin up($breakpoint) {
+  @media screen and (min-width: $breakpoint) {
+    @content;
+  }
+}
+@mixin down($breakpoint) {
+  @media screen and (max-width: $breakpoint - 1) {
+    @content;
+  }
+}
+@mixin only($breakpoint) {
+  @if($breakpoint==$xsmall){$breakpointnext:$small}
+  @if($breakpoint==$small){$breakpointnext:$medium}
+  @if($breakpoint==$medium){$breakpointnext:$large}
+  @if($breakpoint==$large){$breakpointnext:$xlarge}
+  @media screen and (min-width: $breakpoint) and (max-width: $breakpointnext - 1) {
+    @content;
+  }
+}
+@mixin between($lower, $upper) {
+  @include up($lower) {
+    @include down($upper - 1) {
+      @content;
+    }
+  }
+}
+
+
+@mixin table-responsive {
+  @include down($small) {
+    border-top: 1px solid #ddd;
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    border-bottom: 0;
+
+    thead,
+    tbody,
+    th,
+    td,
+    tr {
+      border: 0;
+      margin: 0;
+      display: block;
+    }
+
+    /* Hide table headers (but not display: none;, for accessibility) */
+    thead tr,
+    tbody th {
+      position: absolute;
+      top: -9999px;
+      left: -9999px;
+    }
+
+    tbody td {
+      border-bottom: 1px solid #ddd;
+      border-top: 0;
+      border-right: 0;
+      border-left: 0;
+      font-size: .9em;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    tbody td:before {
+      padding-right: 10px;
+      white-space: nowrap;
+      content: attr(data-title);
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+
+  }
+}

@@ -1,3 +1,40 @@
+@include up($xlarge) {
+  body {font-size: 16px;}
+  h1 {font-size: 2.6em;}
+  h2 {font-size: 2.15em;}
+  h3 {font-size: 1.7em;}
+  h4 {font-size: 1.25em;}
+  h5 {font-size: 1em;}
+  h6 {font-size: 0.85em;}
+}
+@include between($large,$xlarge) {
+  body {font-size: 14px;}
+  h1 {font-size: 2.6em;}
+  h2 {font-size: 2.15em;}
+  h3 {font-size: 1.7em;}
+  h4 {font-size: 1.25em;}
+  h5 {font-size: 1em;}
+  h6 {font-size: 0.85em;}
+}
+@include between($medium,$large) {
+  body {font-size: 13px;}
+  h1 {font-size: 2.6em;}
+  h2 {font-size: 2.15em;}
+  h3 {font-size: 1.7em;}
+  h4 {font-size: 1.25em;}
+  h5 {font-size: 1em;}
+  h6 {font-size: 0.85em;}
+}
+@include down($medium) {
+  body {font-size: 14px;}
+  h1 {font-size: 2.6em;}
+  h2 {font-size: 2.15em;}
+  h3 {font-size: 1.7em;}
+  h4 {font-size: 1.25em;}
+  h5 {font-size: 1em;}
+  h6 {font-size: 0.85em;}
+}
+
 h1, .h1, h2, .h2, h3, .h3 {
   margin-top: 0;
   margin-bottom: 20px;
@@ -12,12 +49,14 @@ h4, .h4, h5, .h5, h6, .h6 {
 
 p {
   margin-bottom: 15px;
+  margin-top: 0;
   word-wrap: break-word;
 }
 
 ul, ol {
   padding-left: 20px;
   margin-bottom: 15px;
+  margin-top: 0;
   word-wrap: break-word;
 }
 
@@ -46,17 +85,31 @@ span {
 }
 
 table {
-  border-right: 1px solid #ddd;
-  border-top: 1px solid #ddd;
-  border-bottom: 1px solid #ddd;
-  margin: 20px 0;
   width: 100%;
 }
 
-table th,
-table td {
-  border-left: 1px solid #ddd;
-  border-top: 1px solid #ddd;
+p img {
+  margin-bottom: 0.5em;
+  margin-top: 0.4em;
+}
+
+img.header-image,
+img.wp-post-image,
+img.avatar,
+img[class*="align"],
+img[class*="wp-image-"],
+img[class*="attachment-"],
+.comment-content img,
+.widget img {
+  height: auto;
+  max-width: 100%;
+  padding: 0;
+}
+
+mark,
+ins {
+  background: #fff9c0;
+  text-decoration: none;
 }
 
 .sticky {
@@ -84,9 +137,72 @@ table td {
 }
 
 .title-wrapper {
-  margin-bottom: 0px;
+  margin-bottom: 0;
+  h1 {
+    margin-bottom: 0;
+  }
 }
 
-.title-wrapper h1 {
-  margin-bottom: 0px;
+
+form {
+  label {
+    display: inline-block;
+    max-width: 100%;
+    margin-bottom: 5px;
+    font-weight: 700;
+  }
+  select,
+  textarea,
+  input[type="text"],
+  input[type="number"],
+  input[type="tel"],
+  input[type="email"],
+  input[type="password"] {
+    display: block;
+    width: 100%;
+    height: 34px;
+    padding: 6px 12px;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+  }
+  textarea {
+    height: auto;
+  }
+}
+
+
+//
+// Buttons
+// --------------------------------------------------
+
+.button,
+.btn {
+  display: inline-block;
+  margin-bottom: 0; // For input.btn
+  text-align: center;
+  vertical-align: middle;
+  touch-action: manipulation;
+  cursor: pointer;
+  background-image: none; // Reset unusual Firefox-on-Android default style; see https://github.com/necolas/normalize.css/issues/214
+  border: 1px solid transparent;
+  white-space: nowrap;
+  padding: 6px 12px;
+  font-size: 1em;
+  line-height: 1.4em;
+
+  &:hover,
+  &:focus,
+  &.focus {
+    text-decoration: none;
+  }
+
+  &:active,
+  &.active {
+    outline: 0;
+    background-image: none;
+  }
+
 }

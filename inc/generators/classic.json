@@ -1,8 +1,0 @@
-{
-  "name": "Classic layout",
-  "description": "Navbar below logo",
-  "preview": "assets/images/wizard/classic.png",
-  "classname": "ClassicGenerator",
-  "components": ["header_classic","footer_classic"],
-  "pre_actions": ["download_wbf","install_wbf"]
-}

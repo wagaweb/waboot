@@ -6,16 +6,13 @@
 ?>
 <?php do_action( 'waboot_head_after' ); ?>
 <body <?php body_class(); ?> >
-    <?php if(function_exists("Waboot")) Waboot()->layout->render_zone("page-before"); ?>
-	<div id="page-wrapper" class="page-wrapper hfeed site">
-		<div id="page-inner" class="page-inner <?php echo \Waboot\functions\get_option( 'page_width','container' ); ?>">
-		<!-- BEGIN: header -->
-		<header id="masthead" class="site-header header-wrapper" role="banner" data-zone="header">
-			<div class="header-inner">
-				<?php if(function_exists("Waboot")) Waboot()->layout->render_zone("header"); ?>
-				<?php do_action("waboot/header"); ?>
-			</div>
-		</header>
-		<!-- END: header -->
+    <?php \Waboot\template_tags\render_zone("page-before"); ?>
+	<div id="site-page" class="site-page hfeed site">
+		<div id="site-page__wrapper" class="site-page__wrapper <?php echo WabootLayout()->get_container_grid_class(\Waboot\functions\get_option( 'page_width', WabootLayout()->get_grid_class(\Waboot\Layout::GRID_CLASS_CONTAINER) ) ); ?>">
 
-
+		<!-- BEGIN: site-header -->
+		<div class="site-header" data-zone="header">
+            <?php \Waboot\template_tags\render_zone("header"); ?>
+            <?php do_action("waboot/header"); ?>
+		</div>
+		<!-- END: site-header -->

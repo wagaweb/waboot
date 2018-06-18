@@ -1,0 +1,91 @@
+/*
+.wbcontainer-fluid {
+  width: 100%;
+  margin-right: auto;
+  margin-left: auto;
+  padding: 0 20px;
+  &:after,
+  &:before {
+    content: " ";
+    display: table;
+  }
+}
+*/
+
+.wbcontainer {
+  width: 100%;
+  margin-right: auto;
+  margin-left: auto;
+  padding-left: 20px;
+  padding-right: 20px;
+  @include up($small) {
+    max-width: 540px;
+  }
+  @include up($medium) {
+    max-width: 720px;
+  }
+  @include up($large) {
+    max-width: 960px;
+  }
+  @include up($xlarge) {
+    max-width: 1140px;
+  }
+}
+
+[class*='wbcol-'] {
+  position: relative;
+  width: 100%;
+  min-height: 1px;
+}
+
+@include up($medium) {
+  .wbcol-1 {
+    flex: 0 0 8.333333%;
+    max-width: 8.333333%;
+  }
+  .wbcol-2 {
+    flex: 0 0 16.666667%;
+    max-width: 16.666667%;
+  }
+  .wbcol-3 {
+    flex: 0 0 25%;
+    max-width: 25%;
+  }
+  .wbcol-4 {
+    flex: 0 0 33.333333%;
+    max-width: 33.333333%;
+  }
+  .wbcol-5 {
+    flex: 0 0 41.666667%;
+    max-width: 41.666667%;
+  }
+  .wbcol-6 {
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+  .wbcol-7 {
+    flex: 0 0 58.333333%;
+    max-width: 58.333333%;
+  }
+  .wbcol-8 {
+    flex: 0 0 66.666667%;
+    max-width: 66.666667%;
+  }
+  .wbcol-9 {
+    flex: 0 0 75%;
+    max-width: 75%;
+  }
+  .wbcol-10 {
+    flex: 0 0 83.333333%;
+    max-width: 83.333333%;
+  }
+  .wbcol-11 {
+    flex: 0 0 91.666667%;
+    max-width: 91.666667%;
+  }
+  .wbcol-12 {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}
+
