@@ -251,27 +251,27 @@ More informations and tutorials [here](https://github.com/wagaweb/waboot/tree/ma
 
 **v2.1.x**
 
-- :green_check_mark: Generators introduction 
+- :heavy_check_mark: Generators introduction 
 
-- :green_check_mark: Bugfix releases.
+- :heavy_check_mark: Bugfix releases.
 
 **v2.2.x**
 
-- :green_check_mark: The "wordpress" template directory will be removed.
+- :heavy_check_mark: The "wordpress" template directory will be removed.
 
-- :green_check_mark: Bugfix.
+- :heavy_check_mark: Bugfix.
 
 **v2.3.x**
 
-- :green_check_mark: Exclusive support for WBF 1.1.0
+- :heavy_check_mark: Exclusive support for WBF 1.1.0
 
 - Bugfix
 
 **v3.0.x**
 
-- :green_check_mark: Deprecation of Bootstrap dependency
+- :heavy_check_mark: Deprecation of Bootstrap dependency
 
-- :green_check_mark: Components repository
+- :heavy_check_mark: Components repository
 
 - Bugfix
 
