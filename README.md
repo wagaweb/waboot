@@ -247,31 +247,33 @@ More informations and tutorials [here](https://github.com/wagaweb/waboot/tree/ma
 
 **v2.0.x**
 
-:white_check_mark: Bugfix releases.
+:green_check_mark: Bugfix releases.
 
 **v2.1.x**
 
-- :white_check_mark: Generators introduction 
+- :green_check_mark: Generators introduction 
 
-- :white_check_mark: Bugfix releases.
+- :green_check_mark: Bugfix releases.
 
 **v2.2.x**
 
-- :white_check_mark: The "wordpress" template directory will be removed.
+- :green_check_mark: The "wordpress" template directory will be removed.
 
-- :white_check_mark: Bugfix.
+- :green_check_mark: Bugfix.
 
 **v2.3.x**
 
-- :white_check_mark: Exclusive support for WBF 1.1.0
+- :green_check_mark: Exclusive support for WBF 1.1.0
 
 - Bugfix
 
 **v3.0.x**
 
-- Deprecation of Bootstrap dependency
+- :green_check_mark: Deprecation of Bootstrap dependency
 
-- Components repository
+- :green_check_mark: Components repository
+
+- Bugfix
 
 :tada: Official Waboot launch! :rocket:
 
@@ -280,8 +282,6 @@ More informations and tutorials [here](https://github.com/wagaweb/waboot/tree/ma
 - Full support for customizer
 
 - Implementation of tests
-
-We are studying a way to make Bootstrap optional (available as component) and to allow developers to use their grid system by hooking into filters and specify their grid classes.
 
 <span style="font-size:smaller"><a href="#waboot-theme">Back to top.</a></span>
 
