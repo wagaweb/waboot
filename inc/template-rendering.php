@@ -31,8 +31,8 @@ function get_archives_template_vars(){
 		$vars['term_description'] = term_description();
 	}
 	$vars['blog_class'] = get_posts_wrapper_class();
-	$vars['display_nav_above'] = (bool) \Waboot\functions\get_option('content_nav_above', 1); //todo: add this
-	$vars['display_nav_below'] =  (bool) \Waboot\functions\get_option('content_nav_below', 1); //todo: add this
+	$vars['display_nav_above'] = (bool) \Waboot\functions\get_option('show_content_nav_above', 1);
+	$vars['display_nav_below'] =  (bool) \Waboot\functions\get_option('show_content_nav_below', 1);
 	$vars['options']['display_title'] = get_archive_option("display_title",$tax);
 	$vars['options']['title_position'] = get_archive_option("title_position",$tax);
 	$vars['options']['layout'] = get_archive_option("layout",$tax);
