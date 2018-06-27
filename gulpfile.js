@@ -213,7 +213,10 @@ gulp.task('copy-vendors',function() {
     //Copy styles
     copy([
         'assets/vendor/fontawesome/web-fonts-with-css/css/fontawesome.min.css',
-        'assets/vendor/fontawesome/web-fonts-with-css/css/fontawesome-all.min.css'
+        'assets/vendor/fontawesome/web-fonts-with-css/css/fontawesome-all.min.css',
+        'assets/vendor/fontawesome/web-fonts-with-css/css/fa-brands.min.css',
+        'assets/vendor/fontawesome/web-fonts-with-css/css/fa-regular.min.css',
+        'assets/vendor/fontawesome/web-fonts-with-css/css/fa-solid.min.css',
     ],'assets/dist/css',{flatten: true},cb);
 });
 

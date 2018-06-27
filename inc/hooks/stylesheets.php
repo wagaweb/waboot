@@ -59,10 +59,29 @@ function theme_styles(){
 			'type' => 'css',
 			'enqueue' => \Waboot\functions\get_option('fa_version') === 'legacy'
 		],
-		'fontawesome' => [
-			'uri' => get_template_directory_uri()."/assets/dist/css/fontawesome-all.min.css",
-			'path' => get_template_directory()."/assets/dist/css/fontawesome-all.min.css",
+		'fontawesome-regular' => [
+			'uri' => get_template_directory_uri()."/assets/dist/css/fa-regular.min.css",
+			'path' => get_template_directory()."/assets/dist/css/fa-regular.min.css",
 			'type' => 'css',
+			'enqueue' => \Waboot\functions\get_option('fa_version') === 'latest'
+		],
+		'fontawesome-solid' => [
+			'uri' => get_template_directory_uri()."/assets/dist/css/fa-solid.min.css",
+			'path' => get_template_directory()."/assets/dist/css/fa-solid.min.css",
+			'type' => 'css',
+			'enqueue' => \Waboot\functions\get_option('fa_version') === 'latest'
+		],
+		'fontawesome-brands' => [
+			'uri' => get_template_directory_uri()."/assets/dist/css/fa-brands.min.css",
+			'path' => get_template_directory()."/assets/dist/css/fa-brands.min.css",
+			'type' => 'css',
+			'enqueue' => \Waboot\functions\get_option('fa_version') === 'latest'
+		],
+		'fontawesome' => [
+			'uri' => get_template_directory_uri()."/assets/dist/css/fontawesome.min.css",
+			'path' => get_template_directory()."/assets/dist/css/fontawesome.min.css",
+			'type' => 'css',
+			'deps' => ['fontawesome-regular','fontawesome-solid','fontawesome-brands'],
 			'enqueue' => \Waboot\functions\get_option('fa_version') === 'latest'
 		]
 	];
