@@ -302,27 +302,6 @@ function register_options($orgzr){
 	$orgzr->set_group("std_options");
 
 	/*
-	 * FAVICON
-	 */
-
-	$orgzr->add(array(
-		'name' => _x( 'Favicon', 'Theme options', 'waboot' ),
-		'desc' => _x( 'Settings about typography', 'Theme options', 'waboot' ),
-		'type' => 'info'
-	));
-
-	$orgzr->add(array(
-		'name' => _x( 'Favicon (at least 152x152)', "Theme Options", 'waboot' ),
-		'desc' => _x( 'Upload a favicon (only .png, .ico and .jpg files are allowed).', "Theme Options", 'waboot' ),
-		'id' => 'favicon',
-		'std' => '',
-		'type' => 'upload',
-		'readonly' => true,
-		'allowed_extensions' => array("png","ico","jpg","jpeg"),
-		'save_action' => "\\Waboot\\functions\\deploy_favicon"
-	));
-
-	/*
 	 * CUSTOM CSS TAB
 	 */
 
