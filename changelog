@@ -1,6 +1,12 @@
 == Change log ==
 
-Version 3.0.0 --
+Version 3.0.1-beta - 06/28/2018
+---------------------------------
+- Fix: Fixed Fontawesome includes
+- Fix: content_nav_above and content_nav_below options are now named correctly
+- Tweak: removed favicon and apple-touch-icon custom logic (now native)
+
+Version 3.0.0-beta - 06/26/2018
 ---------------------------------
 - Fix: Many fixes
 - Tweak: Removed Bootstrap as core dependency
