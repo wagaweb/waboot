@@ -20,16 +20,6 @@ function add_header_metas(){
 add_action("waboot/head/start",__NAMESPACE__."\\add_header_metas");
 
 /**
- * Adds apple touch init to the document head meta
- */
-function add_apple_touch_icon(){
-	?>
-	<link rel="apple-touch-icon" href="<?php apply_filters("waboot/assets/apple-touch-icon-path","apple-touch-icon.png"); ?>">
-	<?php
-}
-add_action("waboot/head/meta",__NAMESPACE__."\\add_apple_touch_icon");
-
-/**
  * Adds Waboot credits
  *
  * @param $text
