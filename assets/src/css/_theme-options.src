@@ -191,7 +191,7 @@ a.text-danger:focus {
   border-style: solid;
   border-color:  {{ apply:waboot_styles_adjustBrightness(btstrp_brand_primary,-15) }};
   color: #fff;
-  padding: 6px 12px;
+  padding: 5px 12px;
   font-size: 1em;
 }
 
