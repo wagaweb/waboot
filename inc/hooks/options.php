@@ -143,7 +143,7 @@ function register_options($orgzr){
 	$orgzr->set_group("std_options");
 
 	/*
-	 * BOOTSTRAP VARIABLES TAB
+	 * CSS VARIABLES TAB
 	 */
 
 	$orgzr->add(array(
