@@ -1,0 +1,1544 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Waboot\n"
+"POT-Creation-Date: 2018-04-17 12:01+0200\n"
+"PO-Revision-Date: 2018-04-17 19:32+0200\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: it_IT\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 2.0.6\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-Flags-xgettext: --add-comments=translators:\n"
+"X-Poedit-WPHeader: style.css\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
+"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+"X-Poedit-SearchPathExcluded-1: vendor\n"
+"X-Poedit-SearchPathExcluded-2: builds\n"
+"X-Poedit-SearchPathExcluded-3: components\n"
+"X-Poedit-SearchPathExcluded-4: node_modules\n"
+"X-Poedit-SearchPathExcluded-5: tests\n"
+"X-Poedit-SearchPathExcluded-6: waboot-child\n"
+
+#: functions.php:34 functions.php:97 inc/Theme.php:60 inc/Theme.php:81
+#, php-format
+msgid "Error locating %s for inclusion"
+msgstr ""
+
+#: functions.php:44
+#, php-format
+msgid ""
+"Waboot theme requires <a href='%s'>WBF Framework</a> plugin at least at v%s "
+"to work properly. You can <a href='%s'>download it manually</a> or <a "
+"href='%s'>go to the dashboard</a> for the auto-installer."
+msgstr ""
+
+#: inc/Component.php:52
+msgctxt "component settings"
+msgid "Position"
+msgstr ""
+
+#: inc/Component.php:53
+msgctxt "component_settings"
+msgid "Choose in which zone you want to display"
+msgstr ""
+
+#: inc/Component.php:63
+msgctxt "component settings"
+msgid "Priority"
+msgstr ""
+
+#: inc/Component.php:64
+msgctxt "component_settings"
+msgid "Choose the display priority"
+msgstr ""
+
+#: inc/components-functions.php:297
+#, php-format
+msgid "Unable to check for updates of component: %s because of the error: %s"
+msgstr ""
+
+#: inc/hooks/components_updater.php:54
+#, php-format
+msgid "%d Component Update"
+msgid_plural "%d Component Updates"
+msgstr[0] "%d Componente Aggiornato"
+msgstr[1] "%d Componenti Aggiornati"
+
+#: inc/hooks/components_updater.php:107
+msgctxt "Component Update Landing page"
+msgid "Invalid component provided"
+msgstr ""
+
+#: inc/hooks/components_updater.php:111
+msgid "Return to Components page"
+msgstr ""
+
+#: inc/hooks/components_updater.php:112
+msgid "Return to WordPress Updates page"
+msgstr ""
+
+#: inc/hooks/generators.php:36
+#, php-format
+msgid ""
+"Thank you choosing Waboot! If you want, our wizard will help you to "
+"kickstart your theme with some initial settings: click <a href='%s'>here</a> "
+"to start or <a href='%s'>here</a> to dismiss this notice."
+msgstr ""
+
+#: inc/hooks/generators.php:43
+#, php-format
+msgid ""
+"Waboot theme is missing some requirements to work properly. You can run the "
+"<a href='%s'>Wizard</a> to take care of them."
+msgstr ""
+
+#: inc/hooks/generators.php:124
+msgid "Wizard completed successfully"
+msgstr ""
+
+#: inc/hooks/generators.php:127
+msgid "Wizard encountered some errors"
+msgstr ""
+
+#: inc/hooks/generators.php:141 inc/hooks/generators.php:142
+#: inc/hooks/generators.php:166
+msgid "Setup Wizard"
+msgstr ""
+
+#: inc/hooks/generators.php:142
+msgid "Setup Wizard (Admin only)"
+msgstr ""
+
+#: inc/hooks/generators.php:177 inc/hooks/generators.php:178
+msgid "Waboot Setup Wizard"
+msgstr ""
+
+#: inc/hooks/generators.php:192
+msgid "Reset Waboot Wizard Status"
+msgstr ""
+
+#: inc/hooks/hooks.php:49
+#, php-format
+msgid ", and <a href='%s'>Waboot</a>"
+msgstr ", e <a href=‘%s’>Waboot</a>"
+
+#: inc/hooks/hooks.php:158
+msgctxt "Waboot Template Partials"
+msgid "(parts)"
+msgstr ""
+
+#: inc/hooks/init.php:36
+msgid "Top Menu"
+msgstr ""
+
+#: inc/hooks/init.php:37
+msgid "Main Menu"
+msgstr ""
+
+#: inc/hooks/init.php:38
+msgid "Bottom Menu"
+msgstr ""
+
+#: inc/hooks/layout.php:230 templates/parts/content-page.php:6
+#: templates/parts/content-search.php:20 templates/parts/content.php:20
+msgid "Continue reading"
+msgstr "Leggi tutto"
+
+#: inc/hooks/options.php:44
+msgctxt "Theme options"
+msgid "Global"
+msgstr ""
+
+#: inc/hooks/options.php:47
+msgid "Main logo"
+msgstr ""
+
+#: inc/hooks/options.php:48
+msgid "Choose the website main logo"
+msgstr ""
+
+#: inc/hooks/options.php:55
+msgid "Mobile logo"
+msgstr ""
+
+#: inc/hooks/options.php:56
+msgid "Choose website mobile logo"
+msgstr ""
+
+#: inc/hooks/options.php:63
+msgctxt "Theme options"
+msgid "Site title custom text"
+msgstr ""
+
+#: inc/hooks/options.php:64
+msgctxt "Theme options"
+msgid ""
+"When logo is empty, the site title will be used instead. You can customize "
+"here the text that will be displayed"
+msgstr ""
+
+#: inc/hooks/options.php:71
+msgctxt "Theme options"
+msgid "Show site description"
+msgstr ""
+
+#: inc/hooks/options.php:72
+msgctxt "Theme options"
+msgid "Choose visibility of site description"
+msgstr ""
+
+#: inc/hooks/options.php:84
+msgctxt "Theme options"
+msgid "Backgrounds"
+msgstr ""
+
+#: inc/hooks/options.php:85
+msgctxt "waboot"
+msgid "Settings about page backgrounds"
+msgstr ""
+
+#: inc/hooks/options.php:92
+msgctxt "Theme options"
+msgid "Body Background Color"
+msgstr ""
+
+#: inc/hooks/options.php:93
+msgctxt "Theme options"
+msgid "Change the body background color."
+msgstr ""
+
+#: inc/hooks/options.php:101
+msgctxt "Theme options"
+msgid "Body Background Image"
+msgstr ""
+
+#: inc/hooks/options.php:102
+msgctxt "Theme options"
+msgid ""
+"Upload a background image, or specify the image address of your image. "
+"(http://yoursite.com/image.png)"
+msgstr ""
+
+#: inc/hooks/options.php:110
+msgctxt "Theme options"
+msgid "Body Background Image Repeat"
+msgstr ""
+
+#: inc/hooks/options.php:111
+msgctxt "waboot"
+msgid "Select how you want your background image to display."
+msgstr ""
+
+#: inc/hooks/options.php:119
+msgctxt "Theme options"
+msgid "Body Background image position"
+msgstr ""
+
+#: inc/hooks/options.php:120
+msgctxt "waboot"
+msgid "Select how you would like to position the background"
+msgstr ""
+
+#: inc/hooks/options.php:133
+msgctxt "Theme options"
+msgid "Body Background Attachment"
+msgstr ""
+
+#: inc/hooks/options.php:134
+msgctxt "Theme options"
+msgid ""
+"Select whether the background should be fixed or move when the user scrolls"
+msgstr ""
+
+#: inc/hooks/options.php:150
+msgctxt "Theme options"
+msgid "Style"
+msgstr ""
+
+#: inc/hooks/options.php:151
+msgctxt "Theme options"
+msgid "Settings about css styles"
+msgstr ""
+
+#: inc/hooks/options.php:158
+msgctxt "Theme options"
+msgid "Text color"
+msgstr ""
+
+#: inc/hooks/options.php:159
+msgctxt "Theme options"
+msgid "Change the color of html, body, p, ul, li"
+msgstr ""
+
+#: inc/hooks/options.php:168
+msgctxt "Theme options"
+msgid "Title color"
+msgstr ""
+
+#: inc/hooks/options.php:169
+msgctxt "Theme options"
+msgid "Change the color of h1, h2, h3, h4, h5, h6"
+msgstr ""
+
+#: inc/hooks/options.php:178
+msgctxt "Theme options"
+msgid "Primary color"
+msgstr ""
+
+#: inc/hooks/options.php:179
+msgctxt "Theme options"
+msgid "Change the color of @brand-primary."
+msgstr ""
+
+#: inc/hooks/options.php:188
+msgctxt "Theme options"
+msgid "Success color"
+msgstr ""
+
+#: inc/hooks/options.php:189
+msgctxt "Theme options"
+msgid "Change the color of @brand-success."
+msgstr ""
+
+#: inc/hooks/options.php:198
+msgctxt "Theme options"
+msgid "Info color"
+msgstr ""
+
+#: inc/hooks/options.php:199
+msgctxt "Theme options"
+msgid "Change the color of @brand-info."
+msgstr ""
+
+#: inc/hooks/options.php:208
+msgctxt "Theme options"
+msgid "Warning color"
+msgstr ""
+
+#: inc/hooks/options.php:209
+msgctxt "Theme options"
+msgid "Change the color of @brand-warning."
+msgstr ""
+
+#: inc/hooks/options.php:218
+msgctxt "Theme options"
+msgid "Danger color"
+msgstr ""
+
+#: inc/hooks/options.php:219
+msgctxt "Theme options"
+msgid "Change the color of @brand-danger."
+msgstr ""
+
+#: inc/hooks/options.php:228
+msgctxt "Theme Options"
+msgid "Well background"
+msgstr ""
+
+#: inc/hooks/options.php:229
+msgctxt "Theme Options"
+msgid "Change the color of @well-bg."
+msgstr ""
+
+#: inc/hooks/options.php:238
+msgctxt "Theme options"
+msgid "Border radius base"
+msgstr ""
+
+#: inc/hooks/options.php:239
+msgctxt "Theme options"
+msgid "Change the width in pixel of @border-radius-base."
+msgstr ""
+
+#: inc/hooks/options.php:248
+msgctxt "Theme options"
+msgid "Border radius large"
+msgstr ""
+
+#: inc/hooks/options.php:249
+msgctxt "Theme options"
+msgid "Change the width in pixel of @border-radius-large."
+msgstr ""
+
+#: inc/hooks/options.php:258
+msgctxt "Theme options"
+msgid "Border radius small"
+msgstr ""
+
+#: inc/hooks/options.php:259
+msgctxt "Theme options"
+msgid "Change the width in pixel of @border-radius-small."
+msgstr ""
+
+#: inc/hooks/options.php:268
+msgctxt "Theme options"
+msgid "FontAwesome version"
+msgstr ""
+
+#: inc/hooks/options.php:269
+msgctxt "Theme options"
+msgid "Choose the FontAwesome version to include"
+msgstr ""
+
+#: inc/hooks/options.php:284
+msgctxt "Theme options"
+msgid "Typography"
+msgstr ""
+
+#: inc/hooks/options.php:285 inc/hooks/options.php:310
+msgctxt "Theme options"
+msgid "Settings about typography"
+msgstr ""
+
+#: inc/hooks/options.php:292
+msgctxt "Theme Options"
+msgid "Fonts to load"
+msgstr ""
+
+#: inc/hooks/options.php:309
+msgctxt "Theme options"
+msgid "Favicon"
+msgstr ""
+
+#: inc/hooks/options.php:315
+msgctxt "Theme Options"
+msgid "Favicon (at least 152x152)"
+msgstr ""
+
+#: inc/hooks/options.php:316
+msgctxt "Theme Options"
+msgid "Upload a favicon (only .png, .ico and .jpg files are allowed)."
+msgstr ""
+
+#: inc/hooks/options.php:329 inc/hooks/options.php:334
+msgctxt "Theme Options"
+msgid "Custom CSS"
+msgstr ""
+
+#: inc/hooks/options.php:335
+msgctxt "Theme Options"
+msgid ""
+"Enter custom css to apply to the theme (press CTRL-SPACE on Windows, or CTRL-"
+"F on Mac for suggestions)."
+msgstr ""
+
+#: inc/hooks/options.php:347
+msgid "Layout"
+msgstr ""
+
+#: inc/hooks/options.php:352
+msgid "Page"
+msgstr ""
+
+#: inc/hooks/options.php:353
+msgid "Select page width. Fluid or Boxed?"
+msgstr ""
+
+#: inc/hooks/options.php:370
+msgctxt "Theme options"
+msgid "Background Page"
+msgstr ""
+
+#: inc/hooks/options.php:371
+msgctxt "Theme options"
+msgid "Change the page background color."
+msgstr ""
+
+#: inc/hooks/options.php:379
+msgctxt "Theme options"
+msgid "Background Content"
+msgstr ""
+
+#: inc/hooks/options.php:380
+msgctxt "Theme options"
+msgid "Change the content background color."
+msgstr ""
+
+#: inc/hooks/options.php:390
+msgid "Blog"
+msgstr ""
+
+#: inc/hooks/options.php:395
+msgid "Display Blog page title"
+msgstr ""
+
+#: inc/hooks/options.php:396 inc/hooks/options.php:549
+msgid "Check this box to show blog page title."
+msgstr ""
+
+#: inc/hooks/options.php:404
+msgid "Blog page title position"
+msgstr ""
+
+#: inc/hooks/options.php:405
+msgid "Select where to display page title of blog page"
+msgstr ""
+
+#: inc/hooks/options.php:410 inc/hooks/options.php:563
+#: inc/hooks/options.php:642
+msgid "Above primary"
+msgstr ""
+
+#: inc/hooks/options.php:410 inc/hooks/options.php:563
+#: inc/hooks/options.php:646
+msgid "Below primary"
+msgstr ""
+
+#: inc/hooks/options.php:414
+msgid "Index page and blog page layout"
+msgstr ""
+
+#: inc/hooks/options.php:415
+msgid ""
+"Select the layout that will be applied to main blog page (which can be the "
+"default index or a custom blog page)"
+msgstr ""
+
+#: inc/hooks/options.php:423 inc/hooks/options.php:576
+#: inc/hooks/options.php:706
+msgid "Primary Sidebar width"
+msgstr ""
+
+#: inc/hooks/options.php:424 inc/hooks/options.php:577
+#: inc/hooks/options.php:707
+msgid "Choose the primary sidebar width"
+msgstr ""
+
+#: inc/hooks/options.php:433 inc/hooks/options.php:586
+#: inc/hooks/options.php:734
+msgid "Secondary Sidebar width"
+msgstr ""
+
+#: inc/hooks/options.php:434 inc/hooks/options.php:587
+#: inc/hooks/options.php:735
+msgid "Choose the secondary sidebar width"
+msgstr ""
+
+#: inc/hooks/options.php:443
+msgid "Show navigation above posts?"
+msgstr ""
+
+#: inc/hooks/options.php:444
+msgid ""
+"Displays page navigation above category archives. Default is hide. Check "
+"this box to show content nav above posts."
+msgstr ""
+
+#: inc/hooks/options.php:452
+msgid "Show navigation below posts?"
+msgstr ""
+
+#: inc/hooks/options.php:453
+msgid ""
+"Displays page navigation below category archives. Default is show. Uncheck "
+"this box to hide content nav above posts."
+msgstr ""
+
+#: inc/hooks/options.php:461
+msgid "Show post published date?"
+msgstr ""
+
+#: inc/hooks/options.php:462
+msgid ""
+"Displays the date the article was posted. Default is show. Uncheck this box "
+"to hide post published date."
+msgstr ""
+
+#: inc/hooks/options.php:470
+msgid "Display published date using relative time format"
+msgstr ""
+
+#: inc/hooks/options.php:471
+msgid ""
+"Displays the date the article was posted using relative format (eg: one hour "
+"ago). Default is to use absolute format."
+msgstr ""
+
+#: inc/hooks/options.php:479
+msgid "Show post categories?"
+msgstr ""
+
+#: inc/hooks/options.php:480
+msgid ""
+"Displays the categories in which a post was published. Default is show. "
+"Uncheck this box to hide post categories."
+msgstr ""
+
+#: inc/hooks/options.php:488
+msgid "Show post tags?"
+msgstr ""
+
+#: inc/hooks/options.php:489
+msgid ""
+"Displays the tags attached to a post. Default is show. Uncheck this box to "
+"hide post tags."
+msgstr ""
+
+#: inc/hooks/options.php:497
+msgid "Show post author?"
+msgstr ""
+
+#: inc/hooks/options.php:498
+msgid ""
+"Displays the post author. Default is show. Uncheck this box to hide the post "
+"author."
+msgstr ""
+
+#: inc/hooks/options.php:506
+msgid "Show link to comments?"
+msgstr ""
+
+#: inc/hooks/options.php:507
+msgid ""
+"Displays the number of comments and/or a Leave a comment message on posts. "
+"Default is show. Uncheck this box to hide."
+msgstr ""
+
+#: inc/hooks/options.php:535 inc/template-functions.php:241
+msgid "Archives"
+msgstr ""
+
+#: inc/hooks/options.php:543
+#, php-format
+msgid "Edit default options for \"%s\" archives"
+msgstr ""
+
+#: inc/hooks/options.php:548
+msgid "Display archive page title"
+msgstr ""
+
+#: inc/hooks/options.php:557
+msgid "Archive page title position"
+msgstr ""
+
+#: inc/hooks/options.php:558
+msgid "Select where to display page title of the archive page"
+msgstr ""
+
+#: inc/hooks/options.php:567
+msgid "Archive page layout"
+msgstr ""
+
+#: inc/hooks/options.php:568
+msgid "Select the layout that will be applied to the archive page"
+msgstr ""
+
+#: inc/hooks/options.php:616
+msgid "Display page title"
+msgstr ""
+
+#: inc/hooks/options.php:617
+msgid "Default rendering value for page title"
+msgstr ""
+
+#: inc/hooks/options.php:621
+msgid "Yes"
+msgstr ""
+
+#: inc/hooks/options.php:625
+msgid "No"
+msgstr ""
+
+#: inc/hooks/options.php:636
+msgid "Title position"
+msgstr ""
+
+#: inc/hooks/options.php:637
+msgid "Default title positioning in pages"
+msgstr ""
+
+#: inc/hooks/options.php:657
+msgid "Body layout"
+msgstr ""
+
+#: inc/hooks/options.php:658
+msgid "Default body layout for posts and pages"
+msgstr ""
+
+#: inc/hooks/options.php:667
+msgid "Content Width"
+msgstr ""
+
+#: inc/hooks/options.php:668
+msgid "Select page content wrapper width. Fluid or Boxed?"
+msgstr ""
+
+#: inc/hooks/options.php:688
+msgid "Show content navigation above posts?"
+msgstr ""
+
+#: inc/hooks/options.php:689
+msgid ""
+"Displays links to next and previous posts above single post content. Default "
+"is hide. Check this box to show content nav above posts."
+msgstr ""
+
+#: inc/hooks/options.php:697
+msgid "Show content navigation below post?"
+msgstr ""
+
+#: inc/hooks/options.php:698
+msgid ""
+"Displays links to next and previous posts below single post content. Default "
+"is show. Uncheck this box to hide content nav above posts."
+msgstr ""
+
+#: inc/hooks/options.php:712 inc/hooks/options.php:740
+msgid "1/2"
+msgstr ""
+
+#: inc/hooks/options.php:716 inc/hooks/options.php:744
+msgid "1/3"
+msgstr ""
+
+#: inc/hooks/options.php:720 inc/hooks/options.php:748
+msgid "1/4"
+msgstr ""
+
+#: inc/hooks/options.php:724 inc/hooks/options.php:752
+msgid "1/6"
+msgstr ""
+
+#: inc/hooks/options.php:859
+msgid "No sidebar"
+msgstr ""
+
+#: inc/hooks/options.php:865
+msgid "Sidebar right"
+msgstr ""
+
+#: inc/hooks/options.php:871
+msgid "Sidebar left"
+msgstr ""
+
+#: inc/hooks/options.php:877
+msgid "2 Sidebars"
+msgstr ""
+
+#: inc/hooks/options.php:883
+msgid "2 Sidebars right"
+msgstr ""
+
+#: inc/hooks/options.php:889
+msgid "2 Sidebars left"
+msgstr ""
+
+#: inc/hooks/posts_and_pages.php:93 templates/search.php:4
+#, php-format
+msgid "Search Results for: %s"
+msgstr ""
+
+#: inc/hooks/posts_and_pages.php:154
+#, php-format
+msgctxt "Relative date output for entry footer"
+msgid "%s ago"
+msgstr ""
+
+#: inc/hooks/posts_and_pages.php:169
+#, php-format
+msgid "View all posts by %s"
+msgstr ""
+
+#: inc/hooks/scripts.php:29
+msgctxt "Generators"
+msgid "Processing..."
+msgstr ""
+
+#: inc/hooks/scripts.php:30
+msgctxt "Generators"
+msgid "Wizard completed successfully!"
+msgstr ""
+
+#: inc/hooks/scripts.php:31
+msgctxt "Generators"
+msgid "Run again"
+msgstr ""
+
+#: inc/hooks/scripts.php:34
+msgid "Download"
+msgstr ""
+
+#: inc/hooks/scripts.php:35 inc/hooks/wbf_installer.php:75
+msgid "Installing..."
+msgstr ""
+
+#: inc/hooks/scripts.php:36
+msgctxt "Components Installer"
+msgid "Activating..."
+msgstr ""
+
+#: inc/hooks/scripts.php:37 inc/hooks/wbf_installer.php:76
+msgid "Install Failed!"
+msgstr ""
+
+#: inc/hooks/scripts.php:38 inc/hooks/wbf_installer.php:77
+msgid "Activate"
+msgstr ""
+
+#: inc/hooks/scripts.php:39
+msgid "Active"
+msgstr ""
+
+#: inc/hooks/wbf_installer.php:23
+#, php-format
+msgid ""
+"<span class=\"wbf-install-now\"><a class=\"wbf-install-btn button\" href=\"%s"
+"\">%s</a></span>"
+msgstr ""
+
+#: inc/hooks/wbf_installer.php:25
+msgid "Install Now"
+msgstr ""
+
+#: inc/hooks/wbf_installer.php:37
+#, php-format
+msgid ""
+"Waboot theme requires <a href='%s'>WBF Framework</a> plugin at least at v%s "
+"to work properly. %s."
+msgstr ""
+
+#: inc/migrations/migration-2.3.2-3.0.0.php:92
+#, php-format
+msgid "<p> %s: <a href=\"%s\">install</a> or <a href=\"%s\">dismiss</a></p>"
+msgstr "<p> %s: <a href=“%s”>installa</a> o <a href=“%s”>ignora</a></p>"
+
+#: inc/template-functions.php:126
+msgid "Header"
+msgstr ""
+
+#: inc/template-functions.php:127
+msgid "The main widget area displayed in the header."
+msgstr ""
+
+#: inc/template-functions.php:131
+msgid "Main Top"
+msgstr ""
+
+#: inc/template-functions.php:132
+msgid "Widget area displayed above the content and the sidebars."
+msgstr ""
+
+#: inc/template-functions.php:136
+msgid "Sidebar primary"
+msgstr ""
+
+#: inc/template-functions.php:137
+msgid "Widget area displayed in left aside"
+msgstr ""
+
+#: inc/template-functions.php:141
+msgid "Content Top"
+msgstr ""
+
+#: inc/template-functions.php:142
+msgid "Widget area displayed above the content"
+msgstr ""
+
+#: inc/template-functions.php:147
+msgid "Content Bottom"
+msgstr ""
+
+#: inc/template-functions.php:148
+msgid "Widget area displayed below the content"
+msgstr ""
+
+#: inc/template-functions.php:153
+msgid "Sidebar secondary"
+msgstr ""
+
+#: inc/template-functions.php:154
+msgid "Widget area displayed in right aside"
+msgstr ""
+
+#: inc/template-functions.php:158
+msgid "Main Bottom"
+msgstr ""
+
+#: inc/template-functions.php:159
+msgid "Widget area displayed below the content and the sidebars."
+msgstr ""
+
+#: inc/template-functions.php:163
+msgid "Footer"
+msgstr ""
+
+#: inc/template-functions.php:164
+msgid "The main widget area displayed in the footer."
+msgstr ""
+
+#. translators: Category archive title. 1: Category name
+#: inc/template-functions.php:193
+#, php-format
+msgid "Category: %s"
+msgstr "Categoria: %s"
+
+#. translators: Tag archive title. 1: Tag name
+#: inc/template-functions.php:196
+#, php-format
+msgid "Tag: %s"
+msgstr ""
+
+#. translators: Author archive title. 1: Author name
+#: inc/template-functions.php:199
+#, php-format
+msgid "Author: %s"
+msgstr ""
+
+#. translators: Yearly archive title. 1: Year
+#: inc/template-functions.php:202
+#, php-format
+msgid "Year: %s"
+msgstr ""
+
+#: inc/template-functions.php:202
+msgctxt "yearly archives date format"
+msgid "Y"
+msgstr ""
+
+#. translators: Monthly archive title. 1: Month name and year
+#: inc/template-functions.php:205
+#, php-format
+msgid "Month: %s"
+msgstr ""
+
+#: inc/template-functions.php:205
+msgctxt "monthly archives date format"
+msgid "F Y"
+msgstr ""
+
+#. translators: Daily archive title. 1: Date
+#: inc/template-functions.php:208
+#, php-format
+msgid "Day: %s"
+msgstr "Giorno: %s"
+
+#: inc/template-functions.php:208
+msgctxt "daily archives date format"
+msgid "F j, Y"
+msgstr ""
+
+#: inc/template-functions.php:211
+msgctxt "post format archive title"
+msgid "Asides"
+msgstr ""
+
+#: inc/template-functions.php:213
+msgctxt "post format archive title"
+msgid "Galleries"
+msgstr ""
+
+#: inc/template-functions.php:215
+msgctxt "post format archive title"
+msgid "Images"
+msgstr ""
+
+#: inc/template-functions.php:217
+msgctxt "post format archive title"
+msgid "Videos"
+msgstr ""
+
+#: inc/template-functions.php:219
+msgctxt "post format archive title"
+msgid "Quotes"
+msgstr ""
+
+#: inc/template-functions.php:221
+msgctxt "post format archive title"
+msgid "Links"
+msgstr ""
+
+#: inc/template-functions.php:223
+msgctxt "post format archive title"
+msgid "Statuses"
+msgstr ""
+
+#: inc/template-functions.php:225
+msgctxt "post format archive title"
+msgid "Audio"
+msgstr ""
+
+#: inc/template-functions.php:227
+msgctxt "post format archive title"
+msgid "Chats"
+msgstr ""
+
+#. translators: Post type archive title. 1: Post type name
+#: inc/template-functions.php:231
+#, php-format
+msgid "Archives: %s"
+msgstr ""
+
+#. translators: Taxonomy term archive title. 1: Taxonomy singular name, 2: Current taxonomy term
+#: inc/template-functions.php:235
+#, php-format
+msgid "%1$s: %2$s"
+msgstr ""
+
+#: inc/template-functions.php:783 inc/template-functions.php:833
+msgid "Unable to create the backup file: "
+msgstr ""
+
+#: inc/widgets/RecentPosts.php:14
+msgid "Waboot Recent Posts Widget"
+msgstr ""
+
+#: inc/widgets/RecentPosts.php:17
+msgid "A widget to show the recents posts"
+msgstr ""
+
+#: inc/widgets/RecentPosts.php:232
+msgid "Recent Posts"
+msgstr ""
+
+#: inc/widgets/RecentPosts.php:254
+msgctxt "Recent Posts Widget"
+msgid "Read More &raquo;"
+msgstr ""
+
+#: inc/widgets/RecentPosts.php:266 templates/parts/content-image.php:11
+#: templates/parts/content-link.php:8 templates/parts/content-search.php:6
+#: templates/parts/content-search.php:16 templates/parts/content.php:10
+#, php-format
+msgid "Link to %s"
+msgstr ""
+
+#: inc/widgets/RecentPosts.php:272
+msgctxt "Recent Post Widget"
+msgid "No posts"
+msgstr ""
+
+#: templates/404.php:6
+msgid "Oops! That page can&rsquo;t be found."
+msgstr ""
+
+#: templates/404.php:11
+msgid ""
+"It looks like nothing was found at this location. Maybe try a search or one "
+"of the links below?"
+msgstr ""
+
+#: templates/404.php:13
+msgid "Let's return to the"
+msgstr ""
+
+#: templates/admin/add-new-components.php:1
+msgid "Add Components"
+msgstr ""
+
+#: templates/admin/components-update-landing-page.php:3
+msgid "Update Components"
+msgstr ""
+
+#: templates/admin/components-update-landing-page.php:6
+#, php-format
+msgid "Component <strong>%s</strong> has been updated successfully."
+msgstr ""
+
+#: templates/admin/components-update-landing-page.php:8
+#, php-format
+msgid "Component <strong>%s</strong> update failed."
+msgstr ""
+
+#: templates/admin/components-updates-list.php:1
+msgctxt "Updates list"
+msgid "Components"
+msgstr ""
+
+#: templates/admin/components-updates-list.php:3
+msgctxt "Updates list"
+msgid "You don't have any theme component yet."
+msgstr ""
+
+#: templates/admin/components-updates-list.php:5
+msgctxt "Updates list"
+msgid "Your components are all up to date."
+msgstr ""
+
+#: templates/admin/widgets/recents-posts/form.php:2
+msgctxt "Recent Posts Widget"
+msgid "General"
+msgstr ""
+
+#: templates/admin/widgets/recents-posts/form.php:4
+msgid "Title:"
+msgstr ""
+
+#: templates/admin/widgets/recents-posts/form.php:5
+msgctxt "Recent Posts Widget"
+msgid "New title"
+msgstr ""
+
+#: templates/admin/widgets/recents-posts/form.php:9
+msgctxt "Recent Posts Widget"
+msgid "Query"
+msgstr ""
+
+#: templates/admin/widgets/recents-posts/form.php:13
+msgctxt "Recent Posts Widget"
+msgid "Post Types"
+msgstr ""
+
+#: templates/admin/widgets/recents-posts/form.php:29
+msgctxt "Recent Posts Widget"
+msgid "Limit to Category"
+msgstr ""
+
+#: templates/admin/widgets/recents-posts/form.php:51
+msgctxt "Recent Posts Widget"
+msgid "No categories available"
+msgstr ""
+
+#: templates/admin/widgets/recents-posts/form.php:58
+msgctxt "Recent Posts Widget"
+msgid "Limit to Tag"
+msgstr ""
+
+#: templates/admin/widgets/recents-posts/form.php:80
+msgctxt "Recent Posts Widget"
+msgid "No tags available"
+msgstr ""
+
+#: templates/admin/widgets/recents-posts/form.php:87
+msgctxt "Recent Posts Widget"
+msgid "Post Status"
+msgstr ""
+
+#: templates/admin/widgets/recents-posts/form.php:98
+msgctxt "Recent Posts Widget"
+msgid "Order"
+msgstr ""
+
+#: templates/admin/widgets/recents-posts/form.php:101
+msgctxt "Recent Posts Widget"
+msgid "Descending"
+msgstr ""
+
+#: templates/admin/widgets/recents-posts/form.php:102
+msgctxt "Recent Posts Widget"
+msgid "Ascending"
+msgstr ""
+
+#: templates/admin/widgets/recents-posts/form.php:108
+msgctxt "Recent Posts Widget"
+msgid "Orderby"
+msgstr ""
+
+#: templates/admin/widgets/recents-posts/form.php:111
+msgctxt "Recent Posts Widget"
+msgid "ID"
+msgstr ""
+
+#: templates/admin/widgets/recents-posts/form.php:112
+msgctxt "Recent Posts Widget"
+msgid "Author"
+msgstr ""
+
+#: templates/admin/widgets/recents-posts/form.php:113
+msgctxt "Recent Posts Widget"
+msgid "Title"
+msgstr ""
+
+#: templates/admin/widgets/recents-posts/form.php:114
+msgctxt "Recent Posts Widget"
+msgid "Date"
+msgstr ""
+
+#: templates/admin/widgets/recents-posts/form.php:115
+msgctxt "Recent Posts Widget"
+msgid "Modified"
+msgstr ""
+
+#: templates/admin/widgets/recents-posts/form.php:116
+msgctxt "Recent Posts Widget"
+msgid "Random"
+msgstr ""
+
+#: templates/admin/widgets/recents-posts/form.php:117
+msgctxt "Recent Posts Widget"
+msgid "Comment Count"
+msgstr ""
+
+#: templates/admin/widgets/recents-posts/form.php:118
+msgctxt "Recent Posts Widget"
+msgid "Menu Order"
+msgstr ""
+
+#: templates/admin/widgets/recents-posts/form.php:123
+msgctxt "Recent Posts Widget"
+msgid "Options"
+msgstr ""
+
+#: templates/admin/widgets/recents-posts/form.php:128
+msgctxt "Recent Posts Widget"
+msgid "Ignore sticky posts"
+msgstr ""
+
+#: templates/admin/widgets/recents-posts/form.php:134
+msgctxt "Recent Posts Widget"
+msgid "Number of posts to show"
+msgstr ""
+
+#: templates/admin/widgets/recents-posts/form.php:143
+msgctxt "Recent Posts Widget"
+msgid "Display Thumbnail"
+msgstr ""
+
+#: templates/admin/widgets/recents-posts/form.php:149
+msgctxt "Recent Posts Widget"
+msgid "Thumbnail size"
+msgstr ""
+
+#: templates/admin/widgets/recents-posts/form.php:166
+msgctxt "Recent Posts Widget"
+msgid "Display Excerpt"
+msgstr ""
+
+#: templates/admin/widgets/recents-posts/form.php:171
+msgctxt "Recent Posts Widget"
+msgid "Excerpt Length"
+msgstr ""
+
+#: templates/admin/widgets/recents-posts/form.php:179
+msgid "Display Readmore"
+msgstr ""
+
+#: templates/admin/widgets/recents-posts/form.php:184
+msgctxt "Recent Posts Widget"
+msgid "Readmore Text"
+msgstr ""
+
+#: templates/admin/widgets/recents-posts/form.php:190
+msgctxt "Recent Posts Widget"
+msgid "Readmore Text Prefix"
+msgstr ""
+
+#: templates/admin/widgets/recents-posts/form.php:198
+msgctxt "Recent Posts Widget"
+msgid "Display Date"
+msgstr ""
+
+#: templates/admin/widgets/recents-posts/form.php:204
+msgctxt "Recent Posts Widget"
+msgid "Use Relative Date. eg: 5 days ago"
+msgstr ""
+
+#: templates/admin/wizard.php:8
+msgctxt "Wizard"
+msgid "Thank you for choosing Waboot!"
+msgstr ""
+
+#: templates/admin/wizard.php:11
+msgctxt "Wizard"
+msgid ""
+"Choose one of the layouts below to install all requirements and startup your "
+"new project with some predefined options."
+msgstr ""
+
+#: templates/admin/wizard.php:18
+msgctxt "Wizard"
+msgid ""
+"Choose one of the layouts below to startup your new project with some "
+"predefined options, or use manual setup button below."
+msgstr ""
+
+#: templates/admin/wizard.php:55
+msgid "Start wizard"
+msgstr ""
+
+#: templates/admin/wizard.php:56
+msgctxt "wizard"
+msgid "Go to components page"
+msgstr ""
+
+#: templates/admin/wizard.php:56
+msgctxt "wizard"
+msgid "Manual setup"
+msgstr ""
+
+#: templates/admin/wizard.php:59
+msgctxt "wizard"
+msgid "Learn more"
+msgstr ""
+
+#: templates/admin/wizard.php:61
+msgctxt "wizard"
+msgid "Learn more about Waboot"
+msgstr ""
+
+#: templates/admin/wizard.php:62
+msgctxt "wizard"
+msgid "Waboot docs"
+msgstr ""
+
+#: templates/admin/wizard.php:79
+msgctxt "wizard"
+msgid "Go to theme options page"
+msgstr ""
+
+#: templates/admin/wizard.php:79
+msgctxt "wizard"
+msgid "Customize Settings"
+msgstr ""
+
+#: templates/comments.php:14
+#, php-format
+msgctxt "comments title"
+msgid "One thought on &ldquo;%2$s&rdquo;"
+msgid_plural "%1$s thoughts on &ldquo;%2$s&rdquo;"
+msgstr[0] ""
+msgstr[1] ""
+
+#: templates/comments.php:21 templates/comments.php:40
+msgid "Comment navigation"
+msgstr ""
+
+#: templates/comments.php:23
+msgid "&laquo; Older Comments"
+msgstr "&laquo; Commenti più vecchi"
+
+#: templates/comments.php:24
+msgid "Newer Comments &raquo;"
+msgstr ""
+
+#: templates/comments.php:42
+msgid "Older Comments &raquo;"
+msgstr ""
+
+#: templates/comments.php:43
+msgid "&laquo; Newer Comments"
+msgstr "&laquo; Commenti più recenti"
+
+#: templates/comments.php:53
+msgid "Comments are closed."
+msgstr ""
+
+#: templates/image.php:17
+#, php-format
+msgid ""
+"Published <span class=\"entry-date\"><abbr class=\"published\" title=\"%1$s"
+"\">%2$s</abbr></span> at <a href=\"%3$s\" title=\"Link to full-size image\">"
+"%4$s &times; %5$s</a> in <a href=\"%6$s\" title=\"Return to %7$s\" rel="
+"\"gallery\">%8$s</a>"
+msgstr ""
+
+#: templates/image.php:27 templates/image.php:69
+#: templates/view-parts/single-comment.php:4
+#: templates/view-parts/single-comment.php:22
+msgid "Edit"
+msgstr "Modifica"
+
+#: templates/image.php:32
+msgid "&laquo; Previous"
+msgstr "&laquo; Precedente"
+
+#: templates/image.php:33
+msgid "Next &raquo;"
+msgstr "Successivo &raquo;"
+
+#: templates/image.php:60
+#, php-format
+msgid ""
+"<a class=\"comment-link\" href=\"#respond\" title=\"Post a comment\">Post a "
+"comment</a> or leave a trackback: <a class=\"trackback-link\" href=\"%s\" "
+"title=\"Trackback URL for your post\" rel=\"trackback\">Trackback URL</a>."
+msgstr ""
+"<a class=“comment-link” href=“#respond” title=“Post a comment”>Scrivi un "
+"commento</a> o lascia un trackback: <a class=“trackback-link” href=“%s” "
+"title=“Trackback URL for your post” rel=“trackback”>Trackback URL</a>."
+
+#: templates/image.php:62
+#, php-format
+msgid ""
+"Comments are closed, but you can leave a trackback: <a class=\"trackback-link"
+"\" href=\"%s\" title=\"Trackback URL for your post\" rel=\"trackback"
+"\">Trackback URL</a>."
+msgstr ""
+
+#: templates/image.php:64
+msgid ""
+"Trackbacks are closed, but you can <a class=\"comment-link\" href=\"#respond"
+"\" title=\"Post a comment\">post a comment</a>."
+msgstr ""
+
+#: templates/image.php:66
+msgid "Both comments and trackbacks are currently closed."
+msgstr ""
+
+#: templates/parts/content-none.php:8
+msgid "Nothing Found"
+msgstr ""
+
+#: templates/parts/content-none.php:12
+msgid ""
+"It seems we can&rsquo;t find what you&rsquo;re looking for. Perhaps "
+"searching can help."
+msgstr ""
+
+#: templates/parts/content-page.php:8
+msgid " Edit"
+msgstr " Modifica"
+
+#: templates/view-parts/content-errors.php:7
+msgid "Template error"
+msgstr ""
+
+#: templates/view-parts/entry-comment-link.php:8
+msgid " Leave a comment"
+msgstr " Lascia un commento"
+
+#: templates/view-parts/entry-comment-link.php:8
+msgid " 1 Comment"
+msgstr " 1 Commento"
+
+#: templates/view-parts/entry-comment-link.php:8
+msgid " % Comments"
+msgstr " % Commenti"
+
+#: templates/view-parts/post-navigation.php:9
+msgctxt "Previous post link"
+msgid "&laquo;"
+msgstr ""
+
+#: templates/view-parts/post-navigation.php:10
+msgctxt "Next post link"
+msgid "&raquo;"
+msgstr ""
+
+#: templates/view-parts/post-navigation.php:16
+msgid "Next page"
+msgstr ""
+
+#: templates/view-parts/post-navigation.php:19
+msgid "Previous page"
+msgstr ""
+
+#: templates/view-parts/single-comment.php:4
+msgid "Pingback:"
+msgstr ""
+
+#: templates/view-parts/single-comment.php:13
+#, php-format
+msgid "%s <span class=\"says\">says:</span>"
+msgstr "%s <span class=“says”>dice:</span>"
+
+#: templates/view-parts/single-comment.php:19
+#, php-format
+msgctxt "1: date, 2: time"
+msgid "%1$s at %2$s"
+msgstr ""
+
+#: templates/view-parts/single-comment.php:26
+msgid "Your comment is awaiting moderation."
+msgstr ""
+
+#: wbf/components-page.php:11
+msgid "Components"
+msgstr ""
+
+#: wbf/components-page.php:13
+msgid ""
+"No components available in the current theme. You can create components "
+"into /components/ directory under theme directory."
+msgstr ""
+
+#: wbf/components-page.php:55
+msgid "This is a component of the current child theme"
+msgstr ""
+
+#: wbf/components-page.php:59
+msgid ", and <strong>override a core component</strong>"
+msgstr ", e <strong>sovrascrive un componente del core</strong>"
+
+#: wbf/components-page.php:70
+#, php-format
+msgid "Version %s"
+msgstr ""
+
+#: wbf/components-page.php:75
+msgid "Visit author homepage"
+msgstr ""
+
+#: wbf/components-page.php:77
+#, php-format
+msgid "By %s"
+msgstr "Di %s"
+
+#: wbf/components-page.php:80
+msgid "Visit plugin site"
+msgstr ""
+
+#: wbf/components-page.php:87
+msgctxt "Components Page"
+msgid "Tags:"
+msgstr ""
+
+#: wbf/components-page.php:135
+msgid "Restore default component status"
+msgstr ""
+
+#: wbf/components-page.php:135
+msgid "Click OK to restore defaults. Any theme settings will be lost!"
+msgstr ""
+
+#: wbf/components-page.php:136
+msgid "Reset components status"
+msgstr ""
+
+#: wbf/components-page.php:136 wbf/options-page.php:33
+msgid "Click OK to reset. Any theme settings will be lost!"
+msgstr ""
+
+#: wbf/options-page.php:31
+msgid "Save Options"
+msgstr ""
+
+#: wbf/options-page.php:32
+msgid "Restore Defaults"
+msgstr ""
+
+#: wbf/options-page.php:32
+msgid "Click OK to restore defaults"
+msgstr ""
+
+#: wbf/options-page.php:33
+msgid "Reset Options"
+msgstr ""
+
+#. Theme Name of the plugin/theme
+msgid "Waboot"
+msgstr ""
+
+#. Theme URI of the plugin/theme
+msgid "http://www.waboot.io"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "A WordPress general-purpose theme with a modular structure."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "Waga team"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "http://www.waga.it"
+msgstr ""
+
+#, fuzzy
+#~| msgid "Continue reading"
+#~ msgid "Continue reading;"
+#~ msgstr "Leggi tutto"
+
+#~ msgid "Continue Reading "
+#~ msgstr "Leggi tutto "
+
+#~ msgid "Continue Reading &raquo;"
+#~ msgstr "Leggi tutto &raquo;"

@@ -13,8 +13,6 @@ components/*
 ## WP
 ############
 Movefile
-languages/*
-!languages/.gitkeep
 
 ############
 ## VENDORS
