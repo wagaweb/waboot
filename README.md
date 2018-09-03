@@ -28,7 +28,7 @@ Learn more about [zones](#zones) and [components](#components).
 
 ## No more template overriding
 
-Waboot feature a revisited template hierarchy system which goal is to keep template overriding at minimum.
+Waboot feature a redesigned template hierarchy system which goal is to keep template overriding at minimum.
 
 Learn more about [here](#template-system).
 
