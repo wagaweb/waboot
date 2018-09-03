@@ -2,7 +2,7 @@
 
 # Waboot Theme
 
-Waboot aims to be a general purpose theme focused on development speed and flexibility; plus, it's component-based nature allows developers to use only the features they need and helps them to keep the source organized and easy to maintain.
+Waboot is a multipurpose Wordpress theme with focus on speed, usability and modularity. It's component-based nature allows developers to use only the features they need and helps them to keep the source organized and easy to maintain.
 
 A sample theme child is provided to get you started immediately.
 
