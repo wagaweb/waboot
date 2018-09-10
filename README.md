@@ -18,7 +18,7 @@ A sample theme child is provided within the package.
 
 Waboot is based on the concept of **zones** and is built through **components**. 
 
-Components are self-contained micro-plugins that implement specific feature (like: breadcrumbs, lazyloading, different types of headers and footers...).
+Components are self-contained micro-plugins that provide a specific feature (like: breadcrumbs, lazyloading, different types of headers and footers...).
 
 Zones are layout partials that, by default, are rendered blank (or not rendered at all) unless some component is attached to them. 
 
@@ -158,7 +158,7 @@ _Custom Waboot params_
 
 Waboot components leverage on [WBF Components](https://github.com/wagaweb/wbf/tree/master/src/modules/components) to provide a flexible, multi-purpose environment.
 
-Waboot ships with some default components ready to be used; you can also develop your custom components or install third-party components.
+Waboot ships with a component repository full of components ready to be used; you can also develop your custom components or install third-party components.
 
 Refer to WBF docs to learn how to develop custom components.
 
@@ -168,7 +168,7 @@ You can manage components through dashboard.
 
 !["Components"](docs/assets/images/components-01.png)
 
-For your convenience defaults components are categorized under three main categories: **Layout**, **Effects** and **Utilities**.
+For your convenience our components are categorized under three main categories: **Layout**, **Effects** and **Utilities**.
 
 Each component has specific and layout-related settings. Specific settings (render zone, visibility, weight...) can be customized directly through components UI. 
 
