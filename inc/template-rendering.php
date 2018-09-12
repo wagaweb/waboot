@@ -41,22 +41,37 @@ function get_archives_template_vars(){
 
 	$o = get_queried_object();
 
+	//@see https://developer.wordpress.org/files/2014/10/wp-hierarchy.png
+
 	if(is_author()){
 		$tpl_base = "templates/author/";
 		$tpl[] = $tpl_base.'author-'.get_the_author_meta('user_nicename');
 		$tpl[] = $tpl_base.'author-'.get_the_author_meta('ID');
+		$tpl[] = $tpl_base.'author';
 	}else{
 		$tpl_base = "templates/archive/";
 		if($o instanceof \WP_Term){
-			$tpl[] = $tpl_base.$o->taxonomy.'-'.$o->slug;
-			$tpl[] = $tpl_base.'taxonomy-'.$o->taxonomy.'-'.$o->slug;
-			$tpl[] = $tpl_base.'taxonomy-'.$o->taxonomy;
-			$tpl = Waboot()->locate_template($tpl);
+			if($o->taxonomy === 'category'){
+				$tpl[] = $tpl_base.'category'.'-'.$o->slug;
+				$tpl[] = $tpl_base.'category-'.$o->term_id;
+				$tpl[] = $tpl_base.'category';
+			}else{
+				$tpl[] = $tpl_base.$o->taxonomy.'-'.$o->slug;
+				$tpl[] = $tpl_base.'taxonomy-'.$o->taxonomy.'-'.$o->slug;
+				$tpl[] = $tpl_base.'taxonomy-'.$o->taxonomy;
+				$tpl[] = $tpl_base.'taxonomy';
+			}
 		}elseif($o instanceof \WP_Post_Type){
 			$tpl = $tpl_base."archive-".$o->name;
+		}elseif(is_date()){
+			$tpl = $tpl_base."date";
 		}else{
 			$tpl = "";
 		}
+	}
+
+	if($tpl !== '' || \is_array($tpl)){
+		$tpl = Waboot()->locate_template($tpl);
 	}
 
 	$vars['tpl'] = $tpl;
