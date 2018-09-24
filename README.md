@@ -8,7 +8,13 @@ It's component-based nature allows developers to use only the features they need
 
 A sample theme child is provided within the package.
 
-## Usage
+## Building
+
+- `yarn` or `npm install`
+- `composer install`
+- `gulp setup` (requires Bower)
+
+## Usage (as parent theme)
 
 - Download the precompiled version [here](http://update.waboot.org/resource/get/theme/waboot) or download this repository.
 - Copy `waboot-child` directory into `wp-content/` and rename it accordingly to your project.
