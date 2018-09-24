@@ -249,12 +249,11 @@ gulp.task('build', ['clean'], function(callback) {
 /*
  * Clean builds
  */
-gulp.task('clean', function() {
-    return shell.task([
-        'rm -rf builds/pkg',
-        'rm -rf waboot-child/node_modules/pkg'
-    ]);
-});
+gulp.task('clean', shell.task([
+    'rm -rf builds/pkg',
+    'rm -rf builds/components',
+    'rm -rf waboot-child/node_modules'
+]));
 
 /**
  * Rerun the task when a file changes
