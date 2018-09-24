@@ -1,7 +1,7 @@
 <?php
 
-/**
- * Theme init function. PLEASE EDIT "mytheme" SUFFIX both here and in add_action below.
+/*
+ * Loads text domain
  */
 add_action("after_setup_theme", function(){
 	load_child_theme_textdomain( 'waboot-child', get_stylesheet_directory() . '/languages' ); //Make theme available for translation
@@ -12,7 +12,6 @@ add_action("after_setup_theme", function(){
  */
 add_action("wp_enqueue_scripts", function(){
 	if(!class_exists('\WBF\components\assets\AssetsManager')) return;
-	$theme = wp_get_theme();
 	$assets = [
 		'wp-style' => [
 			'uri' => get_stylesheet_directory_uri()."/style.css", //A valid uri
@@ -32,8 +31,8 @@ add_action("wp_enqueue_scripts", function(){
 			'type' => 'css'
 		],*/
 		/*'theme-scripts' => [
-			'uri' => get_stylesheet_directory_uri()."/assets/dist/js/main.min.js",
-			'path' => get_stylesheet_directory()."/assets/dist/js/main.min.js",
+			'uri' => defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? get_stylesheet_directory_uri()."/assets/dist/js/main.pkg.js" : get_stylesheet_directory_uri()."/assets/dist/js/main.min.js",
+			'path' => defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? get_stylesheet_directory()."/assets/dist/js/main.pkg.js" : get_stylesheet_directory()."/assets/dist/js/main.min.js",
 			'type' => 'js',
 		    'deps' => ['jquery'],
 		],*/
@@ -48,3 +47,11 @@ add_action("wp_enqueue_scripts", function(){
 	$am = new \WBF\components\assets\AssetsManager($assets);
 	$am->enqueue();
 });
+
+//Loads dependencies
+$theme_includes = [
+	//Put here the dependencies files
+	//@example: 'inc/theme_hooks.php'
+];
+
+\Waboot\functions\safe_require_files($theme_includes);

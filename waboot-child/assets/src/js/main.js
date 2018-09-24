@@ -1,16 +1,7 @@
 jQuery(document).ready(function($) {
     "use strict";
-    if (wbData.isAdmin) {
-        /*************
-         *************
-         * ADMIN
-         *************
-         *************/
-    }else{
-        /*************
-         *************
-         * PUBLIC
-         *************
-         *************/
-    }
+    //Put here snippets
+    $(window).on("load",function(){
+        //Put here snippets
+    });
 });
