@@ -16,7 +16,7 @@ let gulp = require('gulp'),
     runSequence  = require('run-sequence'),
     merge  = require('merge-stream'),
     plumber = require('gulp-plumber'),
-    shell = require('gulp-shell');
+    shell = require('gulp-shell'),
     browserSync = require('browser-sync');
 
 let paths = {
