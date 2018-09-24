@@ -16,7 +16,7 @@ A sample theme child is provided within the package.
 
 ## Usage (as parent theme)
 
-- Download the precompiled version [here](http://update.waboot.org/resource/get/theme/waboot) or download this repository.
+- Download the precompiled version [here](http://update.waboot.org/resource/get/theme/waboot).
 - Copy `waboot-child` directory into `wp-content/` and rename it accordingly to your project.
 - Follow the readme inside the child theme.
  
