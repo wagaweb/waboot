@@ -1,7 +1,6 @@
-var pkg = require('./package.json');
+let pkg = require('./package.json');
 
-var gulp = require('gulp'),
-    concat = require('gulp-concat'),
+let gulp = require('gulp'),
     rename = require("gulp-rename"),
     sourcemaps = require('gulp-sourcemaps'),
     jsmin = require('gulp-jsmin'),
@@ -15,7 +14,6 @@ var gulp = require('gulp'),
     bower = require('gulp-bower'),
     copy = require('copy'),
     gcopy = require('gulp-copy'),
-    csso = require('gulp-csso'),
     postcss = require('gulp-postcss'),
     autoprefixer = require('autoprefixer'),
     cssnano = require('cssnano'),
@@ -23,11 +21,11 @@ var gulp = require('gulp'),
     wpPot = require('gulp-wp-pot'),
     sort = require('gulp-sort'),
     merge  = require('merge-stream'),
-    path = require('path'); //Required by gulp-less
+    shell = require('gulp-shell');
 
-var theme_slug = "waboot";
+let theme_slug = "waboot";
 
-var paths = {
+let paths = {
     builddir: "./builds",
     scripts: ['./assets/src/js/**/*.js'],
     mainjs: ['./assets/src/js/main.js'],
@@ -62,7 +60,7 @@ var paths = {
     ]
 };
 
-var available_components = [
+let available_components = [
     'admin_tweaks',
     'blog_timeline',
     'blog_masonry',
@@ -85,12 +83,12 @@ var available_components = [
  * Compile .less into waboot.min.css
  */
 gulp.task('compile_css',function(){
-    var processors = [
+    let processors = [
         autoprefixer({browsers: ['last 1 version']}),
         cssnano({ zindex: false })
     ];
 
-    var frontend = gulp.src(paths.main_scss)
+    let frontend = gulp.src(paths.main_scss)
         .pipe(sourcemaps.init())
         .pipe(sass({includePaths: ["assets/vendor/bootstrap-sass/assets/stylesheets"]}).on('error', sass.logError))
         .pipe(postcss(processors))
@@ -98,7 +96,7 @@ gulp.task('compile_css',function(){
         .pipe(sourcemaps.write("."))
         .pipe(gulp.dest('./assets/dist/css'));
 
-    var backend = gulp.src(paths.main_admin_scss)
+    let backend = gulp.src(paths.main_admin_scss)
         .pipe(sourcemaps.init())
         .pipe(sass().on('error', sass.logError))
         .pipe(postcss(processors))
@@ -106,7 +104,7 @@ gulp.task('compile_css',function(){
         .pipe(sourcemaps.write("."))
         .pipe(gulp.dest('./assets/dist/css'));
 
-    var tinymce = gulp.src(paths.tinymce_admin_scss)
+    let tinymce = gulp.src(paths.tinymce_admin_scss)
         .pipe(sourcemaps.init())
         .pipe(sass().on('error', sass.logError))
         .pipe(postcss(processors))
@@ -116,7 +114,7 @@ gulp.task('compile_css',function(){
 
     //Components
 
-    var comp_woocommerce_standard = gulp.src("./components/woocommerce_standard/assets/src/sass/woocommerce-standard.scss")
+    let comp_woocommerce_standard = gulp.src("./components/woocommerce_standard/assets/src/sass/woocommerce-standard.scss")
         .pipe(sourcemaps.init())
         .pipe(sass().on('error', sass.logError))
         .pipe(postcss(processors))
@@ -190,7 +188,7 @@ gulp.task('make-pot', function () {
  * Copy vendors to destinations
  */
 gulp.task('copy-vendors',function() {
-    var cb = function(err,files){
+    let cb = function(err,files){
         if(err) return console.error(err);
         files.forEach(function(file) {
             console.log("Copied: "+file.relative);
@@ -231,7 +229,7 @@ gulp.task('bower-install',function(){
  * Bower Update
  */
 gulp.task('bower-update',function(){
-    return bower({cmd: 'update'});
+    return bower({ cmd: 'update' });
 });
 
 /**
@@ -244,8 +242,18 @@ gulp.task('setup', function(callback) {
 /**
  * Gets the theme ready
  */
-gulp.task('build', function(callback) {
+gulp.task('build', ['clean'], function(callback) {
     runSequence('bower-update', 'copy-vendors',['compile_js', 'compile_css'], 'make-package', 'archive', callback);
+});
+
+/*
+ * Clean builds
+ */
+gulp.task('clean', function() {
+    return shell.task([
+        'rm -rf builds/pkg',
+        'rm -rf waboot-child/node_modules/pkg'
+    ]);
 });
 
 /**
@@ -271,8 +279,8 @@ gulp.task('default', function(callback){
  * Create directories for components
  */
 gulp.task('components-add-dirs', function(){
-    var exec = require('child_process').exec;
-    var components = available_components;
+    let exec = require('child_process').exec;
+    let components = available_components;
     for(var i = 0, len = components.length; i < len; i++){
         console.log("*** Exec mkdir "+components[i]);
         exec('mkdir components/'+components[i], function(err, stdout, stderr) {
@@ -288,9 +296,9 @@ gulp.task('components-add-dirs', function(){
  * Create directories for components
  */
 gulp.task('components-pull-remotes', function(){
-    var exec = require('child_process').exec;
-    var components = available_components;
-    for(var i = 0, len = components.length; i < len; i++){
+    let exec = require('child_process').exec;
+    let components = available_components;
+    for(let i = 0, len = components.length; i < len; i++){
         console.log("*** Pulling "+components[i]);
         exec('cd components/'+components[i]+' && git clone git@github.com:wagaweb/waboot-component-'+components[i]+'.git .', function(err, stdout, stderr) {
             if(err){
@@ -317,7 +325,7 @@ gulp.task('build-components', function(callback){
     let zip_tasks = [];
     let fs = require('fs');
     let del = require('del');
-    for(var i = 0, len = components.length; i < len; i++){
+    for(let i = 0, len = components.length; i < len; i++){
         let current_directory = './components/'+components[i];
         console.log(current_directory+'/.version ...');
         try{
@@ -345,7 +353,7 @@ gulp.task('zip-components', ['build-components'], function(callback){
     let zip_tasks = [];
     let fs = require('fs');
     let del = require('del');
-    for(var i = 0, len = components.length; i < len; i++){
+    for(let i = 0, len = components.length; i < len; i++){
         let current_directory = './components/'+components[i];
         try{
             fs.lstatSync(current_directory+'/.version').isFile();
