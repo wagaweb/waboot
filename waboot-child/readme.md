@@ -4,6 +4,8 @@
 
 Simply copy-paste this directory to wp-content/themes and rename it.
 
+Read the `functions.php` file comments to further customize the child theme.
+
 ## Advanced usage
 
 A basic build system is provided for js and styles.

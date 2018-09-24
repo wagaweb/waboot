@@ -48,10 +48,11 @@ add_action("wp_enqueue_scripts", function(){
 	$am->enqueue();
 });
 
-//Loads dependencies
-$theme_includes = [
-	//Put here the dependencies files
-	//@example: 'inc/theme_hooks.php'
-];
-
-\Waboot\functions\safe_require_files($theme_includes);
+add_action('init', function(){
+	//Loads dependencies
+	$theme_includes = [
+		//Put here the dependencies files
+		//@example: 'inc/theme_hooks.php'
+	];
+	\Waboot\functions\safe_require_files($theme_includes);
+});
