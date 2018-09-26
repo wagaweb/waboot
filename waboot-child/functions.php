@@ -48,11 +48,14 @@ add_action("wp_enqueue_scripts", function(){
 	$am->enqueue();
 });
 
-add_action('init', function(){
-	//Loads dependencies
-	$theme_includes = [
-		//Put here the dependencies files
-		//@example: 'inc/theme_hooks.php'
-	];
-	\Waboot\functions\safe_require_files($theme_includes);
-});
+//Loads dependencies
+$theme_includes = [
+	//Put here the dependencies files
+	//@example: 'inc/theme_hooks.php'
+];
+foreach($theme_includes as $file){
+	if (!$filepath = locate_template($file)) {
+		trigger_error(sprintf('Error locating %s for inclusion', $file), E_USER_ERROR);
+	}
+	require_once $filepath;
+}
