@@ -597,12 +597,13 @@ function deploy_theme_options_css($option, $old_value, $value){
 						$props['style'] = 'italic';
 					}
 					$selector = preg_replace('/-/',',', $selector);
-
-					$css_rule .= "{$selector}{\n";
-					$css_rule .= "\tfont-family: '{$props['family']}';\n";
-					$css_rule .= "\tfont-weight: {$props['weight']};\n";
-					if ($props['style'] != '') $css_rule .= "\tfont-style: {$props['style']};\n";
-					$css_rule .= "}\n";
+					if($props['family'] !== ''){
+						$css_rule .= "{$selector}{\n";
+						$css_rule .= "\tfont-family: '{$props['family']}';\n";
+						$css_rule .= "\tfont-weight: {$props['weight']};\n";
+						if ($props['style'] != '') $css_rule .= "\tfont-style: {$props['style']};\n";
+						$css_rule .= "}\n";
+					}
 				}
 				$line = preg_replace( $assignOptionFindRegExp, $css_rule, $line);
 			}else{
