@@ -1,7 +1,13 @@
 <?php $vars = \Waboot\functions\get_archives_template_vars(); ?>
 
-<?php if($vars['options']['title_position'] === "bottom" && \Waboot\functions\get_archive_option('display_title') === '1') : ?>
+<?php if($vars['display_page_title']) : ?>
     <?php \Waboot\template_tags\archive_page_title(); ?>
+    <?php if(is_author()): ?>
+		<?php $author_description = $vars['term_description']; ?>
+        <?php if(!empty($author_description)): ?>
+            <div class="author-description"><?php echo $author_description; ?></div>
+        <?php endif; ?>
+    <?php endif; ?>
 <?php endif; ?>
 <?php if(!empty($vars['tpl'])) : ?>
     <?php get_template_part($vars['tpl']); ?>

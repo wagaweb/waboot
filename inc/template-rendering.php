@@ -39,6 +39,19 @@ function get_archives_template_vars(){
 	$vars['options']['primary_sidebar_size'] = get_archive_option("primary_sidebar_size",$tax);
 	$vars['options']['secondary_sidebar_size'] = get_archive_option("secondary_sidebar_size",$tax);
 
+	$vars['display_page_title'] = call_user_func(function() use($vars){
+		if( $vars['options']['title_position'] !== 'bottom' ){
+			return false;
+		}
+		if( is_author() ){
+			return true; //For author we do not want check for the theme option //todo: change this behavior?
+		}
+		if( \Waboot\functions\get_archive_option('display_title') === '1' ){
+			return true;
+		}
+		return false;
+	});
+
 	$o = get_queried_object();
 
 	//@see https://developer.wordpress.org/files/2014/10/wp-hierarchy.png
