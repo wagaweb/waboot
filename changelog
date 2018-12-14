@@ -1,12 +1,22 @@
 == Change log ==
 
-Version 3.0.1-beta - 06/28/2018
+Version 3.1.0 -
+---------------------------------
+- Fix: fixed archives hierarchy partials inclusion
+- Fix: fixed an error when no fonts are selected
+- Fix: fixed font awesome files inclusion for fontawesome 5.6
+- Tweak: removed old javascript frontend code
+- Tweak: it is now possible to disable waboot styles via theme options
+- Tweak: removed fastclick and touchswipe reference in package.json
+- Tweak: code cleaned up a bit
+
+Version 3.0.1 - 06/28/2018
 ---------------------------------
 - Fix: Fixed Fontawesome includes
 - Fix: content_nav_above and content_nav_below options are now named correctly
 - Tweak: removed favicon and apple-touch-icon custom logic (now native)
 
-Version 3.0.0-beta - 06/26/2018
+Version 3.0.0 - 06/26/2018
 ---------------------------------
 - Fix: Many fixes
 - Tweak: Removed Bootstrap as core dependency
