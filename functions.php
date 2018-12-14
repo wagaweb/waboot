@@ -8,6 +8,8 @@ waboot_init();
  * Initialize Waboot
  */
 function waboot_init(){
+	add_theme_support('wbf');
+
 	try{
 		require_once 'inc/template-functions.php';
 
