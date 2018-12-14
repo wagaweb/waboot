@@ -7,6 +7,6 @@
     "modernizr": "~3.5.0",
     "bootstrap": "~3.3.7",
     "bootstrap-sass": "~3.3.7",
-    "fontawesome": "^5.0.9"
+    "fontawesome": "^5.6.0"
   }
 }

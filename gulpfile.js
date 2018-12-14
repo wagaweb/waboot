@@ -211,17 +211,17 @@ gulp.task('copy-vendors',function() {
 
     //Copy fonts
     copy([
-        'assets/vendor/fontawesome/web-fonts-with-css/webfonts/*.*',
+        'assets/vendor/fontawesome/webfonts/*.*',
     ],'assets/dist/webfonts',{flatten: true},cb);
 
     //Copy styles
     copy([
-        'assets/vendor/fontawesome/web-fonts-with-css/css/fontawesome.min.css',
-        'assets/vendor/fontawesome/web-fonts-with-css/css/fontawesome-all.min.css',
-        'assets/vendor/fontawesome/web-fonts-with-css/css/fa-brands.min.css',
-        'assets/vendor/fontawesome/web-fonts-with-css/css/fa-regular.min.css',
-        'assets/vendor/fontawesome/web-fonts-with-css/css/fa-solid.min.css',
-    ],'assets/dist/css',{flatten: true},cb);
+        'assets/vendor/fontawesome/css/fontawesome.min.css',
+        'assets/vendor/fontawesome/css/all.min.css',
+        'assets/vendor/fontawesome/css/brands.min.css',
+        'assets/vendor/fontawesome/css/regular.min.css',
+        'assets/vendor/fontawesome/css/solid.min.css',
+    ],'assets/dist/css/fa5',{flatten: true},cb);
 });
 
 /**
