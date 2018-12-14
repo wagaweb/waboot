@@ -66,7 +66,7 @@ function enqueue_dashboard_js(){
 	wp_localize_script( 'waboot-dashboard', 'wbData', $dashboard_script_data);
 	wp_enqueue_script( 'waboot-dashboard');
 }
-add_action('admin_enqueue_scripts', __NAMESPACE__."\\enqueue_js");
+add_action('admin_enqueue_scripts', __NAMESPACE__."\\enqueue_dashboard_js");
 
 /**
  * Add IE compatibility scripts
