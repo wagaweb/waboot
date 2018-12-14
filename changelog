@@ -5,6 +5,7 @@ Version 3.1.0 -
 - Fix: fixed archives hierarchy partials inclusion
 - Fix: fixed an error when no fonts are selected
 - Fix: fixed font awesome files inclusion for fontawesome 5.6
+- Tweak: templates/author.php merged with templates/archive.php
 - Tweak: removed old javascript frontend code
 - Tweak: it is now possible to disable waboot styles via theme options
 - Tweak: removed fastclick and touchswipe reference in package.json
