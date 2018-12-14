@@ -133,7 +133,7 @@ gulp.task('compile_css',function(){
         .pipe(sourcemaps.write("."))
         .pipe(gulp.dest('./components/woocommerce_standard/assets/dist/css'));
 
-    return merge(frontend,backend,tinymce,comp_woocommerce_standard,gutenberg);
+    return merge(frontend,backend,tinymce,gutenberg,comp_woocommerce_standard);
 });
 
 /**

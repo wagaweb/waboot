@@ -1,11 +1,18 @@
+/*
+Custom style for Gutemberg editor
+Version: 1.0
+Author: Waga
+Author URI: https://waga.it
+*/
+
 .wp-block {
     max-width: 1024px; 
-  }
+}
   
-  .wp-block[data-align="wide"] {
+.wp-block[data-align="wide"] {
     max-width: 1200px; 
-  }
+}
   
-  .wp-block[data-align="full"] {
+.wp-block[data-align="full"] {
     max-width: none; 
-  }
+}
