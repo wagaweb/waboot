@@ -57,12 +57,12 @@ function get_archives_template_vars(){
 	//@see https://developer.wordpress.org/files/2014/10/wp-hierarchy.png
 
 	if(is_author()){
-		$tpl_base = "templates/author/";
+		$tpl_base = 'templates/author/';
 		$tpl[] = $tpl_base.'author-'.get_the_author_meta('user_nicename');
 		$tpl[] = $tpl_base.'author-'.get_the_author_meta('ID');
 		$tpl[] = $tpl_base.'author';
 	}else{
-		$tpl_base = "templates/archive/";
+		$tpl_base = 'templates/archive/';
 		if($o instanceof \WP_Term){
 			if($o->taxonomy === 'category'){
 				$tpl[] = $tpl_base.'category'.'-'.$o->slug;
@@ -75,11 +75,11 @@ function get_archives_template_vars(){
 				$tpl[] = $tpl_base.'taxonomy';
 			}
 		}elseif($o instanceof \WP_Post_Type){
-			$tpl = $tpl_base."archive-".$o->name;
+			$tpl = $tpl_base.'archive-'.$o->name;
 		}elseif(is_date()){
-			$tpl = $tpl_base."date";
+			$tpl = $tpl_base . 'date';
 		}else{
-			$tpl = "";
+			$tpl = '';
 		}
 	}
 
@@ -102,18 +102,18 @@ function get_archives_template_vars(){
 function get_aside_template_vars($slug){
 	$vars = [];
 	switch($slug){
-		case "aside-primary":
+		case 'aside-primary':
 			$vars['classes'] = call_user_func(function(){
-				if(has_filter("waboot_primary_container_class")){
+				if(has_filter( 'waboot_primary_container_class' )){
 					return apply_filters('waboot_primary_container_class', 'wbcol-4'); //backward compatibility
 				}else{
 					return apply_filters('waboot/layout/sidebar/primary/classes', 'wbcol-4');
 				}
 			});
 			break;
-		case "aside-secondary":
+		case 'aside-secondary':
 			$vars['classes'] = call_user_func(function(){
-				if(has_filter("waboot_secondary_container_class")){
+				if(has_filter( 'waboot_secondary_container_class' )){
 					return apply_filters('waboot_secondary_container_class', 'wbcol-4'); //backward compatibility
 				}else{
 					return apply_filters('waboot/layout/sidebar/secondary/classes', 'wbcol-4');
@@ -142,7 +142,7 @@ function render_comment($comment, $args, $depth){
 		'depth' => $depth
 	];
 
-	$template_file = "templates/view-parts/single-comment.php";
+	$template_file = 'templates/view-parts/single-comment.php';
 	$v = new HTMLView($template_file);
 	$v->display($vars);
 }
