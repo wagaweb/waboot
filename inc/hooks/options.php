@@ -152,6 +152,14 @@ function register_options($orgzr){
 		'type' => 'info'
 	));
 
+	$orgzr->add([
+		'name' => _x( 'Load Waboot default styles', 'Theme options', 'waboot' ),
+		'desc' => _x( 'Choose whether load waboot default styles', 'Theme options', 'waboot' ),
+		'id' => 'load_waboot_styles',
+		'std'  => '1',
+		'type' => 'checkbox'
+	]);
+
 	$orgzr->set_group("css_injection");
 
 	$orgzr->add(array(
