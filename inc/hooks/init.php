@@ -20,10 +20,27 @@ function setup() {
 	add_theme_support( 'custom-background', array('default-color' => 'ffffff') );
 
 	// Add support for post-thumbnails
+	// @link https://developer.wordpress.org/themes/functionality/featured-images-post-thumbnails/
 	add_theme_support( 'post-thumbnails' );
 
 	// Add support for post formats. To be styled in later release.
 	add_theme_support( 'post-formats', array( 'aside', 'gallery', 'link', 'image', 'quote', 'status', 'video', 'audio', 'chat' ) );
+
+	// Let WordPress decide document title
+	// add_theme_support( 'title-tag' );
+
+	// Add support for responsive embeds.
+	// add_theme_support( 'responsive-embeds' );
+
+	// Add theme support for selective refresh for widgets.
+	// todo: https://make.wordpress.org/core/2016/03/22/implementing-selective-refresh-support-for-widgets/
+	// add_theme_support( 'customize-selective-refresh-widgets' );
+
+	// Add support for editor styles.
+	add_theme_support( 'editor-styles' );
+
+	// Adding support for core block visual styles.
+	add_theme_support( 'wp-block-styles' );
 }
 add_action('after_setup_theme', __NAMESPACE__."\\setup", 11);
 
