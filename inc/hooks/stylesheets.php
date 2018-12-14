@@ -127,5 +127,6 @@ add_action( 'admin_enqueue_scripts', __NAMESPACE__.'\\admin_styles', 100 );
  */
 function editor_style() {
 	add_editor_style( get_template_directory_uri() . '/assets/dist/css/waboot-admin-tinymce.min.css' );
+	add_editor_style( get_template_directory_uri() . '/assets/dist/css/waboot-admin-gutenberg.css' );
 }
 add_action('init', __NAMESPACE__.'\\editor_style');

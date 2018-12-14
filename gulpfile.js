@@ -36,6 +36,7 @@ let paths = {
     main_scss: './assets/src/sass/waboot.scss',
     main_admin_scss: './assets/src/sass/waboot-admin.scss',
     tinymce_admin_scss: './assets/src/sass/admin/tinymce.scss',
+    gutenberg_admin_scss: './assets/src/sass/admin/gutenberg.scss',
     build: [
         "**/*",
         "./components/.gitkeep",
@@ -113,6 +114,14 @@ gulp.task('compile_css',function(){
         .pipe(rename(theme_slug+'-admin-tinymce.min.css'))
         .pipe(sourcemaps.write("."))
         .pipe(gulp.dest('./assets/dist/css'));
+    
+    let gutenberg = gulp.src(paths.gutenberg_admin_scss)
+        .pipe(sourcemaps.init())
+        .pipe(sass().on('error', sass.logError))
+        .pipe(postcss(processors))
+        .pipe(rename(theme_slug+'-admin-gutenberg.min.css'))
+        .pipe(sourcemaps.write("."))
+        .pipe(gulp.dest('./assets/dist/css'));
 
     //Components
 
@@ -124,7 +133,7 @@ gulp.task('compile_css',function(){
         .pipe(sourcemaps.write("."))
         .pipe(gulp.dest('./components/woocommerce_standard/assets/dist/css'));
 
-    return merge(frontend,backend,tinymce,comp_woocommerce_standard);
+    return merge(frontend,backend,tinymce,comp_woocommerce_standard,gutenberg);
 });
 
 /**
