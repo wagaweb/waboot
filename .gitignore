@@ -21,6 +21,7 @@ Movefile
 /vendor/
 /assets/vendor
 /assets/dist/fonts/**/*.*
+/assets/dist/css/fa5
 !/assets/dist/fonts/.gitkeep
 !/assets/dist/fonts/fontawesome-*.*
 !/assets/dist/fonts/FontAwesome.otf
