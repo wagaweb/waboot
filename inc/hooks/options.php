@@ -5,12 +5,12 @@ namespace Waboot\hooks\options;
 use Waboot\Layout;
 use WBF\modules\options\Organizer;
 
-add_action("wbf/theme_options/register", __NAMESPACE__.'\\register_options', 13);
-add_filter("wbf/modules/behaviors/available", __NAMESPACE__."\\register_behaviors");
+add_action( 'wbf/theme_options/register', __NAMESPACE__ . '\\register_options', 13);
+add_filter( 'wbf/modules/behaviors/available', __NAMESPACE__ . "\\register_behaviors");
 
 //Ordering filters:
-add_filter("wbf/modules/options/organizer/sections",__NAMESPACE__."\\reorder_sections",10,2);
-add_filter("wbf/modules/options/organizer/output",__NAMESPACE__."\\reorder_output",10,2);
+add_filter( 'wbf/modules/options/organizer/sections', __NAMESPACE__ . "\\reorder_sections",10,2);
+add_filter( 'wbf/modules/options/organizer/output', __NAMESPACE__ . "\\reorder_output",10,2);
 
 /**
  * Register standard theme options
@@ -18,36 +18,36 @@ add_filter("wbf/modules/options/organizer/output",__NAMESPACE__."\\reorder_outpu
  * @param Organizer $orgzr
  */
 function register_options($orgzr){
-	$imagepath = get_template_directory_uri()."/assets/images/options/";
+	$imagepath = get_template_directory_uri() . '/assets/images/options/';
 
 	$layouts = \WBF\modules\options\of_add_default_key(_get_available_body_layouts());
 	$final_layout = [];
 	if(isset($layouts['values'][0]['thumb'])){
-		$opt_type_for_layouts = "images";
+		$opt_type_for_layouts = 'images';
 		foreach($layouts['values'] as $k => $v){
 			$final_layout[$v['value']]['label'] = $v['name'];
-			$final_layout[$v['value']]['value'] = isset($v['thumb']) ? $v['thumb'] : "";
+			$final_layout[$v['value']]['value'] = isset($v['thumb']) ? $v['thumb'] : '';
 		}
 	}else{
-		$opt_type_for_layouts = "select";
+		$opt_type_for_layouts = 'select';
 		foreach($layouts['values'] as $k => $v){
 			$final_layout[$v['value']]['label'] = $v['name'];
 		}
 	}
 
-	$orgzr->set_group("std_options");
+	$orgzr->set_group( 'std_options' );
 
 	/**********************
 	 * GLOBALS
 	 **********************/
 
-	$orgzr->add_section("global",_x("Global", "Theme options","waboot"));
+	$orgzr->add_section( 'global',_x( 'Global', 'Theme options', 'waboot'));
 
 	$orgzr->add(array(
 		'name' => __( 'Main logo', 'waboot' ),
 		'desc' => __( 'Choose the website main logo', 'waboot' ),
 		'id'   => 'desktop_logo',
-		'std'  => get_template_directory_uri()."/assets/images/default/waboot-color.png",
+		'std'  => get_template_directory_uri() . '/assets/images/default/waboot-color.png',
 		'type' => 'upload'
 	));
 
@@ -60,15 +60,15 @@ function register_options($orgzr){
 	));
 
 	$orgzr->add([
-		'name' => _x('Site title custom text', "Theme options", 'waboot'),
-		'desc' => _x('When logo is empty, the site title will be used instead. You can customize here the text that will be displayed', "Theme options", 'waboot'),
+		'name' => _x('Site title custom text', 'Theme options', 'waboot'),
+		'desc' => _x('When logo is empty, the site title will be used instead. You can customize here the text that will be displayed', 'Theme options', 'waboot'),
 		'id' => 'custom_site_title',
 		'std' => get_bloginfo('name'),
 		'type' => 'text',
 	]);
 
 	$orgzr->add([
-		'name' => _x('Show site description', "Theme options", 'waboot'),
+		'name' => _x('Show site description', 'Theme options', 'waboot'),
 		'desc' => _x('Choose visibility of site description', "Theme options", 'waboot'),
         'class' => 'half_option',
 		'id'   => 'show_site_description',
@@ -289,7 +289,7 @@ function register_options($orgzr){
 	$orgzr->set_group("css_injection");
 
 	$orgzr->add([
-		'name' => _x('Fonts to load', "Theme Options", "waboot"),
+		'name' => _x('Fonts to load', "Theme Options", 'waboot'),
 		'id' => 'fonts',
 		'css_selectors' => ['body,p,ul', 'h1,h2,h3', 'h4,h5,h6'],
 		'std' => [],
@@ -299,19 +299,19 @@ function register_options($orgzr){
 	]);
 
 	$orgzr->reset_group();
-	$orgzr->set_group("std_options");
+	$orgzr->set_group( 'std_options' );
 
 	/*
 	 * CUSTOM CSS TAB
 	 */
 
-	$orgzr->add_section("custom_css",_x( 'Custom CSS', "Theme Options", 'waboot' ));
+	$orgzr->add_section( 'custom_css',_x( 'Custom CSS', "Theme Options", 'waboot' ));
 
 	$orgzr->set_section("custom_css");
 
 	$orgzr->add(array(
 		'name' => _x( 'Custom CSS', "Theme Options", 'waboot' ),
-		'desc' => _x( 'Enter custom css to apply to the theme (press CTRL-SPACE on Windows, or CTRL-F on Mac for suggestions).', "Theme Options", 'waboot' ),
+		'desc' => _x( 'Enter custom css to apply to the theme (press CTRL-SPACE on Windows, or CTRL-F on Mac for suggestions).', 'Theme Options', 'waboot' ),
 		'id'   => 'custom_css',
 		'type' => 'csseditor'
 	));
@@ -323,9 +323,9 @@ function register_options($orgzr){
 	 * LAYOUT
 	 **********************/
 
-	$orgzr->add_section("layout",__( 'Layout', 'waboot' ));
+	$orgzr->add_section( 'layout',__( 'Layout', 'waboot' ));
 
-	$orgzr->set_section("layout");
+	$orgzr->set_section( 'layout' );
 
 	$orgzr->add(array(
 		'name' => __('Page', 'waboot'),
@@ -366,9 +366,9 @@ function register_options($orgzr){
      * BLOG
      **********************/
 
-    $orgzr->add_section("blog",__( 'Blog', 'waboot' ));
+    $orgzr->add_section( 'blog',__( 'Blog', 'waboot' ));
 
-    $orgzr->set_section("blog");
+    $orgzr->set_section( 'blog' );
 
     $orgzr->add(array(
         'name' => __( 'Display Blog page title', 'waboot' ),
@@ -386,7 +386,7 @@ function register_options($orgzr){
         'id' => 'blog_title_position',
         'std' => 'top',
         'type' => 'select',
-        'options' => array('top' => __("Above primary","waboot"), 'bottom' => __("Below primary","waboot"))
+        'options' => array('top' => __("Above primary",'waboot'), 'bottom' => __("Below primary",'waboot'))
     ));
 
 	$orgzr->add(array(
@@ -399,24 +399,24 @@ function register_options($orgzr){
 	));
 
 	$orgzr->add(array(
-		'name' => __("Primary Sidebar width","waboot"),
-		'desc' => __("Choose the primary sidebar width","waboot"),
+		'name' => __( 'Primary Sidebar width', 'waboot' ),
+		'desc' => __( 'Choose the primary sidebar width', 'waboot' ),
         'class' => 'half_option',
 		'id' => 'blog_primary_sidebar_size',
 		'std' => '1/4',
-		'type' => "select",
-		'options' => array("1/2"=>"1/2","1/3"=>"1/3","1/4"=>"1/4","1/6"=>"1/6")
+		'type' => 'select',
+		'options' => [ '1/2' => '1/2', '1/3' => '1/3', '1/4' => '1/4', '1/6' => '1/6' ]
 	));
 
-	$orgzr->add(array(
-		'name' => __("Secondary Sidebar width","waboot"),
-		'desc' => __("Choose the secondary sidebar width","waboot"),
-        'class' => 'half_option',
-		'id' => 'blog_secondary_sidebar_size',
-		'std' => '1/4',
-		'type' => "select",
-		'options' => array("1/2"=>"1/2","1/3"=>"1/3","1/4"=>"1/4","1/6"=>"1/6")
-	));
+	$orgzr->add( array(
+		'name'    => __( 'Secondary Sidebar width', 'waboot' ),
+		'desc'    => __( 'Choose the secondary sidebar width', 'waboot' ),
+		'class'   => 'half_option',
+		'id'      => 'blog_secondary_sidebar_size',
+		'std'     => '1/4',
+		'type'    => 'select',
+		'options' => [ '1/2' => '1/2', '1/3' => '1/3', '1/4' => '1/4', '1/6' => '1/6' ]
+	) );
 
     $orgzr->add(array(
         'name' => __( 'Show navigation above posts?', 'waboot' ),
@@ -502,8 +502,12 @@ function register_options($orgzr){
 		$taxs = array_filter($taxs,function($v){
 			$itsok = true;
 			$unwanted = ['nav_menu','post_tag','category','post_format'];
-			if(in_array($v->name,$unwanted)) $itsok = false;
-			if(preg_match('/^product_|pa_/',$v->name)) $itsok = false;
+			if ( \in_array( $v->name, $unwanted ) ) {
+				$itsok = false;
+			}
+			if ( \preg_match( '/^product_|pa_/', $v->name ) ) {
+				$itsok = false;
+			}
 			return $itsok;
 		});
 		$taxs = apply_filters('waboot/options/archives_taxonomies',$taxs);
@@ -511,9 +515,9 @@ function register_options($orgzr){
 	});
 
 	if(\is_array($taxonomies) && !empty($taxonomies)){
-		$orgzr->add_section("archives",__( 'Archives', 'waboot' ));
+		$orgzr->add_section( 'archives',__( 'Archives', 'waboot' ));
 
-		$orgzr->set_section("archives");
+		$orgzr->set_section( 'archives' );
 
 		foreach ($taxonomies as $tax_slug => $taxonomy){
 			//Post type heading
@@ -539,7 +543,7 @@ function register_options($orgzr){
 				'id' => 'archive_'.$tax_slug.'_title_position',
 				'std' => 'top',
 				'type' => 'select',
-				'options' => array('top' => __("Above primary","waboot"), 'bottom' => __("Below primary","waboot"))
+				'options' => array( 'top' => __( 'Above primary', 'waboot' ), 'bottom' => __( 'Below primary','waboot'))
 			));
 
 			$orgzr->add(array(
@@ -552,23 +556,23 @@ function register_options($orgzr){
 			));
 
 			$orgzr->add(array(
-				'name' => __("Primary Sidebar width","waboot"),
-				'desc' => __("Choose the primary sidebar width","waboot"),
+				'name' => __( 'Primary Sidebar width','waboot'),
+				'desc' => __( 'Choose the primary sidebar width','waboot'),
 				'class' => 'half_option',
 				'id' => 'archive_'.$tax_slug.'_primary_sidebar_size',
 				'std' => '1/4',
 				'type' => "select",
-				'options' => array("1/2"=>"1/2","1/3"=>"1/3","1/4"=>"1/4","1/6"=>"1/6")
+				'options' => [ "1/2" =>"1/2", "1/3" =>"1/3", "1/4" =>"1/4", "1/6" =>"1/6" ]
 			));
 
 			$orgzr->add(array(
-				'name' => __("Secondary Sidebar width","waboot"),
-				'desc' => __("Choose the secondary sidebar width","waboot"),
+				'name' => __("Secondary Sidebar width",'waboot'),
+				'desc' => __("Choose the secondary sidebar width",'waboot'),
 				'class' => 'half_option',
 				'id' => 'archive_'.$tax_slug.'_secondary_sidebar_size',
 				'std' => '1/4',
 				'type' => "select",
-				'options' => array("1/2"=>"1/2","1/3"=>"1/3","1/4"=>"1/4","1/6"=>"1/6")
+				'options' => [ "1/2" =>"1/2", "1/3" =>"1/3", "1/4" =>"1/4", "1/6" =>"1/6" ]
 			));
 		}
 	}
@@ -592,8 +596,8 @@ function register_behaviors($behaviors){
 
 	$behaviors[] = [
 		"name" => "show-title",
-		"title" => __("Display page title","waboot"),
-		"desc" => __("Default rendering value for page title","waboot"),
+		"title" => __("Display page title",'waboot'),
+		"desc" => __("Default rendering value for page title",'waboot'),
         'class' => 'half_option',
 		"options" => [
 			[
@@ -612,17 +616,17 @@ function register_behaviors($behaviors){
 
 	$behaviors[] = [
 		"name" => "title-position",
-		"title" => __("Title position","waboot"),
-		"desc" => __("Default title positioning in pages","waboot"),
+		"title" => __("Title position",'waboot'),
+		"desc" => __("Default title positioning in pages",'waboot'),
         'class' => 'half_option',
 		"type" => "select",
 		"options" => [
 			[
-				"name" => __("Above primary","waboot"),
+				"name" => __("Above primary",'waboot'),
 				"value" => "top"
 			],
 			[
-				"name" => __("Below primary","waboot"),
+				"name" => __("Below primary",'waboot'),
 				"value" => "bottom"
 			]
 		],
@@ -633,8 +637,8 @@ function register_behaviors($behaviors){
 	$body_layouts = \WBF\modules\options\of_add_default_key(_get_available_body_layouts());
 	$behaviors[] = array(
 		"name" => "layout",
-		"title" => __("Body layout","waboot"),
-		"desc" => __("Default body layout for posts and pages","waboot"),
+		"title" => __("Body layout",'waboot'),
+		"desc" => __("Default body layout for posts and pages",'waboot'),
 		"options" => $body_layouts['values'],
 		"type" => "select",
 		"default" => $body_layouts['default'],
@@ -682,25 +686,25 @@ function register_behaviors($behaviors){
 
 	$behaviors[] = [
 		'name' => 'primary-sidebar-size',
-		'title' => __("Primary Sidebar width","waboot"),
-		'desc' => __("Choose the primary sidebar width","waboot"),
+		'title' => __("Primary Sidebar width",'waboot'),
+		'desc' => __("Choose the primary sidebar width",'waboot'),
         'class' => 'half_option',
 		'type' => "select",
 		'options' => [
 			[
-				"name" => __("1/2","waboot"),
+				"name" => __("1/2",'waboot'),
 				"value" => "1/2"
 			],
 			[
-				"name" => __("1/3","waboot"),
+				"name" => __("1/3",'waboot'),
 				"value" => "1/3"
 			],
 			[
-				"name" => __("1/4","waboot"),
+				"name" => __("1/4",'waboot'),
 				"value" => "1/4"
 			],
 			[
-				"name" => __("1/6","waboot"),
+				"name" => __("1/6",'waboot'),
 				"value" => "1/6"
 			]
 		],
@@ -710,25 +714,25 @@ function register_behaviors($behaviors){
 
 	$behaviors[] = [
 		'name' => 'secondary-sidebar-size',
-		'title' => __("Secondary Sidebar width","waboot"),
-		'desc' => __("Choose the secondary sidebar width","waboot"),
+		'title' => __("Secondary Sidebar width",'waboot'),
+		'desc' => __("Choose the secondary sidebar width",'waboot'),
         'class' => 'half_option',
 		'type' => "select",
 		'options' => [
 			[
-				"name" => __("1/2","waboot"),
+				"name" => __("1/2",'waboot'),
 				"value" => "1/2"
 			],
 			[
-				"name" => __("1/3","waboot"),
+				"name" => __("1/3",'waboot'),
 				"value" => "1/3"
 			],
 			[
-				"name" => __("1/4","waboot"),
+				"name" => __("1/4",'waboot'),
 				"value" => "1/4"
 			],
 			[
-				"name" => __("1/6","waboot"),
+				"name" => __("1/6",'waboot'),
 				"value" => "1/6"
 			]
 		],
@@ -835,37 +839,37 @@ function _get_available_body_layouts(){
 	return apply_filters("waboot/layout/options/available_body_layouts",[
 		//1
 		[
-			"name" => __("No sidebar","waboot"),
+			"name" => __("No sidebar",'waboot'),
 			"value" => Layout::LAYOUT_FULL_WIDTH,
 			"thumb"   => $imagepath . "behaviour/no-sidebar.png"
 		],
 		//2
 		[
-			"name" => __("Sidebar right","waboot"),
+			"name" => __("Sidebar right",'waboot'),
 			"value" => Layout::LAYOUT_PRIMARY_RIGHT,
 			"thumb"   => $imagepath . "behaviour/sidebar-right.png"
 		],
 		//3
 		[
-			"name" => __("Sidebar left","waboot"),
+			"name" => __("Sidebar left",'waboot'),
 			"value" => Layout::LAYOUT_PRIMARY_LEFT,
 			"thumb"   => $imagepath . "behaviour/sidebar-left.png"
 		],
 		//4
 		[
-			"name" => __("2 Sidebars","waboot"),
+			"name" => __("2 Sidebars",'waboot'),
 			"value" => Layout::LAYOUT_TWO_SIDEBARS,
 			"thumb"   => $imagepath . "behaviour/sidebar-left-right.png"
 		],
 		//5
 		[
-			"name" => __("2 Sidebars right","waboot"),
+			"name" => __("2 Sidebars right",'waboot'),
 			"value" => Layout::LAYOUT_TWO_SIDEBARS_RIGHT,
 			"thumb"   => $imagepath . "behaviour/sidebar-right-2.png"
 		],
 		//6
 		[
-			"name" => __("2 Sidebars left","waboot"),
+			"name" => __("2 Sidebars left",'waboot'),
 			"value" => Layout::LAYOUT_TWO_SIDEBARS_LEFT,
 			"thumb"   => $imagepath . "behaviour/sidebar-left-2.png"
 		],
