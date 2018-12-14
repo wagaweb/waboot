@@ -29,7 +29,9 @@ let paths = {
     builddir: "./builds",
     scripts: ['./assets/src/js/**/*.js'],
     mainjs: ['./assets/src/js/main.js'],
-    bundlejs: ['./assets/dist/js/waboot.js'],
+    admin_mainjs: ['./assets/src/js/main-dashboard.js'],
+    bundlejs: ['./assets/dist/js/waboot.pkg.js'],
+    admin_bundlejs: ['./assets/dist/js/waboot-dashboard.pkg.js'],
     scsses: './assets/src/sass/**/*.scss',
     main_scss: './assets/src/sass/waboot.scss',
     main_admin_scss: './assets/src/sass/waboot-admin.scss',
@@ -129,26 +131,30 @@ gulp.task('compile_css',function(){
  * Creates and minimize bundle.js into <pluginslug>.min.js
  */
 gulp.task('compile_js', ['browserify'] ,function(){
-    return gulp.src(paths.bundlejs)
+    let backend = gulp.src(paths.admin_bundlejs)
         .pipe(sourcemaps.init())
         .pipe(uglify())
-        .pipe(rename(theme_slug+'.min.js'))
+        .pipe(rename(theme_slug+'-dashboard.min.js'))
         .pipe(sourcemaps.write('.'))
         .pipe(gulp.dest('./assets/dist/js'));
+
+    return merge(backend);
 });
 
 /**
  * Browserify magic! Creates waboot.js
  */
 gulp.task('browserify', function(){
-    return browserify(paths.mainjs,{
+    let backend = browserify(paths.admin_mainjs,{
         insertGlobals : true,
         debug: true
     })
         .transform("babelify", {presets: ["env"]}).bundle()
-        .pipe(source('waboot.js'))
+        .pipe(source(theme_slug+'-dashboard.pkg.js'))
         .pipe(buffer()) //This might be not required, it works even if commented
         .pipe(gulp.dest('./assets/dist/js'));
+
+    return merge(backend);
 });
 
 /**
