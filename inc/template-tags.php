@@ -12,7 +12,10 @@ use WBF\components\utils\Utilities;
 function render_zone($slug){
 	if(!function_exists('WabootLayout')) return;
 	try{
-		WabootLayout()->render_zone($slug);
+		$wbl = WabootLayout();
+		if($wbl){
+			$wbl->render_zone($slug);
+		}
 	}catch(\Exception $e){
 		echo $e->getMessage();
 	}
