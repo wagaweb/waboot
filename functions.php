@@ -14,25 +14,33 @@ function waboot_init(){
 		require_once 'inc/template-functions.php';
 
 		//Loads dependencies
+		$main_includes = [
+			'inc/WBFNotFoundException.php',
+			'inc/WBFVersionException.php',
+			'inc/template-tags.php',
+			'inc/Theme.php',
+			'inc/Layout.php',
+			'inc/hooks/wbf_installer.php',
+		];
+
+		\Waboot\functions\safe_require_files($main_includes);
+
+		//Check prerequisites
+		\Waboot\functions\check_prerequisites();
+
+		//Loads dependencies
 		$waboot_includes = [
 			'inc/WBFNotFoundException.php',
 			'inc/WBFVersionException.php',
 			'inc/migrations/migration-2.3.3-3.0.0.php',
 			'inc/components-functions.php',
-			'inc/template-tags.php',
 			'inc/postformat-helpers.php',
 			'inc/terms-tags.php',
 			'inc/template-rendering.php',
-			'inc/Layout.php',
-			'inc/Component.php',
-			'inc/Theme.php',
-			'inc/hooks/wbf_installer.php'
+			'inc/Component.php'
 		];
 
 		\Waboot\functions\safe_require_files($waboot_includes);
-
-		//Check prerequisites
-		\Waboot\functions\check_prerequisites();
 
 		//Init hooks
 		Waboot()->load_hooks()->load_extensions();
@@ -85,7 +93,7 @@ function waboot_init(){
 function Waboot(){
 	static $waboot = null;
 	if(isset($waboot) && $waboot instanceof \Waboot\Theme) return $waboot;
-	if(class_exists("\\Waboot\\Theme")){
+	if(class_exists(\Waboot\Theme::class) && class_exists(\Waboot\Layout::class) && class_exists(WP_Styles::class)){
 		$waboot = new Waboot\Theme(new \Waboot\Layout(),new \WP_Styles());
 		return $waboot;
 	}else{
