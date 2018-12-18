@@ -84,11 +84,11 @@ function set_update_server(){
 
 	$slug = "waboot";
 
-	$allow_waboot3 = defined('ALLOW_WABOOT_3') && ALLOW_WABOOT_3;
+	$deny_waboot3 = defined('DENY_WABOOT_3') && DENY_WABOOT_3;
 
 	$channel = get_update_channel('waboot_theme');
 	if(!$channel || $channel === 'stable'){
-	    $metadata_call = $allow_waboot3 ? "http://update.waboot.org/resource/info/theme/waboot" : "http://update.waboot.org/resource/info/theme/waboot/2.x.x";
+	    $metadata_call = $deny_waboot3 ? "http://update.waboot.org/resource/info/theme/waboot/2.x.x" : "http://update.waboot.org/resource/info/theme/waboot";
     }else{
 		$metadata_call = "http://update.waboot.org/resource/info/theme/waboot?channel=".$channel;
 	}
