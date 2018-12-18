@@ -3,6 +3,7 @@
 namespace Waboot\hooks\options;
 
 use Waboot\Layout;
+use WBF\includes\GoogleFontsRetriever;
 use WBF\modules\options\Organizer;
 
 add_action( 'wbf/theme_options/register', __NAMESPACE__ . '\\register_options', 13);
@@ -11,6 +12,15 @@ add_filter( 'wbf/modules/behaviors/available', __NAMESPACE__ . "\\register_behav
 //Ordering filters:
 add_filter( 'wbf/modules/options/organizer/sections', __NAMESPACE__ . "\\reorder_sections",10,2);
 add_filter( 'wbf/modules/options/organizer/output', __NAMESPACE__ . "\\reorder_output",10,2);
+
+//Filtering the Google Fonts API KEY
+add_filter( 'wbf/google_fonts_api_key', function($apiKey){
+	$wbApiKey = \Waboot\functions\get_option('google_fonts_api_key','');
+	if( $wbApiKey !== '' && \is_string($wbApiKey) ){
+		$apiKey = $wbApiKey;
+	}
+	return $apiKey;
+} );
 
 /**
  * Register standard theme options
@@ -295,6 +305,15 @@ function register_options($orgzr){
 	));
 
 	$orgzr->set_group("css_injection");
+
+	$orgzr->add(array(
+		'name' => _x('Google Fonts API Key', 'Theme options', 'waboot'),
+		'desc' => sprintf(_x('Add here your google fonts api key. Update the fonts cache by clicking <a href="%s">here</a>.', 'Theme options', 'waboot'),GoogleFontsRetriever::get_update_font_cache_link()),
+		'class' => 'half_option',
+		'id' => 'google_fonts_api_key',
+		'std' => '',
+		'type' => 'text'
+	));
 
 	$orgzr->add([
 		'name' => _x('Fonts to load', "Theme Options", 'waboot'),
