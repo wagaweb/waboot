@@ -16,6 +16,22 @@ function enqueue_js() {
 add_action('wp_enqueue_scripts', __NAMESPACE__."\\enqueue_js");
 
 /**
+ * This fix prevent the wbData undefined for older waboot-child themes
+ */
+function backward_compatibility_fix(){
+	?>
+    <script type="text/javascript">
+        if(typeof wbData === 'undefined'){
+            var wbData = {
+                'isAdmin': <?php if(is_admin()) echo 'true'; else echo 'false'; ?>
+            };
+        }
+    </script>
+	<?php
+}
+add_action('wp_enqueue_scripts', __NAMESPACE__."\\backward_compatibility_fix");
+
+/**
  * Loads dashboard javascript
  */
 function enqueue_dashboard_js(){
