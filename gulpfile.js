@@ -230,7 +230,7 @@ gulp.task('copy-vendors',function() {
         'bower_components/fontawesome/css/brands.min.css',
         'bower_components/fontawesome/css/regular.min.css',
         'bower_components/fontawesome/css/solid.min.css',
-    ],'assets/dist/css/fa5',{flatten: true},cb);
+    ],'assets/dist/css',{flatten: true},cb);
 });
 
 /**

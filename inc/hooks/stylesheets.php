@@ -68,26 +68,26 @@ function theme_styles(){
 			'enqueue' => \Waboot\functions\get_option('fa_version') === 'legacy'
 		],
 		'fontawesome-regular' => [
-			'uri' => get_template_directory_uri() . '/assets/dist/css/fa5/regular.min.css',
-			'path' => get_template_directory() . '/assets/dist/css/fa5/regular.min.css',
+			'uri' => get_template_directory_uri() . '/assets/dist/css/regular.min.css',
+			'path' => get_template_directory() . '/assets/dist/css/regular.min.css',
 			'type' => 'css',
 			'enqueue' => \Waboot\functions\get_option('fa_version') === 'latest'
 		],
 		'fontawesome-solid' => [
-			'uri' => get_template_directory_uri() . '/assets/dist/css/fa5/solid.min.css',
-			'path' => get_template_directory() . '/assets/dist/css/fa5/solid.min.css',
+			'uri' => get_template_directory_uri() . '/assets/dist/css/solid.min.css',
+			'path' => get_template_directory() . '/assets/dist/css/solid.min.css',
 			'type' => 'css',
 			'enqueue' => \Waboot\functions\get_option('fa_version') === 'latest'
 		],
 		'fontawesome-brands' => [
-			'uri' => get_template_directory_uri() . '/assets/dist/css/fa5/brands.min.css',
-			'path' => get_template_directory() . '/assets/dist/css/fa5/brands.min.css',
+			'uri' => get_template_directory_uri() . '/assets/dist/css/brands.min.css',
+			'path' => get_template_directory() . '/assets/dist/css/brands.min.css',
 			'type' => 'css',
 			'enqueue' => \Waboot\functions\get_option('fa_version') === 'latest'
 		],
 		'fontawesome' => [
-			'uri' => get_template_directory_uri() . '/assets/dist/css/fa5/fontawesome.min.css',
-			'path' => get_template_directory() . '/assets/dist/css/fa5/fontawesome.min.css',
+			'uri' => get_template_directory_uri() . '/assets/dist/css/fontawesome.min.css',
+			'path' => get_template_directory() . '/assets/dist/css/fontawesome.min.css',
 			'type' => 'css',
 			'deps' => ['fontawesome-regular','fontawesome-solid','fontawesome-brands'],
 			'enqueue' => \Waboot\functions\get_option('fa_version') === 'latest'
