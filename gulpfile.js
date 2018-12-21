@@ -57,7 +57,7 @@ let paths = {
         "!{vendor,vendor/**}",
         "!{builds,builds/**}",
         "!{node_modules,node_modules/**}",
-        "!{assets/vendor,assets/vendor/**}",
+        "!{bower_components,bower_components/**}",
         "!assets/cache/*",
         "!{waboot-child/node_modules,waboot-child/node_modules/**}"
     ]
@@ -214,22 +214,22 @@ gulp.task('copy-vendors',function() {
 
     //Copy scripts
     copy([
-        'assets/vendor/html5shiv/dist/html5shiv.min.js',
-        'assets/vendor/respond/dest/respond.min.js'
+        'bower_components/html5shiv/dist/html5shiv.min.js',
+        'bower_components/respond/dest/respond.min.js'
     ],'assets/dist/js',{flatten: true},cb);
 
     //Copy fonts
     copy([
-        'assets/vendor/fontawesome/webfonts/*.*',
+        'bower_components/fontawesome/webfonts/*.*',
     ],'assets/dist/webfonts',{flatten: true},cb);
 
     //Copy styles
     copy([
-        'assets/vendor/fontawesome/css/fontawesome.min.css',
-        'assets/vendor/fontawesome/css/all.min.css',
-        'assets/vendor/fontawesome/css/brands.min.css',
-        'assets/vendor/fontawesome/css/regular.min.css',
-        'assets/vendor/fontawesome/css/solid.min.css',
+        'bower_components/fontawesome/css/fontawesome.min.css',
+        'bower_components/fontawesome/css/all.min.css',
+        'bower_components/fontawesome/css/brands.min.css',
+        'bower_components/fontawesome/css/regular.min.css',
+        'bower_components/fontawesome/css/solid.min.css',
     ],'assets/dist/css/fa5',{flatten: true},cb);
 });
 

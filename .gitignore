@@ -7,7 +7,7 @@ npm-debug.log
 ############
 ## WABOOT
 ############
-components/*
+components/**/*
 !components/.gitkeep
 
 ############
@@ -49,6 +49,7 @@ assets/dist/js/*.js
 assets/dist/js/*.map
 assets/dist/fonts
 waboot-child/yarn.lock
+package-lock.json
 
 ############
 ## CHILD ASSETS
