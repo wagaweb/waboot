@@ -1,5 +1,13 @@
 == Change log ==
 
+Version 3.1.0-2 - 12/27/2018
+---------------------------------
+- Tweak: wrapper-start and wrapper-end revamped
+- Tweak: action waboot/site-main/before renamed to waboot/main-content/before
+- Tweak: action waboot/site-main/after renamed to waboot/main-content/after
+- Tweak: action waboot/main/before renamed to waboot/content/before
+- Tweak: action waboot/main/after renamed to waboot/content/after
+
 Version 3.1.0 - 12/27/2018
 ---------------------------------
 - Fix: fixed archives hierarchy partials inclusion
