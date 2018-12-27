@@ -306,9 +306,11 @@ function register_options($orgzr){
 
 	$orgzr->set_group("css_injection");
 
+	$updateFontCacheLink = \class_exists(GoogleFontsRetriever::class) && \function_exists('GoogleFontsRetriever::get_update_font_cache_link') ? GoogleFontsRetriever::get_update_font_cache_link() : '#';
+
 	$orgzr->add(array(
 		'name' => _x('Google Fonts API Key', 'Theme options', 'waboot'),
-		'desc' => sprintf(_x('Add here your google fonts api key. Update the fonts cache by clicking <a href="%s">here</a>.', 'Theme options', 'waboot'),GoogleFontsRetriever::get_update_font_cache_link()),
+		'desc' => sprintf(_x('Add here your google fonts api key. Update the fonts cache by clicking <a href="%s">here</a>.', 'Theme options', 'waboot'),$updateFontCacheLink),
 		'class' => 'half_option',
 		'id' => 'google_fonts_api_key',
 		'std' => '',
