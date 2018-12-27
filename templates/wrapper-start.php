@@ -11,7 +11,7 @@
      * Here we print the singular title when "title_position" option is on "top".
      * @see: posts_and_pages.php
      */
-    do_action("waboot/site-main/before");
+    do_action("waboot/main-content/before");
     ?>
 
     <div class="<?php \Waboot\template_tags\container_classes(); ?>">

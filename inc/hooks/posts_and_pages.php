@@ -8,7 +8,7 @@ use WBF\components\utils\Utilities;
 
 //Header:
 add_action("waboot/entry/header",__NAMESPACE__."\\display_title");
-add_action("waboot/site-main/before",__NAMESPACE__."\\display_singular_title");
+add_action("waboot/main-content/before",__NAMESPACE__."\\display_singular_title");
 
 /*add_action("waboot/layout/archive/page_title/before",__NAMESPACE__."\\display_title_wrapper_start",10);
 add_action("waboot/layout/archive/page_title/after",__NAMESPACE__."\\display_title_wrapper_end",90);
@@ -80,7 +80,7 @@ function display_singular_title(){
 	global $post;
 	$page_type = Utilities::get_current_page_type();
 
-	$current_title_context = current_filter() === "waboot/entry/header" ? "bottom" : "top"; //current_filter() is expected to be "waboot/site-main/before" || "waboot/entry/header"
+	$current_title_context = current_filter() === "waboot/entry/header" ? "bottom" : "top"; //current_filter() is expected to be "waboot/main-content/before" || "waboot/entry/header"
 
 	if($page_type === Utilities::PAGE_TYPE_DEFAULT_HOME || $page_type === Utilities::PAGE_TYPE_BLOG_PAGE){
 		$title = \Waboot\functions\get_index_page_title();
