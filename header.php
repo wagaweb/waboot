@@ -3,7 +3,6 @@
 <head>
 	<?php \Waboot\template_tags\site_head(); ?>
 </head>
-<?php do_action( 'waboot_head_after' ); ?>
 <body <?php body_class(); ?> >
     <?php \Waboot\template_tags\render_zone("page-before"); ?>
 	<div id="site-page" class="site-page hfeed site">
