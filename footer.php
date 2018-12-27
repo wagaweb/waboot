@@ -4,9 +4,9 @@
                 <?php do_action("waboot/footer"); ?>
 			</div>
 			<!-- END: footer -->
-			<?php wp_footer(); ?>
-		</div><!-- END: page-inner -->
-	</div><!-- END: page-wrapper -->
+		</div><!-- END: site-page__wrapper -->
+	</div><!-- END: site-page -->
     <?php \Waboot\template_tags\render_zone("page-after"); ?>
+	<?php wp_footer(); ?>
 	</body>
 </html>

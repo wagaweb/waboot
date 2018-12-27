@@ -4,7 +4,7 @@
 
         <?php get_sidebar(); ?>
 
-        </div><!-- #site-main container -->
+        </div><!-- .site-main__wrapper -->
 
     <?php do_action("waboot/site-main/after"); ?>
 
@@ -14,4 +14,4 @@
      */
     \Waboot\template_tags\render_zone("main-bottom");
     ?>
-</div><!-- #site-main -->
+</div><!-- .site-main -->
