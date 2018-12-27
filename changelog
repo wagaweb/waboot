@@ -1,6 +1,6 @@
 == Change log ==
 
-Version 3.1.0 - 12/18/2018
+Version 3.1.0 - 12/27/2018
 ---------------------------------
 - Fix: fixed archives hierarchy partials inclusion
 - Fix: fixed an error when no fonts are selected
@@ -12,6 +12,8 @@ Version 3.1.0 - 12/18/2018
 - Tweak: removed fastclick and touchswipe reference in package.json
 - Tweak: code cleaned up a bit
 - Tweak: some basic gutemberg support added
+- Tweak: now Waboot will looking for author templates in templates/archive instead of templates/author
+- Tweak: the default loop for archives is no longer included in the templates/archive.php itself, but in a separate templates/archive/archive.php template
 - Feature: added google fonts api key theme option
 
 Version 3.0.1 - 06/28/2018
