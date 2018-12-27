@@ -1,9 +1,8 @@
-<?php
-	/*
-	 * Prints out <head> section
-	 */
-	get_template_part("/templates/parts/head");
-?>
+<!DOCTYPE html>
+<html <?php language_attributes(); ?>>
+<head>
+	<?php \Waboot\template_tags\site_head(); ?>
+</head>
 <?php do_action( 'waboot_head_after' ); ?>
 <body <?php body_class(); ?> >
     <?php \Waboot\template_tags\render_zone("page-before"); ?>

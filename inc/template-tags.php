@@ -22,6 +22,15 @@ function render_zone($slug){
 }
 
 /**
+ * Executes <head> actions
+ */
+function site_head(){
+	do_action("waboot/head/start");
+	wp_head();
+	do_action("waboot/head/end");
+}
+
+/**
  * Displays site title
  */
 function site_title() {
