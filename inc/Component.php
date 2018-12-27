@@ -39,6 +39,7 @@ class Component extends \WBF\modules\components\Component{
 			/*$opts = [
 				self::ZONE_NONE_KEY => _x('none','Null component hook zone','waboot')
 			];*/
+			$opts = [];
 			foreach($zones as $k => $v){
 				$opts[$k] = $v['slug'];
 			}
