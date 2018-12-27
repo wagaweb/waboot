@@ -5,6 +5,7 @@
 			</div>
 			<!-- END: footer -->
 		</div><!-- END: site-page__wrapper -->
+		<?php do_action('waboot/site-page/end'); ?>
 	</div><!-- END: site-page -->
     <?php \Waboot\template_tags\render_zone("page-after"); ?>
 	<?php wp_footer(); ?>
