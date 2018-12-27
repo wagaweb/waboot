@@ -41,6 +41,9 @@ function setup() {
 
 	// Adding support for core block visual styles.
 	add_theme_support( 'wp-block-styles' );
+
+	// Adding support for Gutemberg Wide Alignment
+	add_theme_support('align-wide' );
 }
 add_action('after_setup_theme', __NAMESPACE__."\\setup", 11);
 
