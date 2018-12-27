@@ -1,4 +1,4 @@
-.site-main__wrapper {
+.main-content {
   display: flex;
   flex-wrap: wrap;
   &.wbcontainer {
@@ -13,7 +13,7 @@
 
 @include up($medium) {
   .two-sidebars-left {
-    .content-area {
+    .site-content {
       order: 2;
     }
   }
@@ -21,7 +21,7 @@
     .aside-primary {
       order: 0;
     }
-    .content-area {
+    .site-content {
       order: 1;
     }
     .aside-secondary {
@@ -32,7 +32,7 @@
     .aside-primary {
       order: 0;
     }
-    .content-area {
+    .site-content {
       order: 1;
     }
   }
