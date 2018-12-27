@@ -14,7 +14,7 @@
     do_action("waboot/main-content/before");
     ?>
 
-    <div class="<?php \Waboot\template_tags\container_classes(); ?>">
-        <main id="main" role="main" class="<?php \Waboot\template_tags\main_classes(); ?>">
-            <div class="main__wrapper">
-                <?php do_action("waboot/main/before"); ?>
+    <main role="main" class="main-content <?php \Waboot\template_tags\container_classes(); ?>">
+        <div class="site-content <?php \Waboot\template_tags\main_classes(); ?>">
+            <div class="site-content__inner">
+                <?php do_action("waboot/content/before"); ?>

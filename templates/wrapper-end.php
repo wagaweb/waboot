@@ -1,12 +1,12 @@
-                <?php do_action("waboot/main/after"); ?>
-                </div><!-- .main__wrapper -->
-            </main>
+                <?php do_action("waboot/content/after"); ?>
+                </div><!-- .site-content__inner -->
+            </div><!-- .site-content -->
 
         <?php get_sidebar(); ?>
 
-        </div><!-- .site-main__wrapper -->
+        </main><!-- .main-content -->
 
-    <?php do_action("waboot/site-main/after"); ?>
+    <?php do_action("waboot/main-content/after"); ?>
 
     <?php
     /*
