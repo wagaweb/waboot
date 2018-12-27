@@ -20,6 +20,8 @@ class Component extends \WBF\modules\components\Component{
 	 */
 	var $registered_style_assets = [];
 
+	const ZONE_NONE_KEY = '__none';
+
 	public function __construct( array $component ) {
 		parent::__construct( $component );
 		$this->theme_relative_path = "components/".$this->directory_name;
@@ -33,7 +35,10 @@ class Component extends \WBF\modules\components\Component{
 		if(empty($zones) || !isset($zones['header'])) return $options;
 
 		$zone_options = call_user_func(function() use($zones){
-			$opts = [];
+			//todo: implement this:
+			/*$opts = [
+				self::ZONE_NONE_KEY => _x('none','Null component hook zone','waboot')
+			];*/
 			foreach($zones as $k => $v){
 				$opts[$k] = $v['slug'];
 			}
