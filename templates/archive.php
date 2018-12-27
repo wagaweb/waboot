@@ -2,25 +2,9 @@
 
 <?php if($vars['display_page_title']) : ?>
     <?php \Waboot\template_tags\archive_page_title(); ?>
-    <?php if(is_author()): ?>
-		<?php $author_description = $vars['term_description']; ?>
-        <?php if(!empty($author_description)): ?>
-            <div class="author-description"><?php echo $author_description; ?></div>
-        <?php endif; ?>
-    <?php endif; ?>
 <?php endif; ?>
 <?php if(!empty($vars['tpl'])) : ?>
     <?php get_template_part($vars['tpl']); ?>
 <?php else: ?>
-    <?php if(have_posts()) : ?>
-        <?php if($vars['display_nav_above']) \Waboot\template_tags\post_navigation('nav-above'); ?>
-        <div class="<?php echo $vars['blog_class']; ?>">
-            <?php //waboot_archive_sticky_posts($blog_style); // Display the sticky posts first... ?>
-            <?php while(have_posts()): ?>
-                <?php the_post(); ?>
-                <?php \Waboot\functions\get_template_part( '/templates/parts/content', get_post_format() ); ?>
-            <?php endwhile; ?>
-        </div>
-        <?php if($vars['display_nav_below']) \Waboot\template_tags\post_navigation('nav-below'); ?>
-    <?php endif; ?>
+    <?php get_template_part('templates/archive/archive'); ?>
 <?php endif; ?>

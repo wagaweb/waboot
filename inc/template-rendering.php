@@ -25,11 +25,11 @@ function get_archives_template_vars(){
 	$tax = get_current_taxonomy();
 
 	$vars['page_title'] = get_archive_page_title();
-	if(is_author()){
-		$vars['term_description'] = get_the_author_meta('description');
-	}else{
-		$vars['term_description'] = term_description();
-	}
+	$vars['term_description'] = get_the_archive_description();
+
+	//Please note that page_title and term_description are provided here for completeness. In the actual template the title
+	//is rendered through \Waboot\template_tags\archive_page_title() and the description is hooked to 'waboot/layout/archive/page_title/after'
+
 	$vars['blog_class'] = get_posts_wrapper_class();
 	$vars['display_nav_above'] = (bool) \Waboot\functions\get_option('show_content_nav_above', 1);
 	$vars['display_nav_below'] =  (bool) \Waboot\functions\get_option('show_content_nav_below', 1);
@@ -56,31 +56,28 @@ function get_archives_template_vars(){
 
 	//@see https://developer.wordpress.org/files/2014/10/wp-hierarchy.png
 
+	$tpl_base = 'templates/archive/';
 	if(is_author()){
-		$tpl_base = 'templates/author/';
 		$tpl[] = $tpl_base.'author-'.get_the_author_meta('user_nicename');
 		$tpl[] = $tpl_base.'author-'.get_the_author_meta('ID');
 		$tpl[] = $tpl_base.'author';
-	}else{
-		$tpl_base = 'templates/archive/';
-		if($o instanceof \WP_Term){
-			if($o->taxonomy === 'category'){
-				$tpl[] = $tpl_base.'category'.'-'.$o->slug;
-				$tpl[] = $tpl_base.'category-'.$o->term_id;
-				$tpl[] = $tpl_base.'category';
-			}else{
-				$tpl[] = $tpl_base.$o->taxonomy.'-'.$o->slug;
-				$tpl[] = $tpl_base.'taxonomy-'.$o->taxonomy.'-'.$o->slug;
-				$tpl[] = $tpl_base.'taxonomy-'.$o->taxonomy;
-				$tpl[] = $tpl_base.'taxonomy';
-			}
-		}elseif($o instanceof \WP_Post_Type){
-			$tpl = $tpl_base.'archive-'.$o->name;
-		}elseif(is_date()){
-			$tpl = $tpl_base . 'date';
+	}elseif($o instanceof \WP_Term){
+		if($o->taxonomy === 'category'){
+			$tpl[] = $tpl_base.'category'.'-'.$o->slug;
+			$tpl[] = $tpl_base.'category-'.$o->term_id;
+			$tpl[] = $tpl_base.'category';
 		}else{
-			$tpl = '';
+			$tpl[] = $tpl_base.$o->taxonomy.'-'.$o->slug;
+			$tpl[] = $tpl_base.'taxonomy-'.$o->taxonomy.'-'.$o->slug;
+			$tpl[] = $tpl_base.'taxonomy-'.$o->taxonomy;
+			$tpl[] = $tpl_base.'taxonomy';
 		}
+	}elseif($o instanceof \WP_Post_Type){
+		$tpl = $tpl_base.'archive-'.$o->name;
+	}elseif(is_date()){
+		$tpl = $tpl_base . 'date';
+	}else{
+		$tpl = '';
 	}
 
 	if($tpl !== '' || \is_array($tpl)){
