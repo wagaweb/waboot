@@ -55,45 +55,6 @@ function register_widget_areas(){
 		}else{
 			register_sidebar($args);
 		}
-
-		//Add Widget Area to zone
-		if(isset($area_args['render_zone'])){
-			$priority = isset($area_args['render_priority']) ? intval($area_args['render_priority']) : 50;
-			if(is_active_sidebar($area_id)){
-				//Adds an action to the "render_zone" to display the widget area.
-				try{
-					WabootLayout()->add_zone_action($area_args['render_zone'],function() use($area_id,$area_args){
-						if(isset($area_args['type']) && $area_args['type'] == "multiple"){
-							\Waboot\functions\print_widgets_in_area($area_id);
-						}else{
-							$tpl = "templates/widget_areas/standard.php"; //standard widget area tpl
-
-							//Search for specific widget areas templates
-							$search_in = [
-								get_stylesheet_directory(),
-								get_template_directory()
-							];
-							$search_in = array_unique($search_in);
-							foreach($search_in as $dirname){
-								$filename = $dirname."/templates/widget_areas/".$area_id.".php";
-								if(file_exists($filename)){
-									$tpl = "templates/widget_areas/".$area_id.".php";
-									break;
-								}
-							}
-
-							$v = new HTMLView($tpl);
-
-							$v->clean()->display([
-								'area_id' => $area_id
-							]);
-						}
-					},$priority);
-				}catch(\Exception $e){
-					trigger_error($e->getMessage());
-				}
-			}
-		}
 	}
 
 	$widgets = [
@@ -109,3 +70,54 @@ function register_widget_areas(){
 	}
 }
 add_action("widgets_init",__NAMESPACE__."\\register_widget_areas", 12);
+
+/**
+ * Add an action to each widget-area render zone to display the widgets in the area itself in that render zone
+ */
+function add_widget_areas_to_zones(){
+	$areas = \Waboot\functions\get_widget_areas();
+	foreach($areas as $area_id => $area_args){
+		//Add Widget Area to zone
+		if(!isset($area_args['render_zone'])){
+			continue;
+		}
+		$priority = isset($area_args['render_priority']) ? intval($area_args['render_priority']) : 50;
+		if(!is_active_sidebar($area_id)){
+			continue;
+		}
+		//Adds an action to the "render_zone" to display the widget area.
+		try{
+			$display_sidebar = function() use($area_id,$area_args){
+				if(isset($area_args['type']) && $area_args['type'] == "multiple"){
+					\Waboot\functions\print_widgets_in_area($area_id);
+				}else{
+					$tpl = "templates/widget_areas/standard.php"; //standard widget area tpl
+
+					//Search for specific widget areas templates
+					$search_in = [
+						get_stylesheet_directory(),
+						get_template_directory()
+					];
+					$search_in = array_unique($search_in);
+					foreach($search_in as $dirname){
+						$filename = $dirname."/templates/widget_areas/".$area_id.".php";
+						if(file_exists($filename)){
+							$tpl = "templates/widget_areas/".$area_id.".php";
+							break;
+						}
+					}
+
+					$v = new HTMLView($tpl);
+
+					$v->clean()->display([
+						'area_id' => $area_id
+					]);
+				}
+			};
+			WabootLayout()->add_zone_action($area_args['render_zone'],$display_sidebar,$priority);
+		}catch(\Exception $e){
+			trigger_error($e->getMessage());
+		}
+	}
+}
+add_action("wp",__NAMESPACE__."\\add_widget_areas_to_zones");
