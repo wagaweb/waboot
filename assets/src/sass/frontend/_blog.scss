@@ -27,40 +27,17 @@
       @include up($medium){
         display: flex;
         flex-wrap: wrap;
-        margin: 0 -10px;
         .entry__image {
-          flex-basis: 40%;
-          padding: 0 10px;
+          flex: 1 1 40%;
+          margin-right: 20px
         }
         .entry__content {
-          flex-basis: 60%;
-          padding: 0 10px;
+          flex: 1 1 60%;
         }
       }
     }
   }
 }
-
-.blog-classic {
-  article {
-    .entry-content {
-      @include up($medium){
-        display: flex;
-        flex-wrap: wrap;
-        margin: 0 -10px;
-        .entry-image {
-          flex-basis: 33.33333%;
-          padding: 0 10px;
-        }
-        .entry-text {
-          flex-basis: 66.66666%;
-          padding: 0 10px;
-        }
-      }
-    }
-  }
-}
-
 
 .comments__area {
   border-top: 1px solid #eee;
