@@ -283,6 +283,12 @@ More informations and tutorials [here](https://github.com/wagaweb/waboot/tree/ma
 
 - Bugfix
 
+**v3.1.x**
+
+- Templates and logic refinements
+
+- Bugfix
+
 :tada: Official Waboot launch! :rocket:
 
 **Future releases**
