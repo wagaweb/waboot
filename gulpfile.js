@@ -70,7 +70,6 @@ let available_components = [
     'bootstrap',
     'breadcrumb',
     'footer_flex',
-    'header_bootstrap',
     'header_splitted_menu',
     'header_fixed',
     'header_flex',
