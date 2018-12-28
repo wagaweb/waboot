@@ -100,4 +100,18 @@ class Component extends \WBF\modules\components\Component{
 		}
 		return $p;
 	}
+
+	/**
+	 * Register an action to the component zone
+	 * @param callable $action
+	 */
+	public function add_zone_action(callable $action){
+		try{
+			$display_zone = $this->get_display_zone();
+			if($display_zone !== self::ZONE_NONE_KEY){
+				$display_priority = $this->get_display_priority();
+				WabootLayout()->add_zone_action($display_zone,$action,intval($display_priority));
+			}
+		}catch (\Exception $e){}
+	}
 }
