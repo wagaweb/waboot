@@ -384,3 +384,24 @@ function get_update_uri($component){
 	return '';
 }
 
+/**
+ * @param Component $component
+ *
+ * @return bool|string
+ */
+function get_preview_image(Component $component){
+	$thumbnail = $component->directory.'/screenshot.png';
+	if(file_exists($thumbnail)){
+		return $component->directory_uri.'/screenshot.png';
+	}
+	$defaultThumbnail = get_template_directory().'/assets/images/components-default.png';
+	static $defaultThumbnailExists;
+	if($defaultThumbnailExists === null){
+		$defaultThumbnailExists = file_exists($defaultThumbnail);
+	}
+	if($defaultThumbnailExists){
+		return get_template_directory_uri().'/assets/images/components-default.png';
+	}
+	return false;
+}
+

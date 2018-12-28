@@ -29,7 +29,7 @@ use WBF\modules\components\GUI;
 			<?php foreach($registered_components as $component): ?>
 				<?php
                     $data = ComponentFactory::get_component_data( $component->file );
-                    $screenshot = file_exists($component->directory."/screenshot.png") ? \WBF\components\utils\Utilities::path_to_url($component->directory)."/screenshot.png" : false;
+                    $screenshot = \Waboot\functions\components\get_preview_image($component);
                 ?>
 				<section id="component-<?php echo $component->name; ?>" class="section-group section-component" data-component="<?php echo $component->name; ?>" data-category="<?php echo str_replace(" ","_",strtolower($component->category)); ?>">
                     <div class="component-inner">
@@ -90,10 +90,6 @@ use WBF\modules\components\GUI;
                             </div>
                         </div>
                         <div class="components-actions">
-                            <?php if(\WBF\modules\components\ComponentsManager::is_active($component)): ?>
-                                <img src="<?php echo get_template_directory_uri(); ?>/assets/images/icon/settings.svg" />
-                            <?php endif; ?>
-
                             <div class="wb-onoffswitch">
                                 <?php if(!\WBF\modules\components\ComponentsManager::is_active($component)): ?>
                                     <input type="checkbox" name="components_status[<?php echo $component->name; ?>]" class="wb-onoffswitch-checkbox" id="components_status[<?php echo $component->name; ?>]">
