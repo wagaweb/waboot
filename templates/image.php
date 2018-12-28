@@ -17,7 +17,7 @@
 					esc_attr( strip_tags( get_the_title( $post->post_parent ) ) ),
 					get_the_title( $post->post_parent )
 				);
-				edit_post_link( __( 'Edit', 'waboot' ), '<span class="sep">|</span> <span class="edit-link">', '</span>' ); ?>
+				?>
 			</div><!-- .entry-meta -->
 
 			<nav role="navigation" id="image__navigation" class="image__navigation">
@@ -59,7 +59,6 @@
 				_e( 'Both comments and trackbacks are currently closed.', 'waboot' );
 			endif;
 			?>
-			<?php edit_post_link( __( 'Edit', 'waboot' ), ' <span class="edit__link">', '</span>' ); ?>
 		</footer><!-- .entry-meta -->
 	</article>
 
