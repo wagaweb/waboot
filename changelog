@@ -1,14 +1,6 @@
 == Change log ==
 
-Version 3.1.0-2 - 12/27/2018
----------------------------------
-- Tweak: wrapper-start and wrapper-end revamped
-- Tweak: action waboot/site-main/before renamed to waboot/main-content/before
-- Tweak: action waboot/site-main/after renamed to waboot/main-content/after
-- Tweak: action waboot/main/before renamed to waboot/content/before
-- Tweak: action waboot/main/after renamed to waboot/content/after
-
-Version 3.1.0 - 12/27/2018
+Version 3.1.0 - 12/xx/2018
 ---------------------------------
 - Fix: fixed archives hierarchy partials inclusion
 - Fix: fixed an error when no fonts are selected
@@ -22,6 +14,14 @@ Version 3.1.0 - 12/27/2018
 - Tweak: some basic gutemberg support added
 - Tweak: now Waboot will looking for author templates in templates/archive instead of templates/author
 - Tweak: the default loop for archives is no longer included in the templates/archive.php itself, but in a separate templates/archive/archive.php template
+- Tweak: wrapper-start and wrapper-end revamped
+- Tweak: action waboot/site-main/before renamed to waboot/main-content/before
+- Tweak: action waboot/site-main/after renamed to waboot/main-content/after
+- Tweak: action waboot/main/before renamed to waboot/content/before
+- Tweak: action waboot/main/after renamed to waboot/content/after
+- Tweak: removed edit link from all pages
+- Tweak: added components images
+- Tweak: better handling of widgets rendering in zones
 - Feature: added google fonts api key theme option
 
 Version 3.0.1 - 06/28/2018
