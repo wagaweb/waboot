@@ -71,7 +71,6 @@ let available_components = [
     'breadcrumb',
     'footer_flex',
     'header_splitted_menu',
-    'header_fixed',
     'header_flex',
     'image_modal',
     'legal_data',
