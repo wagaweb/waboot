@@ -6,7 +6,7 @@
 	            $thumbnailPreset = apply_filters('waboot/layout/entry/thumbnail/preset','thumbnail');
 	            $thumbnailClasses = apply_filters('waboot/layout/entry/thumbnail/class','img-responsive');
 	            $thumbnailView->display([
-		            'thumbnail_html' => get_the_post_thumbnail( $post->ID, $thumbnailPreset, array( 'class' => $thumbnailClasses, 'title' => "" ) ),
+		            'thumbnail_html' => get_the_post_thumbnail( $post->ID, $thumbnailPreset, array( 'class' => $thumbnailClasses, 'title' => get_the_title().' thumbnail' ) ),
                     'thumbnail_src' => \WBF\components\utils\Posts::get_post_thumbnail_src($post->ID,$thumbnailPreset)
                 ]);
             }
