@@ -45,7 +45,7 @@ function site_title() {
  * @return string
  */
 function get_site_title(){
-	$custom_name = of_get_option("custom_site_title","");
+	$custom_name = \Waboot\functions\get_option("custom_site_title","");
 	if($custom_name && !empty($custom_name)){
 		return $custom_name;
 	}else{
