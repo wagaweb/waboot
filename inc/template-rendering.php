@@ -122,6 +122,19 @@ function get_aside_template_vars($slug){
 	return $vars;
 }
 
+/**
+ * @param string $context (top or bottom, @see blog_title_position option)
+ *
+ * @return bool
+ */
+function blog_page_can_display_title($context){
+	if($context === 'top'){
+		return \Waboot\functions\get_option('blog_title_position') === $context && (bool) \Waboot\functions\get_option('blog_display_title');
+	}elseif($context === 'bottom'){
+		return \Waboot\functions\get_option('blog_title_position') === $context && (bool) \Waboot\functions\get_option('blog_display_title');
+	}
+	return false;
+}
 
 /**
  * Template for comments and pingbacks.

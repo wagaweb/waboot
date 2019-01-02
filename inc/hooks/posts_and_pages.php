@@ -1,6 +1,7 @@
 <?php
 
 namespace Waboot\hooks;
+use function Waboot\functions\blog_page_can_display_title;
 use function Waboot\functions\get_archive_option;
 use WBF\components\mvc\HTMLView;
 use WBF\components\utils\Query;
@@ -88,7 +89,8 @@ function display_singular_title(){
 			//We are in the "default_home" case
 			$title = apply_filters('waboot/default_home/title','');
 		}
-		$can_display_title = (bool) \Waboot\functions\get_option('blog_display_title') && \Waboot\functions\get_option('blog_title_position') === $current_title_context;
+		//$can_display_title = (bool) \Waboot\functions\get_option('blog_display_title') && \Waboot\functions\get_option('blog_title_position') === $current_title_context;
+		$can_display_title = blog_page_can_display_title($current_title_context);
 	}elseif(is_search()){
 		$title = sprintf( __( 'Search Results for: %s', 'waboot' ), '<span>' . get_search_query() . '</span>' );
 		$can_display_title = (bool) \Waboot\functions\get_option('blog_display_title') && \Waboot\functions\get_option('blog_title_position') === $current_title_context;
