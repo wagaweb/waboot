@@ -369,7 +369,7 @@ function get_sidebar_size($name){
 	$page_type = Utilities::get_current_page_type();
 
 	if($page_type == Utilities::PAGE_TYPE_BLOG_PAGE || $page_type == Utilities::PAGE_TYPE_DEFAULT_HOME || is_category()){
-		$size = of_get_option("blog_".$name."_sidebar_size");
+		$size = \Waboot\functions\get_option("blog_".$name."_sidebar_size");
 	}elseif(is_archive() || is_tax()){
 		$size = get_archive_option($name."_sidebar_size");
 	}else{

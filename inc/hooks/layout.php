@@ -145,7 +145,7 @@ function set_secondary_sidebar_container_classes($classes){
 add_filter("waboot/layout/sidebar/secondary/classes", __NAMESPACE__."\\set_secondary_sidebar_container_classes");
 
 /**
- * Use of_get_option('primary-sidebar-size') for sidebar size in archive pages
+ * Use \Waboot\functions\get_option('primary-sidebar-size') for sidebar size in archive pages
  *
  * @param \WBF\modules\behaviors\Behavior $b
  *
@@ -154,7 +154,7 @@ add_filter("waboot/layout/sidebar/secondary/classes", __NAMESPACE__."\\set_secon
 function set_primary_sidebar_size(Behavior $b){
 	if(is_archive()){
 		if(is_category()){
-			$sidebar_width = of_get_option("blog_primary_sidebar_size");
+			$sidebar_width = \Waboot\functions\get_option("blog_primary_sidebar_size");
 		}else{
 			$sidebar_width = get_archive_option('primary_sidebar_size');
 		}
@@ -169,7 +169,7 @@ function set_primary_sidebar_size(Behavior $b){
 //add_filter("wbf/modules/behaviors/get/primary-sidebar-size", __NAMESPACE__."\\set_primary_sidebar_size");
 
 /**
- * Use of_get_option('secondary-sidebar-size') for sidebar size in archive pages
+ * Use \Waboot\functions\get_option('secondary-sidebar-size') for sidebar size in archive pages
  *
  * @param \WBF\modules\behaviors\Behavior $b
  *
@@ -178,7 +178,7 @@ function set_primary_sidebar_size(Behavior $b){
 function set_secondary_sidebar_size(Behavior $b){
 	if(is_archive()){
 		if(is_category()){
-			$sidebar_width = of_get_option("blog_secondary_sidebar_size");
+			$sidebar_width = \Waboot\functions\get_option("blog_secondary_sidebar_size");
 		}else{
 			$sidebar_width = get_archive_option('secondary_sidebar_size');
 		}

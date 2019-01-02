@@ -57,7 +57,7 @@ function get_site_title(){
  * Displays site description
  */
 function site_description() {
-	if(!of_get_option("show_site_description",0)) return;
+	if(!\Waboot\functions\get_option("show_site_description",0)) return;
 	// Use H2
 	$element = 'h2';
 	// Put it all together
