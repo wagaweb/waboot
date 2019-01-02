@@ -3,7 +3,7 @@
  * The main blog template. It is hooked at the "main" zone in "zones_std_hooks.php"
  */
 ?>
-<?php if(\Waboot\functions\get_option("blog_title_position") == "bottom") : ?>
+<?php if(\Waboot\functions\get_option("blog_title_position") == "bottom" && (bool) \Waboot\functions\get_option("blog_display_title")) : ?>
 	<?php \Waboot\template_tags\index_page_title(); ?>
 <?php endif; ?>
 <?php if(have_posts()): ?>
