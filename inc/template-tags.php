@@ -66,7 +66,6 @@ function site_description() {
 	echo apply_filters( 'waboot/site_description/markup', $description );
 }
 
-
 /**
  * Prints the desktop logo
  *
@@ -92,7 +91,6 @@ function get_desktop_logo(){
     return $desktop_logo;
 }
 
-
 /**
  * Prints the mobile logo
  *
@@ -117,7 +115,6 @@ function get_mobile_logo(){
     $mobile_logo = \Waboot\functions\get_option('mobile_logo', "");
     return $mobile_logo;
 }
-
 
 /**
  * Print out the index page title
