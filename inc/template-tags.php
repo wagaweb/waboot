@@ -277,9 +277,9 @@ function container_classes(){
  */
 function main_classes(){
 	if(has_filter("waboot_mainwrap_container_class")){
-		echo apply_filters('waboot_mainwrap_container_class','wbcol-8'); //backward compatibility
+		echo apply_filters('waboot_mainwrap_container_class','wbcol--8'); //backward compatibility
 	}else{
-		echo apply_filters('waboot/layout/main/classes','wbcol-8');
+		echo apply_filters('waboot/layout/main/classes','wbcol--8');
 	}
 }
 

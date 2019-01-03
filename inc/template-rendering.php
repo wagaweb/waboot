@@ -102,18 +102,18 @@ function get_aside_template_vars($slug){
 		case 'aside-primary':
 			$vars['classes'] = call_user_func(function(){
 				if(has_filter( 'waboot_primary_container_class' )){
-					return apply_filters('waboot_primary_container_class', 'wbcol-4'); //backward compatibility
+					return apply_filters('waboot_primary_container_class', 'wbcol--4'); //backward compatibility
 				}else{
-					return apply_filters('waboot/layout/sidebar/primary/classes', 'wbcol-4');
+					return apply_filters('waboot/layout/sidebar/primary/classes', 'wbcol--4');
 				}
 			});
 			break;
 		case 'aside-secondary':
 			$vars['classes'] = call_user_func(function(){
 				if(has_filter( 'waboot_secondary_container_class' )){
-					return apply_filters('waboot_secondary_container_class', 'wbcol-4'); //backward compatibility
+					return apply_filters('waboot_secondary_container_class', 'wbcol--4'); //backward compatibility
 				}else{
-					return apply_filters('waboot/layout/sidebar/secondary/classes', 'wbcol-4');
+					return apply_filters('waboot/layout/sidebar/secondary/classes', 'wbcol--4');
 				}
 			});
 			break;
@@ -156,17 +156,3 @@ function render_comment($comment, $args, $depth){
 	$v = new HTMLView($template_file);
 	$v->display($vars);
 }
-
-/**
- * Wraps the post video oembed within a post that is not video format
- *
- * todo: verify this
- *
- * @param $video
- *
- * @return string
- */
-function wraps_video_embed_html($video) {
-	return "<div class='wb-video-container'>{$video}</div>";
-}
-add_filter( 'embed_oembed_html', __NAMESPACE__. '\wraps_video_embed_html' );
