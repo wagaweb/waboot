@@ -339,9 +339,22 @@ class Layout{
 	/*
 	 * Utilities
 	 */
+	
+	/**
+	 * Removes "col-" string values from an array
+	 * @param array $classes_array
+	 */
+	static function remove_cols_classes(array &$classes_array){
+		foreach($classes_array as $k => $v){
+			//if(preg_match("/".WabootLayout()->get_col_grid_class()."/",$v)){
+			if(preg_match("/wbcol--/",$v)){
+				unset($classes_array[$k]);
+			}
+		}
+	}
 
 	/**
-	 * Convert size labels (1/3, 2/3, ect) into size integers (for using into wbcol--<x>)
+	 * Convert size labels (1/3, 2/3, ect) into size integers (for using into wbcol-<x>)
 	 * @param string $width the label
 	 *
 	 * @return int
