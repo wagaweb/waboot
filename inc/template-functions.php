@@ -79,43 +79,15 @@ function count_widgets_in_area($prefix){
 function print_widgets_in_area($prefix){
 	$count = count_widgets_in_area($prefix);
 	if($count === 0) return;
-	$sidebar_class = get_grid_class_for_alignment($count);
-	(new HTMLView("templates/widget_areas/parts/multi-widget-area.php"))->clean()->display([
-		'widget_area_prefix' => $prefix,
-		'widget_count' => $count,
-		'sidebar_class' => $sidebar_class
-	]);
-}
+	try{
+        (new HTMLView("templates/widget_areas/parts/multi-widget-area.php"))->clean()->display([
+            'widget_area_prefix' => $prefix,
+            'widget_count' => $count
+        ]);
+    }catch (\Exception $e){
+	    echo $e->getMessage();
+    }
 
-/**
- * Get the correct CSS class to align $count containers
- *
- * @param int $count
- *
- * @return string
- *
- */
-function get_grid_class_for_alignment($count = 4){
-	$class = '';
-	$count = intval($count);
-	switch($count) {
-		case 1:
-			$class = 'wbcol-12';
-			break;
-		case 2:
-			$class = 'wbcol-6';
-			break;
-		case 3:
-			$class = 'wbcol-4';
-			break;
-		case 4:
-			$class = 'wbcol-3';
-			break;
-		default:
-			$class = 'wbcol-1';
-	}
-	$class = apply_filters("waboot/layout/grid_class_for_alignment",$class,$count);
-	return $class;
 }
 
 /**
