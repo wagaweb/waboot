@@ -15,13 +15,18 @@ body {
   margin: 0;
 }
 
-img {
+img,
+video {
   vertical-align: middle;
 }
 
 figure {
+	height: auto;
+  max-width: 100%;
   margin: 0;
+	padding: 0;
 }
+
 
 @-webkit-viewport{width:device-width}
 @-moz-viewport{width:device-width}

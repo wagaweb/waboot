@@ -26,54 +26,15 @@
     .entry__wrapper {
       @include up($medium){
         display: flex;
-        flex-wrap: wrap;
+        flex-wrap: nowrap;
         .entry__image {
-          flex: 1 1 40%;
+          flex: 1 1 auto;
           margin-right: 20px
         }
         .entry__content {
-          flex: 1 1 60%;
+          flex: 1 1 auto;
         }
       }
-    }
-  }
-}
-
-.comments__area {
-  border-top: 1px solid #eee;
-  padding-top: 40px;
-  .thread-even > .comment__body {
-    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.03);
-  }
-  .comment__body {
-    margin-bottom: 20px;
-    padding: 15px;
-  }
-  cite {
-    font-size: 1.1em;
-    font-weight: bold;
-  }
-  .comment__meta {
-    font-size: 0.9em;
-  }
-  .comment__list {
-    list-style-type: none;
-    padding: 0;
-  }
-  .comment__author {
-    margin-bottom: 7px;
-  }
-  .comment__content {
-    margin-top: 7px;
-  }
-  .comment__author > .avatar {
-    margin-right: 1em;
-  }
-  ul.children {
-    margin-left: 20px;
-    li {
-      border-top: 1px solid #e6e6e6;
-      list-style-type: none;
     }
   }
 }

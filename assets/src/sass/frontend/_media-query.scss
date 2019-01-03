@@ -1,0 +1,26 @@
+@mixin up($breakpoint) {
+  @media screen and (min-width: $breakpoint) {
+    @content;
+  }
+}
+@mixin down($breakpoint) {
+  @media screen and (max-width: $breakpoint - 1) {
+    @content;
+  }
+}
+@mixin only($breakpoint) {
+  @if($breakpoint==$xsmall){$breakpointnext:$small}
+  @if($breakpoint==$small){$breakpointnext:$medium}
+  @if($breakpoint==$medium){$breakpointnext:$large}
+  @if($breakpoint==$large){$breakpointnext:$xlarge}
+  @media screen and (min-width: $breakpoint) and (max-width: $breakpointnext - 1) {
+    @content;
+  }
+}
+@mixin between($lower, $upper) {
+  @include up($lower) {
+    @include down($upper - 1) {
+      @content;
+    }
+  }
+}

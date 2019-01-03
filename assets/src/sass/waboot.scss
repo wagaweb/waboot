@@ -1,11 +1,15 @@
 @import "frontend/reset";
-@import "frontend/variables-and-mixins";
+@import "frontend/variables";
+@import "frontend/media-query";
 @import "frontend/grid";
 @import "frontend/typography";
-@import "frontend/components";
-@import "frontend/layout";
-@import "frontend/global";
 @import "frontend/blog";
 @import "frontend/postsformat";
-@import "frontend/global";
 @import "frontend/gutenberg";
+@import "frontend/utilities";
+@import "frontend/404";
+
+@import "frontend/components/tables";
+@import "frontend/components/buttons";
+@import "frontend/components/pagination";
+@import "frontend/components/gallery";

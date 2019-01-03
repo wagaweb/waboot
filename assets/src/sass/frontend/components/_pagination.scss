@@ -1,0 +1,30 @@
+.pagination {
+  display: flex;
+  padding-left: 0;
+  list-style: none;
+  margin-bottom: 30px;
+  li {
+    display: inline-block;
+    .page-numbers{
+      position: relative;
+      display: block;
+      padding: .5rem .75rem;
+      margin-left: -1px;
+      line-height: 1.25;
+      color: $primaryColor;
+      background-color: #fff;
+      border: 1px solid $primaryColor;
+      &.current {
+        color: #fff;
+        background-color: $primaryColor;
+      }
+      &:hover {
+        color: #fff;
+        background-color: $primaryColor;
+      }
+    }
+    a, span {
+      color: $primaryColor;
+    }
+  }
+}
