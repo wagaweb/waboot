@@ -37,8 +37,8 @@ class Layout{
 		$default_grid_classes = [
 			self::GRID_CLASS_ROW => 'wbrow',
 			self::GRID_CLASS_CONTAINER => 'wbcontainer',
-			self::GRID_CLASS_CONTAINER_FLUID => 'wbcontainer-fluid',
-			self::GRID_CLASS_COL_SUFFIX => 'wbcol-'
+			self::GRID_CLASS_CONTAINER_FLUID => 'wbcontainer--fluid',
+			self::GRID_CLASS_COL_SUFFIX => 'wbcol--'
 		];
 		if(isset($params['grid_classes'])){
 			$grid_classes = wp_parse_args($params['grid_classes'],$default_grid_classes);
@@ -339,22 +339,9 @@ class Layout{
 	/*
 	 * Utilities
 	 */
-	
-	/**
-	 * Removes "col-" string values from an array
-	 * @param array $classes_array
-	 */
-	static function remove_cols_classes(array &$classes_array){
-		foreach($classes_array as $k => $v){
-			//if(preg_match("/".WabootLayout()->get_col_grid_class()."/",$v)){
-			if(preg_match("/col-/",$v)){
-				unset($classes_array[$k]);
-			}
-		}
-	}
 
 	/**
-	 * Convert size labels (1/3, 2/3, ect) into size integers (for using into wbcol-<x>)
+	 * Convert size labels (1/3, 2/3, ect) into size integers (for using into wbcol--<x>)
 	 * @param string $width the label
 	 *
 	 * @return int
