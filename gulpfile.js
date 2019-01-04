@@ -219,19 +219,19 @@ gulp.task('copy-vendors',function() {
         'bower_components/respond/dest/respond.min.js'
     ],'assets/dist/js',{flatten: true},cb);
 
-    //Copy fonts
+    //Copy fa fonts
     copy([
         'bower_components/fontawesome/webfonts/*.*',
-    ],'assets/dist/webfonts',{flatten: true},cb);
+    ],'components/font_awesome/assets/dist/webfonts',{flatten: true},cb);
 
-    //Copy styles
+    //Copy fa styles
     copy([
         'bower_components/fontawesome/css/fontawesome.min.css',
         'bower_components/fontawesome/css/all.min.css',
         'bower_components/fontawesome/css/brands.min.css',
         'bower_components/fontawesome/css/regular.min.css',
         'bower_components/fontawesome/css/solid.min.css',
-    ],'assets/dist/css',{flatten: true},cb);
+    ],'components/font_awesome/assets/dist/css',{flatten: true},cb);
 });
 
 /**
