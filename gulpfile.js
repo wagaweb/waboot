@@ -77,7 +77,10 @@ let available_components = [
     'navbar_vertical',
     'sample',
     'topNavWrapper',
-    'woocommerce_standard'
+    'woocommerce_standard',
+    'google_fonts',
+    'style',
+    'font_awesome'
 ];
 
 /**
