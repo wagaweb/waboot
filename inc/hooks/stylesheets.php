@@ -56,51 +56,6 @@ if( wbf_exists() ){
 }
 
 /**
- * Loads frontend styles
- */
-function theme_styles(){
-	//Common styles
-	$assets = [
-		'fontawesome-4' => [
-			'uri' => get_template_directory_uri() . '/assets/dist/css/font-awesome-4.7.0.min.css',
-			'path' => get_template_directory() . '/assets/dist/css/font-awesome-4.7.0.min.css',
-			'type' => 'css',
-			'enqueue' => \Waboot\functions\get_option('fa_version') === 'legacy'
-		],
-		'fontawesome-regular' => [
-			'uri' => get_template_directory_uri() . '/assets/dist/css/regular.min.css',
-			'path' => get_template_directory() . '/assets/dist/css/regular.min.css',
-			'type' => 'css',
-			'enqueue' => \Waboot\functions\get_option('fa_version') === 'latest'
-		],
-		'fontawesome-solid' => [
-			'uri' => get_template_directory_uri() . '/assets/dist/css/solid.min.css',
-			'path' => get_template_directory() . '/assets/dist/css/solid.min.css',
-			'type' => 'css',
-			'enqueue' => \Waboot\functions\get_option('fa_version') === 'latest'
-		],
-		'fontawesome-brands' => [
-			'uri' => get_template_directory_uri() . '/assets/dist/css/brands.min.css',
-			'path' => get_template_directory() . '/assets/dist/css/brands.min.css',
-			'type' => 'css',
-			'enqueue' => \Waboot\functions\get_option('fa_version') === 'latest'
-		],
-		'fontawesome' => [
-			'uri' => get_template_directory_uri() . '/assets/dist/css/fontawesome.min.css',
-			'path' => get_template_directory() . '/assets/dist/css/fontawesome.min.css',
-			'type' => 'css',
-			'deps' => ['fontawesome-regular','fontawesome-solid','fontawesome-brands'],
-			'enqueue' => \Waboot\functions\get_option('fa_version') === 'latest'
-		]
-	];
-	$am = new AssetsManager($assets);
-	$am->enqueue();
-}
-if( wbf_exists() ) {
-	add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\\theme_styles' );
-}
-
-/**
  * Loads backend styles
  */
 function admin_styles(){
