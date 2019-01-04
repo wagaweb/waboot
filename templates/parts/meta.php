@@ -1,6 +1,6 @@
 <?php
 /*
- * Included into head.php via 'waboot/head/start'
+ * Included into site_head() via 'waboot/head/start'
  */
 ?>
 <meta charset="<?php bloginfo( 'charset' ); ?>" />

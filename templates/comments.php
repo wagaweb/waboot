@@ -54,12 +54,14 @@ if ( ! comments_open() && get_comments_number() != 0 && post_type_supports( get_
 <?php endif; ?>
 
 <?php
-comment_form([
+$commentFormArgs = [
 	'comment_field' => '<p class="comment-form-comment"><label for="comment">Comment</label> <textarea id="comment" name="comment" cols="35" rows="12" aria-required="true"></textarea></p>',
 	'fields' => [
 		'author' => '<p class="comment-form-author"><label for="author">Name <span class="required">*</span></label> <input class="input-comment-author" id="author" name="author" type="text" value="" size="30" aria-required="true"></p>',
 		'email' => '<p class="comment-form-email"><label for="email">Email <span class="required">*</span></label> <input class="input-comment-email" id="email" name="email" type="text" value="" size="30" aria-required="true"></p>',
 		'url' => '<p class="comment-form-url"><label for="url">Website</label> <input class="input-comment-url" id="url" name="url" type="text" value="" size="30"></p>',
-	]
-]);
+	],
+	'class_submit' => 'btn'
+];
+comment_form(apply_filters('waboot/layout/comment_form_args',$commentFormArgs));
 ?>
