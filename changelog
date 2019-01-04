@@ -1,6 +1,6 @@
 == Change log ==
 
-Version 3.1.0 - 12/xx/2018
+Version 3.1.0 - 01/04/2019
 ---------------------------------
 - Fix: fixed archives hierarchy partials inclusion
 - Fix: fixed an error when no fonts are selected
@@ -22,6 +22,7 @@ Version 3.1.0 - 12/xx/2018
 - Tweak: removed edit link from all pages
 - Tweak: added components images
 - Tweak: better handling of widgets rendering in zones
+- Tweak: removed styles, fonts and font awesome theme options from core (moved to components)
 - Feature: added google fonts api key theme option
 
 Version 3.0.1 - 06/28/2018
