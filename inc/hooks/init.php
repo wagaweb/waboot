@@ -30,7 +30,7 @@ function setup() {
 	add_theme_support( 'title-tag' );
 
 	// Add support for responsive embeds.
-	// add_theme_support( 'responsive-embeds' );
+	add_theme_support( 'responsive-embeds' );
 
 	// Add theme support for selective refresh for widgets.
 	// todo: https://make.wordpress.org/core/2016/03/22/implementing-selective-refresh-support-for-widgets/
