@@ -35,27 +35,6 @@ function waboot_style(){
 add_action( 'wp_enqueue_scripts', __NAMESPACE__.'\\waboot_style', 8 );
 
 /**
- * @hooked 'wp_enqueue_scripts'
- * @throws \Exception
- */
-function theme_options_style(){
-	//Theme options style
-	$file = get_theme_options_css_dest_path();
-	if(is_readable($file)){
-		$assets['waboot-theme-options-style'] = [
-			'uri' => get_theme_options_css_dest_uri(),
-			'path' => $file,
-			'type' => 'css'
-		];
-		$am = new AssetsManager($assets);
-		$am->enqueue();
-	}
-}
-if( wbf_exists() ){
-	add_action( 'wp_enqueue_scripts', __NAMESPACE__.'\\theme_options_style', 9 );
-}
-
-/**
  * Loads backend styles
  */
 function admin_styles(){

@@ -138,23 +138,6 @@ function register_options($orgzr){
 		)
 	));
 
-    $orgzr->add([
-        'name' => _x('Background Page', 'Theme options', 'Theme options', 'waboot'),
-        'desc' => _x('Change the page background color.', 'Theme options', 'waboot'),
-        'id' => 'page_bgcolor',
-        'type' => 'color',
-        'std' => '#ffffff',
-        'save_action' => "\\Waboot\\functions\\deploy_theme_options_css"
-    ]);
-
-    $orgzr->add([
-        'name' => _x('Background Content', 'Theme options', 'Theme options', 'waboot'),
-        'desc' => _x('Change the content background color.', 'Theme options', 'waboot'),
-        'id' => 'content_bgcolor',
-        'type' => 'color',
-        'save_action' => "\\Waboot\\functions\\deploy_theme_options_css"
-    ]);
-
     /**********************
      * BLOG
      **********************/
