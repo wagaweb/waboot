@@ -421,7 +421,7 @@ function deploy_theme_options_css($option, $old_value, $value){
 	$output_string = "";
 
 	$inputFile = new \SplFileInfo($input_file_path);
-	if((!$inputFile->isFile() || !$inputFile->isWritable())){
+	if(!$inputFile->isFile()){
 		return false;
 	}
 
