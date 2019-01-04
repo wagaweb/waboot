@@ -78,7 +78,6 @@ let available_components = [
     'sample',
     'topNavWrapper',
     'woocommerce_standard',
-    'google_fonts',
     'style',
     'font_awesome'
 ];
