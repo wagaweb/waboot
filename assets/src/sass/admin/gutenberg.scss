@@ -5,6 +5,9 @@ Author: Waga
 Author URI: https://waga.it
 */
 
+
+/* Editor Width */
+
 .wp-block {
     max-width: 1024px; 
 }
@@ -15,4 +18,10 @@ Author URI: https://waga.it
   
 .wp-block[data-align="full"] {
     max-width: none; 
+}
+
+/* 1 Columns Hack */
+
+.wp-block-columns > .editor-inner-blocks > .editor-block-list__layout > [data-type="core/column"] {
+    flex-basis: 100%;
 }

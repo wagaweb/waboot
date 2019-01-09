@@ -26,3 +26,16 @@
 }
 
 /*=====  End of Gutenberg Align  ======*/
+
+
+
+// Allow 1 col block
+
+.wp-block-columns {
+  &.has-1-columns {
+      .wp-block-column {
+          flex-basis: 100%;
+      }
+  }
+}
+
