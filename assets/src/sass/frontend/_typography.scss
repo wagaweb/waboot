@@ -80,6 +80,20 @@ a:active {
   text-decoration: none;
 }
 
+a {
+  color: $primaryColor;
+}
+
+a:hover,
+a:focus {
+    color: lighten($primaryColor, 20%) ;
+}
+
+a.text-primary:hover,
+a.text-primary:focus {
+  color: lighten($primaryColor, 20%);
+}
+
 span {
   word-wrap: break-word;
 }
