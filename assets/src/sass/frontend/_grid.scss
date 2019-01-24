@@ -54,6 +54,10 @@
 .main-content {
   display: flex;
   flex-wrap: wrap;
+  
+    .site-content {
+      max-width: 100%;
+    }
 }
 
 @include up($medium) {
