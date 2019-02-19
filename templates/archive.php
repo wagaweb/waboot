@@ -4,7 +4,7 @@
     <?php \Waboot\template_tags\archive_page_title(); ?>
 <?php endif; ?>
 <?php if(!empty($vars['tpl'])) : ?>
-    <?php get_template_part($vars['tpl']); ?>
+    <?php try{ (new \WBF\components\mvc\HTMLView($vars['tpl']))->display(['tpl_vars' => $vars]); } catch (\Exception $e){ echo $e->getMessage(); } ?>
 <?php else: ?>
-    <?php get_template_part('templates/archive/archive'); ?>
+    <?php try{ (new \WBF\components\mvc\HTMLView('templates/archive/archive.php'))->display(['tpl_vars' => $vars]); } catch (\Exception $e){ $e->getMessage(); } ?>
 <?php endif; ?>
