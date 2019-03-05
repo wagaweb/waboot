@@ -7,7 +7,7 @@ npm-debug.log
 ############
 ## WABOOT
 ############
-components/**/*
+components
 !components/.gitkeep
 
 ############
