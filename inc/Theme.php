@@ -46,7 +46,7 @@ class Theme{
 	public function load_hooks(){
 		add_action("waboot/head/end", [$this,"print_inline_styles"]);
 		add_action('wbf/modules/components/after_components_options_saved',[$this,'build_components_style_file'],10,4);
-		add_action('wp_enqueue_scripts', [$this,'enqueue_components_styles'],11);
+		add_action('wp_enqueue_scripts', [$this,'enqueue_components_styles'],8); //7 is the priority of waboot styles
 
 		$hooks_files = [
 			'inc/hooks/init.php',
