@@ -1,5 +1,10 @@
 == Change log ==
 
+Version 3.1.2 - 04/16/2019
+---------------------------------
+- Fix: some minor fixes
+- Tweak: now waboot styles are loaded with a priority of 7, followed by the component merge style file with a priority of 8
+
 Version 3.1.1 - 01/09/2019
 ---------------------------------
 - Fix: some minor fixes
