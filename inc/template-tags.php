@@ -117,6 +117,18 @@ function get_mobile_logo(){
 }
 
 /**
+ * Print out the blog page title
+ */
+function blog_page_title(){
+    $title = \Waboot\functions\get_index_page_title();
+    $tpl = "templates/view-parts/archive-title.php";
+    (new HTMLView($tpl))->display([
+        'title' => $title,
+        'title_position' => \Waboot\functions\get_option('blog_title_position')
+    ]);
+}
+
+/**
  * Print out the index page title
  */
 function index_page_title(){

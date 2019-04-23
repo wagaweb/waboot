@@ -4,7 +4,7 @@
  */
 ?>
 <?php if(\Waboot\functions\blog_page_can_display_title('bottom')) : ?>
-	<?php \Waboot\template_tags\index_page_title(); ?>
+	<?php \Waboot\template_tags\blog_page_title(); ?>
 <?php endif; ?>
 <?php if(have_posts()): ?>
 	<?php \Waboot\template_tags\post_navigation( 'nav-above' ); // display content nav above posts if needed ?>

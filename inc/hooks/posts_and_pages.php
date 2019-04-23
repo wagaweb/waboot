@@ -123,9 +123,15 @@ function display_singular_title(){
 		'title' => $title,
 	];
 
-	if(is_archive()){
-		$tpl = "templates/view-parts/archive-title.php";
-	}else{
+	//todo: can we replace is_home() here with $page_type === Utilities::PAGE_TYPE_BLOG_PAGE ?
+    if(is_archive() || is_home()){
+        $tpl = "templates/view-parts/archive-title.php";
+        if(is_archive()){
+            $tpl_args['title_position'] = get_archive_option('title_position');
+        }else{
+            $tpl_args['title_position'] = \Waboot\functions\get_option('blog_title_position');
+        }
+    }else{
 		$tpl = "templates/view-parts/entry-title-singular.php";
 		$tpl_args['title_position'] = \Waboot\functions\get_behavior('title-position');
 	}
