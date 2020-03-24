@@ -1,6 +1,5 @@
 /vendor/
 node_modules
-addons/packages
 
 #Assets
 assets/dist/css/main.min.css

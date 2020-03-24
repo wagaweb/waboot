@@ -25,5 +25,5 @@ add_filter('waboot/addons/disabled', function(){
         'star_rating'
     ];
 });
-\Waboot\inc\loadAddons();
 */
+\Waboot\inc\loadAddons();
