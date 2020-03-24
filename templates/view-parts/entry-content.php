@@ -1,6 +1,6 @@
 <p>
-	<?php \Waboot\template_tags\the_trimmed_excerpt(20, '...'); ?>
+	<?php \Waboot\inc\trimmedExcerpt(20, '...'); ?>
 	<a class="more__link" href="<?php the_permalink() ?>">
-		<?php _e('Continue reading', 'waboot') ?>
+		<?php _e('Continue reading', LANG_TEXTDOMAIN) ?>
 	</a>
 </p>

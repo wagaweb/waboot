@@ -1,17 +1,21 @@
 {
-    "name": "waga/waboot",
-    "description": "",
-    "type": "wordpress-theme",
-    "require-dev": {
-        "10up/wp_mock": "^0.1.1",
-        "phpunit/phpunit": "^5.3.0"
+    "name": "waga/waboot-boilerplate",
+    "description": "A boilerplate for Waboot",
+    "type": "project",
+    "require": {
+        "symfony/yaml": "^5.1@dev"
     },
-    "license": "proprietary",
+    "license": "MIT",
     "authors": [
         {
-            "name": "WAGA",
+            "name": "Waga",
             "email": "dev@waga.it"
         }
     ],
-    "require": {}
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-4": {
+            "Waboot\\inc\\": "inc/"
+        }
+    }
 }

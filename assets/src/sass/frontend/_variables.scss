@@ -1,8 +1,3 @@
-/* Colors */
-$primaryColor: #74B6CA;
-$secondaryColor: #747ec9;
-
-
 /* BreakPoints */
 $xlarge: 1200px;
 $large: 992px;
@@ -10,13 +5,27 @@ $medium: 768px;
 $small: 480px;
 $xsmall: 320px;
 
-
 /* Containers */
 $container-sm: 740px;
 $container-md: 968px;
 $container-lg: 1140px;
 
-
 /* Grid */
 $grid-columns: 12;
-$grid-gutter: 10px;
+$grid-gutter: 20px;
+
+/* Colors */
+$color-white : #FFF;
+$color-success : #03A679;
+$color-warning : #F93D5C;
+$color-border : #B4BBBE;
+
+$colorPrimary: #74B6CA;
+$colorSecondary: #747ec9;
+$colorText: #000;
+
+/* Fonts */
+$fontPrimary : 'Montserrat', sans-serif;
+$fontSecondary : 'Montserrat', sans-serif;
+$fontWeightNormal : 400;
+$fontWeightBold : 700;

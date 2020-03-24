@@ -1,17 +1,8 @@
-                <?php do_action("waboot/content/after"); ?>
-                </div><!-- .site-content__inner -->
-            </div><!-- .site-content -->
+        </div>
 
         <?php get_sidebar(); ?>
 
-        </main><!-- .main-content -->
+    </div>
 
-    <?php do_action("waboot/main-content/after"); ?>
-
-    <?php
-    /*
-     * main-bottom zone
-     */
-    \Waboot\template_tags\render_zone("main-bottom");
-    ?>
-</div><!-- .site-main -->
+    <?php do_action('waboot/layout/main-bottom'); ?>
+</main>

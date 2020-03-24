@@ -1,8 +1,10 @@
 .pagination {
-  display: flex;
-  padding-left: 0;
-  list-style: none;
-  margin-bottom: 30px;
+  ul {
+    display: flex;
+    padding-left: 0;
+    list-style: none;
+    margin-bottom: 30px;
+  }
   li {
     display: inline-block;
     .page-numbers{
@@ -11,20 +13,20 @@
       padding: .5rem .75rem;
       margin-left: -1px;
       line-height: 1.25;
-      color: $primaryColor;
+      color: $colorPrimary;
       background-color: #fff;
-      border: 1px solid $primaryColor;
+      border: 1px solid $colorPrimary;
       &.current {
         color: #fff;
-        background-color: $primaryColor;
+        background-color: $colorPrimary;
       }
       &:hover {
         color: #fff;
-        background-color: $primaryColor;
+        background-color: $colorPrimary;
       }
     }
     a, span {
-      color: $primaryColor;
+      color: $colorPrimary;
     }
   }
 }

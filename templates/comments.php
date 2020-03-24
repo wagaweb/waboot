@@ -11,17 +11,17 @@ if ( post_password_required() )
 	<div id="comments" class="comments__area">
 		<h2 class="comments__title">
 			<?php
-			printf( _nx( 'One thought on &ldquo;%2$s&rdquo;', '%1$s thoughts on &ldquo;%2$s&rdquo;', get_comments_number(), 'comments title', 'waboot' ),
+			printf( _nx( 'One thought on &ldquo;%2$s&rdquo;', '%1$s thoughts on &ldquo;%2$s&rdquo;', get_comments_number(), 'comments title', LANG_TEXTDOMAIN ),
 			number_format_i18n( get_comments_number() ), '<span>' . get_the_title() . '</span>' );
 			?>
 		</h2>
 
 		<?php if ( get_comment_pages_count() > 1 && get_option( 'page_comments' ) ) : // are there comments to navigate through ?>
 			<nav id="comment__nav--above" class="comment__navigation" role="navigation">
-				<h1 class="screen-reader-text"><?php _e( 'Comment navigation', 'waboot' ); ?></h1>
+				<span class="screen-reader-text"><?php _e( 'Comment navigation', LANG_TEXTDOMAIN ); ?></span>
 				<ul class="pager">
-					<li class="previous"><?php previous_comments_link( __( '&laquo; Older Comments', 'waboot' ) ); ?></li>
-					<li class="next"><?php next_comments_link( __( 'Newer Comments &raquo;', 'waboot' ) ); ?></li>
+					<li class="previous"><?php previous_comments_link( __( '&laquo; Older Comments', LANG_TEXTDOMAIN ) ); ?></li>
+					<li class="next"><?php next_comments_link( __( 'Newer Comments &raquo;', LANG_TEXTDOMAIN ) ); ?></li>
 				</ul>
 			</nav><!-- #comment-nav-above -->
 		<?php endif; // check for comment navigation ?>
@@ -31,16 +31,16 @@ if ( post_password_required() )
 			/*
 			 * Display comment list
 			 */
-			wp_list_comments( array( 'callback' => '\Waboot\functions\render_comment' ) );
+			wp_list_comments( array( 'callback' => '\Waboot\inc\renderComment' ) );
 		?>
 		</ol><!-- .comment-list -->
 
 		<?php if ( get_comment_pages_count() > 1 && get_option( 'page_comments' ) ) : // are there comments to navigate through ?>
 			<nav id="comment__nav--below" class="comment__navigation" role="navigation">
-				<h1 class="screen-reader-text"><?php _e( 'Comment navigation', 'waboot' ); ?></h1>
+				<h1 class="screen-reader-text"><?php _e( 'Comment navigation', LANG_TEXTDOMAIN ); ?></h1>
 				<ul class="pager">
-					<li class="prev__link"><?php previous_comments_link( __( 'Older Comments &raquo;', 'waboot' ) ); ?></li>
-					<li class="next__link"><?php next_comments_link( __( '&laquo; Newer Comments', 'waboot' ) ); ?></li>
+					<li class="prev__link"><?php previous_comments_link( __( 'Older Comments &raquo;', LANG_TEXTDOMAIN ) ); ?></li>
+					<li class="next__link"><?php next_comments_link( __( '&laquo; Newer Comments', LANG_TEXTDOMAIN ) ); ?></li>
 				</ul>
 			</nav><!-- #comment-nav-below -->
 		<?php endif; ?>
@@ -50,7 +50,7 @@ if ( post_password_required() )
 <?php
 // If comments are closed and there are comments, let's leave a little note, shall we?
 if ( ! comments_open() && get_comments_number() != 0 && post_type_supports( get_post_type(), 'comments' ) ) : ?>
-	<p class="no-comments"><?php _e( 'Comments are closed.', 'waboot' ); ?></p>
+	<p class="no-comments"><?php _e( 'Comments are closed.', LANG_TEXTDOMAIN ); ?></p>
 <?php endif; ?>
 
 <?php

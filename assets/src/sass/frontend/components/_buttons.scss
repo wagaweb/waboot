@@ -1,5 +1,4 @@
-.button,
-.btn {
+@mixin button() {
   display: inline-block;
   margin-bottom: 0; // For input.btn
   text-align: center;
@@ -9,12 +8,13 @@
   background-image: none; // Reset unusual Firefox-on-Android default style; see https://github.com/necolas/normalize.css/issues/214
   border: 1px solid transparent;
   white-space: nowrap;
-  padding: 6px 12px;
+  padding: 10px 15px;
   font-size: 1em;
   line-height: 1.4em;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
+  text-transform: uppercase;
 
   &:hover,
   &:focus,
@@ -27,5 +27,35 @@
     outline: 0;
     background-image: none;
   }
+}
 
+@mixin buttonStyle($bkg, $color, $color-hover, $border) {
+  border-radius : 0;
+  background    : $bkg;
+  @if $color {
+    color : $color;
+  }
+  @if $border {
+    border : $border;
+  }
+  transition    : all 0.3s ease;
+
+  &:hover {
+    background : darken($bkg, 8%);
+    @if $color-hover {
+      color : $color-hover
+    }
+  }
+  &:active {
+    background : darken($bkg, 25%);
+    @if $color-hover {
+      color : $color-hover
+    }
+  }
+}
+
+.button,
+.btn {
+  @include button();
+  @include buttonStyle($colorPrimary, #fff, #fff, false);
 }

@@ -1,3 +1,9 @@
+body {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  min-height: 100vh;
+}
+
 @mixin wbcontainer() {
   margin-right: auto;
   margin-left: auto;
@@ -14,92 +20,33 @@
 }
 
 .wbcontainer {
-
   @include wbcontainer();
-
-  .wbcontainer {
-    width: auto;
-    min-width: 100%;
-  }
-
 }
 
-.wbcontainer,
-.wbcontainer--fluid {
-
-  .wbcontainer,
-  .wbcontainer--fluid {
-    padding-left: 20px;
-    padding-right: 20px;
+.main {
+  max-width: 100vw;
+  &__grid {
+    padding: 0 $grid-gutter;
   }
-
-}
-
-@include up($medium) {
-
-  @for $i from 1 through $grid-columns {
-    .wbcol--#{$i} {
-      position: relative;
-      width: 100%;
-      min-height: 1px;
-      padding-left:$grid-gutter;
-      padding-right: $grid-gutter;
-      flex: 0 0 percentage(($i / $grid-columns));
-      max-width:  percentage(($i / $grid-columns));
-    }
-  }
-
-}
-
-.main-content {
-  display: flex;
-  flex-wrap: wrap;
-  
-    .site-content {
-      max-width: 100%;
-    }
-}
-
-@include up($medium) {
-  .two-sidebars-left {
-    .aside-primary {
-      padding-left: 0;
-    }
-
-    .site-content {
-      order: 2;
-      padding-right: 0;
-    }
-  }
-  .two-sidebars {
-    .aside-primary {
-      order: 0;
-      padding-left: 0;
-    }
-    .site-content  {
-      order: 1;
-    }
-    .aside-secondary {
-      order: 2;
-      padding-right: 0;
-    }
-  }
-  .sidebar-left {
-    .aside-primary {
-      order: 0;
-      padding-left: 0;
-    }
-    .site-content  {
-      order: 1;
-      padding-right: 0;
-    }
-  }
-  .sidebar-right {
-    .aside-primary {
-      padding-right: 0;
-    }
-    .site-content  {
-      padding-left: 0;
+  body.with-sidebar & {
+    @include up($medium) {
+      &__grid {
+        display: grid;
+        grid-template-columns: auto $grid-gutter calc(100% / 4);
+        grid-template-rows: auto;
+      }
+      &__title {
+        grid-column: 1 / span 3;
+        grid-row: 1;
+      }
+      &__content {
+        grid-column: 1;
+        grid-row: 2;
+      }
+      &__aside {
+        grid-column: 3;
+        grid-row: 2 / last-line;
+      }
     }
   }
 }

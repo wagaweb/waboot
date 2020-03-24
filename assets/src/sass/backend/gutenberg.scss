@@ -1,0 +1,27 @@
+/*
+Custom style for Gutemberg editor
+Version: 1.0
+Author: Waga
+Author URI: https://waga.it
+*/
+
+
+/* Editor Width */
+
+.wp-block {
+  max-width: 1024px;
+}
+
+.wp-block[data-align="wide"] {
+  max-width: 1200px;
+}
+
+.wp-block[data-align="full"] {
+  max-width: none;
+}
+
+/* 1 Columns Hack */
+
+.wp-block-columns > .editor-inner-blocks > .editor-block-list__layout > [data-type="core/column"] {
+  flex-basis: 100%;
+}

@@ -1,31 +1,17 @@
-@include up($xlarge) {
-  body {font-size: 16px;}
-  h1 {font-size: 2.6em;}
-  h2 {font-size: 2.15em;}
-  h3 {font-size: 1.7em;}
-  h4 {font-size: 1.25em;}
-  h5 {font-size: 1em;}
-  h6 {font-size: 0.85em;}
+body {
+  font-family: $fontPrimary;
+  font-weight: $fontWeightNormal;
 }
-@include between($large,$xlarge) {
-  body {font-size: 14px;}
-  h1 {font-size: 2.6em;}
-  h2 {font-size: 2.15em;}
-  h3 {font-size: 1.7em;}
-  h4 {font-size: 1.25em;}
-  h5 {font-size: 1em;}
-  h6 {font-size: 0.85em;}
-}
-@include between($medium,$large) {
-  body {font-size: 13px;}
-  h1 {font-size: 2.6em;}
-  h2 {font-size: 2.15em;}
-  h3 {font-size: 1.7em;}
-  h4 {font-size: 1.25em;}
-  h5 {font-size: 1em;}
-  h6 {font-size: 0.85em;}
-}
-@include down($medium) {
+
+body {font-size: 14px;}
+h1 {font-size: 2.6em;}
+h2 {font-size: 2.15em;}
+h3 {font-size: 1.7em;}
+h4 {font-size: 1.25em;}
+h5 {font-size: 1em;}
+h6 {font-size: 0.85em;}
+
+@include up($large) {
   body {font-size: 14px;}
   h1 {font-size: 2.6em;}
   h2 {font-size: 2.15em;}
@@ -81,17 +67,17 @@ a:active {
 }
 
 a {
-  color: $primaryColor;
+  color: $colorPrimary;
 }
 
 a:hover,
 a:focus {
-    color: lighten($primaryColor, 20%) ;
+    color: lighten($colorPrimary, 20%) ;
 }
 
 a.text-primary:hover,
 a.text-primary:focus {
-  color: lighten($primaryColor, 20%);
+  color: lighten($colorPrimary, 20%);
 }
 
 span {
@@ -148,33 +134,4 @@ ins {
   margin-left: auto;
   margin-right: auto;
   text-align: center;
-}
-
-form {
-  label {
-    display: inline-block;
-    max-width: 100%;
-    margin-bottom: 5px;
-    font-weight: 700;
-  }
-  select,
-  textarea,
-  input[type="text"],
-  input[type="number"],
-  input[type="tel"],
-  input[type="email"],
-  input[type="password"] {
-    display: block;
-    width: 100%;
-    height: 34px;
-    padding: 6px 12px;
-    background-color: #fff;
-    background-image: none;
-    border: 1px solid #ccc;
-    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
-    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
-  }
-  textarea {
-    height: auto;
-  }
 }

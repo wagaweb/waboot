@@ -1,151 +1,58 @@
 <?php
 
-namespace Waboot\functions;
-use Waboot\exception\WBFVersionException;
-use Waboot\exceptions\WBFNotFoundException;
-use Waboot\Layout;
-use WBF\components\mvc\HTMLView;
-use WBF\components\utils\Paths;
-use WBF\components\utils\Query;
-use WBF\components\utils\Utilities;
+namespace Waboot\inc;
 
-/**
- * Wrapper for \WBF\modules\options\of_get_option
- *
- * @param $name
- * @param bool $default
- *
- * @return bool|mixed
- */
-function get_option($name, $default = null){
-	if(class_exists("WBF")){
-		return \WBF\modules\options\of_get_option($name,$default);
-	}else{
-		return $default;
-	}
-}
-
-/**
- * Wrapper for \WBF\modules\behaviors\get_behavior
- *
- * @param $name
- * @param $default
- * @param int $post_id
- * @param string $return
- *
- * @return array|bool|mixed|string
- */
-function get_behavior($name, $default = "", $post_id = 0, $return = "value"){
-	if(class_exists("WBF")){
-		$result = \WBF\modules\behaviors\get_behavior($name, $post_id, $return);
-		if($result === false || is_wp_error($result)){
-			if(is_wp_error($result) && isset($result->error_data['unable_to_retrieve_behavior']) && isset($result->error_data['unable_to_retrieve_behavior']['default'])){
-				$default = $result->error_data['unable_to_retrieve_behavior']['default'];
-			}
-			return $default;
-		}
-		return $result;
-	}else{
-		return $default;
-	}
-}
-
-/**
- * Checks if at least one widget area with $prefix is active (eg: footer-1, footer-2, footer-3...)
- *
- * @param $prefix
- *
- * @return bool
- */
-function count_widgets_in_area($prefix){
-	$count = 0;
-	$areas = get_widget_areas();
-	if(isset($areas[$prefix]) || !isset($areas[$prefix]['type']) || $areas[$prefix]['type'] != "multiple"){
-		$limit = isset($areas[$prefix]['subareas']) && intval($areas[$prefix]['subareas']) > 0 ? $areas[$prefix]['subareas'] : 0;
-		for($i = 1; $i <= $limit; $i++) {
-			if(is_active_sidebar($prefix . "-" . $i)) {
-				$count++;
-			}
-		}
-	}
-	return $count;
-}
-
-/**
- * Prints out a waboot-type widget area
- *
- * @param $prefix
- */
-function print_widgets_in_area($prefix){
-	$count = count_widgets_in_area($prefix);
-	if($count === 0) return;
-	try{
-        (new HTMLView("templates/widget_areas/parts/multi-widget-area.php"))->clean()->display([
-            'widget_area_prefix' => $prefix,
-            'widget_count' => $count
-        ]);
-    }catch (\Exception $e){
-	    echo $e->getMessage();
-    }
-
-}
+use Waboot\inc\core\utils\Utilities;
 
 /**
  * Gets theme widget areas
  *
  * @return array
  */
-function get_widget_areas(){
-	$areas = [
-		'header' => [
-			'name' =>  __('Header', 'waboot'),
-			'description' => __( 'The main widget area displayed in the header.', 'waboot' ),
-			'render_zone' => 'header'
-		],
-		'main_top' => [
-			'name' => __('Main Top', 'waboot'),
-			'description' => __( 'Widget area displayed above the content and the sidebars.', 'waboot' ),
-			'render_zone' => 'main-top'
-		],
-		'sidebar_primary' => [
-			'name' => __('Sidebar primary', 'waboot'),
-			'description' => __('Widget area displayed in left aside', 'waboot' ),
-			'render_zone' => 'aside-primary'
-		],
-		'content_top' => [
-			'name' => __('Content Top', 'waboot'),
-			'description' => __('Widget area displayed above the content', 'waboot' ),
-			'render_zone' => 'content',
-			'render_priority' => 9
-		],
-		'content_bottom' => [
-			'name' => __('Content Bottom', 'waboot'),
-			'description' => __('Widget area displayed below the content', 'waboot' ),
-			'render_zone' => 'content',
-			'render_priority' => 90
-		],
-		'sidebar_secondary' => [
-			'name' => __('Sidebar secondary', 'waboot'),
-			'description' => __('Widget area displayed in right aside', 'waboot' ),
-			'render_zone' => 'aside-secondary'
-		],
-		'main_bottom' => [
-			'name' => __('Main Bottom', 'waboot'),
-			'description' => __( 'Widget area displayed below the content and the sidebars.', 'waboot' ),
-			'render_zone' => 'main-bottom'
-		],
-		'footer' => [
-			'name' => __('Footer', 'waboot'),
-			'description' => __( 'The main widget area displayed in the footer.', 'waboot' ),
-			//'type' => 'multiple',
-			//'subareas' => 4, //this will register footer-1, footer-2, footer-3 and footer-4 as widget areas
-			'render_zone' => 'footer'
-		]
-	];
+function getWidgetAreas(){
+    $areas = [
+        'header' => [
+            'name' =>  __('Header', LANG_TEXTDOMAIN),
+            'description' => __( 'The main widget area displayed in the header.', LANG_TEXTDOMAIN),
+            'render_zone' => 'header'
+        ],
+        'main_top' => [
+            'name' => __('Main Top', LANG_TEXTDOMAIN),
+            'description' => __( 'Widget area displayed above the content and the sidebars.', LANG_TEXTDOMAIN ),
+            'render_zone' => 'main-top'
+        ],
+        'aside' => [
+            'name' => __('Aside', LANG_TEXTDOMAIN),
+            'description' => __('Widget area displayed in aside', LANG_TEXTDOMAIN ),
+            'render_zone' => 'aside'
+        ],
+        'content_before' => [
+            'name' => __('Content Before', LANG_TEXTDOMAIN),
+            'description' => __('Widget area displayed above the content', LANG_TEXTDOMAIN ),
+            'render_zone' => 'content',
+            'render_priority' => 9
+        ],
+        'content_after' => [
+            'name' => __('Content After', LANG_TEXTDOMAIN),
+            'description' => __('Widget area displayed below the content', LANG_TEXTDOMAIN ),
+            'render_zone' => 'content',
+            'render_priority' => 90
+        ],
+        'main_bottom' => [
+            'name' => __('Main Bottom', LANG_TEXTDOMAIN),
+            'description' => __( 'Widget area displayed below the content and the sidebars.', LANG_TEXTDOMAIN ),
+            'render_zone' => 'main-bottom'
+        ],
+        'footer' => [
+            'name' => __('Footer', LANG_TEXTDOMAIN),
+            'description' => __( 'The main widget area displayed in the footer.', LANG_TEXTDOMAIN ),
+            'render_zone' => 'footer'
+        ]
+    ];
 
-	$areas = apply_filters("waboot/widget_areas/available",$areas);
+    $areas = apply_filters('waboot/widget_areas/available',$areas);
 
-	return $areas;
+    return $areas;
 }
 
 /**
@@ -153,8 +60,8 @@ function get_widget_areas(){
  *
  * @return string
  */
-function get_index_page_title(){
-	return single_post_title('', false);
+function getIndexPageTitle(){
+    return single_post_title('', false);
 }
 
 /**
@@ -162,463 +69,246 @@ function get_index_page_title(){
  *
  * @return string
  */
-function get_archive_page_title(){
-	if ( is_category() ) {
-		/* translators: Category archive title. 1: Category name */
-		$title = sprintf( '%s', single_cat_title( '', false ) );
-	} elseif ( is_tag() ) {
-		/* translators: Tag archive title. 1: Tag name */
-		$title = sprintf( '%s', single_tag_title( '', false ) );
-	} elseif ( is_author() ) {
-		/* translators: Author archive title. 1: Author name */
-		$title = sprintf( '%s', '<span class="vcard">' . get_the_author() . '</span>' );
-	} elseif ( is_year() ) {
-		/* translators: Yearly archive title. 1: Year */
-		$title = sprintf( __( 'Year: %s' ), get_the_date( _x( 'Y', 'yearly archives date format' ) ) );
-	} elseif ( is_month() ) {
-		/* translators: Monthly archive title. 1: Month name and year */
-		$title = sprintf( __( 'Month: %s' ), get_the_date( _x( 'F Y', 'monthly archives date format' ) ) );
-	} elseif ( is_day() ) {
-		/* translators: Daily archive title. 1: Date */
-		$title = sprintf( __( 'Day: %s' ), get_the_date( _x( 'F j, Y', 'daily archives date format' ) ) );
-	} elseif ( is_tax( 'post_format' ) ) {
-		if ( is_tax( 'post_format', 'post-format-aside' ) ) {
-			$title = _x( 'Asides', 'post format archive title' );
-		} elseif ( is_tax( 'post_format', 'post-format-gallery' ) ) {
-			$title = _x( 'Galleries', 'post format archive title' );
-		} elseif ( is_tax( 'post_format', 'post-format-image' ) ) {
-			$title = _x( 'Images', 'post format archive title' );
-		} elseif ( is_tax( 'post_format', 'post-format-video' ) ) {
-			$title = _x( 'Videos', 'post format archive title' );
-		} elseif ( is_tax( 'post_format', 'post-format-quote' ) ) {
-			$title = _x( 'Quotes', 'post format archive title' );
-		} elseif ( is_tax( 'post_format', 'post-format-link' ) ) {
-			$title = _x( 'Links', 'post format archive title' );
-		} elseif ( is_tax( 'post_format', 'post-format-status' ) ) {
-			$title = _x( 'Statuses', 'post format archive title' );
-		} elseif ( is_tax( 'post_format', 'post-format-audio' ) ) {
-			$title = _x( 'Audio', 'post format archive title' );
-		} elseif ( is_tax( 'post_format', 'post-format-chat' ) ) {
-			$title = _x( 'Chats', 'post format archive title' );
-		}
-	} elseif ( is_post_type_archive() ) {
-		/* translators: Post type archive title. 1: Post type name */
-		$title = sprintf( '%s', post_type_archive_title( '', false ) );
-	} elseif ( is_tax() ) {
-		/* translators: Taxonomy term archive title. 1: Current taxonomy term */
-		$title = sprintf( '%1$s', single_term_title( '', false ) );
-	} else {
-		$arch_obj = get_queried_object();
-		if(isset($arch_obj->name)){
-			$title = $arch_obj->name;
-		}else{
-			$title = __('Archives', 'waboot');
-		}
-	}
+function getArchivePageTitle(){
+    if ( is_category() ) {
+        /* translators: Category archive title. 1: Category name */
+        $title = sprintf( '%s', single_cat_title( '', false ) );
+    } elseif ( is_tag() ) {
+        /* translators: Tag archive title. 1: Tag name */
+        $title = sprintf( '%s', single_tag_title( '', false ) );
+    } elseif ( is_author() ) {
+        /* translators: Author archive title. 1: Author name */
+        $title = sprintf( '%s', '<span class="vcard">' . get_the_author() . '</span>' );
+    } elseif ( is_year() ) {
+        /* translators: Yearly archive title. 1: Year */
+        $title = sprintf( __( 'Year: %s' ), get_the_date( _x( 'Y', 'yearly archives date format' ) ) );
+    } elseif ( is_month() ) {
+        /* translators: Monthly archive title. 1: Month name and year */
+        $title = sprintf( __( 'Month: %s' ), get_the_date( _x( 'F Y', 'monthly archives date format' ) ) );
+    } elseif ( is_day() ) {
+        /* translators: Daily archive title. 1: Date */
+        $title = sprintf( __( 'Day: %s' ), get_the_date( _x( 'F j, Y', 'daily archives date format' ) ) );
+    } elseif ( is_tax( 'post_format' ) ) {
+        if ( is_tax( 'post_format', 'post-format-aside' ) ) {
+            $title = _x( 'Asides', 'post format archive title' );
+        } elseif ( is_tax( 'post_format', 'post-format-gallery' ) ) {
+            $title = _x( 'Galleries', 'post format archive title' );
+        } elseif ( is_tax( 'post_format', 'post-format-image' ) ) {
+            $title = _x( 'Images', 'post format archive title' );
+        } elseif ( is_tax( 'post_format', 'post-format-video' ) ) {
+            $title = _x( 'Videos', 'post format archive title' );
+        } elseif ( is_tax( 'post_format', 'post-format-quote' ) ) {
+            $title = _x( 'Quotes', 'post format archive title' );
+        } elseif ( is_tax( 'post_format', 'post-format-link' ) ) {
+            $title = _x( 'Links', 'post format archive title' );
+        } elseif ( is_tax( 'post_format', 'post-format-status' ) ) {
+            $title = _x( 'Statuses', 'post format archive title' );
+        } elseif ( is_tax( 'post_format', 'post-format-audio' ) ) {
+            $title = _x( 'Audio', 'post format archive title' );
+        } elseif ( is_tax( 'post_format', 'post-format-chat' ) ) {
+            $title = _x( 'Chats', 'post format archive title' );
+        }
+    } elseif ( is_post_type_archive() ) {
+        /* translators: Post type archive title. 1: Post type name */
+        $title = sprintf( '%s', post_type_archive_title( '', false ) );
+    } elseif ( is_tax() ) {
+        /* translators: Taxonomy term archive title. 1: Current taxonomy term */
+        $title = sprintf( '%1$s', single_term_title( '', false ) );
+    } else {
+        $arch_obj = get_queried_object();
+        if(isset($arch_obj->name)){
+            $title = $arch_obj->name;
+        }else{
+            $title = __('Archives', LANG_TEXTDOMAIN);
+        }
+    }
 
-	/**
-	 * Filters the archive title.
-	 *
-	 * @since 4.1.0
-	 *
-	 * @param string $title Archive title to be displayed.
-	 */
-	return apply_filters( 'get_the_archive_title', $title );
+    /**
+     * Filters the archive title.
+     *
+     * @since 4.1.0
+     *
+     * @param string $title Archive title to be displayed.
+     */
+    return apply_filters( 'get_the_archive_title', $title );
 }
 
 /**
- * Handles the different theme options values that can be set for archives pages. If the $taxonomy is 'category', then
- * the Blog options are used, otherwise the function looks for the option specific to that $taxonomy.
- * Look options.php at "Archives" section for more info.
+ * A version of the_excerpt() that applies the trim function to the predefined excerpt as well
  *
- * @param string $provided_option_name (without suffix, so for: 'blog_display_title', 'display_title' is enough )
- * @param string|false $taxonomy
- *
- * @return string
- */
-function get_archive_option($provided_option_name,$taxonomy = null){
-	if(!isset($taxonomy)){
-		$taxonomy = get_current_taxonomy();
-	}
-
-	if(!$taxonomy && is_archive()){
-		global $wp_query;
-		$taxonomy = isset($wp_query->query['post_type']) ? $wp_query->query['post_type'] : false;
-	}
-
-	$taxonomy = apply_filters('waboot/archive_option/taxonomy',$taxonomy);
-
-	$default_value = \Waboot\functions\get_option("blog_".$provided_option_name); //Default to blog values
-
-	if($taxonomy === "category" || !$taxonomy){
-		$option_name = "blog_".$provided_option_name;
-	}else{
-		$option_name = "archive_".$taxonomy."_".$provided_option_name;
-	}
-
-	$value = \Waboot\functions\get_option($option_name,$default_value);
-
-	return $value;
-}
-
-/**
- * Gets the body layout
+ * @param int|null $length
+ * @param string|null $more
+ * @param int|null $post_id
+ * @param bool $fallback_to_content use the post content if the excerpt is empty
  *
  * @return string
  */
-function get_body_layout(){
-	static $layout;
-	if(!isset($layout)){
-		$current_page_type = Utilities::get_current_page_type();
-		if($current_page_type == Utilities::PAGE_TYPE_BLOG_PAGE || $current_page_type == Utilities::PAGE_TYPE_DEFAULT_HOME || is_category()) {
-			$layout = \Waboot\functions\get_option('blog_layout');
-		}elseif(is_archive()){
-			$layout = get_archive_option('layout');
-		}
-		else{
-			$layout = \Waboot\functions\get_behavior('layout');
-		}
-		$layout = apply_filters("waboot/layout/body_layout",$layout);
-	}
-	return $layout;
+function getTrimmedExcerpt($length = null,$more = null,$post_id = null, $fallback_to_content = false){
+    if(!isset($length)){
+        $excerpt_length = apply_filters( 'excerpt_length', 55 );
+    }else{
+        $excerpt_length = $length;
+    }
+    if(!isset($more)){
+        $excerpt_more = apply_filters( 'excerpt_more', ' ' . '[&hellip;]' );
+    }else{
+        $excerpt_more = $more;
+    }
+
+    if(is_string($fallback_to_content)){ //backward compatibility
+        $fallback_to_content = false;
+        if($fallback_to_content == "content_also"){
+            $fallback_to_content = true;
+        }elseif($fallback_to_content == "excerpt_only"){
+            $fallback_to_content = false;
+        }
+    }
+
+    if(isset($post_id)){
+        $post = get_post($post_id);
+        if($fallback_to_content && $post->post_excerpt == ""){
+            $text = apply_filters('the_content', $post->post_content);
+        }else{
+            $text = $post->post_excerpt;
+        }
+    }else{
+        global $post;
+        if($fallback_to_content && $post->post_excerpt == ""){
+            $text = get_the_content();
+        }else{
+            $text = get_the_excerpt();
+        }
+    }
+
+    return wp_trim_words($text,$excerpt_length,$excerpt_more);
 }
 
 /**
- * Checks if body layout is full width
+ * Returns the first post link and/or post content without the link.
+ * Used for the "Link" post format.
  *
- * @return bool
+ * @param string $output "link" or "post_content"
+ * @return string Link or Post Content without link.
  */
-function body_layout_is_full_width(){
-	$body_layout = get_body_layout();
-	return $body_layout == Layout::LAYOUT_FULL_WIDTH;
+function getFilteredLinkPostContent( $output = 'link') {
+    $post_content = get_the_content();
+
+    $link = preg_match( '/<a\s[^>]*?href=[\'"](.+?)[\'"][^>]*>[^>]*>/is', $post_content, $matches );
+    if($link){
+        $link_url = $matches[1];
+        $post_content = substr( $post_content, strlen( $matches[0] ) );
+        if(!$post_content){
+            $post_content = '';
+        }
+    }
+
+    switch($output){
+        case 'link':
+            if($link && isset($link_url)){
+                return $link_url;
+            }
+            return '';
+            break;
+        case 'post_content':
+            return $post_content;
+            break;
+        default:
+            return $post_content;
+            break;
+    }
 }
 
 /**
- * Checks if the body layout has two sidebars
- * 
- * @return bool
- */
-function body_layout_has_two_sidebars(){
-	$body_layout = get_body_layout();
-	return in_array($body_layout,array("two-sidebars","two-sidebars-right","two-sidebars-left"));
-}
-
-/**
- * Checks if the body layout features at least one sidebar
- *
- * @use body_layout_has_two_sidebars()
- *
- * @return bool
- */
-function body_layout_has_sidebar(){
-	$body_layout = get_body_layout();
-	return $body_layout == Layout::LAYOUT_PRIMARY_LEFT || $body_layout == Layout::LAYOUT_PRIMARY_RIGHT || body_layout_has_two_sidebars();
-}
-
-/**
- * Return the class relative to the $blog_layout (by default the current blog layout)
- *
- * @param bool $blog_layout
- * @return mixed
- */
-function get_posts_wrapper_class(){
-	$classes = [
-		"blog-classic"
-	];
-	$classes = apply_filters("waboot/layout/posts_wrapper/class",$classes);
-	return implode(" ",$classes);
-}
-
-/**
- * Get the specified sidebar size
- * @param $name ("primary" or "secondary")
- *
- * @return string|false
- */
-function get_sidebar_size($name){
-	$size = false;
-
-	$page_type = Utilities::get_current_page_type();
-
-	if($page_type == Utilities::PAGE_TYPE_BLOG_PAGE || $page_type == Utilities::PAGE_TYPE_DEFAULT_HOME || is_category()){
-		$size = \Waboot\functions\get_option("blog_".$name."_sidebar_size");
-	}elseif(is_archive() || is_tax()){
-		$size = get_archive_option($name."_sidebar_size");
-	}else{
-		$size = get_behavior($name.'-sidebar-size');
-	}
-
-	return $size;
-}
-
-/**
- * Returns the sizes of each column available into current layout
- * @return array of integers
- */
-function get_cols_sizes(){
-	$result = array("main"=>12);
-	if (\Waboot\functions\body_layout_has_two_sidebars()) {
-		//Primary size
-		$primary_sidebar_width = get_sidebar_size("primary");
-		if(!$primary_sidebar_width) $primary_sidebar_width = 0;
-		//Secondary size
-		$secondary_sidebar_width = get_sidebar_size("secondary");
-		if(!$secondary_sidebar_width) $secondary_sidebar_width = 0;
-		//Main size
-		$mainwrap_size = 12 - Layout::layout_width_to_int($primary_sidebar_width) - Layout::layout_width_to_int($secondary_sidebar_width);
-
-		$result = [
-			"main" => $mainwrap_size,
-			"primary" => Layout::layout_width_to_int($primary_sidebar_width),
-			"secondary" => Layout::layout_width_to_int($secondary_sidebar_width)
-		];
-	}else{
-		if(\Waboot\functions\get_body_layout() != Layout::LAYOUT_FULL_WIDTH){
-			$primary_sidebar_width = get_sidebar_size("primary");
-			if(!$primary_sidebar_width) $primary_sidebar_width = 0;
-			$mainwrap_size = 12 - Layout::layout_width_to_int($primary_sidebar_width);
-
-			$result = [
-				"main" => $mainwrap_size,
-				"primary" => Layout::layout_width_to_int($primary_sidebar_width)
-			];
-		}
-	}
-	$result = apply_filters("waboot/layout/get_cols_sizes",$result);
-	return $result;
-}
-
-/**
- * Filterable version of get_template_part
- *
- * @param $slug
- * @param null $name
- */
-function get_template_part($slug,$name = null){
-	$page_type = Utilities::get_current_page_type();
-	$tpl_part = apply_filters("waboot/layout/template_parts",[$slug,$name],$page_type);
-	\get_template_part($tpl_part[0],$tpl_part[1]);
-}
-
-/**
- * Get the start wizard link
- *
- * @return string
- */
-function get_start_wizard_link(){
-	if(wbf_exists()){
-		$start_wizard_link = admin_url("admin.php?page=waboot_setup_wizard");
-	}else{
-		$start_wizard_link = admin_url("tools.php?page=waboot_setup_wizard");
-	}
-	return $start_wizard_link;
-}
-
-/**
- * Return current taxonomy name
+ * Returns the first valid oembed
  *
  * @return bool|string
  */
-function get_current_taxonomy(){
-	$o = get_queried_object();
-	if($o instanceof \WP_Term){
-		return $o->taxonomy;
-	}elseif($o instanceof \WP_Taxonomy){
-		return $o->name;
-	}
-	return false;
+function getFirstVideo() {
+    $first_oembed  = '';
+    $custom_fields = get_post_custom();
+
+    foreach ( $custom_fields as $key => $custom_field ) {
+        if ( 0 !== strpos( $key, '_oembed_' ) ) continue;
+        if ( $custom_field[0] == '{{unknown}}' ) continue;
+
+        $first_oembed = $custom_field[0];
+
+        $video_width  = (int) apply_filters( 'wb_video_width', 100 );
+        $video_height = (int) apply_filters( 'wb_video_height', 480 );
+
+        $first_oembed = preg_replace( '/<embed /', '<embed wmode="transparent" ', $first_oembed );
+        $first_oembed = preg_replace( '/<\/object>/','<param name="wmode" value="transparent" /></object>', $first_oembed );
+
+        $first_oembed = preg_replace( "/width=\"[0-9]*\"/", "width={$video_width}%", $first_oembed );
+        $first_oembed = preg_replace( "/height=\"[0-9]*\"/", "height={$video_height}", $first_oembed );
+
+        break;
+    }
+
+    return ( '' !== $first_oembed ) ? $first_oembed : false;
 }
 
 /**
- * Detect the existence of WBF
+ * Retrieve a post's terms as a list with specified format and in an hierarchical order
  *
- * @return bool
+ * @param int $id Post ID.
+ * @param string $taxonomy Taxonomy name.
+ * @param string $before Optional. Before list.
+ * @param string $sep Optional. Separate items using this.
+ * @param string $after Optional. After list.
+ * @param bool $linked
+ *
+ * @return string A list of terms on success, an empty string in case of failure or when no terms has been found.
  */
-function wbf_exists(){
-	if(class_exists("\WBF\PluginCore") || defined('WBTEST_CURRENT_PATH')){
-		return true;
-	}
-	return false;
+function getTheTermsListHierarchical( $id, $taxonomy, $before = '', $sep = '', $after = '', $linked = true ) {
+    $terms = Utilities::getPostTermsHierarchical($id, $taxonomy);
+
+    if( is_wp_error($terms) || empty($terms) ){
+        return '';
+    }
+
+    $links = array();
+
+    foreach ( $terms as $term ) {
+        if($term instanceof \stdClass){
+            $term = get_term($term->term_id,$taxonomy); //Restore the WP_Term
+        }
+        $link = get_term_link( $term, $taxonomy );
+        if ( is_wp_error( $link ) ) {
+            return $link;
+        }
+        if ($linked) {
+            $links[] = '<a href="' . esc_url( $link ) . '" rel="tag">' . $term->name . '</a>';
+        }else{
+            $links[] = $term->name;
+        }
+    }
+
+    /**
+     * Filter the term links for a given taxonomy.
+     *
+     * The dynamic portion of the filter name, `$taxonomy`, refers
+     * to the taxonomy slug.
+     *
+     * @param array $links An array of term links.
+     */
+    $term_links = apply_filters( "term_links-$taxonomy", $links );
+
+    return $before . join( $sep, $term_links ) . $after;
 }
 
 /**
- * Check if WBF is at least at the required version
- */
-function has_wbf_required_version($required_version){
-	if(!wbf_exists()) return false;
-	$wbf = WBF();
-	$wbf_version = $wbf::version;
-	$r = version_compare($wbf_version,$required_version,'>=');
-	return $r;
-}
-
-/**
- * Gets Waboot installed children themes
- * @return array
- */
-function get_waboot_children(){
-	$themes = wp_get_themes();
-	$children = [];
-	if(\is_array($themes) && !empty($themes)){
-		foreach ($themes as $theme_slug => $WP_Theme){
-			if($WP_Theme->get_template() === 'waboot'){
-				$children[] = $WP_Theme;
-			}
-		}
-	}
-	return $children;
-}
-
-/**
- * Backup theme options of a specific theme
- *
- * @param string WP_Theme|string $theme
- * @param string|null $filename
- *
- * @return bool|string
- * @throws \Exception
- */
-function backup_theme_options($theme, $filename = null){
-	if(\is_string($theme)){
-		$theme = wp_get_theme($theme);
-	}
-	if(!$theme instanceof \WP_Theme) return false;
-	$theme_options = \get_option("wbf_".$theme->get_stylesheet()."_options",[]);
-	if(!\is_array($theme_options) || empty($theme_options)) return false;
-
-	//Actually backup theme options
-	$backup_path = WBF()->get_working_directory(true) . "/{$theme->get_stylesheet()}/theme-options-backups";
-	if(!is_dir($backup_path)){
-		wp_mkdir_p($backup_path);
-	}
-	if(is_dir($backup_path)){
-		if(!isset($filename) || !\is_string($filename)){
-			$date = date( 'Y-m-d-His' );
-			$backup_filename = 'wbf_'.$theme->get_stylesheet() . "_options-" . $date . ".options";
-		}else{
-			$backup_filename = $filename;
-			if(strpos($backup_filename,'.options') === false){
-				$backup_filename.= '.options';
-			}
-		}
-
-		if(is_file($backup_path . "/" . $backup_filename)){
-			unlink($backup_path . "/" . $backup_filename);
-		}
-
-		if ( ! file_put_contents( $backup_path . "/" . $backup_filename, base64_encode( json_encode( $theme_options ) ) ) ) {
-			throw new \Exception( __( "Unable to create the backup file: " . $backup_path . "/" . $backup_filename ) );
-		}
-		return $backup_path . "/" . $backup_filename;
-	}
-	return false;
-}
-
-/**
- * Backups components states of a specific theme
- *
- * @param string $theme
- *
- * @param null $filename
- *
- * @return string|bool
- * @throws \Exception
- */
-function backup_components_states($theme, $filename = null){
-	if(\is_string($theme)){
-		$theme = wp_get_theme($theme);
-	}
-	if(!$theme instanceof \WP_Theme) return false;
-
-	$states = \call_user_func(function() use($theme){
-		$opt = \get_option("wbf_".$theme->get_stylesheet()."_components_state", []);
-		$opt = apply_filters("wbf/modules/components/states",$opt,$theme->get_stylesheet());
-		return $opt;
-	});
-
-	//Actually backup components options
-	$backup_path = WBF()->get_working_directory(true) . "/{$theme->get_stylesheet()}/components-backups";
-	if(!is_dir($backup_path)){
-		wp_mkdir_p($backup_path);
-	}
-	if(is_dir($backup_path)){
-		if(!isset($filename) || !\is_string($filename)){
-			$date = date( 'Y-m-d-His' );
-			$backup_filename = $theme->get_stylesheet() . "-" . $date . ".components";
-		}else{
-			$backup_filename = $filename;
-			if(strpos($backup_filename,'.components') === false){
-				$backup_filename.= '.components';
-			}
-		}
-
-		if(is_file($backup_path . "/" . $backup_filename)){
-			unlink($backup_path . "/" . $backup_filename);
-		}
-
-		if ( ! file_put_contents( $backup_path . "/" . $backup_filename, serialize( $states ) ) ) {
-			throw new \Exception( __( "Unable to create the backup file: " . $backup_path . "/" . $backup_filename ) );
-		}
-		return $backup_path . "/" . $backup_filename;
-	}
-	return false;
-}
-
-/**
- * Checks theme prerequisites
- *
- * @throws WBFNotFoundException
- * @throws WBFVersionException
- */
-function check_prerequisites(){
-	if(!wbf_exists()){
-		$message = sprintf(
-			__( "Waboot theme requires <a href='%s'>WBF Framework</a> plugin to work properly. You can <a href='%s'>download it manually</a> or <a href='%s'>go to the dashboard</a> for the auto-installer.", 'Waboot' ),
-			'https://www.waboot.io',
-			'http://update.waboot.org/resource/get/plugin/wbf',
-			admin_url()
-		);
-		throw new WBFNotFoundException($message);
-	}
-	if(!\Waboot\functions\has_wbf_required_version(WBF_MIN_VER)){
-		$message = sprintf(
-			__( "Waboot theme requires <a href='%s'>WBF Framework</a> plugin at least at v%s to work properly. You can <a href='%s'>download it manually</a> or <a href='%s'>go to the dashboard</a> for the auto-installer.", 'Waboot' ),
-			'https://www.waboot.io',
-			WBF_MIN_VER,
-			'http://update.waboot.org/resource/get/plugin/wbf',
-			admin_url()
-		);
-		throw new WBFVersionException($message);
-	}
-}
-
-/**
- * Tries to require a list of files. Trigger a special error when can't.
- *
- * @param array $files
- */
-function safe_require_files($files){
-	if(!is_array($files) || count($files) === 0) return;
-	foreach($files as $file){
-		if (!$filepath = locate_template($file)) {
-			trigger_error(sprintf(__('Error locating %s for inclusion', 'waboot'), $file), E_USER_ERROR);
-		}
-		require_once $filepath;
-	}
-}
-
-/**
- * Get the theme version
- *
+ * @param string|array $size Image size. Accepts any valid image size, or an array of width and height values in pixels (in that order). Default 'full'.
  * @return string
  */
-function get_theme_version(){
-	$t = wp_get_theme('waboot');
-	if($t instanceof \WP_Theme){
-		$v = $t->get('Version');
-		if(is_string($v)){
-			return $v;
-		}
-	}
-	return '';
+function getLogo($size = 'full'){
+    $image = '';
+    $customLogoId = get_theme_mod( 'custom_logo' );
+    if(\is_int($customLogoId) && $customLogoId !== 0){
+        $attachment = wp_get_attachment_image_src($customLogoId , $size);
+        if(\is_array($attachment) && count($attachment) > 0){
+            $image = $attachment[0];
+        }
+    }
+    return (string) apply_filters('waboot/logo', $image);
 }

@@ -1,0 +1,131 @@
+.minicart {
+  background: #fff;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
+  display: block;
+  height: 100%;
+  position: fixed;
+  overflow: auto;
+  transition: transform .3s;
+  top: 0;
+  right: 0;
+  transform: translate(320px, 0);
+  width: 300px;
+  @include up($large){
+    transform: translate(420px, 0);
+    width: 400px;
+  }
+  z-index: 100;
+  &.show {
+    transform: translate(0, 0);
+  }
+  &-overlay {
+    background: rgba(255, 255, 255, 0.8);
+    display: none;
+    height: 100%;
+    left: 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 99;
+  }
+  &-no-scroll {
+    overflow: hidden !important;
+  }
+  .widget_shopping_cart {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 25px;
+  }
+  .widget_shopping_cart_content {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    width: 100%;
+    .woocommerce-mini-cart {
+      flex-grow: 1;
+    }
+  }
+}
+.woocommerce-mini-cart {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+
+  li {
+    padding: 0 20px 10px 0;
+    margin: 0 0 10px;
+    border-bottom: 1px solid #eee;
+    position: relative;
+    overflow: auto;
+    img {
+      float: left;
+      width: 60px;
+      background-color: #f4f4f4;
+      margin-right: 15px;
+    }
+    .quantity {
+      display: block;
+      width: 100%;
+      margin-top: 5px;
+      font-size: .9em;
+    }
+    .remove_from_cart_button {
+      position: absolute;
+      right: 0;
+      top: 0;
+      background-color: #000;
+      border-radius: 50%;
+      color: #fff;
+      font-size: .8em;
+      line-height: 15px;
+      width: 15px;
+      display: block;
+      text-align: center;
+    }
+  }
+
+  &__total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.2em;
+  }
+
+  &__buttons {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0;
+    a {
+      margin-top: 10px;
+      width: 100%;
+      &:not(.checkout) {
+        @include buttonStyle(#fff, $colorPrimary, $colorPrimary, 1px solid $colorPrimary);
+      }
+    }
+  }
+}
+
+/*
+.minicart-toggle {
+  position: fixed;
+  bottom: 40px;
+  right: 40px;
+  background-color: #114f8d;
+  width: 40px;
+  line-height: 40px;
+  border-radius: 50%;
+  text-align: center;
+  color: #fff;
+  box-shadow: 3px 3px 0 0 rgba(0,0,0,.2);
+  z-index: 999;
+  i {
+    font-size: 1.3em;
+  }
+  .sr-only {
+    display: none;
+  }
+}
+*/

@@ -1,0 +1,26 @@
+.cross-sells {
+  &__list {
+    padding: 0;
+    margin: 0;
+  }
+
+  &__item {
+    padding: 10px 0;
+    display: flex;
+    align-items: center;
+  }
+
+  &__image {
+    max-width: 175px;
+  }
+
+  &__data {
+    padding: 20px;
+    h2 {
+      font-size: 1.4em;
+    }
+  }
+  &__price {
+    font-weight: $fontWeightBold;
+  }
+}

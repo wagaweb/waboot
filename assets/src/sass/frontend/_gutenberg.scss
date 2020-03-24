@@ -2,22 +2,22 @@
 =            Gutenberg Align            =
 =============================================*/
 
-@include up($medium) {   
+.alignfull {
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  width: auto;
+  max-width: 1000%;
+}
 
-    .alignfull {
-      margin-left: calc(50% - 50vw);
-      margin-right: calc(50% - 50vw);
-      width: auto;
-      max-width: 1000%;
-    }
-  
+@include up($medium) {
+
     .alignwide {
       margin-left: calc(25% - 25vw);
       margin-right: calc(25% - 25vw);
       width: auto;
       max-width: 1000%;
     }
-  
+
     .alignwide img,
     .alignfull img {
       display: block;
@@ -39,3 +39,137 @@
   }
 }
 
+// Columns Block
+
+.wp-block-columns {
+  margin-bottom: $grid-gutter;
+}
+
+.wp-block-column {
+  @include up($medium) {
+    flex-basis: calc(50% - calc(#{$grid-gutter}/2));
+    flex-grow: 0;
+    &:nth-child(2n) {
+      margin-left: $grid-gutter;
+    }
+    &:not(:first-child) {
+      margin-left: $grid-gutter;
+    }
+  }
+}
+
+.blocks-gallery-grid,
+.wp-block-gallery {
+  .blocks-gallery-image,
+  .blocks-gallery-item {
+    width: calc((100% - #{$grid-gutter}) / 2);
+    margin: 0 $grid-gutter $grid-gutter 0;
+  }
+  @include up($medium) {
+    &.columns-3 {
+      .blocks-gallery-image,
+      .blocks-gallery-item {
+        width: calc((100% - calc(#{$grid-gutter} * 2)) / 3);
+        @supports (-ms-ime-align:auto) {
+          width: calc((100% - calc(#{$grid-gutter} * 2)) / 3 - 1px);
+        }
+        margin-right: $grid-gutter;
+      }
+    }
+    &.columns-4 {
+      .blocks-gallery-image,
+      .blocks-gallery-item {
+        width: calc((100% - calc(#{$grid-gutter} * 3)) / 4);
+        @supports (-ms-ime-align:auto) {
+          width: calc((100% - calc(#{$grid-gutter} * 3)) / 4 - 1px);
+        }
+        margin-right: $grid-gutter;
+      }
+    }
+    &.columns-5 {
+      .blocks-gallery-image,
+      .blocks-gallery-item {
+        width: calc((100% - calc(#{$grid-gutter} * 4)) / 5);
+        @supports (-ms-ime-align:auto) {
+          width: calc((100% - calc(#{$grid-gutter} * 4)) / 5 - 1px);
+        }
+        margin-right: $grid-gutter;
+      }
+    }
+    &.columns-6 {
+      .blocks-gallery-image,
+      .blocks-gallery-item {
+        width: calc((100% - calc(#{$grid-gutter} * 5)) / 6);
+        @supports (-ms-ime-align:auto) {
+          width: calc((100% - calc(#{$grid-gutter} * 5)) / 6 - 1px);
+        }
+        margin-right: $grid-gutter;
+      }
+    }
+    &.columns-7 {
+      .blocks-gallery-image,
+      .blocks-gallery-item {
+        width: calc((100% - calc(#{$grid-gutter} * 6)) / 7);
+        @supports (-ms-ime-align:auto) {
+          width: calc((100% - calc(#{$grid-gutter} * 6)) / 7 - 1px);
+        }
+        margin-right: $grid-gutter;
+      }
+    }
+    &.columns-8 {
+      .blocks-gallery-image,
+      .blocks-gallery-item {
+        width: calc((100% - calc(#{$grid-gutter} * 7)) / 8);
+        @supports (-ms-ime-align:auto) {
+          width: calc((100% - calc(#{$grid-gutter} * 7)) / 8 - 1px);
+        }
+        margin-right: $grid-gutter;
+      }
+    }
+
+    &.columns-1 .blocks-gallery-image:nth-of-type(1n),
+    &.columns-1 .blocks-gallery-item:nth-of-type(1n),
+    &.columns-2 .blocks-gallery-image:nth-of-type(2n),
+    &.columns-2 .blocks-gallery-item:nth-of-type(2n),
+    &.columns-3 .blocks-gallery-image:nth-of-type(3n),
+    &.columns-3 .blocks-gallery-item:nth-of-type(3n),
+    &.columns-4 .blocks-gallery-image:nth-of-type(4n),
+    &.columns-4 .blocks-gallery-item:nth-of-type(4n),
+    &.columns-5 .blocks-gallery-image:nth-of-type(5n),
+    &.columns-5 .blocks-gallery-item:nth-of-type(5n),
+    &.columns-6 .blocks-gallery-image:nth-of-type(6n),
+    &.columns-6 .blocks-gallery-item:nth-of-type(6n),
+    &.columns-7 .blocks-gallery-image:nth-of-type(7n),
+    &.columns-7 .blocks-gallery-item:nth-of-type(7n),
+    &.columns-8 .blocks-gallery-image:nth-of-type(8n),
+    &.columns-8 .blocks-gallery-item:nth-of-type(8n) {
+      margin-right: 0;
+    }
+  }
+}
+
+
+// Latest Posts Block
+
+.wp-block-latest-posts {
+  &.is-grid li {
+    margin: 0 $grid-gutter $grid-gutter 0;
+  }
+  @include up($medium) {
+    &.columns-2 li {
+      width: calc(50% - calc(#{$grid-gutter}/2));
+    }
+    &.columns-3 li {
+      width: calc(33.33333% - calc(#{$grid-gutter}*2/3));
+    }
+    &.columns-4 li {
+      width: calc(25% - calc(#{$grid-gutter}*3/4));
+    }
+    &.columns-5 li {
+      width: calc(20% - calc(#{$grid-gutter}*4/5));
+    }
+    &.columns-6 li {
+      width: calc(16.66667% - calc(#{$grid-gutter}*5/6));
+    }
+  }
+}
