@@ -65,13 +65,14 @@ class HTMLView extends View implements ViewInterface {
     /**
      * Get the view output. The provided vars will be extracted with extract() but they will be also available through $GLOBALS['template_vars'].
      * @param array $vars
+     * @param bool $stripNewLines
      * @return string
      */
-    public function get($vars = []): string
+    public function get($vars = [], $stripNewLines = true): string
     {
         ob_start();
         $this->display($vars);
-        $output = trim(preg_replace( "|[\r\n\t]|", "", ob_get_clean()));
+        $output = $stripNewLines ? trim(preg_replace( "|[\r\n\t]|", '', ob_get_clean())) : ob_get_clean();
         return $output;
     }
 }
