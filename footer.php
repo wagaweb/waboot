@@ -1,4 +1,8 @@
-    <?php do_action('waboot/layout/footer'); ?>
+    <footer class="footer">
+
+        <?php do_action('waboot/layout/footer'); ?>
+
+    </footer>
 
     <?php do_action('waboot/layout/page-after'); ?>
 

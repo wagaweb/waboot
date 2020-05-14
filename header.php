@@ -7,4 +7,10 @@
 
 <?php do_action('waboot/layout/page-before'); ?>
 
-<?php do_action('waboot/layout/header'); ?>
+<header class="header">
+
+    <?php do_action('waboot/layout/header'); ?>
+
+</header>
+
+
