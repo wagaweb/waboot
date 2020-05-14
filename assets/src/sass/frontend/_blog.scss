@@ -1,7 +1,7 @@
 .single {
   .article {
     &__image {
-      margin-bottom: $grid-gutter;
+      margin-bottom: $gridGutter;
       img {
         max-width: 100%;
       }
@@ -28,7 +28,7 @@
 
 .article__list {
   article {
-    margin-bottom: $grid-gutter;
+    margin-bottom: $gridGutter;
   }
   @include up($medium){
     .article {
