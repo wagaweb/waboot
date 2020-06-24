@@ -61,6 +61,8 @@ class AssetsManager
 
         //Doing some checks
         foreach ($this->assets as $name => $param) {
+            $isVersionNull = false;
+
             $param = wp_parse_args($param, [
                 'uri' => '', //A valid uri
                 'path' => '', //A valid path
@@ -81,14 +83,20 @@ class AssetsManager
                 }
                 continue;
             }
-            if (isset($param['version']) && $param['version']) {
+            if (isset($param['version']) && \is_string($param['version'])) {
                 $version = $param['version'];
+            } elseif (\is_null($param['version'])) {
+                $version = null;
+                $isVersionNull = true;
             } else {
+                $version = false;
                 //Get version
                 if ($param['path'] !== "" && file_exists($param['path'])) {
                     $version = filemtime($param['path']);
-                } else {
-                    $version = false;
+                } elseif ($param['uri'] !== '' && strpos($param['uri'], \home_url()) === false) {
+                    //If an external assets is linked, version is unnecessary
+                    $version = null;
+                    $isVersionNull = true;
                 }
             }
             if ($param['path'] !== '' && $param['type'] === '' && file_exists($param['path'])) {
