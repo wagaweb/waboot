@@ -1,6 +1,0 @@
----
-## Here you can insert any "theme option" you want, and later use it in the theme.
-## Example:
-## show_post_tags: True
-## And then:
-## if(Waboot()->getThemeOption('show_post_tags')){ ... }
