@@ -1,5 +1,9 @@
 == Change log ==
 
+Version 4.1.0 - 09/14/2020
+---------------------------------
+- Tweak: removed unused Theme Options feature
+
 Version 4.0.0 - 03/13/2020
 ---------------------------------
 - New major version! This version is incompatible with 3.x branch.
