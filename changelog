@@ -3,6 +3,7 @@
 Version 4.1.0 - 09/14/2020
 ---------------------------------
 - Tweak: removed unused Theme Options feature
+- Fix: coupon form in order review [checkout addon]
 
 Version 4.0.0 - 03/13/2020
 ---------------------------------
