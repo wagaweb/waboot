@@ -1,10 +1,8 @@
 {
     "name": "waga/waboot-boilerplate",
-    "description": "A boilerplate for Waboot",
+    "description": "A boilerplate theme for WordPress",
     "type": "project",
-    "require": {
-        "symfony/yaml": "^5.1@dev"
-    },
+    "require": {},
     "license": "MIT",
     "authors": [
         {
@@ -13,6 +11,7 @@
         }
     ],
     "minimum-stability": "dev",
+    "prefer-stable": true,
     "autoload": {
         "psr-4": {
             "Waboot\\inc\\": "inc/"
