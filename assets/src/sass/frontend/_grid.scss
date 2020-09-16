@@ -1,6 +1,6 @@
 body {
   display: grid;
-  grid-template-rows: auto 1fr auto;
+  grid-template-rows: 1fr auto;
   min-height: 100vh;
 }
 
@@ -8,7 +8,10 @@ body {
   margin-right: auto;
   margin-left: auto;
   width: 100%;
-  max-width: 1200px;
+  max-width: 100vw;
+  @include up($xlarge){
+    max-width: 1400px;
+  }
 }
 
 .wbcontainer {
@@ -16,7 +19,13 @@ body {
 }
 
 .main {
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
   max-width: 100vw;
+  @include up($xlarge){
+    max-width: 1400px;
+  }
   &__grid {
     padding: 0 $gridGutter;
   }

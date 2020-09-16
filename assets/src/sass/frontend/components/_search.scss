@@ -1,0 +1,8 @@
+.search {
+  &__form {
+    display: flex;
+    input[type=text] {
+      height: 100%;
+    }
+  }
+}

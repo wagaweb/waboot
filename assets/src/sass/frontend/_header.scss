@@ -1,5 +1,24 @@
 .header {
-  padding: $gridGutter;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  z-index: 20;
+
+  .header--fixed & {
+    background-color: #fff;
+    position: fixed;
+    top: -200px;
+  }
+
+  .header--animated & {
+    transition: all 1s ease;
+  }
+
+  .header--scrolled & {
+    top: 0;
+    z-index: 99;
+    box-shadow: 0 0 $gridGutter #eee;
+  }
 
   &__inner {
 	display         : flex;
@@ -53,82 +72,17 @@
     border: 0;
     border-radius: 0;
     margin: 0;
+    padding: 0;
+    flex-grow: 1;
 
     @include down($large) {
-      flex-basis: 100%;
       display: none;
-    }
-
-    @include up($large) {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    ul {
-      margin: 0;
-      padding: 0;
-      list-style: none;
-    }
-
-    li {
-      position: relative;
-      &.menu-item-has-children > a:after {
-        font-family: 'Dashicons';
-        content: "\f347";
-        opacity: .7;
-        margin-left: 5px;
-      }
     }
 
     > ul {
-      @include up($large) {
-        display: flex;
-        align-items: center;
-      }
-      > li {
-        > a {
-          padding: 10px 0;
-          @include up($large) {
-            padding: 15px;
-          }
-          position: relative;
-          display: flex;
-          align-items: flex-end;
-          text-transform: uppercase;
-          font-size: .9em;
-        }
-        &:last-child > a {
-          @include up($large) {
-            padding-right: 0;
-          }
-        }
-      }
-    }
-
-    .sub-menu {
-      display: none;
-      @include up($large) {
-        position: absolute;
-        top: 100%;
-        right: 0;
-        z-index: 7;
-        padding: 5px 0;
-        margin: 0;
-        background-color: #fff;
-        border: 1px solid rgba(0,0,0,.15);
-        background-clip: padding-box;
-      }
-
-      li a {
-        padding: 5px 15px;
-        display: block;
-        white-space: nowrap;
-        @include up($large) {
-          text-align: right;
-        }
-      }
-
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
     }
 
   }

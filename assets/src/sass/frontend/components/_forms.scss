@@ -141,9 +141,24 @@ form {
 
 .ginput_container_consent {
   display: flex;
+  align-items: flex-start;
   label {
     font-weight: $fontWeightNormal;
     font-size: .85em;
     flex-shrink: 1;
+  }
+}
+
+.woocommerce-form__label-for-checkbox,
+.mailchimp-newsletter {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 20px;
+  font-weight: $fontWeightNormal;
+  font-size: .9em;
+  label {
+    margin: 0;
+    font-weight: $fontWeightNormal;
+    font-size: .9em;
   }
 }

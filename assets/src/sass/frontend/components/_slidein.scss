@@ -1,0 +1,42 @@
+.slidein {
+    background: rgba(255,255,255,1);
+    height: 100%;
+    position: fixed;
+    overflow: auto;
+    transition: transform .3s;
+    top: 0;
+    width: 100vw;
+    z-index: 100;
+    right: 0;
+    transform: translate(100%, 0);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    &.show {
+      transform: translate(0, 0);
+    }
+    &-overlay {
+      //background: rgba(0,0,0,0.9);
+      display: none;
+      height: 100%;
+      left: 0;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 99;
+    }
+    &-no-scroll {
+      overflow: hidden !important;
+    }
+  }
+  
+  a[data-slidein-close] {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    font-size: 1.5em;
+    cursor: pointer;
+  }
+  

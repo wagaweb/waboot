@@ -1,4 +1,13 @@
 import Header from './frontend/header';
+import { Slidein } from "./frontend/slidein.js";
+
+jQuery.fn.slidein = function (options) {
+    return this.each(function () {
+        if (!jQuery.data(this, "slidein")) {
+            jQuery.data(this, "slidein", new Slidein(this, options));
+        }
+    });
+};
 
 jQuery(document).ready(function($) {
     "use strict";
@@ -6,15 +15,85 @@ jQuery(document).ready(function($) {
     new Header('.menu-item-has-children');
 
     asideBodyClass();
+    mainPadding();
+    headerFixed();
+    scrollToAnimate();
+    initCarousel();
+
+    $(window).on("scroll", function () {
+        headerFixed();
+    });
+
+    $(window).on("resize", function () {
+        mainPadding();
+    });
 
     $(window).on("load",function(){
-        //Put here snippets
+        if (window.matchMedia('(max-width: 991px)').matches) {
+            carouselMobileHeight();
+        }
     });
+
+    $("[data-slidein-nav]").slidein({
+        toggler: ".slidein-nav__toggle",
+    });
+
+    $("a").each(function(){
+        var my_href = $(this).attr("href");
+        if(/\.(?:jpg|jpeg|gif|png)/i.test(my_href)){
+            $(this).addClass('swipebox');
+            //$(this).swipebox();
+        }
+    });
+    $('.swipebox').swipebox();
+
 });
 
 function asideBodyClass() {
     let $ = jQuery;
     if($('.main__aside').length > 0) {
         $('body').addClass('with-sidebar');
+    }
+}
+
+function scrollToAnimate(){
+    let $ = jQuery;
+    let $header = $('.site-header').height();
+    $('a[href^="#"]').on('click', function(event) {
+        let target = $(this.getAttribute('href'));
+        if( target.length ) {
+            event.preventDefault();
+            $('html, body').stop().animate({
+                scrollTop: target.offset().top - $header
+            }, 1000);
+        }
+    });
+}
+
+function mainPadding() {
+    let $ = jQuery,
+        $headerHeight = $(".header").outerHeight();
+    $(".main").css("padding-top", $headerHeight);
+}
+
+function headerFixed() {
+    let $ = jQuery,
+        scroll = $(window).scrollTop(),
+        header = $(".header"),
+        headerHeight = header.outerHeight();
+    if (scroll > headerHeight) {
+        $("body").addClass("header--fixed");
+    } else {
+        $("body").removeClass("header--fixed");
+    }
+    if (scroll > headerHeight * 2) {
+        $("body").addClass("header--animated");
+    } else {
+        $("body").removeClass("header--animated");
+    }
+    if (scroll > headerHeight * 3) {
+        $("body").addClass("header--scrolled");
+    } else {
+        $("body").removeClass("header--scrolled");
     }
 }

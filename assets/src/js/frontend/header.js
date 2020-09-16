@@ -3,7 +3,6 @@ const $ = jQuery;
 export default class {
     constructor(el) {
         this.initDropdown(el);
-        this.enableToggle();
     }
 
     initDropdown(el) {
@@ -35,13 +34,5 @@ export default class {
             });
         }
     };
-
-    enableToggle() {
-        $('.header__toggle').click(function () {
-            $('.header__navigation').toggle({
-                'easing': 'swing'
-            });
-        });
-    }
 
 }

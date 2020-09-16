@@ -12,6 +12,10 @@ add_action('waboot/layout/footer', function(){
     Waboot()->renderView('templates/view-parts/main-footer.php');
 });
 
+add_action('waboot/layout/page-after', function(){
+    Waboot()->renderView('templates/view-parts/navigation-mobile.php');
+});
+
 /*
  * Hide Title in Specific Page
  *

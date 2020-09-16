@@ -9,17 +9,22 @@
 @import "frontend/utilities";
 @import "frontend/404";
 
+@import "frontend/components/slidein";
 @import "frontend/components/tables";
 @import "frontend/components/buttons";
 @import "frontend/components/pagination";
 @import "frontend/components/gallery";
 @import "frontend/components/forms";
+@import "frontend/components/search";
+@import "frontend/components/carousel";
 
 @import "frontend/global";
 @import "frontend/header";
+@import "frontend/navigation";
 @import "frontend/footer";
 @import "frontend/homepage";
 
+/*
 @import 'frontend/woocommerce/global';
 @import 'frontend/woocommerce/alerts';
 @import 'frontend/woocommerce/catalog';
@@ -29,3 +34,4 @@
 @import 'frontend/woocommerce/account';
 @import 'frontend/woocommerce/single-product/product';
 @import 'frontend/woocommerce/single-product/cross-sell';
+*/
