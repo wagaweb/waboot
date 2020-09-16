@@ -21,9 +21,12 @@
   }
 
   &__inner {
-	display         : flex;
-	align-items     : center;
-	justify-content : space-between;
+    max-width: $containerWidth;
+    margin: 0 auto;
+    padding: $gridGutter/2 $gridGutter;
+    display         : flex;
+    align-items     : center;
+    justify-content : space-between;
     @include down($large){
       flex-wrap: wrap;
     }

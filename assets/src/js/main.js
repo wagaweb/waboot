@@ -18,7 +18,6 @@ jQuery(document).ready(function($) {
     mainPadding();
     headerFixed();
     scrollToAnimate();
-    initCarousel();
 
     $(window).on("scroll", function () {
         headerFixed();
