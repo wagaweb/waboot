@@ -1,7 +1,7 @@
 .footer {
-  padding: $gridGutter/2 $gridGutter;
   &__closure {
-    max-width: calc(#{$containerWidth} - #{$gridGutter}*2);
+    max-width: $containerWidth;
+    padding: $gridGutter/2 $gridGutter;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
@@ -29,8 +29,14 @@
 }
 
 .widgetarea__footer {
+  padding: $gridGutter;
+  margin: 0;
   display: grid;
   grid-template-columns: repeat(auto-fit,minmax(auto,300px));
   grid-gap: $gridGutter;
   justify-content: center;
+  &-inner {
+    max-width: $containerWidth;
+    margin: 0 auto;
+  }
 }

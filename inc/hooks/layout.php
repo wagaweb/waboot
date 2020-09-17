@@ -16,6 +16,14 @@ add_action('waboot/layout/page-after', function(){
     Waboot()->renderView('templates/view-parts/navigation-mobile.php');
 });
 
+add_action("waboot/widget_area/footer/before", function(){
+    echo '<div class="widgetarea__footer-inner">';
+});
+
+add_action("waboot/widget_area/footer/after", function(){
+    echo '</div>';
+});
+
 /*
  * Hide Title in Specific Page
  *
