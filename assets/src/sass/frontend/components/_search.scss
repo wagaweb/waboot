@@ -1,8 +1,12 @@
-.search {
-  &__form {
-    display: flex;
-    input[type=text] {
-      height: 100%;
-    }
+.search-form {
+  display: flex;
+  .screen-reader-text {
+    display: none;
+  }
+  label {
+    margin: 0;
+  }
+  .search-field {
+    height: 100%;
   }
 }

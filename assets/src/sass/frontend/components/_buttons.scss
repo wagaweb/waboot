@@ -56,7 +56,8 @@
 
 .button,
 .btn,
-.wp-block-button__link {
+.wp-block-button__link,
+input[type="submit"] {
   @include button();
   @include buttonStyle($colorPrimary, #fff, #fff, false);
 }

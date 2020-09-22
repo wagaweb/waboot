@@ -1,0 +1,9 @@
+.main__aside {
+  .widget {
+    margin-bottom: $gridGutter;
+    p:last-child,
+    ul:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
