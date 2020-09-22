@@ -1,6 +1,6 @@
 <div class="slidein navigation-mobile" data-slidein-nav data-slidein-toggle="#slidein-nav__toggle">
 
-    <a href="<?php echo home_url( '/' ); ?>">
+    <a class="logo--mobile" href="<?php echo home_url( '/' ); ?>">
         <?php if ( \Waboot\inc\getLogo() !== '' ) : ?>
             <?php \Waboot\inc\theLogo(false, 'header__logo'); ?>
         <?php else : ?>
