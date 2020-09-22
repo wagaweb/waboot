@@ -8,7 +8,7 @@
         <?php endif; ?>
     </a>
 
-    <a data-slidein-close><i class="fas fa-times"></i></a>
+    <a data-slidein-close><i class="far fa-times"></i></a>
 
     <div class="navigation-mobile__inner">
 

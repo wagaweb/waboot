@@ -45,8 +45,8 @@ export default class {
     }
 
     backOnSubmenu() {
-        $('.navigation-mobile .sub-menu').prepend('<span class="backlevel__icon"><i class="fas fa-angle-left"></i></span>');
-        $('.navigation-mobile .menu-item-has-children').append('<span class="sublevel__icon"><i class="fas fa-angle-right"></i></span>');
+        $('.navigation-mobile .sub-menu').prepend('<span class="backlevel__icon"><i class="far fa-angle-left"></i></span>');
+        $('.navigation-mobile .menu-item-has-children').append('<span class="sublevel__icon"><i class="far fa-angle-right"></i></span>');
     };
 
     mobileDropdown(el) {
