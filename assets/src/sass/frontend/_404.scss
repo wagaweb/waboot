@@ -5,10 +5,7 @@
     opacity: 0.5;
   }
   .search-form {
-    label,
-    input.search-field {
-      width: 80%;
-      margin: 15px auto;
-    }
+    justify-content: center;
+    margin-bottom: $gridGutter;
   }
 }

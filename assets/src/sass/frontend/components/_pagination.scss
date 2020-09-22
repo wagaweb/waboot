@@ -2,9 +2,10 @@
 .woocommerce-pagination {
   ul {
     display: flex;
+    justify-content: center;
     padding-left: 0;
     list-style: none;
-    margin-bottom: 30px;
+    margin-bottom: $gridGutter;
   }
   li {
     display: inline-block;
