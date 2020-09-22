@@ -2,9 +2,46 @@ const $ = jQuery;
 
 export default class {
     constructor(el) {
-        //this.initDropdown(el);
+        this.mainPadding();
+        this.headerFixed();
         this.backOnSubmenu();
         this.mobileDropdown(el);
+
+        $(window).on("scroll", ()=> {
+            this.headerFixed();
+        });
+
+        $(window).on("resize", ()=> {
+            this.mainPadding();
+        });
+    }
+
+    mainPadding() {
+        let $ = jQuery,
+            $headerHeight = $(".header").outerHeight();
+        $(".main").css("padding-top", $headerHeight);
+    }
+
+    headerFixed() {
+        let $ = jQuery,
+            scroll = $(window).scrollTop(),
+            header = $(".header"),
+            headerHeight = header.outerHeight();
+        if (scroll > headerHeight) {
+            $("body").addClass("header--fixed");
+        } else {
+            $("body").removeClass("header--fixed");
+        }
+        if (scroll > headerHeight * 2) {
+            $("body").addClass("header--animated");
+        } else {
+            $("body").removeClass("header--animated");
+        }
+        if (scroll > headerHeight * 3) {
+            $("body").addClass("header--scrolled");
+        } else {
+            $("body").removeClass("header--scrolled");
+        }
     }
 
     backOnSubmenu() {
@@ -33,6 +70,7 @@ export default class {
         }
     };
 
+    /* Old Dropdown
     initDropdown(el) {
         if($(el).length > 0) {
             this.last_menu_id = "";
@@ -61,6 +99,6 @@ export default class {
                 self.last_menu_id = "";
             });
         }
-    };
+    };*/
 
 }

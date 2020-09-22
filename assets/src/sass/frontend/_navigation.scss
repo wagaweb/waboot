@@ -10,13 +10,18 @@
     position: relative;
     &.menu-item-has-children {
       > a:after {
-        font-family: 'Dashicons';
-        content: "\f347";
+        @extend %fa-icon;
+        @extend .far;
+        content: fa-content($fa-var-angle-down);
+
+        //font-family: 'Dashicons';
+        //content: "\f347";
         opacity: .7;
-        margin-left: 5px;
+        margin-left: 10px;
       }
       li.menu-item-has-children > a:after {
-        content: "\f345";
+        //content: "\f345";
+        content: fa-content($fa-var-angle-right);
       }
     }
   }
@@ -30,7 +35,7 @@
         }
         position: relative;
         display: flex;
-        align-items: flex-end;
+        align-items: center;
         text-transform: uppercase;
         font-size: .9em;
       }

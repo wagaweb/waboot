@@ -13,7 +13,7 @@ function assets(){
         'uri' => defined('WP_DEBUG') && WP_DEBUG ? get_template_directory_uri() . '/assets/dist/js/main.pkg.js' : get_template_directory_uri() . '/assets/dist/js/main.min.js',
         'path' => defined('WP_DEBUG') && WP_DEBUG ? get_template_directory() . '/assets/dist/js/main.pkg.js' : get_template_directory() . '/assets/dist/js/main.min.js',
         'type' => 'js',
-        'deps' => ['jquery','owlcarousel-js','swipebox-js','fontawesome-js']
+        'deps' => ['jquery','owlcarousel-js','swipebox-js']
     ];
     $assets['owlcarousel-js'] = [
         'uri' => get_template_directory_uri() . '/assets/vendor/owlcarousel/owl.carousel.min.js',
@@ -25,15 +25,11 @@ function assets(){
         'type' => 'js',
         'deps' => ['jquery']
     ];
-    $assets['fontawesome-js'] = [
-        'uri' => get_template_directory_uri() . '/assets/vendor/fontawesome/js/fontawesome.min.js',
-        'type' => 'js',
-    ];
     $assets['main-style'] = [
         'uri' => get_template_directory_uri() . '/assets/dist/css/main.min.css',
         'path' => get_template_directory() . '/assets/dist/css/main.min.css',
         'type' => 'css',
-        'deps' => ['dashicons','google-font']
+        'deps' => ['google-font']
     ];
     $assets['google-font'] = [
         'uri' => 'https://fonts.googleapis.com/css?family=Montserrat:400,400i,700,700i&display=swap',
@@ -45,10 +41,6 @@ function assets(){
     ];
     $assets['swipebox-css'] = [
         'uri' => get_template_directory_uri() . '/assets/vendor/swipebox/css/swipebox.min.css',
-        'type' => 'css',
-    ];
-    $assets['fontawesome-css'] = [
-        'uri' => get_template_directory_uri() . '/assets/vendor/fontawesome/css/all.min.css',
         'type' => 'css',
     ];
 

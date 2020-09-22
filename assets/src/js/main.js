@@ -15,17 +15,7 @@ jQuery(document).ready(function($) {
     new Header('.menu-item-has-children');
 
     asideBodyClass();
-    mainPadding();
-    headerFixed();
     scrollToAnimate();
-
-    $(window).on("scroll", function () {
-        headerFixed();
-    });
-
-    $(window).on("resize", function () {
-        mainPadding();
-    });
 
     $(window).on("load",function(){
         if (window.matchMedia('(max-width: 991px)').matches) {
@@ -67,32 +57,4 @@ function scrollToAnimate(){
             }, 1000);
         }
     });
-}
-
-function mainPadding() {
-    let $ = jQuery,
-        $headerHeight = $(".header").outerHeight();
-    $(".main").css("padding-top", $headerHeight);
-}
-
-function headerFixed() {
-    let $ = jQuery,
-        scroll = $(window).scrollTop(),
-        header = $(".header"),
-        headerHeight = header.outerHeight();
-    if (scroll > headerHeight) {
-        $("body").addClass("header--fixed");
-    } else {
-        $("body").removeClass("header--fixed");
-    }
-    if (scroll > headerHeight * 2) {
-        $("body").addClass("header--animated");
-    } else {
-        $("body").removeClass("header--animated");
-    }
-    if (scroll > headerHeight * 3) {
-        $("body").addClass("header--scrolled");
-    } else {
-        $("body").removeClass("header--scrolled");
-    }
 }
