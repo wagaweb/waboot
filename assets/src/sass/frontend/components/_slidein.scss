@@ -31,12 +31,19 @@
       overflow: hidden !important;
     }
   }
-  
+
   a[data-slidein-close] {
     position: absolute;
-    right: 20px;
-    top: 20px;
+    right: 0;
+    top: 0;
+    padding: $gridGutter/2 $gridGutter 0 0 !important;
+    z-index: 20;
     font-size: 1.5em;
     cursor: pointer;
+    line-height: 1em;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end !important;
   }
-  

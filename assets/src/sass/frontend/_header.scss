@@ -48,10 +48,16 @@
 
   &__toggle {
     float: none;
-    padding: 10px;
+    padding: 0;
     margin: 0;
     border: 0;
     background-color: transparent;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
 
     .icon-bar {
       display: block;

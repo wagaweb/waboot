@@ -29,14 +29,16 @@
 }
 
 .widgetarea__footer {
-  padding: $gridGutter;
+  padding: 0;
   margin: 0;
   display: grid;
   grid-template-columns: repeat(auto-fit,minmax(auto,300px));
   grid-gap: $gridGutter;
   justify-content: center;
   &-inner {
+    width: 100vw;
     max-width: $containerWidth;
     margin: 0 auto;
+    padding: $gridGutter;
   }
 }
