@@ -19,7 +19,7 @@ jQuery(document).ready(function($) {
 
     $(window).on("load",function(){
         if (window.matchMedia('(max-width: 991px)').matches) {
-            carouselMobileHeight();
+
         }
     });
 
