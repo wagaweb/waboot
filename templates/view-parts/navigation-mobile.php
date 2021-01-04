@@ -1,12 +1,10 @@
 <div class="slidein navigation-mobile" data-slidein-nav data-slidein-toggle="#slidein-nav__toggle">
 
-    <a class="logo--mobile" href="<?php echo home_url( '/' ); ?>">
-        <?php if ( \Waboot\inc\getLogo() !== '' ) : ?>
+    <?php if ( \Waboot\inc\getLogo() !== '' ) : ?>
+        <a class="logo--mobile" href="<?php echo home_url( '/' ); ?>">
             <?php \Waboot\inc\theLogo(false, 'header__logo'); ?>
-        <?php else : ?>
-            <?php echo get_bloginfo('name'); ?>
-        <?php endif; ?>
-    </a>
+        </a>
+    <?php endif; ?>
 
     <a data-slidein-close><i class="far fa-times"></i></a>
 

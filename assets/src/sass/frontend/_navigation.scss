@@ -13,14 +13,10 @@
         @extend %fa-icon;
         @extend .far;
         content: fa-content($fa-var-angle-down);
-
-        //font-family: 'Dashicons';
-        //content: "\f347";
         opacity: .7;
         margin-left: 10px;
       }
       li.menu-item-has-children > a:after {
-        //content: "\f345";
         content: fa-content($fa-var-angle-right);
       }
     }
@@ -98,11 +94,6 @@
     display: grid;
     grid-template-rows: auto auto 1fr;
     grid-gap: $gridGutter;
-  }
-  a {
-    //color: #fff;
-    text-align: center;
-    justify-content: center;
   }
 
   ul {
