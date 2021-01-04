@@ -13,6 +13,16 @@ function assets(){
         'uri' => defined('WP_DEBUG') && WP_DEBUG ? get_template_directory_uri() . '/assets/dist/js/main.pkg.js' : get_template_directory_uri() . '/assets/dist/js/main.min.js',
         'path' => defined('WP_DEBUG') && WP_DEBUG ? get_template_directory() . '/assets/dist/js/main.pkg.js' : get_template_directory() . '/assets/dist/js/main.min.js',
         'type' => 'js',
+        'deps' => ['jquery','owlcarousel-js','swipebox-js']
+    ];
+    $assets['owlcarousel-js'] = [
+        'uri' => get_template_directory_uri() . '/assets/vendor/owlcarousel/owl.carousel.min.js',
+        'type' => 'js',
+        'deps' => ['jquery']
+    ];
+    $assets['swipebox-js'] = [
+        'uri' => get_template_directory_uri() . '/assets/vendor/swipebox/js/jquery.swipebox.min.js',
+        'type' => 'js',
         'deps' => ['jquery']
     ];
     $assets['main-style'] = [
@@ -24,6 +34,14 @@ function assets(){
     $assets['google-font'] = [
         'uri' => 'https://fonts.googleapis.com/css?family=Montserrat:400,400i,700,700i&display=swap',
         'type' => 'css'
+    ];
+    $assets['owlcarousel-css'] = [
+        'uri' => get_template_directory_uri() . '/assets/vendor/owlcarousel/owl.carousel.min.css',
+        'type' => 'css'
+    ];
+    $assets['swipebox-css'] = [
+        'uri' => get_template_directory_uri() . '/assets/vendor/swipebox/css/swipebox.min.css',
+        'type' => 'css',
     ];
 
     AssetsManager()->addAssets($assets);

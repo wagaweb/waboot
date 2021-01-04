@@ -18,9 +18,9 @@ ul.products {
   list-style-type: none;
 
   .product {
-    margin-right: $grid-gutter;
-    margin-bottom: $grid-gutter;
-    width: calc((100% - #{$grid-gutter}) / 2);
+    margin-right: $gridGutter;
+    margin-bottom: $gridGutter;
+    width: calc((100% - #{$gridGutter}) / 2);
     &:nth-child(even){
       @include down($medium) {
         margin-right: 0;
@@ -30,13 +30,13 @@ ul.products {
 
   @include up($medium) {
     &.columns-4 .product {
-      width: calc((100% - #{$grid-gutter} * 3) / 4);
+      width: calc((100% - #{$gridGutter} * 3) / 4);
       &:nth-child(4n+4){
         margin-right: 0;
       }
     }
     &.columns-3 .product {
-      width: calc((100% - #{$grid-gutter} * 2) / 3);
+      width: calc((100% - #{$gridGutter} * 2) / 3);
       &:nth-child(3n+3){
         margin-right: 0;
       }

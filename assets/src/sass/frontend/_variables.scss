@@ -5,21 +5,17 @@ $medium: 768px;
 $small: 480px;
 $xsmall: 320px;
 
-/* Containers */
-$container-sm: 740px;
-$container-md: 968px;
-$container-lg: 1140px;
-
 /* Grid */
-$grid-columns: 12;
-$grid-gutter: 20px;
+$containerWidth: 1400px;
+$gridGutter: 20px;
 
 /* Colors */
-$color-white : #FFF;
-$color-success : #03A679;
-$color-warning : #F93D5C;
-$color-border : #B4BBBE;
-
+$colorWhite : #FFF;
+$colorSuccess : #03A679;
+$colorWarning : #F93D5C;
+$colorGrey : #cccccc;
+$colorGreyLight : #f4f4f4;
+$colorGreyDark : #555;
 $colorPrimary: #74B6CA;
 $colorSecondary: #747ec9;
 $colorText: #000;

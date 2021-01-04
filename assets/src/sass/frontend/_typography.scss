@@ -34,14 +34,16 @@ h4, .h4, h5, .h5, h6, .h6 {
 }
 
 p {
-  margin-bottom: 15px;
+  line-height: 1.4em;
+  margin-bottom: 20px;
   margin-top: 0;
   word-wrap: break-word;
 }
 
 ul, ol {
+  line-height: 1.4em;
   padding-left: 20px;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
   margin-top: 0;
   word-wrap: break-word;
 }

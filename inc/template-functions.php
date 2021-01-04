@@ -46,7 +46,8 @@ function getWidgetAreas(){
         'footer' => [
             'name' => __('Footer', LANG_TEXTDOMAIN),
             'description' => __( 'The main widget area displayed in the footer.', LANG_TEXTDOMAIN ),
-            'render_zone' => 'footer'
+            'render_zone' => 'footer',
+            'render_priority' => 8
         ]
     ];
 

@@ -29,7 +29,7 @@
   }
 }
 
-@mixin buttonStyle($bkg, $color, $color-hover, $border) {
+@mixin buttonStyle($bkg, $color, $colorHover, $border) {
   border-radius : 0;
   background    : $bkg;
   @if $color {
@@ -42,20 +42,22 @@
 
   &:hover {
     background : darken($bkg, 8%);
-    @if $color-hover {
-      color : $color-hover
+    @if $colorHover {
+      color : $colorHover
     }
   }
   &:active {
     background : darken($bkg, 25%);
-    @if $color-hover {
-      color : $color-hover
+    @if $colorHover {
+      color : $colorHover
     }
   }
 }
 
 .button,
-.btn {
+.btn,
+.wp-block-button__link,
+input[type="submit"] {
   @include button();
   @include buttonStyle($colorPrimary, #fff, #fff, false);
 }

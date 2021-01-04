@@ -1,0 +1,159 @@
+.header__navigation {
+
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  li {
+    position: relative;
+    &.menu-item-has-children {
+      > a:after {
+        @extend %fa-icon;
+        @extend .far;
+        content: fa-content($fa-var-angle-down);
+        opacity: .7;
+        margin-left: 10px;
+      }
+      li.menu-item-has-children > a:after {
+        content: fa-content($fa-var-angle-right);
+      }
+    }
+  }
+
+  > ul {
+    > li {
+      > a {
+        padding: 10px 0;
+        @include up($large) {
+          padding: 15px;
+        }
+        position: relative;
+        display: flex;
+        align-items: center;
+        text-transform: uppercase;
+        font-size: .9em;
+      }
+
+      &:last-child > a {
+        @include up($large) {
+          padding-right: 0;
+        }
+      }
+    }
+
+    .sub-menu {
+      display: none;
+      //max-width: 150px;
+      li a {
+        padding: 5px 15px;
+        display: block;
+        white-space: nowrap;
+      }
+    }
+
+    li:hover > .sub-menu {
+      display: block;
+      position: absolute;
+      z-index: 7;
+      padding: 0;
+      margin: 0;
+      background-color: #fff;
+      border: 1px solid rgba(0, 0, 0, .15);
+      background-clip: padding-box;
+    }
+
+    > li:hover > .sub-menu {
+      top: 100%;
+      right: 0;
+      a {
+        text-align: right;
+      }
+    }
+
+    .sub-menu > li:hover > .sub-menu {
+      top: -1px;
+      left: 100%;
+      a {
+        text-align: left;
+      }
+    }
+
+  }
+
+}
+
+.navigation-mobile {
+  padding: $gridGutter;
+  &__inner {
+    padding: $gridGutter 0;
+    height: 100%;
+    width: 100%;
+    flex-grow: 1;
+    display: grid;
+    grid-template-rows: auto auto 1fr;
+    grid-gap: $gridGutter;
+  }
+
+  ul {
+    list-style-type: none;
+    overflow-x: hidden;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+    transition: all .5s ease;
+  }
+
+  li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+
+  a {
+    text-align: left;
+    justify-content: center;
+    padding: $gridGutter/2 $gridGutter;
+    flex-grow: 1;
+  }
+
+  .sub-menu {
+    left: 100%;
+    background-color: #fff;
+  }
+
+  .backlevel__icon {
+    position: absolute;
+    left: 0;
+    top: 0;
+    padding: $gridGutter/2 0 0 $gridGutter;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    font-size: 1.5em;
+    z-index: 20;
+    color: $colorPrimary;
+  }
+
+  .sublevel__icon {
+    line-height: 1em;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: $gridGutter;
+  }
+
+}
