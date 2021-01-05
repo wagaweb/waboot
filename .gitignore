@@ -1,5 +1,9 @@
 /vendor/
+!addons/packages/catalog_manager/waga-woocommerce-csv-cli-importer/vendor
 node_modules
+
+#External
+addons/packages/catalog_manager/waga-woocommerce-csv-cli-importer
 
 #Assets
 assets/dist/css/main.min.css
