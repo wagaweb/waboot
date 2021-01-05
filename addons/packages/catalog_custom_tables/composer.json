@@ -7,6 +7,9 @@
     "monolog/monolog": "~2.1",
     "illuminate/database": "^7.28"
   },
+  "autoload": {
+    "classmap": ["inc/","cli/"]
+  },
   "authors": [
     {
       "name": "Waga",
