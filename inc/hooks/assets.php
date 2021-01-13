@@ -32,7 +32,8 @@ function assets(){
         'deps' => ['google-font']
     ];
     $assets['google-font'] = [
-        'uri' => 'https://fonts.googleapis.com/css?family=Montserrat:400,400i,700,700i&display=swap',
+        //'uri' => 'https://fonts.googleapis.com/css?family=Montserrat:400,400i,700,700i&display=swap',
+        'uri' => 'https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,700;1,400;1,700&family=Lato:ital,wght@0,400;0,700;1,400;1,700&display=swap',
         'type' => 'css'
     ];
     $assets['owlcarousel-css'] = [

@@ -2,11 +2,9 @@
 
 namespace Waboot\addons\packages\catalog_custom_tables;
 
-if(!\is_file(__DIR__.'/vendor/autoload.php')){
-    return;
+if(!class_exists('\Illuminate\Database\Capsule\Manager')){
+   return;
 }
-
-require_once __DIR__.'/vendor/autoload.php';
 
 define('WB_CUSTOM_PRODUCTS_TABLE','wc_wb_products');
 define('WB_CUSTOM_CATEGORIES_TABLE', 'wc_wb_categories');

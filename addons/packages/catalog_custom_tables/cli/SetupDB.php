@@ -68,6 +68,7 @@ class SetupDB extends AbstractCommand
             if(!$db->tableExists(WB_CUSTOM_CATEGORIES_TABLE)){
                 $db->getBuilder()->create(WB_CUSTOM_CATEGORIES_TABLE, function (\Illuminate\Database\Schema\Blueprint $table){
                     $table->id();
+                    $table->integer('wc_id')->unique();
                     $table->string('name');
                     $table->string('slug')->unique();
                     $table->unsignedBigInteger('parent_id')->nullable();
@@ -78,23 +79,25 @@ class SetupDB extends AbstractCommand
             if(!$db->tableExists(WB_CUSTOM_PRODUCTS_TABLE)){
                 $db->getBuilder()->create(WB_CUSTOM_PRODUCTS_TABLE, function (\Illuminate\Database\Schema\Blueprint $table){
                     $table->id();
+                    $table->integer('wc_id')->unique();
                     $table->string('sku')->unique();
                     $table->foreignId('parent_id')->nullable();
                     $table->string('parent_sku')->nullable();
-                    $table->string('slug')->nullable();
-                    $table->string('name');
+                    $table->string('title');
                     $table->foreignId('main_category_id');
+                    $table->float('price');
+                    $table->integer('stock');
                     //$table->primary('id');
                 });
                 $this->log('Tabella: '.WB_CUSTOM_PRODUCTS_TABLE.' creata');
             }
-            if(!$db->tableExists(WB_CUSTOM_CATEGORIES_TABLE)){
-                $db->getBuilder()->create(WB_CUSTOM_CATEGORIES_TABLE, function (\Illuminate\Database\Schema\Blueprint $table){
+            if(!$db->tableExists(WB_CUSTOM_PRODUCTS_CATEGORIES_TABLE)){
+                $db->getBuilder()->create(WB_CUSTOM_PRODUCTS_CATEGORIES_TABLE, function (\Illuminate\Database\Schema\Blueprint $table){
                     $table->foreignId('product_id');
                     $table->foreignId('category_id');
                     $table->primary(['product_id','category_id']);
                 });
-                $this->log('Tabella: '.WB_CUSTOM_CATEGORIES_TABLE.' creata');
+                $this->log('Tabella: '.WB_CUSTOM_PRODUCTS_CATEGORIES_TABLE.' creata');
             }
             $this->log('Tutte le tabelle sono state create con successo');
             return 0;

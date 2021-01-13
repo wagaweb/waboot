@@ -27,3 +27,9 @@ add_filter('waboot/addons/disabled', function(){
 });
 */
 \Waboot\inc\loadAddons();
+
+add_action('init', function (){
+    $r = new \Waboot\addons\packages\catalog_custom_tables\inc\DBProduct(11);
+    $r->save();
+    $a = 4;
+});

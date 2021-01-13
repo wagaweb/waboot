@@ -2,7 +2,13 @@
     "name": "waga/waboot-boilerplate",
     "description": "A boilerplate theme for WordPress",
     "type": "project",
-    "require": {},
+    "require": {
+        "guzzlehttp/guzzle": "~6.3",
+        "league/csv": "~9.6.0",
+        "monolog/monolog": "~2.1",
+        "illuminate/database": "~7.28",
+        "padraic/humbug_get_contents": "~1.1"
+    },
     "require-dev": {
         "wp-cli/wp-cli": "^2.4.1"
     },
@@ -18,6 +24,7 @@
     "autoload": {
         "psr-4": {
             "Waboot\\inc\\": "inc/"
-        }
+        },
+        "classmap": ["addons/packages/catalog_custom_tables/inc/","addons/packages/catalog_custom_tables/cli/"]
     }
 }
