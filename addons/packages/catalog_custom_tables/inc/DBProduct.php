@@ -147,6 +147,14 @@ class DBProduct extends AbstractDBProduct
      */
     public function save()
     {
+        //Parent Sku may be changed, so overwrite
+        if($this->isVariation()){
+            $parent = wc_get_product($this->getWcProduct()->get_parent_id());
+            if($parent instanceof \WC_Product_Variable){
+                $this->parentSku = $parent->get_sku();
+            }
+        }
+
         //Row data
         $data = [
             'wc_id' => $this->getWcProduct()->get_id(),
@@ -182,6 +190,30 @@ class DBProduct extends AbstractDBProduct
         }
 
         return (int) $newId;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isParent(): bool
+    {
+        try{
+            return $this->getWcProduct() instanceof \WC_Product_Variable;
+        }catch (DBProductException $e){
+            return false;
+        }
+    }
+
+    /**
+     * @return bool
+     */
+    public function isVariation(): bool
+    {
+        try{
+            return $this->getWcProduct() instanceof \WC_Product_Variation;
+        }catch (DBProductException $e){
+            return false;
+        }
     }
 
     /**

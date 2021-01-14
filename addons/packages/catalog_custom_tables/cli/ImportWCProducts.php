@@ -3,6 +3,9 @@
 namespace Waboot\addons\packages\catalog_custom_tables\cli;
 
 use Waboot\addons\packages\catalog_custom_tables\inc\CapsuleWP;
+use Waboot\addons\packages\catalog_custom_tables\inc\CatalogDB;
+use Waboot\addons\packages\catalog_custom_tables\inc\DBProduct;
+use Waboot\addons\packages\catalog_custom_tables\inc\DBProductException;
 use Waboot\inc\core\cli\AbstractCommand;
 
 class ImportWCProducts extends AbstractCommand
@@ -19,6 +22,10 @@ class ImportWCProducts extends AbstractCommand
      * @var CapsuleWP
      */
     protected $dbConnector;
+    /**
+     * @var CatalogDB;
+     */
+    protected $dbManager;
 
     /**
      * Importa i prodotti per WooCommerce dalla tabella in cui sono stati importati i prodotti da CSV
@@ -45,47 +52,43 @@ class ImportWCProducts extends AbstractCommand
     {
         try{
             $this->dbConnector = new CapsuleWP();
-            $records = $this->dbConnector->getManager()::table(TRADE_AREA_PRODUCTS_TABLE)
-                ->where('ecommerce', '=', 1)
-                ->get();
-            if(count($records) <= 0){
-                $this->error('Non ci sono prodotti importabili');
-                return -1;
-            }
-            $alreadySavedParents = [];
-            $progress = $this->progressBarAvailable() && !$this->isVerbose() ? $this->makeProgressBar('Importazione prodotti per ecommerce', count($records)) : false;
-            foreach ($records as $record){
+            $this->dbManager = new CatalogDB($this->dbConnector);
+
+            $this->dbConnector->getManager()::table(WB_CUSTOM_CATEGORIES_TABLE)->truncate();
+            $this->log('Tabella: '.WB_CUSTOM_CATEGORIES_TABLE.' troncata');
+            $this->dbConnector->getManager()::table(WB_CUSTOM_PRODUCTS_CATEGORIES_TABLE)->truncate();
+            $this->log('Tabella: '.WB_CUSTOM_PRODUCTS_CATEGORIES_TABLE.' troncata');
+
+            $productIds = get_posts([
+                'post_type' => ['product'],
+                'posts_per_page' => -1,
+                'fields' => 'ids'
+            ]);
+
+            $progress = $this->progressBarAvailable() && !$this->isVerbose() ? $this->makeProgressBar('Importing products', count($productIds)) : false;
+            foreach ($productIds as $productId){
                 try{
-                    $ecProduct = new ECommerceProduct($record, $this->dbConnector);
-                    if($ecProduct->isParent()){
-                        $newId = $ecProduct->save();
-                        $alreadySavedParents[] = $ecProduct->getSku();
-                        if($ecProduct->isNew()){
-                            $this->log('Prodotto '.$ecProduct->getSku().' inserito con ID: #'.$newId);
-                        }else{
-                            $this->log('Prodotto '.$ecProduct->getSku().' con ID: #'.$newId.' aggiornato');
-                        }
+                    $dbProduct = new DBProduct($productId, $this->dbManager, $this->dbConnector);
+                    $newId = $dbProduct->save();
+                    if($dbProduct->isNew()){
+                        $this->log('Product '.$dbProduct->getSku().' inserted with ID: #'.$newId);
                     }else{
-                        $parentEcProduct = $ecProduct->getParent();
-                        if($parentEcProduct instanceof ECommerceProduct && !\in_array($parentEcProduct->getSku(), $alreadySavedParents, true)){
-                            $newId = $parentEcProduct->save();
-                            $alreadySavedParents[] = $parentEcProduct->getSku();
-                            if($parentEcProduct->isNew()){
-                                $this->log('Prodotto '.$parentEcProduct->getSku().' inserito con ID: #'.$newId);
-                            }else{
-                                $this->log('Prodotto '.$parentEcProduct->getSku().' con ID: #'.$newId.' aggiornato');
-                            }
-                        }
+                        $this->log('Product '.$dbProduct->getSku().' with ID: #'.$newId.' updated');
                     }
-                }catch (\WC_Data_Exception $e){
-                    $this->log('Impossibile salvare prodotto: '.$e->getMessage());
+                    if($dbProduct->isParent()){
+                        $variations = $dbProduct->getWcProduct()->get_available_variations();
+                    }
+                }catch (DBProductException $e){
+                    $this->log('Unable to save product: '.$e->getMessage());
                     continue;
-                }
-                catch (\Illuminate\Database\QueryException $e){
-                    $this->log('Impossibile salvare prodotto: '.$e->getMessage());
+                }catch (\WC_Data_Exception $e){
+                    $this->log('Unable to save product: '.$e->getMessage());
+                    continue;
+                }catch (\Illuminate\Database\QueryException $e){
+                    $this->log('Unable to save product: '.$e->getMessage());
                     continue;
                 }catch (\RuntimeException $e){
-                    $this->log('Impossibile salvare prodotto: '.$e->getMessage());
+                    $this->log('Unable to save product: '.$e->getMessage());
                     continue;
                 }
                 if($this->isProgressBar($progress)){
@@ -96,7 +99,7 @@ class ImportWCProducts extends AbstractCommand
             return -1;
         }
 
-        $this->success('Operazione completata');
+        $this->success('Operation completed');
         return 0;
     }
 }
