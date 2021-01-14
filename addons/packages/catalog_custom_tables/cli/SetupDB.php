@@ -95,7 +95,7 @@ class SetupDB extends AbstractCommand
                 $db->getBuilder()->create(WB_CUSTOM_PRODUCTS_CATEGORIES_TABLE, function (\Illuminate\Database\Schema\Blueprint $table){
                     $table->foreignId('product_id');
                     $table->foreignId('category_id');
-                    $table->primary(['product_id','category_id']);
+                    $table->primary(['product_id','category_id'],'wc_wb_products_categories_product_id_category_id_primary');
                 });
                 $this->log('Tabella: '.WB_CUSTOM_PRODUCTS_CATEGORIES_TABLE.' creata');
             }
