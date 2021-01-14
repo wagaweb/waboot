@@ -2,8 +2,8 @@
 
 namespace Waboot\addons\packages\catalog_custom_tables\cli;
 
-use Waboot\addons\packages\catalog_custom_tables\inc\AbstractCommand;
 use Waboot\addons\packages\catalog_custom_tables\inc\CapsuleWP;
+use Waboot\inc\core\cli\AbstractCommand;
 
 class SetupDB extends AbstractCommand
 {
