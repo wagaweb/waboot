@@ -23,8 +23,12 @@
     "prefer-stable": true,
     "autoload": {
         "psr-4": {
-            "Waboot\\inc\\": "inc/"
+            "Waboot\\inc\\": "inc/",
+            "WWCCSVImporter\\": "addons/packages/catalog_manager/waga-woocommerce-csv-cli-importer/src/"
         },
-        "classmap": ["addons/packages/catalog_custom_tables/inc/","addons/packages/catalog_custom_tables/cli/"]
+        "classmap": [
+            "addons/packages/catalog_custom_tables/inc/",
+            "addons/packages/catalog_custom_tables/cli/"
+        ]
     }
 }
