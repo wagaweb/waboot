@@ -1,23 +1,24 @@
 <?php
 
-namespace Waboot\addons\packages\catalog_custom_tables\inc;
-
-use Monolog\Logger;
+namespace Waboot\inc\core\cli;
 
 trait CommandLogger
 {
     /**
      * @param $name
-     * @return Logger
+     * @return \Monolog\Logger
      * @throws \Exception
      */
-    private function getLogger($name): Logger{
+    private function getLogger($name): \Monolog\Logger{
         static $logger;
         if(isset($logger)){
             return $logger;
         }
-        $logger = new Logger($name);
-        $logger->pushHandler(new \Monolog\Handler\StreamHandler($this->getLogFile()), Logger::INFO);
+        if(!class_exists('Monolog\Logger')){
+            throw new \RuntimeException('Monolog not installed');
+        }
+        $logger = new \Monolog\Logger($name);
+        $logger->pushHandler(new \Monolog\Handler\StreamHandler($this->getLogFile()), \Monolog\Logger::INFO);
         return $logger;
     }
 

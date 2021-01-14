@@ -1,15 +1,13 @@
 <?php
 
-namespace Waboot\addons\packages\catalog_custom_tables\inc;
-
-use Monolog\Logger;
+namespace Waboot\inc\core\cli;
 
 class AbstractCommand
 {
     use CommandLogger;
 
     /**
-     * @var Logger
+     * @var \Monolog\Logger
      */
     protected $logger;
     /**
@@ -39,7 +37,7 @@ class AbstractCommand
         try{
             $this->logger = $this->getLogger('esperiri-cli-command-logger');
         }catch (\Exception $e){
-            //WP_CLI::error('Unable to initialize the logger');
+            $this->error('Unable to initialize the logger: '.$e->getMessage(), false);
         }
     }
 
@@ -68,14 +66,14 @@ class AbstractCommand
         if($this->isWPCLI() && $this->isVerbose()){
             \WP_CLI::log($message);
         }
-        if($this->mustLog()){
+        if($this->mustLog() && $this->canLog()){
             $this->logger->info($message);
         }
     }
 
     protected function error(string $message, $die = true){
         try{
-            if($this->mustLog()){
+            if($this->mustLog() && $this->canLog()){
                 $this->logger->error($message);
             }
             if($die && $this->isWPCLI()){
@@ -90,7 +88,7 @@ class AbstractCommand
     }
 
     protected function success(string $message){
-        if($this->mustLog()){
+        if($this->mustLog() && $this->canLog()){
             $this->logger->info($message);
         }
         if($this->isWPCLI() && $this->isVerbose()){
@@ -104,6 +102,10 @@ class AbstractCommand
 
     protected function isVerbose(): bool {
         return $this->verbose && !$this->showProgressBar;
+    }
+
+    protected function canLog(): bool {
+        return $this->logger instanceof \Monolog\Logger;
     }
 
     protected function mustLog(): bool {
