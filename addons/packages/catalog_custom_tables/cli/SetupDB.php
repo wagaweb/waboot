@@ -41,7 +41,7 @@ class SetupDB extends AbstractCommand
             $this->reset();
         }
         $this->setup();
-        $this->success('Operazione completata');
+        $this->success('Operation completed');
     }
 
     public function reset(){
@@ -50,7 +50,7 @@ class SetupDB extends AbstractCommand
             $db->getBuilder()->dropIfExists(WB_CUSTOM_PRODUCTS_TABLE);
             $db->getBuilder()->dropIfExists(WB_CUSTOM_CATEGORIES_TABLE);
             $db->getBuilder()->dropIfExists(WB_CUSTOM_PRODUCTS_CATEGORIES_TABLE);
-            $this->log('Database resettato');
+            $this->log('Database cleaned');
             return 0;
         }catch (\PDOException $e){
             $this->error($e->getMessage());
@@ -74,7 +74,7 @@ class SetupDB extends AbstractCommand
                     $table->unsignedBigInteger('parent_id')->nullable();
                     //$table->primary('id');
                 });
-                $this->log('Tabella: '.WB_CUSTOM_CATEGORIES_TABLE.' creata');
+                $this->log('Table: '.WB_CUSTOM_CATEGORIES_TABLE.' created');
             }
             if(!$db->tableExists(WB_CUSTOM_PRODUCTS_TABLE)){
                 $db->getBuilder()->create(WB_CUSTOM_PRODUCTS_TABLE, function (\Illuminate\Database\Schema\Blueprint $table){
@@ -87,9 +87,10 @@ class SetupDB extends AbstractCommand
                     $table->foreignId('main_category_id')->nullable();
                     $table->float('price')->nullable();
                     $table->integer('stock')->nullable();
+                    $table->boolean('managed_stock')->nullable();
                     //$table->primary('id');
                 });
-                $this->log('Tabella: '.WB_CUSTOM_PRODUCTS_TABLE.' creata');
+                $this->log('Table: '.WB_CUSTOM_PRODUCTS_TABLE.' created');
             }
             if(!$db->tableExists(WB_CUSTOM_PRODUCTS_CATEGORIES_TABLE)){
                 $db->getBuilder()->create(WB_CUSTOM_PRODUCTS_CATEGORIES_TABLE, function (\Illuminate\Database\Schema\Blueprint $table){
@@ -97,9 +98,9 @@ class SetupDB extends AbstractCommand
                     $table->foreignId('category_id');
                     $table->primary(['product_id','category_id'],'wc_wb_products_categories_product_id_category_id_primary');
                 });
-                $this->log('Tabella: '.WB_CUSTOM_PRODUCTS_CATEGORIES_TABLE.' creata');
+                $this->log('Table: '.WB_CUSTOM_PRODUCTS_CATEGORIES_TABLE.' created');
             }
-            $this->log('Tutte le tabelle sono state create con successo');
+            $this->log('Database creation completed');
             return 0;
         }catch (\PDOException $e){
             $this->error($e->getMessage());

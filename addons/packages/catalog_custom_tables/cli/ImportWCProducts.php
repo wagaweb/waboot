@@ -68,9 +68,6 @@ class ImportWCProducts extends AbstractCommand
             $progress = $this->progressBarAvailable() && !$this->isVerbose() ? $this->makeProgressBar('Importing products', count($productIds)) : false;
             foreach ($productIds as $productId){
                 try{
-                    if($productId === 11){
-                        xdebug_break();
-                    }
                     $dbProduct = new DBProduct($productId, $this->dbManager, $this->dbConnector);
                     $newId = $dbProduct->save();
                     if($dbProduct->isNew()){
@@ -79,7 +76,16 @@ class ImportWCProducts extends AbstractCommand
                         $this->log('Product '.$dbProduct->getSku().' with ID: #'.$newId.' updated');
                     }
                     if($dbProduct->isParent()){
-                        $variations = $dbProduct->getWcProduct()->get_available_variations();
+                        $variations = $dbProduct->getWcProduct()->get_available_variations('objects');
+                        if(\is_array($variations) && count($variations) > 0){
+                            foreach ($variations as $variation){
+                                if(!$variation instanceof \WC_Product_Variation){
+                                    continue;
+                                }
+                                $dbProductVariation = new DBProduct($variation);
+                                $dbProductVariation->save();
+                            }
+                        }
                     }
                 }catch (DBProductException $e){
                     $this->log('Unable to save product: '.$e->getMessage());

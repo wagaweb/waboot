@@ -68,6 +68,10 @@ class CatalogDB
      */
     public function addWPTerm(\WP_Term $term, string $tableName): void
     {
+        $existingTermId = $this->searchTermByWPTermId($term->term_id,$tableName);
+        if($existingTermId !== false){
+            return;
+        }
         if($term->parent === 0){
             $data = [
                 'wc_id' => $term->term_id,
@@ -75,21 +79,18 @@ class CatalogDB
                 'slug' => $term->slug,
             ];
             try{
-                $existingId = $this->searchTermByWPTermId($term->term_id,$tableName);
-                if($existingId ===  false){
-                    $this->dbConnector->getManager()::table($tableName)->insertGetId($data);
-                }
+                $this->dbConnector->getManager()::table($tableName)->insertGetId($data);
             }catch (\Illuminate\Database\QueryException $e){}
         }else{
             $parentTerm = get_term($term->parent,$term->taxonomy);
             if($parentTerm instanceof \WP_Term){
-                $existingId = $this->searchTermByWPTermId($parentTerm->term_id,$tableName);
-                if($existingId !== false){
+                $existingParentId = $this->searchTermByWPTermId($parentTerm->term_id,$tableName);
+                if($existingParentId !== false){
                     $data = [
                         'wc_id' => $term->term_id,
                         'name' => $term->name,
                         'slug' => $term->slug,
-                        'parent_id' => $existingId
+                        'parent_id' => $existingParentId
                     ];
                     $this->dbConnector->getManager()::table($tableName)->insertGetId($data);
                 }else{

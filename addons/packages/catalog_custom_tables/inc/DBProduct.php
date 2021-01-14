@@ -2,6 +2,8 @@
 
 namespace Waboot\addons\packages\catalog_custom_tables\inc;
 
+use function Symfony\Component\Translation\t;
+
 class DBProduct extends AbstractDBProduct
 {
     /**
@@ -28,6 +30,10 @@ class DBProduct extends AbstractDBProduct
      * @var int
      */
     private $stock;
+    /**
+     * @var bool
+     */
+    private $managedStock;
     /**
      * @var int
      */
@@ -106,6 +112,7 @@ class DBProduct extends AbstractDBProduct
         $this->title = property_exists($existingRecord,'title') ? $existingRecord->title : null;
         $this->price = property_exists($existingRecord,'price') ? (float) $existingRecord->price : null;
         $this->stock = property_exists($existingRecord,'stock') ? (int) $existingRecord->stock : null;
+        $this->managedStock = property_exists($existingRecord,'managed_stock') ? (bool) $existingRecord->managed_stock : null;
     }
 
     /**
@@ -164,6 +171,7 @@ class DBProduct extends AbstractDBProduct
 
         $this->title = $this->getWcProduct()->get_title();
         $this->stock = $this->getWcProduct()->get_stock_quantity();
+        $this->managedStock = (bool) $this->getWcProduct()->managing_stock();
         $this->price = $this->getWcProduct()->get_price();
     }
 
@@ -182,7 +190,8 @@ class DBProduct extends AbstractDBProduct
             'parent_sku' => $this->getParentSku(),
             'title' => $this->getTitle(),
             'price' => $this->getPrice(),
-            'stock' => $this->getStock()
+            'stock' => $this->getStock(),
+            'managed_stock' => $this->isManagedStock()
         ];
         if($this->isNew()){
             $newId = $this->dbConnector->getManager()::table(WB_CUSTOM_PRODUCTS_TABLE)->insertGetId($data);
@@ -282,6 +291,14 @@ class DBProduct extends AbstractDBProduct
     public function getStock(): ?int
     {
         return $this->stock;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isManagedStock(): bool
+    {
+        return (bool) $this->managedStock;
     }
 
     /**
