@@ -25,3 +25,23 @@ function extractCategoriesStringTree(string $categories, string $delimiter = '|'
 function createSlugForDB(string $string): string {
     return sanitize_title($string);
 }
+
+/**
+ * @param array $termList
+ * @param string $taxonomy
+ * @return array
+ */
+function generateTermListTree(array $termList, string $taxonomy): array {
+    $termList = array_filter($termList, static function ($item){ return $item instanceof \WP_Term; });
+    if(empty($termList)){
+        return [];
+    }
+
+    $hierarchicalTermList = [];
+    foreach ($termList as $term){
+        if(!$term instanceof \WP_Term){
+            continue;
+        }
+    }
+    return $hierarchicalTermList;
+}

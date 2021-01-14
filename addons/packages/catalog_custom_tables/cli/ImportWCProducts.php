@@ -68,6 +68,9 @@ class ImportWCProducts extends AbstractCommand
             $progress = $this->progressBarAvailable() && !$this->isVerbose() ? $this->makeProgressBar('Importing products', count($productIds)) : false;
             foreach ($productIds as $productId){
                 try{
+                    if($productId === 11){
+                        xdebug_break();
+                    }
                     $dbProduct = new DBProduct($productId, $this->dbManager, $this->dbConnector);
                     $newId = $dbProduct->save();
                     if($dbProduct->isNew()){

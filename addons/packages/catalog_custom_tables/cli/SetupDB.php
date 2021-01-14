@@ -84,9 +84,9 @@ class SetupDB extends AbstractCommand
                     $table->foreignId('parent_id')->nullable();
                     $table->string('parent_sku')->nullable();
                     $table->string('title');
-                    $table->foreignId('main_category_id');
-                    $table->float('price');
-                    $table->integer('stock');
+                    $table->foreignId('main_category_id')->nullable();
+                    $table->float('price')->nullable();
+                    $table->integer('stock')->nullable();
                     //$table->primary('id');
                 });
                 $this->log('Tabella: '.WB_CUSTOM_PRODUCTS_TABLE.' creata');

@@ -103,7 +103,6 @@ class DBProduct extends AbstractDBProduct
         $this->mainCategoryId = property_exists($existingRecord,'main_category_id') ? $existingRecord->main_category_id : null;
         //Custom table columns:
         $this->sku = property_exists($existingRecord,'sku') ? $existingRecord->sku : null;
-        $this->slug = property_exists($existingRecord,'slug') ? $existingRecord->slug : null;
         $this->title = property_exists($existingRecord,'title') ? $existingRecord->title : null;
         $this->price = property_exists($existingRecord,'price') ? (float) $existingRecord->price : null;
         $this->stock = property_exists($existingRecord,'stock') ? (int) $existingRecord->stock : null;
@@ -133,7 +132,7 @@ class DBProduct extends AbstractDBProduct
         if(isset($this->wcCategories)){
             return $this->wcCategories;
         }
-        $categories = \wp_get_post_terms($this->wcProductId, 'product_cat', ['orderby' => 'parent']);
+        $categories = \wp_get_post_terms($this->wcProductId, 'product_cat', ['orderby' => 'parent', 'fields' => 'all_with_object_id']);
         if(!\is_array($categories)){
             $categories = [];
         }
@@ -145,8 +144,16 @@ class DBProduct extends AbstractDBProduct
     /**
      * @throws DBProductException
      */
-    public function save()
+    public function fetchWcData(): void
     {
+        if($this->getSku() === null){
+            $sku = $this->getWcProduct()->get_sku();
+            if(!\is_string($sku) || $sku === ''){
+                throw new DBProductException('Invalid Sku');
+            }
+            $this->sku = $sku;
+        }
+
         //Parent Sku may be changed, so overwrite
         if($this->isVariation()){
             $parent = wc_get_product($this->getWcProduct()->get_parent_id());
@@ -154,6 +161,18 @@ class DBProduct extends AbstractDBProduct
                 $this->parentSku = $parent->get_sku();
             }
         }
+
+        $this->title = $this->getWcProduct()->get_title();
+        $this->stock = $this->getWcProduct()->get_stock_quantity();
+        $this->price = $this->getWcProduct()->get_price();
+    }
+
+    /**
+     * @throws DBProductException
+     */
+    public function save()
+    {
+        $this->fetchWcData();
 
         //Row data
         $data = [
@@ -167,6 +186,7 @@ class DBProduct extends AbstractDBProduct
         ];
         if($this->isNew()){
             $newId = $this->dbConnector->getManager()::table(WB_CUSTOM_PRODUCTS_TABLE)->insertGetId($data);
+            $this->id = $newId;
         }else{
             $this->dbConnector->getManager()::table(WB_CUSTOM_PRODUCTS_TABLE)
                 ->where('id',$this->id)
@@ -177,16 +197,16 @@ class DBProduct extends AbstractDBProduct
         //Insert data in related tables (here we assume that related tables are empty)
         $wcCategories = $this->getWcCategories();
         foreach ($wcCategories as $wpTerm){
-            $data = [
-                'wc_id' => $wpTerm->term_id,
-                'name' => $wpTerm->name,
-                'slug' => $wpTerm->slug,
-            ];
-            $newId = $this->dbConnector->getManager()::table(WB_CUSTOM_CATEGORIES_TABLE)->insertGetId($data);
-            $this->dbConnector->getManager()::table(WB_CUSTOM_PRODUCTS_CATEGORIES_TABLE)->insert([
-                'product_id' => $this->getId(),
-                'category_id' => $newId
-            ]);
+            $this->dbManager->addWPTerm($wpTerm,WB_CUSTOM_CATEGORIES_TABLE);
+        }
+        foreach ($wcCategories as $wpTerm){
+            $existingId = $this->dbManager->searchTermByWPTermId($wpTerm->term_id,WB_CUSTOM_CATEGORIES_TABLE);
+            if($existingId !== false){
+                $this->dbConnector->getManager()::table(WB_CUSTOM_PRODUCTS_CATEGORIES_TABLE)->insert([
+                    'product_id' => $this->getId(),
+                    'category_id' => $existingId
+                ]);
+            }
         }
 
         return (int) $newId;
@@ -217,25 +237,25 @@ class DBProduct extends AbstractDBProduct
     }
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getParentId(): int
+    public function getParentId(): ?int
     {
         return $this->parentId;
     }
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getMainCategoryId(): int
+    public function getMainCategoryId(): ?int
     {
         return $this->mainCategoryId;
     }
@@ -249,17 +269,17 @@ class DBProduct extends AbstractDBProduct
     }
 
     /**
-     * @return float
+     * @return float|null
      */
-    public function getPrice(): float
+    public function getPrice(): ?float
     {
         return $this->price;
     }
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getStock(): int
+    public function getStock(): ?int
     {
         return $this->stock;
     }

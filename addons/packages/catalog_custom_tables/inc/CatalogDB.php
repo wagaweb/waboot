@@ -63,6 +63,59 @@ class CatalogDB
     }
 
     /**
+     * @param \WP_Term $term
+     * @param string $tableName
+     */
+    public function addWPTerm(\WP_Term $term, string $tableName): void
+    {
+        if($term->parent === 0){
+            $data = [
+                'wc_id' => $term->term_id,
+                'name' => $term->name,
+                'slug' => $term->slug,
+            ];
+            try{
+                $existingId = $this->searchTermByWPTermId($term->term_id,$tableName);
+                if($existingId ===  false){
+                    $this->dbConnector->getManager()::table($tableName)->insertGetId($data);
+                }
+            }catch (\Illuminate\Database\QueryException $e){}
+        }else{
+            $parentTerm = get_term($term->parent,$term->taxonomy);
+            if($parentTerm instanceof \WP_Term){
+                $existingId = $this->searchTermByWPTermId($parentTerm->term_id,$tableName);
+                if($existingId !== false){
+                    $data = [
+                        'wc_id' => $term->term_id,
+                        'name' => $term->name,
+                        'slug' => $term->slug,
+                        'parent_id' => $existingId
+                    ];
+                    $this->dbConnector->getManager()::table($tableName)->insertGetId($data);
+                }else{
+                    $this->addWPTerm($parentTerm,$tableName);
+                }
+            }
+        }
+    }
+
+    /**
+     * @param int $termId
+     * @param string $tableName
+     * @return bool|int
+     */
+    public function searchTermByWPTermId(int $termId, string $tableName)
+    {
+        $r = $this->dbConnector->getManager()::table($tableName)
+            ->where('wc_id','=',$termId)
+            ->get();
+        if($r->count() === 0){
+            return false;
+        }
+        return $r->get(0)->id;
+    }
+
+    /**
      * @throws CatalogDBException
      */
     public function truncateNNTables(): void

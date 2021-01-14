@@ -18,5 +18,5 @@ if(defined('WP_CLI')){
 }
 
 add_action('init', function (){
-    //(new ImportWCProducts())->import();
+    (new ImportWCProducts())->import();
 });

@@ -15,10 +15,6 @@ class AbstractDBProduct
     /**
      * @var string
      */
-    protected $slug;
-    /**
-     * @var string
-     */
     protected $title;
     /**
      * @var CapsuleWP
@@ -30,25 +26,25 @@ class AbstractDBProduct
     protected $dbManager;
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getSku(): string
+    public function getSku(): ?string
     {
         return $this->sku;
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getParentSku(): string
+    public function getParentSku(): ?string
     {
         return $this->parentSku;
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getTitle(): string
+    public function getTitle(): ?string
     {
         return $this->title;
     }
