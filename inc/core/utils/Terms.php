@@ -62,6 +62,7 @@ trait Terms {
             $std->name = $instance->name;
             $std->slug = $instance->slug;
             $std->term_group = $instance->term_group;
+            $std->taxonomy = $instance->taxonomy;
             $std->term_taxonomy_id = $instance->term_taxonomy_id;
             $std->description = $instance->description;
             $std->parent = $instance->parent;
@@ -214,7 +215,7 @@ trait Terms {
             $output_terms = [];
             $flat = function($term_hierarchy) use (&$output_terms,&$flat,$convert_to_wp_term){
                 foreach($term_hierarchy as $k => $t){
-                    $output_terms[] = $convert_to_wp_term ? \WP_Term::get_instance($t->term_id,$t->taxonomy) : $t;
+                    $output_terms[] = $convert_to_wp_term ? get_term($t->term_id,$t->taxonomy) : $t;
                     if(isset($t->children) && $t->children >= 1){
                         $flat($t->children);
                     }
