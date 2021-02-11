@@ -30,11 +30,10 @@ jQuery(document).ready(function($) {
     $("a").each(function(){
         var my_href = $(this).attr("href");
         if(/\.(?:jpg|jpeg|gif|png)/i.test(my_href)){
-            $(this).addClass('swipebox');
-            //$(this).swipebox();
+            $(this).addClass('venobox');
         }
     });
-    $('.swipebox').swipebox();
+    $('.venobox').venobox();
 
 });
 

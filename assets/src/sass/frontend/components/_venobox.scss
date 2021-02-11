@@ -1,0 +1,13 @@
+.vbox-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 40px !important;
+  margin: 0 !important;
+}
+.vbox-container img {
+  max-width: 100%;
+  height: auto;
+  max-height: 100%;
+}
