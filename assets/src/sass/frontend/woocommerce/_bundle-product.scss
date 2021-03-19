@@ -1,0 +1,24 @@
+.bundle_form {
+  .bundled_product {
+    .bundled_product_excerpt {
+      display: none;
+    }
+    &.bundled_product_summary {
+      margin-bottom: 20px;
+      width: 100%;
+      display: grid;
+      grid-template-columns: 100px 1fr;
+      grid-gap: 20px;
+    }
+  }
+  .cart {
+    //display: flex;
+    //align-items: center;
+    .attribute_options {
+      select,
+      .woocommerce-variation-availability {
+        display: none !important;
+      }
+    }
+  }
+}

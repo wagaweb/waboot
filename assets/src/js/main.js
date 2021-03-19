@@ -1,5 +1,12 @@
 import Header from './frontend/header';
 import { Slidein } from "./frontend/slidein.js";
+import Cart from './frontend/cart.js';
+import MiniCart from './frontend/minicart.js';
+import Checkout from './frontend/checkout.js';
+import Attributes from './frontend/attributes.js';
+import ProductGallery from './frontend/productGallery.js';
+import CatalogFilters from "./frontend/catalogFilters.js";
+import Modal from "./frontend/modal.js";
 
 jQuery.fn.slidein = function (options) {
     return this.each(function () {
@@ -13,6 +20,7 @@ jQuery(document).ready(function($) {
     "use strict";
 
     new Header('.menu-item-has-children');
+    new Modal();
 
     asideBodyClass();
     scrollToAnimate();
@@ -27,14 +35,43 @@ jQuery(document).ready(function($) {
         toggler: ".slidein-nav__toggle",
     });
 
+    $("[data-slidein-search]").slidein({
+        toggler: ".slidein-search__toggle",
+    });
+
     $("a").each(function(){
         var my_href = $(this).attr("href");
         if(/\.(?:jpg|jpeg|gif|png)/i.test(my_href)){
-            $(this).addClass('swipebox');
-            //$(this).swipebox();
+            $(this).addClass('venobox');
         }
     });
-    $('.swipebox').swipebox();
+    $('.venobox').venobox();
+
+    //new CatalogFilters();
+
+    // WooCommerce Addon Start
+
+    let $sitecart = jQuery('[data-minicart]');
+    if ($sitecart.length > 0) {
+        new MiniCart();
+    }
+
+    if($('body').hasClass('woocommerce-cart')) {
+        new Cart();
+    }
+    if($('body').hasClass('woocommerce-checkout')) {
+        new Checkout();
+    }
+
+    if($('body').hasClass('single-product')) {
+        new Attributes();
+        new ProductGallery();
+
+        $('form.bundle_form').attr('action','?addedProduct=true');
+
+    }
+
+    // WooCommerce Addon End
 
 });
 
@@ -47,7 +84,7 @@ function asideBodyClass() {
 
 function scrollToAnimate(){
     let $ = jQuery;
-    let $header = $('.site-header').height();
+    let $header = $('.header').height();
     $('a[href^="#"]').on('click', function(event) {
         let target = $(this.getAttribute('href'));
         if( target.length ) {

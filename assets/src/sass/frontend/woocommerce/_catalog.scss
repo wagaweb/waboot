@@ -3,43 +3,30 @@
   margin-bottom: 0;
 }
 
-.tax-product_cat {
-  main {
-    padding-bottom: 0;
+.woocommerce-results {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: $gridGutter/2;
+  .woocommerce-result-count {
+    margin: 0;
   }
 }
 
 ul.products {
   clear: both;
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-gap: $gridGutter;
+  grid-template-columns: repeat(2, 1fr);
   margin: 0;
   padding: 0;
   list-style-type: none;
-
-  .product {
-    margin-right: $gridGutter;
-    margin-bottom: $gridGutter;
-    width: calc((100% - #{$gridGutter}) / 2);
-    &:nth-child(even){
-      @include down($medium) {
-        margin-right: 0;
-      }
+  @include up($large){
+    &.columns-3 {
+      grid-template-columns: repeat(3, 1fr);
     }
-  }
-
-  @include up($medium) {
-    &.columns-4 .product {
-      width: calc((100% - #{$gridGutter} * 3) / 4);
-      &:nth-child(4n+4){
-        margin-right: 0;
-      }
-    }
-    &.columns-3 .product {
-      width: calc((100% - #{$gridGutter} * 2) / 3);
-      &:nth-child(3n+3){
-        margin-right: 0;
-      }
+    &.columns-4 {
+      grid-template-columns: repeat(4, 1fr);
     }
   }
 
@@ -47,34 +34,6 @@ ul.products {
     padding: 0;
     position: relative;
     overflow: hidden;
-    .woocommerce-loop-product__inner {
-      position: relative;
-    }
-
-    .woocommerce-loop-product__data {
-      position: absolute;
-      bottom: -50px;
-      width: 100%;
-      padding: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background-color: #fff;
-      transition: all .5s ease;
-      .woocommerce-loop-product__title {
-        font-size: 1em;
-        font-weight: $fontWeightNormal;
-        margin: 0;
-      }
-      span.price {
-        margin: 0;
-      }
-    }
-    a:hover {
-      .woocommerce-loop-product__data {
-        bottom: 0px;
-      }
-    }
 
     .onsale {
       position: absolute;
@@ -82,16 +41,34 @@ ul.products {
       top: 0;
       padding: 10px;
     }
+
     img {
-      margin: 0;
+      margin: 0 0 20px;
       max-width: 100%;
       width: 100%;
       height: auto;
     }
+
+    .woocommerce-loop-product__cat {
+      font-size: .9em;
+      margin-bottom: 10px;
+    }
+
+    h2 {
+      font-size: 1em;
+      margin-bottom: 10px;
+    }
+
     .price {
-      display: block;
+      display: inline-flex;
+      flex-direction: row-reverse;
       del {
         display: inline-block;
+        opacity: .5;
+        margin-left: $gridGutter/2;
+      }
+      ins {
+        background-color: transparent;
       }
     }
   }

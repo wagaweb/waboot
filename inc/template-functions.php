@@ -313,3 +313,41 @@ function getLogo($size = 'full'){
     }
     return (string) apply_filters('waboot/logo', $image);
 }
+
+function getProductSalePercentage(\WC_Product $product)
+{
+    if ($product->is_on_sale()) {
+        if ($product->get_type() === 'variable') {
+            $variations = $product->get_available_variations();
+
+            $percentage = 0;
+            $percentageArr = [];
+            foreach ($variations as $variation) {
+                $id = $variation['variation_id'];
+
+                /** @var WC_Product_Variation $_product */
+                $_product = new \WC_Product_Variation($id);
+
+                if (!is_numeric($_product->is_on_sale()) && $_product->is_on_sale()) {
+                    $percentage = round((($_product->get_regular_price() - $_product->get_sale_price()) / $_product->get_regular_price()) * 100);
+                    $percentageArr[] = $percentage;
+                }
+            }
+            if (!empty($percentageArr)) {
+                $percentage = max($percentageArr);
+            }
+
+            if ($percentage) {
+                //Round again to 0 or 5
+                $percentage = round($percentage / 10) * 10;
+                return (int) $percentage;
+            }
+        } else {
+            $percentage = round((($product->get_regular_price() - $product->get_sale_price()) / $product->get_regular_price()) * 100);
+            //Round again to 0 or 5
+            $percentage = round($percentage / 5) * 5;
+            return (int) $percentage;
+        }
+    }
+    return 0;
+}

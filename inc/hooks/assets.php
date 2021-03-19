@@ -13,15 +13,15 @@ function assets(){
         'uri' => defined('WP_DEBUG') && WP_DEBUG ? get_template_directory_uri() . '/assets/dist/js/main.pkg.js' : get_template_directory_uri() . '/assets/dist/js/main.min.js',
         'path' => defined('WP_DEBUG') && WP_DEBUG ? get_template_directory() . '/assets/dist/js/main.pkg.js' : get_template_directory() . '/assets/dist/js/main.min.js',
         'type' => 'js',
-        'deps' => ['jquery','owlcarousel-js','swipebox-js']
+        'deps' => ['jquery','owlcarousel-js','venobox-js']
     ];
     $assets['owlcarousel-js'] = [
         'uri' => get_template_directory_uri() . '/assets/vendor/owlcarousel/owl.carousel.min.js',
         'type' => 'js',
         'deps' => ['jquery']
     ];
-    $assets['swipebox-js'] = [
-        'uri' => get_template_directory_uri() . '/assets/vendor/swipebox/js/jquery.swipebox.min.js',
+    $assets['venobox-js'] = [
+        'uri' => get_template_directory_uri() . '/assets/vendor/venobox/venobox.min.js',
         'type' => 'js',
         'deps' => ['jquery']
     ];
@@ -39,8 +39,8 @@ function assets(){
         'uri' => get_template_directory_uri() . '/assets/vendor/owlcarousel/owl.carousel.min.css',
         'type' => 'css'
     ];
-    $assets['swipebox-css'] = [
-        'uri' => get_template_directory_uri() . '/assets/vendor/swipebox/css/swipebox.min.css',
+    $assets['venobox-css'] = [
+        'uri' => get_template_directory_uri() . '/assets/vendor/venobox/venobox.min.css',
         'type' => 'css',
     ];
 

@@ -36,9 +36,15 @@
 
 }
 
-.shop_table {
+.woocommerce-breadcrumb {
+  text-align: center;
+  padding: $gridGutter 0;
+  font-size: .9em;
+  color: $colorGreyDark;
+}
 
-  @include table-responsive;
+.shop_table {
+  //@include table-responsive;
   width: 100%;
   border-collapse: collapse;
   border-spacing: 0;
@@ -48,7 +54,7 @@
   th {
     padding: 10px;
     border-bottom: 1px solid;
-    border-color: #F3F3F3;
+    border-color: $colorGreyLight;
   }
 
   th {

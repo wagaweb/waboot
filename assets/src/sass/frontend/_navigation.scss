@@ -130,6 +130,8 @@
   .sub-menu {
     left: 100%;
     background-color: #fff;
+    overflow-y: auto;
+    z-index: 10;
   }
 
   .backlevel__icon {
