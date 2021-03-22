@@ -27,7 +27,7 @@ add_filter('rest_endpoints', function($endpoints){
         if(!is_user_logged_in()){
             return new \WP_Error(
                 'rest_cannot_access',
-                esc_html__('Only authenticated users can access the User endpoint REST API.', 'waboot'),
+                esc_html__('Only authenticated users can access the User endpoint REST API.', LANG_TEXTDOMAIN),
                 array('status' => rest_authorization_required_code())
             );
         }

@@ -1,8 +1,8 @@
-<section class="step-login" data-step data-step-label="<?php _e("Login",'wawoo') ?>">
+<section class="step-login" data-step data-step-label="<?php _e("Login",LANG_TEXTDOMAIN) ?>">
     <div id="checkout_login" class="woocommerce_checkout_login">
         <div class="checkout-login">
             <div class="checkout-login__form">
-                <h5><?php _e("Already have an account?", 'wawoo') ?></h5>
+                <h5><?php _e("Already have an account?", LANG_TEXTDOMAIN) ?></h5>
                 <?php
                 woocommerce_login_form(
                     array(
@@ -13,7 +13,7 @@
                 ); ?>
             </div>
             <div>
-                <h5><?php _e("Is this the first time that you purchase?", 'wawoo') ?></h5>
+                <h5><?php _e("Is this the first time that you purchase?", LANG_TEXTDOMAIN) ?></h5>
                 <button class="btn btn-primary" data-action="first-purchase">It's my first purchase</button>
             </div>
         </div>
