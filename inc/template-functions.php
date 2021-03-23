@@ -317,6 +317,9 @@ function getLogo($size = 'full'){
 function getProductSalePercentage(\WC_Product $product)
 {
     if ($product->is_on_sale()) {
+        if ($product->get_type() === 'grouped') {
+            return 0;
+        }
         if ($product->get_type() === 'variable') {
             $variations = $product->get_available_variations();
 

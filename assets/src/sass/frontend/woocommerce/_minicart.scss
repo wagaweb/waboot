@@ -4,13 +4,17 @@
   display: block;
   height: 100%;
   position: fixed;
+  z-index: 100;
   overflow: auto;
   transition: transform .3s;
   top: 0;
   right: 0;
   transform: translate(100%, 0);
   width: 100%;
-  z-index: 100;
+  @include up($large){
+    transform: translate(350px, 0);
+    width: 350px;
+  }
   &.show {
     transform: translate(0, 0);
   }

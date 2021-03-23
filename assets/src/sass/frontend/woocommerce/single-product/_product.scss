@@ -140,6 +140,7 @@
     @include up($small) {
       padding: 0;
       display: flex;
+      flex-wrap: wrap;
       //flex-direction: row-reverse;
       align-items: center;
       > div {
@@ -149,6 +150,9 @@
         padding: 60px;
         text-align: center;
       }
+    }
+    h2 {
+      width: 100%;
     }
     ul.products .product {
       flex-basis: 50%;
