@@ -54,7 +54,7 @@ $(document).ready(function() {
 
     // WooCommerce Addon Start
 
-    let $sitecart = jQuery('[data-minicart]');
+    let $sitecart = $('[data-minicart]');
     if ($sitecart.length > 0) {
         new MiniCart();
     }
@@ -76,14 +76,12 @@ $(document).ready(function() {
 });
 
 function asideBodyClass() {
-    let $ = jQuery;
     if($('.main__aside').length > 0) {
         $('body').addClass('with-sidebar');
     }
 }
 
 function scrollToAnimate(){
-    let $ = jQuery;
     let $header = $('.header').height();
     $('a[href^="#"]').on('click', function(event) {
         let target = $(this.getAttribute('href'));
