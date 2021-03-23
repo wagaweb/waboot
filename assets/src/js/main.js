@@ -1,4 +1,5 @@
-import Header from './frontend/header';
+import $ from 'jquery';
+import {initHeader} from './frontend/header';
 import { Slidein } from "./frontend/slidein.js";
 import Cart from './frontend/cart.js';
 import MiniCart from './frontend/minicart.js';
@@ -6,33 +7,32 @@ import Checkout from './frontend/checkout.js';
 import Attributes from './frontend/attributes.js';
 import {enableProductGallery} from './frontend/productGallery.js';
 import CatalogFilters from "./frontend/catalogFilters.js";
-import Modal from "./frontend/modal.js";
+import {initCustomerCareModal} from "./frontend/modal.js";
+import {isCartPage, isCheckOutPage, isSingleProductPage} from "./utils/wp";
 
-jQuery.fn.slidein = function (options) {
+$.fn.slidein = function (options) {
     return this.each(function () {
-        if (!jQuery.data(this, "slidein")) {
-            jQuery.data(this, "slidein", new Slidein(this, options));
+        if (!$.data(this, "slidein")) {
+            $.data(this, "slidein", new Slidein(this, options));
         }
     });
 };
 
-jQuery(document).ready(function($) {
-    "use strict";
+$(window).on('load',function(){
+    if(isSingleProductPage()) {
+        enableProductGallery();
+    }
+    if (window.matchMedia('(max-width: 991px)').matches) {
 
-    new Header('.menu-item-has-children');
-    new Modal();
+    }
+});
+
+$(document).ready(function() {
+    initHeader('.menu-item-has-children');
+    initCustomerCareModal();
 
     asideBodyClass();
     scrollToAnimate();
-
-    $(window).on("load",function(){
-        if($('body').hasClass('single-product')) {
-            enableProductGallery();
-        }
-        if (window.matchMedia('(max-width: 991px)').matches) {
-
-        }
-    });
 
     $("[data-slidein-nav]").slidein({
         toggler: ".slidein-nav__toggle",
@@ -59,14 +59,14 @@ jQuery(document).ready(function($) {
         new MiniCart();
     }
 
-    if($('body').hasClass('woocommerce-cart')) {
+    if(isCartPage()) {
         new Cart();
     }
-    if($('body').hasClass('woocommerce-checkout')) {
+    if(isCheckOutPage()) {
         new Checkout();
     }
 
-    if($('body').hasClass('single-product')) {
+    if(isSingleProductPage()) {
         new Attributes();
         $('form.bundle_form').attr('action','?addedProduct=true');
     }
