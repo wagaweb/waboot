@@ -3,7 +3,7 @@ import {initHeader} from './frontend/header';
 import { Slidein } from "./frontend/slidein.js";
 import Cart from './frontend/cart.js';
 import MiniCart from './frontend/minicart.js';
-import Checkout from './frontend/checkout.js';
+import {initCustomCheckoutActions} from './frontend/checkout.js';
 import {alterAttributesView} from './frontend/attributes.js';
 import {enableProductGallery} from './frontend/productGallery.js';
 import CatalogFilters from "./frontend/catalogFilters.js";
@@ -63,7 +63,7 @@ $(document).ready(function() {
         new Cart();
     }
     if(isCheckOutPage()) {
-        new Checkout();
+        initCustomCheckoutActions();
     }
 
     if(isSingleProductPage()) {

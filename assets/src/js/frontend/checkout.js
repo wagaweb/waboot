@@ -1,25 +1,26 @@
-export default class{
+import $ from 'jquery';
+import {elementAvailable} from "../utils/utils";
 
-    constructor(){
-        let $ = jQuery;
-        this.hideAddressCheckoutForm();
-        this.handleFirstPurchaseButton();
+export function initCustomCheckoutActions(){
+    hideAddressCheckoutForm();
+    handleFirstPurchaseButton();
+}
+
+function hideAddressCheckoutForm() {
+    let $loginStep = $('.step-login');
+    if(!elementAvailable($loginStep)) {
+        return;
     }
+    $('form.woocommerce-checkout').hide();
+}
 
-    hideAddressCheckoutForm() {
-        let $ = jQuery;
-        let loginStep = $('.step-login');
-        if(loginStep.length > 0) {
-            $('form.woocommerce-checkout').hide();
-        }
+function handleFirstPurchaseButton(){
+    let $firstPurchaseButton = $('[data-action="first-purchase"]');
+    if(!elementAvailable($firstPurchaseButton)){
+        return;
     }
-
-    handleFirstPurchaseButton(){
-        let $ = jQuery;
-        $('[data-action="first-purchase"]').on('click', function(){
-            $('form.woocommerce-checkout').show();
-            $('.step-login').hide();
-        });
-    }
-
+    $firstPurchaseButton.on('click', function(){
+        $('form.woocommerce-checkout').show();
+        $('.step-login').hide();
+    });
 }
