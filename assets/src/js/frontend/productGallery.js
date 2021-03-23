@@ -1,16 +1,14 @@
 import $ from 'jquery';
 
 export function enableProductGallery(){
-    $(window).on("load",() => {
-        //productImageHeight();
-        productCarousel(
-            '.product-images__carousel',
-            {
-                dotsContainer:'.product-images__dots',
-                hasColorbox:false
-            }
-        );
-    });
+    //productImageHeight();
+    productCarousel(
+        '.product-images__carousel',
+        {
+            dotsContainer:'.product-images__dots',
+            hasColorbox:false
+        }
+    );
 
     $(window).on("resize",() => {
         //productImageHeight();

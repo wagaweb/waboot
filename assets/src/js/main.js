@@ -26,6 +26,9 @@ jQuery(document).ready(function($) {
     scrollToAnimate();
 
     $(window).on("load",function(){
+        if($('body').hasClass('single-product')) {
+            enableProductGallery();
+        }
         if (window.matchMedia('(max-width: 991px)').matches) {
 
         }
@@ -65,10 +68,7 @@ jQuery(document).ready(function($) {
 
     if($('body').hasClass('single-product')) {
         new Attributes();
-        enableProductGallery();
-
         $('form.bundle_form').attr('action','?addedProduct=true');
-
     }
 
     // WooCommerce Addon End
