@@ -4,7 +4,7 @@ import Cart from './frontend/cart.js';
 import MiniCart from './frontend/minicart.js';
 import Checkout from './frontend/checkout.js';
 import Attributes from './frontend/attributes.js';
-import ProductGallery from './frontend/productGallery.js';
+import {enableProductGallery} from './frontend/productGallery.js';
 import CatalogFilters from "./frontend/catalogFilters.js";
 import Modal from "./frontend/modal.js";
 
@@ -65,7 +65,7 @@ jQuery(document).ready(function($) {
 
     if($('body').hasClass('single-product')) {
         new Attributes();
-        new ProductGallery();
+        enableProductGallery();
 
         $('form.bundle_form').attr('action','?addedProduct=true');
 
