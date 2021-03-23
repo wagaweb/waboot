@@ -4,7 +4,7 @@ import { Slidein } from "./frontend/slidein.js";
 import Cart from './frontend/cart.js';
 import MiniCart from './frontend/minicart.js';
 import Checkout from './frontend/checkout.js';
-import Attributes from './frontend/attributes.js';
+import {alterAttributesView} from './frontend/attributes.js';
 import {enableProductGallery} from './frontend/productGallery.js';
 import CatalogFilters from "./frontend/catalogFilters.js";
 import {initCustomerCareModal} from "./frontend/modal.js";
@@ -67,7 +67,7 @@ $(document).ready(function() {
     }
 
     if(isSingleProductPage()) {
-        new Attributes();
+        alterAttributesView();
         $('form.bundle_form').attr('action','?addedProduct=true');
     }
 
