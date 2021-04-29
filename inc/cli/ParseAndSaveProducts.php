@@ -126,7 +126,22 @@ class ParseAndSaveProducts extends AbstractCommand
     {
         $this->logProductSaving($product);
         do_action('wawoo/cli/parse-and-save-products/pre-save/single', $product, $this);
-        $product->save();
+        $wpPost = get_post($product->get_id());
+        $wpPostId = $wpPost->ID;
+        @do_action('save_post', $wpPostId, $wpPost, true);
+        $product->set_date_modified(current_time( 'mysql' ));
+        @$product->save();
+        if($product instanceof \WC_Product_Variable){
+            $variations = $this->getProductVariations($wpPostId);
+            $dataStore = $product->get_data_store();
+            $dataStore->sort_all_product_variations($wpPostId);
+            foreach ($variations as $i => $variationId){
+                $variation = new \WC_Product_Variation(absint($variationId));
+                @$variation->save();
+                @do_action( 'woocommerce_save_product_variation', $variationId, $i);
+            }
+            @do_action( 'woocommerce_ajax_save_product_variations', $wpPostId);
+        }
         do_action('wawoo/cli/parse-and-save-products/post-save/single', $product, $this);
     }
 
@@ -171,5 +186,24 @@ class ParseAndSaveProducts extends AbstractCommand
             return [];
         }
         return $r;
+    }
+
+    /**
+     * @param $parentId
+     * @param string $returnType ('id' or 'object')
+     * @return int[]|\WC_Product_Variation[]
+     */
+    protected function getProductVariations($parentId, $returnType = 'id'): array
+    {
+        global $wpdb;
+        $sql = 'SELECT ID FROM `'.$wpdb->posts.'` WHERE post_parent = %d AND post_type = %s';
+        $r = $wpdb->get_results($wpdb->prepare($sql,[$wpdb->posts,$parentId,'product_variation']));
+        if(\is_array($r) && !empty($r)){
+            if($returnType === 'object'){
+                return array_map(static function($id){ wc_get_product($id); },$r);
+            }
+            return $r;
+        }
+        return [];
     }
 }
