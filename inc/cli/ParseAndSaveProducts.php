@@ -136,7 +136,7 @@ class ParseAndSaveProducts extends AbstractCommand
             $dataStore = $product->get_data_store();
             $dataStore->sort_all_product_variations($wpPostId);
             foreach ($variations as $i => $variationId){
-                $variation = new \WC_Product_Variation(absint($variationId));
+                $variation = new \WC_Product_Variation($variationId);
                 @$variation->save();
                 @do_action( 'woocommerce_save_product_variation', $variationId, $i);
             }
@@ -197,10 +197,13 @@ class ParseAndSaveProducts extends AbstractCommand
     {
         global $wpdb;
         $sql = 'SELECT ID FROM `'.$wpdb->posts.'` WHERE post_parent = %d AND post_type = %s';
-        $r = $wpdb->get_results($wpdb->prepare($sql,[$wpdb->posts,$parentId,'product_variation']));
+        $sql = $wpdb->prepare($sql,[$parentId,'product_variation']);
+        $r = $wpdb->get_results($sql,ARRAY_A);
         if(\is_array($r) && !empty($r)){
+            $r = wp_list_pluck($r,'ID');
+            $r = array_map('absint', $r);
             if($returnType === 'object'){
-                return array_map(static function($id){ wc_get_product($id); },$r);
+                return array_map(static function($id){ return wc_get_product($id); },$r);
             }
             return $r;
         }
