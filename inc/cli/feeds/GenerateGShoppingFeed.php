@@ -41,6 +41,9 @@ class GenerateGShoppingFeed extends AbstractCommand
      *
      * ## OPTIONS
      *
+     * [--progress]
+     * : Show the progress bar
+     *
      * [--products]
      * : Comma separated products ids to parse.
      *
