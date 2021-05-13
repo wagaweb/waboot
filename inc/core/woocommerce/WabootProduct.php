@@ -38,7 +38,7 @@ class WabootProduct
 
     /**
      * FCVariableProduct constructor.
-     * @param int|\WC_Product_Variable $product
+     * @param int|\WC_Product $product
      * @throws \RuntimeException
      */
     public function __construct($product)

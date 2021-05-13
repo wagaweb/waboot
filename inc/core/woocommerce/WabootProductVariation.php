@@ -60,6 +60,10 @@ class WabootProductVariation
         }elseif ($parent instanceof WabootProduct){
             $this->parent = $parent;
             $this->parentId = $parent->getId();
+        }elseif($parent instanceof \WC_Product_Variable){
+            $wbParent = new WabootProduct($parent);
+            $this->parent = $wbParent;
+            $this->parentId = $wbParent->getId();
         }else{
             throw new \RuntimeException(' Invalid parent provided');
         }

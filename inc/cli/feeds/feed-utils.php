@@ -1,20 +1,20 @@
 <?php
 
-namespace Waboot\inc\core\woocommerce;
+namespace Waboot\inc\cli\feeds;
 
 /**
- * @param \WC_Product_Variable $variableProduct
+ * @param \WC_Product $product
  * @return string
  */
-function getGShoppingDescription(\WC_Product_Variable $variableProduct): string{
-    return trim(preg_replace('/\s+/', ' ', $variableProduct->get_description()));
+function getGShoppingDescription(\WC_Product $product): string{
+    return trim(preg_replace('/\s+/', ' ', $product->get_description()));
 }
 
 /**
  * @param \WC_Product $product
  * @return string
  */
-function getProductFeaturedImageSrc($product): string {
+function getProductFeaturedImageSrc(\WC_Product $product): string {
     $src = \wp_get_attachment_image_src($product->get_image_id(), 'full', false);
     if(\is_array($src) && count($src) > 0){
         return $src[0];

@@ -1,12 +1,13 @@
 <?php
 
-namespace Waboot\inc\core\cli\feed;
+namespace Waboot\inc\cli\feeds;
 
 use Waboot\inc\core\cli\AbstractCommand;
 use Waboot\inc\core\woocommerce\WabootProduct;
 use Waboot\inc\core\woocommerce\WabootProductVariation;
-use function Waboot\inc\core\woocommerce\getGShoppingDescription;
-use function Waboot\inc\core\woocommerce\getProductImagesSrc;
+use function Waboot\inc\getHierarchicalCustomFieldFromProduct;
+
+require_once __DIR__.'/feed-utils.php';
 
 class GenerateGShoppingFeed extends AbstractCommand
 {
@@ -23,13 +24,47 @@ class GenerateGShoppingFeed extends AbstractCommand
      */
     protected $productIds;
     /**
+     * @var int[]
+     */
+    protected $providedIds = [];
+    /**
+     * @var bool
+     */
+    protected $variableProductsOnly;
+    /**
      * @var array
      */
     protected $records;
 
+    /**
+     * Generate Google Shopping feed
+     *
+     * ## OPTIONS
+     *
+     * [--products]
+     * : Comma separated products ids to parse.
+     *
+     * [--variable-products-only]
+     * : Parse the variable products only
+     *
+     * ## EXAMPLES
+     *
+     *      wp wawoo:fix-stock-statuses
+     *
+     * @param $args
+     * @param $assoc_args
+     * @return int
+     */
     public function __invoke($args, $assoc_args): int
     {
         try{
+            if(isset($assoc_args['products'])){
+                $providedIds = explode(',',$assoc_args['products']);
+                if(\is_array($providedIds)){
+                    $this->providedIds = $providedIds;
+                }
+            }
+            $this->variableProductsOnly = isset($assoc_args['variable-products-only']);
             $this->populateProducts();
             $this->populateRecords();
             $this->generateXML();
@@ -41,9 +76,18 @@ class GenerateGShoppingFeed extends AbstractCommand
         }
     }
 
+    /**
+     * Fetch products for the feed
+     */
     public function populateProducts(): void
     {
         $this->log('Retrieving products...');
+        if(isset($this->providedIds) && !empty($this->providedIds)){
+            $ids = array_map('intval',$this->providedIds);
+            $this->productIds = $ids;
+            $this->log('...Done');
+            return;
+        }
         $ids = get_posts([
             //'post_type' => ['product','product_variation'],
             'post_type' => ['product'],
@@ -65,60 +109,35 @@ class GenerateGShoppingFeed extends AbstractCommand
         $this->log('...Done');
     }
 
+    /**
+     * Create the records for the XML file
+     */
     public function populateRecords(): void
     {
         $this->log('Generating records for '.count($this->productIds).' products');
         $progress = $this->makeProgressBar('Generating records', count($this->productIds));
         foreach ($this->productIds as $productId) {
             try {
-                $balleriParent = new WabootProduct($productId);
-                $parentProduct = $balleriParent->getWcProduct();
-                if (!$parentProduct instanceof \WC_Product_Variable) {
-                    continue;
-                }
-                $parentProductId = $parentProduct->get_id();
-                $variationsData = $parentProduct->get_available_variations();
-                if(count($variationsData) === 0){
-                    continue;
-                }
-                foreach ($variationsData as $variationData){
-                    $variationId = $variationData['variation_id'];
-                    try{
-                        $balleriVariation = new WabootProductVariation($variationId);
-                    }catch (\RuntimeException $e){
+                $product = wc_get_product($productId);
+                if($product instanceof \WC_Product_Variable){
+                    $variationsData = $product->get_available_variations();
+                    if(count($variationsData) === 0){
                         continue;
                     }
-                    $variation = $balleriVariation->getWcProduct();
-                    if(!$variation instanceof \WC_Product_Variation){
+                    foreach ($variationsData as $variationData){
+                        $variationId = $variationData['variation_id'];
+                        $variation = wc_get_product($variationId);
+                        if(!$variation instanceof \WC_Product_Variation){
+                            continue;
+                        }
+                        $newRecord = $this->generateRecord($variation,$product);
+                        $this->records[] = $newRecord;
+                    }
+                }else{
+                    if($this->variableProductsOnly){
                         continue;
                     }
-                    $brand = $balleriVariation->getBrand();
-                    $price = $variation->get_regular_price();
-                    $salePrice = $variation->get_price();
-                    $size = $variation->get_attribute('numero');
-                    $newRecord = [
-                        'id' => $variation->get_sku(),
-                        'description' => [
-                            '_cdata' => getGShoppingDescription($parentProduct)
-                        ],
-                        'condition' => 'new',
-                        'mpn' => $variation->get_sku(),
-                        'identifier_exists' => 'yes',
-                        'title' => $variation->get_title(),
-                        'availability' => 'in stock',
-                        'price' => str_replace(',','.',$price).' EUR',
-                        'link' => $balleriVariation->getPermalink(),
-                        'brand' => $brand,
-                        'item_group_id' => $parentProduct->get_sku(),
-                        'google_product_category' => htmlentities('Apparel & Accessories > Shoes'),
-                        'product_type' => htmlentities($balleriParent->getCategories(false,true,' > ')),
-                        'shipping_label' => 'italia',
-                        'imgs' => getProductImagesSrc($parentProduct),
-                        'size' => $size
-                    ];
-                    if($variation->is_on_sale()){
-                        $newRecord['sale_price'] = str_replace(',','.',$salePrice).' EUR';
-                    }
+                    $newRecord = $this->generateRecord($product);
                     $this->records[] = $newRecord;
                 }
                 if($progress){
@@ -134,6 +153,67 @@ class GenerateGShoppingFeed extends AbstractCommand
         }
     }
 
+    /**
+     * @param \WC_Product $product
+     * @param \WC_Product|null $parentProduct
+     * @return array
+     */
+    public function generateRecord(\WC_Product $product, \WC_Product $parentProduct = null): array
+    {
+        if($product instanceof \WC_Product_Variation){
+            $wbVariation = new WabootProductVariation($product, $parentProduct);
+            $brand = $wbVariation->getBrand();
+            $permalink = $wbVariation->getPermalink();
+            $categories = $wbVariation->getParent()->getCategories(false,true,' > ');
+        }else{
+            $wbProduct = new WabootProduct($product);
+            $brand = $wbProduct->getBrand();
+            $permalink = $wbProduct->getPermalink();
+            $categories = $wbProduct->getCategories(false,true,' > ');
+        }
+        $price = $product->get_regular_price();
+        $salePrice = $product->get_price();
+        $size = $product->get_attribute('size');
+        $gtin = getHierarchicalCustomFieldFromProduct($product,'_gtin','');
+        if(!\is_string($brand)){
+            $brand = '';
+        }
+        $newRecord = [
+            'id' => $product->get_sku(),
+            'description' => [
+                '_cdata' => getGShoppingDescription($product)
+            ],
+            'condition' => 'new',
+            'mpn' => $product->get_sku(),
+            'identifier_exists' => 'yes',
+            'title' => $product->get_title(),
+            'availability' => 'in stock',
+            'price' => str_replace(',','.',$price).' EUR',
+            'link' => $permalink,
+            'brand' => $brand,
+            'google_product_category' => htmlentities(getHierarchicalCustomFieldFromProduct($product,'_gshopping_product_category','Apparel & Accessories > Shoes')),
+            'product_type' => htmlentities($categories),
+            'shipping_label' => getHierarchicalCustomFieldFromProduct($product,'_gshopping_shipping_label','italia'),
+            'imgs' => getProductImagesSrc($product),
+        ];
+        if($product instanceof \WC_Product_Variation){
+            $newRecord['item_group_id'] = $product->get_sku();
+        }
+        if($size !== ''){
+            $newRecord['size'] = $size;
+        }
+        if($gtin !== ''){
+            $newRecord['gtin'] = $gtin;
+        }
+        if($product->is_on_sale()){
+            $newRecord['sale_price'] = str_replace(',','.',$salePrice).' EUR';
+        }
+        return $newRecord;
+    }
+
+    /**
+     * Generate the XML file
+     */
     public function generateXML(): void
     {
         if (!\is_array($this->records) || count($this->records) === 0) {
