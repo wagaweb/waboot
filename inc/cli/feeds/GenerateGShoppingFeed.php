@@ -60,6 +60,7 @@ class GenerateGShoppingFeed extends AbstractCommand
     public function __invoke($args, $assoc_args): int
     {
         try{
+            parent::__invoke($args,$assoc_args);
             if(isset($assoc_args['products'])){
                 $providedIds = explode(',',$assoc_args['products']);
                 if(\is_array($providedIds)){
@@ -116,8 +117,12 @@ class GenerateGShoppingFeed extends AbstractCommand
      */
     public function populateRecords(): void
     {
-        $this->log('Generating records for '.count($this->productIds).' products');
-        $progress = $this->makeProgressBar('Generating records', count($this->productIds));
+        $this->log('Generating records for '.count($this->productIds).' products', !$this->showProgressBar);
+        if($this->showProgressBar){
+            $progress = $this->makeProgressBar('Generating records', count($this->productIds));
+        }else{
+            $progress = false;
+        }
         foreach ($this->productIds as $productId) {
             try {
                 $product = wc_get_product($productId);
@@ -142,17 +147,13 @@ class GenerateGShoppingFeed extends AbstractCommand
                     $newRecord = $this->generateRecord($product);
                     $this->records[] = $newRecord;
                 }
-                if($progress){
-                    $progress->tick();
-                }
+                $this->tickProgressBar($progress);
             } catch (\RuntimeException $e) {
                 $this->error($e, false);
                 continue;
             }
         }
-        if($progress){
-            $progress->finish();
-        }
+        $this->completeProgressBar($progress);
     }
 
     /**
