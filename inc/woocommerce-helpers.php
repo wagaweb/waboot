@@ -119,3 +119,29 @@ function getProductSalePercentage(\WC_Product $product, $round = true, $roundPre
     }
     return $returnInteger ? (int) $percentage : (float) $percentage;
 }
+
+/**
+ * Get a custom field from the provided product. If the product is a variation, the parent will be used as source
+ * if the field doesn't exists.
+ *
+ * @param \WC_Product $product
+ * @param string $fieldKey
+ * @param string $default
+ * @return string
+ */
+function getHierarchicalCustomFieldFromProduct(\WC_Product $product, string $fieldKey, string $default): string
+{
+    if(!method_exists($product,'get_id')){
+        return $default;
+    }
+    $productId = $product->get_id();
+    $fieldValue = get_post_meta($productId,$fieldKey, true);
+    if((!\is_string($fieldValue) || $fieldValue === '') && $product instanceof \WC_Product_Variation){
+        $parentId = $product->get_parent_id();
+        $fieldValue = get_post_meta($parentId,$fieldKey, true);
+    }
+    if(!\is_string($fieldValue) || $fieldValue === ''){
+        $fieldValue = $default;
+    }
+    return $fieldValue;
+}
