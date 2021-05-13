@@ -74,7 +74,7 @@ class GenerateGShoppingFeed extends AbstractCommand
             $this->success('Operation completed');
             return 0;
         }catch (\RuntimeException $e){
-            $this->error($e->getMessage(), false);
+            $this->error($e->getMessage());
             return 1;
         }
     }
@@ -267,7 +267,7 @@ class GenerateGShoppingFeed extends AbstractCommand
             $xmlRecords['channel']['item'][] = $xmlRecord;
         }
         $this->log('Writing xml...');
-        if(\class_exists('\Spatie\ArrayToXml\ArrayToXml')){
+        if(!\class_exists('\Spatie\ArrayToXml\ArrayToXml')){
             throw new \RuntimeException('Missing \Spatie\ArrayToXml\ArrayToXml');
         }
         $xmlContent = \Spatie\ArrayToXml\ArrayToXml::convert($xmlRecords,[
