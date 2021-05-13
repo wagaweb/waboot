@@ -34,6 +34,10 @@ class AbstractCommand
      * @var bool
      */
     protected $showProgressBar = false;
+    /**
+     * @var bool
+     */
+    protected $dryRun = false;
 
     public function __construct()
     {
@@ -65,6 +69,9 @@ class AbstractCommand
      */
     protected function setupDefaultFlags(array $args): void
     {
+        if(isset($args['dry-run'])) {
+            $this->dryRun = true;
+        }
         if(isset($args['quiet'])) {
             $this->verbose = false;
         }
@@ -192,5 +199,13 @@ class AbstractCommand
         $item->finish();
         $this->verbose = $this->tmpVerbose;
         $this->tmpVerbose = null;
+    }
+
+    /**
+     * @return bool
+     */
+    protected function isDryRun(): bool
+    {
+        return $this->dryRun;
     }
 }
