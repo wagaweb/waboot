@@ -49,7 +49,9 @@ class GenerateGShoppingFeed extends AbstractCommand
      *
      * ## EXAMPLES
      *
-     *      wp wawoo:fix-stock-statuses
+     *      wp wawoo:feeds:generate-gshopping
+     *
+     *      wp wawoo:feeds:generate-gshopping --products=30,33,34
      *
      * @param $args
      * @param $assoc_args
