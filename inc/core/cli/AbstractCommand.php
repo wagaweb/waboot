@@ -25,11 +25,19 @@ class AbstractCommand
     /**
      * @var bool
      */
+    protected $tmpVerbose;
+    /**
+     * @var bool
+     */
     protected $skipLog = false;
     /**
      * @var bool
      */
     protected $showProgressBar = false;
+    /**
+     * @var bool
+     */
+    protected $dryRun = false;
 
     public function __construct()
     {
@@ -41,6 +49,10 @@ class AbstractCommand
                 $this->error('Unable to initialize the logger: '.$e->getMessage(), false);
             }
         }
+    }
+
+    public function __invoke($args, $assoc_args){
+        $this->setupDefaultFlags($assoc_args);
     }
 
     protected function suppressErrors(): void {
@@ -57,6 +69,9 @@ class AbstractCommand
      */
     protected function setupDefaultFlags(array $args): void
     {
+        if(isset($args['dry-run'])) {
+            $this->dryRun = true;
+        }
         if(isset($args['quiet'])) {
             $this->verbose = false;
         }
@@ -65,10 +80,12 @@ class AbstractCommand
         }
     }
 
-    protected function log(string $message)
+    protected function log(string $message, $printToCli = true)
     {
         if($this->isWPCLI() && $this->isVerbose()){
-            \WP_CLI::log($message);
+            if($printToCli){
+                \WP_CLI::log($message);
+            }
         }
         if($this->mustLog() && $this->canLog()){
             $this->logger->info($message);
@@ -153,6 +170,8 @@ class AbstractCommand
     {
         if($this->progressBarAvailable()){
             $progress = \WP_CLI\Utils\make_progress_bar( $message, $count );
+            $this->tmpVerbose = $this->verbose;
+            $this->verbose = false;
             return $progress;
         }
         return false;
@@ -178,5 +197,15 @@ class AbstractCommand
             return;
         }
         $item->finish();
+        $this->verbose = $this->tmpVerbose;
+        $this->tmpVerbose = null;
+    }
+
+    /**
+     * @return bool
+     */
+    protected function isDryRun(): bool
+    {
+        return $this->dryRun;
     }
 }
