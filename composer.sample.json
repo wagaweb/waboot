@@ -2,7 +2,10 @@
     "name": "waga/waboot",
     "description": "A boilerplate theme for WordPress",
     "type": "project",
-    "require": {},
+    "require": {
+        "monolog/monolog": "~2.2",
+        "illuminate/database": "~7.28"
+    },
     "license": "MIT",
     "authors": [
         {
