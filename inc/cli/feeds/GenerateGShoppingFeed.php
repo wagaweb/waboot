@@ -104,9 +104,17 @@ class GenerateGShoppingFeed extends AbstractCommand
                 ]
             ],
             'fields' => 'ids',
-            'posts_per_page' => -1
+            'posts_per_page' => -1,
+            'post_status' => 'publish'
         ]);
         if(\is_array($ids) && count($ids) > 0){
+            /*
+             * You can additionally filter ids here
+             *
+            $ids = array_filter($ids, static function($postId){
+                //do something...
+            });
+            */
             $this->productIds = $ids;
         }else{
             $this->productIds = [];
