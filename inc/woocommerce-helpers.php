@@ -206,7 +206,7 @@ function getMiniCartData(): array {
             //$productPermalink = apply_filters( 'woocommerce_cart_item_permalink', $product->is_visible() ? $product->get_permalink( $cartItem ) : '', $cartItem, $cartItemKey );
             $productPermalink = $product->is_visible() ? $product->get_permalink( $cartItem ) : '';
             $itemListClass = esc_attr( apply_filters( 'woocommerce_mini_cart_item_class', 'mini_cart_item', $cartItem, $cartItemKey ) );
-            $removeLink = apply_filters( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+            /*$removeLink = apply_filters( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                 'woocommerce_cart_item_remove_link',
                 sprintf(
                     '<a href="%s" class="remove remove_from_cart_button" aria-label="%s" data-product_id="%s" data-cart_item_key="%s" data-product_sku="%s">&times;</a>',
@@ -214,10 +214,13 @@ function getMiniCartData(): array {
                     esc_attr__( 'Remove this item', 'woocommerce' ),
                     esc_attr( $productID ),
                     esc_attr( $cartItemKey ),
-                    esc_attr( $product->get_sku() )
+					esc_attr( $_product->get_sku() )
                 ),
                 $cartItemKey
-            );
+            );*/
+            $removeLink = esc_url(wc_get_cart_remove_url($cartItemKey));
+            $removeLinkLabel = esc_attr__('Remove this item', 'woocommerce');
+            $sku = $product->get_sku();
             $itemData = [];
             /*
              * Getting item cart additional data
@@ -262,11 +265,13 @@ function getMiniCartData(): array {
             $resultData['items'][] = [
                 'key' => $cartItemKey,
                 'product_name' => $productName,
+                'sku' => $sku,
                 'thumbnail' => $thumbnail,
                 'price' => $productPrice,
                 'permalink' => $productPermalink,
                 'list_element_class' => $itemListClass,
-                'remove_link' => $removeLink,
+                'remove_url' => $removeLink,
+                'remove_url_label' => $removeLinkLabel,
                 'data' => $itemData
             ];
         }
