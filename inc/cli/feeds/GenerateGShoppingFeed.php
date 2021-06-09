@@ -175,6 +175,9 @@ class GenerateGShoppingFeed extends AbstractCommand
     public function generateRecord(\WC_Product $product, \WC_Product $parentProduct = null): array
     {
         if($product instanceof \WC_Product_Variation){
+            if(!$parentProduct instanceof \WC_Product_Variable){
+                return [];
+            }
             $wbVariation = new WabootProductVariation($product, $parentProduct);
             $brand = $wbVariation->getBrand();
             $permalink = $wbVariation->getPermalink();
@@ -211,7 +214,7 @@ class GenerateGShoppingFeed extends AbstractCommand
             'imgs' => getProductImagesSrc($product),
         ];
         if($product instanceof \WC_Product_Variation){
-            $newRecord['item_group_id'] = $product->get_sku();
+            $newRecord['item_group_id'] = $parentProduct->get_sku();
         }
         if($size !== ''){
             $newRecord['size'] = $size;
