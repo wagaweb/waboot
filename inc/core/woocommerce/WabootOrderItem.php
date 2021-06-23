@@ -169,4 +169,33 @@ class WabootOrderItem
     {
         return $this->wcOrderItem->get_product()->is_on_sale();
     }
+
+    /**
+     * Get the item price for quantity = 1
+     */
+    public function getUnitPrice($useSubTotal = false)
+    {
+        $qty = $this->getWcOrderItem()->get_quantity();
+        if($qty > 1){
+            $itemPrice = $useSubTotal ? $this->getWcOrderItem()->get_subtotal() : $this->getWcOrderItem()->get_total();
+            $unitPrice = (float) $itemPrice / (float) $qty;
+            return $unitPrice;
+        }
+        return $useSubTotal ? $this->getWcOrderItem()->get_subtotal() : $this->getWcOrderItem()->get_total();
+    }
+
+    /**
+     * @return float
+     */
+    public function getDiscountPercentage(): float
+    {
+        $itemFullPrice = $this->getWcOrderItem()->get_subtotal();
+        $itemDiscountedPrice = $this->getWcOrderItem()->get_total();
+        if($itemFullPrice !== $itemDiscountedPrice){
+            $priceDifference = $itemFullPrice - $itemDiscountedPrice;
+            $discountPercentage = ($priceDifference / $itemFullPrice) * 100;
+            return $discountPercentage;
+        }
+        return 0;
+    }
 }
