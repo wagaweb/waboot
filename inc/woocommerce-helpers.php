@@ -129,8 +129,7 @@ function getProductSalePercentage(\WC_Product $product, $round = true, $roundPre
  * @param string $default
  * @return string
  */
-function getHierarchicalCustomFieldFromProduct(\WC_Product $product, string $fieldKey, string $default): string
-{
+function getHierarchicalCustomFieldFromProduct(\WC_Product $product, string $fieldKey, string $default): string {
     if(!method_exists($product,'get_id')){
         return $default;
     }
