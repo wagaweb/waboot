@@ -195,10 +195,11 @@ class GenerateGShoppingFeed extends AbstractCommand
         if(!\is_string($brand)){
             $brand = '';
         }
+        //https://support.google.com/merchants/topic/6324338?hl=it&ref_topic=7294998
         $newRecord = [
             'id' => $product->get_sku(),
             'description' => [
-                '_cdata' => getGShoppingDescription($product)
+                '_cdata' => isset($parentProduct) ? getGShoppingDescription($parentProduct) : getGShoppingDescription($product)
             ],
             'condition' => 'new',
             'mpn' => $product->get_sku(),
@@ -208,6 +209,7 @@ class GenerateGShoppingFeed extends AbstractCommand
             'price' => str_replace(',','.',$price).' EUR',
             'link' => $permalink,
             'brand' => $brand,
+            //https://support.google.com/merchants/answer/6324436?hl=it&ref_topic=6324338
             'google_product_category' => htmlentities(getHierarchicalCustomFieldFromProduct($product,'_gshopping_product_category','Apparel & Accessories > Shoes')),
             'product_type' => htmlentities($categories),
             'shipping_label' => getHierarchicalCustomFieldFromProduct($product,'_gshopping_shipping_label','italia'),
@@ -217,7 +219,7 @@ class GenerateGShoppingFeed extends AbstractCommand
             $newRecord['item_group_id'] = $parentProduct->get_sku();
         }
         if($size !== ''){
-            $newRecord['size'] = $size;
+            $newRecord['size'] = $size; //It can be used 'one size' as default
         }
         if($gtin !== ''){
             $newRecord['gtin'] = $gtin;
