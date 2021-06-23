@@ -5,8 +5,6 @@ namespace Waboot\inc\woocommerce;
 use function Waboot\inc\core\Waboot;
 use function Waboot\inc\getProductSalePercentage;
 
-require_once __DIR__.'/woocommerce-endpoints.php';
-
 if(!\function_exists('is_woocommerce')){
     return; //Do not load any of the following if WooCommerce is not enabled
 }

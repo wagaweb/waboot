@@ -14,6 +14,7 @@ require_once get_template_directory().'/inc/bootstrap.php';
 $additionalDeps = [
     'inc/woocommerce-helpers.php',
     'inc/hooks/woocommerce.php',
+    'inc/hooks/woocommerce-endpoints.php',
     'inc/cli.php',
 ];
 \Waboot\inc\core\safeRequireFiles($additionalDeps);
