@@ -188,12 +188,18 @@ function getMiniCartData(): array {
     if(!function_exists('WC')){
         return [];
     }
+    if(!property_exists(WC(),'cart') || !WC()->cart instanceof \WC_Cart){
+        return [];
+    }
     if(WC()->cart->is_empty()){
         return [
             'no_items_message' => esc_html__('No products in the cart.', 'woocommerce')
         ];
     }
-    $resultData = [];
+    $resultData = [
+        'total_items_qty' => 0,
+        'total_different_items_qty' => 0
+    ];
     foreach ( WC()->cart->get_cart() as $cartItemKey => $cartItem ){
         $product = apply_filters( 'woocommerce_cart_item_product', $cartItem['data'], $cartItem, $cartItemKey );
         $productID = apply_filters( 'woocommerce_cart_item_product_id', $cartItem['product_id'], $cartItem, $cartItemKey );
@@ -203,6 +209,7 @@ function getMiniCartData(): array {
             $thumbnail = getWCProductImageData($product);
             $productPrice = apply_filters( 'woocommerce_cart_item_price', WC()->cart->get_product_price( $product ), $cartItem, $cartItemKey );
             $productPrice = strip_tags($productPrice);
+            //$productPriceXQuantity = apply_filters( 'woocommerce_cart_product_price', wc_price( $cartItem['line_total'] ), $product );
             //$productPermalink = apply_filters( 'woocommerce_cart_item_permalink', $product->is_visible() ? $product->get_permalink( $cartItem ) : '', $cartItem, $cartItemKey );
             $productPermalink = $product->is_visible() ? $product->get_permalink( $cartItem ) : '';
             $itemListClass = esc_attr( apply_filters( 'woocommerce_mini_cart_item_class', 'mini_cart_item', $cartItem, $cartItemKey ) );
@@ -269,11 +276,14 @@ function getMiniCartData(): array {
                 'thumbnail' => $thumbnail,
                 'price' => $productPrice,
                 'permalink' => $productPermalink,
+                'qty' => $cartItem['quantity'],
                 'list_element_class' => $itemListClass,
                 'remove_url' => $removeLink,
                 'remove_url_label' => $removeLinkLabel,
                 'data' => $itemData
             ];
+            $resultData['total_items_qty'] += $cartItem['quantity'];
+            $resultData['total_different_items_qty'] += 1;
         }
     }
     $subtotal = WC()->cart->get_cart_subtotal();
