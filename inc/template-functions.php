@@ -250,6 +250,159 @@ function getFirstVideo() {
 }
 
 /**
+ * @param \WP_Post|\WP_Term $object
+ * @return int
+ */
+function getObjectParentId($object): int {
+    if($object instanceof \WP_Term) {
+        return $object->parent;
+    }elseif($object instanceof \WP_Post){
+        return $object->post_parent;
+    }else{
+        throw new \RuntimeException('Unsupported object type');
+    }
+}
+
+/**
+ * Applies $getDataFunction to the provided $object and all of its parent returning the first non-false result.
+ * @param \WP_Term|\WP_Post $object
+ * @param callable $getDataFunction
+ * @param string $defaultValue
+ * @param bool $onlyTopMostParent
+ * @return false|mixed|string
+ */
+function getObjectHierarchicalData($object, callable $getDataFunction, $defaultValue = '', bool $onlyTopMostParent = false){
+    $parentId = getObjectParentId($object);
+    $returnValue = $getDataFunction($object);
+    if($returnValue !== false){
+        if(!$onlyTopMostParent || ($onlyTopMostParent && $parentId === 0)){
+            return $returnValue;
+        }
+    }
+    $returnValue = $defaultValue;
+    while(getObjectParentId($object) > 0){
+        if($object instanceof \WP_Term) {
+            $parent = get_term($object->parent,$object->taxonomy);
+            if(!$parent instanceof \WP_Term){
+                break;
+            }
+        }elseif($object instanceof \WP_Post){
+            $parent = get_post($object->post_parent);
+            if(!$parent instanceof \WP_Post){
+                break;
+            }
+        }else{
+            throw new \RuntimeException('Unsupported object type');
+        }
+        $returnValue = $getDataFunction($parent);
+        if($returnValue !== false){
+            if(!$onlyTopMostParent){
+                break;
+            }
+            if($onlyTopMostParent && getObjectParentId($parent) === 0){
+                break;
+            }
+        }
+        $object = $parent;
+    }
+    return $returnValue;
+}
+
+/**
+ * @use getObjectHierarchicalData()
+ * @param \WP_Post $post
+ * @param callable $getDataFunction
+ * @param string|mixed $defaultValue
+ * @param bool $onlyTopMostParent
+ * @return false|mixed
+ */
+function getPostHierarchicalData(\WP_Post $post, callable $getDataFunction, $defaultValue = '', bool $onlyTopMostParent = false){
+    return getObjectHierarchicalData($post,$getDataFunction,$defaultValue,$onlyTopMostParent);
+}
+
+/**
+ * @use getObjectHierarchicalData()
+ * @param \WP_Term $term
+ * @param callable $getDataFunction
+ * @param string|mixed $defaultValue
+ * @param bool $onlyTopMostParent
+ * @return false|mixed
+ */
+function getTermHierarchicalData(\WP_Term $term, callable $getDataFunction, $defaultValue = '', bool $onlyTopMostParent = false){
+    return getObjectHierarchicalData($term,$getDataFunction,$defaultValue,$onlyTopMostParent);
+}
+
+/**
+ * Return the $fieldKey value from $term or from one of its parents
+ * @use getTermHierarchicalData()
+ * @param \WP_Term $term
+ * @param string $fieldKey
+ * @return string
+ */
+function getHierarchicalTermACFField(\WP_Term $term, string $fieldKey): string {
+    if(!function_exists('\get_field')){
+        return '';
+    }
+    return getTermHierarchicalData($term, function(\WP_Term $term) use ($fieldKey){
+        $fieldValue = \get_field($fieldKey, $term);
+        if(\is_string($fieldValue) && !empty($fieldValue)){
+            return $fieldValue;
+        }
+        return false;
+    }, '');
+}
+
+/**
+ * Return the $fieldKey value from $post or from one of its parents
+ * @use getPostHierarchicalData()
+ * @param \WP_Post $post
+ * @param string $fieldKey
+ * @return string
+ */
+function getHierarchicalPostACFField(\WP_Post $post, string $fieldKey): string {
+    if(!function_exists('\get_field')){
+        return '';
+    }
+    return getPostHierarchicalData($post, function(\WP_Post $post) use ($fieldKey){
+        $fieldValue = \get_field($fieldKey, $post);
+        if(\is_string($fieldValue) && !empty($fieldValue)){
+            return $fieldValue;
+        }
+        return false;
+    }, '');
+}
+
+/**
+ * @param \WP_Term $term
+ * @return \WP_Term|null
+ */
+function getTermMostTopParent(\WP_Term $term): ?\WP_Term {
+    $currentTerm = $term;
+    while($currentTerm->parent > 0){
+        $currentTerm = get_term($currentTerm->parent,$currentTerm->taxonomy);
+    }
+    return $currentTerm;
+}
+
+/**
+ * @param $taxonomy
+ * @return \WP_Term|null
+ */
+function getCurrentTermMostTopParent($taxonomy): ?\WP_Term {
+    $qo = get_queried_object();
+    if($qo instanceof \WP_Term){
+        return getTermMostTopParent($qo);
+    }
+    if($qo instanceof \WP_Post) {
+        $terms = wp_get_post_terms($qo->ID,$taxonomy);
+        if(\is_array($terms) && count($terms) > 0){
+            return getTermMostTopParent($terms[0]);
+        }
+    }
+    return null;
+}
+
+/**
  * Retrieve a post's terms as a list with specified format and in an hierarchical order
  *
  * @param int $id Post ID.
