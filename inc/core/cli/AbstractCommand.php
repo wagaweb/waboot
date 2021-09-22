@@ -80,7 +80,7 @@ class AbstractCommand
         }
     }
 
-    protected function log(string $message, $printToCli = true)
+    protected function log(string $message, $printToCli = true, $context = [])
     {
         if($this->isWPCLI() && $this->isVerbose()){
             if($printToCli){
@@ -88,7 +88,7 @@ class AbstractCommand
             }
         }
         if($this->mustLog() && $this->canLog()){
-            $this->logger->info($message);
+            $this->logger->info($message,$context);
         }
     }
 
