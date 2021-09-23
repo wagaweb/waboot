@@ -5,32 +5,24 @@ namespace Waboot\inc\core\woocommerce;
 use function Waboot\inc\getProductSalePercentage;
 use function Waboot\inc\isBundleProduct;
 
-class WabootOrderItem
+class WabootOrderItemProduct
 {
     /**
      * @var \WC_Order_Item_Product
      */
-    private $wcOrderItem;
+    protected $wcOrderItem;
     /**
      * @var WabootOrder
      */
-    private $order;
+    protected $order;
     /**
      * @var \WC_Product
      */
-    private $product;
+    protected $product;
     /**
      * @var string
      */
     private $sku;
-    /**
-     * @var bool
-     */
-    private $isBundle;
-    /**
-     * @var int
-     */
-    private $parentBundleId;
 
     public function __construct(\WC_Order_Item_Product $item, WabootOrder $order)
     {
@@ -113,53 +105,6 @@ class WabootOrderItem
     {
         $variationId = (int) $this->wcOrderItem->get_variation_id();
         return $variationId !== 0;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isBundle(): bool
-    {
-        if(!isset($this->isBundle)){
-            $p = $this->getProduct();
-            $this->isBundle = isBundleProduct($p);
-        }
-        return $this->isBundle;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isBundled(): bool
-    {
-        return $this->parentBundleId !== null;
-    }
-
-    /**
-     * @return float|int
-     */
-    public function getBundleDiscountPercentage()
-    {
-        if($this->isBundled()){
-            return getProductSalePercentage(wc_get_product($this->getParentBundleId()),false,2,false, false);
-        }
-        return 0;
-    }
-
-    /**
-     * @param $bundleId
-     */
-    public function setParentBundleId($bundleId): void
-    {
-        $this->parentBundleId = $bundleId;
-    }
-
-    /**
-     * @return int
-     */
-    public function getParentBundleId(): ?int
-    {
-        return $this->parentBundleId;
     }
 
     /**

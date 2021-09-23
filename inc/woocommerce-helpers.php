@@ -56,18 +56,32 @@ function isBundledIn(int $productId, int $bundleId): bool {
 }
 
 /**
- * Get the current regular price of a product associated to the $orderItem
- *
- * @param \WC_Order_Item_Product $orderItem
- * @return float|int|string
+ * Get the sum of all prices of bundled items
+ * @param int $bundleId
+ * @param array $quantities an array with products id as keys and their quantity as values
+ * @return array
  */
-function getProductRegularPriceFromOrderItemProduct(\WC_Order_Item_Product $orderItem) {
-    $product = $orderItem->get_product();
-    $price = 0;
-    if($product instanceof \WC_Product){
-        $price = $product->get_regular_price();
+function getBundleRealTotals(int $bundleId, array $quantities): array {
+    $prices = [
+        'subtotal' => 0,
+        'total' => 0
+    ];
+    $productIds = getBundledProductIds($bundleId);
+    if(!\is_array($productIds) || count($productIds) === 0){
+        return $prices;
     }
-    return $price;
+    foreach ($productIds as $productId){
+        $product = wc_get_product($productId);
+        if(!$product instanceof \WC_Product){
+            continue;
+        }
+        $quantity = $quantities[$productId] ?? 1;
+        $productRegularPrice = (float) $product->get_regular_price() * $quantity;
+        $productSalePrice = (float) $product->get_price() * $quantity;
+        $prices['subtotal'] += $productRegularPrice;
+        $prices['total'] += $productSalePrice;
+    }
+    return $prices;
 }
 
 /**
@@ -294,4 +308,18 @@ function getMiniCartData(): array {
     $resultData['goto_checkout_label'] = esc_html__('Checkout', 'woocommerce');
     $resultData = apply_filters('waboot/woocommerce/cart_data', $resultData);
     return $resultData;
+}
+
+/**
+ * @param int $orderNumber
+ * @return int
+ */
+function getOrderIdByOrderNumber(int $orderNumber): ?int {
+    global $wpdb;
+    $r = $wpdb->get_results('SELECT post_id FROM '.$wpdb->postmeta.' WHERE meta_key = "_order_number" AND meta_value = "'.$orderNumber.'"');
+    if(\is_array($r) && count($r) > 0){
+        $rr = $r[0];
+        return (int) $rr->post_id;
+    }
+    return null;
 }

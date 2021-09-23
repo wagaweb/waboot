@@ -2,6 +2,8 @@
 
 namespace Waboot\inc\core\woocommerce;
 
+use function Waboot\inc\isBundledIn;
+use function Waboot\inc\isBundleProduct;
 
 class WabootOrder
 {
@@ -14,7 +16,11 @@ class WabootOrder
      */
     public $orderId;
     /**
-     * @var WabootOrderItem[]
+     * @var int
+     */
+    protected $orderNumber;
+    /**
+     * @var WabootOrderItemProduct[]
      */
     public $items;
     /**
@@ -45,23 +51,28 @@ class WabootOrder
     }
 
     /**
-     * @return WabootOrderItem[]
+     * @return \WC_Order
+     */
+    public function getWcOrder(): \WC_Order
+    {
+        return $this->wcOrder;
+    }
+
+    /**
+     * @return int
+     */
+    public function getOrderId(): int
+    {
+        return $this->orderId;
+    }
+
+    /**
+     * @return WabootOrderItemProduct[]
      */
     public function getItems(): array
     {
         if(!isset($this->items)){
-            $items = $this->wcOrder->get_items();
-            if(!\is_array($items) || count($items) === 0){
-                return [];
-            }
-            $r = [];
-            foreach ($items as $itemId => $item){
-                if(!$item instanceof \WC_Order_Item_Product){
-                    continue;
-                }
-                $r[$itemId] = new WabootOrderItem($item, $this);
-            }
-            $this->items = $r;
+            $this->populateItems();
         }
         if(!\is_array($this->items)){
             return [];
@@ -69,10 +80,95 @@ class WabootOrder
         return $this->items;
     }
 
+    /**
+     * Parse all order items and populate $this->items
+     */
+    public function populateItems(): void
+    {
+        //Add line items
+        $lineItems = $this->getWcOrder()->get_items(['line_item']);
+        $currentBundleId = null;
+        $currentBundle = null;
+        foreach ($lineItems as $itemId => $lineItem){
+            if(!$lineItem instanceof \WC_Order_Item_Product){
+                continue;
+            }
+            $productId = $lineItem->get_product_id();
+            if(isBundleProduct($productId)){
+                $currentBundleId = $productId;
+                $currentBundle = new WabootOrderItemBundle($lineItem);
+                $this->items[$itemId] = $currentBundle;
+                continue;
+            }
+            if($currentBundleId !== null){
+                //Check if the current item is part of the previously parsed bundle
+                if(isBundledIn($productId,$currentBundleId)){
+                    $itemObj = new WabootOrderItemBundledProduct($lineItem, $this, $currentBundle);
+                    $currentBundle->addItem($itemObj);
+                }else{
+                    //If not, we assume that we reached a product not in a bundle
+                    $currentBundleId = null;
+                    $currentBundle = null;
+                    //And add the current product
+                    $itemObj = new WabootOrderItemProduct($lineItem, $this);
+                    $this->items[$itemId] = $itemObj;
+                }
+            }else{
+                $itemObj = new WabootOrderItemProduct($lineItem, $this);
+                $this->items[$itemId] = $itemObj;
+            }
+        }
+
+        //Add shipping and coupons
+        $otherItems = $this->getWcOrder()->get_items(['shipping','coupon']);
+        foreach ($otherItems as $itemId => $item){
+            if($item instanceof \WC_Order_Item_Coupon){
+                try{
+                    $this->items[$itemId] = new WabootCoupon($item,$this->orderId);
+                }catch (\Exception $e){
+                    continue;
+                }
+            }else{
+                $this->items[$itemId] = $item;
+            }
+        }
+    }
+
+    /**
+     * @return array
+     */
+    public function getRawItems(): array
+    {
+        return $this->getWcOrder()->get_items(['line_item','shipping','coupon']);
+    }
+
+    /**
+     * @param bool $fallbackToOrderId
+     * @return int|null
+     */
+    public function getOrderNumber(bool $fallbackToOrderId = false): ?int
+    {
+        if(isset($this->orderNumber)){
+            return $this->orderNumber;
+        }
+        $orderNumber = get_post_meta($this->orderId, '_order_number', true);
+        if($orderNumber && $orderNumber !== ''){
+            $this->orderNumber = $orderNumber;
+            return (int) $orderNumber;
+        }
+        if($fallbackToOrderId){
+            return $this->orderId;
+        }
+        return null;
+    }
+
+    /**
+     * Fetch order coupons and populate $this->coupons
+     */
     public function fetchCoupons(): void
     {
         $r = [];
-        $coupons = $this->wcOrder->get_coupons();
+        $coupons = $this->getWcOrder()->get_coupons();
         if(!\is_array($coupons) || count($coupons) === 0){
             $this->coupons = [];
             return;
@@ -90,6 +186,8 @@ class WabootOrder
     }
 
     /**
+     * Get coupons which apply percentage discount
+     *
      * @return WabootCoupon[]
      */
     public function getPercentageCoupons(): array
@@ -109,6 +207,8 @@ class WabootOrder
     }
 
     /**
+     * Get coupons which apply fixed amount discount
+     *
      * @return WabootCoupon[]
      */
     public function getFixedPriceCoupons(): array
@@ -127,23 +227,5 @@ class WabootOrder
             return [];
         }
         return $fixedCoupons;
-    }
-
-    /**
-     * @return array
-     */
-    public function getDiscountsPercentagesByCoupons(): array
-    {
-        $percentages = [0,0,0];
-        $i = 0;
-        $coupons = $this->getPercentageCoupons();
-        foreach($coupons as $coupon){
-            $percentages[$i] = $coupon->getAmount();
-            $i++;
-            if($i > 3){
-                break;
-            }
-        }
-        return $percentages;
     }
 }
