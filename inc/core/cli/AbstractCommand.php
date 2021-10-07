@@ -55,7 +55,7 @@ class AbstractCommand
         }
     }
 
-    public function __invoke($args, $assoc_args){
+    public function __invoke(array $args, array $assoc_args){
         $this->setupDefaultFlags($assoc_args);
     }
 
