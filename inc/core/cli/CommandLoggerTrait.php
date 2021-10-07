@@ -2,7 +2,7 @@
 
 namespace Waboot\inc\core\cli;
 
-trait CommandLogger
+trait CommandLoggerTrait
 {
     /**
      * @param $name
