@@ -4,7 +4,7 @@ namespace Waboot\inc\core\cli;
 
 class AbstractCommand
 {
-    use CommandLogger;
+    use CommandLoggerTrait;
 
     /**
      * @var \Monolog\Logger
@@ -30,6 +30,10 @@ class AbstractCommand
      * @var bool
      */
     protected $skipLog = false;
+    /**
+     * @var string
+     */
+    protected $logMarker;
     /**
      * @var bool
      */
@@ -77,6 +81,27 @@ class AbstractCommand
         }
         if(isset($args['progress'])){
             $this->showProgressBar = true;
+        }
+        $this->logMarker = $assoc_args['marker'] ?? null;
+    }
+
+    /**
+     * @return void
+     */
+    protected function beginCommandExecution(): void
+    {
+        if(isset($this->logMarker)){
+            $this->log('### '.$this->logMarker.' BEGIN');
+        }
+    }
+
+    /**
+     * @return void
+     */
+    protected function endCommandExecution(): void
+    {
+        if(isset($this->logMarker)){
+            $this->log('### '.$this->logMarker.' END');
         }
     }
 
