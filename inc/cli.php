@@ -3,6 +3,7 @@
 namespace Waboot\inc;
 
 use Waboot\inc\cli\ExportOrders;
+use Waboot\inc\cli\ExportOrdersTest;
 use Waboot\inc\cli\FixStockStatuses;
 use Waboot\inc\cli\ParseAndSaveProducts;
 use Waboot\inc\cli\feeds\GenerateGShoppingFeed;
@@ -12,6 +13,7 @@ require_once get_stylesheet_directory().'/inc/core/cli/AbstractCommand.php';
 require_once get_stylesheet_directory().'/inc/cli/ParseAndSaveProducts.php';
 require_once get_stylesheet_directory().'/inc/cli/FixStockStatuses.php';
 require_once get_stylesheet_directory().'/inc/cli/ExportOrders.php';
+require_once get_stylesheet_directory().'/inc/cli/ExportOrdersTest.php';
 require_once get_stylesheet_directory().'/inc/cli/feeds/GenerateGShoppingFeed.php';
 
 add_action('init', static function(){
@@ -33,5 +35,6 @@ try{
     \WP_CLI::add_command('wawoo:parse-and-save-products', ParseAndSaveProducts::class);
     \WP_CLI::add_command('wawoo:fix-stock-statuses', FixStockStatuses::class);
     \WP_CLI::add_command('wawoo:export-orders', ExportOrders::class);
+    \WP_CLI::add_command('wawoo:test:export-orders', ExportOrdersTest::class);
     \WP_CLI::add_command('wawoo:feeds:generate-gshopping', GenerateGShoppingFeed::class);
 }catch (\Exception $e){}
