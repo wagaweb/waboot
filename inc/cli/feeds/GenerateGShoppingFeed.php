@@ -284,6 +284,8 @@ class GenerateGShoppingFeed extends AbstractCommand
             'link' => $permalink,
             'brand' => $brand,
             //https://support.google.com/merchants/answer/6324436?hl=it&ref_topic=6324338
+            //https://www.google.com/basepages/producttype/taxonomy.en-US.txt
+            //https://developers.facebook.com/docs/commerce-platform/catalog/categories/#google-prod-cat
             'google_product_category' => htmlentities(getHierarchicalCustomFieldFromProduct($product,'_gshopping_product_category','Apparel & Accessories > Shoes')),
             'product_type' => htmlentities($categories),
             'shipping_label' => getHierarchicalCustomFieldFromProduct($product,'_gshopping_shipping_label','italia'),
