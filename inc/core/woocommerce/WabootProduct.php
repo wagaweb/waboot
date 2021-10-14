@@ -6,7 +6,7 @@ use Waboot\inc\core\utils\Terms;
 
 class WabootProduct
 {
-    public const BRAND_TAXONOMY_NAME = 'brand';
+    public const BRAND_TAXONOMY_NAME = 'product_brand';
     /**
      * @var int
      */
@@ -177,7 +177,8 @@ class WabootProduct
         if(count($terms) <= 0){
             return false;
         }
-        $brand = array_shift($terms);
+        $brands = array_reverse($terms);
+        $brand = array_shift($brands);
         if(!$brand instanceof \WP_Term){
             return false;
         }

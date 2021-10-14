@@ -35,6 +35,22 @@ class GenerateGShoppingFeed extends AbstractCommand
      * @var array
      */
     protected $records;
+    /**
+     * @var string
+     */
+    protected $language;
+    /**
+     * @var string
+     */
+    protected $customOutputFilename;
+    /**
+     * @var array
+     */
+    protected $productsSkuWithNoEan = [];
+    /**
+     * @var array
+     */
+    protected $skippedDuplicatedSku = [];
 
     /**
      * Generate Google Shopping feed
@@ -47,12 +63,22 @@ class GenerateGShoppingFeed extends AbstractCommand
      * [--products]
      * : Comma separated products ids to parse.
      *
+     * [--lang]
+     * : Set the language to use
+     *
      * [--variable-products-only]
      * : Parse the variable products only
+     *
+     * [--output-file-name]
+     * : Set the output file name
      *
      * ## EXAMPLES
      *
      *      wp wawoo:feeds:generate-gshopping
+     *
+     *      wp wawoo:feeds:generate-gshopping --lang=it
+     *
+     *      wp wawoo:feeds:generate-gshopping --output-file-name=test_it --lang=it
      *
      *      wp wawoo:feeds:generate-gshopping --products=30,33,34
      *
@@ -71,9 +97,22 @@ class GenerateGShoppingFeed extends AbstractCommand
                 }
             }
             $this->variableProductsOnly = isset($assoc_args['variable-products-only']);
+            $this->language = isset($assoc_args['lang']) ? $assoc_args['lang'] : 'it';
+            if(isset($assoc_args['output-file-name']) && \is_string($assoc_args['output-file-name']) && $assoc_args['output-file-name'] !== ''){
+                $this->customOutputFilename = $assoc_args['output-file-name'];
+            }
             $this->populateProducts();
             $this->populateRecords();
             $this->generateXML();
+            if(!empty($this->productsSkuWithNoEan)){
+                $this->log('Products with no EAN: '.implode(', ',$this->productsSkuWithNoEan));
+            }
+            if(!empty($this->skippedDuplicatedSku)){
+                $this->log('Products skipped for duplicated SKU: ');
+                foreach ($this->skippedDuplicatedSku as $skippedData){
+                    $this->log('SKU: '.$skippedData['sku'].' | Parsed Record: '.$skippedData['parsed_record'].' | Skipped Record: '.$skippedData['duplicated_record']);
+                }
+            }
             $this->success('Operation completed');
             return 0;
         }catch (\RuntimeException $e){
@@ -108,14 +147,19 @@ class GenerateGShoppingFeed extends AbstractCommand
             'post_status' => 'publish'
         ]);
         if(\is_array($ids) && count($ids) > 0){
-            /*
-             * You can additionally filter ids here
-             *
-            $ids = array_filter($ids, static function($postId){
-                //do something...
-            });
-            */
-            $this->productIds = $ids;
+            $this->log('Found '.count($ids).' ids');
+            $validIds = [];
+            $idsWithNoSku = [];
+            foreach ($ids as $id){
+                $validId = $id;
+                if(get_post_meta($validId,'_sku',true) === ''){
+                    $idsWithNoSku[] = $id;
+                }elseif(!\in_array($validId,$validIds,true)){
+                    $validIds[] = $validId;
+                }
+            }
+            $this->log('ID with no associated SKU: '.implode(', ',$idsWithNoSku));
+            $this->productIds = $validIds;
         }else{
             $this->productIds = [];
             throw new \RuntimeException('No products found');
@@ -134,6 +178,8 @@ class GenerateGShoppingFeed extends AbstractCommand
         }else{
             $progress = false;
         }
+        $parsedProductSkus = [];
+        $parsedVariationSkus = [];
         foreach ($this->productIds as $productId) {
             try {
                 $product = wc_get_product($productId);
@@ -148,15 +194,33 @@ class GenerateGShoppingFeed extends AbstractCommand
                         if(!$variation instanceof \WC_Product_Variation){
                             continue;
                         }
-                        $newRecord = $this->generateRecord($variation,$product);
-                        $this->records[] = $newRecord;
+                        if(!array_key_exists($variation->get_sku(),$parsedVariationSkus)){
+                            $newRecord = $this->generateRecord($variation,$product);
+                            $this->records[] = $newRecord;
+                            $parsedVariationSkus[$variation->get_sku()] = '{Variation: '.$variationId.', Product: '.$productId.'}';
+                        }else{
+                            $this->skippedDuplicatedSku[] = [
+                                'sku' => $variation->get_sku(), //The SKU
+                                'parsed_record' => $parsedVariationSkus[$variation->get_sku()], //ID of the product previously parsed with the same SKU
+                                'duplicated_record' => '{Variation: '.$variationId.', Product: '.$productId.'}' //current product ID
+                            ];
+                        }
                     }
                 }else{
                     if($this->variableProductsOnly){
                         continue;
                     }
-                    $newRecord = $this->generateRecord($product);
-                    $this->records[] = $newRecord;
+                    if(!array_key_exists($product->get_sku(),$parsedProductSkus)){
+                        $newRecord = $this->generateRecord($product);
+                        $this->records[] = $newRecord;
+                        $parsedProductSkus[$product->get_sku()] = '{Product: '.$productId.'}';
+                    }else{
+                        $this->skippedDuplicatedSku[] = [
+                            'sku' => $product->get_sku(), //The SKU
+                            'parsed_record' => $parsedProductSkus[$product->get_sku()], //ID of the product previously parsed with the same SKU
+                            'duplicated_record' => '{Product: '.$productId.'}' //current product ID
+                        ];
+                    }
                 }
                 $this->tickProgressBar($progress);
             } catch (\RuntimeException $e) {
@@ -192,7 +256,7 @@ class GenerateGShoppingFeed extends AbstractCommand
         $salePrice = $product->get_price();
         $size = $product->get_attribute('size');
         $gtin = getHierarchicalCustomFieldFromProduct($product,'_gtin','');
-        if(!\is_string($brand)){
+        if(!$brand instanceof \WP_Term){
             $brand = '';
         }
         //https://support.google.com/merchants/topic/6324338?hl=it&ref_topic=7294998
