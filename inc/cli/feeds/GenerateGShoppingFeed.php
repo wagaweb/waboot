@@ -42,6 +42,10 @@ class GenerateGShoppingFeed extends AbstractCommand
     /**
      * @var string
      */
+    protected $customOutputPath;
+    /**
+     * @var string
+     */
     protected $customOutputFilename;
     /**
      * @var array
@@ -68,6 +72,9 @@ class GenerateGShoppingFeed extends AbstractCommand
      *
      * [--variable-products-only]
      * : Parse the variable products only
+     *
+     * [--output-dir-path]
+     * : Set the output path
      *
      * [--output-file-name]
      * : Set the output file name
@@ -98,6 +105,9 @@ class GenerateGShoppingFeed extends AbstractCommand
             }
             $this->variableProductsOnly = isset($assoc_args['variable-products-only']);
             $this->language = isset($assoc_args['lang']) ? $assoc_args['lang'] : 'it';
+            if(isset($assoc_args['output-dir-path']) && \is_string($assoc_args['output-dir-path']) && $assoc_args['output-dir-path'] !== ''){
+                $this->customOutputPath = $assoc_args['output-dir-path'];
+            }
             if(isset($assoc_args['output-file-name']) && \is_string($assoc_args['output-file-name']) && $assoc_args['output-file-name'] !== ''){
                 $this->customOutputFilename = $assoc_args['output-file-name'];
             }
@@ -255,7 +265,7 @@ class GenerateGShoppingFeed extends AbstractCommand
         $price = $product->get_regular_price();
         $salePrice = $product->get_price();
         $size = $product->get_attribute('size');
-        $gtin = getHierarchicalCustomFieldFromProduct($product,'_gtin','');
+        $gtin = getHierarchicalCustomFieldFromProduct($product,'_ean','');
         if(!$brand instanceof \WP_Term){
             $brand = '';
         }
@@ -302,7 +312,11 @@ class GenerateGShoppingFeed extends AbstractCommand
         if (!\is_array($this->records) || count($this->records) === 0) {
             throw new \RuntimeException('No records found');
         }
-        $xmlDirPath = WP_CONTENT_DIR . '/wb-feeds';
+        if(isset($this->customOutputPath)){
+            $xmlDirPath = rtrim($this->customOutputPath,'/');
+        }else{
+            $xmlDirPath = WP_CONTENT_DIR . '/wb-feeds';
+        }
         $xmlFilePath = $xmlDirPath . '/google-products-feed.xml';
         if (!wp_mkdir_p($xmlDirPath)) {
             throw new \RuntimeException('Unable to create directory: ' . $xmlDirPath);
