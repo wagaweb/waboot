@@ -50,7 +50,7 @@ function renderPostNavigation($nav_id, $show_pagination = true, $query = false, 
             if($paged_var_name !== 'paged' && isset($_GET[$paged_var_name])){
                 $current_page = (int) $_GET[$paged_var_name];
             }else{
-                max(1, (int) get_query_var('paged'));
+                $current_page = max(1, (int) get_query_var('paged'));
             }
         }
         $paginate = paginate_links([
