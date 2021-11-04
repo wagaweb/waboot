@@ -3,6 +3,7 @@
   "version": "4.0.0",
   "author": "Waga",
   "homepage": "http://www.waga.it/",
+  "private": true,
   "repository": {
     "type": "git",
     "url": "https://github.com/wagaweb/waboot"
@@ -12,13 +13,14 @@
     "node": ">= 4.4.3"
   },
   "devDependencies": {
-    "babelify": "^10.0.0",
+    "@babel/compat-data": "^7.8.7",
     "@babel/core": "^7.8.7",
     "@babel/preset-env": "^7.8.7",
-    "@babel/compat-data": "^7.8.7",
     "autoprefixer": "^8.2.0",
+    "babelify": "^10.0.0",
     "browserify": "^16.5.0",
     "browserify-shim": "^3.8.0",
+    "css-loader": "^2.0.0",
     "cssnano": "^3.5.0",
     "gulp": "^4.0.0",
     "gulp-copy": "^1.1.0",
@@ -28,8 +30,13 @@
     "gulp-sourcemaps": "^2.6.0",
     "gulp-uglify": "^3.0.0",
     "merge-stream": "^1.0.0",
+    "mini-css-extract-plugin": "^1.6.0",
+    "postcss-loader": "~3.0.0",
+    "sass-loader": "~7.0.1",
     "vinyl-buffer": "^1.0.0",
-    "vinyl-source-stream": "^2.0.0"
+    "vinyl-source-stream": "^2.0.0",
+    "webpack": "^5.38.1",
+    "webpack-cli": "^4.7.2"
   },
   "browserify": {
     "transform": [
