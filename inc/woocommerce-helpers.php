@@ -323,3 +323,41 @@ function getOrderIdByOrderNumber(int $orderNumber): ?int {
     }
     return null;
 }
+
+/**
+ * @return int[]
+ */
+function getAllVariableProductIds(): array {
+    global $wpdb;
+
+    $sql = <<<SQL
+select p.ID
+from $wpdb->posts p
+inner join $wpdb->term_relationships tr on tr.object_id = p.ID
+inner join $wpdb->term_taxonomy tt on tt.term_taxonomy_id = tr.term_taxonomy_id
+inner join $wpdb->terms t on t.term_id = tt.term_id
+where p.post_type = 'product' and tt.taxonomy = 'product_type' and t.name = 'variable'
+SQL;
+
+    return array_map('intval', $wpdb->get_col($sql));
+}
+
+/**
+ * @param $parentProductId
+ * @return array
+ */
+function getAllProductVariationIds($parentProductId): array {
+    global $wpdb;
+
+    $q = <<<SQL
+select p.ID
+from $wpdb->posts p
+where p.post_parent = %d and p.post_type = 'product_variation'
+SQL;
+    $q = $wpdb->prepare($q,$parentProductId);
+    $r = $wpdb->get_results($q);
+    if(!\is_array($r) || count($r) === 0){
+        return [];
+    }
+    return wp_list_pluck($r,'ID');
+}
