@@ -25,6 +25,15 @@ class ExportableProductVariation extends AbstractExportableProduct
     {
         $record = parent::createRecord($columnData);
         $record['parent_id'] = $this->getParentProduct()->getId();
+        if(isset($record['featured_image']) && $record['featured_image'] === ''){
+            $image = '';
+            $imageData = wp_get_attachment_image_src( $this->getParentProduct()->getWcProduct()->get_image_id(), 'woocommerce_thumbnail', false, []);
+            if(\is_array($imageData) && count($imageData) > 0){
+                $image = $imageData[0];
+            }
+            $image = apply_filters('waboot-product-exporter/variation/featured_image_src', $image, $this);
+            $record['featured_image'] = $image;
+        }
         return $record;
     }
 

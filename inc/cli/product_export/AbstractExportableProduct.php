@@ -85,6 +85,9 @@ abstract class AbstractExportableProduct implements ExportableProductInterface
             case 'id':
                 $dataValue = $this->getWcProduct()->get_id();
                 break;
+            case 'type':
+                $dataValue = $this->getWcProduct()->get_type();
+                break;
             case 'sku':
                 $dataValue = $this->getWcProduct()->get_sku();
                 break;
@@ -97,11 +100,34 @@ abstract class AbstractExportableProduct implements ExportableProductInterface
             case 'short_description':
                 $dataValue = $this->getWcProduct()->get_short_description();
                 break;
+            case 'featured_image':
+                $image = '';
+                $p = $this->getWcProduct();
+                if($p->get_image_id()){
+                    $imageData = wp_get_attachment_image_src( $p->get_image_id(), 'woocommerce_thumbnail', false, []);
+                    if(\is_array($imageData) && count($imageData) > 0){
+                        $image = $imageData[0];
+                    }
+                }
+                $image = apply_filters('waboot-product-exporter/featured_image_src', $image, $this);
+                $dataValue = $image;
+                break;
             case 'meta:_regular_price':
                 $dataValue = $this->getWcProduct()->get_regular_price();
                 break;
             case 'meta:_sale_price':
                 $dataValue = $this->getWcProduct()->get_sale_price();
+                break;
+            case 'meta:_stock':
+                $qty = $this->getWcProduct()->get_stock_quantity();
+                if($qty === null){
+                    $dataValue = '';
+                }else{
+                    $dataValue = $qty;
+                }
+                break;
+            case 'meta:_stock_status':
+                $dataValue = $this->getWcProduct()->get_stock_status();
                 break;
         }
         if($dataValue === '' && strpos($dataKey,'meta:') === 0){

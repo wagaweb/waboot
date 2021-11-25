@@ -1,0 +1,10 @@
+{
+  "rename_columns": {
+    "meta:_regular_price": "Price",
+    "meta:_sale_price": "Sale Price"
+  },
+  "exclude_columns": [
+    "meta:_stock",
+    "meta:_stock_status"
+  ]
+}

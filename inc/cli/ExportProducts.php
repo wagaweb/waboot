@@ -34,6 +34,14 @@ class ExportProducts extends AbstractCommand
      */
     protected $language;
     /**
+     * @var string[]
+     */
+    protected $excludedColumns;
+    /**
+     * @var array
+     */
+    protected $columnsRenameMap;
+    /**
      * @var array
      */
     private $csvColumns;
@@ -57,6 +65,12 @@ class ExportProducts extends AbstractCommand
      *
      * [--lang]
      * : Set the language to use
+     *
+     * [--exclude-cols]
+     * : Comma separated list of columns to exclude in the generated file
+     *
+     * [--manifest]
+     * : Absolute path to a manifest file
      *
      * ## EXAMPLES
      *
@@ -82,6 +96,24 @@ class ExportProducts extends AbstractCommand
             }
             if(isset($assoc_args['output-file-name']) && \is_string($assoc_args['output-file-name']) && $assoc_args['output-file-name'] !== ''){
                 $this->outputFilePath = $assoc_args['output-file-name'];
+            }
+            if(isset($assoc_args['exclude-cols']) && \is_string($assoc_args['exclude-cols']) && $assoc_args['exclude-cols'] !== ''){
+                $this->log('Excluded columns: '.$assoc_args['exclude-cols']);
+                $excludedCols = explode(',',$assoc_args['exclude-cols']);
+                $this->excludedColumns = $excludedCols;
+            }
+            if(isset($assoc_args['manifest']) && \is_string($assoc_args['manifest']) && $assoc_args['manifest'] !== ''){
+                $manifestFile = $assoc_args['manifest'];
+                if(\is_file($manifestFile)){
+                    $this->log('Using manifest: '.$manifestFile);
+                    try{
+                        $this->parseManifestFile($manifestFile);
+                    }catch (\RuntimeException $e){
+                        $this->error($e->getMessage(),false);
+                    }
+                }else{
+                    $this->log('Error: invalid manifest file at '.$manifestFile);
+                }
             }
             $this->beginCommandExecution();
             if(!$this->hasProducts()){
@@ -111,11 +143,28 @@ class ExportProducts extends AbstractCommand
             $this->log('Writing of: '.$outputFile);
             $csv = Writer::createFromPath($outputFile,'w+');
             $csv->setDelimiter(';');
-            $csv->insertOne($this->csvColumns);
+            if(!isset($this->columnsRenameMap) || !\is_array($this->columnsRenameMap)){
+                $csv->insertOne($this->csvColumns);
+            }else{
+                $csvColumns = $this->csvColumns;
+                foreach ($this->columnsRenameMap as $renameEntry){
+                    foreach ($csvColumns as $k => $column){
+                        if($column === $renameEntry['src']){
+                            $csvColumns[$k] = $renameEntry['dest'];
+                        }
+                    }
+                }
+                $csv->insertOne($csvColumns);
+            }
+            $bundleRecords = [];
             foreach ($this->getRecords() as $record) {
                 try{
                     if(isset($record['id'])){
-                        $csv->insertOne(array_values($record));
+                        if($record['type'] === 'bundle'){
+                            $bundleRecords[] = $record; //We need bundles at the end
+                        }else{
+                            $csv->insertOne(array_values($record));
+                        }
                     }else{
                         //Multidimensional array (variable product and variations)
                         foreach ($record as $r){
@@ -124,6 +173,11 @@ class ExportProducts extends AbstractCommand
                     }
                 }catch (\Exception $e){
                     $this->log('- Error: '.$e->getMessage());
+                }
+            }
+            if(count($bundleRecords) > 0){
+                foreach ($bundleRecords as $record){
+                    $csv->insertOne(array_values($record));
                 }
             }
             $this->log('File written: '.$outputFile);
@@ -137,6 +191,7 @@ class ExportProducts extends AbstractCommand
         $standardColumns = [
             'id',
             'parent_id',
+            'type',
             'sku',
             'name',
             'description',
@@ -144,7 +199,10 @@ class ExportProducts extends AbstractCommand
         ];
         $metaColumns = [
             'meta:_regular_price',
-            'meta:_sale_price'
+            'meta:_sale_price',
+            'meta:_stock',
+            'meta:_stock_status',
+            'meta:_manage_stock'
         ];
         $taxColumns = [];
         $productTaxonomies = $this->getProductTaxonomies();
@@ -188,7 +246,18 @@ class ExportProducts extends AbstractCommand
             }
         }
 
-        $this->csvColumns = array_merge($standardColumns,$metaColumns,$taxColumns,$finalAttColumns);
+        $mediaColumns = [
+            'featured_image',
+            'gallery'
+        ];
+
+        $csvColumns = array_merge($standardColumns,$metaColumns,$taxColumns,$finalAttColumns,$mediaColumns);
+
+        if(\is_array($this->excludedColumns) && count($this->excludedColumns) > 0){
+            $csvColumns = array_values(array_diff($csvColumns,$this->excludedColumns));
+        }
+
+        $this->csvColumns = $csvColumns;
     }
 
     /**
@@ -310,5 +379,38 @@ class ExportProducts extends AbstractCommand
         $columnName = 'taxonomy:'.$taxonomy->name;
         $columnName .= ':'.$taxonomy->label;
         return $columnName;
+    }
+
+    /**
+     * Parse the manifest file and store
+     * @param string $manifestFilePath
+     * @throws \RuntimeException
+     */
+    private function parseManifestFile(string $manifestFilePath): void
+    {
+        $content = file_get_contents($manifestFilePath);
+        if(!\is_string($content)){
+            throw new \RuntimeException('Error: unable to parse the manifest file at '.$manifestFilePath);
+        }
+        $jsonContent = json_decode($content,ARRAY_A);
+        if(json_last_error() === JSON_ERROR_NONE){
+            if(isset($jsonContent['rename_columns']) && \is_array($jsonContent['rename_columns'])){
+                foreach ($jsonContent['rename_columns'] as $src => $dest){
+                    $this->columnsRenameMap[] = [
+                        'src' => $src,
+                        'dest' => $dest
+                    ];
+                }
+            }
+            if(isset($jsonContent['exclude_columns']) && \is_array($jsonContent['exclude_columns'])){
+                if(isset($this->excludedColumns)){
+                    $this->excludedColumns = array_merge($this->excludedColumns,$jsonContent['exclude_columns']);
+                }else{
+                    $this->excludedColumns = array_merge($jsonContent['exclude_columns']);
+                }
+            }
+        }else{
+            throw new \RuntimeException('Error: unable to parse the manifest file: '.json_last_error_msg());
+        }
     }
 }
