@@ -339,6 +339,7 @@ class ExportProducts extends AbstractCommand
 
     /**
      * @param \WC_Product_Attribute $attribute
+     * @param string $attributeKey
      * @return false|string
      */
     private function getColumnNameFromAttribute(\WC_Product_Attribute $attribute, string $attributeKey)
