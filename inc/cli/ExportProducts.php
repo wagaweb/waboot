@@ -38,6 +38,10 @@ class ExportProducts extends AbstractCommand
      */
     protected $excludedColumns;
     /**
+     * @var string[]
+     */
+    protected $includedMetas;
+    /**
      * @var array
      */
     protected $columnsRenameMap;
@@ -69,6 +73,9 @@ class ExportProducts extends AbstractCommand
      * [--exclude-cols]
      * : Comma separated list of columns to exclude in the generated file
      *
+     * [--include-meta]
+     * : Comma separated list of meta to include in the generated file
+     *
      * [--manifest]
      * : Absolute path to a manifest file
      *
@@ -98,9 +105,12 @@ class ExportProducts extends AbstractCommand
                 $this->outputFilePath = $assoc_args['output-file-name'];
             }
             if(isset($assoc_args['exclude-cols']) && \is_string($assoc_args['exclude-cols']) && $assoc_args['exclude-cols'] !== ''){
-                $this->log('Excluded columns: '.$assoc_args['exclude-cols']);
                 $excludedCols = explode(',',$assoc_args['exclude-cols']);
                 $this->excludedColumns = $excludedCols;
+            }
+            if(isset($assoc_args['include-meta']) && \is_string($assoc_args['include-meta']) && $assoc_args['include-meta'] !== ''){
+                $includedMeta = explode(',',$assoc_args['include-meta']);
+                $this->includedMetas = $includedMeta;
             }
             if(isset($assoc_args['manifest']) && \is_string($assoc_args['manifest']) && $assoc_args['manifest'] !== ''){
                 $manifestFile = $assoc_args['manifest'];
@@ -114,6 +124,12 @@ class ExportProducts extends AbstractCommand
                 }else{
                     $this->log('Error: invalid manifest file at '.$manifestFile);
                 }
+            }
+            if(isset($this->excludedColumns)){
+                $this->log('Excluded columns: '.implode(',',$this->excludedColumns));
+            }
+            if(isset($this->includedMetas)){
+                $this->log('Included meta: '.implode(',',$this->includedMetas));
             }
             $this->beginCommandExecution();
             if(!$this->hasProducts()){
@@ -204,6 +220,11 @@ class ExportProducts extends AbstractCommand
             'meta:_stock_status',
             'meta:_manage_stock'
         ];
+        if(\is_array($this->includedMetas) && count($this->includedMetas) > 0){
+            foreach ($this->includedMetas as $includedMeta){
+                $metaColumns[] = 'meta:'.$includedMeta;
+            }
+        }
         $taxColumns = [];
         $productTaxonomies = $this->getProductTaxonomies();
         foreach ($productTaxonomies as $taxonomyName){
@@ -404,9 +425,16 @@ class ExportProducts extends AbstractCommand
             }
             if(isset($jsonContent['exclude_columns']) && \is_array($jsonContent['exclude_columns'])){
                 if(isset($this->excludedColumns)){
-                    $this->excludedColumns = array_merge($this->excludedColumns,$jsonContent['exclude_columns']);
+                    $this->excludedColumns = array_unique(array_merge($this->excludedColumns,$jsonContent['exclude_columns']));
                 }else{
                     $this->excludedColumns = array_merge($jsonContent['exclude_columns']);
+                }
+            }
+            if(isset($jsonContent['include_meta']) && \is_array($jsonContent['include_meta'])){
+                if(isset($this->includedMetas)){
+                    $this->includedMetas = array_unique(array_merge($this->includedMetas,$jsonContent['include_meta']));
+                }else{
+                    $this->includedMetas = array_merge($jsonContent['include_meta']);
                 }
             }
         }else{
