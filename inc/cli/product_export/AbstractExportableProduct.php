@@ -52,6 +52,8 @@ abstract class AbstractExportableProduct implements ExportableProductInterface
     {
         $desc = $this->getWcProduct()->get_description();
         $desc = str_replace(';','&#59;',$desc);
+        $desc = str_replace(["\r","\n"],'.',$desc);
+        $desc = wp_strip_all_tags($desc);
         return $desc;
     }
 
@@ -59,6 +61,8 @@ abstract class AbstractExportableProduct implements ExportableProductInterface
     {
         $desc = $this->getWcProduct()->get_short_description();
         $desc = str_replace(';','&#59;',$desc);
+        $desc = str_replace(["\r","\n"],'.',$desc);
+        $desc = wp_strip_all_tags($desc);
         return $desc;
     }
 
@@ -95,10 +99,10 @@ abstract class AbstractExportableProduct implements ExportableProductInterface
                 $dataValue = $this->getWcProduct()->get_name();
                 break;
             case 'description':
-                $dataValue = $this->getWcProduct()->get_description();
+                $dataValue = $this->getDescription();
                 break;
             case 'short_description':
-                $dataValue = $this->getWcProduct()->get_short_description();
+                $dataValue = $this->getShortDescription();
                 break;
             case 'featured_image':
                 $image = '';

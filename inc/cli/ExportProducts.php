@@ -46,6 +46,10 @@ class ExportProducts extends AbstractCommand
      */
     protected $columnsRenameMap;
     /**
+     * @var int
+     */
+    protected $limit;
+    /**
      * @var array
      */
     private $csvColumns;
@@ -69,6 +73,9 @@ class ExportProducts extends AbstractCommand
      *
      * [--lang]
      * : Set the language to use
+     *
+     * [--limit]
+     * : The number of products to export
      *
      * [--exclude-cols]
      * : Comma separated list of columns to exclude in the generated file
@@ -111,6 +118,13 @@ class ExportProducts extends AbstractCommand
             if(isset($assoc_args['include-meta']) && \is_string($assoc_args['include-meta']) && $assoc_args['include-meta'] !== ''){
                 $includedMeta = explode(',',$assoc_args['include-meta']);
                 $this->includedMetas = $includedMeta;
+            }
+            if(isset($assoc_args['limit']) && \is_string($assoc_args['limit']) && $assoc_args['limit'] !== ''){
+                $limit = (int) $assoc_args['limit'];
+                if($limit > 0){
+                    $this->limit = $limit;
+                    $this->log('Exporting '.$this->limit.' products');
+                }
             }
             if(isset($assoc_args['manifest']) && \is_string($assoc_args['manifest']) && $assoc_args['manifest'] !== ''){
                 $manifestFile = $assoc_args['manifest'];
@@ -311,7 +325,7 @@ class ExportProducts extends AbstractCommand
     {
         $qArgs = [
             'post_type' => ['product'],
-            'posts_per_page' => -1,
+            'posts_per_page' => $this->limit ?? -1,
             'post_status' => 'publish',
             'fields' => 'ids'
         ];
