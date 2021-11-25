@@ -209,6 +209,7 @@ class ExportProducts extends AbstractCommand
             'parent_id',
             'type',
             'sku',
+            'sku_parent',
             'name',
             'description',
             'short_description'

@@ -24,7 +24,12 @@ class ExportableProductVariation extends AbstractExportableProduct
     public function createRecord(array $columnData): array
     {
         $record = parent::createRecord($columnData);
-        $record['parent_id'] = $this->getParentProduct()->getId();
+        if(isset($record['parent_id']) && $record['parent_id'] === ''){
+            $record['parent_id'] = $this->getParentProduct()->getId();
+        }
+        if(isset($record['sku_parent']) && $record['sku_parent'] === ''){
+            $record['sku_parent'] = $this->getParentProduct()->getWcProduct()->get_sku();
+        }
         if(isset($record['featured_image']) && $record['featured_image'] === ''){
             $image = '';
             $imageData = wp_get_attachment_image_src( $this->getParentProduct()->getWcProduct()->get_image_id(), 'woocommerce_thumbnail', false, []);
