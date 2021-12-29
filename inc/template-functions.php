@@ -466,3 +466,28 @@ function getLogo($size = 'full'){
     }
     return (string) apply_filters('waboot/logo', $image);
 }
+
+/**
+ * @param array $config
+ * @return string
+ * Render Vue Catalog
+ */
+function renderCatalog(array $config): string
+{
+    if (empty($config['baseUrl'])) {
+        $config['baseUrl'] = get_site_url();
+    }
+
+    if(empty($config['productPermalink'])){
+        $config['productPermalink'] = 'prodotto';
+    }
+
+    $json = json_encode($config);
+
+    return <<<HTML
+<div
+    id="vue-catalog"
+    catalog-config='$json'
+></div>
+HTML;
+}

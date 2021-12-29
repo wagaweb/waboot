@@ -1,0 +1,250 @@
+.woocommerce-notices-wrapper,
+.woocommerce-NoticeGroup {
+  margin-bottom: 0;
+}
+
+.woocommerce-results {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  //align-items: center;
+  margin-bottom: $gridGutter/2;
+  .woocommerce-result-count {
+    margin: 0;
+    @include down($medium) {
+      width: 100%;
+      margin-bottom: 20px;
+    }
+  }
+}
+
+.catalog__header {
+  margin-bottom: 20px;
+  display: grid;
+  grid-gap: 20px;
+  grid-template-columns: repeat(2, minmax(auto, 1fr));
+  .catalog__ordering {
+    grid-column: 2;
+    text-align:right;
+  }
+  button.filters__trigger {
+    background-color: transparent;
+    color: $colorPrimary;;
+    border: 1px solid $colorGrey;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    margin: 0 0 20px;
+    @include up($medium){
+      display: none;
+    }
+  }
+}
+
+.catalog__items,
+ul.products {
+  clear: both;
+  display: grid;
+  grid-gap: 1px;
+  grid-template-columns: repeat(2, 1fr);
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  @include up($large){
+    &.columns-3 {
+      grid-template-columns: repeat(3, 1fr);
+    }
+    &.columns-4 {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  .product {
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+
+    .onsale {
+      position: absolute;
+      left: 0;
+      top: 0;
+      padding: 10px;
+    }
+
+    img {
+      margin: 0 0 20px;
+      max-width: 100%;
+      width: 100%;
+      height: auto;
+    }
+
+    .woocommerce-loop-product__link {
+      display: block;
+      padding: 0;
+    }
+
+    .jvm_add_to_wishlist {
+      position: absolute;
+      right: 10px;
+      top: 10px;
+      z-index: 10;
+    }
+
+    h2 {
+      font-family: $fontPrimary;
+      font-weight: $fontWeightNormal;
+      font-size: 1em;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    .woocommerce-loop-product__category,
+    .woocommerce-loop-product__subtitle {
+      text-align: center;
+      font-size: 0.95em;
+      line-height: 1.3em;
+      margin-bottom: 0;
+    }
+
+    .price {
+      display: flex;
+      justify-content: center;
+      flex-direction: row-reverse;
+      text-align: center;
+      font-size: 0.9em;
+      margin: 5px 0;
+      del {
+        display: inline-block;
+        opacity: 0.5;
+        margin-left: 10px;
+        margin-right: 10px;
+      }
+      ins {
+        background-color: transparent;
+      }
+      .sale-percentage {
+        background-color: $colorSecondary;
+        border-radius: 20px;
+        font-size: .75em;
+        padding: 2px 5px;
+      }
+    }
+
+    a.add_to_cart_button {
+      margin: 10px auto 20px;
+      text-align: center;
+      font-size: 0.8em;
+      max-width: 100%;
+      @include down($medium){
+        font-size: 0.7em;
+        padding: 10px;
+      }
+    }
+
+    .added_to_cart {
+      display: none;
+    }
+
+    .star-rating {
+      i.fas,
+      i.far {
+        color: #d8b565;
+        font-size: 0.7em;
+      }
+      i.fal {
+        font-size: 0.7em;
+      }
+    }
+  }
+}
+
+
+.catalog__loadmore {
+  text-align: center;
+  margin-top: $gridGutter;
+  a {
+    @include buttonStyle(
+      $colorPrimary,
+      #fff,
+      $colorPrimary,
+      1px solid $colorPrimary
+    );
+    &:hover {
+      background-color: $colorSecondary;
+    }
+  }
+}
+
+.variation-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  &__item {
+    cursor: pointer;
+    margin: 3px;
+    padding: 1px;
+    border: 1px solid #ddd;
+    border-radius: 50%;
+    position: relative;
+    overflow: hidden;
+    &--outofstock {
+      pointer-events: none;
+      span {
+        opacity: .2;
+      }
+      &:before {
+        content: ' ';
+        width: 150%;
+        height: 1px;
+        position: absolute;
+        right: 0;
+        top: 0;
+        background-color: #000;
+        transform: rotate(-45deg);
+        transform-origin: top right;
+        z-index: 99;
+      }
+      &:after {
+        content: ' ';
+        width: 150%;
+        height: 1px;
+        position: absolute;
+        left: 0;
+        top: 0;
+        background-color: #000;
+        transform: rotate(45deg);
+        transform-origin: top left;
+        z-index: 99;
+      }
+    }
+    &--selected {
+      border-color: #000;
+    }
+    span {
+      border-radius: 50%;
+    }
+  }
+  &__color,
+  &__image {
+    display: block;
+    width: 24px;
+    height: 24px;
+    background-size: cover;
+    background-position: center center;
+  }
+}
+
+.apply__button {
+  @include button();
+  @include buttonStyle(
+    #fff,
+    $colorPrimary,
+    $colorPrimary,
+    1px solid $colorPrimary
+  );
+  &:hover {
+    background-color: $colorPrimary;
+    color: #fff;
+  }
+}

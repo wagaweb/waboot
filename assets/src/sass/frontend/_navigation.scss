@@ -85,9 +85,14 @@
 }
 
 .navigation-mobile {
-  padding: $gridGutter;
+  .logo--mobile {
+    padding: $gridGutter*2;
+    text-align: center;
+  }
+
   &__inner {
-    padding: $gridGutter 0;
+    position: relative;
+    padding: 0;
     height: 100%;
     width: 100%;
     flex-grow: 1;

@@ -15,6 +15,13 @@ function assets(){
         'type' => 'js',
         'deps' => ['jquery','owlcarousel-js','venobox-js']
     ];
+    $assets['catalog-script'] = [
+        'uri' => defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? get_stylesheet_directory_uri()."/assets/dist/js/catalog.js" : get_stylesheet_directory_uri()."/assets/dist/js/catalog.min.js",
+        'path' => defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? get_stylesheet_directory()."/assets/dist/js/catalog.js" : get_stylesheet_directory()."/assets/dist/js/catalog.min.js",
+        'type' => 'js',
+        'deps' => ['jquery'],
+        'in_footer' => true
+    ];
     $assets['owlcarousel-js'] = [
         'uri' => get_template_directory_uri() . '/assets/vendor/owlcarousel/owl.carousel.min.js',
         'type' => 'js',
@@ -33,6 +40,10 @@ function assets(){
     ];
     $assets['google-font'] = [
         'uri' => 'https://fonts.googleapis.com/css?family=Montserrat:400,400i,700,700i&display=swap',
+        'type' => 'css'
+    ];
+    $assets['catalog-css'] = [
+        'uri' => defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? get_template_directory_uri() . '/assets/dist/css/catalog.css' : get_template_directory_uri() . '/assets/dist/css/catalog.min.css',
         'type' => 'css'
     ];
     $assets['owlcarousel-css'] = [
