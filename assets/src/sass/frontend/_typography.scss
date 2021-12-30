@@ -48,7 +48,7 @@ h1 {
 }
 
 h2 {
-  font-size: clamp(2.8rem, 3vw, 3.6rem);
+  font-size: clamp(2.8rem, 3vw, 3.2rem);
 }
 
 h3 {
@@ -89,6 +89,7 @@ ol {
 a {
   color: $colorPrimary;
   outline: 0;
+  transition: 0.3s;
 
   &:active,
   &:hover,
@@ -99,7 +100,7 @@ a {
 
   &:hover,
   &:focus {
-    color: lighten($colorPrimary, 20%);
+    color: $colorSecondary;
   }
 
   &.text-primary {
