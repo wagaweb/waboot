@@ -11,8 +11,10 @@
       margin-bottom: 4rem;
 
       img {
+        aspect-ratio: 2 / 1;
         border-radius: 1rem;
         max-width: 100%;
+        object-fit: cover;
       }
     }
 

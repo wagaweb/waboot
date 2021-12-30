@@ -1,4 +1,8 @@
 .footer {
+  background-color: $colorGreyLight;
+  font-size: 1.4rem;
+  padding-block: 2.5rem;
+
   &__closure {
     max-width: $containerWidth;
     padding: $gridGutter/2 $gridGutter;
@@ -7,7 +11,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    @include up($medium){
+    @include up($medium) {
       justify-content: space-between;
       flex-direction: row;
     }
@@ -16,11 +20,12 @@
       padding: 0;
       margin: 0;
       display: flex;
-      @include down($medium){
+      gap: 2rem;
+      @include down($medium) {
         justify-content: space-around;
       }
       a {
-        @include up($medium){
+        @include up($medium) {
           margin-left: 20px;
         }
       }
@@ -32,7 +37,7 @@
   padding: 0;
   margin: 0;
   display: grid;
-  grid-template-columns: repeat(auto-fit,minmax(auto,300px));
+  grid-template-columns: repeat(auto-fit, minmax(auto, 300px));
   grid-gap: $gridGutter;
   justify-content: center;
   &-inner {
