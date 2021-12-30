@@ -1,9 +1,17 @@
 .single {
+  .main {
+    &__title {
+      margin: 0 auto 2rem;
+      max-width: 90rem;
+      width: 89vw;
+    }
+  }
   .article {
     &__image {
-      margin-bottom: $gridGutter;
+      margin-bottom: 4rem;
 
       img {
+        border-radius: 1rem;
         max-width: 100%;
       }
     }

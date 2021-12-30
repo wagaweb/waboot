@@ -21,7 +21,10 @@ h6,
   color: $colorTextDark;
   font-weight: 600;
   line-height: 1.2;
-  margin-bottom: 1rem;
+
+  &:not(:last-child) {
+    margin-bottom: 1rem;
+  }
 }
 
 h1,
@@ -73,17 +76,17 @@ ol {
   line-height: 1.5;
 }
 
-p,
-ul,
-ol {
-  &:not(:last-child) {
-    margin-bottom: 2rem;
-  }
+p {
+  margin-bottom: 2rem;
 }
 
 ul,
 ol {
   padding-left: 2rem;
+
+  &:not(:last-child) {
+    margin-bottom: 2rem;
+  }
 }
 
 a {
@@ -176,5 +179,27 @@ ins {
 }
 
 .wp-block-quote {
-  margin-top: 1.75rem;
+  background-color: $colorGreyLight;
+  border-color: $colorPrimary;
+  border-radius: 4px;
+  color: $colorTextDark;
+  margin: 3rem 0;
+  padding: 3rem;
+
+  p {
+    font-family: Georgia, "Times New Roman", Times, serif;
+    font-style: italic;
+    font-size: clamp(2.1rem, 3vw, 2.4rem);
+  }
+
+  cite {
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+
+    &::before {
+      content: "--";
+      margin-right: 0.5rem;
+    }
+  }
 }
