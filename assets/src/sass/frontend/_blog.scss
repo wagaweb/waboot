@@ -59,3 +59,18 @@
     }
   }
 }
+
+.wp-block-table {
+  &.is-style-stripes {
+    border: none;
+    margin-bottom: 3vw;
+
+    tbody tr:nth-child(odd) {
+      background-color: $colorGreyLight;
+    }
+  }
+
+  figcaption {
+    margin-top: 1rem;
+  }
+}

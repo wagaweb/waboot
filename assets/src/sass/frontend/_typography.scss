@@ -171,6 +171,7 @@ ins {
 .wp-block-code {
   background-color: $colorGreyDark;
   border: none;
+  border-radius: 0.7rem;
   color: $colorWhite;
 
   code {
@@ -181,7 +182,7 @@ ins {
 .wp-block-quote {
   background-color: $colorGreyLight;
   border-color: $colorPrimary;
-  border-radius: 4px;
+  border-radius: 0.7rem;
   color: $colorTextDark;
   margin: 3rem 0;
   padding: 3rem;

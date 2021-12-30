@@ -9,7 +9,7 @@ body {
   margin-left: auto;
   width: 100%;
   max-width: 100vw;
-  @include up($xlarge){
+  @include up($xlarge) {
     max-width: $containerWidth;
   }
 }
@@ -22,12 +22,12 @@ body {
   width: 100%;
   max-width: 100vw;
   &__grid {
-    padding: 0 $gridGutter;
+    padding: 5vw $gridGutter;
     margin-left: auto;
     margin-right: auto;
     width: 100%;
     max-width: 100vw;
-    @include up($xlarge){
+    @include up($xlarge) {
       max-width: $containerWidth;
     }
   }
