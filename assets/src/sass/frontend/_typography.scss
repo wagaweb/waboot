@@ -1,33 +1,81 @@
 body {
+  color: $colorText;
   font-family: $fontPrimary;
   font-weight: $fontWeightNormal;
+  line-height: 1.5;
 }
 
-body {font-size: 14px;}
-h1 {font-size: 2.6em;}
-h2 {font-size: 2.15em;}
-h3 {font-size: 1.7em;}
-h4 {font-size: 1.25em;}
-h5 {font-size: 1em;}
-h6 {font-size: 0.85em;}
+body {
+  font-size: 1.6rem;
+}
+h1 {
+  font-size: clamp(2.4rem, 3vw, 4.8rem);
+}
+h2 {
+  font-size: 2.15em;
+}
+h3 {
+  font-size: 1.7em;
+}
+h4 {
+  font-size: 1.25em;
+}
+h5 {
+  font-size: 1em;
+}
+h6 {
+  font-size: 0.85em;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: #4a4b65;
+  line-height: 1.2;
+  font-weight: 600;
+}
 
 @include up($large) {
-  body {font-size: 14px;}
-  h1 {font-size: 2.6em;}
-  h2 {font-size: 2.15em;}
-  h3 {font-size: 1.7em;}
-  h4 {font-size: 1.25em;}
-  h5 {font-size: 1em;}
-  h6 {font-size: 0.85em;}
+  body {
+    font-size: 1.6rem;
+  }
+  h2 {
+    font-size: 2.15em;
+  }
+  h3 {
+    font-size: 1.7em;
+  }
+  h4 {
+    font-size: 1.25em;
+  }
+  h5 {
+    font-size: 1em;
+  }
+  h6 {
+    font-size: 0.85em;
+  }
 }
 
-h1, .h1, h2, .h2, h3, .h3 {
+h1,
+.h1,
+h2,
+.h2,
+h3,
+.h3 {
   margin-top: 0;
   margin-bottom: 20px;
   word-wrap: break-word;
 }
 
-h4, .h4, h5, .h5, h6, .h6 {
+h4,
+.h4,
+h5,
+.h5,
+h6,
+.h6 {
   margin-top: 0;
   margin-bottom: 10px;
   word-wrap: break-word;
@@ -40,7 +88,8 @@ p {
   word-wrap: break-word;
 }
 
-ul, ol {
+ul,
+ol {
   line-height: 1.4em;
   padding-left: 20px;
   margin-bottom: 20px;
@@ -74,7 +123,7 @@ a {
 
 a:hover,
 a:focus {
-    color: lighten($colorPrimary, 20%) ;
+  color: lighten($colorPrimary, 20%);
 }
 
 a.text-primary:hover,
@@ -136,4 +185,14 @@ ins {
   margin-left: auto;
   margin-right: auto;
   text-align: center;
+}
+
+.wp-block-code {
+  background-color: $colorGreyDark;
+  border: none;
+  color: $colorWhite;
+
+  code {
+    font-family: "JetBrains Mono", sans-serif;
+  }
 }

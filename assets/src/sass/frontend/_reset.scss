@@ -1,18 +1,22 @@
-* {
-  box-sizing: border-box;
+*,
+*::before,
+*::after {
+  box-sizing: inherit; // da diverse fonti ho letto che è una best practice non fissare a border-box la box-sizing, ma assegnarla al tag root (html) e farla ereditare a tutti gli elementi, anche pseudo
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-kerning: auto;
+  margin: 0;
+  padding: 0; //forzo a 0 margin e padding per tutti gli elementi
 }
 
 html {
+  box-sizing: border-box;
   font-family: sans-serif;
-  -webkit-text-size-adjust: 100%;
-}
-
-body {
-  margin: 0;
+  font-size: 62.5%; //forzo a 62.5% la font-size nella root così da poter convertire mentalmente i px in rem
+  //di default font-size: 16px. Impostandola a 10px, facilito la conversione: 1rem = 10px, 2.5rem = 24px (basta aggiungere la virgola). Dato che non è bene impostare la font-size in px perché con lo zoom perderei la capacità di ridimensionamento automatico delle misure, forzo a 10 / 16 = 62.5% la font-size, così posso continuare ad utilizzare i rem senza moltiplicare/dividere per 16 o facendo fare la conversione a un mixin. Nel caso di modifica manuale nelle impostazioni del browser o nel caso di browser con diverse impostazioni di default, la proporzione continuerebbe a funzionare in base alla percentuale definita (100% o altro), ma le conversioni sarebbero automatiche
+  -webkit-text-size-adjust: 62.5%;
+  line-height: 1; //qualcuno forza a 1 la line-height, così da evitare spaziature verticali falsate e la assegna in tipografia
 }
 
 img,
@@ -21,15 +25,22 @@ video {
 }
 
 figure {
-	height: auto;
+  height: auto;
   max-width: 100%;
-  margin: 0;
-	padding: 0;
 }
 
-
-@-webkit-viewport{width:device-width}
-@-moz-viewport{width:device-width}
-@-ms-viewport{width:device-width}
-@-o-viewport{width:device-width}
-@viewport{width:device-width}
+@-webkit-viewport {
+  width: device-width;
+}
+@-moz-viewport {
+  width: device-width;
+}
+@-ms-viewport {
+  width: device-width;
+}
+@-o-viewport {
+  width: device-width;
+}
+@viewport {
+  width: device-width;
+}
