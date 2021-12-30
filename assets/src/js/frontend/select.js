@@ -1,6 +1,6 @@
 function dropdown() {
   let $ = jQuery;
-  let $selector = $("select");
+  let $selector = $(".select--custom select");
 
   $($selector).each(function () {
     var $this = $(this),
