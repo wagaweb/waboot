@@ -8,9 +8,10 @@
   background-image: none; // Reset unusual Firefox-on-Android default style; see https://github.com/necolas/normalize.css/issues/214
   border: 1px solid transparent;
   white-space: nowrap;
-  padding: 10px 15px;
-  font-size: 1em;
-  line-height: 1.4em;
+  padding: 1rem 1.5rem;
+  font-size: 1.4rem;
+  font-weight: 600;
+  letter-spacing: 1px;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -30,26 +31,26 @@
 }
 
 @mixin buttonStyle($bkg, $color, $colorHover, $border) {
-  border-radius : 0;
-  background    : $bkg;
+  border-radius: 4px;
+  background: $bkg;
   @if $color {
-    color : $color;
+    color: $color;
   }
   @if $border {
-    border : $border;
+    border: $border;
   }
-  transition    : all 0.3s ease;
+  transition: all 0.3s ease;
 
   &:hover {
-    background : darken($bkg, 8%);
+    background: darken($bkg, 8%);
     @if $colorHover {
-      color : $colorHover
+      color: $colorHover;
     }
   }
   &:active {
-    background : darken($bkg, 25%);
+    background: darken($bkg, 25%);
     @if $colorHover {
-      color : $colorHover
+      color: $colorHover;
     }
   }
 }

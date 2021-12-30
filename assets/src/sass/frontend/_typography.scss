@@ -1,62 +1,9 @@
 body {
   color: $colorText;
   font-family: $fontPrimary;
+  font-size: 1.6rem;
   font-weight: $fontWeightNormal;
   line-height: 1.5;
-}
-
-body {
-  font-size: 1.6rem;
-}
-h1 {
-  font-size: clamp(2.4rem, 3vw, 4.8rem);
-}
-h2 {
-  font-size: 2.15em;
-}
-h3 {
-  font-size: 1.7em;
-}
-h4 {
-  font-size: 1.25em;
-}
-h5 {
-  font-size: 1em;
-}
-h6 {
-  font-size: 0.85em;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  color: #4a4b65;
-  line-height: 1.2;
-  font-weight: 600;
-}
-
-@include up($large) {
-  body {
-    font-size: 1.6rem;
-  }
-  h2 {
-    font-size: 2.15em;
-  }
-  h3 {
-    font-size: 1.7em;
-  }
-  h4 {
-    font-size: 1.25em;
-  }
-  h5 {
-    font-size: 1em;
-  }
-  h6 {
-    font-size: 0.85em;
-  }
 }
 
 h1,
@@ -64,75 +11,103 @@ h1,
 h2,
 .h2,
 h3,
-.h3 {
-  margin-top: 0;
-  margin-bottom: 20px;
-  word-wrap: break-word;
-}
-
+.h3,
 h4,
 .h4,
 h5,
 .h5,
 h6,
 .h6 {
-  margin-top: 0;
-  margin-bottom: 10px;
+  color: $colorTextDark;
+  font-weight: 600;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+}
+
+h1,
+.h1,
+h2,
+.h2,
+h3,
+.h3,
+h4,
+.h4,
+h5,
+.h5,
+h6,
+.h6,
+p,
+ul,
+ol,
+span {
   word-wrap: break-word;
 }
 
-p {
-  line-height: 1.4em;
-  margin-bottom: 20px;
-  margin-top: 0;
-  word-wrap: break-word;
+h1 {
+  font-size: clamp(3.6rem, 3vw, 4.8rem);
+}
+
+h2 {
+  font-size: clamp(2.8rem, 3vw, 3.6rem);
+}
+
+h3 {
+  font-size: clamp(2.1rem, 3vw, 2.4rem);
+}
+
+h4 {
+  font-size: clamp(1.8rem, 3vw, 2.1rem);
+}
+
+h5 {
+  font-size: clamp(1.6rem, 3vw, 1.8rem);
+}
+
+h6 {
+  font-size: clamp(1.6rem, 3vw, 1.6rem);
+}
+
+p,
+ul,
+ol {
+  line-height: 1.5;
+}
+
+p,
+ul,
+ol {
+  &:not(:last-child) {
+    margin-bottom: 2rem;
+  }
 }
 
 ul,
 ol {
-  line-height: 1.4em;
-  padding-left: 20px;
-  margin-bottom: 20px;
-  margin-top: 0;
-  word-wrap: break-word;
-}
-
-a {
-  outline: 0;
-}
-
-a:link {
-  text-decoration: none;
-}
-
-a:visited {
-  text-decoration: none;
-}
-
-a:hover {
-  text-decoration: none;
-}
-
-a:active {
-  text-decoration: none;
+  padding-left: 2rem;
 }
 
 a {
   color: $colorPrimary;
-}
+  outline: 0;
 
-a:hover,
-a:focus {
-  color: lighten($colorPrimary, 20%);
-}
+  &:active,
+  &:hover,
+  &:link,
+  &:visited {
+    text-decoration: none;
+  }
 
-a.text-primary:hover,
-a.text-primary:focus {
-  color: lighten($colorPrimary, 20%);
-}
+  &:hover,
+  &:focus {
+    color: lighten($colorPrimary, 20%);
+  }
 
-span {
-  word-wrap: break-word;
+  &.text-primary {
+    &:hover,
+    &:focus {
+      color: lighten($colorPrimary, 20%);
+    }
+  }
 }
 
 table {
@@ -140,17 +115,17 @@ table {
 }
 
 p img {
-  margin-bottom: 0.5em;
-  margin-top: 0.4em;
+  margin-bottom: 0.5rem;
+  margin-top: 0.4rem;
 }
 
-img.header-image,
-img.wp-post-image,
+.comment-content img,
 img.avatar,
 img[class*="align"],
-img[class*="wp-image-"],
 img[class*="attachment-"],
-.comment-content img,
+img[class*="wp-image-"],
+img.header-image,
+img.wp-post-image,
 .widget img {
   height: auto;
   max-width: 100%;
@@ -167,23 +142,25 @@ ins {
   display: block;
 }
 
+.alignleft,
 .alignright {
   display: inline;
+}
+
+.alignright {
   float: right;
-  margin-left: 15px;
+  margin-left: 1.5rem;
 }
 
 .alignleft {
-  display: inline;
   float: left;
-  margin-right: 15px;
+  margin-right: 1.5rem;
 }
 
 .aligncenter {
   clear: both;
   display: block;
-  margin-left: auto;
-  margin-right: auto;
+  margin-inline: auto;
   text-align: center;
 }
 
@@ -193,6 +170,10 @@ ins {
   color: $colorWhite;
 
   code {
-    font-family: "JetBrains Mono", sans-serif;
+    font-family: $fontCode;
   }
+}
+
+.wp-block-quote {
+  margin-top: 1.75rem;
 }
