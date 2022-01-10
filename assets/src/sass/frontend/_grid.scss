@@ -22,8 +22,8 @@ body {
   &__grid {
     margin-inline: auto;
     padding-block: 5vw;
-    max-width: 90vw;
-    width: 100%;
+    width: 90vw;
+
     @include up($xlarge) {
       max-width: $containerWidth;
     }
