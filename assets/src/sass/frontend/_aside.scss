@@ -1,9 +1,128 @@
 .main__aside {
+  background-color: $colorGreyLight;
+  border-radius: 0.7rem;
+  padding: 3vw 1.5vw;
+
   .widget {
     margin-bottom: $gridGutter;
     p:last-child,
     ul:last-child {
       margin-bottom: 0;
     }
+
+    &_categories {
+      ul {
+        list-style: none;
+        padding: 0;
+
+        &::before {
+          content: "Categorie";
+          color: $colorTextDark;
+          font-weight: 700;
+          margin-bottom: 0.5rem;
+        }
+      }
+
+      li {
+        align-items: center;
+        display: flex;
+        gap: 0.5rem;
+
+        &::before {
+          background: url(../images/default/icons/chevron-right.svg) no-repeat
+            center;
+          background-size: cover;
+          content: "";
+          display: flex;
+          height: 1.4rem;
+          width: 1.4rem;
+        }
+      }
+
+      a {
+        color: $colorText;
+        font-size: 1.4rem;
+
+        &:hover {
+          color: $colorPrimary;
+        }
+      }
+    }
+
+    &_recent_entries {
+      ul {
+        display: grid;
+        gap: 1rem;
+        list-style: none;
+        padding: 0;
+
+        &::before {
+          content: "Ultimi articoli";
+          color: $colorTextDark;
+          font-weight: 700;
+        }
+      }
+
+      li {
+        &::after {
+          content: "";
+          clear: both;
+          display: table;
+        }
+        img {
+          margin-right: 1rem;
+          height: 6.4rem;
+          width: 6.4rem;
+        }
+      }
+
+      a {
+        color: $colorTextDark;
+        font-size: 1.4rem;
+        font-weight: 600;
+      }
+
+      div {
+        color: $colorText;
+      }
+    }
+
+    &_tag_cloud {
+      p {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+
+        &::before {
+          content: "Tag";
+          color: $colorTextDark;
+          display: block;
+          font-weight: 700;
+          margin-bottom: 0.5rem;
+          margin-right: auto;
+          flex: 0 0 100%;
+        }
+      }
+
+      a {
+        align-items: center;
+        background-color: $colorWhite;
+        border: 1px solid $colorBorder;
+        border-radius: 0.5rem;
+        color: $colorTextDark;
+        display: flex;
+        font-weight: 600;
+        line-height: 1;
+        padding: 0.8rem 1rem;
+
+        &:hover {
+          border-color: $colorText;
+        }
+      }
+    }
   }
+}
+
+.wp-block-latest-posts__featured-image.alignleft {
+  margin: 0;
 }
