@@ -1,4 +1,6 @@
 <?php if(is_singular('post')) : ?>
+    <?php do_action( 'waboot/article/footer' ); ?>
+    
     <?php if(has_post_thumbnail()) : ?>
         <figure class="article__image">
             <?php
@@ -9,10 +11,10 @@
             ?>
         </figure>
     <?php endif ?>
+    
     <div class="article__content">
         <?php the_content(); ?>
     </div>
-    <?php do_action( 'waboot/article/footer' ); ?>
 <?php else : ?>
     <?php the_content(); ?>
 <?php endif; ?>

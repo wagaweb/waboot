@@ -1,7 +1,7 @@
 .single {
   .main {
     &__title {
-      margin: 0 auto 2rem;
+      margin: 0 auto;
       max-width: 90rem;
       width: 89vw;
     }
@@ -26,7 +26,7 @@
       font-size: 1.3rem;
       justify-content: space-between;
       line-height: 1;
-      margin-block: 4rem;
+      margin-block: 3vw;
       padding: 1.5rem 0;
 
       a {
@@ -51,10 +51,20 @@
 
       .published-date,
       .url,
-      .comments-link {
+      .comments-link,
+      .tags-links {
         align-items: center;
         display: flex;
         gap: 0.5rem;
+      }
+
+      .tags-links {
+        display: inline-flex;
+        gap: 0;
+
+        a {
+          margin-left: 0.5rem;
+        }
       }
     }
 

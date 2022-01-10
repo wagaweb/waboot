@@ -129,7 +129,17 @@ function displayPostTags(){
 	$post_tags = get_the_tags();
 
 	if(is_array($post_tags) && !empty($post_tags)){
-		$wrapper_start = '<span class="tags-links">';
+		$wrapper_start = '<span class="tags-links"><svg
+        width="18"
+        height="18"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+    >
+        <use href="' . get_template_directory_uri() . '/assets/images/default/icons/feather-sprite.svg#tag"/>
+    </svg>';
 		$wrapper_end = '</span>';
 		$num_tags = count( $post_tags );
 
