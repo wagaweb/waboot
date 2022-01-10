@@ -108,7 +108,18 @@ function displayPostAuthor(){
  * Display the list of categories on a post in hierarchical order
  */
 function displayPostCategories(){
-	echo getTheTermsListHierarchical(get_the_ID(), 'category', '<span class="cat-links">', ', ', '</span>');
+	echo getTheTermsListHierarchical(get_the_ID(), 'category', '
+    <span class="article__categories"><svg
+		width="18"
+		height="18"
+		fill="none"
+		stroke="currentColor"
+		stroke-width="1.5"
+		stroke-linecap="round"
+		stroke-linejoin="round"
+	>
+		<use href="' . get_template_directory_uri() . '/assets/images/default/icons/feather-sprite.svg#folder
+"/><span class="cat-links">', ', ', '</span></span>');
 }
 
 /**

@@ -25,6 +25,7 @@
       display: flex;
       font-size: 1.3rem;
       justify-content: space-between;
+      line-height: 1;
       margin-block: 4rem;
       padding: 1.5rem 0;
 
@@ -35,6 +36,20 @@
       > span {
         margin-right: 10px;
       }
+
+      .published-date,
+      .byline,
+      .comments-link {
+        align-items: center;
+        display: flex;
+        gap: 0.5rem;
+      }
+    }
+
+    &__categories {
+      align-items: center;
+      display: flex;
+      gap: 0.5rem;
     }
   }
 }

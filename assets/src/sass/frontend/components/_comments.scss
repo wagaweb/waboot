@@ -48,12 +48,14 @@
   }
 
   &-edit-link {
+    align-items: center;
     border: 1px solid $colorBorder;
     border-radius: 4px;
     display: inline-flex;
     color: $colorTextDark;
     font-size: 1.1rem;
     font-weight: 600;
+    gap: 0.5rem;
     letter-spacing: 1px;
     padding: 0.3rem 0.7rem;
     text-transform: uppercase;
