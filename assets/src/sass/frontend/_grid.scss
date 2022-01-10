@@ -19,14 +19,11 @@ body {
 }
 
 .main {
-  width: 100%;
-  max-width: 100vw;
   &__grid {
-    padding: 5vw $gridGutter;
-    margin-left: auto;
-    margin-right: auto;
+    margin-inline: auto;
+    padding-block: 5vw;
+    max-width: 90vw;
     width: 100%;
-    max-width: 100vw;
     @include up($xlarge) {
       max-width: $containerWidth;
     }
