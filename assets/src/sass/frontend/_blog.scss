@@ -12,17 +12,12 @@
     }
 
     &__footer {
-      border: 1px solid $colorGreyLight;
-      border-left: 0;
-      border-right: 0;
       display: flex;
       flex-wrap: wrap;
       font-size: 1.3rem;
-      row-gap: 1rem;
-      justify-content: space-between;
+      gap: 2vw;
       line-height: 1;
-      margin-block: 3vw;
-      padding: 1.5rem 0;
+      margin-block: 2vw 1.5vw;
 
       a {
         color: inherit;

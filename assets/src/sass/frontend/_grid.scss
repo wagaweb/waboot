@@ -18,21 +18,26 @@ body {
   @include wbcontainer();
 }
 
+body.single {
+  @include up($xlarge) {
+    .main__grid {
+      max-width: 80rem;
+    }
+  }
+}
+
 .main {
   &__grid {
     margin-inline: auto;
     padding-block: 5vw;
     width: 90vw;
-
-    @include up($xlarge) {
-      max-width: $containerWidth;
-    }
+    max-width: $containerWidth;
   }
   body.with-sidebar & {
     @include up($medium) {
       &__grid {
         display: grid;
-        grid-column-gap: $gridGutter;
+        grid-column-gap: 4vw;
         grid-template-columns: auto calc(100% / 4);
         grid-template-rows: auto;
       }
@@ -47,6 +52,12 @@ body {
       &__aside {
         grid-column: 2;
         grid-row: 2 / last-line;
+      }
+    }
+
+    @include up($xlarge) {
+      &__grid {
+        max-width: $containerWidth;
       }
     }
   }
