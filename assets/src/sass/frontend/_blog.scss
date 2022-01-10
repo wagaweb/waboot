@@ -29,6 +29,18 @@
       margin-block: 4rem;
       padding: 1.5rem 0;
 
+      a {
+        color: inherit;
+
+        &:hover {
+          color: $colorPrimary;
+
+          svg {
+            stroke: $colorPrimary;
+          }
+        }
+      }
+
       .glyphicon {
         margin-right: 5px;
       }
@@ -38,7 +50,7 @@
       }
 
       .published-date,
-      .byline,
+      .url,
       .comments-link {
         align-items: center;
         display: flex;
