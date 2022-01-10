@@ -1,5 +1,4 @@
 .header__navigation {
-
   ul {
     margin: 0;
     padding: 0;
@@ -13,7 +12,7 @@
         @extend %fa-icon;
         @extend .far;
         content: fa-content($fa-var-angle-down);
-        opacity: .7;
+        opacity: 0.7;
         margin-left: 10px;
       }
       li.menu-item-has-children > a:after {
@@ -24,16 +23,48 @@
 
   > ul {
     > li {
-      > a {
-        padding: 10px 0;
-        @include up($large) {
-          padding: 15px;
+      &.current-menu-item {
+        > a {
+          color: $colorPrimary;
+          position: relative;
+
+          &::before {
+            transform: scaleX(100%);
+            width: 100%;
+          }
         }
-        position: relative;
-        display: flex;
+      }
+
+      > a {
         align-items: center;
-        text-transform: uppercase;
-        font-size: .9em;
+        color: $colorText;
+        display: flex;
+        font-weight: 600;
+        margin-left: 1rem;
+        padding-block: 1rem;
+        position: relative;
+
+        &:hover {
+          color: $colorPrimary;
+        }
+
+        &::before {
+          content: "";
+          background-color: $colorPrimary;
+          bottom: 0;
+          height: 3px;
+          left: 0;
+          position: absolute;
+          top: 0;
+          transform: scaleX(0);
+          transition: 0.3s;
+          width: 0%;
+        }
+
+        @include up($large) {
+          margin-left: 3rem;
+          padding-block: 1.5rem;
+        }
       }
 
       &:last-child > a {
@@ -44,9 +75,22 @@
     }
 
     .sub-menu {
-      display: none;
-      //max-width: 150px;
+      background-color: $colorWhite;
+      border-radius: 4px;
+      box-shadow: 0 1px 3px rgba($colorGreyDark, 0.1);
+      margin: 0;
+      opacity: 0;
+      padding: 0;
+      position: absolute;
+      right: 0;
+      top: calc(100% + 0.7rem);
+      transition: 0.3;
+      z-index: 7;
+
       li a {
+        color: $colorText;
+        font-size: 1.4rem;
+        font-weight: 600;
         padding: 5px 15px;
         display: block;
         white-space: nowrap;
@@ -54,22 +98,7 @@
     }
 
     li:hover > .sub-menu {
-      display: block;
-      position: absolute;
-      z-index: 7;
-      padding: 0;
-      margin: 0;
-      background-color: #fff;
-      border: 1px solid rgba(0, 0, 0, .15);
-      background-clip: padding-box;
-    }
-
-    > li:hover > .sub-menu {
-      top: 100%;
-      right: 0;
-      a {
-        text-align: right;
-      }
+      opacity: 1;
     }
 
     .sub-menu > li:hover > .sub-menu {
@@ -79,9 +108,7 @@
         text-align: left;
       }
     }
-
   }
-
 }
 
 .navigation-mobile {
@@ -110,7 +137,7 @@
     justify-content: center;
     padding: 0;
     margin: 0;
-    transition: all .5s ease;
+    transition: all 0.5s ease;
   }
 
   li {
@@ -155,5 +182,4 @@
     justify-content: flex-end;
     padding-right: $gridGutter;
   }
-
 }

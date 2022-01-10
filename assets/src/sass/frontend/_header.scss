@@ -1,11 +1,12 @@
 .header {
-  width: 100%;
+  border-bottom: 1px solid lighten($colorBorder, 7%);
   position: absolute;
   top: 0;
+  width: 100%;
   z-index: 1000;
 
   .header--fixed & {
-    background-color: #fff;
+    background-color: $colorWhite;
     position: fixed;
     top: -200px;
   }
@@ -23,7 +24,7 @@
   &__inner {
     max-width: $containerWidth;
     margin: 0 auto;
-    padding: $gridGutter/2 $gridGutter;
+    padding-inline: $gridGutter;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -36,6 +37,16 @@
     @include down($large) {
       max-width: 85%;
     }
+
+    a {
+      font-size: clamp(2.1rem, 3vw, 2.4rem);
+      font-weight: bold;
+
+      &:hover {
+        color: $colorTextDark;
+      }
+    }
+
     img {
       max-width: 100%;
       max-height: 60px;
