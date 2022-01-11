@@ -121,7 +121,6 @@ import PermalinkList from './PermalinkList.vue';
 import { CatalogConfig, TaxFilterOptions } from '@/catalog';
 import { wcserviceClientKey } from '@/main';
 import noUiSlider from 'nouislider';
-import 'nouislider/dist/nouislider.css';
 
 export default defineComponent({
   name: 'Catalog',
@@ -256,9 +255,8 @@ export default defineComponent({
           '_attribute_list',
           '_sku',
           '_wc_average_rating',
-          'jdt_nome2',
         ],
-        taxonomiesIn: ['product_cat', 'product_type', 'product_collection'],
+        taxonomiesIn: ['product_cat', 'product_type'],
       };
     };
 

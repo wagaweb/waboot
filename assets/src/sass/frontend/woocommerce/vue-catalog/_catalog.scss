@@ -1,23 +1,3 @@
-.woocommerce-notices-wrapper,
-.woocommerce-NoticeGroup {
-  margin-bottom: 0;
-}
-
-.woocommerce-results {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  //align-items: center;
-  margin-bottom: $gridGutter/2;
-  .woocommerce-result-count {
-    margin: 0;
-    @include down($medium) {
-      width: 100%;
-      margin-bottom: 20px;
-    }
-  }
-}
-
 .catalog__header {
   margin-bottom: 20px;
   display: grid;
@@ -41,8 +21,7 @@
   }
 }
 
-.catalog__items,
-ul.products {
+.catalog__items {
   clear: both;
   display: grid;
   grid-gap: 1px;

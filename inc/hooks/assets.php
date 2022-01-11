@@ -42,10 +42,6 @@ function assets(){
         'uri' => 'https://fonts.googleapis.com/css?family=Montserrat:400,400i,700,700i&display=swap',
         'type' => 'css'
     ];
-    $assets['catalog-css'] = [
-        'uri' => defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? get_template_directory_uri() . '/assets/dist/css/catalog.css' : get_template_directory_uri() . '/assets/dist/css/catalog.min.css',
-        'type' => 'css'
-    ];
     $assets['owlcarousel-css'] = [
         'uri' => get_template_directory_uri() . '/assets/vendor/owlcarousel/owl.carousel.min.css',
         'type' => 'css'

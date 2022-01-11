@@ -29,7 +29,7 @@
 
 @import 'frontend/woocommerce/global';
 @import 'frontend/woocommerce/alerts';
-//@import 'frontend/woocommerce/catalog';
+@import 'frontend/woocommerce/catalog';
 @import 'frontend/woocommerce/cart';
 @import 'frontend/woocommerce/minicart';
 @import 'frontend/woocommerce/checkout';
@@ -40,6 +40,7 @@
 @import 'frontend/woocommerce/bundle-product';
 @import 'frontend/woocommerce/vue-catalog/catalog';
 @import 'frontend/woocommerce/vue-catalog/filters';
+@import 'frontend/woocommerce/vue-catalog/price-range';
 @import 'frontend/woocommerce/single-product/product';
 @import 'frontend/woocommerce/single-product/cross-sell';
 @import 'frontend/woocommerce/single-product/productGallery';
