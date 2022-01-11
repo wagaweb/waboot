@@ -29,7 +29,7 @@ body.single {
 .main {
   &__grid {
     margin-inline: auto;
-    padding-block: 5vw;
+    padding-block: clamp(2rem, 5%, 5rem);
     width: 90vw;
     max-width: $containerWidth;
   }

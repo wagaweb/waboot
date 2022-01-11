@@ -62,3 +62,13 @@ input[type="submit"] {
   @include button();
   @include buttonStyle($colorPrimary, #fff, #fff, false);
 }
+
+.is-style-outline > .wp-block-button__link:not(.has-text-color) {
+  border-color: $colorPrimary;
+  color: $colorPrimary;
+
+  &:hover {
+    border-color: darken($colorPrimary, 8%);
+    color: darken($colorPrimary, 8%);
+  }
+}
