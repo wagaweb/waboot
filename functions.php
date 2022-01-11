@@ -27,3 +27,11 @@ add_filter('waboot/addons/disabled', function(){
 });
 \Waboot\inc\loadAddons();
 */
+add_filter( 'pre_get_posts', 'SearchFilter' );
+function SearchFilter( $query ) {
+    if ( $query->is_search ) {
+        $query->set( 'post_type', 'post' );
+    }
+
+    return $query;
+}

@@ -1,4 +1,4 @@
-<?php if ( is_active_sidebar( 'aside' ) && ( is_single() || is_home() || is_archive() ) ): ?>
+<?php if ( is_active_sidebar( 'aside' ) && ( is_single() || is_home() || is_archive() || is_search() ) ): ?>
 <aside class="main__aside" role="complementary" data-zone="aside">
     <div class="aside__wrapper">
         <?php do_action('waboot/layout/aside'); ?>
