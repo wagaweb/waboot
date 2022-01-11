@@ -1,30 +1,106 @@
 .footer {
-  background-color: $colorGreyDark;
-  color: $colorGrey500;
-  font-size: 1.4rem;
-  padding-block: clamp(1.5rem, 2.5%, 2.5rem);
+  color: $colorWhite;
+
+  * {
+    color: inherit;
+  }
+
+  h3 {
+    font-size: clamp(1.6rem, 3vw, 1.8rem);
+    margin-bottom: clamp(1.5rem, 2.5%, 2.5rem);
+  }
 
   a {
-    color: inherit;
-    font-weight: 600;
+    font-weight: 500;
 
     &:hover {
       color: $colorWhite;
     }
   }
 
+  form {
+    > * {
+      background: none;
+      border: none;
+    }
+
+    .wp-block-search__input {
+      border-color: transparent;
+      border-radius: 0.4rem 0 0 0.4rem;
+      color: $colorText;
+    }
+
+    .wp-block-search__button {
+      background-color: $colorPrimary;
+      border: 2px solid $colorPrimary;
+      border-radius: 0 0.4rem 0.4rem 0;
+      color: $colorWhite;
+      font-weight: 600;
+      letter-spacing: 1px;
+      margin: 0;
+      padding: 0.7rem 1rem;
+      text-transform: uppercase;
+      transition: 0.3s;
+
+      &:hover {
+        background: darken($colorPrimary, 8%);
+        border-color: darken($colorPrimary, 8%);
+      }
+    }
+  }
+
+  .widgetarea__footer {
+    background-color: $colorGreyDark;
+    padding-block: clamp(3rem, 2.5%, 4rem);
+
+    &-inner {
+      display: flex;
+      gap: clamp(2rem, 2.5%, 3rem);
+      flex-wrap: wrap;
+      justify-content: space-between;
+      margin: 0 auto;
+      max-width: $containerWidth;
+      width: 90vw;
+    }
+
+    ul {
+      list-style: none;
+      display: grid;
+      gap: 1rem;
+      margin: 0;
+      padding: 0;
+    }
+
+    a {
+      color: $colorGrey500;
+      font-weight: 500;
+
+      &:hover {
+        color: $colorWhite;
+      }
+    }
+  }
+
   &__closure {
     align-items: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    margin: 0 auto;
-    max-width: $containerWidth;
-    width: 90vw;
+    background-color: $colorGreyDarken;
+    color: $colorGrey500;
+    font-size: 1.4rem;
+    padding-block: clamp(1.5rem, 2.5%, 2.5rem);
 
-    @include up($medium) {
-      flex-direction: row;
-      justify-content: space-between;
+    .container {
+      align-items: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      margin-inline: auto;
+      max-width: $containerWidth;
+      width: 90vw;
+
+      @include up($medium) {
+        flex-direction: row;
+        justify-content: space-between;
+      }
     }
 
     ul {
@@ -32,21 +108,5 @@
       gap: clamp(2rem, 2.5vw, 6rem);
       list-style: none;
     }
-  }
-}
-
-.widgetarea__footer {
-  display: grid;
-  grid-gap: $gridGutter;
-  grid-template-columns: repeat(auto-fit, minmax(auto, 300px));
-  justify-content: center;
-  margin: 0;
-  padding: 0;
-
-  &-inner {
-    margin: 0 auto;
-    max-width: $containerWidth;
-    padding: $gridGutter;
-    width: 100vw;
   }
 }

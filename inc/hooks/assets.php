@@ -34,7 +34,7 @@ function assets(){
         'deps' => ['google-font']
     ];
     $assets['google-font'] = [
-        'uri' => 'https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@400;700&display=swap',
+        'uri' => 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap',
         'type' => 'css'
     ];
     $assets['owlcarousel-css'] = [
