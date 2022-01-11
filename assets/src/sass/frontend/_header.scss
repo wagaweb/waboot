@@ -1,12 +1,12 @@
 .header {
-  border-bottom: 1px solid lighten($colorBorder, 7%);
+  background-color: $colorWhite;
+  border-bottom: 1px solid $colorGrey300;
   position: absolute;
   top: 0;
   width: 100%;
   z-index: 1000;
 
   .header--fixed & {
-    background-color: $colorWhite;
     position: fixed;
     top: -200px;
   }
@@ -18,13 +18,13 @@
   .header--scrolled & {
     top: 0;
     z-index: 99;
-    box-shadow: 0 0 $gridGutter #eee;
+    box-shadow: 0 1px 3px rgba($colorGreyDark, 0.1);
   }
 
   &__inner {
+    margin-inline: auto;
     max-width: $containerWidth;
-    margin: 0 auto;
-    padding-inline: $gridGutter;
+    width: 90vw;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -40,7 +40,7 @@
 
     a {
       font-size: clamp(2.1rem, 3vw, 2.4rem);
-      font-weight: bold;
+      font-weight: 600;
 
       &:hover {
         color: $colorTextDark;
@@ -70,12 +70,16 @@
     justify-content: center;
     align-items: flex-end;
 
+    &:hover .icon-bar {
+      background-color: $colorPrimary;
+    }
+
     .icon-bar {
       display: block;
       width: 20px;
       height: 2px;
       border-radius: 1px;
-      background-color: #000;
+      background-color: $colorTextDark;
 
       + .icon-bar {
         margin-top: 4px;

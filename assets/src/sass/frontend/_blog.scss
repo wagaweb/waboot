@@ -4,7 +4,7 @@
   margin-bottom: clamp(3rem, 5%, 4rem);
 
   .post {
-    border: 1px solid lighten($colorBorder, 0.7);
+    border: 1px solid $colorGrey300;
     border-radius: 0.7rem;
   }
 

@@ -75,8 +75,8 @@
     }
 
     .sub-menu {
-      background-color: $colorWhite;
-      border-radius: 4px;
+      background-color: $colorGreyDark;
+      border-radius: 0.5rem;
       box-shadow: 0 1px 3px rgba($colorGreyDark, 0.1);
       margin: 0;
       opacity: 0;
@@ -87,13 +87,34 @@
       transition: 0.3;
       z-index: 7;
 
-      li a {
-        color: $colorText;
+      &::before {
+        content: "";
+        background-color: inherit;
+        display: block;
+        height: 1rem;
+        position: absolute;
+        right: 1rem;
+        transform: rotate(45deg);
+        top: -2px;
+        width: 1rem;
+        z-index: -100;
+      }
+
+      li:not(:last-child) a {
+        border-bottom: 1px solid $colorGrey700;
+      }
+
+      a {
+        color: $colorWhite;
         font-size: 1.4rem;
         font-weight: 600;
-        padding: 5px 15px;
+        padding: 1rem 1.5rem;
         display: block;
         white-space: nowrap;
+
+        &:hover {
+          color: $colorSecondary;
+        }
       }
     }
 
@@ -112,7 +133,9 @@
 }
 
 .navigation-mobile {
+  background-color: $colorGreyDark;
   padding: $gridGutter;
+
   &__inner {
     padding: $gridGutter 0;
     height: 100%;
@@ -148,6 +171,8 @@
   }
 
   a {
+    color: $colorWhite;
+    font-weight: 500;
     text-align: left;
     justify-content: center;
     padding: $gridGutter/2 $gridGutter;
@@ -155,8 +180,8 @@
   }
 
   .sub-menu {
+    background-color: $colorGreyDark;
     left: 100%;
-    background-color: #fff;
   }
 
   .backlevel__icon {

@@ -69,19 +69,6 @@ $gridGutter: 20px;
 }
 
 /* Colors */
-$colorWhite: #fff;
-$colorSuccess: #16c995;
-$colorWarning: #f74f78;
-$colorGrey: #9e9fb4;
-$colorGreyLight: #f7f7fc;
-$colorGreyDark: #37384e;
-$colorGreyDarken: #2c2d3f;
-$colorPrimary: #766df4;
-$colorSecondary: #0dcaf0;
-$colorText: #737491;
-$colorTextDark: #4a4b65;
-$colorBorder: #dfdfeb;
-
 $colorGrey100: #f7f7fc;
 $colorGrey200: #f3f3f9;
 $colorGrey300: #e9e9f2;
@@ -91,6 +78,22 @@ $colorGrey600: #737491;
 $colorGrey700: #5a5b75;
 $colorGrey800: #4a4b65;
 $colorGrey900: #37384e;
+
+$colorPrimary: #766df4;
+$colorSecondary: #0dcaf0;
+
+$colorText: #737491;
+$colorTextDark: #4a4b65;
+$colorBorder: $colorGrey300;
+
+$colorWhite: #fff;
+$colorSuccess: #16c995;
+$colorWarning: #f74f78;
+
+$colorGrey: #9e9fb4;
+$colorGreyLight: #f7f7fc;
+$colorGreyDark: #37384e;
+$colorGreyDarken: #2c2d3f;
 
 /* Fonts */
 $fontPrimary: "Inter", sans-serif;
