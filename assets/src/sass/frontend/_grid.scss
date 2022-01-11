@@ -33,6 +33,11 @@ body.single {
     width: 90vw;
     max-width: $containerWidth;
   }
+
+  &__title {
+    margin-bottom: 2.5vw;
+  }
+
   body.with-sidebar & {
     @include up($medium) {
       &__grid {
