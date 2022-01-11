@@ -2,12 +2,13 @@
 *::before,
 *::after {
   box-sizing: inherit; // da diverse fonti ho letto che è una best practice non fissare a border-box la box-sizing, ma assegnarla al tag root (html) e farla ereditare a tutti gli elementi, anche pseudo
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
   font-kerning: auto;
   margin: 0;
   padding: 0; //forzo a 0 margin e padding per tutti gli elementi
+  scroll-behavior: smooth;
+  text-rendering: optimizeLegibility;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
 }
 
 html {
@@ -47,4 +48,25 @@ img {
 }
 @viewport {
   width: device-width;
+}
+
+/* make form elements easier to work with */
+input,
+button,
+textarea,
+select,
+label {
+  font: inherit;
+}
+
+/* remove animations for people who've turned them off */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
 }

@@ -98,8 +98,9 @@ form.gform {
   }
 
   &_wrapper legend {
+    color: $colorTextDark;
     display: inline-block;
-    font-weight: bold;
+    font-weight: 600;
     margin-bottom: 0.8rem;
     padding: 0;
   }
