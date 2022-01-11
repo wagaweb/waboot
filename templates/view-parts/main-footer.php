@@ -1,5 +1,5 @@
 <div class="footer__closure">
-    <div class="footer__copy"><?php echo date( 'Y' ) ?> © <?php echo get_bloginfo(); ?> - All Rights Reserved</div>
+    <div class="footer__copy"><?php echo date( 'Y' ) ?> © <strong><?php echo get_bloginfo(); ?></strong> - All Rights Reserved</div>
 
     <?php
     wp_nav_menu([

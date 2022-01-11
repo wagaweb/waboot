@@ -1,49 +1,52 @@
 .footer {
-  background-color: $colorGreyLight;
+  background-color: $colorGreyDark;
+  color: $colorGrey500;
   font-size: 1.4rem;
-  padding-block: 2.5rem;
+  padding-block: clamp(1.5rem, 2.5%, 2.5rem);
+
+  a {
+    color: inherit;
+    font-weight: 600;
+
+    &:hover {
+      color: $colorWhite;
+    }
+  }
 
   &__closure {
-    max-width: $containerWidth;
-    padding: $gridGutter/2 $gridGutter;
-    margin: 0 auto;
+    align-items: center;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
+    margin: 0 auto;
+    max-width: $containerWidth;
+    width: 90vw;
+
     @include up($medium) {
-      justify-content: space-between;
       flex-direction: row;
+      justify-content: space-between;
     }
+
     ul {
-      list-style-type: none;
-      padding: 0;
-      margin: 0;
       display: flex;
-      gap: 2rem;
-      @include down($medium) {
-        justify-content: space-around;
-      }
-      a {
-        @include up($medium) {
-          margin-left: 20px;
-        }
-      }
+      gap: clamp(2rem, 2.5vw, 6rem);
+      list-style: none;
     }
   }
 }
 
 .widgetarea__footer {
-  padding: 0;
-  margin: 0;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(auto, 300px));
   grid-gap: $gridGutter;
+  grid-template-columns: repeat(auto-fit, minmax(auto, 300px));
   justify-content: center;
+  margin: 0;
+  padding: 0;
+
   &-inner {
-    width: 100vw;
-    max-width: $containerWidth;
     margin: 0 auto;
+    max-width: $containerWidth;
     padding: $gridGutter;
+    width: 100vw;
   }
 }
