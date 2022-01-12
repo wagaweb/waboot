@@ -1,7 +1,7 @@
 body {
   color: $colorText;
   font-family: $fontPrimary;
-  font-size: 1.6rem;
+  font-size: clamp(1.6rem, 2vw, 1.8rem);
   font-weight: $fontWeightNormal;
   line-height: 1.5;
 }

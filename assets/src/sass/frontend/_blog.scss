@@ -11,25 +11,111 @@
   .article {
     &__inner {
       display: flex;
+      flex-direction: column;
+
+      @include up($small) {
+        flex-direction: row;
+      }
     }
 
     &__image {
-      flex: 0 1 33.33%;
+      flex: 0 1 25%;
 
       .wp-post-image {
-        border-radius: 0.7rem 0 0 0.7rem;
-        height: 100%;
+        aspect-ratio: 2 / 1;
+        border-radius: 0.7rem 0.7rem 0 0;
         object-fit: cover;
         width: 100%;
+
+        @include up($small) {
+          aspect-ratio: 1;
+          //border-radius: 0.7rem 0 0 0.7rem;
+          border-radius: 0;
+          margin: 0.5rem;
+        }
+
+        @include up($large) {
+          aspect-ratio: 1;
+          border-radius: 0.7rem 0 0 0.7rem;
+          height: 100%;
+          margin: 0;
+        }
       }
     }
 
     &__content {
+      display: flex;
       flex: 1;
-      padding: clamp(2rem, 5%, 3rem);
+      flex-direction: column;
+      padding: clamp(1rem, 5%, 2rem);
+
+      h2 {
+        font-size: clamp(2.1rem, 3vw, 2.4rem);
+
+        a {
+          color: inherit;
+
+          &:hover {
+            color: $colorPrimary;
+          }
+        }
+      }
 
       p {
-        font-size: clamp(1.6rem, 3vw, 1.8rem);
+        font-size: clamp(1.6rem, 3vw, 1.6rem);
+      }
+    }
+
+    &__categories {
+      align-items: center;
+      display: flex;
+      font-size: 1.3rem;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+
+      .post-categories {
+        display: flex;
+        flex-wrap: wrap;
+        list-style: none;
+        padding: 0;
+      }
+
+      a:not(:first-child) {
+        margin-left: 0.5rem;
+      }
+
+      a {
+        color: inherit;
+
+        &:hover {
+          color: $colorPrimary;
+        }
+      }
+    }
+
+    &__footer {
+      align-items: center;
+      column-gap: 3%;
+      display: flex;
+      flex-wrap: wrap;
+      font-size: 1.3rem;
+      justify-content: flex-end;
+      line-height: 1;
+      margin-top: auto;
+      row-gap: clamp(1rem, 5%, 3rem);
+
+      span {
+        align-items: center;
+        display: flex;
+        gap: 0.5rem;
+      }
+
+      a {
+        color: inherit;
+
+        &:hover {
+          color: $colorPrimary;
+        }
       }
     }
   }
@@ -38,7 +124,7 @@
 .more__link {
   color: inherit;
   display: block;
-  font-size: clamp(1.4rem, 2vw, 1.6rem);
+  font-size: clamp(1.3rem, 2vw, 1.4rem);
   font-weight: 600;
   margin-top: 2rem;
 
