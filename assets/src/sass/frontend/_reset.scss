@@ -20,6 +20,10 @@ html {
   line-height: 1; //qualcuno forza a 1 la line-height, così da evitare spaziature verticali falsate e la assegna in tipografia
 }
 
+body {
+  overflow-x: hidden;
+}
+
 img,
 video {
   vertical-align: middle;

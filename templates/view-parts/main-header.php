@@ -1,11 +1,20 @@
+<?php
+    $logoId = get_theme_mod( 'custom_logo' );
+    $attachment = wp_get_attachment_image_src($logoId , 300);
+    $logo = $attachment[0];
+?>
+
 <div class="header__inner">
 
     <div class="header__logo">
-
+    
         <a href="<?php echo home_url( '/' ); ?>">
-            <?php if ( \Waboot\inc\getLogo() !== '' ) : ?>
-                <?php \Waboot\inc\theLogo(false, 'header__logo'); ?>
+            <?php if ( $logo ) : ?>
+                <img src="<?php echo esc_url( $logo ); ?>" alt="<?php bloginfo( 'name' ); ?>">
             <?php else : ?>
+            <?php //if ( \Waboot\inc\getLogo() !== '' ) : ?>
+                <?php //\Waboot\inc\theLogo(false, 'header__logo'); ?>
+            <?php //else : ?>
                 <?php echo get_bloginfo('name'); ?>
             <?php endif; ?>
         </a>
