@@ -2,6 +2,14 @@
   background-color: $colorGreyLight;
   border-radius: 0.7rem;
   padding: 3vw 1.5vw;
+  position: relative;
+
+  @include up($medium) {
+    .aside__wrapper {
+      position: sticky;
+      top: 10rem;
+    }
+  }
 
   .widget {
     margin-bottom: $gridGutter;
