@@ -29,9 +29,14 @@ body.single {
 .main {
   &__grid {
     margin-inline: auto;
-    padding-block: clamp(2rem, 5%, 5rem);
-    width: 90vw;
+    // padding-block: clamp(2rem, 5%, 5rem);
+    padding: 2rem 0;
     max-width: $containerWidth;
+    width: 90vw;
+
+    @include up($medium) {
+      padding: 5rem 0;
+    }
   }
 
   &__title {

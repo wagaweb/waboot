@@ -1,7 +1,14 @@
 .article__list {
   display: grid;
-  gap: clamp(2rem, 1.5vw, 3rem);
-  margin-bottom: clamp(3rem, 5%, 4rem);
+  //gap: clamp(2rem, 1.5vw, 3rem);
+  //margin-bottom: clamp(3rem, 5%, 4rem);
+  gap: 2rem;
+  margin-bottom: 3rem;
+
+  @include up($medium) {
+    gap: 3rem;
+    margin-bottom: 4rem;
+  }
 
   .post {
     border: 1px solid $colorGrey300;
@@ -47,10 +54,20 @@
       display: flex;
       flex: 1;
       flex-direction: column;
-      padding: clamp(1rem, 5%, 2rem);
+      // padding: clamp(1rem, 5%, 2rem);
+      padding: 1rem;
+
+      @include up($medium) {
+        padding: 2rem;
+      }
 
       h2 {
-        font-size: clamp(2.1rem, 3vw, 2.4rem);
+        // font-size: clamp(2.1rem, 3vw, 2.4rem);
+        font-size: 2.1rem;
+
+        @include up($medium) {
+          font-size: 2.4rem;
+        }
 
         a {
           color: inherit;
@@ -62,7 +79,8 @@
       }
 
       p {
-        font-size: clamp(1.6rem, 3vw, 1.6rem);
+        // font-size: clamp(1.6rem, 3vw, 1.6rem);
+        font-size: 1.6rem;
       }
     }
 
@@ -102,7 +120,12 @@
       justify-content: flex-end;
       line-height: 1;
       margin-top: auto;
-      row-gap: clamp(1rem, 5%, 3rem);
+      // row-gap: clamp(1rem, 5%, 3rem);
+      row-gap: 1rem;
+
+      @include up($medium) {
+        row-gap: 3rem;
+      }
 
       span {
         align-items: center;
@@ -124,9 +147,14 @@
 .more__link {
   color: inherit;
   display: block;
-  font-size: clamp(1.3rem, 2vw, 1.4rem);
+  // font-size: clamp(1.3rem, 2vw, 1.4rem);
+  font-size: 1.3rem;
   font-weight: 600;
   margin-top: 2rem;
+
+  @include up($medium) {
+    font-size: 1.4rem;
+  }
 
   &:hover {
     color: $colorPrimary;
@@ -136,7 +164,12 @@
 .single {
   .article {
     &__image {
-      margin-bottom: clamp(2rem, 5%, 3rem);
+      // margin-bottom: clamp(2rem, 5%, 3rem);
+      margin-bottom: 2rem;
+
+      @include up($medium) {
+        margin-bottom: 3rem;
+      }
 
       img {
         aspect-ratio: 2 / 1;
@@ -149,9 +182,16 @@
       flex-wrap: wrap;
       font-size: 1.3rem;
       column-gap: 3%;
-      row-gap: clamp(1rem, 5%, 3rem);
+      // row-gap: clamp(1rem, 5%, 3rem);
+      row-gap: 1rem;
       line-height: 1;
-      margin-bottom: clamp(2rem, 5%, 3rem);
+      // margin-bottom: clamp(2rem, 5%, 3rem);
+      margin-bottom: 2rem;
+
+      @include up($medium) {
+        row-gap: 1rem;
+        margin-bottom: 3rem;
+      }
 
       a {
         color: inherit;
