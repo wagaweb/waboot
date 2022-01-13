@@ -1,7 +1,8 @@
 body {
   color: $colorText;
   font-family: $fontPrimary;
-  font-size: clamp(1.6rem, 2vw, 1.8rem);
+  //font-size: clamp(1.6rem, 2vw, 1.8rem); /* clamp */
+  font-size: 1.6rem;
   font-weight: $fontWeightNormal;
   line-height: 1.5;
 }
@@ -46,28 +47,60 @@ span {
   word-wrap: break-word;
 }
 
-h1 {
-  font-size: clamp(3.6rem, 3vw, 4rem);
+h1,
+.h1 {
+  //font-size: clamp(3.6rem, 3vw, 4rem); /* clamp */
+  font-size: 3.2rem;
+
+  @include up($medium) {
+    font-size: 4rem;
+  }
 }
 
-h2 {
-  font-size: clamp(2.8rem, 3vw, 3.2rem);
+h2,
+.h2 {
+  //font-size: clamp(2.8rem, 3vw, 3.2rem); /* clamp */
+  font-size: 2.8rem;
+
+  @include up($medium) {
+    font-size: 3.2rem;
+  }
 }
 
-h3 {
-  font-size: clamp(2.1rem, 3vw, 2.4rem);
+h3,
+.h3 {
+  //font-size: clamp(2.1rem, 3vw, 2.4rem); /* clamp */
+  font-size: 2.1rem;
+
+  @include up($medium) {
+    font-size: 2.4rem;
+  }
 }
 
-h4 {
-  font-size: clamp(1.8rem, 3vw, 2.1rem);
+h4,
+.h4 {
+  //font-size: clamp(1.8rem, 3vw, 2.1rem); /* clamp */
+  font-size: 1.8rem;
+
+  @include up($medium) {
+    font-size: 2.1rem;
+  }
 }
 
-h5 {
-  font-size: clamp(1.6rem, 3vw, 1.8rem);
+h5,
+.h5 {
+  //font-size: clamp(1.6rem, 3vw, 1.8rem); /* clamp */
+  font-size: 1.6rem;
+
+  @include up($medium) {
+    font-size: 1.8rem;
+  }
 }
 
-h6 {
-  font-size: clamp(1.6rem, 3vw, 1.6rem);
+h6,
+.h6 {
+  //font-size: clamp(1.6rem, 3vw, 1.6rem); /* clamp */
+  font-size: 1.6rem;
 }
 
 p,
@@ -190,7 +223,12 @@ ins {
   p {
     font-family: Georgia, "Times New Roman", Times, serif;
     font-style: italic;
-    font-size: clamp(2.1rem, 3vw, 2.4rem);
+    //font-size: clamp(2.1rem, 3vw, 2.4rem); /* clamp */
+    font-size: 2.1rem;
+
+    @include up($medium) {
+      font-size: 2.4rem;
+    }
   }
 
   cite {
