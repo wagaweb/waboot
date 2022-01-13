@@ -34,7 +34,8 @@ figure {
   max-width: 100%;
 }
 
-img {
+img,
+.wp-block-image:not(.is-style-rounded) img {
   border-radius: 0.7rem;
 }
 

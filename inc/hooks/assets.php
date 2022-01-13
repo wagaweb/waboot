@@ -48,6 +48,17 @@ function assets(){
         'type' => 'css',
     ];
 
+    $assets['glightbox-css'] = [
+        'uri' => 'https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css',
+        'type' => 'css',
+    ];
+
+    $assets['glightbox-js'] = [
+        'uri' => 'https://cdn.jsdelivr.net/gh/mcstudios/glightbox/dist/js/glightbox.min.js',
+        'type' => 'js',
+        'deps' => ['jquery']
+    ];
+
     AssetsManager()->addAssets($assets);
     try{
         AssetsManager()->enqueue();
