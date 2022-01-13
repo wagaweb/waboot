@@ -1,0 +1,17 @@
+.breadcrumbs {
+  color: $colorGrey;
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 1.4rem;
+  list-style: none;
+  margin-bottom: 1rem;
+
+  a {
+    color: inherit;
+    font-weight: $fontWeightSemibold;
+
+    &:hover {
+      color: $colorPrimary;
+    }
+  }
+}
