@@ -7,6 +7,7 @@ use Waboot\inc\core\AlertDispatcher;
 use Waboot\inc\core\AlertDispatcherException;
 use Waboot\inc\core\LoggerFactory;
 use Waboot\inc\core\LoggerFactoryException;
+use Waboot\inc\core\utils\Dates;
 
 class AbstractCommand
 {
@@ -56,30 +57,36 @@ class AbstractCommand
      * @var string
      */
     protected $timeZone;
-    //@see: https://www.php.net/manual/en/dateinterval.createfromdatestring.php
-    //@see: https://www.php.net/manual/en/class.dateinterval.php
+    /**
+     * @var string
+     * @see: https://www.php.net/manual/en/dateinterval.createfromdatestring.php
+     * @see: https://www.php.net/manual/en/class.dateinterval.php
+     */
     protected $allowedDurationInterval = '1 day';
 
     public function __construct()
     {
         if(LoggerFactory::logsHandlerExists()){
             try{
-                $this->logger = $this->getLogger('waboot-cli-command-logger');
+                $this->logger = $this->getLogger('waboot-cli-command-logger', $this->getTimeZone());
             }catch (LoggerFactoryException $e){
                 $this->error('Unable to initialize the logger: '.$e->getMessage(), false);
             }
         }
     }
 
-    public function __invoke(array $args, array $assoc_args){
+    public function __invoke(array $args, array $assoc_args)
+    {
         $this->setupDefaultFlags($assoc_args);
     }
 
-    protected function suppressErrors(): void {
+    protected function suppressErrors(): void
+    {
         error_reporting(0);
     }
 
-    protected function suppressWarnings(): void {
+    protected function suppressWarnings(): void
+    {
         //error_reporting(E_ERROR | E_PARSE);
         error_reporting(E_ALL ^ E_WARNING);
     }
@@ -285,7 +292,7 @@ class AbstractCommand
     private function setStartStateOptions(): void
     {
         try{
-            $today = isset($this->timeZone) ? new \DateTime('now', new \DateTimeZone($this->timeZone)) : new \DateTime('now');
+            $today = Dates::getToday($this->getTimeZone());
             update_option($this->getStateOptionNameSuffix().'_process_in_progress','yes');
             update_option($this->getStateOptionNameSuffix().'_last_started_at', $today->format('Y-m-d_H-i'));
             update_option($this->getStateOptionNameSuffix().'_last_started_process_id', $today->format('U'));
@@ -300,7 +307,7 @@ class AbstractCommand
     private function setEndStateOptions(): void
     {
         try{
-            $today = isset($this->timeZone) ? new \DateTime('now', new \DateTimeZone($this->timeZone)) : new \DateTime('now');
+            $today = Dates::getToday($this->getTimeZone());
             delete_option($this->getStateOptionNameSuffix().'_process_in_progress');
             update_option($this->getStateOptionNameSuffix().'_last_ended_at', $today->format('Y-m-d_H-i'));
             $processId = get_option($this->getStateOptionNameSuffix().'_started_process_id');
@@ -319,8 +326,8 @@ class AbstractCommand
             return false;
         }
         try{
-            $tz = isset($this->timeZone) ? new \DateTimeZone($this->timeZone) : null;
-            $today = isset($this->timeZone) ? new \DateTime('now', $tz) : new \DateTime('now');
+            $tz = $this->getTimeZone();
+            $today = Dates::getToday($tz);
             $inProgressOpt = get_option($this->getStateOptionNameSuffix().'_process_in_progress');
             $startedOpt = get_option($this->getStateOptionNameSuffix().'_last_started_at');
             $startedDateTime = date_create_from_format('Y-m-d_H-i',$startedOpt,$tz);
@@ -366,5 +373,16 @@ class AbstractCommand
             )
         );
         $this->alertDispatcher->dispatch();
+    }
+
+    /**
+     * @return \DateTimeZone
+     */
+    protected function getTimeZone(): \DateTimeZone
+    {
+        if(!isset($this->timeZone) || !Dates::isValidTimezone($this->timeZone)){
+            return Dates::getDefaultDateTimeZone();
+        }
+        return new \DateTimeZone($this->timeZone);
     }
 }

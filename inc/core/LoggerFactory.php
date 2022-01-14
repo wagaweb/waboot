@@ -4,18 +4,19 @@ namespace Waboot\inc\core;
 
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
+use Waboot\inc\core\utils\Dates;
 
 class LoggerFactory
 {
     /**
      * @param string $name
      * @param string $logFileName
+     * @param \DateTimeZone|null $tz
      * @return void
      * @throws LoggerFactoryException
      */
-    public static function create(string $name, string $logFileName): Logger
+    public static function create(string $name, string $logFileName, \DateTimeZone $tz = null): Logger
     {
-
         if(!self::logsHandlerExists()){
             throw new LoggerFactoryException('Monolog not installed');
         }
@@ -30,7 +31,10 @@ class LoggerFactory
             throw new LoggerFactoryException('Unable to write log file: '.$logFileName);
         }
         try{
-            $logger = new Logger($name);
+            if(!isset($tz)){
+                $tz = Dates::getDefaultDateTimeZone();
+            }
+            $logger = new Logger($name,[],[],$tz);
             $logger->pushHandler(new StreamHandler($logFileName), Logger::INFO);
             return $logger;
         }catch (\Exception $e) {
