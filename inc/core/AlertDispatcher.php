@@ -2,6 +2,8 @@
 
 namespace Waboot\inc\core;
 
+use Waboot\inc\core\utils\Dates;
+
 class AlertDispatcher
 {
     public const DISPATCH_METHOD_EMAIL = 'email';
@@ -46,9 +48,11 @@ class AlertDispatcher
         $this->dispatchMethod = $dispatchMethod;
         $this->dispatchTo = $dispatchTo;
         if(isset($tz)){
-            $timeZone = new \DateTimeZone($tz);
-            $this->timeZone = $timeZone;
+            $timeZone = Dates::getDateTimeZoneFromString($tz);
+        }else{
+            $timeZone = Dates::getDefaultDateTimeZone();
         }
+        $this->timeZone = $timeZone;
     }
 
     /**

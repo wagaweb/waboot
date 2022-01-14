@@ -2,6 +2,8 @@
 
 namespace Waboot\inc\core;
 
+use Waboot\inc\core\utils\Dates;
+
 class Alert
 {
     /**
@@ -39,9 +41,11 @@ class Alert
         $this->message = $message;
         try{
             if(isset($tz)){
-                $timeZone = new \DateTimeZone($tz);
-                $this->timeZone = $timeZone;
+                $timeZone = Dates::getDateTimeZoneFromString($tz);
+            }else{
+                $timeZone = Dates::getDefaultDateTimeZone();
             }
+            $this->timeZone = $timeZone;
             $this->dateTime = new \DateTime('now', $this->timeZone);
         }catch (\Exception $e){
             throw new AlertException($e->getMessage());
