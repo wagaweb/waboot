@@ -458,7 +458,7 @@ function getTheTermsListHierarchical( $id, $taxonomy, $before = '', $sep = '', $
 function getLogo($size = 'full'){
     $image = '';
     $customLogoId = get_theme_mod( 'custom_logo' );
-    if(\is_int($customLogoId) && $customLogoId !== 0){
+    if(\is_numeric($customLogoId) && $customLogoId !== 0){
         $attachment = wp_get_attachment_image_src($customLogoId , $size);
         if(\is_array($attachment) && count($attachment) > 0){
             $image = $attachment[0];
