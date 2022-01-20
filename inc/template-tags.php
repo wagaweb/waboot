@@ -7,7 +7,12 @@ namespace Waboot\inc;
  */
 function site_head(){
     do_action('waboot/head/start');
-    wp_head();
+    $useCustomHead = apply_filters('waboot/head/use_custom_head', false);
+    if($useCustomHead){
+        renderCustomHead();
+    }else{
+        wp_head();
+    }
     do_action('waboot/head/end');
 }
 

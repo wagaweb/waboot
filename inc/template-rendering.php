@@ -2,6 +2,7 @@
 
 namespace Waboot\inc;
 
+use Waboot\inc\core\mvc\HTMLView;
 use function Waboot\inc\core\Waboot;/**
  * Display the content navigation
  *
@@ -168,4 +169,21 @@ function renderComment($comment, $args, $depth){
     $template_file = 'templates/view-parts/single-comment.php';
 
     Waboot()->renderView($template_file,$vars);
+}
+
+/**
+ * Renders a custom template inside <head> tags.
+ * This behavior is activated by 'waboot/head/use_custom_head' filter (see: \Waboot\inc\site_head())
+ */
+function renderCustomHead(){
+    $tpl = apply_filters('waboot/head/custom_head/tpl',null);
+    if(!isset($tpl) || !locate_template($tpl)){
+        wp_head();
+    }
+    $args = apply_filters('waboot/head/custom_head/args',[]);
+    try{
+        (new HTMLView($tpl))->display($args);
+    }catch(\Exception $e){
+        trigger_error($e->getMessage());
+    }
 }
