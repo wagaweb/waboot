@@ -6,14 +6,14 @@ namespace Waboot\inc;
  * Executes <head> actions
  */
 function site_head(){
-    do_action('waboot/head/start');
     $useCustomHead = apply_filters('waboot/head/use_custom_head', false);
     if($useCustomHead){
         renderCustomHead();
     }else{
+        do_action('waboot/head/start');
         wp_head();
+        do_action('waboot/head/end');
     }
-    do_action('waboot/head/end');
 }
 
 function widgetArea(string $areaId){
