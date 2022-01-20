@@ -9,14 +9,38 @@ if(!\function_exists('is_woocommerce')){
     return; //Do not load any of the following if WooCommerce is not enabled
 }
 
+/*
+ * Renders a more performant <head> for WooCommerce
+ */
+add_filter('waboot/head/custom_head/tpl', static function($tpl){
+    return 'templates/view-parts/woocommerce/performance-head.php';
+});
+
+/*
+ * Renders a more performant <head> for WooCommerce
+ */
+/*add_filter('waboot/head/use_custom_head', static function($usePerformanceHead){
+    if(\is_shop() || \is_product_taxonomy() || is_product_category()){
+        return true;
+    }
+    return $usePerformanceHead;
+});*/
+
+/*
+ * Remove WooCommerce default styles
+ */
 add_filter( 'woocommerce_enqueue_styles', '__return_empty_array' );
 
-// Remove WooCommerce Gutenberg Style
+/*
+ * Remove WooCommerce Gutenberg Style
+ */
 add_action( 'init', function() {
     wp_deregister_style( 'wc-block-style' );
 }, 100 );
 
-// Remove WooCommerce Bundle Products Style
+/*
+ * Remove WooCommerce Bundle Products Style
+ */
 add_action( 'wp_enqueue_scripts', function() {
     wp_deregister_style( 'wc-bundle-css' );
     wp_deregister_style( 'wc-bundle-style' );
@@ -30,7 +54,6 @@ remove_action('woocommerce_before_main_content', 'woocommerce_output_content_wra
 remove_action('woocommerce_after_main_content', 'woocommerce_output_content_wrapper_end', 10);
 add_action('woocommerce_before_main_content', __NAMESPACE__."\\wrapper_start", 10);
 add_action('woocommerce_after_main_content', __NAMESPACE__."\\wrapper_end", 10);
-
 
 /**
  * Set WooCommerce wrapper start tags
@@ -51,7 +74,7 @@ function wrapper_end() {
 }
 
 /*
- * WooCommerce Titles Alter
+ * Page titles altering for WooCommerce:
  */
 
 add_action('waboot/layout/title', function(){
@@ -86,24 +109,29 @@ add_filter( 'woocommerce_show_page_title', function(){
 add_action( 'woocommerce_before_shop_loop', function(){
     echo '<div class="woocommerce-results">';
 },10);
+
 add_action( 'woocommerce_before_shop_loop', function(){
     echo '</div>';
 },90);
-remove_action( 'woocommerce_after_shop_loop_item', 'woocommerce_template_loop_add_to_cart');
 
+remove_action( 'woocommerce_after_shop_loop_item', 'woocommerce_template_loop_add_to_cart');
 
 /*
  * Single Product Template altering:
  */
+
 add_action('woocommerce_before_single_product_summary',function(){
     echo '<div class="product__main">';
 },1);
+
 add_action('woocommerce_before_single_product_summary',function(){
     echo '<div class="product__summary">';
 },25);
+
 add_action('woocommerce_after_single_product_summary',function(){
     echo '</div><!-- closed product__main -->';
 },1);
+
 add_action('woocommerce_after_single_product_summary',function(){
     echo '</div><!-- closed product__summary -->';
 },13);
@@ -115,29 +143,38 @@ add_action( 'woocommerce_single_product_summary', function(){
     echo get_the_term_list( $post->ID, 'product_cat', '<p class="woocommerce-single-product__cat">', ' - ', '</p>' );
 }, 3 );
 
-//Change location on Product Description and Short Description
+/*
+ * Change location on Product Description and Short Description
+ */
 //remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_excerpt', 20 );
 //add_action( 'woocommerce_after_single_product_summary', 'woocommerce_template_single_excerpt', 20 );
 //remove_action( 'woocommerce_after_single_product_summary', 'woocommerce_output_product_data_tabs', 10 );
 //add_action( 'woocommerce_single_product_summary', 'the_content', 20 );
+
+/*
+ * Shows 'shipping-conditions' templates after the add to cart form
+ */
 add_action('woocommerce_after_add_to_cart_form', function(){
     require_once get_stylesheet_directory().'/templates/view-parts/woocommerce/shipping-conditions.php';
 },50);
 
-/**
- * Remove product data tabs
+/*
+ * Removes some product data tabs
  */
 add_filter( 'woocommerce_product_tabs', function( $tabs ) {
     unset( $tabs['additional_information'] );  	// Remove the additional information tab
     return $tabs;
 }, 98 );
 
+/*
+ * Removes the "Clear" button for product variations
+ */
 add_filter('woocommerce_reset_variations_link', function () {
     return null;
 });
 
-/**
- * Limit Search Results For Specific Post Types
+/*
+ * Limit search results to products only
  */
 add_filter('pre_get_posts', function ($query) {
     if ($query->is_search && !is_admin() ) {
@@ -146,12 +183,10 @@ add_filter('pre_get_posts', function ($query) {
     return $query;
 });
 
-/**
- * Hide ALL shipping rates in ALL zones when Free Shipping is available
+/*
+ * Hides ALL shipping rates in ALL zones when Free Shipping is available
  */
-
 add_filter( 'woocommerce_package_rates', function( $rates ) {
-
     $free = array();
     foreach ( $rates as $rate_id => $rate ) {
         if ( 'free_shipping' === $rate->method_id ) {
@@ -160,7 +195,6 @@ add_filter( 'woocommerce_package_rates', function( $rates ) {
         }
     }
     return ! empty( $free ) ? $free : $rates;
-
 }, 100 );
 
 /**
