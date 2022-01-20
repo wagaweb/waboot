@@ -262,4 +262,36 @@ trait WordPress {
             <?php
         });
     }
+
+    /**
+     * Alias of WP core function 'is_plugin_active' intended to be used when the latter is not available
+     * @param string $plugin
+     * @return bool
+     */
+    public static function isPluginActive(string $plugin): bool
+    {
+        return in_array($plugin, (array) get_option('active_plugins', []), true) || self::isPluginActiveForNetwork($plugin);
+    }
+
+    /**
+     * @param string $plugin
+     * @return bool
+     */
+    public static function isPluginActiveForNetwork(string $plugin): bool
+    {
+        if(!function_exists('is_multisite')){
+            return false;
+        }
+
+        if(!is_multisite()){
+            return false;
+        }
+
+        $plugins = get_site_option( 'active_sitewide_plugins' );
+        if(isset( $plugins[$plugin])){
+            return true;
+        }
+
+        return false;
+    }
 }
