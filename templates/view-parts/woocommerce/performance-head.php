@@ -4,12 +4,8 @@
     $shopUrl = rtrim(get_permalink(wc_get_page_id( 'shop')),'/');
     $ajaxUrl = admin_url('admin-ajax.php');
 ?>
-<meta charset="UTF-8">
-<!-- [if IE]> <meta http-equiv="X-UA-Compatible" content="IE=Edge"/> <! [endif]-->
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="profile" href="http://gmpg.org/xfn/11">
-<link rel="pingback" href="<?php echo $siteUrl ?>/xmlrpc.php">
-<title>Prodotti – Waboot</title>
+<?php do_action('waboot/head/start'); ?>
+<title><?php echo \wp_get_document_title(); ?> – Waboot</title>
 <meta name="robots" content="max-image-preview:large">
 <link rel="dns-prefetch" href="//fonts.googleapis.com">
 <link rel="dns-prefetch" href="//s.w.org">
@@ -40,10 +36,10 @@
     }
 </style>
 <!-- Global variables: begin -->
-<script type="text/javascript" id="query-monitor-js-extra">
-    var ajaxUrl = "<?php echo $ajaxUrl; ?>"
-    var ajax_url = "<?php echo $ajaxUrl; ?>"
-    var ajaxurl = "<?php echo $ajaxUrl; ?>"
+<script type="text/javascript" id="global-js-extra">
+    var ajaxUrl = "<?php echo $ajaxUrl; ?>";
+    var ajax_url = "<?php echo $ajaxUrl; ?>";
+    var ajaxurl = "<?php echo $ajaxUrl; ?>";
 </script>
 <!-- Global variables: end -->
 <!-- jQuery: begin -->
@@ -64,3 +60,4 @@
     <script type="text/javascript" src="<?php echo $wpContentUrl ?>/plugins/query-monitor/assets/query-monitor.js?ver=1624435691" id="query-monitor-js"></script>
 <?php endif; ?>
 <link rel="wlwmanifest" type="application/wlwmanifest+xml" href="<?php echo $siteUrl ?>/wp-includes/wlwmanifest.xml">
+<?php do_action('waboot/head/end'); ?>
