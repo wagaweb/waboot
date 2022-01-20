@@ -16,7 +16,10 @@
  */
 
 defined('ABSPATH') || exit;
-defined('WB_CATALOG_BASEURL') || exit;
+
+if(!defined('WB_USE_LOCAl_CATALOG') || WB_USE_LOCAl_CATALOG === false){
+    defined('WB_CATALOG_BASEURL') || exit;
+}
 
 get_header('shop');
 
