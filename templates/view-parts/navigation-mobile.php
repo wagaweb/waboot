@@ -9,7 +9,8 @@
     <a data-slidein-close><i class="far fa-times"></i></a>
 
     <div class="navigation-mobile__inner">
-
+        <?php get_search_form(); ?>
+        
         <?php wp_nav_menu([
             'theme_location' => 'main',
             'depth' => 0,
@@ -17,7 +18,6 @@
             'container' => false,
             'menu_class' => apply_filters('waboot/navigation/main/class', 'navigation navbar-nav')
         ]); ?>
-
     </div>
 
 </div>

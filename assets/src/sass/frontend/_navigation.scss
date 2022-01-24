@@ -146,6 +146,12 @@
     grid-gap: $gridGutter;
   }
 
+  .search-form {
+    margin-top: 5vh;
+    position: relative;
+    z-index: 1;
+  }
+
   ul {
     list-style-type: none;
     overflow-x: hidden;
