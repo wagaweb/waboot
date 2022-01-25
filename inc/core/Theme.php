@@ -67,4 +67,12 @@ class Theme{
             echo $e->getMessage();
         }
     }
+
+    /**
+     * @return DB
+     */
+    public function DB(): DB
+    {
+        return DB::getInstance();
+    }
 }
