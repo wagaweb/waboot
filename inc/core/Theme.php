@@ -32,7 +32,7 @@ class Theme{
         return $this->layoutHandler;
     }
 
-    public function loadDependecies()
+    public function loadDependencies(): void
     {
         $deps = [
             'inc/core/hooks.php',
