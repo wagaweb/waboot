@@ -7,7 +7,7 @@ use function Waboot\addons\getAddonDirectory;
 /*
  * Settings: you can edit these
  */
-const BYPASS_VALIDATIONS = true;
+const BYPASS_VALIDATIONS = false;
 const FORCE_INVOICING = false;
 const FORCE_CUSTOMER_TYPE = false; //'individual', 'company', or false.
 /*
