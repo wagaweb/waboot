@@ -13,7 +13,13 @@ function assets(){
         'uri' => defined('WP_DEBUG') && WP_DEBUG ? get_template_directory_uri() . '/assets/dist/js/main.pkg.js' : get_template_directory_uri() . '/assets/dist/js/main.min.js',
         'path' => defined('WP_DEBUG') && WP_DEBUG ? get_template_directory() . '/assets/dist/js/main.pkg.js' : get_template_directory() . '/assets/dist/js/main.min.js',
         'type' => 'js',
-        'deps' => ['jquery','owlcarousel-js','venobox-js']
+        'i10n' => apply_filters('waboot/assets/js/main/i10n',[
+            'name' => 'backendData',
+            'params' => [
+                'ajax_url' => admin_url('admin-ajax.php')
+            ]
+        ]),
+        'deps' => apply_filters('waboot/assets/js/main/deps',['jquery','owlcarousel-js','venobox-js']),
     ];
     $assets['catalog-script'] = [
         'uri' => defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? get_stylesheet_directory_uri()."/assets/dist/js/catalog.js" : get_stylesheet_directory_uri()."/assets/dist/js/catalog.min.js",
