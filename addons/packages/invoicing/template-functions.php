@@ -12,6 +12,16 @@ function forceInvoiceDataFieldsOnCheckout(): bool {
 }
 
 /**
+ * @return string|bool
+ */
+function forceCustomerType() {
+    if(!\is_string(FORCE_CUSTOMER_TYPE)){
+        return false;
+    }
+    return FORCE_CUSTOMER_TYPE;
+}
+
+/**
  * Checks if the invoicing fields must be presented forcefully to the user during checkout
  *
  * @return bool

@@ -43,6 +43,9 @@ export function initEuVat(){
     if(mustDisplayInvoicingFields()){
         $(".select[name='billing_wb_woo_invoicing_customer_type']").trigger('change');
     }
+    if(getForcedCustomerType() !== false){
+        $(".select[name='billing_wb_woo_invoicing_customer_type']").val(getForcedCustomerType()).trigger('change');
+    }
 }
 
 /**
@@ -226,6 +229,9 @@ function toggleFields(event){
  * @param mandatory
  */
 function showCustomerType(show = true, mandatory = true){
+    if(isForcedCustomerType()){
+        return;
+    }
     let $customer_type = $("#billing_wb_woo_invoicing_customer_type_field");
     if(show){
         $customer_type.removeClass("wbeut-hidden woocommerce-validated");
@@ -398,4 +404,24 @@ function hideAll(){
  */
 function getRequestInvoiceCheckbox(){
     return $('input[name="billing_wb_woo_invoicing_request_invoice"]');
+}
+
+/**
+ *
+ * @return {boolean}
+ */
+function isForcedCustomerType(){
+    let $customerTypeInput = $('[name="forced_customer_type"]');
+    return elementAvailable($customerTypeInput) && $customerTypeInput.attr('type') === 'hidden';
+}
+
+/**
+ *
+ * @return {boolean|string}
+ */
+function getForcedCustomerType(){
+    if(!isForcedCustomerType()){
+        return false;
+    }
+    return $('[name="forced_customer_type"]').val();
 }

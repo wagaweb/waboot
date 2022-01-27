@@ -8,7 +8,7 @@ use Waboot\inc\core\utils\Utilities;
 add_filter( 'woocommerce_' . "billing_" . 'fields', __NAMESPACE__.'\addBillingFields', 10, 2 );
 add_filter( 'woocommerce_form_field_args', __NAMESPACE__.'\alterWoocommerceFormFieldArgs', 10, 3 );
 add_filter( 'woocommerce_' . "billing_" . 'fields', __NAMESPACE__.'\moveCompanyField', 11, 2 );
-add_action( 'woocommerce_checkout_after_order_review', __NAMESPACE__.'\maybeAddRequestInvoiceHiddenFieldOnCheckout', 10);
+add_action( 'woocommerce_checkout_after_order_review', __NAMESPACE__.'\maybeHiddenFieldsOnCheckout', 10);
 
 //Fields management
 add_filter("woocommerce_process_checkout_field_".FIELD_CUSTOMER_TYPE, __NAMESPACE__.'\addCustomerTypeToCustomerData', 10, 1);
@@ -79,20 +79,37 @@ function addBillingFields($address_fields, $country): array{
             //'class' => ['form-row-wide']
         ]
     ];
-    $customer_type = [
-        FIELD_CUSTOMER_TYPE => [
-            'label' => _x("Customer type", "WC Field", 'waboot'),
-            'type' => 'select',
-            'options' => [
-                'individual' => getCustomerTypeLabel('individual'),
-                'company' => getCustomerTypeLabel('company'),
-            ],
-            'default' => 'individual',
-            'required' => $invoice_required,
-            'class' => ['wbeut-hidden'],
-            'priority' => 121
-        ]
-    ];
+    if(forceCustomerType() === false){
+        $customer_type = [
+            FIELD_CUSTOMER_TYPE => [
+                'label' => _x("Customer type", "WC Field", 'waboot'),
+                'type' => 'select',
+                'options' => [
+                    'individual' => getCustomerTypeLabel('individual'),
+                    'company' => getCustomerTypeLabel('company'),
+                ],
+                'default' => 'individual',
+                'required' => $invoice_required,
+                'class' => ['wbeut-hidden'],
+                'priority' => 121
+            ]
+        ];
+    }else{
+        $customer_type = [
+            FIELD_CUSTOMER_TYPE => [
+                'label' => _x("Customer type", "WC Field", 'waboot'),
+                'type' => 'select',
+                'options' => [
+                    'individual' => getCustomerTypeLabel('individual'),
+                    'company' => getCustomerTypeLabel('company'),
+                ],
+                'default' => forceCustomerType(),
+                'required' => true,
+                'class' => ['wbeut-hidden'],
+                'priority' => 121
+            ]
+        ];
+    }
     $vat = [
         FIELD_VAT => [
             'label' => _x("VAT", "WC Field", 'waboot').$req,
@@ -191,13 +208,17 @@ function moveCompanyField(array $billing_fields, string $country): array {
 /**
  * Adds the request invoice hidden fields on checkout if the normal checkbox is not being displayed
  */
-function maybeAddRequestInvoiceHiddenFieldOnCheckout(){
-    if(!forceInvoiceDataFieldsOnCheckout()){
-        return;
+function maybeHiddenFieldsOnCheckout(){
+    if(forceInvoiceDataFieldsOnCheckout()){
+        ?>
+        <input type="hidden" value="1" name="<?php echo FIELD_REQUEST_INVOICE; ?>">
+        <?php
     }
-    ?>
-    <input type="hidden" value="1" name="<?php echo FIELD_REQUEST_INVOICE; ?>">
-    <?php
+    if(forceCustomerType() !== false){
+        ?>
+        <input type="hidden" value="<?php echo forceCustomerType(); ?>" name="forced_customer_type">
+        <?php
+    }
 }
 
 /**
