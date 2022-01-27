@@ -82,3 +82,32 @@ function injectCustomerData($data){
         WC()->customer->$key = $value;
     }
 }
+
+/**
+ * Retrieve plugin custom meta from an order
+ *
+ * @param $order_id
+ *
+ * @return array;
+ */
+function getCustomMetaFromOrder($order_id): array {
+    $custom_meta = [];
+
+    $custom_meta[FIELD_CUSTOMER_TYPE] = get_post_meta($order_id,FIELD_CUSTOMER_TYPE,true);
+    $custom_meta[FIELD_VAT] = get_post_meta($order_id,FIELD_VAT,true);
+    $custom_meta[FIELD_FISCAL_CODE] = get_post_meta($order_id,FIELD_FISCAL_CODE,true);
+    $custom_meta[FIELD_PEC] = get_post_meta($order_id,FIELD_PEC,true);
+    $custom_meta[FIELD_UNIQUE_CODE] = get_post_meta($order_id,FIELD_UNIQUE_CODE,true);
+    $custom_meta[FIELD_REQUEST_INVOICE] = get_post_meta($order_id,FIELD_REQUEST_INVOICE,true);
+
+    //todo: se non ci sono campi custom, settare la request incoice a false, se ci sono, settarla a true (per gli ordini già salvati)
+    if($custom_meta[FIELD_VAT] !== "" || $custom_meta[FIELD_FISCAL_CODE] !== ""){
+        if($custom_meta[FIELD_REQUEST_INVOICE] === ""){
+            $custom_meta[FIELD_REQUEST_INVOICE] = true;
+        }
+    }
+
+    $custom_meta = array_filter($custom_meta);
+
+    return $custom_meta;
+}
