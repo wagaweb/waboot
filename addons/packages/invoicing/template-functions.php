@@ -18,7 +18,7 @@ function forceInvoiceDataFieldsOnCheckout(): bool {
  */
 function mustForceDisplayInvoiceFieldsOnCheckout(): bool {
     $r = false;
-    if(!WC()->customer instanceof \WC_Customer){
+    if(is_user_logged_in() && !WC()->customer instanceof \WC_Customer){
         return $r;
     }
     return forceInvoiceDataFieldsOnCheckout() || WC()->customer->get_meta(FIELD_REQUEST_INVOICE);
