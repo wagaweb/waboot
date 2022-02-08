@@ -10,7 +10,7 @@ class DB
     /**
      * @var Manager
      */
-    private $queryManager;
+    private $queryBuilder;
 
     /**
      * @return DB|null
@@ -49,21 +49,21 @@ class DB
             'prefix'    => $wpdb->prefix,
         ]);
 
-        $this->queryManager = $capsule;
+        $this->queryBuilder = $capsule;
 
-        $this->queryManager->setAsGlobal();
+        $this->queryBuilder->setAsGlobal();
     }
 
     /**
      * @throws DBException
      * @return Manager
      */
-    public function getQueryManager(): Manager
+    public function getQueryBuilder(): Manager
     {
-        if(!isset($this->queryManager)){
+        if(!isset($this->queryBuilder)){
             throw new DBException('DB Manager non available');
         }
-        return $this->queryManager;
+        return $this->queryBuilder;
     }
 
     /**
@@ -71,7 +71,7 @@ class DB
      */
     public function hasManager(): bool
     {
-        return isset($this->queryManager);
+        return isset($this->queryBuilder);
     }
 
     /**
@@ -80,7 +80,7 @@ class DB
      */
     public function getSchemaBuilder(): Builder
     {
-        return $this->getQueryManager()->schema();
+        return $this->getQueryBuilder()->schema();
     }
 
     /**
