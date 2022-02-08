@@ -69,7 +69,7 @@ class DB
     /**
      * @return bool
      */
-    public function hasManager(): bool
+    public function hasQueryBuilder(): bool
     {
         return isset($this->queryBuilder);
     }
