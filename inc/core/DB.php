@@ -2,24 +2,42 @@
 
 namespace Waboot\inc\core;
 
+use Illuminate\Database\Capsule\Manager;
+use Illuminate\Database\Schema\Builder;
+
 class DB
 {
     /**
-     * @var \Illuminate\Database\Capsule\Manager
+     * @var Manager
      */
-    private $manager;
+    private $queryBuilder;
+
+    /**
+     * @return DB|null
+     */
+    public static function getInstance(): ?DB
+    {
+        static $instance = null;
+        if (null === $instance) {
+            $instance = new static();
+        }
+
+        return $instance;
+    }
 
     /**
      * DB constructor.
+     * @throws DBUnavailableDependencyException
      */
-    public function __construct(){
+    protected function __construct()
+    {
         if(!class_exists('\Illuminate\Database\Capsule\Manager')){
-            return;
+            throw new DBUnavailableDependencyException('Class \Illuminate\Database\Capsule\Manager non found');
         }
 
         global $wpdb;
 
-        $capsule = new \Illuminate\Database\Capsule\Manager();
+        $capsule = new Manager();
         $capsule->addConnection([
             'driver' => 'mysql',
             'host' => DB_HOST,
@@ -31,21 +49,38 @@ class DB
             'prefix'    => $wpdb->prefix,
         ]);
 
-        $this->manager = $capsule;
+        $this->queryBuilder = $capsule;
 
-        $this->manager->setAsGlobal();
+        $this->queryBuilder->setAsGlobal();
     }
 
     /**
-     * @throws \RuntimeException
-     * @return \Illuminate\Database\Capsule\Manager
+     * @throws DBException
+     * @return Manager
      */
-    public function getManager(): \Illuminate\Database\Capsule\Manager
+    public function getQueryBuilder(): Manager
     {
-        if(!isset($this->manager)){
-            throw new \RuntimeException('DB Manager non available');
+        if(!isset($this->queryBuilder)){
+            throw new DBException('DB Manager non available');
         }
-        return $this->manager;
+        return $this->queryBuilder;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasQueryBuilder(): bool
+    {
+        return isset($this->queryBuilder);
+    }
+
+    /**
+     * @return Builder
+     * @throws DBException
+     */
+    public function getSchemaBuilder(): Builder
+    {
+        return $this->getQueryBuilder()->schema();
     }
 
     /**
@@ -66,27 +101,15 @@ class DB
     }
 
     /**
-     * @return \Illuminate\Database\Schema\Builder
-     */
-    public function getBuilder(): \Illuminate\Database\Schema\Builder
-    {
-        return $this->getManager()->schema();
-    }
-
-    /**
-     * @return bool
-     */
-    public function hasManager(): bool
-    {
-        return isset($this->manager);
-    }
-
-    /**
      * @param $tableName
      * @return bool
      */
     public function tableExists($tableName): bool
     {
-        return $this->getBuilder()->hasTable($tableName);
+        try {
+            return $this->getSchemaBuilder()->hasTable($tableName);
+        } catch (DBException $e) {
+            return false;
+        }
     }
 }
