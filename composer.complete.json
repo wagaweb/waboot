@@ -1,0 +1,20 @@
+{
+    "name": "waga/waboot",
+    "description": "A boilerplate theme for WordPress",
+    "type": "project",
+    "require": {},
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Waga",
+            "email": "dev@waga.it"
+        }
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "autoload": {
+        "psr-4": {
+            "Waboot\\inc\\": "inc/"
+        }
+    }
+}
