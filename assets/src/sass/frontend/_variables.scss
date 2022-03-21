@@ -6,41 +6,36 @@ $small: 480px;
 $xsmall: 320px;
 
 /* Grid */
-$containerWidth: 140rem;
-$gridGutter: 2rem;
+$containerWidth: 1400px;
+$gutter: 10px;
+$gridGutter: 20px;
 
-/* Colors */
-$colorGrey100: #f7f7fc;
-$colorGrey200: #f3f3f9;
-$colorGrey300: #e9e9f2;
-$colorGrey400: #dfdfeb;
-$colorGrey500: #9e9fb4;
-$colorGrey600: #737491;
-$colorGrey700: #5a5b75;
-$colorGrey800: #4a4b65;
-$colorGrey900: #37384e;
+$colorPrimary: #6366f1;
+$colorSecondary: #f43f5e;
 
-$colorPrimary: #766df4;
-$colorSecondary: #0dcaf0;
+$colorText: #0e0e0e;
+$colorTextDark: #0e0e0e;
+$colorBorder: #dcdcdc;
 
-$colorText: #737491;
-$colorTextDark: #4a4b65;
-$colorBorder: $colorGrey300;
-
+$colorBlack: #000;
 $colorWhite: #fff;
 $colorSuccess: #16c995;
 $colorWarning: #f74f78;
 
-$colorGrey: #9e9fb4;
-$colorGreyLight: #f7f7fc;
-$colorGreyDark: #37384e;
-$colorGreyDarken: #2c2d3f;
+$colorGrey: #bababa;
+$colorGreyLight: #f8f9fa;
+$colorGreyDark: #0e0e0e;
+$colorGreyDarken: #0e0e0e;
 
 /* Fonts */
 $fontPrimary: "Inter", sans-serif;
 $fontSecondary: "Inter", sans-serif;
 $fontCode: "JetBrains Mono", monospace;
+$fontWeightLight: 300;
 $fontWeightNormal: 400;
 $fontWeightMedium: 500;
 $fontWeightSemibold: 600;
 $fontWeightBold: 700;
+
+$radius: 0;
+$duration: 0.3s;

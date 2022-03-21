@@ -6,22 +6,18 @@
   }
 
   h3 {
-    // font-size: clamp(1.6rem, 3vw, 1.8rem);
-    font-size: 1.6rem;
-    // margin-bottom: clamp(1.5rem, 2.5%, 2.5rem);
-    margin-bottom: 1.5rem;
+    margin-bottom: $gutter * 2;
 
     @include up($medium) {
-      font-size: 1.8rem;
-      margin-bottom: 1.5rem;
+      margin-bottom: $gutter * 3;
     }
   }
 
   a {
-    font-weight: 500;
+    font-weight: $fontWeightMedium;
 
     &:hover {
-      color: $colorWhite;
+      color: $colorPrimary;
     }
   }
 
@@ -33,21 +29,21 @@
 
     .wp-block-search__input {
       border-color: transparent;
-      border-radius: 0.4rem 0 0 0.4rem;
+      border-radius: $radius 0 0 $radius;
       color: $colorText;
     }
 
     .wp-block-search__button {
       background-color: $colorPrimary;
       border: 2px solid $colorPrimary;
-      border-radius: 0 0.4rem 0.4rem 0;
+      border-radius: 0 $radius $radius 0;
       color: $colorWhite;
-      font-weight: 600;
+      font-weight: $fontWeightSemibold;
       letter-spacing: 1px;
       margin: 0;
-      padding: 0.7rem 1rem;
+      padding: $gutter $gutter * 1.4;
       text-transform: uppercase;
-      transition: 0.3s;
+      transition: $duration;
 
       &:hover {
         background: darken($colorPrimary, 8%);
@@ -58,17 +54,15 @@
 
   .widgetarea__footer {
     background-color: $colorGreyDark;
-    // padding-block: clamp(3rem, 2.5%, 4rem);
-    padding: 3rem 0;
+    padding: $gutter * 3 0;
 
     @include up($medium) {
-      padding: 4rem 0;
+      padding: $gutter * 4 0;
     }
 
     &-inner {
       display: flex;
-      // gap: clamp(2rem, 2.5%, 3rem);
-      gap: 2rem;
+      gap: $gutter * 2;
       flex-wrap: wrap;
       justify-content: space-between;
       margin: 0 auto;
@@ -76,38 +70,30 @@
       width: 90vw;
 
       @include up($medium) {
-        gap: 3rem;
+        gap: $gutter * 3;
       }
     }
 
     ul {
       list-style: none;
       display: grid;
-      gap: 1rem;
+      gap: $gutter;
       margin: 0;
       padding: 0;
     }
 
     a {
-      color: $colorGrey500;
-      font-weight: 500;
-
-      &:hover {
-        color: $colorWhite;
-      }
+      font-weight: $fontWeightMedium;
     }
   }
 
   &__closure {
     align-items: center;
     background-color: $colorGreyDarken;
-    color: $colorGrey500;
-    font-size: 1.4rem;
-    //padding-block: clamp(1.5rem, 2.5%, 2.5rem);
-    padding: 1.5rem 0;
+    padding: $gutter * 1.5 0;
 
     @include up($medium) {
-      padding: 2.5rem 0;
+      padding: $gutter * 2.5 0;
     }
 
     .container {
@@ -127,12 +113,12 @@
 
     ul {
       display: flex;
-      //gap: clamp(2rem, 2.5vw, 6rem);
-      gap: 2rem;
+      gap: $gutter * 2;
       list-style: none;
+      margin: 0;
 
       @include up($medium) {
-        gap: 6rem;
+        gap: $gutter * 6;
       }
     }
   }

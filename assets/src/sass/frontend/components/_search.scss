@@ -3,7 +3,7 @@
   &--form,
   &__form {
     display: grid;
-    grid-gap: $gridGutter / 2;
+    grid-gap: $gutter;
     grid-template-columns: 1fr auto;
 
     .screen-reader-text {
@@ -28,7 +28,7 @@
   &__inside-wrapper {
     background-color: $colorWhite;
     border: 1px solid $colorBorder;
-    border-radius: 0.5rem;
+    border-radius: $radius;
   }
 
   & &__button {

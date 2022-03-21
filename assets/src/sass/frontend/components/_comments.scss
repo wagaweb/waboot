@@ -1,75 +1,72 @@
 .comments {
   &__area {
     background-color: $colorGreyLight;
-    border-radius: 5px;
-    margin-bottom: 3rem;
-    padding: 4rem 2.5rem;
+    border-radius: $radius;
+    margin-bottom: $gutter * 3;
+    padding: $gutter * 4 $gutter * 2.5;
   }
+
   &__title {
-    font-size: 2.4rem;
-    margin-bottom: 3rem;
+    margin-bottom: $gridGutter * 3;
   }
 }
 
 .comment {
   &__list {
-    font-size: 1.4rem;
     display: grid;
-    gap: 4rem;
+    gap: $gridGutter * 4;
     list-style: none;
     padding-left: 0;
 
     .children {
       list-style: none;
-      padding-left: 3rem;
+      padding-left: $gutter * 3;
     }
   }
 
   &__body {
     display: grid;
-    gap: 1.5rem;
+    gap: $gutter * 1.5;
   }
 
   &__meta {
     display: grid;
-    gap: 1rem;
+    gap: $gutter;
   }
 
   &__metadata {
     align-items: center;
     display: flex;
-    font-size: 1.2rem;
     justify-content: space-between;
 
     > a {
       color: $colorTextDark;
-      font-weight: 600;
+      font-weight: $fontWeightSemibold;
     }
   }
 
   &-edit-link {
-    align-items: center;
-    border: 1px solid $colorBorder;
-    border-radius: 4px;
-    display: inline-flex;
-    color: $colorTextDark;
-    font-size: 1.1rem;
-    font-weight: 600;
-    gap: 0.5rem;
+    background-color: $colorPrimary;
+    color: $colorWhite;
+    border-radius: $radius;
+    display: inline-block;
+    font-size: 0.87em; //14px
+    font-weight: $fontWeightSemibold;
     letter-spacing: 1px;
-    padding: 0.3rem 0.7rem;
+    line-height: 1;
+    padding: $gutter * 0.5;
     text-transform: uppercase;
 
     &:hover {
-      background-color: $colorBorder;
-      color: $colorPrimary;
+      background-color: $colorText;
+      color: $colorWhite;
     }
   }
 
   &__author {
     align-items: center;
     display: flex;
-    gap: 0.5rem;
+    gap: $gutter * 0.5;
 
     cite {
       font-style: initial;
@@ -77,24 +74,25 @@
 
     a {
       color: $colorTextDark;
-      font-weight: 600;
+      font-weight: $fontWeightSemibold;
     }
   }
 
   &-reply-link {
-    border: 1px solid $colorBorder;
-    border-radius: 4px;
-    display: inline-flex;
-    color: $colorTextDark;
-    font-size: 1.2rem;
-    font-weight: 600;
+    background-color: $colorPrimary;
+    border-radius: $radius;
+    color: $colorWhite;
+    display: inline-block;
+    font-size: 0.87em; //14px
+    font-weight: $fontWeightSemibold;
     letter-spacing: 1px;
-    padding: 0.5rem 1rem;
+    line-height: 1;
+    padding: $gutter * 0.5;
     text-transform: uppercase;
 
     &:hover {
-      background-color: $colorBorder;
-      color: $colorPrimary;
+      background-color: $colorText;
+      color: $colorWhite;
     }
   }
 }
@@ -108,12 +106,8 @@
   border-radius: 100%;
 }
 
-.logged-in-as {
-  font-size: 1.4rem;
-}
-
 .comment-respond {
-  margin-top: 3rem;
+  margin-top: $gutter * 3;
 }
 
 .comment-reply-title {
@@ -121,7 +115,6 @@
   justify-content: space-between;
 
   a {
-    font-size: 1.4rem;
     font-weight: normal;
   }
 }
@@ -129,10 +122,9 @@
 .comment-form-cookies-consent {
   align-items: center;
   display: flex;
-  gap: 0.4rem;
+  gap: $gutter * 0.4;
 
   label {
-    font-size: 1.4rem;
     font-weight: normal;
     line-height: 1.3;
   }

@@ -1,6 +1,6 @@
 .header {
   background-color: $colorWhite;
-  border-bottom: 1px solid $colorGrey300;
+  border-bottom: 1px solid $colorBorder;
   position: absolute;
   top: 0;
   width: 100%;
@@ -28,6 +28,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+
     @include down($large) {
       flex-wrap: wrap;
     }
@@ -39,13 +40,7 @@
     }
 
     a {
-      // font-size: clamp(2.1rem, 3vw, 2.4rem);
-      font-size: 2.1rem;
-      font-weight: 600;
-
-      @include up($medium) {
-        font-size: 2.4rem;
-      }
+      font-weight: $fontWeightSemibold;
 
       &:hover {
         color: $colorTextDark;
@@ -53,7 +48,7 @@
     }
 
     img {
-      max-width: 13rem;
+      max-width: $gutter * 13;
     }
   }
 
@@ -76,7 +71,7 @@
 
     .icon-bar {
       display: block;
-      width: 20px;
+      width: $gutter * 2;
       height: 2px;
       border-radius: 1px;
       background-color: $colorTextDark;

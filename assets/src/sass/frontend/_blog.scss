@@ -1,18 +1,16 @@
 .article__list {
   display: grid;
-  //gap: clamp(2rem, 1.5vw, 3rem);
-  //margin-bottom: clamp(3rem, 5%, 4rem);
-  gap: 2rem;
-  margin-bottom: 3rem;
+  gap: $gutter * 2;
+  margin-bottom: $gutter * 3;
 
   @include up($medium) {
-    gap: 3rem;
-    margin-bottom: 4rem;
+    gap: $gutter * 3;
+    margin-bottom: $gutter * 4;
   }
 
   .post {
-    border: 1px solid $colorGrey300;
-    border-radius: 0.7rem;
+    border: 1px solid $colorBorder;
+    border-radius: $radius;
   }
 
   .article {
@@ -30,20 +28,19 @@
 
       .wp-post-image {
         aspect-ratio: 2 / 1;
-        border-radius: 0.7rem 0.7rem 0 0;
+        border-radius: $radius $radius 0 0;
         object-fit: cover;
         width: 100%;
 
         @include up($small) {
           aspect-ratio: 1;
-          //border-radius: 0.7rem 0 0 0.7rem;
           border-radius: 0;
-          margin: 0.5rem;
+          margin: $gutter * 7;
         }
 
         @include up($large) {
           aspect-ratio: 1;
-          border-radius: 0.7rem 0 0 0.7rem;
+          border-radius: $radius 0 0 $radius;
           height: 100%;
           margin: 0;
         }
@@ -54,21 +51,13 @@
       display: flex;
       flex: 1;
       flex-direction: column;
-      // padding: clamp(1rem, 5%, 2rem);
-      padding: 1rem;
+      padding: $gutter * 2 $gutter * 1.5;
 
       @include up($medium) {
-        padding: 2rem;
+        padding: $gutter * 2;
       }
 
       h2 {
-        // font-size: clamp(2.1rem, 3vw, 2.4rem);
-        font-size: 2.1rem;
-
-        @include up($medium) {
-          font-size: 2.4rem;
-        }
-
         a {
           color: inherit;
 
@@ -77,19 +66,13 @@
           }
         }
       }
-
-      p {
-        // font-size: clamp(1.6rem, 3vw, 1.6rem);
-        font-size: 1.6rem;
-      }
     }
 
     &__categories {
       align-items: center;
       display: flex;
-      font-size: 1.3rem;
-      gap: 0.5rem;
-      margin-bottom: 1rem;
+      gap: $gutter / 2;
+      margin-bottom: $gutter;
 
       .post-categories {
         display: flex;
@@ -99,7 +82,7 @@
       }
 
       a:not(:first-child) {
-        margin-left: 0.5rem;
+        margin-left: $gutter / 2;
       }
 
       a {
@@ -116,21 +99,19 @@
       column-gap: 3%;
       display: flex;
       flex-wrap: wrap;
-      font-size: 1.3rem;
       justify-content: flex-end;
       line-height: 1;
       margin-top: auto;
-      // row-gap: clamp(1rem, 5%, 3rem);
-      row-gap: 1rem;
+      row-gap: $gutter;
 
       @include up($medium) {
-        row-gap: 3rem;
+        row-gap: $gutter * 3;
       }
 
       span {
         align-items: center;
         display: flex;
-        gap: 0.5rem;
+        gap: $gutter / 2;
       }
 
       a {
@@ -147,14 +128,8 @@
 .more__link {
   color: inherit;
   display: block;
-  // font-size: clamp(1.3rem, 2vw, 1.4rem);
-  font-size: 1.3rem;
-  font-weight: 600;
-  margin-top: 2rem;
-
-  @include up($medium) {
-    font-size: 1.4rem;
-  }
+  font-weight: $fontWeightSemibold;
+  margin-top: $gutter * 2;
 
   &:hover {
     color: $colorPrimary;
@@ -164,11 +139,10 @@
 .single {
   .article {
     &__image {
-      // margin-bottom: clamp(2rem, 5%, 3rem);
-      margin-bottom: 2rem;
+      margin-bottom: $gutter * 2;
 
       @include up($medium) {
-        margin-bottom: 3rem;
+        margin-bottom: $gutter * 3;
       }
 
       img {
@@ -180,17 +154,14 @@
     &__footer {
       display: flex;
       flex-wrap: wrap;
-      font-size: 1.3rem;
       column-gap: 3%;
-      // row-gap: clamp(1rem, 5%, 3rem);
-      row-gap: 1rem;
+      row-gap: $gutter;
       line-height: 1;
-      // margin-bottom: clamp(2rem, 5%, 3rem);
-      margin-bottom: 2rem;
+      margin-bottom: $gutter * 2;
 
       @include up($medium) {
         row-gap: 1rem;
-        margin-bottom: 3rem;
+        margin-bottom: $gutter * 3;
       }
 
       a {
@@ -206,11 +177,11 @@
       }
 
       .glyphicon {
-        margin-right: 5px;
+        margin-right: $gutter / 2;
       }
 
       > span {
-        margin-right: 10px;
+        margin-right: $gutter;
       }
 
       .published-date,
@@ -219,7 +190,7 @@
       .tags-links {
         align-items: center;
         display: flex;
-        gap: 0.5rem;
+        gap: $gutter / 2;
       }
 
       .tags-links {
@@ -227,7 +198,7 @@
         gap: 0;
 
         a {
-          margin-left: 0.5rem;
+          margin-left: $gutter / 2;
         }
       }
     }
@@ -235,7 +206,7 @@
     &__categories {
       align-items: center;
       display: flex;
-      gap: 0.5rem;
+      gap: $gutter / 2;
     }
   }
 }

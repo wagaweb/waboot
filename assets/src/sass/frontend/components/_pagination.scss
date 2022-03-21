@@ -3,31 +3,37 @@
   ul {
     display: flex;
     justify-content: center;
-    padding-left: 0;
     list-style: none;
-    margin-bottom: $gridGutter;
+    margin-bottom: $gutter * 2;
+    padding-left: 0;
   }
+
   li {
     display: inline-block;
-    .page-numbers{
-      position: relative;
-      display: block;
-      padding: .5rem .75rem;
-      margin-left: -1px;
-      line-height: 1.25;
-      color: $colorPrimary;
-      background-color: #fff;
+
+    .page-numbers {
       border: 1px solid $colorPrimary;
+      background-color: $colorWhite;
+      color: $colorPrimary;
+      display: block;
+      line-height: 1.25;
+      margin-left: -1px;
+      padding: $gutter * 0.5 $gutter * 0.75;
+      position: relative;
+
       &.current {
-        color: #fff;
         background-color: $colorPrimary;
+        color: $colorWhite;
       }
+
       &:hover {
-        color: #fff;
         background-color: $colorPrimary;
+        color: $colorWhite;
       }
     }
-    a, span {
+
+    a,
+    span {
       color: $colorPrimary;
     }
   }

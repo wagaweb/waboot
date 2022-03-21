@@ -105,7 +105,7 @@
     0 0 0.4rem rgba(18, 25, 97, 0.0405344);
   color: $colorGreyDark;
   font-size: 1.3rem;
-  font-weight: 500;
+  font-weight: $fontWeightMedium;
   margin-top: 0.5rem;
   padding: 1.8rem 1.5rem;
   width: auto;
@@ -148,7 +148,7 @@
     display: flex;
     font-family: "Font Awesome 5 Pro" !important;
     font-size: 2.4rem;
-    font-weight: 300;
+    font-weight: $fontWeightLight;
     height: 3rem;
     justify-content: center;
     line-height: 1;
@@ -210,7 +210,7 @@
     cursor: pointer;
     display: inline-block;
     font-size: 1.4rem;
-    font-weight: 500;
+    font-weight: $fontWeightMedium;
     height: auto;
     min-height: 0;
     padding: 0 2.2rem 0 0;
@@ -234,7 +234,7 @@
     color: #2f4054;
     display: flex;
     font-size: 1.3rem;
-    font-weight: 500;
+    font-weight: $fontWeightMedium;
     height: 4rem;
     justify-content: center;
     width: 4rem;

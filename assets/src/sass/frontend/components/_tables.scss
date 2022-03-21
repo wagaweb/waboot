@@ -33,14 +33,14 @@
       border-top: 0;
       border-right: 0;
       border-left: 0;
-      font-size: 0.9em;
+      //font-size: 0.9em;
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
     tbody td:before {
-      padding-right: 10px;
+      padding-right: $gutter;
       white-space: nowrap;
       content: attr(data-title);
       font-weight: bold;
@@ -51,16 +51,4 @@
 
 table.wb-table-responsive {
   @include table-responsive();
-}
-
-.wp-block-table {
-  margin-bottom: 2rem;
-
-  &.is-style-stripes {
-    border: none;
-  }
-
-  table {
-    margin-bottom: 1rem;
-  }
 }

@@ -1,30 +1,64 @@
 body {
   color: $colorText;
   font-family: $fontPrimary;
-  //font-size: clamp(1.6rem, 2vw, 1.8rem); /* clamp */
-  font-size: 1.6rem;
   font-weight: $fontWeightNormal;
-  line-height: 1.5;
 }
 
-h1,
-.h1,
-h2,
-.h2,
-h3,
-.h3,
-h4,
-.h4,
-h5,
-.h5,
-h6,
-.h6 {
-  color: $colorTextDark;
-  font-weight: 500;
-  line-height: 1.2;
+body {
+  font-size: 14px;
+}
 
-  &:not(:last-child) {
-    margin-bottom: 1rem;
+h1 {
+  font-size: 2.6em;
+}
+
+h2 {
+  font-size: 2.15em;
+}
+
+h3 {
+  font-size: 1.7em;
+}
+
+h4 {
+  font-size: 1.25em;
+}
+
+h5 {
+  font-size: 1em;
+}
+
+h6 {
+  font-size: 0.85em;
+}
+
+@include up($large) {
+  body {
+    font-size: 16px;
+  }
+
+  h1 {
+    font-size: 2.6em;
+  }
+
+  h2 {
+    font-size: 2.15em;
+  }
+
+  h3 {
+    font-size: 1.7em;
+  }
+
+  h4 {
+    font-size: 1.25em;
+  }
+
+  h5 {
+    font-size: 1em;
+  }
+
+  h6 {
+    font-size: 0.85em;
   }
 }
 
@@ -39,104 +73,45 @@ h4,
 h5,
 .h5,
 h6,
-.h6,
-p,
-ul,
-ol,
-span {
+.h6 {
+  font-weight: $fontWeightSemibold;
+  margin: 0;
   word-wrap: break-word;
-}
 
-h1,
-.h1 {
-  //font-size: clamp(3.6rem, 3vw, 4rem); /* clamp */
-  font-size: 3.2rem;
+  &:not(:last-child) {
+    margin-bottom: $gutter;
 
-  @include up($medium) {
-    font-size: 4rem;
+    @include up($large) {
+      margin-bottom: $gutter * 2;
+    }
   }
-}
-
-h2,
-.h2 {
-  //font-size: clamp(2.8rem, 3vw, 3.2rem); /* clamp */
-  font-size: 2.8rem;
-
-  @include up($medium) {
-    font-size: 3.2rem;
-  }
-}
-
-h3,
-.h3 {
-  //font-size: clamp(2.1rem, 3vw, 2.4rem); /* clamp */
-  font-size: 2.1rem;
-
-  @include up($medium) {
-    font-size: 2.4rem;
-  }
-}
-
-h4,
-.h4 {
-  //font-size: clamp(1.8rem, 3vw, 2.1rem); /* clamp */
-  font-size: 1.8rem;
-
-  @include up($medium) {
-    font-size: 2.1rem;
-  }
-}
-
-h5,
-.h5 {
-  //font-size: clamp(1.6rem, 3vw, 1.8rem); /* clamp */
-  font-size: 1.6rem;
-
-  @include up($medium) {
-    font-size: 1.8rem;
-  }
-}
-
-h6,
-.h6 {
-  //font-size: clamp(1.6rem, 3vw, 1.6rem); /* clamp */
-  font-size: 1.6rem;
 }
 
 p,
 ul,
 ol {
   line-height: 1.5;
-}
-
-p {
-  margin-bottom: 2rem;
-}
-
-ul,
-ol {
-  padding-left: 2rem;
-
-  &:not(:last-child) {
-    margin-bottom: 2rem;
-  }
+  margin-bottom: $gutter * 2;
+  margin-top: 0;
+  word-wrap: break-word;
 }
 
 a {
   color: $colorPrimary;
   outline: 0;
-  transition: 0.3s;
-
-  &:active,
-  &:hover,
-  &:link,
-  &:visited {
-    text-decoration: none;
-  }
+  transform: $duration;
+  transition: $duration;
 
   &:hover,
   &:focus {
-    color: $colorSecondary;
+    color: lighten($colorPrimary, 20%);
+  }
+
+  &:link,
+  &:visited,
+  &:hover,
+  &:active {
+    text-decoration: none;
   }
 
   &.text-primary {
@@ -147,26 +122,26 @@ a {
   }
 }
 
+span {
+  word-wrap: break-word;
+}
+
 table {
   width: 100%;
-
-  th {
-    font-weight: $fontWeightSemibold;
-  }
 }
 
 p img {
-  margin-bottom: 0.5rem;
-  margin-top: 0.4rem;
+  margin-bottom: 0.5em;
+  margin-top: 0.4em;
 }
 
-.comment-content img,
-img.avatar,
-img[class*="align"],
-img[class*="attachment-"],
-img[class*="wp-image-"],
 img.header-image,
 img.wp-post-image,
+img.avatar,
+img[class*="align"],
+img[class*="wp-image-"],
+img[class*="attachment-"],
+.comment-content img,
 .widget img {
   height: auto;
   max-width: 100%;
@@ -183,66 +158,22 @@ ins {
   display: block;
 }
 
-.alignleft,
 .alignright {
   display: inline;
-}
-
-.alignright {
   float: right;
-  margin-left: 1.5rem;
+  margin-left: 15px;
 }
 
 .alignleft {
+  display: inline;
   float: left;
-  margin-right: 1.5rem;
+  margin-right: 15px;
 }
 
 .aligncenter {
   clear: both;
   display: block;
-  margin-inline: auto;
+  margin-left: auto;
+  margin-right: auto;
   text-align: center;
-}
-
-.wp-block-code {
-  background-color: $colorGreyDark;
-  border: none;
-  border-radius: 0.7rem;
-  color: $colorWhite;
-
-  code {
-    font-family: $fontCode;
-  }
-}
-
-.wp-block-quote {
-  background-color: $colorGreyLight;
-  border-color: $colorPrimary;
-  border-radius: 0.7rem;
-  color: $colorTextDark;
-  margin: 3rem 0;
-  padding: 3rem;
-
-  p {
-    font-family: Georgia, "Times New Roman", Times, serif;
-    font-style: italic;
-    //font-size: clamp(2.1rem, 3vw, 2.4rem); /* clamp */
-    font-size: 2.1rem;
-
-    @include up($medium) {
-      font-size: 2.4rem;
-    }
-  }
-
-  cite {
-    font-weight: 600;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-
-    &::before {
-      content: "--";
-      margin-right: 0.5rem;
-    }
-  }
 }

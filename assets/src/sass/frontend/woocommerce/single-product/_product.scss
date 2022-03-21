@@ -1,5 +1,4 @@
 .single-product {
-
   div.product {
     position: relative;
 
@@ -12,7 +11,7 @@
     }
 
     .product__main {
-      @include up($small){
+      @include up($small) {
         display: flex;
         flex-wrap: wrap;
         align-items: center;
@@ -22,15 +21,14 @@
         }
         .product__summary {
           flex: 0 0 50%;
-          padding: 0 $gridGutter;
+          padding: 0 $gutter;
         }
       }
     }
-
   }
 
   .woocommerce-single-product__cat {
-    opacity: .5;
+    opacity: 0.5;
     text-transform: uppercase;
     font-size: 1em;
   }
@@ -72,5 +70,4 @@
       flex-basis: 50%;
     }
   }
-
 }

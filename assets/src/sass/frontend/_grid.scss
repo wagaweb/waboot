@@ -21,7 +21,7 @@ body {
 body.single {
   @include up($xlarge) {
     .main__grid {
-      max-width: 80rem;
+      max-width: $gutter * 80;
     }
   }
 }
@@ -29,18 +29,17 @@ body.single {
 .main {
   &__grid {
     margin-inline: auto;
-    // padding-block: clamp(2rem, 5%, 5rem);
-    padding: 2rem 0;
+    padding: $gutter * 4 0;
     max-width: $containerWidth;
     width: 90vw;
 
     @include up($medium) {
-      padding: 5rem 0;
+      padding: $gutter * 8 0;
     }
   }
 
   &__title {
-    margin-bottom: 2.5vw;
+    margin-bottom: $gutter * 6;
   }
 
   body.with-sidebar & {
@@ -74,5 +73,5 @@ body.single {
 }
 
 strong {
-  font-weight: 600;
+  font-weight: $fontWeightSemibold;
 }

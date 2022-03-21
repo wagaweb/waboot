@@ -13,7 +13,7 @@
         @extend .far;
         content: fa-content($fa-var-angle-down);
         opacity: 0.7;
-        margin-left: 10px;
+        margin-left: $gutter;
       }
       li.menu-item-has-children > a:after {
         content: fa-content($fa-var-angle-right);
@@ -39,9 +39,9 @@
         align-items: center;
         color: $colorText;
         display: flex;
-        font-weight: 500;
-        margin-left: 1rem;
-        padding-block: 1rem;
+        font-weight: $fontWeightMedium;
+        margin-left: $gutter;
+        padding-block: $gutter;
         position: relative;
 
         &:hover {
@@ -57,13 +57,14 @@
           position: absolute;
           top: 0;
           transform: scaleX(0);
-          transition: 0.3s;
+          transition: $duration;
           width: 0%;
         }
 
         @include up($large) {
-          margin-left: 3rem;
-          padding-block: 1.5rem;
+          margin-left: $gutter * 3;
+          padding-bottom: $gutter * 2;
+          padding-top: $gutter * 2;
         }
       }
 
@@ -76,39 +77,38 @@
 
     .sub-menu {
       background-color: $colorGreyDark;
-      border-radius: 0.5rem;
+      border-radius: $radius;
       box-shadow: 0 1px 3px rgba($colorGreyDark, 0.1);
       margin: 0;
       opacity: 0;
       padding: 0;
       position: absolute;
       right: 0;
-      top: calc(100% + 0.7rem);
-      transition: 0.3s;
+      top: calc(100% + $gutter * 0.7);
+      transition: $duration;
       z-index: 7;
 
       &::before {
         content: "";
         background-color: inherit;
         display: block;
-        height: 1rem;
+        height: $gutter;
         position: absolute;
-        right: 1rem;
+        right: $gutter;
         transform: rotate(45deg);
         top: -2px;
-        width: 1rem;
+        width: $gutter;
         z-index: -100;
       }
 
       li:not(:last-child) a {
-        border-bottom: 1px solid $colorGrey700;
+        border-bottom: 1px solid $colorBorder;
       }
 
       a {
         color: $colorWhite;
-        font-size: 1.4rem;
-        font-weight: 600;
-        padding: 1rem 1.5rem;
+        font-weight: $fontWeightSemibold;
+        padding: $gutter $gutter * 1.5;
         display: block;
         white-space: nowrap;
 
@@ -134,16 +134,16 @@
 
 .navigation-mobile {
   background-color: $colorGreyDark;
-  padding: $gridGutter;
+  padding: $gutter;
 
   &__inner {
-    padding: $gridGutter 0;
+    padding: $gutter 0;
     height: 100%;
     width: 100%;
     flex-grow: 1;
     display: grid;
     grid-template-rows: auto auto 1fr;
-    grid-gap: $gridGutter;
+    grid-gap: $gutter;
   }
 
   .search-form {
@@ -178,10 +178,10 @@
 
   a {
     color: $colorWhite;
-    font-weight: 500;
+    font-weight: $fontWeightMedium;
     text-align: left;
     justify-content: center;
-    padding: $gridGutter/2 $gridGutter;
+    padding: $gutter $gutter * 2;
     flex-grow: 1;
   }
 
@@ -194,12 +194,11 @@
     position: absolute;
     left: 0;
     top: 0;
-    padding: $gridGutter/2 0 0 $gridGutter;
+    padding: $gutter 0 0 $gutter * 2;
     width: 48px;
     height: 48px;
     display: flex;
     align-items: center;
-    font-size: 1.5em;
     z-index: 20;
     color: $colorPrimary;
   }
@@ -211,6 +210,6 @@
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    padding-right: $gridGutter;
+    padding-right: $gutter * 2;
   }
 }

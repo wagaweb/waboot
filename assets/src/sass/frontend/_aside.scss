@@ -1,18 +1,25 @@
 .main__aside {
   background-color: $colorGreyLight;
-  border-radius: 0.7rem;
-  padding: 3vw 1.5vw;
+  border-radius: $radius;
+  padding: $gutter * 2 $gutter;
   position: relative;
 
   @include up($medium) {
+    padding: $gutter * 4 $gutter * 2;
+
     .aside__wrapper {
       position: sticky;
-      top: 10rem;
+      top: $gutter * 10;
     }
   }
 
   .widget {
-    margin-bottom: $gridGutter;
+    margin-bottom: $gutter * 2;
+
+    @include up($medium) {
+      margin-bottom: $gutter * 4;
+    }
+
     p:last-child,
     ul:last-child {
       margin-bottom: 0;
@@ -26,15 +33,15 @@
         &::before {
           content: "Categorie";
           color: $colorTextDark;
-          font-weight: 700;
-          margin-bottom: 0.5rem;
+          font-weight: $fontWeightBold;
+          margin-bottom: $gutter / 2;
         }
       }
 
       li {
         align-items: center;
         display: flex;
-        gap: 0.5rem;
+        gap: $gutter / 2;
 
         &::before {
           background: url(../images/default/icons/chevron-right.svg) no-repeat
@@ -42,14 +49,13 @@
           background-size: cover;
           content: "";
           display: flex;
-          height: 1.4rem;
-          width: 1.4rem;
+          height: 14px;
+          width: 14px;
         }
       }
 
       a {
         color: $colorText;
-        font-size: 1.4rem;
 
         &:hover {
           color: $colorPrimary;
@@ -60,14 +66,14 @@
     &_recent_entries {
       ul {
         display: grid;
-        gap: 1rem;
+        gap: $gutter;
         list-style: none;
         padding: 0;
 
         &::before {
           content: "Ultimi articoli";
           color: $colorTextDark;
-          font-weight: 700;
+          font-weight: $fontWeightBold;
         }
       }
 
@@ -78,16 +84,14 @@
           display: table;
         }
         img {
-          margin-right: 1rem;
-          height: 6.4rem;
-          width: 6.4rem;
+          margin-right: $gutter;
+          height: $gutter * 7;
         }
       }
 
       a {
         color: $colorTextDark;
-        font-size: 1.4rem;
-        font-weight: 600;
+        font-weight: $fontWeightSemibold;
       }
 
       div {
@@ -99,14 +103,14 @@
       p {
         display: flex;
         flex-wrap: wrap;
-        gap: 1rem;
+        gap: $gutter / 2;
 
         &::before {
           content: "Tag";
           color: $colorTextDark;
           display: block;
-          font-weight: 700;
-          margin-bottom: 0.5rem;
+          font-weight: $fontWeightBold;
+          margin-bottom: $gutter / 2;
           margin-right: auto;
           flex: 0 0 100%;
         }
@@ -116,12 +120,12 @@
         align-items: center;
         background-color: $colorWhite;
         border: 1px solid $colorBorder;
-        border-radius: 0.5rem;
+        border-radius: $radius;
         color: $colorTextDark;
         display: flex;
-        font-weight: 600;
+        font-weight: $fontWeightSemibold;
         line-height: 1;
-        padding: 0.8rem 1rem;
+        padding: $gutter / 2;
 
         &:hover {
           border-color: $colorText;

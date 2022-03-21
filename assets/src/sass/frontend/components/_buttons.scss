@@ -1,21 +1,18 @@
 @mixin button() {
-  display: inline-block;
-  margin-bottom: 0; // For input.btn
-  text-align: center;
-  vertical-align: middle;
-  touch-action: manipulation;
-  cursor: pointer;
+  appearance: none;
   background-image: none; // Reset unusual Firefox-on-Android default style; see https://github.com/necolas/normalize.css/issues/214
   border: 1px solid transparent;
-  white-space: nowrap;
-  padding: 1rem 1.5rem;
-  font-size: 1.4rem;
-  font-weight: 600;
+  cursor: pointer;
+  display: inline-block;
+  margin-bottom: 0; // For input.btn
+  font-weight: $fontWeightBold;
   letter-spacing: 1px;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
+  padding: $gutter $gridGutter * 1.5;
+  text-align: center;
   text-transform: uppercase;
+  touch-action: manipulation;
+  vertical-align: middle;
+  white-space: nowrap;
 
   &:hover,
   &:focus,
@@ -25,30 +22,35 @@
 
   &:active,
   &.active {
-    outline: 0;
     background-image: none;
+    outline: 0;
   }
 }
 
 @mixin buttonStyle($bkg, $color, $colorHover, $border) {
-  border-radius: 4px;
+  border-radius: $radius;
   background: $bkg;
+  transition: all $duration ease;
+
   @if $color {
     color: $color;
   }
+
   @if $border {
     border: $border;
   }
-  transition: all 0.3s ease;
 
   &:hover {
     background: darken($bkg, 8%);
+
     @if $colorHover {
       color: $colorHover;
     }
   }
+
   &:active {
     background: darken($bkg, 25%);
+
     @if $colorHover {
       color: $colorHover;
     }
@@ -60,7 +62,7 @@
 .wp-block-button__link,
 input[type="submit"] {
   @include button();
-  @include buttonStyle($colorPrimary, #fff, #fff, false);
+  @include buttonStyle($colorPrimary, $colorWhite, $colorWhite, false);
 }
 
 .is-style-outline > .wp-block-button__link:not(.has-text-color) {

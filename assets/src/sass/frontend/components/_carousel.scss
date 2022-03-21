@@ -5,11 +5,10 @@
     transform: translateY(-50%);
     width: 100%;
     margin: 0;
-    padding: $gridGutter;
+    padding: $gutter;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 1.5em;
   }
   .owl-dots {
     position: absolute;
@@ -18,22 +17,24 @@
     display: flex;
     justify-content: center;
     align-items: center;
+
     button.owl-dot {
-      background-color: #fff;
-      box-shadow: 0 0 1px rgba(0,0,0,.5);
+      background-color: $colorWhite;
+      box-shadow: 0 0 1px rgba($colorBlack, 0.5);
       border-radius: 50%;
       display: inline-block;
-      width: 15px;
-      height: 15px;
-      margin: 0 5px;
+      width: $gutter * 1.5;
+      height: $gutter * 1.5;
+      margin: 0 $gutter / 2;
+
       &.active {
         background-color: $colorPrimary;
       }
     }
   }
+
   .block__carousel--1 & {
-    @include down($large){
-      //height: 50vh;
+    @include down($large) {
       .owl-stage-outer,
       .owl-stage,
       .owl-item,
