@@ -86,6 +86,7 @@
       right: 0;
       top: calc(100% + $gutter * 0.7);
       transition: $duration;
+      visibility: hidden;
       z-index: 7;
 
       &::before {
@@ -120,6 +121,7 @@
 
     li:hover > .sub-menu {
       opacity: 1;
+      visibility: visible;
     }
 
     .sub-menu > li:hover > .sub-menu {
