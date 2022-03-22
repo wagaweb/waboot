@@ -5,6 +5,13 @@
     list-style: none;
   }
 
+  @include up($large) {
+    > ul {
+      display: flex;
+      column-gap: $gutter * 3;
+    }
+  }
+
   li {
     position: relative;
     &.menu-item-has-children {
@@ -40,7 +47,6 @@
         color: $colorText;
         display: flex;
         font-weight: $fontWeightMedium;
-        margin-left: $gutter;
         padding-block: $gutter;
         position: relative;
 
@@ -62,7 +68,6 @@
         }
 
         @include up($large) {
-          margin-left: $gutter * 3;
           padding-bottom: $gutter * 2;
           padding-top: $gutter * 2;
         }
@@ -86,6 +91,7 @@
       right: 0;
       top: calc(100% + $gutter * 0.7);
       transition: $duration;
+      transform: translateY(50%);
       visibility: hidden;
       z-index: 7;
 
@@ -121,6 +127,7 @@
 
     li:hover > .sub-menu {
       opacity: 1;
+      transform: translateY(0);
       visibility: visible;
     }
 
