@@ -5,8 +5,17 @@ Author: Waga
 Author URI: https://waga.it
 */
 
+@import "../frontend/variables";
+@import "../frontend/media-query";
+@import "../frontend/gutenberg";
+@import "../frontend/typography";
 
 /* Editor Width */
+
+html:where(.editor-styles-wrapper) {
+  color: $colorText;
+  font-family: $fontPrimary;
+}
 
 .wp-block {
   max-width: 1024px;
@@ -22,6 +31,9 @@ Author URI: https://waga.it
 
 /* 1 Columns Hack */
 
-.wp-block-columns > .editor-inner-blocks > .editor-block-list__layout > [data-type="core/column"] {
+.wp-block-columns
+  > .editor-inner-blocks
+  > .editor-block-list__layout
+  > [data-type="core/column"] {
   flex-basis: 100%;
 }

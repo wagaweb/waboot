@@ -21,6 +21,7 @@ var paths = {
   bundle_js: ["./assets/dist/js/main.pkg.js"],
   styles: ["./assets/src/sass/**/*.scss"],
   main_style: "./assets/src/sass/main.scss",
+  admin_style: "./assets/src/sass/backend/gutenberg.scss",
 };
 
 function compileCss() {
@@ -38,7 +39,16 @@ function compileCss() {
     .pipe(sourcemaps.write("."))
     .pipe(gulp.dest("./assets/dist/css"));
 
-  return merge(frontend);
+  var backend = gulp
+    .src(paths.admin_style)
+    .pipe(sourcemaps.init())
+    .pipe(sass())
+    .pipe(postcss(processors))
+    .pipe(rename("gutenberg.min.css"))
+    .pipe(sourcemaps.write("."))
+    .pipe(gulp.dest("./assets/dist/css"));
+
+  return merge(frontend, backend);
 }
 
 function compileJsBundle() {
