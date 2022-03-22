@@ -6,6 +6,14 @@
   width: 100%;
   z-index: 1000;
 
+  body.admin-bar & {
+    top: 46px;
+
+    @include up($large) {
+      top: 32px;
+    }
+  }
+
   .header--fixed & {
     position: fixed;
     top: -200px;
