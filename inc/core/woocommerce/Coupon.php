@@ -2,7 +2,7 @@
 
 namespace Waboot\inc\core\woocommerce;
 
-class WabootCoupon
+class Coupon
 {
     /**
      * @var string

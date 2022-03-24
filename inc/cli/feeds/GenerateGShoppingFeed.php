@@ -3,8 +3,8 @@
 namespace Waboot\inc\cli\feeds;
 
 use Waboot\inc\core\cli\AbstractCommand;
-use Waboot\inc\core\woocommerce\WabootProduct;
-use Waboot\inc\core\woocommerce\WabootProductVariation;
+use Waboot\inc\core\woocommerce\Product;
+use Waboot\inc\core\woocommerce\ProductVariation;
 use function Waboot\inc\getHierarchicalCustomFieldFromProduct;
 
 require_once __DIR__.'/feed-utils.php';
@@ -252,12 +252,12 @@ class GenerateGShoppingFeed extends AbstractCommand
             if(!$parentProduct instanceof \WC_Product_Variable){
                 return [];
             }
-            $wbVariation = new WabootProductVariation($product, $parentProduct);
+            $wbVariation = new ProductVariation($product, $parentProduct);
             $brand = $wbVariation->getBrand();
             $permalink = $wbVariation->getPermalink();
             $categories = $wbVariation->getParent()->getCategories(false,true,' > ');
         }else{
-            $wbProduct = new WabootProduct($product);
+            $wbProduct = new Product($product);
             $brand = $wbProduct->getBrand();
             $permalink = $wbProduct->getPermalink();
             $categories = $wbProduct->getCategories(false,true,' > ');

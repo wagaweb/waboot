@@ -4,7 +4,7 @@ namespace Waboot\inc\core\woocommerce;
 
 use Waboot\inc\core\utils\Terms;
 
-class WabootProduct
+class Product
 {
     public const BRAND_TAXONOMY_NAME = 'product_brand';
     /**
@@ -32,7 +32,7 @@ class WabootProduct
      */
     private $isVariable;
     /**
-     * @var WabootProductVariation[]
+     * @var ProductVariation[]
      */
     private $variations;
 
@@ -122,7 +122,7 @@ class WabootProduct
     }
 
     /**
-     * @return array|WabootProductVariation[]
+     * @return array|ProductVariation[]
      */
     public function getVariations(): array
     {
@@ -218,10 +218,10 @@ class WabootProduct
 
     /**
      * @param \WC_Product_Variation $variation
-     * @return WabootProductVariation
+     * @return ProductVariation
      */
-    protected function createVariationInstance(\WC_Product_Variation $variation): WabootProductVariation
+    protected function createVariationInstance(\WC_Product_Variation $variation): ProductVariation
     {
-        return new WabootProductVariation($variation->get_id(),$this);
+        return new ProductVariation($variation->get_id(),$this);
     }
 }

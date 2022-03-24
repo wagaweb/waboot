@@ -5,14 +5,14 @@ namespace Waboot\inc\core\woocommerce;
 use function Waboot\inc\getBundleRealTotals;
 use function Waboot\inc\isBundleProduct;
 
-class WabootOrderItemBundle
+class OrderItemBundle
 {
     /**
      * @var \WC_Product_Bundle
      */
     private $wcOrderItem;
     /**
-     * @var WabootOrderItemBundledProduct[]
+     * @var OrderItemBundledProduct[]
      */
     private $items;
 
@@ -30,15 +30,15 @@ class WabootOrderItemBundle
     }
 
     /**
-     * @param WabootOrderItemBundledProduct $itemProduct
+     * @param OrderItemBundledProduct $itemProduct
      */
-    public function addItem(WabootOrderItemBundledProduct $itemProduct): void
+    public function addItem(OrderItemBundledProduct $itemProduct): void
     {
         $this->items[] = $itemProduct;
     }
 
     /**
-     * @return WabootOrderItemBundledProduct[]
+     * @return OrderItemBundledProduct[]
      */
     public function getItems(): array
     {
@@ -52,7 +52,7 @@ class WabootOrderItemBundle
     {
         $quantities = [];
         foreach ($this->items as $item){
-            if(!$item instanceof WabootOrderItemBundledProduct){
+            if(!$item instanceof OrderItemBundledProduct){
                 continue;
             }
             $product = $item->getProduct();

@@ -2,7 +2,7 @@
 
 namespace Waboot\inc\core\woocommerce;
 
-class WabootProductVariation
+class ProductVariation
 {
     public const SIZE_ATTRIBUTE_NAME = 'taglia';
     /**
@@ -18,7 +18,7 @@ class WabootProductVariation
      */
     private $parentId;
     /**
-     * @var WabootProduct
+     * @var Product
      */
     private $parent;
     /**
@@ -57,11 +57,11 @@ class WabootProductVariation
                 throw new \RuntimeException('#'.$this->id.' has no parent');
             }
             $this->parentId = (int) $parentId;
-        }elseif ($parent instanceof WabootProduct){
+        }elseif ($parent instanceof Product){
             $this->parent = $parent;
             $this->parentId = $parent->getId();
         }elseif($parent instanceof \WC_Product_Variable){
-            $wbParent = new WabootProduct($parent);
+            $wbParent = new Product($parent);
             $this->parent = $wbParent;
             $this->parentId = $wbParent->getId();
         }else{
@@ -85,10 +85,10 @@ class WabootProductVariation
     }
 
     /**
-     * @return WabootProduct
+     * @return Product
      * @throws \RuntimeException
      */
-    public function getParent(): WabootProduct
+    public function getParent(): Product
     {
         if(!isset($this->parent)){
             if(!isset($this->parentId)){
@@ -232,10 +232,10 @@ class WabootProductVariation
 
     /**
      * @param int $parentId
-     * @return WabootProduct
+     * @return Product
      */
-    protected function createVariableProductInstance(int $parentId): WabootProduct
+    protected function createVariableProductInstance(int $parentId): Product
     {
-        return new WabootProduct($parentId);
+        return new Product($parentId);
     }
 }

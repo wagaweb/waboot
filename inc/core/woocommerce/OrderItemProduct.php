@@ -5,14 +5,14 @@ namespace Waboot\inc\core\woocommerce;
 use function Waboot\inc\getProductSalePercentage;
 use function Waboot\inc\isBundleProduct;
 
-class WabootOrderItemProduct
+class OrderItemProduct
 {
     /**
      * @var \WC_Order_Item_Product
      */
     protected $wcOrderItem;
     /**
-     * @var WabootOrder
+     * @var Order
      */
     protected $order;
     /**
@@ -24,7 +24,7 @@ class WabootOrderItemProduct
      */
     private $sku;
 
-    public function __construct(\WC_Order_Item_Product $item, WabootOrder $order)
+    public function __construct(\WC_Order_Item_Product $item, Order $order)
     {
         $this->wcOrderItem = $item;
         $this->order = $order;
@@ -59,9 +59,9 @@ class WabootOrderItemProduct
     }
 
     /**
-     * @return WabootOrder
+     * @return Order
      */
-    public function getOrder(): WabootOrder
+    public function getOrder(): Order
     {
         return $this->order;
     }

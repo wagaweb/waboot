@@ -3,9 +3,9 @@
 namespace Waboot\inc\cli;
 
 use Waboot\inc\core\woocommerce\ExportableOrderInterface;
-use Waboot\inc\core\woocommerce\WabootOrder;
+use Waboot\inc\core\woocommerce\Order;
 
-class ExportableOrder extends WabootOrder implements ExportableOrderInterface
+class ExportableOrder extends Order implements ExportableOrderInterface
 {
     /**
      * @var \Exception[]
@@ -47,7 +47,7 @@ class ExportableOrder extends WabootOrder implements ExportableOrderInterface
         update_post_meta($this->orderId, '_exported', '1' );
         try{
             $exportedDate = new \DateTime('now',new \DateTimeZone('Europe/Rome'));
-            update_post_meta($this->orderId, '_exported_date', $exportedDate->format('Y-m-d'));
+            update_post_meta($this->orderId, '_exWabootProductVariationported_date', $exportedDate->format('Y-m-d'));
         }catch (\Exception $e){}
     }
 

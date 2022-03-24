@@ -3,15 +3,15 @@
 namespace Waboot\inc\cli;
 
 use Waboot\inc\core\woocommerce\ExportableOrderItemInterface;
-use Waboot\inc\core\woocommerce\WabootCoupon;
-use Waboot\inc\core\woocommerce\WabootOrderItemBundle;
-use Waboot\inc\core\woocommerce\WabootOrderItemBundledProduct;
-use Waboot\inc\core\woocommerce\WabootOrderItemProduct;
+use Waboot\inc\core\woocommerce\Coupon;
+use Waboot\inc\core\woocommerce\OrderItemBundle;
+use Waboot\inc\core\woocommerce\OrderItemBundledProduct;
+use Waboot\inc\core\woocommerce\OrderItemProduct;
 
 class ExportableOrderItem implements ExportableOrderItemInterface
 {
     /**
-     * @var WabootOrderItemProduct|WabootOrderItemBundle|WabootCoupon|\WC_Order_Item_Shipping
+     * @var OrderItemProduct|OrderItemBundle|Coupon|\WC_Order_Item_Shipping
      */
     private $orderItem;
     /**
@@ -26,7 +26,7 @@ class ExportableOrderItem implements ExportableOrderItemInterface
     }
 
     /**
-     * @return WabootCoupon|WabootOrderItemBundle|WabootOrderItemProduct|\WC_Order_Item_Shipping
+     * @return Coupon|OrderItemBundle|OrderItemProduct|\WC_Order_Item_Shipping
      */
     public function getOrderItem()
     {
@@ -46,7 +46,7 @@ class ExportableOrderItem implements ExportableOrderItemInterface
      */
     public function isProduct(): bool
     {
-        return $this->orderItem instanceof WabootOrderItemProduct;
+        return $this->orderItem instanceof OrderItemProduct;
     }
 
     /**
@@ -54,7 +54,7 @@ class ExportableOrderItem implements ExportableOrderItemInterface
      */
     public function isBundle(): bool
     {
-        return $this->orderItem instanceof WabootOrderItemBundle;
+        return $this->orderItem instanceof OrderItemBundle;
     }
 
     /**
@@ -62,7 +62,7 @@ class ExportableOrderItem implements ExportableOrderItemInterface
      */
     public function isCoupon(): bool
     {
-        return $this->orderItem instanceof WabootCoupon;
+        return $this->orderItem instanceof Coupon;
     }
 
     /**
@@ -83,7 +83,7 @@ class ExportableOrderItem implements ExportableOrderItemInterface
         }
         try {
             /**
-             * @var WabootCoupon
+             * @var Coupon
              */
             $item = $this->orderItem;
             return $item->getDiscountType() !== 'percent'; //We include only coupons with fixed-price discount
@@ -103,7 +103,7 @@ class ExportableOrderItem implements ExportableOrderItemInterface
             $bundledItems = $this->orderItem->getItems();
             if(\is_array($bundledItems) && count($bundledItems) > 0){
                 foreach ($bundledItems as $bundledItem){
-                    if(!$bundledItem instanceof WabootOrderItemBundledProduct){
+                    if(!$bundledItem instanceof OrderItemBundledProduct){
                         continue;
                     }
                     $product = $bundledItem->getProduct();

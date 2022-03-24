@@ -5,20 +5,20 @@ namespace Waboot\inc\core\woocommerce;
 use function Waboot\inc\getProductSalePercentage;
 use function Waboot\inc\isBundleProduct;
 
-class WabootOrderItemBundledProduct extends WabootOrderItemProduct
+class OrderItemBundledProduct extends OrderItemProduct
 {
     /**
-     * @var WabootOrderItemBundle
+     * @var OrderItemBundle
      */
     private $parent;
 
     /**
      * AromaVeroOrderItemBundledProduct constructor.
      * @param \WC_Order_Item_Product $item
-     * @param WabootOrder $order
-     * @param WabootOrderItemBundle $paren
+     * @param Order $order
+     * @param OrderItemBundle $paren
      */
-    public function __construct(\WC_Order_Item_Product $item, WabootOrder $order, WabootOrderItemBundle $parent)
+    public function __construct(\WC_Order_Item_Product $item, Order $order, OrderItemBundle $parent)
     {
         parent::__construct($item, $order);
         $this->order = $order;

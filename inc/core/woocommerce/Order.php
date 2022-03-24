@@ -5,7 +5,7 @@ namespace Waboot\inc\core\woocommerce;
 use function Waboot\inc\isBundledIn;
 use function Waboot\inc\isBundleProduct;
 
-class WabootOrder
+class Order
 {
     /**
      * @var \WC_Order
@@ -20,7 +20,7 @@ class WabootOrder
      */
     protected $orderNumber;
     /**
-     * @var WabootOrderItemProduct[]
+     * @var OrderItemProduct[]
      */
     public $items;
     /**
@@ -32,7 +32,7 @@ class WabootOrder
      */
     public $dateCreated;
     /**
-     * @var WabootCoupon[]
+     * @var Coupon[]
      */
     private $coupons;
     /**
@@ -67,7 +67,7 @@ class WabootOrder
     }
 
     /**
-     * @return WabootOrderItemProduct[]
+     * @return OrderItemProduct[]
      */
     public function getItems(): array
     {
@@ -96,25 +96,25 @@ class WabootOrder
             $productId = $lineItem->get_product_id();
             if(isBundleProduct($productId)){
                 $currentBundleId = $productId;
-                $currentBundle = new WabootOrderItemBundle($lineItem);
+                $currentBundle = new OrderItemBundle($lineItem);
                 $this->items[$itemId] = $currentBundle;
                 continue;
             }
             if($currentBundleId !== null){
                 //Check if the current item is part of the previously parsed bundle
                 if(isBundledIn($productId,$currentBundleId)){
-                    $itemObj = new WabootOrderItemBundledProduct($lineItem, $this, $currentBundle);
+                    $itemObj = new OrderItemBundledProduct($lineItem, $this, $currentBundle);
                     $currentBundle->addItem($itemObj);
                 }else{
                     //If not, we assume that we reached a product not in a bundle
                     $currentBundleId = null;
                     $currentBundle = null;
                     //And add the current product
-                    $itemObj = new WabootOrderItemProduct($lineItem, $this);
+                    $itemObj = new OrderItemProduct($lineItem, $this);
                     $this->items[$itemId] = $itemObj;
                 }
             }else{
-                $itemObj = new WabootOrderItemProduct($lineItem, $this);
+                $itemObj = new OrderItemProduct($lineItem, $this);
                 $this->items[$itemId] = $itemObj;
             }
         }
@@ -124,7 +124,7 @@ class WabootOrder
         foreach ($otherItems as $itemId => $item){
             if($item instanceof \WC_Order_Item_Coupon){
                 try{
-                    $this->items[$itemId] = new WabootCoupon($item,$this->orderId);
+                    $this->items[$itemId] = new Coupon($item,$this->orderId);
                 }catch (\Exception $e){
                     continue;
                 }
@@ -176,7 +176,7 @@ class WabootOrder
         foreach ($coupons as $coupon){
             try{
                 $couponCode = $coupon->get_code();
-                $couponObj = new WabootCoupon($coupon,$this->orderId);
+                $couponObj = new Coupon($coupon,$this->orderId);
                 $r[$couponCode] = $couponObj;
             }catch (\Exception $e){
                 continue;
@@ -188,7 +188,7 @@ class WabootOrder
     /**
      * Get coupons which apply percentage discount
      *
-     * @return WabootCoupon[]
+     * @return Coupon[]
      */
     public function getPercentageCoupons(): array
     {
@@ -199,7 +199,7 @@ class WabootOrder
                 $this->percentageCoupons = [];
                 return $this->percentageCoupons;
             }
-            $this->percentageCoupons = array_filter($coupons,static function(WabootCoupon $c){
+            $this->percentageCoupons = array_filter($coupons,static function(Coupon $c){
                 return $c->isDiscountTypePercentage();
             });
         }
@@ -209,7 +209,7 @@ class WabootOrder
     /**
      * Get coupons which apply fixed amount discount
      *
-     * @return WabootCoupon[]
+     * @return Coupon[]
      */
     public function getFixedPriceCoupons(): array
     {
@@ -220,7 +220,7 @@ class WabootOrder
         if(!\is_array($coupons) || count($coupons) === 0){
             return [];
         }
-        $fixedCoupons = array_filter($coupons,static function(WabootCoupon $c){
+        $fixedCoupons = array_filter($coupons,static function(Coupon $c){
             return $c->isDiscountTypeFixed();
         });
         if(!\is_array($fixedCoupons)){
