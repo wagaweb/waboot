@@ -320,6 +320,22 @@ class AbstractCommand
     /**
      * @return bool
      */
+    protected function isRunning(): bool
+    {
+        return get_option($this->getStateOptionNameSuffix().'_process_in_progress') === 'yes';
+    }
+
+    /**
+     * @return bool
+     */
+    protected function isRunningFine(): bool
+    {
+        return $this->isRunning() && !$this->isBlocked();
+    }
+
+    /**
+     * @return bool
+     */
     protected function isBlocked(): bool
     {
         if(!$this->hasRunOnce()){
