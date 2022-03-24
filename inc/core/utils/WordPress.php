@@ -135,6 +135,43 @@ trait WordPress {
     }
 
     /**
+     * @param string $filePath
+     * @param int $postId
+     * @throws \RuntimeException
+     * @return bool
+     */
+    public static function setFeaturedImageFromFilePath(string $filePath, int $postId): bool
+    {
+        $baseName = pathinfo($filePath,PATHINFO_BASENAME);
+        $uploadDir = wp_upload_dir();
+        $uniqueFileName = wp_unique_filename($uploadDir['path'],$baseName);
+        $fileInUploadedFolderResult = wp_upload_bits($uniqueFileName,null,file_get_contents($filePath));
+        if(isset($fileInUploadedFolderResult['error']) && $fileInUploadedFolderResult['error'] !== false){
+            throw new \RuntimeException($fileInUploadedFolderResult['error']);
+        }
+        $filetype = wp_check_filetype($filePath );
+        $attachment = [
+            'post_mime_type' => $filetype['type'],
+            'post_title' => sanitize_title(pathinfo($filePath,PATHINFO_FILENAME)),
+            'post_content' => '',
+            'post_status' => 'inherit'
+        ];
+        $attachmentId = wp_insert_attachment( $attachment, $fileInUploadedFolderResult['file']);
+        if(\is_wp_error($attachmentId)){
+            throw new \RuntimeException($attachmentId->get_error_message());
+        }
+        if(!function_exists('wp_generate_attachment_metadata')){
+            require_once(ABSPATH . 'wp-admin/includes/image.php');
+        }
+        $attachData = wp_generate_attachment_metadata( $attachmentId, $fileInUploadedFolderResult['file']);
+        if(!\is_array($attachData)){
+            throw new \RuntimeException('Unable to generate metadata for attachment #'.$attachmentId.' ('.$fileInUploadedFolderResult['file'].')');
+        }
+        wp_update_attachment_metadata($attachmentId, $attachData);
+        return (bool) set_post_thumbnail($postId, $attachmentId);
+    }
+
+    /**
      * Toggle maintenance mode for the site.
      *
      * Creates/deletes the maintenance file to enable/disable maintenance mode.
