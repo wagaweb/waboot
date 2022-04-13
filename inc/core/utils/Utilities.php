@@ -87,4 +87,24 @@ class Utilities{
         }
         return $randomString;
     }
+
+    /**
+     * @see: https://stackoverflow.com/questions/1363925/check-whether-image-exists-on-remote-url
+     * @param $url
+     * @return bool
+     */
+    public static function remoteFileExists($url): bool {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL,$url);
+        // don't download content
+        curl_setopt($ch, CURLOPT_NOBODY, 1);
+        curl_setopt($ch, CURLOPT_FAILONERROR, 1);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        $result = curl_exec($ch);
+        curl_close($ch);
+        if($result !== FALSE) {
+            return true;
+        }
+        return false;
+    }
 }
