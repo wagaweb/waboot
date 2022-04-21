@@ -1,140 +1,140 @@
 .main__aside {
-  background-color: $colorGreyLight;
-  border-radius: $radius;
-  padding: $gutter * 2 $gutter;
-  position: relative;
+	background-color: $colorGreyLight;
+	border-radius: $radius;
+	padding: calc($gutter * 2) $gutter;
+	position: relative;
 
-  @include up($medium) {
-    padding: $gutter * 4 $gutter * 2;
+	@include up($medium) {
+		padding: calc($gutter * 4) calc($gutter * 2);
 
-    .aside__wrapper {
-      position: sticky;
-      top: $gutter * 10;
-    }
-  }
+		.aside__wrapper {
+			position: sticky;
+			top: calc($gutter * 10);
+		}
+	}
 
-  .widget {
-    margin-bottom: $gutter * 2;
+	.widget {
+		margin-bottom: calc($gutter * 2);
 
-    @include up($medium) {
-      margin-bottom: $gutter * 4;
-    }
+		@include up($medium) {
+			margin-bottom: calc($gutter * 4);
+		}
 
-    p:last-child,
-    ul:last-child {
-      margin-bottom: 0;
-    }
+		p:last-child,
+		ul:last-child {
+			margin-bottom: 0;
+		}
 
-    &_categories {
-      ul {
-        list-style: none;
-        padding: 0;
+		&_categories {
+			ul {
+				list-style: none;
+				padding: 0;
 
-        &::before {
-          content: "Categorie";
-          color: $colorTextDark;
-          font-weight: $fontWeightBold;
-          margin-bottom: $gutter / 2;
-        }
-      }
+				&::before {
+					content: "Categorie";
+					color: $colorTextDark;
+					font-weight: $fontWeightBold;
+					margin-bottom: calc($gutter / 2);
+				}
+			}
 
-      li {
-        align-items: center;
-        display: flex;
-        gap: $gutter / 2;
+			li {
+				align-items: center;
+				display: flex;
+				gap: calc($gutter / 2);
 
-        &::before {
-          background: url(../images/default/icons/chevron-right.svg) no-repeat
-            center;
-          background-size: cover;
-          content: "";
-          display: flex;
-          height: 14px;
-          width: 14px;
-        }
-      }
+				&::before {
+					background: url(../images/default/icons/chevron-right.svg)
+						no-repeat center;
+					background-size: cover;
+					content: "";
+					display: flex;
+					height: 14px;
+					width: 14px;
+				}
+			}
 
-      a {
-        color: $colorText;
+			a {
+				color: $colorText;
 
-        &:hover {
-          color: $colorPrimary;
-        }
-      }
-    }
+				&:hover {
+					color: $colorPrimary;
+				}
+			}
+		}
 
-    &_recent_entries {
-      ul {
-        display: grid;
-        gap: $gutter;
-        list-style: none;
-        padding: 0;
+		&_recent_entries {
+			ul {
+				display: grid;
+				gap: $gutter;
+				list-style: none;
+				padding: 0;
 
-        &::before {
-          content: "Ultimi articoli";
-          color: $colorTextDark;
-          font-weight: $fontWeightBold;
-        }
-      }
+				&::before {
+					content: "Ultimi articoli";
+					color: $colorTextDark;
+					font-weight: $fontWeightBold;
+				}
+			}
 
-      li {
-        &::after {
-          content: "";
-          clear: both;
-          display: table;
-        }
-        img {
-          margin-right: $gutter;
-          height: $gutter * 7;
-        }
-      }
+			li {
+				&::after {
+					content: "";
+					clear: both;
+					display: table;
+				}
+				img {
+					margin-right: $gutter;
+					height: calc($gutter * 7);
+				}
+			}
 
-      a {
-        color: $colorTextDark;
-        font-weight: $fontWeightSemibold;
-      }
+			a {
+				color: $colorTextDark;
+				font-weight: $fontWeightSemibold;
+			}
 
-      div {
-        color: $colorText;
-      }
-    }
+			div {
+				color: $colorText;
+			}
+		}
 
-    &_tag_cloud {
-      p {
-        display: flex;
-        flex-wrap: wrap;
-        gap: $gutter / 2;
+		&_tag_cloud {
+			p {
+				display: flex;
+				flex-wrap: wrap;
+				gap: calc($gutter / 2);
 
-        &::before {
-          content: "Tag";
-          color: $colorTextDark;
-          display: block;
-          font-weight: $fontWeightBold;
-          margin-bottom: $gutter / 2;
-          margin-right: auto;
-          flex: 0 0 100%;
-        }
-      }
+				&::before {
+					content: "Tag";
+					color: $colorTextDark;
+					display: block;
+					font-weight: $fontWeightBold;
+					margin-bottom: calc($gutter / 2);
+					margin-right: auto;
+					flex: 0 0 100%;
+				}
+			}
 
-      a {
-        align-items: center;
-        background-color: $colorWhite;
-        border: 1px solid $colorBorder;
-        border-radius: $radius;
-        color: $colorTextDark;
-        display: flex;
-        font-weight: $fontWeightSemibold;
-        line-height: 1;
-        padding: $gutter / 2;
+			a {
+				align-items: center;
+				background-color: $colorWhite;
+				border: 1px solid $colorBorder;
+				border-radius: $radius;
+				color: $colorTextDark;
+				display: flex;
+				font-weight: $fontWeightSemibold;
+				line-height: 1;
+				padding: calc($gutter / 2);
 
-        &:hover {
-          border-color: $colorText;
-        }
-      }
-    }
-  }
+				&:hover {
+					border-color: $colorText;
+				}
+			}
+		}
+	}
 }
 
 .wp-block-latest-posts__featured-image.alignleft {
-  margin: 0;
+	margin: 0;
 }

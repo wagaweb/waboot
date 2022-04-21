@@ -3,178 +3,178 @@
  *-----------------------*/
 
 form input[type="checkbox"] {
-  border-color: $colorBorder;
-  height: $gutter * 2;
-  margin-right: $gutter * 0.5;
-  width: $gutter * 2;
+	border-color: $colorBorder;
+	height: $gutter * 2;
+	margin-right: $gutter * 0.5;
+	width: $gutter * 2;
 }
 
 form textarea {
-  font-family: inherit;
-  min-width: 100%;
-  width: 100%;
-  max-width: 100%;
-  max-height: 50vh;
+	font-family: inherit;
+	min-width: 100%;
+	width: 100%;
+	max-width: 100%;
+	max-height: 50vh;
 }
 
 form.gform {
-  input,
-  option,
-  button {
-    font-family: $fontPrimary;
-  }
+	input,
+	option,
+	button {
+		font-family: $fontPrimary;
+	}
 
-  button {
-    @include button;
-  }
+	button {
+		@include button;
+	}
 }
 
 /*-----------------------*
  * GRID
  *-----------------------*/
 .gform {
-  &_fields {
-    width: 100%;
-    display: grid;
-    grid-template-columns: repeat(12, 1fr);
-    grid-template-rows: repeat(auto-fill, auto);
-    grid-column-gap: 2%;
-    grid-row-gap: $gutter * 3;
+	&_fields {
+		width: 100%;
+		display: grid;
+		grid-template-columns: repeat(12, 1fr);
+		grid-template-rows: repeat(auto-fill, auto);
+		grid-column-gap: 2%;
+		grid-row-gap: $gutter * 3;
 
-    .gfield {
-      grid-column: 1 / -1;
-      margin-bottom: 0;
+		.gfield {
+			grid-column: 1 / -1;
+			margin-bottom: 0;
 
-      &--width-full {
-        grid-column: span 12;
-      }
+			&--width-full {
+				grid-column: span 12;
+			}
 
-      &--width-eleven-twelfths {
-        grid-column: span 11;
-      }
+			&--width-eleven-twelfths {
+				grid-column: span 11;
+			}
 
-      &--width-five-sixths {
-        grid-column: span 10;
-      }
+			&--width-five-sixths {
+				grid-column: span 10;
+			}
 
-      &--width-three-quarter {
-        grid-column: span 9;
-      }
+			&--width-three-quarter {
+				grid-column: span 9;
+			}
 
-      &--width-two-thirds {
-        grid-column: span 8;
-      }
+			&--width-two-thirds {
+				grid-column: span 8;
+			}
 
-      &--width-seven-twelfths {
-        grid-column: span 7;
-      }
+			&--width-seven-twelfths {
+				grid-column: span 7;
+			}
 
-      &--width-half {
-        grid-column: span 6;
-      }
+			&--width-half {
+				grid-column: span 6;
+			}
 
-      &--width-five-twelfths {
-        grid-column: span 5;
-      }
+			&--width-five-twelfths {
+				grid-column: span 5;
+			}
 
-      &--width-third {
-        grid-column: span 4;
-      }
+			&--width-third {
+				grid-column: span 4;
+			}
 
-      &--width-quarter {
-        grid-column: span 3;
-      }
-    }
-  }
+			&--width-quarter {
+				grid-column: span 3;
+			}
+		}
+	}
 
-  &_wrapper fieldset {
-    background: 0 0;
-    border: none;
-    display: block;
-    margin: 0;
-    padding: 0;
-  }
+	&_wrapper fieldset {
+		background: 0 0;
+		border: none;
+		display: block;
+		margin: 0;
+		padding: 0;
+	}
 
-  &_wrapper legend {
-    color: $colorTextDark;
-    display: inline-block;
-    font-weight: $fontWeightSemibold;
-    margin-bottom: $gutter * 0.8;
-    padding: 0;
-  }
+	&_wrapper legend {
+		color: $colorTextDark;
+		display: inline-block;
+		font-weight: $fontWeightSemibold;
+		margin-bottom: $gutter * 0.8;
+		padding: 0;
+	}
 
-  &_required_legend {
-    color: $colorGreyDark;
-    opacity: 0.5;
+	&_required_legend {
+		color: $colorGreyDark;
+		opacity: 0.5;
 
-    .gfield_required_asterisk {
-      color: $colorWarning;
-    }
-  }
+		.gfield_required_asterisk {
+			color: $colorWarning;
+		}
+	}
 
-  .gfield_required {
-    color: $colorWarning;
-    display: inline-block;
-    margin-left: 2px;
+	.gfield_required {
+		color: $colorWarning;
+		display: inline-block;
+		margin-left: 2px;
 
-    &_asterisk {
-      color: $colorWarning;
-    }
-  }
+		&_asterisk {
+			color: $colorWarning;
+		}
+	}
 
-  @include down($medium) {
-    .gform_fields {
-      & .gform_fields {
-        grid-column-gap: 0;
-      }
+	@include down($medium) {
+		.gform_fields {
+			& .gform_fields {
+				grid-column-gap: 0;
+			}
 
-      & .gfield:not(.gfield--width-full) {
-        grid-column: 1 / -1;
-      }
-    }
-  }
+			& .gfield:not(.gfield--width-full) {
+				grid-column: 1 / -1;
+			}
+		}
+	}
 }
 
 /*-----------------------*
  * STEPS
  *-----------------------*/
 .gf_progressbar {
-  &_title {
-    font-weight: 400;
-    margin-bottom: $gutter * 0.5;
-    opacity: 0.5;
-  }
+	&_title {
+		font-weight: 400;
+		margin-bottom: $gutter * 0.5;
+		opacity: 0.5;
+	}
 
-  &_blue {
-    background: $colorGreyLight;
-    border-radius: $radius;
-    margin-bottom: $gutter * 1.6;
-    position: relative;
-  }
+	&_blue {
+		background: $colorGreyLight;
+		border-radius: $radius;
+		margin-bottom: $gutter * 1.6;
+		position: relative;
+	}
 
-  &_percentage {
-    background-color: $colorPrimary;
-    border-radius: $radius;
-    color: $colorWhite;
-    height: $gutter * 2.1;
-    text-align: right;
-    vertical-align: middle;
+	&_percentage {
+		background-color: $colorPrimary;
+		border-radius: $radius;
+		color: $colorWhite;
+		height: $gutter * 2.1;
+		text-align: right;
+		vertical-align: middle;
 
-    &:not(.percentbar_100) {
-      border-radius: $radius 0 0 $radius;
-    }
+		&:not(.percentbar_100) {
+			border-radius: $radius 0 0 $radius;
+		}
 
-    span {
-      display: block;
-      font-size: $gutter * 1.3;
-      float: right;
-      line-height: $gutter * 2.1;
-      margin-left: $gridGutter * 0.8;
-      margin-right: $gridGutter * 0.8;
-      min-width: $gutter * 2;
-      width: auto;
-    }
-  }
+		span {
+			display: block;
+			font-size: $gutter * 1.3;
+			float: right;
+			line-height: $gutter * 2.1;
+			margin-left: $gridGutter * 0.8;
+			margin-right: $gridGutter * 0.8;
+			min-width: $gutter * 2;
+			width: auto;
+		}
+	}
 }
 
 /*-----------------------*
@@ -182,23 +182,23 @@ form.gform {
  *-----------------------*/
 /* Section Break */
 .gsection {
-  margin-bottom: 0;
-  &_title {
-    color: $colorGreyDark;
-    font-size: $gutter * 1.2;
-    letter-spacing: 1px;
-    margin-bottom: 0;
-    text-transform: uppercase;
-  }
+	margin-bottom: 0;
+	&_title {
+		color: $colorGreyDark;
+		font-size: $gutter * 1.2;
+		letter-spacing: 1px;
+		margin-bottom: 0;
+		text-transform: uppercase;
+	}
 }
 
 /* Field Description */
 .gfield_description,
 .gfield_post_tags_hint {
-  font-size: $gutter * 1.2;
-  line-height: 1.2;
-  opacity: 0.5;
-  margin-top: $gutter * 0.5;
+	font-size: $gutter * 1.2;
+	line-height: 1.2;
+	opacity: 0.5;
+	margin-top: $gutter * 0.5;
 }
 
 /*-----------------------*
@@ -206,109 +206,109 @@ form.gform {
  *-----------------------*/
 /* Number */
 .ginput_container_number {
-  input {
-    appearance: auto;
-  }
+	input {
+		appearance: auto;
+	}
 
-  .instruction {
-    color: $colorGreyDark;
-    font-size: $gutter * 1.2;
-    margin-top: $gutter * 0.5;
-  }
+	.instruction {
+		color: $colorGreyDark;
+		font-size: $gutter * 1.2;
+		margin-top: $gutter * 0.5;
+	}
 }
 
 /* DropDown */
 .gform_wrapper select {
-  font-family: $fontPrimary;
-  appearance: auto;
+	font-family: $fontPrimary;
+	appearance: auto;
 }
 
 /* Checkboxes & Radio Buttons */
 .gfield-choice-input {
-  display: inline-block;
-  margin-top: 0;
-  top: 0;
-  vertical-align: middle;
+	display: inline-block;
+	margin-top: 0;
+	top: 0;
+	vertical-align: middle;
 
-  & + label {
-    max-width: calc(100% - $gutter * 3.2);
-    margin-bottom: 0;
-    vertical-align: middle;
-  }
+	& + label {
+		max-width: calc(100% - #{$gutter} * 3.2);
+		margin-bottom: 0;
+		vertical-align: middle;
+	}
 }
 
 .gfield_checkbox {
-  button[type="button"] {
-    font-size: $gutter * 1.2 !important;
-    font-weight: bold;
-    letter-spacing: 1px;
-    line-height: 1;
-    margin-top: $gutter * 1.6;
-    padding: $gutter * 0.5 !important;
-  }
+	button[type="button"] {
+		font-size: $gutter * 1.2 !important;
+		font-weight: bold;
+		letter-spacing: 1px;
+		line-height: 1;
+		margin-top: $gutter * 1.6;
+		padding: $gutter * 0.5 !important;
+	}
 }
 
 .gfield_checkbox,
 .gfield_radio {
-  display: inline-grid;
-  gap: $gutter;
-  width: 100%;
+	display: inline-grid;
+	gap: $gutter;
+	width: 100%;
 
-  label {
-    display: inline-block;
-    font-size: $gutter * 1.4;
-    font-weight: normal;
-  }
+	label {
+		display: inline-block;
+		font-size: $gutter * 1.4;
+		font-weight: normal;
+	}
 
-  input[type="text"] {
-    margin-top: $gutter * 1.6;
-  }
+	input[type="text"] {
+		margin-top: $gutter * 1.6;
+	}
 }
 
 /* NAME */
 .ginput_complex {
-  display: flex;
-  flex-flow: row wrap;
+	display: flex;
+	flex-flow: row wrap;
 
-  &:not(.ginput_container_address)
-    fieldset:not([style*="display:none"]):not(.ginput_full),
-  &:not(.ginput_container_address)
-    span:not([style*="display:none"]):not(.ginput_full) {
-    padding-right: 1%;
-  }
+	&:not(.ginput_container_address)
+		fieldset:not([style*="display:none"]):not(.ginput_full),
+	&:not(.ginput_container_address)
+		span:not([style*="display:none"]):not(.ginput_full) {
+		padding-right: 1%;
+	}
 
-  span {
-    flex: 1;
+	span {
+		flex: 1;
 
-    @include down($medium) {
-      flex: 0 0 100%;
-      padding-left: 0;
-      margin-bottom: $gutter * 0.8;
-    }
-  }
+		@include down($medium) {
+			flex: 0 0 100%;
+			padding-left: 0;
+			margin-bottom: $gutter * 0.8;
+		}
+	}
 
-  label {
-    font-size: $gutter * 1.2;
-    margin-top: $gutter * 0.4;
-  }
+	label {
+		font-size: $gutter * 1.2;
+		margin-top: $gutter * 0.4;
+	}
 }
 
 /* DATE */
 .ginput_container_date {
-  display: flex;
-  align-items: center;
-  align-content: flex-start;
+	display: flex;
+	align-items: center;
+	align-content: flex-start;
 
-  input {
-    width: auto;
-  }
+	input {
+		width: auto;
+	}
 
-  img.ui-datepicker-trigger {
-    display: block;
-    margin-left: $gutter * 1.3;
-    max-width: $gutter * 2.6;
-    max-height: $gutter * 2.6;
-  }
+	img.ui-datepicker-trigger {
+		display: block;
+		margin-left: $gutter * 1.3;
+		max-width: $gutter * 2.6;
+		max-height: $gutter * 2.6;
+	}
 }
 
 /* Datepicker */
@@ -316,68 +316,68 @@ form.gform {
 
 /* TIME */
 .ginput_container_time {
-  flex-basis: min-content;
-  max-width: $gutter * 6.4;
-  min-width: $gutter * 6.4;
+	flex-basis: min-content;
+	max-width: $gutter * 6.4;
+	min-width: $gutter * 6.4;
 
-  input {
-    margin-left: 0;
-    margin-right: 0;
-    min-width: 100%;
-  }
+	input {
+		margin-left: 0;
+		margin-right: 0;
+		min-width: 100%;
+	}
 }
 
 .gfield_time_hour label.hour_label,
 .gfield_time_minute label.minute_label {
-  display: block;
-  font-size: $gutter * 1.3;
-  margin: 0;
-  padding-top: $gutter * 0.5;
+	display: block;
+	font-size: $gutter * 1.3;
+	margin: 0;
+	padding-top: $gutter * 0.5;
 }
 
 .gfield_time_ampm,
 .hour_minute_colon {
-  line-height: 2;
-  padding: 0 $gutter * 0.8;
+	line-height: 2;
+	padding: 0 $gutter * 0.8;
 }
 
 .gfield_time_ampm.below,
 .hour_minute_colon.below {
-  align-items: flex-start;
+	align-items: flex-start;
 }
 
 .gfield_time_minute {
-  position: relative;
-  flex-basis: min-content;
-  max-width: $gutter * 6.4;
-  min-width: $gutter * 6.4;
+	position: relative;
+	flex-basis: min-content;
+	max-width: $gutter * 6.4;
+	min-width: $gutter * 6.4;
 }
 .gfield_time_hour input,
 .gfield_time_minute input,
 .gfield_time_ampm select {
-  width: $gutter * 10;
+	width: $gutter * 10;
 }
 
 /* ADDRESS */
 .ginput_container_address {
-  span {
-    flex: 0 0 50%;
-    margin-bottom: $gutter * 0.8;
-  }
-  .ginput_full {
-    flex: 0 0 100%;
-    &:not(:last-of-type) {
-      margin-bottom: $gutter * 0.8;
-    }
-  }
+	span {
+		flex: 0 0 50%;
+		margin-bottom: $gutter * 0.8;
+	}
+	.ginput_full {
+		flex: 0 0 100%;
+		&:not(:last-of-type) {
+			margin-bottom: $gutter * 0.8;
+		}
+	}
 
-  .ginput_left {
-    padding-right: 1%;
-  }
+	.ginput_left {
+		padding-right: 1%;
+	}
 
-  .ginput_right {
-    padding-left: 1%;
-  }
+	.ginput_right {
+		padding-left: 1%;
+	}
 }
 
 /*-----------------------*
@@ -386,123 +386,123 @@ form.gform {
 
 /* FILE */
 .ginput_container_fileupload {
-  input {
-    width: 100%;
-  }
+	input {
+		width: 100%;
+	}
 
-  .gform_fileupload_rules {
-    color: $colorGreyDark;
-    font-size: $gutter * 1.2;
-    margin-top: $gutter * 0.5;
-  }
+	.gform_fileupload_rules {
+		color: $colorGreyDark;
+		font-size: $gutter * 1.2;
+		margin-top: $gutter * 0.5;
+	}
 
-  .gform_drop_area {
-    background: $colorGreyLight;
-    border: 2px dashed $colorBorder;
-    border-radius: $radius;
-    gap: $gutter;
-    display: flex;
-    flex-direction: column;
-    margin-bottom: $gutter * 0.8;
-    padding: $gutter * 3.2;
-    text-align: center;
+	.gform_drop_area {
+		background: $colorGreyLight;
+		border: 2px dashed $colorBorder;
+		border-radius: $radius;
+		gap: $gutter;
+		display: flex;
+		flex-direction: column;
+		margin-bottom: $gutter * 0.8;
+		padding: $gutter * 3.2;
+		text-align: center;
 
-    button {
-      align-self: center;
-    }
-  }
+		button {
+			align-self: center;
+		}
+	}
 
-  .gform_drop_instructions {
-    font-size: $gutter * 1.2;
-  }
+	.gform_drop_instructions {
+		font-size: $gutter * 1.2;
+	}
 }
 
 /* LIST */
 .ginput_list {
-  .gfield_list_header,
-  .gfield_list_group {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-  }
+	.gfield_list_header,
+	.gfield_list_group {
+		display: flex;
+		flex-direction: row;
+		flex-wrap: nowrap;
+	}
 
-  .gfield_header_item,
-  .gfield_list_group_item {
-    font-size: $gutter * 1.2;
-    padding-top: $gutter * 0.5;
-    flex-grow: 1;
-    width: 0;
-    word-break: break-word;
-  }
+	.gfield_header_item,
+	.gfield_list_group_item {
+		font-size: $gutter * 1.2;
+		padding-top: $gutter * 0.5;
+		flex-grow: 1;
+		width: 0;
+		word-break: break-word;
+	}
 
-  .gfield_list_group_item + .gfield_list_group_item {
-    margin-left: 2%;
-  }
+	.gfield_list_group_item + .gfield_list_group_item {
+		margin-left: 2%;
+	}
 
-  .gfield_list_group {
-    &:last-child {
-      margin-bottom: 0;
-    }
-  }
+	.gfield_list_group {
+		&:last-child {
+			margin-bottom: 0;
+		}
+	}
 
-  .gfield_list_icons {
-    width: $gutter * 4.8;
-    flex: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+	.gfield_list_icons {
+		width: $gutter * 4.8;
+		flex: none;
+		display: flex;
+		align-items: center;
+		justify-content: center;
 
-    button {
-      font-size: 0;
-      background: transparent url(../images/icons/list-add.svg);
-      border: none;
-      width: $gutter * 1.6;
-      height: $gutter * 1.6;
-      opacity: 0.5;
-      padding: 0;
-      transition: opacity 0.5s ease-out;
+		button {
+			font-size: 0;
+			background: transparent url(../images/icons/list-add.svg);
+			border: none;
+			width: $gutter * 1.6;
+			height: $gutter * 1.6;
+			opacity: 0.5;
+			padding: 0;
+			transition: opacity 0.5s ease-out;
 
-      &.delete_list_item {
-        margin-left: $gutter * 0.5;
-        background-image: url(../images/icons/list-remove.svg);
-      }
-    }
-  }
+			&.delete_list_item {
+				margin-left: $gutter * 0.5;
+				background-image: url(../images/icons/list-remove.svg);
+			}
+		}
+	}
 }
 
 /* MULTI SELECT */
 .ginput_container_multiselect {
-  select {
-    height: $gutter * 15;
-  }
+	select {
+		height: $gutter * 15;
+	}
 }
 
 /* CONSENT */
 .ginput_container_consent {
-  align-items: center;
-  margin-bottom: $gutter;
+	align-items: center;
+	margin-bottom: $gutter;
 
-  .gfield_consent_label {
-    display: inline-block;
-    font-size: $gutter * 1.4;
-    margin-bottom: 0;
-  }
+	.gfield_consent_label {
+		display: inline-block;
+		font-size: $gutter * 1.4;
+		margin-bottom: 0;
+	}
 }
 
 /* Post Image */
 .ginput_container_post_image {
-  .ginput_full {
-    margin-bottom: $gutter * 2;
-    flex: 0 0 100%;
-  }
+	.ginput_full {
+		margin-bottom: $gutter * 2;
+		flex: 0 0 100%;
+	}
 
-  input.large {
-    width: 100%;
-  }
+	input.large {
+		width: 100%;
+	}
 
-  label {
-    font-size: $gutter * 1.2;
-  }
+	label {
+		font-size: $gutter * 1.2;
+	}
 }
 
 /*-----------------------*
@@ -510,109 +510,109 @@ form.gform {
  *-----------------------*/
 /* Product Name */
 .ginput_container_singleproduct {
-  .gform_hidden {
-    display: none;
-  }
+	.gform_hidden {
+		display: none;
+	}
 
-  .ginput_product_price_wrapper {
-    display: inline-block;
+	.ginput_product_price_wrapper {
+		display: inline-block;
 
-    input:read-only {
-      background: 0 0;
-      border: none;
-      padding: 0;
-    }
-  }
+		input:read-only {
+			background: 0 0;
+			border: none;
+			padding: 0;
+		}
+	}
 
-  .ginput_product_price_label {
-    font-size: $gutter * 1.2;
-  }
+	.ginput_product_price_label {
+		font-size: $gutter * 1.2;
+	}
 
-  .ginput_product_price,
-  .ginput_shipping_price {
-    color: $colorSuccess;
-  }
+	.ginput_product_price,
+	.ginput_shipping_price {
+		color: $colorSuccess;
+	}
 }
 
 /* Total */
 .ginput_container_total {
-  .ginput_total {
-    color: $colorSuccess;
-    background: none;
-    border: none;
-    border-radius: 0;
-    font-size: $gutter * 1.4;
-    outline: 0;
-  }
+	.ginput_total {
+		color: $colorSuccess;
+		background: none;
+		border: none;
+		border-radius: 0;
+		font-size: $gutter * 1.4;
+		outline: 0;
+	}
 }
 /*-----------------------*
  * VALIDATION
  *-----------------------*/
 .gform_validation_errors {
-  background-color: rgba($colorWarning, 0.1);
-  border-radius: $radius;
-  color: rgba($colorWarning, 0.7);
-  font-size: $gutter * 1.4;
-  margin-bottom: $gutter * 2;
-  padding: $gutter $gutter * 0.5 $gutter $gutter;
-  position: relative;
+	background-color: rgba($colorWarning, 0.1);
+	border-radius: $radius;
+	color: rgba($colorWarning, 0.7);
+	font-size: $gutter * 1.4;
+	margin-bottom: $gutter * 2;
+	padding: $gutter $gutter * 0.5 $gutter $gutter;
+	position: relative;
 
-  h2.gform_submission_error {
-    color: inherit;
-    font-size: $gutter * 1.4;
-    margin-bottom: $gutter;
-  }
+	h2.gform_submission_error {
+		color: inherit;
+		font-size: $gutter * 1.4;
+		margin-bottom: $gutter;
+	}
 
-  .gform-icon {
-    margin-right: $gutter * 0.5;
-    position: absolute;
-    right: $gutter;
-    top: 50%;
-    transform: translateY(-50%);
-  }
+	.gform-icon {
+		margin-right: $gutter * 0.5;
+		position: absolute;
+		right: $gutter;
+		top: 50%;
+		transform: translateY(-50%);
+	}
 
-  ol {
-    margin-bottom: 0;
-  }
+	ol {
+		margin-bottom: 0;
+	}
 
-  li {
-    list-style-type: disc;
-    margin: 0 0 $gutter * 0.8 0;
+	li {
+		list-style-type: disc;
+		margin: 0 0 $gutter * 0.8 0;
 
-    a {
-      color: inherit;
-    }
+		a {
+			color: inherit;
+		}
 
-    &:last-child {
-      margin: 0;
-    }
-  }
+		&:last-child {
+			margin: 0;
+		}
+	}
 }
 
 .validation_message {
-  background-color: rgba($colorWarning, 0.1);
-  border-radius: 3px;
-  color: $colorWarning;
-  display: inline-block;
-  padding: $gridGutter * 0.3;
+	background-color: rgba($colorWarning, 0.1);
+	border-radius: 3px;
+	color: $colorWarning;
+	display: inline-block;
+	padding: $gridGutter * 0.3;
 }
 
 /*-----------------------*
  * ICONS
  *-----------------------*/
 .gform-icon {
-  color: inherit;
-  font-family: "Font Awesome 5 Pro";
-  font-weight: $fontWeightLight;
-  display: inline-block;
-  font-size: $gutter * 1.8;
-  font-style: normal;
-  font-variant: normal;
-  text-rendering: auto;
-  -webkit-font-smoothing: antialiased;
+	color: inherit;
+	font-family: "Font Awesome 5 Pro";
+	font-weight: $fontWeightLight;
+	display: inline-block;
+	font-size: $gutter * 1.8;
+	font-style: normal;
+	font-variant: normal;
+	text-rendering: auto;
+	-webkit-font-smoothing: antialiased;
 }
 .gform-icon--close:before {
-  content: "\f057";
+	content: "\f057";
 }
 
 /*-----------------------*
@@ -620,23 +620,23 @@ form.gform {
  *-----------------------*/
 .gform_footer,
 .gform_page_footer {
-  margin: $gridGutter * 6 0 0;
-  padding: $gutter * 1.6 0;
+	margin: $gridGutter * 6 0 0;
+	padding: $gutter * 1.6 0;
 }
 
 .gform_previous_button,
 .gform_save_link {
-  background-color: $colorWhite;
-  color: $colorPrimary;
-  text-decoration: none;
+	background-color: $colorWhite;
+	color: $colorPrimary;
+	text-decoration: none;
 
-  &:hover {
-    background: none;
-    color: $colorSecondary;
-  }
+	&:hover {
+		background: none;
+		color: $colorSecondary;
+	}
 }
 
 .wp-editor-container {
-  border: 1px solid $colorBorder !important;
-  border-radius: 4px;
+	border: 1px solid $colorBorder !important;
+	border-radius: 4px;
 }

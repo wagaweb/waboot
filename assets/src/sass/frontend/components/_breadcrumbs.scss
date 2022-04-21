@@ -2,7 +2,7 @@
   display: flex;
   flex-wrap: wrap;
   list-style: none;
-  margin-bottom: $gutter / 2;
+  margin-bottom: calc($gutter / 2);
 
   a {
     color: inherit;

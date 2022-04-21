@@ -1,224 +1,224 @@
 .header__navigation {
-  ul {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
+	ul {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
 
-  @include up($large) {
-    > ul {
-      display: flex;
-      column-gap: $gutter * 3;
-    }
-  }
+	@include up($large) {
+		> ul {
+			display: flex;
+			column-gap: $gutter * 3;
+		}
+	}
 
-  li {
-    position: relative;
-    &.menu-item-has-children {
-      > a:after {
-        @extend %fa-icon;
-        @extend .far;
-        content: fa-content($fa-var-angle-down);
-        opacity: 0.7;
-        margin-left: $gutter;
-      }
-      li.menu-item-has-children > a:after {
-        content: fa-content($fa-var-angle-right);
-      }
-    }
-  }
+	li {
+		position: relative;
+		&.menu-item-has-children {
+			> a:after {
+				@extend %fa-icon;
+				@extend .far;
+				content: fa-content($fa-var-angle-down);
+				opacity: 0.7;
+				margin-left: $gutter;
+			}
+			li.menu-item-has-children > a:after {
+				content: fa-content($fa-var-angle-right);
+			}
+		}
+	}
 
-  > ul {
-    > li {
-      &.current-menu-item {
-        > a {
-          color: $colorPrimary;
-          position: relative;
+	> ul {
+		> li {
+			&.current-menu-item {
+				> a {
+					color: $colorPrimary;
+					position: relative;
 
-          &::before {
-            transform: scaleX(100%);
-            width: 100%;
-          }
-        }
-      }
+					&::before {
+						transform: scaleX(100%);
+						width: 100%;
+					}
+				}
+			}
 
-      > a {
-        align-items: center;
-        color: $colorText;
-        display: flex;
-        font-weight: $fontWeightMedium;
-        padding-block: $gutter;
-        position: relative;
+			> a {
+				align-items: center;
+				color: $colorText;
+				display: flex;
+				font-weight: $fontWeightMedium;
+				padding-block: $gutter;
+				position: relative;
 
-        &:hover {
-          color: $colorPrimary;
-        }
+				&:hover {
+					color: $colorPrimary;
+				}
 
-        &::before {
-          content: "";
-          background-color: $colorPrimary;
-          bottom: 0;
-          height: 3px;
-          left: 0;
-          position: absolute;
-          top: 0;
-          transform: scaleX(0);
-          transition: $duration;
-          width: 0%;
-        }
+				&::before {
+					content: "";
+					background-color: $colorPrimary;
+					bottom: 0;
+					height: 3px;
+					left: 0;
+					position: absolute;
+					top: 0;
+					transform: scaleX(0);
+					transition: $duration;
+					width: 0%;
+				}
 
-        @include up($large) {
-          padding-bottom: $gutter * 2;
-          padding-top: $gutter * 2;
-        }
-      }
+				@include up($large) {
+					padding-bottom: $gutter * 2;
+					padding-top: $gutter * 2;
+				}
+			}
 
-      &:last-child > a {
-        @include up($large) {
-          padding-right: 0;
-        }
-      }
-    }
+			&:last-child > a {
+				@include up($large) {
+					padding-right: 0;
+				}
+			}
+		}
 
-    .sub-menu {
-      background-color: $colorGreyDark;
-      border-radius: $radius;
-      box-shadow: 0 1px 3px rgba($colorGreyDark, 0.1);
-      margin: 0;
-      opacity: 0;
-      padding: 0;
-      position: absolute;
-      right: 0;
-      top: calc(100% + $gutter * 0.7);
-      transition: $duration;
-      transform: translateY(50%);
-      visibility: hidden;
-      z-index: 7;
+		.sub-menu {
+			background-color: $colorGreyDark;
+			border-radius: $radius;
+			box-shadow: 0 1px 3px rgba($colorGreyDark, 0.1);
+			margin: 0;
+			opacity: 0;
+			padding: 0;
+			position: absolute;
+			right: 0;
+			top: calc(100% + #{$gutter} * 0.7);
+			transition: $duration;
+			transform: translateY(50%);
+			visibility: hidden;
+			z-index: 7;
 
-      &::before {
-        content: "";
-        background-color: inherit;
-        display: block;
-        height: $gutter;
-        position: absolute;
-        right: $gutter;
-        transform: rotate(45deg);
-        top: -2px;
-        width: $gutter;
-        z-index: -100;
-      }
+			&::before {
+				content: "";
+				background-color: inherit;
+				display: block;
+				height: $gutter;
+				position: absolute;
+				right: $gutter;
+				transform: rotate(45deg);
+				top: -2px;
+				width: $gutter;
+				z-index: -100;
+			}
 
-      li:not(:last-child) a {
-        border-bottom: 1px solid $colorBorder;
-      }
+			li:not(:last-child) a {
+				border-bottom: 1px solid $colorBorder;
+			}
 
-      a {
-        color: $colorWhite;
-        font-weight: $fontWeightSemibold;
-        padding: $gutter $gutter * 1.5;
-        display: block;
-        white-space: nowrap;
+			a {
+				color: $colorWhite;
+				font-weight: $fontWeightSemibold;
+				padding: $gutter $gutter * 1.5;
+				display: block;
+				white-space: nowrap;
 
-        &:hover {
-          color: $colorSecondary;
-        }
-      }
-    }
+				&:hover {
+					color: $colorSecondary;
+				}
+			}
+		}
 
-    li:hover > .sub-menu {
-      opacity: 1;
-      transform: translateY(0);
-      visibility: visible;
-    }
+		li:hover > .sub-menu {
+			opacity: 1;
+			transform: translateY(0);
+			visibility: visible;
+		}
 
-    .sub-menu > li:hover > .sub-menu {
-      top: -1px;
-      left: 100%;
-      a {
-        text-align: left;
-      }
-    }
-  }
+		.sub-menu > li:hover > .sub-menu {
+			top: -1px;
+			left: 100%;
+			a {
+				text-align: left;
+			}
+		}
+	}
 }
 
 .navigation-mobile {
-  background-color: $colorGreyDark;
-  padding: $gutter;
+	background-color: $colorGreyDark;
+	padding: $gutter;
 
-  &__inner {
-    padding: $gutter 0;
-    height: 100%;
-    width: 100%;
-    flex-grow: 1;
-    display: grid;
-    grid-template-rows: auto auto 1fr;
-    grid-gap: $gutter;
-  }
+	&__inner {
+		padding: $gutter 0;
+		height: 100%;
+		width: 100%;
+		flex-grow: 1;
+		display: grid;
+		grid-template-rows: auto auto 1fr;
+		grid-gap: $gutter;
+	}
 
-  .search-form {
-    margin-top: 5vh;
-    position: relative;
-    z-index: 1;
-  }
+	.search-form {
+		margin-top: 5vh;
+		position: relative;
+		z-index: 1;
+	}
 
-  ul {
-    list-style-type: none;
-    overflow-x: hidden;
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 0;
-    margin: 0;
-    transition: all 0.5s ease;
-  }
+	ul {
+		list-style-type: none;
+		overflow-x: hidden;
+		position: absolute;
+		left: 0;
+		top: 0;
+		width: 100%;
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		padding: 0;
+		margin: 0;
+		transition: all 0.5s ease;
+	}
 
-  li {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-  }
+	li {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		width: 100%;
+	}
 
-  a {
-    color: $colorWhite;
-    font-weight: $fontWeightMedium;
-    text-align: left;
-    justify-content: center;
-    padding: $gutter $gutter * 2;
-    flex-grow: 1;
-  }
+	a {
+		color: $colorWhite;
+		font-weight: $fontWeightMedium;
+		text-align: left;
+		justify-content: center;
+		padding: $gutter $gutter * 2;
+		flex-grow: 1;
+	}
 
-  .sub-menu {
-    background-color: $colorGreyDark;
-    left: 100%;
-  }
+	.sub-menu {
+		background-color: $colorGreyDark;
+		left: 100%;
+	}
 
-  .backlevel__icon {
-    position: absolute;
-    left: 0;
-    top: 0;
-    padding: $gutter 0 0 $gutter * 2;
-    width: 48px;
-    height: 48px;
-    display: flex;
-    align-items: center;
-    z-index: 20;
-    color: $colorPrimary;
-  }
+	.backlevel__icon {
+		position: absolute;
+		left: 0;
+		top: 0;
+		padding: $gutter 0 0 $gutter * 2;
+		width: 48px;
+		height: 48px;
+		display: flex;
+		align-items: center;
+		z-index: 20;
+		color: $colorPrimary;
+	}
 
-  .sublevel__icon {
-    line-height: 1em;
-    width: 48px;
-    height: 48px;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    padding-right: $gutter * 2;
-  }
+	.sublevel__icon {
+		line-height: 1em;
+		width: 48px;
+		height: 48px;
+		display: flex;
+		align-items: center;
+		justify-content: flex-end;
+		padding-right: $gutter * 2;
+	}
 }

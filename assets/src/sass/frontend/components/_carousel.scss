@@ -23,9 +23,9 @@
       box-shadow: 0 0 1px rgba($colorBlack, 0.5);
       border-radius: 50%;
       display: inline-block;
-      width: $gutter * 1.5;
-      height: $gutter * 1.5;
-      margin: 0 $gutter / 2;
+      width: calc($gutter * 1.5);
+      height: calc($gutter * 1.5);
+      margin: 0 calc($gutter / 2);
 
       &.active {
         background-color: $colorPrimary;

@@ -1,212 +1,212 @@
 .article__list {
-  display: grid;
-  gap: $gutter * 2;
-  margin-bottom: $gutter * 3;
+	display: grid;
+	gap: $gutter * 2;
+	margin-bottom: $gutter * 3;
 
-  @include up($medium) {
-    gap: $gutter * 3;
-    margin-bottom: $gutter * 4;
-  }
+	@include up($medium) {
+		gap: $gutter * 3;
+		margin-bottom: $gutter * 4;
+	}
 
-  .post {
-    border: 1px solid $colorBorder;
-    border-radius: $radius;
-  }
+	.post {
+		border: 1px solid $colorBorder;
+		border-radius: $radius;
+	}
 
-  .article {
-    &__inner {
-      display: flex;
-      flex-direction: column;
+	.article {
+		&__inner {
+			display: flex;
+			flex-direction: column;
 
-      @include up($small) {
-        flex-direction: row;
-      }
-    }
+			@include up($small) {
+				flex-direction: row;
+			}
+		}
 
-    &__image {
-      flex: 0 1 25%;
+		&__image {
+			flex: 0 1 25%;
 
-      .wp-post-image {
-        aspect-ratio: 2 / 1;
-        border-radius: $radius $radius 0 0;
-        object-fit: cover;
-        width: 100%;
+			.wp-post-image {
+				aspect-ratio: 2 / 1;
+				border-radius: $radius $radius 0 0;
+				object-fit: cover;
+				width: 100%;
 
-        @include up($small) {
-          aspect-ratio: 1;
-          border-radius: 0;
-          margin: $gutter * 7;
-        }
+				@include up($small) {
+					aspect-ratio: 1;
+					border-radius: 0;
+					margin: $gutter * 7;
+				}
 
-        @include up($large) {
-          aspect-ratio: 1;
-          border-radius: $radius 0 0 $radius;
-          height: 100%;
-          margin: 0;
-        }
-      }
-    }
+				@include up($large) {
+					aspect-ratio: 1;
+					border-radius: $radius 0 0 $radius;
+					height: 100%;
+					margin: 0;
+				}
+			}
+		}
 
-    &__content {
-      display: flex;
-      flex: 1;
-      flex-direction: column;
-      padding: $gutter * 2 $gutter * 1.5;
+		&__content {
+			display: flex;
+			flex: 1;
+			flex-direction: column;
+			padding: $gutter * 2 $gutter * 1.5;
 
-      @include up($medium) {
-        padding: $gutter * 2;
-      }
+			@include up($medium) {
+				padding: $gutter * 2;
+			}
 
-      h2 {
-        a {
-          color: inherit;
+			h2 {
+				a {
+					color: inherit;
 
-          &:hover {
-            color: $colorPrimary;
-          }
-        }
-      }
-    }
+					&:hover {
+						color: $colorPrimary;
+					}
+				}
+			}
+		}
 
-    &__categories {
-      align-items: center;
-      display: flex;
-      gap: $gutter / 2;
-      margin-bottom: $gutter;
+		&__categories {
+			align-items: center;
+			display: flex;
+			gap: calc($gutter / 2);
+			margin-bottom: $gutter;
 
-      .post-categories {
-        display: flex;
-        flex-wrap: wrap;
-        list-style: none;
-        padding: 0;
-      }
+			.post-categories {
+				display: flex;
+				flex-wrap: wrap;
+				list-style: none;
+				padding: 0;
+			}
 
-      a:not(:first-child) {
-        margin-left: $gutter / 2;
-      }
+			a:not(:first-child) {
+				margin-left: calc($gutter / 2);
+			}
 
-      a {
-        color: inherit;
+			a {
+				color: inherit;
 
-        &:hover {
-          color: $colorPrimary;
-        }
-      }
-    }
+				&:hover {
+					color: $colorPrimary;
+				}
+			}
+		}
 
-    &__footer {
-      align-items: center;
-      column-gap: 3%;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: flex-end;
-      line-height: 1;
-      margin-top: auto;
-      row-gap: $gutter;
+		&__footer {
+			align-items: center;
+			column-gap: 3%;
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: flex-end;
+			line-height: 1;
+			margin-top: auto;
+			row-gap: $gutter;
 
-      @include up($medium) {
-        row-gap: $gutter * 3;
-      }
+			@include up($medium) {
+				row-gap: calc($gutter * 3);
+			}
 
-      span {
-        align-items: center;
-        display: flex;
-        gap: $gutter / 2;
-      }
+			span {
+				align-items: center;
+				display: flex;
+				gap: calc($gutter / 2);
+			}
 
-      a {
-        color: inherit;
+			a {
+				color: inherit;
 
-        &:hover {
-          color: $colorPrimary;
-        }
-      }
-    }
-  }
+				&:hover {
+					color: $colorPrimary;
+				}
+			}
+		}
+	}
 }
 
 .more__link {
-  color: inherit;
-  display: block;
-  font-weight: $fontWeightSemibold;
-  margin-top: $gutter * 2;
+	color: inherit;
+	display: block;
+	font-weight: $fontWeightSemibold;
+	margin-top: calc($gutter * 2);
 
-  &:hover {
-    color: $colorPrimary;
-  }
+	&:hover {
+		color: $colorPrimary;
+	}
 }
 
 .single {
-  .article {
-    &__image {
-      margin-bottom: $gutter * 2;
+	.article {
+		&__image {
+			margin-bottom: calc($gutter * 2);
 
-      @include up($medium) {
-        margin-bottom: $gutter * 3;
-      }
+			@include up($medium) {
+				margin-bottom: calc($gutter * 3);
+			}
 
-      img {
-        aspect-ratio: 2 / 1;
-        object-fit: cover;
-      }
-    }
+			img {
+				aspect-ratio: 2 / 1;
+				object-fit: cover;
+			}
+		}
 
-    &__footer {
-      display: flex;
-      flex-wrap: wrap;
-      column-gap: 3%;
-      row-gap: $gutter;
-      line-height: 1;
-      margin-bottom: $gutter * 2;
+		&__footer {
+			display: flex;
+			flex-wrap: wrap;
+			column-gap: 3%;
+			row-gap: $gutter;
+			line-height: 1;
+			margin-bottom: calc($gutter * 2);
 
-      @include up($medium) {
-        row-gap: 1rem;
-        margin-bottom: $gutter * 3;
-      }
+			@include up($medium) {
+				row-gap: 1rem;
+				margin-bottom: calc($gutter * 3);
+			}
 
-      a {
-        color: inherit;
+			a {
+				color: inherit;
 
-        &:hover {
-          color: $colorPrimary;
+				&:hover {
+					color: $colorPrimary;
 
-          svg {
-            stroke: $colorPrimary;
-          }
-        }
-      }
+					svg {
+						stroke: $colorPrimary;
+					}
+				}
+			}
 
-      .glyphicon {
-        margin-right: $gutter / 2;
-      }
+			.glyphicon {
+				margin-right: calc($gutter / 2);
+			}
 
-      > span {
-        margin-right: $gutter;
-      }
+			> span {
+				margin-right: $gutter;
+			}
 
-      .published-date,
-      .url,
-      .comments-link,
-      .tags-links {
-        align-items: center;
-        display: flex;
-        gap: $gutter / 2;
-      }
+			.published-date,
+			.url,
+			.comments-link,
+			.tags-links {
+				align-items: center;
+				display: flex;
+				gap: calc($gutter / 2);
+			}
 
-      .tags-links {
-        display: inline-flex;
-        gap: 0;
+			.tags-links {
+				display: inline-flex;
+				gap: 0;
 
-        a {
-          margin-left: $gutter / 2;
-        }
-      }
-    }
+				a {
+					margin-left: calc($gutter / 2);
+				}
+			}
+		}
 
-    &__categories {
-      align-items: center;
-      display: flex;
-      gap: $gutter / 2;
-    }
-  }
+		&__categories {
+			align-items: center;
+			display: flex;
+			gap: calc($gutter / 2);
+		}
+	}
 }

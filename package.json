@@ -1,45 +1,53 @@
 {
-  "name": "Waboot",
-  "version": "4.0.0",
-  "author": "Waga",
-  "homepage": "http://www.waga.it/",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/wagaweb/waboot"
-  },
-  "license": "GPL-2.0+",
-  "engines": {
-    "node": ">= 4.4.3"
-  },
-  "devDependencies": {
-    "babelify": "^10.0.0",
-    "@babel/core": "^7.8.7",
-    "@babel/preset-env": "^7.8.7",
-    "@babel/compat-data": "^7.8.7",
-    "autoprefixer": "^8.2.0",
-    "browserify": "^16.5.0",
-    "browserify-shim": "^3.8.0",
-    "cssnano": "^3.5.0",
-    "gulp": "^4.0.0",
-    "gulp-copy": "^1.1.0",
-    "gulp-postcss": "^7.0.0",
-    "gulp-rename": "^1.2.0",
-    "gulp-sass": "^5.0.0",
-    "gulp-sourcemaps": "^2.6.0",
-    "gulp-uglify": "^3.0.0",
-    "merge-stream": "^1.0.0",
-    "vinyl-buffer": "^1.0.0",
-    "vinyl-source-stream": "^2.0.0",
-    "node-sass": "^7.0.1"
-  },
-  "browserify": {
-    "transform": [
-      "browserify-shim"
-    ]
-  },
-  "browserify-shim": {
-    "jquery": "global:jQuery",
-    "backbone": "global:Backbone",
-    "underscore": "global:_"
-  }
+	"name": "Waboot",
+	"version": "4.0.0",
+	"author": "Waga",
+	"homepage": "http://www.waga.it/",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/wagaweb/waboot"
+	},
+	"license": "GPL-2.0+",
+	"engines": {
+		"node": ">= 4.4.3"
+	},
+	"devDependencies": {
+		"@babel/compat-data": "^7.17.7",
+		"@babel/core": "^7.17.9",
+		"@babel/preset-env": "^7.16.11",
+		"autoprefixer": "^10.4.4",
+		"babelify": "^10.0.0",
+		"browserify": "^17.0.0",
+		"browserify-shim": "^3.8.0",
+		"cssnano": "^5.1.7",
+		"gulp": "^4.0.2",
+		"gulp-copy": "^4.0.1",
+		"gulp-postcss": "^9.0.1",
+		"gulp-rename": "^2.0.0",
+		"gulp-sass": "^5.1.0",
+		"gulp-sourcemaps": "^3.0.0",
+		"gulp-uglify": "^3.0.0",
+		"merge-stream": "^2.0.0",
+		"node-sass": "^7.0.1",
+		"postcss": "^8.4.12",
+		"sass": "^1.50.1",
+		"vinyl-buffer": "^1.0.0",
+		"vinyl-source-stream": "^2.0.0"
+	},
+	"browserify": {
+		"transform": [
+			"browserify-shim"
+		]
+	},
+	"browserify-shim": {
+		"jquery": "global:jQuery",
+		"backbone": "global:Backbone",
+		"underscore": "global:_"
+	},
+	"browserslist": [
+		"defaults"
+	],
+	"dependencies": {
+		"browser-sync": "^2.27.9"
+	}
 }
