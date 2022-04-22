@@ -23,7 +23,7 @@
                 @click="priceRangeOpen = !priceRangeOpen"
                 class="filter__title"
               >
-                Price
+                {{ $t('price') }}
               </h4>
               <div class="filter__dropdown" v-show="priceRangeOpen">
                 <PriceRangeSlider
@@ -60,7 +60,7 @@
             </div>
           </template>
           <a class="catalog-filters__apply btn" @click="sidebarOpen = false"
-            >Applica</a
+            >{{ $t('apply') }}</a
           >
         </div>
         <div
@@ -74,7 +74,7 @@
             <Dropdown
               :ref="addDdRef"
               @toggle="onDdToggle"
-              title="Prezzo"
+              :title="$t('price')"
               @apply="onPriceRangeSliderApply"
             >
               <div class="filter filter--price-slider">
@@ -126,17 +126,17 @@
           class="catalog-filters__button"
           @click="sidebarOpen = true"
         >
-          <i class="fal fa-sliders-h"></i> Filtra per
+          <i class="fal fa-sliders-h"></i> {{ $t('filterFor') }}
         </button>
         <div v-if="config.enableOrder ?? false" class="catalog__ordering">
           <select v-model="order" name="order" id="order">
-            <option value="default">Predefinito</option>
-            <option value="alphabetic">Alfabetico</option>
-            <option value="mostSold">Popolarità</option>
+            <option value="default">{{ $t('default') }}</option>
+            <option value="alphabetic">{{ $t('alphabetic') }}</option>
+            <option value="mostSold">{{ $t('popularity') }}</option>
             <!-- <option value="mostRated">Con più recensioni</option>
             <option value="bestRated">Con voto più alto</option> -->
-            <option value="priceHighToLow">Prezzo in ordine decrescente</option>
-            <option value="priceLowToHigh">Prezzo in ordine crescente</option>
+            <option value="priceHighToLow">{{ $t('priceHighToLow') }}</option>
+            <option value="priceLowToHigh">{{ $t('priceLowToHigh') }}</option>
           </select>
         </div>
       </div>
@@ -154,18 +154,18 @@
         </template>
       </div>
       <div class="catalog__loadmore loadmore">
-        <p v-if="loadingMoreProducts"><i class="fas fa-spinner fa-spin"></i></p>
+        <Spinner v-if="loadingMoreProducts"></Spinner>
         <a
           class="loadmore__button btn"
           v-else
           v-show="showLoadMore"
           @click="loadMoreProducts"
         >
-          Mostra successivi
+          {{ $t('showMore') }}
         </a>
       </div>
     </template>
-    <h4 class="products__not_found" v-else>Nessun prodotto trovato</h4>
+    <h4 class="products__not_found" v-else>{{ $t('noProductsFound') }}</h4>
   </div>
 </template>
 
@@ -185,7 +185,6 @@ import {
 } from 'vue';
 import CatalogItem from '@/components/CatalogItem.vue';
 import FilterList from '@/components/FilterList.vue';
-import DropdownFilter from '@/components/DropdownFilter.vue';
 import Dropdown from '@/components/Dropdown.vue';
 import Spinner from '@/components/Spinner.vue';
 import PriceRangeSlider from '@/components/PriceRangeSlider.vue';
@@ -216,7 +215,6 @@ export default defineComponent({
     CatalogItem,
     FilterList,
     PermalinkList,
-    DropdownFilter,
     Dropdown,
     PriceRangeSlider,
   },

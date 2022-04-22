@@ -8,8 +8,8 @@ module.exports = (env = {}) => ({
   watch: !env.prod,
   entry: [path.resolve(__dirname, './src/main.ts')],
   output: {
-    filename: env.prod ? './js/catalog.min.js' : './js/catalog.js',
-    path: path.resolve(__dirname, '../../../dist'),
+    filename: env.prod ? './catalog.min.js' : './catalog.js',
+    path: path.resolve(__dirname, './dist'),
   },
   resolve: {
     extensions: ['.ts', '.js', '.vue', '.json'],
@@ -40,12 +40,11 @@ module.exports = (env = {}) => ({
         ],
       },
       {
-        test: /\.css$/,
+        test: /\.(css|sass|scss)$/,
         use: [
-          {
-            loader: MiniCssExtractPlugin.loader,
-          },
+          { loader: MiniCssExtractPlugin.loader },
           'css-loader',
+          'postcss-loader',
         ],
       },
     ],
@@ -53,7 +52,7 @@ module.exports = (env = {}) => ({
   plugins: [
     new VueLoaderPlugin(),
     new MiniCssExtractPlugin({
-      filename: env.prod ? './css/catalog.min.css' : './css/catalog.css',
+      filename: env.prod ? './catalog.min.css' : './catalog.css',
     }),
   ],
 });

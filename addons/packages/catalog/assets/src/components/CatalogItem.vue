@@ -3,11 +3,10 @@
     class="catalog__item product type-product instock sale product-type-simple"
   >
     <a
-      :href="`${host}/${productPermalink}/${product.slug}`"
-      class="woocommerce-LoopProduct-link woocommerce-loop-product__link"
-      @click="$emit('view-details', product)"
+        :href="`${host}/${productPermalink}/${product.slug}`"
+        class="woocommerce-LoopProduct-link woocommerce-loop-product__link"
+        @click="$emit('view-details', product)"
     >
-      <!-- <span class="woocommerce-loop-product__sale">-20%</span> -->
       <img
           :src="image"
           class="attachment-woocommerce_thumbnail size-woocommerce_thumbnail"
@@ -42,43 +41,43 @@
       ></i>
     </div>
     <span class="price">
-      <template
-        v-if="product.stockStatus === 'instock' && product.price !== '0,00'"
-      >
+      <template v-if="product.stockStatus === 'instock'">
         <template v-if="product.hasPriceRange">
-          <span class="woocommerce-Price-amount amount">
-            da
+          <span>
+            {{ $t('from') }}&nbsp;
+            <del v-if="product.onSale" aria-hidden="true">
+              <span class="woocommerce-Price-amount amount">
+                {{ product.minBasePrice }} €
+              </span>
+            </del>
             <ins>
               <span class="woocommerce-Price-amount amount">
-                {{ minPrice }} €
+                {{ product.minPrice }} €
               </span>
               <span v-if="product.onSale" class="sale-percentage">
                 -{{ salePercentage }}%
               </span>
             </ins>
-            <del v-if="product.onSale" aria-hidden="true">
-              <span class="woocommerce-Price-amount amount">
-                {{ minPrice }} €
-              </span>
-            </del>
           </span>
         </template>
-        <ins v-else>
-          <ins>
-            <span class="woocommerce-Price-amount amount"> {{ price }} € </span>
-          </ins>
+        <span v-else>
           <del v-if="product.onSale" aria-hidden="true">
             <span class="woocommerce-Price-amount amount">
-              {{ basePrice }} €
+              {{ product.basePrice }} €
             </span>
           </del>
-          <span v-if="product.onSale" class="sale-percentage">
-            -{{ salePercentage }}%
-          </span>
-        </ins>
+          <ins>
+            <span class="woocommerce-Price-amount amount">
+              {{ product.price }} €
+            </span>
+            <span v-if="product.onSale" class="sale-percentage">
+              -{{ salePercentage }}%
+            </span>
+          </ins>
+        </span>
       </template>
       <ins v-else-if="product.stockStatus === 'outofstock'">
-        <span class="woocommerce-Price-amount amount">Non disponibile</span>
+        <span class="woocommerce-Price-amount amount">{{ $t('outOfStock') }}</span>
       </ins>
     </span>
     <div
@@ -122,18 +121,27 @@
         >
       </span>
     </div>
-    <a
-      v-if="product.stockStatus === 'instock' && product.price !== '0.00'"
-      :href="`?add-to-cart=${selectedId}`"
-      data-quantity="1"
-      class="button product_type_simple add_to_cart_button ajax_add_to_cart"
-      :data-product_id="selectedId"
-      :data-product_sku="sku"
-      :aria-label="`Aggiungi ${product.name} al tuo carrello`"
-      @click="$emit('add-to-cart', product)"
-    >
-      Aggiungi al Carrello
-    </a>
+    <span v-if="product.stockStatus === 'instock' && product.price !== '0.00'">
+      <a
+          v-if="productType !== 'variable'"
+          :href="`?add-to-cart=${selectedId}`"
+          data-quantity="1"
+          class="button product_type_simple add_to_cart_button ajax_add_to_cart"
+          :data-product_id="selectedId"
+          :data-product_sku="sku"
+          :aria-label="$t('addProductToCart', [product.name])"
+          @click="$emit('add-to-cart', product)"
+      >
+        {{ $t('addToCart') }}
+      </a>
+      <a
+          v-else
+          :href="`${host}/${productPermalink}/${product.slug}`"
+          class="button"
+      >
+        {{ $t('showMore') }}
+      </a>
+    </span>
   </div>
 </template>
 
@@ -255,8 +263,8 @@ export default defineComponent({
         let reg = 0;
         let curr = 0;
         if (this.product.hasPriceRange) {
-          reg = Number(this.product.minPrice.replace(',', '.'));
-          curr = Number(this.product.price.replace(',', '.'));
+          reg = Number(this.product.minBasePrice.replace(',', '.'));
+          curr = Number(this.product.minPrice.replace(',', '.'));
         } else {
           reg = Number(this.product.basePrice.replace(',', '.'));
           curr = Number(this.product.price.replace(',', '.'));

@@ -1,11 +1,12 @@
 <?php
 
-namespace Waboot\inc;
+namespace Waboot\addons\packages\catalog;
 
 /**
+ * Render Vue Catalog.
+ *
  * @param array $config
  * @return string
- * Render Vue Catalog
  */
 function renderCatalog(array $config): string
 {
@@ -49,6 +50,14 @@ function renderCatalog(array $config): string
 HTML;
 }
 
+/**
+ * Return the Gtag list name for the current queried object.
+ *
+ * @return string
+ *
+ * @todo: handle more queried object types (like pages).
+ * @todo: consider to handle translations.
+ */
 function getGtagListName(): string
 {
     if (is_search()) {

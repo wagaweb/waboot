@@ -31,6 +31,8 @@ export interface Product {
   hasPriceRange: boolean;
   minPrice: string;
   maxPrice: string;
+  minBasePrice: string;
+  maxBasePrice: string;
   stockStatus: 'instock' | 'outofstock';
   onSale: boolean;
   link: string;

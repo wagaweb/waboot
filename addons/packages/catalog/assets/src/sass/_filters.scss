@@ -1,0 +1,171 @@
+.catalog-filters {
+  .catalog__filter {
+    margin-bottom: 20px;
+    &:last-child {
+      margin-bottom:0;
+    }
+    ul {
+      padding: 0;
+      margin: 0;
+      list-style-type: none;
+      li {
+        margin: 0;
+        padding: 0 0 7px;
+        text-transform: uppercase;
+        opacity: .8;
+        font-size: .9em;
+        input {
+          margin-left: 0;
+        }
+      }
+      ul {
+        margin-top: 10px;
+        margin-left: 10px;
+      }
+    }
+    ul.filter__list {
+      max-height: 200px;
+      overflow-y: auto;
+    }
+  }
+  .price-slider {
+    min-width: 200px;
+    margin: 25px;
+  }
+}
+
+.catalog-filters {
+  &__button {
+    background-color: transparent;
+    color: $colorPrimary;;
+    border: 1px solid $colorGrey;
+    text-align: center;
+    margin: 0;
+    @include up($medium) {
+      display: none;
+    }
+  }
+  &__close,
+  &__apply {
+    display: none;
+    cursor: pointer;
+  }
+  @include down($medium){
+    transition: all .5s ease;
+    margin-bottom: 0 !important;
+    position: fixed;
+    z-index: 200;
+    bottom: 0;
+    left: 100%;
+    background-color: #fff;
+    width: 100%;
+    overflow: hidden;
+    height: 100vh;
+    &--opened {
+      //height: 100vh;
+      left: 0;
+    }
+    &__inner {
+      width: 100%;
+      height: 100%;
+      padding: $gridGutter $gridGutter $gridGutter*2;
+      overflow-y: auto;
+    }
+    &__close {
+      position: absolute;
+      z-index: 20;
+      right: 0;
+      top: 0;
+      height: 48px;
+      width: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    &__apply {
+      display: block;
+      position: absolute;
+      z-index: 20;
+      bottom: 10px;
+      left: 10px;
+      width: calc(100% - 20px);
+      padding: 15px;
+      font-size: 1em;
+    }
+  }
+}
+
+.woocommerce-ordering {
+  @include down($medium) {
+    width: 46%;
+    select {
+      height: 100%;
+    }
+  }
+}
+
+
+/* Customization */
+
+.catalog {
+  @include up($large) {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    &-filters {
+      flex-grow: 1;
+      &__inner {
+        display: flex;
+        grid-gap: 40px;
+      }
+    }
+  }
+
+  &__filter {
+    margin-bottom: 0 !important;
+    position: relative;
+    .filter {
+      &__dropdown {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        background-color: #fff;
+        z-index: 99;
+        min-width: calc(100% + 20px);
+        left: -10px;
+        > ul {
+          height: 180px;
+          max-height: 180px;
+          overflow: auto;
+          padding: 10px;
+          flex-grow: 1;
+          label {
+            display: flex;
+            flex-wrap: nowrap;
+          }
+        }
+      }
+    }
+    h4 {
+      margin: 0;
+      text-transform: uppercase;
+      font-size: 1em;
+      font-weight: $fontWeightNormal;
+      cursor: pointer;
+      &:after {
+        @extend %fa-icon;
+        @extend .far;
+        content: fa-content($fa-var-angle-down);
+        opacity: .7;
+        margin-left: 10px;
+      }
+    }
+  }
+
+  &__loadmore {
+    margin-bottom: $gridGutter;
+    width: 100%;
+  }
+
+}
+

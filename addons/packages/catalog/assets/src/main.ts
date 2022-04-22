@@ -2,6 +2,10 @@ import { createApp, InjectionKey } from 'vue';
 import Catalog from '@/components/Catalog.vue';
 import { WcserviceClient } from '@/services/api';
 import { CatalogConfig } from './catalog';
+import { createI18n } from 'vue-i18n';
+import messages, { AvailableLanguages } from '@/i18n';
+
+import './sass/main.scss';
 
 export const wcserviceClientKey: InjectionKey<WcserviceClient> =
   Symbol('wcserviceClient');
@@ -28,6 +32,14 @@ export const wcserviceClientKey: InjectionKey<WcserviceClient> =
     }
     vm.provide(wcserviceClientKey, wcServiceClient);
 
+    const i18n = createI18n({
+      locale: config.language,
+      fallbackLocale: AvailableLanguages.itIT,
+      messages,
+    });
+
+    vm.use(i18n);
+
     vm.mount(entry);
   } else {
     console.error(
@@ -35,9 +47,3 @@ export const wcserviceClientKey: InjectionKey<WcserviceClient> =
     );
   }
 })();
-
-declare module '@vue/runtime-core' {
-  export interface ComponentCustomProperties {
-    $apiClient: WcserviceClient;
-  }
-}

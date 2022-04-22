@@ -1,6 +1,6 @@
 <?php
 
-namespace Waboot\inc\hooks;
+namespace Waboot\addons\packages\catalog;
 
 /**
  * Prevent default WooCommerce Catalog Query
