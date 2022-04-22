@@ -1,104 +1,181 @@
 <template>
   <div class="catalog">
-    <div
-      ref="sidebar"
-      class="catalog-filters"
-      :class="{ 'catalog-filters--opened': sidebarOpen }"
-    >
-      <a class="catalog-filters__close" @click="sidebarOpen = false">
-        <i class="far fa-times"></i>
-      </a>
-      <div class="catalog-filters__inner">
-        <div v-if="config.enablePriceFilter ?? false" id="price-slider" class="price-slider catalog__filter"></div>
+    <Spinner v-if="loadingCatalog"></Spinner>
+    <template v-else-if="products.length > 0">
+      <div
+        ref="sidebar"
+        class="catalog-filters"
+        :class="{ 'catalog-filters--opened': sidebarOpen }"
+      >
+        <a class="catalog-filters__close" @click="sidebarOpen = false">
+          <i class="far fa-times"></i>
+        </a>
         <div
-          v-for="[tax, taxRef] in taxRefs"
-          :key="tax"
-          :class="`catalog__filter catalog__filter--${tax}`"
+          v-if="config.layoutMode === 'sidebar'"
+          class="catalog-filters__inner catalog-filters__inner--sidebar"
         >
-          <template v-if="taxRef.terms.length > 0">
-            <FilterList
-              v-if="taxRef.options.type === 'checkbox'"
-              :key="`${tax}-checkbox`"
-              :taxonomy="tax"
-              :title="taxRef.options.title"
-              :terms="taxRef.terms"
-              :selected-terms="taxRef.selectedTerms"
-              :toggle-cb="checkCallback"
-            ></FilterList>
-            <PermalinkList
-              v-else-if="taxRef.options.type === 'permalink'"
-              :key="`${tax}-permalink`"
-              :taxonomy="tax"
-              :title="taxRef.options.title"
-              :terms="taxRef.terms"
-              :base-url="config.baseUrl"
-            ></PermalinkList>
-            <DropdownFilter
-              v-else-if="taxRef.options.type === 'dropdown'"
-              :key="`${tax}-dropdown`"
-              :taxonomy="tax"
-              :title="taxRef.options.title"
-              :terms="taxRef.terms"
-              :selected-terms="taxRef.selectedTerms"
-              :applyCb="applyCallback"
-            ></DropdownFilter>
-            <p v-else>{{ `Invalid filter type: ${taxRef.options.type}` }}</p>
+          <div
+            v-if="config.enablePriceFilter ?? false"
+            class="catalog__filter catalog__filter--price"
+          >
+            <div class="filter">
+              <h4
+                @click="priceRangeOpen = !priceRangeOpen"
+                class="filter__title"
+              >
+                Price
+              </h4>
+              <div class="filter__dropdown" v-show="priceRangeOpen">
+                <PriceRangeSlider
+                  :options="{ min: priceRange.min, max: priceRange.max }"
+                  @change="priceRangeSliderChangeAndReload"
+                ></PriceRangeSlider>
+              </div>
+            </div>
+          </div>
+          <template v-for="[tax, taxRef] in taxRefs">
+            <div
+              v-if="taxRef.terms.length > 0"
+              :key="tax"
+              :class="`catalog__filter catalog__filter--${tax}`"
+            >
+              <FilterList
+                v-if="taxRef.options.type === 'checkbox'"
+                :key="`${tax}-checkbox`"
+                :taxonomy="tax"
+                :title="taxRef.options.title"
+                :terms="taxRef.terms"
+                :selected-terms="taxRef.selectedTerms"
+                :toggle-cb="checkAndReloadCallback"
+              ></FilterList>
+              <PermalinkList
+                v-else-if="taxRef.options.type === 'permalink'"
+                :key="`${tax}-permalink`"
+                :taxonomy="tax"
+                :title="taxRef.options.title"
+                :terms="taxRef.terms"
+                :base-url="config.baseUrl"
+              ></PermalinkList>
+              <p v-else>{{ `Invalid filter type: ${taxRef.options.type}` }}</p>
+            </div>
+          </template>
+          <a class="catalog-filters__apply btn" @click="sidebarOpen = false"
+            >Applica</a
+          >
+        </div>
+        <div
+          v-if="config.layoutMode === 'header'"
+          class="catalog-filters__inner catalog-filters__inner--header"
+        >
+          <div
+            v-if="config.enablePriceFilter ?? false"
+            class="catalog__filter catalog__filter--price"
+          >
+            <Dropdown
+              :ref="addDdRef"
+              @toggle="onDdToggle"
+              title="Prezzo"
+              @apply="onPriceRangeSliderApply"
+            >
+              <div class="filter filter--price-slider">
+                <PriceRangeSlider
+                  :options="{ min: priceRange.min, max: priceRange.max }"
+                  @change="onPriceRangeSliderChange"
+                ></PriceRangeSlider>
+              </div>
+            </Dropdown>
+          </div>
+          <template v-for="[tax, taxRef] in taxRefs">
+            <div
+              v-if="taxRef.terms.length > 0"
+              :key="tax"
+              :class="`catalog__filter catalog__filter--${tax}`"
+            >
+              <Dropdown
+                :ref="addDdRef"
+                @toggle="onDdToggle"
+                :title="taxRef.options.title"
+                @apply="toggleAndReload"
+              >
+                <FilterList
+                  v-if="taxRef.options.type === 'checkbox'"
+                  :key="`${tax}-checkbox`"
+                  :taxonomy="tax"
+                  :terms="taxRef.terms"
+                  :selected-terms="taxRef.selectedTerms"
+                  :toggle-cb="checkCallback"
+                ></FilterList>
+                <PermalinkList
+                  v-else-if="taxRef.options.type === 'permalink'"
+                  :key="`${tax}-permalink`"
+                  :taxonomy="tax"
+                  :terms="taxRef.terms"
+                  :base-url="config.baseUrl"
+                ></PermalinkList>
+                <p v-else>
+                  {{ `Invalid filter type: ${taxRef.options.type}` }}
+                </p>
+              </Dropdown>
+            </div>
           </template>
         </div>
       </div>
-      <a class="catalog-filters__apply btn" @click="sidebarOpen = false"
-        >Applica</a
-      >
-    </div>
-    <div class="catalog__header">
-      <button
-        type="button"
-        class="catalog-filters__button"
-        @click="sidebarOpen = true"
-      >
-        <i class="fal fa-sliders-h"></i> Filtra per
-      </button>
-      <div v-if="config.enableOrder ?? false" class="catalog__ordering">
-        <select v-model="order" name="order" id="order">
-          <option value="alphabetic">Alfabetico</option>
-          <option value="mostSold">Popolarità</option>
-          <option value="mostRated">Con più recensioni</option>
-          <option value="bestRated">Con voto più alto</option>
-          <option value="priceHighToLow">Prezzo in ordine decrescente</option>
-          <option value="priceLowToHigh">Prezzo in ordine crescente</option>
-        </select>
+      <div class="catalog__header">
+        <button
+          type="button"
+          class="catalog-filters__button"
+          @click="sidebarOpen = true"
+        >
+          <i class="fal fa-sliders-h"></i> Filtra per
+        </button>
+        <div v-if="config.enableOrder ?? false" class="catalog__ordering">
+          <select v-model="order" name="order" id="order">
+            <option value="default">Predefinito</option>
+            <option value="alphabetic">Alfabetico</option>
+            <option value="mostSold">Popolarità</option>
+            <!-- <option value="mostRated">Con più recensioni</option>
+            <option value="bestRated">Con voto più alto</option> -->
+            <option value="priceHighToLow">Prezzo in ordine decrescente</option>
+            <option value="priceLowToHigh">Prezzo in ordine crescente</option>
+          </select>
+        </div>
       </div>
-    </div>
-    <div class="catalog__items products columns-4">
-      <template v-if="!loadingProducts">
-        <CatalogItem
-          v-for="product in products"
-          :key="`product-${product.id}`"
-          :host="config.baseUrl"
-          :product-permalink="config.productPermalink"
-          :product="product"
-        ></CatalogItem>
-      </template>
-    </div>
-    <div class="catalog__loadmore loadmore">
-      <p v-if="loadingMoreProducts"><i class="fas fa-spinner fa-spin"></i></p>
-      <a
-        class="loadmore__button btn"
-        v-else
-        v-show="showLoadMore"
-        @click="loadMoreProducts"
-      >
-        Mostra successivi
-      </a>
-    </div>
+      <div class="catalog__items products columns-4">
+        <template v-if="!loadingProducts">
+          <CatalogItem
+            v-for="(product, i) in products"
+            :key="`product-${product.id}`"
+            :host="config.baseUrl"
+            :product-permalink="config.productPermalink"
+            :product="product"
+            @addToCart="gtagAddToCart($event, i)"
+            @viewDetails="gtagSelectContent($event, i)"
+          ></CatalogItem>
+        </template>
+      </div>
+      <div class="catalog__loadmore loadmore">
+        <p v-if="loadingMoreProducts"><i class="fas fa-spinner fa-spin"></i></p>
+        <a
+          class="loadmore__button btn"
+          v-else
+          v-show="showLoadMore"
+          @click="loadMoreProducts"
+        >
+          Mostra successivi
+        </a>
+      </div>
+    </template>
+    <h4 class="products__not_found" v-else>Nessun prodotto trovato</h4>
   </div>
 </template>
 
 <script lang="ts">
 import {
+  ComponentPublicInstance,
   computed,
   defineComponent,
   inject,
+  onBeforeUpdate,
   onMounted,
   PropType,
   reactive,
@@ -109,6 +186,9 @@ import {
 import CatalogItem from '@/components/CatalogItem.vue';
 import FilterList from '@/components/FilterList.vue';
 import DropdownFilter from '@/components/DropdownFilter.vue';
+import Dropdown from '@/components/Dropdown.vue';
+import Spinner from '@/components/Spinner.vue';
+import PriceRangeSlider from '@/components/PriceRangeSlider.vue';
 import {
   CatalogOrder,
   CatalogQuery,
@@ -120,7 +200,8 @@ import {
 import PermalinkList from './PermalinkList.vue';
 import { CatalogConfig, TaxFilterOptions } from '@/catalog';
 import { wcserviceClientKey } from '@/main';
-import noUiSlider from 'nouislider';
+import $ from 'jquery';
+import { callGtag, genGtagProductItem } from '@/gtag.utils';
 
 export default defineComponent({
   name: 'Catalog',
@@ -131,21 +212,26 @@ export default defineComponent({
     },
   },
   components: {
+    Spinner,
     CatalogItem,
     FilterList,
     PermalinkList,
     DropdownFilter,
+    Dropdown,
+    PriceRangeSlider,
   },
   setup(props) {
     const sidebar = ref<HTMLDivElement | null>(null);
     const page = ref(0);
+    const loadingCatalog = ref(true);
     const loadingProducts = ref(false);
     const loadingMoreProducts = ref(false);
     const products = ref<Product[]>([]);
     const priceRange = ref<{ min: number; max: number }>({ min: 0, max: 0 });
     const selectedPriceRange = ref<{ min: number; max: number } | null>(null);
-    const order = ref<CatalogOrder>(CatalogOrder.MostSold);
+    const order = ref<CatalogOrder>(CatalogOrder.Default);
     const sidebarOpen = ref<boolean>(false);
+    const ddSet = ref<Set<ComponentPublicInstance>>(new Set());
     const taxRefs: Map<
       string,
       UnwrapRef<{
@@ -156,6 +242,7 @@ export default defineComponent({
         loading: boolean;
       }>
     > = new Map();
+    const priceRangeOpen = ref<boolean>(false);
     for (const options of props.config.taxonomies) {
       taxRefs.set(
         options.taxonomy,
@@ -184,7 +271,73 @@ export default defineComponent({
       throw new Error('Cannot inject wcserviceClient');
     }
 
-    // computed
+    const isGtagEnabled = props.config.gtag?.enabled ?? false;
+    const brandFallback = props.config.gtag?.brandFallback ?? '';
+    const gtagAddToCart = (product: Product, itemIndex: number): void => {
+      if (!isGtagEnabled) {
+        return;
+      }
+
+      callGtag('add_to_cart', {
+        items: [
+          genGtagProductItem(
+            product,
+            props.config.gtag!.listName,
+            {
+              list_position: itemIndex + 1,
+              quantity: 1,
+            },
+            brandFallback,
+          ),
+        ],
+      });
+    };
+
+    const gtagSelectContent = (product: Product, itemIndex: number): void => {
+      if (!isGtagEnabled) {
+        return;
+      }
+
+      callGtag('select_content', {
+        content_type: 'product',
+        items: [
+          genGtagProductItem(
+            product,
+            props.config.gtag!.listName,
+            {
+              list_position: itemIndex + 1,
+            },
+            brandFallback,
+          ),
+        ],
+      });
+    };
+
+    const gtagViewItemList = (
+      products: Product[],
+      startIndex: number,
+    ): void => {
+      if (!isGtagEnabled) {
+        return;
+      }
+
+      const items: Record<string, any>[] = [];
+      for (const [i, p] of products.entries()) {
+        items.push(
+          genGtagProductItem(
+            p,
+            props.config.gtag!.listName,
+            {
+              list_position: startIndex + i + 1,
+            },
+            brandFallback,
+          ),
+        );
+      }
+
+      callGtag('view_item_list', { items });
+    };
+
     const showLoadMore = computed<boolean>(() => {
       return (
         products.value.length ===
@@ -205,6 +358,7 @@ export default defineComponent({
 
       if (props.config.searchString !== undefined) {
         query.title = props.config.searchString;
+        query.searchLogic = 'or';
       }
 
       for (const [tax, taxRef] of taxRefs.entries()) {
@@ -251,12 +405,8 @@ export default defineComponent({
         offset: limit * page.value,
         query: productQuery(),
         order: order.value,
-        metadataIn: [
-          '_attribute_list',
-          '_sku',
-          '_wc_average_rating',
-        ],
-        taxonomiesIn: ['product_cat', 'product_type'],
+        postMetaIn: ['_attribute_list', '_sku', '_wc_average_rating'],
+        taxonomiesIn: ['product_cat', 'product_type', 'product_collection'],
       };
     };
 
@@ -322,11 +472,14 @@ export default defineComponent({
       loadingProducts.value = true;
       page.value = 0;
       products.value = await wcserviceClient.findProducts(catalogQuery());
+      gtagViewItemList(products.value, 0);
       loadingProducts.value = false;
     };
 
     const loadPriceRange = async (): Promise<void> => {
-      priceRange.value = await wcserviceClient.getPriceRange(catalogQuery());
+      const res = await wcserviceClient.getPriceRange(catalogQuery());
+      priceRange.value.min = Math.floor(res.min);
+      priceRange.value.max = Math.ceil(res.max);
       if (selectedPriceRange.value !== null) {
         selectedPriceRange.value.min = priceRange.value.min;
         selectedPriceRange.value.max = priceRange.value.max;
@@ -336,9 +489,9 @@ export default defineComponent({
     const loadMoreProducts = async (): Promise<void> => {
       loadingMoreProducts.value = true;
       page.value++;
-      products.value = products.value.concat(
-        await wcserviceClient.findProducts(catalogQuery()),
-      );
+      const newProducts = await wcserviceClient.findProducts(catalogQuery());
+      gtagViewItemList(newProducts, products.value.length);
+      products.value = products.value.concat(newProducts);
       loadingMoreProducts.value = false;
     };
 
@@ -351,13 +504,23 @@ export default defineComponent({
       html.scrollTop = catalog.offsetTop;
     };
 
-    const checkCallback = async (tax: string, term: Term, checked: boolean) => {
+    const reloadCatalog = async (
+      resetScroll: boolean = false,
+    ): Promise<void> => {
+      await loadPriceRange();
+      await Promise.all([loadAllTaxonomies([], true), loadProducts()]);
+
+      if (resetScroll) {
+        resetCatalogScroll();
+      }
+    };
+
+    const checkCallback = (tax: string, term: Term, checked: boolean): void => {
       const taxRef = taxRefs.get(tax);
       if (taxRef === undefined) {
         console.warn(
           `Taxonomy reload failed: taxonomy \`${tax}\` does not exists`,
         );
-
         return;
       }
 
@@ -376,9 +539,15 @@ export default defineComponent({
         };
         uncheckChildren(term);
       }
+    };
 
-      await loadPriceRange();
-      await Promise.all([loadAllTaxonomies([], true), loadProducts()]);
+    const checkAndReloadCallback = async (
+      tax: string,
+      term: Term,
+      checked: boolean,
+    ): Promise<void> => {
+      checkCallback(tax, term, checked);
+      reloadCatalog();
     };
 
     const applyCallback = async (
@@ -400,64 +569,87 @@ export default defineComponent({
       await Promise.all([loadAllTaxonomies([], true), loadProducts()]);
     };
 
+    const onPriceRangeSliderChange = (
+      values: number[],
+      reload = false,
+    ): void => {
+      selectedPriceRange.value = {
+        min: values[0],
+        max: values[1],
+      };
+      if (reload) {
+        Promise.all([loadAllTaxonomies(), loadProducts()]);
+      }
+    };
+
+    const priceRangeSliderChangeAndReload = (values: number[]) => {
+      onPriceRangeSliderChange(values, true);
+    };
+
+    const onPriceRangeSliderApply = (e: MouseEvent): void => {
+      onDdToggle(e, false);
+      Promise.all([loadAllTaxonomies(), loadProducts()]);
+      sidebarOpen.value = false;
+    };
+
+    const addDdRef = (el: any): void => {
+      ddSet.value.add(el);
+    };
+
+    const onDdToggle = (e: MouseEvent, toggle?: boolean): void => {
+      const $dd = $(e.target as HTMLElement)
+        .parent('.dropdown')
+        .find('.dropdown__content');
+      const previousState = $dd.css('display');
+
+      for (const el of ddSet.value.values()) {
+        $(el.$el).find('.dropdown__content').css('display', 'none');
+      }
+
+      if (toggle !== undefined) {
+        $dd.css('display', toggle ? 'block' : 'none');
+      } else {
+        $dd.css('display', previousState === 'block' ? 'none' : 'block');
+      }
+    };
+
+    const toggleAndReload = async (e: MouseEvent): Promise<void> => {
+      onDdToggle(e);
+      reloadCatalog();
+      sidebarOpen.value = false;
+    };
+
     watch(order, (newVal, oldVal) => {
       loadProducts();
     });
 
-    watch(priceRange, (newVal, oldVal) => {
-      const slider = document.getElementById('price-slider');
-      const numFormatter = {
-        from: (value: string): number => {
-          return Number(value.replace('€ ', ''));
-        },
-        to: (value: number): string => {
-          return `€ ${value.toFixed(0)}`;
-        },
-      };
-      if (slider === null) {
-        return;
-      }
-
-      // @ts-ignore
-      if (slider.noUiSlider === undefined) {
-        noUiSlider.create(slider, {
-          start: [priceRange.value.min, priceRange.value.max],
-          connect: true,
-          range: {
-            min: priceRange.value.min,
-            max: priceRange.value.max,
-          },
-          step: 1,
-          tooltips: true,
-          format: numFormatter,
-        });
-        // @ts-ignore
-        slider.noUiSlider.on('set', function (values: string[]) {
-          selectedPriceRange.value = {
-            min: numFormatter.from(values[0]),
-            max: numFormatter.from(values[1]),
-          };
-          Promise.all([loadAllTaxonomies(), loadProducts()]);
-        });
-      } else {
-        // @ts-ignore
-        slider.noUiSlider.updateOptions(
-          {
-            start: [priceRange.value.min, priceRange.value.max],
-            range: {
-              min: priceRange.value.min,
-              max: priceRange.value.max,
-            },
-          },
-          false,
-        );
-      }
-    });
-
     onMounted(() => {
       (async () => {
+        loadingCatalog.value = true;
         await loadPriceRange();
         await Promise.all([loadAllTaxonomies(), loadProducts()]);
+
+        let reload = false;
+        for (const [tax, ref] of taxRefs.entries()) {
+          if (ref.options.selectedTerms === undefined) {
+            continue;
+          }
+
+          for (const tId of ref.options.selectedTerms) {
+            const term = ref.flatTerms.get(tId);
+            if (term === undefined) {
+              continue;
+            }
+
+            checkCallback(tax, term, true);
+            reload = true;
+          }
+        }
+
+        if (reload) {
+          await reloadCatalog();
+        }
+        loadingCatalog.value = false;
       })();
 
       (() => {
@@ -481,13 +673,19 @@ export default defineComponent({
       })();
     });
 
+    onBeforeUpdate(() => {
+      ddSet.value = new Set();
+    });
+
     return {
       sidebar,
       page,
+      loadingCatalog,
       loadingProducts,
       loadingMoreProducts,
       products,
       priceRange,
+      priceRangeOpen,
       selectedPriceRange,
       order,
       sidebarOpen,
@@ -500,8 +698,19 @@ export default defineComponent({
       loadProducts,
       loadMoreProducts,
       loadPriceRange,
+      reloadCatalog,
       checkCallback,
+      checkAndReloadCallback,
       applyCallback,
+      onPriceRangeSliderChange,
+      priceRangeSliderChangeAndReload,
+      onPriceRangeSliderApply,
+      addDdRef,
+      onDdToggle,
+      toggleAndReload,
+      gtagAddToCart,
+      gtagSelectContent,
+      gtagViewItemList,
     };
   },
 });

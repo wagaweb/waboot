@@ -4,7 +4,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = (env = {}) => ({
   mode: env.prod ? 'production' : 'development',
-  devtool: env.prod ? 'source-map' : 'eval-cheap-module-source-map',
+  devtool: env.prod ? 'source-map' : 'eval-source-map',
   watch: !env.prod,
   entry: [path.resolve(__dirname, './src/main.ts')],
   output: {
@@ -19,9 +19,8 @@ module.exports = (env = {}) => ({
   },
   externals: {
     jquery: 'jQuery',
-    JVMWooCommerceWishlist: {
-      root: ['JVMWooCommerceWishlist'],
-    },
+    gtag: 'gtag',
+    JVMWooCommerceWishlist: 'JVMWooCommerceWishlist',
   },
   module: {
     rules: [

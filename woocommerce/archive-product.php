@@ -62,7 +62,7 @@ $taxonomies = [
         'taxonomy' => 'product_cat',
         'title' => __('Categorie prodotto', LANG_TEXTDOMAIN),
         'enableFilter' => true,
-        'type' => 'dropdown',
+        'type' => 'checkbox',
     ],
     /*
     'product_collection' => [
@@ -91,10 +91,16 @@ $catalog = [
     'productsPerPage' => 24,
     //'teleportSidebar' => '.aside__wrapper',
     'productPermalink' => 'p',
-    'taxonomies' => array_values($taxonomies),
+    'taxonomies' => $taxonomies,
     'language' => str_replace('_', '-', get_locale()),
     'enableOrder' => true,
     'enablePriceFilter' => true,
+    'layoutMode' => 'header', // 'header' or 'sidebar'
+    'gtag' => [
+        'enabled' => false,
+        'listName' => \Waboot\inc\getGtagListName(),
+        'brandFallback' => get_bloginfo('name'),
+    ],
 ];
 
 echo \Waboot\inc\renderCatalog($catalog); ?>

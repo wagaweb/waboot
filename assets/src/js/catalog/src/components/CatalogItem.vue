@@ -5,6 +5,7 @@
     <a
       :href="`${host}/${productPermalink}/${product.slug}`"
       class="woocommerce-LoopProduct-link woocommerce-loop-product__link"
+      @click="$emit('view-details', product)"
     >
       <!-- <span class="woocommerce-loop-product__sale">-20%</span> -->
       <img
@@ -21,15 +22,16 @@
       rel="nofollow"
       :data-product-title="product.name"
       :data-product-id="product.id"
+      @click="$emit('add-to-wishlist', product)"
     >
       <span class="jvm_add_to_wishlist_heart"></span>
       <span class="jvm_add_to_wishlist_text_add">Add to wishlist</span>
       <span class="jvm_add_to_wishlist_text_remove">Remove from wishlist</span>
     </a>
-    <p class="woocommerce-loop-product__category">{{ category }}</p>
+    <p class="woocommerce-loop-product__collection">{{ collection }}</p>
     <h2 class="woocommerce-loop-product__title">
       <a :href="`${host}/${productPermalink}/${product.slug}`">
-        {{ product.name }}
+        {{ product.excerpt }}
       </a>
     </h2>
     <div class="star-rating" v-if="hasStarRating">
@@ -128,6 +130,7 @@
       :data-product_id="selectedId"
       :data-product_sku="sku"
       :aria-label="`Aggiungi ${product.name} al tuo carrello`"
+      @click="$emit('add-to-cart', product)"
     >
       Aggiungi al Carrello
     </a>
@@ -137,10 +140,10 @@
 <script lang="ts">
 import { Product } from '@/services/api';
 import { defineComponent, PropType } from 'vue';
-import 'JVMWooCommerceWishlist';
 
 export default defineComponent({
   name: 'CatalogItem',
+  events: ['add-to-cart', 'view-details', 'add-to-wishlist'],
   props: {
     host: {
       type: String,
@@ -161,9 +164,9 @@ export default defineComponent({
     };
   },
   computed: {
-    /*collection(): string {
+    collection(): string {
       return this.product.taxonomies?.['product_collection']?.[0].name ?? '';
-    },*/
+    },
     category(): string {
       if (this.product.taxonomies === undefined) return '';
       let cat = this.product.taxonomies?.['product_cat']?.[0];
@@ -214,7 +217,7 @@ export default defineComponent({
         return '';
       }
 
-      return sku;
+      return sku.replace(/_$/, '');
     },
     price(): string {
       //return this.taxPrice(this.product.price);
@@ -265,7 +268,7 @@ export default defineComponent({
       return '';
     },
     jvmWishListExists(): boolean {
-      return typeof JVMWooCommerceWishlist !== undefined;
+      return JVMWooCommerceWishlist !== undefined;
     },
   },
   methods: {
@@ -284,7 +287,7 @@ export default defineComponent({
   },
   mounted(): void {
     if (this.jvmWishListExists) {
-      JVMWooCommerceWishlist.build();
+      JVMWooCommerceWishlist!.build();
     }
 
     if (this.productType === 'variable' && this.attributeList !== undefined) {

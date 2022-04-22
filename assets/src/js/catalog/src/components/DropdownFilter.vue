@@ -1,8 +1,6 @@
 <template>
   <div :class="`filter filter--${taxonomy}`">
-    <a @click="open = !open">
-      <h4 class="filter__title">{{ title }}</h4>
-    </a>
+    <h4 @click="open = !open" class="filter__title">{{ title }}</h4>
     <div class="filter__dropdown" v-show="open">
       <ul class="">
         <li v-for="t in terms" :key="`term-${t.id}`" class="filter-list__item">

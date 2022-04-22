@@ -3,31 +3,31 @@
     <h4 v-if="title !== null" class="filter__title">{{ title }}</h4>
     <ul class="filter__list filter-list">
       <li
-          v-for="t in terms"
-          :key="`term-${t.id}`"
-          class="filter-list__item"
-          :class="{ 'permalink-list__item--active': selectedTerms.has(t.id) }"
+        v-for="t in terms"
+        :key="`term-${t.id}`"
+        class="filter-list__item"
+        :class="{ 'permalink-list__item--active': selectedTerms.has(t.id) }"
       >
         <label>
           <input
-              :checked="selectedTerms.has(t.id)"
-              @change="handleChange($event, t)"
-              type="checkbox"
+            :checked="selectedTerms.has(t.id)"
+            @change="handleChange($event, t)"
+            type="checkbox"
           />
           {{ t.name }}
         </label>
         <FilterList
-            v-if="
+          v-if="
             t.children.length > 0 && (maxDepth === null || maxDepth > depth)
           "
-            v-show="selectedTerms.has(t.id)"
-            :key="`term-${t.id}`"
-            :taxonomy="taxonomy"
-            :terms="t.children"
-            :selectedTerms="selectedTerms"
-            :toggleCb="toggleCb"
-            :depth="depth + 1"
-            :maxDepth="maxDepth"
+          v-show="selectedTerms.has(t.id)"
+          :key="`term-${t.id}`"
+          :taxonomy="taxonomy"
+          :terms="t.children"
+          :selectedTerms="selectedTerms"
+          :toggleCb="toggleCb"
+          :depth="depth + 1"
+          :maxDepth="maxDepth"
         ></FilterList>
       </li>
     </ul>
@@ -59,8 +59,8 @@ export default defineComponent({
     },
     toggleCb: {
       type: Function as PropType<
-          (taxonomy: string, term: Term, checked: boolean) => Promise<void> | undefined
-          >,
+        (taxonomy: string, term: Term, checked: boolean) => Promise<void> | void
+      >,
       required: false,
     },
     depth: {
@@ -78,7 +78,7 @@ export default defineComponent({
 
       if (this.toggleCb === undefined) return;
       this.toggleCb(this.taxonomy, term, checked);
-    }
+    },
   },
 });
 </script>

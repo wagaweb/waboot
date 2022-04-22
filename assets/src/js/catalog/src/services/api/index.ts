@@ -62,6 +62,7 @@ export interface TaxFilter {
 
 export interface ProductQuery {
   title?: string;
+  searchLogic?: 'or' | 'and';
   minPrice?: number;
   maxPrice?: number;
   taxonomies?: {
@@ -74,12 +75,14 @@ export interface CatalogQuery {
   query?: ProductQuery;
   limit?: number;
   offset?: number;
-  metadataIn?: string[];
+  postMetaIn?: string[];
+  termMetaIn?: string[];
   order?: CatalogOrder;
   taxonomiesIn?: string[];
 }
 
 export enum CatalogOrder {
+  Default = 'default',
   Alphabetic = 'alphabetic',
   MostSold = 'mostSold',
   BestRated = 'bestRated',
@@ -93,6 +96,7 @@ export interface TaxonomyQuery {
   productQuery?: ProductQuery;
   limit?: number;
   offset?: number;
+  termMetaIn?: string[];
 }
 
 export class WcserviceClient {

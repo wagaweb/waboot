@@ -3,12 +3,14 @@ export interface CatalogConfig {
   productPermalink: string;
   apiBaseUrl: string;
   productsPerPage: number;
+  layoutMode: LayoutMode;
   teleportSidebar?: string;
   searchString?: string;
   taxonomies: TaxFilterOptions[];
   language?: string;
   enableOrder?: boolean;
   enablePriceFilter?: boolean;
+  gtag?: { enabled: boolean; listName: string; brandFallback?: string };
 }
 
 export interface TaxFilterOptions {
@@ -16,12 +18,17 @@ export interface TaxFilterOptions {
   title: string;
   enableFilter: boolean;
   type: FilterType;
+  selectedTerms?: string[];
   selectedParent?: string;
   exclude?: string[];
 }
 
+export enum LayoutMode {
+  Sidebar = 'sidebar',
+  Header = 'header',
+}
+
 export enum FilterType {
   Checkbox = 'checkbox',
-  Dropdown = 'dropdown',
   Permalink = 'permalink',
 }
