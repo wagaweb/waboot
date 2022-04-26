@@ -153,9 +153,7 @@
       font-weight: $fontWeightNormal;
       cursor: pointer;
       &:after {
-        @extend %fa-icon;
-        @extend .far;
-        content: fa-content($fa-var-angle-down);
+        content: '˅';
         opacity: .7;
         margin-left: 10px;
       }

@@ -1,1 +1,0 @@
-declare const gtag: ((...args: any) => any) | undefined;

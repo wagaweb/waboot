@@ -22,7 +22,7 @@ export const wcserviceClientKey: InjectionKey<WcserviceClient> =
       return;
     }
 
-    const vm = createApp(Catalog, {
+    const app = createApp(Catalog, {
       config,
     });
 
@@ -30,7 +30,7 @@ export const wcserviceClientKey: InjectionKey<WcserviceClient> =
     if (config.language !== undefined && config.language.length > 0) {
       wcServiceClient.setLanguage(config.language);
     }
-    vm.provide(wcserviceClientKey, wcServiceClient);
+    app.provide(wcserviceClientKey, wcServiceClient);
 
     const i18n = createI18n({
       locale: config.language,
@@ -38,12 +38,12 @@ export const wcserviceClientKey: InjectionKey<WcserviceClient> =
       messages,
     });
 
-    vm.use(i18n);
+    app.use(i18n);
 
-    vm.mount(entry);
+    app.mount(entry);
   } else {
-    console.error(
-      'No entry point element found to initiate the product catalog',
+    console.warn(
+      'No entry point element found for product catalog initialization',
     );
   }
 })();

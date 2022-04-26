@@ -98,12 +98,12 @@ $catalog = [
     'layoutMode' => 'header', // 'header' or 'sidebar'
     'gtag' => [
         'enabled' => false,
-        'listName' => \Waboot\inc\getGtagListName(),
+        'listName' => \Waboot\addons\packages\catalog\getGtagListName(),
         'brandFallback' => get_bloginfo('name'),
     ],
 ];
 
-echo \Waboot\inc\renderCatalog($catalog); ?>
+echo \Waboot\addons\packages\catalog\renderCatalog($catalog); ?>
 
 <?php
 /**

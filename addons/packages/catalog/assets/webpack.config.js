@@ -6,13 +6,13 @@ module.exports = (env = {}) => ({
   mode: env.prod ? 'production' : 'development',
   devtool: env.prod ? 'source-map' : 'eval-source-map',
   watch: !env.prod,
-  entry: [path.resolve(__dirname, './src/main.ts')],
+  entry: [path.resolve(__dirname, 'src/main.ts')],
   output: {
     filename: env.prod ? './catalog.min.js' : './catalog.js',
-    path: path.resolve(__dirname, './dist'),
+    path: path.resolve(__dirname, 'dist'),
   },
   resolve: {
-    extensions: ['.ts', '.js', '.vue', '.json'],
+    extensions: ['.ts', '.js', '.vue', '.json', '.scss', '.sass'],
     alias: {
       '@': path.resolve(__dirname, 'src/'),
     },
@@ -45,6 +45,7 @@ module.exports = (env = {}) => ({
           { loader: MiniCssExtractPlugin.loader },
           'css-loader',
           'postcss-loader',
+          'sass-loader',
         ],
       },
     ],

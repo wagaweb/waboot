@@ -21,13 +21,6 @@ function assets(){
         ]),
         'deps' => apply_filters('waboot/assets/js/main/deps',['jquery','owlcarousel-js','venobox-js']),
     ];
-    $assets['catalog-script'] = [
-        'uri' => defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? get_stylesheet_directory_uri()."/assets/dist/js/catalog.js" : get_stylesheet_directory_uri()."/assets/dist/js/catalog.min.js",
-        'path' => defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? get_stylesheet_directory()."/assets/dist/js/catalog.js" : get_stylesheet_directory()."/assets/dist/js/catalog.min.js",
-        'type' => 'js',
-        'deps' => ['jquery'],
-        'in_footer' => true
-    ];
     $assets['owlcarousel-js'] = [
         'uri' => get_template_directory_uri() . '/assets/vendor/owlcarousel/owl.carousel.min.js',
         'type' => 'js',
