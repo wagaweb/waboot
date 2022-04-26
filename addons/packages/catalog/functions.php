@@ -14,11 +14,14 @@ function renderCatalog(array $config): string
         $config['baseUrl'] = get_site_url();
     }
 
-    if(empty($config['productPermalink'])){
+    if (empty($config['productPermalink'])) {
         $config['productPermalink'] = 'prodotto';
     }
 
-    foreach (TAX_MAP as $slug => $tax) {
+    $taxRewrites = apply_filters('catalog_addon_tax_rewrites', [
+        'product_cat' => 'product_cat',
+    ]);
+    foreach ($taxRewrites as $slug => $tax) {
         $terms = $_GET[$slug] ?? null;
         if (empty($terms)) {
             continue;

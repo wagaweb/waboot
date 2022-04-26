@@ -10,12 +10,6 @@ use function Waboot\addons\getAddonDirectoryURI;
 require_once getAddonDirectory('catalog') . '/functions.php';
 require_once getAddonDirectory('catalog') . '/hooks.php';
 
-define('TAX_MAP', [
-    'categoria' => 'product_cat',
-    //'collezione' => 'product_collection',
-    //'selezione' => 'product_selection',
-]);
-
 add_action('wp_enqueue_scripts', function () {
     $assets = [
         'catalog-script' => [
