@@ -30,7 +30,7 @@
     <p class="woocommerce-loop-product__collection">{{ collection }}</p>
     <h2 class="woocommerce-loop-product__title">
       <a :href="`${host}/${productPermalink}/${product.slug}`">
-        {{ product.excerpt }}
+        {{ product.name }}
       </a>
     </h2>
     <div class="star-rating" v-if="hasStarRating">

@@ -59,9 +59,9 @@
               <p v-else>{{ `Invalid filter type: ${taxRef.options.type}` }}</p>
             </div>
           </template>
-          <a class="catalog-filters__apply btn" @click="sidebarOpen = false"
-            >{{ $t('apply') }}</a
-          >
+          <a class="catalog-filters__apply btn" @click="sidebarOpen = false">{{
+            $t('apply')
+          }}</a>
         </div>
         <div
           v-if="config.layoutMode === 'header'"
@@ -177,6 +177,7 @@ import {
   inject,
   onBeforeUpdate,
   onMounted,
+  onUpdated,
   PropType,
   reactive,
   ref,
@@ -220,6 +221,7 @@ export default defineComponent({
   },
   setup(props) {
     const sidebar = ref<HTMLDivElement | null>(null);
+    const sidebarMoved = ref(false);
     const page = ref(0);
     const loadingCatalog = ref(true);
     const loadingProducts = ref(false);
@@ -621,54 +623,57 @@ export default defineComponent({
       loadProducts();
     });
 
-    onMounted(() => {
-      (async () => {
-        loadingCatalog.value = true;
-        await loadPriceRange();
-        await Promise.all([loadAllTaxonomies(), loadProducts()]);
+    onMounted(async () => {
+      loadingCatalog.value = true;
+      await loadPriceRange();
+      await Promise.all([loadAllTaxonomies(), loadProducts()]);
 
-        let reload = false;
-        for (const [tax, ref] of taxRefs.entries()) {
-          if (ref.options.selectedTerms === undefined) {
+      let reload = false;
+      for (const [tax, ref] of taxRefs.entries()) {
+        if (ref.options.selectedTerms === undefined) {
+          continue;
+        }
+
+        for (const tId of ref.options.selectedTerms) {
+          const term = ref.flatTerms.get(tId);
+          if (term === undefined) {
             continue;
           }
 
-          for (const tId of ref.options.selectedTerms) {
-            const term = ref.flatTerms.get(tId);
-            if (term === undefined) {
-              continue;
-            }
-
-            checkCallback(tax, term, true);
-            reload = true;
-          }
+          checkCallback(tax, term, true);
+          reload = true;
         }
+      }
 
-        if (reload) {
-          await reloadCatalog();
-        }
-        loadingCatalog.value = false;
-      })();
+      if (reload) {
+        await reloadCatalog();
+      }
+      loadingCatalog.value = false;
+    });
 
-      (() => {
-        const tp = props.config.teleportSidebar;
-        if (tp === undefined) {
-          return;
-        }
+    onUpdated(() => {
+      if (sidebarMoved.value) {
+        return;
+      }
 
-        const destination = document.querySelector(tp);
-        if (destination === null) {
-          console.warn(
-            `Teleport destination element ${tp} does not exists. Skipping`,
-          );
+      const tp = props.config.teleportSidebar;
+      if (tp === undefined) {
+        return;
+      }
 
-          return;
-        }
+      const destination = document.querySelector(tp);
+      if (destination === null) {
+        console.warn(
+          `Teleport destination element ${tp} does not exists. Skipping`,
+        );
 
-        if (sidebar.value !== null) {
-          destination.appendChild(sidebar.value);
-        }
-      })();
+        return;
+      }
+
+      if (sidebar.value !== null) {
+        destination.appendChild(sidebar.value);
+        sidebarMoved.value = true;
+      }
     });
 
     onBeforeUpdate(() => {
@@ -677,6 +682,7 @@ export default defineComponent({
 
     return {
       sidebar,
+      sidebarMoved,
       page,
       loadingCatalog,
       loadingProducts,
