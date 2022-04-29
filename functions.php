@@ -13,8 +13,14 @@ require_once get_template_directory().'/inc/bootstrap.php';
 //Loads additional files:
 $additionalDeps = [
     'inc/woocommerce-helpers.php',
-    'inc/hooks/woocommerce.php',
-    'inc/hooks/woocommerce-endpoints.php',
+    'inc/hooks/woocommerce/woocommerce.php',
+    'inc/hooks/woocommerce/woocommerce-endpoints.php',
+    'inc/hooks/woocommerce/woocommerce-listing.php',
+    'inc/hooks/woocommerce/woocommerce-product.php',
+    'inc/hooks/woocommerce/woocommerce-cart.php',
+    'inc/hooks/woocommerce/woocommerce-checkout.php',
+    'inc/hooks/woocommerce/woocommerce-search.php',
+    'inc/hooks/woocommerce/woocommerce-wishlist.php',
     'inc/cli.php',
 ];
 \Waboot\inc\core\safeRequireFiles($additionalDeps);

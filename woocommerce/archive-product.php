@@ -79,23 +79,24 @@ if ($currObj instanceof WP_Term) {
 }
 
 $excludeFromCatalog = get_term_by('slug', 'exclude-from-catalog', 'product_visibility');
+$outOfStock = get_term_by('slug', 'outofstock', 'product_visibility');
 if ($excludeFromCatalog !== false) {
     $taxonomies['product_visibility'] = [
         'taxonomy' => 'product_visibility',
-        'exclude' => [(string)$excludeFromCatalog->term_id]
+        'exclude' => [(string)$excludeFromCatalog->term_id,(string)$outOfStock->term_id]
     ];
 }
 
 $catalog = [
     'apiBaseUrl' => WB_CATALOG_BASEURL,
     'productsPerPage' => 24,
-    //'teleportSidebar' => '.aside__wrapper',
     'productPermalink' => 'p',
     'taxonomies' => $taxonomies,
     'language' => str_replace('_', '-', get_locale()),
     'enableOrder' => true,
     'enablePriceFilter' => true,
-    'layoutMode' => 'header', // 'header' or 'sidebar'
+    'layoutMode' => 'sidebar', // 'header' or 'sidebar'
+    'teleportSidebar' => '.aside__wrapper',
     'gtag' => [
         'enabled' => false,
         'listName' => \Waboot\addons\packages\catalog\getGtagListName(),

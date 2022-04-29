@@ -13,7 +13,9 @@
         padding: 0 0 7px;
         text-transform: uppercase;
         opacity: .8;
-        font-size: .9em;
+        @include up($large){
+          font-size: .9em;
+        }
         input {
           margin-left: 0;
         }
@@ -29,8 +31,8 @@
     }
   }
   .price-slider {
-    min-width: 200px;
-    margin: 25px;
+    min-width: 180px;
+    margin: 20px 20px 40px;
   }
 }
 
@@ -61,15 +63,18 @@
     width: 100%;
     overflow: hidden;
     height: 100vh;
+    height: -webkit-fill-available;
     &--opened {
       //height: 100vh;
       left: 0;
     }
     &__inner {
       width: 100%;
-      height: 100%;
-      padding: $gridGutter $gridGutter $gridGutter*2;
+      //height: 100%;
+      padding: $gridGutter*2 $gridGutter;
       overflow-y: auto;
+      //display: grid;
+      //grid-gap: 25px;
     }
     &__close {
       position: absolute;
@@ -105,12 +110,13 @@
 }
 
 
-/* Customization */
+/* Catalalog Filters Header Option */
 
-.catalog {
+.catalog--layout-header {
   @include up($large) {
     display: flex;
     align-items: center;
+    justify-content: center;
     flex-wrap: wrap;
     &-filters {
       flex-grow: 1;
@@ -122,28 +128,39 @@
   }
 
   &__filter {
-    margin-bottom: 0 !important;
+    //margin-bottom: 0 !important;
+    @include down($medium) {
+      margin-bottom: 20px !important;
+      border-bottom: 1px solid $colorGrey;
+      padding-bottom: 20px;
+    }
     position: relative;
-    .filter {
-      &__dropdown {
-        display: flex;
-        flex-direction: column;
+    .dropdown__content {
+      display: flex;
+      flex-direction: column;
+      padding-top: 15px;
+      @include up($large) {
         position: absolute;
         background-color: #fff;
         z-index: 99;
-        min-width: calc(100% + 20px);
-        left: -10px;
-        > ul {
-          height: 180px;
-          max-height: 180px;
-          overflow: auto;
-          padding: 10px;
-          flex-grow: 1;
-          label {
-            display: flex;
-            flex-wrap: nowrap;
-          }
+        min-width: calc(100% + 30px);
+        //left: -15px;
+      }
+      ul.filter__list {
+        max-height: 180px;
+        overflow: auto;
+        margin: 10px 0;
+        @include up($large) {
+          margin: 10px;
         }
+        flex-grow: 1;
+        label {
+          display: flex;
+          flex-wrap: nowrap;
+        }
+      }
+      .dropdown__apply {
+        width: 100%;
       }
     }
     h4 {
@@ -166,4 +183,3 @@
   }
 
 }
-
