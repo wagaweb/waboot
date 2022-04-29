@@ -27,7 +27,7 @@
       <span class="jvm_add_to_wishlist_text_add">Add to wishlist</span>
       <span class="jvm_add_to_wishlist_text_remove">Remove from wishlist</span>
     </a>
-    <p class="woocommerce-loop-product__collection">{{ collection }}</p>
+    <!--<p class="woocommerce-loop-product__collection">{{ collection }}</p>-->
     <h2 class="woocommerce-loop-product__title">
       <a :href="`${host}/${productPermalink}/${product.slug}`">
         {{ product.name }}
