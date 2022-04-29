@@ -65,3 +65,44 @@ add_filter('waboot/main/title/display_flag', function($can_display_title,$post,$
 add_filter( 'woocommerce_show_page_title', function(){
     return false;
 });
+
+
+// Save All Variations Prices (Regular and Sale) in Parent Meta
+add_action(
+    'woocommerce_after_product_object_save',
+    function (\WC_Product $product): void {
+        if ($product->get_type() !== 'variable') {
+            return;
+        }
+
+        $product->delete_meta_data('_discounts');
+        /** @var \WC_Product_Variable $product */
+        $variations = $product->get_available_variations('object');
+        $discounts = [];
+        $onSale = false;
+        foreach ($variations as $v) {
+            if ($v->is_on_sale()) {
+                $onSale = true;
+            }
+
+            $discounts[] = [
+                'variation' => $v->get_id(),
+                'on_sale' => $v->is_on_sale(),
+                'price' => $v->get_price(),
+                'base_price' => $v->get_regular_price(),
+            ];
+        }
+        usort($discounts, function (array $a, array $b) {
+            $priceA = (float)$a['price'];
+            $priceB = (float)$b['price'];
+
+            return $priceA - $priceB;
+        });
+        if ($onSale) {
+            $product->update_meta_data('_discounts', $discounts);
+        }
+        $product->save_meta_data();
+    },
+    10,
+    1
+);

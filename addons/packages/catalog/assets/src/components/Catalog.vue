@@ -19,13 +19,10 @@
             class="catalog__filter catalog__filter--price"
           >
             <div class="filter">
-              <h4
-                @click="priceRangeOpen = !priceRangeOpen"
-                class="filter__title"
-              >
+              <h4 class="filter__title">
                 {{ $t('price') }}
               </h4>
-              <div class="filter__dropdown" v-show="priceRangeOpen">
+              <div class="filter__dropdown">
                 <PriceRangeSlider
                   :options="{ min: priceRange.min, max: priceRange.max }"
                   @change="priceRangeSliderChangeAndReload"

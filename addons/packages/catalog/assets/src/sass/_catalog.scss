@@ -1,3 +1,18 @@
+.catalog--layout-sidebar {
+  @include up($large){
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    grid-gap: $gridGutter;
+    .catalog-filters {
+      grid-row: 1 / 3;
+    }
+    .catalog__items,
+    .catalog__loadmore {
+      grid-column-start: 2;
+    }
+  }
+}
+
 .catalog__header {
   margin-bottom: 20px;
   display: grid;
@@ -24,7 +39,7 @@
 .catalog__items {
   clear: both;
   display: grid;
-  grid-gap: 1px;
+  grid-gap: $gridGutter;
   grid-template-columns: repeat(2, 1fr);
   margin: 0;
   padding: 0;
@@ -96,11 +111,12 @@
       del {
         display: inline-block;
         opacity: 0.5;
-        margin-left: 10px;
         margin-right: 10px;
       }
       ins {
         background-color: transparent;
+        display: inline-flex;
+        gap: 10px;
       }
       .sale-percentage {
         background-color: $colorSecondary;
@@ -110,7 +126,7 @@
       }
     }
 
-    a.add_to_cart_button {
+    a.button {
       margin: 10px auto 20px;
       text-align: center;
       font-size: 0.8em;

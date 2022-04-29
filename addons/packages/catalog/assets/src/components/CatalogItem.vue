@@ -51,11 +51,11 @@
               </span>
             </del>
             <ins>
-              <span class="woocommerce-Price-amount amount">
-                {{ product.minPrice }} €
-              </span>
               <span v-if="product.onSale" class="sale-percentage">
                 -{{ salePercentage }}%
+              </span>
+              <span class="woocommerce-Price-amount amount">
+                {{ product.minPrice }} €
               </span>
             </ins>
           </span>
@@ -67,11 +67,11 @@
             </span>
           </del>
           <ins>
-            <span class="woocommerce-Price-amount amount">
-              {{ product.price }} €
-            </span>
             <span v-if="product.onSale" class="sale-percentage">
               -{{ salePercentage }}%
+            </span>
+            <span class="woocommerce-Price-amount amount">
+              {{ product.price }} €
             </span>
           </ins>
         </span>
@@ -141,7 +141,7 @@
         :href="`${host}/${productPermalink}/${product.slug}`"
         class="button"
       >
-        {{ $t('showMore') }}
+        {{ $t('showProduct') }}
       </a>
     </span>
   </div>
