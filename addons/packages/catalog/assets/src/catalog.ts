@@ -10,6 +10,7 @@ export interface CatalogConfig {
   language?: string;
   enableOrder?: boolean;
   enablePriceFilter?: boolean;
+  showAddToCartBtn?: boolean;
   gtag?: { enabled: boolean; listName: string; brandFallback?: string };
 }
 

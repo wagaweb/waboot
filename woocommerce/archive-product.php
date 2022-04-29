@@ -95,6 +95,7 @@ $catalog = [
     'language' => str_replace('_', '-', get_locale()),
     'enableOrder' => true,
     'enablePriceFilter' => true,
+//    'showAddToCartBtn' => false,
     'layoutMode' => 'sidebar', // 'header' or 'sidebar'
     'teleportSidebar' => '.aside__wrapper',
     'gtag' => [

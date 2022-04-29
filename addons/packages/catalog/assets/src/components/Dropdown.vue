@@ -9,7 +9,9 @@
     </h4>
     <div class="dropdown__content" style="display: none">
       <slot></slot>
-      <a class="btn dropdown__apply" @click="e => $emit('apply', e)">{{ $t('apply') }}</a>
+      <a class="btn dropdown__apply" @click="e => $emit('apply', e)">
+        {{ $t('apply') }}
+      </a>
     </div>
   </div>
 </template>

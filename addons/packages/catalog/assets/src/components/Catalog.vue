@@ -1,5 +1,5 @@
 <template>
-  <div class="catalog">
+  <div class="catalog" :class="`catalog--layout-${config.layoutMode}`">
     <Spinner v-if="loadingCatalog"></Spinner>
     <template v-else-if="products.length > 0">
       <div
@@ -59,9 +59,9 @@
               <p v-else>{{ `Invalid filter type: ${taxRef.options.type}` }}</p>
             </div>
           </template>
-          <a class="catalog-filters__apply btn" @click="sidebarOpen = false">{{
-            $t('apply')
-          }}</a>
+          <a class="catalog-filters__apply btn" @click="sidebarOpen = false">
+            {{ $t('apply') }}
+          </a>
         </div>
         <div
           v-if="config.layoutMode === 'header'"
@@ -148,6 +148,7 @@
             :host="config.baseUrl"
             :product-permalink="config.productPermalink"
             :product="product"
+            :show-add-to-cart-btn="config.showAddToCartBtn ?? true"
             @addToCart="gtagAddToCart($event, i)"
             @viewDetails="gtagSelectContent($event, i)"
           ></CatalogItem>

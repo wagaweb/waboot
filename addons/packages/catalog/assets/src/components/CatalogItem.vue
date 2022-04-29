@@ -3,14 +3,14 @@
     class="catalog__item product type-product instock sale product-type-simple"
   >
     <a
-        :href="`${host}/${productPermalink}/${product.slug}`"
-        class="woocommerce-LoopProduct-link woocommerce-loop-product__link"
-        @click="$emit('view-details', product)"
+      :href="`${host}/${productPermalink}/${product.slug}`"
+      class="woocommerce-LoopProduct-link woocommerce-loop-product__link"
+      @click="$emit('view-details', product)"
     >
       <img
-          :src="image"
-          class="attachment-woocommerce_thumbnail size-woocommerce_thumbnail"
-          :alt="product.name"
+        :src="image"
+        class="attachment-woocommerce_thumbnail size-woocommerce_thumbnail"
+        :alt="product.name"
       />
     </a>
     <a
@@ -77,7 +77,9 @@
         </span>
       </template>
       <ins v-else-if="product.stockStatus === 'outofstock'">
-        <span class="woocommerce-Price-amount amount">{{ $t('outOfStock') }}</span>
+        <span class="woocommerce-Price-amount amount">
+          {{ $t('outOfStock') }}
+        </span>
       </ins>
     </span>
     <div
@@ -121,23 +123,23 @@
         >
       </span>
     </div>
-    <span v-if="product.stockStatus === 'instock' && product.price !== '0.00'">
+    <span v-if="showAddToCartBtn && product.stockStatus === 'instock'">
       <a
-          v-if="productType !== 'variable'"
-          :href="`?add-to-cart=${selectedId}`"
-          data-quantity="1"
-          class="button product_type_simple add_to_cart_button ajax_add_to_cart"
-          :data-product_id="selectedId"
-          :data-product_sku="sku"
-          :aria-label="$t('addProductToCart', [product.name])"
-          @click="$emit('add-to-cart', product)"
+        v-if="productType !== 'variable'"
+        :href="`?add-to-cart=${selectedId}`"
+        data-quantity="1"
+        class="button product_type_simple add_to_cart_button ajax_add_to_cart"
+        :data-product_id="selectedId"
+        :data-product_sku="sku"
+        :aria-label="$t('addProductToCart', [product.name])"
+        @click="$emit('add-to-cart', product)"
       >
         {{ $t('addToCart') }}
       </a>
       <a
-          v-else
-          :href="`${host}/${productPermalink}/${product.slug}`"
-          class="button"
+        v-else
+        :href="`${host}/${productPermalink}/${product.slug}`"
+        class="button"
       >
         {{ $t('showMore') }}
       </a>
@@ -164,6 +166,10 @@ export default defineComponent({
     product: {
       type: Object as PropType<Product>,
       required: true,
+    },
+    showAddToCartBtn: {
+      type: Boolean,
+      default: true,
     },
   },
   data() {
