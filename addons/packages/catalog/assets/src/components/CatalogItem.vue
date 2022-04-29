@@ -282,7 +282,7 @@ export default defineComponent({
       return '';
     },
     jvmWishListExists(): boolean {
-      return JVMWooCommerceWishlist !== undefined;
+      return typeof JVMWooCommerceWishlist === 'object';
     },
   },
   methods: {
