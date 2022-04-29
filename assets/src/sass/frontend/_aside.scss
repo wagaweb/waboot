@@ -44,7 +44,8 @@
 				gap: calc($gutter / 2);
 
 				&::before {
-					background: url(../images/default/icons/chevron-right.svg)
+					/* webpackIgnore: true */
+					background: url(@/images/default/icons/chevron-right.svg)
 						no-repeat center;
 					background-size: cover;
 					content: "";

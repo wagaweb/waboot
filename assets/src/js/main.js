@@ -2,6 +2,10 @@ import Header from "./frontend/header";
 import { dropdown } from "./frontend/select";
 import { Slidein } from "./frontend/slidein.js";
 
+import "../../images/default/waboot-color.png";
+
+import "../sass/main.scss";
+
 jQuery.fn.slidein = function (options) {
 	return this.each(function () {
 		if (!jQuery.data(this, "slidein")) {

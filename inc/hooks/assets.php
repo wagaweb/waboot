@@ -10,8 +10,8 @@ use function Waboot\inc\core\AssetsManager;
 function assets(){
     $assets = [];
     $assets['main-js'] = [
-        'uri' => defined('WP_DEBUG') && WP_DEBUG ? get_template_directory_uri() . '/assets/dist/js/main.pkg.js' : get_template_directory_uri() . '/assets/dist/js/main.min.js',
-        'path' => defined('WP_DEBUG') && WP_DEBUG ? get_template_directory() . '/assets/dist/js/main.pkg.js' : get_template_directory() . '/assets/dist/js/main.min.js',
+        'uri' => defined('WP_DEBUG') && WP_DEBUG ? get_template_directory_uri() . '/assets/dist/js/main.pkg.js' : get_template_directory_uri() . '/assets/dist/js/main.js',
+        'path' => defined('WP_DEBUG') && WP_DEBUG ? get_template_directory() . '/assets/dist/js/main.pkg.js' : get_template_directory() . '/assets/dist/js/main.js',
         'type' => 'js',
         'deps' => ['jquery','owlcarousel-js','venobox-js']
     ];
@@ -28,13 +28,13 @@ function assets(){
         'deps' => ['jquery']
     ];
     $assets['main-style'] = [
-        'uri' => get_template_directory_uri() . '/assets/dist/css/main.min.css',
-        'path' => get_template_directory() . '/assets/dist/css/main.min.css',
+        'uri' => get_template_directory_uri() . '/assets/dist/css/main.css',
+        'path' => get_template_directory() . '/assets/dist/css/main.css',
         'type' => 'css',
         'deps' => ['google-font']
     ];
     $assets['google-font'] = [
-        'uri' => 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap',
+        'uri' => 'https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap',
         'type' => 'css'
     ];
     $assets['owlcarousel-css'] = [

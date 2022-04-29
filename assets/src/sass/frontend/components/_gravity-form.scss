@@ -191,7 +191,6 @@ form.gform {
 		text-transform: uppercase;
 	}
 }
-
 /* Field Description */
 .gfield_description,
 .gfield_post_tags_hint {
@@ -312,7 +311,7 @@ form.gform {
 }
 
 /* Datepicker */
-@import "gravity-form/datepicker";
+//@import "gravity-form/datepicker";
 
 /* TIME */
 .ginput_container_time {
@@ -454,189 +453,19 @@ form.gform {
 
 		button {
 			font-size: 0;
-			background: transparent url(../images/icons/list-add.svg);
+			/* webpackIgnore: true */
+			background: transparent url(../../images/default/icons/list-add.svg);
 			border: none;
 			width: $gutter * 1.6;
 			height: $gutter * 1.6;
 			opacity: 0.5;
 			padding: 0;
 			transition: opacity 0.5s ease-out;
-
+			/* webpackIgnore: true */
 			&.delete_list_item {
 				margin-left: $gutter * 0.5;
-				background-image: url(../images/icons/list-remove.svg);
+				background-image: url(../../images/default/icons/list-remove.svg);
 			}
 		}
 	}
-}
-
-/* MULTI SELECT */
-.ginput_container_multiselect {
-	select {
-		height: $gutter * 15;
-	}
-}
-
-/* CONSENT */
-.ginput_container_consent {
-	align-items: center;
-	margin-bottom: $gutter;
-
-	.gfield_consent_label {
-		display: inline-block;
-		font-size: $gutter * 1.4;
-		margin-bottom: 0;
-	}
-}
-
-/* Post Image */
-.ginput_container_post_image {
-	.ginput_full {
-		margin-bottom: $gutter * 2;
-		flex: 0 0 100%;
-	}
-
-	input.large {
-		width: 100%;
-	}
-
-	label {
-		font-size: $gutter * 1.2;
-	}
-}
-
-/*-----------------------*
- * PRICING FIELDS
- *-----------------------*/
-/* Product Name */
-.ginput_container_singleproduct {
-	.gform_hidden {
-		display: none;
-	}
-
-	.ginput_product_price_wrapper {
-		display: inline-block;
-
-		input:read-only {
-			background: 0 0;
-			border: none;
-			padding: 0;
-		}
-	}
-
-	.ginput_product_price_label {
-		font-size: $gutter * 1.2;
-	}
-
-	.ginput_product_price,
-	.ginput_shipping_price {
-		color: $colorSuccess;
-	}
-}
-
-/* Total */
-.ginput_container_total {
-	.ginput_total {
-		color: $colorSuccess;
-		background: none;
-		border: none;
-		border-radius: 0;
-		font-size: $gutter * 1.4;
-		outline: 0;
-	}
-}
-/*-----------------------*
- * VALIDATION
- *-----------------------*/
-.gform_validation_errors {
-	background-color: rgba($colorWarning, 0.1);
-	border-radius: $radius;
-	color: rgba($colorWarning, 0.7);
-	font-size: $gutter * 1.4;
-	margin-bottom: $gutter * 2;
-	padding: $gutter $gutter * 0.5 $gutter $gutter;
-	position: relative;
-
-	h2.gform_submission_error {
-		color: inherit;
-		font-size: $gutter * 1.4;
-		margin-bottom: $gutter;
-	}
-
-	.gform-icon {
-		margin-right: $gutter * 0.5;
-		position: absolute;
-		right: $gutter;
-		top: 50%;
-		transform: translateY(-50%);
-	}
-
-	ol {
-		margin-bottom: 0;
-	}
-
-	li {
-		list-style-type: disc;
-		margin: 0 0 $gutter * 0.8 0;
-
-		a {
-			color: inherit;
-		}
-
-		&:last-child {
-			margin: 0;
-		}
-	}
-}
-
-.validation_message {
-	background-color: rgba($colorWarning, 0.1);
-	border-radius: 3px;
-	color: $colorWarning;
-	display: inline-block;
-	padding: $gridGutter * 0.3;
-}
-
-/*-----------------------*
- * ICONS
- *-----------------------*/
-.gform-icon {
-	color: inherit;
-	font-family: "Font Awesome 5 Pro";
-	font-weight: $fontWeightLight;
-	display: inline-block;
-	font-size: $gutter * 1.8;
-	font-style: normal;
-	font-variant: normal;
-	text-rendering: auto;
-	-webkit-font-smoothing: antialiased;
-}
-.gform-icon--close:before {
-	content: "\f057";
-}
-
-/*-----------------------*
- * SUBMIT
- *-----------------------*/
-.gform_footer,
-.gform_page_footer {
-	margin: $gridGutter * 6 0 0;
-	padding: $gutter * 1.6 0;
-}
-
-.gform_previous_button,
-.gform_save_link {
-	background-color: $colorWhite;
-	color: $colorPrimary;
-	text-decoration: none;
-
-	&:hover {
-		background: none;
-		color: $colorSecondary;
-	}
-}
-
-.wp-editor-container {
-	border: 1px solid $colorBorder !important;
-	border-radius: 4px;
 }

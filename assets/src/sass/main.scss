@@ -31,7 +31,7 @@
 @import "frontend/footer";
 @import "frontend/homepage";
 
-/*
+/* 
 @import 'frontend/woocommerce/global';
 @import 'frontend/woocommerce/alerts';
 @import 'frontend/woocommerce/catalog';
@@ -42,3 +42,7 @@
 @import 'frontend/woocommerce/single-product/product';
 @import 'frontend/woocommerce/single-product/cross-sell';
 */
+
+body {
+	background-color: pink;
+}
