@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue';
+import { defineComponent } from 'vue';
 import noUiSlider from 'nouislider';
 
 export default defineComponent({
@@ -48,10 +48,10 @@ export default defineComponent({
       );
     },
     updateSelectedRange(): void {
-      this.selMin = this.min;
-      this.selMax = this.max;
+      this.selMin = this.selectedMin;
+      this.selMax = this.selectedMax;
       // @ts-ignore
-      this.el.noUiSlider.set([this.min, this.max]);
+      this.el.noUiSlider.set([this.selMin, this.selMax], false);
     },
   },
   watch: {
@@ -91,7 +91,7 @@ export default defineComponent({
     this.el.noUiSlider.on('set', (values: string[]) => {
       this.selMin = this.numberFormatter.from(values[0]);
       this.selMax = this.numberFormatter.from(values[1]);
-      this.$emit('change', [this.selectedMin, this.selectedMax]);
+      this.$emit('change', [this.selMin, this.selMax]);
     });
   },
 });
