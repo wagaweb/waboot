@@ -10,15 +10,15 @@ export default defineComponent({
   name: 'PriceRangeSlider',
   emits: ['change'],
   props: {
-    options: {
-      type: Object as PropType<{ min: number; max: number }>,
-      required: true,
-    },
+    min: { type: Number, required: true },
+    max: { type: Number, required: true },
+    selectedMin: { type: Number, default: 0 },
+    selectedMax: { type: Number, default: 0 },
   },
   data() {
     return {
-      selectedMin: this.options.min,
-      selectedMax: this.options.max,
+      selMin: this.selectedMin,
+      selMax: this.selectedMax,
       el: undefined as HTMLDivElement | undefined,
       numberFormatter: {
         from: (value: string): number => {
@@ -34,25 +34,38 @@ export default defineComponent({
     setEl(el: any): void {
       this.el = el;
     },
-    updateSliderOptions(): void {
-      this.selectedMin = this.options.min;
-      this.selectedMax = this.options.max;
+    updateRange(): void {
       // @ts-ignore
       this.el.noUiSlider.updateOptions(
         {
           start: [this.selectedMin, this.selectedMax],
           range: {
-            min: this.options.min,
-            max: this.options.max,
+            min: this.min,
+            max: this.max,
           },
         },
         false,
       );
     },
+    updateSelectedRange(): void {
+      this.selMin = this.min;
+      this.selMax = this.max;
+      // @ts-ignore
+      this.el.noUiSlider.set([this.min, this.max]);
+    },
   },
   watch: {
-    options() {
-      this.updateSliderOptions();
+    min() {
+      this.updateRange();
+    },
+    max() {
+      this.updateRange();
+    },
+    selectedMin() {
+      this.updateSelectedRange();
+    },
+    selectedMax() {
+      this.updateSelectedRange();
     },
   },
   mounted() {
@@ -62,11 +75,11 @@ export default defineComponent({
     }
 
     noUiSlider.create(this.el, {
-      start: [this.selectedMin, this.selectedMax],
+      start: [this.selMin, this.selMax],
       connect: true,
       range: {
-        min: this.options.min,
-        max: this.options.max,
+        min: this.min,
+        max: this.max,
       },
       margin: 1,
       step: 1,
@@ -76,8 +89,8 @@ export default defineComponent({
 
     // @ts-ignore
     this.el.noUiSlider.on('set', (values: string[]) => {
-      this.selectedMin = this.numberFormatter.from(values[0]);
-      this.selectedMax = this.numberFormatter.from(values[1]);
+      this.selMin = this.numberFormatter.from(values[0]);
+      this.selMax = this.numberFormatter.from(values[1]);
       this.$emit('change', [this.selectedMin, this.selectedMax]);
     });
   },

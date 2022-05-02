@@ -24,7 +24,10 @@
               </h4>
               <div class="filter__dropdown">
                 <PriceRangeSlider
-                  :options="{ min: priceRange.min, max: priceRange.max }"
+                  :min="priceRange.min"
+                  :max="priceRange.max"
+                  :selectedMin="selectedPriceRange?.min ?? priceRange.min"
+                  :selectedMax="selectedPriceRange?.max ?? priceRange.max"
                   @change="priceRangeSliderChangeAndReload"
                 ></PriceRangeSlider>
               </div>
@@ -76,7 +79,10 @@
             >
               <div class="filter filter--price-slider">
                 <PriceRangeSlider
-                  :options="{ min: priceRange.min, max: priceRange.max }"
+                  :min="priceRange.min"
+                  :max="priceRange.max"
+                  :selectedMin="selectedPriceRange?.min ?? priceRange.min"
+                  :selectedMax="selectedPriceRange?.max ?? priceRange.max"
                   @change="onPriceRangeSliderChange"
                 ></PriceRangeSlider>
               </div>
@@ -478,9 +484,11 @@ export default defineComponent({
       const res = await wcserviceClient.getPriceRange(catalogQuery());
       priceRange.value.min = Math.floor(res.min);
       priceRange.value.max = Math.ceil(res.max);
-      if (selectedPriceRange.value !== null) {
-        selectedPriceRange.value.min = priceRange.value.min;
-        selectedPriceRange.value.max = priceRange.value.max;
+      if (selectedPriceRange.value === null) {
+        selectedPriceRange.value = {
+          min: priceRange.value.min,
+          max: priceRange.value.max,
+        };
       }
     };
 
