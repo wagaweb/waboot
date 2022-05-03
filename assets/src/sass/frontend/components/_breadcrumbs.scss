@@ -1,15 +1,16 @@
 .breadcrumbs {
-  display: flex;
-  flex-wrap: wrap;
-  list-style: none;
-  margin-bottom: calc($gutter / 2);
+	display: flex;
+	flex-wrap: wrap;
+	list-style: none;
+	margin-bottom: calc($gutter / 2);
+	opacity: 0.5;
 
-  a {
-    color: inherit;
-    font-weight: $fontWeightSemibold;
+	a {
+		color: inherit;
+		font-weight: $fontWeightSemibold;
 
-    &:hover {
-      color: $colorPrimary;
-    }
-  }
+		&:hover {
+			color: $colorPrimary;
+		}
+	}
 }

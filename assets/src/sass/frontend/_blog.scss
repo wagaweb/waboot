@@ -73,6 +73,7 @@
 			display: flex;
 			gap: calc($gutter / 2);
 			margin-bottom: $gutter;
+			opacity: 0.5;
 
 			.post-categories {
 				display: flex;
@@ -102,6 +103,7 @@
 			justify-content: flex-end;
 			line-height: 1;
 			margin-top: auto;
+			opacity: 0.5;
 			row-gap: $gutter;
 
 			@include up($medium) {
@@ -162,6 +164,7 @@
 			@include up($medium) {
 				row-gap: 1rem;
 				margin-bottom: calc($gutter * 3);
+				opacity: 0.5;
 			}
 
 			a {
