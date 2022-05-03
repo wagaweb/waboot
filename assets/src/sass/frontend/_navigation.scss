@@ -5,15 +5,8 @@
 		list-style: none;
 	}
 
-	@include up($large) {
-		> ul {
-			display: flex;
-			column-gap: $gutter * 3;
-		}
-	}
-
 	li {
-		position: relative;
+		//position: relative;
 		&.menu-item-has-children {
 			> a:after {
 				@extend %fa-icon;
@@ -30,6 +23,8 @@
 
 	> ul {
 		> li {
+			position: relative;
+
 			&.current-menu-item {
 				> a {
 					color: $colorPrimary;
@@ -44,11 +39,14 @@
 
 			> a {
 				align-items: center;
-				color: $colorText;
+				color: inherit;
 				display: flex;
-				font-weight: $fontWeightMedium;
-				padding-block: $gutter;
+				font-weight: $fontWeightSemibold;
+				padding: $gutter 0;
 				position: relative;
+				@include up($large) {
+					padding: 15px;
+				}
 
 				&:hover {
 					color: $colorPrimary;
@@ -86,13 +84,12 @@
 			box-shadow: 0 1px 3px rgba($colorGreyDark, 0.1);
 			margin: 0;
 			opacity: 0;
+			visibility: hidden;
 			padding: 0;
 			position: absolute;
 			right: 0;
-			top: calc(100% + #{$gutter} * 0.7);
-			transition: $duration;
-			transform: translateY(50%);
-			visibility: hidden;
+			top: 100%;
+			transition: opacity 0.3s;
 			z-index: 7;
 
 			&::before {
@@ -101,21 +98,32 @@
 				display: block;
 				height: $gutter;
 				position: absolute;
-				right: $gutter;
+				right: $gutter * 1.5;
 				transform: rotate(45deg);
-				top: -2px;
+				top: -4px;
 				width: $gutter;
 				z-index: -100;
 			}
 
-			li:not(:last-child) a {
-				border-bottom: 1px solid $colorBorder;
+			li {
+				position: relative;
+				&:not(:last-child) a {
+					border-bottom: 1px solid rgba($colorWhite, 0.2);
+				}
+
+				.sub-menu {
+					left: 999px;
+
+					&::before {
+						display: none;
+					}
+				}
 			}
 
 			a {
 				color: $colorWhite;
 				font-weight: $fontWeightSemibold;
-				padding: $gutter $gutter * 1.5;
+				padding: $gutter calc(#{$gutter * 1.5});
 				display: block;
 				white-space: nowrap;
 
@@ -127,13 +135,13 @@
 
 		li:hover > .sub-menu {
 			opacity: 1;
-			transform: translateY(0);
 			visibility: visible;
 		}
 
 		.sub-menu > li:hover > .sub-menu {
-			top: -1px;
-			left: 100%;
+			top: 0;
+			left: calc(100% + 1px);
+			width: 100%;
 			a {
 				text-align: left;
 			}
@@ -142,23 +150,13 @@
 }
 
 .navigation-mobile {
-	background-color: $colorGreyDark;
-	padding: $gutter;
+	background-color: $colorText;
+	color: $colorWhite;
 
 	&__inner {
-		padding: $gutter 0;
 		height: 100%;
 		width: 100%;
 		flex-grow: 1;
-		display: grid;
-		grid-template-rows: auto auto 1fr;
-		grid-gap: $gutter;
-	}
-
-	.search-form {
-		margin-top: 5vh;
-		position: relative;
-		z-index: 1;
 	}
 
 	ul {
@@ -171,8 +169,6 @@
 		height: 100%;
 		display: flex;
 		flex-direction: column;
-		align-items: center;
-		justify-content: center;
 		padding: 0;
 		margin: 0;
 		transition: all 0.5s ease;
@@ -183,33 +179,37 @@
 		justify-content: space-between;
 		align-items: center;
 		width: 100%;
+		border-top: 1px solid rgba($colorWhite, 0.1);
+		&:last-child {
+			border-bottom: 1px solid rgba($colorWhite, 0.1);
+		}
 	}
 
 	a {
-		color: $colorWhite;
-		font-weight: $fontWeightMedium;
 		text-align: left;
 		justify-content: center;
-		padding: $gutter $gutter * 2;
+		padding: 12.5px 25px;
 		flex-grow: 1;
+		font-size: 1.1em;
+		color: inherit;
 	}
 
 	.sub-menu {
-		background-color: $colorGreyDark;
 		left: 100%;
+		background-color: $colorText;
+		overflow-y: auto;
+		z-index: 10;
 	}
 
 	.backlevel__icon {
-		position: absolute;
-		left: 0;
-		top: 0;
-		padding: $gutter 0 0 $gutter * 2;
+		padding: 0 0 0 25px;
 		width: 48px;
 		height: 48px;
 		display: flex;
 		align-items: center;
-		z-index: 20;
-		color: $colorPrimary;
+		font-size: 1.5em;
+		z-index: 10;
+		position: relative;
 	}
 
 	.sublevel__icon {
@@ -219,6 +219,23 @@
 		display: flex;
 		align-items: center;
 		justify-content: flex-end;
-		padding-right: $gutter * 2;
+		padding-right: 25px;
+	}
+
+	.search-form {
+		padding: 0 25px;
+		position: relative;
+		top: 260px;
+		z-index: 1;
+
+		input {
+			border: none;
+		}
+
+		label {
+			input {
+				font-weight: normal;
+			}
+		}
 	}
 }

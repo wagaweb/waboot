@@ -34,9 +34,7 @@ const rules = [
 	{
 		test: /\.scss$/,
 		exclude: [/node_modules/, /vendor/],
-		use: [{
-			MiniCssExtractPlugin.loader
-		}, "css-loader", "sass-loader"],
+		use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
 	},
 	{
 		test: /\.(png|jpg|svg|jpeg|gif|ico)$/,

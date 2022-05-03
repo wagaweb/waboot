@@ -1,50 +1,50 @@
 .slidein {
-  background: rgba($colorWhite, 1);
-  height: 100%;
-  position: fixed;
-  overflow: auto;
-  transition: transform $duration;
-  top: 0;
-  width: 100vw;
-  z-index: 9999;
-  right: 0;
-  transform: translate(100%, 0);
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+	background: rgba($colorWhite, 1);
+	bottom: 0;
+	height: calc(100% - 48px);
+	overflow: auto;
+	position: fixed;
+	transition: transform $duration;
+	width: 100vw;
+	z-index: 9999;
+	right: 0;
+	transform: translate(100%, 0);
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
 
-  &.show {
-    transform: translate(0, 0);
-  }
+	&.show {
+		transform: translate(0, 0);
+	}
 
-  &-overlay {
-    display: none;
-    height: 100%;
-    left: 0;
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 99;
-  }
+	&-overlay {
+		display: none;
+		height: 100%;
+		left: 0;
+		position: fixed;
+		top: 0;
+		width: 100%;
+		z-index: 99;
+	}
 
-  &-no-scroll {
-    overflow: hidden !important;
-  }
+	&-no-scroll {
+		overflow: hidden !important;
+	}
 }
 
 a[data-slidein-close] {
-  position: absolute;
-  right: 0;
-  top: 0;
-  padding: $gutter $gutter * 2 0 0 !important;
-  z-index: 20;
-  cursor: pointer;
-  line-height: 1em;
-  width: $gutter * 4.8;
-  height: $gutter * 4.8;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end !important;
+	position: absolute;
+	right: 0;
+	top: 0;
+	padding: $gutter $gutter * 2 0 0 !important;
+	z-index: 20;
+	cursor: pointer;
+	line-height: 1em;
+	width: $gutter * 4.8;
+	height: $gutter * 4.8;
+	display: flex;
+	align-items: center;
+	justify-content: flex-end !important;
 }
