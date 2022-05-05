@@ -20,7 +20,7 @@
           v-if="
             t.children.length > 0 && (maxDepth === null || maxDepth > depth)
           "
-          v-show="selectedTerms.has(t.id)"
+          v-show="fullOpen || selectedTerms.has(t.id)"
           :key="`term-${t.id}`"
           :taxonomy="taxonomy"
           :terms="t.children"
@@ -62,6 +62,10 @@ export default defineComponent({
         (taxonomy: string, term: Term, checked: boolean) => Promise<void> | void
       >,
       required: false,
+    },
+    fullOpen: {
+      type: Boolean,
+      default: false,
     },
     depth: {
       type: Number,

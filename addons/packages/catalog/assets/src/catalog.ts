@@ -22,6 +22,8 @@ export interface TaxFilterOptions {
   selectedTerms?: string[];
   selectedParent?: string;
   exclude?: string[];
+  maxDepth?: number;
+  fullOpen?: boolean;
 }
 
 export enum LayoutMode {

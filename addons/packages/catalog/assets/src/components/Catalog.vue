@@ -47,6 +47,8 @@
                 :terms="taxRef.terms"
                 :selected-terms="taxRef.selectedTerms"
                 :toggle-cb="checkAndReloadCallback"
+                :max-depth="taxRef.options.maxDepth"
+                :full-open="taxRef.options.fullOpen ?? false"
               ></FilterList>
               <PermalinkList
                 v-else-if="taxRef.options.type === 'permalink'"
@@ -55,6 +57,8 @@
                 :title="taxRef.options.title"
                 :terms="taxRef.terms"
                 :base-url="config.baseUrl"
+                :max-depth="taxRef.options.maxDepth"
+                :full-open="taxRef.options.fullOpen ?? false"
               ></PermalinkList>
               <p v-else>{{ `Invalid filter type: ${taxRef.options.type}` }}</p>
             </div>
@@ -107,6 +111,8 @@
                   :terms="taxRef.terms"
                   :selected-terms="taxRef.selectedTerms"
                   :toggle-cb="checkCallback"
+                  :max-depth="taxRef.options.maxDepth"
+                  :full-open="taxRef.options.fullOpen ?? false"
                 ></FilterList>
                 <PermalinkList
                   v-else-if="taxRef.options.type === 'permalink'"
@@ -114,6 +120,8 @@
                   :taxonomy="tax"
                   :terms="taxRef.terms"
                   :base-url="config.baseUrl"
+                  :max-depth="taxRef.options.maxDepth"
+                  :full-open="taxRef.options.fullOpen ?? false"
                 ></PermalinkList>
                 <p v-else>
                   {{ `Invalid filter type: ${taxRef.options.type}` }}

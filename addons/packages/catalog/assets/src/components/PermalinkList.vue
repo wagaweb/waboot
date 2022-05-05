@@ -9,7 +9,11 @@
         :class="{ 'permalink-list_item--selected': t.id === selected }"
       >
         <a :href="`${baseUrl}/${t.slug}`">{{ t.name }}</a>
-        <template v-if="t.children.length > 0">
+        <template
+          v-if="
+            t.children.length > 0 && (maxDepth === null || depth < maxDepth)
+          "
+        >
           <small
             v-if="!fullOpen"
             @click="openMap.set(t.id, !openMap.get(t.id))"
@@ -24,6 +28,8 @@
             :baseUrl="baseUrl"
             :fullOpen="fullOpen"
             :selected="selected"
+            :depth="depth + 1"
+            :maxDepth="maxDepth"
           ></PermalinkList>
         </template>
       </li>
@@ -50,6 +56,10 @@ export default defineComponent({
       type: Array as PropType<Term[]>,
       required: true,
     },
+    selected: {
+      type: String as PropType<string | null>,
+      default: null,
+    },
     baseUrl: {
       type: String,
       required: true,
@@ -58,12 +68,16 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
-    selected: {
-      type: String,
-      default: '',
+    depth: {
+      type: Number,
+      default: 1,
+    },
+    maxDepth: {
+      type: Number as PropType<number | null>,
+      default: null,
     },
   },
-  data(): { openMap: Map<Term['id'], boolean> } {
+  data() {
     const openMap = new Map();
     for (const t of this.terms) {
       openMap.set(t.id, this.fullOpen || t.id === this.selected);
