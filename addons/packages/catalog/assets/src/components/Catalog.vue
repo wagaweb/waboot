@@ -56,7 +56,7 @@
                 :taxonomy="tax"
                 :title="taxRef.options.title"
                 :terms="taxRef.terms"
-                :base-url="config.baseUrl"
+                :base-url="`${config.baseUrl}/${taxRef.options.rewrite}`"
                 :max-depth="taxRef.options.maxDepth"
                 :full-open="taxRef.options.fullOpen ?? false"
               ></PermalinkList>
@@ -119,7 +119,7 @@
                   :key="`${tax}-permalink`"
                   :taxonomy="tax"
                   :terms="taxRef.terms"
-                  :base-url="config.baseUrl"
+                  :base-url="`${config.baseUrl}/${taxRef.options.rewrite}`"
                   :max-depth="taxRef.options.maxDepth"
                   :full-open="taxRef.options.fullOpen ?? false"
                 ></PermalinkList>

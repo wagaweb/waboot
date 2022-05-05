@@ -16,6 +16,7 @@ export interface CatalogConfig {
 
 export interface TaxFilterOptions {
   taxonomy: string;
+  rewrite: string;
   title: string;
   enableFilter: boolean;
   type: FilterType;

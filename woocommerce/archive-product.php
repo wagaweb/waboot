@@ -55,7 +55,21 @@ do_action('woocommerce_before_main_content');
 
 <?php
 
-$currObj = get_queried_object();
+$catalog = [
+    'apiBaseUrl' => WB_CATALOG_BASEURL,
+    'productsPerPage' => 24,
+    'language' => str_replace('_', '-', get_locale()),
+    'enableOrder' => true,
+    'enablePriceFilter' => true,
+    'showAddToCartBtn' => false,
+    'layoutMode' => 'sidebar', // 'header' or 'sidebar'
+    'teleportSidebar' => '.aside__wrapper',
+    'gtag' => [
+        'enabled' => false,
+        'listName' => \Waboot\addons\packages\catalog\getGtagListName(),
+        'brandFallback' => get_bloginfo('name'),
+    ],
+];
 
 $taxonomies = [
     'product_cat' => [
@@ -74,36 +88,21 @@ $taxonomies = [
     */
 ];
 
-if ($currObj instanceof WP_Term) {
-    $taxonomies[$currObj->taxonomy]['selectedParent'] = (string)$currObj->term_id;
-}
-
 $excludeFromCatalog = get_term_by('slug', 'exclude-from-catalog', 'product_visibility');
 $outOfStock = get_term_by('slug', 'outofstock', 'product_visibility');
 if ($excludeFromCatalog !== false) {
     $taxonomies['product_visibility'] = [
         'taxonomy' => 'product_visibility',
-        'exclude' => [(string)$excludeFromCatalog->term_id,(string)$outOfStock->term_id]
+        'exclude' => [(string)$excludeFromCatalog->term_id,(string)$outOfStock->term_id],
     ];
 }
 
-$catalog = [
-    'apiBaseUrl' => WB_CATALOG_BASEURL,
-    'productsPerPage' => 24,
-    'productPermalink' => 'p',
-    'taxonomies' => $taxonomies,
-    'language' => str_replace('_', '-', get_locale()),
-    'enableOrder' => true,
-    'enablePriceFilter' => true,
-    'showAddToCartBtn' => false,
-    'layoutMode' => 'sidebar', // 'header' or 'sidebar'
-    'teleportSidebar' => '.aside__wrapper',
-    'gtag' => [
-        'enabled' => false,
-        'listName' => \Waboot\addons\packages\catalog\getGtagListName(),
-        'brandFallback' => get_bloginfo('name'),
-    ],
-];
+$currObj = get_queried_object();
+if ($currObj instanceof WP_Term) {
+    $taxonomies[$currObj->taxonomy]['selectedParent'] = (string)$currObj->term_id;
+}
+
+$catalog['taxonomies'] = $taxonomies;
 
 echo \Waboot\addons\packages\catalog\renderCatalog($catalog); ?>
 

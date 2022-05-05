@@ -14,32 +14,50 @@ function renderCatalog(array $config): string
         $config['baseUrl'] = get_site_url();
     }
 
+    $wcPermalinks = get_option('woocommerce_permalinks');
     if (empty($config['productPermalink'])) {
-        $config['productPermalink'] = 'prodotto';
+        $config['productPermalink'] = trim($wcPermalinks['product_base'] ?? 'p', '/');
     }
 
-    $taxRewrites = apply_filters('catalog_addon_tax_rewrites', [
-        'product_cat' => 'product_cat',
-    ]);
-    foreach ($taxRewrites as $slug => $tax) {
-        $terms = $_GET[$slug] ?? null;
-        if (empty($terms)) {
-            continue;
-        }
+    $taxRewrites = [];
+    $taxQueryFilters = [];
+    /** @var \WP_Taxonomy $t */
+    foreach (get_taxonomies([], 'objects') as $t) {
+        $taxRewrites[$t->name] = $t->rewrite === false ? $t->name : $t->rewrite['slug'];
+        $taxQueryFilters[$t->name] = [$t->name];
+    }
+    $taxRewrites = apply_filters('catalog_addon_tax_rewrites', $taxRewrites);
+    $taxQueryFilters = apply_filters('catalog_addon_tax_query_filters', $taxQueryFilters);
 
-        if (!is_array($terms)) {
-            $terms = [$terms];
-        }
-
-        foreach ($terms as $slug) {
-            $t = get_term_by('slug', $slug, $tax);
-            if (empty($t)) {
+    foreach ($config['taxonomies'] as $tax => $options) {
+        foreach ($taxQueryFilters[$tax] as $queryFilter) {
+            $terms = $_GET[$queryFilter] ?? null;
+            if (empty($terms)) {
                 continue;
             }
 
-            $config['taxonomies'][$tax]['selectedTerms'][] = (string)$t->term_id;
+            if (!is_array($terms)) {
+                $terms = [$terms];
+            }
+
+            foreach ($terms as $idOrSlug) {
+                if (is_numeric($idOrSlug)) {
+                    $t = get_term_by('id', (int)$idOrSlug, $tax);
+                } else {
+                    $t = get_term_by('slug', $idOrSlug, $tax);
+                }
+                if (empty($t)) {
+                    continue;
+                }
+
+                $config['taxonomies'][$tax]['selectedTerms'][] = (string)$t->term_id;
+            }
         }
+
+        $config['taxonomies'][$tax]['rewrite'] = $taxRewrites[$tax] ?? '';
     }
+
+    $config = apply_filters('catalog_addon_config', $config);
 
     $config['taxonomies'] = array_values($config['taxonomies']);
 
