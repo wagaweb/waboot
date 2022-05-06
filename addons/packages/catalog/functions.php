@@ -65,7 +65,7 @@ function renderCatalog(array $config): string
 
     return <<<HTML
 <div
-    id="vue-catalog"
+    class="vue-catalog"
     catalog-config='$json'
 ></div>
 HTML;

@@ -11,17 +11,24 @@ export const wcserviceClientKey: InjectionKey<WcserviceClient> =
   Symbol('wcserviceClient');
 
 (() => {
-  const entry = document.querySelector('#vue-catalog');
-  if (entry !== null) {
-    const config: CatalogConfig | null = JSON.parse(
+  const entries = document.querySelectorAll('.vue-catalog');
+  if (entries.length === 0) {
+    console.warn(
+      'No entry point element found for product catalog initialization',
+    );
+  }
+
+  for (const entry of entries) {
+    const rawConfig = JSON.parse(
       entry.getAttribute('catalog-config') ?? 'null',
     );
-    if (config === null) {
+    if (rawConfig === null) {
       console.error('catalog-config property not specified');
 
-      return;
+      continue;
     }
 
+    const config = new CatalogConfig(rawConfig);
     const app = createApp(Catalog, {
       config,
     });
@@ -41,9 +48,5 @@ export const wcserviceClientKey: InjectionKey<WcserviceClient> =
     app.use(i18n);
 
     app.mount(entry);
-  } else {
-    console.warn(
-      'No entry point element found for product catalog initialization',
-    );
   }
 })();

@@ -55,6 +55,7 @@ export interface Term {
   taxonomy: string;
   parent: string;
   children: Term[];
+  badge?: Image;
 }
 
 export interface TaxFilter {
@@ -71,6 +72,7 @@ export interface ProductQuery {
     [taxonomy: string]: TaxFilter;
   };
   stockStatus?: 'instock' | 'outofstock';
+  ids?: string[];
 }
 
 export interface CatalogQuery {

@@ -15,7 +15,7 @@
           class="catalog-filters__inner catalog-filters__inner--sidebar"
         >
           <div
-            v-if="config.enablePriceFilter ?? false"
+            v-if="config.enablePriceFilter"
             class="catalog__filter catalog__filter--price"
           >
             <div class="filter">
@@ -48,7 +48,7 @@
                 :selected-terms="taxRef.selectedTerms"
                 :toggle-cb="checkAndReloadCallback"
                 :max-depth="taxRef.options.maxDepth"
-                :full-open="taxRef.options.fullOpen ?? false"
+                :full-open="taxRef.options.fullOpen"
               ></FilterList>
               <PermalinkList
                 v-else-if="taxRef.options.type === 'permalink'"
@@ -58,7 +58,7 @@
                 :terms="taxRef.terms"
                 :base-url="`${config.baseUrl}/${taxRef.options.rewrite}`"
                 :max-depth="taxRef.options.maxDepth"
-                :full-open="taxRef.options.fullOpen ?? false"
+                :full-open="taxRef.options.fullOpen"
               ></PermalinkList>
               <p v-else>{{ `Invalid filter type: ${taxRef.options.type}` }}</p>
             </div>
@@ -72,7 +72,7 @@
           class="catalog-filters__inner catalog-filters__inner--header"
         >
           <div
-            v-if="config.enablePriceFilter ?? false"
+            v-if="config.enablePriceFilter"
             class="catalog__filter catalog__filter--price"
           >
             <Dropdown
@@ -112,7 +112,7 @@
                   :selected-terms="taxRef.selectedTerms"
                   :toggle-cb="checkCallback"
                   :max-depth="taxRef.options.maxDepth"
-                  :full-open="taxRef.options.fullOpen ?? false"
+                  :full-open="taxRef.options.fullOpen"
                 ></FilterList>
                 <PermalinkList
                   v-else-if="taxRef.options.type === 'permalink'"
@@ -121,7 +121,7 @@
                   :terms="taxRef.terms"
                   :base-url="`${config.baseUrl}/${taxRef.options.rewrite}`"
                   :max-depth="taxRef.options.maxDepth"
-                  :full-open="taxRef.options.fullOpen ?? false"
+                  :full-open="taxRef.options.fullOpen"
                 ></PermalinkList>
                 <p v-else>
                   {{ `Invalid filter type: ${taxRef.options.type}` }}
@@ -131,7 +131,7 @@
           </template>
         </div>
       </div>
-      <div class="catalog__header">
+      <div v-show="config.productIds.length === 0" class="catalog__header">
         <button
           type="button"
           class="catalog-filters__button"
@@ -139,7 +139,7 @@
         >
           <i class="fal fa-sliders-h"></i> {{ $t('filterFor') }}
         </button>
-        <div v-if="config.enableOrder ?? false" class="catalog__ordering">
+        <div v-if="config.enableOrder" class="catalog__ordering">
           <select v-model="order" name="order" id="order">
             <option value="default">{{ $t('default') }}</option>
             <option value="alphabetic">{{ $t('alphabetic') }}</option>
@@ -151,7 +151,7 @@
           </select>
         </div>
       </div>
-      <div class="catalog__items products columns-4">
+      <div class="catalog__items products" :class="`columns-${config.columns}`">
         <template v-if="!loadingProducts">
           <CatalogItem
             v-for="(product, i) in products"
@@ -159,7 +159,7 @@
             :host="config.baseUrl"
             :product-permalink="config.productPermalink"
             :product="product"
-            :show-add-to-cart-btn="config.showAddToCartBtn ?? true"
+            :show-add-to-cart-btn="config.showAddToCartBtn"
             @addToCart="gtagAddToCart($event, i)"
             @viewDetails="gtagSelectContent($event, i)"
           ></CatalogItem>
@@ -210,7 +210,7 @@ import {
   Term,
 } from '@/services/api';
 import PermalinkList from './PermalinkList.vue';
-import { CatalogConfig, TaxFilterOptions } from '@/catalog';
+import { CatalogConfig } from '@/catalog';
 import { wcserviceClientKey } from '@/main';
 import $ from 'jquery';
 import { callGtag, genGtagProductItem } from '@/gtag.utils';
@@ -247,7 +247,7 @@ export default defineComponent({
     const taxRefs: Map<
       string,
       UnwrapRef<{
-        options: TaxFilterOptions;
+        options: CatalogConfig['taxonomies'][0];
         terms: Term[];
         flatTerms: Map<Term['id'], Term>;
         selectedTerms: Set<Term['id']>;
@@ -283,10 +283,8 @@ export default defineComponent({
       throw new Error('Cannot inject wcserviceClient');
     }
 
-    const isGtagEnabled = props.config.gtag?.enabled ?? false;
-    const brandFallback = props.config.gtag?.brandFallback ?? '';
     const gtagAddToCart = (product: Product, itemIndex: number): void => {
-      if (!isGtagEnabled) {
+      if (props.config.gtag.enabled) {
         return;
       }
 
@@ -294,19 +292,19 @@ export default defineComponent({
         items: [
           genGtagProductItem(
             product,
-            props.config.gtag!.listName,
+            props.config.gtag.listName!,
             {
               list_position: itemIndex + 1,
               quantity: 1,
             },
-            brandFallback,
+            props.config.gtag.brandFallback,
           ),
         ],
       });
     };
 
     const gtagSelectContent = (product: Product, itemIndex: number): void => {
-      if (!isGtagEnabled) {
+      if (props.config.gtag.enabled) {
         return;
       }
 
@@ -315,11 +313,11 @@ export default defineComponent({
         items: [
           genGtagProductItem(
             product,
-            props.config.gtag!.listName,
+            props.config.gtag.listName!,
             {
               list_position: itemIndex + 1,
             },
-            brandFallback,
+            props.config.gtag.brandFallback,
           ),
         ],
       });
@@ -329,7 +327,7 @@ export default defineComponent({
       products: Product[],
       startIndex: number,
     ): void => {
-      if (!isGtagEnabled) {
+      if (props.config.gtag.enabled) {
         return;
       }
 
@@ -338,11 +336,11 @@ export default defineComponent({
         items.push(
           genGtagProductItem(
             p,
-            props.config.gtag!.listName,
+            props.config.gtag.listName!,
             {
               list_position: startIndex + i + 1,
             },
-            brandFallback,
+            props.config.gtag.brandFallback,
           ),
         );
       }
@@ -351,9 +349,13 @@ export default defineComponent({
     };
 
     const showLoadMore = computed<boolean>(() => {
+      if (props.config.productIds.length > 0) {
+        return false;
+      }
+
       return (
         products.value.length ===
-        props.config.productsPerPage * (page.value + 1)
+        (props.config.productsPerPage ?? 24) * (page.value + 1)
       );
     });
 
@@ -362,6 +364,12 @@ export default defineComponent({
         taxonomies: {},
         stockStatus: 'instock',
       };
+
+      if (props.config.productIds.length > 0) {
+        query.ids = props.config.productIds;
+
+        return query;
+      }
 
       if (selectedPriceRange.value !== null) {
         query.minPrice = selectedPriceRange.value.min;
