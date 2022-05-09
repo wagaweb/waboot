@@ -32,3 +32,75 @@ export function callGtag(event: string, data: Record<string, any>): void {
     console.error(e);
   }
 }
+
+export function getGtagCallbacks({
+  enabled,
+  listName,
+  brandFallback,
+}: {
+  enabled: boolean;
+  listName?: string;
+  brandFallback?: string;
+}) {
+  return {
+    gtagAddToCart: (product: Product, itemIndex: number): void => {
+      if (enabled) {
+        return;
+      }
+
+      callGtag('add_to_cart', {
+        items: [
+          genGtagProductItem(
+            product,
+            listName!,
+            {
+              list_position: itemIndex + 1,
+              quantity: 1,
+            },
+            brandFallback,
+          ),
+        ],
+      });
+    },
+    gtagSelectContent: (product: Product, itemIndex: number): void => {
+      if (enabled) {
+        return;
+      }
+
+      callGtag('select_content', {
+        content_type: 'product',
+        items: [
+          genGtagProductItem(
+            product,
+            listName!,
+            {
+              list_position: itemIndex + 1,
+            },
+            brandFallback,
+          ),
+        ],
+      });
+    },
+    gtagViewItemList: (products: Product[], startIndex: number): void => {
+      if (enabled) {
+        return;
+      }
+
+      const items: Record<string, any>[] = [];
+      for (const [i, p] of products.entries()) {
+        items.push(
+          genGtagProductItem(
+            p,
+            listName!,
+            {
+              list_position: startIndex + i + 1,
+            },
+            brandFallback,
+          ),
+        );
+      }
+
+      callGtag('view_item_list', { items });
+    },
+  };
+}

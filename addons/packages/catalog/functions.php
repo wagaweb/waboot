@@ -10,8 +10,16 @@ namespace Waboot\addons\packages\catalog;
  */
 function renderCatalog(array $config): string
 {
+    if (empty($config['apiBaseUrl'])) {
+        $config['apiBaseUrl'] = WB_CATALOG_BASEURL;
+    }
+
     if (empty($config['baseUrl'])) {
         $config['baseUrl'] = get_site_url();
+    }
+
+    if (empty($config['language'])) {
+        $config['language'] = str_replace('_', '-', get_locale());
     }
 
     $wcPermalinks = get_option('woocommerce_permalinks');
@@ -59,13 +67,46 @@ function renderCatalog(array $config): string
 
     $config = apply_filters('catalog_addon_config', $config);
 
-    $config['taxonomies'] = array_values($config['taxonomies']);
+    $config['taxonomies'] = array_values($config['taxonomies'] ?? []);
 
     $json = json_encode($config);
 
     return <<<HTML
 <div
     class="vue-catalog"
+    catalog-config='$json'
+></div>
+HTML;
+}
+
+function renderSimpleCatalog(array $config): string
+{
+    if (empty($config['apiBaseUrl'])) {
+        $config['apiBaseUrl'] = WB_CATALOG_BASEURL;
+    }
+
+    if (empty($config['baseUrl'])) {
+        $config['baseUrl'] = get_site_url();
+    }
+
+    if (empty($config['language'])) {
+        $config['language'] = str_replace('_', '-', get_locale());
+    }
+
+    $wcPermalinks = get_option('woocommerce_permalinks');
+    if (empty($config['productPermalink'])) {
+        $config['productPermalink'] = trim($wcPermalinks['product_base'] ?? 'p', '/');
+    }
+
+    $config = apply_filters('catalog_addon_simple_catalog_config', $config);
+
+    $config['taxonomies'] = array_values($config['taxonomies'] ?? []);
+
+    $json = json_encode($config);
+
+    return <<<HTML
+<div
+    class="vue-simple-catalog"
     catalog-config='$json'
 ></div>
 HTML;

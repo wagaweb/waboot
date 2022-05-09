@@ -17,7 +17,7 @@ export class CatalogConfig {
   taxonomies: {
     taxonomy: string;
     rewrite: string;
-    title: string;
+    title?: string;
     enableFilter: boolean;
     type: FilterType;
     selectedTerms: string[];
@@ -81,11 +81,9 @@ export class CatalogConfig {
         }
         t.rewrite = String(t.rewrite);
 
-        if (t.title === undefined) {
-          throw new Error('`taxonomies[].title`: parameter is required');
+        if (t.title !== undefined) {
+          t.title = String(t.title);
         }
-        t.title = String(t.title);
-
         t.enableFiler = Boolean(t.enableFiler ?? true);
         t.type = String(t.type ?? FilterType.Checkbox) as FilterType;
         t.selectedTerms = Array.isArray(t.selectedTerms)
@@ -152,4 +150,70 @@ export class CatalogConfig {
   }
 }
 
-export default CatalogConfig;
+export class SimpleCatalogConfig {
+  baseUrl: string;
+  apiBaseUrl: string;
+  language: string;
+  productPermalink: string;
+  productIds: string[];
+  gtag: {
+    enabled: boolean;
+    listName?: string;
+    brandFallback?: string;
+  };
+  columns: number;
+  showAddToCartBtn: boolean;
+
+  constructor(data: any) {
+    if (typeof data !== 'object' || data === null) {
+      throw new Error('Invalid config format');
+    }
+
+    if (data.baseUrl === undefined) {
+      throw new Error('`baseUrl`: parameter is required');
+    }
+    this.baseUrl = String(data.baseUrl);
+
+    if (data.apiBaseUrl === undefined) {
+      throw new Error('`apiBaseUrl`: parameter is required');
+    }
+    this.apiBaseUrl = String(data.apiBaseUrl);
+
+    if (data.language === undefined) {
+      throw new Error('`language`: parameter is required');
+    }
+    this.language = String(data.language);
+
+    this.productIds = Array.isArray(data.productIds)
+      ? data.productIds.map((id: any) => String(id))
+      : [];
+
+    this.gtag = { enabled: false };
+    if (typeof data.gtag !== 'object' || data.gtag === null) {
+      throw new Error('`gtag`: invalid object');
+    } else if (data.gtag !== undefined) {
+      if (data.gtag.enabled === undefined) {
+        throw new Error('`gtag.enabled`: parameter is required');
+      }
+      this.gtag.enabled = Boolean(data.gtag);
+
+      if (data.gtag.listName === undefined) {
+        throw new Error(
+          '`gtag.listName`: parameter is required when gtag is enabled',
+        );
+      }
+      this.gtag.listName = String(data.gtag.listName);
+
+      if (data.gtag.brandFallback === undefined) {
+        throw new Error(
+          '`gtag.brandFallback`: parameter is required when gtag is enabled',
+        );
+      }
+      this.gtag.brandFallback = String(data.gtag.brandFallback);
+    }
+
+    this.productPermalink = String(data.productPermalink ?? 'p');
+    this.columns = Number(data.columns ?? 4);
+    this.showAddToCartBtn = Boolean(data.showAddToCartBtn ?? true);
+  }
+}

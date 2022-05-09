@@ -71,7 +71,6 @@ export interface ProductQuery {
   taxonomies?: {
     [taxonomy: string]: TaxFilter;
   };
-  stockStatus?: 'instock' | 'outofstock';
   ids?: string[];
 }
 

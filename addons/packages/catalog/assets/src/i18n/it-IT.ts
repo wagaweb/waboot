@@ -9,7 +9,7 @@ export const itIT: MessageDictionarySchema = {
 	popularity: 'Popolarità',
 	priceHighToLow: 'Prezzo in ordine decrescente',
 	priceLowToHigh: 'Prezzo in ordine crescente',
-	showMore: 'Mostra sucessivi',
+	showMore: 'Mostra successivi',
 	noProductsFound: 'Nessun prodotto trovato',
 	from: 'da',
 	outOfStock: 'Non disponibile',

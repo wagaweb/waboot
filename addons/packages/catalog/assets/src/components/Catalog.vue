@@ -213,7 +213,7 @@ import PermalinkList from './PermalinkList.vue';
 import { CatalogConfig } from '@/catalog';
 import { wcserviceClientKey } from '@/main';
 import $ from 'jquery';
-import { callGtag, genGtagProductItem } from '@/gtag.utils';
+import { getGtagCallbacks } from '@/gtag.utils';
 
 export default defineComponent({
   name: 'Catalog',
@@ -283,70 +283,8 @@ export default defineComponent({
       throw new Error('Cannot inject wcserviceClient');
     }
 
-    const gtagAddToCart = (product: Product, itemIndex: number): void => {
-      if (props.config.gtag.enabled) {
-        return;
-      }
-
-      callGtag('add_to_cart', {
-        items: [
-          genGtagProductItem(
-            product,
-            props.config.gtag.listName!,
-            {
-              list_position: itemIndex + 1,
-              quantity: 1,
-            },
-            props.config.gtag.brandFallback,
-          ),
-        ],
-      });
-    };
-
-    const gtagSelectContent = (product: Product, itemIndex: number): void => {
-      if (props.config.gtag.enabled) {
-        return;
-      }
-
-      callGtag('select_content', {
-        content_type: 'product',
-        items: [
-          genGtagProductItem(
-            product,
-            props.config.gtag.listName!,
-            {
-              list_position: itemIndex + 1,
-            },
-            props.config.gtag.brandFallback,
-          ),
-        ],
-      });
-    };
-
-    const gtagViewItemList = (
-      products: Product[],
-      startIndex: number,
-    ): void => {
-      if (props.config.gtag.enabled) {
-        return;
-      }
-
-      const items: Record<string, any>[] = [];
-      for (const [i, p] of products.entries()) {
-        items.push(
-          genGtagProductItem(
-            p,
-            props.config.gtag.listName!,
-            {
-              list_position: startIndex + i + 1,
-            },
-            props.config.gtag.brandFallback,
-          ),
-        );
-      }
-
-      callGtag('view_item_list', { items });
-    };
+    const { gtagAddToCart, gtagSelectContent, gtagViewItemList } =
+        getGtagCallbacks(props.config.gtag);
 
     const showLoadMore = computed<boolean>(() => {
       if (props.config.productIds.length > 0) {
@@ -362,7 +300,6 @@ export default defineComponent({
     const productQuery = (): ProductQuery => {
       const query: ProductQuery = {
         taxonomies: {},
-        stockStatus: 'instock',
       };
 
       if (props.config.productIds.length > 0) {

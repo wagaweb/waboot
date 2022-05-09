@@ -17,7 +17,7 @@
 
 defined('ABSPATH') || exit;
 
-if(!defined('WB_USE_LOCAl_CATALOG') || WB_USE_LOCAl_CATALOG === false){
+if (!defined('WB_USE_LOCAl_CATALOG') || WB_USE_LOCAl_CATALOG === false) {
     defined('WB_CATALOG_BASEURL') || exit;
 }
 
@@ -34,79 +34,119 @@ do_action('woocommerce_before_main_content');
 
 ?>
 
-<header class="woocommerce-products-header">
-    <?php
-    if (apply_filters('woocommerce_show_page_title', true)) : ?>
-        <h1 class="woocommerce-products-header__title page-title"><?php
-            woocommerce_page_title(); ?></h1>
-    <?php
-    endif; ?>
+    <header class="woocommerce-products-header">
+        <?php
+        if (apply_filters('woocommerce_show_page_title', true)) : ?>
+            <h1 class="woocommerce-products-header__title page-title"><?php
+                woocommerce_page_title(); ?></h1>
+        <?php
+        endif; ?>
 
-    <?php
-    /**
-     * Hook: woocommerce_archive_description.
-     *
-     * @hooked woocommerce_taxonomy_archive_description - 10
-     * @hooked woocommerce_product_archive_description - 10
-     */
-    do_action('woocommerce_archive_description');
-    ?>
-</header>
+        <?php
+        /**
+         * Hook: woocommerce_archive_description.
+         *
+         * @hooked woocommerce_taxonomy_archive_description - 10
+         * @hooked woocommerce_product_archive_description - 10
+         */
+        do_action('woocommerce_archive_description');
+        ?>
+    </header>
 
 <?php
 
-$catalog = [
-    'apiBaseUrl' => WB_CATALOG_BASEURL,
-    'productsPerPage' => 24,
-    'language' => str_replace('_', '-', get_locale()),
-    'enableOrder' => true,
-    'enablePriceFilter' => true,
-    'showAddToCartBtn' => false,
-    'layoutMode' => 'sidebar', // 'header' or 'sidebar'
-    'teleportSidebar' => '.aside__wrapper',
-    'gtag' => [
-        'enabled' => false,
-        'listName' => \Waboot\addons\packages\catalog\getGtagListName(),
-        'brandFallback' => get_bloginfo('name'),
-    ],
-];
-
-$taxonomies = [
-    'product_cat' => [
-        'taxonomy' => 'product_cat',
-        'title' => __('Categorie prodotto', LANG_TEXTDOMAIN),
-        'enableFilter' => true,
-        'type' => 'checkbox',
-    ],
-    /*
-    'product_collection' => [
-        'taxonomy' => 'product_collection',
-        'title' => __('Collezioni', LANG_TEXTDOMAIN),
-        'enableFilter' => true,
-        'type' => 'checkbox',
-    ]
-    */
-];
-
-$excludeFromCatalog = get_term_by('slug', 'exclude-from-catalog', 'product_visibility');
-$outOfStock = get_term_by('slug', 'outofstock', 'product_visibility');
-if ($excludeFromCatalog !== false) {
-    $taxonomies['product_visibility'] = [
-        'taxonomy' => 'product_visibility',
-        'exclude' => [(string)$excludeFromCatalog->term_id,(string)$outOfStock->term_id],
+if (defined('WB_CATALOG_BASEURL')) {
+    $catalog = [
+//        'productsPerPage' => 24,
+//        'columns' => 3,
+//        'enableFilters' => false,
+//        'enableOrder' => false,
+//        'enablePriceFilter' => false,
+//        'showAddToCartBtn' => false,
+        'layoutMode' => 'sidebar', // 'header' or 'sidebar'
+//        'teleportSidebar' => '.aside__wrapper',
+        'gtag' => [
+            'enabled' => false,
+            'listName' => \Waboot\addons\packages\catalog\getGtagListName(),
+            'brandFallback' => get_bloginfo('name'),
+        ],
     ];
+
+    $taxonomies = [
+        'product_cat' => [
+            'taxonomy' => 'product_cat',
+            'title' => __('Categorie prodotto', LANG_TEXTDOMAIN),
+//            'type' => 'permalink',
+//            'enableFilter' => false,
+//            'selectedParent' => 12345,
+//            'exclude' => [12345,12346],
+//            'maxDepth' => 2,
+//            'fullOpen' => true,
+        ],
+    ];
+
+    $excludeFromCatalog = get_term_by('slug', 'exclude-from-catalog', 'product_visibility');
+    $outOfStock = get_term_by('slug', 'outofstock', 'product_visibility');
+    if ($excludeFromCatalog !== false && $outOfStock !== false) {
+        $taxonomies['product_visibility'] = [
+            'taxonomy' => 'product_visibility',
+            'exclude' => [$excludeFromCatalog->term_id, $outOfStock->term_id],
+            'enableFilter' => false,
+        ];
+    }
+
+    $currObj = get_queried_object();
+    if ($currObj instanceof WP_Term) {
+        $taxonomies[$currObj->taxonomy]['selectedParent'] = $currObj->term_id;
+    }
+
+    $catalog['taxonomies'] = $taxonomies;
+
+    echo \Waboot\addons\packages\catalog\renderCatalog($catalog);
+} else {
+    if (woocommerce_product_loop()) {
+        /**
+         * Hook: woocommerce_before_shop_loop.
+         *
+         * @hooked woocommerce_output_all_notices - 10
+         * @hooked woocommerce_result_count - 20
+         * @hooked woocommerce_catalog_ordering - 30
+         */
+        do_action('woocommerce_before_shop_loop');
+
+        woocommerce_product_loop_start();
+
+        if (wc_get_loop_prop('total')) {
+            while (have_posts()) {
+                the_post();
+
+                /**
+                 * Hook: woocommerce_shop_loop.
+                 */
+                do_action('woocommerce_shop_loop');
+
+                wc_get_template_part('content', 'product');
+            }
+        }
+
+        woocommerce_product_loop_end();
+
+        /**
+         * Hook: woocommerce_after_shop_loop.
+         *
+         * @hooked woocommerce_pagination - 10
+         */
+        do_action('woocommerce_after_shop_loop');
+    } else {
+        /**
+         * Hook: woocommerce_no_products_found.
+         *
+         * @hooked wc_no_products_found - 10
+         */
+        do_action('woocommerce_no_products_found');
+    }
 }
 
-$currObj = get_queried_object();
-if ($currObj instanceof WP_Term) {
-    $taxonomies[$currObj->taxonomy]['selectedParent'] = (string)$currObj->term_id;
-}
-
-$catalog['taxonomies'] = $taxonomies;
-
-echo \Waboot\addons\packages\catalog\renderCatalog($catalog); ?>
-
-<?php
 /**
  * Hook: woocommerce_after_main_content.
  *
