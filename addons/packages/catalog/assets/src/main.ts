@@ -2,7 +2,7 @@ import { createApp, InjectionKey } from 'vue';
 import Catalog from '@/components/Catalog.vue';
 import SimpleCatalog from '@/components/SimpleCatalog.vue';
 import { WcserviceClient } from '@/services/api';
-import { CatalogConfig, SimpleCatalogConfig } from './catalog';
+import { CatalogConfig } from './catalog';
 import { createI18n } from 'vue-i18n';
 import messages, { AvailableLanguages } from '@/i18n';
 
@@ -52,7 +52,7 @@ export const wcserviceClientKey: InjectionKey<WcserviceClient> =
       continue;
     }
 
-    const config = new SimpleCatalogConfig(rawConfig);
+    const config = new CatalogConfig(rawConfig);
     const app = createApp(SimpleCatalog, {
       config,
     });

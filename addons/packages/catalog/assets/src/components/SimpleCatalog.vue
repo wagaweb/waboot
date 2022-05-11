@@ -24,16 +24,16 @@
 import { defineComponent, inject, onMounted, PropType, Ref, ref } from 'vue';
 import CatalogItem from '@/components/CatalogItem.vue';
 import Spinner from '@/components/Spinner.vue';
-import { SimpleCatalogConfig } from '@/catalog';
-import { CatalogOrder, Product } from '@/services/api';
+import { CatalogOrder, CatalogQuery, Product, TaxFilter } from '@/services/api';
 import { wcserviceClientKey } from '@/main';
 import { getGtagCallbacks } from '@/gtag.utils';
+import { CatalogConfig } from '@/catalog';
 
 export default defineComponent({
   name: 'SimpleCatalog',
   props: {
     config: {
-      type: Object as PropType<SimpleCatalogConfig>,
+      type: Object as PropType<CatalogConfig>,
       required: true,
     },
   },
@@ -54,6 +54,14 @@ export default defineComponent({
     const products: Ref<Product[]> = ref([]);
     const loadProducts = async () => {
       loading.value = true;
+
+      const taxonomies: Record<string, TaxFilter> = {};
+      if (props.config.taxonomies.length > 0) {
+        for (const tax of props.config.taxonomies) {
+          taxonomies[tax.taxonomy] = { op: 'or', terms: tax.selectedTerms };
+        }
+      }
+
       products.value = await wcserviceClient.findProducts({
         limit: props.config.productIds.length,
         postMetaIn: ['_attribute_list', '_sku', '_wc_average_rating'],
@@ -61,8 +69,10 @@ export default defineComponent({
         order: CatalogOrder.Alphabetic,
         query: {
           ids: props.config.productIds,
+          taxonomies,
         },
       });
+
       gtagViewItemList(products.value, 0);
       loading.value = false;
     };
