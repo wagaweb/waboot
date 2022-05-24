@@ -188,6 +188,24 @@
     }
   }
 
+  .woocommerce-bacs-bank-details {
+    text-align: center;
+    h2 {
+      font-size: 1.5em;
+      margin: 20px 0 10px;
+    }
+    h3 {
+      margin: 0 0 5px;
+      font-size: 1.2em;
+      font-family: $fontPrimary;
+      font-weight: $fontWeightBold;
+    }
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+  }
+
 }
 
 
