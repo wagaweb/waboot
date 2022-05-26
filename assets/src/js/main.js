@@ -32,13 +32,20 @@ jQuery(document).ready(function ($) {
 		toggler: ".slidein-nav__toggle",
 	});
 
-	/* $("a").each(function () {
-    var my_href = $(this).attr("href");
-    if (/\.(?:jpg|jpeg|gif|png)/i.test(my_href)) {
-      $(this).addClass("venobox");
-    }
-  });
-  $(".venobox").venobox(); */
+	$("a").each(function () {
+		var my_href = $(this).attr("href");
+		if (/\.(?:jpg|jpeg|gif|png)/i.test(my_href)) {
+			$(this).addClass("glightbox");
+		}
+	});
+	const lightbox = GLightbox({
+		selector: ".glightbox",
+		touchNavigation: true,
+		keyboardNavigation: true,
+		loop: true,
+		autoplayVideos: true,
+		zoomable: true,
+	});
 });
 
 function asideBodyClass() {
@@ -66,14 +73,3 @@ function scrollToAnimate() {
 		}
 	});
 }
-
-document.addEventListener("DOMContentLoaded", function (event) {
-	const lightbox = GLightbox({
-		selector: "figure:not(.article__image) a",
-		touchNavigation: true,
-		keyboardNavigation: true,
-		loop: true,
-		autoplayVideos: true,
-		zoomable: true,
-	});
-});

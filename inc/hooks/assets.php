@@ -49,12 +49,12 @@ function assets(){
     ];
 
     $assets['glightbox-css'] = [
-        'uri' => 'https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css',
+        'uri' => get_template_directory_uri() . '/assets/vendor/glightbox/glightbox.min.css',
         'type' => 'css',
     ];
 
     $assets['glightbox-js'] = [
-        'uri' => 'https://cdn.jsdelivr.net/gh/mcstudios/glightbox/dist/js/glightbox.min.js',
+        'uri' => get_template_directory_uri() . '/assets/vendor/glightbox/glightbox.min.js',
         'type' => 'js',
         'deps' => ['jquery']
     ];
