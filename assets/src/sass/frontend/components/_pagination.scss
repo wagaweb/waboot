@@ -1,40 +1,40 @@
 .pagination,
 .woocommerce-pagination {
-  ul {
-    display: flex;
-    justify-content: center;
-    list-style: none;
-    margin-bottom: $gutter * 2;
-    padding-left: 0;
-  }
+	ul {
+		display: flex;
+		justify-content: center;
+		list-style: none;
+		margin-bottom: 20px;
+		padding-left: 0;
+	}
 
-  li {
-    display: inline-block;
+	li {
+		display: inline-block;
 
-    .page-numbers {
-      border: 1px solid $colorPrimary;
-      background-color: $colorWhite;
-      color: $colorPrimary;
-      display: block;
-      line-height: 1.25;
-      margin-left: -1px;
-      padding: $gutter * 0.5 $gutter * 0.75;
-      position: relative;
+		.page-numbers {
+			border: 1px solid $colorPrimary;
+			background-color: $colorWhite;
+			color: $colorPrimary;
+			display: block;
+			line-height: 1.25;
+			margin-left: -1px;
+			padding: 5px 7.5px;
+			position: relative;
 
-      &.current {
-        background-color: $colorPrimary;
-        color: $colorWhite;
-      }
+			&.current {
+				background-color: $colorPrimary;
+				color: $colorWhite;
+			}
 
-      &:hover {
-        background-color: $colorPrimary;
-        color: $colorWhite;
-      }
-    }
+			&:hover {
+				background-color: $colorPrimary;
+				color: $colorWhite;
+			}
+		}
 
-    a,
-    span {
-      color: $colorPrimary;
-    }
-  }
+		a,
+		span {
+			color: $colorPrimary;
+		}
+	}
 }

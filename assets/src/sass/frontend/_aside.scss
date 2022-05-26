@@ -1,23 +1,23 @@
 .main__aside {
 	background-color: $colorGreyLight;
 	border-radius: $radius;
-	padding: calc($gutter * 2) $gutter;
+	padding: 20px 10px;
 	position: relative;
 
 	@include up($medium) {
-		padding: calc($gutter * 4) calc($gutter * 2);
+		padding: 40px 20px;
 
 		.aside__wrapper {
 			position: sticky;
-			top: calc($gutter * 10);
+			top: 100px;
 		}
 	}
 
 	.widget {
-		margin-bottom: calc($gutter * 2);
+		margin-bottom: 20px;
 
 		@include up($medium) {
-			margin-bottom: calc($gutter * 4);
+			margin-bottom: 40px;
 		}
 
 		p:last-child,
@@ -34,14 +34,14 @@
 					content: "Categorie";
 					color: $colorTextDark;
 					font-weight: $fontWeightBold;
-					margin-bottom: calc($gutter / 2);
+					margin-bottom: 5px;
 				}
 			}
 
 			li {
 				align-items: center;
 				display: flex;
-				gap: calc($gutter / 2);
+				gap: 5px;
 
 				&::before {
 					/* webpackIgnore: true */
@@ -67,7 +67,7 @@
 		&_recent_entries {
 			ul {
 				display: grid;
-				gap: $gutter;
+				gap: 10px;
 				list-style: none;
 				padding: 0;
 
@@ -85,8 +85,8 @@
 					display: table;
 				}
 				img {
-					margin-right: $gutter;
-					height: calc($gutter * 7);
+					margin-right: 10px;
+					height: 70px;
 				}
 			}
 
@@ -104,14 +104,14 @@
 			p {
 				display: flex;
 				flex-wrap: wrap;
-				gap: calc($gutter / 2);
+				gap: 5px;
 
 				&::before {
 					content: "Tag";
 					color: $colorTextDark;
 					display: block;
 					font-weight: $fontWeightBold;
-					margin-bottom: calc($gutter / 2);
+					margin-bottom: 5px;
 					margin-right: auto;
 					flex: 0 0 100%;
 				}
@@ -120,13 +120,13 @@
 			a {
 				align-items: center;
 				background-color: $colorWhite;
-				border: 1px solid $colorBorder;
+				border: 1px solid $colorGrey;
 				border-radius: $radius;
 				color: $colorTextDark;
 				display: flex;
 				font-weight: $fontWeightSemibold;
 				line-height: 1;
-				padding: calc($gutter / 2);
+				padding: 5px;
 
 				&:hover {
 					border-color: $colorText;

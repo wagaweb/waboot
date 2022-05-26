@@ -22,6 +22,7 @@ jQuery(document).ready(function ($) {
 	asideBodyClass();
 	scrollToAnimate();
 	dropdown();
+	headerToggleAnimation();
 
 	$(window).on("load", function () {
 		if (window.matchMedia("(max-width: 991px)").matches) {
@@ -70,6 +71,22 @@ function scrollToAnimate() {
 					},
 					1000
 				);
+		}
+	});
+}
+
+function headerToggleAnimation() {
+	let $ = jQuery;
+	$("body").on("slidein-in", function (event, $slideElement) {
+		if ($slideElement.hasClass("navigation-mobile")) {
+			$(".header__toggle").toggleClass("animated");
+			$(".header__logo").toggleClass("centered");
+		}
+	});
+	$("body").on("slidein-out", function (event, $slideElement) {
+		if ($slideElement.hasClass("navigation-mobile")) {
+			$(".header__toggle").toggleClass("animated");
+			$(".header__logo").toggleClass("centered");
 		}
 	});
 }

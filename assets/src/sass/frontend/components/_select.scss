@@ -1,89 +1,89 @@
 .select-hidden {
-  display: none;
-  padding-right: $gutter;
-  visibility: hidden;
+	display: none;
+	padding-right: 10px;
+	visibility: hidden;
 }
 
 .select {
-  color: $colorText;
-  cursor: pointer;
-  display: inline-block;
-  height: $gutter * 3.4;
-  line-height: $gutter * 3.4;
-  position: relative;
-  width: 100%;
+	color: $colorText;
+	cursor: pointer;
+	display: inline-block;
+	height: 34px;
+	line-height: 34px;
+	position: relative;
+	width: 100%;
 }
 .select-styled {
-  background-color: $colorWhite;
-  border: 1px solid $colorBorder;
-  border-radius: $radius;
-  bottom: 0;
-  font-size: $gutter * 1.4;
-  left: 0;
-  padding-inline: $gutter;
-  position: absolute;
-  right: 0;
-  top: 0;
+	background-color: $colorWhite;
+	border: 1px solid $colorGrey;
+	border-radius: $radius;
+	bottom: 0;
+	font-size: 14px;
+	left: 0;
+	padding-inline: 10px;
+	position: absolute;
+	right: 0;
+	top: 0;
 
-  &:after {
-    border: $gutter * 0.7 solid transparent;
-    border-color: $colorBorder transparent transparent transparent;
-    content: "";
-    height: 0;
-    position: absolute;
-    right: $gutter;
-    top: $gutter * 1.3;
-    width: 0;
-  }
+	&:after {
+		border: 7px solid transparent;
+		border-color: $colorGrey transparent transparent transparent;
+		content: "";
+		height: 0;
+		position: absolute;
+		right: 10px;
+		top: 13px;
+		width: 0;
+	}
 
-  &:hover {
-    background-color: $colorGreyLight;
-  }
+	&:hover {
+		background-color: $colorGreyLight;
+	}
 
-  &:active,
-  &.active {
-    background-color: $colorGreyLight;
+	&:active,
+	&.active {
+		background-color: $colorGreyLight;
 
-    &:after {
-      border-color: transparent transparent $colorText transparent;
-      top: $gutter * 0.6;
-    }
-  }
+		&:after {
+			border-color: transparent transparent $colorText transparent;
+			top: 6px;
+		}
+	}
 }
 
 .select-options {
-  background-color: $colorGreyLight;
-  border: 1px solid $colorBorder;
-  border-radius: $radius;
-  border-top: none;
-  box-shadow: 0 1px $gutter $colorGreyLight;
-  display: none;
-  font-size: $gutter * 1.4;
-  left: 0;
-  list-style: none;
-  margin: 3px 0 0;
-  max-height: 30vh;
-  overflow-y: scroll;
-  padding: 0;
-  position: absolute;
-  right: 0;
-  top: 100%;
-  z-index: 90;
+	background-color: $colorGreyLight;
+	border: 1px solid $colorGrey;
+	border-radius: $radius;
+	border-top: none;
+	box-shadow: 0 1px 10px $colorGreyLight;
+	display: none;
+	font-size: 14px;
+	left: 0;
+	list-style: none;
+	margin: 3px 0 0;
+	max-height: 30vh;
+	overflow-y: scroll;
+	padding: 0;
+	position: absolute;
+	right: 0;
+	top: 100%;
+	z-index: 90;
 
-  li {
-    border-top: 1px solid $colorBorder;
-    margin: 0;
-    padding: $gutter * 0.8 0;
-    text-indent: $gutter * 1.5;
+	li {
+		border-top: 1px solid $colorGrey;
+		margin: 0;
+		padding: 8px 0;
+		text-indent: 15px;
 
-    &:hover,
-    &.is-selected {
-      background: $colorPrimary;
-      color: $colorWhite;
-    }
+		&:hover,
+		&.is-selected {
+			background: $colorPrimary;
+			color: $colorWhite;
+		}
 
-    &[rel="hide"] {
-      display: none;
-    }
-  }
+		&[rel="hide"] {
+			display: none;
+		}
+	}
 }

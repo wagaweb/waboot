@@ -1,65 +1,65 @@
 body {
-  color: $colorText;
-  font-family: $fontPrimary;
-  font-weight: $fontWeightNormal;
+	color: $colorText;
+	font-family: $fontPrimary;
+	font-weight: $fontWeightNormal;
 }
 
 body {
-  font-size: 14px;
+	font-size: 14px;
 }
 
 h1 {
-  font-size: 2.6em;
+	font-size: 2.6em;
 }
 
 h2 {
-  font-size: 2.15em;
+	font-size: 2.15em;
 }
 
 h3 {
-  font-size: 1.7em;
+	font-size: 1.7em;
 }
 
 h4 {
-  font-size: 1.25em;
+	font-size: 1.25em;
 }
 
 h5 {
-  font-size: 1em;
+	font-size: 1em;
 }
 
 h6 {
-  font-size: 0.85em;
+	font-size: 0.85em;
 }
 
 @include up($large) {
-  body {
-    font-size: 16px;
-  }
+	body {
+		font-size: 16px;
+	}
 
-  h1 {
-    font-size: 2.6em;
-  }
+	h1 {
+		font-size: 2.6em;
+	}
 
-  h2 {
-    font-size: 2.15em;
-  }
+	h2 {
+		font-size: 2.15em;
+	}
 
-  h3 {
-    font-size: 1.7em;
-  }
+	h3 {
+		font-size: 1.7em;
+	}
 
-  h4 {
-    font-size: 1.25em;
-  }
+	h4 {
+		font-size: 1.25em;
+	}
 
-  h5 {
-    font-size: 1em;
-  }
+	h5 {
+		font-size: 1em;
+	}
 
-  h6 {
-    font-size: 0.85em;
-  }
+	h6 {
+		font-size: 0.85em;
+	}
 }
 
 h1,
@@ -74,65 +74,65 @@ h5,
 .h5,
 h6,
 .h6 {
-  font-weight: $fontWeightSemibold;
-  margin: 0;
-  word-wrap: break-word;
+	font-weight: $fontWeightSemibold;
+	margin: 0;
+	word-wrap: break-word;
 
-  &:not(:last-child) {
-    margin-bottom: $gutter;
+	&:not(:last-child) {
+		margin-bottom: 10px;
 
-    @include up($large) {
-      margin-bottom: $gutter * 2;
-    }
-  }
+		@include up($large) {
+			margin-bottom: 20px;
+		}
+	}
 }
 
 p,
 ul,
 ol {
-  line-height: 1.5;
-  margin-bottom: $gutter * 2;
-  margin-top: 0;
-  word-wrap: break-word;
+	line-height: 1.5;
+	margin-bottom: 20px;
+	margin-top: 0;
+	word-wrap: break-word;
 }
 
 a {
-  color: $colorPrimary;
-  outline: 0;
-  transform: $duration;
-  transition: $duration;
+	color: $colorPrimary;
+	outline: 0;
+	transform: $duration;
+	transition: $duration;
 
-  &:hover,
-  &:focus {
-    color: lighten($colorPrimary, 20%);
-  }
+	&:hover,
+	&:focus {
+		color: lighten($colorPrimary, 20%);
+	}
 
-  &:link,
-  &:visited,
-  &:hover,
-  &:active {
-    text-decoration: none;
-  }
+	&:link,
+	&:visited,
+	&:hover,
+	&:active {
+		text-decoration: none;
+	}
 
-  &.text-primary {
-    &:hover,
-    &:focus {
-      color: lighten($colorPrimary, 20%);
-    }
-  }
+	&.text-primary {
+		&:hover,
+		&:focus {
+			color: lighten($colorPrimary, 20%);
+		}
+	}
 }
 
 span {
-  word-wrap: break-word;
+	word-wrap: break-word;
 }
 
 table {
-  width: 100%;
+	width: 100%;
 }
 
 p img {
-  margin-bottom: 0.5em;
-  margin-top: 0.4em;
+	margin-bottom: 0.5em;
+	margin-top: 0.4em;
 }
 
 img.header-image,
@@ -143,37 +143,37 @@ img[class*="wp-image-"],
 img[class*="attachment-"],
 .comment-content img,
 .widget img {
-  height: auto;
-  max-width: 100%;
-  padding: 0;
+	height: auto;
+	max-width: 100%;
+	padding: 0;
 }
 
 mark,
 ins {
-  background: #fff9c0;
-  text-decoration: none;
+	background: #fff9c0;
+	text-decoration: none;
 }
 
 .sticky {
-  display: block;
+	display: block;
 }
 
 .alignright {
-  display: inline;
-  float: right;
-  margin-left: 15px;
+	display: inline;
+	float: right;
+	margin-left: 15px;
 }
 
 .alignleft {
-  display: inline;
-  float: left;
-  margin-right: 15px;
+	display: inline;
+	float: left;
+	margin-right: 15px;
 }
 
 .aligncenter {
-  clear: both;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  text-align: center;
+	clear: both;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
 }

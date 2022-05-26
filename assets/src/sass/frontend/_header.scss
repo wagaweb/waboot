@@ -1,115 +1,191 @@
 .header {
-  background-color: $colorWhite;
-  border-bottom: 1px solid $colorBorder;
-  position: absolute;
-  top: 0;
-  width: 100%;
-  z-index: 1000;
+	width: 100%;
+	position: fixed;
+	top: 0;
+	z-index: 20;
+	background-color: #fff;
+	border-bottom: 1px solid $colorGrey;
 
-  body.admin-bar & {
-    top: 46px;
+	body.admin-bar & {
+		top: 46px;
 
-    @include up($large) {
-      top: 32px;
-    }
-  }
+		@include up($large) {
+			top: 32px;
+		}
+	}
 
-  .header--fixed & {
-    position: fixed;
-    top: -200px;
-  }
+	.header--fixed & {
+		position: fixed;
+		top: -200px;
+	}
 
-  .header--animated & {
-    transition: all 1s ease;
-  }
+	.header--animated & {
+		transition: all 1s ease;
+	}
 
-  .header--scrolled & {
-    top: 0;
-    z-index: 99;
-    box-shadow: 0 1px 3px rgba($colorGreyDark, 0.1);
-  }
+	.header--scrolled & {
+		top: 0;
+		z-index: 99;
+	}
 
-  &__inner {
-    margin-inline: auto;
-    max-width: $containerWidth;
-    width: 90vw;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+	&__top {
+		padding: 5px 20px;
+		font-size: 0.8em;
+		background-color: $colorPrimary;
+		color: #fff;
+		text-align: center;
+		text-transform: uppercase;
+		@include up($medium) {
+			padding: 10px;
+			font-size: 0.9em;
+		}
+		a {
+			color: #fff;
+		}
+	}
 
-    @include down($large) {
-      flex-wrap: wrap;
-    }
-  }
+	&__inner {
+		max-width: $containerWidth;
+		margin: 0 auto;
+		padding: 10px $gridGutter;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		flex-wrap: wrap;
+		@include up($large) {
+			padding: 0 $gridGutter;
+			gap: 10px;
+			align-items: center;
+		}
+	}
 
-  &__logo {
-    @include down($large) {
-      max-width: 85%;
-    }
+	i.fal {
+		font-size: 1.2em;
+	}
 
-    a {
-      font-weight: $fontWeightSemibold;
+	&__lang {
+		display: flex;
+		align-items: self-end;
+		gap: 20px;
+		@include down($large) {
+			display: none;
+		}
+		ul {
+			padding: 0;
+			margin: 0;
+			list-style-type: none;
+		}
+	}
 
-      &:hover {
-        color: $colorTextDark;
-      }
-    }
+	&__logo {
+		@include up($large) {
+			text-align: center;
+		}
+		@include down($large) {
+			max-width: 85%;
+			flex-grow: 1;
+		}
+		img {
+			max-width: 100%;
+			max-height: 20px;
+			@include up($large) {
+				max-width: 180px;
+				max-height: none;
+			}
+		}
+	}
 
-    img {
-      max-width: $gutter * 13;
-    }
-  }
+	&__toggle {
+		float: none;
+		padding: 0;
+		margin: 0;
+		border: 0;
+		background-color: transparent;
+		width: 48px;
+		height: 48px;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: flex-end;
+		order: 10;
 
-  &__toggle {
-    float: none;
-    padding: 0;
-    margin: 0;
-    border: 0;
-    background-color: transparent;
-    width: 48px;
-    height: 48px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-end;
+		.icon-bar {
+			display: block;
+			width: 20px;
+			height: 2px;
+			border-radius: 1px;
+			background-color: #000;
+			transition: 0.3s;
+			&:last-child {
+				width: 16px;
+			}
 
-    &:hover .icon-bar {
-      background-color: $colorPrimary;
-    }
+			+ .icon-bar {
+				margin-top: 4px;
+			}
+		}
 
-    .icon-bar {
-      display: block;
-      width: $gutter * 2;
-      height: 2px;
-      border-radius: 1px;
-      background-color: $colorTextDark;
+		&.animated {
+			position: relative;
+			z-index: 1000;
+			.icon-bar {
+				margin: 0;
+				transition: 0.3s;
+				width: 21.5px;
+				&--top {
+					transform: rotate(45deg);
+					transform-origin: center;
+				}
+				&--middle {
+					opacity: 0;
+					visibility: hidden;
+				}
+				&--bottom {
+					transform: rotate(-45deg) translate(3px, -3px);
+					transform-origin: center;
+					width: 21.5px;
+				}
+			}
+		}
 
-      + .icon-bar {
-        margin-top: 4px;
-      }
-    }
+		@include up($large) {
+			display: none;
+		}
+	}
 
-    @include up($large) {
-      display: none;
-    }
-  }
+	&__icons {
+		margin-left: $gridGutter;
+		//display: grid;
+		//grid-template-columns: repeat(autofill,auto);
+		//grid-auto-flow: column;
+		gap: 15px;
+		font-size: 1em;
+		display: flex;
+		justify-content: flex-end;
+		@include up($large) {
+			gap: 20px;
+			//font-size: 1.2em;
+		}
+	}
 
-  &__navigation {
-    background-color: transparent;
-    border: 0;
-    border-radius: 0;
-    margin: 0;
-    padding: 0;
-    flex-grow: 1;
+	&__navigation {
+		background-color: transparent;
+		border: 0;
+		border-radius: 0;
+		margin: 0;
+		padding: 0;
+		//flex-grow: 1;
+		grid-column-start: 1;
+		grid-column-end: 4;
 
-    @include down($large) {
-      display: none;
-    }
+		@include down($large) {
+			display: none;
+		}
 
-    > ul {
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;
-    }
-  }
+		> ul {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+	}
 }

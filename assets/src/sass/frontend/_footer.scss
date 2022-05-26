@@ -1,125 +1,123 @@
 .footer {
-  color: $colorWhite;
+	color: $colorWhite;
 
-  * {
-    color: inherit;
-  }
+	* {
+		color: inherit;
+	}
 
-  h3 {
-    margin-bottom: $gutter * 2;
+	h3 {
+		margin-bottom: 20px;
 
-    @include up($medium) {
-      margin-bottom: $gutter * 3;
-    }
-  }
+		@include up($medium) {
+			margin-bottom: 30px;
+		}
+	}
 
-  a {
-    font-weight: $fontWeightMedium;
+	a {
+		font-weight: $fontWeightMedium;
 
-    &:hover {
-      color: $colorPrimary;
-    }
-  }
+		&:hover {
+			color: $colorPrimary;
+		}
+	}
 
-  form {
-    > * {
-      background: none;
-      border: none;
-    }
+	form {
+		> * {
+			background: none;
+			border: none;
+		}
 
-    .wp-block-search__input {
-      border-color: transparent;
-      border-radius: $radius 0 0 $radius;
-      color: $colorText;
-    }
+		.wp-block-search__input {
+			border-color: transparent;
+			border-radius: $radius 0 0 $radius;
+			color: $colorText;
+		}
 
-    .wp-block-search__button {
-      background-color: $colorPrimary;
-      border: 2px solid $colorPrimary;
-      border-radius: 0 $radius $radius 0;
-      color: $colorWhite;
-      font-weight: $fontWeightSemibold;
-      letter-spacing: 1px;
-      margin: 0;
-      padding: $gutter $gutter * 1.4;
-      text-transform: uppercase;
-      transition: $duration;
+		.wp-block-search__button {
+			background-color: $colorPrimary;
+			border-radius: 0 $radius $radius 0;
+			color: $colorWhite;
+			font-weight: $fontWeightSemibold;
+			margin: 0;
+			padding: 10px 14px;
+			transition: $duration;
 
-      &:hover {
-        background: darken($colorPrimary, 8%);
-        border-color: darken($colorPrimary, 8%);
-      }
-    }
-  }
+			&:hover {
+				background: darken($colorPrimary, 8%);
+				border-color: darken($colorPrimary, 8%);
+			}
+		}
+	}
 
-  .widgetarea__footer {
-    background-color: $colorGreyDark;
-    padding: $gutter * 3 0;
+	.widgetarea__footer {
+		background-color: $colorGreyDark;
+		padding: 30px 0;
 
-    @include up($medium) {
-      padding: $gutter * 4 0;
-    }
+		@include up($medium) {
+			padding: 40px 0;
+		}
 
-    &-inner {
-      display: flex;
-      gap: $gutter * 2;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      margin: 0 auto;
-      max-width: $containerWidth;
-      width: 90vw;
+		&-inner {
+			display: flex;
+			gap: 20px;
+			flex-wrap: wrap;
+			justify-content: space-between;
+			margin: 0 auto;
+			max-width: $containerWidth;
+			width: 90vw;
 
-      @include up($medium) {
-        gap: $gutter * 3;
-      }
-    }
+			@include up($medium) {
+				gap: 30px;
+			}
+		}
 
-    ul {
-      list-style: none;
-      display: grid;
-      gap: $gutter;
-      margin: 0;
-      padding: 0;
-    }
+		ul {
+			list-style: none;
+			display: grid;
+			gap: 10px;
+			margin: 0;
+			padding: 0;
+		}
 
-    a {
-      font-weight: $fontWeightMedium;
-    }
-  }
+		a {
+			font-weight: $fontWeightMedium;
+		}
+	}
 
-  &__closure {
-    align-items: center;
-    background-color: $colorGreyDarken;
-    padding: $gutter * 1.5 0;
+	&__closure {
+		align-items: center;
+		background-color: $colorGreyDark;
+		border-top: 1px solid rgba($colorWhite, 0.1);
+		padding: 15px 0;
 
-    @include up($medium) {
-      padding: $gutter * 2.5 0;
-    }
+		@include up($medium) {
+			padding: 25px 0;
+		}
 
-    .container {
-      align-items: center;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      margin-inline: auto;
-      max-width: $containerWidth;
-      width: 90vw;
+		.container {
+			align-items: center;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			margin-inline: auto;
+			max-width: $containerWidth;
+			width: 90vw;
 
-      @include up($medium) {
-        flex-direction: row;
-        justify-content: space-between;
-      }
-    }
+			@include up($medium) {
+				flex-direction: row;
+				justify-content: space-between;
+			}
+		}
 
-    ul {
-      display: flex;
-      gap: $gutter * 2;
-      list-style: none;
-      margin: 0;
+		ul {
+			display: flex;
+			gap: 20px;
+			list-style: none;
+			margin: 0;
 
-      @include up($medium) {
-        gap: $gutter * 6;
-      }
-    }
-  }
+			@include up($medium) {
+				gap: 60px;
+			}
+		}
+	}
 }

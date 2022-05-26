@@ -1,76 +1,74 @@
 @mixin button() {
-  appearance: none;
-  background-image: none; // Reset unusual Firefox-on-Android default style; see https://github.com/necolas/normalize.css/issues/214
-  border: 1px solid transparent;
-  cursor: pointer;
-  display: inline-block;
-  margin-bottom: 0; // For input.btn
-  font-weight: $fontWeightBold;
-  letter-spacing: 1px;
-  padding: $gutter $gridGutter * 1.5;
-  text-align: center;
-  text-transform: uppercase;
-  touch-action: manipulation;
-  vertical-align: middle;
-  white-space: nowrap;
+	appearance: none;
+	background-image: none; // Reset unusual Firefox-on-Android default style; see https://github.com/necolas/normalize.css/issues/214
+	border: 1px solid transparent;
+	cursor: pointer;
+	display: inline-block;
+	margin-bottom: 0; // For input.btn
+	font-weight: $fontWeightBold;
+	padding: 10px 30px;
+	text-align: center;
+	touch-action: manipulation;
+	vertical-align: middle;
+	white-space: nowrap;
 
-  &:hover,
-  &:focus,
-  &.focus {
-    text-decoration: none;
-  }
+	&:hover,
+	&:focus,
+	&.focus {
+		text-decoration: none;
+	}
 
-  &:active,
-  &.active {
-    background-image: none;
-    outline: 0;
-  }
+	&:active,
+	&.active {
+		background-image: none;
+		outline: 0;
+	}
 }
 
 @mixin buttonStyle($bkg, $color, $colorHover, $border) {
-  border-radius: $radius;
-  background: $bkg;
-  transition: all $duration ease;
+	border-radius: $radius;
+	background: $bkg;
+	transition: all $duration ease;
 
-  @if $color {
-    color: $color;
-  }
+	@if $color {
+		color: $color;
+	}
 
-  @if $border {
-    border: $border;
-  }
+	@if $border {
+		border: $border;
+	}
 
-  &:hover {
-    background: darken($bkg, 8%);
+	&:hover {
+		background: darken($bkg, 8%);
 
-    @if $colorHover {
-      color: $colorHover;
-    }
-  }
+		@if $colorHover {
+			color: $colorHover;
+		}
+	}
 
-  &:active {
-    background: darken($bkg, 25%);
+	&:active {
+		background: darken($bkg, 25%);
 
-    @if $colorHover {
-      color: $colorHover;
-    }
-  }
+		@if $colorHover {
+			color: $colorHover;
+		}
+	}
 }
 
 .button,
 .btn,
 .wp-block-button__link,
 input[type="submit"] {
-  @include button();
-  @include buttonStyle($colorPrimary, $colorWhite, $colorWhite, false);
+	@include button();
+	@include buttonStyle($colorPrimary, $colorWhite, $colorWhite, false);
 }
 
 .is-style-outline > .wp-block-button__link:not(.has-text-color) {
-  border-color: $colorPrimary;
-  color: $colorPrimary;
+	border-color: $colorPrimary;
+	color: $colorPrimary;
 
-  &:hover {
-    border-color: darken($colorPrimary, 8%);
-    color: darken($colorPrimary, 8%);
-  }
+	&:hover {
+		border-color: darken($colorPrimary, 8%);
+		color: darken($colorPrimary, 8%);
+	}
 }

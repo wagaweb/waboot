@@ -16,6 +16,14 @@
         ]); ?>
 
         <?php get_search_form(); ?>
+
+        <?php wp_nav_menu([
+            'theme_location' => 'main',
+            'depth' => 0,
+            'fallback_cb' => '__return_false',
+            'container' => false,
+            'menu_class' => apply_filters('waboot/navigation/main/class', 'navigation navbar-nav')
+        ]); ?>
     </div>
 
 </div>

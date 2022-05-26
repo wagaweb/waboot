@@ -1,54 +1,54 @@
 /* Responsive Table Mixins */
 
 @mixin table-responsive {
-  @include down($small) {
-    border-top: 1px solid $colorGreyLight;
-    border-left: 1px solid $colorGreyLight;
-    border-right: 1px solid $colorGreyLight;
-    border-bottom: 0;
+	@include down($small) {
+		border-top: 1px solid $colorGreyLight;
+		border-left: 1px solid $colorGreyLight;
+		border-right: 1px solid $colorGreyLight;
+		border-bottom: 0;
 
-    thead {
-      display: none;
-    }
+		thead {
+			display: none;
+		}
 
-    tbody,
-    th,
-    td,
-    tr {
-      border: 0;
-      margin: 0;
-      display: block;
-    }
+		tbody,
+		th,
+		td,
+		tr {
+			border: 0;
+			margin: 0;
+			display: block;
+		}
 
-    /* Hide table headers (but not display: none;, for accessibility) */
-    thead tr,
-    tbody th {
-      position: absolute;
-      top: -9999px;
-      left: -9999px;
-    }
+		/* Hide table headers (but not display: none;, for accessibility) */
+		thead tr,
+		tbody th {
+			position: absolute;
+			top: -9999px;
+			left: -9999px;
+		}
 
-    tbody td {
-      border-bottom: 1px solid $colorGreyLight;
-      border-top: 0;
-      border-right: 0;
-      border-left: 0;
-      //font-size: 0.9em;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
+		tbody td {
+			border-bottom: 1px solid $colorGreyLight;
+			border-top: 0;
+			border-right: 0;
+			border-left: 0;
+			//font-size: 0.9em;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+		}
 
-    tbody td:before {
-      padding-right: $gutter;
-      white-space: nowrap;
-      content: attr(data-title);
-      font-weight: bold;
-      text-transform: uppercase;
-    }
-  }
+		tbody td:before {
+			padding-right: 10px;
+			white-space: nowrap;
+			content: attr(data-title);
+			font-weight: bold;
+			text-transform: uppercase;
+		}
+	}
 }
 
 table.wb-table-responsive {
-  @include table-responsive();
+	@include table-responsive();
 }

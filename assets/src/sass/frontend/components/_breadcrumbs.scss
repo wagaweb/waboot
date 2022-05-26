@@ -2,13 +2,10 @@
 	display: flex;
 	flex-wrap: wrap;
 	list-style: none;
-	margin-bottom: calc($gutter / 2);
-	opacity: 0.5;
-
 	a {
 		color: inherit;
+		font-size: 14px;
 		font-weight: $fontWeightSemibold;
-
 		&:hover {
 			color: $colorPrimary;
 		}

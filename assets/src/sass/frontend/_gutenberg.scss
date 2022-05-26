@@ -1,304 +1,304 @@
 .alignfull {
-  margin-left: calc(50% - 50vw);
-  margin-right: calc(50% - 50vw);
-  width: auto;
-  max-width: 1000%;
+	margin-left: calc(50% - 50vw);
+	margin-right: calc(50% - 50vw);
+	width: auto;
+	max-width: 1000%;
 }
 
 @include up($medium) {
-  .alignwide {
-    margin-left: calc(25% - 25vw);
-    margin-right: calc(25% - 25vw);
-    width: auto;
-    max-width: 1000%;
-  }
+	.alignwide {
+		margin-left: calc(25% - 25vw);
+		margin-right: calc(25% - 25vw);
+		width: auto;
+		max-width: 1000%;
+	}
 
-  .alignwide img,
-  .alignfull img {
-    display: block;
-    margin: 0 auto;
-  }
+	.alignwide img,
+	.alignfull img {
+		display: block;
+		margin: 0 auto;
+	}
 }
 
 .wp-block-columns {
-  position: relative;
-  margin-bottom: 0;
-  + .wp-block-columns {
-    margin-top: $gutter * 2;
-  }
-  &.has-1-columns {
-    .wp-block-column {
-      flex-basis: 100%;
-    }
-  }
+	position: relative;
+	margin-bottom: 0;
+	+ .wp-block-columns {
+		margin-top: 20px;
+	}
+	&.has-1-columns {
+		.wp-block-column {
+			flex-basis: 100%;
+		}
+	}
 }
 
 .wp-block-column {
-  position: relative;
-  @include up($large) {
-    flex-basis: calc(50% - calc(#{$gridGutter}/ 2));
-    flex-grow: 0;
-    &:nth-child(2n) {
-      margin-left: $gridGutter;
-    }
-    &:not(:first-child) {
-      margin-left: $gridGutter;
-    }
-  }
+	position: relative;
+	@include up($large) {
+		flex-basis: calc(50% - calc(#{$gridGutter}/ 2));
+		flex-grow: 0;
+		&:nth-child(2n) {
+			margin-left: $gridGutter;
+		}
+		&:not(:first-child) {
+			margin-left: $gridGutter;
+		}
+	}
 }
 
 .wp-block-group {
-  &.alignfull {
-    .wp-block-group__inner-container {
-      padding: 20px 0;
-      @include up($medium) {
-        padding: $gridGutter 0;
-      }
-    }
-  }
+	&.alignfull {
+		.wp-block-group__inner-container {
+			padding: 20px 0;
+			@include up($medium) {
+				padding: $gridGutter 0;
+			}
+		}
+	}
 }
 
 .wp-block-image {
-  margin-bottom: $gridGutter;
+	margin-bottom: $gridGutter;
 }
 
 .wp-block-buttons {
-  .wp-block-button {
-    margin-bottom: 0;
-    + .wp-block-button {
-      margin-left: $gridGutter;
-    }
-  }
+	.wp-block-button {
+		margin-bottom: 0;
+		+ .wp-block-button {
+			margin-left: $gridGutter;
+		}
+	}
 }
 
 .blocks-gallery-grid,
 .wp-block-gallery {
-  .blocks-gallery-image,
-  .blocks-gallery-item {
-    width: calc((100% - #{$gridGutter}) / 2);
-    margin: 0 $gridGutter $gridGutter 0;
-  }
-  @include up($medium) {
-    &.columns-3 {
-      .blocks-gallery-image,
-      .blocks-gallery-item {
-        width: calc((100% - calc(#{$gridGutter} * 2)) / 3);
-        @supports (-ms-ime-align: auto) {
-          width: calc((100% - calc(#{$gridGutter} * 2)) / 3 - 1px);
-        }
-        margin-right: $gridGutter;
-      }
-    }
-    &.columns-4 {
-      .blocks-gallery-image,
-      .blocks-gallery-item {
-        width: calc((100% - calc(#{$gridGutter} * 3)) / 4);
-        @supports (-ms-ime-align: auto) {
-          width: calc((100% - calc(#{$gridGutter} * 3)) / 4 - 1px);
-        }
-        margin-right: $gridGutter;
-      }
-    }
-    &.columns-5 {
-      .blocks-gallery-image,
-      .blocks-gallery-item {
-        width: calc((100% - calc(#{$gridGutter} * 4)) / 5);
-        @supports (-ms-ime-align: auto) {
-          width: calc((100% - calc(#{$gridGutter} * 4)) / 5 - 1px);
-        }
-        margin-right: $gridGutter;
-      }
-    }
-    &.columns-6 {
-      .blocks-gallery-image,
-      .blocks-gallery-item {
-        width: calc((100% - calc(#{$gridGutter} * 5)) / 6);
-        @supports (-ms-ime-align: auto) {
-          width: calc((100% - calc(#{$gridGutter} * 5)) / 6 - 1px);
-        }
-        margin-right: $gridGutter;
-      }
-    }
-    &.columns-7 {
-      .blocks-gallery-image,
-      .blocks-gallery-item {
-        width: calc((100% - calc(#{$gridGutter} * 6)) / 7);
-        @supports (-ms-ime-align: auto) {
-          width: calc((100% - calc(#{$gridGutter} * 6)) / 7 - 1px);
-        }
-        margin-right: $gridGutter;
-      }
-    }
-    &.columns-8 {
-      .blocks-gallery-image,
-      .blocks-gallery-item {
-        width: calc((100% - calc(#{$gridGutter} * 7)) / 8);
-        @supports (-ms-ime-align: auto) {
-          width: calc((100% - calc(#{$gridGutter} * 7)) / 8 - 1px);
-        }
-        margin-right: $gridGutter;
-      }
-    }
+	.blocks-gallery-image,
+	.blocks-gallery-item {
+		width: calc((100% - #{$gridGutter}) / 2);
+		margin: 0 $gridGutter $gridGutter 0;
+	}
+	@include up($medium) {
+		&.columns-3 {
+			.blocks-gallery-image,
+			.blocks-gallery-item {
+				width: calc((100% - calc(#{$gridGutter} * 2)) / 3);
+				@supports (-ms-ime-align: auto) {
+					width: calc((100% - calc(#{$gridGutter} * 2)) / 3 - 1px);
+				}
+				margin-right: $gridGutter;
+			}
+		}
+		&.columns-4 {
+			.blocks-gallery-image,
+			.blocks-gallery-item {
+				width: calc((100% - calc(#{$gridGutter} * 3)) / 4);
+				@supports (-ms-ime-align: auto) {
+					width: calc((100% - calc(#{$gridGutter} * 3)) / 4 - 1px);
+				}
+				margin-right: $gridGutter;
+			}
+		}
+		&.columns-5 {
+			.blocks-gallery-image,
+			.blocks-gallery-item {
+				width: calc((100% - calc(#{$gridGutter} * 4)) / 5);
+				@supports (-ms-ime-align: auto) {
+					width: calc((100% - calc(#{$gridGutter} * 4)) / 5 - 1px);
+				}
+				margin-right: $gridGutter;
+			}
+		}
+		&.columns-6 {
+			.blocks-gallery-image,
+			.blocks-gallery-item {
+				width: calc((100% - calc(#{$gridGutter} * 5)) / 6);
+				@supports (-ms-ime-align: auto) {
+					width: calc((100% - calc(#{$gridGutter} * 5)) / 6 - 1px);
+				}
+				margin-right: $gridGutter;
+			}
+		}
+		&.columns-7 {
+			.blocks-gallery-image,
+			.blocks-gallery-item {
+				width: calc((100% - calc(#{$gridGutter} * 6)) / 7);
+				@supports (-ms-ime-align: auto) {
+					width: calc((100% - calc(#{$gridGutter} * 6)) / 7 - 1px);
+				}
+				margin-right: $gridGutter;
+			}
+		}
+		&.columns-8 {
+			.blocks-gallery-image,
+			.blocks-gallery-item {
+				width: calc((100% - calc(#{$gridGutter} * 7)) / 8);
+				@supports (-ms-ime-align: auto) {
+					width: calc((100% - calc(#{$gridGutter} * 7)) / 8 - 1px);
+				}
+				margin-right: $gridGutter;
+			}
+		}
 
-    &.columns-1 .blocks-gallery-image:nth-of-type(1n),
-    &.columns-1 .blocks-gallery-item:nth-of-type(1n),
-    &.columns-2 .blocks-gallery-image:nth-of-type(2n),
-    &.columns-2 .blocks-gallery-item:nth-of-type(2n),
-    &.columns-3 .blocks-gallery-image:nth-of-type(3n),
-    &.columns-3 .blocks-gallery-item:nth-of-type(3n),
-    &.columns-4 .blocks-gallery-image:nth-of-type(4n),
-    &.columns-4 .blocks-gallery-item:nth-of-type(4n),
-    &.columns-5 .blocks-gallery-image:nth-of-type(5n),
-    &.columns-5 .blocks-gallery-item:nth-of-type(5n),
-    &.columns-6 .blocks-gallery-image:nth-of-type(6n),
-    &.columns-6 .blocks-gallery-item:nth-of-type(6n),
-    &.columns-7 .blocks-gallery-image:nth-of-type(7n),
-    &.columns-7 .blocks-gallery-item:nth-of-type(7n),
-    &.columns-8 .blocks-gallery-image:nth-of-type(8n),
-    &.columns-8 .blocks-gallery-item:nth-of-type(8n) {
-      margin-right: 0;
-    }
-  }
+		&.columns-1 .blocks-gallery-image:nth-of-type(1n),
+		&.columns-1 .blocks-gallery-item:nth-of-type(1n),
+		&.columns-2 .blocks-gallery-image:nth-of-type(2n),
+		&.columns-2 .blocks-gallery-item:nth-of-type(2n),
+		&.columns-3 .blocks-gallery-image:nth-of-type(3n),
+		&.columns-3 .blocks-gallery-item:nth-of-type(3n),
+		&.columns-4 .blocks-gallery-image:nth-of-type(4n),
+		&.columns-4 .blocks-gallery-item:nth-of-type(4n),
+		&.columns-5 .blocks-gallery-image:nth-of-type(5n),
+		&.columns-5 .blocks-gallery-item:nth-of-type(5n),
+		&.columns-6 .blocks-gallery-image:nth-of-type(6n),
+		&.columns-6 .blocks-gallery-item:nth-of-type(6n),
+		&.columns-7 .blocks-gallery-image:nth-of-type(7n),
+		&.columns-7 .blocks-gallery-item:nth-of-type(7n),
+		&.columns-8 .blocks-gallery-image:nth-of-type(8n),
+		&.columns-8 .blocks-gallery-item:nth-of-type(8n) {
+			margin-right: 0;
+		}
+	}
 }
 
 // Latest Posts Block
 
 .wp-block-latest-posts {
-  &.is-grid li {
-    margin: 0 $gridGutter $gridGutter 0;
-  }
-  @include up($medium) {
-    &.columns-2 li {
-      width: calc(50% - calc(#{$gridGutter}/ 2));
-    }
-    &.columns-3 li {
-      width: calc(33.33333% - calc(#{$gridGutter}* 2 / 3));
-    }
-    &.columns-4 li {
-      width: calc(25% - calc(#{$gridGutter}* 3 / 4));
-    }
-    &.columns-5 li {
-      width: calc(20% - calc(#{$gridGutter}* 4 / 5));
-    }
-    &.columns-6 li {
-      width: calc(16.66667% - calc(#{$gridGutter}* 5 / 6));
-    }
-  }
+	&.is-grid li {
+		margin: 0 $gridGutter $gridGutter 0;
+	}
+	@include up($medium) {
+		&.columns-2 li {
+			width: calc(50% - calc(#{$gridGutter}/ 2));
+		}
+		&.columns-3 li {
+			width: calc(33.33333% - calc(#{$gridGutter}* 2 / 3));
+		}
+		&.columns-4 li {
+			width: calc(25% - calc(#{$gridGutter}* 3 / 4));
+		}
+		&.columns-5 li {
+			width: calc(20% - calc(#{$gridGutter}* 4 / 5));
+		}
+		&.columns-6 li {
+			width: calc(16.66667% - calc(#{$gridGutter}* 5 / 6));
+		}
+	}
 }
 
 /* Block Group */
 
 /* Lists */
 .article__content {
-  ol,
-  ul {
-    margin-bottom: $gutter * 2;
-    padding-left: $gutter * 1.3;
+	ol,
+	ul {
+		margin-bottom: 20px;
+		padding-left: 13px;
 
-    @include up($large) {
-      margin-bottom: $gutter * 4;
-    }
-  }
+		@include up($large) {
+			margin-bottom: 40px;
+		}
+	}
 
-  ul {
-    list-style: square;
-  }
+	ul {
+		list-style: square;
+	}
 }
 
 /* hr */
 .wp-block-separator {
-  border-color: $colorBorder;
-  margin-bottom: $gridGutter;
-  margin-top: $gridGutter;
+	border-color: $colorGrey;
+	margin-bottom: $gridGutter;
+	margin-top: $gridGutter;
 }
 
 /* Quote */
 .wp-block-quote {
-  background-color: $colorGreyLight;
-  border-left-width: 3px;
-  margin-bottom: $gutter * 4;
-  padding: $gutter * 1.5 $gutter;
+	background-color: $colorGreyLight;
+	border-left-width: 3px;
+	margin-bottom: 40px;
+	padding: 15px 10px;
 
-  @include up($large) {
-    padding: $gutter * 3 $gutter * 2;
-  }
+	@include up($large) {
+		padding: 30px 20px;
+	}
 
-  p {
-    font-weight: $fontWeightSemibold;
-    font-size: 1.5em; //24px
-    line-height: 1.3;
-  }
+	p {
+		font-weight: $fontWeightSemibold;
+		font-size: 1.5em; //24px
+		line-height: 1.3;
+	}
 
-  cite {
-    font-size: 0.87em; //14px
-    font-weight: $fontWeightBold;
-    letter-spacing: 1px;
-    text-transform: uppercase;
+	cite {
+		font-size: 0.87em; //14px
+		font-weight: $fontWeightBold;
+		letter-spacing: 1px;
+		text-transform: uppercase;
 
-    @include up($large) {
-      margin-left: $gutter * 2;
-    }
-  }
+		@include up($large) {
+			margin-left: 20px;
+		}
+	}
 }
 
 /* Code */
 .wp-block-code code {
-  background-color: $colorGreyLight;
-  border: none;
-  border-radius: $radius;
-  color: inherit;
-  padding: $gridGutter;
+	background-color: $colorGreyLight;
+	border: none;
+	border-radius: $radius;
+	color: inherit;
+	padding: $gridGutter;
 
-  @include up($large) {
-    padding: $gridGutter * 2;
-  }
+	@include up($large) {
+		padding: $gridGutter * 2;
+	}
 }
 
 /* Table */
 .wp-block-table {
-  margin-bottom: $gutter * 4;
+	margin-bottom: 40px;
 
-  table {
-    margin-bottom: $gutter;
-  }
+	table {
+		margin-bottom: 10px;
+	}
 
-  thead {
-    background-color: $colorText;
-    color: $colorWhite;
-    text-align: left;
-  }
+	thead {
+		background-color: $colorText;
+		color: $colorWhite;
+		text-align: left;
+	}
 
-  th,
-  td {
-    padding: $gutter;
-  }
+	th,
+	td {
+		padding: 10px;
+	}
 
-  figcaption {
-    color: $colorText;
-    font-size: 14px;
-    opacity: 0.5;
-  }
+	figcaption {
+		color: $colorText;
+		font-size: 14px;
+		opacity: 0.5;
+	}
 
-  &.is-style-regular {
-    thead,
-    th {
-      border: none;
-    }
+	&.is-style-regular {
+		thead,
+		th {
+			border: none;
+		}
 
-    td {
-      border-color: $colorBorder;
-    }
-  }
+		td {
+			border-color: $colorGrey;
+		}
+	}
 
-  &.is-style-stripes {
-    border: none;
+	&.is-style-stripes {
+		border: none;
 
-    tbody {
-      border: 1px solid $colorBorder;
+		tbody {
+			border: 1px solid $colorGrey;
 
-      tr:nth-child(odd) {
-        background-color: $colorGreyLight;
-      }
-    }
-  }
+			tr:nth-child(odd) {
+				background-color: $colorGreyLight;
+			}
+		}
+	}
 }

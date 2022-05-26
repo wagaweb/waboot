@@ -1,65 +1,65 @@
 form {
-  label {
-    align-items: center;
-    color: $colorTextDark;
-    display: flex;
-    font-weight: $fontWeightSemibold;
-    margin-bottom: $gutter * 0.5;
-    max-width: 100%;
-  }
+	label {
+		align-items: center;
+		color: $colorTextDark;
+		display: flex;
+		font-weight: $fontWeightSemibold;
+		margin-bottom: 5px;
+		max-width: 100%;
+	}
 
-  select,
-  textarea,
-  input[type="email"],
-  input[type="number"],
-  input[type="password"],
-  input[type="search"],
-  input[type="tel"],
-  input[type="text"],
-  input[type="url"] {
-    appearance: none;
-    background-color: $colorWhite;
-    background-image: none;
-    border: 1px solid $colorBorder;
-    border-radius: $radius;
-    box-shadow: inset 0 0 0;
-    color: inherit;
-    display: block;
-    outline: none;
-    padding: $gutter * 0.8;
-    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-    width: 100%;
+	select,
+	textarea,
+	input[type="email"],
+	input[type="number"],
+	input[type="password"],
+	input[type="search"],
+	input[type="tel"],
+	input[type="text"],
+	input[type="url"] {
+		appearance: none;
+		background-color: $colorWhite;
+		background-image: none;
+		border: 1px solid $colorGrey;
+		border-radius: $radius;
+		box-shadow: inset 0 0 0;
+		color: inherit;
+		display: block;
+		outline: none;
+		padding: 8px;
+		transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+		width: 100%;
 
-    &:focus,
-    &:focus-visible {
-      border: 1px solid $colorPrimary;
-    }
-  }
+		&:focus,
+		&:focus-visible {
+			border: 1px solid $colorPrimary;
+		}
+	}
 
-  input[type="submit"] {
-    appearance: none;
-    box-shadow: inset 0 0 0;
-    font-family: $fontPrimary;
-    font-weight: $fontWeightBold;
-  }
+	input[type="submit"] {
+		appearance: none;
+		box-shadow: inset 0 0 0;
+		font-family: $fontPrimary;
+		font-weight: $fontWeightSemibold;
+	}
 
-  textarea {
-    height: auto;
-    line-height: 1.5;
-  }
+	textarea {
+		height: auto;
+		line-height: 1.5;
+	}
 }
 
 .woocommerce-form__label-for-checkbox,
 .mailchimp-newsletter {
-  align-items: flex-start;
-  display: flex;
-  font-size: $gutter;
-  font-weight: $fontWeightNormal;
-  margin-bottom: $gutter * 2;
+	align-items: flex-start;
+	display: flex;
+	font-size: 10px;
+	font-weight: $fontWeightNormal;
+	margin-bottom: 20px;
 
-  label {
-    font-size: $gutter;
-    font-weight: $fontWeightNormal;
-    margin: 0;
-  }
+	label {
+		font-size: 10px;
+		font-weight: $fontWeightNormal;
+		margin: 0;
+	}
 }

@@ -1,8 +1,8 @@
 .slidein {
 	background: rgba($colorWhite, 1);
 	bottom: 0;
-	height: calc(100% - 48px);
-	overflow: auto;
+	height: calc(100% - 68px);
+	overflow: hidden;
 	position: fixed;
 	transition: transform $duration;
 	width: 100vw;
@@ -32,18 +32,22 @@
 	&-no-scroll {
 		overflow: hidden !important;
 	}
+
+	form.search-form {
+		padding: 10px;
+	}
 }
 
 a[data-slidein-close] {
 	position: absolute;
 	right: 0;
 	top: 0;
-	padding: $gutter $gutter * 2 0 0 !important;
+	padding: 10px 20px 0 0 !important;
 	z-index: 20;
 	cursor: pointer;
 	line-height: 1em;
-	width: $gutter * 4.8;
-	height: $gutter * 4.8;
+	width: 48px;
+	height: 48px;
 	display: flex;
 	align-items: center;
 	justify-content: flex-end !important;

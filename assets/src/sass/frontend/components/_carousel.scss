@@ -1,58 +1,58 @@
 .owl-carousel {
-  .owl-nav {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 100%;
-    margin: 0;
-    padding: $gutter;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .owl-dots {
-    position: absolute;
-    bottom: 20px;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+	.owl-nav {
+		position: absolute;
+		top: 50%;
+		transform: translateY(-50%);
+		width: 100%;
+		margin: 0;
+		padding: 10px;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+	.owl-dots {
+		position: absolute;
+		bottom: 20px;
+		width: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
 
-    button.owl-dot {
-      background-color: $colorWhite;
-      box-shadow: 0 0 1px rgba($colorBlack, 0.5);
-      border-radius: 50%;
-      display: inline-block;
-      width: calc($gutter * 1.5);
-      height: calc($gutter * 1.5);
-      margin: 0 calc($gutter / 2);
+		button.owl-dot {
+			background-color: $colorWhite;
+			box-shadow: 0 0 1px rgba($colorBlack, 0.5);
+			border-radius: 50%;
+			display: inline-block;
+			width: 15px;
+			height: 15px;
+			margin: 0 5px;
 
-      &.active {
-        background-color: $colorPrimary;
-      }
-    }
-  }
+			&.active {
+				background-color: $colorPrimary;
+			}
+		}
+	}
 
-  .block__carousel--1 & {
-    @include down($large) {
-      .owl-stage-outer,
-      .owl-stage,
-      .owl-item,
-      .blocks-gallery-item {
-        height: 100% !important;
-      }
-      .blocks-gallery-item figure {
-        display: block;
-        overflow: hidden;
-        img {
-          height: 100%;
-          width: auto;
-          max-width: 1000%;
-          position: relative;
-          left: 50%;
-          transform: translateX(-50%);
-        }
-      }
-    }
-  }
+	.block__carousel--1 & {
+		@include down($large) {
+			.owl-stage-outer,
+			.owl-stage,
+			.owl-item,
+			.blocks-gallery-item {
+				height: 100% !important;
+			}
+			.blocks-gallery-item figure {
+				display: block;
+				overflow: hidden;
+				img {
+					height: 100%;
+					width: auto;
+					max-width: 1000%;
+					position: relative;
+					left: 50%;
+					transform: translateX(-50%);
+				}
+			}
+		}
+	}
 }

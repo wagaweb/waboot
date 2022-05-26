@@ -23,9 +23,9 @@
 
     <a href="javascript:;" class="header__toggle header__link--nav slidein-nav__toggle" data-open-sidenav=".sidenavigation">
         <span class="sr-only"><?php _e("Toggle navigation",LANG_TEXTDOMAIN); ?></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
+        <span class="icon-bar icon-bar--top"></span>
+        <span class="icon-bar icon-bar--middle"></span>
+        <span class="icon-bar icon-bar--bottom"></span>
     </a>
 
     <div class="header__navigation" role="navigation">

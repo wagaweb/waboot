@@ -1,49 +1,49 @@
 .search {
-  &-form,
-  &--form,
-  &__form {
-    display: grid;
-    grid-gap: $gutter;
-    grid-template-columns: 1fr auto;
+	&-form,
+	&--form,
+	&__form {
+		display: grid;
+		grid-gap: 10px;
+		grid-template-columns: 1fr auto;
 
-    .screen-reader-text {
-      display: none;
-    }
+		.screen-reader-text {
+			display: none;
+		}
 
-    label {
-      margin: 0;
-      input[type="search"] {
-        height: 100%;
-      }
-    }
+		label {
+			margin: 0;
+			input[type="search"] {
+				height: 100%;
+			}
+		}
 
-    input[type="text"],
-    .search-field {
-      height: auto;
-    }
-  }
+		input[type="text"],
+		.search-field {
+			height: auto;
+		}
+	}
 }
 
 .wp-block-search {
-  &__inside-wrapper {
-    background-color: $colorWhite;
-    border: 1px solid $colorBorder;
-    border-radius: $radius;
-  }
+	&__inside-wrapper {
+		background-color: $colorWhite;
+		border: 1px solid $colorGrey;
+		border-radius: $radius;
+	}
 
-  & &__button {
-    background: none;
-    border: none;
-    cursor: pointer;
+	& &__button {
+		background: none;
+		border: none;
+		cursor: pointer;
 
-    svg {
-      fill: $colorText;
-    }
+		svg {
+			fill: $colorText;
+		}
 
-    &:hover {
-      svg {
-        fill: $colorPrimary;
-      }
-    }
-  }
+		&:hover {
+			svg {
+				fill: $colorPrimary;
+			}
+		}
+	}
 }

@@ -1,131 +1,131 @@
 .comments {
-  &__area {
-    background-color: $colorGreyLight;
-    border-radius: $radius;
-    margin-bottom: $gutter * 3;
-    padding: $gutter * 4 $gutter * 2.5;
-  }
+	&__area {
+		background-color: $colorGreyLight;
+		border-radius: $radius;
+		margin-bottom: 30px;
+		padding: 40px 25px;
+	}
 
-  &__title {
-    margin-bottom: $gridGutter * 3;
-  }
+	&__title {
+		margin-bottom: 30px;
+	}
 }
 
 .comment {
-  &__list {
-    display: grid;
-    gap: $gridGutter * 4;
-    list-style: none;
-    padding-left: 0;
+	&__list {
+		display: grid;
+		gap: 40px;
+		list-style: none;
+		padding-left: 0;
 
-    .children {
-      list-style: none;
-      padding-left: $gutter * 3;
-    }
-  }
+		.children {
+			list-style: none;
+			padding-left: 30px;
+		}
+	}
 
-  &__body {
-    display: grid;
-    gap: $gutter * 1.5;
-  }
+	&__body {
+		display: grid;
+		gap: 15px;
+	}
 
-  &__meta {
-    display: grid;
-    gap: $gutter;
-  }
+	&__meta {
+		display: grid;
+		gap: 10px;
+	}
 
-  &__metadata {
-    align-items: center;
-    display: flex;
-    justify-content: space-between;
+	&__metadata {
+		align-items: center;
+		display: flex;
+		justify-content: space-between;
 
-    > a {
-      color: $colorTextDark;
-      font-weight: $fontWeightSemibold;
-    }
-  }
+		> a {
+			color: $colorTextDark;
+			font-weight: $fontWeightSemibold;
+		}
+	}
 
-  &-edit-link {
-    background-color: $colorPrimary;
-    color: $colorWhite;
-    border-radius: $radius;
-    display: inline-block;
-    font-size: 0.87em; //14px
-    font-weight: $fontWeightSemibold;
-    letter-spacing: 1px;
-    line-height: 1;
-    padding: $gutter * 0.5;
-    text-transform: uppercase;
+	&-edit-link {
+		background-color: $colorPrimary;
+		color: $colorWhite;
+		border-radius: $radius;
+		display: inline-block;
+		font-size: 0.87em; //14px
+		font-weight: $fontWeightSemibold;
+		letter-spacing: 1px;
+		line-height: 1;
+		padding: 5px;
+		text-transform: uppercase;
 
-    &:hover {
-      background-color: $colorText;
-      color: $colorWhite;
-    }
-  }
+		&:hover {
+			background-color: $colorText;
+			color: $colorWhite;
+		}
+	}
 
-  &__author {
-    align-items: center;
-    display: flex;
-    gap: $gutter * 0.5;
+	&__author {
+		align-items: center;
+		display: flex;
+		gap: 5px;
 
-    cite {
-      font-style: initial;
-    }
+		cite {
+			font-style: initial;
+		}
 
-    a {
-      color: $colorTextDark;
-      font-weight: $fontWeightSemibold;
-    }
-  }
+		a {
+			color: $colorTextDark;
+			font-weight: $fontWeightSemibold;
+		}
+	}
 
-  &-reply-link {
-    background-color: $colorPrimary;
-    border-radius: $radius;
-    color: $colorWhite;
-    display: inline-block;
-    font-size: 0.87em; //14px
-    font-weight: $fontWeightSemibold;
-    letter-spacing: 1px;
-    line-height: 1;
-    padding: $gutter * 0.5;
-    text-transform: uppercase;
+	&-reply-link {
+		background-color: $colorPrimary;
+		border-radius: $radius;
+		color: $colorWhite;
+		display: inline-block;
+		font-size: 0.87em; //14px
+		font-weight: $fontWeightSemibold;
+		letter-spacing: 1px;
+		line-height: 1;
+		padding: 5px;
+		text-transform: uppercase;
 
-    &:hover {
-      background-color: $colorText;
-      color: $colorWhite;
-    }
-  }
+		&:hover {
+			background-color: $colorText;
+			color: $colorWhite;
+		}
+	}
 }
 
 .reply {
-  display: flex;
-  justify-content: flex-end;
+	display: flex;
+	justify-content: flex-end;
 }
 
 .avatar {
-  border-radius: 100%;
+	border-radius: 100%;
 }
 
 .comment-respond {
-  margin-top: $gutter * 3;
+	margin-top: 30px;
 }
 
 .comment-reply-title {
-  display: flex;
-  justify-content: space-between;
+	display: flex;
+	justify-content: space-between;
 
-  a {
-    font-weight: normal;
-  }
+	a {
+		font-weight: normal;
+	}
 }
 
 .comment-form-cookies-consent {
-  align-items: center;
-  display: flex;
-  gap: $gutter * 0.4;
+	align-items: center;
+	display: flex;
+	gap: 40px;
 
-  label {
-    font-weight: normal;
-    line-height: 1.3;
-  }
+	label {
+		font-weight: normal;
+		line-height: 1.3;
+	}
 }

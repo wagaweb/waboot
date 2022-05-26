@@ -3,10 +3,10 @@
  *-----------------------*/
 
 form input[type="checkbox"] {
-	border-color: $colorBorder;
-	height: $gutter * 2;
-	margin-right: $gutter * 0.5;
-	width: $gutter * 2;
+	border-color: $colorGrey;
+	height: 20px;
+	margin-right: 5px;
+	width: 20px;
 }
 
 form textarea {
@@ -39,7 +39,7 @@ form.gform {
 		grid-template-columns: repeat(12, 1fr);
 		grid-template-rows: repeat(auto-fill, auto);
 		grid-column-gap: 2%;
-		grid-row-gap: $gutter * 3;
+		grid-row-gap: 30px;
 
 		.gfield {
 			grid-column: 1 / -1;
@@ -99,7 +99,7 @@ form.gform {
 		color: $colorTextDark;
 		display: inline-block;
 		font-weight: $fontWeightSemibold;
-		margin-bottom: $gutter * 0.8;
+		margin-bottom: 18px;
 		padding: 0;
 	}
 
@@ -141,14 +141,14 @@ form.gform {
 .gf_progressbar {
 	&_title {
 		font-weight: 400;
-		margin-bottom: $gutter * 0.5;
+		margin-bottom: 5px;
 		opacity: 0.5;
 	}
 
 	&_blue {
 		background: $colorGreyLight;
 		border-radius: $radius;
-		margin-bottom: $gutter * 1.6;
+		margin-bottom: 16px;
 		position: relative;
 	}
 
@@ -156,7 +156,7 @@ form.gform {
 		background-color: $colorPrimary;
 		border-radius: $radius;
 		color: $colorWhite;
-		height: $gutter * 2.1;
+		height: 21px;
 		text-align: right;
 		vertical-align: middle;
 
@@ -166,12 +166,12 @@ form.gform {
 
 		span {
 			display: block;
-			font-size: $gutter * 1.3;
+			font-size: 13px;
 			float: right;
-			line-height: $gutter * 2.1;
+			line-height: 21px;
 			margin-left: $gridGutter * 0.8;
 			margin-right: $gridGutter * 0.8;
-			min-width: $gutter * 2;
+			min-width: 20px;
 			width: auto;
 		}
 	}
@@ -185,7 +185,7 @@ form.gform {
 	margin-bottom: 0;
 	&_title {
 		color: $colorGreyDark;
-		font-size: $gutter * 1.2;
+		font-size: 12px;
 		letter-spacing: 1px;
 		margin-bottom: 0;
 		text-transform: uppercase;
@@ -194,10 +194,10 @@ form.gform {
 /* Field Description */
 .gfield_description,
 .gfield_post_tags_hint {
-	font-size: $gutter * 1.2;
+	font-size: 12px;
 	line-height: 1.2;
 	opacity: 0.5;
-	margin-top: $gutter * 0.5;
+	margin-top: 5px;
 }
 
 /*-----------------------*
@@ -211,8 +211,8 @@ form.gform {
 
 	.instruction {
 		color: $colorGreyDark;
-		font-size: $gutter * 1.2;
-		margin-top: $gutter * 0.5;
+		font-size: 12px;
+		margin-top: 10px;
 	}
 }
 
@@ -230,7 +230,7 @@ form.gform {
 	vertical-align: middle;
 
 	& + label {
-		max-width: calc(100% - #{$gutter} * 3.2);
+		max-width: calc(100% - 32px);
 		margin-bottom: 0;
 		vertical-align: middle;
 	}
@@ -238,29 +238,29 @@ form.gform {
 
 .gfield_checkbox {
 	button[type="button"] {
-		font-size: $gutter * 1.2 !important;
+		font-size: 12px !important;
 		font-weight: bold;
 		letter-spacing: 1px;
 		line-height: 1;
-		margin-top: $gutter * 1.6;
-		padding: $gutter * 0.5 !important;
+		margin-top: 16px;
+		padding: 5px !important;
 	}
 }
 
 .gfield_checkbox,
 .gfield_radio {
 	display: inline-grid;
-	gap: $gutter;
+	gap: 10px;
 	width: 100%;
 
 	label {
 		display: inline-block;
-		font-size: $gutter * 1.4;
+		font-size: 14px;
 		font-weight: normal;
 	}
 
 	input[type="text"] {
-		margin-top: $gutter * 1.6;
+		margin-top: 16px;
 	}
 }
 
@@ -282,13 +282,13 @@ form.gform {
 		@include down($medium) {
 			flex: 0 0 100%;
 			padding-left: 0;
-			margin-bottom: $gutter * 0.8;
+			margin-bottom: 8px;
 		}
 	}
 
 	label {
-		font-size: $gutter * 1.2;
-		margin-top: $gutter * 0.4;
+		font-size: 12px;
+		margin-top: 4px;
 	}
 }
 
@@ -304,9 +304,9 @@ form.gform {
 
 	img.ui-datepicker-trigger {
 		display: block;
-		margin-left: $gutter * 1.3;
-		max-width: $gutter * 2.6;
-		max-height: $gutter * 2.6;
+		margin-left: 13px;
+		max-width: 26px;
+		max-height: 26px;
 	}
 }
 
@@ -316,8 +316,8 @@ form.gform {
 /* TIME */
 .ginput_container_time {
 	flex-basis: min-content;
-	max-width: $gutter * 6.4;
-	min-width: $gutter * 6.4;
+	max-width: 64px;
+	min-width: 64px;
 
 	input {
 		margin-left: 0;
@@ -329,15 +329,15 @@ form.gform {
 .gfield_time_hour label.hour_label,
 .gfield_time_minute label.minute_label {
 	display: block;
-	font-size: $gutter * 1.3;
+	font-size: 13px;
 	margin: 0;
-	padding-top: $gutter * 0.5;
+	padding-top: 5px;
 }
 
 .gfield_time_ampm,
 .hour_minute_colon {
 	line-height: 2;
-	padding: 0 $gutter * 0.8;
+	padding: 0 8px;
 }
 
 .gfield_time_ampm.below,
@@ -348,25 +348,25 @@ form.gform {
 .gfield_time_minute {
 	position: relative;
 	flex-basis: min-content;
-	max-width: $gutter * 6.4;
-	min-width: $gutter * 6.4;
+	max-width: 64px;
+	min-width: 64px;
 }
 .gfield_time_hour input,
 .gfield_time_minute input,
 .gfield_time_ampm select {
-	width: $gutter * 10;
+	width: 100px;
 }
 
 /* ADDRESS */
 .ginput_container_address {
 	span {
 		flex: 0 0 50%;
-		margin-bottom: $gutter * 0.8;
+		margin-bottom: 8px;
 	}
 	.ginput_full {
 		flex: 0 0 100%;
 		&:not(:last-of-type) {
-			margin-bottom: $gutter * 0.8;
+			margin-bottom: 8px;
 		}
 	}
 
@@ -391,19 +391,19 @@ form.gform {
 
 	.gform_fileupload_rules {
 		color: $colorGreyDark;
-		font-size: $gutter * 1.2;
-		margin-top: $gutter * 0.5;
+		font-size: 12px;
+		margin-top: 5px;
 	}
 
 	.gform_drop_area {
 		background: $colorGreyLight;
-		border: 2px dashed $colorBorder;
+		border: 2px dashed $colorGrey;
 		border-radius: $radius;
-		gap: $gutter;
+		gap: 10px;
 		display: flex;
 		flex-direction: column;
-		margin-bottom: $gutter * 0.8;
-		padding: $gutter * 3.2;
+		margin-bottom: 8px;
+		padding: 32px;
 		text-align: center;
 
 		button {
@@ -412,7 +412,7 @@ form.gform {
 	}
 
 	.gform_drop_instructions {
-		font-size: $gutter * 1.2;
+		font-size: 12px;
 	}
 }
 
@@ -427,8 +427,8 @@ form.gform {
 
 	.gfield_header_item,
 	.gfield_list_group_item {
-		font-size: $gutter * 1.2;
-		padding-top: $gutter * 0.5;
+		font-size: 12px;
+		padding-top: 5px;
 		flex-grow: 1;
 		width: 0;
 		word-break: break-word;
@@ -445,7 +445,7 @@ form.gform {
 	}
 
 	.gfield_list_icons {
-		width: $gutter * 4.8;
+		width: 48px;
 		flex: none;
 		display: flex;
 		align-items: center;
@@ -456,14 +456,14 @@ form.gform {
 			/* webpackIgnore: true */
 			background: transparent url(../../images/default/icons/list-add.svg);
 			border: none;
-			width: $gutter * 1.6;
-			height: $gutter * 1.6;
+			width: 16px;
+			height: 16px;
 			opacity: 0.5;
 			padding: 0;
 			transition: opacity 0.5s ease-out;
 			/* webpackIgnore: true */
 			&.delete_list_item {
-				margin-left: $gutter * 0.5;
+				margin-left: 5px;
 				background-image: url(../../images/default/icons/list-remove.svg);
 			}
 		}

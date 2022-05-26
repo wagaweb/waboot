@@ -6,30 +6,26 @@ $small: 480px;
 $xsmall: 320px;
 
 /* Grid */
-$containerWidth: 1400px;
-$gutter: 10px;
+$containerWidth: 1200px;
 $gridGutter: 20px;
-
-$colorPrimary: #80c4a7;
-$colorSecondary: #f43f5e;
-
-$colorText: #0e0e0e;
-$colorTextDark: #0e0e0e;
-$colorBorder: #dcdcdc;
 
 $colorBlack: #000;
 $colorWhite: #fff;
 $colorSuccess: #16c995;
 $colorWarning: #f74f78;
-
-$colorGrey: #bababa;
+$colorGrey: #dbdbdb;
 $colorGreyLight: #f8f9fa;
-$colorGreyDark: #0e0e0e;
-$colorGreyDarken: #0e0e0e;
+$colorGreyDark: #333;
+$colorGreyDarken: #1a1a1a;
+$colorPrimary: #80c4a7;
+$colorSecondary: #f43f5e;
+$colorText: #595959;
+$colorTextDark: #1a1a1a;
+$colorGrey: #dcdcdc;
 
 /* Fonts */
-$fontPrimary: "Inter", sans-serif;
-$fontSecondary: "Inter", sans-serif;
+$fontPrimary: "Montserrat", sans-serif;
+$fontSecondary: "Montserrat", sans-serif;
 $fontCode: "JetBrains Mono", monospace;
 $fontWeightLight: 300;
 $fontWeightNormal: 400;

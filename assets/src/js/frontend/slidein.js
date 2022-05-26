@@ -22,7 +22,7 @@ Slidein.prototype = {
 			if (!self.$el.hasClass("show")) {
 				self.$el.addClass("show");
 				$("body").addClass("slidein-no-scroll");
-				self.toggleOverlay();
+				self.toggleOverlay(self.$el);
 
 				$(document).on("click", function (e) {
 					var $target = $(e.target);
@@ -36,7 +36,7 @@ Slidein.prototype = {
 						self.$el.removeClass("show");
 						$("body").removeClass("slidein-no-scroll");
 
-						self.hideOverlay();
+						self.hideOverlay(self.$el);
 
 						$(document).off("click");
 					}
@@ -45,13 +45,10 @@ Slidein.prototype = {
 				$("[data-slidein-close]").on("click", function () {
 					self.$el.removeClass("show");
 					$("body").removeClass("slidein-no-scroll");
-					self.hideOverlay();
+					self.hideOverlay(self.$el);
 					$(document).off("click");
 				});
 			} else {
-				self.$el.removeClass("show");
-				$("body").removeClass("slidein-no-scroll");
-				$(document).off("click");
 			}
 		});
 	},
@@ -68,29 +65,26 @@ Slidein.prototype = {
 		});
 	},
 
-	toggleOverlay: function () {
-		if (window.matchMedia("(min-width: 992px)").matches) {
-			var $overlay = $("[data-slidein-overlay]");
+	toggleOverlay: function ($slideElement) {
+		var $overlay = $("[data-slidein-overlay]");
 
-			if (!$overlay[0]) {
-				$overlay = $(
-					'<div data-slidein-overlay class="slidein-overlay"/>'
-				);
-				$("body").append($overlay);
-			}
+		if (!$overlay[0]) {
+			$overlay = $('<div data-slidein-overlay class="slidein-overlay"/>');
+			$("body").append($overlay);
+		}
 
-			if ($overlay.is(":visible")) {
-				$overlay.fadeOut("fast");
-			} else {
-				$overlay.fadeIn("fast");
-			}
+		if ($overlay.is(":visible")) {
+			$overlay.fadeOut("fast");
+			$("body").trigger("slidein-out", [$slideElement]);
+		} else {
+			$overlay.fadeIn("fast");
+			$("body").trigger("slidein-in", [$slideElement]);
 		}
 	},
 
-	hideOverlay: function () {
-		if (window.matchMedia("(min-width: 992px)").matches) {
-			$("[data-slidein-overlay]").fadeOut("fast");
-		}
+	hideOverlay: function ($slideElement) {
+		$("[data-slidein-overlay]").fadeOut("fast");
+		$("body").trigger("slidein-out", [$slideElement]);
 	},
 };
 
