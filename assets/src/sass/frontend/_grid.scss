@@ -36,6 +36,7 @@ footer {
 		max-width: 100vw;
 		@include up($xlarge) {
 			max-width: $containerWidth;
+			padding: 40px $gridGutter;
 			body.search &,
 			body.tax-product_cat &,
 			body.tax-product_collection &,
@@ -71,11 +72,19 @@ footer {
 		}
 	}
 	&__content {
-		padding-top: $gridGutter;
+		margin-top: 40px;
 		> .wp-block-group:first-child,
 		> .wp-block-embed:first-child,
 		> .wp-block-image.alignfull:first-child {
 			margin-top: $gridGutter * -1;
+		}
+		h1,
+		h2,
+		h3,
+		h4,
+		h5,
+		h6 {
+			color: inherit;
 		}
 	}
 }

@@ -1,208 +1,98 @@
-.article__list {
-	display: grid;
-	gap: 20px;
-
-	@include up($medium) {
-		gap: 30px;
-		margin-bottom: 40px;
-	}
-
-	.article {
-		&__inner {
-			display: flex;
-			flex-direction: column;
-			gap: $gridGutter;
-
-			@include up($small) {
-				flex-direction: row;
-			}
-		}
-
-		&__image {
-			flex: 0 1 25%;
-
-			.wp-post-image {
-				aspect-ratio: 2 / 1;
-				border-radius: $radius $radius 0 0;
-				object-fit: cover;
-				width: 100%;
-
-				@include up($small) {
-					aspect-ratio: 1;
-					border-radius: 0;
-					margin: 70px;
-				}
-
-				@include up($large) {
-					aspect-ratio: 1;
-					border-radius: $radius 0 0 $radius;
-					height: 100%;
-					margin: 0;
-				}
-			}
-		}
-
-		&__content {
-			display: flex;
-			flex: 1;
-			flex-direction: column;
-
-			h2 {
-				a {
-					color: inherit;
-
-					&:hover {
-						color: $colorPrimary;
-					}
-				}
-			}
-		}
-
-		&__categories {
-			align-items: center;
-			display: flex;
+.entry {
+	&__header {
+		align-items: center;
+		display: flex;
+		gap: 20px;
+		margin-bottom: 20px;
+		@include up($large) {
 			font-size: 0.875em;
-			font-weight: 600;
-			letter-spacing: 1px;
-			gap: 5px;
-			margin-bottom: 10px;
-			text-transform: uppercase;
-
-			.post-categories {
-				display: flex;
-				flex-wrap: wrap;
-				list-style: none;
-				padding: 0;
-			}
-
-			a:not(:first-child) {
+		}
+	}
+	&__categories {
+		align-items: center;
+		display: flex;
+		font-weight: 600;
+		gap: 5px;
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		a {
+			background-color: $colorPrimary;
+			color: $colorWhite;
+			display: inline-flex;
+			line-height: 1;
+			padding: 4px;
+			&:not(:first-child) {
 				margin-left: 5px;
 			}
-
-			a {
-				color: inherit;
-
-				&:hover {
-					color: $colorPrimary;
-				}
-			}
-		}
-
-		&__footer {
-			align-items: center;
-			column-gap: 3%;
-			display: flex;
-			flex-wrap: wrap;
-			justify-content: flex-end;
-			line-height: 1;
-			margin-top: auto;
-			opacity: 0.5;
-			row-gap: 10px;
-
-			@include up($medium) {
-				row-gap: 30px;
-			}
-
-			span {
-				align-items: center;
-				display: flex;
-				gap: 5px;
-			}
-
-			a {
-				color: inherit;
-
-				&:hover {
-					color: $colorPrimary;
-				}
+			&:hover {
+				background-color: lighten($colorPrimary, 10%);
 			}
 		}
 	}
+	&__meta {
+		align-items: center;
+		column-gap: 20px;
+		display: flex;
+		flex-wrap: wrap;
+		font-size: 0.875em;
+		row-gap: 10px;
+		margin-bottom: 20px;
+	}
+	h3 {
+		a {
+			color: $colorTextDark;
+		}
+	}
+	&__related {
+		margin-top: 40px;
+		@include up($large) {
+			> h2 {
+				text-align: center;
+			}
+		}
+	}
+	&__columns {
+		display: grid;
+		gap: 20px;
+		@include up($large) {
+			grid-template-columns: repeat(3, 1fr);
+		}
+	}
 }
-
+.entry__list {
+	display: grid;
+	grid-gap: 30px;
+	@include up($medium) {
+		grid-gap: 60px;
+	}
+	.entry {
+		display: grid;
+		grid-gap: 20px;
+		@include up($medium) {
+			grid-template-columns: repeat(2, 1fr);
+		}
+	}
+}
 .more__link {
-	color: inherit;
 	display: block;
+	font-size: 0.875em;
 	font-weight: $fontWeightSemibold;
-	margin-top: 20px;
-
-	&:hover {
-		color: $colorPrimary;
-	}
+	margin-top: 10px;
 }
-
 .single {
-	.article {
+	.main {
+		&__content {
+			margin-top: 20px;
+		}
+	}
+	.entry {
 		&__image {
 			margin-bottom: 20px;
-
-			@include up($medium) {
-				margin-bottom: 30px;
-			}
-
 			img {
-				aspect-ratio: 2 / 1;
 				object-fit: cover;
+				width: 100%;
 			}
-		}
-
-		&__footer {
-			display: flex;
-			flex-wrap: wrap;
-			column-gap: 3%;
-			row-gap: 10px;
-			line-height: 1;
-			margin-bottom: 20px;
-
-			@include up($medium) {
-				row-gap: 1rem;
-				margin-bottom: 30px;
-				opacity: 0.5;
-			}
-
-			a {
-				color: inherit;
-
-				&:hover {
-					color: $colorPrimary;
-
-					svg {
-						stroke: $colorPrimary;
-					}
-				}
-			}
-
-			.glyphicon {
-				margin-right: 20px;
-			}
-
-			> span {
-				margin-right: 10px;
-			}
-
-			.published-date,
-			.url,
-			.comments-link,
-			.tags-links {
-				align-items: center;
-				display: flex;
-				gap: 5px;
-			}
-
-			.tags-links {
-				display: inline-flex;
-				gap: 0;
-
-				a {
-					margin-left: 5px;
-				}
-			}
-		}
-
-		&__categories {
-			align-items: center;
-			display: flex;
-			gap: 5px;
 		}
 	}
 }

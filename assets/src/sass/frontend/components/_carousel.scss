@@ -12,19 +12,17 @@
 	}
 	.owl-dots {
 		position: absolute;
-		bottom: 20px;
 		width: 100%;
 		display: flex;
 		justify-content: center;
 		align-items: center;
 
 		button.owl-dot {
-			background-color: $colorWhite;
-			box-shadow: 0 0 1px rgba($colorBlack, 0.5);
+			background-color: rgba($colorPrimary, 0.2);
 			border-radius: 50%;
 			display: inline-block;
-			width: 15px;
-			height: 15px;
+			width: 12px;
+			height: 12px;
 			margin: 0 5px;
 
 			&.active {

@@ -1,0 +1,27 @@
+.wp-block-quote {
+	background-color: $colorGreyLight;
+	border-left-width: 3px;
+	margin-bottom: 40px;
+	padding: 15px 10px;
+
+	@include up($large) {
+		padding: 30px 20px;
+	}
+
+	p {
+		font-weight: $fontWeightSemibold;
+		font-size: 1.5em; //24px
+		line-height: 1.3;
+	}
+
+	cite {
+		font-size: 0.87em; //14px
+		font-weight: $fontWeightBold;
+		letter-spacing: 1px;
+		text-transform: uppercase;
+
+		@include up($large) {
+			margin-left: 20px;
+		}
+	}
+}

@@ -1,0 +1,11 @@
+.wp-block-group {
+	&.alignfull {
+		.wp-block-group__inner-container {
+			margin: 0 auto;
+			max-width: $containerWidth;
+			@include up($large) {
+				padding: 0 20px;
+			}
+		}
+	}
+}

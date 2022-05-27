@@ -1,11 +1,11 @@
 @mixin button() {
 	appearance: none;
 	background-image: none; // Reset unusual Firefox-on-Android default style; see https://github.com/necolas/normalize.css/issues/214
-	border: 1px solid transparent;
+	border: 1.5px solid transparent;
 	cursor: pointer;
 	display: inline-block;
 	margin-bottom: 0; // For input.btn
-	font-weight: $fontWeightBold;
+	font-weight: $fontWeightSemibold;
 	padding: 10px 30px;
 	text-align: center;
 	touch-action: manipulation;
@@ -71,4 +71,8 @@ input[type="submit"] {
 		border-color: darken($colorPrimary, 8%);
 		color: darken($colorPrimary, 8%);
 	}
+}
+
+.wp-block-button__link {
+	font-size: 1em;
 }

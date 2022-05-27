@@ -1,0 +1,11 @@
+.wp-block-code {
+	background-color: $colorGreyLight;
+	border: none;
+	border-radius: $radius;
+	color: inherit;
+	padding: $gridGutter;
+
+	@include up($large) {
+		padding: $gridGutter * 2;
+	}
+}

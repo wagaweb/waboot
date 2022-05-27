@@ -3,6 +3,7 @@
 		background-color: $colorGreyLight;
 		border-radius: $radius;
 		margin-bottom: 30px;
+		margin-top: 40px;
 		padding: 40px 25px;
 	}
 
@@ -52,10 +53,8 @@
 		display: inline-block;
 		font-size: 0.87em; //14px
 		font-weight: $fontWeightSemibold;
-		letter-spacing: 1px;
 		line-height: 1;
 		padding: 5px;
-		text-transform: uppercase;
 
 		&:hover {
 			background-color: $colorText;
@@ -85,10 +84,8 @@
 		display: inline-block;
 		font-size: 0.87em; //14px
 		font-weight: $fontWeightSemibold;
-		letter-spacing: 1px;
 		line-height: 1;
 		padding: 5px;
-		text-transform: uppercase;
 
 		&:hover {
 			background-color: $colorText;

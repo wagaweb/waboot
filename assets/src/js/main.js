@@ -23,6 +23,7 @@ jQuery(document).ready(function ($) {
 	scrollToAnimate();
 	dropdown();
 	headerToggleAnimation();
+	featuredPostsCarousel();
 
 	$(window).on("load", function () {
 		if (window.matchMedia("(max-width: 991px)").matches) {
@@ -89,4 +90,23 @@ function headerToggleAnimation() {
 			$(".header__logo").toggleClass("centered");
 		}
 	});
+}
+
+function featuredPostsCarousel() {
+	let $ = jQuery;
+	$(".posts-carousel .wp-block-post-template")
+		.addClass("owl-carousel")
+		.owlCarousel({
+			autoplay: true,
+			autoplayTimeout: 10000,
+			autoplayHoverPause: true,
+			loop: true,
+			margin: 10,
+			nav: true,
+			navText: [
+				"<i class='far fa-chevron-left'></i>",
+				"<i class='far fa-chevron-right'></i>",
+			],
+			items: 1,
+		});
 }

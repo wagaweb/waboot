@@ -5,6 +5,9 @@
 	z-index: 20;
 	background-color: #fff;
 	border-bottom: 1px solid $colorGrey;
+	@include up($large) {
+		padding: 10px;
+	}
 
 	body.admin-bar & {
 		top: 46px;

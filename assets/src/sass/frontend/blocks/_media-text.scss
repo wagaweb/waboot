@@ -1,0 +1,11 @@
+.wp-block-media-text {
+	&__content {
+		padding: 20px !important;
+		@include up($large) {
+			padding: 0 100px !important;
+		}
+	}
+	.has-large-font-size {
+		line-height: 1.2;
+	}
+}

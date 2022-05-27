@@ -74,6 +74,7 @@ h5,
 .h5,
 h6,
 .h6 {
+	color: $colorTextDark;
 	font-weight: $fontWeightSemibold;
 	margin: 0;
 	word-wrap: break-word;
@@ -94,6 +95,9 @@ ol {
 	margin-bottom: 20px;
 	margin-top: 0;
 	word-wrap: break-word;
+	&:last-child {
+		margin-bottom: 0;
+	}
 }
 
 a {
@@ -130,9 +134,11 @@ table {
 	width: 100%;
 }
 
-p img {
-	margin-bottom: 0.5em;
-	margin-top: 0.4em;
+p {
+	img {
+		margin-bottom: 0.5em;
+		margin-top: 0.4em;
+	}
 }
 
 img.header-image,

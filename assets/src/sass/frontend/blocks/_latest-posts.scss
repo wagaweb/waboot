@@ -1,0 +1,22 @@
+.wp-block-latest-posts {
+	&.is-grid li {
+		margin: 0 $gridGutter $gridGutter 0;
+	}
+	@include up($medium) {
+		&.columns-2 li {
+			width: calc(50% - calc(#{$gridGutter}/ 2));
+		}
+		&.columns-3 li {
+			width: calc(33.33333% - calc(#{$gridGutter}* 2 / 3));
+		}
+		&.columns-4 li {
+			width: calc(25% - calc(#{$gridGutter}* 3 / 4));
+		}
+		&.columns-5 li {
+			width: calc(20% - calc(#{$gridGutter}* 4 / 5));
+		}
+		&.columns-6 li {
+			width: calc(16.66667% - calc(#{$gridGutter}* 5 / 6));
+		}
+	}
+}

@@ -1,0 +1,8 @@
+.wp-block-buttons {
+	.wp-block-button {
+		margin-bottom: 0;
+		+ .wp-block-button {
+			margin-left: $gridGutter;
+		}
+	}
+}
