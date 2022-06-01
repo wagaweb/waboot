@@ -21,6 +21,11 @@ function assets(){
         'type' => 'js',
         'deps' => ['jquery']
     ];
+    $assets['tiny-slider-js'] = [
+        'uri' => get_template_directory_uri() . '/assets/vendor/tiny-slider/tiny-slider.min.js',
+        'path' => get_template_directory() . '/assets/vendor/tiny-slider/tiny-slider.min.js',
+        'type' => 'js',
+    ];
     $assets['venobox-js'] = [
         'uri' => get_template_directory_uri() . '/assets/vendor/venobox/venobox.min.js',
         'path' => get_template_directory() . '/assets/vendor/venobox/venobox.min.js',
@@ -41,6 +46,12 @@ function assets(){
         'uri' => get_template_directory_uri() . '/assets/vendor/owlcarousel/owl.carousel.min.css',
         'path' => get_template_directory() . '/assets/vendor/owlcarousel/owl.carousel.min.css',
         'type' => 'css'
+    ];
+
+    $assets['tiny-slider-css'] = [
+        'uri' => get_template_directory_uri() . '/assets/vendor/tiny-slider/tiny-slider.min.css',
+        'path' => get_template_directory() . '/assets/vendor/tiny-slider/tiny-slider.min.css',
+        'type' => 'css',
     ];
     $assets['venobox-css'] = [
         'uri' => get_template_directory_uri() . '/assets/vendor/venobox/venobox.min.css',

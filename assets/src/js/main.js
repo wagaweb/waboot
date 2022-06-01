@@ -93,20 +93,20 @@ function headerToggleAnimation() {
 }
 
 function featuredPostsCarousel() {
-	let $ = jQuery;
-	$(".posts-carousel .wp-block-post-template")
-		.addClass("owl-carousel")
-		.owlCarousel({
-			autoplay: true,
-			autoplayTimeout: 10000,
-			autoplayHoverPause: true,
-			loop: true,
-			margin: 10,
-			nav: true,
-			navText: [
-				"<i class='far fa-chevron-left'></i>",
-				"<i class='far fa-chevron-right'></i>",
-			],
-			items: 1,
-		});
+	const featuredPostsCarousel = tns({
+		container: ".posts-carousel .wp-block-post-template",
+		items: 1,
+		autoplay: true,
+		autoplayButtonOutput: false,
+		mode: "gallery",
+		mouseDrag: true,
+		responsive: {
+			0: {
+				controls: false,
+			},
+			1024: {
+				controls: true,
+			},
+		},
+	});
 }
