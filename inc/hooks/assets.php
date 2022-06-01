@@ -10,8 +10,8 @@ use function Waboot\inc\core\AssetsManager;
 function assets(){
     $assets = [];
     $assets['main-js'] = [
-        'uri' => defined('WP_DEBUG') && WP_DEBUG ? get_template_directory_uri() . '/assets/dist/js/main.pkg.js' : get_template_directory_uri() . '/assets/dist/js/main.js',
-        'path' => defined('WP_DEBUG') && WP_DEBUG ? get_template_directory() . '/assets/dist/js/main.pkg.js' : get_template_directory() . '/assets/dist/js/main.js',
+        'uri' => defined('WP_DEBUG') && WP_DEBUG ? get_template_directory_uri() . '/assets/dist/js/main.js' : get_template_directory_uri() . '/assets/dist/js/main.js',
+        'path' => defined('WP_DEBUG') && WP_DEBUG ? get_template_directory() . '/assets/dist/js/main.js' : get_template_directory() . '/assets/dist/js/main.js',
         'type' => 'js',
         'deps' => ['jquery','owlcarousel-js','venobox-js']
     ];
