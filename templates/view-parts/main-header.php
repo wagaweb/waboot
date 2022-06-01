@@ -36,6 +36,11 @@
             'container' => false,
             'menu_class' => apply_filters('waboot/navigation/main/class', 'navigation navbar-nav')
         ]); ?>
+
+        <!-- Search Toggle -->
+        <a href="javascript:;" class="header__link--search slidein-search__toggle" data-open-sidenav=".sidesearch">
+            <i class="far fa-search"></i>
+        </a>
     </div>
 
 </div>

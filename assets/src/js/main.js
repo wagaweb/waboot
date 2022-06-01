@@ -34,6 +34,10 @@ jQuery(document).ready(function ($) {
 		toggler: ".slidein-nav__toggle",
 	});
 
+	$("[data-slidein-search]").slidein({
+		toggler: ".slidein-search__toggle",
+	});
+
 	$("a").each(function () {
 		var my_href = $(this).attr("href");
 		if (/\.(?:jpg|jpeg|gif|png)/i.test(my_href)) {
@@ -93,20 +97,22 @@ function headerToggleAnimation() {
 }
 
 function featuredPostsCarousel() {
-	const featuredPostsCarousel = tns({
-		container: ".posts-carousel .wp-block-post-template",
-		items: 1,
-		autoplay: true,
-		autoplayButtonOutput: false,
-		mode: "gallery",
-		mouseDrag: true,
-		responsive: {
-			0: {
-				controls: false,
+	if (document.querySelector(".posts-carousel")) {
+		const featuredPostsCarousel = tns({
+			container: ".posts-carousel .wp-block-post-template",
+			items: 1,
+			autoplay: true,
+			autoplayButtonOutput: false,
+			mode: "gallery",
+			mouseDrag: true,
+			responsive: {
+				0: {
+					controls: false,
+				},
+				1024: {
+					controls: true,
+				},
 			},
-			1024: {
-				controls: true,
-			},
-		},
-	});
+		});
+	}
 }

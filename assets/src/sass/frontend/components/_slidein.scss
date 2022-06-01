@@ -34,7 +34,24 @@
 	}
 
 	form.search-form {
+		margin: 0 auto;
 		padding: 10px;
+		@include up($large) {
+			font-size: 1.25em;
+			min-width: 600px;
+		}
+		input {
+			@include up($large) {
+				padding: 15px;
+			}
+		}
+	}
+	&.sidesearch {
+		height: 100vh;
+		top: 0;
+	}
+	.fa-times {
+		font-size: 2em;
 	}
 }
 

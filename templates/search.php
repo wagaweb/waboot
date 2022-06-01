@@ -1,5 +1,5 @@
 <?php if ( have_posts() ) : ?>
-    <div class="<?php echo apply_filters('waboot/layout/posts_wrapper/class','article__list'); ?>">
+    <div class="<?php echo apply_filters('waboot/layout/posts_wrapper/class','entry__list'); ?>">
         <?php while(have_posts()) :  the_post(); ?>
         <?php get_template_part( '/templates/parts/content', 'search' ); ?>
         <?php endwhile; ?>

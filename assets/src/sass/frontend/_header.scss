@@ -180,6 +180,9 @@
 		//flex-grow: 1;
 		grid-column-start: 1;
 		grid-column-end: 4;
+		display: flex;
+		align-items: center;
+		gap: 40px;
 
 		@include down($large) {
 			display: none;
@@ -189,6 +192,15 @@
 			display: flex;
 			justify-content: center;
 			align-items: center;
+		}
+	}
+	&__link--search {
+		background: none;
+		border: none;
+		color: inherit;
+		cursor: pointer;
+		&:hover {
+			color: $colorPrimary;
 		}
 	}
 }
