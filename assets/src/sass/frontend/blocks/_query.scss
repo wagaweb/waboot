@@ -72,6 +72,9 @@
 			@include up($large) {
 				font-size: 0.875em;
 			}
+			&__separator {
+				display: none;
+			}
 			a {
 				background-color: $colorPrimary;
 				color: $colorWhite;
