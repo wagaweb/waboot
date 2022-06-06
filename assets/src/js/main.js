@@ -102,6 +102,10 @@ function featuredPostsCarousel() {
 			autoplayButtonOutput: false,
 			mode: "gallery",
 			mouseDrag: true,
+			controlsText: [
+				'<i class="far fa-angle-left"></i>',
+				'<i class="far fa-angle-right"></i>',
+			],
 			responsive: {
 				0: {
 					controls: false,

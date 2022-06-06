@@ -1,0 +1,46 @@
+.tns-outer {
+	position: relative;
+}
+.tns-controls {
+	align-items: center;
+	display: flex;
+	justify-content: space-between;
+	left: 0;
+	position: absolute;
+	right: 0;
+	top: 50%;
+	transform: translateY(-50%);
+	z-index: 1;
+	@include up($large) {
+		left: -30px;
+		right: -30px;
+	}
+	button {
+		background-color: transparent;
+		border: none;
+		font-size: 1.5em;
+		opacity: 0.5;
+	}
+}
+.tns-nav {
+	bottom: 0;
+	display: flex;
+	gap: 10px;
+	justify-content: center;
+	left: 0;
+	position: absolute;
+	right: 0;
+	z-index: 10;
+	button {
+		background-color: transparent;
+		border: 1.5px solid $colorPrimary;
+		border-radius: 50%;
+		display: flex;
+		height: 10px;
+		padding: 0;
+		width: 10px;
+		&.tns-nav-active {
+			background-color: $colorPrimary;
+		}
+	}
+}
