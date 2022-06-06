@@ -26,6 +26,7 @@
 		}
 		&-column {
 			.wp-block-group {
+				flex-wrap: wrap;
 				margin-bottom: 20px;
 			}
 		}
@@ -62,6 +63,7 @@
 		&-categories-list {
 			align-items: center;
 			display: flex;
+			flex-wrap: wrap;
 			font-weight: 600;
 			gap: 5px;
 			list-style: none;
