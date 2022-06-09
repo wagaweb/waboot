@@ -1,6 +1,7 @@
 export enum LayoutMode {
   Sidebar = 'sidebar',
   Header = 'header',
+  Block = 'block',
 }
 
 export enum FilterType {

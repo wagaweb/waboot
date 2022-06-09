@@ -48,8 +48,8 @@ if (defined('WB_CATALOG_BASEURL')) {
 //        'enableOrder' => false,
 //        'enablePriceFilter' => false,
 //        'showAddToCartBtn' => false,
-        'layoutMode' => 'sidebar', // 'header' or 'sidebar'
-//        'teleportSidebar' => '.aside__wrapper',
+        'layoutMode' => 'block', // 'block', header' or 'sidebar'
+        'teleportSidebar' => '.aside__wrapper',
         'gtag' => [
             'enabled' => false,
             'listName' => \Waboot\addons\packages\catalog\getGtagListName(),

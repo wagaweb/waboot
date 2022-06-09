@@ -11,7 +11,7 @@
           <i class="far fa-times"></i>
         </a>
         <div
-          v-if="config.layoutMode === 'sidebar'"
+          v-if="config.layoutMode === 'sidebar' || config.layoutMode === 'block'"
           class="catalog-filters__inner catalog-filters__inner--sidebar"
         >
           <div
