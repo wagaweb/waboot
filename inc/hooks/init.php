@@ -90,3 +90,30 @@ function headCleanup(): void {
     remove_action( 'wp_head', 'wp_generator' );
 }
 add_action('init',__NAMESPACE__.'\\headCleanup');
+
+/**
+ * @return void
+ */
+function addHealthCheckEndpoint() {
+    add_filter("query_vars", static function($publicQueryVars){
+        $publicQueryVars[] = "health_check";
+        return $publicQueryVars;
+    }, 10, 1);
+    add_action("parse_request", static function($wp){
+        if (isset($wp->query_vars["health_check"]) && "true" === $wp->query_vars["health_check"]) {
+            // Use the global instance created by WordPress
+            global $wpdb;
+            // Check the connection:
+            if (!$wpdb->check_connection(false)) {
+                die(__("No DB connection"));
+            }
+            header("Content-length: 0");
+            exit;
+        }
+    }, 10, 1);
+    add_action("init", static function(){
+        add_rewrite_rule("^wphealth$", "index.php?health_check=true", "top");
+        flush_rewrite_rules();
+    }, 10);
+}
+addHealthCheckEndpoint();
