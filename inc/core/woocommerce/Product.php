@@ -187,6 +187,19 @@ class Product
     }
 
     /**
+     * @return float|null
+     */
+    public function getCost(): ?float
+    {
+        $cost = $this->getWcProduct()->get_meta('_cost');
+        $cost = str_replace(',', '.', $cost);
+        if (!is_numeric($cost)) {
+            return null;
+        }
+        return (float)$cost;
+    }
+
+    /**
      * @param bool $reverse
      * @param bool $asString
      * @param string $separator
