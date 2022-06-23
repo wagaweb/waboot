@@ -3,6 +3,56 @@
 namespace Waboot\inc;
 
 /**
+ * @param string $type
+ * @param array $args
+ * @return false|int
+ * @throws \WC_Data_Exception
+ * @throws \RuntimeException
+ * @see: https://stackoverflow.com/questions/52937409/create-programmatically-a-product-using-crud-methods-in-woocommerce-3
+ */
+function createProduct(string $type, array $args){
+    if(!\function_exists('wc_get_product_object')){
+        return false;
+    }
+    $product = wc_get_product_object($type);
+    if(!$product instanceof \WC_Product){
+        throw new \RuntimeException('Invalid product type');
+    }
+    if(!isset($args['name']) || !\is_string($args['name']) || $args['name'] === ''){
+        throw new \RuntimeException('Invalid product name');
+    }
+    if(!isset($args['sku']) || !\is_string($args['sku']) || $args['sku'] === ''){
+        throw new \RuntimeException('Invalid product sku');
+    }
+    $product->set_sku($args['sku']);
+    $product->set_name($args['name']);
+    if(isset($args['slug']) && \is_string($args['slug']) && $args['slug'] !== ''){
+        $product->set_slug($args['slug']);
+    }
+    $description = $args['description'] ?? '';
+    $shortDescription = $args['short_description'] ?? wp_trim_words($description,50,null);
+    $status = $args['status'] ?? 'publish';
+    $product->set_description($description);
+    $product->set_short_description($shortDescription);
+    $product->set_status($status);
+    if(isset($args['regular_price'])){
+        $regularPrice = str_replace(',','.',trim($args['regular_price']));
+    }else{
+        $regularPrice = '0';
+    }
+    $product->set_regular_price($regularPrice);
+    if(isset($args['sale_price'])){
+        $salePrice = str_replace(',','.',trim($args['sale_price']));
+        $product->set_sale_price($salePrice);
+    }
+    $productId = $product->save();
+    if(!\is_int($productId) || $productId === 0){
+        throw new \RuntimeException('Unable to save product');
+    }
+    return $productId;
+}
+
+/**
  * Check whether the product is a bundle
  *
  * @param int|\WC_Product $product
@@ -360,4 +410,19 @@ SQL;
         return [];
     }
     return wp_list_pluck($r,'ID');
+}
+
+/**
+ * Sync a variable product with it's children.
+ * @param int $variableProductId
+ * @param bool $save If true, the product object will be saved to the DB before returning it.
+ * @return \WC_Product|false Synced product object.
+ */
+function syncVariations(int $variableProductId, bool $save = true) {
+    delete_transient("wc_product_children_$variableProductId");
+    $syncedProduct = \WC_Product_Variable::sync($variableProductId, $save);
+    if(!$syncedProduct instanceof \WC_Product){
+        return false;
+    }
+    return $syncedProduct;
 }
