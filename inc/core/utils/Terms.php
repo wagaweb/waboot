@@ -56,13 +56,13 @@ trait Terms {
          *
          * @return \stdClass
          */
-        $WPTermToStdClass = function($instance) {
+        $WPTermToStdClass = function(\WP_Term $instance) {
             $std = new \stdClass();
             $std->term_id = $instance->term_id;
             $std->name = $instance->name;
             $std->slug = $instance->slug;
-            $std->term_group = $instance->term_group;
             $std->taxonomy = $instance->taxonomy;
+            $std->term_group = $instance->term_group;
             $std->term_taxonomy_id = $instance->term_taxonomy_id;
             $std->description = $instance->description;
             $std->parent = $instance->parent;
@@ -141,6 +141,9 @@ trait Terms {
              */
             $add_parent = function($child,$terms_list) use(&$add_parent,$taxonomy){
                 $parent = get_term($child->parent,$taxonomy);
+                if(!$parent instanceof \WP_Term){
+                    throw new \RuntimeException('Term with id: '.$child->parent.' not found in taxonomy: '.$taxonomy);
+                }
                 $terms_list_as_array = json_decode(json_encode($terms_list),true);
                 $found = Utilities::associativeArraySearch($terms_list_as_array, 'term_id',$parent->term_id);
                 if(empty($found)){
@@ -156,7 +159,11 @@ trait Terms {
             $new_term_list = $terms;
             foreach($terms as $t){
                 if($t->parent != 0){
-                    $new_term_list = $add_parent($t,$new_term_list);
+                    try{
+                        $new_term_list = $add_parent($t,$new_term_list);
+                    }catch (\RuntimeException $e){
+                        continue;
+                    }
                 }
             }
             return $new_term_list;
@@ -205,6 +212,8 @@ trait Terms {
                         $cats = array_values($cats); //resort the array
                         break; //and break!
                     }
+                    unset($cats[$i]);
+                    break; //and break!
                 }
             }
 
@@ -215,7 +224,7 @@ trait Terms {
             $output_terms = [];
             $flat = function($term_hierarchy) use (&$output_terms,&$flat,$convert_to_wp_term){
                 foreach($term_hierarchy as $k => $t){
-                    $output_terms[] = $convert_to_wp_term ? get_term($t->term_id,$t->taxonomy) : $t;
+                    $output_terms[] = $convert_to_wp_term ? \WP_Term::get_instance($t->term_id,$t->taxonomy) : $t;
                     if(isset($t->children) && $t->children >= 1){
                         $flat($t->children);
                     }
@@ -236,10 +245,16 @@ trait Terms {
 
         foreach($terms as $k => $t){
             if($t instanceof \WP_Term){
-                $terms[$k] = $WPTermToStdClass($t);
+                $convertedTerm = $WPTermToStdClass($t);
+                if(property_exists($convertedTerm,'term_id') && property_exists($convertedTerm,'parent')){
+                    $terms[$k] = $WPTermToStdClass($t);
+                }
             }
         }
 
+        $terms = array_filter($terms, static function($term){
+            return is_object($term) && property_exists($term,'term_id');
+        });
         $terms = $complete_missing_terms($terms);
         $h = $build_hierarchy($terms);
 
