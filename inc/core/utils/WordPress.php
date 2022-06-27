@@ -331,4 +331,20 @@ trait WordPress {
 
         return false;
     }
+
+    /**
+     * @param int $postId
+     * @return int|null
+     */
+    public static function getPostParentId(int $postId): ?int
+    {
+        global $wpdb;
+        $q = 'SELECT post_parent FROM '.$wpdb->prefix.'posts WHERE ID = %d';
+        $q = $wpdb->prepare($q,$postId);
+        $postId = $wpdb->get_var($q);
+        if(!$postId){
+            return null;
+        }
+        return (int) $postId;
+    }
 }
