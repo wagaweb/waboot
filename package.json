@@ -7,6 +7,11 @@
     "type": "git",
     "url": "https://github.com/wagaweb/waboot"
   },
+  "scripts": {
+    "wagabox_build": "docker exec wagabox-2.0.0 bash -c \"cd /var/www/html/waga/waboot/wp-content/themes/waboot && composer update\" && yarn run compile",
+    "compile": "./node_modules/gulp-cli/bin/gulp.js compile_js && ./node_modules/gulp-cli/bin/gulp.js compile_css",
+    "watch": "./node_modules/gulp-cli/bin/gulp.js"
+  },
   "license": "GPL-2.0+",
   "engines": {
     "node": ">= 4.4.3"
@@ -21,6 +26,7 @@
     "browserify-shim": "^3.8.0",
     "cssnano": "^3.5.0",
     "gulp": "^4.0.0",
+    "gulp-cli": "^2.3.0",
     "gulp-copy": "^1.1.0",
     "gulp-postcss": "^7.0.0",
     "gulp-rename": "^1.2.0",

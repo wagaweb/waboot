@@ -1,5 +1,6 @@
 /vendor/
 node_modules
+*.log
 
 #Assets
 assets/dist/css/main.min.css
