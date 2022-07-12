@@ -1,6 +1,8 @@
 <?php
 namespace Waboot\inc\core\utils;
 
+use WP_REST_Request;
+
 trait WordPress {
     /**
      * Return a sanitized version of blog name
@@ -309,5 +311,19 @@ trait WordPress {
 			return null;
 		}
 		return (int) $postId;
+	}
+
+	/**
+	 * @param WP_REST_Request $req
+	 * @return array|null
+	 */
+	function getJsonBodyFromWPRestRequest(WP_REST_Request $req): ?array
+	{
+		$body = $req->get_body();
+		if ($body === null) {
+			return null;
+		}
+
+		return json_decode($body, true);
 	}
 }
