@@ -154,6 +154,21 @@ abstract class AbstractExportableProduct implements ExportableProductInterface
         if($dataValue === '' && strpos($dataKey,'attribute:') === 0){
             $dataValue = $this->getAttributeColumnDataValue($dataKey);
         }
+        if($dataValue === '' && strpos($dataKey,'cs:') === 0){
+            $dataKey = ltrim($dataKey,'cs:');
+            $dataKey = str_replace('\\','/',$dataKey);
+            //Try custom columns
+            $regExMatch = preg_match('|:([a-zA-Z_/]+)|',$dataKey,$functionNameRegExResults);
+            if(isset($functionNameRegExResults) && \is_array($functionNameRegExResults) && !empty($functionNameRegExResults)){
+                $functionName = $functionNameRegExResults[1] ?? '';
+                if($functionName !== ''){
+                    $functionName = str_replace('/','\\',$functionName);
+                    if(function_exists($functionName)){
+                        $dataValue = $functionName($this);
+                    }
+                }
+            }
+        }
         return $dataValue;
     }
 

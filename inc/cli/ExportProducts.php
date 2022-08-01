@@ -40,6 +40,10 @@ class ExportProducts extends AbstractCommand
     /**
      * @var string[]
      */
+    protected $customColumns;
+    /**
+     * @var string[]
+     */
     protected $includedMetas;
     /**
      * @var array
@@ -141,6 +145,9 @@ class ExportProducts extends AbstractCommand
             }
             if(isset($this->excludedColumns)){
                 $this->log('Excluded columns: '.implode(',',$this->excludedColumns));
+            }
+            if(isset($this->customColumns)){
+                $this->log('Custom columns: '.implode(',',$this->customColumns));
             }
             if(isset($this->includedMetas)){
                 $this->log('Included meta: '.implode(',',$this->includedMetas));
@@ -287,7 +294,13 @@ class ExportProducts extends AbstractCommand
             'gallery'
         ];
 
-        $csvColumns = array_merge($standardColumns,$metaColumns,$taxColumns,$finalAttColumns,$mediaColumns);
+        if(isset($this->customColumns) && is_array($this->customColumns)){
+            $customColumns = $this->customColumns;
+        }else{
+            $customColumns = [];
+        }
+
+        $csvColumns = array_merge($standardColumns,$metaColumns,$taxColumns,$finalAttColumns,$mediaColumns,$customColumns);
 
         if(\is_array($this->excludedColumns) && count($this->excludedColumns) > 0){
             $csvColumns = array_values(array_diff($csvColumns,$this->excludedColumns));
@@ -445,6 +458,24 @@ class ExportProducts extends AbstractCommand
                 }else{
                     $this->excludedColumns = array_merge($jsonContent['exclude_columns']);
                 }
+            }
+            if(isset($jsonContent['custom_columns']) && \is_array($jsonContent['custom_columns'])){
+                if(isset($this->customColumns)){
+                    $this->customColumns = array_unique(array_merge($this->customColumns,$jsonContent['custom_columns']));
+                }else{
+                    $this->customColumns = array_merge($jsonContent['custom_columns']);
+                }
+                //Custom columns will be automatically renamed to exclude the function name
+                foreach ($this->customColumns as $customColumn){
+                    preg_match('|([a-zA-Z]+):|',$customColumn,$columnNameRegExResults);
+                    if(\is_array($columnNameRegExResults) && isset($columnNameRegExResults[1])){
+                        $this->columnsRenameMap[] = [
+                            'src' => 'cs:'.$customColumn, //cs: is added
+                            'dest' => $columnNameRegExResults[1]
+                        ];
+                    }
+                }
+                $this->customColumns = array_map(static function($el){ return 'cs:'.$el; },$this->customColumns);
             }
             if(isset($jsonContent['include_meta']) && \is_array($jsonContent['include_meta'])){
                 if(isset($this->includedMetas)){

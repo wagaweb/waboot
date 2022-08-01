@@ -8,6 +8,9 @@
     "meta:_stock",
     "meta:_stock_status"
   ],
+  "custom_columns": [
+    "images:\\Function\\Name\\With\\Namespace"
+  ],
   "include_meta": [
     "total_sales"
   ]
