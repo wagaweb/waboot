@@ -3,6 +3,7 @@
 namespace Waboot\inc\cli;
 
 use Waboot\inc\core\cli\AbstractCommand;
+use function Waboot\inc\getAllProductVariationIds;
 
 class ParseAndSaveProducts extends AbstractCommand
 {
@@ -195,17 +196,12 @@ class ParseAndSaveProducts extends AbstractCommand
      */
     protected function getProductVariations($parentId, $returnType = 'id'): array
     {
-        global $wpdb;
-        $sql = 'SELECT ID FROM `'.$wpdb->posts.'` WHERE post_parent = %d AND post_type = %s';
-        $sql = $wpdb->prepare($sql,[$parentId,'product_variation']);
-        $r = $wpdb->get_results($sql,ARRAY_A);
-        if(\is_array($r) && !empty($r)){
-            $r = wp_list_pluck($r,'ID');
-            $r = array_map('absint', $r);
+        $variationsIds = getAllProductVariationIds($parentId);
+        if(\is_array($variationsIds) && !empty($variationsIds)){
             if($returnType === 'object'){
-                return array_map(static function($id){ return wc_get_product($id); },$r);
+                return array_map(static function($id){ return wc_get_product($id); },$variationsIds);
             }
-            return $r;
+            return $variationsIds;
         }
         return [];
     }
