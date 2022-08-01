@@ -121,6 +121,22 @@ trait WordPress {
     }
 
     /**
+     * @param int $postId
+     * @return int|null
+     */
+    public static function getPostParentId(int $postId): ?int
+    {
+        global $wpdb;
+        $q = 'SELECT post_parent FROM '.$wpdb->posts.' WHERE ID = %d';
+        $q = $wpdb->prepare($q,$postId);
+        $postId = $wpdb->get_var($q);
+        if(!$postId){
+            return null;
+        }
+        return (int) $postId;
+    }
+
+    /**
      * Get the src of the $post_id thumbnail
      *
      * @param $post_id
@@ -170,7 +186,19 @@ trait WordPress {
             throw new \RuntimeException('Unable to generate metadata for attachment #'.$attachmentId.' ('.$fileInUploadedFolderResult['file'].')');
         }
         wp_update_attachment_metadata($attachmentId, $attachData);
-        return (bool) set_post_thumbnail($postId, $attachmentId);
+        //Assign the thumbnail
+        $assigned = (bool) set_post_thumbnail($postId, $attachmentId);
+        //Manually update the GUID
+        $attachmentUrl = wp_get_attachment_image_url($attachmentId,'full');
+        if(\is_string($attachmentUrl) && $attachmentUrl !== ''){
+            global $wpdb;
+            $wpdb->update($wpdb->posts,[
+                'guid' => $attachmentUrl
+            ],[
+                'ID' => $attachmentId
+            ]);
+        }
+        return $assigned;
     }
 
     /**
@@ -332,22 +360,6 @@ trait WordPress {
         }
 
         return false;
-    }
-
-    /**
-     * @param int $postId
-     * @return int|null
-     */
-    public static function getPostParentId(int $postId): ?int
-    {
-        global $wpdb;
-        $q = 'SELECT post_parent FROM '.$wpdb->prefix.'posts WHERE ID = %d';
-        $q = $wpdb->prepare($q,$postId);
-        $postId = $wpdb->get_var($q);
-        if(!$postId){
-            return null;
-        }
-        return (int) $postId;
     }
 
     /**
