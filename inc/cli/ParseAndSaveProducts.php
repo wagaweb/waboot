@@ -4,6 +4,7 @@ namespace Waboot\inc\cli;
 
 use Waboot\inc\core\cli\AbstractCommand;
 use function Waboot\inc\getAllProductVariationIds;
+use function Waboot\inc\syncVariableProductData;
 
 class ParseAndSaveProducts extends AbstractCommand
 {
@@ -142,6 +143,7 @@ class ParseAndSaveProducts extends AbstractCommand
                 @do_action( 'woocommerce_save_product_variation', $variationId, $i);
             }
             @do_action( 'woocommerce_ajax_save_product_variations', $wpPostId);
+            syncVariableProductData($product->get_id());
         }
         do_action('wawoo/cli/parse-and-save-products/post-save/single', $product, $this);
     }
