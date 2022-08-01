@@ -378,6 +378,10 @@ function getOrderIdByOrderNumber(int $orderNumber): ?int {
  * @return int[]
  */
 function getAllVariableProductIds(): array {
+    static $variableProductsIndex;
+    if(\is_array($variableProductsIndex)){
+        return $variableProductsIndex;
+    }
     global $wpdb;
 
     $sql = <<<SQL
@@ -389,7 +393,8 @@ inner join $wpdb->terms t on t.term_id = tt.term_id
 where p.post_type = 'product' and tt.taxonomy = 'product_type' and t.name = 'variable'
 SQL;
 
-    return array_map('intval', $wpdb->get_col($sql));
+    $variableProductsIndex = array_map('intval', $wpdb->get_col($sql));
+    return $variableProductsIndex;
 }
 
 /**
@@ -416,13 +421,30 @@ SQL;
  * Sync a variable product with it's children.
  * @param int $variableProductId
  * @param bool $save If true, the product object will be saved to the DB before returning it.
- * @return \WC_Product|false Synced product object.
+ * @return \WC_Product Synced product object.
  */
-function syncVariations(int $variableProductId, bool $save = true) {
+function syncVariableProductData(int $variableProductId, bool $save = true) {
     delete_transient("wc_product_children_$variableProductId");
-    $syncedProduct = \WC_Product_Variable::sync($variableProductId, $save);
-    if(!$syncedProduct instanceof \WC_Product){
-        return false;
+    return \WC_Product_Variable::sync($variableProductId, $save);
+}
+
+/**
+ * @param int $variableProductId
+ * @return string
+ */
+function syncVariableProductStockStatus(int $variableProductId){
+    $variationsIds = getAllProductVariationIds($variableProductId);
+    if(empty($variationsIds)){
+        throw new \RuntimeException('Product #'.$variableProductId.' has no variations');
     }
-    return $syncedProduct;
+    $stockStatus = 'outofstock';
+    foreach ($variationsIds as $variationsId){
+        $qty = (int) get_post_meta($variationsId,'_stock', true);
+        if($qty > 0){
+            $stockStatus = 'instock';
+            break;
+        }
+    }
+    update_post_meta($variableProductId,'_stock_status',$stockStatus);
+    return $stockStatus;
 }
