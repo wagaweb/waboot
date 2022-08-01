@@ -9,11 +9,13 @@ use Waboot\inc\cli\FixStockStatuses;
 use Waboot\inc\cli\OrderSimulator;
 use Waboot\inc\cli\ParseAndSaveProducts;
 use Waboot\inc\cli\feeds\GenerateGShoppingFeed;
+use Waboot\inc\cli\RemoveSalePrices;
 
 require_once get_stylesheet_directory().'/inc/core/cli/CommandLoggerTrait.php';
 require_once get_stylesheet_directory().'/inc/core/cli/AbstractCommand.php';
 require_once get_stylesheet_directory().'/inc/cli/ParseAndSaveProducts.php';
 require_once get_stylesheet_directory().'/inc/cli/FixStockStatuses.php';
+require_once get_stylesheet_directory().'/inc/cli/RemoveSalePrices.php';
 require_once get_stylesheet_directory().'/inc/cli/ExportOrders.php';
 require_once get_stylesheet_directory().'/inc/cli/ExportOrdersTest.php';
 require_once get_stylesheet_directory().'/inc/cli/ExportProducts.php';
@@ -39,6 +41,7 @@ try{
      */
     \WP_CLI::add_command('wawoo:parse-and-save-products', ParseAndSaveProducts::class);
     \WP_CLI::add_command('wawoo:fix-stock-statuses', FixStockStatuses::class);
+    \WP_CLI::add_command('wawoo:remove-sale-prices', RemoveSalePrices::class);
     \WP_CLI::add_command('wawoo:export-orders', ExportOrders::class);
     \WP_CLI::add_command('wawoo:simulate-orders', OrderSimulator::class);
     \WP_CLI::add_command('wawoo:export-products', ExportProducts::class);
