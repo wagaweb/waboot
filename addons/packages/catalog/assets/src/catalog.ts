@@ -73,7 +73,7 @@ export class CatalogConfig {
         }
 
         if (t.taxonomy === undefined) {
-          throw new Error('`taxonomies[].language`: parameter is required');
+          throw new Error('`taxonomies[].taxonomy`: parameter is required');
         }
         t.taxonomy = String(t.taxonomy);
 
