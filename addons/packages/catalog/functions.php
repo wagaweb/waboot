@@ -69,12 +69,12 @@ function renderCatalog(array $config): string
 
     $config['taxonomies'] = array_values($config['taxonomies'] ?? []);
 
-    $json = json_encode($config);
+    $json = htmlspecialchars(json_encode($config));
 
     return <<<HTML
 <div
     class="vue-catalog"
-    catalog-config='$json'
+    catalog-config="$json"
 ></div>
 HTML;
 }
@@ -102,12 +102,12 @@ function renderSimpleCatalog(array $config): string
 
     $config['taxonomies'] = array_values($config['taxonomies'] ?? []);
 
-    $json = json_encode($config);
+    $json = htmlspecialchars(json_encode($config));
 
     return <<<HTML
 <div
     class="vue-simple-catalog"
-    catalog-config='$json'
+    catalog-config="$json"
 ></div>
 HTML;
 }
