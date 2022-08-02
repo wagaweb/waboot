@@ -120,6 +120,22 @@ trait WordPress {
         return $meta;
     }
 
+	/**
+	 * @param int $postId
+	 * @return int|null
+	 */
+	public static function getPostParentId(int $postId): ?int
+	{
+		global $wpdb;
+		$q = 'SELECT post_parent FROM '.$wpdb->posts.' WHERE ID = %d';
+		$q = $wpdb->prepare($q,$postId);
+		$postId = $wpdb->get_var($q);
+		if(!$postId){
+			return null;
+		}
+		return (int) $postId;
+	}
+
     /**
      * Get the src of the $post_id thumbnail
      *
@@ -135,6 +151,61 @@ trait WordPress {
         }
         return false;
     }
+
+	/**
+	 * @param string $filePath
+	 * @param int $postId
+	 * @throws \RuntimeException
+	 * @return array
+	 */
+	public static function setFeaturedImageFromFilePath(string $filePath, int $postId): array
+	{
+		$baseName = pathinfo($filePath,PATHINFO_BASENAME);
+		$uploadDir = wp_upload_dir();
+		$uniqueFileName = wp_unique_filename($uploadDir['path'],$baseName);
+		$fileInUploadedFolderResult = wp_upload_bits($uniqueFileName,null,file_get_contents($filePath));
+		if(isset($fileInUploadedFolderResult['error']) && $fileInUploadedFolderResult['error'] !== false){
+			throw new \RuntimeException($fileInUploadedFolderResult['error']);
+		}
+		$filetype = wp_check_filetype($filePath );
+		$attachment = [
+			'post_mime_type' => $filetype['type'],
+			'post_title' => sanitize_title(pathinfo($filePath,PATHINFO_FILENAME)),
+			'post_content' => '',
+			'post_status' => 'inherit'
+		];
+		$attachmentId = wp_insert_attachment( $attachment, $fileInUploadedFolderResult['file']);
+		if(\is_wp_error($attachmentId)){
+			throw new \RuntimeException($attachmentId->get_error_message());
+		}
+		if(!function_exists('wp_generate_attachment_metadata')){
+			require_once(ABSPATH . 'wp-admin/includes/image.php');
+		}
+		$attachData = wp_generate_attachment_metadata( $attachmentId, $fileInUploadedFolderResult['file']);
+		if(!\is_array($attachData)){
+			throw new \RuntimeException('Unable to generate metadata for attachment #'.$attachmentId.' ('.$fileInUploadedFolderResult['file'].')');
+		}
+		wp_update_attachment_metadata($attachmentId, $attachData);
+		//Assign the thumbnail
+		$assigned = (bool) set_post_thumbnail($postId, $attachmentId);
+		//Manually update the GUID
+		$attachmentUrl = wp_get_attachment_image_url($attachmentId,'full');
+		if(\is_string($attachmentUrl) && $attachmentUrl !== ''){
+			global $wpdb;
+			$wpdb->update($wpdb->posts,[
+				'guid' => $attachmentUrl
+			],[
+				'ID' => $attachmentId
+			]);
+		}
+		//Manually generate the sized image
+		$imageMetaData = wp_create_image_subsizes($attachmentUrl,$attachmentId);
+		return [
+			'assigned' => $assigned,
+			'full_url' => $attachmentUrl,
+			'subsize_metadata' => $imageMetaData
+		];
+	}
 
     /**
      * Toggle maintenance mode for the site.
@@ -296,22 +367,6 @@ trait WordPress {
 
         return false;
     }
-
-	/**
-	 * @param int $postId
-	 * @return int|null
-	 */
-	public static function getPostParentId(int $postId): ?int
-	{
-		global $wpdb;
-		$q = 'SELECT post_parent FROM '.$wpdb->prefix.'posts WHERE ID = %d';
-		$q = $wpdb->prepare($q,$postId);
-		$postId = $wpdb->get_var($q);
-		if(!$postId){
-			return null;
-		}
-		return (int) $postId;
-	}
 
 	/**
 	 * @param WP_REST_Request $req
