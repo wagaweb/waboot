@@ -156,9 +156,9 @@ trait WordPress {
      * @param string $filePath
      * @param int $postId
      * @throws \RuntimeException
-     * @return bool
+     * @return array
      */
-    public static function setFeaturedImageFromFilePath(string $filePath, int $postId): bool
+    public static function setFeaturedImageFromFilePath(string $filePath, int $postId): array
     {
         $baseName = pathinfo($filePath,PATHINFO_BASENAME);
         $uploadDir = wp_upload_dir();
@@ -198,7 +198,13 @@ trait WordPress {
                 'ID' => $attachmentId
             ]);
         }
-        return $assigned;
+        //Manually generate the sized image
+        $imageMetaData = wp_create_image_subsizes($attachmentUrl,$attachmentId);
+        return [
+            'assigned' => $assigned,
+            'full_url' => $attachmentUrl,
+            'subsize_metadata' => $imageMetaData
+        ];
     }
 
     /**
