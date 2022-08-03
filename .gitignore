@@ -2,6 +2,9 @@
 node_modules
 *.log
 
+#Vendor
+waga-woocommerce-csv-cli-importer
+
 #Assets
 assets/dist/css/main.min.css
 assets/dist/css/main.min.css.map
