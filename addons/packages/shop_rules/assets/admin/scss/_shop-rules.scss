@@ -1,0 +1,167 @@
+//LOADING
+.loading {
+  background-color: rgba(#2271b1, .95);
+  color: #fff;
+  position: fixed;
+  inset: 0;
+  z-index: 99999 !important;
+  transition: .3s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  * {
+    color: inherit;
+  }
+}
+
+.wp-core-ui .button {
+  &.button-danger {
+    background-color: #d9534f;
+    border-color: #d43f3a;
+    color: #fff;
+  }
+}
+
+.shop-rules {
+  &__heading {
+    align-items: center;
+    display: flex;
+    gap: 1em;
+    margin-bottom: 1em;
+    padding-top: 9px;
+  }
+
+  &__row {
+    td {
+      vertical-align: middle;
+    }
+  }
+
+  &__title {
+    font-weight: bold;
+  }
+
+  &__cta {
+    .button-danger {
+      margin-left: 4px;
+    }
+  }
+}
+
+.shop-rule {
+
+  &__title {
+    padding: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    h1 {
+      flex-grow: 1;
+    }
+  }
+
+  &__panel {
+    margin: 0 0 1em;
+    padding: 1em;
+    &-heading {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      border-bottom: 1px solid #ddd;
+      h2 {
+        flex-grow: 1;
+      }
+    }
+  }
+
+  &__label {
+    font-weight: bold;
+    margin-right: 4px;
+  }
+
+  &__form {
+
+    input[type="text"],
+    input[type="number"],
+    textarea,
+    select {
+      min-width: 340px;
+    }
+
+    input[type=checkbox], input[type=radio] {
+      margin: 0;
+    }
+
+    label {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 5px;
+      + label {
+        margin-top: 15px;
+      }
+    }
+
+    &--stacked {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: flex-start;
+      + .shop-rule__form--stacked {
+        margin-top: 15px;
+      }
+      label {
+        + label {
+          margin-top: 0;
+        }
+      }
+    }
+
+    .vs__dropdown-toggle {
+      border: 0;
+      .vs__selected-options {
+        padding: 0;
+        .vs__selected {
+          order: 10;
+          background-color: #f4f4f4;
+          border: 1px solid #ccc;
+        }
+      }
+    }
+
+    .vs__actions {
+      margin-bottom: 0;
+      margin-top: 5px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+
+      .vs__clear {
+        margin-right: 0;
+        order: 10;
+      }
+    }
+  }
+
+  &__select {
+    min-width: 340px;
+
+    .vs__search {
+      width: 100%;
+      height: 30px;
+      margin: 0;
+    }
+  }
+
+  &__calendar {
+    display: inline-block;
+    min-width: 340px;
+  }
+}

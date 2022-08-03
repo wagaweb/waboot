@@ -10,6 +10,8 @@ import CatalogFilters from "./frontend/catalogFilters.js";
 import {initEuVat} from "./frontend/checkout/invoicing";
 import {initCustomerCareModal} from "./frontend/modal.js";
 import {isCartPage, isCheckOutPage, isSingleProductPage} from "./utils/wp";
+//{SHOP RULES}
+//import ShopRules from "../../../addons/packages/shop_rules/assets/frontend/shoprules.js";
 
 $.fn.slidein = function (options) {
     return this.each(function () {
@@ -61,6 +63,8 @@ $(document).ready(function() {
     }
 
     if(isCartPage()) {
+        //{SHOP RULES}
+        //new ShopRules();
         new Cart();
     }
 

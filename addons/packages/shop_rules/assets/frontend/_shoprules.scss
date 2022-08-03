@@ -1,0 +1,164 @@
+.gwp-container {
+  h5 {
+    font-weight: $fontWeightBold;
+    padding-bottom: 5px;
+    border-bottom: 1px solid $colorGrey;
+  }
+  &__message {
+    background-image: url('../../../addons/packages/shop_rules/assets/images/ico-tester.png');
+    background-repeat: no-repeat;
+    background-position: left center;
+    background-size: 90px;
+    padding-left: 100px;
+    margin-bottom: 20px;
+    min-height: 90px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    cursor: pointer;
+    span {
+      display: flex;
+      align-items: center;
+      &:before {
+        content: '+';
+        margin-right: 10px;
+        font-size: 4em;
+        opacity: .1;
+        line-height: 0.5em;
+      }
+    }
+  }
+}
+.product-gwp {
+  &__item {
+    margin-top: $gridGutter;
+    grid-gap: 20px;
+    display: grid;
+    grid-template-columns: auto 110px 1fr;
+    align-items: center;
+    &:before {
+      content: '+';
+      font-size: 2em;
+      opacity: .2;
+    }
+  }
+  &__image img {
+    max-width: 100%;
+  }
+  &__text {
+    h6 {
+      border: 1px solid $colorGrey;
+      font-size: .6em;
+      text-transform: uppercase;
+      padding: 2px 5px;
+      display: inline-block;
+    }
+    p {
+      font-size: .9em;
+      margin: 0;
+    }
+  }
+}
+
+.gwp-choice {
+  &__modal {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0,0,0,.5);
+    z-index: 90;
+    display: none;
+    &--close {
+      position: absolute;
+      right: 10px;
+      top: 10px;
+      cursor: pointer;
+    }
+  }
+  &__inner {
+    background-color: #fff;
+    padding: $gridGutter;
+    position: relative;
+    max-height: 90%;
+    max-width: 340px;
+    overflow-y: auto;
+    @include up($medium){
+      max-width: 610px;
+    }
+    input[type="submit"]{
+      margin: 30px auto 0;
+      display: block;
+    }
+  }
+  &__title {
+    border-bottom: 1px solid $colorGrey;
+    padding-bottom: 10px;
+    font-style: italic;
+    font-size: .9em;
+  }
+  &__items {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    .gwp-choice {
+      flex: 0 0 130px;
+      display: flex;
+      align-items: center;
+      @include up($medium) {
+        flex: 0 0 170px;
+      }
+      input {
+        //display: none;
+        margin: 0 10px 0 0;
+      }
+      label {
+        display: block;
+        font-weight: $fontWeightNormal;
+        border: 1px solid $colorGrey;
+        padding: 10px 15px;
+        margin: 0;
+        cursor: pointer;
+        @include up($medium) {
+          text-align: center;
+          height: 100%;
+        }
+        img {
+          max-width: 100%;
+          height: auto;
+        }
+      }
+      input[type="checkbox"]:checked+label {
+        background-color: $colorGreyLight;
+        border-color: $colorPrimary;
+      }
+      &__item {
+        grid-gap: 20px;
+        display: grid;
+        grid-template-columns: auto 110px 1fr;
+        align-items: center;
+        /*&:before {
+          content: '+';
+          font-size: 2em;
+          opacity: .2;
+        }*/
+      }
+      &__image img {
+        max-width: 100%;
+      }
+      &__text {
+        font-size: .9em;
+        text-align: center;
+      }
+    }
+  }
+}
+
+a[data-modal-target="gwp-choice__modal"]{
+  margin-bottom: $gridGutter;
+  cursor: pointer;
+}

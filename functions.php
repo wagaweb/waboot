@@ -31,6 +31,7 @@ $additionalDeps = [
 add_filter('waboot/addons/disabled', function(){
     return [
         //'star_rating'
+        'shop_rules' //{SHOP RULES}
     ];
 });
 \Waboot\inc\loadAddons();

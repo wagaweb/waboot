@@ -46,5 +46,7 @@
 @import 'frontend/woocommerce/single-product/productGallery';
 @import 'frontend/woocommerce/single-product/attributes';
 @import 'frontend/woocommerce/single-product/sizeguide';
+//{SHOP RULES}
+@import '../../../addons/packages/shop_rules/assets/frontend/shoprules';
 
 @import 'frontend/invoicing';
