@@ -11,6 +11,14 @@
   "engines": {
     "node": ">= 4.4.3"
   },
+  "scripts": {
+    "wagabox:build": "docker exec wagabox-2.0.0 bash -c \"cd /var/www/html/waga/waboot/wp-content/themes/waboot && npm run composer:update\" && npm run assets:build",
+    "composer:install": "composer install",
+    "composer:update": "composer install && composer update",
+    "build": "composer install && composer update && npm run assets:build",
+    "assets:build": "./node_modules/gulp-cli/bin/gulp.js compile_js && ./node_modules/gulp-cli/bin/gulp.js compile_css",
+    "assets:build:watch": "./node_modules/gulp-cli/bin/gulp.js"
+  },
   "devDependencies": {
     "babelify": "^10.0.0",
     "@babel/core": "^7.8.7",
