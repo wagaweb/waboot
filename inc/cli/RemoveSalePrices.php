@@ -14,7 +14,7 @@ class RemoveSalePrices extends ParseAndSaveProducts
     protected $logDirName = 'remove-sale-prices';
 
     /**
-     * Parse and tries to fix stock statuses of all products
+     * Parse and tries to remove all sale prices from all products
      *
      * ## OPTIONS
      *
