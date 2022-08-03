@@ -17,7 +17,9 @@
     "catalog:build:dev": "cd addons/packages/catalog/assets && npm i && npm run dev",
     "catalog:build:prod": "cd addons/packages/catalog/assets && npm i && npm run prod",
     "shoprules:build:dev": "cd addons/packages/shop_rules/assets/admin && npm i && npm run dev",
-    "shoprules:build:prod": "cd addons/packages/shop_rules/assets/admin && npm i && npm run prod"
+    "shoprules:build:prod": "cd addons/packages/shop_rules/assets/admin && npm i && npm run prod",
+    "productimporter:install": "cd inc/cli/product_import && git clone git@github.com:wagaweb/waga-woocommerce-csv-cli-importer.git",
+    "productimporter:update": "cd inc/cli/product_import && git pull"
   },
   "license": "GPL-2.0+",
   "engines": {

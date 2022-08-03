@@ -21,6 +21,9 @@ require_once get_stylesheet_directory().'/inc/cli/ExportOrdersTest.php';
 require_once get_stylesheet_directory().'/inc/cli/ExportProducts.php';
 require_once get_stylesheet_directory().'/inc/cli/OrderSimulator.php';
 require_once get_stylesheet_directory().'/inc/cli/feeds/GenerateGShoppingFeed.php';
+if(is_file(get_stylesheet_directory().'/inc/cli/product_import/waga-woocommerce-csv-cli-importer/src/index.php')){
+    require_once get_stylesheet_directory().'/inc/cli/product_import/waga-woocommerce-csv-cli-importer/src/index.php';
+}
 
 add_action('init', static function(){
     /*
