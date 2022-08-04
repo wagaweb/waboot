@@ -198,14 +198,11 @@ class ShopRuleRepository
                 $newRules[] = $rule;
             }
         }
-        if(!empty($newRules)){
-            $saved = $this->saveRules($newRules);
-            if(!$saved){
-                throw new ShopRuleRepositoryException('Unable to delete the rule');
-            }
-            return true;
+        $saved = $this->saveRules($newRules);
+        if(!$saved){
+            throw new ShopRuleRepositoryException('Unable to delete the rule');
         }
-        throw new ShopRuleRepositoryException('Unable to delete the rule');
+        return true;
     }
 
     /**

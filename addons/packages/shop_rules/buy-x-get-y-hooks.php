@@ -330,6 +330,22 @@ add_action(
             return;
         }
 
+        // removing expired gwps
+        $ruleKeyMap = [];
+        foreach ($rules as $r) {
+            if (!$r->isActive()) {
+                continue;
+            }
+
+            $ruleKeyMap[$r->getKey()] = $r->getKey();
+        }
+        foreach ($cart->get_cart() as $key => $item) {
+            $rKey = $item['shop_rule_key'] ?? null;
+            if ($rKey !== null && !isset($ruleKeyMap[$rKey])) {
+                $cart->remove_cart_item($key);
+            }
+        }
+
         /** @var string[] $gwpChoices */
         $gwpChoices = [];
         foreach ($rules as $r) {
