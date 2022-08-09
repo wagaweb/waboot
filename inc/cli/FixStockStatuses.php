@@ -66,10 +66,14 @@ class FixStockStatuses extends ParseAndSaveProducts
                 if($atLeastOneVariationIsStockManaging){
                     $class->log('--- Variations with managing quantity flag total quantity: '.$totalVariationsQty);
                     $realStatus = $totalVariationsQty > 0 ? 'instock' : 'outofstock';
+                    //Ensure variable product do not have manage stock
+                    $class->log('---- Ensure variable product do not have manage stock');
+                    update_post_meta($product->get_id(),'_manage_stock','no');
+                    update_post_meta($product->get_id(),'__stock',null);
                 }
             }
             if($realStatus !== $statusMeta){
-                $class->log('-- Set "_stock_status" to: '.$realStatus);
+                $class->log('-- Set "_stock_status" of '.$product->get_id().' to: '.$realStatus);
                 update_post_meta($product->get_id(),'_stock_status',$realStatus);
             }
             if(!$product instanceof \WC_Product_Variation){
