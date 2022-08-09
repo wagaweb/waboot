@@ -69,7 +69,7 @@ class FixStockStatuses extends ParseAndSaveProducts
                     //Ensure variable product do not have manage stock
                     $class->log('---- Ensure variable product do not have manage stock');
                     update_post_meta($product->get_id(),'_manage_stock','no');
-                    update_post_meta($product->get_id(),'__stock',null);
+                    update_post_meta($product->get_id(),'_stock',null);
                 }
             }
             if($realStatus !== $statusMeta){
