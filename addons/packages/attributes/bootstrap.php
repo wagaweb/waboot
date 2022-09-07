@@ -10,6 +10,7 @@ add_filter('woocommerce_dropdown_variation_attribute_options_html', function ($h
     $options = $args['options'];
     $product = $args['product'];
     $attribute = $args['attribute'];
+    $attributes = $product->get_variation_attributes();
     $variations = $product->get_available_variations();
 
     if ($attribute != 'pa_size') { return $html; }
@@ -43,7 +44,9 @@ add_filter('woocommerce_dropdown_variation_attribute_options_html', function ($h
     $attribute_name = 'attribute_' . $attribute;
 
     foreach ($variations as $variation) {
-        $attribute_options[$variation['attributes'][$attribute_name]]['in-stock'] = $variation['is_in_stock'];
+        if(count($attributes) < 2){
+            $attribute_options[$variation['attributes'][$attribute_name]]['in-stock'] = $variation['is_in_stock'];
+        }
     }
 
     if ($attribute === 'pa_size') {
