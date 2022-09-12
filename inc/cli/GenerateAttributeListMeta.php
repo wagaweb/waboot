@@ -13,30 +13,13 @@ class GenerateAttributeListMeta extends AbstractCommand
     {
         parent::__invoke($args, $assoc_args);
 
-        $productId = $args[0] ?? null;
-
-        if ($productId !== null) {
-            $product = wc_get_product($productId);
-            if (empty($product)) {
-                $this->error(sprintf('Product #%d does not exists', $productId));
-            }
-
-            if ($product->get_type() !== 'variable') {
-                $this->error(sprintf('Product #%d is not variable', $productId));
-            }
-
-            $products = [$product];
-        } else {
-            $products = wc_get_products(
-                [
-                    'limit' => -1,
-                    'type' => 'variable',
-                    'status' => 'any',
-                ]
-            );
-
-            $this->log(sprintf('Found %d products', count($products)));
+        $query = ['limit' => -1, 'type' => 'variable'];
+        if (!empty($args)) {
+            $query['include'] = $args;
         }
+
+        $products = wc_get_products($query);
+        $this->log(sprintf('Found %d products', count($products)));
 
         /** @var \WC_Product_Variable $p */
         foreach ($products as $p) {

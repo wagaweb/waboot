@@ -50,7 +50,18 @@ try{
     \WP_CLI::add_command('wawoo:export-orders', ExportOrders::class);
     \WP_CLI::add_command('wawoo:simulate-orders', OrderSimulator::class);
     \WP_CLI::add_command('wawoo:export-products', ExportProducts::class);
-    \WP_CLI::add_command('wawoo:gen-attr-list-meta', GenerateAttributeListMeta::class);
+    \WP_CLI::add_command('wawoo:gen-attr-list-meta', GenerateAttributeListMeta::class, [
+        'shortdesc' => 'Generate `_attribute_list` metadata for each variable product',
+        'synopsis' => [
+            [
+                'type' => 'positional',
+                'name' => 'ids',
+                'description' => 'The ID of the product to process',
+                'optional' => true,
+                'repeating' => true,
+            ],
+        ],
+    ]);
     \WP_CLI::add_command('wawoo:test:export-orders', ExportOrdersTest::class);
     \WP_CLI::add_command('wawoo:feeds:generate-gshopping', GenerateGShoppingFeed::class);
 }catch (\Exception $e){}
