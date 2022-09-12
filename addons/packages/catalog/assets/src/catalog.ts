@@ -34,6 +34,12 @@ export class CatalogConfig {
     listName?: string;
     brandFallback?: string;
   };
+  ga4: {
+    enabled: boolean;
+    listId?: string;
+    listName?: string;
+    brandFallback?: string;
+  };
   // layout
   productsPerPage: number;
   columns: number;
@@ -113,27 +119,58 @@ export class CatalogConfig {
     }
 
     this.gtag = { enabled: false };
-    if (typeof data.gtag !== 'object' || data.gtag === null) {
-      throw new Error('`gtag`: invalid object');
-    } else if (data.gtag !== undefined) {
+    if (typeof data.gtag === 'object' && data.gtag !== null) {
       if (data.gtag.enabled === undefined) {
         throw new Error('`gtag.enabled`: parameter is required');
       }
-      this.gtag.enabled = Boolean(data.gtag);
+      this.gtag.enabled = Boolean(data.gtag.enabled);
 
       if (data.gtag.listName === undefined) {
         throw new Error(
-          '`gtag.listName`: parameter is required when gtag is enabled',
+            '`gtag.listName`: parameter is required when gtag is enabled',
         );
       }
       this.gtag.listName = String(data.gtag.listName);
 
       if (data.gtag.brandFallback === undefined) {
         throw new Error(
-          '`gtag.brandFallback`: parameter is required when gtag is enabled',
+            '`gtag.brandFallback`: parameter is required when gtag is enabled',
         );
       }
       this.gtag.brandFallback = String(data.gtag.brandFallback);
+    } else if (data.gtag !== undefined) {
+      throw new Error('`gtag`: invalid object');
+    }
+
+    this.ga4 = { enabled: false };
+    if (typeof data.ga4 === 'object' && data.ga4 !== null) {
+      if (data.ga4.enabled === undefined) {
+        throw new Error('`ga4.enabled`: parameter is required');
+      }
+      this.ga4.enabled = Boolean(data.ga4.enabled);
+
+      if (data.ga4.listId === undefined) {
+        throw new Error(
+            '`ga4.listId`: parameter is required when ga4 is enabled',
+        );
+      }
+      this.ga4.listId = String(data.ga4.listId);
+
+      if (data.ga4.listName === undefined) {
+        throw new Error(
+            '`ga4.listName`: parameter is required when ga4 is enabled',
+        );
+      }
+      this.ga4.listName = String(data.ga4.listName);
+
+      if (data.ga4.brandFallback === undefined) {
+        throw new Error(
+            '`ga4.brandFallback`: parameter is required when ga4 is enabled',
+        );
+      }
+      this.ga4.brandFallback = String(data.ga4.brandFallback);
+    } else if (data.ga4 !== undefined) {
+      throw new Error('`ga4`: invalid object');
     }
 
     this.productsPerPage = Number(data.productsPerPage ?? 24);

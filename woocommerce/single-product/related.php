@@ -22,11 +22,17 @@ if ($related_products) : ?>
                     }, $related_products),
                     'columns' => 4,
                     'showAddToCartBtn' => false,
-                    'gtag' => [
-                        'enabled' => false,
-                        'listName' => \Waboot\addons\packages\catalog\getGtagListName(),
-                        'brandFallback' => get_bloginfo('name'),
-                    ],
+//                    'gtag' => [
+//                        'enabled' => true,
+//                        'listName' => \Waboot\addons\packages\catalog\getGtagListName(),
+//                        'brandFallback' => get_bloginfo('name'),
+//                    ],
+//                    'ga4' => [
+//                        'enabled' => !isset($_POST['add-to-cart']),
+//                        'listId' => sanitize_title(\Waboot\addons\packages\catalog\getGtagListName()),
+//                        'listName' => \Waboot\addons\packages\catalog\getGtagListName(),
+//                        'brandFallback' => get_bloginfo('name'),
+//                    ],
                 ]
             );
         } else {

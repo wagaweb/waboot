@@ -13,8 +13,8 @@
         :product-permalink="config.productPermalink"
         :product="p"
         :show-add-to-cart-btn="config.showAddToCartBtn"
-        @addToCart="gtagAddToCart($event, i)"
-        @viewDetails="gtagSelectContent($event, i)"
+        @addToCart="addToCart($event, i)"
+        @viewDetails="viewDetails($event, i)"
       ></CatalogItem>
     </div>
   </div>
@@ -24,10 +24,11 @@
 import { defineComponent, inject, onMounted, PropType, Ref, ref } from 'vue';
 import CatalogItem from '@/components/CatalogItem.vue';
 import Spinner from '@/components/Spinner.vue';
-import { CatalogOrder, CatalogQuery, Product, TaxFilter } from '@/services/api';
+import { CatalogOrder, Product, TaxFilter } from '@/services/api';
 import { wcserviceClientKey } from '@/main';
 import { getGtagCallbacks } from '@/gtag.utils';
 import { CatalogConfig } from '@/catalog';
+import { GA4 } from '@/ga4';
 
 export default defineComponent({
   name: 'SimpleCatalog',
@@ -47,6 +48,12 @@ export default defineComponent({
       throw new Error('Cannot inject wcserviceClient');
     }
 
+    const ga4Enabled = props.config.ga4.enabled;
+    const ga4 = new GA4(
+        props.config.ga4.listId ?? '',
+        props.config.ga4.listName ?? '',
+        props.config.ga4.brandFallback,
+    );
     const { gtagAddToCart, gtagSelectContent, gtagViewItemList } =
       getGtagCallbacks(props.config.gtag);
 
@@ -74,7 +81,24 @@ export default defineComponent({
       });
 
       gtagViewItemList(products.value, 0);
+      if (ga4Enabled) {
+        ga4.viewItemList(products.value, 0);
+      }
       loading.value = false;
+    };
+
+    const addToCart = (product: Product, index: number): void => {
+      gtagAddToCart(product, index);
+      if (ga4Enabled) {
+        ga4.addToCart(product, index);
+      }
+    };
+
+    const viewDetails = (product: Product, index: number): void => {
+      gtagSelectContent(product, index);
+      if (ga4Enabled) {
+        ga4.selectItem(product, index);
+      }
     };
 
     onMounted(() => {
@@ -88,6 +112,8 @@ export default defineComponent({
       // methods
       gtagAddToCart,
       gtagSelectContent,
+      addToCart,
+      viewDetails,
     };
   },
 });

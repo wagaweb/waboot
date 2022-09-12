@@ -160,8 +160,8 @@
             :product-permalink="config.productPermalink"
             :product="product"
             :show-add-to-cart-btn="config.showAddToCartBtn"
-            @addToCart="gtagAddToCart($event, i)"
-            @viewDetails="gtagSelectContent($event, i)"
+            @addToCart="addToCart($event, i)"
+            @viewDetails="viewDetails($event, i)"
           ></CatalogItem>
         </template>
       </div>
@@ -214,6 +214,7 @@ import { CatalogConfig } from '@/catalog';
 import { wcserviceClientKey } from '@/main';
 import $ from 'jquery';
 import { getGtagCallbacks } from '@/gtag.utils';
+import { GA4 } from '@/ga4';
 
 export default defineComponent({
   name: 'Catalog',
@@ -283,6 +284,12 @@ export default defineComponent({
       throw new Error('Cannot inject wcserviceClient');
     }
 
+    const ga4Enabled = props.config.ga4.enabled;
+    const ga4 = new GA4(
+        props.config.ga4.listId ?? '',
+        props.config.ga4.listName ?? '',
+        props.config.ga4.brandFallback,
+    );
     const { gtagAddToCart, gtagSelectContent, gtagViewItemList } =
         getGtagCallbacks(props.config.gtag);
 
@@ -430,6 +437,9 @@ export default defineComponent({
       page.value = 0;
       products.value = await wcserviceClient.findProducts(catalogQuery());
       gtagViewItemList(products.value, 0);
+      if (ga4Enabled) {
+        ga4.viewItemList(products.value, 0);
+      }
       loadingProducts.value = false;
     };
 
@@ -450,6 +460,9 @@ export default defineComponent({
       page.value++;
       const newProducts = await wcserviceClient.findProducts(catalogQuery());
       gtagViewItemList(newProducts, products.value.length);
+      if (ga4Enabled) {
+        ga4.viewItemList(newProducts, products.value.length);
+      }
       products.value = products.value.concat(newProducts);
       loadingMoreProducts.value = false;
     };
@@ -578,6 +591,20 @@ export default defineComponent({
       sidebarOpen.value = false;
     };
 
+    const addToCart = (product: Product, index: number): void => {
+      gtagAddToCart(product, index);
+      if (ga4Enabled) {
+        ga4.addToCart(product, index);
+      }
+    };
+
+    const viewDetails = (product: Product, index: number): void => {
+      gtagSelectContent(product, index);
+      if (ga4Enabled) {
+        ga4.selectItem(product, index);
+      }
+    };
+
     watch(order, (newVal, oldVal) => {
       loadProducts();
     });
@@ -674,6 +701,8 @@ export default defineComponent({
       gtagAddToCart,
       gtagSelectContent,
       gtagViewItemList,
+      addToCart,
+      viewDetails,
     };
   },
 });

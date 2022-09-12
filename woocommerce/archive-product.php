@@ -50,11 +50,17 @@ if (defined('WB_CATALOG_BASEURL')) {
 //        'showAddToCartBtn' => false,
         'layoutMode' => 'block', // 'block', header' or 'sidebar'
         'teleportSidebar' => '.aside__wrapper',
-        'gtag' => [
-            'enabled' => false,
-            'listName' => \Waboot\addons\packages\catalog\getGtagListName(),
-            'brandFallback' => get_bloginfo('name'),
-        ],
+//        'gtag' => [
+//            'enabled' => true,
+//            'listName' => \Waboot\addons\packages\catalog\getGtagListName(),
+//            'brandFallback' => get_bloginfo('name'),
+//        ],
+//        'ga4' => [
+//            'enabled' => true,
+//            'listId' => sanitize_title(\Waboot\addons\packages\catalog\getGtagListName()),
+//            'listName' => \Waboot\addons\packages\catalog\getGtagListName(),
+//            'brandFallback' => get_bloginfo('name'),
+//        ],
     ];
 
     $taxonomies = [
