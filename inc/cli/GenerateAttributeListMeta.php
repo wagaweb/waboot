@@ -19,18 +19,12 @@ class GenerateAttributeListMeta extends AbstractCommand
         }
 
         $products = wc_get_products($query);
-        $this->log(sprintf('Found %d products', count($products)));
+        $count = count($products);
+        $this->log(sprintf('Found %d products', $count));
 
         /** @var \WC_Product_Variable $p */
-        foreach ($products as $p) {
-            $varAttrs = get_post_meta($p->get_id(), '_product_attributes', true);
-            $attrCount = count($varAttrs);
-            if ($attrCount != 1) {
-                $this->log(sprintf('Found %d variation attributes. Resetting metadata', $attrCount));
-                $p->delete_meta_data('_attribute_list');
-                $p->save_meta_data();
-                continue;
-            }
+        foreach ($products as $i => $p) {
+            $this->log(sprintf('%d/%d: Processing product #%d', $i + 1, $count, $p->get_id()));
             /** @var array{
              *     name: string,
              *     value: string,
@@ -38,8 +32,19 @@ class GenerateAttributeListMeta extends AbstractCommand
              *     is_visible: int,
              *     is_variation: int,
              *     is_taxonomy: int
-             * } $varAttr
+             * }[] $varAttr
              */
+            $varAttrs = get_post_meta($p->get_id(), '_product_attributes', true);
+            $varAttrs = array_filter($varAttrs, function ($a) {
+                return $a['is_variation'] ?? 0;
+            });
+            $attrCount = count($varAttrs);
+            if ($attrCount != 1) {
+                $this->log(sprintf('Found %d variation attributes. Resetting metadata', $attrCount));
+                $p->delete_meta_data('_attribute_list');
+                $p->save_meta_data();
+                continue;
+            }
             $varAttr = array_values($varAttrs)[0];
             $attrName = $varAttr['name'];
             $variations = $this->getProductVariations($p->get_id());
