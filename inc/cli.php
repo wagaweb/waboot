@@ -6,6 +6,7 @@ use Waboot\inc\cli\ExportOrders;
 use Waboot\inc\cli\ExportOrdersTest;
 use Waboot\inc\cli\ExportProducts;
 use Waboot\inc\cli\FixStockStatuses;
+use Waboot\inc\cli\GenerateAttributeListMeta;
 use Waboot\inc\cli\OrderSimulator;
 use Waboot\inc\cli\ParseAndSaveProducts;
 use Waboot\inc\cli\feeds\GenerateGShoppingFeed;
@@ -20,6 +21,7 @@ require_once get_stylesheet_directory().'/inc/cli/ExportOrders.php';
 require_once get_stylesheet_directory().'/inc/cli/ExportOrdersTest.php';
 require_once get_stylesheet_directory().'/inc/cli/ExportProducts.php';
 require_once get_stylesheet_directory().'/inc/cli/OrderSimulator.php';
+require_once get_stylesheet_directory().'/inc/cli/GenerateAttributeListMeta.php';
 require_once get_stylesheet_directory().'/inc/cli/feeds/GenerateGShoppingFeed.php';
 if(is_file(get_stylesheet_directory().'/inc/cli/product_import/waga-woocommerce-csv-cli-importer/src/index.php')){
     require_once get_stylesheet_directory().'/inc/cli/product_import/waga-woocommerce-csv-cli-importer/src/index.php';
@@ -48,6 +50,7 @@ try{
     \WP_CLI::add_command('wawoo:export-orders', ExportOrders::class);
     \WP_CLI::add_command('wawoo:simulate-orders', OrderSimulator::class);
     \WP_CLI::add_command('wawoo:export-products', ExportProducts::class);
+    \WP_CLI::add_command('wawoo:gen-attr-list-meta', GenerateAttributeListMeta::class);
     \WP_CLI::add_command('wawoo:test:export-orders', ExportOrdersTest::class);
     \WP_CLI::add_command('wawoo:feeds:generate-gshopping', GenerateGShoppingFeed::class);
 }catch (\Exception $e){}
