@@ -49,6 +49,7 @@ export class CatalogConfig {
   enableOrder: boolean;
   enablePriceFilter: boolean;
   showAddToCartBtn: boolean;
+  showQuantityInput: boolean;
 
   constructor(data: any) {
     if (typeof data !== 'object' || data === null) {
@@ -185,5 +186,6 @@ export class CatalogConfig {
     this.enableOrder = Boolean(data.enableOrder ?? true);
     this.enablePriceFilter = Boolean(data.enablePriceFilter ?? true);
     this.showAddToCartBtn = Boolean(data.showAddToCartBtn ?? true);
+    this.showQuantityInput = Boolean(data.showQuantityInput ?? true);
   }
 }

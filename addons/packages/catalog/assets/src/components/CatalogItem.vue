@@ -123,11 +123,16 @@
         >
       </span>
     </div>
-    <span v-if="showAddToCartBtn && product.stockStatus === 'instock'">
+    <div v-if="showQuantityInput" class="quantity-input">
+      <span @click="increaseQuantity(-1)">-</span>
+      <input v-model="quantity" type="number" min="1" />
+      <span @click="increaseQuantity(1)">+</span>
+    </div>
+    <span>
       <a
-        v-if="productType !== 'variable'"
+        v-if="showAddToCartBtn && product.stockStatus === 'instock'"
         :href="`?add-to-cart=${selectedId}`"
-        data-quantity="1"
+        :data-quantity="quantity"
         class="button product_type_simple add_to_cart_button ajax_add_to_cart"
         :data-product_id="selectedId"
         :data-product_sku="sku"
@@ -171,10 +176,15 @@ export default defineComponent({
       type: Boolean,
       default: true,
     },
+    showQuantityInput: {
+      type: Boolean,
+      default: true,
+    },
   },
   data() {
     return {
       selectedId: this.product.id,
+      quantity: 1,
     };
   },
   computed: {
@@ -297,6 +307,12 @@ export default defineComponent({
       const priceTaxed = Number(price ?? 0) * Number(taxValue);
 
       return (Math.round(priceTaxed * 100) / 100).toFixed(2);
+    },
+    increaseQuantity(amount: number): void {
+      this.quantity += amount;
+      if (this.quantity < 1) {
+        this.quantity = 1;
+      }
     },
   },
   mounted(): void {

@@ -233,6 +233,24 @@
   }
 }
 
+.quantity-input {
+  display: flex;
+  align-items: stretch;
+  span {
+    border: 1px solid #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    cursor: pointer;
+    user-select: none;
+  }
+  input {
+    height: 34px;
+  }
+}
+
 .apply__button {
   @include button();
   @include buttonStyle(
