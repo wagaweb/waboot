@@ -1,4 +1,5 @@
 {
-	"volar.preferredAttrNameCase": "pascal",
-	"volar.preferredTagNameCase": "pascal"
+    "[vue]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    }
 }
