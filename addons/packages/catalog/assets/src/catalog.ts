@@ -14,7 +14,6 @@ export class CatalogConfig {
   baseUrl: string;
   apiBaseUrl: string;
   language: string;
-  productPermalink: string;
   taxonomies: {
     taxonomy: string;
     rewrite: string;
@@ -71,7 +70,6 @@ export class CatalogConfig {
     }
     this.language = String(data.language);
 
-    this.productPermalink = String(data.productPermalink ?? 'p');
     this.taxonomies = [];
     if (Array.isArray(data.taxonomies)) {
       for (const t of data.taxonomies) {

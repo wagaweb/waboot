@@ -3,7 +3,7 @@
     class="catalog__item product type-product instock sale product-type-simple"
   >
     <a
-      :href="`${host}/${productPermalink}/${product.slug}`"
+      :href="`${host}/?p=${product.id}`"
       class="woocommerce-LoopProduct-link woocommerce-loop-product__link"
       @click="$emit('view-details', product)"
     >
@@ -29,7 +29,7 @@
     </a>
     <!--<p class="woocommerce-loop-product__collection">{{ collection }}</p>-->
     <h2 class="woocommerce-loop-product__title">
-      <a :href="`${host}/${productPermalink}/${product.slug}`">
+      <a :href="`${host}/?p=${product.id}`">
         {{ product.name }}
       </a>
     </h2>
@@ -143,7 +143,7 @@
       </a>
       <a
         v-else
-        :href="`${host}/${productPermalink}/${product.slug}`"
+        :href="`${host}/?p=${product.id}`"
         class="button"
       >
         {{ $t('showProduct') }}
@@ -161,10 +161,6 @@ export default defineComponent({
   events: ['add-to-cart', 'view-details', 'add-to-wishlist'],
   props: {
     host: {
-      type: String,
-      required: true,
-    },
-    productPermalink: {
       type: String,
       required: true,
     },

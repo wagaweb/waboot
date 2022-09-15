@@ -10,7 +10,6 @@
         v-for="(p, i) in products"
         :key="`product-${p.id}`"
         :host="config.baseUrl"
-        :product-permalink="config.productPermalink"
         :product="p"
         :show-add-to-cart-btn="config.showAddToCartBtn"
         @addToCart="addToCart($event, i)"

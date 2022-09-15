@@ -6,11 +6,14 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-/** @var WC_Product[] $related_products */
-if ($related_products) : ?>
-    <section class="related products">
+/** @var $upsells WC_Product[] */
+if ($upsells) : ?>
+    <section class="up-sells upsells products">
         <?php
-        $heading = apply_filters('woocommerce_product_related_products_heading', __('Related products', 'woocommerce'));
+        $heading = apply_filters(
+            'woocommerce_product_upsells_products_heading',
+            __('You may also like&hellip;', 'woocommerce')
+        );
         if ($heading) : ?>
             <h2><?php echo esc_html($heading); ?></h2>
         <?php endif;
@@ -19,7 +22,7 @@ if ($related_products) : ?>
                 [
                     'productIds' => array_map(function (WC_Product $p): int {
                         return $p->get_id();
-                    }, $related_products),
+                    }, $upsells),
                     'columns' => 4,
 //                    'gtag' => [
 //                        'enabled' => true,
@@ -36,8 +39,8 @@ if ($related_products) : ?>
             );
         } else {
             woocommerce_product_loop_start();
-            foreach ($related_products as $related_product) {
-                $post_object = get_post($related_product->get_id());
+            foreach ($upsells as $upsell) {
+                $post_object = get_post($upsell->get_id());
                 setup_postdata($GLOBALS['post'] =& $post_object);
                 wc_get_template_part('content', 'product');
             }

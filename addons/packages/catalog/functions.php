@@ -22,11 +22,6 @@ function renderCatalog(array $config): string
         $config['language'] = str_replace('_', '-', get_locale());
     }
 
-    $wcPermalinks = get_option('woocommerce_permalinks');
-    if (empty($config['productPermalink'])) {
-        $config['productPermalink'] = trim($wcPermalinks['product_base'] ?? 'p', '/');
-    }
-
     $taxRewrites = [];
     $taxQueryFilters = [];
     /** @var \WP_Taxonomy $t */
@@ -91,11 +86,6 @@ function renderSimpleCatalog(array $config): string
 
     if (empty($config['language'])) {
         $config['language'] = str_replace('_', '-', get_locale());
-    }
-
-    $wcPermalinks = get_option('woocommerce_permalinks');
-    if (empty($config['productPermalink'])) {
-        $config['productPermalink'] = trim($wcPermalinks['product_base'] ?? 'p', '/');
     }
 
     $config = apply_filters('catalog_addon_simple_catalog_config', $config);
