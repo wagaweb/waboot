@@ -154,11 +154,10 @@ trait WordPress {
 
     /**
      * @param string $filePath
-     * @param int $postId
-     * @throws \RuntimeException
-     * @return array
+     * @param int|null $parentPostId
+     * @return int
      */
-    public static function setFeaturedImageFromFilePath(string $filePath, int $postId): array
+    public static function createAttachment(string $filePath, int $parentPostId = 0): int
     {
         $baseName = pathinfo($filePath,PATHINFO_BASENAME);
         $uploadDir = wp_upload_dir();
@@ -167,25 +166,37 @@ trait WordPress {
         if(isset($fileInUploadedFolderResult['error']) && $fileInUploadedFolderResult['error'] !== false){
             throw new \RuntimeException($fileInUploadedFolderResult['error']);
         }
-        $filetype = wp_check_filetype($filePath );
+        $filetype = wp_check_filetype($filePath);
         $attachment = [
             'post_mime_type' => $filetype['type'],
             'post_title' => sanitize_title(pathinfo($filePath,PATHINFO_FILENAME)),
             'post_content' => '',
             'post_status' => 'inherit'
         ];
-        $attachmentId = wp_insert_attachment( $attachment, $fileInUploadedFolderResult['file']);
+        $attachmentId = wp_insert_attachment($attachment, $fileInUploadedFolderResult['file'], $parentPostId, true);
         if(\is_wp_error($attachmentId)){
             throw new \RuntimeException($attachmentId->get_error_message());
         }
         if(!function_exists('wp_generate_attachment_metadata')){
             require_once(ABSPATH . 'wp-admin/includes/image.php');
         }
-        $attachData = wp_generate_attachment_metadata( $attachmentId, $fileInUploadedFolderResult['file']);
+        $attachData = wp_generate_attachment_metadata($attachmentId, $fileInUploadedFolderResult['file']);
         if(!\is_array($attachData)){
             throw new \RuntimeException('Unable to generate metadata for attachment #'.$attachmentId.' ('.$fileInUploadedFolderResult['file'].')');
         }
         wp_update_attachment_metadata($attachmentId, $attachData);
+        return $attachmentId;
+    }
+
+    /**
+     * @param string $filePath
+     * @param int $postId
+     * @throws \RuntimeException
+     * @return array
+     */
+    public static function setFeaturedImageFromFilePath(string $filePath, int $postId): array
+    {
+        $attachmentId = self::createAttachment($filePath);
         //Assign the thumbnail
         $assigned = (bool) set_post_thumbnail($postId, $attachmentId);
         //Manually update the GUID
