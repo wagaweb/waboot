@@ -130,15 +130,16 @@ class ParseAndSaveProducts extends AbstractCommand
         do_action('wawoo/cli/parse-and-save-products/pre-save/single', $product, $this);
         $wpPost = get_post($product->get_id());
         $wpPostId = $wpPost->ID;
-        @do_action('save_post', $wpPostId, $wpPost, true);
         $product->set_date_modified(current_time( 'mysql' ));
         @$product->save();
+        @do_action('save_post', $wpPostId, $wpPost, true);
         if($product instanceof \WC_Product_Variable){
             $variations = $this->getProductVariations($wpPostId);
             $dataStore = $product->get_data_store();
             $dataStore->sort_all_product_variations($wpPostId);
             foreach ($variations as $i => $variationId){
                 $variation = new \WC_Product_Variation($variationId);
+                $variation->set_date_modified(current_time( 'mysql' ));
                 @$variation->save();
                 @do_action( 'woocommerce_save_product_variation', $variationId, $i);
             }
