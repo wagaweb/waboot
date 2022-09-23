@@ -418,6 +418,24 @@ SQL;
 }
 
 /**
+ * Set _price meta accordingly to _regular_price and _sale_price metas (only if _price is 0 or empty)
+ * @param int $productId
+ * @return void
+ */
+function adjustPriceMeta(int $productId): void {
+    $priceMeta = get_post_meta($productId,'_price', true);
+    $regularPriceMeta = get_post_meta($productId,'_regular_price', true);
+    $salePriceMeta = get_post_meta($productId,'_sale_price', true);
+    if($priceMeta === '' || $priceMeta === '0' || $priceMeta === 0){
+        if($salePriceMeta !== ''){
+            update_post_meta($productId,'_price',$salePriceMeta);
+        }elseif($regularPriceMeta !== ''){
+            update_post_meta($productId,'_price',$regularPriceMeta);
+        }
+    }
+}
+
+/**
  * Sync a variable product with it's children.
  * @param int $variableProductId
  * @param bool $save If true, the product object will be saved to the DB before returning it.
