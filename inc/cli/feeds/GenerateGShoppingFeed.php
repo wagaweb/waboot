@@ -158,18 +158,24 @@ class GenerateGShoppingFeed extends AbstractCommand
         ]);
         if(\is_array($ids) && count($ids) > 0){
             $this->log('Found '.count($ids).' ids');
-            $validIds = [];
+            $productIdsToParse = [];
             $idsWithNoSku = [];
             foreach ($ids as $id){
-                $validId = $id;
-                if(get_post_meta($validId,'_sku',true) === ''){
+                //dont check skus for variable products:
+                if(!\in_array($id,$productIdsToParse,true) && WC()->product_factory::get_product_type($id) === 'variable'){
+                    $productIdsToParse[] = $id;
+                    continue;
+                }
+                //for everything else:
+                if(get_post_meta($id,'_sku',true) === ''){
                     $idsWithNoSku[] = $id;
-                }elseif(!\in_array($validId,$validIds,true)){
-                    $validIds[] = $validId;
+                }
+                if(!\in_array($id,$productIdsToParse,true)){
+                    $productIdsToParse[] = $id;
                 }
             }
             $this->log('ID with no associated SKU: '.implode(', ',$idsWithNoSku));
-            $this->productIds = $validIds;
+            $this->productIds = $productIdsToParse;
         }else{
             $this->productIds = [];
             throw new \RuntimeException('No products found');
@@ -204,32 +210,42 @@ class GenerateGShoppingFeed extends AbstractCommand
                         if(!$variation instanceof \WC_Product_Variation){
                             continue;
                         }
-                        if(!array_key_exists($variation->get_sku(),$parsedVariationSkus)){
+                        if($variation->get_sku() === ''){
                             $newRecord = $this->generateRecord($variation,$product);
                             $this->records[] = $newRecord;
-                            $parsedVariationSkus[$variation->get_sku()] = '{Variation: '.$variationId.', Product: '.$productId.'}';
                         }else{
-                            $this->skippedDuplicatedSku[] = [
-                                'sku' => $variation->get_sku(), //The SKU
-                                'parsed_record' => $parsedVariationSkus[$variation->get_sku()], //ID of the product previously parsed with the same SKU
-                                'duplicated_record' => '{Variation: '.$variationId.', Product: '.$productId.'}' //current product ID
-                            ];
+                            if(!array_key_exists($variation->get_sku(),$parsedVariationSkus)){
+                                $newRecord = $this->generateRecord($variation,$product);
+                                $this->records[] = $newRecord;
+                                $parsedVariationSkus[$variation->get_sku()] = '{Variation: '.$variationId.', Product: '.$productId.'}';
+                            }else{
+                                $this->skippedDuplicatedSku[] = [
+                                    'sku' => $variation->get_sku(), //The SKU
+                                    'parsed_record' => $parsedVariationSkus[$variation->get_sku()], //ID of the product previously parsed with the same SKU
+                                    'duplicated_record' => '{Variation: '.$variationId.', Product: '.$productId.'}' //current product ID
+                                ];
+                            }
                         }
                     }
                 }else{
                     if($this->variableProductsOnly){
                         continue;
                     }
-                    if(!array_key_exists($product->get_sku(),$parsedProductSkus)){
+                    if($product->get_sku() === ''){
                         $newRecord = $this->generateRecord($product);
                         $this->records[] = $newRecord;
-                        $parsedProductSkus[$product->get_sku()] = '{Product: '.$productId.'}';
                     }else{
-                        $this->skippedDuplicatedSku[] = [
-                            'sku' => $product->get_sku(), //The SKU
-                            'parsed_record' => $parsedProductSkus[$product->get_sku()], //ID of the product previously parsed with the same SKU
-                            'duplicated_record' => '{Product: '.$productId.'}' //current product ID
-                        ];
+                        if(!array_key_exists($product->get_sku(),$parsedProductSkus)){
+                            $newRecord = $this->generateRecord($product);
+                            $this->records[] = $newRecord;
+                            $parsedProductSkus[$product->get_sku()] = '{Product: '.$productId.'}';
+                        }else{
+                            $this->skippedDuplicatedSku[] = [
+                                'sku' => $product->get_sku(), //The SKU
+                                'parsed_record' => $parsedProductSkus[$product->get_sku()], //ID of the product previously parsed with the same SKU
+                                'duplicated_record' => '{Product: '.$productId.'}' //current product ID
+                            ];
+                        }
                     }
                 }
                 $this->tickProgressBar($progress);
