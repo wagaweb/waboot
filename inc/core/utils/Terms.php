@@ -3,6 +3,44 @@ namespace Waboot\inc\core\utils;
 
 trait Terms {
     /**
+     * Add a new term to the database if it does not already exist.
+     *
+     * @param string $tagName The term name.
+     * @param string $taxonomy Optional. The taxonomy within which to create the term. Default 'post_tag'.
+     * @return array|\WP_Error If array: [term_id => xx, term_taxonomy_id => yy]
+     */
+    public static function createTerm(string $tagName, string $taxonomy = 'post_tag')
+    {
+        if(function_exists('\wp_create_term')){
+            return wp_create_term($tagName,$taxonomy);
+        }
+        $retriedArray = term_exists($tagName, $taxonomy);
+        if($retriedArray){
+            return $retriedArray;
+        }
+        return wp_insert_term($tagName, $taxonomy);
+    }
+
+    /**
+     * @param string $taxonomy
+     * @param string $name
+     * @throws \RuntimeException
+     * @return \WP_Term
+     */
+    public static function getOrCreateTerm(string $taxonomy, string $name): \WP_Term
+    {
+        $term = get_term_by('name', $name, $taxonomy);
+        if(empty($term)) {
+            $term = self::createTerm($name, $taxonomy);
+            if(is_wp_error($term)){
+                throw new \RuntimeException('getOrCreateTerm("'.$name.'","'.$taxonomy.'"): '.$term->get_error_message());
+            }
+            $term = get_term_by('term_taxonomy_id', $term['term_taxonomy_id']);
+        }
+        return $term;
+    }
+
+    /**
      * Convert WP_Term to old-fashion stdClass
      *
      * @param $instance
