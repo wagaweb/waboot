@@ -53,6 +53,15 @@ function createProduct(string $type, array $args){
 }
 
 /**
+ * Return "product_variation" or a term name from "product_type" taxonomy (defaults: simple, grouped, variable, external)
+ * @param int $productId
+ * @return string
+ */
+function getProductType(int $productId): string {
+    return \WC_Product_Factory::get_product_type($productId);
+}
+
+/**
  * Check whether the product is a bundle
  *
  * @param int|\WC_Product $product
@@ -436,33 +445,92 @@ function adjustPriceMeta(int $productId): void {
 }
 
 /**
+ * @param int $productId
+ * @return string[]
+ */
+function adjustProductStockStatus(int $productId): array {
+    $pType = getProductType($productId);
+    $managingStock = get_post_meta($productId,'_manage_stock',true) === 'yes';
+    $statusMeta = get_post_meta($productId,'_stock_status', true);
+    $qtyMeta = get_post_meta($productId,'_stock',true);
+    $qty = (int) $qtyMeta;
+    $realStatus = $statusMeta;
+    $changeStatus = false;
+    $applyTaxonomyChanges = false;
+    if($pType === 'simple'){
+        if(!$managingStock){
+            throw new \RuntimeException(sprintf('%d does not manage stock',$productId));
+        }
+        $realStatus = $qty > 0 ? 'instock' : 'outofstock';
+        $changeStatus = true;
+        $applyTaxonomyChanges = true;
+    }elseif($pType === 'variable'){
+        /*
+         * If we have a variable product, its stock status must take into account
+         * the variations quantities
+         */
+        $variationsIds = getAllProductVariationIds($productId);
+        if(empty($variationsIds)){
+            throw new \RuntimeException('Product #'.$productId.' has no variations');
+        }
+        $totalVariationsQty = 0;
+        $atLeastOneVariationIsStockManaging = false;
+        foreach ($variationsIds as $variationId){
+            $vManagingQty = get_post_meta($variationId,'_manage_stock',true) === 'yes';
+            if(!$vManagingQty){
+                continue;
+            }
+            $atLeastOneVariationIsStockManaging = true;
+            $vQty = (int) get_post_meta($variationId,'_stock',true);
+            $totalVariationsQty += $vQty;
+        }
+        if($atLeastOneVariationIsStockManaging){
+            $realStatus = $totalVariationsQty > 0 ? 'instock' : 'outofstock';
+            $changeStatus = true;
+        }
+    }elseif($pType === 'product_variation'){
+        if(!$managingStock){
+            throw new \RuntimeException(sprintf('%d does not manage stock',$productId));
+        }
+        $realStatus = $qty > 0 ? 'instock' : 'outofstock';
+        $changeStatus = true;
+    }
+    if($changeStatus && ($realStatus !== $statusMeta)){
+        update_post_meta($productId,'_stock_status',$realStatus);
+        if($pType === 'product_variation'){
+            $parentId = wp_get_post_parent_id($productId);
+            if((int) $parentId > 0 && getProductType($parentId) === 'variable'){
+                adjustProductStockStatus($parentId); //retroactive changes to parent
+            }
+        }
+    }
+    if($applyTaxonomyChanges){
+        /*
+         * WooCommerce adds 'outofstock' term in 'product_visibility' taxonomy for
+         * out-of-stock products.
+         */
+        $visibilityTerms = wp_get_post_terms($productId,'product_visibility');
+        $visibilityTermsSlugs = wp_list_pluck($visibilityTerms,'slug');
+        if($realStatus === 'instock' && \in_array('outofstock',$visibilityTermsSlugs,true)){
+            wp_remove_object_terms($productId,'outofstock','product_visibility');
+        }elseif($realStatus === 'outofstock' && !\in_array('outofstock',$visibilityTermsSlugs,true)){
+            wp_add_object_terms($productId,'outofstock','product_visibility');
+        }
+    }
+    return [
+        'old' => $statusMeta,
+        'new' => $realStatus,
+        'changelog'
+    ];
+}
+
+/**
  * Sync a variable product with it's children.
  * @param int $variableProductId
  * @param bool $save If true, the product object will be saved to the DB before returning it.
  * @return \WC_Product Synced product object.
  */
-function syncVariableProductData(int $variableProductId, bool $save = true) {
+function syncVariableProductData(int $variableProductId, bool $save = true): \WC_Product {
     delete_transient("wc_product_children_$variableProductId");
     return \WC_Product_Variable::sync($variableProductId, $save);
-}
-
-/**
- * @param int $variableProductId
- * @return string
- */
-function syncVariableProductStockStatus(int $variableProductId){
-    $variationsIds = getAllProductVariationIds($variableProductId);
-    if(empty($variationsIds)){
-        throw new \RuntimeException('Product #'.$variableProductId.' has no variations');
-    }
-    $stockStatus = 'outofstock';
-    foreach ($variationsIds as $variationsId){
-        $qty = (int) get_post_meta($variationsId,'_stock', true);
-        if($qty > 0){
-            $stockStatus = 'instock';
-            break;
-        }
-    }
-    update_post_meta($variableProductId,'_stock_status',$stockStatus);
-    return $stockStatus;
 }

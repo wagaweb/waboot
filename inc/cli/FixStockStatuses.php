@@ -3,6 +3,7 @@
 namespace Waboot\inc\cli;
 
 use Waboot\inc\core\cli\AbstractCommand;
+use function Waboot\inc\adjustProductStockStatus;
 
 class FixStockStatuses extends ParseAndSaveProducts
 {
@@ -36,58 +37,13 @@ class FixStockStatuses extends ParseAndSaveProducts
             $statusMeta = get_post_meta($product->get_id(),'_stock_status', true);
             $class->log('- _stock: '.$qtyMeta);
             $class->log('- _stock_status: '.$statusMeta);
-            $visibilityTerms = wp_get_post_terms($product->get_id(),'product_visibility');
-            $visibilityTermsSlugs = wp_list_pluck($visibilityTerms,'slug');
             $managingStock = $product->managing_stock();
             $class->log('- Manage stock? '.(int) $managingStock);
-            if(!$managingStock){
-                return;
-            }
-            $qty = (int) $qtyMeta;
-            $realStatus = $qty > 0 ? 'instock' : 'outofstock';
-            if($product instanceof \WC_Product_Variable){
-                /*
-                 * If we have a variable product, its stock status must take into account
-                 * the variations quantities
-                 */
-                $class->log('-- Checking variations');
-                $variations = $class->getProductVariations($product->get_id(),'object');
-                $totalVariationsQty = 0;
-                $atLeastOneVariationIsStockManaging = false;
-                foreach ($variations as $variation){
-                    $vManagingQty = $variation->managing_stock();
-                    if(!$vManagingQty){
-                        continue;
-                    }
-                    $atLeastOneVariationIsStockManaging = true;
-                    $vQty = (int) get_post_meta($variation->get_id(),'_stock',true);
-                    $totalVariationsQty += $vQty;
-                }
-                if($atLeastOneVariationIsStockManaging){
-                    $class->log('--- Variations with managing quantity flag total quantity: '.$totalVariationsQty);
-                    $realStatus = $totalVariationsQty > 0 ? 'instock' : 'outofstock';
-                    //Ensure variable product do not have manage stock
-                    $class->log('---- Ensure variable product do not have manage stock');
-                    update_post_meta($product->get_id(),'_manage_stock','no');
-                    update_post_meta($product->get_id(),'_stock',null);
-                }
-            }
-            if($realStatus !== $statusMeta){
-                $class->log('-- Set "_stock_status" of '.$product->get_id().' to: '.$realStatus);
-                update_post_meta($product->get_id(),'_stock_status',$realStatus);
-            }
-            if(!$product instanceof \WC_Product_Variation){
-                /*
-                 * WooCommerce adds 'outofstock' term in 'product_visibility' taxonomy for
-                 * out-of-stock products.
-                 */
-                if($realStatus === 'instock' && \in_array('outofstock',$visibilityTermsSlugs,true)){
-                    $class->log('-- Removing "outofstock" product_visibility term');
-                    wp_remove_object_terms($product->get_id(),'outofstock','product_visibility');
-                }elseif($realStatus === 'outofstock' && !\in_array('outofstock',$visibilityTermsSlugs,true)){
-                    $class->log('-- Adding "outofstock" product_visibility term');
-                    wp_add_object_terms($product->get_id(),'outofstock','product_visibility');
-                }
+            $result = adjustProductStockStatus($product->get_id());
+            if($result['old'] !== $result['new']){
+                $class->log('-- Set "_stock_status" to: '.$result['new']);
+            }else{
+                $class->log('-- Kept "_stock_status" on: '.$result['old']);
             }
         },10,2);
         return parent::__invoke($args,$assoc_args);
