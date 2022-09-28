@@ -48,6 +48,14 @@ class GenerateGShoppingFeed extends AbstractCommand
      */
     protected $customOutputFilename;
     /**
+     * @var string
+     */
+    protected $defaultProductCategory;
+    /**
+     * @var string
+     */
+    protected $defaultProductShippingLabel;
+    /**
      * @var array
      */
     protected $productsSkuWithNoEan = [];
@@ -72,6 +80,12 @@ class GenerateGShoppingFeed extends AbstractCommand
      *
      * [--variable-products-only]
      * : Parse the variable products only
+     *
+     * [--default-google-product-category]
+     * : Specify the default product category (otherwise obtained from "_gshopping_product_category" meta)
+     *
+     * [--default-google-product-shipping-label]
+     * : Specify the default product shipping label (otherwise obtained from "_gshopping_shipping_label" meta)
      *
      * [--output-dir-path]
      * : Set the output path
@@ -110,6 +124,20 @@ class GenerateGShoppingFeed extends AbstractCommand
             }
             if(isset($assoc_args['output-file-name']) && \is_string($assoc_args['output-file-name']) && $assoc_args['output-file-name'] !== ''){
                 $this->customOutputFilename = $assoc_args['output-file-name'];
+            }
+            //https://www.google.com/basepages/producttype/taxonomy-with-ids.en-US.txt
+            //https://support.google.com/merchants/answer/6324436?hl=it&ref_topic=6324338
+            //https://www.google.com/basepages/producttype/taxonomy.en-US.txt
+            //https://developers.facebook.com/docs/commerce-platform/catalog/categories/#google-prod-cat
+            if(isset($assoc_args['default-google-product-category']) && \is_string($assoc_args['default-google-product-category']) && $assoc_args['default-google-product-category'] !== ''){
+                $this->defaultProductCategory = $assoc_args['default-google-product-category'];
+            }else{
+                $this->defaultProductCategory = 'Apparel & Accessories';
+            }
+            if(isset($assoc_args['default-google-product-shipping-label']) && \is_string($assoc_args['default-google-product-shipping-label']) && $assoc_args['default-google-product-shipping-label'] !== ''){
+                $this->defaultProductShippingLabel = $assoc_args['default-google-product-shipping-label'];
+            }else{
+                $this->defaultProductShippingLabel = 'italia';
             }
             $this->populateProducts();
             $this->populateRecords();
@@ -299,12 +327,9 @@ class GenerateGShoppingFeed extends AbstractCommand
             'price' => str_replace(',','.',$price).' EUR',
             'link' => $permalink,
             'brand' => $brand,
-            //https://support.google.com/merchants/answer/6324436?hl=it&ref_topic=6324338
-            //https://www.google.com/basepages/producttype/taxonomy.en-US.txt
-            //https://developers.facebook.com/docs/commerce-platform/catalog/categories/#google-prod-cat
-            'google_product_category' => htmlentities(getHierarchicalCustomFieldFromProduct($product,'_gshopping_product_category','Apparel & Accessories > Shoes')),
+            'google_product_category' => htmlentities(getHierarchicalCustomFieldFromProduct($product,'_gshopping_product_category',$this->defaultProductCategory)),
             'product_type' => htmlentities($categories),
-            'shipping_label' => getHierarchicalCustomFieldFromProduct($product,'_gshopping_shipping_label','italia'),
+            'shipping_label' => getHierarchicalCustomFieldFromProduct($product,'_gshopping_shipping_label',$this->defaultProductShippingLabel),
             'imgs' => getProductImagesSrc($product),
         ];
         if($product instanceof \WC_Product_Variation){
