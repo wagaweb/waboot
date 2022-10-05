@@ -5,7 +5,8 @@
     "require": {
         "guzzlehttp/guzzle": "~6.3",
         "monolog/monolog": "~2.2.0",
-        "illuminate/database": "v7.30.6"
+        "illuminate/database": "v7.30.6",
+        "sentry/sdk": "^3.2"
     },
     "license": "MIT",
     "authors": [
