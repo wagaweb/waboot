@@ -12,7 +12,7 @@ class LoggerFactory
      * @param string $name
      * @param string $logFileName
      * @param \DateTimeZone|null $tz
-     * @return void
+     * @return Logger
      * @throws LoggerFactoryException
      */
     public static function create(string $name, string $logFileName, \DateTimeZone $tz = null): Logger
@@ -42,8 +42,29 @@ class LoggerFactory
         }
     }
 
+    /**
+     * @return boolean
+     * @throws LoggerFactoryException
+     */
+    public static function createRemoteLogger(): bool
+    {
+        if(!defined('SENTRY_ENDPOINT')){
+            throw new LoggerFactoryException('SENTRY_ENDPOINT not defined');
+        }
+        if(!self::remoteLogsHandlerExists()){
+            throw new LoggerFactoryException('Sentry non installed, use "composer require sentry/sdk"');
+        }
+        \Sentry\init(['dsn' => SENTRY_ENDPOINT]);
+        return true;
+    }
+
     public static function logsHandlerExists(): bool
     {
         return class_exists('Monolog\Logger');
+    }
+
+    public static function remoteLogsHandlerExists(): bool
+    {
+        return function_exists('\Sentry\captureException');
     }
 }

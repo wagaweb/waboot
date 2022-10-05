@@ -2,12 +2,14 @@
 
 namespace Waboot\inc\core;
 
+use Sentry\Severity;
 use Waboot\inc\core\utils\Dates;
 
 class AlertDispatcher
 {
     public const DISPATCH_METHOD_EMAIL = 'email';
     public const DISPATCH_METHOD_FILE = 'file';
+    public const DISPATCH_METHOD_SENTRY = 'sentry';
     /**
      * @var string
      */
@@ -77,7 +79,14 @@ class AlertDispatcher
      */
     public function dispatch(): void
     {
-        switch($this->dispatchMethod){
+        $actualDispatchMethod = $this->dispatchMethod;
+        if($this->dispatchMethod === self::DISPATCH_METHOD_SENTRY){
+            if(!defined('SENTRY_ENDPOINT') || !class_exists('\Sentry')){
+                $actualDispatchMethod = self::DISPATCH_METHOD_EMAIL;
+            }
+        }
+
+        switch($actualDispatchMethod){
             case self::DISPATCH_METHOD_EMAIL:
                 $mailTitle = $this->name.': errors occurred';
                 $mailBody = '';
@@ -113,6 +122,16 @@ class AlertDispatcher
                 $r = file_put_contents($filePath,$fileContent,FILE_APPEND);
                 if($r ===  false){
                     throw new AlertDispatcherException('Unable to write the alert log to: '.$filePath,0,null,$this->alerts);
+                }
+                break;
+            case self::DISPATCH_METHOD_SENTRY:
+                try{
+                    LoggerFactory::createRemoteLogger();
+                    foreach ($this->alerts as $alert){
+                        \Sentry\captureMessage($alert->getMessage(),Severity::error());
+                    }
+                }catch (LoggerFactoryException $e) {
+                    throw new AlertDispatcherException($e->getMessage());
                 }
                 break;
         }
