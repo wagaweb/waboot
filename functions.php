@@ -12,6 +12,7 @@ require_once get_template_directory().'/inc/bootstrap.php';
  */
 //Loads additional files:
 $additionalDeps = [
+    'inc/multilanguage/functions.php',
     'inc/woocommerce-helpers.php',
     'inc/hooks/woocommerce/woocommerce.php',
     'inc/hooks/woocommerce/woocommerce-endpoints.php',
