@@ -110,4 +110,19 @@ class Posts {
         $wpPostParent = !empty($wpPost->post_parent) ? get_post($wpPost->post_parent) : null;
         return (bool) $wpPostParent;
     }
+
+    /**
+     * @param int $postId
+     * @return int|null
+     */
+    public static function getPostParentId(int $postId): ?int
+    {
+        global $wpdb;
+        $posts_table = $wpdb->prefix."posts";
+        $parentId = $wpdb->get_var("SELECT post_parent FROM {$posts_table} WHERE ID = {$postId}");
+        if(!\is_string($parentId)){
+            return null;
+        }
+        return (int) $parentId;
+    }
 }
