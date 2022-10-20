@@ -1,10 +1,8 @@
 <?php
 
-defined('ABSPATH') || exit;
+use function Waboot\addons\packages\catalog\renderCatalog;
 
-if (!defined('WB_USE_LOCAl_CATALOG') || WB_USE_LOCAl_CATALOG === false) {
-    defined('WB_CATALOG_BASEURL') || exit;
-}
+defined('ABSPATH') || exit;
 
 get_header('shop');
 
@@ -93,7 +91,7 @@ if (defined('WB_CATALOG_BASEURL')) {
 
     $catalog['taxonomies'] = $taxonomies;
 
-    echo \Waboot\addons\packages\catalog\renderCatalog($catalog);
+    echo renderCatalog($catalog);
 } else {
     if (woocommerce_product_loop()) {
         /**

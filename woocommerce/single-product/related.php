@@ -2,9 +2,7 @@
 
 use function Waboot\addons\packages\catalog\renderSimpleCatalog;
 
-if (!defined('ABSPATH')) {
-    exit;
-}
+defined('ABSPATH') || exit;
 
 /** @var WC_Product[] $related_products */
 if ($related_products) : ?>
