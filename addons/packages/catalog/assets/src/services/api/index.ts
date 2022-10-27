@@ -129,6 +129,18 @@ export class WcserviceClient {
     return await res.json();
   }
 
+  async getProductCount(query?: ProductQuery): Promise<number> {
+    const res = await fetch(`${this.baseUrl}/products/count`, {
+      method: 'POST',
+      headers: this.getHeaders({
+        'Content-Type': 'application/json',
+      }),
+      body: JSON.stringify(query ?? {}),
+    });
+
+    return (await res.json()).count ?? 0;
+  }
+
   async getPriceRange(
     query?: CatalogQuery,
   ): Promise<{ min: number; max: number }> {
