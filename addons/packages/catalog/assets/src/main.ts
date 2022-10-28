@@ -1,15 +1,11 @@
-import { createApp, InjectionKey } from 'vue';
+import { createApp } from 'vue';
 import Catalog from '@/components/Catalog.vue';
 import SimpleCatalog from '@/components/SimpleCatalog.vue';
-import { WcserviceClient } from '@/services/api';
 import { CatalogConfig } from './catalog';
 import { createI18n } from 'vue-i18n';
 import messages, { AvailableLanguages } from '@/i18n';
 
 import './sass/main.scss';
-
-export const wcserviceClientKey: InjectionKey<WcserviceClient> =
-  Symbol('wcserviceClient');
 
 (() => {
   for (const entry of document.querySelectorAll('.vue-catalog')) {
