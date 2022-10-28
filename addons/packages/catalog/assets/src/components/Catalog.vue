@@ -30,7 +30,7 @@
                   :max="priceRange.max"
                   :selectedMin="selectedPriceRange?.min ?? priceRange.min"
                   :selectedMax="selectedPriceRange?.max ?? priceRange.max"
-                  @change="v => onPriceRangeSliderChange(v, true)"
+                  @change="(v: number[]) => onPriceRangeSliderChange(v, true)"
                 ></PriceRangeSlider>
               </div>
             </div>
@@ -49,7 +49,7 @@
                 :terms="taxRef.terms"
                 :selected-terms="taxRef.selectedTerms"
                 :toggle-cb="
-                  (tax, term, checked) =>
+                  (tax: string, term: Term, checked: boolean) =>
                     onFilterListToggle(tax, term, checked, true)
                 "
                 :max-depth="taxRef.options.maxDepth"
