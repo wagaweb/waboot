@@ -49,9 +49,9 @@ export class CatalogConfig {
   // layout
   productsPerPage: number;
   columns: number;
-  enableFilters: boolean;
   layoutMode: LayoutMode;
   teleportSidebar?: string;
+  enableFilters: boolean;
   enableOrder: boolean;
   enablePriceFilter: boolean;
   showAddToCartBtn: boolean;
@@ -97,7 +97,7 @@ export class CatalogConfig {
         if (t.title !== undefined) {
           t.title = String(t.title);
         }
-        t.enableFiler = Boolean(t.enableFiler ?? true);
+        t.enableFilter = Boolean(t.enableFilter ?? true);
         t.type = String(t.type ?? FilterType.Checkbox) as FilterType;
         t.selectedTerms = Array.isArray(t.selectedTerms)
           ? t.selectedTerms.map((id: any) => String(id))
