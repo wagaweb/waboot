@@ -267,10 +267,18 @@ export default defineComponent({
 
     const onPriceRangeSliderChange = (values: number[], reload = false): void => {
       selectPriceRange(values[0], values[1], reload);
+
+      if (reload) {
+        resetCatalogScroll();
+      }
     };
 
     const onFilterListToggle = (tax: string, term: Term, checked: boolean, reload = false): void => {
       toggleTerm(tax, term, checked, reload);
+
+      if (reload) {
+        resetCatalogScroll();
+      }
     };
 
     const addDdRef = (el: any): void => {
