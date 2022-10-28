@@ -309,7 +309,7 @@ export default defineComponent({
       page.value = 1;
       const productQuery = getProductQuery();
       const catalogQuery = getCatalogQuery(productQuery);
-      loadProducts(catalogQuery);
+      loadProducts(catalogQuery, true);
       loadProductCount(productQuery);
       loadAllTaxonomies(productQuery);
     };
@@ -320,7 +320,7 @@ export default defineComponent({
       page.value = 1;
       const productQuery = getProductQuery();
       const catalogQuery = getCatalogQuery(productQuery);
-      loadProducts(catalogQuery);
+      loadProducts(catalogQuery, true);
       loadProductCount(productQuery);
       loadAllTaxonomies(productQuery, true);
       loadPriceRange(catalogQuery);
