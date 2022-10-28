@@ -27,10 +27,6 @@ export const wcserviceClientKey: InjectionKey<WcserviceClient> =
       config,
     });
 
-    const wcServiceClient = new WcserviceClient(config.apiBaseUrl);
-    wcServiceClient.setLanguage(config.language);
-    app.provide(wcserviceClientKey, wcServiceClient);
-
     const i18n = createI18n({
       locale: config.language,
       fallbackLocale: AvailableLanguages.itIT,

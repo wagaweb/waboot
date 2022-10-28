@@ -160,6 +160,24 @@ export class WcserviceClient {
     query?: TaxonomyQuery,
   ): Promise<Term[]> {
     const res = await fetch(
+      `${this.baseUrl}/taxonomies/${taxonomy}/terms/find`,
+      {
+        method: 'POST',
+        headers: this.getHeaders({
+          'Content-Type': 'application/json',
+        }),
+        body: JSON.stringify(query ?? {}),
+      },
+    );
+
+    return await res.json();
+  }
+
+  async findTaxonomyTermsHierarchically(
+    taxonomy: string,
+    query?: TaxonomyQuery,
+  ): Promise<Term[]> {
+    const res = await fetch(
       `${this.baseUrl}/taxonomies/${taxonomy}/terms/findHierarchical`,
       {
         method: 'POST',

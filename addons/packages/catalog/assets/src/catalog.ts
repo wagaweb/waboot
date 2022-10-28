@@ -1,3 +1,15 @@
+import { computed, reactive, ref, Ref, UnwrapRef, watch } from 'vue';
+import { GA4 } from './ga4';
+import {
+  CatalogOrder,
+  CatalogQuery,
+  Product,
+  ProductQuery,
+  TaxFilter,
+  Term,
+  WcserviceClient,
+} from './services/api';
+
 export enum LayoutMode {
   Sidebar = 'sidebar',
   Header = 'header',
@@ -28,11 +40,6 @@ export class CatalogConfig {
   }[];
   productIds: string[];
   searchString?: string;
-  gtag: {
-    enabled: boolean;
-    listName?: string;
-    brandFallback?: string;
-  };
   ga4: {
     enabled: boolean;
     listId?: string;
@@ -42,7 +49,7 @@ export class CatalogConfig {
   // layout
   productsPerPage: number;
   columns: number;
-  enableFilers: boolean;
+  enableFilters: boolean;
   layoutMode: LayoutMode;
   teleportSidebar?: string;
   enableOrder: boolean;
@@ -117,30 +124,6 @@ export class CatalogConfig {
       this.searchString = String(data.searchString);
     }
 
-    this.gtag = { enabled: false };
-    if (typeof data.gtag === 'object' && data.gtag !== null) {
-      if (data.gtag.enabled === undefined) {
-        throw new Error('`gtag.enabled`: parameter is required');
-      }
-      this.gtag.enabled = Boolean(data.gtag.enabled);
-
-      if (data.gtag.listName === undefined) {
-        throw new Error(
-            '`gtag.listName`: parameter is required when gtag is enabled',
-        );
-      }
-      this.gtag.listName = String(data.gtag.listName);
-
-      if (data.gtag.brandFallback === undefined) {
-        throw new Error(
-            '`gtag.brandFallback`: parameter is required when gtag is enabled',
-        );
-      }
-      this.gtag.brandFallback = String(data.gtag.brandFallback);
-    } else if (data.gtag !== undefined) {
-      throw new Error('`gtag`: invalid object');
-    }
-
     this.ga4 = { enabled: false };
     if (typeof data.ga4 === 'object' && data.ga4 !== null) {
       if (data.ga4.enabled === undefined) {
@@ -150,21 +133,21 @@ export class CatalogConfig {
 
       if (data.ga4.listId === undefined) {
         throw new Error(
-            '`ga4.listId`: parameter is required when ga4 is enabled',
+          '`ga4.listId`: parameter is required when ga4 is enabled',
         );
       }
       this.ga4.listId = String(data.ga4.listId);
 
       if (data.ga4.listName === undefined) {
         throw new Error(
-            '`ga4.listName`: parameter is required when ga4 is enabled',
+          '`ga4.listName`: parameter is required when ga4 is enabled',
         );
       }
       this.ga4.listName = String(data.ga4.listName);
 
       if (data.ga4.brandFallback === undefined) {
         throw new Error(
-            '`ga4.brandFallback`: parameter is required when ga4 is enabled',
+          '`ga4.brandFallback`: parameter is required when ga4 is enabled',
         );
       }
       this.ga4.brandFallback = String(data.ga4.brandFallback);
@@ -174,7 +157,7 @@ export class CatalogConfig {
 
     this.productsPerPage = Number(data.productsPerPage ?? 24);
     this.columns = Number(data.columns ?? 4);
-    this.enableFilers = Boolean(data.enableFilers ?? true);
+    this.enableFilters = Boolean(data.enableFilers ?? true);
     this.layoutMode = String(
       data.layoutMode ?? LayoutMode.Sidebar,
     ) as LayoutMode;
@@ -186,4 +169,355 @@ export class CatalogConfig {
     this.showAddToCartBtn = Boolean(data.showAddToCartBtn ?? true);
     this.showQuantityInput = Boolean(data.showQuantityInput ?? true);
   }
+}
+
+type TaxRef = UnwrapRef<{
+  options: CatalogConfig['taxonomies'][0];
+  terms: Term[];
+  flatTerms: Map<Term['id'], Term>;
+  selectedTerms: Set<Term['id']>;
+  loading: boolean;
+}>;
+
+export function useCatalog(config: CatalogConfig) {
+  const client: WcserviceClient = new WcserviceClient(config.apiBaseUrl);
+  client.setLanguage(config.language);
+
+  let ga4: GA4 | undefined = undefined;
+  if (config.ga4.enabled) {
+    ga4 = new GA4(
+      config.ga4.listId ?? '',
+      config.ga4.listName ?? '',
+      config.ga4.brandFallback,
+    );
+  }
+
+  const products: Ref<Product[]> = ref([]);
+  const count: Ref<number> = ref(0);
+  const taxRefs: Map<string, TaxRef> = new Map();
+  const priceRange: Ref<{ min: number; max: number }> = ref({ min: 0, max: 0 });
+  const selectedPriceRange: Ref<{ min: number; max: number } | null> =
+    ref(null);
+  const order: Ref<CatalogOrder> = ref(CatalogOrder.Default);
+  const page: Ref<number> = ref(1);
+  const loadingProducts: Ref<boolean> = ref(false);
+  const loadingPriceRange: Ref<boolean> = ref(false);
+  const loadingMoreProducts: Ref<boolean> = ref(false);
+  const loadingCount: Ref<boolean> = ref(false);
+  const loadingCatalog: Ref<boolean> = ref(false);
+
+  for (const options of config.taxonomies) {
+    const taxRef: TaxRef = reactive({
+      options: options,
+      terms: [],
+      flatTerms: new Map(),
+      selectedTerms: new Set(),
+      loading: false,
+    });
+    taxRefs.set(options.taxonomy, taxRef);
+
+    if (taxRef.options.exclude && taxRef.options.exclude.length > 0) {
+      taxRef.options.enableFilter = false;
+    }
+
+    if (
+      taxRef.options.selectedTerms &&
+      taxRef.options.selectedTerms.length > 0
+    ) {
+      taxRef.selectedTerms = new Set(taxRef.options.selectedTerms);
+    }
+  }
+
+  const numberOfPages = computed(() => {
+    const n = count.value / config.productsPerPage;
+    return isNaN(n) ? 1 : Math.ceil(n);
+  });
+
+  const getProductQuery = (): ProductQuery => {
+    const query: ProductQuery = {
+      taxonomies: {},
+    };
+
+    if (config.productIds.length > 0) {
+      query.ids = config.productIds;
+
+      return query;
+    }
+
+    if (selectedPriceRange.value !== null) {
+      query.minPrice = selectedPriceRange.value.min;
+      query.maxPrice = selectedPriceRange.value.max;
+    }
+
+    if (config.searchString !== undefined) {
+      query.title = config.searchString;
+      query.searchLogic = 'or';
+    }
+
+    for (const [tax, taxRef] of taxRefs.entries()) {
+      const filter: TaxFilter = { op: 'or', terms: [] };
+      if (taxRef.options.exclude && taxRef.options.exclude.length > 0) {
+        filter.op = 'not';
+        filter.terms = taxRef.options.exclude;
+        query.taxonomies![tax] = filter;
+        continue;
+      }
+
+      if (taxRef.options.selectedParent) {
+        filter.terms.push(taxRef.options.selectedParent);
+      }
+
+      // excluding parent terms from query
+      const termsToExclude: string[] = [];
+      for (const t of taxRef.selectedTerms.values()) {
+        const term = taxRef.flatTerms.get(t);
+        // this should never happens
+        if (term === undefined) {
+          continue;
+        }
+
+        filter.terms.push(term.id);
+        if (term.parent !== '0') {
+          termsToExclude.push(term.parent);
+        }
+      }
+
+      filter.terms = filter.terms.filter(t => !termsToExclude.includes(t));
+      if (filter.terms.length > 0) {
+        query.taxonomies![tax] = filter;
+      }
+    }
+
+    return query;
+  };
+
+  const getCatalogQuery = (productQuery: ProductQuery): CatalogQuery => {
+    const limit = config.productsPerPage;
+    return {
+      limit: limit,
+      offset: limit * (page.value - 1),
+      query: productQuery,
+      order: order.value,
+      postMetaIn: ['_sku', '_wc_average_rating', '_attribute_list'],
+      taxonomiesIn: ['product_cat', 'product_type'],
+    };
+  };
+
+  const loadProductCount = async (query: ProductQuery): Promise<void> => {
+    loadingCount.value = true;
+    count.value = await client.getProductCount(query);
+    loadingCount.value = false;
+  };
+
+  const loadProducts = async (query: CatalogQuery, replace = false): Promise<void> => {
+    if (replace) {
+      loadingProducts.value = true;
+      products.value = [];
+    } else {
+      loadingMoreProducts.value = true;
+    }
+
+    const startIndex = products.value.length;
+    const res  = await client.findProducts(query);
+    products.value = products.value.concat(res);
+
+    if (replace) {
+      loadingProducts.value = false;
+    } else {
+      loadingMoreProducts.value = false;
+    }
+
+    if (ga4) {
+      ga4.viewItemList(products.value, startIndex);
+    }
+  };
+
+  const loadTaxonomy = async (
+    tax: string,
+    query: ProductQuery,
+    omitSelf = false,
+  ): Promise<void> => {
+    const taxRef = taxRefs.get(tax);
+    if (taxRef === undefined) {
+      console.warn(`taxonomy \`${tax}\` does not exists`);
+      return;
+    }
+
+    if (taxRef.options.enableFilter === false) {
+      return;
+    }
+
+    taxRef.loading = true;
+    let q = Object.assign({}, query);
+    if (omitSelf && q.taxonomies !== undefined) {
+      delete q.taxonomies[tax];
+    }
+
+    taxRef.terms = await client.findTaxonomyTermsHierarchically(tax, {
+      productQuery: q,
+      parent: taxRef.options.selectedParent,
+    });
+
+    // populate flat term map
+    const populateFlatTermMap = (terms: Term[]) => {
+      for (const t of terms) {
+        taxRef.flatTerms.set(t.id, t);
+        if (t.children.length > 0) {
+          populateFlatTermMap(t.children);
+        }
+      }
+    };
+    populateFlatTermMap(taxRef.terms);
+
+    taxRef.loading = false;
+  };
+
+  const loadAllTaxonomies = async (
+    query: ProductQuery,
+    omitSelf = false,
+  ): Promise<void> => {
+    const promises: Promise<any>[] = [];
+    for (const [tax] of taxRefs.entries()) {
+      promises.push(loadTaxonomy(tax, query, omitSelf));
+    }
+
+    await Promise.all(promises);
+  };
+
+  const loadPriceRange = async (query: CatalogQuery): Promise<void> => {
+    loadingPriceRange.value = true;
+    const res = await client.getPriceRange(query);
+    priceRange.value.min = Math.floor(res.min);
+    priceRange.value.max = Math.ceil(res.max);
+    if (selectedPriceRange.value === null) {
+      selectedPriceRange.value = {
+        min: priceRange.value.min,
+        max: priceRange.value.max,
+      };
+    }
+    loadingPriceRange.value = false;
+  };
+
+  const initCatalog = async (): Promise<void> => {
+    const productQuery = getProductQuery();
+    const catalogQuery = getCatalogQuery(productQuery);
+
+    loadingCatalog.value = true;
+    await Promise.all([
+      loadProducts(catalogQuery, true),
+      loadProductCount(productQuery),
+      loadAllTaxonomies(productQuery),
+      loadPriceRange(catalogQuery),
+    ]);
+    loadingCatalog.value = false;
+  };
+
+  const toggleTerm = (
+    tax: string,
+    term: Term,
+    checked: boolean,
+    reload = false,
+  ): void => {
+    const taxRef = taxRefs.get(tax);
+    if (taxRef === undefined) {
+      console.warn(`Taxonomy \`${tax}\` does not exists`);
+      return;
+    }
+
+    if (checked) {
+      taxRef.selectedTerms.add(term.id);
+    } else {
+      taxRef.selectedTerms.delete(term.id);
+      // uncheck recursively its own children
+      const uncheckChildren = (term: Term): void => {
+        for (const c of term.children) {
+          taxRef.selectedTerms.delete(c.id);
+          if (c.children.length > 0) {
+            uncheckChildren(c);
+          }
+        }
+      };
+      uncheckChildren(term);
+    }
+
+    if (reload) {
+      page.value = 1;
+      const productQuery = getProductQuery();
+      const catalogQuery = getCatalogQuery(productQuery);
+      loadProducts(catalogQuery, true);
+      loadProductCount(productQuery);
+      loadAllTaxonomies(productQuery, true);
+      loadPriceRange(catalogQuery);
+    }
+  };
+
+  const selectPriceRange = (min: number, max: number, reload = false): void => {
+    selectedPriceRange.value = { min, max };
+    if (reload) {
+      page.value = 1;
+      const productQuery = getProductQuery();
+      const catalogQuery = getCatalogQuery(productQuery);
+      loadProducts(catalogQuery, true);
+      loadProductCount(productQuery);
+      loadAllTaxonomies(productQuery);
+    }
+  };
+
+  const loadMoreProducts = (): void => {
+    page.value++;
+    const productQuery = getProductQuery();
+    const catalogQuery = getCatalogQuery(productQuery);
+    loadProducts(catalogQuery);
+  };
+
+  const addToCart = (product: Product, index: number): void => {
+    if (ga4) {
+      ga4.addToCart(product, index);
+    }
+  };
+
+  const viewDetails = (product: Product, index: number): void => {
+    if (ga4) {
+      ga4.selectItem(product, index);
+    }
+  };
+
+  watch(order, () => {
+    page.value = 1;
+    const productQuery = getProductQuery();
+    const catalogQuery = getCatalogQuery(productQuery);
+    loadProducts(catalogQuery, true);
+  });
+
+  return {
+    // refs
+    products,
+    count,
+    taxRefs,
+    priceRange,
+    selectedPriceRange,
+    order,
+    page,
+    loadingProducts,
+    loadingPriceRange,
+    loadingMoreProducts,
+    loadingCount,
+    loadingCatalog,
+    // computed
+    numberOfPages,
+    // methods
+    getProductQuery,
+    getCatalogQuery,
+    loadProducts,
+    loadProductCount,
+    loadPriceRange,
+    loadTaxonomy,
+    loadAllTaxonomies,
+    initCatalog,
+    toggleTerm,
+    selectPriceRange,
+    loadMoreProducts,
+    addToCart,
+    viewDetails,
+  };
 }
