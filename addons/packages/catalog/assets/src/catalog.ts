@@ -239,7 +239,8 @@ export function useCatalog(config: CatalogConfig) {
     page.value = isNaN(p) || p <= 0 ? 1 : p;
 
     const o =
-      (urlSearchParams.get('order') as CatalogOrder | null) ?? CatalogOrder.Default;
+      (urlSearchParams.get('order') as CatalogOrder | null) ??
+      CatalogOrder.Default;
     if (Object.values(CatalogOrder).includes(o as CatalogOrder)) {
       order.value = o;
     }
@@ -267,8 +268,9 @@ export function useCatalog(config: CatalogConfig) {
   };
 
   const setQueryString = (): void => {
+    const l = window.location;
     const state: Record<string, any> = {};
-    const url = new URL(window.location.toString());
+    const url = new URL(l.origin + l.pathname);
 
     if (page.value > 1) {
       state.page = page.value;
