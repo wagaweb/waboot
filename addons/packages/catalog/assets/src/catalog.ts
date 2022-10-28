@@ -233,6 +233,77 @@ export function useCatalog(config: CatalogConfig) {
     return isNaN(n) ? 1 : Math.ceil(n);
   });
 
+  const readQueryString = (): void => {
+    const urlSearchParams = new URLSearchParams(window.location.search);
+    const p = Number(urlSearchParams.get('page'));
+    page.value = isNaN(p) || p <= 0 ? 1 : p;
+
+    const o =
+      (urlSearchParams.get('order') as CatalogOrder | null) ?? CatalogOrder.Default;
+    if (Object.values(CatalogOrder).includes(o as CatalogOrder)) {
+      order.value = o;
+    }
+
+    for (const [tax, taxRef] of taxRefs.entries()) {
+      let idsStr = urlSearchParams.get(tax);
+      if (idsStr === null || idsStr.length === 0) {
+        taxRef.selectedTerms = new Set();
+        continue;
+      }
+
+      const ids = idsStr.split(',');
+      taxRef.selectedTerms = new Set(ids);
+    }
+
+    let min = Number(urlSearchParams.get('min'));
+    min = isNaN(min) ? 0 : min;
+    let max = Number(urlSearchParams.get('max'));
+    max = isNaN(max) ? 0 : max;
+    if (min > 0 && max > 0) {
+      selectedPriceRange.value = { min, max };
+    } else {
+      selectedPriceRange.value = null;
+    }
+  };
+
+  const setQueryString = (): void => {
+    const state: Record<string, any> = {};
+    const url = new URL(window.location.toString());
+
+    if (page.value > 1) {
+      state.page = page.value;
+      url.searchParams.set('page', page.value.toString());
+    }
+
+    if (order.value !== CatalogOrder.Default) {
+      state.order = order.value;
+      url.searchParams.set('order', order.value);
+    }
+
+    for (const [tax, taxRef] of taxRefs.entries()) {
+      const ids = Array.from(taxRef.selectedTerms);
+      if (ids.length === 0) {
+        continue;
+      }
+
+      state[tax] = ids;
+      url.searchParams.set(tax, ids.join(','));
+    }
+
+    const pr = selectedPriceRange.value;
+    if (
+      pr !== null &&
+      (pr.min !== priceRange.value.min || pr.max !== priceRange.value.max)
+    ) {
+      state.min = pr.min;
+      state.max = pr.max;
+      url.searchParams.set('min', pr.min.toString());
+      url.searchParams.set('max', pr.max.toString());
+    }
+
+    history.pushState(state, '', url);
+  };
+
   const getProductQuery = (): ProductQuery => {
     const query: ProductQuery = {
       taxonomies: {},
@@ -309,7 +380,10 @@ export function useCatalog(config: CatalogConfig) {
     loadingCount.value = false;
   };
 
-  const loadProducts = async (query: CatalogQuery, replace = false): Promise<void> => {
+  const loadProducts = async (
+    query: CatalogQuery,
+    replace = false,
+  ): Promise<void> => {
     if (replace) {
       loadingProducts.value = true;
       products.value = [];
@@ -318,7 +392,7 @@ export function useCatalog(config: CatalogConfig) {
     }
 
     const startIndex = products.value.length;
-    const res  = await client.findProducts(query);
+    const res = await client.findProducts(query);
     products.value = products.value.concat(res);
 
     if (replace) {
@@ -412,12 +486,20 @@ export function useCatalog(config: CatalogConfig) {
     loadingCatalog.value = false;
   };
 
-  const toggleTerm = (
+  const changeOrder = async (o: CatalogOrder): Promise<void> => {
+    order.value = o;
+    page.value = 1;
+    const productQuery = getProductQuery();
+    const catalogQuery = getCatalogQuery(productQuery);
+    await loadProducts(catalogQuery, true);
+  };
+
+  const toggleTerm = async (
     tax: string,
     term: Term,
     checked: boolean,
     reload = false,
-  ): void => {
+  ): Promise<void> => {
     const taxRef = taxRefs.get(tax);
     if (taxRef === undefined) {
       console.warn(`Taxonomy \`${tax}\` does not exists`);
@@ -444,30 +526,38 @@ export function useCatalog(config: CatalogConfig) {
       page.value = 1;
       const productQuery = getProductQuery();
       const catalogQuery = getCatalogQuery(productQuery);
-      loadProducts(catalogQuery, true);
-      loadProductCount(productQuery);
-      loadAllTaxonomies(productQuery, true);
-      loadPriceRange(catalogQuery);
+      await Promise.all([
+        loadProducts(catalogQuery, true),
+        loadProductCount(productQuery),
+        loadAllTaxonomies(productQuery, true),
+        loadPriceRange(catalogQuery),
+      ]);
     }
   };
 
-  const selectPriceRange = (min: number, max: number, reload = false): void => {
+  const selectPriceRange = async (
+    min: number,
+    max: number,
+    reload = false,
+  ): Promise<void> => {
     selectedPriceRange.value = { min, max };
     if (reload) {
       page.value = 1;
       const productQuery = getProductQuery();
       const catalogQuery = getCatalogQuery(productQuery);
-      loadProducts(catalogQuery, true);
-      loadProductCount(productQuery);
-      loadAllTaxonomies(productQuery);
+      await Promise.all([
+        loadProducts(catalogQuery, true),
+        loadProductCount(productQuery),
+        loadAllTaxonomies(productQuery),
+      ]);
     }
   };
 
-  const loadMoreProducts = (): void => {
+  const loadMoreProducts = async (): Promise<void> => {
     page.value++;
     const productQuery = getProductQuery();
     const catalogQuery = getCatalogQuery(productQuery);
-    loadProducts(catalogQuery);
+    await loadProducts(catalogQuery);
   };
 
   const addToCart = (product: Product, index: number): void => {
@@ -481,13 +571,6 @@ export function useCatalog(config: CatalogConfig) {
       ga4.selectItem(product, index);
     }
   };
-
-  watch(order, () => {
-    page.value = 1;
-    const productQuery = getProductQuery();
-    const catalogQuery = getCatalogQuery(productQuery);
-    loadProducts(catalogQuery, true);
-  });
 
   return {
     // refs
@@ -506,6 +589,8 @@ export function useCatalog(config: CatalogConfig) {
     // computed
     numberOfPages,
     // methods
+    readQueryString,
+    setQueryString,
     getProductQuery,
     getCatalogQuery,
     loadProducts,
@@ -514,6 +599,7 @@ export function useCatalog(config: CatalogConfig) {
     loadTaxonomy,
     loadAllTaxonomies,
     initCatalog,
+    changeOrder,
     toggleTerm,
     selectPriceRange,
     loadMoreProducts,

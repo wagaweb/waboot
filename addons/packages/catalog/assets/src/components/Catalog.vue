@@ -145,7 +145,12 @@
           <i class="fal fa-sliders-h"></i> {{ $t('filterFor') }}
         </button>
         <div v-if="config.enableOrder" class="catalog__ordering">
-          <select v-model="order" name="order" id="order">
+          <select
+            :value="order"
+            @change="onOrderSelectChange"
+            name="order"
+            id="order"
+          >
             <option value="default">{{ $t('default') }}</option>
             <option value="alphabetic">{{ $t('alphabetic') }}</option>
             <option value="mostSold">{{ $t('popularity') }}</option>
@@ -200,7 +205,7 @@ import FilterList from '@/components/FilterList.vue';
 import Dropdown from '@/components/Dropdown.vue';
 import Spinner from '@/components/Spinner.vue';
 import PriceRangeSlider from '@/components/PriceRangeSlider.vue';
-import { Term } from '@/services/api';
+import { CatalogOrder, Term } from '@/services/api';
 import PermalinkList from './PermalinkList.vue';
 import { CatalogConfig, useCatalog } from '@/catalog';
 import $ from 'jquery';
@@ -237,6 +242,8 @@ export default defineComponent({
       // computed
       numberOfPages,
       // methods
+      readQueryString,
+      setQueryString,
       getProductQuery,
       getCatalogQuery,
       loadProducts,
@@ -244,6 +251,7 @@ export default defineComponent({
       loadPriceRange,
       loadAllTaxonomies,
       initCatalog,
+      changeOrder,
       toggleTerm,
       selectPriceRange,
       loadMoreProducts,
@@ -263,22 +271,6 @@ export default defineComponent({
         return;
       }
       html.scrollTop = catalog.offsetTop;
-    };
-
-    const onPriceRangeSliderChange = (values: number[], reload = false): void => {
-      selectPriceRange(values[0], values[1], reload);
-
-      if (reload) {
-        resetCatalogScroll();
-      }
-    };
-
-    const onFilterListToggle = (tax: string, term: Term, checked: boolean, reload = false): void => {
-      toggleTerm(tax, term, checked, reload);
-
-      if (reload) {
-        resetCatalogScroll();
-      }
     };
 
     const addDdRef = (el: any): void => {
@@ -302,16 +294,52 @@ export default defineComponent({
       }
     };
 
-    const onDdApplyPriceRange = (e: MouseEvent): void => {
+    const onOrderSelectChange = async (e: Event): Promise<void> => {
+      const select = e.target as HTMLSelectElement;
+      await changeOrder(select.value as CatalogOrder);
+      setQueryString();
+    };
+
+    const onPriceRangeSliderChange = async (
+      values: number[],
+      reload = false,
+    ): Promise<void> => {
+      await selectPriceRange(values[0], values[1], reload);
+
+      if (reload) {
+        resetCatalogScroll();
+        setQueryString();
+      }
+    };
+
+    const onFilterListToggle = async (
+      tax: string,
+      term: Term,
+      checked: boolean,
+      reload = false,
+    ): Promise<void> => {
+      await toggleTerm(tax, term, checked, reload);
+
+      if (reload) {
+        resetCatalogScroll();
+        setQueryString();
+      }
+    };
+
+    const onDdApplyPriceRange = async (e: MouseEvent): Promise<void> => {
       onDdToggle(e);
       sidebarOpen.value = false;
       if (selectedPriceRange.value === null) return;
       page.value = 1;
       const productQuery = getProductQuery();
       const catalogQuery = getCatalogQuery(productQuery);
-      loadProducts(catalogQuery, true);
-      loadProductCount(productQuery);
-      loadAllTaxonomies(productQuery);
+      await Promise.all([
+        loadProducts(catalogQuery, true),
+        loadProductCount(productQuery),
+        loadAllTaxonomies(productQuery),
+        setQueryString(),
+      ]);
+      setQueryString();
     };
 
     const onDdApplyFilters = async (e: MouseEvent): Promise<void> => {
@@ -320,14 +348,18 @@ export default defineComponent({
       page.value = 1;
       const productQuery = getProductQuery();
       const catalogQuery = getCatalogQuery(productQuery);
-      loadProducts(catalogQuery, true);
-      loadProductCount(productQuery);
-      loadAllTaxonomies(productQuery, true);
-      loadPriceRange(catalogQuery);
+      await Promise.all([
+        loadProducts(catalogQuery, true),
+        loadProductCount(productQuery),
+        loadAllTaxonomies(productQuery, true),
+        loadPriceRange(catalogQuery),
+      ]);
+      setQueryString();
     };
 
-    const onLoadMoreClick = (): void => {
-      loadMoreProducts();
+    const onLoadMoreClick = async (): Promise<void> => {
+      await loadMoreProducts();
+      setQueryString();
     };
 
     onBeforeUpdate(() => {
@@ -335,6 +367,7 @@ export default defineComponent({
     });
 
     onMounted(() => {
+      readQueryString();
       initCatalog();
     });
 
@@ -362,6 +395,11 @@ export default defineComponent({
         sidebarMoved.value = true;
       }
     });
+    
+    window.onpopstate = () => {
+      readQueryString();
+      initCatalog();
+    };
 
     return {
       // catalog refs
@@ -385,6 +423,7 @@ export default defineComponent({
       onDdApplyPriceRange,
       onDdApplyFilters,
       onFilterListToggle,
+      onOrderSelectChange,
       onPriceRangeSliderChange,
       onLoadMoreClick,
       addToCart,
