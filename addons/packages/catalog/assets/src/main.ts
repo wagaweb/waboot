@@ -23,16 +23,13 @@ export const wcserviceClientKey: InjectionKey<WcserviceClient> =
     }
 
     const config = new CatalogConfig(rawConfig);
-    const app = createApp(Catalog, {
-      config,
-    });
+    const app = createApp(Catalog, { config });
 
     const i18n = createI18n({
       locale: config.language,
       fallbackLocale: AvailableLanguages.itIT,
       messages,
     });
-
     app.use(i18n);
 
     app.mount(entry);
@@ -49,20 +46,13 @@ export const wcserviceClientKey: InjectionKey<WcserviceClient> =
     }
 
     const config = new CatalogConfig(rawConfig);
-    const app = createApp(SimpleCatalog, {
-      config,
-    });
-
-    const wcServiceClient = new WcserviceClient(config.apiBaseUrl);
-    wcServiceClient.setLanguage(config.language);
-    app.provide(wcserviceClientKey, wcServiceClient);
+    const app = createApp(SimpleCatalog, { config });
 
     const i18n = createI18n({
       locale: config.language,
       fallbackLocale: AvailableLanguages.itIT,
       messages,
     });
-
     app.use(i18n);
 
     app.mount(entry);
