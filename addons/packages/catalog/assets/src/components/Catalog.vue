@@ -188,25 +188,22 @@
 <script lang="ts">
 import {
   ComponentPublicInstance,
-  computed,
   defineComponent,
   onBeforeUpdate,
   onMounted,
   onUpdated,
   PropType,
   ref,
-  watch,
 } from 'vue';
 import CatalogItem from '@/components/CatalogItem.vue';
 import FilterList from '@/components/FilterList.vue';
 import Dropdown from '@/components/Dropdown.vue';
 import Spinner from '@/components/Spinner.vue';
 import PriceRangeSlider from '@/components/PriceRangeSlider.vue';
-import { Product, Term } from '@/services/api';
+import { Term } from '@/services/api';
 import PermalinkList from './PermalinkList.vue';
 import { CatalogConfig, useCatalog } from '@/catalog';
 import $ from 'jquery';
-import { GA4 } from '@/ga4';
 
 export default defineComponent({
   name: 'Catalog',
@@ -235,9 +232,7 @@ export default defineComponent({
       order,
       page,
       loadingProducts,
-      loadingPriceRange,
       loadingMoreProducts,
-      loadingCount,
       loadingCatalog,
       // computed
       numberOfPages,
@@ -247,7 +242,6 @@ export default defineComponent({
       loadProducts,
       loadProductCount,
       loadPriceRange,
-      loadTaxonomy,
       loadAllTaxonomies,
       initCatalog,
       toggleTerm,
