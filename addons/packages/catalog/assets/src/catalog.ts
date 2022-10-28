@@ -246,7 +246,7 @@ export function useCatalog(config: CatalogConfig) {
     }
 
     for (const [tax, taxRef] of taxRefs.entries()) {
-      let idsStr = urlSearchParams.get(tax);
+      let idsStr = urlSearchParams.get('filter-' + tax);
       if (idsStr === null || idsStr.length === 0) {
         taxRef.selectedTerms = new Set();
         continue;
@@ -289,7 +289,7 @@ export function useCatalog(config: CatalogConfig) {
       }
 
       state[tax] = ids;
-      url.searchParams.set(tax, ids.join(','));
+      url.searchParams.set('filter-' + tax, ids.join(','));
     }
 
     const pr = selectedPriceRange.value;
@@ -328,7 +328,7 @@ export function useCatalog(config: CatalogConfig) {
     }
 
     for (const [tax, taxRef] of taxRefs.entries()) {
-      const filter: TaxFilter = { op: 'or', terms: [] };
+      const filter: TaxFilter = { op: 'or', terms: Array.from(taxRef.selectedTerms) };
       if (taxRef.options.exclude && taxRef.options.exclude.length > 0) {
         filter.op = 'not';
         filter.terms = taxRef.options.exclude;
@@ -340,22 +340,6 @@ export function useCatalog(config: CatalogConfig) {
         filter.terms.push(taxRef.options.selectedParent);
       }
 
-      // excluding parent terms from query
-      const termsToExclude: string[] = [];
-      for (const t of taxRef.selectedTerms.values()) {
-        const term = taxRef.flatTerms.get(t);
-        // this should never happens
-        if (term === undefined) {
-          continue;
-        }
-
-        filter.terms.push(term.id);
-        if (term.parent !== '0') {
-          termsToExclude.push(term.parent);
-        }
-      }
-
-      filter.terms = filter.terms.filter(t => !termsToExclude.includes(t));
       if (filter.terms.length > 0) {
         query.taxonomies![tax] = filter;
       }
