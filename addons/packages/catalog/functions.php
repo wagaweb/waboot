@@ -22,13 +22,42 @@ function renderCatalog(array $config): string
         $config['language'] = str_replace('_', '-', get_locale());
     }
 
+    $taxRewrites = [];
+    $taxQueryFilters = [];
     /** @var \WP_Taxonomy $t */
     foreach (get_taxonomies([], 'objects') as $t) {
-        if (!isset($config['taxonomies'][$t->name])) {
-            continue;
+        $taxRewrites[$t->name] = $t->rewrite === false ? $t->name : $t->rewrite['slug'];
+        $taxQueryFilters[$t->name] = [$t->name];
+    }
+    $taxRewrites = apply_filters('catalog_addon_tax_rewrites', $taxRewrites);
+    $taxQueryFilters = apply_filters('catalog_addon_tax_query_filters', $taxQueryFilters);
+
+    foreach ($config['taxonomies'] as $tax => $options) {
+        foreach ($taxQueryFilters[$tax] ?? [] as $queryFilter) {
+            $terms = $_GET[$queryFilter] ?? null;
+            if (empty($terms)) {
+                continue;
+            }
+
+            if (!is_array($terms)) {
+                $terms = [$terms];
+            }
+
+            foreach ($terms as $idOrSlug) {
+                if (is_numeric($idOrSlug)) {
+                    $t = get_term_by('id', (int)$idOrSlug, $tax);
+                } else {
+                    $t = get_term_by('slug', $idOrSlug, $tax);
+                }
+                if (empty($t)) {
+                    continue;
+                }
+
+                $config['taxonomies'][$tax]['selectedTerms'][] = (string)$t->term_id;
+            }
         }
 
-        $config['taxonomies'][$t->name]['rewrite'] = $t->rewrite === false ? $t->name : $t->rewrite['slug'];
+        $config['taxonomies'][$tax]['rewrite'] = $taxRewrites[$tax] ?? '';
     }
 
     $config = apply_filters('catalog_addon_config', $config);
