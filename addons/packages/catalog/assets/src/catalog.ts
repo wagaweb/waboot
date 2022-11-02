@@ -1,4 +1,5 @@
-import { computed, reactive, ref, Ref, UnwrapRef, watch } from 'vue';
+import { cloneDeep } from 'lodash';
+import { computed, reactive, ref, Ref, UnwrapRef } from 'vue';
 import { GA4 } from './ga4';
 import {
   CatalogOrder,
@@ -328,7 +329,10 @@ export function useCatalog(config: CatalogConfig) {
     }
 
     for (const [tax, taxRef] of taxRefs.entries()) {
-      const filter: TaxFilter = { op: 'or', terms: Array.from(taxRef.selectedTerms) };
+      const filter: TaxFilter = {
+        op: 'or',
+        terms: Array.from(taxRef.selectedTerms),
+      };
       if (taxRef.options.exclude && taxRef.options.exclude.length > 0) {
         filter.op = 'not';
         filter.terms = taxRef.options.exclude;
@@ -366,26 +370,21 @@ export function useCatalog(config: CatalogConfig) {
     loadingCount.value = false;
   };
 
-  const loadProducts = async (
-    query: CatalogQuery,
-    replace = false,
-  ): Promise<void> => {
-    if (replace) {
-      loadingProducts.value = true;
-      products.value = [];
-    } else {
-      loadingMoreProducts.value = true;
-    }
+  const loadProducts = async (query: CatalogQuery): Promise<void> => {
+    loadingProducts.value = true;
+    products.value = await client.findProducts(query);
+    loadingProducts.value = false;
 
+    if (ga4) {
+      ga4.viewItemList(products.value, 0);
+    }
+  };
+
+  const loadMoreProducts = async (query: CatalogQuery): Promise<void> => {
+    loadingMoreProducts.value = true;
     const startIndex = products.value.length;
-    const res = await client.findProducts(query);
-    products.value = products.value.concat(res);
-
-    if (replace) {
-      loadingProducts.value = false;
-    } else {
-      loadingMoreProducts.value = false;
-    }
+    products.value = products.value.concat(await client.findProducts(query));
+    loadingMoreProducts.value = false;
 
     if (ga4) {
       ga4.viewItemList(products.value, startIndex);
@@ -395,7 +394,6 @@ export function useCatalog(config: CatalogConfig) {
   const loadTaxonomy = async (
     tax: string,
     query: ProductQuery,
-    omitSelf = false,
   ): Promise<void> => {
     const taxRef = taxRefs.get(tax);
     if (taxRef === undefined) {
@@ -408,8 +406,8 @@ export function useCatalog(config: CatalogConfig) {
     }
 
     taxRef.loading = true;
-    let q = Object.assign({}, query);
-    if (omitSelf && q.taxonomies !== undefined) {
+    const q = cloneDeep(query);
+    if (q.taxonomies) {
       delete q.taxonomies[tax];
     }
 
@@ -432,13 +430,10 @@ export function useCatalog(config: CatalogConfig) {
     taxRef.loading = false;
   };
 
-  const loadAllTaxonomies = async (
-    query: ProductQuery,
-    omitSelf = false,
-  ): Promise<void> => {
+  const loadAllTaxonomies = async (query: ProductQuery): Promise<void> => {
     const promises: Promise<any>[] = [];
     for (const [tax] of taxRefs.entries()) {
-      promises.push(loadTaxonomy(tax, query, omitSelf));
+      promises.push(loadTaxonomy(tax, query));
     }
 
     await Promise.all(promises);
@@ -464,86 +459,12 @@ export function useCatalog(config: CatalogConfig) {
 
     loadingCatalog.value = true;
     await Promise.all([
-      loadProducts(catalogQuery, true),
+      loadProducts(catalogQuery),
       loadProductCount(productQuery),
       loadAllTaxonomies(productQuery),
       loadPriceRange(catalogQuery),
     ]);
     loadingCatalog.value = false;
-  };
-
-  const changeOrder = async (o: CatalogOrder): Promise<void> => {
-    order.value = o;
-    page.value = 1;
-    const productQuery = getProductQuery();
-    const catalogQuery = getCatalogQuery(productQuery);
-    await loadProducts(catalogQuery, true);
-  };
-
-  const toggleTerm = async (
-    tax: string,
-    term: Term,
-    checked: boolean,
-    reload = false,
-  ): Promise<void> => {
-    const taxRef = taxRefs.get(tax);
-    if (taxRef === undefined) {
-      console.warn(`Taxonomy \`${tax}\` does not exists`);
-      return;
-    }
-
-    if (checked) {
-      taxRef.selectedTerms.add(term.id);
-    } else {
-      taxRef.selectedTerms.delete(term.id);
-      // uncheck recursively its own children
-      const uncheckChildren = (term: Term): void => {
-        for (const c of term.children) {
-          taxRef.selectedTerms.delete(c.id);
-          if (c.children.length > 0) {
-            uncheckChildren(c);
-          }
-        }
-      };
-      uncheckChildren(term);
-    }
-
-    if (reload) {
-      page.value = 1;
-      const productQuery = getProductQuery();
-      const catalogQuery = getCatalogQuery(productQuery);
-      await Promise.all([
-        loadProducts(catalogQuery, true),
-        loadProductCount(productQuery),
-        loadAllTaxonomies(productQuery, true),
-        loadPriceRange(catalogQuery),
-      ]);
-    }
-  };
-
-  const selectPriceRange = async (
-    min: number,
-    max: number,
-    reload = false,
-  ): Promise<void> => {
-    selectedPriceRange.value = { min, max };
-    if (reload) {
-      page.value = 1;
-      const productQuery = getProductQuery();
-      const catalogQuery = getCatalogQuery(productQuery);
-      await Promise.all([
-        loadProducts(catalogQuery, true),
-        loadProductCount(productQuery),
-        loadAllTaxonomies(productQuery),
-      ]);
-    }
-  };
-
-  const loadMoreProducts = async (): Promise<void> => {
-    page.value++;
-    const productQuery = getProductQuery();
-    const catalogQuery = getCatalogQuery(productQuery);
-    await loadProducts(catalogQuery);
   };
 
   const addToCart = (product: Product, index: number): void => {
@@ -580,15 +501,12 @@ export function useCatalog(config: CatalogConfig) {
     getProductQuery,
     getCatalogQuery,
     loadProducts,
+    loadMoreProducts,
     loadProductCount,
     loadPriceRange,
     loadTaxonomy,
     loadAllTaxonomies,
     initCatalog,
-    changeOrder,
-    toggleTerm,
-    selectPriceRange,
-    loadMoreProducts,
     addToCart,
     viewDetails,
   };
