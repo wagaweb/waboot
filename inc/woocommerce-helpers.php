@@ -2,6 +2,8 @@
 
 namespace Waboot\inc;
 
+use Waboot\inc\core\utils\Utilities;
+
 /**
  * @param string $type
  * @param array $args
@@ -381,6 +383,23 @@ function getOrderIdByOrderNumber(int $orderNumber): ?int {
         return (int) $rr->post_id;
     }
     return null;
+}
+
+/**
+ * Obtains id of products or variations with the same sku
+ *
+ * @param string $sku
+ * @return void
+ */
+function getProductIdsBySku(string $sku): array {
+    global $wpdb;
+    $q = 'SELECT pm.post_id FROM '.$wpdb->prefix.'postmeta as pm JOIN '.$wpdb->prefix.'posts pp ON pm.post_id = pp.ID WHERE pm.meta_key = %s AND pm.meta_value = %s AND (pp.post_type = %s OR pp.post_type = %s)';
+    $q = $wpdb->prepare($q,'_sku',$sku,'product','product_variation');
+    $results = $wpdb->get_results($q);
+    if(!Utilities::isIterable($results)){
+        return [];
+    }
+    return array_map('intval', wp_list_pluck($results,'post_id'));
 }
 
 /**
