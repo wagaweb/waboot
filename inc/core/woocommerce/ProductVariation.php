@@ -2,7 +2,10 @@
 
 namespace Waboot\inc\core\woocommerce;
 
-class ProductVariation
+use Waboot\inc\core\utils\Utilities;
+use function Waboot\inc\getProductType;
+
+class ProductVariation extends Product
 {
     public const SIZE_ATTRIBUTE_NAME = 'taglia';
     /**
@@ -18,7 +21,7 @@ class ProductVariation
      */
     private $parentId;
     /**
-     * @var Product
+     * @var VariableProduct
      */
     private $parent;
     /**
@@ -30,78 +33,106 @@ class ProductVariation
      */
     private $name;
     /**
+     * @var \WP_Term
+     */
+    private $size;
+    /**
      * @var string
      */
     private $nameWithSize;
 
-    public function __construct($variation, $parent = null)
+    /**
+     * @param null|int|\WC_Product $variation
+     * @param null|int|\WC_Product_Variable|VariableProduct $parent
+     * @throws ProductException|ProductFactoryException
+     */
+    public function __construct($variation = null, $parent = null)
     {
-        if(\is_int($variation)){
-            $this->id = $variation;
-            $pType = get_post_type($variation);
-            if($pType !== 'product_variation'){
-                throw new \RuntimeException('#'.$this->id.' is not Product Variation');
+        if(!isset($variation)){
+            parent::__construct($variation,ProductFactory::PRODUCT_TYPE_VARIATION);
+            if ($parent instanceof VariableProduct){
+                $this->parent = $parent;
+                $this->parentId = $parent->getId();
+            }elseif($parent instanceof \WC_Product_Variable){
+                $wbParent = ProductFactory::createVariableProduct($parent);
+                $this->parent = $wbParent;
+                $this->parentId = $wbParent->getId();
+            }else{
+                throw new \RuntimeException('ProductVariation - Invalid parent provided');
             }
-        }elseif ($variation instanceof \WC_Product_Variation){
-            $this->id = $variation->get_id();
-            $this->wcProduct = $variation;
-        }else{
-            throw new \RuntimeException('#'.$this->id.' is not Product Variation');
+            return;
         }
+        $pType = \is_int($variation) ? getProductType($variation) : getProductType($variation->get_id());
+        if($pType !== ProductFactory::PRODUCT_TYPE_VARIATION){
+            throw new ProductException('ProductVariation - provided $variation is not a variation');
+        }
+        parent::__construct($variation);
 
         if(!isset($parent)){
-            global $wpdb;
-            $posts_table = $wpdb->prefix."posts";
-            $parentId = $wpdb->get_var("SELECT post_parent FROM {$posts_table} WHERE ID = {$this->id}");
-            if(!\is_string($parentId)){
-                throw new \RuntimeException('#'.$this->id.' has no parent');
+            $parentId = Utilities::getPostParentId($this->getId());
+            if(!$parentId){
+                throw new \RuntimeException('ProductVariation - #'.$this->id.' has no parent');
             }
-            $this->parentId = (int) $parentId;
-        }elseif ($parent instanceof Product){
+            $this->parentId = $parentId;
+        }elseif ($parent instanceof VariableProduct){
             $this->parent = $parent;
             $this->parentId = $parent->getId();
         }elseif($parent instanceof \WC_Product_Variable){
-            $wbParent = new Product($parent);
+            $wbParent = ProductFactory::createVariableProduct($parent);
             $this->parent = $wbParent;
             $this->parentId = $wbParent->getId();
         }else{
-            throw new \RuntimeException(' Invalid parent provided');
+            throw new \RuntimeException('ProductVariation - Invalid parent provided');
         }
     }
 
     /**
+     * @return int
+     */
+    public function getParentId(): int
+    {
+        return $this->parentId;
+    }
+
+    /**
      * @return \WC_Product_Variation
-     * @throws \RuntimeException
+     * @throws \RuntimeException|ProductException
      */
     public function getWcProduct(): \WC_Product_Variation
     {
         if(!isset($this->wcProduct)){
-            $this->wcProduct = wc_get_product($this->id);
-            if(!$this->wcProduct instanceof \WC_Product_Variation){
-                throw new \RuntimeException('#'.$this->id.' is not a Product Variation');
+            if($this->isNew()){
+                $wcProduct = wc_get_product_object(ProductFactory::PRODUCT_TYPE_VARIATION);
+            }else{
+                $wcProduct = wc_get_product($this->id);
+                if(!$wcProduct instanceof \WC_Product_Variation){
+                    throw new ProductException('ProductVariation - #'.$this->id.' is not a Product Variation');
+                }
             }
+            $this->wcProduct = $wcProduct;
         }
         return $this->wcProduct;
     }
 
     /**
-     * @return Product
-     * @throws \RuntimeException
+     * @return VariableProduct
+     * @throws ProductException
      */
-    public function getParent(): Product
+    public function getParent(): VariableProduct
     {
-        if(!isset($this->parent)){
-            if(!isset($this->parentId)){
-                throw new \RuntimeException('No parent_id found');
-            }
-            try{
-                $parent = $this->createVariableProductInstance($this->parentId);
-                $this->parent = $parent;
-            }catch (\RuntimeException $e){
-                throw new \RuntimeException($e->getMessage());
-            }
+        if(isset($this->parent)){
+            return $this->parent;
         }
-        return $this->parent;
+        if(!isset($this->parentId)){
+            throw new ProductException('ProductVariation - No parent_id found');
+        }
+        try{
+            $parent = ProductFactory::createProductVariation($this->getParentId());
+            $this->parent = $parent;
+            return $this->parent;
+        }catch (ProductFactoryException $e){
+            throw new ProductException('ProductVariation - '.$e->getMessage());
+        }
     }
 
     /**
@@ -116,28 +147,31 @@ class ProductVariation
             $p = $this->getWcProduct();
             $this->name = $p->get_title();
             return $this->name;
-        }catch (\RuntimeException $e){
+        }catch (ProductException | \Throwable $e){
             return '';
         }
     }
 
     /**
-     * @return false|\WP_Term
+     * @return null|\WP_Term
      */
-    public function getBrand()
+    public function getBrand(): ?\WP_Term
     {
         try{
             return $this->getParent()->getBrand();
-        }catch (\RuntimeException $e){
-            return false;
+        }catch (ProductException | \Throwable $e){
+            return null;
         }
     }
 
     /**
-     * @return false|\WP_Term
+     * @return null|\WP_Term
      */
-    public function getSize()
+    public function getSize(): ?\WP_Term
     {
+        if($this->isNew()){
+            return null;
+        }
         if(isset($this->size)){
             return $this->size;
         }
@@ -149,7 +183,7 @@ class ProductVariation
                 return $this->size;
             }
         }
-        return false;
+        return null;
     }
 
     /**
@@ -194,48 +228,12 @@ class ProductVariation
             return $this->data;
         }
         $data = [
-            'name' => '',
-            'brand' => '',
-            'size' => '',
+            'name' => $this->getName(),
+            'brand' => $this->getBrand() !== null ? $this->getBrand()->name : '',
+            'size' => $this->getSize() !== null ? $this->getSize()->name : '',
         ];
-        $data['name'] = $this->getName();
         $data['name_size'] = $this->getNameWithSize();
-        $data['brand'] = $this->getBrand() !== false ? $this->getBrand()->name : '';
-        $data['size'] = $this->getSize() !== false ? $this->getSize()->name : '';
         $this->data = $data;
         return $this->data;
-    }
-
-    /**
-     * @return int
-     */
-    public function getId(): int
-    {
-        return $this->id;
-    }
-
-    /**
-     * @return int
-     */
-    public function getParentId(): int
-    {
-        return $this->parentId;
-    }
-
-    /**
-     * @return string
-     */
-    public function getPermalink(): string
-    {
-        return get_the_permalink($this->getId());
-    }
-
-    /**
-     * @param int $parentId
-     * @return Product
-     */
-    protected function createVariableProductInstance(int $parentId): Product
-    {
-        return new Product($parentId);
     }
 }

@@ -3,6 +3,7 @@
 namespace Waboot\inc\core\woocommerce;
 
 use Waboot\inc\core\utils\Terms;
+use function Waboot\inc\getProductType;
 
 class Product
 {
@@ -12,7 +13,7 @@ class Product
      */
     private $id;
     /**
-     * @var \WC_Product_Variable
+     * @var \WC_Product
      */
     private $wcProduct;
     /**
@@ -24,121 +25,77 @@ class Product
      */
     private $brand;
     /**
-     * @var \WP_Term
+     * @var string
      */
-    private $size;
+    private $productType;
     /**
-     * @var boolean
+     * @var array
      */
-    private $isVariable;
+    private $terms;
     /**
-     * @var ProductVariation[]
+     * @var array
      */
-    private $variations;
+    private $orderedTerms;
+    /**
+     * @var float[]
+     */
+    private $prices;
 
     /**
-     * FCVariableProduct constructor.
-     * @param int|\WC_Product $product
-     * @throws \RuntimeException
+     * Product constructor.
+     * @param null|int|\WC_Product $product
+     * @throws ProductException
      */
-    public function __construct($product)
+    public function __construct($product = null, string $type = null)
     {
+        if(!isset($product)){
+            $this->productType = $type ?? ProductFactory::PRODUCT_TYPE_SIMPLE;
+            return;
+        }
         if(\is_int($product)){
             $this->id = $product;
-            $pType = get_post_type($product);
-            if($pType !== 'product'){
-                throw new \RuntimeException('#'.$this->id.' is not Product');
+            $pType = getProductType($product);
+            if(!$pType){
+                throw new ProductException('#'.$this->id.' is not valid product');
             }
+            $this->productType = $pType;
         }elseif($product instanceof \WC_Product){
             $this->id = $product->get_id();
             $this->wcProduct = $product;
+            $this->productType = getProductType($product->get_id());
         }else{
-            throw new \RuntimeException('Provided $product is not Product');
+            throw new ProductException('Provided $product is not valid product');
         }
 
         $this->sku = isset($this->wcProduct) ? $this->wcProduct->get_sku() : get_post_meta($this->id, '_sku', true);
     }
 
     /**
-     * @return \WC_Product
-     * @throws \RuntimeException
+     * @return bool
      */
-    public function getWcProduct(): \WC_Product
+    public function isNew(): bool
+    {
+        return !isset($this->id);
+    }
+
+    /**
+     * @return \WC_Product
+     * @throws \RuntimeException|ProductException
+     */
+    public function getWcProduct()
     {
         if(!isset($this->wcProduct)){
-            $this->wcProduct = wc_get_product($this->id);
+            if($this->isNew()){
+                $wcProduct = wc_get_product_object($this->getProductType());
+            }else{
+                $wcProduct = wc_get_product($this->id);
+                if(!$wcProduct){
+                    throw new ProductException('Product - Unable to fetch WC_Product instance');
+                }
+            }
+            $this->wcProduct = $wcProduct;
         }
         return $this->wcProduct;
-    }
-
-    /**
-     * @return string
-     */
-    public function getSku(): string
-    {
-        return $this->sku;
-    }
-
-    /**
-     * @return string
-     */
-    public function getPermalink(): string
-    {
-        return get_the_permalink($this->getId());
-    }
-
-    /**
-     * @return bool
-     */
-    public function isVariableProduct(): bool{
-        return $this->getWcProduct() instanceof \WC_Product_Variable;
-    }
-
-    /**
-     * @return array
-     */
-    public function fetchVariations(): array
-    {
-        try{
-            $result = [];
-            $product = $this->getWcProduct();
-            if(!$product instanceof \WC_Product_Variable){
-                return [];
-            }
-            $variations = $product->get_available_variations('objects');
-            if(!\is_array($variations) || count($variations) <= 0){
-                return [];
-            }
-            foreach ($variations as $variation){
-                if(!$variation instanceof \WC_Product_Variation){
-                    continue;
-                }
-                $result[] = $this->createVariationInstance($variation);
-            }
-            return $result;
-        }catch (\RuntimeException $e){
-            return [];
-        }
-    }
-
-    /**
-     * @return array|ProductVariation[]
-     */
-    public function getVariations(): array
-    {
-        if(!isset($this->variations)){
-            $this->variations = $this->fetchVariations();
-        }
-        return $this->variations;
-    }
-
-    /**
-     * @return bool
-     */
-    public function hasVariations(): bool
-    {
-        $v = $this->getVariations();
-        return \is_array($v) && count($v) > 0;
     }
 
     /**
@@ -150,40 +107,41 @@ class Product
     }
 
     /**
-     * @return array|\WP_Term[]
+     * @return string
      */
-    private function fetchBrands(): array
+    public function getProductType(): string
     {
-        if(isset($this->brands)){
-            return $this->brands;
-        }
-        $terms = wp_get_post_terms($this->id, self::BRAND_TAXONOMY_NAME);
-        if(!\is_array($terms) || count($terms) <= 0){
-            return [];
-        }
-        $this->brands = $terms;
-        return $this->brands;
+        return $this->productType;
     }
 
     /**
-     * @return \WP_Term|false
+     * @return string
      */
-    public function getBrand()
+    public function getSku(): string
     {
-        if($this->brand instanceof \WP_Term){
-            return $this->brand;
+        try{
+            if($this->isNew()){
+                $sku = $this->getWcProduct()->get_sku();
+                if(!\is_string($sku)){
+                    return '';
+                }
+                return $sku;
+            }
+            return $this->sku;
+        }catch (ProductException $e){
+            return '';
         }
-        $terms = $this->fetchBrands();
-        if(count($terms) <= 0){
-            return false;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPermalink(): string
+    {
+        if($this->isNew()){
+            return '';
         }
-        $brands = array_reverse($terms);
-        $brand = array_shift($brands);
-        if(!$brand instanceof \WP_Term){
-            return false;
-        }
-        $this->brand = $brand;
-        return $this->brand;
+        return get_the_permalink($this->getId());
     }
 
     /**
@@ -191,12 +149,126 @@ class Product
      */
     public function getCost(): ?float
     {
-        $cost = $this->getWcProduct()->get_meta('_cost');
+        try {
+            $cost = $this->getWcProduct()->get_meta('_cost');
+        } catch (ProductException $e) {
+            $cost = '';
+        }
         $cost = str_replace(',', '.', $cost);
         if (!is_numeric($cost)) {
             return null;
         }
-        return (float)$cost;
+        return (float) $cost;
+    }
+
+    /**
+     * @param string $taxonomyName
+     * @param bool $hierarchical
+     * @return void
+     * @throws ProductException
+     */
+    private function fetchTerms(string $taxonomyName, bool $hierarchical = false): void
+    {
+        if(!taxonomy_exists($taxonomyName)){
+            throw new ProductException('Product - invalid taxonomy provided to fetchTerms()');
+        }
+        if($hierarchical && isset($this->terms[$taxonomyName])){
+            return;
+        }
+        if(!$hierarchical && isset($this->orderedTerms[$taxonomyName])){
+            return;
+        }
+        if($this->isNew()){
+            if($hierarchical){
+                $this->orderedTerms[$taxonomyName] = [];
+            }else{
+                $this->terms[$taxonomyName] = [];
+            }
+            return;
+        }
+        $terms = $hierarchical ? Terms::getPostTermsHierarchical($this->id,$taxonomyName,[],true,true) : wp_get_post_terms($this->id, $taxonomyName);
+        if(!\is_array($terms) || count($terms) <= 0){
+            if($hierarchical){
+                $this->orderedTerms[$taxonomyName] = [];
+            }else{
+                $this->terms[$taxonomyName] = [];
+            }
+        }else{
+            if($hierarchical){
+                $this->orderedTerms[$taxonomyName] = $terms;
+            }else{
+                $this->terms[$taxonomyName] = $terms;
+            }
+        }
+    }
+
+    /**
+     * @param string $taxonomyName
+     * @param bool $hierarchical
+     * @param bool $reverse
+     * @return array
+     */
+    public function getTerms(string $taxonomyName, bool $hierarchical = false, bool $reverse = false): array
+    {
+        try{
+            $this->fetchTerms($taxonomyName,$hierarchical);
+            if($reverse){
+                return $hierarchical ? array_reverse($this->orderedTerms[$taxonomyName]) : array_reverse($this->terms[$taxonomyName]);
+            }
+            return $hierarchical ? $this->orderedTerms[$taxonomyName] : $this->terms[$taxonomyName];
+        }catch (ProductException $e){
+            return [];
+        }
+    }
+
+    /**
+     * @param string $taxonomyName
+     * @param string $separator
+     * @param bool $reverse
+     * @return void
+     */
+    public function getTermsList(string $taxonomyName, string $separator, bool $reverse): string
+    {
+        $terms = $this->getTerms($taxonomyName,true,$reverse);
+        if(!\is_array($terms) || empty($terms)){
+            return '';
+        }
+        $termNames = array_unique(wp_list_pluck($terms,'name'));
+        return \implode($separator, $termNames);
+    }
+
+    /**
+     * @param string $taxonomyName
+     * @return \WP_Term|null
+     */
+    public function getFirstTerm(string $taxonomyName): ?\WP_Term
+    {
+        $terms = $this->getTerms($taxonomyName, true);
+        if(!\is_array($terms) || count($terms) <= 0){
+            return null;
+        }
+        $terms = array_reverse($terms);
+        $term = array_shift($terms);
+        if(!$term instanceof \WP_Term){
+            return null;
+        }
+        return $term;
+    }
+
+    /**
+     * @return \WP_Term|null
+     */
+    public function getBrand(): ?\WP_Term
+    {
+        if($this->brand instanceof \WP_Term){
+            return $this->brand;
+        }
+        $brand = $this->getFirstTerm(self::BRAND_TAXONOMY_NAME);
+        if(!$brand){
+            return null;
+        }
+        $this->brand = $brand;
+        return $this->brand;
     }
 
     /**
@@ -205,36 +277,77 @@ class Product
      * @param string $separator
      * @return array|string
      */
-    public function getCategories(bool $reverse, $asString = false, $separator = ' > '){
-        //$categoryTerms = \wc_get_product_category_list($productId, $separator);
-        //$categoryTerms = \strip_tags($categoryTerms);
-        //$categoryTerms = \get_the_terms($productId, 'product_cat');
-        $categoryTerms = Terms::getPostTermsHierarchical($this->getId(),'product_cat',[],true,true);
-        if(\is_wp_error($categoryTerms)){
-            return $asString ? '' : [];
-        }
-        if(empty($categoryTerms)){
-            return $asString ? '': [];
-        }
-        if($reverse){
-            $categoryTerms = \array_reverse($categoryTerms);
-        }
-        $categoryTermsNames = array_unique(wp_list_pluck($categoryTerms,'name'));
-        /*if($categoryTermsNames[count($categoryTermsNames)-1] === 'Uomo'){
-            $categoryTermsNames = array_reverse($categoryTermsNames);
-        }*/
+    public function getCategories(bool $reverse, bool $asString = false, string $separator = ' > ')
+    {
         if($asString){
-            $categoryTermsNames = \implode($separator, $categoryTermsNames);
+            return $this->getTermsList('product_cat',$separator,$reverse);
         }
-        return $categoryTermsNames;
+        return $this->getTerms('product_cat',true,$reverse);
     }
 
     /**
-     * @param \WC_Product_Variation $variation
-     * @return ProductVariation
+     * @param bool $refetch
+     * @return void
+     * @throws ProductException
      */
-    protected function createVariationInstance(\WC_Product_Variation $variation): ProductVariation
+    public function fetchPrices(bool $refetch = false): void
     {
-        return new ProductVariation($variation->get_id(),$this);
+        $wcProduct = $this->getWcProduct();
+        if($refetch || !isset($this->prices['regular_price'])){
+            $this->prices['regular_price'] = (float) $wcProduct->get_regular_price();
+        }
+        if($refetch || !isset($this->prices['regular_price_displayed'])){
+            $this->prices['regular_price_displayed'] = (float) wc_get_price_to_display($this->wcProduct,[
+                'price' => $wcProduct->get_regular_price()
+            ]);
+        }
+        if($refetch || !isset($this->prices['sale_price'])){
+            $this->prices['sale_price'] = (float) $wcProduct->get_regular_price();
+        }
+        if($refetch || !isset($this->prices['sale_price_displayed'])){
+            $this->prices['sale_price_displayed'] = (float) wc_get_price_to_display($this->wcProduct,[
+                'price' => $wcProduct->get_sale_price()
+            ]);
+        }
+        if($refetch || !isset($this->prices['price'])){
+            $this->prices['price'] = (float) $wcProduct->get_price();
+        }
+        if($refetch || !isset($this->prices['price_displayed'])){
+            $this->prices['price_displayed'] = (float) wc_get_price_to_display($this->wcProduct);
+        }
+    }
+
+    /**
+     * @param bool $raw whether return the meta value or the price to display (which takes into account the taxes)
+     * @return float
+     */
+    public function getRegularPrice(bool $raw = false)
+    {
+        try{
+            $this->fetchPrices();
+            if($raw){
+                return $this->prices['regular_price'];
+            }
+            return $this->prices['regular_price_displayed'];
+        }catch (ProductException $e) {
+            return 0;
+        }
+    }
+
+    /**
+     * @param bool $raw
+     * @return float
+     */
+    public function getSalePrice(bool $raw = false)
+    {
+        try{
+            $this->fetchPrices();
+            if($raw){
+                return $this->prices['sale_price'];
+            }
+            return $this->prices['sale_price_displayed'];
+        }catch (ProductException $e) {
+            return 0;
+        }
     }
 }
