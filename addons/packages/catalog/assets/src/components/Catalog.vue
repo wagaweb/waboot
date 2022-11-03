@@ -289,7 +289,6 @@ export default defineComponent({
     };
 
     const reloadOnLoadMore = async (): Promise<void> => {
-      page.value++;
       const productQuery = getProductQuery();
       const catalogQuery = getCatalogQuery(productQuery);
       await loadMoreProducts(catalogQuery);
