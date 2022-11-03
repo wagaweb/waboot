@@ -553,3 +553,101 @@ function syncVariableProductData(int $variableProductId, bool $save = true): \WC
     delete_transient("wc_product_children_$variableProductId");
     return \WC_Product_Variable::sync($variableProductId, $save);
 }
+
+/**
+ * @return bool
+ */
+function isCartUpdatingInCartPage(): bool {
+    return isset($_POST['update_cart']);
+}
+
+/**
+ * @param string $sku
+ * @param int $quantity
+ * @param bool $addIfNotPresentOnly
+ * @param array $cartItemData
+ * @return string|false
+ */
+function addSkuToCart(string $sku, int $quantity, bool $addIfNotPresentOnly = false, array $cartItemData = []){
+    $productToAddId = (int) wc_get_product_id_by_sku($sku);
+    if(!\is_int($productToAddId) || $productToAddId === 0){
+        return false;
+    }
+    if($addIfNotPresentOnly && isSkuInCart($sku)){
+        return false;
+    }
+    try{
+        if(getProductType($productToAddId) === 'product_variation'){
+            $parentPost = get_post_parent($productToAddId);
+            if(!$parentPost instanceof \WP_Post){
+                return false;
+            }
+            $cartItemKey = WC()->cart->add_to_cart($parentPost->ID,$quantity,$productToAddId,[],$cartItemData);
+        }else{
+            $cartItemKey = WC()->cart->add_to_cart($productToAddId,$quantity,0,[],$cartItemData);
+        }
+        if(\is_string($cartItemKey) && $cartItemKey !== ''){
+            return $cartItemKey;
+        }
+        return false;
+    }catch (\Exception $e){
+        return false;
+    }
+}
+
+/**
+ * @param string $sku
+ * @return bool
+ */
+function removeSkuFromCart(string $sku): bool {
+    $productToRemoveId = (int) wc_get_product_id_by_sku($sku);
+    if(!\is_int($productToRemoveId) || $productToRemoveId === 0){
+        return false;
+    }
+    $currentCart = WC()->cart->get_cart();
+    if(!\is_array($currentCart) || count($currentCart) === 0){
+        return false;
+    }
+    foreach ($currentCart as $hash => $cartItemData){
+        if(!isset($cartItemData['data'])){
+            continue;
+        }
+        $product = $cartItemData['data'];
+        if(!$product instanceof \WC_Product){
+            continue;
+        }
+        $productSku = $product->get_sku();
+        if($productSku === $sku){
+            $r = WC()->cart->remove_cart_item($hash);
+            if($r){
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+/**
+ * @param string $sku
+ * @return bool
+ */
+function isSkuInCart(string $sku): bool {
+    $currentCart = WC()->cart->get_cart();
+    if(!\is_array($currentCart) || count($currentCart) === 0){
+        return false;
+    }
+    foreach ($currentCart as $hash => $cartItemData){
+        if(!isset($cartItemData['data'])){
+            continue;
+        }
+        $product = $cartItemData['data'];
+        if(!$product instanceof \WC_Product){
+            continue;
+        }
+        $productSku = $product->get_sku();
+        if($productSku === $sku){
+            return true;
+        }
+    }
+    return false;
+}
