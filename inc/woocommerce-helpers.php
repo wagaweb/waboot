@@ -629,12 +629,12 @@ function removeSkuFromCart(string $sku): bool {
 
 /**
  * @param string $sku
- * @return bool
+ * @return string|null
  */
-function isSkuInCart(string $sku): bool {
+function getCartItemHashFromSku(string $sku): ?string {
     $currentCart = WC()->cart->get_cart();
     if(!\is_array($currentCart) || count($currentCart) === 0){
-        return false;
+        return null;
     }
     foreach ($currentCart as $hash => $cartItemData){
         if(!isset($cartItemData['data'])){
@@ -646,8 +646,16 @@ function isSkuInCart(string $sku): bool {
         }
         $productSku = $product->get_sku();
         if($productSku === $sku){
-            return true;
+            return $hash;
         }
     }
-    return false;
+    return null;
+}
+
+/**
+ * @param string $sku
+ * @return bool
+ */
+function isSkuInCart(string $sku): bool {
+    return getCartItemHashFromSku($sku) !== null;
 }
