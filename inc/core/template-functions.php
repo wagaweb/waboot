@@ -11,7 +11,7 @@ function safeRequireFiles($files){
     if(!is_array($files) || count($files) === 0) return;
     foreach($files as $file){
         if (!$filepath = locate_template($file)) {
-            trigger_error(sprintf(__('Error locating %s for inclusion', LANG_TEXTDOMAIN), $file), E_USER_ERROR);
+            throw new \RuntimeException(sprintf(__('Error locating %s for inclusion', LANG_TEXTDOMAIN), $file));
         }
         require_once $filepath;
     }
