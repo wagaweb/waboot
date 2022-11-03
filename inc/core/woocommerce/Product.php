@@ -11,35 +11,39 @@ class Product
     /**
      * @var int
      */
-    private $id;
+    protected $id;
     /**
      * @var \WC_Product
      */
-    private $wcProduct;
+    protected $wcProduct;
     /**
      * @var string
      */
-    private $sku;
+    protected $sku;
     /**
      * @var \WP_Term
      */
-    private $brand;
+    protected $brand;
     /**
      * @var string
      */
-    private $productType;
+    protected $productType;
     /**
      * @var array
      */
-    private $terms;
+    protected $terms;
     /**
      * @var array
      */
-    private $orderedTerms;
+    protected $orderedTerms;
     /**
      * @var float[]
      */
-    private $prices;
+    protected $prices;
+    /**
+     * @var array
+     */
+    protected $wcAttributes;
 
     /**
      * Product constructor.
@@ -159,6 +163,89 @@ class Product
             return null;
         }
         return (float) $cost;
+    }
+
+    /**
+     * @param bool $refetch
+     * @return void
+     * @throws ProductException
+     */
+    public function fetchPrices(bool $refetch = false): void
+    {
+        $wcProduct = $this->getWcProduct();
+        if($refetch || !isset($this->prices['regular_price'])){
+            $this->prices['regular_price'] = (float) $wcProduct->get_regular_price();
+        }
+        if($refetch || !isset($this->prices['regular_price_displayed'])){
+            $this->prices['regular_price_displayed'] = (float) wc_get_price_to_display($this->wcProduct,[
+                'price' => $wcProduct->get_regular_price()
+            ]);
+        }
+        if($refetch || !isset($this->prices['sale_price'])){
+            $this->prices['sale_price'] = (float) $wcProduct->get_regular_price();
+        }
+        if($refetch || !isset($this->prices['sale_price_displayed'])){
+            $this->prices['sale_price_displayed'] = (float) wc_get_price_to_display($this->wcProduct,[
+                'price' => $wcProduct->get_sale_price()
+            ]);
+        }
+        if($refetch || !isset($this->prices['price'])){
+            $this->prices['price'] = (float) $wcProduct->get_price();
+        }
+        if($refetch || !isset($this->prices['price_displayed'])){
+            $this->prices['price_displayed'] = (float) wc_get_price_to_display($this->wcProduct);
+        }
+    }
+
+    /**
+     * @param bool $raw whether return the meta value or the price to display (which takes into account the taxes)
+     * @return float
+     */
+    public function getRegularPrice(bool $raw = false)
+    {
+        try{
+            $this->fetchPrices();
+            if($raw){
+                return $this->prices['regular_price'];
+            }
+            return $this->prices['regular_price_displayed'];
+        }catch (ProductException $e) {
+            return 0;
+        }
+    }
+
+    /**
+     * @param bool $raw
+     * @return float
+     */
+    public function getSalePrice(bool $raw = false)
+    {
+        try{
+            $this->fetchPrices();
+            if($raw){
+                return $this->prices['sale_price'];
+            }
+            return $this->prices['sale_price_displayed'];
+        }catch (ProductException $e) {
+            return 0;
+        }
+    }
+
+    /**
+     * @param bool $raw
+     * @return float
+     */
+    public function getPrice(bool $raw = false)
+    {
+        try{
+            $this->fetchPrices();
+            if($raw){
+                return $this->prices['price'];
+            }
+            return $this->prices['price_displayed'];
+        }catch (\Throwable $e) {
+            return 0;
+        }
     }
 
     /**
@@ -286,68 +373,91 @@ class Product
     }
 
     /**
-     * @param bool $refetch
+     * @return array
+     */
+    public function getWcAttributes(): array
+    {
+        if(!isset($this->wcAttributes)){
+            $this->fetchWCAttributes();
+        }
+        return $this->wcAttributes;
+    }
+
+    /**
+     * Fetch the attributes
+     */
+    public function fetchWCAttributes(): void
+    {
+        try{
+            $wcAttributes = $this->getWcProduct()->get_attributes('edit');
+            if(!\is_array($wcAttributes)){
+                $this->wcAttributes = [];
+            }else{
+                $this->wcAttributes = $wcAttributes;
+            }
+        }catch (\Exception $e){
+            $this->wcAttributes = [];
+        }
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasAttributes(): bool
+    {
+        if(!isset($this->wcAttributes)){
+            $this->fetchWCAttributes();
+        }
+        return count($this->wcAttributes) !== 0;
+    }
+
+    /**
+     * @param \WP_Term $term
+     * @param bool $usedForVariations
+     * @throws ProductException
+     */
+    public function addTermAttribute(\WP_Term $term): void
+    {
+        $wcProduct = $this->getWcProduct();
+        $currentAttributes = $this->getWcAttributes();
+        $currentAttributesCount = count($currentAttributes);
+        $taxonomy = $term->taxonomy;
+        if(isset($currentAttributes[$taxonomy])){
+            $wcProduct->set_attributes([]); //This will trigger the notify of changes in the \WC_Product_Variation->set_prop() method
+            $attObj = $currentAttributes[$taxonomy];
+            unset($currentAttributes[$taxonomy]); //We will re-add this later
+            if(!$attObj instanceof \WC_Product_Attribute){
+                throw new ProductException('Product->addTermAttribute(): invalid existing attribute object found');
+            }
+            $currentOptions = $attObj->get_options();
+            $newOptions = array_unique(array_merge($currentOptions,[$term->term_id]));
+            $attObj->set_options($newOptions);
+        }else{
+            $attObj = new \WC_Product_Attribute();
+            $attObj->set_id(wc_attribute_taxonomy_id_by_name($taxonomy));
+            $attObj->set_name($taxonomy);
+            $attObj->set_visible(true);
+            $attObj->set_options([$term->term_id]);
+            $attObj->set_variation(false);
+            $nextPosition = $currentAttributesCount;
+            $attObj->set_position($nextPosition);
+        }
+        if($currentAttributesCount === 0){
+            $wcProduct->set_attributes([$attObj]);
+        }else{
+            $attributes = array_values($currentAttributes);
+            $attributes[] = $attObj;
+            $wcProduct->set_attributes($attributes);
+        }
+        $this->fetchWCAttributes();
+    }
+
+    /**
      * @return void
      * @throws ProductException
      */
-    public function fetchPrices(bool $refetch = false): void
+    public function save(): int
     {
-        $wcProduct = $this->getWcProduct();
-        if($refetch || !isset($this->prices['regular_price'])){
-            $this->prices['regular_price'] = (float) $wcProduct->get_regular_price();
-        }
-        if($refetch || !isset($this->prices['regular_price_displayed'])){
-            $this->prices['regular_price_displayed'] = (float) wc_get_price_to_display($this->wcProduct,[
-                'price' => $wcProduct->get_regular_price()
-            ]);
-        }
-        if($refetch || !isset($this->prices['sale_price'])){
-            $this->prices['sale_price'] = (float) $wcProduct->get_regular_price();
-        }
-        if($refetch || !isset($this->prices['sale_price_displayed'])){
-            $this->prices['sale_price_displayed'] = (float) wc_get_price_to_display($this->wcProduct,[
-                'price' => $wcProduct->get_sale_price()
-            ]);
-        }
-        if($refetch || !isset($this->prices['price'])){
-            $this->prices['price'] = (float) $wcProduct->get_price();
-        }
-        if($refetch || !isset($this->prices['price_displayed'])){
-            $this->prices['price_displayed'] = (float) wc_get_price_to_display($this->wcProduct);
-        }
-    }
-
-    /**
-     * @param bool $raw whether return the meta value or the price to display (which takes into account the taxes)
-     * @return float
-     */
-    public function getRegularPrice(bool $raw = false)
-    {
-        try{
-            $this->fetchPrices();
-            if($raw){
-                return $this->prices['regular_price'];
-            }
-            return $this->prices['regular_price_displayed'];
-        }catch (ProductException $e) {
-            return 0;
-        }
-    }
-
-    /**
-     * @param bool $raw
-     * @return float
-     */
-    public function getSalePrice(bool $raw = false)
-    {
-        try{
-            $this->fetchPrices();
-            if($raw){
-                return $this->prices['sale_price'];
-            }
-            return $this->prices['sale_price_displayed'];
-        }catch (ProductException $e) {
-            return 0;
-        }
+        return $this->getWcProduct()->save();
     }
 }

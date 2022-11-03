@@ -11,11 +11,11 @@ class ProductVariation extends Product
     /**
      * @var int
      */
-    private $id;
+    protected $id;
     /**
      * @var \WC_Product_Variation
      */
-    private $wcProduct;
+    protected $wcProduct;
     /**
      * @var int
      */
@@ -235,5 +235,20 @@ class ProductVariation extends Product
         $data['name_size'] = $this->getNameWithSize();
         $this->data = $data;
         return $this->data;
+    }
+
+    /**
+     * Add a term attribute to the variation. Needs to be saved afterwards.
+     *
+     * @param \WP_Term $term
+     * @return void
+     * @throws ProductException
+     */
+    public function addTermAttribute(\WP_Term $term): void
+    {
+        $wcProduct = $this->getWcProduct();
+        $currentAttributes = $wcProduct->get_attributes();
+        $currentAttributes[$term->taxonomy] = $term->slug;
+        $wcProduct->set_attributes($currentAttributes);
     }
 }
