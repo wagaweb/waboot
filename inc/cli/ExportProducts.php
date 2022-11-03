@@ -110,10 +110,10 @@ class ExportProducts extends AbstractCommand
             $this->language = $assoc_args['lang'] ?? 'it';
             $this->buildOutputFileNameAndDir();
             if(isset($assoc_args['output-dir-path']) && \is_string($assoc_args['output-dir-path']) && $assoc_args['output-dir-path'] !== ''){
-                $this->outputFileName = $assoc_args['output-dir-path'];
+                $this->outputFilePath = $assoc_args['output-dir-path'];
             }
             if(isset($assoc_args['output-file-name']) && \is_string($assoc_args['output-file-name']) && $assoc_args['output-file-name'] !== ''){
-                $this->outputFilePath = $assoc_args['output-file-name'];
+                $this->outputFileName = $assoc_args['output-file-name'];
             }
             if(isset($assoc_args['exclude-cols']) && \is_string($assoc_args['exclude-cols']) && $assoc_args['exclude-cols'] !== ''){
                 $excludedCols = explode(',',$assoc_args['exclude-cols']);
