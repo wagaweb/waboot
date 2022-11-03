@@ -3,8 +3,10 @@
 namespace Waboot\inc\cli\feeds;
 
 use Waboot\inc\core\cli\AbstractCommand;
-use Waboot\inc\core\woocommerce\Product;
-use Waboot\inc\core\woocommerce\ProductVariation;
+use Waboot\inc\core\multilanguage\helpers\Polylang;
+use Waboot\inc\core\woocommerce\ProductException;
+use Waboot\inc\core\woocommerce\ProductFactory;
+use Waboot\inc\core\woocommerce\ProductFactoryException;
 use function Waboot\inc\getHierarchicalCustomFieldFromProduct;
 
 require_once __DIR__.'/feed-utils.php';
@@ -119,6 +121,7 @@ class GenerateGShoppingFeed extends AbstractCommand
             }
             $this->variableProductsOnly = isset($assoc_args['variable-products-only']);
             $this->language = isset($assoc_args['lang']) ? $assoc_args['lang'] : 'it';
+            $this->setLanguage();
             if(isset($assoc_args['output-dir-path']) && \is_string($assoc_args['output-dir-path']) && $assoc_args['output-dir-path'] !== ''){
                 $this->customOutputPath = $assoc_args['output-dir-path'];
             }
@@ -260,13 +263,21 @@ class GenerateGShoppingFeed extends AbstractCommand
                         continue;
                     }
                     if($product->get_sku() === ''){
-                        $newRecord = $this->generateRecord($product);
-                        $this->records[] = $newRecord;
-                    }else{
-                        if(!array_key_exists($product->get_sku(),$parsedProductSkus)){
+                        try {
                             $newRecord = $this->generateRecord($product);
                             $this->records[] = $newRecord;
-                            $parsedProductSkus[$product->get_sku()] = '{Product: '.$productId.'}';
+                        } catch (ProductFactoryException $e) {
+                            $this->log('Error: '.$e->getMessage());
+                        }
+                    }else{
+                        if(!array_key_exists($product->get_sku(),$parsedProductSkus)){
+                            try{
+                                $newRecord = $this->generateRecord($product);
+                                $this->records[] = $newRecord;
+                                $parsedProductSkus[$product->get_sku()] = '{Product: '.$productId.'}';
+                            } catch (ProductFactoryException $e) {
+                                $this->log('Error: '.$e->getMessage());
+                            }
                         }else{
                             $this->skippedDuplicatedSku[] = [
                                 'sku' => $product->get_sku(), //The SKU
@@ -289,25 +300,16 @@ class GenerateGShoppingFeed extends AbstractCommand
      * @param \WC_Product $product
      * @param \WC_Product|null $parentProduct
      * @return array
+     * @throws ProductFactoryException
      */
     public function generateRecord(\WC_Product $product, \WC_Product $parentProduct = null): array
     {
-        if($product instanceof \WC_Product_Variation){
-            if(!$parentProduct instanceof \WC_Product_Variable){
-                return [];
-            }
-            $wbVariation = new ProductVariation($product, $parentProduct);
-            $brand = $wbVariation->getBrand();
-            $permalink = $wbVariation->getPermalink();
-            $categories = $wbVariation->getParent()->getCategories(false,true,' > ');
-        }else{
-            $wbProduct = new Product($product);
-            $brand = $wbProduct->getBrand();
-            $permalink = $wbProduct->getPermalink();
-            $categories = $wbProduct->getCategories(false,true,' > ');
-        }
-        $price = $product->get_regular_price();
-        $salePrice = $product->get_price();
+        $wbProduct = ProductFactory::create($product);
+        $brand = $wbProduct->getBrand();
+        $permalink = $wbProduct->getPermalink();
+        $categories = $wbProduct->getCategories(false,true,' > ');
+        $price = $wbProduct->getRegularPrice();
+        $salePrice = $wbProduct->getSalePrice();
         $size = $product->get_attribute('size');
         $gtin = getHierarchicalCustomFieldFromProduct($product,'_ean','');
         if(!$brand instanceof \WP_Term){
@@ -360,7 +362,14 @@ class GenerateGShoppingFeed extends AbstractCommand
         }else{
             $xmlDirPath = WP_CONTENT_DIR . '/wb-feeds';
         }
-        $xmlFilePath = $xmlDirPath . '/google-products-feed.xml';
+        if(isset($this->customOutputFilename)){
+            $xmlFileName = $this->customOutputFilename.'.xml';
+        }elseif($this->language !== null && \is_string($this->language) && $this->language !== ''){
+            $xmlFileName = 'google-products-feed-'.$this->language.'.xml';
+        }else{
+            $xmlFileName = 'google-products-feed.xml';
+        }
+        $xmlFilePath = $xmlDirPath . '/'. $xmlFileName;
         if (!wp_mkdir_p($xmlDirPath)) {
             throw new \RuntimeException('Unable to create directory: ' . $xmlDirPath);
         }
@@ -427,6 +436,16 @@ class GenerateGShoppingFeed extends AbstractCommand
             $this->log('XML written: '.$xmlFilePath);
         }else{
             throw new \RuntimeException('Unable to write XML');
+        }
+    }
+
+    /**
+     * @return void
+     */
+    private function setLanguage(): void
+    {
+        if(Polylang::isPolylang()){
+            Polylang::setCurrentLanguage($this->language);
         }
     }
 }
