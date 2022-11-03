@@ -55,7 +55,7 @@ function createProduct(string $type, array $args){
 }
 
 /**
- * Return "product_variation" or a term name from "product_type" taxonomy (defaults: simple, grouped, variable, external, variation)
+ * Return a term name from "product_type" taxonomy (defaults: simple, grouped, variable, external, variation)
  * @param int $productId
  * @return string
  */
