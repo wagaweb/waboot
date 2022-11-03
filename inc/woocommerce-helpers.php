@@ -577,7 +577,7 @@ function addSkuToCart(string $sku, int $quantity, bool $addIfNotPresentOnly = fa
         return false;
     }
     try{
-        if(getProductType($productToAddId) === 'product_variation'){
+        if(getProductType($productToAddId) === 'variation'){
             $parentPost = get_post_parent($productToAddId);
             if(!$parentPost instanceof \WP_Post){
                 return false;
