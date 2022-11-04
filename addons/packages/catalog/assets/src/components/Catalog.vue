@@ -494,6 +494,7 @@ export default defineComponent({
       numberOfPages,
       previousPage,
       // refs
+      sidebar,
       sidebarOpen,
       // methods
       addDdRef,
