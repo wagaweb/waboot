@@ -51,6 +51,20 @@ class ProductFactory
     }
 
     /**
+     * @param string $sku
+     * @return Product|ProductVariation|VariableProduct
+     * @throws ProductFactoryException
+     */
+    public function createFromSku(string $sku)
+    {
+        $productId = wc_get_product_id_by_sku($sku);
+        if(\is_int($productId) && $productId > 0){
+            return self::create($productId);
+        }
+        throw new ProductFactoryException('Product Factory - the provided SKU is invalid');
+    }
+
+    /**
      * @param int|\WC_Product $product
      * @return VariableProduct
      * @throws ProductFactoryException
