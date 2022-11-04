@@ -234,6 +234,10 @@ export function useCatalog(config: CatalogConfig) {
   });
 
   const previousPage = computed<number>(() => {
+    if (products.value.length >= count.value) {
+      return 0;
+    }
+
     return ((config.productsPerPage * page.value) - products.value.length) / config.productsPerPage;
   });
 
