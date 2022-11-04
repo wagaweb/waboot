@@ -2,6 +2,11 @@
     "name": "waga/waboot",
     "description": "A boilerplate theme for WordPress",
     "type": "project",
+    "config": {
+        "platform": {
+            "php": "7.4"
+        }
+    },
     "require": {
         "guzzlehttp/guzzle": "~6.3",
         "box/spout": "~3.3.0",
