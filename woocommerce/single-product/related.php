@@ -19,11 +19,6 @@ if ($related_products) : ?>
                         return $p->get_id();
                     }, $related_products),
                     'columns' => 4,
-//                    'gtag' => [
-//                        'enabled' => true,
-//                        'listName' => \Waboot\addons\packages\catalog\getGtagListName(),
-//                        'brandFallback' => get_bloginfo('name'),
-//                    ],
 //                    'ga4' => [
 //                        'enabled' => !isset($_POST['add-to-cart']),
 //                        'listId' => sanitize_title(\Waboot\addons\packages\catalog\getGtagListName()),
