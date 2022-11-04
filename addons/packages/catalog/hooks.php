@@ -2,22 +2,6 @@
 
 namespace Waboot\addons\packages\catalog;
 
-/**
- * Prevent default WooCommerce Catalog Query
- */
-add_filter(
-    'posts_pre_query',
-    function ($posts, \WP_Query $query) {
-        if (defined('WB_CATALOG_BASEURL') && !is_admin() && $query->is_main_query() && is_woocommerce()) {
-            return [];
-        }
-
-        return $posts;
-    },
-    100,
-    2
-);
-
 add_filter('init', function(){
     if(!defined('WB_CATALOG_BASEURL') || strpos($_SERVER[ 'REQUEST_URI' ], '/wp-json/') !== false){
         return;

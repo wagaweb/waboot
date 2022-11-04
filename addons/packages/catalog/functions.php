@@ -33,7 +33,7 @@ function renderCatalog(array $config): string
     $taxQueryFilters = apply_filters('catalog_addon_tax_query_filters', $taxQueryFilters);
 
     foreach ($config['taxonomies'] as $tax => $options) {
-        foreach ($taxQueryFilters[$tax] as $queryFilter) {
+        foreach ($taxQueryFilters[$tax] ?? [] as $queryFilter) {
             $terms = $_GET[$queryFilter] ?? null;
             if (empty($terms)) {
                 continue;
@@ -68,7 +68,7 @@ function renderCatalog(array $config): string
 
     return <<<HTML
 <div
-    class="vue-catalog"
+    id="vue-catalog"
     catalog-config="$json"
 ></div>
 HTML;

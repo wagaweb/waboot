@@ -1,7 +1,7 @@
 <template>
   <div class="catalog" :class="`catalog--layout-${config.layoutMode}`">
     <Spinner v-if="loadingCatalog"></Spinner>
-    <template v-else-if="products.length > 0">
+    <template v-else>
       <div
         ref="sidebar"
         class="catalog-filters"
@@ -11,7 +11,9 @@
           <i class="far fa-times"></i>
         </a>
         <div
-          v-if="config.layoutMode === 'sidebar' || config.layoutMode === 'block'"
+          v-if="
+            config.layoutMode === 'sidebar' || config.layoutMode === 'block'
+          "
           class="catalog-filters__inner catalog-filters__inner--sidebar"
         >
           <div
@@ -28,7 +30,7 @@
                   :max="priceRange.max"
                   :selectedMin="selectedPriceRange?.min ?? priceRange.min"
                   :selectedMax="selectedPriceRange?.max ?? priceRange.max"
-                  @change="priceRangeSliderChangeAndReload"
+                  @change="(v: number[]) => onPriceRangeSliderChange(v, true)"
                 ></PriceRangeSlider>
               </div>
             </div>
@@ -46,7 +48,10 @@
                 :title="taxRef.options.title"
                 :terms="taxRef.terms"
                 :selected-terms="taxRef.selectedTerms"
-                :toggle-cb="checkAndReloadCallback"
+                :toggle-cb="
+                  (tax: string, term: Term, checked: boolean) =>
+                    onFilterListToggle(tax, term, checked, true)
+                "
                 :max-depth="taxRef.options.maxDepth"
                 :full-open="taxRef.options.fullOpen"
               ></FilterList>
@@ -79,7 +84,7 @@
               :ref="addDdRef"
               @toggle="onDdToggle"
               :title="$t('price')"
-              @apply="onPriceRangeSliderApply"
+              @apply="onDdApplyPriceRange"
             >
               <div class="filter filter--price-slider">
                 <PriceRangeSlider
@@ -102,7 +107,7 @@
                 :ref="addDdRef"
                 @toggle="onDdToggle"
                 :title="taxRef.options.title"
-                @apply="toggleAndReload"
+                @apply="onDdApplyFilters"
               >
                 <FilterList
                   v-if="taxRef.options.type === 'checkbox'"
@@ -110,7 +115,7 @@
                   :taxonomy="tax"
                   :terms="taxRef.terms"
                   :selected-terms="taxRef.selectedTerms"
-                  :toggle-cb="checkCallback"
+                  :toggle-cb="onFilterListToggle"
                   :max-depth="taxRef.options.maxDepth"
                   :full-open="taxRef.options.fullOpen"
                 ></FilterList>
@@ -131,7 +136,7 @@
           </template>
         </div>
       </div>
-      <div v-show="config.productIds.length === 0" class="catalog__header">
+      <div class="catalog__header">
         <button
           type="button"
           class="catalog-filters__button"
@@ -140,7 +145,12 @@
           <i class="fal fa-sliders-h"></i> {{ $t('filterFor') }}
         </button>
         <div v-if="config.enableOrder" class="catalog__ordering">
-          <select v-model="order" name="order" id="order">
+          <select
+            :value="order"
+            @change="onOrderSelectChange"
+            name="order"
+            id="order"
+          >
             <option value="default">{{ $t('default') }}</option>
             <option value="alphabetic">{{ $t('alphabetic') }}</option>
             <option value="mostSold">{{ $t('popularity') }}</option>
@@ -151,69 +161,62 @@
           </select>
         </div>
       </div>
-      <div class="catalog__items products" :class="`columns-${config.columns}`">
-        <template v-if="!loadingProducts">
-          <CatalogItem
-            v-for="(product, i) in products"
-            :key="`product-${product.id}`"
-            :host="config.baseUrl"
-            :product="product"
-            :show-add-to-cart-btn="config.showAddToCartBtn"
-            @addToCart="addToCart($event, i)"
-            @viewDetails="viewDetails($event, i)"
-          ></CatalogItem>
-        </template>
-      </div>
-      <div class="catalog__loadmore loadmore">
-        <Spinner v-if="loadingMoreProducts"></Spinner>
-        <a
-          class="loadmore__button btn"
-          v-else
-          v-show="showLoadMore"
-          @click="loadMoreProducts"
+      <div class="catalog__items-wrapper">
+        <div class="catalog__loadmore catalog__loadmore--less">
+          <Spinner v-if="loadingMoreProducts"></Spinner>
+          <a v-else class="btn" v-show="previousPage > 0" @click="onLoadLessClick">
+            {{ $t('showLess') }}
+          </a>
+        </div>
+        <div
+          class="catalog__items products"
+          :class="`columns-${config.columns}`"
         >
-          {{ $t('showMore') }}
-        </a>
-      </div>
-    </template>
-    <h4 class="products__not_found" v-else>{{ $t('noProductsFound') }}</h4>
+          <template v-if="products.length > 0">
+            <CatalogItem
+              v-for="(product, i) in products"
+              :key="`product-${product.id}`"
+              :host="config.baseUrl"
+              :product="product"
+              :show-add-to-cart-btn="config.showAddToCartBtn"
+              @addToCart="addToCart($event, i)"
+              @viewDetails="viewDetails($event, i)"
+            ></CatalogItem>
+          </template>
+          <h4 v-else class="products__not_found">
+            {{ $t('noProductsFound') }}
+          </h4>
+        </div>
+        <div class="catalog__loadmore">
+          <Spinner v-if="loadingMoreProducts"></Spinner>
+          <a v-else class="btn" v-show="numberOfPages > page" @click="onLoadMoreClick">
+            {{ $t('showMore') }}
+          </a>
+        </div>
+      </div></template
+    >
   </div>
 </template>
 
 <script lang="ts">
 import {
   ComponentPublicInstance,
-  computed,
   defineComponent,
-  inject,
   onBeforeUpdate,
   onMounted,
   onUpdated,
   PropType,
-  reactive,
   ref,
-  UnwrapRef,
-  watch,
 } from 'vue';
 import CatalogItem from '@/components/CatalogItem.vue';
 import FilterList from '@/components/FilterList.vue';
 import Dropdown from '@/components/Dropdown.vue';
 import Spinner from '@/components/Spinner.vue';
 import PriceRangeSlider from '@/components/PriceRangeSlider.vue';
-import {
-  CatalogOrder,
-  CatalogQuery,
-  Product,
-  ProductQuery,
-  TaxFilter,
-  Term,
-} from '@/services/api';
+import { CatalogOrder, Term } from '@/services/api';
 import PermalinkList from './PermalinkList.vue';
-import { CatalogConfig } from '@/catalog';
-import { wcserviceClientKey } from '@/main';
+import { CatalogConfig, useCatalog } from '@/catalog';
 import $ from 'jquery';
-import { getGtagCallbacks } from '@/gtag.utils';
-import { GA4 } from '@/ga4';
 
 export default defineComponent({
   name: 'Catalog',
@@ -232,238 +235,53 @@ export default defineComponent({
     PriceRangeSlider,
   },
   setup(props) {
+    const {
+      // refs
+      products,
+      count,
+      taxRefs,
+      priceRange,
+      selectedPriceRange,
+      order,
+      page,
+      loadingProducts,
+      loadingMoreProducts,
+      // computed
+      numberOfPages,
+      previousPage,
+      // methods
+      readQueryString,
+      setQueryString,
+      getProductQuery,
+      getCatalogQuery,
+      loadProducts,
+      loadMoreProducts,
+      loadLessProducts,
+      loadProductCount,
+      loadPriceRange,
+      loadAllTaxonomies,
+      addToCart,
+      viewDetails,
+    } = useCatalog(props.config);
+
+    const loadingCatalog = ref<boolean>(true);
     const sidebar = ref<HTMLDivElement | null>(null);
     const sidebarMoved = ref(false);
-    const page = ref(0);
-    const loadingCatalog = ref(true);
-    const loadingProducts = ref(false);
-    const loadingMoreProducts = ref(false);
-    const products = ref<Product[]>([]);
-    const priceRange = ref<{ min: number; max: number }>({ min: 0, max: 0 });
-    const selectedPriceRange = ref<{ min: number; max: number } | null>(null);
-    const order = ref<CatalogOrder>(CatalogOrder.Default);
     const sidebarOpen = ref<boolean>(false);
     const ddSet = ref<Set<ComponentPublicInstance>>(new Set());
-    const taxRefs: Map<
-      string,
-      UnwrapRef<{
-        options: CatalogConfig['taxonomies'][0];
-        terms: Term[];
-        flatTerms: Map<Term['id'], Term>;
-        selectedTerms: Set<Term['id']>;
-        loading: boolean;
-      }>
-    > = new Map();
-    const priceRangeOpen = ref<boolean>(false);
-    for (const options of props.config.taxonomies) {
-      taxRefs.set(
-        options.taxonomy,
-        reactive({
-          options: options,
-          terms: [],
-          flatTerms: new Map(),
-          selectedTerms: new Set(),
-          loading: false,
-        }),
-      );
 
-      const taxRef = taxRefs.get(options.taxonomy);
-      // this is not possible
-      if (taxRef === undefined) {
-        continue;
-      }
+    const initCatalog = async (): Promise<void> => {
+      const productQuery = getProductQuery();
+      const catalogQuery = getCatalogQuery(productQuery);
 
-      if (taxRef.options.exclude && taxRef.options.exclude.length > 0) {
-        taxRef.options.enableFilter = false;
-      }
-    }
-
-    const wcserviceClient = inject(wcserviceClientKey);
-    if (wcserviceClient === undefined) {
-      throw new Error('Cannot inject wcserviceClient');
-    }
-
-    const ga4Enabled = props.config.ga4.enabled;
-    const ga4 = new GA4(
-        props.config.ga4.listId ?? '',
-        props.config.ga4.listName ?? '',
-        props.config.ga4.brandFallback,
-    );
-    const { gtagAddToCart, gtagSelectContent, gtagViewItemList } =
-        getGtagCallbacks(props.config.gtag);
-
-    const showLoadMore = computed<boolean>(() => {
-      if (props.config.productIds.length > 0) {
-        return false;
-      }
-
-      return (
-        products.value.length ===
-        (props.config.productsPerPage ?? 24) * (page.value + 1)
-      );
-    });
-
-    const productQuery = (): ProductQuery => {
-      const query: ProductQuery = {
-        taxonomies: {},
-      };
-
-      if (props.config.productIds.length > 0) {
-        query.ids = props.config.productIds;
-
-        return query;
-      }
-
-      if (selectedPriceRange.value !== null) {
-        query.minPrice = selectedPriceRange.value.min;
-        query.maxPrice = selectedPriceRange.value.max;
-      }
-
-      if (props.config.searchString !== undefined) {
-        query.title = props.config.searchString;
-        query.searchLogic = 'or';
-      }
-
-      for (const [tax, taxRef] of taxRefs.entries()) {
-        const filter: TaxFilter = { op: 'or', terms: [] };
-        if (taxRef.options.exclude && taxRef.options.exclude.length > 0) {
-          filter.op = 'not';
-          filter.terms = taxRef.options.exclude;
-          query.taxonomies![tax] = filter;
-          continue;
-        }
-
-        if (taxRef.options.selectedParent) {
-          filter.terms.push(taxRef.options.selectedParent);
-        }
-
-        // excluding parent terms from query
-        const termsToExclude: string[] = [];
-        for (const t of taxRef.selectedTerms.values()) {
-          const term = taxRef.flatTerms.get(t);
-          // this should never happens
-          if (term === undefined) {
-            continue;
-          }
-
-          filter.terms.push(term.id);
-          if (term.parent !== '0') {
-            termsToExclude.push(term.parent);
-          }
-        }
-
-        filter.terms = filter.terms.filter(t => !termsToExclude.includes(t));
-        if (filter.terms.length > 0) {
-          query.taxonomies![tax] = filter;
-        }
-      }
-
-      return query;
-    };
-
-    const catalogQuery = (): CatalogQuery => {
-      const limit = props.config.productsPerPage;
-      return {
-        limit: limit,
-        offset: limit * page.value,
-        query: productQuery(),
-        order: order.value,
-        postMetaIn: ['_attribute_list', '_sku', '_wc_average_rating'],
-        taxonomiesIn: ['product_cat', 'product_type', 'product_collection'],
-      };
-    };
-
-    const loadTaxonomy = async (
-      tax: string,
-      omitSelf: boolean = false,
-    ): Promise<void> => {
-      const taxRef = taxRefs.get(tax);
-      if (taxRef === undefined) {
-        console.warn(
-          `Taxonomy reload failed: taxonomy \`${tax}\` does not exists`,
-        );
-
-        return;
-      }
-
-      if (taxRef.options.enableFilter === false) {
-        return;
-      }
-
-      taxRef.loading = true;
-      const query = productQuery();
-      if (omitSelf && query.taxonomies !== undefined) {
-        delete query.taxonomies[tax];
-      }
-
-      taxRef.terms = await wcserviceClient.findTaxonomyTerms(tax, {
-        productQuery: query,
-        parent: taxRef.options.selectedParent,
-      });
-
-      // populate flat term map
-      const populateFlatTermMap = (terms: Term[]) => {
-        for (const t of terms) {
-          taxRef.flatTerms.set(t.id, t);
-          if (t.children.length > 0) {
-            populateFlatTermMap(t.children);
-          }
-        }
-      };
-      populateFlatTermMap(taxRef.terms);
-
-      taxRef.loading = false;
-    };
-
-    const loadAllTaxonomies = async (
-      omit: string[] = [],
-      omitSelf: boolean = false,
-    ): Promise<void> => {
-      const promises: Promise<any>[] = [];
-      for (const [tax, ref] of taxRefs.entries()) {
-        if (omit.includes(tax)) {
-          continue;
-        }
-
-        promises.push(loadTaxonomy(tax, omitSelf));
-      }
-
-      await Promise.all(promises);
-    };
-
-    const loadProducts = async (): Promise<void> => {
-      loadingProducts.value = true;
-      page.value = 0;
-      products.value = await wcserviceClient.findProducts(catalogQuery());
-      gtagViewItemList(products.value, 0);
-      if (ga4Enabled) {
-        ga4.viewItemList(products.value, 0);
-      }
-      loadingProducts.value = false;
-    };
-
-    const loadPriceRange = async (): Promise<void> => {
-      const res = await wcserviceClient.getPriceRange(catalogQuery());
-      priceRange.value.min = Math.floor(res.min);
-      priceRange.value.max = Math.ceil(res.max);
-      if (selectedPriceRange.value === null) {
-        selectedPriceRange.value = {
-          min: priceRange.value.min,
-          max: priceRange.value.max,
-        };
-      }
-    };
-
-    const loadMoreProducts = async (): Promise<void> => {
-      loadingMoreProducts.value = true;
-      page.value++;
-      const newProducts = await wcserviceClient.findProducts(catalogQuery());
-      gtagViewItemList(newProducts, products.value.length);
-      if (ga4Enabled) {
-        ga4.viewItemList(newProducts, products.value.length);
-      }
-      products.value = products.value.concat(newProducts);
-      loadingMoreProducts.value = false;
+      loadingCatalog.value = true;
+      await Promise.all([
+        loadProducts(catalogQuery),
+        loadProductCount(productQuery),
+        loadAllTaxonomies(productQuery),
+        loadPriceRange(catalogQuery),
+      ]);
+      loadingCatalog.value = false;
     };
 
     const resetCatalogScroll = (): void => {
@@ -473,94 +291,6 @@ export default defineComponent({
         return;
       }
       html.scrollTop = catalog.offsetTop;
-    };
-
-    const reloadCatalog = async (
-      resetScroll: boolean = false,
-    ): Promise<void> => {
-      await loadPriceRange();
-      await Promise.all([loadAllTaxonomies([], true), loadProducts()]);
-
-      if (resetScroll) {
-        resetCatalogScroll();
-      }
-    };
-
-    const checkCallback = (tax: string, term: Term, checked: boolean): void => {
-      const taxRef = taxRefs.get(tax);
-      if (taxRef === undefined) {
-        console.warn(
-          `Taxonomy reload failed: taxonomy \`${tax}\` does not exists`,
-        );
-        return;
-      }
-
-      if (checked) {
-        taxRef.selectedTerms.add(term.id);
-      } else {
-        taxRef.selectedTerms.delete(term.id);
-        // uncheck recursively its own children
-        const uncheckChildren = (term: Term): void => {
-          for (const c of term.children) {
-            taxRef.selectedTerms.delete(c.id);
-            if (c.children.length > 0) {
-              uncheckChildren(c);
-            }
-          }
-        };
-        uncheckChildren(term);
-      }
-    };
-
-    const checkAndReloadCallback = async (
-      tax: string,
-      term: Term,
-      checked: boolean,
-    ): Promise<void> => {
-      checkCallback(tax, term, checked);
-      reloadCatalog();
-    };
-
-    const applyCallback = async (
-      tax: string,
-      checkedTerms: Set<Term['id']>,
-    ) => {
-      const taxRef = taxRefs.get(tax);
-      if (taxRef === undefined) {
-        console.warn(
-          `Taxonomy reload failed: taxonomy \`${tax}\` does not exists`,
-        );
-
-        return;
-      }
-
-      taxRef.selectedTerms = checkedTerms;
-
-      await loadPriceRange();
-      await Promise.all([loadAllTaxonomies([], true), loadProducts()]);
-    };
-
-    const onPriceRangeSliderChange = (
-      values: number[],
-      reload = false,
-    ): void => {
-      selectedPriceRange.value = {
-        min: values[0],
-        max: values[1],
-      };
-      if (reload) {
-        Promise.all([loadAllTaxonomies(), loadProducts()]);
-      }
-    };
-
-    const priceRangeSliderChangeAndReload = (values: number[]) => {
-      onPriceRangeSliderChange(values, true);
-    };
-
-    const onPriceRangeSliderApply = (e: MouseEvent): void => {
-      onDdToggle(e, false);
-      Promise.all([loadAllTaxonomies(), loadProducts()]);
-      sidebarOpen.value = false;
     };
 
     const addDdRef = (el: any): void => {
@@ -584,56 +314,134 @@ export default defineComponent({
       }
     };
 
-    const toggleAndReload = async (e: MouseEvent): Promise<void> => {
-      onDdToggle(e);
-      reloadCatalog();
-      sidebarOpen.value = false;
+    const reloadOnLoadMore = async (): Promise<void> => {
+      const productQuery = getProductQuery();
+      const catalogQuery = getCatalogQuery(productQuery);
+      await loadMoreProducts(catalogQuery);
+      setQueryString();
     };
 
-    const addToCart = (product: Product, index: number): void => {
-      gtagAddToCart(product, index);
-      if (ga4Enabled) {
-        ga4.addToCart(product, index);
+    const reloadOnLoadLess = async (): Promise<void> => {
+      const productQuery = getProductQuery();
+      const catalogQuery = getCatalogQuery(productQuery);
+      await loadLessProducts(catalogQuery);
+    };
+
+    const reloadOnSelectTerm = async (): Promise<void> => {
+      page.value = 1;
+      selectedPriceRange.value = null;
+      const productQuery = getProductQuery();
+      const catalogQuery = getCatalogQuery(productQuery);
+      await Promise.all([
+        loadProducts(catalogQuery),
+        loadProductCount(productQuery),
+        loadAllTaxonomies(productQuery),
+        loadPriceRange(catalogQuery),
+      ]);
+      setQueryString();
+    };
+
+    const reloadOnSelectPriceRange = async (): Promise<void> => {
+      page.value = 1;
+      const productQuery = getProductQuery();
+      const catalogQuery = getCatalogQuery(productQuery);
+      await Promise.all([
+        loadProducts(catalogQuery),
+        loadProductCount(productQuery),
+        loadAllTaxonomies(productQuery),
+      ]);
+      setQueryString();
+    };
+
+    const reloadOnChangeOrder = async (): Promise<void> => {
+      page.value = 1;
+      const productQuery = getProductQuery();
+      const catalogQuery = getCatalogQuery(productQuery);
+      await loadProducts(catalogQuery);
+      setQueryString();
+    };
+
+    const onLoadMoreClick = (): void => {
+      page.value++;
+      reloadOnLoadMore();
+    };
+
+    const onLoadLessClick = (): void => {
+      reloadOnLoadLess();
+    };
+
+    const onFilterListToggle = async (
+      tax: string,
+      term: Term,
+      checked: boolean,
+      reload = false,
+    ): Promise<void> => {
+      const taxRef = taxRefs.get(tax);
+      if (taxRef === undefined) {
+        console.warn(`Taxonomy \`${tax}\` does not exists`);
+        return;
       }
-    };
 
-    const viewDetails = (product: Product, index: number): void => {
-      gtagSelectContent(product, index);
-      if (ga4Enabled) {
-        ga4.selectItem(product, index);
-      }
-    };
-
-    watch(order, (newVal, oldVal) => {
-      loadProducts();
-    });
-
-    onMounted(async () => {
-      loadingCatalog.value = true;
-      await loadPriceRange();
-      await Promise.all([loadAllTaxonomies(), loadProducts()]);
-
-      let reload = false;
-      for (const [tax, ref] of taxRefs.entries()) {
-        if (ref.options.selectedTerms === undefined) {
-          continue;
-        }
-
-        for (const tId of ref.options.selectedTerms) {
-          const term = ref.flatTerms.get(tId);
-          if (term === undefined) {
-            continue;
+      if (checked) {
+        taxRef.selectedTerms.add(term.id);
+      } else {
+        taxRef.selectedTerms.delete(term.id);
+        // uncheck recursively its own children
+        const uncheckChildren = (term: Term): void => {
+          for (const c of term.children) {
+            taxRef.selectedTerms.delete(c.id);
+            if (c.children.length > 0) {
+              uncheckChildren(c);
+            }
           }
-
-          checkCallback(tax, term, true);
-          reload = true;
-        }
+        };
+        uncheckChildren(term);
       }
 
       if (reload) {
-        await reloadCatalog();
+        resetCatalogScroll();
+        reloadOnSelectTerm();
       }
-      loadingCatalog.value = false;
+    };
+
+    const onPriceRangeSliderChange = async (
+      values: number[],
+      reload = false,
+    ): Promise<void> => {
+      selectedPriceRange.value = { min: values[0], max: values[1] };
+
+      if (reload) {
+        resetCatalogScroll();
+        reloadOnSelectPriceRange();
+      }
+    };
+
+    const onOrderSelectChange = async (e: Event): Promise<void> => {
+      const select = e.target as HTMLSelectElement;
+      order.value = select.value as CatalogOrder;
+      reloadOnChangeOrder();
+    };
+
+    const onDdApplyPriceRange = (e: MouseEvent): void => {
+      onDdToggle(e);
+      sidebarOpen.value = false;
+      if (selectedPriceRange.value === null) return;
+      reloadOnSelectPriceRange();
+    };
+
+    const onDdApplyFilters = (e: MouseEvent): void => {
+      onDdToggle(e);
+      sidebarOpen.value = false;
+      reloadOnSelectTerm();
+    };
+
+    onBeforeUpdate(() => {
+      ddSet.value = new Set();
+    });
+
+    onMounted(() => {
+      readQueryString();
+      initCatalog();
     });
 
     onUpdated(() => {
@@ -661,45 +469,38 @@ export default defineComponent({
       }
     });
 
-    onBeforeUpdate(() => {
-      ddSet.value = new Set();
-    });
+    window.onpopstate = () => {
+      readQueryString();
+      initCatalog();
+    };
 
     return {
-      sidebar,
-      sidebarMoved,
-      page,
+      // catalog refs
+      products,
+      count,
+      order,
+      priceRange,
+      selectedPriceRange,
+      taxRefs,
       loadingCatalog,
       loadingProducts,
       loadingMoreProducts,
-      products,
-      priceRange,
-      priceRangeOpen,
-      selectedPriceRange,
-      order,
+      page,
+      // catalog computed
+      numberOfPages,
+      previousPage,
+      // refs
       sidebarOpen,
-      showLoadMore,
-      productQuery,
-      catalogQuery,
-      taxRefs,
-      loadTaxonomy,
-      loadAllTaxonomies,
-      loadProducts,
-      loadMoreProducts,
-      loadPriceRange,
-      reloadCatalog,
-      checkCallback,
-      checkAndReloadCallback,
-      applyCallback,
-      onPriceRangeSliderChange,
-      priceRangeSliderChangeAndReload,
-      onPriceRangeSliderApply,
+      // methods
       addDdRef,
       onDdToggle,
-      toggleAndReload,
-      gtagAddToCart,
-      gtagSelectContent,
-      gtagViewItemList,
+      onDdApplyPriceRange,
+      onDdApplyFilters,
+      onFilterListToggle,
+      onOrderSelectChange,
+      onPriceRangeSliderChange,
+      onLoadMoreClick,
+      onLoadLessClick,
       addToCart,
       viewDetails,
     };
