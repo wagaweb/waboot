@@ -179,6 +179,7 @@
               :host="config.baseUrl"
               :product="product"
               :show-add-to-cart-btn="config.showAddToCartBtn"
+              :show-quantity-input="config.showQuantityInput"
               @addToCart="addToCart($event, i)"
               @viewDetails="viewDetails($event, i)"
             ></CatalogItem>
