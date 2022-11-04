@@ -4,6 +4,7 @@ namespace Waboot\inc\core\woocommerce;
 
 use function Waboot\inc\getAllProductVariationIds;
 use function Waboot\inc\getProductType;
+use function Waboot\inc\syncVariableProductData;
 
 class VariableProduct extends Product
 {
@@ -151,5 +152,19 @@ class VariableProduct extends Product
             $wcProduct->set_attributes($attributes);
         }
         $this->fetchWCAttributes();
+    }
+
+    /**
+     * @param bool $performAdditionalFixes
+     * @return int
+     * @throws ProductException
+     */
+    public function save(bool $performAdditionalFixes = true): int
+    {
+        $id = parent::save($performAdditionalFixes);
+        if($performAdditionalFixes){
+            syncVariableProductData($id);
+        }
+        return $id;
     }
 }

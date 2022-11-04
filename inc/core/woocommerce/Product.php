@@ -3,6 +3,8 @@
 namespace Waboot\inc\core\woocommerce;
 
 use Waboot\inc\core\utils\Terms;
+use function Waboot\inc\adjustPriceMeta;
+use function Waboot\inc\adjustProductStockStatus;
 use function Waboot\inc\getProductType;
 
 class Product
@@ -453,12 +455,18 @@ class Product
     }
 
     /**
-     * @return void
+     * @param bool $performAdditionalFixes
+     * @return int
      * @throws ProductException
      */
-    public function save(): int
+    public function save(bool $performAdditionalFixes = true): int
     {
         $id = $this->getWcProduct()->save();
+        if($performAdditionalFixes){
+            adjustProductStockStatus($id);
+            adjustPriceMeta($id);
+            $this->fetchPrices(true);
+        }
         $this->id = $id;
         return $id;
     }
