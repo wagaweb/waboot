@@ -1,6 +1,6 @@
 <?php
 
-namespace Waboot\inc\cli;
+namespace Waboot\inc\cli\order_simulator;
 
 use Waboot\inc\core\cli\AbstractCommand;
 use Waboot\inc\core\DB;
@@ -46,7 +46,7 @@ class OrderSimulator extends AbstractCommand
      *
      * ## EXAMPLES
      *
-     *      wp wawoo:simulate-orders path/to/source/file.json
+     *      wp wawoo:simulate-orders --file=path/to/source/file.json
      */
     public function __invoke($args, $assoc_args)
     {
@@ -90,7 +90,7 @@ class OrderSimulator extends AbstractCommand
     /**
      * @throws DBException
      */
-    private function deleteSimulatedOrders()
+    private function deleteSimulatedOrders(): void
     {
         $r = $this->dbConnection->getQueryBuilder()::table('postmeta')
             ->select('post_id')
@@ -115,7 +115,7 @@ class OrderSimulator extends AbstractCommand
     /**
      * @see set_data_from_cart() in class-wc-checkout.php
      */
-    private function simulateOrders()
+    private function simulateOrders(): void
     {
         $carts = $this->simulationData['carts'] ?? false;
         if(!$carts){

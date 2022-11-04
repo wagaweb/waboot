@@ -1,11 +1,9 @@
 <?php
 
-namespace Waboot\inc\cli;
+namespace Waboot\inc\cli\order_simulator;
 
-use Waboot\inc\core\cli\AbstractCommand;
 use Waboot\inc\core\DB;
 use Waboot\inc\core\DBException;
-use Waboot\inc\core\DBUnavailableDependencyException;
 
 class OrderSimulatorCartItem
 {
@@ -22,6 +20,9 @@ class OrderSimulatorCartItem
      */
     protected $quantity;
 
+    /**
+     * @throws OrderSimulatorCartItemException
+     */
     public function __construct($data)
     {
         $code = $data['code'] ?? false;
@@ -44,7 +45,7 @@ class OrderSimulatorCartItem
     /**
      * @return string
      */
-    public function getCode()
+    public function getCode(): string
     {
         return $this->code;
     }
@@ -52,7 +53,7 @@ class OrderSimulatorCartItem
     /**
      * @return string
      */
-    public function getType()
+    public function getType(): string
     {
         return $this->type;
     }

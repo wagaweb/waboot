@@ -1,6 +1,6 @@
 <?php
 
-namespace Waboot\inc\cli;
+namespace Waboot\inc\cli\order_export;
 
 use Waboot\inc\core\woocommerce\ExportableOrderItemInterface;
 use Waboot\inc\core\woocommerce\Coupon;
@@ -83,7 +83,7 @@ class ExportableOrderItem implements ExportableOrderItemInterface
         }
         try {
             /**
-             * @var Coupon
+             * @var Coupon $item
              */
             $item = $this->orderItem;
             return $item->getDiscountType() !== 'percent'; //We include only coupons with fixed-price discount
@@ -151,7 +151,7 @@ class ExportableOrderItem implements ExportableOrderItemInterface
 
         if ($this->isShipping()) {
             /**
-             * @var \WC_Order_Item_Shipping
+             * @var \WC_Order_Item_Shipping $item
              */
             $item = $this->getOrderItem();
             $data = [
@@ -170,7 +170,7 @@ class ExportableOrderItem implements ExportableOrderItemInterface
 
         if($this->isCoupon()) {
             /**
-             * @var \WC_Order_Item_Coupon
+             * @var \WC_Order_Item_Coupon $item
              */
             $item = $this->getOrderItem()->getWcOrderItemCoupon();
             $data = [

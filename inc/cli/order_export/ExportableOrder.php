@@ -1,6 +1,6 @@
 <?php
 
-namespace Waboot\inc\cli;
+namespace Waboot\inc\cli\order_export;
 
 use Waboot\inc\core\woocommerce\ExportableOrderInterface;
 use Waboot\inc\core\woocommerce\Order;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Waboot\inc\cli;
+namespace Waboot\inc\cli\order_export;
 
 use Waboot\inc\core\cli\AbstractCommand;
 use Waboot\inc\core\cli\CLIRuntimeException;

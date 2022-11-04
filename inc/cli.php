@@ -2,15 +2,15 @@
 
 namespace Waboot\inc;
 
-use Waboot\inc\cli\ExportOrders;
-use Waboot\inc\cli\ExportOrdersTest;
-use Waboot\inc\cli\ExportProducts;
 use Waboot\inc\cli\FixPrices;
 use Waboot\inc\cli\FixStockStatuses;
 use Waboot\inc\cli\GenerateAttributeListMeta;
-use Waboot\inc\cli\OrderSimulator;
+use Waboot\inc\cli\order_export\ExportOrders;
+use Waboot\inc\cli\order_export\ExportOrdersTest;
+use Waboot\inc\cli\order_simulator\OrderSimulator;
 use Waboot\inc\cli\ParseAndSaveProducts;
 use Waboot\inc\cli\feeds\GenerateGShoppingFeed;
+use Waboot\inc\cli\product_export\ExportProducts;
 use Waboot\inc\cli\RemoveSalePrices;
 
 require_once get_stylesheet_directory().'/inc/core/cli/CommandLoggerTrait.php';
@@ -19,10 +19,6 @@ require_once get_stylesheet_directory().'/inc/cli/ParseAndSaveProducts.php';
 require_once get_stylesheet_directory().'/inc/cli/FixStockStatuses.php';
 require_once get_stylesheet_directory().'/inc/cli/FixPrices.php';
 require_once get_stylesheet_directory().'/inc/cli/RemoveSalePrices.php';
-require_once get_stylesheet_directory().'/inc/cli/ExportOrders.php';
-require_once get_stylesheet_directory().'/inc/cli/ExportOrdersTest.php';
-require_once get_stylesheet_directory().'/inc/cli/ExportProducts.php';
-require_once get_stylesheet_directory().'/inc/cli/OrderSimulator.php';
 require_once get_stylesheet_directory().'/inc/cli/GenerateAttributeListMeta.php';
 require_once get_stylesheet_directory().'/inc/cli/feeds/GenerateGShoppingFeed.php';
 if(is_file(get_stylesheet_directory().'/inc/cli/product_import/waga-woocommerce-csv-cli-importer/src/index.php')){

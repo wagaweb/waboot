@@ -1,6 +1,6 @@
 <?php
 
-namespace Waboot\inc\cli;
+namespace Waboot\inc\cli\product_export;
 
 use League\Csv\Writer;
 use Waboot\inc\cli\product_export\ExportableProductFactory;
