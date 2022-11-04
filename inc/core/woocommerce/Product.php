@@ -458,6 +458,8 @@ class Product
      */
     public function save(): int
     {
-        return $this->getWcProduct()->save();
+        $id = $this->getWcProduct()->save();
+        $this->id = $id;
+        return $id;
     }
 }
