@@ -13,6 +13,9 @@ require_once __DIR__.'/feed-utils.php';
 
 class GenerateGShoppingFeed extends AbstractCommand
 {
+    public const EXCLUDED_BY_ID = 'id';
+    public const EXCLUDED_BY_SKU = 'sku';
+    public const EXCLUDED_BY_CALLBACK = 'callback';
     /**
      * @var string
      */
@@ -29,6 +32,10 @@ class GenerateGShoppingFeed extends AbstractCommand
      * @var int[]
      */
     protected $providedIds = [];
+    /**
+     * @var int[]
+     */
+    protected $excludedIds = [];
     /**
      * @var bool
      */
@@ -77,6 +84,15 @@ class GenerateGShoppingFeed extends AbstractCommand
      * [--products]
      * : Comma separated products ids to parse.
      *
+     * [--excluded-products]
+     * : Comma separated products ids or sku to exclude.
+     *
+     * [--excluded-by]
+     * : Tells whether products are excluded by "sku", "id" or "callback"
+     *
+     * [--excluded-callback]
+     * : Specify the exclusion callback (must return an array of product id)
+     *
      * [--lang]
      * : Set the language to use
      *
@@ -117,6 +133,38 @@ class GenerateGShoppingFeed extends AbstractCommand
                 $providedIds = explode(',',$assoc_args['products']);
                 if(\is_array($providedIds)){
                     $this->providedIds = $providedIds;
+                }
+            }
+            $excludedBy = $assoc_args['excluded-by'] ?? 'id';
+            if(!\in_array($excludedBy,[self::EXCLUDED_BY_ID,self::EXCLUDED_BY_SKU,self::EXCLUDED_BY_CALLBACK],true)){
+                $this->error('"excluded-by" non valido');
+                return 1;
+            }
+            if(isset($assoc_args['excluded-products'])){
+                $excludedProducts = explode(',',$assoc_args['excluded-products']);
+                if(\is_array($excludedProducts)){
+                    if($excludedBy === self::EXCLUDED_BY_SKU){
+                        $this->excludedIds = array_map(static function($sku){
+                            $pId = wc_get_product_id_by_sku($sku);
+                            if(\is_int($pId) && $pId > 0){
+                                return $pId;
+                            }
+                            return false;
+                        },$excludedProducts);
+                        $this->excludedIds = array_filter($this->excludedIds);
+                    }elseif($excludedBy === self::EXCLUDED_BY_ID){
+                        $this->excludedIds = $excludedProducts;
+                    }
+                }
+            }elseif($excludedBy === self::EXCLUDED_BY_CALLBACK){
+                $excludeCallback = $assoc_args['excluded-callback'] ?? null;
+                if(!\is_callable($excludeCallback)){
+                    $this->error('"excluded-callback" non valida');
+                    return 1;
+                }
+                $excludedProducts = $excludeCallback();
+                if(\is_array($excludedProducts)){
+                    $this->excludedIds = $excludedProducts;
                 }
             }
             $this->variableProductsOnly = isset($assoc_args['variable-products-only']);
@@ -174,7 +222,7 @@ class GenerateGShoppingFeed extends AbstractCommand
             $this->log('...Done');
             return;
         }
-        $ids = get_posts([
+        $qArgs = [
             //'post_type' => ['product','product_variation'],
             'post_type' => ['product'],
             'meta_query' => [
@@ -186,7 +234,11 @@ class GenerateGShoppingFeed extends AbstractCommand
             'fields' => 'ids',
             'posts_per_page' => -1,
             'post_status' => 'publish'
-        ]);
+        ];
+        if(!empty($this->excludedIds)){
+            $qArgs['post__not_in'] = $this->excludedIds;
+        }
+        $ids = get_posts($qArgs);
         if(\is_array($ids) && count($ids) > 0){
             $this->log('Found '.count($ids).' ids');
             $productIdsToParse = [];
@@ -242,13 +294,21 @@ class GenerateGShoppingFeed extends AbstractCommand
                             continue;
                         }
                         if($variation->get_sku() === ''){
-                            $newRecord = $this->generateRecord($variation,$product);
-                            $this->records[] = $newRecord;
-                        }else{
-                            if(!array_key_exists($variation->get_sku(),$parsedVariationSkus)){
+                            try{
                                 $newRecord = $this->generateRecord($variation,$product);
                                 $this->records[] = $newRecord;
-                                $parsedVariationSkus[$variation->get_sku()] = '{Variation: '.$variationId.', Product: '.$productId.'}';
+                            }catch (ProductFactoryException $e) {
+                                $this->log('Error: '.$e->getMessage());
+                            }
+                        }else{
+                            if(!array_key_exists($variation->get_sku(),$parsedVariationSkus)){
+                                try{
+                                    $newRecord = $this->generateRecord($variation,$product);
+                                    $this->records[] = $newRecord;
+                                    $parsedVariationSkus[$variation->get_sku()] = '{Variation: '.$variationId.', Product: '.$productId.'}';
+                                }catch (ProductFactoryException $e) {
+                                    $this->log('Error: '.$e->getMessage());
+                                }
                             }else{
                                 $this->skippedDuplicatedSku[] = [
                                     'sku' => $variation->get_sku(), //The SKU
@@ -260,6 +320,9 @@ class GenerateGShoppingFeed extends AbstractCommand
                     }
                 }else{
                     if($this->variableProductsOnly){
+                        continue;
+                    }
+                    if($product instanceof \WC_Product_Variation && \in_array($productId,$this->excludedIds)){
                         continue;
                     }
                     if($product->get_sku() === ''){
