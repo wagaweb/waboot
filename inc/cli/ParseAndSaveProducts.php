@@ -3,6 +3,8 @@
 namespace Waboot\inc\cli;
 
 use Waboot\inc\core\cli\AbstractCommand;
+use function Waboot\inc\adjustPriceMeta;
+use function Waboot\inc\adjustProductStockStatus;
 use function Waboot\inc\getAllProductVariationIds;
 use function Waboot\inc\syncVariableProductData;
 
@@ -132,6 +134,8 @@ class ParseAndSaveProducts extends AbstractCommand
         $wpPostId = $wpPost->ID;
         $product->set_date_modified(current_time( 'mysql' ));
         @$product->save();
+        adjustPriceMeta($product->get_id());
+        adjustProductStockStatus($product->get_id());
         @do_action('save_post', $wpPostId, $wpPost, true);
         if($product instanceof \WC_Product_Variable){
             $variations = $this->getProductVariations($wpPostId);
