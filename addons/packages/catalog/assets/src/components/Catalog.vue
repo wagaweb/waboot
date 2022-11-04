@@ -164,7 +164,7 @@
       <div class="catalog__items-wrapper">
         <div class="catalog__loadmore catalog__loadmore--less">
           <Spinner v-if="loadingMoreProducts"></Spinner>
-          <a v-else v-show="previousPage > 0" @click="onLoadLessClick">
+          <a v-else class="btn" v-show="previousPage > 0" @click="onLoadLessClick">
             {{ $t('showLess') }}
           </a>
         </div>
@@ -189,7 +189,7 @@
         </div>
         <div class="catalog__loadmore">
           <Spinner v-if="loadingMoreProducts"></Spinner>
-          <a v-else v-show="numberOfPages > page" @click="onLoadMoreClick">
+          <a v-else class="btn" v-show="numberOfPages > page" @click="onLoadMoreClick">
             {{ $t('showMore') }}
           </a>
         </div>
