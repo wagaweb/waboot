@@ -10,6 +10,7 @@ export const itIT: MessageDictionarySchema = {
   priceHighToLow: 'Prezzo in ordine decrescente',
   priceLowToHigh: 'Prezzo in ordine crescente',
   showMore: 'Mostra successivi',
+  showLess: 'Mostra precedenti',
   noProductsFound: 'Nessun prodotto trovato',
   from: 'da',
   outOfStock: 'Non disponibile',

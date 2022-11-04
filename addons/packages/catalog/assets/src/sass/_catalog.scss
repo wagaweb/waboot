@@ -6,8 +6,7 @@
     .catalog-filters {
       grid-row: 1 / 3;
     }
-    .catalog__items,
-    .catalog__loadmore {
+    .catalog__items {
       grid-column-start: 2;
     }
   }
@@ -171,6 +170,10 @@
     &:hover {
       background-color: $colorSecondary;
     }
+  }
+  &--less {
+    margin-top: 0;
+    margin-bottom: $gridGutter;
   }
 }
 

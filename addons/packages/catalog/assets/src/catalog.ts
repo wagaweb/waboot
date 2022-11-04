@@ -205,7 +205,6 @@ export function useCatalog(config: CatalogConfig) {
   const loadingPriceRange: Ref<boolean> = ref(false);
   const loadingMoreProducts: Ref<boolean> = ref(false);
   const loadingCount: Ref<boolean> = ref(false);
-  const loadingCatalog: Ref<boolean> = ref(false);
 
   for (const options of config.taxonomies) {
     const taxRef: TaxRef = reactive({
@@ -229,9 +228,13 @@ export function useCatalog(config: CatalogConfig) {
     }
   }
 
-  const numberOfPages = computed(() => {
+  const numberOfPages = computed<number>(() => {
     const n = count.value / config.productsPerPage;
     return isNaN(n) ? 1 : Math.ceil(n);
+  });
+
+  const previousPage = computed<number>(() => {
+    return ((config.productsPerPage * page.value) - products.value.length) / config.productsPerPage;
   });
 
   const readQueryString = (): void => {
@@ -314,8 +317,6 @@ export function useCatalog(config: CatalogConfig) {
 
     if (config.productIds.length > 0) {
       query.ids = config.productIds;
-
-      return query;
     }
 
     if (selectedPriceRange.value !== null) {
@@ -391,6 +392,23 @@ export function useCatalog(config: CatalogConfig) {
     }
   };
 
+  const loadLessProducts = async (query: CatalogQuery): Promise<void> => {
+    if (previousPage.value <= 0) {
+      return;
+    }
+
+    query = cloneDeep(query);
+    loadingMoreProducts.value = true;
+    const startIndex = config.productsPerPage * (previousPage.value - 1);
+    query.offset = startIndex
+    products.value.unshift(...await client.findProducts(query));
+    loadingMoreProducts.value = false;
+
+    if (ga4) {
+      ga4.viewItemList(products.value, startIndex);
+    }
+  }
+
   const loadTaxonomy = async (
     tax: string,
     query: ProductQuery,
@@ -453,20 +471,6 @@ export function useCatalog(config: CatalogConfig) {
     loadingPriceRange.value = false;
   };
 
-  const initCatalog = async (): Promise<void> => {
-    const productQuery = getProductQuery();
-    const catalogQuery = getCatalogQuery(productQuery);
-
-    loadingCatalog.value = true;
-    await Promise.all([
-      loadProducts(catalogQuery),
-      loadProductCount(productQuery),
-      loadAllTaxonomies(productQuery),
-      loadPriceRange(catalogQuery),
-    ]);
-    loadingCatalog.value = false;
-  };
-
   const addToCart = (product: Product, index: number): void => {
     if (ga4) {
       ga4.addToCart(product, index);
@@ -492,9 +496,9 @@ export function useCatalog(config: CatalogConfig) {
     loadingPriceRange,
     loadingMoreProducts,
     loadingCount,
-    loadingCatalog,
     // computed
     numberOfPages,
+    previousPage,
     // methods
     readQueryString,
     setQueryString,
@@ -502,11 +506,11 @@ export function useCatalog(config: CatalogConfig) {
     getCatalogQuery,
     loadProducts,
     loadMoreProducts,
+    loadLessProducts,
     loadProductCount,
     loadPriceRange,
     loadTaxonomy,
     loadAllTaxonomies,
-    initCatalog,
     addToCart,
     viewDetails,
   };
