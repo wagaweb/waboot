@@ -159,16 +159,15 @@
     </div>
     <div class="catalog__items-wrapper">
       <CircularSpinner v-show="loadingProducts" :size="50"></CircularSpinner>
-      <div class="catalog__loadmore catalog__loadmore--less">
+      <div
+        v-show="!loadingProducts && previousPage > 0"
+        class="catalog__loadmore catalog__loadmore--less"
+      >
         <CircularSpinner
           v-show="loadingMoreProducts"
           :size="25"
         ></CircularSpinner>
-        <a
-          v-show="!loadingMoreProducts && previousPage > 0"
-          class="btn"
-          @click="onLoadLessClick"
-        >
+        <a v-show="!loadingMoreProducts" class="btn" @click="onLoadLessClick">
           {{ $t('showLess') }}
         </a>
       </div>
@@ -194,16 +193,15 @@
       >
         {{ $t('noProductsFound') }}
       </h4>
-      <div class="catalog__loadmore">
+      <div
+        v-show="!loadingProducts && numberOfPages > page"
+        class="catalog__loadmore"
+      >
         <CircularSpinner
           v-show="loadingMoreProducts"
           :size="25"
         ></CircularSpinner>
-        <a
-          v-show="!loadingMoreProducts && numberOfPages > page"
-          class="btn"
-          @click="onLoadMoreClick"
-        >
+        <a v-show="!loadingMoreProducts" class="btn" @click="onLoadMoreClick">
           {{ $t('showMore') }}
         </a>
       </div>
