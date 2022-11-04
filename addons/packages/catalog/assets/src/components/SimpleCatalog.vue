@@ -1,6 +1,6 @@
 <template>
   <div class="catalog catalog--layout-single-item">
-    <Spinner v-if="loadingProducts"></Spinner>
+    <CircularSpinner v-if="loadingProducts" :size="25"></CircularSpinner>
     <div
       v-else
       class="catalog__items products"
@@ -22,7 +22,7 @@
 <script lang="ts">
 import { defineComponent, onMounted, PropType } from 'vue';
 import CatalogItem from '@/components/CatalogItem.vue';
-import Spinner from '@/components/Spinner.vue';
+import CircularSpinner from '@/components/CircularSpinner.vue';
 import { CatalogConfig, useCatalog } from '@/catalog';
 
 export default defineComponent({
@@ -34,7 +34,7 @@ export default defineComponent({
     },
   },
   components: {
-    Spinner,
+    CircularSpinner,
     CatalogItem,
   },
   setup(props) {

@@ -158,18 +158,25 @@
       </div>
     </div>
     <div class="catalog__items-wrapper">
+      <CircularSpinner v-show="loadingProducts" :size="50"></CircularSpinner>
       <div class="catalog__loadmore catalog__loadmore--less">
-        <Spinner v-if="loadingMoreProducts"></Spinner>
+        <CircularSpinner
+          v-show="loadingMoreProducts"
+          :size="25"
+        ></CircularSpinner>
         <a
-          v-else
+          v-show="!loadingMoreProducts && previousPage > 0"
           class="btn"
-          v-show="previousPage > 0"
           @click="onLoadLessClick"
         >
           {{ $t('showLess') }}
         </a>
       </div>
-      <div class="catalog__items products" :class="`columns-${config.columns}`">
+      <div
+        v-show="!loadingProducts"
+        class="catalog__items products"
+        :class="`columns-${config.columns}`"
+      >
         <CatalogItem
           v-for="(product, i) in products"
           :key="`product-${product.id}`"
@@ -180,19 +187,21 @@
           @addToCart="addToCart($event, i)"
           @viewDetails="viewDetails($event, i)"
         ></CatalogItem>
-        <h4
-          v-show="!loadingCatalog && products.length === 0"
-          class="products__not_found"
-        >
-          {{ $t('noProductsFound') }}
-        </h4>
       </div>
+      <h4
+        v-show="!loadingProducts && products.length === 0"
+        class="products__not_found"
+      >
+        {{ $t('noProductsFound') }}
+      </h4>
       <div class="catalog__loadmore">
-        <Spinner v-if="loadingMoreProducts"></Spinner>
+        <CircularSpinner
+          v-show="loadingMoreProducts"
+          :size="25"
+        ></CircularSpinner>
         <a
-          v-else
+          v-show="!loadingMoreProducts && numberOfPages > page"
           class="btn"
-          v-show="numberOfPages > page"
           @click="onLoadMoreClick"
         >
           {{ $t('showMore') }}
@@ -215,7 +224,7 @@ import {
 import CatalogItem from '@/components/CatalogItem.vue';
 import FilterList from '@/components/FilterList.vue';
 import Dropdown from '@/components/Dropdown.vue';
-import Spinner from '@/components/Spinner.vue';
+import CircularSpinner from '@/components/CircularSpinner.vue';
 import PriceRangeSlider from '@/components/PriceRangeSlider.vue';
 import { CatalogOrder, Term } from '@/services/api';
 import PermalinkList from './PermalinkList.vue';
@@ -231,7 +240,7 @@ export default defineComponent({
     },
   },
   components: {
-    Spinner,
+    CircularSpinner,
     CatalogItem,
     FilterList,
     PermalinkList,

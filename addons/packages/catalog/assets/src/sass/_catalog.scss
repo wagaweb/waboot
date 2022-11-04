@@ -35,6 +35,12 @@
   }
 }
 
+.catalog__items-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .catalog__items {
   clear: both;
   display: grid;
@@ -158,7 +164,6 @@
 
 
 .catalog__loadmore {
-  text-align: center;
   margin-top: $gridGutter;
   a {
     @include buttonStyle(
