@@ -134,9 +134,9 @@ class ParseAndSaveProducts extends AbstractCommand
         $wpPostId = $wpPost->ID;
         $product->set_date_modified(current_time( 'mysql' ));
         @$product->save();
+        @do_action('save_post', $wpPostId, $wpPost, true);
         adjustPriceMeta($product->get_id());
         adjustProductStockStatus($product->get_id());
-        @do_action('save_post', $wpPostId, $wpPost, true);
         if($product instanceof \WC_Product_Variable){
             $variations = $this->getProductVariations($wpPostId);
             $dataStore = $product->get_data_store();
@@ -146,6 +146,8 @@ class ParseAndSaveProducts extends AbstractCommand
                 $variation->set_date_modified(current_time( 'mysql' ));
                 @$variation->save();
                 @do_action( 'woocommerce_save_product_variation', $variationId, $i);
+                adjustPriceMeta($variation->get_id());
+                adjustProductStockStatus($variation->get_id());
             }
             @do_action( 'woocommerce_ajax_save_product_variations', $wpPostId);
             syncVariableProductData($product->get_id());
