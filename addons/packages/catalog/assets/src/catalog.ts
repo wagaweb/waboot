@@ -341,7 +341,7 @@ export function useCatalog(config: CatalogConfig) {
         continue;
       }
 
-      if (taxRef.options.selectedParent) {
+      if (filter.terms.length === 0 && taxRef.options.selectedParent) {
         filter.terms.push(taxRef.options.selectedParent);
       }
 
