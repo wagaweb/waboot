@@ -1,4 +1,4 @@
-import { cloneDeep } from 'lodash';
+import cloneDeep from 'lodash/cloneDeep';
 import { computed, reactive, ref, Ref, UnwrapRef } from 'vue';
 import { GA4 } from './ga4';
 import {

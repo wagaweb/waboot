@@ -12,6 +12,7 @@
         :host="config.baseUrl"
         :product="p"
         :show-add-to-cart-btn="config.showAddToCartBtn"
+        :show-quantity-input="config.showQuantityInput"
         @addToCart="addToCart($event, i)"
         @viewDetails="viewDetails($event, i)"
       ></CatalogItem>

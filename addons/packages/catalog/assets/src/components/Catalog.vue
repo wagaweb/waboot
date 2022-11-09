@@ -26,7 +26,7 @@
                 :max="priceRange.max"
                 :selectedMin="selectedPriceRange?.min ?? priceRange.min"
                 :selectedMax="selectedPriceRange?.max ?? priceRange.max"
-                @change="(v: number[]) => onPriceRangeSliderChange(v, true)"
+                @change="onPriceRangeSliderChangeAndReload"
               ></PriceRangeSlider>
             </div>
           </div>
@@ -44,10 +44,7 @@
               :title="taxRef.options.title"
               :terms="taxRef.terms"
               :selected-terms="taxRef.selectedTerms"
-              :toggle-cb="
-                  (tax: string, term: Term, checked: boolean) =>
-                    onFilterListToggle(tax, term, checked, true)
-                "
+              :toggle-cb="onFilterListToggleAndReload"
               :max-depth="taxRef.options.maxDepth"
               :full-open="taxRef.options.fullOpen"
             ></FilterList>
@@ -225,7 +222,7 @@ import Dropdown from '@/components/Dropdown.vue';
 import CircularSpinner from '@/components/CircularSpinner.vue';
 import PriceRangeSlider from '@/components/PriceRangeSlider.vue';
 import { CatalogOrder, Term } from '@/services/api';
-import PermalinkList from './PermalinkList.vue';
+import PermalinkList from '@/components/PermalinkList.vue';
 import { CatalogConfig, useCatalog } from '@/catalog';
 import $ from 'jquery';
 
@@ -381,12 +378,11 @@ export default defineComponent({
       reloadOnLoadLess();
     };
 
-    const onFilterListToggle = async (
+    const onFilterListToggle = (
       tax: string,
       term: Term,
-      checked: boolean,
-      reload = false,
-    ): Promise<void> => {
+      checked: boolean
+    ): void => {
       const taxRef = taxRefs.get(tax);
       if (taxRef === undefined) {
         console.warn(`Taxonomy \`${tax}\` does not exists`);
@@ -408,23 +404,28 @@ export default defineComponent({
         };
         uncheckChildren(term);
       }
-
-      if (reload) {
-        resetCatalogScroll();
-        reloadOnSelectTerm();
-      }
     };
 
-    const onPriceRangeSliderChange = async (
-      values: number[],
-      reload = false,
+    const onFilterListToggleAndReload = async (
+      tax: string,
+      term: Term,
+      checked: boolean
     ): Promise<void> => {
-      selectedPriceRange.value = { min: values[0], max: values[1] };
+      onFilterListToggle(tax, term, checked);
+      resetCatalogScroll();
+      reloadOnSelectTerm();
+    };
 
-      if (reload) {
-        resetCatalogScroll();
-        reloadOnSelectPriceRange();
-      }
+    const onPriceRangeSliderChange = (values: number[]): void => {
+      selectedPriceRange.value = { min: values[0], max: values[1] };
+    };
+
+    const onPriceRangeSliderChangeAndReload = async (
+      values: number[]
+    ): Promise<void> => {
+      onPriceRangeSliderChange(values);
+      resetCatalogScroll();
+      reloadOnSelectPriceRange();
     };
 
     const onOrderSelectChange = async (e: Event): Promise<void> => {
@@ -509,8 +510,10 @@ export default defineComponent({
       onDdApplyPriceRange,
       onDdApplyFilters,
       onFilterListToggle,
+      onFilterListToggleAndReload,
       onOrderSelectChange,
       onPriceRangeSliderChange,
+      onPriceRangeSliderChangeAndReload,
       onLoadMoreClick,
       onLoadLessClick,
       addToCart,
