@@ -1,9 +1,5 @@
 <?php
 
-/**
- * Catalog Addon Version: 2.0.1
- */
-
 namespace Waboot\addons\packages\catalog;
 
 use Waboot\inc\core\AssetsManager;
