@@ -234,11 +234,7 @@ export function useCatalog(config: CatalogConfig) {
   });
 
   const previousPage = computed<number>(() => {
-    if (products.value.length >= count.value) {
-      return 0;
-    }
-
-    return ((config.productsPerPage * page.value) - products.value.length) / config.productsPerPage;
+    return page.value - Math.ceil(products.value.length / config.productsPerPage);
   });
 
   const readQueryString = (): void => {
