@@ -56,13 +56,13 @@
     transition: all .5s ease;
     margin-bottom: 0 !important;
     position: fixed;
-    z-index: 200;
+    z-index: 9999999999;
     bottom: 0;
     left: 100%;
     background-color: #fff;
     width: 100%;
     overflow: hidden;
-    height: 100vh;
+    max-height: 100vh;
     height: -webkit-fill-available;
     &--opened {
       //height: 100vh;
@@ -70,8 +70,8 @@
     }
     &__inner {
       width: 100%;
-      //height: 100%;
-      padding: $gridGutter*2 $gridGutter;
+      max-height: 100%;
+      padding: $gridGutter $gridGutter $gridGutter * 2 $gridGutter;
       overflow-y: auto;
       //display: grid;
       //grid-gap: 25px;
@@ -113,7 +113,7 @@
 /* Catalalog Filters Header Option */
 
 .catalog--layout-header {
-  @include up($large) {
+  @include up($medium) {
     display: flex;
     align-items: center;
     justify-content: center;
