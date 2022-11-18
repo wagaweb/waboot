@@ -130,7 +130,13 @@ SQL;
 
             $prodsToParse = [$p];
             if ($p->get_type() === 'variable') {
-                $prodsToParse = $p->get_children();
+                $prodsToParse = [];
+                foreach ($p->get_children() as $id) {
+                    $c = wc_get_product($id);
+                    if (!empty($c)) {
+                        $prodsToParse[] = $c;
+                    }
+                }
                 $prodsToSync[] = $p->get_id();
             }
 
