@@ -5,6 +5,7 @@ namespace Waboot\inc;
 use Waboot\inc\cli\FixPrices;
 use Waboot\inc\cli\FixStockStatuses;
 use Waboot\inc\cli\GenerateAttributeListMeta;
+use Waboot\inc\cli\ImportPrices;
 use Waboot\inc\cli\order_export\ExportOrders;
 use Waboot\inc\cli\order_export\ExportOrdersTest;
 use Waboot\inc\cli\order_simulator\OrderSimulator;
@@ -20,6 +21,7 @@ require_once get_stylesheet_directory().'/inc/cli/FixStockStatuses.php';
 require_once get_stylesheet_directory().'/inc/cli/FixPrices.php';
 require_once get_stylesheet_directory().'/inc/cli/RemoveSalePrices.php';
 require_once get_stylesheet_directory().'/inc/cli/GenerateAttributeListMeta.php';
+require_once get_stylesheet_directory().'/inc/cli/ImportPrices.php';
 require_once get_stylesheet_directory().'/inc/cli/feeds/GenerateGShoppingFeed.php';
 if(is_file(get_stylesheet_directory().'/inc/cli/product_import/waga-woocommerce-csv-cli-importer/src/index.php')){
     require_once get_stylesheet_directory().'/inc/cli/product_import/waga-woocommerce-csv-cli-importer/src/index.php';
@@ -63,4 +65,37 @@ try{
     ]);
     \WP_CLI::add_command('wawoo:test:export-orders', ExportOrdersTest::class);
     \WP_CLI::add_command('wawoo:feeds:generate-gshopping', GenerateGShoppingFeed::class);
+    \WP_CLI::add_command('wawoo:import-prices', ImportPrices::class, [
+        'shortdesc' => 'Import prices',
+        'synopsis' => [
+            [
+                'type' => 'positional',
+                'name' => 'filename',
+                'description' => 'The path to the file to import',
+                'optional' => false,
+                'repeating' => false,
+            ],
+            [
+                'type' => 'positional',
+                'name' => 'key',
+                'description' => 'The type of key that identify the product (`id`/`sku`)',
+                'optional' => false,
+                'repeating' => false,
+            ],
+            [
+                'type' => 'positional',
+                'name' => 'price',
+                'description' => 'The type of price to import (`regular`/`sale`)',
+                'optional' => false,
+                'repeating' => false,
+            ],
+            [
+                'type' => 'flag',
+                'name' => 'dry',
+                'description' => 'Dry run',
+                'optional' => true,
+                'repeating' => false,
+            ],
+        ],
+    ]);
 }catch (\Exception $e){}
