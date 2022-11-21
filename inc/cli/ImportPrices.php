@@ -117,6 +117,7 @@ SQL;
             $prods = wc_get_products(['limit' => -1, 'include' => $ids]);
         }
 
+        $now = time();
         $count = count($prods);
         $this->log(sprintf('Updating %d products', $count));
         /** @var int[] $prodsToSync */
@@ -160,11 +161,11 @@ SQL;
                     $set = true;
                     if ($from !== null) {
                         $pp->set_date_on_sale_from($from);
-                        $set = false;
+                        $set = $now >= $from;
                     }
                     if ($to !== null) {
                         $pp->set_date_on_sale_to($to);
-                        $set = false;
+                        $set = $set && ($now < $to);
                     }
 
                     $pp->set_sale_price($price);
