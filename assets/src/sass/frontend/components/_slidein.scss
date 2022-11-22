@@ -36,7 +36,7 @@
     position: absolute;
     right: 0;
     top: 0;
-    padding: $gridGutter/2 $gridGutter 0 0 !important;
+    padding: calc($gridGutter/2) $gridGutter 0 0 !important;
     z-index: 20;
     font-size: 1.5em;
     cursor: pointer;

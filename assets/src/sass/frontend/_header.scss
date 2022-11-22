@@ -23,7 +23,7 @@
   &__inner {
     max-width: $containerWidth;
     margin: 0 auto;
-    padding: $gridGutter/2 $gridGutter;
+    padding: calc($gridGutter/2) $gridGutter;
     display         : flex;
     align-items     : center;
     justify-content : space-between;

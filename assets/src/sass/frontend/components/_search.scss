@@ -3,7 +3,7 @@
   &--form,
   &__form {
     display: grid;
-    grid-gap: $gridGutter / 2;
+    grid-gap: calc($gridGutter / 2);
     grid-template-columns: 1fr auto;
 
     .screen-reader-text {

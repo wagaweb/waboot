@@ -1,7 +1,7 @@
 .footer {
   &__closure {
     max-width: $containerWidth;
-    padding: $gridGutter/2 $gridGutter;
+    padding: calc($gridGutter/2) $gridGutter;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
