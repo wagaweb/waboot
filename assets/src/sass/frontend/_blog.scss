@@ -21,26 +21,130 @@
       }
     }
   }
+  h2 {
+    margin-top: $gridGutter * 3;
+  }
+  h3 {
+    margin-top: $gridGutter * 2;
+  }
+  figure.wp-block-image {
+    margin-bottom: $gridGutter * 2;
+    margin-top: $gridGutter * 2;
+  }
+  blockquote.wp-block-quote {
+    margin-bottom: $gridGutter * 2;
+    margin-top: $gridGutter * 2;
+    p {
+      font-size: 1.2em;
+      font-weight: $fontWeightBold;
+    }
+  }
+  pre.wp-block-code {
+    background-color: $colorGreyDark;
+    border: none;
+    border-radius: 0;
+    color: $colorWhite;
+    padding: $gridGutter;
+  }
+  .wp-block-cover,
+  .wp-block-cover-image {
+    margin-bottom: $gridGutter * 3;
+    margin-top: $gridGutter * 3;
+    min-height: auto;
+    padding: $gridGutter * 2 $gridGutter;
+    h2 {
+      margin-top: 0;
+    }
+  }
+  .wp-block-media-text {
+    margin-bottom: $gridGutter * 3;
+    margin-top: $gridGutter * 3;
+    grid-gap: $gridGutter;
+    h2 {
+      margin-top: 0;
+    }
+  }
+  figure.wp-block-gallery {
+    margin-bottom: $gridGutter * 3;
+    margin-top: $gridGutter * 3;
+  }
 }
 
+.article__list,
+.article__grid {
+  .article {
+    &__categories {
+      display: flex;
+      list-style: none;
+      margin: 0 0 calc($gridGutter / 2) 0;
+      padding: 0;
+      li:not(:last-child) {
+        margin-right: $gridGutter;
+      }
+      a {
+        color: inherit;
+        &:hover {
+          color: $colorPrimary;
+        }
+      }
+    }
+  }
+  h2 {
+    a {
+      color: $colorText;
+      &:hover {
+        color: $colorPrimary;
+      }
+    }
+  }
+}
 
 .article__list {
-  article {
-    margin-bottom: $gridGutter;
+  display: grid;
+  grid-gap: $gridGutter;
+  @include up($medium) {
+    grid-gap: $gridGutter * 2;
   }
-  @include up($medium){
+
+  @include up($medium) {
     .article {
       &__inner {
-        display: flex;
-        flex-wrap: nowrap;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
       }
       &__image {
         flex: 0 0 auto;
-        margin-right: 20px
+        margin-right: 20px;
+        img {
+          height: 300px;
+          object-fit: cover;
+        }
       }
       &__content {
         flex: 1 1 auto;
       }
     }
+  }
+}
+
+.article__grid {
+  display: grid;
+  row-gap: $gridGutter * 2;
+  @include up($medium) {
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: $gridGutter * 2;
+  }
+  .article {
+    &__image {
+      margin-bottom: $gridGutter;
+    }
+    &__categories {
+      @include down($medium) {
+        margin-bottom: calc($gridGutter / 2);
+      }
+    }
+  }
+  h2 {
+    @extend .h3;
   }
 }

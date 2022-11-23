@@ -34,7 +34,7 @@ function assets(){
         'deps' => ['google-font']
     ];
     $assets['google-font'] = [
-        'uri' => 'https://fonts.googleapis.com/css?family=Montserrat:400,400i,700,700i&display=swap',
+        'uri' => 'https://fonts.googleapis.com/css?family=Montserrat:400,400i,600,600i,700,700i&display=swap',
         'type' => 'css'
     ];
     $assets['owlcarousel-css'] = [

@@ -6,22 +6,23 @@ $small: 480px;
 $xsmall: 320px;
 
 /* Grid */
-$containerWidth: 1400px;
+$containerWidth: 1200px;
 $gridGutter: 20px;
 
 /* Colors */
-$colorWhite : #FFF;
-$colorSuccess : #03A679;
-$colorWarning : #F93D5C;
-$colorGrey : #cccccc;
-$colorGreyLight : #f4f4f4;
-$colorGreyDark : #555;
-$colorPrimary: #74B6CA;
+$colorWhite: #fff;
+$colorSuccess: #03a679;
+$colorWarning: #f93d5c;
+$colorGrey: #cccccc;
+$colorGreyLight: #f4f4f4;
+$colorGreyDark: #555;
+$colorPrimary: #06b6d4;
 $colorSecondary: #747ec9;
 $colorText: #000;
 
 /* Fonts */
-$fontPrimary : 'Montserrat', sans-serif;
-$fontSecondary : 'Montserrat', sans-serif;
-$fontWeightNormal : 400;
-$fontWeightBold : 700;
+$fontPrimary: 'Montserrat', sans-serif;
+$fontSecondary: 'Montserrat', sans-serif;
+$fontWeightNormal: 400;
+$fontWeightSemibold: 600;
+$fontWeightBold: 700;

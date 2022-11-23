@@ -1,31 +1,31 @@
-@import "frontend/reset";
-@import "frontend/variables";
-@import "frontend/media-query";
-@import "frontend/grid";
-@import "frontend/typography";
-@import "frontend/blog";
-@import "frontend/postsformat";
-@import "frontend/gutenberg";
-@import "frontend/utilities";
-@import "frontend/404";
+@import 'frontend/reset';
+@import 'frontend/variables';
+@import 'frontend/media-query';
+@import 'frontend/grid';
+@import 'frontend/typography';
+@import 'frontend/blog';
+@import 'frontend/postsformat';
+@import 'frontend/gutenberg';
+@import 'frontend/utilities';
+@import 'frontend/404';
 
-@import "frontend/components/slidein";
-@import "frontend/components/tables";
-@import "frontend/components/buttons";
-@import "frontend/components/pagination";
-@import "frontend/components/gallery";
-@import "frontend/components/forms";
-@import "frontend/components/search";
-@import "frontend/components/carousel";
-@import "frontend/components/fontawesome";
-@import "frontend/components/venobox";
+@import 'frontend/components/slidein';
+@import 'frontend/components/tables';
+@import 'frontend/components/buttons';
+@import 'frontend/components/pagination';
+@import 'frontend/components/gallery';
+@import 'frontend/components/forms';
+@import 'frontend/components/search';
+@import 'frontend/components/carousel';
+@import 'frontend/components/fontawesome';
+@import 'frontend/components/venobox';
 
-@import "frontend/global";
-@import "frontend/header";
-@import "frontend/navigation";
-@import "frontend/aside";
-@import "frontend/footer";
-@import "frontend/homepage";
+@import 'frontend/global';
+@import 'frontend/header';
+@import 'frontend/navigation';
+@import 'frontend/aside';
+@import 'frontend/footer';
+@import 'frontend/homepage';
 
 /*
 @import 'frontend/woocommerce/global';

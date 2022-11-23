@@ -1,9 +1,37 @@
 .main__aside {
   .widget {
     margin-bottom: $gridGutter;
+    @include up($medium) {
+      margin-bottom: $gridGutter * 2;
+    }
+    ul {
+      display: grid;
+      grid-gap: 0.5em;
+      margin: 0;
+    }
     p:last-child,
     ul:last-child {
       margin-bottom: 0;
     }
+    &__title {
+      @extend .h4;
+      margin-bottom: calc($gridGutter / 2);
+    }
+  }
+}
+
+#wp-calendar {
+  border-bottom: 1px solid $colorGreyLight;
+  border-left: 1px solid $colorGreyLight;
+  margin-bottom: 1em;
+  caption {
+    font-weight: $fontWeightSemibold;
+    margin-bottom: 0.5em;
+  }
+  th,
+  td {
+    border-right: 1px solid $colorGreyLight;
+    border-top: 1px solid $colorGreyLight;
+    padding: 0.5em;
   }
 }

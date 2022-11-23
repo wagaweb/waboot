@@ -94,3 +94,8 @@ add_filter( 'map_meta_cap', function( $caps, $cap ) {
     }
     return $caps;
 }, 20, 2 );
+
+/**
+ * Disable Gutenberg for Sidebar Widgets
+ */
+add_filter( 'use_widgets_block_editor', '__return_false' );

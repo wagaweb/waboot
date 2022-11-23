@@ -6,21 +6,19 @@
 }
 
 @include up($medium) {
+  .alignwide {
+    margin-left: calc(25% - 25vw);
+    margin-right: calc(25% - 25vw);
+    width: auto;
+    max-width: 1000%;
+  }
 
-    .alignwide {
-      margin-left: calc(25% - 25vw);
-      margin-right: calc(25% - 25vw);
-      width: auto;
-      max-width: 1000%;
-    }
-
-    .alignwide img,
-    .alignfull img {
-      display: block;
-      margin: 0 auto;
-    }
+  .alignwide img,
+  .alignfull img {
+    display: block;
+    margin: 0 auto;
+  }
 }
-
 
 .wp-block-columns {
   position: relative;
@@ -35,11 +33,10 @@
   }
 }
 
-
 .wp-block-column {
   position: relative;
   @include up($large) {
-    flex-basis: calc(50% - calc(#{$gridGutter}/2));
+    flex-basis: calc(50% - calc(#{$gridGutter}/ 2));
     flex-grow: 0;
     &:nth-child(2n) {
       margin-left: $gridGutter;
@@ -49,7 +46,6 @@
     }
   }
 }
-
 
 .wp-block-group {
   &.alignfull {
@@ -62,11 +58,9 @@
   }
 }
 
-
 .wp-block-image {
   margin-bottom: $gridGutter;
 }
-
 
 .wp-block-buttons {
   .wp-block-button {
@@ -76,7 +70,6 @@
     }
   }
 }
-
 
 .blocks-gallery-grid,
 .wp-block-gallery {
@@ -90,7 +83,7 @@
       .blocks-gallery-image,
       .blocks-gallery-item {
         width: calc((100% - calc(#{$gridGutter} * 2)) / 3);
-        @supports (-ms-ime-align:auto) {
+        @supports (-ms-ime-align: auto) {
           width: calc((100% - calc(#{$gridGutter} * 2)) / 3 - 1px);
         }
         margin-right: $gridGutter;
@@ -100,7 +93,7 @@
       .blocks-gallery-image,
       .blocks-gallery-item {
         width: calc((100% - calc(#{$gridGutter} * 3)) / 4);
-        @supports (-ms-ime-align:auto) {
+        @supports (-ms-ime-align: auto) {
           width: calc((100% - calc(#{$gridGutter} * 3)) / 4 - 1px);
         }
         margin-right: $gridGutter;
@@ -110,7 +103,7 @@
       .blocks-gallery-image,
       .blocks-gallery-item {
         width: calc((100% - calc(#{$gridGutter} * 4)) / 5);
-        @supports (-ms-ime-align:auto) {
+        @supports (-ms-ime-align: auto) {
           width: calc((100% - calc(#{$gridGutter} * 4)) / 5 - 1px);
         }
         margin-right: $gridGutter;
@@ -120,7 +113,7 @@
       .blocks-gallery-image,
       .blocks-gallery-item {
         width: calc((100% - calc(#{$gridGutter} * 5)) / 6);
-        @supports (-ms-ime-align:auto) {
+        @supports (-ms-ime-align: auto) {
           width: calc((100% - calc(#{$gridGutter} * 5)) / 6 - 1px);
         }
         margin-right: $gridGutter;
@@ -130,7 +123,7 @@
       .blocks-gallery-image,
       .blocks-gallery-item {
         width: calc((100% - calc(#{$gridGutter} * 6)) / 7);
-        @supports (-ms-ime-align:auto) {
+        @supports (-ms-ime-align: auto) {
           width: calc((100% - calc(#{$gridGutter} * 6)) / 7 - 1px);
         }
         margin-right: $gridGutter;
@@ -140,7 +133,7 @@
       .blocks-gallery-image,
       .blocks-gallery-item {
         width: calc((100% - calc(#{$gridGutter} * 7)) / 8);
-        @supports (-ms-ime-align:auto) {
+        @supports (-ms-ime-align: auto) {
           width: calc((100% - calc(#{$gridGutter} * 7)) / 8 - 1px);
         }
         margin-right: $gridGutter;
@@ -168,7 +161,6 @@
   }
 }
 
-
 // Latest Posts Block
 
 .wp-block-latest-posts {
@@ -177,19 +169,50 @@
   }
   @include up($medium) {
     &.columns-2 li {
-      width: calc(50% - calc(#{$gridGutter}/2));
+      width: calc(50% - calc(#{$gridGutter}/ 2));
     }
     &.columns-3 li {
-      width: calc(33.33333% - calc(#{$gridGutter}*2/3));
+      width: calc(33.33333% - calc(#{$gridGutter}* 2 / 3));
     }
     &.columns-4 li {
-      width: calc(25% - calc(#{$gridGutter}*3/4));
+      width: calc(25% - calc(#{$gridGutter}* 3 / 4));
     }
     &.columns-5 li {
-      width: calc(20% - calc(#{$gridGutter}*4/5));
+      width: calc(20% - calc(#{$gridGutter}* 4 / 5));
     }
     &.columns-6 li {
-      width: calc(16.66667% - calc(#{$gridGutter}*5/6));
+      width: calc(16.66667% - calc(#{$gridGutter}* 5 / 6));
+    }
+  }
+}
+
+.wp-block-query {
+  margin-top: $gridGutter * 3;
+  .wp-block-post-template {
+    gap: $gridGutter * 2;
+    &.is-flex-container.is-flex-container.columns-2 > li {
+      width: calc(50% - $gridGutter);
+    }
+  }
+  .wp-block-post-featured-image {
+    margin-bottom: $gridGutter;
+  }
+  .wp-block-post-terms {
+    margin-bottom: calc($gridGutter / 2);
+    a {
+      color: inherit;
+      &:hover {
+        color: $colorPrimary;
+      }
+    }
+  }
+  h2 {
+    @extend .h3;
+    a {
+      color: inherit;
+      &:hover {
+        color: $colorPrimary;
+      }
     }
   }
 }

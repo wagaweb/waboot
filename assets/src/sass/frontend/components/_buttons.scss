@@ -10,6 +10,8 @@
   white-space: nowrap;
   padding: 10px 15px;
   font-size: 1em;
+  font-weight: $fontWeightSemibold;
+  letter-spacing: 2px;
   line-height: 1.4em;
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -30,26 +32,26 @@
 }
 
 @mixin buttonStyle($bkg, $color, $colorHover, $border) {
-  border-radius : 0;
-  background    : $bkg;
+  border-radius: 0;
+  background: $bkg;
   @if $color {
-    color : $color;
+    color: $color;
   }
   @if $border {
-    border : $border;
+    border: $border;
   }
-  transition    : all 0.3s ease;
+  transition: all 0.3s ease;
 
   &:hover {
-    background : darken($bkg, 8%);
+    background: darken($bkg, 8%);
     @if $colorHover {
-      color : $colorHover
+      color: $colorHover;
     }
   }
   &:active {
-    background : darken($bkg, 25%);
+    background: darken($bkg, 25%);
     @if $colorHover {
-      color : $colorHover
+      color: $colorHover;
     }
   }
 }
@@ -57,7 +59,7 @@
 .button,
 .btn,
 .wp-block-button__link,
-input[type="submit"] {
+input[type='submit'] {
   @include button();
   @include buttonStyle($colorPrimary, #fff, #fff, false);
 }
