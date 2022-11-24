@@ -99,3 +99,11 @@ add_filter( 'map_meta_cap', function( $caps, $cap ) {
  * Disable Gutenberg for Sidebar Widgets
  */
 add_filter( 'use_widgets_block_editor', '__return_false' );
+
+
+/**
+ * Replace span with li in breadcrumbs structure
+ */
+add_filter( 'wpseo_breadcrumb_separator', function() {
+    return '</li><li>';
+}, 99);

@@ -19,13 +19,15 @@
             <?php endif; ?>
 
             <h2><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
+            
+            <span class="article__date"><?php echo get_the_date(); ?></span>
             <p>
                 <?php \Waboot\inc\trimmedExcerpt(20, '...'); ?>
             </p>
             <a class="more__link" href="<?php the_permalink() ?>">
                 <?php _e('Continue reading', LANG_TEXTDOMAIN) ?>
             </a>
-            <?php do_action( 'waboot/article/list/footer' ); ?>
+            
         </div>
     </div>
 </article>

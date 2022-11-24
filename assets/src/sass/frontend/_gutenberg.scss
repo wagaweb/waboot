@@ -197,14 +197,11 @@
   .wp-block-post-featured-image {
     margin-bottom: $gridGutter;
   }
-  .wp-block-post-terms {
+  .wp-block-post-terms,
+  .wp-block-post-date {
+    font-size: 0.9em;
     margin-bottom: calc($gridGutter / 2);
-    a {
-      color: inherit;
-      &:hover {
-        color: $colorPrimary;
-      }
-    }
+    text-transform: uppercase;
   }
   h2 {
     @extend .h3;

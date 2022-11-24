@@ -26,7 +26,7 @@ add_action("waboot/widget_area/footer/after", function(){
 
 add_action("waboot/layout/title/before", function(){
     if ( function_exists('yoast_breadcrumb') ) {
-        yoast_breadcrumb( '<p id="breadcrumbs">','</p>' );
+        yoast_breadcrumb( '<ul class="breadcrumbs"><li>','</li></ul>' );
     }
 });
 

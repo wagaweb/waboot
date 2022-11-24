@@ -4,6 +4,13 @@
   top: 0;
   z-index: 20;
 
+  body.admin-bar & {
+    top: 46px;
+    @include up($medium) {
+      top: 32px;
+    }
+  }
+
   .header--fixed & {
     background-color: #fff;
     position: fixed;

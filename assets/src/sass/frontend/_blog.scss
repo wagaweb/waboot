@@ -75,18 +75,20 @@
   .article {
     &__categories {
       display: flex;
+      font-size: 0.9em;
       list-style: none;
       margin: 0 0 calc($gridGutter / 2) 0;
       padding: 0;
+      text-transform: uppercase;
       li:not(:last-child) {
         margin-right: $gridGutter;
       }
-      a {
-        color: inherit;
-        &:hover {
-          color: $colorPrimary;
-        }
-      }
+    }
+    &__date {
+      display: inline-block;
+      font-size: 0.9em;
+      margin-bottom: calc($gridGutter / 2);
+      text-transform: uppercase;
     }
   }
   h2 {
