@@ -41,11 +41,11 @@
 
   &__logo {
     @include down($large) {
-      max-width: 50%;
+      max-width: 85%;
     }
     img {
       max-width: 100%;
-      max-height: 60px;
+      max-height: 50px;
       @include up($large) {
         max-width: 180px;
         max-height: none;

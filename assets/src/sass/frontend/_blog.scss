@@ -74,20 +74,14 @@
 .article__grid {
   .article {
     &__categories {
-      display: flex;
       font-size: 0.9em;
-      list-style: none;
-      margin: 0 0 calc($gridGutter / 2) 0;
-      padding: 0;
+      margin: 0 0 10px 0;
       text-transform: uppercase;
-      li:not(:last-child) {
-        margin-right: $gridGutter;
-      }
     }
     &__date {
       display: inline-block;
       font-size: 0.9em;
-      margin-bottom: calc($gridGutter / 2);
+      margin-bottom: 10px;
       text-transform: uppercase;
     }
   }
@@ -131,19 +125,13 @@
 
 .article__grid {
   display: grid;
-  row-gap: $gridGutter * 2;
+  grid-gap: $gridGutter * 2;
   @include up($medium) {
-    grid-template-columns: repeat(2, 1fr);
-    column-gap: $gridGutter * 2;
+    grid-template-columns: repeat(2, minmax(auto,1fr));
   }
   .article {
     &__image {
-      margin-bottom: $gridGutter;
-    }
-    &__categories {
-      @include down($medium) {
-        margin-bottom: calc($gridGutter / 2);
-      }
+      margin-bottom: 20px;
     }
   }
   h2 {

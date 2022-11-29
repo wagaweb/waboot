@@ -1,9 +1,6 @@
 .main__aside {
   .widget {
     margin-bottom: $gridGutter;
-    @include up($medium) {
-      margin-bottom: $gridGutter * 2;
-    }
     ul {
       display: grid;
       grid-gap: 0.5em;
@@ -25,7 +22,7 @@
   border-left: 1px solid $colorGreyLight;
   margin-bottom: 1em;
   caption {
-    font-weight: $fontWeightSemibold;
+    font-weight: $fontWeightBold;
     margin-bottom: 0.5em;
   }
   th,

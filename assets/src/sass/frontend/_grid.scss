@@ -35,15 +35,15 @@ body {
     @include up($medium) {
       &__grid {
         display: grid;
-        grid-column-gap: $gridGutter * 3;
+        grid-column-gap: $gridGutter;
         grid-template-columns: auto calc(100% / 4);
         grid-template-rows: auto;
-        margin-bottom: $gridGutter * 2;
-        margin-top: $gridGutter * 2;
       }
       &__title {
         grid-column: 1 / span 2;
         grid-row: 1;
+        padding-bottom: $gridGutter;
+        padding-top: $gridGutter;
       }
       &__content {
         grid-column: 1;
