@@ -35,6 +35,37 @@ add_filter('rest_endpoints', function($endpoints){
 });*/
 
 /**
+ * Fix Login Error Check
+ */
+add_filter('login_errors', function($message) {
+    global $errors;
+    if (isset($errors->errors['invalid_username']) || isset($errors->errors['incorrect_password'])) {
+        $message = __('<strong>ERROR</strong>: Invalid username/password combination.', LANG_TEXTDOMAIN) . ' ' .
+            sprintf(('<a href="%1$s" title="%2$s">%3$s</a>?'),
+                site_url('wp-login.php?action=lostpassword', 'login'),
+                __('Password Lost and Found', 'default'),
+                __('Lost Password', 'default'));
+    }
+    return $message;
+});
+
+/**
+ * Disable Feed
+ */
+function disableFeeds() {
+    wp_die( __( 'No feed available, please visit the homepage!' ) );
+}
+add_action('do_feed', __NAMESPACE__."\\disableFeeds", 1);
+add_action('do_feed_rdf', __NAMESPACE__."\\disableFeeds", 1);
+add_action('do_feed_rss', __NAMESPACE__."\\disableFeeds", 1);
+add_action('do_feed_rss2', __NAMESPACE__."\\disableFeeds", 1);
+add_action('do_feed_atom', __NAMESPACE__."\\disableFeeds", 1);
+add_action('do_feed_rss2_comments', __NAMESPACE__."\\disableFeeds", 1);
+add_action('do_feed_atom_comments', __NAMESPACE__."\\disableFeeds", 1);
+remove_action( 'wp_head', 'feed_links_extra', 3 );
+remove_action( 'wp_head', 'feed_links', 2 );
+
+/**
  * Add header metas
  */
 function addHeaderMetas(){
