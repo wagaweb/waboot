@@ -1,0 +1,76 @@
+{
+  "settings": {
+    "product_identifier": "_sku",
+    "brand_taxonomy_name": "product_brand",
+    "size_taxonomy_name": "pa_size",
+    "color_taxonomy_name": "pa_color",
+    "update_prices": true,
+    "update_stocks": true
+  },
+  "exclude_columns": [
+    "Excluded Column A",
+    "Excluded Column B"
+  ],
+  "columns": [
+    {
+      "name": "COD",
+      "standard_name": "identifier"
+    },
+    {
+      "name": "GROUP ID",
+      "standard_name": "groupId"
+    },
+    {
+      "name": "Title",
+      "standard_name": "post_title"
+    },
+    {
+      "name": "Ean13",
+      "standard_name": "meta:_ean13"
+    },
+    {
+      "name": "Size",
+      "standard_name": "attribute:pa_size:taxonomy:variations"
+    },
+    {
+      "name": "Color",
+      "standard_name": "attribute:pa_color:taxonomy:variations"
+    },
+    {
+      "name": "Caetgory",
+      "standard_name": "taxonomy:product_cat:hierarchical"
+    },
+    {
+      "name": "Brand",
+      "standard_name": "taxonomy:product_brand:hierarchical"
+    },
+    {
+      "name": "Price",
+      "standard_name": "meta:_regular_price"
+    },
+    {
+      "name": "Stock",
+      "standard_name": "meta:_stock"
+    },
+    {
+      "name": "ShortDesc",
+      "standard_name": "post_excerpt"
+    },
+    {
+      "name": "LongDesc",
+      "standard_name": "post_content"
+    },
+    {
+      "name": "Up Sells",
+      "standard_name": "upsells"
+    },
+    {
+      "name": "Cross Sells",
+      "standard_name": "crossells"
+    },
+    {
+      "name": "Focus Keyphrase",
+      "standard_name": "meta:_yoast_wpseo_focuskeywords"
+    }
+  ]
+}
