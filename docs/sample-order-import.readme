@@ -1,0 +1,2 @@
+La prima riga deve essere destinata all'utente che ha effettuato l'ordine, lasciando vuote quelle relative all'item.
+Le righe successive riempiono solo i campi dell'item (da "item_name") in poi.
