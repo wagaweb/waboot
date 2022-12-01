@@ -1,9 +1,0 @@
-How to enable Shop Rules addon
-
-- Comment out shop rule line of 'waboot/addons/disabled' filter in functions.php
-- Remove comments in "assets/src/js/main.js"
-- Remove comments in "assets/src/sass/main.scss"
-- Run "npm run shoprules:build:dev"
-- Run "npm run shoprules:build:prod"
-- Run "npm run build"
-- Search for "{SHOP RULE}" among all files for additional actions

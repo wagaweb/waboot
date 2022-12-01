@@ -6,12 +6,10 @@ import MiniCart from './frontend/minicart.js';
 import {initCustomCheckoutActions} from './frontend/checkout.js';
 import {alterAttributesView} from './frontend/attributes.js';
 import {enableProductGallery} from './frontend/productGallery.js';
-import CatalogFilters from "./frontend/catalogFilters.js";
+//import CatalogFilters from "./frontend/catalogFilters.js";
 import {initEuVat} from "./frontend/checkout/invoicing";
 import {initCustomerCareModal} from "./frontend/modal.js";
 import {isCartPage, isCheckOutPage, isSingleProductPage} from "./utils/wp";
-//{SHOP RULES}
-//import ShopRules from "../../../addons/packages/shop_rules/assets/frontend/shoprules.js";
 
 $.fn.slidein = function (options) {
     return this.each(function () {
@@ -76,6 +74,17 @@ $(document).ready(function() {
     if(isSingleProductPage()) {
         alterAttributesView();
         $('form.bundle_form').attr('action','?addedProduct=true');
+        printSalePercentage('p.price');
+        $('.single_variation_wrap').on('show_variation', (e, v) => {
+            const price = $('.woocommerce-variation-price .price');
+            if (price.length > 0) {
+                $('p.price').replaceWith(
+                    `<p class="price">${price.html()}</p>`
+                );
+                price.remove();
+                printSalePercentage('p.price');
+            }
+        });
     }
 
     // WooCommerce Addon End
@@ -97,6 +106,40 @@ function scrollToAnimate(){
             $('html, body').stop().animate({
                 scrollTop: target.offset().top - $header
             }, 1000);
+        }
+    });
+}
+
+function printSalePercentage(selector) {
+    $(selector).each(function () {
+        const $price = $(this);
+        const regular = Number(
+            $price
+                .find('del bdi')
+                .clone()
+                .children()
+                .remove()
+                .end()
+                .text()
+                .replace(',', '.')
+        );
+        const current = Number(
+            $price
+                .find('ins bdi')
+                .clone()
+                .children()
+                .remove()
+                .end()
+                .text()
+                .replace(',', '.')
+        );
+        if (regular > 0 && !Number.isNaN(current)) {
+            const percentage = 100 - (current * 100) / regular;
+            $price.append(
+                '<span class="sale-percentage">-' +
+                Math.round(percentage) +
+                '%</span>'
+            );
         }
     });
 }
