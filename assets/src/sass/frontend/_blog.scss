@@ -1,140 +1,147 @@
 .single {
-  .article {
-    &__image {
-      margin-bottom: $gridGutter;
-      img {
-        max-width: 100%;
-      }
-    }
+	.article {
+		&__image {
+			margin-bottom: $gridGutter;
+			img {
+				max-width: 100%;
+			}
+		}
 
-    &__footer {
-      text-transform: uppercase;
-      font-size: 0.9em;
-      padding: 10px 0;
+		&__footer {
+			text-transform: uppercase;
+			font-size: 0.9em;
+			padding: 10px 0;
 
-      .glyphicon {
-        margin-right: 5px;
-      }
+			.glyphicon {
+				margin-right: 5px;
+			}
 
-      > span {
-        margin-right: 10px;
-      }
-    }
-  }
-  h2 {
-    margin-top: $gridGutter * 3;
-  }
-  h3 {
-    margin-top: $gridGutter * 2;
-  }
-  figure.wp-block-image {
-    margin-bottom: $gridGutter * 2;
-    margin-top: $gridGutter * 2;
-  }
-  blockquote.wp-block-quote {
-    margin-bottom: $gridGutter * 2;
-    margin-top: $gridGutter * 2;
-    p {
-      font-size: 1.2em;
-      font-weight: $fontWeightBold;
-    }
-  }
-  pre.wp-block-code {
-    background-color: $colorGreyDark;
-    border: none;
-    border-radius: 0;
-    color: $colorWhite;
-    padding: $gridGutter;
-  }
-  .wp-block-cover,
-  .wp-block-cover-image {
-    margin-bottom: $gridGutter * 3;
-    margin-top: $gridGutter * 3;
-    min-height: auto;
-    padding: $gridGutter * 2 $gridGutter;
-    h2 {
-      margin-top: 0;
-    }
-  }
-  .wp-block-media-text {
-    margin-bottom: $gridGutter * 3;
-    margin-top: $gridGutter * 3;
-    grid-gap: $gridGutter;
-    h2 {
-      margin-top: 0;
-    }
-  }
-  figure.wp-block-gallery {
-    margin-bottom: $gridGutter * 3;
-    margin-top: $gridGutter * 3;
-  }
+			> span {
+				margin-right: 10px;
+			}
+		}
+	}
+	h2 {
+		margin-top: $gridGutter * 3;
+	}
+	h3 {
+		margin-top: $gridGutter * 2;
+	}
+	figure.wp-block-image {
+		margin-bottom: $gridGutter * 2;
+		margin-top: $gridGutter * 2;
+	}
+	blockquote.wp-block-quote {
+		margin-bottom: $gridGutter * 2;
+		margin-top: $gridGutter * 2;
+		p {
+			font-size: 1.2em;
+			font-weight: $fontWeightBold;
+		}
+	}
+	pre.wp-block-code {
+		background-color: $colorGreyDark;
+		border: none;
+		border-radius: 0;
+		color: $colorWhite;
+		padding: $gridGutter;
+	}
+	.wp-block-cover,
+	.wp-block-cover-image {
+		margin-bottom: $gridGutter * 3;
+		margin-top: $gridGutter * 3;
+		min-height: auto;
+		padding: $gridGutter * 2 $gridGutter;
+		h2 {
+			margin-top: 0;
+		}
+	}
+	.wp-block-media-text {
+		margin-bottom: $gridGutter * 3;
+		margin-top: $gridGutter * 3;
+		grid-gap: $gridGutter;
+		h2 {
+			margin-top: 0;
+		}
+	}
+	figure.wp-block-gallery {
+		margin-bottom: $gridGutter * 3;
+		margin-top: $gridGutter * 3;
+	}
+	p + .wp-block-gallery {
+		margin-top: 0 !important;
+	}
 }
 
 .article__list,
 .article__grid {
-  .article {
-    &__categories {
-      font-size: 0.9em;
-      margin: 0 0 10px 0;
-      text-transform: uppercase;
-    }
-    &__date {
-      display: inline-block;
-      font-size: 0.9em;
-      margin-bottom: 10px;
-      text-transform: uppercase;
-    }
-  }
-  h2 {
-    a {
-      color: $colorText;
-      &:hover {
-        color: $colorPrimary;
-      }
-    }
-  }
+	.article {
+		&__categories {
+			font-size: 0.9em;
+			margin: 0 0 10px 0;
+			text-transform: uppercase;
+		}
+		&__date {
+			display: inline-block;
+			font-size: 0.9em;
+			margin-bottom: 10px;
+			text-transform: uppercase;
+		}
+	}
+	h2 {
+		a {
+			color: $colorText;
+			&:hover {
+				color: $colorPrimary;
+			}
+		}
+	}
 }
 
 .article__list {
-  display: grid;
-  grid-gap: $gridGutter;
-  @include up($medium) {
-    grid-gap: $gridGutter * 2;
-  }
+	display: grid;
+	grid-gap: $gridGutter;
+	@include up($medium) {
+		grid-gap: $gridGutter * 2;
+	}
 
-  @include up($medium) {
-    .article {
-      &__inner {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-      }
-      &__image {
-        flex: 0 0 auto;
-        margin-right: 20px;
-        img {
-          height: 300px;
-          object-fit: cover;
-        }
-      }
-      &__content {
-        flex: 1 1 auto;
-      }
-    }
-  }
+	@include up($medium) {
+		.article {
+			&__inner {
+				display: grid;
+				grid-template-columns: repeat(2, 1fr);
+			}
+			&__image {
+				flex: 0 0 auto;
+				margin-right: 20px;
+				img {
+					height: 300px;
+					object-fit: cover;
+				}
+			}
+			&__content {
+				flex: 1 1 auto;
+			}
+		}
+	}
 }
 
 .article__grid {
-  display: grid;
-  grid-gap: $gridGutter * 2;
-  @include up($medium) {
-    grid-template-columns: repeat(2, minmax(auto,1fr));
-  }
-  .article {
-    &__image {
-      margin-bottom: 20px;
-    }
-  }
-  h2 {
-    @extend .h3;
-  }
+	display: grid;
+	grid-gap: $gridGutter * 2;
+	@include up($medium) {
+		grid-template-columns: repeat(2, minmax(auto, 1fr));
+	}
+	.article {
+		&__image {
+			margin-bottom: 20px;
+		}
+	}
+	h2 {
+		@extend .h3;
+	}
+}
+
+.pagination {
+	margin-top: $gridGutter;
 }

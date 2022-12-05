@@ -7,7 +7,7 @@
         <div class="article__inner">
             <div class="article__content">
                 <h2><?php the_title(); ?></h2>
-                <?php \Waboot\inc\displayPostGallery(); ?>
+                <?php if(is_single()) { \Waboot\inc\displayPostGallery(); } ?>
                 <p><?php \Waboot\inc\trimmedExcerpt(20, '...'); ?> <a class="more__link" href="<?php the_permalink() ?>"><?php _e('Continue reading', LANG_TEXTDOMAIN) ?></a></p>
                 <?php do_action( 'waboot/article/list/footer' ); ?>
             </div>
