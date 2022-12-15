@@ -75,9 +75,48 @@ class AbstractCommand
         }
     }
 
+    /**
+     * @return array
+     */
+    public static function getCommandDescription(): array
+    {
+        //@see: https://make.wordpress.org/cli/handbook/guides/commands-cookbook/#wp_cliadd_commands-third-args-parameter
+        return [
+            'shortdesc' => 'A simple command',
+            'longdesc' => '## EXAMPLES' . "\n\n" . 'wp simple-command',
+            'synopsis' => [
+                /*[
+                    'type'        => 'positional',
+                    'name'        => 'name',
+                    'description' => 'The name of the person to greet.',
+                    'optional'    => false,
+                    'repeating'   => false,
+                ],
+                [
+                    'type'        => 'assoc',
+                    'name'        => 'type',
+                    'description' => 'Whether or not to greet the person with success or error.',
+                    'optional'    => true,
+                    'default'     => 'success',
+                    'options'     => array( 'success', 'error' ),
+                ],*/
+                [
+                    'type' => 'flag',
+                    'name' => 'dry-run',
+                    'description' => 'Perform a dry run',
+                    'optional' => true,
+                ],
+            ],
+            //'when' => 'after_wp_load', //before_wp_load
+        ];
+    }
+
     public function __invoke(array $args, array $assoc_args)
     {
         $this->setupDefaultFlags($assoc_args);
+        if($this->isDryRun()){
+            $this->log('### DRY-RUN ###');
+        }
     }
 
     protected function suppressErrors(): void
