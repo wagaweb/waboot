@@ -75,4 +75,36 @@ class Theme{
     {
         return DB::getInstance();
     }
+
+    /**
+     * @param string $command
+     * @param string|callable $callable
+     * @param string $prefix
+     * @param array $description
+     * @return void
+     * @throws ThemeException
+     */
+    public function registerCommand(string $command, $callable, string $prefix = '', array $description = []): void
+    {
+        if(!class_exists('\WP_CLI')){
+            return;
+        }
+        try{
+            if($prefix !== ''){
+                $command = $prefix.':'.$command;
+            }
+            if(empty($description)){
+                if(class_exists($callable) && method_exists($callable,'getCommandDescription')){
+                    $description = $callable::getCommandDescription();
+                }
+            }
+            if(\is_array($description) && !empty($description)){
+                \WP_CLI::add_command($command,$callable,$description);
+            }else{
+                \WP_CLI::add_command($command,$callable);
+            }
+        }catch (\Exception | \Throwable $e){
+            throw new ThemeException($e->getMessage());
+        }
+    }
 }
