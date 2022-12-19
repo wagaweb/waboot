@@ -18,6 +18,47 @@ class ImportPrices extends AbstractCommand
     protected $logFileName = 'import-prices';
 
     /**
+     * @return array
+     */
+    public static function getCommandDescription(): array
+    {
+        //@see: https://make.wordpress.org/cli/handbook/guides/commands-cookbook/#wp_cliadd_commands-third-args-parameter
+        return [
+            'shortdesc' => 'Import prices',
+            'synopsis' => [
+                [
+                    'type' => 'positional',
+                    'name' => 'filename',
+                    'description' => 'The path to the file to import',
+                    'optional' => false,
+                    'repeating' => false,
+                ],
+                [
+                    'type' => 'positional',
+                    'name' => 'key',
+                    'description' => 'The type of key that identify the product (`id`/`sku`)',
+                    'optional' => false,
+                    'repeating' => false,
+                ],
+                [
+                    'type' => 'positional',
+                    'name' => 'price',
+                    'description' => 'The type of price to import (`regular`/`sale`)',
+                    'optional' => false,
+                    'repeating' => false,
+                ],
+                [
+                    'type' => 'flag',
+                    'name' => 'dry',
+                    'description' => 'Dry run',
+                    'optional' => true,
+                    'repeating' => false,
+                ],
+            ],
+        ];
+    }
+
+    /**
      * @throws \Exception
      */
     public function __invoke(array $args, array $assoc_args)
