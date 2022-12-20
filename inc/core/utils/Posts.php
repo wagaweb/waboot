@@ -120,7 +120,7 @@ class Posts {
     {
         global $wpdb;
         $sql = <<<SQL
-select pm.post_id from $wpdb->postmeta pm where pm.meta_key = s and pm.meta_value = %s
+select pm.post_id from $wpdb->postmeta pm where pm.meta_key = %s and pm.meta_value = %s
 SQL;
         $res = $wpdb->get_var($wpdb->prepare($sql, $metaKey, $metaValue));
         return $res === null ? null : (int) $res;
