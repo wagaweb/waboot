@@ -3,14 +3,16 @@
 namespace Waboot\inc\cli\product_import;
 
 use Waboot\inc\cli\utils\ImportExportCSVColumnHelpers;
+use Waboot\inc\core\cli\CSVRow;
 use Waboot\inc\core\utils\Utilities;
 
-class ImportProductsCSVRow
+class ImportProductsCSVRow extends CSVRow
 {
     /**
      * @var string
      */
     private $identifier;
+    private ?string $productIdentifierColumnName;
     /**
      * @var string
      */
@@ -52,21 +54,19 @@ class ImportProductsCSVRow
      */
     private $upSells;
     /**
-     * @var array
-     */
-    private $rowData;
-    /**
      * @var ImportProductsManifestFile
      */
     private $manifestFile;
 
     /**
      * @param array $data
+     * @param string $productIdentifierColumnName
      * @param ImportProductsManifestFile|null $manifestFile
      */
-    public function __construct(array $data, ImportProductsManifestFile $manifestFile = null)
+    public function __construct(array $data, string $productIdentifierColumnName, ImportProductsManifestFile $manifestFile = null)
     {
-        $this->rowData = $data;
+        parent::__construct($data);
+        $this->productIdentifierColumnName = $productIdentifierColumnName;
         $this->manifestFile = $manifestFile;
     }
 
@@ -80,13 +80,10 @@ class ImportProductsCSVRow
 
         //Initial checks
         foreach ($data as $columnName => $columnValue){
-            $standardizedColumnName = $this->getStandardizedColumnNameFromActualColumnName($columnName);
-            if(!$standardizedColumnName){
-                continue;
-            }
-            $isIdentifier = $standardizedColumnName === 'identifier';
+            $isIdentifier = $columnName === $this->productIdentifierColumnName;
             if($isIdentifier){
                 $this->identifier = $this->parseColumnValue($columnValue);
+                break;
             }
         }
 
@@ -95,6 +92,8 @@ class ImportProductsCSVRow
         }
 
         $postsFields = $this->getPostFieldsStandardColumnNames();
+        $upsellsColumnName = $this->getActualColumnNameStandardizedColumnName('upsells');
+        $crossSellsColumnName = $this->getActualColumnNameStandardizedColumnName('crossells');
         foreach ($data as $columnName => $columnValue){
             if($this->isColumnExcluded($columnName)){
                 continue;
@@ -103,11 +102,17 @@ class ImportProductsCSVRow
             if(!$standardizedColumnName){
                 continue;
             }
+            $isIdentifier = $columnName === $this->productIdentifierColumnName;
+            if($isIdentifier){
+                continue;
+            }
             $isGroupID = $standardizedColumnName === 'groupId';
             $isPostField = in_array($standardizedColumnName,$postsFields,true);
             $isTaxonomy = ImportExportCSVColumnHelpers::isTaxonomyColumn($standardizedColumnName);
             $isAttribute = ImportExportCSVColumnHelpers::isAttributeColumn($standardizedColumnName);
             $isMeta = ImportExportCSVColumnHelpers::isMetaColumn($standardizedColumnName);
+            $isUpsells = $columnName === $upsellsColumnName;
+            $isCrossSells = $columnName === $crossSellsColumnName;
             if($isGroupID){
                 $this->groupId = $this->parseColumnValue($columnValue);
             }elseif($isPostField){
@@ -137,19 +142,43 @@ class ImportProductsCSVRow
                         'assign_to' => $metaInfo['assign_to']
                     ];
                 }
+            }elseif($isUpsells){
+                $upsells = $this->parseListColumnValue($data[$upsellsColumnName]);
+                if(\is_array($upsells)){
+                    $this->upSells = $upsells;
+                }
+            }elseif($isCrossSells){
+                $crossSells = $this->parseListColumnValue($data[$crossSellsColumnName]);
+                if(\is_array($crossSells)){
+                    $this->crossSells = $crossSells;
+                }
             }
         }
+    }
 
-        $upsellsColumnName = $this->getActualColumnNameStandardizedColumnName('upsells');
-        $crossSellsColumnName = $this->getActualColumnNameStandardizedColumnName('crossells');
-        $upsells = $this->parseListColumnValue($data[$upsellsColumnName]);
-        $crossSells = $this->parseListColumnValue($data[$crossSellsColumnName]);
-        if(\is_array($upsells)){
-            $this->upSells = $upsells;
-        }
-        if(\is_array($crossSells)){
-            $this->crossSells = $crossSells;
-        }
+    /**
+     * @return array
+     */
+    private function getReservedFieldsStandardColumnNames(): array
+    {
+        return apply_filters('wawoo/product_importer/csv_row/posts_fields',[
+            'groupId',
+            'upsells',
+            'crossells'
+        ]);
+    }
+
+    /**
+     * @return array
+     */
+    private function getReserveMetaFieldNames(): array
+    {
+        return apply_filters('wawoo/product_importer/csv_row/reserved_meta_fields_name',[
+            '_regular_price',
+            '_stock',
+            '_stock_status',
+            '_sku'
+        ]);
     }
 
     /**
@@ -169,16 +198,12 @@ class ImportProductsCSVRow
      * @param string $columnName
      * @return string|null
      */
-    private function getStandardizedColumnNameFromActualColumnName(string $columnName): ?string
+    public function getStandardizedColumnNameFromActualColumnName(string $columnName): ?string
     {
         if($this->hasManifestFile()){
             $standardizedColumnName = $this->manifestFile->getStandardNameOfAColumnName($columnName);
             if(!$standardizedColumnName){
-                if(
-                    \in_array($standardizedColumnName,$this->getPostFieldsStandardColumnNames(),true) ||
-                    \in_array($standardizedColumnName,$this->getTaxonomyFieldsStandardColumnNames(),true) ||
-                    \in_array($standardizedColumnName,$this->getAttributeFieldsStandardColumnNames(),true)
-                ){
+                if(\in_array($standardizedColumnName,$this->getPostFieldsStandardColumnNames(),true)){
                     return $standardizedColumnName;
                 }
             }
@@ -222,24 +247,25 @@ class ImportProductsCSVRow
     /**
      * @return bool
      */
-    private function isProductCategoryHierarchical(): bool
+    public function isProductCategoryHierarchical(): bool
     {
         if(!isset($this->taxonomyFields['product_cat'])){
             return false;
         }
+        //return $this->isTaxonomyHierarchical($brandTaxonomyName);
         return $this->taxonomyFields['product_cat']['hierarchical'] ?? true;
     }
 
     /**
      * @return bool
      */
-    private function isBrandHierarchical(): bool
+    public function isBrandHierarchical(): bool
     {
         $brandTaxonomyName = $this->getBrandTaxonomyName();
         if(!$brandTaxonomyName){
             return false;
         }
-        return $this->taxonomyFields[$brandTaxonomyName]['hierarchical'] ?? false;
+        return $this->isTaxonomyHierarchical($brandTaxonomyName);
     }
 
     /**
@@ -281,14 +307,13 @@ class ImportProductsCSVRow
     /**
      * @return bool
      */
-    private function isIdentifierTheProductSKU(): bool
+    public function isIdentifierTheProductSKU(): bool
     {
         if($this->hasManifestFile()){
-            $productIdentifier = $this->getManifestFile()->getSetting('product_identifier') ?? '_sku';
-        }else{
-            $productIdentifier = '_sku';
+            $identifierStandardColumnName = $this->getManifestFile()->getStandardNameOfAColumnName($this->productIdentifierColumnName);
+            return $identifierStandardColumnName === 'meta:_sku';
         }
-        return $productIdentifier === '_sku';
+        return $this->productIdentifierColumnName === 'meta:_sku';
     }
 
     /**
@@ -332,7 +357,7 @@ class ImportProductsCSVRow
         if($this->isIdentifierTheProductSKU()){
             return $this->getIdentifier();
         }
-        $sku = $this->metaFields['_sku'] ?? null;
+        $sku = $this->getMetaField('_sku');
         if(\is_string($sku) && $sku !== ''){
             return $sku;
         }
@@ -387,10 +412,11 @@ class ImportProductsCSVRow
      */
     public function getRegularPrice(): ?float
     {
-        if(!isset($this->metaFields['_regular_price']) || $this->metaFields['_regular_price'] === ''){
+        $regularePrice = $this->getMetaField('_regular_price');
+        if($regularePrice === null || $regularePrice === ''){
             return null;
         }
-        $regularPrice = str_replace(',','.',$this->metaFields['_regular_price']);
+        $regularPrice = str_replace(',','.',$regularePrice);
         return (float) $regularPrice;
     }
 
@@ -407,10 +433,11 @@ class ImportProductsCSVRow
      */
     public function getStock(): ?int
     {
-        if(!isset($this->metaFields['_stock']) || $this->metaFields['_stock'] === ''){
+        $stock = $this->getMetaField('_stock');
+        if($stock === null || $stock === ''){
             return null;
         }
-        return (int) $this->metaFields['_stock'];
+        return (int) $stock;
     }
 
     /**
@@ -528,7 +555,7 @@ class ImportProductsCSVRow
      */
     public function hasSize(): bool
     {
-        return $this->getSize() !== null;
+        return $this->getSize() !== null && $this->getSize() !== '';
     }
 
     /**
@@ -548,7 +575,25 @@ class ImportProductsCSVRow
      */
     public function hasColor(): bool
     {
-        return $this->getColor();
+        return $this->getColor() !== null && $this->getColor() !== '';
+    }
+
+    /**
+     * @param string $taxonomyName
+     * @return string|null
+     */
+    public function getAttribute(string $taxonomyName): ?string
+    {
+        return $this->attributeFields[$taxonomyName]['value'] ?? null;
+    }
+
+    /**
+     * @param string $taxonomyName
+     * @return bool
+     */
+    public function hasAttribute(string $taxonomyName): bool
+    {
+        return $this->getAttribute($taxonomyName) !== null && $this->getAttribute($taxonomyName) !== '';
     }
 
     /**
@@ -564,7 +609,7 @@ class ImportProductsCSVRow
      */
     public function hasCategory(): bool
     {
-        return $this->getCategory() !== null;
+        return $this->getCategory() !== null && $this->getCategory() !== '';
     }
 
     /**
@@ -584,7 +629,17 @@ class ImportProductsCSVRow
      */
     public function hasBrand(): bool
     {
-        return $this->getBrand() !== null;
+        return $this->getBrand() !== null && $this->getBrand() !== '';
+    }
+
+    /**
+     * @param string $taxonomyName
+     * @return bool
+     */
+    public function isTaxonomyHierarchical(string $taxonomyName): bool
+    {
+        //return $this->taxonomyFields[$brandTaxonomyName]['hierarchical'] ?? false;
+        return isset($this->taxonomyFields[$taxonomyName],$this->taxonomyFields[$taxonomyName]['hierarchical']) && $this->taxonomyFields[$taxonomyName]['hierarchical'];
     }
 
     /**
@@ -612,12 +667,68 @@ class ImportProductsCSVRow
     /**
      * @return array
      */
+    public function getTaxonomies(): array
+    {
+        if(!isset($this->taxonomyFields) || !\is_array($this->taxonomyFields)){
+            $this->taxonomyFields = [];
+        }
+        return $this->taxonomyFields;
+    }
+
+    /**
+     * @return array
+     */
+    public function getCustomAttributes(): array
+    {
+        if(!isset($this->attributeFields) || !\is_array($this->attributeFields)){
+            $this->attributeFields = [];
+        }
+        return array_filter($this->attributeFields, fn($taxonomyName) => !\in_array($taxonomyName,[$this->sizeAttributeTaxonomyName,$this->colorAttributeTaxonomyName],true), ARRAY_FILTER_USE_KEY);
+    }
+
+    /**
+     * @return array
+     */
+    public function getAttributesForVariableAndSimpleProducts(): array
+    {
+        return array_filter($this->getCustomAttributes(), fn($attributeData) => $attributeData['variations'] === false);
+    }
+
+    /**
+     * @return array
+     */
     public function getMetaFields(): array
     {
         if(!isset($this->metaFields)){
-            return $this->metaFields = [];
+            $this->metaFields = [];
         }
         return $this->metaFields;
+    }
+
+    /**
+     * @return array
+     */
+    public function getCustomMetaFields(): array
+    {
+        $metaFields = $this->getMetaFields();
+        return array_filter($metaFields,fn($meta) => !\in_array($meta['key'],$this->getReserveMetaFieldNames()));
+    }
+
+    /**
+     * @param string $metaKey
+     * @return string|null
+     */
+    public function getMetaField(string $metaKey): ?string
+    {
+        $metas = $this->getMetaFields();
+        $metaValue = null;
+        foreach ($metas as $metaFieldData){
+            if($metaFieldData['key'] === $metaKey){
+                $metaValue = $metaFieldData['value'];
+                break;
+            }
+        }
+        return $metaValue;
     }
 
     /**

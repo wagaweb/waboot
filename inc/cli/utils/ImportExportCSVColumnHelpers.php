@@ -48,7 +48,7 @@ class ImportExportCSVColumnHelpers
         }else{
             return null;
         }
-        if(strpos(':hierarchical',$columnName) !== false){
+        if(strpos($columnName,':hierarchical') !== false){
             $info['hierarchical'] = true;
         }else{
             $info['hierarchical'] = false;
@@ -69,7 +69,7 @@ class ImportExportCSVColumnHelpers
         }else{
             return null;
         }
-        if(strpos(':variations',$columnName) !== false){
+        if(strpos($columnName,':variations') !== false){
             $info['variations'] = true;
         }else{
             $info['variations'] = false;
@@ -84,7 +84,7 @@ class ImportExportCSVColumnHelpers
     static function getMetaInfoFromColumnName(string $columnName): ?array
     {
         $info = [];
-        $metaKeyRegEx = preg_match('|meta:([_a-zA-Z0-9]+):(variations|parent|both)|',$columnName,$matches);
+        $metaKeyRegEx = preg_match('/meta:([_a-zA-Z0-9]+):?(variations|parent|both)?/',$columnName,$matches);
         if(isset($matches) && count($matches) > 1){
             $info['key'] = $matches[1];
         }else{

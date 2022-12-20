@@ -56,19 +56,27 @@ class ImportProductsManifestFile
      */
     private function parseFile(): void
     {
-        $data = \json_decode($this->pathName, true);
+        $content = file_get_contents($this->pathName);
+        $data = \json_decode($content, true);
         if (\JSON_ERROR_NONE !== \json_last_error()) {
             throw new ImportProductsManifestFileException('json_decode error: ' . \json_last_error_msg());
         }
         $this->jsonData = $data;
         if(isset($data['settings'])){
-            $this->excludedColumns = $data['settings'];
+            $this->settings = $data['settings'];
         }
         if(isset($data['exclude_columns'])){
             $this->excludedColumns = $data['exclude_columns'];
         }
         if(isset($data['columns'])){
             $this->columns = $data['columns'];
+        }
+        if(\is_array($this->columns) && !empty($this->columns)){
+            foreach ($this->columns as $columnData){
+                if(isset($columnData['standard_name']) && isset($columnData['name'])){
+                    $this->columnsNameMapping[$columnData['standard_name']] = $columnData['name'];
+                }
+            }
         }
     }
 
