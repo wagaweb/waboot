@@ -408,6 +408,15 @@ class ImportProductsCSVRow extends CSVRow
     }
 
     /**
+     * @return bool
+     */
+    public function hasSlug(): bool
+    {
+        $slug = $this->getSlug();
+        return \is_string($slug) && $slug !== '';
+    }
+
+    /**
      * @return float
      */
     public function getRegularPrice(): ?float

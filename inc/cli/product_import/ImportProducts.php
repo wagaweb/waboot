@@ -59,38 +59,38 @@ class ImportProducts extends AbstractCSVParserCommand
         $description['synopsis'][] = [
             'type' => 'assoc',
             'name' => 'product-identifier-column-name',
-            'description' => 'Specifica il nome della colonna che contiene l\'identificativo del prodotto (per esempio lo SKU)',
+            'description' => 'Specifies the column name containing the product identifier (eg: SKU)',
             'default' => 'meta:_sku',
             'optional' => true,
         ];
         $description['synopsis'][] = [
             'type' => 'assoc',
             'name' => 'brand-taxonomy',
-            'description' => 'Specifica a quale meta utilizzare per identificare il prodotto (solitamente il meta corrispondende al valore della prima colonna)',
+            'description' => 'Specifies brand taxonomy name (eg: product_brand)',
             'optional' => true,
         ];
         $description['synopsis'][] = [
             'type' => 'assoc',
             'name' => 'color-taxonomy',
-            'description' => 'Specifica a quale meta utilizzare per identificare il prodotto (solitamente il meta corrispondende al valore della prima colonna)',
+            'description' => 'Specifies color attribute taxonomy name (eg: pa_color)',
             'optional' => true,
         ];
         $description['synopsis'][] = [
             'type' => 'assoc',
             'name' => 'size-taxonomy',
-            'description' => 'Specifica a quale meta utilizzare per identificare il prodotto (solitamente il meta corrispondende al valore della prima colonna)',
+            'description' => 'Specifies size attribute taxonomy name (eg: pa_size)',
             'optional' => true,
         ];
         $description['synopsis'][] = [
             'type' => 'flag',
             'name' => 'update-prices',
-            'description' => 'Specifies whether parse all files inside the base path',
+            'description' => 'Specifies whether to update the prices for existing products',
             'optional' => true,
         ];
         $description['synopsis'][] = [
             'type' => 'flag',
             'name' => 'update-stocks',
-            'description' => 'Specifies whether parse all files inside the base path',
+            'description' => 'Specifies whether to update the stocks for existing products',
             'optional' => true,
         ];
         return $description;
@@ -110,30 +110,30 @@ class ImportProducts extends AbstractCSVParserCommand
         if(!isset($this->productIdentifierColumnName)){
             $this->productIdentifierColumnName = $assoc_args['product-identifier-column-name'] ?? 'meta:_sku';
         }
-        $this->log('Identificatore prodotto: '.$this->productIdentifierColumnName);
+        $this->log('Product is identified by the value in the column: '.$this->productIdentifierColumnName);
         if(!isset($this->brandTaxonomyName)){
             $this->brandTaxonomyName = $assoc_args['brand-taxonomy'] ?? 'brand_taxonomy';
         }
-        $this->log('Nome tassonomia brand: '.$this->brandTaxonomyName);
+        $this->log('Brand taxonomy name: '.$this->brandTaxonomyName);
         if(!isset($this->colorTaxonomyName)){
             $this->colorTaxonomyName = $assoc_args['color-taxonomy'] ?? 'pa_color';
         }
-        $this->log('Nome tassonomia colore: '.$this->colorTaxonomyName);
+        $this->log('Color attribute taxonomy name: '.$this->colorTaxonomyName);
         if(!isset($this->sizeTaxonomyName)){
             $this->sizeTaxonomyName = $assoc_args['size-taxonomy'] ?? 'pa_size';
         }
-        $this->log('Nome tassonomia size: '.$this->sizeTaxonomyName);
+        $this->log('Size attribute taxonomy name: '.$this->sizeTaxonomyName);
         if(!isset($this->mustUpdatePrices)){
             $this->mustUpdatePrices = isset($assoc_args['update-stocks']);
         }
         if($this->mustUpdatePrices === true){
-            $this->log('Aggiornamento prezzi attivato');
+            $this->log('Prices will be updated');
         }
         if(!isset($this->mustUpdateStocks)){
             $this->mustUpdateStocks = isset($assoc_args['update-stocks']);
         }
         if($this->mustUpdateStocks === true){
-            $this->log('Aggiornamento stock attivato');
+            $this->log('Stocks will be updated');
         }
     }
 
@@ -162,10 +162,10 @@ class ImportProducts extends AbstractCSVParserCommand
         $identifier = $this->currentCSVRow->getIdentifier();
         $this->log(sprintf('--- Parsing prodotto %s', $identifier));
         if($this->currentCSVRow->isSimpleProductRow()){
-            $this->log('--- Verrà creato o aggiornato un prodotto SEMPLICE');
+            $this->log('--- The row identifies a SIMPLE PRODUCT');
             $this->createOrUpdateSimpleProduct();
         }else{
-            $this->log('--- Verrà creata o aggiornata una VARIAZIONE');
+            $this->log('--- The row identifies a PRODUCT VARIATION');
             $this->createOrUpdateVariation();
         }
     }
@@ -176,12 +176,12 @@ class ImportProducts extends AbstractCSVParserCommand
     protected function onDoneParsing(): void
     {
         if(!empty($this->variablesProductsToSync)){
-            $this->log('Syncing dei prodotti variabili...');
+            $this->log('Syncing variable products...');
             foreach ($this->variablesProductsToSync as $variableProductId => $variationsIds) {
-                $this->log('- Sync prodotto #'.$variableProductId);
+                $this->log('- Syncing product #'.$variableProductId);
                 $variationsIds = array_unique($variationsIds);
                 foreach ($variationsIds as $variationsId){
-                    $this->log('-- Fix prezzi variazione #'.$variationsId);
+                    $this->log('-- Fixing price metas for product #'.$variationsId);
                     if(!$this->isDryRun()){
                         adjustPriceMeta($variationsId);
                     }
@@ -207,8 +207,7 @@ class ImportProducts extends AbstractCSVParserCommand
      */
     protected function onBeforeCommandEnd(): void
     {
-        //Up sells
-        $this->log('Assegnazione Up Sells...');
+        $this->log('Assigning Up Sells...');
         if(isset($this->upSellsToAssign) && \is_array($this->upSellsToAssign) && !empty($this->upSellsToAssign)){
             foreach ($this->upSellsToAssign as $productId => $identifiersToAssign)
             {
@@ -223,15 +222,14 @@ class ImportProducts extends AbstractCSVParserCommand
                     }
                 }
                 if(!empty($idToAssigns)){
-                    $this->log(sprintf('-- Prodotto %s: %s',$productId,implode(',',$idToAssigns)));
+                    $this->log(sprintf('-- Product %d: %s',$productId,implode(',',$idToAssigns)));
                     if(!$this->isDryRun()){
                         update_post_meta($productId,'_upsell_ids',$idToAssigns);
                     }
                 }
             }
         }
-        //Cross sells
-        $this->log('Assegnazione Cross Sells...');
+        $this->log('Assigning Cross Sells...');
         if(isset($this->crossSellsToAssign) && \is_array($this->crossSellsToAssign) && !empty($this->crossSellsToAssign)){
             foreach ($this->crossSellsToAssign as $productId => $identifiersToAssign)
             {
@@ -246,7 +244,7 @@ class ImportProducts extends AbstractCSVParserCommand
                     }
                 }
                 if(!empty($idToAssigns)){
-                    $this->log(sprintf('-- Prodotto %s: %s',$productId,implode(',',$idToAssigns)));
+                    $this->log(sprintf('-- Product #%d: %s',$productId,implode(',',$idToAssigns)));
                     if(!$this->isDryRun()){
                         update_post_meta($productId,'_crosssell_ids',$idToAssigns);
                     }
@@ -298,7 +296,7 @@ class ImportProducts extends AbstractCSVParserCommand
     private function finalizeParsedProducts(): void
     {
         if(has_action('wawoo_product_importer/finalize_products')){
-            $this->log('Finalizzazione dei prodotti parsati...');
+            $this->log('Finalizing parsed products...');
         }
         do_action('wawoo_product_importer/finalize_products',$this->parsedProductIds, $this->isDryRun());
     }
@@ -313,22 +311,8 @@ class ImportProducts extends AbstractCSVParserCommand
         $CSVRow = $this->currentCSVRow;
         $isNew = true;
         $productId = $this->getProductIdByProductIdentifier($CSVRow->getIdentifier());
-        if(is_int($productId) && $productId > 0){
-            $this->log('--- Prodotto SEMPLICE con SKU %s già esistente');
-            $product = wc_get_product($productId);
-            if(!$product instanceof \WC_Product){
-                throw new ImportProductsException('Impossibile recuperare il prodotto');
-            }
-            if($this->mustUpdatePrices && $CSVRow->hasRegularPrice()){
-                $product->set_regular_price($CSVRow->getRegularPrice());
-            }
-            if($this->mustUpdateStocks && $CSVRow->hasStock()){
-                $product->set_stock_quantity($CSVRow->getStock());
-                $product->set_stock_status($CSVRow->getStockStatus());
-            }
-            $isNew = false;
-        }else{
-            $this->log('--- Verrà creato un prodotto SEMPLICE');
+        if($productId === null){
+            $this->log(sprintf('--- Product identified by %s not found. It will be CREATED.', $CSVRow->getIdentifier()));
             $product = new \WC_Product_Simple();
             $product->set_sku($CSVRow->getSku());
             $product->set_status('draft');
@@ -339,38 +323,54 @@ class ImportProducts extends AbstractCSVParserCommand
             if($CSVRow->hasRegularPrice()){
                 $product->set_regular_price($CSVRow->getRegularPrice());
             }
+        }else{
+            $this->log(sprintf('--- Product identified by %s found (#%d). It will be UPDATED.', $CSVRow->getIdentifier(), $productId));
+            $product = wc_get_product($productId);
+            if(!$product instanceof \WC_Product){
+                throw new ImportProductsException('The product retrieved was not an instance of WC_Product');
+            }
+            if($this->mustUpdatePrices && $CSVRow->hasRegularPrice()){
+                $product->set_regular_price($CSVRow->getRegularPrice());
+            }
+            if($this->mustUpdateStocks && $CSVRow->hasStock()){
+                $product->set_stock_quantity($CSVRow->getStock());
+                $product->set_stock_status($CSVRow->getStockStatus());
+            }
+            $isNew = false;
         }
-        $this->addParsedProductId($product->get_id());
+
         $product->set_name($CSVRow->getTitle());
-        $slug = $CSVRow->getSlug();
-        if(\is_string($slug) && $slug !== ''){
-            $product->set_slug($slug);
+        if($CSVRow->hasSlug()){
+            $product->set_slug($CSVRow->getSlug());
         }
         $product->set_short_description($CSVRow->getShortDescription());
         $product->set_description($CSVRow->getLongDescription());
         $product->set_manage_stock(true);
+
+        $this->log('--- Setting custom fields...');
+        foreach ($CSVRow->getCustomMetaFields() as $customFieldData) {
+            $customFieldKey = $customFieldData['key'];
+            $customFieldValue = $customFieldData['value'];
+            if($customFieldValue !== null && $customFieldValue !== ''){
+                $this->log(sprintf('---- %s: %s',$customFieldKey,$customFieldValue));
+                $product->update_meta_data($customFieldKey,$customFieldValue);
+            }
+        }
+
         if(!$this->isDryRun()){
-            $id = $product->save();
-            if ($id === 0) {
-                throw new ImportProductsException('ERRORE: impossibile creare o aggiornare prodotto con IDENTIFICATORE %s', $CSVRow->getIdentifier());
+            if ($product->save()) {
+                throw new ImportProductsException('Unable to create or update product identified by %s', $CSVRow->getIdentifier());
             }
         }
-        if($CSVRow->hasBrand()){
-            $this->log('--- Assegnazione brand: '.$CSVRow->getBrand());
-            if($CSVRow->isBrandHierarchical()){
-                $this->addHierarchicalTermsToObjectFromTermListString($product->get_id(), $CSVRow->getBrand(), $this->getBrandTaxonomyName());
-            }else{
-                $this->addTermsToObjectFromTermListString($product->get_id(), $CSVRow->getBrand(), $this->getBrandTaxonomyName());
-            }
-        }
-        if($CSVRow->hasCategory()){
-            $this->log('--- Assegnazione categorie: '.$CSVRow->getCategory());
-            if($CSVRow->isProductCategoryHierarchical()){
-                $this->addHierarchicalTermsToObjectFromTermListString($product->get_id(), $CSVRow->getCategory(), 'product_cat');
-            }else{
-                $this->addTermsToObjectFromTermListString($product->get_id(), $CSVRow->getCategory(), 'product_cat');
-            }
-        }
+
+        /*
+         * Taxonomies
+         */
+        $this->assignTaxonomies($product->get_id());
+
+        /*
+         * Attributes
+         */
         if($CSVRow->hasColor()) {
             try{
                 $colorTerm = $this->getOrCreateTerm($this->getColorTaxonomyName($product->get_id()), $CSVRow->getColor());
@@ -387,43 +387,38 @@ class ImportProducts extends AbstractCSVParserCommand
                 $this->log('ERRORE: '.$e->getMessage());
             }
         }
-        $attributesForVariations = $CSVRow->getAttributesForVariableAndSimpleProducts();
-        foreach ($attributesForVariations as $attributeTaxonomyName => $attributeData){
+
+        $attributes = $CSVRow->getAttributesForVariableAndSimpleProducts();
+        foreach ($attributes as $attributeTaxonomyName => $attributeData){
             $this->log(sprintf('--- Assegnazione termini per %s: %s',$attributeTaxonomyName,$attributeData['value']));
             $this->addTermsToObjectFromTermListString($product->get_id(),$CSVRow->getAttribute($attributeTaxonomyName),$attributeTaxonomyName);
         }
-        $this->log('--- Assegnazione custom fields...');
-        foreach ($CSVRow->getCustomMetaFields() as $customFieldData) {
-            $customFieldKey = $customFieldData['key'];
-            $customFieldValue = $customFieldData['value'];
-            if($customFieldValue !== null && $customFieldValue !== ''){
-                $this->log(sprintf('---- %s: %s',$customFieldKey,$customFieldValue));
-                $product->update_meta_data($customFieldKey,$customFieldValue);
-            }
-        }
+
         if(!$this->isDryRun()){
             $product->save();
         }
-        $this->log('-- Fix dei meta dei prezzi');
+
+        $this->log('-- Fixing price metas');
         if(!$this->isDryRun()){
             adjustPriceMeta($product->get_id());
+        }
+
+        if($isNew){
+            $this->log(sprintf('--- Product created with ID #%d', $product->get_id()));
+        }else{
+            $this->log(sprintf('--- Product #%d updated', $product->get_id()));
+        }
+
+        /*
+         * Related products
+         */
+        $this->assignRelatedProducts($product->get_id());
+
+        if(!$this->isDryRun()){
             $this->setImportedProductMeta($product->get_id());
         }
-        if($isNew){
-            $this->log(sprintf('--- Prodotto creato #%d', $product->get_id()));
-        }else{
-            $this->log(sprintf('--- Prodotto aggiornato #%d', $product->get_id()));
-        }
-        $this->log('--- Parsing up sells...');
-        $upSells = $this->fetchUpSellsIds();
-        if(!empty($upSells)){
-            $this->upSellsToAssign[$product->get_id()] = $upSells;
-        }
-        $this->log('--- Parsing cross sells...');
-        $crossSells = $this->fetchCrossSellsIds();
-        if(!empty($crossSells)){
-            $this->crossSellsToAssign[$product->get_id()] = $crossSells;
-        }
+
+        $this->addParsedProductId($product->get_id());
     }
 
     /**
@@ -434,14 +429,17 @@ class ImportProducts extends AbstractCSVParserCommand
     private function createOrUpdateVariation(): void
     {
         $CSVRow = $this->currentCSVRow;
+
+        /*
+         * Variable Product
+         */
         $parentProduct = $this->getProductByGroupId($CSVRow->getGroupId());
         if ($parentProduct === null) {
-            $this->log(sprintf('--- Il prodotto variabile con SKU %s non esiste. Verrà creato.', $CSVRow->getParentSku()));
+            $this->log(sprintf('--- Variable product identified by %s not found. It will be created.', $CSVRow->getParentSku()));
             $parentProduct = new \WC_Product_Variable();
             $parentProduct->set_name($CSVRow->getTitle());
-            $slug = $CSVRow->getSlug();
-            if(\is_string($slug) && $slug !== ''){
-                $parentProduct->set_slug($slug);
+            if($CSVRow->hasSlug()){
+                $parentProduct->set_slug($CSVRow->getSlug());
             }
             $parentProduct->set_sku($CSVRow->getGroupId());
             $parentProduct->set_short_description($CSVRow->getShortDescription());
@@ -449,7 +447,8 @@ class ImportProducts extends AbstractCSVParserCommand
             $parentProduct->update_meta_data('_group_id', $CSVRow->getGroupId());
             $parentProduct->set_manage_stock(false);
             $parentProduct->set_status('draft');
-            $this->log('--- Assegnazione custom fields...');
+
+            $this->log('--- Setting custom fields...');
             foreach ($CSVRow->getCustomMetaFields() as $customFieldData) {
                 $canAssign = \in_array($customFieldData['assign_to'],[
                     ImportExportCSVColumnHelpers::METADATA_MODIFIER_ONLY_PARENT,
@@ -465,57 +464,91 @@ class ImportProducts extends AbstractCSVParserCommand
                     $parentProduct->update_meta_data($customFieldKey,$customFieldValue);
                 }
             }
+
             if(!$this->isDryRun()){
-                $id = $parentProduct->save();
-                if($id === 0){
-                    throw new ImportProductsException(sprintf('ERRORE: impossibile creare prodotto con SKU %s', $CSVRow->getParentSku()));
+                if($parentProduct->save() === 0){
+                    throw new ImportProductsException(sprintf('Unable to create variable product identified by %s', $CSVRow->getParentSku()));
                 }
             }
-            if($CSVRow->hasBrand()){
-                $this->log('--- Assegnazione brand: '.$CSVRow->getBrand());
-                if($CSVRow->isBrandHierarchical()){
-                    $this->addHierarchicalTermsToObjectFromTermListString($parentProduct->get_id(), $CSVRow->getBrand(), $this->getBrandTaxonomyName());
-                }else{
-                    $this->addTermsToObjectFromTermListString($parentProduct->get_id(), $CSVRow->getBrand(), $this->getBrandTaxonomyName());
-                }
-            }
-            if($CSVRow->hasCategory()){
-                $this->log('--- Assegnazione categorie: '.$CSVRow->getCategory());
-                if($CSVRow->isProductCategoryHierarchical()){
-                    $this->addHierarchicalTermsToObjectFromTermListString($parentProduct->get_id(), $CSVRow->getCategory(), 'product_cat');
-                }else{
-                    $this->addTermsToObjectFromTermListString($parentProduct->get_id(), $CSVRow->getCategory(), 'product_cat');
-                }
-            }
-            // this save is not really necessary because the parent product
-            // will be saved again after the creation of its variations
-            // $parentProduct->save();
-            $this->log(sprintf('--- Creato prodotto variabile con ID #%s', $parentProduct->get_id()));
-            $this->log('--- Parsing up sells...');
-            $upSells = $this->fetchUpSellsIds();
-            if(!empty($upSells)){
-                $this->upSellsToAssign[$parentProduct->get_id()] = $upSells;
-            }
-            $this->log('--- Parsing cross sells...');
-            $crossSells = $this->fetchCrossSellsIds();
-            if(!empty($crossSells)){
-                $this->crossSellsToAssign[$parentProduct->get_id()] = $crossSells;
-            }
+
+            $this->log(sprintf('--- Variable product created with ID #%d', $parentProduct->get_id()));
+
+            /*
+             * Taxonomies
+             */
+            $this->assignTaxonomies($parentProduct->get_id());
+            /*
+             * Related products
+             */
+            $this->assignRelatedProducts($parentProduct->get_id());
         }else{
-            $this->log(sprintf('--- Il prodotto variabile con SKU %s esiste.', $CSVRow->getParentSku()));
+            $this->log(sprintf('--- Variable product identified by %s found (#%d).', $CSVRow->getParentSku(), $parentProduct->get_id()));
             if(!$parentProduct instanceof \WC_Product){
-                throw new ImportProductsException('Impossibile recuperare il prodotto variabile');
+                throw new ImportProductsException('The variable product retrieved was not an instance of WC_Product');
             }
-            /*$parentProduct->set_short_description($CSVRow->getShortDescription());
-            $parentProduct->set_description($CSVRow->getLongDescription());
-            $parentProduct->set_manage_stock(false);
-            $this->log(sprintf('--- Aggiornato prodotto variabile con ID #%s', $parentProduct->get_id()));*/
         }
         if(!$this->isDryRun()){
             $this->setImportedProductMeta($parentProduct->get_id());
         }
         $this->addParsedProductId($parentProduct->get_id());
 
+        /*
+         * Variation
+         */
+        $isVariationNew = true;
+        $productId = $this->getProductIdByProductIdentifier($CSVRow->getIdentifier());
+        if($productId === null){
+            $this->log(sprintf('--- Variation identified by %s non found. It will be CREATED.', $CSVRow->getIdentifier()));
+            $product = new \WC_Product_Variation();
+            $product->set_parent_id($parentProduct->get_id());
+            $product->set_sku($CSVRow->getSku());
+            if($CSVRow->hasStock()){
+                $product->set_stock_quantity($CSVRow->getStock());
+                $product->set_stock_status($CSVRow->getStockStatus());
+            }
+            if($CSVRow->hasRegularPrice()){
+                $product->set_regular_price($CSVRow->getRegularPrice());
+            }
+        }else{
+            $this->log(sprintf('--- Variation identified by %s found (#%d). It will be UPDATED.', $CSVRow->getIdentifier(), $productId));
+            $product = wc_get_product($productId);
+            if(!$product instanceof \WC_Product_Variation){
+                throw new ImportProductsException('The variation retrieved was not an instance of WC_Product_Variation');
+            }
+            if($this->mustUpdatePrices && $CSVRow->hasRegularPrice()){
+                $product->set_regular_price($CSVRow->getRegularPrice());
+            }
+            if($this->mustUpdateStocks && $CSVRow->hasStock()){
+                $product->set_stock_quantity($CSVRow->getStock());
+                $product->set_stock_status($CSVRow->getStockStatus());
+            }
+            $isVariationNew = false;
+        }
+
+        $product->set_name($CSVRow->getTitle());
+        $product->set_manage_stock(true);
+        $product->set_status('publish');
+
+        $this->log('--- Setting custom fields...');
+        foreach ($CSVRow->getCustomMetaFields() as $customFieldData) {
+            $canAssign = \in_array($customFieldData['assign_to'],[
+                ImportExportCSVColumnHelpers::METADATA_MODIFIER_ONLY_VARIATION,
+                ImportExportCSVColumnHelpers::METADATA_MODIFIER_BOTH_PARENT_AND_VARIATIONS
+            ],true);
+            if(!$canAssign){
+                continue;
+            }
+            $customFieldKey = $customFieldData['key'];
+            $customFieldValue = $customFieldData['value'];
+            if($customFieldValue !== null && $customFieldValue !== ''){
+                $this->log(sprintf('---- %s: %s',$customFieldKey,$customFieldValue));
+                $product->update_meta_data($customFieldKey,$customFieldValue);
+            }
+        }
+
+        /*
+         * Attributes
+         */
         $attributes = [];
         $attributesTerms = [];
         $attributesForVariableProductTermsSlugs = [];
@@ -535,7 +568,7 @@ class ImportProducts extends AbstractCSVParserCommand
                 continue;
             }
             try{
-                $this->log(sprintf('--- Parsing termini per %s: %s',$attributeTaxonomyName,$CSVRow->getAttribute($attributeTaxonomyName)));
+                $this->log(sprintf('--- Parsing terms for %s: %s',$attributeTaxonomyName,$CSVRow->getAttribute($attributeTaxonomyName)));
                 $attributeValues = explode('|',$CSVRow->getAttribute($attributeTaxonomyName));
                 foreach ($attributeValues as $attValue){
                     $attributeTerm = $this->getOrCreateTerm($attributeTaxonomyName, $attValue);
@@ -547,72 +580,16 @@ class ImportProducts extends AbstractCSVParserCommand
             }
         }
 
-        $isVariationNew = true;
-        $productId = $this->getProductIdByProductIdentifier($CSVRow->getIdentifier());
-        if(is_int($productId) && $productId > 0){
-            $this->log(sprintf('--- La variazione con IDENTIFICATORE %s esiste.', $CSVRow->getIdentifier()));
-            $product = wc_get_product($productId);
-            if(!$product instanceof \WC_Product_Variation){
-                throw new ImportProductsException('Impossibile recuperare la variazione');
-            }
-            $isVariationNew = false;
-            if($this->mustUpdatePrices && $CSVRow->hasRegularPrice()){
-                $product->set_regular_price($CSVRow->getRegularPrice());
-            }
-            if($this->mustUpdateStocks && $CSVRow->hasStock()){
-                $product->set_stock_quantity($CSVRow->getStock());
-                $product->set_stock_status($CSVRow->getStockStatus());
-            }
-        }else{
-            $product = new \WC_Product_Variation();
-            $product->set_parent_id($parentProduct->get_id());
-            $product->set_sku($CSVRow->getSku());
-            if($CSVRow->hasStock()){
-                $product->set_stock_quantity($CSVRow->getStock());
-                $product->set_stock_status($CSVRow->getStockStatus());
-            }
-            if($CSVRow->hasRegularPrice()){
-                $product->set_regular_price($CSVRow->getRegularPrice());
-            }
-        }
-
-        $product->set_name($CSVRow->getTitle());
+        /*
+         * Assign attributes to variation
+         */
         if(!empty($attributes)){
             $product->set_attributes($attributes);
         }
-        $product->set_manage_stock(true);
-        $product->set_status('publish');
-        $this->log('--- Assegnazione custom fields...');
-        foreach ($CSVRow->getCustomMetaFields() as $customFieldData) {
-            $canAssign = \in_array($customFieldData['assign_to'],[
-                ImportExportCSVColumnHelpers::METADATA_MODIFIER_ONLY_VARIATION,
-                ImportExportCSVColumnHelpers::METADATA_MODIFIER_BOTH_PARENT_AND_VARIATIONS
-            ],true);
-            if(!$canAssign){
-                continue;
-            }
-            $customFieldKey = $customFieldData['key'];
-            $customFieldValue = $customFieldData['value'];
-            if($customFieldValue !== null && $customFieldValue !== ''){
-                $this->log(sprintf('---- %s: %s',$customFieldKey,$customFieldValue));
-                $product->update_meta_data($customFieldKey,$customFieldValue);
-            }
-        }
 
-        if(!$this->isDryRun()){
-            $id = $product->save();
-            if ($id === 0) {
-                throw new ImportProductsException(sprintf('ERRORE: impossibile creare variazione con IDENTIFICATORE %s', $CSVRow->getIdentifier()));
-            }
-            $this->setImportedProductMeta($id);
-        }
-
-        if($isVariationNew){
-            $this->log(sprintf('--- Creata variazione con ID #%d', $product->get_id()));
-        }else{
-            $this->log(sprintf('--- Aggiornata variazione con ID #%d', $product->get_id()));
-        }
-
+        /*
+         * Assign attributes to variable
+         */
         $parentAttributes = $parentProduct->get_attributes();
         $attributesTermsIdToAdd = [];
         foreach ($attributesTerms as $attrTerm){
@@ -644,6 +621,16 @@ class ImportProducts extends AbstractCSVParserCommand
         $parentProduct->set_attributes($parentAttributes);
 
         if(!$this->isDryRun()){
+            if($product->save()) {
+                throw new ImportProductsException(sprintf('Unable to create or update variation identified by %s', $CSVRow->getIdentifier()));
+            }
+        }
+
+        if(!$this->isDryRun()){
+            $this->setImportedProductMeta($product->get_id());
+        }
+
+        if(!$this->isDryRun()){
             $parentProduct->save();
             if(!empty($attributesTermsIdToAdd)){
                 foreach ($attributesTermsIdToAdd as $taxonomy => $terms){
@@ -652,7 +639,57 @@ class ImportProducts extends AbstractCSVParserCommand
             }
         }
 
+        if($isVariationNew){
+            $this->log(sprintf('--- Variation created with ID #%d', $product->get_id()));
+        }else{
+            $this->log(sprintf('--- Variation #%d updated', $product->get_id()));
+        }
+
         $this->variablesProductsToSync[$parentProduct->get_id()][] = $product->get_id();
+    }
+
+    /**
+     * @param int $productId
+     * @return void
+     * @throws ImportProductsException
+     */
+    private function assignTaxonomies(int $productId): void
+    {
+        $CSVRow = $this->currentCSVRow;
+        if($CSVRow->hasBrand()){
+            $this->log('--- Assigning brand: '.$CSVRow->getBrand());
+            if($CSVRow->isBrandHierarchical()){
+                $this->addHierarchicalTermsToObjectFromTermListString($productId, $CSVRow->getBrand(), $this->getBrandTaxonomyName());
+            }else{
+                $this->addTermsToObjectFromTermListString($productId, $CSVRow->getBrand(), $this->getBrandTaxonomyName());
+            }
+        }
+        if($CSVRow->hasCategory()){
+            $this->log('--- Assigning categories: '.$CSVRow->getCategory());
+            if($CSVRow->isProductCategoryHierarchical()){
+                $this->addHierarchicalTermsToObjectFromTermListString($productId, $CSVRow->getCategory(), 'product_cat');
+            }else{
+                $this->addTermsToObjectFromTermListString($productId, $CSVRow->getCategory(), 'product_cat');
+            }
+        }
+    }
+
+    /**
+     * @param int $productId
+     * @return void
+     */
+    private function assignRelatedProducts(int $productId): void
+    {
+        $this->log('--- Parsing up sells...');
+        $upSells = $this->fetchUpSellsIds();
+        if(!empty($upSells)){
+            $this->upSellsToAssign[$productId] = $upSells;
+        }
+        $this->log('--- Parsing cross sells...');
+        $crossSells = $this->fetchCrossSellsIds();
+        if(!empty($crossSells)){
+            $this->crossSellsToAssign[$productId] = $crossSells;
+        }
     }
 
     /**
@@ -688,8 +725,9 @@ class ImportProducts extends AbstractCSVParserCommand
             if (empty($t)) {
                 $creationResult = wp_insert_term($tm,$taxonomy,['parent' => 0]);
                 if(is_wp_error($creationResult)){
-                    throw new ImportProductsException(sprintf('Impossibile creare il termine %s nella tassonomia %s: %s',$tm,$taxonomy,$creationResult->get_error_message()));
+                    throw new ImportProductsException(sprintf('Unable to create the term %s inside the taxonomy %s: %s',$tm,$taxonomy,$creationResult->get_error_message()));
                 }
+                $this->log(sprintf('---- Term %s created inside taxonomy %s',$tm,$taxonomy));
                 $termIds[] = $creationResult['term_id'];
             }else{
                 $termIds[] = $t->term_id;
@@ -712,14 +750,12 @@ class ImportProducts extends AbstractCSVParserCommand
      * @throws ImportProductsException
      */
     private function addHierarchicalTermsToObjectFromTermListString(int $objectId, string $termListString, string $taxonomy): void {
-        //$termIds = [];
         $termNames = explode('>', $termListString);
         //Creation
         $lastTermParent = 0;
         $parsedTerms = [];
         foreach ($termNames as $tm) {
             $tm = trim($tm);
-            //$currentExistingTerm = get_term_by('name', $tm, $taxonomy);
             $currentExistingTermResult = get_terms(
                 [
                     'taxonomy' => $taxonomy,
@@ -737,9 +773,9 @@ class ImportProducts extends AbstractCSVParserCommand
             if(!$currentExistingTerm){
                 $creationResult = wp_insert_term($tm,$taxonomy,['parent' => $lastTermParent]);
                 if(is_wp_error($creationResult)){
-                    throw new ImportProductsException(sprintf('Impossibile creare il termine %s nella tassonomia %s: %s',$tm,$taxonomy,$creationResult->get_error_message()));
+                    throw new ImportProductsException(sprintf('Unable to create the term %s inside the taxonomy %s: %s',$tm,$taxonomy,$creationResult->get_error_message()));
                 }
-                $this->log(sprintf('---- Creato termine %s nella tassonomia %s con parent %d',$tm,$taxonomy,$lastTermParent));
+                $this->log(sprintf('---- Term %s created inside taxonomy %s and assigned to parent term %d',$tm,$taxonomy,$lastTermParent));
                 $lastTermParent = $creationResult['term_id'];
                 $parsedTerms[] = get_term_by('term_id', $creationResult['term_id'], $taxonomy);
             }else{
@@ -747,40 +783,6 @@ class ImportProducts extends AbstractCSVParserCommand
                 $parsedTerms[] = $currentExistingTerm;
             }
         }
-        //Assigning
-        /*$parent = 0;
-        foreach ($termNames as $tm) {
-            $tm = trim($tm);
-            $terms = get_terms(
-                [
-                    'taxonomy' => $taxonomy,
-                    'name' => $tm,
-                    'parent' => $parent,
-                    'number' => 1,
-                    'hide_empty' => false,
-                ]
-            );
-            if (is_wp_error($terms)) {
-                $this->log(
-                    sprintf(
-                        'Failed to retrieve term. Term name: %s, Taxonomy: %s, WP Error %s',
-                        $tm,
-                        $taxonomy,
-                        $terms->get_error_message()
-                    )
-                );
-                break;
-            }
-
-            $t = $terms[0] ?? null;
-            if (empty($t)) {
-                $this->log(sprintf('Term `%s` from taxonomy `%s` does not exists', $tm, $taxonomy));
-                break;
-            }
-
-            $termIds[] = $t->term_id;
-            $parent = $t->term_id;
-        }*/
 
         $termIds = \is_array($parsedTerms) ? wp_list_pluck($parsedTerms,'term_id') : [];
 
@@ -840,7 +842,11 @@ class ImportProducts extends AbstractCSVParserCommand
             }
             return $productId;
         }
-        return Posts::getPostIdByMeta($this->currentCSVRow->getStandardizedColumnNameFromActualColumnName($this->productIdentifierColumnName),$identifier);
+        $productId = Posts::getPostIdByMeta($this->currentCSVRow->getStandardizedColumnNameFromActualColumnName($this->productIdentifierColumnName),$identifier);
+        if(!\is_int($productId) || $productId === 0){
+            return null;
+        }
+        return $productId;
     }
 
     /**
