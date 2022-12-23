@@ -259,7 +259,7 @@ class ImportProducts extends AbstractCSVParserCommand
      * @throws \RuntimeException
      * @throws ImportProductsManifestFileException
      */
-    private function parseManifestFile(string $manifestFilePath): void
+    protected function parseManifestFile(string $manifestFilePath): void
     {
         $manifest = new ImportProductsManifestFile($manifestFilePath);
         $this->manifestFileHelper = $manifest;
@@ -282,7 +282,7 @@ class ImportProducts extends AbstractCSVParserCommand
         }
         $mustUpdateStocks = $manifest->getSetting('update_stocks');
         if(\is_bool($mustUpdateStocks)){
-            $this->mustUpdateStocks = $this->mustUpdateStocks;
+            $this->mustUpdateStocks = $mustUpdateStocks;
         }
         $productIdentifier = $manifest->getSetting('product_identifier_column_name');
         if(\is_string($productIdentifier)){
@@ -293,12 +293,12 @@ class ImportProducts extends AbstractCSVParserCommand
     /**
      * @return void
      */
-    private function finalizeParsedProducts(): void
+    protected function finalizeParsedProducts(): void
     {
         if(has_action('wawoo_product_importer/finalize_products')){
             $this->log('Finalizing parsed products...');
         }
-        do_action('wawoo_product_importer/finalize_products',$this->parsedProductIds, $this->isDryRun());
+        do_action('wawoo_product_importer/finalize_products',$this->parsedProductIds, $this->isDryRun(), $this);
     }
 
     /**
@@ -306,7 +306,7 @@ class ImportProducts extends AbstractCSVParserCommand
      * @throws ImportProductsException
      * @throws \WC_Data_Exception
      */
-    private function createOrUpdateSimpleProduct(): void
+    protected function createOrUpdateSimpleProduct(): void
     {
         $CSVRow = $this->currentCSVRow;
         $isNew = true;
@@ -426,7 +426,7 @@ class ImportProducts extends AbstractCSVParserCommand
      * @throws ImportProductsException
      * @throws \WC_Data_Exception
      */
-    private function createOrUpdateVariation(): void
+    protected function createOrUpdateVariation(): void
     {
         $CSVRow = $this->currentCSVRow;
 
@@ -653,7 +653,7 @@ class ImportProducts extends AbstractCSVParserCommand
      * @return void
      * @throws ImportProductsException
      */
-    private function assignTaxonomies(int $productId): void
+    protected function assignTaxonomies(int $productId): void
     {
         $CSVRow = $this->currentCSVRow;
         if($CSVRow->hasBrand()){
@@ -678,7 +678,7 @@ class ImportProducts extends AbstractCSVParserCommand
      * @param int $productId
      * @return void
      */
-    private function assignRelatedProducts(int $productId): void
+    protected function assignRelatedProducts(int $productId): void
     {
         $this->log('--- Parsing up sells...');
         $upSells = $this->fetchUpSellsIds();
@@ -696,7 +696,7 @@ class ImportProducts extends AbstractCSVParserCommand
      * @param int $productId
      * @return void
      */
-    private function setImportedProductMeta(int $productId): void
+    protected function setImportedProductMeta(int $productId): void
     {
         try {
             $today = new \DateTime('now', new \DateTimeZone('Europe/Rome'));
@@ -717,7 +717,7 @@ class ImportProducts extends AbstractCSVParserCommand
      * @return void
      * @throws ImportProductsException
      */
-    private function addTermsToObjectFromTermListString(int $objectId, string $termListString, string $taxonomy): void {
+    protected function addTermsToObjectFromTermListString(int $objectId, string $termListString, string $taxonomy): void {
         $termNames = explode('|', $termListString);
         $termIds = [];
         foreach ($termNames as $tm) {
@@ -749,7 +749,7 @@ class ImportProducts extends AbstractCSVParserCommand
      * @return void
      * @throws ImportProductsException
      */
-    private function addHierarchicalTermsToObjectFromTermListString(int $objectId, string $termListString, string $taxonomy): void {
+    protected function addHierarchicalTermsToObjectFromTermListString(int $objectId, string $termListString, string $taxonomy): void {
         $termNames = explode('>', $termListString);
         //Creation
         $lastTermParent = 0;
@@ -798,7 +798,7 @@ class ImportProducts extends AbstractCSVParserCommand
      * @param int $objectId
      * @return void
      */
-    private function removeDefaultProductCatFromObject(int $objectId): void
+    protected function removeDefaultProductCatFromObject(int $objectId): void
     {
         $defaultCatId = get_option('default_product_cat');
         if (empty($defaultCatId)) {
@@ -824,7 +824,7 @@ class ImportProducts extends AbstractCSVParserCommand
      * @throws \RuntimeException
      * @return \WP_Term
      */
-    private function getOrCreateTerm(string $taxonomy, string $name): \WP_Term
+    protected function getOrCreateTerm(string $taxonomy, string $name): \WP_Term
     {
         return Utilities::getOrCreateTerm($taxonomy,$name);
     }
@@ -833,7 +833,7 @@ class ImportProducts extends AbstractCSVParserCommand
      * @param string $identifier
      * @return int|null
      */
-    private function getProductIdByProductIdentifier(string $identifier): ?int
+    public function getProductIdByProductIdentifier(string $identifier): ?int
     {
         if($this->currentCSVRow->isIdentifierTheProductSKU()){
             $productId = wc_get_product_id_by_sku($identifier);
@@ -853,7 +853,7 @@ class ImportProducts extends AbstractCSVParserCommand
      * @param string $groupId
      * @return \WC_Product|null
      */
-    private function getProductByGroupId(string $groupId): ?\WC_Product
+    public function getProductByGroupId(string $groupId): ?\WC_Product
     {
         global $wpdb;
 
@@ -925,34 +925,34 @@ SQL;
      * @param int|null $postId
      * @return string
      */
-    private function getBrandTaxonomyName(int $postId = null): string
+    public function getBrandTaxonomyName(int $postId = null): string
     {
-        return apply_filters('wawoo_products_importer/brand_taxonomy_name',$this->brandTaxonomyName,$postId);
+        return apply_filters('wawoo_products_importer/brand_taxonomy_name',$this->brandTaxonomyName,$postId,$this);
     }
 
     /**
      * @param int|null $postId
      * @return string
      */
-    private function getColorTaxonomyName(int $postId = null): string
+    public function getColorTaxonomyName(int $postId = null): string
     {
-        return apply_filters('wawoo_products_importer/color_taxonomy_name',$this->colorTaxonomyName,$postId);
+        return apply_filters('wawoo_products_importer/color_taxonomy_name',$this->colorTaxonomyName,$postId,$this);
     }
 
     /**
      * @param int|null $postId
      * @return string
      */
-    private function getSizeTaxonomyName(int $postId = null): string
+    public function getSizeTaxonomyName(int $postId = null): string
     {
-        return apply_filters('wawoo_products_importer/size_taxonomy_name',$this->sizeTaxonomyName,$postId);
+        return apply_filters('wawoo_products_importer/size_taxonomy_name',$this->sizeTaxonomyName,$postId,$this);
     }
 
     /**
      * @param int $productId
      * @return void
      */
-    private function addParsedProductId(int $productId): void
+    protected function addParsedProductId(int $productId): void
     {
         if(!\is_array($this->parsedProductIds)){
             $this->parsedProductIds = [];

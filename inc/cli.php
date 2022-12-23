@@ -6,6 +6,7 @@ use Waboot\inc\cli\FixPrices;
 use Waboot\inc\cli\FixStockStatuses;
 use Waboot\inc\cli\GenerateAttributeListMeta;
 use Waboot\inc\cli\ImportPrices;
+use Waboot\inc\cli\ImportProductImages;
 use Waboot\inc\cli\order_export\ExportOrders;
 use Waboot\inc\cli\order_export\ExportOrdersTest;
 use Waboot\inc\cli\order_simulator\OrderSimulator;
@@ -14,9 +15,9 @@ use Waboot\inc\cli\feeds\GenerateGShoppingFeed;
 use Waboot\inc\cli\product_export\ExportProducts;
 use Waboot\inc\cli\product_import\ImportProducts;
 use Waboot\inc\cli\RemoveSalePrices;
-use Waboot\inc\cli\SimpleCommand;
 use function Waboot\inc\core\Waboot;
 
+require_once get_stylesheet_directory().'/inc/cli/hooks.php';
 require_once get_stylesheet_directory().'/inc/core/cli/CommandLoggerTrait.php';
 require_once get_stylesheet_directory().'/inc/core/cli/AbstractCommand.php';
 require_once get_stylesheet_directory().'/inc/cli/ParseAndSaveProducts.php';
@@ -37,6 +38,8 @@ add_action('init', static function(){
     //(new FixStockStatuses())->__invoke('',['products' => '12,35']);
     //(new GenerateGShoppingFeed())->__invoke([],['products'=>'34,31,23']);
     //(new ExportProducts())->__invoke([],['manifest' => '/var/www/html/waga/waboot/wp-content/themes/waboot/inc/cli/product_export/manifest-sample.json']);
+    //(new ImportProducts())->__invoke([],['dry-run' => true, 'file' => 'aluser20221202.csv', 'manifest' => '/var/www/html/wp-content/import-products-manifest.json']);
+    //(new ImportProducts())->__invoke([],['dry-run' => true, 'delimiter' => ';', 'file' => 'profumum.csv', 'manifest' => '/var/www/html/wp-content/eterea-products-manifest.json']);
 });
 
 if (!defined('WP_CLI')) {
@@ -47,9 +50,9 @@ try{
     /*
      * Add commands here
      */
-    //Waboot()->registerCommand('simple', SimpleCommand::class,'sm');
     Waboot()->registerCommand('export-products', ExportProducts::class,'wawoo');
     Waboot()->registerCommand('import-products', ImportProducts::class,'wawoo');
+    Waboot()->registerCommand('import-product-images', ImportProductImages::class,'wawoo');
     Waboot()->registerCommand('import-prices', ImportPrices::class, 'wawoo');
     Waboot()->registerCommand('parse-and-save-products', ParseAndSaveProducts::class,'wawoo');
     Waboot()->registerCommand('fix-stock-statuses', FixStockStatuses::class,'wawoo');

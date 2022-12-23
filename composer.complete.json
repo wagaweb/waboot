@@ -12,6 +12,8 @@
         "box/spout": "~3.3.0",
         "monolog/monolog": "~2.2.0",
         "league/csv": "~9.6.0",
+        "league/flysystem": "2.4.2",
+        "league/flysystem-ftp": "2.4.2",
         "spatie/array-to-xml": "~2.15.0",
         "illuminate/database": "v7.30.6",
         "sentry/sdk": "^3.2"
