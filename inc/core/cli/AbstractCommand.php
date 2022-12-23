@@ -75,9 +75,83 @@ class AbstractCommand
         }
     }
 
+    /**
+     * @return array
+     */
+    public static function getCommandDescription(): array
+    {
+        //@see: https://make.wordpress.org/cli/handbook/guides/commands-cookbook/#wp_cliadd_commands-third-args-parameter
+        return [
+            'shortdesc' => 'A simple command',
+            'longdesc' => '## EXAMPLES' . "\n\n" . 'wp simple-command',
+            'synopsis' => [
+                /*[
+                    'type'        => 'positional',
+                    'name'        => 'name',
+                    'description' => 'The name of the person to greet.',
+                    'optional'    => false,
+                    'repeating'   => false,
+                ],
+                [
+                    'type'        => 'assoc',
+                    'name'        => 'type',
+                    'description' => 'Whether or not to greet the person with success or error.',
+                    'optional'    => true,
+                    'default'     => 'success',
+                    'options'     => array( 'success', 'error' ),
+                ],*/
+                [
+                    'type' => 'flag',
+                    'name' => 'dry-run',
+                    'description' => 'Perform a dry run',
+                    'optional' => true,
+                ],
+            ],
+            //'when' => 'after_wp_load', //before_wp_load
+        ];
+    }
+
+    /**
+     * @param array $args
+     * @param array $assoc_args
+     * @return void
+     */
     public function __invoke(array $args, array $assoc_args)
     {
         $this->setupDefaultFlags($assoc_args);
+        if($this->isDryRun()){
+            $this->log('### DRY-RUN ###');
+        }
+    }
+
+    /* @todo: this is the new version
+    public function __invoke(array $args, array $assoc_args): int
+    {
+        try{
+            $this->setupDefaultFlags($assoc_args);
+            if($this->isDryRun()){
+                $this->log('### DRY-RUN ###');
+            }
+            $this->beginCommandExecution();
+            $r = $this->run($args,$assoc_args);
+            $this->endCommandExecution();
+            return $r;
+        }catch (\Exception | \Throwable $e){
+            $this->endCommandExecution();
+            $this->error($e->getMessage(), false);
+            return 1;
+        }
+    }
+    */
+
+    /**
+     * @param array $args
+     * @param array $assoc_args
+     * @return int
+     */
+    public function run(array $args, array $assoc_args): int
+    {
+        return 0;
     }
 
     protected function suppressErrors(): void
@@ -149,16 +223,36 @@ class AbstractCommand
 
     /**
      * @param string $message
+     * @param bool $printToCli
+     * @param array $context
+     */
+    protected function warning(string $message, bool $printToCli = true, array $context = []): void
+    {
+        if($this->isWPCLI() && $this->isVerbose()){
+            if($printToCli){
+                \WP_CLI::warning($message);
+            }
+        }
+        if($this->mustLog() && $this->canLog()){
+            $this->logger->info('Warning: '.$message,$context);
+        }
+    }
+
+    /**
+     * @param string $message
      * @param bool $die
      */
     protected function error(string $message, bool $die = true): void
     {
         try{
+            if($this->isWPCLI() && $this->isVerbose() && $die === false){
+                \WP_CLI::error($message,false);
+            }
+            if($this->isWPCLI() && $die){
+                \WP_CLI::error($message,true);
+            }
             if($this->mustLog() && $this->canLog()){
                 $this->logger->error($message);
-            }
-            if($die && $this->isWPCLI()){
-                \WP_CLI::error($message);
             }
         }catch(\WP_CLI\ExitException $e){
             \WP_CLI::log($message);

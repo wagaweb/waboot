@@ -122,6 +122,23 @@ trait WordPress {
 
     /**
      * @param int $postId
+     * @throws \RuntimeException
+     * @return int
+     */
+    public static function getPostParent(int $postId): int
+    {
+        global $wpdb;
+        $q = 'SELECT post_parent FROM '.$wpdb->posts.' WHERE ID = %d';
+        $q = $wpdb->prepare($q,$postId);
+        $r = $wpdb->get_var($q);
+        if($r === null){
+            throw new \RuntimeException('getPostParent(): #'.$postId.' has no parent');
+        }
+        return (int) $r;
+    }
+
+    /**
+     * @param int $postId
      * @return int|null
      */
     public static function getPostParentId(int $postId): ?int

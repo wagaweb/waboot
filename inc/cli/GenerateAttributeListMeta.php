@@ -9,6 +9,26 @@ class GenerateAttributeListMeta extends AbstractCommand
     /** @var array<string, array<int, \WP_Term>> */
     private $taxCache = [];
 
+    /**
+     * @return array
+     */
+    public static function getCommandDescription(): array
+    {
+        //@see: https://make.wordpress.org/cli/handbook/guides/commands-cookbook/#wp_cliadd_commands-third-args-parameter
+        return [
+            'shortdesc' => 'Generate `_attribute_list` metadata for each variable product',
+            'synopsis' => [
+                [
+                    'type' => 'positional',
+                    'name' => 'ids',
+                    'description' => 'The ID of the product to process',
+                    'optional' => true,
+                    'repeating' => true,
+                ],
+            ],
+        ];
+    }
+
     public function __invoke(array $args, array $assoc_args)
     {
         parent::__invoke($args, $assoc_args);

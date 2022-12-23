@@ -251,6 +251,23 @@ class Product
     }
 
     /**
+     * @param float $price
+     * @param bool $updateImmediately
+     * @return void
+     * @throws ProductException
+     */
+    public function resetPriceTo(float $price, bool $updateImmediately = false): void
+    {
+        $this->getWcProduct()->set_price($price);
+        $this->getWcProduct()->set_sale_price('');
+        $this->getWcProduct()->set_regular_price($price);
+        $this->fetchPrices(true);
+        if($updateImmediately){
+            $this->save(true);
+        }
+    }
+
+    /**
      * @param string $taxonomyName
      * @param bool $hierarchical
      * @return void
