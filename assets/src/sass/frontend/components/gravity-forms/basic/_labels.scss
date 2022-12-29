@@ -1,0 +1,76 @@
+.gform_wrapper {
+    .left_label,
+    .right_label {
+        .gfield:not(.gsection):not(.gfield_html):not(fieldset) {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+            width: 100%;
+        }
+        .gfield_label {
+            margin: 0;
+            padding: 0;
+            width: 30%;
+            @include down($medium) {
+                width: 100%
+            }
+        }
+        fieldset {
+            clear: both;
+            .ginput_container {
+                float: left;
+                width: 70%;
+                @include down($medium) {
+                    width: 100%;
+                }
+            }
+            > .ginput_complex {
+                @include down($medium) {
+                    width: 100%;
+                }
+            }
+        }
+        legend.gfiedl_label {
+            display: block;
+            float: left;
+            padding-right: 1em;
+            width: 30%;
+            @include down($medium) {
+                width: 100%;
+            }
+        }
+        .ginput_complex .ginput_container {
+            width: auto;
+        }
+        div.gfield > div:not(.ui-resizable-handle):not(.gfield-admin-icons) {
+            width: 70%;
+            @include down($medium) {
+                width: 100%;
+            }
+        }
+        .gform_fields {
+            position: relative;
+        }
+        .gfield_html_formatted {
+            margin-left: 30%;
+        }
+        #field_submit {
+            justify-content: flex-start;
+            input {
+                margin-left: 30%;
+            }
+        }
+    }
+    .right_label .gfield_label {
+		padding-right: 1em;
+		text-align: right;
+	}
+}
+
+.field_sublabel_below .ginput_complex {
+	align-items: flex-start;
+}
+
+.field_sublabel_above .ginput_complex {
+	align-items: flex-end;
+}

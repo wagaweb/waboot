@@ -1,0 +1,26 @@
+.gform_wrapper .gfield {
+    textarea {
+        width: 100%;
+        &.small {
+            height: 96px;
+        }
+        &.medium {
+            height: 192px;
+        }
+        &.large {
+            height: 288px;
+        }
+    }
+   input, select {
+        max-width: 100%;
+        &.small {
+            width: calc(25% - 16px * 3 / 4);
+        }
+        &.medium {
+            width: calc(50% - 16px / 2); /* default margin between complex fields is 1rem */
+        }
+        &.large {
+            width: 100%;
+        }
+    }
+}

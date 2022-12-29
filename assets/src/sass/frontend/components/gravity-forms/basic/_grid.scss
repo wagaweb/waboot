@@ -1,0 +1,104 @@
+.gform_wrapper {
+    .gform_fields {
+        @include down($medium) {
+            grid-column-gap: 0;
+        }
+        display: grid;
+        grid-column-gap: 2%;
+        grid-row-gap: 16px;
+        grid-template-columns: repeat(12, 1fr);
+        grid-template-rows: repeat(auto-fill, auto);
+        width: 100%;
+    }
+    .gfield {
+        @include down($medium) {
+            &:not(.gfield--width-full) {
+                grid-column: 1 / -1;
+            }
+        }
+		grid-column: 1 / -1;
+		min-width: 0;
+        &--width-full {
+            grid-column: span 12;
+        }
+        &--width-eleven-twelfths {
+            grid-column: span 11;
+        }
+        &--width-five-sixths {
+            grid-column: span 10;
+        }
+        &--width-three-quarter {
+            grid-column: span 9;
+        }
+
+        &--width-two-thirds {
+            grid-column: span 8;
+        }
+
+        &--width-seven-twelfths {
+            grid-column: span 7;
+        }
+
+        &--width-half {
+            grid-column: span 6;
+        }
+
+        &--width-five-twelfths {
+            grid-column: span 5;
+        }
+
+        &--width-third {
+            grid-column: span 4;
+        }
+
+        &--width-quarter {
+            grid-column: span 3;
+        }
+
+        &--width-one-sixth {
+            grid-column-span: 2;
+        }
+
+        &--width-one-twelfth {
+            grid-column: span 1;
+        }
+	}
+    .gform_footer .gform-button--width-full.gfield--width {
+        &-full {
+            width: 100%;
+            .gfield--width-five-sixths {
+                width: 83.3333%;
+            }
+            .gfield--width-three-quarter {
+                width: 75%;
+            }
+            .gfield--width-two-thirds {
+                width: 66.6666%;
+            }
+            .gfield--width-seven-twelfths {
+                width: 58.3333%;
+            }
+            .gfield--width-half {
+                width: 50%;
+            }
+            .gfield--width-five-twelfths {
+                width: 41.6666%;
+            }
+            .gfield--width-third {
+                width: 33.3333%;
+            }
+            .gfield--width-quarter {
+                width: 25%;
+            }
+            .gfield--width-one-sixth {
+                width: 16.6666%;
+            }
+            .gfield--width-one-twelfth {
+                width: 8.3333%;
+            }
+        }
+        &-eleven-twelfths {
+            width: 91.6666%
+        }
+    }
+}

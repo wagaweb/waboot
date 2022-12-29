@@ -1,57 +1,45 @@
 @mixin button() {
-  display: inline-block;
-  margin-bottom: 0; // For input.btn
-  text-align: center;
-  vertical-align: middle;
-  touch-action: manipulation;
-  cursor: pointer;
+  appearance: none;
   background-image: none; // Reset unusual Firefox-on-Android default style; see https://github.com/necolas/normalize.css/issues/214
   border: 1px solid transparent;
-  white-space: nowrap;
-  padding: 10px 15px;
+  border-radius: $radiusFull;
+  cursor: pointer;
+  display: inline-block;
+  font-family: inherit;
   font-size: 1em;
   font-weight: $fontWeightBold;
   line-height: 1;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
+  margin-bottom: 0; // For input.btn
+  padding: 10px 40px;
+  text-align: center;
   text-transform: uppercase;
-
+  touch-action: manipulation;
+  vertical-align: middle;
+  white-space: nowrap;
   &:hover,
   &:focus,
   &.focus {
     text-decoration: none;
   }
-
   &:active,
   &.active {
-    outline: 0;
     background-image: none;
+    outline: 0;
   }
 }
 
-@mixin buttonStyle($bkg, $color, $colorHover, $border) {
-  border-radius: 0;
-  background: $bkg;
+@mixin buttonStyle($bg, $color, $border, $bgHover, $colorHover) {
+  background: $bg;
+  @if $border {
+    border-color: $border;
+  }
   @if $color {
     color: $color;
-  }
-  @if $border {
-    border: $border;
-  }
+  } 
   transition: all 0.3s ease;
-
   &:hover {
-    background: darken($bkg, 8%);
-    @if $colorHover {
-      color: $colorHover;
-    }
-  }
-  &:active {
-    background: darken($bkg, 25%);
-    @if $colorHover {
-      color: $colorHover;
-    }
+    background-color: $bgHover;
+    color: $colorHover;
   }
 }
 
@@ -60,5 +48,18 @@
 .wp-block-button__link,
 input[type='submit'] {
   @include button();
-  @include buttonStyle($colorPrimary, #fff, #fff, false);
 }
+
+//PRIMARY
+.btn--primary {
+  @include buttonStyle($colorPrimary, $colorWhite, false, $colorSecondary, $colorWhite);
+}
+//SECONDARY
+.btn--secondary {
+  @include buttonStyle($colorGrey, $colorText, false, $colorPrimary, $colorWhite);
+}
+//LIGHT
+.btn--light {
+  @include buttonStyle($colorWhite, $colorSecondary, $colorSecondary, $colorPrimary, $colorWhite);
+}
+//LINK

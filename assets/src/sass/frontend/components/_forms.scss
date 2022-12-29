@@ -1,51 +1,135 @@
 form {
 	label {
-		//display: inline-block;
-		display: flex;
 		align-items: center;
-		max-width: 100%;
-		margin-bottom: 5px;
+		cursor: pointer;
+		display: inline-flex;
 		font-weight: $fontWeightBold;
+		margin-bottom: 5px;
 	}
-	select,
-	option,
+	fieldset {
+		background: none;
+		border: none;
+		margin: 0;
+		padding: 0;
+	}
+	legend {
+		@extend .h4;
+		font-weight: $fontWeightBold;
+		margin-left: 0;
+		margin-right: 0;
+	}
+	&::placeholder {
+		color: $colorGrey;
+	}
 	textarea,
-	input[type="text"],
-	input[type="number"],
-	input[type="tel"],
-	input[type="search"],
+	input[type="date"],
 	input[type="email"],
-	input[type="password"] {
-		display: block;
-		width: 100%;
-		height: 34px;
-		padding: 6px 12px;
-		background-color: #fff;
-		background-image: none;
-		border: 1px solid #ccc;
-		box-shadow: inset 0 0 0;
-		transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-		font-family: inherit;
+	input[type="number"],
+	input[type="password"],
+	input[type="search"],
+	input[type="tel"],
+	input[type="text"],
+	input[type="url"] {
 		appearance: none;
+		background-color: $colorWhite;
+		background-image: none;
+		border: 1px solid $colorGrey;
+		border-radius: $radius;
+		box-shadow: inset 0 0 0;
+		color: inherit;
+		font-family: inherit;
 		outline: none;
+		padding: 20px 24px;
+		transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+		width: 100%;
 		&:focus {
 			border-color: $colorGreyDark;
 		}
 	}
-	input[type="submit"] {
-		box-shadow: inset 0 0 0;
-		appearance: none;
-		font-family: $fontPrimary;
-	}
 	textarea {
 		height: auto;
 	}
+	input[type="checkbox"] {
+		appearance: none;
+		background-color: $colorWhite;
+		border: 1px solid $colorGrey;
+		border-radius: calc($radius / 2);
+		color: $colorPrimary;
+		cursor: pointer;
+		display: inline-grid;
+		font: inherit;
+		height: 20px;
+		margin: 0 5px 0 0;
+		place-content: center;
+		width: 20px;
+		&::before {
+			content: "\f00c";
+			background-color: $colorPrimary;
+			color: $colorWhite;
+			display: inline-grid;
+			font-family: "Font Awesome 5 Pro";
+			font-weight: 900;
+			place-items: center;
+			transform: scale(0);
+			transition: 120ms transform ease-in-out;
+		}
+		&:checked {
+			background-color: $colorPrimary;
+			border-color: $colorPrimary;
+		}
+		&:checked::before {
+			transform: scale(1);
+		}
+	}
+	input[type="radio"] {
+		appearance: none;
+		background-color: $colorWhite;
+		border: 1px solid $colorGrey;
+		border-radius: $radiusCircle;
+		color: $colorPrimary;
+		cursor: pointer;
+		display: inline-grid;
+		font: inherit;
+		height: 20px;
+		margin: 0 5px 0 0;
+		place-content: center;
+		width: 20px;
+		&::before {
+			content: "";
+			background-color: $colorPrimary;
+			border-radius: $radiusCircle;
+			height: 14px;
+			transform: scale(0);
+			transition: 120ms transform ease-in-out;
+			width: 14px;
+		}
+		&:checked::before {
+			outline: 3px solid $colorPrimary;
+			outline-offset: 2px;
+			transform: scale(1);
+		}
+	}
+	select {
+		appearance: none;
+		background-color: transparent;
+		border: none;
+		cursor: pointer;
+		font-family: inherit;
+		font-size: inherit;
+		line-height: inherit;
+		outline: none;
+		padding: 0 1em 0 0;
+		margin: 0;
+		width: 100%;
+		&::-ms-expand {
+			display: none;
+		}
+	}
+	input[type="submit"] {
+		appearance: none;
+		box-shadow: inset 0 0 0;
+	}
 }
-
-select {
-	font-family: inherit;
-}
-
 .select2-container {
 	.select2-selection {
 		background-color: #ffffff;
@@ -93,63 +177,6 @@ select {
 		.select2-results__option {
 			padding: 6px 12px;
 		}
-	}
-}
-
-.gform_description {
-	display: block;
-	margin-bottom: $gridGutter;
-}
-.gform_fields {
-	padding: 0;
-	margin: 0;
-	list-style-type: none;
-}
-
-.gfield {
-	margin-bottom: calc(#{$gridGutter}/ 2);
-	&.hidden_label > label {
-		display: none;
-	}
-	&.gform_validation_container {
-		display: none;
-	}
-	&.gf_left_half,
-	&.gf_right_half {
-		width: calc(50% - calc(#{$gridGutter}/ 4));
-		display: inline-block;
-	}
-	&.gf_left_half {
-		margin-right: calc(#{$gridGutter}/ 4);
-	}
-	&.gf_right_half {
-		margin-left: calc(#{$gridGutter}/ 4);
-	}
-	.clear-multi {
-		display: flex;
-		width: 100%;
-	}
-	ul.gfield_checkbox {
-		padding: 0;
-		list-style-type: none;
-		li {
-			display: flex;
-			label {
-				font-weight: $fontWeightNormal;
-				font-size: 0.85em;
-				flex-shrink: 1;
-			}
-		}
-	}
-}
-
-.ginput_container_consent {
-	display: flex;
-	align-items: flex-start;
-	label {
-		font-weight: $fontWeightNormal;
-		font-size: 0.85em;
-		flex-shrink: 1;
 	}
 }
 

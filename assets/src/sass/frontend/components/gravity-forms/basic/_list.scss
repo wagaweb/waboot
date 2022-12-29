@@ -1,0 +1,156 @@
+table.gfield_list.gfield_list_container {
+    width: 100%;
+    thead tr {
+        display: flex;
+        flex-wrap: nowrap;
+        th,
+        td {
+            flex-grow: 1;
+            white-space: normal;
+            width: 0;
+            word-break: break-word;
+        }
+        td:last-child {
+            flex-grow: unset;
+			width: 48px;
+        }
+    }
+    tbody {
+        th, td {
+            flex-grow: 1;
+            white-space: normal;
+            width: 0;
+            word-break: break-word;
+        }
+        tr {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            @include up($medium) {
+                flex-flow: column;
+            }
+            .gfield_list_cell {
+                flex-grow: 1;
+                input {
+                    width: 95%;
+                }
+            }
+        }
+        td {
+            @include up($medium) {
+                flex-grow: unset;
+				width: auto;
+                &::before {
+                    content: attr(data-label);
+                    font-size: 14.992px;
+                }
+            }
+            .gfield_list_icons {
+                flex-grow: unset;
+                width: 48px;
+                @include up($medium) {
+                    height: 35px;
+					width: auto;
+                }
+            }
+        }
+    }
+    th {
+        @include up($medium) {
+            display: none;
+        }
+    }
+}
+.gfield_list_header,
+.gfield_list_group {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	margin-bottom: 5px;
+}
+.gfield_list_header {
+    @include up($medium) {
+        display: none;
+    }
+}
+.gfield_list_group {
+	&:last-child {
+		margin-bottom: 0;
+        @include up($medium) {
+            margin-bottom: 0;
+        }
+	}
+    @include up($medium) {
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        display: block;
+        margin-bottom: 20px;
+        padding: 20px;
+    }
+}
+.gfield_header_item {
+	word-break: break-word;
+}
+.gfield_header_item,
+.gfield_list_group_item {
+	flex-grow: 1;
+	width: 0;
+    @include up($medium) {
+        width: auto;
+    }
+}
+.gfield_header_item + .gfield_header_item:not(.gfield_header_item--icons),
+.gfield_list_group_item + .gfield_list_group_item {
+	margin-left: 2%;
+    @include up($medium) {
+        margin-left: 0;
+    }
+}
+.gfield_list_group_item {
+    @include up($medium) {
+        margin-bottom: 8px;
+    }
+    &::before {
+        content: attr(data-label);
+		font-size: 14.992px;
+    }
+	input, select {
+        width: 100%;
+    }
+}
+.gfield_header_item--icons, 
+.gfield_list_icons {
+	align-items: center;
+	display: flex;
+	flex: none;
+	justify-content: center;
+	width: 48px;
+}
+.gfield_list_icons {
+    @include up($medium) {
+        background-color: rgba(0, 0, 0, 0.1);
+        line-height: 0;
+        margin: 16px -16px -16px;
+        padding: 12px 16px;
+        text-align: left;
+        width: auto;
+    }
+	button {
+		background: transparent url(../../../images/list-add.svg);
+		border: none;
+		font-size: 0;
+		height: 16px;
+		opacity: 0.5;
+		padding: 0;
+		transition: opacity 0.5s ease-out;
+		width: 16px;
+		&.delete_list_item {
+			background-image: url(../../../images/list-remove.svg);
+			margin-left: 5px;
+		}
+        &:hover, 
+        &:focus {
+            opacity: 1;
+            outline: none;
+        }
+	}
+}

@@ -1,0 +1,500 @@
+.gform_wrapper {
+    .gfield_label {
+        display: inline-block;
+        font-size: 16px;
+        font-weight: 700;
+        margin-bottom: 8px;
+        padding: 0;
+    }
+    .ginput_complex label,
+    .gform_fileupload_rules, 
+    .gfield_header_item {
+        font-size: 15px;
+        padding-top: 5px;
+    }
+    &.left_label, 
+    &.right_label {
+		fieldset.gfield {
+            padding: 16px 16px 16px 30%;
+            .ginput_container:not(.ginput_container_time) {
+                width: 100%;
+            }
+        }
+        legend.gfield_label {
+            left: 0;
+        }
+        .gfield:not(.gsection):not(.gfield_html):not(fieldset) {
+            justify-content: flex-start;
+        }
+        .gfield_html {
+            &.gfield_html_formatted {
+                display: flex;
+            }
+            &:not(.gfield_html_formatted) .gf-html-container {
+    		    width: 100%;
+            }
+        }
+	}
+    &.right_label legend.gfield_label {
+        text-align: right;
+    }
+    &:not(.top_label) .ginput_container.ginput_single_email {
+        margin-left: 0;
+    }
+}
+
+/* Theme css for the validation messages. */
+.gform_wrapper {
+    .gform_validation_errors {
+        background: #fff9f9;
+        border: 1.5px solid #c02b0a;
+        border-radius: 5px;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.11), 0 0 4px rgba(18, 25, 97, 0.0405344);
+        margin-bottom: 8px;
+        margin-top: 8px;
+        padding: 16px 16px 16px 48px;
+        position: relative;
+        width: 100%;
+        > h2 {
+            color: #c02b0a;
+            font-size: 13.2px;
+            font-weight: 500;
+            line-height: 17.6px;
+            margin: 0 0 12px 0;
+            &::before {
+                display: none;
+            }
+            .gform-icon {
+                align-items: center;
+                display: flex;
+                font-size: 28px;
+                height: 100%;
+                left: 12px;
+                position: absolute;
+                top: 0;
+            }
+            .hide_summary {
+                margin: 0;
+            }
+        }
+        > ol {
+            padding-left: 20px;
+            a {
+                color: #c02b0a;
+                font-size: 13.2px;
+                text-decoration: none;
+            }
+            li {
+                color: #c02b0a;
+                font-size: 13.2px;
+                list-style-type: disc !important;
+                margin: 0 0 8px 0;
+                &:last-of-type {
+                    margin-bottom: 0;
+                }
+            }
+        }
+    }
+    .gfield_required {
+        color: #c02b0a;
+        display: inline-block;
+        font-size: 13.008px;
+        padding-left: 0.125em;
+        &_text, &_custom {
+            font-style: italic;
+            font-weight: 400;
+        }
+        .gform_required_legend & {
+            padding-left: 0;
+        }
+    }
+    .validation_error {
+        border-bottom: 2px solid #c02b0a;
+        border-top: 2px solid #c02b0a;
+        color: #c02b0a;
+        font-size: 1em;
+        font-weight: 700;
+        margin-bottom: 32px;
+        padding: 16px;
+        text-align: center;
+    }
+    [aria-invalid="true"] + label, 
+    label + [aria-invalid="true"], 
+    .gfield_error legend, 
+    .gfield_error label, 
+    .gfield_error .gfield_repeater_cell label, 
+    .gfield_validation_message, 
+    .validation_message {
+        color: #c02b0a;
+    }
+    .gfield_validation_message,
+    .validation_message {
+        background: #fff9f9;
+        border: 1px solid #c02b0a;
+        font-size: 14.992px;
+        margin-top: 8px;
+        padding: 12.992px 24px;
+    }
+    .gfield_error [aria-invalid="true"] {
+        border: 1px solid #c02b0a;
+    }
+}
+
+/* Buttons */
+.gform_wrapper {
+    .gform_save_link.button,
+    .gform_previous_button.button {
+        background-color: #fff;
+        color: #6b7280;
+        text-decoration: none;
+    }
+    .gform_save_link.button,
+    .gform_previous_button.button {
+        &.button {
+            svg {
+                display: inline-block;
+                margin-right: 4px;
+            }
+        }
+    }
+    button.button:disabled {
+        opacity: 0.6;
+    }
+    #field_submit, 
+    .gform_footer {
+        display: flex;
+        input {
+            align-self: flex-end;
+        }
+        .gform_image_button {
+            background-color: transparent;
+            border: none;
+            border-radius: 0;
+            height: auto;
+            padding: 0;
+            width: auto;
+        }
+        .gform-button--width-full {
+            text-align: center;
+            width: 100%;
+        }
+    }
+}
+
+/* Styles for fields with multiple inputs. */
+.gform_wrapper {
+    .ginput_complex {
+        display: flex;
+        flex-flow: row wrap;
+        span,
+        fieldset {
+            flex: 1;
+            @include up($medium) {
+                &:not([style*="display:none"]):not(.ginput_full) ~ span:not(.ginput_full) {
+                    padding-left: 1%;
+                    padding-right: 0;
+                }
+            }
+        }
+        span {
+            @include down($medium) {
+                flex: 0 0 100%;
+                margin-bottom: 8px;
+                padding-left: 0;
+            }
+        }
+        .ginput_full {
+            flex: 0 0 100%;
+        }
+        .clear-multi {
+            display: flex;
+        }
+        label, 
+        legend {
+            display: block;
+        }
+        input,
+        select {
+            width: 100%;
+        }
+        @include up($medium) {
+            span:not([style*="display:none"]):not(.ginput_full), 
+            fieldset:not([style*="display:none"]):not(.ginput_full) {
+                padding-right: 1%;
+            }
+        }
+    }
+    .ginput_container_address {
+        margin-left: -1%;
+        margin-right: -1%;
+        span {
+            flex: 0 0 50%;
+            padding-left: 0.9804%;
+            padding-right: 0.9804%;
+            @include down($medium) {
+                padding-left: 0.9804%;
+            }
+        }
+    }
+    .gf_browser_ie .ginput_container_address span:not(.ginput_full) {
+        flex: 0 0 49.3%;
+    }
+    @include up($medium) {
+        .ginput_full:not(:last-of-type),
+        .ginput_container_address span:not(.ginput_full):not(:last-of-type):not(:nth-last-of-type(2)) {
+            margin-bottom: 8px;
+        }
+    }
+}
+
+/* Styles for field descriptions. */
+.gform_wrapper {
+    .description,
+    .gfield_description,
+    .gsection_description,
+    .instruction {
+        clear: both;
+        font-family: inherit;
+        font-size: 15px;
+        letter-spacing: normal;
+        line-height: inherit;
+        padding-top: 13px;
+        width: 100%;
+    }
+    .field_description_above {
+        .description, 
+        .gfield_description, 
+        .gsection_description, 
+        .instruction {
+            padding-bottom: 16px;
+            padding-top: 0;
+        }
+    }
+    .field_sublabel_above {
+        .description,
+        .gfield_description, 
+        .gsection_description {
+            margin-top: 9.008px;
+        }
+    }
+    .top_label .gsection_description {
+        margin-bottom: 9.008px;
+        width: 100%;
+    }
+    .gfield_consent_description,
+    .field_description_below .gfield_consent_description {
+        border: 1px solid #ddd;
+        font-size: 13.008px;
+        margin-top: 12.8px;
+        max-height: 240px;
+        overflow-y: scroll;
+        padding: 6.4px 8px;
+        width: 100%;
+    }
+}
+
+/* Credit card field styles. */
+.gform_wrapper {
+    .gfield_creditcard_warning {
+        background-color: rgba(255, 223, 224, 0.25);
+        border-bottom: 4px solid #c02b0a;
+        border-top: 2px solid #c02b0a;
+        padding: 16px;
+        .gfield_creditcard_warning_message {
+            color: #c02b0a;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 700;
+            min-height: 32px;
+            position: relative;
+            span {
+                background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAxOS4xLjAsIFNWRyBFeHBvcnQgUGx1Zy1JbiAuIFNWRyBWZXJzaW9uOiA2LjAwIEJ1aWxkIDApICAtLT4NCjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+DQo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4Ig0KCSB2aWV3Qm94PSItMTA2NyAyODY1IDI0IDMyIiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IC0xMDY3IDI4NjUgMjQgMzI7IiB4bWw6c3BhY2U9InByZXNlcnZlIj4NCjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+DQoJLnN0MHtmaWxsOiM3OTAwMDA7fQ0KPC9zdHlsZT4NCjxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik0tMTA1MywyODY1Yy01LjUsMC0xMCw0LjUtMTAsMTBoNGMwLTMuMywyLjctNiw2LTZjMy4zLDAsNiwyLjcsNiw2djJoLTIwdjE0YzAsMy4zLDIuNyw2LDYsNmgxMg0KCWMzLjMsMCw2LTIuNyw2LTZ2LTE2Qy0xMDQzLDI4NjkuNS0xMDQ3LjUsMjg2NS0xMDUzLDI4NjV6IE0tMTA0OSwyODkzaC0xMmMtMS4xLDAtMi0wLjktMi0ydi0xMGgxNnYxMA0KCUMtMTA0NywyODkyLjEtMTA0Ny45LDI4OTMtMTA0OSwyODkzeiBNLTEwNTMsMjg4N2MwLDEuMS0wLjksMi0yLDJzLTItMC45LTItMmMwLTEuMSwwLjktMiwyLTJTLTEwNTMsMjg4NS45LTEwNTMsMjg4N3oiLz4NCjwvc3ZnPg0K);
+                background-position: 0 3.2px;
+                background-repeat: no-repeat;
+                background-size: 24px 16px;
+                border-bottom: 1px solid #c02b0a;
+                display: block;
+                letter-spacing: 0.1pt;
+                margin-bottom: 16px;
+                padding: 0 0 16px 24px;
+                text-transform: uppercase;
+            }
+        }
+    }
+    .ginput_cardextras {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .ginput_complex .ginput_cardinfo_right input {
+        max-width: 112px;
+        width: 30%;
+    }
+    .ginput_card_expiration_container {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .ginput_card_expiration_month {
+        flex: 1;
+        margin-right: 16px;
+    }
+    .ginput_card_expiration_year {
+        flex: 1;
+    }
+    @include down($medium) {
+        .ginput_card_expiration {
+            flex: none;
+        }
+        .ginput_card_expiration_month {
+            margin-bottom: 8px;
+        }    
+    }
+    .ginput_cardinfo {
+        &_right,
+        &_left {
+            label,
+            legend {
+                flex: 1 1 100%;
+            }
+        }
+    }
+    fieldset.ginput_cardinfo_left {
+        display: flex;
+        flex-direction: column;
+        legend {
+            float: left;
+            padding-top: 5px;
+        }
+        .field_sublabel_below & {
+            flex-direction: column-reverse;
+        }
+    }
+}
+
+/* Date field. */
+.gform_wrapper {
+    .ginput_container_date + .ginput_container_date {
+        margin-left: 2%;
+    }
+    .ginput_container_date[style*="display:none"] + .ginput_container_date {
+        margin-left: 0;
+    }
+    .ginput_container_date label {
+        display: block;
+    }
+}
+
+.gform-theme-datepicker:not(.gform-legacy-datepicker) {
+    background: #fff;
+    border: 1px solid #d0d1d3;
+    border-radius: 3px;
+    box-shadow: 0 0.0625rem 0.25rem rgba(0, 0, 0, 0.11), 0 0 0.25rem rgba(18, 25, 97, 0.0405344);
+    color: #607382;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    margin-top: 5px;
+    padding: 18px 15px;
+    width: auto;
+    table,
+    thead,
+    tr,
+    td,
+    th {
+        background: none;
+        border: 0;
+        margin: 0;
+    }
+    td, th {
+        padding: 5px;
+        text-shadow: none;
+        text-transform: none;
+    }
+    .ui-datepicker-header {
+        border: 0;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        margin: 0 0 5px;
+        padding: 0;
+        position: relative;
+        width: 100%;
+        .ui-datepicker-prev,
+        .ui-datepicker-next {
+            align-items: center;
+            background: none;
+            border: 0;
+            color: #607382;
+            cursor: pointer;
+            display: flex;
+            font-family: gform-icons-theme !important;
+            font-size: 24px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            height: 30px;
+            justify-content: center;
+            line-height: 1;
+            position: absolute;
+            speak: never;
+            text-decoration: none;
+            top: -2px;
+            transition: color 300ms ease-in-out, background-color 300ms ease-in-out, border-color 300ms ease-in-out;
+            width: 30px;
+            &:focus,
+            &:hover {
+                color: #2f4054;
+            }
+            &::before,
+            &::before {
+                border: 0;
+                height: auto;
+                position: static;
+                transform: none;
+                width: auto;
+            }
+            .ui-icon {
+                display: none;
+            }
+            .ui-datepicker-prev {
+                left: 0;
+                &::before {
+                    content: "\e910";
+                }
+            }
+            .ui-datepicker-next {
+                right: 0;
+                &::before {
+                    content: "\e91b";
+                }
+            }
+        }
+        select {
+            background-color: transparent;
+            background-image: url(../../../images/theme/down-arrow.svg);
+            background-position: 100% 50%;
+            background-repeat: no-repeat;
+            background-size: 24px 24px;
+            border: 0;
+            border-radius: 0;
+            box-shadow: none;
+            color: #585e6a;
+            cursor: pointer;
+            display: inline-block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            height: auto;
+            min-height: 0;
+            padding: 0 22px 0 0;
+            width: auto;
+            &.ui-datepicker-month {
+                margin-right: 20px;
+                -moz-text-align-last: right;
+                    text-align-last: right;
+            }
+        }
+    }
+    .ui-datepicker-calendar span,
+    .ui-datepicker-calendar a {
+        font-weight: 400;
+    }
+}
+//prosegui da riga 538
+

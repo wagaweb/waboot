@@ -1,0 +1,67 @@
+.gform_wrapper {
+    .gform_card_icon_container {
+        display: flex;
+        height: 32px;
+        margin: 8px 0 6.4px 0;
+        div.gform_card_icon {
+            background-image: url(../../../images/gf-creditcards.svg);
+            background-repeat: no-repeat;
+            height: 32px;
+            margin-right: 4.8px;
+            text-indent: -9000px;
+            width: 40px;
+            &_amex {
+                background-position: -167px 0;
+            }
+            &_discover {
+                background-position: -221px 0;
+            }
+            &_mastercard {
+                background-position: -275px 0;
+            }
+            &_visa {
+                background-position: -59px 0;
+            }
+            &_jcb {
+                background-position: -329px 0;
+            }
+            &_maestro {
+                background-position: -5px 0;
+            }
+            &_selected {
+                position: relative;
+                &::after {
+                    background: url(../../../images/gf-creditcards-check.svg) center center no-repeat;
+                    bottom: 4px;
+                    content: "";
+                    display: block;
+                    height: 10px;
+                    position: absolute;
+                    right: 0;
+                    width: 13px;
+                }
+            }
+        }
+    }
+    
+    .ginput_cardinfo_right {
+        align-items: center;
+        display: inline-flex;
+        flex-flow: row wrap;
+        justify-content: flex-start;
+        label {
+            width: 100%;
+        }
+    }
+    
+    .ginput_card_security_code_icon {
+        background-image: url(../../../images/gf-creditcards.svg);
+        background-position: -382px center;
+        background-repeat: no-repeat;
+        display: block;
+        flex: none;
+        height: 32px;
+        margin-left: 0.3em;
+        width: 40px;
+    }
+}
