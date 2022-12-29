@@ -82,55 +82,55 @@
         </span>
       </ins>
     </span>
-    <div
-      v-if="productType === 'variable' && attributeList !== undefined"
-      class="variation-list"
-    >
-      <span
-        v-for="v in attributeList.variations"
-        :key="v.variation"
-        :title="v.termName"
-        class="variation-list__item"
-        :class="{
-          'variation-list__item--selected':
-            v.variation.toString() === selectedId,
-          'variation-list__item--outofstock': v.stockStatus === 'outofstock',
-        }"
-        @click="
-          () => {
-            if (v.stockStatus === 'instock')
-              selectedId = v.variation.toString();
-          }
-        "
+    <template v-if="showAddToCartBtn && product.stockStatus === 'instock'">
+      <div
+        v-if="productType === 'variable' && attributeList !== undefined"
+        class="variation-list"
       >
         <span
-          class="variation-list__image"
-          v-if="attributeList.type === 'image'"
-          :style="{
-            'background-image': `url(${v.data.url})`,
+          v-for="v in attributeList.variations"
+          :key="v.variation"
+          :title="v.termName"
+          class="variation-list__item"
+          :class="{
+            'variation-list__item--selected':
+              v.variation.toString() === selectedId,
+            'variation-list__item--outofstock': v.stockStatus === 'outofstock',
           }"
-        ></span>
-        <span
-          class="variation-list__color"
-          v-else-if="attributeList.type === 'color'"
-          :style="{ 'background-color': v.data }"
+          @click="
+            () => {
+              if (v.stockStatus === 'instock')
+                selectedId = v.variation.toString();
+            }
+          "
         >
+          <span
+            class="variation-list__image"
+            v-if="attributeList.type === 'image'"
+            :style="{
+              'background-image': `url(${v.data.url})`,
+            }"
+          ></span>
+          <span
+            class="variation-list__color"
+            v-else-if="attributeList.type === 'color'"
+            :style="{ 'background-color': v.data }"
+          >
+          </span>
+          <span
+            class="variation-list__select"
+            v-else-if="attributeList.type === 'select'"
+            >{{ v.data }}</span
+          >
         </span>
-        <span
-          class="variation-list__select"
-          v-else-if="attributeList.type === 'select'"
-          >{{ v.data }}</span
-        >
-      </span>
-    </div>
-    <div v-if="showQuantityInput" class="quantity-input">
-      <span @click="increaseQuantity(-1)">-</span>
-      <input v-model="quantity" type="number" min="1" />
-      <span @click="increaseQuantity(1)">+</span>
-    </div>
-    <span>
+      </div>
+      <div v-if="showQuantityInput" class="quantity-input">
+        <span @click="increaseQuantity(-1)">-</span>
+        <input v-model="quantity" type="number" min="1" />
+        <span @click="increaseQuantity(1)">+</span>
+      </div>
       <a
-        v-if="showAddToCartBtn && product.stockStatus === 'instock'"
+        v-if="productType !== 'variable' || ( productType === 'variable' && attributeList !== undefined )"
         :href="`?add-to-cart=${selectedId}`"
         :data-quantity="quantity"
         class="button product_type_simple add_to_cart_button ajax_add_to_cart"
@@ -148,7 +148,7 @@
       >
         {{ $t('showProduct') }}
       </a>
-    </span>
+    </template>
   </div>
 </template>
 
