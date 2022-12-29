@@ -16,8 +16,9 @@ add_filter('init', function(){
                         'productIds' => [$product->get_id()],
                         'columns' => 1,
                         'showAddToCartBtn' => false,
-                        'gtag' => [
+                        'ga4' => [
                             'enabled' => false,
+                            'listId' => sanitize_title(\Waboot\addons\packages\catalog\getGtagListName()),
                             'listName' => \Waboot\addons\packages\catalog\getGtagListName(),
                             'brandFallback' => get_bloginfo('name'),
                         ],

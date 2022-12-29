@@ -4,8 +4,9 @@ if (defined('WB_CATALOG_BASEURL')) {
     $catalog = [
         'searchString' => get_search_query(),
         'layoutMode' => 'sidebar',
-        'gtag' => [
-            'enabled' => false,
+        'ga4' => [
+            'enabled' => true,
+            'listId' => sanitize_title(\Waboot\addons\packages\catalog\getGtagListName()),
             'listName' => \Waboot\addons\packages\catalog\getGtagListName(),
             'brandFallback' => get_bloginfo('name'),
         ],
