@@ -135,7 +135,7 @@ table.gfield_list.gfield_list_container {
         width: auto;
     }
 	button {
-		background: transparent url(../../../images/list-add.svg);
+		background: transparent url("../../images/list-add.svg");
 		border: none;
 		font-size: 0;
 		height: 16px;
@@ -144,7 +144,7 @@ table.gfield_list.gfield_list_container {
 		transition: opacity 0.5s ease-out;
 		width: 16px;
 		&.delete_list_item {
-			background-image: url(../../../images/list-remove.svg);
+			background-image: url("../../images/list-remove.svg");
 			margin-left: 5px;
 		}
         &:hover, 

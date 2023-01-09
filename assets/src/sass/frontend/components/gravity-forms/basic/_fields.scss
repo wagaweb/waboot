@@ -24,3 +24,26 @@
         }
     }
 }
+
+.gform_wrapper {
+    .ginput_container_select {
+        position: relative;
+		&::after {
+			content: "";
+			width: 8px;
+			height: 5px;
+			background-color: $colorText;
+			clip-path: polygon(100% 0%, 0 0%, 50% 100%);
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+		}
+    }
+}
+
+.gform_wrapper {
+    .gfield_checkbox button {
+        margin-top: 10px;
+    }
+}

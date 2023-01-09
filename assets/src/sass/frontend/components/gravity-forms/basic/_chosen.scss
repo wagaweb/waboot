@@ -1,15 +1,12 @@
 .chosen-container {
-	display: inline-block;
-	font-size: 16px;
-	position: relative;
-	user-select: none;
-	vertical-align: middle;
     .chosen-drop {
-        background: #fff;
-        border: 1px solid #aaa;
+        background: $colorWhite;
+        border: 1px solid $colorGrey;
+        border-radius: 0 0 calc($radius / 2) calc($radius / 2);
         border-top: 0;
-        box-shadow: 0 4px 5px rgba(0, 0, 0, 0.15);
+        box-shadow: 0 1px 3px rgba($colorBlack, 0.1);
         display: none;
+        padding: 5px;
         position: absolute;
         top: 100%;
         width: 100%;
@@ -19,10 +16,8 @@
         display: block;
     }
     a {
+        color: inherit;
         cursor: pointer;
-        &.chosen-single {
-            border-radius: inherit;
-        }
     }
     span:not(.ginput_price) {
         @include up($medium) {
@@ -33,7 +28,7 @@
     .search-choice, 
     .chosen-single {
         .group-name {
-            color: #999;
+            color: $colorGrey;
             font-weight: normal;
             margin-right: 4px;
             overflow: hidden;
@@ -49,13 +44,9 @@
 }
 
 .chosen-container-single .chosen-single {
-	background: linear-gradient(#fff 20%, #f6f6f6 50%, #eee 52%, #f4f4f4 100%);
-	background-clip: padding-box;
-	background-color: #fff;
-	border: 1px solid #aaa;
-	border-radius: 5px;
-	box-shadow: 0 0 3px #fff inset, 0 1px 1px rgba(0, 0, 0, 0.1);
-	color: #444;
+	background-color: $colorWhite;
+	border: 1px solid $colorGrey;
+	border-radius: calc($radius / 2);
 	display: block;
 	height: 40px;
 	line-height: 24px;
@@ -322,8 +313,8 @@
 
 .chosen-container-active {
     &.chosen-with-drop .chosen-single {
-        background-image: linear-gradient(#eee 20%, #fff 80%);
-        border: 1px solid #aaa;
+        background-color: $colorWhite;
+        border: 1px solid $colorGrey;
         border-bottom-left-radius: 0;
         border-bottom-right-radius: 0;
         box-shadow: 0 1px 0 #fff inset;
@@ -340,8 +331,6 @@
         box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
     }
     .chosen-choices {
-        border: 1px solid #5897fb;
-        box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
         li.search-field input[type="text"] {
             color: #222 !important;
         }

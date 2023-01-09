@@ -1,57 +1,70 @@
 .ui-datepicker {
     &:not(.gform-legacy-datepicker) {
-        background-color: #fff;
-        border: 1px solid rgba(0, 0, 0, 0.1);
-        box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+        background-color: $colorWhite;
+        border: 1px solid $colorGrey;
+        border-radius: $radius;
+        box-shadow: 0 1px 3px rgba($colorBlack, 0.1);
         display: none;
-        margin: 2.4px;
-        padding: 8px;
+        padding: 20px 15px;
         &[style] {
             z-index: 9999 !important;
         }
         .ui-datepicker-header {
-            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-            margin: 0 -8px 8px;
-            padding: 0 8px 8px;
-            position: relative;
+            align-items: center;
+            border: none;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            padding: 0;
+            width: 100%;
         }
         .ui-datepicker-prev,
         .ui-datepicker-next {
+            align-items: center;
+            background-color: $colorGrey;
+            border: 0;
+            border-radius: $radiusCircle;
+            color: $colorText;
             cursor: pointer;
-            position: absolute;
-            &::before,
+            display: flex;
+            height: 30px;
+            justify-content: center;
+            width: 30px;
             &::before {
-                border-style: solid;
-                border-width: 0.18em 0.18em 0 0;
                 content: "";
-                display: inline-block;
-                height: 0.55em;
-                left: 0.15em;
-                position: relative;
-                top: 0.3em;
-                transform: rotate(-135deg);
-                vertical-align: top;
-                width: 0.55em;
+                font-family: "Font Awesome 5 Pro";
+                line-height: 1;
             }
             .ui-icon {
                 display: none;
             }
         }
         .ui-datepicker-prev {
-            left: 16px;
+            &::before {
+                content: '\f053';
+            }
         }
         .ui-datepicker-next {
-            right: 16px;
+            order: 1;
             &::before {
-                left: 0;
-                transform: rotate(45deg);
+                content: '\f054';
             }
         }
+        select {
+            background-color: $colorGrey;
+            border: none;
+            border-radius: calc($radius / 2);
+            color: $colorText;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: .85em;
+            font-weight: $fontWeightBold;
+            outline: none;
+            padding: 5px 20px 5px 5px;
+        }
         .ui-datepicker-title {
-            text-align: center;
-            select {
-                margin: 0 4px;
-            }
+            display: flex;
+            gap: 5px;
         }
         table {
 			border-spacing: 0;
@@ -79,15 +92,9 @@
         a.ui-state-active, 
         a.ui-state-active:hover {
             background-color: #3498db;
-            color: #fff;
+            color: $colorWhite;
         }
     }
-}
-
-
-
-.ui-datepicker:not(.gform-legacy-datepicker) .ui-datepicker-title select {
-    margin: 0 4px;
 }
 
 .ui-datepicker:not(.gform-legacy-datepicker) .ui-datepicker table {
@@ -121,5 +128,5 @@
 .ui-datepicker:not(.gform-legacy-datepicker) a.ui-state-active,
 .ui-datepicker:not(.gform-legacy-datepicker) a.ui-state-active:hover {
     background-color: #3498db;
-    color: #fff;
+    color: $colorWhite;
 }
