@@ -167,8 +167,8 @@ export class CatalogConfig {
     }
     this.enableOrder = Boolean(data.enableOrder ?? true);
     this.enablePriceFilter = Boolean(data.enablePriceFilter ?? true);
-    this.showAddToCartBtn = Boolean(data.showAddToCartBtn ?? true);
-    this.showQuantityInput = Boolean(data.showQuantityInput ?? true);
+    this.showAddToCartBtn = Boolean(data.showAddToCartBtn ?? false);
+    this.showQuantityInput = Boolean(data.showQuantityInput ?? false);
   }
 }
 
