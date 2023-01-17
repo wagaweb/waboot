@@ -8,7 +8,7 @@ export class GA4 {
   ) {}
 
   private priceToFloat(price: string): number {
-    return Number(price.replaceAll('.', '').replace(',', '.'));
+    return Number(price.replace(',', '.'));
   }
 
   private convertProductIntoItem(
