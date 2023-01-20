@@ -22,6 +22,10 @@ function renderCatalog(array $config): string
         $config['language'] = str_replace('_', '-', get_locale());
     }
 
+    if (empty($config['pricesIncludeTax'])) {
+        $config['pricesIncludeTax'] = wc_string_to_bool(get_option('woocommerce_prices_include_tax'));
+    }
+
     $taxRewrites = [];
     $taxQueryFilters = [];
     /** @var \WP_Taxonomy $t */
@@ -192,7 +196,6 @@ function updateCatalogProductMetadata(\WC_Product $p): void
         'minBasePrice' => (float)$first->get_regular_price('edit'),
         'maxPrice' => (float)$last->get_price('edit'),
         'maxBasePrice' => (float)$last->get_price('edit'),
-        'variations' => [],
     ];
     $p->update_meta_data('_catalog_data', $catalogData);
 
