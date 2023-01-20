@@ -281,6 +281,7 @@ function updateCatalogProductMetadata(\WC_Product $p): void
         $catalogData['variations']['products'][$v->get_id()] = [
             'id' => $v->get_id(),
             'sku' => $v->get_sku(),
+            'name' => $v->get_name(),
             'price' => (float)$v->get_price('edit'),
             'basePrice' => (float)$v->get_regular_price('edit'),
             'taxClass' => $v->get_tax_class(),
