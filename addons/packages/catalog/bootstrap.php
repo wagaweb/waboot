@@ -2,6 +2,7 @@
 
 namespace Waboot\addons\packages\catalog;
 
+use Waboot\addons\packages\catalog\cli\GenCatalogMeta;
 use Waboot\inc\core\AssetsManager;
 
 use function Waboot\addons\getAddonDirectory;
@@ -40,3 +41,22 @@ add_action('wp_enqueue_scripts', function () {
         trigger_error($e->getMessage(), E_USER_WARNING);
     }
 });
+
+if (!defined('WP_CLI')) {
+    return;
+}
+
+require_once getAddonDirectory('catalog') . '/cli/GenCatalogMeta.php';
+
+\WP_CLI::add_command('wawoo:catalog:gen-catalog-meta', GenCatalogMeta::class, [
+    'shortdesc' => 'Generate all catalog metadata for each variable product',
+    'synopsis' => [
+        [
+            'type' => 'positional',
+            'name' => 'ids',
+            'description' => 'The ID of the product to process',
+            'optional' => true,
+            'repeating' => true,
+        ],
+    ],
+]);

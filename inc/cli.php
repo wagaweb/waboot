@@ -4,7 +4,6 @@ namespace Waboot\inc;
 
 use Waboot\inc\cli\FixPrices;
 use Waboot\inc\cli\FixStockStatuses;
-use Waboot\inc\cli\GenerateAttributeListMeta;
 use Waboot\inc\cli\ImportPrices;
 use Waboot\inc\cli\ImportProductImages;
 use Waboot\inc\cli\order_export\ExportOrders;
@@ -24,7 +23,6 @@ require_once get_stylesheet_directory().'/inc/cli/ParseAndSaveProducts.php';
 require_once get_stylesheet_directory().'/inc/cli/FixStockStatuses.php';
 require_once get_stylesheet_directory().'/inc/cli/FixPrices.php';
 require_once get_stylesheet_directory().'/inc/cli/RemoveSalePrices.php';
-require_once get_stylesheet_directory().'/inc/cli/GenerateAttributeListMeta.php';
 require_once get_stylesheet_directory().'/inc/cli/ImportPrices.php';
 require_once get_stylesheet_directory().'/inc/cli/feeds/GenerateGShoppingFeed.php';
 //if(is_file(get_stylesheet_directory().'/inc/cli/product_import/waga-woocommerce-csv-cli-importer/src/index.php')){
@@ -58,7 +56,6 @@ try{
     Waboot()->registerCommand('fix-stock-statuses', FixStockStatuses::class,'wawoo');
     Waboot()->registerCommand('fix-prices', FixPrices::class,'wawoo');
     Waboot()->registerCommand('remove-sale-prices', RemoveSalePrices::class,'wawoo');
-    Waboot()->registerCommand('gen-attr-list-meta', GenerateAttributeListMeta::class,'wawoo');
     Waboot()->registerCommand('export-orders', ExportOrders::class,'wawoo');
     Waboot()->registerCommand('test:export-orders', ExportOrdersTest::class,'wawoo');
     Waboot()->registerCommand('simulate-orders', OrderSimulator::class,'wawoo');
