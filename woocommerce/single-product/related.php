@@ -23,7 +23,6 @@ if ($related_products) : ?>
 //                        'enabled' => !isset($_POST['add-to-cart']),
 //                        'listId' => sanitize_title(\Waboot\addons\packages\catalog\getGtagListName()),
 //                        'listName' => \Waboot\addons\packages\catalog\getGtagListName(),
-//                        'brandFallback' => get_bloginfo('name'),
 //                    ],
                 ]
             );

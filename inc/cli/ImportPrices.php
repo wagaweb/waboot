@@ -247,7 +247,7 @@ SQL;
         if ($date === false) {
             throw new \Exception('Invalid date format', self::ECODE_INVALID_DATE);
         }
-        $date->setTime(0, 0);
+        $date->setTime(23, 59);
 
         return $date->getTimestamp();
     }

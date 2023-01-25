@@ -20,30 +20,56 @@ export interface Image {
   };
 }
 
+type ProductType = 'simple' | 'variable' | 'grouped' | 'bundle' | 'external';
+
+type StockStatus = 'instock' | 'outofstock';
+
 export interface Product {
   id: string;
   slug: string;
   name: string;
+  sku: string;
   description: string;
   excerpt: string;
-  price: string;
-  basePrice: string;
-  hasPriceRange: boolean;
-  minPrice: string;
-  maxPrice: string;
-  minBasePrice: string;
-  maxBasePrice: string;
-  stockStatus: 'instock' | 'outofstock';
-  onSale: boolean;
+  type: ProductType;
+  price: number;
+  basePrice: number;
+  minPrice: number;
+  minBasePrice: number;
+  maxPrice: number;
+  maxBasePrice: number;
+  taxClass: string;
+  stockStatus: StockStatus;
+  averageRating: number;
   link: string;
-  type: string;
   image?: Image;
   gallery: Image[];
-  metadata?: {
-    [metaKey: string]: string | string[] | undefined;
+  metadata: {
+    [metaKey: string]: unknown;
   };
-  taxonomies?: {
+  taxonomies: {
     [taxonomy: string]: Term[] | undefined;
+  };
+  catalogData?: {
+    minPrice: number;
+    minBasePrice: number;
+    maxPrice: number;
+    maxBasePrice: number;
+    variations?: {
+      attribute: string;
+      type: 'select' | 'color' | 'image';
+      products: {
+        id: number;
+        sku: string;
+        name: string;
+        attributeTerm: string;
+        price: number;
+        basePrice: number;
+        taxClass: string;
+        stockStatus: StockStatus;
+        data: any;
+      }[];
+    };
   };
 }
 

@@ -11,10 +11,13 @@
         :key="`product-${p.id}`"
         :host="config.baseUrl"
         :product="p"
+        :price-formatter="priceFormatter"
+        :tax-applier="taxApplier"
         :show-add-to-cart-btn="config.showAddToCartBtn"
         :show-quantity-input="config.showQuantityInput"
-        @addToCart="addToCart($event, i)"
-        @viewDetails="viewDetails($event, i)"
+        @addToCart="addToCartHandle($event, i)"
+        @viewDetails="viewDetailsHandle($event, i)"
+        @addToWishlist="addToWishlistHandle($event, i)"
       ></CatalogItem>
     </div>
   </div>
@@ -45,8 +48,11 @@ export default defineComponent({
       getProductQuery,
       getCatalogQuery,
       loadProducts,
-      addToCart,
-      viewDetails,
+      addToCartHandle,
+      viewDetailsHandle,
+      addToWishlistHandle,
+      priceFormatter,
+      taxApplier,
     } = useCatalog(props.config);
 
     onMounted(() => {
@@ -58,8 +64,11 @@ export default defineComponent({
     return {
       loadingProducts,
       products,
-      addToCart,
-      viewDetails,
+      addToCartHandle,
+      viewDetailsHandle,
+      addToWishlistHandle,
+      priceFormatter,
+      taxApplier,
     };
   },
 });

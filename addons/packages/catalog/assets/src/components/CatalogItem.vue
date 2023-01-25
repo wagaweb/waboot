@@ -5,7 +5,7 @@
     <a
       :href="`${host}/?p=${product.id}`"
       class="woocommerce-LoopProduct-link woocommerce-loop-product__link"
-      @click="$emit('view-details', product)"
+      @click="$emit('viewDetails', { product })"
     >
       <img
         :src="image"
@@ -21,19 +21,18 @@
       rel="nofollow"
       :data-product-title="product.name"
       :data-product-id="product.id"
-      @click="$emit('add-to-wishlist', product)"
+      @click="$emit('addToWishlist', { product })"
     >
       <span class="jvm_add_to_wishlist_heart"></span>
       <span class="jvm_add_to_wishlist_text_add">Add to wishlist</span>
       <span class="jvm_add_to_wishlist_text_remove">Remove from wishlist</span>
     </a>
-    <!--<p class="woocommerce-loop-product__collection">{{ collection }}</p>-->
     <h2 class="woocommerce-loop-product__title">
       <a :href="`${host}/?p=${product.id}`">
         {{ product.name }}
       </a>
     </h2>
-    <div class="star-rating" v-if="hasStarRating">
+    <div class="star-rating" v-if="product.averageRating > 0">
       <i
         v-for="(ratingClass, i) in ratingStarClasses"
         :key="i"
@@ -42,86 +41,77 @@
     </div>
     <span class="price">
       <template v-if="product.stockStatus === 'instock'">
-        <template v-if="product.hasPriceRange">
-          <span>
-            {{ $t('from') }}&nbsp;
-            <del v-if="product.onSale" aria-hidden="true">
-              <span class="woocommerce-Price-amount amount">
-                {{ product.minBasePrice }} €
-              </span>
-            </del>
-            <ins>
-              <span v-if="product.onSale" class="sale-percentage">
-                -{{ salePercentage }}%
-              </span>
-              <span class="woocommerce-Price-amount amount">
-                {{ product.minPrice }} €
-              </span>
-            </ins>
-          </span>
-        </template>
-        <span v-else>
-          <del v-if="product.onSale" aria-hidden="true">
+        <span v-if="product.minPrice > product.maxPrice" class="price__from">
+          {{ $t('from') }}&nbsp;
+        </span>
+        <template v-if="product.minPrice < product.minBasePrice">
+          <del aria-hidden="true">
             <span class="woocommerce-Price-amount amount">
-              {{ product.basePrice }} €
+              {{ minBasePrice }} €
             </span>
           </del>
           <ins>
-            <span v-if="product.onSale" class="sale-percentage">
-              -{{ salePercentage }}%
+            <span
+              v-if="product.price !== product.basePrice"
+              class="sale-percentage"
+            >
+              -{{ minSalePercentage }}%
             </span>
             <span class="woocommerce-Price-amount amount">
-              {{ product.price }} €
+              {{ minPrice }} €
             </span>
           </ins>
+        </template>
+        <span v-else class="woocommerce-Price-amount amount">
+          {{ minPrice }} €
         </span>
       </template>
-      <ins v-else-if="product.stockStatus === 'outofstock'">
-        <span class="woocommerce-Price-amount amount">
-          {{ $t('outOfStock') }}
-        </span>
-      </ins>
+      <span
+        v-else-if="product.stockStatus === 'outofstock'"
+        class="woocommerce-Price-amount amount"
+      >
+        {{ $t('outOfStock') }}
+      </span>
     </span>
     <template v-if="showAddToCartBtn && product.stockStatus === 'instock'">
       <div
-        v-if="productType === 'variable' && attributeList !== undefined"
+        v-if="product.type === 'variable' && product.catalogData?.variations"
         class="variation-list"
       >
         <span
-          v-for="v in attributeList.variations"
-          :key="v.variation"
-          :title="v.termName"
+          v-for="v in product.catalogData.variations.products"
+          :key="v.id"
+          :title="v.name"
           class="variation-list__item"
           :class="{
-            'variation-list__item--selected':
-              v.variation.toString() === selectedId,
+            'variation-list__item--selected': v.id.toString() === selectedId,
             'variation-list__item--outofstock': v.stockStatus === 'outofstock',
           }"
           @click="
             () => {
-              if (v.stockStatus === 'instock')
-                selectedId = v.variation.toString();
+              if (v.stockStatus === 'instock') selectedId = v.id.toString();
             }
           "
         >
           <span
             class="variation-list__image"
-            v-if="attributeList.type === 'image'"
+            v-if="product.catalogData.variations.type === 'image'"
             :style="{
               'background-image': `url(${v.data.url})`,
             }"
           ></span>
           <span
+            v-else-if="product.catalogData.variations.type === 'color'"
             class="variation-list__color"
-            v-else-if="attributeList.type === 'color'"
             :style="{ 'background-color': v.data }"
           >
           </span>
           <span
             class="variation-list__select"
-            v-else-if="attributeList.type === 'select'"
-            >{{ v.data }}</span
+            v-else-if="product.catalogData.variations.type === 'select'"
           >
+            {{ v.data }}
+          </span>
         </span>
       </div>
       <div v-if="showQuantityInput" class="quantity-input">
@@ -130,22 +120,21 @@
         <span @click="increaseQuantity(1)">+</span>
       </div>
       <a
-        v-if="productType !== 'variable' || ( productType === 'variable' && attributeList !== undefined )"
+        v-if="
+          product.type !== 'variable' ||
+          (product.type === 'variable' && product.catalogData?.variations)
+        "
         :href="`?add-to-cart=${selectedId}`"
         :data-quantity="quantity"
         class="button product_type_simple add_to_cart_button ajax_add_to_cart"
         :data-product_id="selectedId"
-        :data-product_sku="sku"
+        :data-product_sku="product.sku"
         :aria-label="$t('addProductToCart', [product.name])"
-        @click="$emit('add-to-cart', product)"
+        @click="$emit('addToCart', { product, selectedId, quantity })"
       >
         {{ $t('addToCart') }}
       </a>
-      <a
-        v-else
-        :href="`${host}/?p=${product.id}`"
-        class="button"
-      >
+      <a v-else :href="`${host}/?p=${product.id}`" class="button">
         {{ $t('showProduct') }}
       </a>
     </template>
@@ -153,12 +142,21 @@
 </template>
 
 <script lang="ts">
+import { TaxApplier } from '@/catalog';
 import { Product } from '@/services/api';
 import { defineComponent, PropType } from 'vue';
 
 export default defineComponent({
   name: 'CatalogItem',
-  events: ['add-to-cart', 'view-details', 'add-to-wishlist'],
+  emits: {
+    addToCart: (payload: {
+      product: Product;
+      selectedId: string;
+      quantity: number;
+    }) => true,
+    viewDetails: (payload: { product: Product }) => true,
+    addToWishlist: (payload: { product: Product }) => true,
+  },
   props: {
     host: {
       type: String,
@@ -166,6 +164,14 @@ export default defineComponent({
     },
     product: {
       type: Object as PropType<Product>,
+      required: true,
+    },
+    priceFormatter: {
+      type: Object as PropType<Intl.NumberFormat>,
+      required: true,
+    },
+    taxApplier: {
+      type: Function as PropType<TaxApplier>,
       required: true,
     },
     showAddToCartBtn: {
@@ -184,14 +190,10 @@ export default defineComponent({
     };
   },
   computed: {
-    collection(): string {
-      return this.product.taxonomies?.['product_collection']?.[0].name ?? '';
-    },
-    category(): string {
-      if (this.product.taxonomies === undefined) return '';
-      let cat = this.product.taxonomies?.['product_cat']?.[0];
-      if (cat === undefined) {
-        return '';
+    category(): string | undefined {
+      let cat = this.product.taxonomies['product_cat']?.[0];
+      if (!cat) {
+        return undefined;
       }
 
       while (cat.children.length !== 0) {
@@ -200,69 +202,36 @@ export default defineComponent({
 
       return cat.name;
     },
-    productType(): string {
-      return this.product.taxonomies?.['product_type']?.[0].slug ?? '';
-    },
-    attributeList():
-      | {
-          product: number;
-          attribute: string;
-          type: string;
-          variations: {
-            variation: number;
-            termId: number;
-            termName: string;
-            termSlug: string;
-            stockStatus: 'instock' | 'outofstock';
-            data: any;
-          }[];
-        }
-      | undefined {
-      const list = this.product?.metadata?.['_attribute_list'] ?? undefined;
-      if (list === undefined) {
-        return undefined;
-      }
-      if (Array.isArray(list)) {
-        return undefined;
-      }
-
-      return JSON.parse(list);
-    },
     image(): string | undefined {
-      return this.product.image?.sizes['shop_catalog']?.link;
-    },
-    sku(): string {
-      const sku = this.product?.metadata?.['_sku'] ?? '';
-      if (Array.isArray(sku)) {
-        return '';
-      }
-
-      return sku.replace(/_$/, '');
-    },
-    price(): string {
-      //return this.taxPrice(this.product.price);
-      return this.product.price;
-    },
-    basePrice(): string {
-      //return this.taxPrice(this.product.basePrice);
-      return this.product.basePrice;
+      return (
+        this.product.image?.sizes['shop_catalog']?.link ??
+        this.product.image?.link
+      );
     },
     minPrice(): string {
-      //return this.taxPrice(this.product.minPrice);
-      return this.product.minPrice;
+      return this.stringifyPrice(this.product.minPrice, this.product.taxClass);
     },
-    starRating(): number {
-      return Number(this.product?.metadata?.['_wc_average_rating'] ?? '0');
+    minBasePrice(): string {
+      return this.stringifyPrice(
+        this.product.minBasePrice,
+        this.product.taxClass,
+      );
     },
-    hasStarRating(): boolean {
-      return this.starRating > 0;
+    maxPrice(): string {
+      return this.stringifyPrice(this.product.maxPrice, this.product.taxClass);
+    },
+    maxBasePrice(): string {
+      return this.stringifyPrice(
+        this.product.maxBasePrice,
+        this.product.taxClass,
+      );
     },
     ratingStarClasses(): string[] {
-      let classes = [];
+      const classes: string[] = [];
       for (let i = 1; i <= 5; i++) {
-        if (i <= this.starRating) {
+        if (i <= this.product.averageRating) {
           classes.push('fas fa-star');
-        } else if (i <= this.starRating + 0.5) {
+        } else if (i <= this.product.averageRating + 0.5) {
           classes.push('fas fa-star-half-alt');
         } else {
           classes.push('far fa-star');
@@ -270,39 +239,41 @@ export default defineComponent({
       }
       return classes;
     },
-    salePercentage(): string {
-      if (this.product.onSale) {
-        let reg = 0;
-        let curr = 0;
-        if (this.product.hasPriceRange) {
-          reg = Number(this.product.minBasePrice.replace(',', '.'));
-          curr = Number(this.product.minPrice.replace(',', '.'));
-        } else {
-          reg = Number(this.product.basePrice.replace(',', '.'));
-          curr = Number(this.product.price.replace(',', '.'));
-        }
-
-        return Math.round(100 - (curr * 100) / reg).toString();
-      }
-
-      return '';
+    minSalePercentage(): string {
+      return Math.round(
+        100 - (this.product.minPrice * 100) / this.product.minBasePrice,
+      ).toString();
+    },
+    maxSalePercentage(): string {
+      return Math.round(
+        100 - (this.product.maxPrice * 100) / this.product.maxBasePrice,
+      ).toString();
     },
     jvmWishListExists(): boolean {
       return typeof JVMWooCommerceWishlist === 'object';
     },
   },
-  methods: {
-    taxPrice(price: string): string {
-      let taxValue = 0;
-      const tax = this.product?.metadata?.['_tax_class'] ?? '';
-      if (tax.length === 0 || tax === 'Standard') {
-        taxValue = 1.22;
-      } else {
-        taxValue = 1.1;
-      }
-      const priceTaxed = Number(price ?? 0) * Number(taxValue);
+  mounted(): void {
+    // todo: this is not efficient
+    if (this.jvmWishListExists) {
+      JVMWooCommerceWishlist!.build();
+    }
 
-      return (Math.round(priceTaxed * 100) / 100).toFixed(2);
+    if (
+      this.product.type === 'variable' &&
+      this.product.catalogData?.variations
+    ) {
+      for (const v of this.product.catalogData.variations.products) {
+        if (v.stockStatus === 'instock') {
+          this.selectedId = v.id.toString();
+          break;
+        }
+      }
+    }
+  },
+  methods: {
+    stringifyPrice(price: number, taxClass: string): string {
+      return this.priceFormatter.format(this.taxApplier(price, taxClass));
     },
     increaseQuantity(amount: number): void {
       this.quantity += amount;
@@ -310,20 +281,6 @@ export default defineComponent({
         this.quantity = 1;
       }
     },
-  },
-  mounted(): void {
-    if (this.jvmWishListExists) {
-      JVMWooCommerceWishlist!.build();
-    }
-
-    if (this.productType === 'variable' && this.attributeList !== undefined) {
-      for (const v of this.attributeList.variations) {
-        if (v.stockStatus === 'instock') {
-          this.selectedId = v.variation.toString();
-          break;
-        }
-      }
-    }
   },
 });
 </script>

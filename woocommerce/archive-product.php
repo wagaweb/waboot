@@ -46,13 +46,12 @@ if (defined('WB_CATALOG_BASEURL')) {
 //        'enableOrder' => false,
 //        'enablePriceFilter' => false,
 //        'showAddToCartBtn' => false,
-        'layoutMode' => 'block', // 'block', header' or 'sidebar'
+        'layoutMode' => 'sidebar', // 'block', header' or 'sidebar'
 //        'teleportSidebar' => '.aside__wrapper',
 //        'ga4' => [
 //            'enabled' => true,
 //            'listId' => sanitize_title(\Waboot\addons\packages\catalog\getGtagListName()),
 //            'listName' => \Waboot\addons\packages\catalog\getGtagListName(),
-//            'brandFallback' => get_bloginfo('name'),
 //        ],
     ];
 

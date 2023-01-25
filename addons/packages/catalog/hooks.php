@@ -23,7 +23,6 @@ function renderSimpleCatalogInWoocommerceBlock(string $html, object $data, \WC_P
                     'enabled' => true,
                     'listId' => sanitize_title(getGtagListName()),
                     'listName' => getGtagListName(),
-                    'brandFallback' => get_bloginfo('name'),
                 ],
             ]
         )

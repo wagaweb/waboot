@@ -178,10 +178,13 @@
           :key="`product-${product.id}`"
           :host="config.baseUrl"
           :product="product"
+          :price-formatter="priceFormatter"
+          :tax-applier="taxApplier"
           :show-add-to-cart-btn="config.showAddToCartBtn"
           :show-quantity-input="config.showQuantityInput"
-          @addToCart="addToCart($event, i)"
-          @viewDetails="viewDetails($event, i)"
+          @addToCart="addToCartHandle($event, i)"
+          @viewDetails="viewDetailsHandle($event, i)"
+          @addToWishlist="addToWishlistHandle($event, i)"
         ></CatalogItem>
       </div>
       <h4
@@ -268,8 +271,12 @@ export default defineComponent({
       loadProductCount,
       loadPriceRange,
       loadAllTaxonomies,
-      addToCart,
-      viewDetails,
+      addToCartHandle,
+      viewDetailsHandle,
+      addToWishlistHandle,
+      // data
+      priceFormatter,
+      taxApplier,
     } = useCatalog(props.config);
 
     const loadingCatalog = ref<boolean>(true);
@@ -381,7 +388,7 @@ export default defineComponent({
     const onFilterListToggle = (
       tax: string,
       term: Term,
-      checked: boolean
+      checked: boolean,
     ): void => {
       const taxRef = taxRefs.get(tax);
       if (taxRef === undefined) {
@@ -409,7 +416,7 @@ export default defineComponent({
     const onFilterListToggleAndReload = async (
       tax: string,
       term: Term,
-      checked: boolean
+      checked: boolean,
     ): Promise<void> => {
       onFilterListToggle(tax, term, checked);
       resetCatalogScroll();
@@ -421,7 +428,7 @@ export default defineComponent({
     };
 
     const onPriceRangeSliderChangeAndReload = async (
-      values: number[]
+      values: number[],
     ): Promise<void> => {
       onPriceRangeSliderChange(values);
       resetCatalogScroll();
@@ -516,8 +523,12 @@ export default defineComponent({
       onPriceRangeSliderChangeAndReload,
       onLoadMoreClick,
       onLoadLessClick,
-      addToCart,
-      viewDetails,
+      addToCartHandle,
+      viewDetailsHandle,
+      addToWishlistHandle,
+      // data
+      priceFormatter,
+      taxApplier,
     };
   },
 });

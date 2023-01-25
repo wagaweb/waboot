@@ -45,7 +45,6 @@ export class CatalogConfig {
     enabled: boolean;
     listId?: string;
     listName?: string;
-    brandFallback?: string;
   };
   // layout
   productsPerPage: number;
@@ -57,6 +56,7 @@ export class CatalogConfig {
   enablePriceFilter: boolean;
   showAddToCartBtn: boolean;
   showQuantityInput: boolean;
+  pricesIncludeTax: boolean;
 
   constructor(data: any) {
     if (typeof data !== 'object' || data === null) {
@@ -145,13 +145,6 @@ export class CatalogConfig {
         );
       }
       this.ga4.listName = String(data.ga4.listName);
-
-      if (data.ga4.brandFallback === undefined) {
-        throw new Error(
-          '`ga4.brandFallback`: parameter is required when ga4 is enabled',
-        );
-      }
-      this.ga4.brandFallback = String(data.ga4.brandFallback);
     } else if (data.ga4 !== undefined) {
       throw new Error('`ga4`: invalid object');
     }
@@ -169,6 +162,7 @@ export class CatalogConfig {
     this.enablePriceFilter = Boolean(data.enablePriceFilter ?? true);
     this.showAddToCartBtn = Boolean(data.showAddToCartBtn ?? false);
     this.showQuantityInput = Boolean(data.showQuantityInput ?? false);
+    this.pricesIncludeTax = Boolean(data.pricesIncludeTax ?? true);
   }
 }
 
@@ -180,18 +174,46 @@ type TaxRef = UnwrapRef<{
   loading: boolean;
 }>;
 
+export type TaxApplier = (price: number, taxClass: string) => number;
+
+function createTaxApplier(pricesIncludeTax: boolean): TaxApplier {
+  if (pricesIncludeTax) {
+    return (price: number, _taxClass: string): number => price;
+  }
+
+  return (price: number, taxClass: string): number => {
+    switch (taxClass) {
+      case '':
+      case 'Standard':
+        return price * 1.22;
+      case 'iva-10':
+        return price * 1.1;
+      case 'iva-0':
+      default:
+        return price;
+    }
+  };
+}
+
 export function useCatalog(config: CatalogConfig) {
   const client: WcserviceClient = new WcserviceClient(config.apiBaseUrl);
   client.setLanguage(config.language);
 
-  let ga4: GA4 | undefined = undefined;
-  if (config.ga4.enabled) {
-    ga4 = new GA4(
-      config.ga4.listId ?? '',
-      config.ga4.listName ?? '',
-      config.ga4.brandFallback,
-    );
-  }
+  // todo: create tax applier based on configuration and current country
+  const taxApplier = createTaxApplier(config.pricesIncludeTax);
+
+  // todo: configure based on language and currency
+  const priceFormatter = new Intl.NumberFormat('it-IT', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+
+  const ga4 = new GA4(
+    config.ga4.listId ?? '',
+    config.ga4.listName ?? '',
+    taxApplier,
+    config.ga4.enabled,
+  );
 
   const products: Ref<Product[]> = ref([]);
   const count: Ref<number> = ref(0);
@@ -234,7 +256,9 @@ export function useCatalog(config: CatalogConfig) {
   });
 
   const previousPage = computed<number>(() => {
-    return page.value - Math.ceil(products.value.length / config.productsPerPage);
+    return (
+      page.value - Math.ceil(products.value.length / config.productsPerPage)
+    );
   });
 
   const readQueryString = (): void => {
@@ -360,8 +384,8 @@ export function useCatalog(config: CatalogConfig) {
       offset: limit * (page.value - 1),
       query: productQuery,
       order: order.value,
-      postMetaIn: ['_sku', '_wc_average_rating', '_attribute_list'],
-      taxonomiesIn: ['product_cat', 'product_type'],
+      postMetaIn: [],
+      taxonomiesIn: ['product_cat'],
     };
   };
 
@@ -376,20 +400,23 @@ export function useCatalog(config: CatalogConfig) {
     products.value = await client.findProducts(query);
     loadingProducts.value = false;
 
-    if (ga4) {
-      ga4.viewItemList(products.value, 0);
-    }
+    ga4.viewItemList(
+      Array.from(products.value.entries()).map(([idx, p]) => ({ idx, p })),
+    );
   };
 
   const loadMoreProducts = async (query: CatalogQuery): Promise<void> => {
     loadingMoreProducts.value = true;
-    const startIndex = products.value.length;
-    products.value = products.value.concat(await client.findProducts(query));
+    const newProducts = await client.findProducts(query);
+    products.value = products.value.concat(newProducts);
     loadingMoreProducts.value = false;
 
-    if (ga4) {
-      ga4.viewItemList(products.value, startIndex);
-    }
+    ga4.viewItemList(
+      Array.from(newProducts.entries()).map(([idx, p]) => ({
+        idx: products.value.length + idx,
+        p,
+      })),
+    );
   };
 
   const loadLessProducts = async (query: CatalogQuery): Promise<void> => {
@@ -400,14 +427,18 @@ export function useCatalog(config: CatalogConfig) {
     query = cloneDeep(query);
     loadingMoreProducts.value = true;
     const startIndex = config.productsPerPage * (previousPage.value - 1);
-    query.offset = startIndex
-    products.value.unshift(...await client.findProducts(query));
+    query.offset = startIndex;
+    const newProducts = await client.findProducts(query);
+    products.value.unshift(...newProducts);
     loadingMoreProducts.value = false;
 
-    if (ga4) {
-      ga4.viewItemList(products.value, startIndex);
-    }
-  }
+    ga4.viewItemList(
+      Array.from(newProducts.entries()).map(([idx, p]) => ({
+        idx: startIndex + idx,
+        p,
+      })),
+    );
+  };
 
   const loadTaxonomy = async (
     tax: string,
@@ -471,16 +502,29 @@ export function useCatalog(config: CatalogConfig) {
     loadingPriceRange.value = false;
   };
 
-  const addToCart = (product: Product, index: number): void => {
-    if (ga4) {
-      ga4.addToCart(product, index);
-    }
+  const addToCartHandle = (
+    event: { product: Product; selectedId: string; quantity: number },
+    index: number,
+  ): void => {
+    const p = event.product;
+    const v = event.selectedId;
+    const qty = event.quantity;
+    if (p.type === 'variable' && p.id === v) return;
+    ga4.addToCart(p, p.id === v ? undefined : v, index, qty);
   };
 
-  const viewDetails = (product: Product, index: number): void => {
-    if (ga4) {
-      ga4.selectItem(product, index);
-    }
+  const viewDetailsHandle = (
+    event: { product: Product },
+    index: number,
+  ): void => {
+    ga4.selectItem(event.product, undefined, index);
+  };
+
+  const addToWishlistHandle = (
+    event: { product: Product },
+    index: number,
+  ): void => {
+    ga4.addToWishlist(event.product, undefined, index);
   };
 
   return {
@@ -511,7 +555,11 @@ export function useCatalog(config: CatalogConfig) {
     loadPriceRange,
     loadTaxonomy,
     loadAllTaxonomies,
-    addToCart,
-    viewDetails,
+    addToCartHandle,
+    viewDetailsHandle,
+    addToWishlistHandle,
+    // data
+    priceFormatter,
+    taxApplier,
   };
 }

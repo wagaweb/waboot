@@ -187,9 +187,10 @@ function updateCatalogProductMetadata(\WC_Product $p): void
         return;
     }
 
-    uasort($variations, fn($a, $b) => (float)$a->get_price('edit') - (float)$b->get_price('edit'));
-    $first = $variations[array_key_first($variations)];
-    $last = $variations[array_key_last($variations)];
+    $variationsClone = $variations;
+    uasort($variationsClone, fn($a, $b) => (float)$a->get_price('edit') - (float)$b->get_price('edit'));
+    $first = $variationsClone[array_key_first($variationsClone)];
+    $last = $variationsClone[array_key_last($variationsClone)];
 
     $catalogData = [
         'minPrice' => (float)$first->get_price('edit'),
@@ -278,15 +279,17 @@ function updateCatalogProductMetadata(\WC_Product $p): void
         'products' => [],
     ];
     foreach ($variations as $v) {
-        $catalogData['variations']['products'][$v->get_id()] = [
+        $attrTerm = get_post_meta($v->get_id(), 'attribute_' . $attrName, true);
+        $catalogData['variations']['products'][] = [
             'id' => $v->get_id(),
             'sku' => $v->get_sku(),
             'name' => $v->get_name(),
+            'attributeTerm' => $attrTerm,
             'price' => (float)$v->get_price('edit'),
             'basePrice' => (float)$v->get_regular_price('edit'),
             'taxClass' => $v->get_tax_class(),
             'stockStatus' => $v->get_stock_status(),
-            'data' => $termValues[get_post_meta($v->get_id(), 'attribute_' . $attrName, true)] ?? null,
+            'data' => $termValues[$attrTerm] ?? null,
         ];
     }
 
