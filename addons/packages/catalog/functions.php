@@ -280,6 +280,11 @@ function updateCatalogProductMetadata(\WC_Product $p): void
     ];
     foreach ($variations as $v) {
         $attrTerm = get_post_meta($v->get_id(), 'attribute_' . $attrName, true);
+        $data = $termValues[$attrTerm] ?? null;
+        if (!$data) {
+            continue;
+        }
+
         $catalogData['variations']['products'][] = [
             'id' => $v->get_id(),
             'sku' => $v->get_sku(),
@@ -289,7 +294,7 @@ function updateCatalogProductMetadata(\WC_Product $p): void
             'basePrice' => (float)$v->get_regular_price('edit'),
             'taxClass' => $v->get_tax_class(),
             'stockStatus' => $v->get_stock_status(),
-            'data' => $termValues[$attrTerm] ?? null,
+            'data' => $data,
         ];
     }
 

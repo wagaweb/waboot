@@ -41,7 +41,7 @@
     </div>
     <span class="price">
       <template v-if="product.stockStatus === 'instock'">
-        <span v-if="product.minPrice > product.maxPrice" class="price__from">
+        <span v-if="product.maxPrice > product.minPrice" class="price__from">
           {{ $t('from') }}&nbsp;
         </span>
         <template v-if="product.minPrice < product.minBasePrice">
@@ -122,7 +122,9 @@
       <a
         v-if="
           product.type !== 'variable' ||
-          (product.type === 'variable' && product.catalogData?.variations)
+          (product.type === 'variable' &&
+            product.catalogData?.variations &&
+            product.catalogData.variations.products.length > 0)
         "
         :href="`?add-to-cart=${selectedId}`"
         :data-quantity="quantity"
@@ -134,7 +136,12 @@
       >
         {{ $t('addToCart') }}
       </a>
-      <a v-else :href="`${host}/?p=${product.id}`" class="button">
+      <a
+        v-else
+        :href="`${host}/?p=${product.id}`"
+        class="button"
+        @click="$emit('viewDetails', { product })"
+      >
         {{ $t('showProduct') }}
       </a>
     </template>
