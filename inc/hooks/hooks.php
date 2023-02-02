@@ -124,7 +124,7 @@ function ignoreStickyPostInArchives($query){
 add_action('pre_get_posts', __NAMESPACE__.'\\ignoreStickyPostInArchives');
 
 /**
- * Eneble Additional File Types to be Uploaded
+ * Enable Additional File Types to be Uploaded
  */
 add_filter('upload_mimes', function ($mime_types){
     $mime_types['svg'] = 'image/svg+xml'; //Adding svg extension
@@ -146,7 +146,7 @@ add_filter( 'wp_check_filetype_and_ext', function ( $types, $file, $filename, $m
 }, 99, 4 );
 
 /**
- * Eneble Custom CSS Permission
+ * Enable Custom CSS Permission
  */
 add_filter( 'map_meta_cap', function( $caps, $cap ) {
     if ( 'edit_css' === $cap && is_multisite() ) {
