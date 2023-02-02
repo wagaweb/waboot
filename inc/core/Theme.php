@@ -3,7 +3,7 @@
 namespace Waboot\inc\core;
 
 use Waboot\inc\core\mvc\HTMLView;
-use function Waboot\inc\getDefaultTimeZoneName;
+use Waboot\inc\core\utils\Dates;
 
 class Theme{
 	public const LOG_LEVEL_DEBUG = 0;
@@ -127,7 +127,7 @@ class Theme{
 	{
 		try{
 			if($dz === null){
-				$dz = new \DateTimeZone(getDefaultTimeZoneName());
+				$dz = new \DateTimeZone(Dates::getDefaultDateTimeZone());
 			}
 			$logger = $this->registeredFileLoggers[$loggerIdentifier] ?? null;
 			if($logger === null){

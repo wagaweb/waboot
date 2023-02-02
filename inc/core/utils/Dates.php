@@ -11,6 +11,9 @@ class Dates
      */
     public static function getToday(\DateTimeZone $tz = null): \DateTime
     {
+		if($tz === null){
+			$tz = self::getDefaultDateTimeZone();
+		}
         return new \DateTime('now', $tz);
     }
 
