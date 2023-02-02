@@ -4,8 +4,6 @@ namespace Waboot\inc\core\multilanguage\helpers;
 
 class Polylang
 {
-    use PolyLangWooCommerce;
-
     /**
      * @return bool
      */
