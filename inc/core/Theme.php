@@ -122,7 +122,7 @@ class Theme{
     {
         try{
             if($dz === null){
-                $dz = new \DateTimeZone(Dates::getDefaultDateTimeZone());
+                $dz = Dates::getDefaultDateTimeZone();
             }
             $logger = $this->registeredFileLoggers[$loggerIdentifier] ?? null;
             if($logger === null){
