@@ -12,6 +12,7 @@ require_once get_template_directory().'/inc/bootstrap.php';
  */
 //Loads additional files:
 $additionalDeps = [
+	'inc/multilanguage-functions.php',
     //'inc/hooks/woocommerce.php',
 ];
 \Waboot\inc\core\safeRequireFiles($additionalDeps);
