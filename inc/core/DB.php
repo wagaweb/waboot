@@ -55,6 +55,7 @@ class DB
     }
 
     /**
+     * @see: https://laravel.com/docs/7.x/queries
      * @throws DBException
      * @return Manager
      */
