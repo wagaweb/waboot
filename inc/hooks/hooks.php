@@ -48,21 +48,30 @@ add_action('init', static function(){
 /**
  * Disable user enumeration by removing author sitemap
  */
-add_filter('wp_sitemaps_add_provider', function( $provider, $name ) {
+add_filter('wp_sitemaps_add_provider', function($provider, $name){
     if('users' === $name){
         return false;
     }
     return $provider;
-}, 10, 2 );
+}, 10, 2);
 
 /**
  * Disable user enumeration by removing author url from oembed
  */
-add_filter( 'oembed_response_data',function( $data ) {
+add_filter( 'oembed_response_data',function($data){
     unset($data['author_url']);
     return $data;
 }, 10, 1 );
 
+/**
+ * Disable user enumeration by removing author canonical redirect
+ */
+add_filter('redirect_canonical', static function($redirect, $request) {
+    if(is_author()){
+        return false;
+    }
+    return $redirect;
+}, 10, 2);
 
 /**
  * Fix Login Error Check
