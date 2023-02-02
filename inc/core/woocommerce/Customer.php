@@ -4,27 +4,27 @@ namespace Waboot\inc\core\woocommerce;
 
 class Customer
 {
-    /**
-     * @var \WC_Customer
-     */
-    private $wcCustomer;
-    /**
-     * @var ShippingAddress
-     */
-    private $currentShippingAddress;
+    private ?int $id = null;
+    private \WC_Customer $wcCustomer;
+    private ?ShippingAddress $currentShippingAddress = null;
 
     /**
      * Customer constructor.
-     * @param $userId
+     * @param int|null $userId
      * @throws \RuntimeException
      */
-    public function __construct($userId)
+    public function __construct(int $userId = null)
     {
         try{
-            $customer = new \WC_Customer($userId);
+            if($userId !== null){
+                $customer = new \WC_Customer($userId);
+                $this->id = $userId;
+            }else{
+                $customer = new \WC_Customer();
+            }
             $this->wcCustomer = $customer;
-        }catch (\Exception $e){
-            throw new \RuntimeException('Invalid userId');
+        }catch (\Exception | \Throwable $e){
+            throw new \RuntimeException($e->getMessage());
         }
     }
 
@@ -37,9 +37,17 @@ class Customer
     }
 
     /**
+     * @return int|null
+     */
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    /**
      * @return ShippingAddress
      */
-    public function getCurrentShippingAddress(): ShippingAddress
+    public function getCurrentShippingAddress(): ?ShippingAddress
     {
         return $this->currentShippingAddress;
     }
@@ -58,5 +66,36 @@ class Customer
     public function fetchCurrentShippingAddress(): void
     {
         $this->currentShippingAddress = ShippingAddress::fromCustomer($this);
+    }
+
+    /**
+     * @return bool
+     */
+    public function isNew(): bool
+    {
+        return $this->getId() !== null && $this->getId() !== 0;
+    }
+
+    /**
+     * @return int
+     */
+    public function save(): int
+    {
+        if($this->getCurrentShippingAddress() !== null){
+            $sa = $this->getCurrentShippingAddress();
+            $this->getWcCustomer()->set_shipping_first_name($sa->getFirstName());
+            $this->getWcCustomer()->set_shipping_last_name($sa->getLastName());
+            $this->getWcCustomer()->set_shipping_address_1($sa->getAddress1());
+            $this->getWcCustomer()->set_shipping_address_2($sa->getAddress2());
+            $this->getWcCustomer()->set_shipping_company($sa->getCompany());
+            $this->getWcCustomer()->set_shipping_city($sa->getCity());
+            $this->getWcCustomer()->set_shipping_postcode($sa->getPostCode());
+            $this->getWcCustomer()->set_shipping_country($sa->getCountry());
+        }
+        $id = $this->getWcCustomer()->save();
+        if($this->isNew()){
+            $this->id = $id;
+        }
+        return $id;
     }
 }
