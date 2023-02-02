@@ -2,19 +2,21 @@
 
 namespace Waboot\inc\core;
 
-use Symfony\Component\Yaml\Yaml;
 use Waboot\inc\core\mvc\HTMLView;
-use Waboot\inc\core\utils\Utilities;
+use Waboot\inc\core\utils\Dates;
 
 class Theme{
-    /**
-     * @var Layout
-     */
-    private $layoutHandler;
-    /**
-     * @var AssetsManager
-     */
-    private $assetsManager;
+    public const LOG_LEVEL_DEBUG = 0;
+    public const LOG_LEVEL_INFO = 1;
+    public const LOG_LEVEL_NOTICE = 2;
+    public const LOG_LEVEL_WARNING = 3;
+    public const LOG_LEVEL_ERROR = 4;
+    public const LOG_LEVEL_CRITICAL = 5;
+    public const LOG_LEVEL_ALERT = 6;
+    public const LOG_LEVEL_EMERGENCY = 7;
+    private ?Layout $layoutHandler = null;
+    private ?AssetsManager $assetsManager = null;
+    private array $registeredFileLoggers;
 
     public function __construct(AssetsManager $assetsManager, Layout $layout)
     {
@@ -106,5 +108,54 @@ class Theme{
         }catch (\Exception | \Throwable $e){
             throw new ThemeException($e->getMessage());
         }
+    }
+
+    /**
+     * @param string $loggerIdentifier
+     * @param string $logMessage
+     * @param int $logLevel
+     * @param array $context
+     * @param \DateTimeZone|null $dz
+     * @return void
+     */
+    public function logToFile(string $loggerIdentifier, string $logMessage, int $logLevel = self::LOG_LEVEL_INFO, array $context = [], \DateTimeZone $dz = null)
+    {
+        try{
+            if($dz === null){
+                $dz = new \DateTimeZone(Dates::getDefaultDateTimeZone());
+            }
+            $logger = $this->registeredFileLoggers[$loggerIdentifier] ?? null;
+            if($logger === null){
+                $logFile = WP_CONTENT_DIR.'/logs/'.$loggerIdentifier.'-'.(new \DateTime('now', $dz))->format('Y-m-d').'.log';
+                $logger = LoggerFactory::create($loggerIdentifier, $logFile);
+                $this->registeredFileLoggers[$loggerIdentifier] = $logger;
+            }
+            switch($logLevel){
+                case self::LOG_LEVEL_DEBUG:
+                    $logger->debug($logMessage,$context);
+                    break;
+                case self::LOG_LEVEL_INFO:
+                    $logger->info($logMessage,$context);
+                    break;
+                case self::LOG_LEVEL_NOTICE:
+                    $logger->notice($logMessage,$context);
+                    break;
+                case self::LOG_LEVEL_WARNING:
+                    $logger->warning($logMessage,$context);
+                    break;
+                case self::LOG_LEVEL_ERROR:
+                    $logger->error($logMessage,$context);
+                    break;
+                case self::LOG_LEVEL_CRITICAL:
+                    $logger->critical($logMessage,$context);
+                    break;
+                case self::LOG_LEVEL_ALERT:
+                    $logger->alert($logMessage,$context);
+                    break;
+                case self::LOG_LEVEL_EMERGENCY:
+                    $logger->emergency($logMessage,$context);
+                    break;
+            }
+        }catch (\Exception | \Throwable $e){}
     }
 }
