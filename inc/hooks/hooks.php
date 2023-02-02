@@ -64,6 +64,16 @@ add_filter( 'oembed_response_data',function( $data ) {
 }, 10, 1 );
 
 /**
+ * Disable user enumeration by removing author canonical redirect
+ */
+add_filter('redirect_canonical', static function($redirect, $request) {
+	if(is_author()){
+		return false;
+	}
+	return $redirect;
+}, 10, 2);
+
+/**
  * Fix Login Error Check
  */
 add_filter('login_errors', function($message) {
