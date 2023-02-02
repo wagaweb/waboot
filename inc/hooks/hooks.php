@@ -146,7 +146,7 @@ add_filter( 'wp_check_filetype_and_ext', function ( $types, $file, $filename, $m
 }, 99, 4 );
 
 /**
- * Eneble Custom CSS Permission
+ * Enable Custom CSS Permission
  */
 add_filter( 'map_meta_cap', function( $caps, $cap ) {
     if ( 'edit_css' === $cap && is_multisite() ) {
@@ -156,7 +156,7 @@ add_filter( 'map_meta_cap', function( $caps, $cap ) {
 }, 20, 2 );
 
 /**
- * Eneble HTML Block Permission
+ * Enable HTML Block Permission
  */
 add_filter( 'map_meta_cap', function( $caps, $cap ) {
     if ( 'unfiltered_html' === $cap && is_multisite() ) {
