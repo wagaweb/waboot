@@ -63,6 +63,9 @@ class Dates
     {
         if(function_exists('wp_timezone_string')){
             $tz = wp_timezone_string();
+            if(!self::isValidTimezone($tz)){
+                $tz = date_default_timezone_get() ?? 'UTC';
+            }
         }else{
             $tz = date_default_timezone_get() ?? 'UTC';
         }
