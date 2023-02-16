@@ -61,8 +61,8 @@ class Dates
      */
     public static function getDefaultDateTimeZone(): \DateTimeZone
     {
-        if(function_exists('wc_timezone_string')){
-            $tz = wc_timezone_string();
+        if(function_exists('wp_timezone_string')){
+            $tz = wp_timezone_string();
         }else{
             $tz = date_default_timezone_get() ?? 'UTC';
         }
