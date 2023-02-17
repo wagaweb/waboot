@@ -16,6 +16,7 @@ jQuery(document).ready(function($) {
 
     asideBodyClass();
     scrollToAnimate();
+    youTubeNoCookieChangeUrl();
 
     $(window).on("load",function(){
         if (window.matchMedia('(max-width: 991px)').matches) {
@@ -55,5 +56,32 @@ function scrollToAnimate(){
                 scrollTop: target.offset().top - $header
             }, 1000);
         }
+    });
+}
+
+function youTubeNoCookieChangeUrl() {
+    let $ = jQuery;
+    self.addEventListener('fetch', event => {
+        if (event.request.mode === 'navigate' && event.preloadResponse) {
+            event.respondWith((async () => {
+                const response = await event.preloadResponse;
+                if (response) {
+                    return response;
+                }
+                // If there is no response, fetch the request normally.
+                return fetch(event.request);
+            })());
+            event.waitUntil((async () => {
+                const response = await event.preloadResponse;
+                // Here you can add any custom logic to handle the preloaded response
+                console.log('Preloaded navigation response:', response);
+            })());
+        }
+    });
+
+    $("iframe[src^='https://www.youtube.com/']").each(function() {
+        var oldSrc = $(this).attr("src");
+        var newSrc = oldSrc.replace("https://www.youtube.com/", "https://www.youtube-nocookie.com/");
+        $(this).attr("src", newSrc);
     });
 }
