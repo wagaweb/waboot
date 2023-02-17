@@ -3,6 +3,7 @@
 namespace Waboot\inc\core\woocommerce;
 
 use Waboot\inc\core\utils\Terms;
+use Waboot\inc\core\utils\Utilities;
 use function Waboot\inc\adjustPriceMeta;
 use function Waboot\inc\adjustProductStockStatus;
 use function Waboot\inc\getProductType;
@@ -349,16 +350,15 @@ class Product
      */
     public function getFirstTerm(string $taxonomyName): ?\WP_Term
     {
-        $terms = $this->getTerms($taxonomyName, true);
+        $terms = Utilities::getPostTermsHierarchical($this->getId(),$taxonomyName,[],true,true);
         if(!\is_array($terms) || count($terms) <= 0){
             return null;
         }
-        $terms = array_reverse($terms);
-        $term = array_shift($terms);
-        if(!$term instanceof \WP_Term){
-            return null;
+        $t0 = $terms[0];
+        if($t0 instanceof \stdClass){
+            $t0 = \WP_Term::get_instance($t0->term_id,$t0->taxonomy);
         }
-        return $term;
+        return $t0;
     }
 
     /**
