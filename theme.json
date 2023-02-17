@@ -14,19 +14,6 @@
       "textDecoration": false,
       "textTransform": false
     },
-    "color": {
-      "background": false,
-      "custom": false,
-      "customDuotone": false,
-      "customGradient": false,
-      "defaultGradients": false,
-      "defaultPalette": false,
-      "duotone": [],
-      "gradients": [],
-      "link": false,
-      "palette": [],
-      "text": false
-    },
     "layout": {
       "contentSize": "840px",
       "wideSize": "1400px"
