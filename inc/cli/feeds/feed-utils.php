@@ -7,7 +7,7 @@ namespace Waboot\inc\cli\feeds;
  * @return string
  */
 function getGShoppingDescription(\WC_Product $product): string{
-    return trim(preg_replace('/\s+/', ' ', $product->get_description()));
+    return strip_tags(trim(preg_replace('/\s+/', ' ', $product->get_description())));
 }
 
 /**
