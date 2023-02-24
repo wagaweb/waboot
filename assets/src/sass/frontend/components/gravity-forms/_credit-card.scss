@@ -1,0 +1,78 @@
+/* Credit card field styles. */
+.gform_wrapper {
+  .gfield_creditcard_warning {
+    background-color: rgba(255, 223, 224, 0.25);
+    border-bottom: 4px solid $colorWarning;
+    border-top: 2px solid $colorWarning;
+    padding: 16px;
+    &_message {
+      color: $colorWarning;
+      font-family: inherit;
+      font-size: 16px;
+      font-weight: 700;
+      min-height: 32px;
+      position: relative;
+      span {
+        background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAxOS4xLjAsIFNWRyBFeHBvcnQgUGx1Zy1JbiAuIFNWRyBWZXJzaW9uOiA2LjAwIEJ1aWxkIDApICAtLT4NCjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+DQo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4Ig0KCSB2aWV3Qm94PSItMTA2NyAyODY1IDI0IDMyIiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IC0xMDY3IDI4NjUgMjQgMzI7IiB4bWw6c3BhY2U9InByZXNlcnZlIj4NCjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+DQoJLnN0MHtmaWxsOiM3OTAwMDA7fQ0KPC9zdHlsZT4NCjxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik0tMTA1MywyODY1Yy01LjUsMC0xMCw0LjUtMTAsMTBoNGMwLTMuMywyLjctNiw2LTZjMy4zLDAsNiwyLjcsNiw2djJoLTIwdjE0YzAsMy4zLDIuNyw2LDYsNmgxMg0KCWMzLjMsMCw2LTIuNyw2LTZ2LTE2Qy0xMDQzLDI4NjkuNS0xMDQ3LjUsMjg2NS0xMDUzLDI4NjV6IE0tMTA0OSwyODkzaC0xMmMtMS4xLDAtMi0wLjktMi0ydi0xMGgxNnYxMA0KCUMtMTA0NywyODkyLjEtMTA0Ny45LDI4OTMtMTA0OSwyODkzeiBNLTEwNTMsMjg4N2MwLDEuMS0wLjksMi0yLDJzLTItMC45LTItMmMwLTEuMSwwLjktMiwyLTJTLTEwNTMsMjg4NS45LTEwNTMsMjg4N3oiLz4NCjwvc3ZnPg0K);
+        background-position: 0 3.2px;
+        background-repeat: no-repeat;
+        background-size: 24px 16px;
+        border-bottom: 1px solid $colorWarning;
+        display: block;
+        letter-spacing: 0.1pt;
+        margin-bottom: 16px;
+        padding: 0 0 16px 24px;
+        text-transform: uppercase;
+      }
+    }
+  }
+  .ginput {
+    &_cardextras {
+      display: flex;
+      flex-wrap: wrap;
+    }
+    &_complex &_cardinfo_right input {
+      max-width: 112px;
+      width: 30%;
+    }
+    &_card_expiration_container {
+      display: flex;
+      flex-wrap: wrap;
+    }
+    &_card_expiration_month {
+      flex: 1;
+      margin-right: 16px;
+    }
+    &_card_expiration_year {
+      flex: 1;
+    }
+  }
+  @include down($medium) {
+    .ginput_card_expiration {
+      flex: none;
+      &_month {
+        margin-bottom: 8px;
+      }
+    }
+  }
+  .ginput_cardinfo {
+    &_right,
+    &_left {
+      label,
+      legend {
+        flex: 1 1 100%;
+      }
+    }
+  }
+  fieldset.ginput_cardinfo_left {
+    display: flex;
+    flex-direction: column;
+    legend {
+      float: left;
+      padding-top: 5px;
+    }
+    .field_sublabel_below & {
+      flex-direction: column-reverse;
+    }
+  }
+}

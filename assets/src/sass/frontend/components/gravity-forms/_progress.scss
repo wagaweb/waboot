@@ -1,0 +1,39 @@
+/* Progress bar */
+.gform_wrapper {
+  .gf_progressbar {
+    background: $colorGrey;
+    border-radius: 100px;
+    margin-bottom: 15px;
+    position: relative;
+    &_title {
+      color: $colorText;
+      font-size: .85em;
+      font-weight: $fontWeightBold;
+      margin: 0 0 5px 0;
+    }
+    &_percentage {
+      background-color: $colorPrimary;
+      border-radius: 10.5px;
+      height: 20.992px;
+      text-align: right;
+      vertical-align: middle;
+      &:not(.percentbar_100) {
+        border-radius: 10.5px 0 0 10.5px;
+      }
+      span {
+        color: $colorWhite;
+        font-size: 0.85em;
+        font-weight: $fontWeightBold;
+        line-height: 1;
+        margin-right: 8px;
+      }
+      &.percentbar_blue {
+        align-items: center;
+        background-color: $colorPrimary;
+        color: $colorWhite;
+        display: flex;
+        justify-content: flex-end;
+      }
+    }
+  }
+}

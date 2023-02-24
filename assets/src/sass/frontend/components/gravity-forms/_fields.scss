@@ -1,0 +1,112 @@
+.gform_wrapper .gfield {
+  textarea {
+    width: 100%;
+    &.small {
+      height: 96px;
+    }
+    &.medium {
+      height: 192px;
+    }
+    &.large {
+      height: 288px;
+    }
+  }
+  input,
+  select {
+    max-width: 100%;
+    &.small {
+      width: calc(25% - 16px * 3 / 4);
+    }
+    &.medium {
+      width: calc(
+              50% - 16px / 2
+      ); /* default margin between complex fields is 1rem */
+    }
+    &.large {
+      width: 100%;
+    }
+  }
+}
+
+.gform_wrapper {
+  .ginput_container_select {
+    position: relative;
+    &::after {
+      content: "";
+      width: 8px;
+      height: 5px;
+      background-color: $colorText;
+      clip-path: polygon(100% 0%, 0 0%, 50% 100%);
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+  }
+}
+
+.gform_wrapper {
+  .gfield_checkbox button {
+    margin-top: 10px;
+  }
+}
+
+.gform_wrapper {
+  .ginput_container_date {
+    align-content: flex-start;
+    align-items: center;
+    display: flex;
+    input {
+      width: auto;
+    }
+    .datepicker_with_icon.large {
+      width: calc(100% - 48px);
+    }
+    img.ui-datepicker-trigger {
+      display: block;
+      margin-left: 12.8px;
+      max-height: 25.6px;
+      max-width: 25.6px;
+    }
+  }
+  .ginput_complex .ginput_container_date {
+    flex-basis: min-content;
+    flex-flow: row wrap;
+    max-width: 30%;
+    input,
+    select {
+      min-width: 84px;
+      width: 100%;
+    }
+  }
+  .gfield_chainedselect.horizontal select {
+    min-width: 100px;
+  }
+  .gform_show_password {
+    align-items: center;
+    background: transparent;
+    color: inherit;
+    display: flex;
+    height: 100%;
+    &:hover,
+    &:focus {
+      background: transparent;
+    }
+  }
+  .gfield_consent_description {
+    border: 1px solid $colorGrey;
+    border-radius: calc($radius / 2);
+    font-size: 0.8em;
+    margin-top: 8px;
+    max-height: 240px;
+    overflow-y: scroll;
+    padding: 8px;
+  }
+  .gfield .ginput_quantity {
+    width: auto;
+  }
+  .gsection {
+    border-bottom: 1px solid $colorGrey;
+    padding: 0 16px 8px 0;
+  }
+}

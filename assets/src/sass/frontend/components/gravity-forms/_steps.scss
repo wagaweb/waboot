@@ -1,0 +1,77 @@
+/* Page steps */
+.gform_wrapper {
+  .gf_page_steps {
+    align-items: center;
+    border-bottom: 1px solid $colorGrey;
+    display: flex;
+    margin-bottom: 15px;
+  }
+  .gf_step {
+    align-items: center;
+    display: flex;
+    margin: 8px 32px 8px 0;
+    &_number,
+    &_label {
+      display: table-cell;
+      vertical-align: middle;
+    }
+    &_number {
+      align-items: center;
+      background: transparent;
+      border: 2px solid $colorGrey;
+      border-radius: $radiusCircle;
+      color: $colorText;
+      display: flex;
+      font-weight: $fontWeightBold;
+      justify-content: center;
+      height: 40px;
+      text-align: center;
+      width: 40px;
+    }
+    &_active .gf_step_number {
+      background: $colorPrimary;
+      border-color: $colorPrimary;
+      color: $colorWhite;
+    }
+    &_completed .gf_step_number {
+      position: relative;
+      &::before {
+        background: $colorText;
+        border: 2px solid $colorText;
+        border-radius: $radiusCircle;
+        content: "";
+        display: table-cell;
+        height: 40px;
+        left: -2px;
+        position: absolute;
+        top: -2px;
+        width: 40px;
+      }
+      &::after {
+        align-items: center;
+        color: $colorWhite;
+        content: "\f00c";
+        display: flex;
+        font-family: "Font Awesome 5 Pro";
+        height: 100%;
+        justify-content: center;
+        left: 2px;
+        position: absolute;
+        text-align: center;
+        top: 2px;
+        width: 100%;
+        z-index: 5;
+      }
+    }
+    &_label {
+      color: inherit;
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 16px;
+      padding-left: 10px;
+    }
+    &_hidden {
+      display: none;
+    }
+  }
+}

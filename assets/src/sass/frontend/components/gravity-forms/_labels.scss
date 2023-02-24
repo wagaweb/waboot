@@ -65,6 +65,38 @@
 		padding-right: 1em;
 		text-align: right;
 	}
+    .gform_required_legend {
+        display: none;
+    }
+    &.left_label,
+    &.right_label {
+        fieldset.gfield {
+            padding: 16px 16px 16px 30%;
+            .ginput_container:not(.ginput_container_time) {
+                width: 100%;
+            }
+        }
+        legend.gfield_label {
+            left: 0;
+        }
+        .gfield:not(.gsection):not(.gfield_html):not(fieldset) {
+            justify-content: flex-start;
+        }
+        .gfield_html {
+            &.gfield_html_formatted {
+                display: flex;
+            }
+            &:not(.gfield_html_formatted) .gf-html-container {
+                width: 100%;
+            }
+        }
+    }
+    &.right_label legend.gfield_label {
+        text-align: right;
+    }
+    &:not(.top_label) .ginput_container.ginput_single_email {
+        margin-left: 0;
+    }
 }
 
 .field_sublabel_below .ginput_complex {
