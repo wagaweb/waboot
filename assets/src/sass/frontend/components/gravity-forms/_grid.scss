@@ -9,9 +9,6 @@
         grid-template-columns: repeat(12, 1fr);
         grid-template-rows: repeat(auto-fill, auto);
         width: 100%;
-        @include up($large) {
-            grid-row-gap: 40px;
-        }
     }
     .gfield {
         @include down($medium) {
@@ -70,38 +67,38 @@
         &-full {
             width: 100%;
             .gfield--width-five-sixths {
-                width: 83.3333%;
+                width: 83.33%;
             }
             .gfield--width-three-quarter {
                 width: 75%;
             }
             .gfield--width-two-thirds {
-                width: 66.6666%;
+                width: 66.66%;
             }
             .gfield--width-seven-twelfths {
-                width: 58.3333%;
+                width: 58.33%;
             }
             .gfield--width-half {
                 width: 50%;
             }
             .gfield--width-five-twelfths {
-                width: 41.6666%;
+                width: 41.66%;
             }
             .gfield--width-third {
-                width: 33.3333%;
+                width: 33.33%;
             }
             .gfield--width-quarter {
                 width: 25%;
             }
             .gfield--width-one-sixth {
-                width: 16.6666%;
+                width: 16.66%;
             }
             .gfield--width-one-twelfth {
-                width: 8.3333%;
+                width: 8.33%;
             }
         }
         &-eleven-twelfths {
-            width: 91.6666%
+            width: 91.66%
         }
     }
 }

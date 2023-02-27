@@ -14,11 +14,11 @@
     &_percentage {
       background-color: $colorPrimary;
       border-radius: 10.5px;
-      height: 20.992px;
+      height: 21px;
       text-align: right;
       vertical-align: middle;
       &:not(.percentbar_100) {
-        border-radius: 10.5px 0 0 10.5px;
+        border-radius: 10px 0 0 10px;
       }
       span {
         color: $colorWhite;

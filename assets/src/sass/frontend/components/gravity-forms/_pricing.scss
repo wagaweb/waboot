@@ -18,7 +18,7 @@
     }
     &_product_price,
     &_shipping_price {
-      color: #900;
+      color: $colorWarning;
     }
     &_total {
       appearance: none;

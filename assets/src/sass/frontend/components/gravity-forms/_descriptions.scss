@@ -1,4 +1,3 @@
-/* Styles for field descriptions. */
 .gform_wrapper {
   .description,
   .gfield_description,
@@ -7,7 +6,6 @@
     color: $colorText;
     clear: both;
     font-size: .85em;
-    padding-top: 5px;
     width: 100%;
     + .ginput_container {
       border-color: $colorGrey;
@@ -19,7 +17,7 @@
     margin-top: 12px;
     max-height: 240px;
     overflow-y: scroll;
-    padding: 6.4px 8px;
+    padding: 6px 8px;
     width: 100%;
   }
 }

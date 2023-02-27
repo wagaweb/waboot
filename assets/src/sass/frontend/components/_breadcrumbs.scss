@@ -1,5 +1,6 @@
 .breadcrumbs {
   display: flex;
+  flex-wrap: wrap;
   font-size: 0.9em;
   list-style: none;
   margin: 0 0 calc($gridGutter / 2);
