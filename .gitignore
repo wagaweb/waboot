@@ -1,6 +1,7 @@
 /vendor/
 node_modules
 addons/packages
+.DS_Store
 
 #Assets
 assets/dist/css/main.min.css
