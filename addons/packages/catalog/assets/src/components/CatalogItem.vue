@@ -3,7 +3,7 @@
     class="catalog__item product type-product instock sale product-type-simple"
   >
     <a
-      :href="`${host}/?p=${product.id}`"
+      :href="`${host}/${productLink}/${product.slug}`"
       class="woocommerce-LoopProduct-link woocommerce-loop-product__link"
       @click="$emit('viewDetails', { product })"
     >
@@ -27,8 +27,9 @@
       <span class="jvm_add_to_wishlist_text_add">Add to wishlist</span>
       <span class="jvm_add_to_wishlist_text_remove">Remove from wishlist</span>
     </a>
+    <p class="woocommerce-loop-product__category">{{ category }}</p>
     <h2 class="woocommerce-loop-product__title">
-      <a :href="`${host}/?p=${product.id}`">
+      <a :href="`${host}/${productLink}/${product.slug}`">
         {{ product.name }}
       </a>
     </h2>
@@ -138,7 +139,7 @@
       </a>
       <a
         v-else
-        :href="`${host}/?p=${product.id}`"
+        :href="`${host}/${productLink}/${product.slug}`"
         class="button"
         @click="$emit('viewDetails', { product })"
       >
@@ -166,6 +167,10 @@ export default defineComponent({
   },
   props: {
     host: {
+      type: String,
+      required: true,
+    },
+    lang: {
       type: String,
       required: true,
     },
@@ -197,6 +202,16 @@ export default defineComponent({
     };
   },
   computed: {
+    productLink(): string {
+      switch (this.lang) {
+        case 'it-IT' :
+          return 'p';
+        case 'en-GB' :
+          return 'en/p';
+        default :
+          return 'p';
+      }
+    },
     category(): string | undefined {
       let cat = this.product.taxonomies['product_cat']?.[0];
       if (!cat) {

@@ -22,6 +22,7 @@ try{
         'inc/hooks/woocommerce/woocommerce-checkout.php',
         'inc/hooks/woocommerce/woocommerce-search.php',
         'inc/hooks/woocommerce/woocommerce-wishlist.php',
+        'inc/hooks/woocommerce/woocommerce-order.php',
         'inc/cli.php',
     ];
     \Waboot\inc\core\safeRequireFiles($additionalDeps);

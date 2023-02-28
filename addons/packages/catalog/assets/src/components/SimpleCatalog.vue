@@ -11,6 +11,7 @@
         :key="`product-${p.id}`"
         :host="config.baseUrl"
         :product="p"
+        :lang="config.language"
         :price-formatter="priceFormatter"
         :tax-applier="taxApplier"
         :show-add-to-cart-btn="config.showAddToCartBtn"
