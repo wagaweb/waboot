@@ -3,7 +3,8 @@ import {initHeader} from './frontend/header';
 import { Slidein } from "./frontend/slidein.js";
 import Cart from './frontend/cart.js';
 import MiniCart from './frontend/minicart.js';
-import {initCustomCheckoutActions} from './frontend/checkout.js';
+import {initCustomCheckoutActions} from '../../../addons/packages/checkout/assets/checkout.js';
+//import {initCustomCheckoutActions} from '../../../addons/packages/checkout_multistep/assets/checkout.js';
 import {alterAttributesView} from './frontend/attributes.js';
 import {enableProductGallery} from './frontend/productGallery.js';
 //import CatalogFilters from "./frontend/catalogFilters.js";
@@ -34,6 +35,7 @@ $(document).ready(function() {
 
     asideBodyClass();
     scrollToAnimate();
+    copyEmailValueOnCheckout();
 
     $("[data-slidein-nav]").slidein({
         toggler: ".slidein-nav__toggle",
@@ -141,5 +143,13 @@ function printSalePercentage(selector) {
                 '%</span>'
             );
         }
+    });
+}
+
+
+function copyEmailValueOnCheckout() {
+    $('.page-checkout .c-mail').keyup(function() {
+        let email = $(this).val();
+        $('#billing_email').val(email);
     });
 }

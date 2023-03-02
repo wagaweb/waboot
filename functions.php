@@ -32,8 +32,8 @@ try{
      */
     add_filter('waboot/addons/disabled', function(){
         return [
+            'checkout_multistep',
             //'star_rating'
-            'shop_rules' //{SHOP RULES}
         ];
     });
     \Waboot\inc\loadAddons();

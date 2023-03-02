@@ -1,5 +1,5 @@
 import $ from 'jquery';
-import {elementAvailable} from "../utils/utils";
+import {elementAvailable} from "../../../../assets/src/js/utils/utils";
 
 export function initCustomCheckoutActions(){
     hideAddressCheckoutForm();

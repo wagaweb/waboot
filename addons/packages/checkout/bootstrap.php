@@ -2,9 +2,15 @@
 
 namespace Waboot\addons\packages\checkout;
 
-use function Waboot\addons\getAddonDirectory;
+use function Waboot\addons\getAddonDirectory;use function Waboot\inc\core\Waboot;
 
 remove_action( 'woocommerce_before_checkout_form', 'woocommerce_checkout_login_form', 10 );
+
+add_action('woocommerce_before_checkout_form', function() {
+    if ( !is_user_logged_in() ) {
+        include getAddonDirectory('checkout').'/templates/login-modal.php';
+    }
+}, 2);
 
 /*
  * rename the coupon field on the checkout page
@@ -53,11 +59,11 @@ add_action('woocommerce_checkout_after_order_review_heading', function () {
     echo '</div><!-- /.order-review-wrapper -->';
 }, 20);
 
-add_action('woocommerce_before_checkout_form', function($checkout){
-    if ( $checkout->enable_signup && !is_user_logged_in() ) {
-        include getAddonDirectory('checkout').'/templates/login-step.php';
+add_action('woocommerce_checkout_billing', function(){
+    if ( !is_user_logged_in() ) {
+        include getAddonDirectory('checkout').'/templates/customer-email.php';
     }
-},20,1);
+},1);
 
 /*
  * Remove fields from WooCommerce checkout page
