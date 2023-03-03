@@ -6,8 +6,9 @@ import MiniCart from './frontend/minicart.js';
 import {initCustomCheckoutActions} from '../../../addons/packages/checkout/assets/checkout.js';
 //import {initCustomCheckoutActions} from '../../../addons/packages/checkout_multistep/assets/checkout.js';
 import {alterAttributesView} from './frontend/attributes.js';
-import {enableProductGallery} from './frontend/productGallery.js';
-//import CatalogFilters from "./frontend/catalogFilters.js";
+//import {enableProductGallery} from './frontend/productGallery.js';
+import {enableProductGallery} from './frontend/productGallerySticky.js';
+import CatalogFilters from "./frontend/catalogFilters.js";
 import {initEuVat} from "./frontend/checkout/invoicing";
 import {initCustomerCareModal} from "./frontend/modal.js";
 import {isCartPage, isCheckOutPage, isSingleProductPage} from "./utils/wp";
@@ -24,9 +25,6 @@ $(window).on('load',function(){
     if(isSingleProductPage()) {
         enableProductGallery();
     }
-    if (window.matchMedia('(max-width: 991px)').matches) {
-
-    }
 });
 
 $(document).ready(function() {
@@ -36,6 +34,12 @@ $(document).ready(function() {
     asideBodyClass();
     scrollToAnimate();
     copyEmailValueOnCheckout();
+
+    $(window).on("resize",() => {
+        if(isSingleProductPage()) {
+            enableProductGallery();
+        }
+    });
 
     $("[data-slidein-nav]").slidein({
         toggler: ".slidein-nav__toggle",
