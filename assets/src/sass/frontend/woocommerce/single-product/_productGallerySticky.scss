@@ -13,6 +13,9 @@
   .product-images__carousel.owl-carousel {
     display: block;
   }
+  .woocommerce-breadcrumb {
+    text-align: left;
+  }
   @include up($medium) {
     .main__grid {
       max-width: 100%;
@@ -52,6 +55,9 @@
       padding-left: 20px;
       padding-right: 20px;
     }
+    .woocommerce-breadcrumb {
+      padding-left: 20px;
+    }
     .related,
     .woocommerce-tabs,
     .upsells.products {
@@ -73,6 +79,9 @@
 
   @include up($large) {
     .entry-summary {
+      padding-left: 40px;
+    }
+    .woocommerce-breadcrumb {
       padding-left: 40px;
     }
   }

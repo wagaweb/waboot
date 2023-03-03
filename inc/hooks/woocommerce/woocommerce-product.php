@@ -31,7 +31,7 @@ remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_singl
 add_action( 'woocommerce_single_product_summary', function(){
     global $post;
     echo get_the_term_list( $post->ID, 'product_cat', '<p class="woocommerce-single-product__cat">', ' - ', '</p>' );
-}, 3 );
+}, 5 );
 
 
 //Change location on Product Description and Short Description
@@ -83,3 +83,6 @@ add_filter('woocommerce_sale_flash', function ($html, $post, $product) {
     return $html;
 }, 10, 3);
 
+
+remove_action('woocommerce_before_main_content', 'woocommerce_breadcrumb', 20);
+add_action('woocommerce_before_single_product_summary', 'woocommerce_breadcrumb', 30);
