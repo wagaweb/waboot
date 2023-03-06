@@ -34,7 +34,8 @@ try{
     add_filter('waboot/addons/disabled', function(){
         return [
             //'star_rating'
-            'shop_rules' //{SHOP RULES}
+            'shop_rules', //{SHOP RULES}
+            'clear_opcache'
         ];
     });
     \Waboot\inc\loadAddons();

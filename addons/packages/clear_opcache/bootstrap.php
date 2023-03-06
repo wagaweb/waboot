@@ -9,7 +9,7 @@ add_action('admin_bar_menu', static function($wp_admin_bar){
     $args = array(
         'id' => 'clear_opcache',
         'title' => 'Clear OPCACHE',
-        'href' => esc_url(admin_url('admin.php?action=clear_opcache'))
+        'href' => esc_url(admin_url('index.php?action=clear_opcache'))
     );
     $wp_admin_bar->add_node($args);
 }, 1000);
