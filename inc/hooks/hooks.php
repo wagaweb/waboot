@@ -107,9 +107,3 @@ add_filter( 'use_widgets_block_editor', '__return_false' );
 add_filter( 'wpseo_breadcrumb_separator', function() {
     return '</li><li>';
 }, 99);
-
-
-/**
- * Allow use of theme.json in a classic theme to override Gutenberg settings
- */
-remove_theme_support( 'block-templates' );
