@@ -1,20 +1,20 @@
 <template>
   <div class="catalog" :class="`catalog--layout-${config.layoutMode}`">
     <div
-      ref="sidebar"
-      class="catalog-filters"
-      :class="{ 'catalog-filters--opened': sidebarOpen }"
+        ref="sidebar"
+        class="catalog-filters"
+        :class="{ 'catalog-filters--opened': sidebarOpen }"
     >
       <a class="catalog-filters__close" @click="sidebarOpen = false">
         <i class="far fa-times"></i>
       </a>
       <div
-        v-if="config.layoutMode === 'sidebar' || config.layoutMode === 'block'"
-        class="catalog-filters__inner catalog-filters__inner--sidebar"
+          v-if="config.layoutMode === 'sidebar' || config.layoutMode === 'block'"
+          class="catalog-filters__inner catalog-filters__inner--sidebar"
       >
         <div
-          v-if="config.enablePriceFilter"
-          class="catalog__filter catalog__filter--price"
+            v-if="config.enablePriceFilter"
+            class="catalog__filter catalog__filter--price"
         >
           <div class="filter">
             <h4 class="filter__title">
@@ -22,104 +22,104 @@
             </h4>
             <div class="filter__dropdown">
               <PriceRangeSlider
-                :min="priceRange.min"
-                :max="priceRange.max"
-                :selectedMin="selectedPriceRange?.min ?? priceRange.min"
-                :selectedMax="selectedPriceRange?.max ?? priceRange.max"
-                @change="onPriceRangeSliderChangeAndReload"
+                  :min="priceRange.min"
+                  :max="priceRange.max"
+                  :selectedMin="selectedPriceRange?.min ?? priceRange.min"
+                  :selectedMax="selectedPriceRange?.max ?? priceRange.max"
+                  @change="onPriceRangeSliderChangeAndReload"
               ></PriceRangeSlider>
             </div>
           </div>
         </div>
-        <template v-for="[tax, taxRef] in taxRefs">
+        <template v-if="config.enableFilters" v-for="[tax, taxRef] in taxRefs">
           <div
-            v-if="taxRef.terms.length > 0"
-            :key="tax"
-            :class="`catalog__filter catalog__filter--${tax}`"
+              v-if="taxRef.terms.length > 0"
+              :key="tax"
+              :class="`catalog__filter catalog__filter--${tax}`"
           >
             <FilterList
-              v-if="taxRef.options.type === 'checkbox'"
-              :key="`${tax}-checkbox`"
-              :taxonomy="tax"
-              :title="taxRef.options.title"
-              :terms="taxRef.terms"
-              :selected-terms="taxRef.selectedTerms"
-              :toggle-cb="onFilterListToggleAndReload"
-              :max-depth="taxRef.options.maxDepth"
-              :full-open="taxRef.options.fullOpen"
-            ></FilterList>
-            <PermalinkList
-              v-else-if="taxRef.options.type === 'permalink'"
-              :key="`${tax}-permalink`"
-              :taxonomy="tax"
-              :title="taxRef.options.title"
-              :terms="taxRef.terms"
-              :base-url="`${config.baseUrl}/${taxRef.options.rewrite}`"
-              :max-depth="taxRef.options.maxDepth"
-              :full-open="taxRef.options.fullOpen"
-            ></PermalinkList>
-            <p v-else>{{ `Invalid filter type: ${taxRef.options.type}` }}</p>
-          </div>
-        </template>
-        <a class="catalog-filters__apply btn" @click="sidebarOpen = false">
-          {{ $t('apply') }}
-        </a>
-      </div>
-      <div
-        v-if="config.layoutMode === 'header'"
-        class="catalog-filters__inner catalog-filters__inner--header"
-      >
-        <div
-          v-if="config.enablePriceFilter"
-          class="catalog__filter catalog__filter--price"
-        >
-          <Dropdown
-            :ref="addDdRef"
-            @toggle="onDdToggle"
-            :title="$t('price')"
-            @apply="onDdApplyPriceRange"
-          >
-            <div class="filter filter--price-slider">
-              <PriceRangeSlider
-                :min="priceRange.min"
-                :max="priceRange.max"
-                :selectedMin="selectedPriceRange?.min ?? priceRange.min"
-                :selectedMax="selectedPriceRange?.max ?? priceRange.max"
-                @change="onPriceRangeSliderChange"
-              ></PriceRangeSlider>
-            </div>
-          </Dropdown>
-        </div>
-        <template v-for="[tax, taxRef] in taxRefs">
-          <div
-            v-if="taxRef.terms.length > 0"
-            :key="tax"
-            :class="`catalog__filter catalog__filter--${tax}`"
-          >
-            <Dropdown
-              :ref="addDdRef"
-              @toggle="onDdToggle"
-              :title="taxRef.options.title"
-              @apply="onDdApplyFilters"
-            >
-              <FilterList
                 v-if="taxRef.options.type === 'checkbox'"
                 :key="`${tax}-checkbox`"
                 :taxonomy="tax"
+                :title="taxRef.options.title"
                 :terms="taxRef.terms"
                 :selected-terms="taxRef.selectedTerms"
-                :toggle-cb="onFilterListToggle"
+                :toggle-cb="onFilterListToggleAndReload"
                 :max-depth="taxRef.options.maxDepth"
                 :full-open="taxRef.options.fullOpen"
-              ></FilterList>
-              <PermalinkList
+            ></FilterList>
+            <PermalinkList
                 v-else-if="taxRef.options.type === 'permalink'"
                 :key="`${tax}-permalink`"
                 :taxonomy="tax"
+                :title="taxRef.options.title"
                 :terms="taxRef.terms"
                 :base-url="`${config.baseUrl}/${taxRef.options.rewrite}`"
                 :max-depth="taxRef.options.maxDepth"
                 :full-open="taxRef.options.fullOpen"
+            ></PermalinkList>
+            <p v-else>{{ `Invalid filter type: ${taxRef.options.type}` }}</p>
+          </div>
+        </template>
+        <a  v-if="config.enableFilters" class="catalog-filters__apply btn" @click="sidebarOpen = false">
+          {{ $t('apply') }}
+        </a>
+      </div>
+      <div
+          v-if="config.layoutMode === 'header'"
+          class="catalog-filters__inner catalog-filters__inner--header"
+      >
+        <div
+            v-if="config.enablePriceFilter"
+            class="catalog__filter catalog__filter--price"
+        >
+          <Dropdown
+              :ref="addDdRef"
+              @toggle="onDdToggle"
+              :title="$t('price')"
+              @apply="onDdApplyPriceRange"
+          >
+            <div class="filter filter--price-slider">
+              <PriceRangeSlider
+                  :min="priceRange.min"
+                  :max="priceRange.max"
+                  :selectedMin="selectedPriceRange?.min ?? priceRange.min"
+                  :selectedMax="selectedPriceRange?.max ?? priceRange.max"
+                  @change="onPriceRangeSliderChange"
+              ></PriceRangeSlider>
+            </div>
+          </Dropdown>
+        </div>
+        <template v-if="config.enableFilters" v-for="[tax, taxRef] in taxRefs">
+          <div
+              v-if="taxRef.terms.length > 0"
+              :key="tax"
+              :class="`catalog__filter catalog__filter--${tax}`"
+          >
+            <Dropdown
+                :ref="addDdRef"
+                @toggle="onDdToggle"
+                :title="taxRef.options.title"
+                @apply="onDdApplyFilters"
+            >
+              <FilterList
+                  v-if="taxRef.options.type === 'checkbox'"
+                  :key="`${tax}-checkbox`"
+                  :taxonomy="tax"
+                  :terms="taxRef.terms"
+                  :selected-terms="taxRef.selectedTerms"
+                  :toggle-cb="onFilterListToggle"
+                  :max-depth="taxRef.options.maxDepth"
+                  :full-open="taxRef.options.fullOpen"
+              ></FilterList>
+              <PermalinkList
+                  v-else-if="taxRef.options.type === 'permalink'"
+                  :key="`${tax}-permalink`"
+                  :taxonomy="tax"
+                  :terms="taxRef.terms"
+                  :base-url="`${config.baseUrl}/${taxRef.options.rewrite}`"
+                  :max-depth="taxRef.options.maxDepth"
+                  :full-open="taxRef.options.fullOpen"
               ></PermalinkList>
               <p v-else>
                 {{ `Invalid filter type: ${taxRef.options.type}` }}
@@ -131,18 +131,19 @@
     </div>
     <div class="catalog__header">
       <button
-        type="button"
-        class="catalog-filters__button"
-        @click="sidebarOpen = true"
+          v-if="config.enableFilters"
+          type="button"
+          class="catalog-filters__button"
+          @click="sidebarOpen = true"
       >
         <i class="fal fa-sliders-h"></i> {{ $t('filterFor') }}
       </button>
       <div v-if="config.enableOrder" class="catalog__ordering">
         <select
-          :value="order"
-          @change="onOrderSelectChange"
-          name="order"
-          id="order"
+            :value="order"
+            @change="onOrderSelectChange"
+            name="order"
+            id="order"
         >
           <option value="default">{{ $t('default') }}</option>
           <option value="alphabetic">{{ $t('alphabetic') }}</option>
@@ -157,50 +158,50 @@
     <div class="catalog__items-wrapper">
       <CircularSpinner v-show="loadingProducts" :size="50"></CircularSpinner>
       <div
-        v-show="!loadingProducts && previousPage > 0"
-        class="catalog__loadmore catalog__loadmore--less"
+          v-show="!loadingProducts && previousPage > 0"
+          class="catalog__loadmore catalog__loadmore--less"
       >
         <CircularSpinner
-          v-show="loadingMoreProducts"
-          :size="25"
+            v-show="loadingMoreProducts"
+            :size="25"
         ></CircularSpinner>
         <a v-show="!loadingMoreProducts" class="btn" @click="onLoadLessClick">
           {{ $t('showLess') }}
         </a>
       </div>
       <div
-        v-show="!loadingProducts"
-        class="catalog__items products"
-        :class="`columns-${config.columns}`"
+          v-show="!loadingProducts"
+          class="catalog__items products"
+          :class="`columns-${config.columns}`"
       >
         <CatalogItem
-          v-for="(product, i) in products"
-          :key="`product-${product.id}`"
-          :host="config.baseUrl"
-          :product="product"
-          :lang="config.language"
-          :price-formatter="priceFormatter"
-          :tax-applier="taxApplier"
-          :show-add-to-cart-btn="config.showAddToCartBtn"
-          :show-quantity-input="config.showQuantityInput"
-          @addToCart="addToCartHandle($event, i)"
-          @viewDetails="viewDetailsHandle($event, i)"
-          @addToWishlist="addToWishlistHandle($event, i)"
+            v-for="(product, i) in products"
+            :key="`product-${product.id}`"
+            :host="config.baseUrl"
+            :product="product"
+            :lang="config.language"
+            :price-formatter="priceFormatter"
+            :tax-applier="taxApplier"
+            :show-add-to-cart-btn="config.showAddToCartBtn"
+            :show-quantity-input="config.showQuantityInput"
+            @addToCart="addToCartHandle($event, i)"
+            @viewDetails="viewDetailsHandle($event, i)"
+            @addToWishlist="addToWishlistHandle($event, i)"
         ></CatalogItem>
       </div>
       <h4
-        v-show="!loadingProducts && products.length === 0"
-        class="products__not_found"
+          v-show="!loadingProducts && products.length === 0"
+          class="products__not_found"
       >
         {{ $t('noProductsFound') }}
       </h4>
       <div
-        v-show="!loadingProducts && numberOfPages > page"
-        class="catalog__loadmore"
+          v-show="!loadingProducts && numberOfPages > page"
+          class="catalog__loadmore"
       >
         <CircularSpinner
-          v-show="loadingMoreProducts"
-          :size="25"
+            v-show="loadingMoreProducts"
+            :size="25"
         ></CircularSpinner>
         <a v-show="!loadingMoreProducts" class="btn" @click="onLoadMoreClick">
           {{ $t('showMore') }}
@@ -315,8 +316,8 @@ export default defineComponent({
 
     const onDdToggle = (e: MouseEvent, toggle?: boolean): void => {
       const $dd = $(e.target as HTMLElement)
-        .parent('.dropdown')
-        .find('.dropdown__content');
+          .parent('.dropdown')
+          .find('.dropdown__content');
       const previousState = $dd.css('display');
 
       for (const el of ddSet.value.values()) {
@@ -387,9 +388,9 @@ export default defineComponent({
     };
 
     const onFilterListToggle = (
-      tax: string,
-      term: Term,
-      checked: boolean,
+        tax: string,
+        term: Term,
+        checked: boolean,
     ): void => {
       const taxRef = taxRefs.get(tax);
       if (taxRef === undefined) {
@@ -415,9 +416,9 @@ export default defineComponent({
     };
 
     const onFilterListToggleAndReload = async (
-      tax: string,
-      term: Term,
-      checked: boolean,
+        tax: string,
+        term: Term,
+        checked: boolean,
     ): Promise<void> => {
       onFilterListToggle(tax, term, checked);
       resetCatalogScroll();
@@ -429,7 +430,7 @@ export default defineComponent({
     };
 
     const onPriceRangeSliderChangeAndReload = async (
-      values: number[],
+        values: number[],
     ): Promise<void> => {
       onPriceRangeSliderChange(values);
       resetCatalogScroll();
@@ -477,7 +478,7 @@ export default defineComponent({
       const destination = document.querySelector(tp);
       if (destination === null) {
         console.warn(
-          `Teleport destination element ${tp} does not exists. Skipping`,
+            `Teleport destination element ${tp} does not exists. Skipping`,
         );
 
         return;

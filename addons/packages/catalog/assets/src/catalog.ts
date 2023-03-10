@@ -151,7 +151,7 @@ export class CatalogConfig {
 
     this.productsPerPage = Number(data.productsPerPage ?? 24);
     this.columns = Number(data.columns ?? 4);
-    this.enableFilters = Boolean(data.enableFilers ?? true);
+    this.enableFilters = Boolean(data.enableFilters ?? true);
     this.layoutMode = String(
       data.layoutMode ?? LayoutMode.Sidebar,
     ) as LayoutMode;
