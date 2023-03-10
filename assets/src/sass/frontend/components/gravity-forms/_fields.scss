@@ -53,14 +53,20 @@
       max-width: 24px;
     }
   }
-  .ginput_complex .ginput_container_date {
-    flex-basis: min-content;
-    flex-flow: row wrap;
-    max-width: 30%;
-    input,
-    select {
-      min-width: 84px;
-      width: 100%;
+  .ginput_complex {
+    .ginput_container_date {
+      flex-basis: min-content;
+      flex-flow: row wrap;
+      max-width: 30%;
+      input,
+      select {
+        min-width: 84px;
+        width: 100%;
+      }
+    }
+    label {
+      opacity: .7;
+      font-size: .8em;
     }
   }
   .gfield_chainedselect.horizontal select {

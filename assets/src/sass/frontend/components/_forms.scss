@@ -12,11 +12,12 @@ form {
 		padding: 0;
 	}
 	legend {
-		font-weight: $fontWeightBold;
+		font-weight: $fontWeightNormal;
 		margin-bottom: 10px;
 		margin-left: 0;
 		margin-right: 0;
 		padding: 0;
+        font-size: 1em;
 	}
 	&::placeholder {
 		color: $colorGrey;
@@ -49,6 +50,7 @@ form {
 	}
 	textarea {
 		height: auto;
+        max-width: 100%;
 	}
 	input[type="checkbox"] {
 		appearance: none;
