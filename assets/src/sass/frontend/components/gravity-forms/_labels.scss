@@ -97,6 +97,12 @@
     &:not(.top_label) .ginput_container.ginput_single_email {
         margin-left: 0;
     }
+
+    .gfield_consent_label {
+        display: inline-block;
+        font-size: .85em;
+        margin-bottom: 0;
+    }
 }
 
 .field_sublabel_below .ginput_complex {
