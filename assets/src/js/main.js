@@ -17,6 +17,7 @@ jQuery(document).ready(function($) {
     asideBodyClass();
     scrollToAnimate();
     youTubeNoCookieChangeUrl();
+    customSelect();
 
     $(window).on("load",function(){
         if (window.matchMedia('(max-width: 991px)').matches) {
@@ -84,4 +85,58 @@ function youTubeNoCookieChangeUrl() {
         var newSrc = oldSrc.replace("https://www.youtube.com/", "https://www.youtube-nocookie.com/");
         $(this).attr("src", newSrc);
     });
+}
+
+function customSelect() {
+    let $ = jQuery;
+    $('.ginput_container_select, .ginput_address_country').addClass('custom-select');
+
+    const $customSelects = $(".custom-select");
+
+    $customSelects.each((index, customSelect) => {
+        const $select = $(customSelect).find("select");
+        // if select has not a default option, add it
+        if ($select.find("option:first-child").val() !== "" ) {
+            $select.prepend('<option value="" selected>Seleziona un\'opzione:</option>');
+        }
+        const $selectedItem = $("<div>").addClass("select-selected");
+        $selectedItem.html($select.find("option:selected").html());
+        $(customSelect).append($selectedItem);
+
+        const $optionsContainer = $("<div>").addClass("select-items select-hide");
+        $select.find("option:not(:first)").each((index, option) => {
+            const $optionItem = $("<div>").html($(option).html());
+            $optionItem.on("click", (event) => {
+                const $target = $(event.currentTarget);
+                const $select = $target.closest(".custom-select").find("select");
+                const $selectedItem = $target.closest(".custom-select").find(".select-selected");
+                const selectedIndex = $target.index() + 1;
+                $select.prop("selectedIndex", selectedIndex);
+                $selectedItem.html($target.html());
+                $target.addClass("same-as-selected").siblings().removeClass("same-as-selected");
+                $selectedItem.click();
+            });
+            $optionsContainer.append($optionItem);
+        });
+        $(customSelect).append($optionsContainer);
+
+        $selectedItem.on("click", (event) => {
+            event.stopPropagation();
+            closeAllSelects(event.currentTarget);
+            $(event.currentTarget).toggleClass("select-arrow-active");
+            $(event.currentTarget).next().toggleClass("select-hide");
+        });
+    });
+
+    function closeAllSelects(currentSelect) {
+        $(".custom-select").not($(currentSelect).closest(".custom-select")).each((index, customSelect) => {
+            $(customSelect).find(".select-selected").removeClass("select-arrow-active");
+            $(customSelect).find(".select-items").addClass("select-hide");
+        });
+    }
+
+    $(document).on("click", (event) => {
+        closeAllSelects(event.target);
+    });
+
 }
