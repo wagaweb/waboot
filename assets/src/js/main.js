@@ -88,55 +88,49 @@ function youTubeNoCookieChangeUrl() {
 }
 
 function customSelect() {
-    let $ = jQuery;
-    $('.ginput_container_select, .ginput_address_country').addClass('custom-select');
+    const $ = jQuery;
 
-    const $customSelects = $(".custom-select");
+    $('select').each(function() {
+        const $this = $(this);
+        const numberOfOptions = $this.children('option').length;
 
-    $customSelects.each((index, customSelect) => {
-        const $select = $(customSelect).find("select");
-        // if select has not a default option, add it
-        if ($select.find("option:first-child").val() !== "" ) {
-            $select.prepend('<option value="" selected>Seleziona un\'opzione:</option>');
+        $this.addClass('select--hidden');
+        $this.wrap('<div class="select"></div>').after('<div class="select--styled"></div>');
+
+        const $styledSelect = $this.next('div.select--styled');
+        $styledSelect.text($this.children('option').eq(0).text());
+
+        const $list = $('<ul/>', {
+            class: 'select__options'
+        }).insertAfter($styledSelect);
+
+        for (let i = 0; i < numberOfOptions; i++) {
+            const $option = $this.children('option').eq(i);
+            $('<li/>', {
+                text: $option.text(),
+                rel: $option.val()
+            }).appendTo($list);
         }
-        const $selectedItem = $("<div>").addClass("select-selected");
-        $selectedItem.html($select.find("option:selected").html());
-        $(customSelect).append($selectedItem);
 
-        const $optionsContainer = $("<div>").addClass("select-items select-hide");
-        $select.find("option:not(:first)").each((index, option) => {
-            const $optionItem = $("<div>").html($(option).html());
-            $optionItem.on("click", (event) => {
-                const $target = $(event.currentTarget);
-                const $select = $target.closest(".custom-select").find("select");
-                const $selectedItem = $target.closest(".custom-select").find(".select-selected");
-                const selectedIndex = $target.index() + 1;
-                $select.prop("selectedIndex", selectedIndex);
-                $selectedItem.html($target.html());
-                $target.addClass("same-as-selected").siblings().removeClass("same-as-selected");
-                $selectedItem.click();
-            });
-            $optionsContainer.append($optionItem);
+        const $listItems = $list.children('li');
+
+        $styledSelect.click(function(e) {
+            e.stopPropagation();
+            const $active = $('div.select--styled.active');
+            $active.not(this).removeClass('active').next('ul.select__options').hide();
+            $(this).toggleClass('active').next('ul.select__options').toggle();
         });
-        $(customSelect).append($optionsContainer);
 
-        $selectedItem.on("click", (event) => {
-            event.stopPropagation();
-            closeAllSelects(event.currentTarget);
-            $(event.currentTarget).toggleClass("select-arrow-active");
-            $(event.currentTarget).next().toggleClass("select-hide");
+        $listItems.click(function(e) {
+            e.stopPropagation();
+            $styledSelect.text($(this).text()).removeClass('active');
+            $this.val($(this).attr('rel'));
+            $list.hide();
+        });
+
+        $(document).click(function() {
+            $styledSelect.removeClass('active');
+            $list.hide();
         });
     });
-
-    function closeAllSelects(currentSelect) {
-        $(".custom-select").not($(currentSelect).closest(".custom-select")).each((index, customSelect) => {
-            $(customSelect).find(".select-selected").removeClass("select-arrow-active");
-            $(customSelect).find(".select-items").addClass("select-hide");
-        });
-    }
-
-    $(document).on("click", (event) => {
-        closeAllSelects(event.target);
-    });
-
 }
