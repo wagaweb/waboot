@@ -89,8 +89,10 @@ function youTubeNoCookieChangeUrl() {
 
 function customSelect() {
     const $ = jQuery;
-
     $('select').each(function() {
+        if($(this).attr('id') === 'billing_country' || $(this).attr('id') === 'billing_state') {
+            return;
+        }
         const $this = $(this);
         const numberOfOptions = $this.children('option').length;
 
