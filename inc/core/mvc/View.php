@@ -3,9 +3,9 @@ namespace Waboot\inc\core\mvc;
 
 abstract class View{
     /**
-     * @var string
+     * @var array
      */
-    protected string $template;
+    protected array $template;
 
     /**
      * @var array

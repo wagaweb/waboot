@@ -7,6 +7,7 @@ use function Waboot\inc\core\Waboot;
 function initWaboot(){
     try{
         $parentPath = get_template_directory();
+        require_once $parentPath.'/inc/core/helpers/theme.php';
         require_once $parentPath.'/inc/template-functions.php';
         require_once $parentPath.'/inc/core/template-functions.php';
         Waboot()->loadDependencies();
