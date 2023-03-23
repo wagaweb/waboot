@@ -116,33 +116,43 @@ class AbstractCommand
      * @param array $assoc_args
      * @return void
      */
-    public function __invoke(array $args, array $assoc_args)
+    /*public function __invoke(array $args, array $assoc_args)
     {
         $this->setupDefaultFlags($assoc_args);
         if($this->isDryRun()){
             $this->log('### DRY-RUN ###');
         }
-    }
+    }*/
 
-    /* @todo: this is the new version
-    public function __invoke(array $args, array $assoc_args): int
+    /**
+     * @param array $args
+     * @param array $assoc_args
+     * @return int|void
+     */
+    public function __invoke(array $args, array $assoc_args)
     {
-        try{
+        if(method_exists($this,'run')){
+            try{
+                $this->setupDefaultFlags($assoc_args);
+                if($this->isDryRun()){
+                    $this->log('### DRY-RUN ###');
+                }
+                $this->beginCommandExecution();
+                $r = $this->run($args,$assoc_args);
+                $this->endCommandExecution();
+                return $r;
+            }catch (\Exception | \Throwable $e){
+                $this->endCommandExecution();
+                $this->error($e->getMessage(), false);
+                return 1;
+            }
+        }else{
             $this->setupDefaultFlags($assoc_args);
             if($this->isDryRun()){
                 $this->log('### DRY-RUN ###');
             }
-            $this->beginCommandExecution();
-            $r = $this->run($args,$assoc_args);
-            $this->endCommandExecution();
-            return $r;
-        }catch (\Exception | \Throwable $e){
-            $this->endCommandExecution();
-            $this->error($e->getMessage(), false);
-            return 1;
         }
     }
-    */
 
     /**
      * @param array $args
