@@ -2,6 +2,7 @@
 
 namespace Waboot\inc\core;
 
+use Waboot\inc\core\helpers\MonologLoggingLevels;
 use Waboot\inc\core\mvc\HTMLView;
 use Waboot\inc\core\utils\Dates;
 
@@ -14,78 +15,74 @@ class Theme{
 	public const LOG_LEVEL_CRITICAL = 5;
 	public const LOG_LEVEL_ALERT = 6;
 	public const LOG_LEVEL_EMERGENCY = 7;
-    private ?Layout $layoutHandler = null;
-    private ?AssetsManager $assetsManager = null;
+	private ?Layout $layoutHandler = null;
+	private ?AssetsManager $assetsManager = null;
 	private array $registeredFileLoggers;
 
-	/**
-	 * @param AssetsManager $assetsManager
-	 * @param Layout $layout
-	 */
 	public function __construct(AssetsManager $assetsManager, Layout $layout)
-    {
-        $this->assetsManager = $assetsManager;
-        $this->layoutHandler = $layout;
-    }
+	{
+		$this->assetsManager = $assetsManager;
+		$this->layoutHandler = $layout;
+	}
 
-	/**
-	 * @return AssetsManager
-	 */
 	public function getAssetsManager(): AssetsManager
-    {
-        return $this->assetsManager;
-    }
+	{
+		return $this->assetsManager;
+	}
 
-	/**
-	 * @return Layout
-	 */
 	public function getLayoutHandler(): Layout
-    {
-        return $this->layoutHandler;
-    }
+	{
+		return $this->layoutHandler;
+	}
+
+	public function loadDependencies(): void
+	{
+		$deps = [
+			'inc/core/helpers/cli.php',
+			'inc/core/helpers/logs.php',
+			'inc/core/helpers/theme.php',
+			'inc/core/helpers/views.php',
+			'inc/core/helpers/mail.php',
+			'inc/core/hooks.php',
+			'inc/template-functions.php',
+			'inc/template-rendering.php',
+			'inc/template-tags.php',
+			'inc/hooks/hooks.php',
+			'inc/hooks/init.php',
+			'inc/hooks/layout.php',
+			'inc/hooks/posts-and-pages.php',
+			'inc/hooks/widget-areas.php',
+			'inc/hooks/assets.php'
+		];
+		safeRequireFiles($deps);
+	}
 
 	/**
-	 * @return void
+	 * @param string $templateFile
+	 * @param array $vars
+	 * @param bool $clean
 	 */
-	public function loadDependecies(): void
-    {
-        $deps = [
-            'inc/core/helpers/cli.php',
-            'inc/core/helpers/theme.php',
-            'inc/core/helpers/views.php',
-            'inc/core/helpers/mail.php',
-            'inc/core/hooks.php',
-            'inc/template-functions.php',
-            'inc/template-rendering.php',
-            'inc/template-tags.php',
-            'inc/hooks/hooks.php',
-            'inc/hooks/init.php',
-            'inc/hooks/layout.php',
-            'inc/hooks/posts-and-pages.php',
-            'inc/hooks/widget-areas.php',
-            'inc/hooks/assets.php'
-        ];
-        safeRequireFiles($deps);
-    }
+	public function renderView(string $templateFile, array $vars = [], bool $clean = false): void
+	{
+		try{
+			$v = new HTMLView($templateFile);
+			if($clean){
+				$v->clean()->display($vars);
+			}else{
+				$v->display($vars);
+			}
+		}catch (\Exception $e){
+			echo $e->getMessage();
+		}
+	}
 
-    /**
-     * @param string $templateFile
-     * @param array $vars
-     * @param bool $clean
-     */
-    public function renderView(string $templateFile, array $vars = [], bool $clean = false): void
-    {
-        try{
-            $v = new HTMLView($templateFile);
-            if($clean){
-                $v->clean()->display($vars);
-            }else{
-                $v->display($vars);
-            }
-        }catch (\Exception $e){
-            echo $e->getMessage();
-        }
-    }
+	/**
+	 * @return DB
+	 */
+	public function DB(): DB
+	{
+		return DB::getInstance();
+	}
 
 	/**
 	 * @param string $command
@@ -127,7 +124,7 @@ class Theme{
 	 * @param \DateTimeZone|null $dz
 	 * @return void
 	 */
-	public function logToFile(string $loggerIdentifier, string $logMessage, int $logLevel = self::LOG_LEVEL_INFO, array $context = [], \DateTimeZone $dz = null)
+	public function logToFile(string $loggerIdentifier, string $logMessage, int $logLevel = MonologLoggingLevels::INFO, array $context = [], \DateTimeZone $dz = null)
 	{
 		try{
 			if($dz === null){
@@ -136,32 +133,32 @@ class Theme{
 			$logger = $this->registeredFileLoggers[$loggerIdentifier] ?? null;
 			if($logger === null){
 				$logFile = WP_CONTENT_DIR.'/logs/'.$loggerIdentifier.'-'.(new \DateTime('now', $dz))->format('Y-m-d').'.log';
-				$logger = LoggerFactory::create('user-update', $logFile);
+				$logger = LoggerFactory::create($loggerIdentifier, $logFile);
 				$this->registeredFileLoggers[$loggerIdentifier] = $logger;
 			}
 			switch($logLevel){
-				case self::LOG_LEVEL_DEBUG:
+				case MonologLoggingLevels::DEBUG:
 					$logger->debug($logMessage,$context);
 					break;
-				case self::LOG_LEVEL_INFO:
+				case MonologLoggingLevels::INFO:
 					$logger->info($logMessage,$context);
 					break;
-				case self::LOG_LEVEL_NOTICE:
+				case MonologLoggingLevels::NOTICE:
 					$logger->notice($logMessage,$context);
 					break;
-				case self::LOG_LEVEL_WARNING:
+				case MonologLoggingLevels::WARNING:
 					$logger->warning($logMessage,$context);
 					break;
-				case self::LOG_LEVEL_ERROR:
+				case MonologLoggingLevels::ERROR:
 					$logger->error($logMessage,$context);
 					break;
-				case self::LOG_LEVEL_CRITICAL:
+				case MonologLoggingLevels::CRITICAL:
 					$logger->critical($logMessage,$context);
 					break;
-				case self::LOG_LEVEL_ALERT:
+				case MonologLoggingLevels::ALERT:
 					$logger->alert($logMessage,$context);
 					break;
-				case self::LOG_LEVEL_EMERGENCY:
+				case MonologLoggingLevels::EMERGENCY:
 					$logger->emergency($logMessage,$context);
 					break;
 			}
