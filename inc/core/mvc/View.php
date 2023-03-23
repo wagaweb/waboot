@@ -5,12 +5,12 @@ abstract class View{
     /**
      * @var string
      */
-    var $template;
+    protected string $template;
 
     /**
      * @var array
      */
-    var $args;
+    protected array $args;
 
     /**
      * Initialize a new view. If the $plugin argument is not provided, the template file will be searched into stylesheet and template directories.
@@ -18,12 +18,12 @@ abstract class View{
      * @param string $filePath a path to the view file. Must be absolute unless $is_relative_path is TRUE.
      * @param bool $isRelativePath if true, the $file_path is intended to relative to theme directory
      *
-     * @throws \Exception
+     * @throws ViewException
      */
-    public function __construct($filePath, $isRelativePath = true)
+    public function __construct(string $filePath, bool $isRelativePath = true)
     {
-        if( !is_string($filePath) || empty($filePath)){
-            throw new \Exception('Cannot create View, invalid file path');
+        if(empty($filePath)){
+            throw new ViewException('Cannot create View, invalid file path');
         }
 
         //Tries to force file extension
@@ -51,7 +51,7 @@ abstract class View{
                 $search_paths = [$filePath];
             }
             $message = 'File ' .$filePath. ' does not exists in any of these locations: ' .implode(",\n",$search_paths);
-            throw new \Exception( $message );
+            throw new ViewException( $message );
             //throw new ViewNotFoundException($file_path,$search_paths);
         }
 
@@ -65,15 +65,36 @@ abstract class View{
     }
 
     /**
+     * @param array $args
+     * @return View
+     */
+    public function setArgs(array $args): View
+    {
+        $this->args = $args;
+        return $this;
+    }
+
+    /**
+     * @param string $name
+     * @param mixed $value
+     * @return View
+     */
+    public function setVar(string $name, $value): View
+    {
+        $this->args[$name] = $value;
+        return $this;
+    }
+
+    /**
      * Clean the predefined args, providing a clean template.
      * @return $this
      */
-    public function clean()
+    public function clean(): View
     {
-        $this->args['page_title'] = '';
-        $this->args['wrapper_class'] = '';
-        $this->args['wrapper_el'] = '';
-        $this->args['title_wrapper'] = '%s';
+        $this->setVar('page_title','');
+        $this->setVar('wrapper_class','');
+        $this->setVar('wrapper_el','');
+        $this->setVar('title_wrapper','%s');
         return $this;
     }
 
@@ -84,16 +105,16 @@ abstract class View{
      *
      * @return $this
      */
-    public function forDashboard($specificClasses = [])
+    public function forDashboard(array $specificClasses = []): View
     {
-        $this->args['page_title'] = 'Page Title';
+        $this->setVar('page_title','Page Title');
         if(!empty($specificClasses)){
-            $this->args['wrapper_class'] = 'wrap ' .implode(' ',$specificClasses);
+            $this->setVar('wrapper_class','wrap ' .implode(' ',$specificClasses));
         }else{
-            $this->args['wrapper_class'] = 'wrap';
+            $this->setVar('wrapper_class','wrap');
         }
-        $this->args['wrapper_el'] = 'div';
-        $this->args['title_wrapper'] = '<h1>%s</h1>';
+        $this->setVar('wrapper_el','div');
+        $this->setVar('title_wrapper','<h1>%s</h1>');
         return $this;
     }
 
@@ -103,7 +124,6 @@ abstract class View{
      * @param $relativeFilePath
      *
      * @return array
-     * @throws \Exception
      */
     private function getSearchPaths($relativeFilePath): array
     {
