@@ -37,6 +37,7 @@ class Theme{
     public function loadDependencies(): void
     {
         $deps = [
+            'inc/core/helpers/cli.php',
             'inc/core/helpers/theme.php',
             'inc/core/helpers/views.php',
             'inc/core/helpers/mail.php',
