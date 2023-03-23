@@ -59,7 +59,11 @@ class ExportOrders extends AbstractCommand
      */
     public function __invoke(array $args, array $assoc_args): int
     {
-        parent::__invoke($args, $assoc_args);
+        return parent::__invoke($args, $assoc_args);
+    }
+
+    public function run(array $args, array $assoc_args): int
+    {
         if($this->dryRun){
             $this->log('### DRY-RUN ###');
         }
@@ -71,10 +75,8 @@ class ExportOrders extends AbstractCommand
             }
         }
         try{
-            $this->beginCommandExecution();
             $this->exportOrders();
             $this->success('Operation completed');
-            $this->endCommandExecution();
             return 0;
         }catch (CLIRuntimeException | OrderExportException | \RuntimeException | \Exception $e){
             $this->error($e->getMessage());

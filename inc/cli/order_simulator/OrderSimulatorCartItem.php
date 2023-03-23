@@ -2,8 +2,8 @@
 
 namespace Waboot\inc\cli\order_simulator;
 
-use Waboot\inc\core\DB;
 use Waboot\inc\core\DBException;
+use Waboot\inc\core\facades\Query;
 
 class OrderSimulatorCartItem
 {
@@ -98,8 +98,7 @@ class OrderSimulatorCartItem
                 }
                 break;
             case 'coupon':
-                $db = DB::getInstance();
-                $r = $db->getQueryBuilder()::table('posts')
+                $r = Query::on('posts')
                     ->select('ID')
                     ->where('post_title','=',$this->code)
                     ->where('post_type','=','shop_coupon')

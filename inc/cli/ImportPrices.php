@@ -64,7 +64,10 @@ class ImportPrices extends AbstractCommand
     public function __invoke(array $args, array $assoc_args)
     {
         parent::__invoke($args, $assoc_args);
+    }
 
+    public function run(array $args, array $assoc_args): int
+    {
         global $wpdb;
 
         $dry = boolval($assoc_args['dry'] ?? false);
@@ -72,30 +75,30 @@ class ImportPrices extends AbstractCommand
         $filename = $args[0] ?? null;
         if (empty($filename)) {
             $this->error('You need to pride the target file name');
-            return;
+            return -1;
         }
 
         $key = $args[1] ?? null;
         if (!in_array($key, [self::KEY_ID, self::KEY_SKU])) {
             $this->error(sprintf('Invalid key: %s', $key));
-            return;
+            return -1;
         }
 
         $priceType = $args[2] ?? null;
         if (!in_array($priceType, [self::PRICE_REGULAR, self::PRICE_SALE])) {
             $this->error(sprintf('Invalid price type: %s', $priceType));
-            return;
+            return -1;
         }
 
         if (!is_file($filename)) {
             $this->error(sprintf('Invalid file name: %s', $filename));
-            return;
+            return -1;
         }
 
         $stream = fopen($filename, 'r');
         if ($stream === false) {
             $this->error(sprintf('Cannot open file: %s', $filename));
-            return;
+            return -1;
         }
 
         $this->log('Collecting data');
@@ -186,7 +189,7 @@ SQL;
                 /** @var float $price */
                 $price = $priceEntry[0] ?? null;
                 if (empty($price)) {
-                    return;
+                    return -1;
                 }
 
                 if ($priceType === self::PRICE_REGULAR) {
@@ -231,6 +234,7 @@ SQL;
         }
 
         $this->success('Done');
+        return 0;
     }
 
     /**

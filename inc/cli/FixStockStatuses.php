@@ -32,6 +32,11 @@ class FixStockStatuses extends ParseAndSaveProducts
      */
     public function __invoke($args, $assoc_args): int
     {
+        return parent::__invoke($args,$assoc_args);
+    }
+
+    public function run(array $args, array $assoc_args): int
+    {
         add_action('wawoo/cli/parse-and-save-products/post-save/single', static function(\WC_Product $product, ParseAndSaveProducts $class){
             $qtyMeta = get_post_meta($product->get_id(),'_stock', true);
             $statusMeta = get_post_meta($product->get_id(),'_stock_status', true);
@@ -46,6 +51,6 @@ class FixStockStatuses extends ParseAndSaveProducts
                 $class->log('-- Kept "_stock_status" on: '.$result['old']);
             }
         },10,2);
-        return parent::__invoke($args,$assoc_args);
+        return parent::run($args,$assoc_args);
     }
 }

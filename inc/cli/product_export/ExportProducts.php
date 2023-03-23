@@ -96,10 +96,11 @@ class ExportProducts extends AbstractCommand
      */
     public function __invoke($args, $assoc_args): int
     {
-        parent::__invoke($args,$assoc_args);
-        if($this->dryRun){
-            $this->log('### DRY-RUN ###');
-        }
+        return parent::__invoke($args,$assoc_args);
+    }
+
+    public function run(array $args, array $assoc_args): int
+    {
         try{
             if(isset($assoc_args['products'])){
                 $providedIds = explode(',',$assoc_args['products']);
@@ -152,14 +153,12 @@ class ExportProducts extends AbstractCommand
             if(isset($this->includedMetas)){
                 $this->log('Included meta: '.implode(',',$this->includedMetas));
             }
-            $this->beginCommandExecution();
             if(!$this->hasProducts()){
                 throw new \RuntimeException('Error: no products found');
             }
             $this->generateCSVColumns();
             $this->generateCSV();
             $this->success('Operation completed');
-            $this->endCommandExecution();
             return 0;
         }catch (\Exception $e){
             $this->error($e->getMessage());

@@ -55,6 +55,11 @@ class ParseAndSaveProducts extends AbstractCommand
      */
     public function __invoke($args, $assoc_args): int
     {
+        return parent::__invoke($args,$assoc_args);
+    }
+
+    public function run(array $args, array $assoc_args): int
+    {
         $this->log('ParseAndSaveProducts invoked');
         if(isset($assoc_args['products'])){
             $productIds = explode(',',$assoc_args['products']);
@@ -69,7 +74,7 @@ class ParseAndSaveProducts extends AbstractCommand
         if(isset($assoc_args['only-with-statuses'])){
             $statuses = explode(',',$assoc_args['only-with-statuses']);
             if(\is_array($statuses)){
-                $this->log('[INPUTS] Statuses: '.$statuses);
+                $this->log('[INPUTS] Statuses: '.implode(',',$statuses));
                 $this->providedStatuses = $statuses;
             }
         }

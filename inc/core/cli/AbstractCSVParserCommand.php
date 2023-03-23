@@ -56,9 +56,8 @@ abstract class AbstractCSVParserCommand extends AbstractCommand
         return $description;
     }
 
-    public function __invoke($args, $assoc_args): int
+    public function run(array $args, array $assoc_args): int
     {
-        parent::__invoke($args, $assoc_args);
         try {
             $importDirPath = $assoc_args['basepath'] ?? $this->getDefaultImportDirPath();
             if(!\is_dir($importDirPath)){

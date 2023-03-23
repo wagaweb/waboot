@@ -32,6 +32,11 @@ class FixPrices extends ParseAndSaveProducts
      */
     public function __invoke($args, $assoc_args): int
     {
+        return parent::__invoke($args,$assoc_args);
+    }
+
+    function run(array $args, array $assoc_args): int
+    {
         add_action('wawoo/cli/parse-and-save-products/post-save/single', function(\WC_Product $product, ParseAndSaveProducts $class){
             if($product instanceof \WC_Product_Variable){
                 $class->log('-- Checking variations');
@@ -47,7 +52,7 @@ class FixPrices extends ParseAndSaveProducts
                 $this->adjustPrices($product, $class);
             }
         },10,2);
-        return parent::__invoke($args,$assoc_args);
+        return parent::run($args,$assoc_args);
     }
 
     /**

@@ -3,9 +3,9 @@
 namespace Waboot\inc\cli\order_simulator;
 
 use Waboot\inc\core\cli\AbstractCommand;
-use Waboot\inc\core\DB;
 use Waboot\inc\core\DBException;
 use Waboot\inc\core\DBUnavailableDependencyException;
+use Waboot\inc\core\facades\Query;
 
 class OrderSimulator extends AbstractCommand
 {
@@ -25,10 +25,6 @@ class OrderSimulator extends AbstractCommand
      * @var array
      */
     protected $simulationData;
-    /**
-     * @var DB
-     */
-    protected $dbConnection;
 
     /**
      * Simulate orders based on a source file
@@ -50,8 +46,12 @@ class OrderSimulator extends AbstractCommand
      */
     public function __invoke($args, $assoc_args)
     {
+        return parent::__invoke($args, $assoc_args);
+    }
+
+    public function run(array $args, array $assoc_args): int
+    {
         try{
-            $this->dbConnection = DB::getInstance();
             if(isset($assoc_args['delete'])){
                 $this->log('Deleting simulated orders...');
                 $this->deleteSimulatedOrders();
@@ -92,7 +92,7 @@ class OrderSimulator extends AbstractCommand
      */
     private function deleteSimulatedOrders(): void
     {
-        $r = $this->dbConnection->getQueryBuilder()::table('postmeta')
+        $r = Query::on('postmeta')
             ->select('post_id')
             ->where('meta_key','_simulation')
             ->where('meta_value','1')
@@ -105,7 +105,7 @@ class OrderSimulator extends AbstractCommand
             $this->log('- Deleting order #'.$idToDelete);
             wp_delete_post($idToDelete);
             try{
-                $this->dbConnection->getQueryBuilder()::table('postmeta')->where('post_id',$idToDelete)->delete();
+                Query::on('postmeta')->where('post_id',$idToDelete)->delete();
             }catch (DBException $e){
                 continue;
             }

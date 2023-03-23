@@ -127,8 +127,12 @@ class GenerateGShoppingFeed extends AbstractCommand
      */
     public function __invoke($args, $assoc_args): int
     {
+        return parent::__invoke($args,$assoc_args);
+    }
+
+    public function run(array $args, array $assoc_args): int
+    {
         try{
-            parent::__invoke($args,$assoc_args);
             if(isset($assoc_args['products'])){
                 $providedIds = explode(',',$assoc_args['products']);
                 if(\is_array($providedIds)){

@@ -82,7 +82,16 @@ class ImportProductImages extends AbstractCommand
      */
     public function __invoke(array $args, array $assoc_args): int
     {
-        parent::__invoke($args, $assoc_args);
+        return parent::__invoke($args, $assoc_args);
+    }
+
+    /**
+     * @param array $args
+     * @param array $assoc_args
+     * @return int
+     */
+    public function run(array $args, array $assoc_args): int
+    {
         try{
             $importDirPath = $assoc_args['path'] ?? WP_CONTENT_DIR . '/imports/images';
             if(!\is_dir($importDirPath)){
