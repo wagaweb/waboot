@@ -78,6 +78,9 @@ class AbstractCommand
     public function __invoke(array $args, array $assoc_args)
     {
         $this->setupDefaultFlags($assoc_args);
+	    if($this->isDryRun()){
+		    $this->log('### DRY-RUN ###');
+	    }
     }
 
     protected function suppressErrors(): void
