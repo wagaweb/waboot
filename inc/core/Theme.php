@@ -2,6 +2,7 @@
 
 namespace Waboot\inc\core;
 
+use Waboot\inc\core\helpers\MonologLoggingLevels;
 use Waboot\inc\core\mvc\HTMLView;
 use Waboot\inc\core\utils\Dates;
 
@@ -38,6 +39,7 @@ class Theme{
     {
         $deps = [
             'inc/core/helpers/cli.php',
+            'inc/core/helpers/logs.php',
             'inc/core/helpers/theme.php',
             'inc/core/helpers/views.php',
             'inc/core/helpers/mail.php',
@@ -122,7 +124,7 @@ class Theme{
      * @param \DateTimeZone|null $dz
      * @return void
      */
-    public function logToFile(string $loggerIdentifier, string $logMessage, int $logLevel = self::LOG_LEVEL_INFO, array $context = [], \DateTimeZone $dz = null)
+    public function logToFile(string $loggerIdentifier, string $logMessage, int $logLevel = MonologLoggingLevels::INFO, array $context = [], \DateTimeZone $dz = null)
     {
         try{
             if($dz === null){
@@ -135,28 +137,28 @@ class Theme{
                 $this->registeredFileLoggers[$loggerIdentifier] = $logger;
             }
             switch($logLevel){
-                case self::LOG_LEVEL_DEBUG:
+                case MonologLoggingLevels::DEBUG:
                     $logger->debug($logMessage,$context);
                     break;
-                case self::LOG_LEVEL_INFO:
+                case MonologLoggingLevels::INFO:
                     $logger->info($logMessage,$context);
                     break;
-                case self::LOG_LEVEL_NOTICE:
+                case MonologLoggingLevels::NOTICE:
                     $logger->notice($logMessage,$context);
                     break;
-                case self::LOG_LEVEL_WARNING:
+                case MonologLoggingLevels::WARNING:
                     $logger->warning($logMessage,$context);
                     break;
-                case self::LOG_LEVEL_ERROR:
+                case MonologLoggingLevels::ERROR:
                     $logger->error($logMessage,$context);
                     break;
-                case self::LOG_LEVEL_CRITICAL:
+                case MonologLoggingLevels::CRITICAL:
                     $logger->critical($logMessage,$context);
                     break;
-                case self::LOG_LEVEL_ALERT:
+                case MonologLoggingLevels::ALERT:
                     $logger->alert($logMessage,$context);
                     break;
-                case self::LOG_LEVEL_EMERGENCY:
+                case MonologLoggingLevels::EMERGENCY:
                     $logger->emergency($logMessage,$context);
                     break;
             }
