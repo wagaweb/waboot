@@ -14,7 +14,7 @@ use Waboot\inc\cli\feeds\GenerateGShoppingFeed;
 use Waboot\inc\cli\product_export\ExportProducts;
 use Waboot\inc\cli\product_import\ImportProducts;
 use Waboot\inc\cli\RemoveSalePrices;
-use function Waboot\inc\core\Waboot;
+use function Waboot\inc\core\helpers\registerCommand;
 
 require_once get_stylesheet_directory().'/inc/cli/hooks.php';
 require_once get_stylesheet_directory().'/inc/core/cli/CommandLoggerTrait.php';
@@ -48,16 +48,16 @@ try{
     /*
      * Add commands here
      */
-    Waboot()->registerCommand('export-products', ExportProducts::class,'wawoo');
-    Waboot()->registerCommand('import-products', ImportProducts::class,'wawoo');
-    Waboot()->registerCommand('import-product-images', ImportProductImages::class,'wawoo');
-    Waboot()->registerCommand('import-prices', ImportPrices::class, 'wawoo');
-    Waboot()->registerCommand('parse-and-save-products', ParseAndSaveProducts::class,'wawoo');
-    Waboot()->registerCommand('fix-stock-statuses', FixStockStatuses::class,'wawoo');
-    Waboot()->registerCommand('fix-prices', FixPrices::class,'wawoo');
-    Waboot()->registerCommand('remove-sale-prices', RemoveSalePrices::class,'wawoo');
-    Waboot()->registerCommand('export-orders', ExportOrders::class,'wawoo');
-    Waboot()->registerCommand('test:export-orders', ExportOrdersTest::class,'wawoo');
-    Waboot()->registerCommand('simulate-orders', OrderSimulator::class,'wawoo');
-    Waboot()->registerCommand('feeds:generate-gshopping', GenerateGShoppingFeed::class,'wawoo');
+    registerCommand('export-products', ExportProducts::class,'wawoo');
+    registerCommand('import-products', ImportProducts::class,'wawoo');
+    registerCommand('import-product-images', ImportProductImages::class,'wawoo');
+    registerCommand('import-prices', ImportPrices::class, 'wawoo');
+    registerCommand('parse-and-save-products', ParseAndSaveProducts::class,'wawoo');
+    registerCommand('fix-stock-statuses', FixStockStatuses::class,'wawoo');
+    registerCommand('fix-prices', FixPrices::class,'wawoo');
+    registerCommand('remove-sale-prices', RemoveSalePrices::class,'wawoo');
+    registerCommand('export-orders', ExportOrders::class,'wawoo');
+    registerCommand('test:export-orders', ExportOrdersTest::class,'wawoo');
+    registerCommand('simulate-orders', OrderSimulator::class,'wawoo');
+    registerCommand('feeds:generate-gshopping', GenerateGShoppingFeed::class,'wawoo');
 }catch (\Exception $e){}
