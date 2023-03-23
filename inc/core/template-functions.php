@@ -99,14 +99,7 @@ function locateTemplate($templateNames,$extension = '.php'){
  * @return bool|Theme
  */
 function Waboot(): Theme{
-    static $waboot = false;
-    if(isset($waboot) && $waboot instanceof Theme) return $waboot;
-    if(class_exists(Theme::class) && class_exists(Layout::class)){
-        $waboot = new Theme(new AssetsManager(), new Layout());
-        return $waboot;
-    }
-    trigger_error('Unable to find Theme class', E_USER_NOTICE);
-    return false;
+    return \Waboot\inc\core\helpers\Waboot();
 }
 
 /**
@@ -115,12 +108,7 @@ function Waboot(): Theme{
  * @return bool|AssetsManager
  */
 function AssetsManager(): AssetsManager{
-    $waboot = Waboot();
-    if($waboot instanceof Theme){
-        return $waboot->getAssetsManager();
-    }
-    trigger_error('Unable to find Theme class', E_USER_NOTICE);
-    return false;
+    return \Waboot\inc\core\helpers\AssetsManager();
 }
 
 /**
@@ -129,10 +117,5 @@ function AssetsManager(): AssetsManager{
  * @return bool|Layout
  */
 function Layout(): Layout{
-    $waboot = Waboot();
-    if($waboot instanceof Theme){
-        return $waboot->getLayoutHandler();
-    }
-    trigger_error('Unable to find Theme class', E_USER_NOTICE);
-    return false;
+    return \Waboot\inc\core\helpers\Layout();
 }

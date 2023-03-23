@@ -50,6 +50,9 @@ class Theme{
 	public function loadDependecies(): void
     {
         $deps = [
+            'inc/core/helpers/theme.php',
+            'inc/core/helpers/views.php',
+            'inc/core/helpers/mail.php',
             'inc/core/hooks.php',
             'inc/template-functions.php',
             'inc/template-rendering.php',
