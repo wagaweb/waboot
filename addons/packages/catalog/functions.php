@@ -170,15 +170,11 @@ function updateCatalogProductMetadata(\WC_Product $p): void
     if ($p->get_type() !== 'variable') {
         return;
     }
+    /** @var \WC_Product_Variable $p */
 
     /** @var array<int, \WC_Product_Variation> $variations */
     $variations = [];
-    foreach ($p->get_children() as $cId) {
-        $child = wc_get_product($cId);
-        if (empty($child)) {
-            continue;
-        }
-
+    foreach ($p->get_available_variations('objects') as $child) {
         $variations[$child->get_id()] = $child;
     }
     if (count($variations) === 0) {
