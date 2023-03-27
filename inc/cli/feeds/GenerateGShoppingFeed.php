@@ -377,9 +377,26 @@ class GenerateGShoppingFeed extends AbstractCommand
         $categories = $wbProduct->getCategories(false,true,' > ');
         $price = $wbProduct->getRegularPrice();
         $salePrice = $wbProduct->getSalePrice();
+        /*
+         * BEGIN: Exclude zero priced products
+         */
+        if($product->is_on_sale()){
+            if(!\is_string($salePrice) || $salePrice === '' || $salePrice === '0'){
+                return [];
+            }
+        }else{
+            if(!\is_string($price) || $price === '' || $price === '0'){
+                return [];
+            }
+        }
+        /*
+         * END: Exclude zero priced products
+         */
         $size = $product->get_attribute('size');
         $gtin = getHierarchicalCustomFieldFromProduct($product,'_ean','');
-        if(!$brand instanceof \WP_Term){
+        if(isset($brand) && $brand instanceof \WP_Term){
+            $brand = $brand->name;
+        }else{
             $brand = '';
         }
         //https://support.google.com/merchants/topic/6324338?hl=it&ref_topic=7294998
