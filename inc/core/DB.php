@@ -113,4 +113,12 @@ class DB
             return false;
         }
     }
+
+    /**
+     * @throws DBException
+     */
+    public static function queryTable(string $table): \Illuminate\Database\Query\Builder
+    {
+        return self::getInstance()->getQueryBuilder()::table($table);
+    }
 }
