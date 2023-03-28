@@ -107,6 +107,9 @@ abstract class AbstractExportableProduct implements ExportableProductInterface
             case 'short_description':
                 $dataValue = $this->getShortDescription();
                 break;
+            case 'status':
+                $dataValue = $this->getWcProduct()->get_status();
+                break;
             case 'featured_image':
                 $image = '';
                 $p = $this->getWcProduct();

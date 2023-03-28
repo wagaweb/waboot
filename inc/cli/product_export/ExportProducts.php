@@ -3,9 +3,7 @@
 namespace Waboot\inc\cli\product_export;
 
 use League\Csv\Writer;
-use Waboot\inc\cli\product_export\ExportableProductFactory;
 use Waboot\inc\core\cli\AbstractCommand;
-use Waboot\inc\core\cli\CLIRuntimeException;
 
 class ExportProducts extends AbstractCommand
 {
@@ -50,9 +48,13 @@ class ExportProducts extends AbstractCommand
      */
     protected $includedMetas;
     /**
+     * @var bool
+     */
+    protected bool $skipVariablesProducts = false;
+    /**
      * @var array
      */
-    protected $columnsRenameMap;
+    protected $columnsRenameMap = [];
     /**
      * @var int
      */
@@ -60,7 +62,7 @@ class ExportProducts extends AbstractCommand
     /**
      * @var array
      */
-    private $csvColumns;
+    private $csvColumns = [];
 
     /**
      * Generate a CSV with all products
@@ -94,6 +96,9 @@ class ExportProducts extends AbstractCommand
      * [--manifest]
      * : Absolute path to a manifest file
      *
+     * [--skip-variable]
+     * : Skip variable products
+     *
      * ## EXAMPLES
      *
      *      wp wb:export-products
@@ -114,8 +119,8 @@ class ExportProducts extends AbstractCommand
             }
             $this->language = $assoc_args['lang'] ?? 'it';
             $this->buildOutputFileNameAndDir();
-            if(isset($assoc_args['output-dir-path']) && \is_string($assoc_args['output-dir-path']) && $assoc_args['output-dir-path'] !== ''){
-                $this->outputFilePath = $assoc_args['output-dir-path'];
+            if(isset($assoc_args['output-file-path']) && \is_string($assoc_args['output-file-path']) && $assoc_args['output-file-path'] !== ''){
+                $this->outputFilePath = $assoc_args['output-file-path'];
             }
             if(isset($assoc_args['output-file-name']) && \is_string($assoc_args['output-file-name']) && $assoc_args['output-file-name'] !== ''){
                 $this->outputFileName = $assoc_args['output-file-name'];
@@ -157,6 +162,7 @@ class ExportProducts extends AbstractCommand
             if(isset($this->includedMetas)){
                 $this->log('Included meta: '.implode(',',$this->includedMetas));
             }
+            $this->skipVariablesProducts = isset($assoc_args['skip-variable']);
             //Attach hooks
             $this->attachHooks();
             if(!$this->hasProducts()){
@@ -199,6 +205,9 @@ class ExportProducts extends AbstractCommand
         }
     }
 
+    /**
+     * @return void
+     */
     public function generateCSV(): void
     {
         if (!wp_mkdir_p($this->outputFilePath)) {
@@ -212,19 +221,10 @@ class ExportProducts extends AbstractCommand
             $this->log('Writing of: '.$outputFile);
             $csv = Writer::createFromPath($outputFile,'w+');
             $csv->setDelimiter(';');
-            if(!isset($this->columnsRenameMap) || !\is_array($this->columnsRenameMap)){
-                $csv->insertOne($this->csvColumns);
-            }else{
-                $csvColumns = $this->csvColumns;
-                foreach ($this->columnsRenameMap as $renameEntry){
-                    foreach ($csvColumns as $k => $column){
-                        if($column === $renameEntry['src']){
-                            $csvColumns[$k] = $renameEntry['dest'];
-                        }
-                    }
-                }
-                $csv->insertOne($csvColumns);
-            }
+            $csvColumns = $this->csvColumns;
+            $this->excludeColumns($csvColumns);
+            $csv->insertOne($csvColumns);
+            $this->log('Inserted renamed columns: '.implode(';',$csvColumns));
             $bundleRecords = [];
             foreach ($this->getRecords() as $record) {
                 try{
@@ -232,25 +232,38 @@ class ExportProducts extends AbstractCommand
                         continue;
                     }
                     if(isset($record['id'])){
+                        $this->log('- Parsing product: #'.$record['id']);
                         if($record['type'] === 'bundle'){
+                            $this->log('-- It\' a bundle: wait at the end');
                             $bundleRecords[] = $record; //We need bundles at the end
                         }else{
+                            $this->log('-- It\'s a simple product');
+                            $this->excludeColumns($record);
                             $csv->insertOne(array_values($record));
+                            $this->log('--- Product inserted successfully');
                         }
                     }else{
                         //Multidimensional array (variable product and variations)
-                        foreach ($record as $r){
+                        $this->log('-- It\'s a variable product with its variations');
+                        foreach ($record as $i => $r){
+                            if ($this->skipVariablesProducts && $i === 0) {
+                                continue;
+                            }
+                            if($r === null){
+                                continue;
+                            }
+
+                            $this->excludeColumns($r);
                             $csv->insertOne($r);
                         }
-                        if($r === null){
-                            continue;
-                        }
+                        $this->log('--- Product inserted successfully');
                     }
                 }catch (\Exception $e){
                     $this->log('- Error: '.$e->getMessage());
                 }
             }
             if(count($bundleRecords) > 0){
+                $this->log('- Inserting bundles...');
                 foreach ($bundleRecords as $record){
                     $csv->insertOne(array_values($record));
                 }
@@ -261,6 +274,22 @@ class ExportProducts extends AbstractCommand
         }
     }
 
+    /**
+     * @param array $row
+     * @return void
+     */
+    public function excludeColumns(array &$row): void
+    {
+        foreach ($this->excludedColumns as $c) {
+            if (key_exists($c, $row)) {
+                unset($row[$c]);
+            }
+        }
+    }
+
+    /**
+     * @return void
+     */
     public function generateCSVColumns(): void
     {
         $standardColumns = [
@@ -271,7 +300,8 @@ class ExportProducts extends AbstractCommand
             'sku_parent',
             'name',
             'description',
-            'short_description'
+            'short_description',
+            'status'
         ];
         $metaColumns = [
             'meta:_regular_price',
@@ -341,10 +371,36 @@ class ExportProducts extends AbstractCommand
         $csvColumns = array_merge($standardColumns,$metaColumns,$taxColumns,$finalAttColumns,$mediaColumns,$customColumns);
 
         if(\is_array($this->excludedColumns) && count($this->excludedColumns) > 0){
-            $csvColumns = array_values(array_diff($csvColumns,$this->excludedColumns));
+            $rawExcludedColumns = $this->excludedColumns;
+            $excludedColumns = array_filter($rawExcludedColumns, static function(string $column){
+                return !\in_array($column,['id','parent_id','type'],true); //Cannot remove id,parent_id and type here
+            });
+            $csvColumns = array_values(array_diff($csvColumns,$excludedColumns));
         }
 
-        $this->csvColumns = $csvColumns;
+        $this->log('Generated columns: '.implode(';',$csvColumns));
+
+        foreach ($this->columnsRenameMap as $src => $dest) {
+            if (key_exists($src, $csvColumns)) {
+                $this->csvColumns[$src] = $dest;
+                unset($csvColumns[$src]);
+            }
+        }
+
+        foreach ($this->columnsRenameMap as $src => $dest) {
+            $idx = array_search($src, $csvColumns);
+            if ($idx !== false) {
+                $this->csvColumns[$src] = $dest;
+                unset($csvColumns[$idx]);
+            }
+        }
+
+        $tmp = [];
+        foreach ($csvColumns as $c) {
+            $tmp[$c] = $c;
+        }
+
+        $this->csvColumns = array_merge($this->csvColumns, $tmp);
     }
 
     /**
@@ -365,7 +421,7 @@ class ExportProducts extends AbstractCommand
         }
         foreach ($this->getProducts() as $product) {
             $exportableProduct = ExportableProductFactory::create($product);
-            yield $exportableProduct->createRecord($this->csvColumns);
+            yield $exportableProduct->createRecord(array_keys($this->csvColumns));
         }
     }
 
@@ -377,7 +433,7 @@ class ExportProducts extends AbstractCommand
         $qArgs = [
             'post_type' => ['product'],
             'posts_per_page' => $this->limit ?? -1,
-            'post_status' => 'publish',
+            'post_status' => ['publish','draft','pending'],
             'fields' => 'ids'
         ];
         if(isset($this->providedIds) && count($this->providedIds) !== 0){
@@ -484,10 +540,7 @@ class ExportProducts extends AbstractCommand
         if(json_last_error() === JSON_ERROR_NONE){
             if(isset($jsonContent['rename_columns']) && \is_array($jsonContent['rename_columns'])){
                 foreach ($jsonContent['rename_columns'] as $src => $dest){
-                    $this->columnsRenameMap[] = [
-                        'src' => $src,
-                        'dest' => $dest
-                    ];
+                    $this->columnsRenameMap[$src] = $dest;
                 }
             }
             if(isset($jsonContent['exclude_columns']) && \is_array($jsonContent['exclude_columns'])){
@@ -506,11 +559,13 @@ class ExportProducts extends AbstractCommand
                 //Custom columns will be automatically renamed to exclude the function name
                 foreach ($this->customColumns as $customColumn){
                     preg_match('|([a-zA-Z]+):|',$customColumn,$columnNameRegExResults);
-                    if(\is_array($columnNameRegExResults) && isset($columnNameRegExResults[1])){
-                        $this->columnsRenameMap[] = [
-                            'src' => 'cs:'.$customColumn, //cs: is added
-                            'dest' => $columnNameRegExResults[1]
-                        ];
+                    $srcName = 'cs:'.$customColumn;
+                    if(
+                        \is_array($columnNameRegExResults) &&
+                        isset($columnNameRegExResults[1]) &&
+                        !key_exists($srcName, $this->columnsRenameMap)
+                    ){
+                        $this->columnsRenameMap[$srcName] = $columnNameRegExResults[1];
                     }
                 }
                 $this->customColumns = array_map(static function($el){ return 'cs:'.$el; },$this->customColumns);
