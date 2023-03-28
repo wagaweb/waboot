@@ -11,7 +11,7 @@ class ExportableProductVariable extends AbstractExportableProduct
         parent::__construct($product);
     }
 
-    public function createRecord(array $columnData): array
+    public function createRecord(array $columnData): ?array
     {
         if(!$this->hasVariations()){
             return parent::createRecord($columnData);

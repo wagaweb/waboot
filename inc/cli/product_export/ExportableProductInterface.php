@@ -8,5 +8,5 @@ interface ExportableProductInterface
      * @param array $columnData
      * @return array
      */
-    public function createRecord(array $columnData): array;
+    public function createRecord(array $columnData): ?array;
 }

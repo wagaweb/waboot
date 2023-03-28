@@ -21,7 +21,7 @@ class ExportableProductVariation extends AbstractExportableProduct
         $this->parentId = $product->get_parent_id();
     }
 
-    public function createRecord(array $columnData): array
+    public function createRecord(array $columnData): ?array
     {
         $record = parent::createRecord($columnData);
         if(isset($record['parent_id']) && $record['parent_id'] === ''){

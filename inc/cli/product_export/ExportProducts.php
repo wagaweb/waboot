@@ -44,6 +44,10 @@ class ExportProducts extends AbstractCommand
     /**
      * @var string[]
      */
+    protected array $hooks = [];
+    /**
+     * @var string[]
+     */
     protected $includedMetas;
     /**
      * @var array
@@ -153,6 +157,8 @@ class ExportProducts extends AbstractCommand
             if(isset($this->includedMetas)){
                 $this->log('Included meta: '.implode(',',$this->includedMetas));
             }
+            //Attach hooks
+            $this->attachHooks();
             if(!$this->hasProducts()){
                 throw new \RuntimeException('Error: no products found');
             }
@@ -163,6 +169,33 @@ class ExportProducts extends AbstractCommand
         }catch (\Exception $e){
             $this->error($e->getMessage());
             return 1;
+        }
+    }
+
+    public function attachHooks(): void
+    {
+        if(!isset($this->hooks) || !\is_array($this->hooks) || empty($this->hooks)){
+            return;
+        }
+        foreach ($this->hooks as $hookString){
+            $hookData = [];
+            $hookString = str_replace('\\','/',$hookString);
+            $hookString = trim($hookString);
+            preg_match('|([a-zA-Z]+):([a-zA-Z0-9_/]+):([a-zA-Z0-9_/]+):([0-9]+):([0-9]+)|',$hookString,$hookData);
+            if(!empty($hookData) && count($hookData) === 6){
+                $hookType = $hookData[1];
+                $hookName = $hookData[2];
+                $hookFunction = str_replace('/','\\',$hookData[3]);
+                $hookPriority = $hookData[4];
+                $hookArgs = $hookData[5];
+                if(\is_callable($hookFunction)){
+                    if($hookType === 'action'){
+                        add_action($hookName,$hookFunction,$hookPriority,$hookArgs);
+                    }elseif($hookType === 'filter'){
+                        add_filter($hookName,$hookFunction,$hookPriority,$hookArgs);
+                    }
+                }
+            }
         }
     }
 
@@ -195,6 +228,9 @@ class ExportProducts extends AbstractCommand
             $bundleRecords = [];
             foreach ($this->getRecords() as $record) {
                 try{
+                    if($record === null){
+                        continue;
+                    }
                     if(isset($record['id'])){
                         if($record['type'] === 'bundle'){
                             $bundleRecords[] = $record; //We need bundles at the end
@@ -205,6 +241,9 @@ class ExportProducts extends AbstractCommand
                         //Multidimensional array (variable product and variations)
                         foreach ($record as $r){
                             $csv->insertOne($r);
+                        }
+                        if($r === null){
+                            continue;
                         }
                     }
                 }catch (\Exception $e){
@@ -481,6 +520,13 @@ class ExportProducts extends AbstractCommand
                     $this->includedMetas = array_unique(array_merge($this->includedMetas,$jsonContent['include_meta']));
                 }else{
                     $this->includedMetas = array_merge($jsonContent['include_meta']);
+                }
+            }
+            if(isset($jsonContent['hooks']) && \is_array($jsonContent['hooks'])){
+                if(isset($this->hooks)){
+                    $this->hooks = array_unique(array_merge($this->hooks,$jsonContent['hooks']));
+                }else{
+                    $this->hooks = array_merge($jsonContent['hooks']);
                 }
             }
         }else{

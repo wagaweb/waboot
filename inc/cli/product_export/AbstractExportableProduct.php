@@ -66,8 +66,11 @@ abstract class AbstractExportableProduct implements ExportableProductInterface
         return $desc;
     }
 
-    public function createRecord(array $columnData): array
+    public function createRecord(array $columnData): ?array
     {
+        if(apply_filters('waboot/cli/product_export/can_create_record', true, $this, $columnData) === false){
+            return null;
+        }
         if(empty($columnData)){
             return [];
         }
