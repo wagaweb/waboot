@@ -34,7 +34,7 @@ class ExportProducts extends AbstractCommand
     /**
      * @var string[]
      */
-    protected $excludedColumns;
+    protected array $excludedColumns = [];
     /**
      * @var string[]
      */
