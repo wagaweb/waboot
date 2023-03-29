@@ -430,12 +430,20 @@ class ExportProducts extends AbstractCommand
      */
     public function getProducts(): ?\Generator
     {
+        $exportableStatuses = apply_filters('waboot/cli/product_export/exportable_product_statuses', ['publish','draft','pending']);
+        if(!\is_array($exportableStatuses) || empty($exportableStatuses)){
+            return null;
+        }
         $qArgs = [
             'post_type' => ['product'],
             'posts_per_page' => $this->limit ?? -1,
-            'post_status' => ['publish','draft','pending'],
+            'post_status' => $exportableStatuses,
             'fields' => 'ids'
         ];
+        $qArgs = apply_filters('waboot/cli/product_export/get_posts_args', $qArgs);
+        if(!\is_array($qArgs) || empty($qArgs)){
+            return null;
+        }
         if(isset($this->providedIds) && count($this->providedIds) !== 0){
             $qArgs['post__in'] = $this->providedIds;
         }
