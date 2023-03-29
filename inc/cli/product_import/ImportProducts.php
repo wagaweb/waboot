@@ -124,7 +124,7 @@ class ImportProducts extends AbstractCSVParserCommand
         }
         $this->log('Size attribute taxonomy name: '.$this->sizeTaxonomyName);
         if(!isset($this->mustUpdatePrices)){
-            $this->mustUpdatePrices = isset($assoc_args['update-stocks']);
+            $this->mustUpdatePrices = isset($assoc_args['update-prices']);
         }
         if($this->mustUpdatePrices === true){
             $this->log('Prices will be updated');
