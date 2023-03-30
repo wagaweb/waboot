@@ -17,7 +17,7 @@ use Waboot\inc\core\MailHeader;
  *
  * @param string $subject
  * @param string $body
- * @param string $to
+ * @param string|array $to
  * @param array $customHeaders
  * @param array $attachments
  * @param bool $sendAsHtml
@@ -25,8 +25,13 @@ use Waboot\inc\core\MailHeader;
  * @throws MailAttachmentException
  * @throws MailException
  */
-function sendMail(string $subject, string $body, string $to, array $customHeaders = [], array $attachments = [], bool $sendAsHtml = true): bool {
-    $m = new Mail($subject,$body,new MailAddress($to));
+function sendMail(string $subject, string $body, $to, array $customHeaders = [], array $attachments = [], bool $sendAsHtml = true): bool {
+    if(\is_array($to)){
+        $to = array_map(fn($to) => new MailAddress($to),$to);
+    }else{
+        $to = new MailAddress($to);
+    }
+    $m = new Mail($subject,$body,$to);
     if(!empty($customHeaders)){
         foreach ($customHeaders as $customHeaderData){
             if(!array_key_exists('name',$customHeaderData)){
