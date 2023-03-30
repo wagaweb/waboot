@@ -17,7 +17,7 @@ class Mail
      */
     protected $body;
     /**
-     * @var MailAddress[]
+     * @var MailAddress
      */
     protected $from;
     /**
@@ -60,13 +60,14 @@ class Mail
     /**
      * @param string $subject
      * @param string $body
-     * @param MailAddress $to
+     * @param array|string $to
+     * @throws MailException
      */
-    public function __construct(string $subject, string $body, MailAddress $to)
+    public function __construct(string $subject, string $body, $to)
     {
         $this->subject = $subject;
         $this->body = $body;
-        $this->to = $to;
+        $this->setTo($to);
     }
 
     /**
@@ -102,35 +103,55 @@ class Mail
     }
 
     /**
-     * @return MailAddress
+     * @return MailAddress|null
      */
-    public function getFrom(): ?MailAddress
+    public function getFrom(): ?array
     {
         return $this->from;
     }
 
     /**
-     * @param string $from
+     * @param MailAddress $from
      */
-    public function setFrom(string $from): void
+    public function setFrom(MailAddress $from): void
     {
         $this->from = $from;
     }
 
     /**
-     * @return MailAddress
+     * @return MailAddress|MailAddress[]
      */
-    public function getTo(): ?MailAddress
+    public function getTo(): array
     {
         return $this->to;
     }
 
     /**
-     * @param string $to
+     * @return array
      */
-    public function setTo(string $to): void
+    public function getToAddresses(): array
     {
-        $this->to = $to;
+        return array_map(fn(MailAddress $m) => $m->getAddress(),$this->to);
+    }
+
+    /**
+     * @param MailAddress|MailAddress[] $to
+     * @throws MailException
+     */
+    public function setTo($to): void
+    {
+        if(!\is_array($to)){
+            if(!$to instanceof MailAddress){
+                throw new MailException('No valid recipient address provided');
+            }
+            $this->to = [$to];
+        }else{
+            $to = array_filter($to,function ($m){ return $m instanceof MailAddress; });
+            if(empty($to)){
+                throw new MailException('No valid recipient address provided');
+            }
+            $this->to = $to;
+        }
     }
 
     /**
@@ -317,7 +338,10 @@ class Mail
             }
         }
         if($this->isSendingAsHTML()){
-            $this->addHeader(new MailHeader('Content-Type', 'text/html; charset=UTF-8'));
+            //$this->addHeader(new MailHeader('Content-Type', 'text/html; charset=UTF-8'));
+            add_filter('wp_mail_content_type', static function(){
+                return 'text/html';
+            });
         }
         if($this->hasHeaders()){
             $headers = [];
@@ -341,7 +365,7 @@ class Mail
             $body = nl2br($body);
         }
 
-        return wp_mail($this->getTo()->getAddress(),$this->getSubject(),$body,$headers,$attachments);
+        return wp_mail($this->getToAddresses(),$this->getSubject(),$body,$headers,$attachments);
     }
 
     /**
