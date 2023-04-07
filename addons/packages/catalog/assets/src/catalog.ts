@@ -174,6 +174,22 @@ type TaxRef = UnwrapRef<{
   loading: boolean;
 }>;
 
+// todo: this is inefficient solution
+function getTaxRefSelectTermsExcludingParents(taxRef: TaxRef): string[] {
+  const selected = Array.from(taxRef.selectedTerms);
+  const parents = new Array<string>();
+  for (const tId of selected) {
+    const t = taxRef.flatTerms.get(tId);
+    if (!t || t.parent === '0') {
+      continue;
+    }
+
+    parents.push(t.parent);
+  }
+
+  return selected.filter(v => !parents.includes(v));
+}
+
 export type TaxApplier = (price: number, taxClass: string) => number;
 
 function createTaxApplier(pricesIncludeTax: boolean): TaxApplier {
@@ -311,7 +327,7 @@ export function useCatalog(config: CatalogConfig) {
     }
 
     for (const [tax, taxRef] of taxRefs.entries()) {
-      const ids = Array.from(taxRef.selectedTerms);
+      const ids = getTaxRefSelectTermsExcludingParents(taxRef);
       if (ids.length === 0) {
         continue;
       }
@@ -356,7 +372,7 @@ export function useCatalog(config: CatalogConfig) {
     for (const [tax, taxRef] of taxRefs.entries()) {
       const filter: TaxFilter = {
         op: 'or',
-        terms: Array.from(taxRef.selectedTerms),
+        terms: getTaxRefSelectTermsExcludingParents(taxRef),
       };
       if (taxRef.options.exclude && taxRef.options.exclude.length > 0) {
         filter.op = 'not';
