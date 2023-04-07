@@ -85,6 +85,14 @@ if (defined('WB_CATALOG_BASEURL')) {
 
     $catalog['taxonomies'] = $taxonomies;
 
+    $searchQuery = get_search_query();
+    if ($_GET['dgwt_wcas'] ?? '' === '1' && !empty($searchQuery) && class_exists('DGWT_WC_Ajax_Search')) {
+        $ajaxSearch = DGWT_WC_Ajax_Search::getInstance();
+        $res = $ajaxSearch->nativeSearch->getSearchResults($searchQuery, true, 'all-results');
+        $ids = array_map(fn($r) => $r->ID, $res['suggestions']);
+        $catalog['productIds'] = $ids;
+    }
+
     echo renderCatalog($catalog);
 } else {
     if (woocommerce_product_loop()) {
