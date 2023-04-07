@@ -39,12 +39,12 @@
 .catalog-filters {
   &__button {
     background-color: transparent;
-    color: $colorPrimary;;
+    color: $colorPrimary;
     border: 1px solid $colorGrey;
     text-align: center;
     margin: 0;
     @include up($medium) {
-      display: none;
+      display: none !important;
     }
   }
   &__close,

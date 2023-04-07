@@ -12,35 +12,38 @@
           v-if="config.layoutMode === 'sidebar' || config.layoutMode === 'block'"
           class="catalog-filters__inner catalog-filters__inner--sidebar"
       >
-        <template v-if="config.enableFilters" v-for="[tax, taxRef] in taxRefs">
-          <div
-              v-if="taxRef.terms.length > 0"
-              :key="tax"
-              :class="`catalog__filter catalog__filter--${tax}`"
-          >
-            <FilterList
-                v-if="taxRef.options.type === 'checkbox'"
-                :key="`${tax}-checkbox`"
-                :taxonomy="tax"
-                :title="taxRef.options.title"
-                :terms="taxRef.terms"
-                :selected-terms="taxRef.selectedTerms"
-                :toggle-cb="onFilterListToggleAndReload"
-                :max-depth="taxRef.options.maxDepth"
-                :full-open="taxRef.options.fullOpen"
-            ></FilterList>
-            <PermalinkList
-                v-else-if="taxRef.options.type === 'permalink'"
-                :key="`${tax}-permalink`"
-                :taxonomy="tax"
-                :title="taxRef.options.title"
-                :terms="taxRef.terms"
-                :base-url="`${config.baseUrl}/${taxRef.options.rewrite}`"
-                :max-depth="taxRef.options.maxDepth"
-                :full-open="taxRef.options.fullOpen"
-            ></PermalinkList>
-            <p v-else>{{ `Invalid filter type: ${taxRef.options.type}` }}</p>
-          </div>
+        <template v-if="config.enableFilters">
+          <h3>{{ $t('filterFor') }}</h3>
+          <template v-for="[tax, taxRef] in taxRefs">
+            <div
+                v-if="taxRef.terms.length > 0"
+                :key="tax"
+                :class="`catalog__filter catalog__filter--${tax}`"
+            >
+              <FilterList
+                  v-if="taxRef.options.type === 'checkbox'"
+                  :key="`${tax}-checkbox`"
+                  :taxonomy="tax"
+                  :title="taxRef.options.title"
+                  :terms="taxRef.terms"
+                  :selected-terms="taxRef.selectedTerms"
+                  :toggle-cb="onFilterListToggleAndReload"
+                  :max-depth="taxRef.options.maxDepth"
+                  :full-open="taxRef.options.fullOpen"
+              ></FilterList>
+              <PermalinkList
+                  v-else-if="taxRef.options.type === 'permalink'"
+                  :key="`${tax}-permalink`"
+                  :taxonomy="tax"
+                  :title="taxRef.options.title"
+                  :terms="taxRef.terms"
+                  :base-url="`${config.baseUrl}/${taxRef.options.rewrite}`"
+                  :max-depth="taxRef.options.maxDepth"
+                  :full-open="taxRef.options.fullOpen"
+              ></PermalinkList>
+              <p v-else>{{ `Invalid filter type: ${taxRef.options.type}` }}</p>
+            </div>
+          </template>
         </template>
         <div
             v-if="config.enablePriceFilter"
