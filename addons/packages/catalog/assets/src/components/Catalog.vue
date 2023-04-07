@@ -12,25 +12,6 @@
           v-if="config.layoutMode === 'sidebar' || config.layoutMode === 'block'"
           class="catalog-filters__inner catalog-filters__inner--sidebar"
       >
-        <div
-            v-if="config.enablePriceFilter"
-            class="catalog__filter catalog__filter--price"
-        >
-          <div class="filter">
-            <h4 class="filter__title">
-              {{ $t('price') }}
-            </h4>
-            <div class="filter__dropdown">
-              <PriceRangeSlider
-                  :min="priceRange.min"
-                  :max="priceRange.max"
-                  :selectedMin="selectedPriceRange?.min ?? priceRange.min"
-                  :selectedMax="selectedPriceRange?.max ?? priceRange.max"
-                  @change="onPriceRangeSliderChangeAndReload"
-              ></PriceRangeSlider>
-            </div>
-          </div>
-        </div>
         <template v-if="config.enableFilters" v-for="[tax, taxRef] in taxRefs">
           <div
               v-if="taxRef.terms.length > 0"
@@ -61,6 +42,25 @@
             <p v-else>{{ `Invalid filter type: ${taxRef.options.type}` }}</p>
           </div>
         </template>
+        <div
+            v-if="config.enablePriceFilter"
+            class="catalog__filter catalog__filter--price"
+        >
+          <div class="filter">
+            <h4 class="filter__title">
+              {{ $t('price') }}
+            </h4>
+            <div class="filter__dropdown">
+              <PriceRangeSlider
+                  :min="priceRange.min"
+                  :max="priceRange.max"
+                  :selectedMin="selectedPriceRange?.min ?? priceRange.min"
+                  :selectedMax="selectedPriceRange?.max ?? priceRange.max"
+                  @change="onPriceRangeSliderChangeAndReload"
+              ></PriceRangeSlider>
+            </div>
+          </div>
+        </div>
         <a  v-if="config.enableFilters" class="catalog-filters__apply btn" @click="sidebarOpen = false">
           {{ $t('apply') }}
         </a>
@@ -69,27 +69,6 @@
           v-if="config.layoutMode === 'header'"
           class="catalog-filters__inner catalog-filters__inner--header"
       >
-        <div
-            v-if="config.enablePriceFilter"
-            class="catalog__filter catalog__filter--price"
-        >
-          <Dropdown
-              :ref="addDdRef"
-              @toggle="onDdToggle"
-              :title="$t('price')"
-              @apply="onDdApplyPriceRange"
-          >
-            <div class="filter filter--price-slider">
-              <PriceRangeSlider
-                  :min="priceRange.min"
-                  :max="priceRange.max"
-                  :selectedMin="selectedPriceRange?.min ?? priceRange.min"
-                  :selectedMax="selectedPriceRange?.max ?? priceRange.max"
-                  @change="onPriceRangeSliderChange"
-              ></PriceRangeSlider>
-            </div>
-          </Dropdown>
-        </div>
         <template v-if="config.enableFilters" v-for="[tax, taxRef] in taxRefs">
           <div
               v-if="taxRef.terms.length > 0"
@@ -127,6 +106,27 @@
             </Dropdown>
           </div>
         </template>
+        <div
+            v-if="config.enablePriceFilter"
+            class="catalog__filter catalog__filter--price"
+        >
+          <Dropdown
+              :ref="addDdRef"
+              @toggle="onDdToggle"
+              :title="$t('price')"
+              @apply="onDdApplyPriceRange"
+          >
+            <div class="filter filter--price-slider">
+              <PriceRangeSlider
+                  :min="priceRange.min"
+                  :max="priceRange.max"
+                  :selectedMin="selectedPriceRange?.min ?? priceRange.min"
+                  :selectedMax="selectedPriceRange?.max ?? priceRange.max"
+                  @change="onPriceRangeSliderChange"
+              ></PriceRangeSlider>
+            </div>
+          </Dropdown>
+        </div>
       </div>
     </div>
     <div class="catalog__header">
