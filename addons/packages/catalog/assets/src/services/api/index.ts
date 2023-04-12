@@ -43,6 +43,7 @@ export interface Product {
   averageRating: number;
   link: string;
   image?: Image;
+  secondaryImage?: Image;
   gallery: Image[];
   metadata: {
     [metaKey: string]: unknown;

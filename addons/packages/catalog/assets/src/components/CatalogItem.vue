@@ -226,8 +226,14 @@ export default defineComponent({
     },
     image(): string | undefined {
       return (
-        this.product.image?.sizes['shop_catalog']?.link ??
+        this.product.image?.sizes['woocommerce_thumbnail']?.link ??
         this.product.image?.link
+      );
+    },
+    secondaryImage(): string | undefined {
+      return (
+        this.product.secondaryImage?.sizes['woocommerce_thumbnail']?.link ??
+        this.product.secondaryImage?.link
       );
     },
     minPrice(): string {
