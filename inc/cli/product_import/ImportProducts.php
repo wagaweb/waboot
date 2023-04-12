@@ -441,7 +441,7 @@ class ImportProducts extends AbstractCSVParserCommand
             if($CSVRow->hasSlug()){
                 $parentProduct->set_slug($CSVRow->getSlug());
             }
-            $parentProduct->set_sku($CSVRow->getGroupId());
+            //$parentProduct->set_sku($CSVRow->getGroupId());
             $parentProduct->set_short_description($CSVRow->getShortDescription());
             $parentProduct->set_description($CSVRow->getLongDescription());
             $parentProduct->update_meta_data('_group_id', $CSVRow->getGroupId());
@@ -466,7 +466,8 @@ class ImportProducts extends AbstractCSVParserCommand
             }
 
             if(!$this->isDryRun()){
-                if($parentProduct->save() === 0){
+                $parentProductId = $parentProduct->save();
+                if(!\is_int($parentProductId) || $parentProductId === 0){
                     throw new ImportProductsException(sprintf('Unable to create variable product identified by %s', $CSVRow->getParentSku()));
                 }
             }
@@ -621,7 +622,8 @@ class ImportProducts extends AbstractCSVParserCommand
         $parentProduct->set_attributes($parentAttributes);
 
         if(!$this->isDryRun()){
-            if($product->save()) {
+            $productId = $product->save();
+            if(!\is_int($productId) || $productId === 0) {
                 throw new ImportProductsException(sprintf('Unable to create or update variation identified by %s', $CSVRow->getIdentifier()));
             }
         }
