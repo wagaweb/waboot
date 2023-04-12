@@ -63,7 +63,7 @@ class ImportExportCSVColumnHelpers
     static function getAttributeInfoFromColumnName(string $columnName): ?array
     {
         $info = [];
-        $attributeRegEx = preg_match('|attribute:([_a-zA-Z0-9]+)|',$columnName,$matches);
+        $attributeRegEx = preg_match('|attribute:([_a-zA-Z0-9-]+)|',$columnName,$matches);
         if(isset($matches) && count($matches) > 1){
             $info['taxonomy'] = $matches[1];
         }else{

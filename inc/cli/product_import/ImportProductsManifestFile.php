@@ -153,9 +153,9 @@ class ImportProductsManifestFile
 
     /**
      * @param string $settingName
-     * @return string|null
+     * @return mixed|null
      */
-    public function getSetting(string $settingName): ?string
+    public function getSetting(string $settingName)
     {
         return $this->getSettings()[$settingName] ?? null;
     }
