@@ -187,7 +187,9 @@ class ParseAndSaveProducts extends AbstractCommand
             'orderby' => 'ID',
             'order' => 'ASC',
         ];
-        if($this->parseOnlyPublished){
+        if(\is_array($this->providedStatuses) && !empty($this->providedStatuses)){
+            $qArgs['post_status'] = $this->providedStatuses;
+        }elseif($this->parseOnlyPublished){
             $qArgs['post_status'] = ['publish'];
         }else{
             $qArgs['post_status'] = ['any'];
