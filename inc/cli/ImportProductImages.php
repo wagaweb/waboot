@@ -293,7 +293,7 @@ class ImportProductImages extends AbstractCommand
                     }
                 }
                 if(!empty($galleryIds)){
-                    if(getProductType($productId) === 'product_variation'){
+                    if(getProductType($productId) === 'variation'){
                         do_action('wawoo_product_images_importer/setting_variation_gallery',$productId,$galleryIds);
                     }else{
                         $this->log(sprintf('- Set di "_product_image_gallery" per %d = %s',$productId,implode(',',$galleryIds)));
