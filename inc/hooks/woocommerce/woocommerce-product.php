@@ -66,10 +66,10 @@ add_filter('wc_stripe_hide_payment_request_on_product_page', '__return_true');
 
 
 /**
- * Sales Percentage Label
+ * Sales Percentage Label (blocks)
  */
-add_filter('woocommerce_sale_flash', function ($html, $post, $product) {
-    if ($product instanceof \WC_Product && $product->is_on_sale() && getProductSalePercentage($product) != 0) {
+add_filter('woocommerce_blocks_product_grid_item_html', function ($html, $data, $product) {
+    if ($product instanceof \WC_Product && $product->is_on_sale()) {
         $percentage = getProductSalePercentage($product);
         if ($percentage <= 10) {
             $class = "small";
@@ -78,7 +78,36 @@ add_filter('woocommerce_sale_flash', function ($html, $post, $product) {
         } else {
             $class = "big";
         }
-        $html = '<span class="woocommerce-loop-product__sale onsale ' . $class . '">-' . $percentage . '%</span>';
+        $data->badge = '<span class="woocommerce-loop-product__sale onsale ' . $class . '"> ' . $percentage . '% off</span>';
+        $html = "<li class=\"wc-block-grid__product\">
+            <a href=\"{$data->permalink}\" class=\"wc-block-grid__product-link\">
+                {$data->image}
+                {$data->title}
+            </a>
+            {$data->badge}
+            {$data->price}
+            {$data->rating}
+            {$data->button}
+		</li>";
+        return $html;
+    }
+    return $html;
+}, 11, 3);
+
+/**
+ * Sales Percentage Label
+ */
+add_filter('woocommerce_blocks_product_grid_item_html', function ($html, $post, $product) {
+    if ($product instanceof \WC_Product && $product->is_on_sale()) {
+        $percentage = getProductSalePercentage($product);
+        if ($percentage <= 10) {
+            $class = "small";
+        } elseif ($percentage <= 30) {
+            $class = "medium";
+        } else {
+            $class = "big";
+        }
+        $html = '<span class="woocommerce-loop-product__sale onsale ' . $class . '"> ' . $percentage . '% off</span>';
     }
     return $html;
 }, 10, 3);
