@@ -6,6 +6,7 @@ export const itIT: MessageDictionarySchema = {
   filterFor: 'Filtra per',
   default: 'Predefinito',
   alphabetic: 'Alfabetico',
+  newest: 'Ultimi arrivi',
   popularity: 'Popolarità',
   priceHighToLow: 'Prezzo in ordine decrescente',
   priceLowToHigh: 'Prezzo in ordine crescente',
@@ -14,7 +15,7 @@ export const itIT: MessageDictionarySchema = {
   noProductsFound: 'Nessun prodotto trovato',
   from: 'da',
   outOfStock: 'Non disponibile',
-  addToCart: 'Aggiungi al Carrello',
+  addToCart: 'Aggiungi al carrello',
   addProductToCart: 'Aggiungi {0} al carrello',
   showProduct: 'Scopri di più',
 };

@@ -6,6 +6,7 @@ export const enGB: MessageDictionarySchema = {
   filterFor: 'Filter for',
   default: 'Default',
   alphabetic: 'Alphabetic',
+  newest: 'Latest arrivals',
   popularity: 'Popularity',
   priceHighToLow: 'Price: high to low',
   priceLowToHigh: 'Price: low to high',

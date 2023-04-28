@@ -149,6 +149,7 @@
             id="order"
         >
           <option value="default">{{ $t('default') }}</option>
+          <option value="newest">{{ $t('newest') }}</option>
           <option value="alphabetic">{{ $t('alphabetic') }}</option>
           <option value="mostSold">{{ $t('popularity') }}</option>
           <!-- <option value="mostRated">Con più recensioni</option>

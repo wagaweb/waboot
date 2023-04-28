@@ -7,6 +7,7 @@ export type MessageDictionarySchema = {
   filterFor: string;
   default: string;
   alphabetic: string
+  newest: string;
   popularity: string;
   priceHighToLow: string;
   priceLowToHigh: string;

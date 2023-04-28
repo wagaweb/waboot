@@ -114,6 +114,7 @@ export interface CatalogQuery {
 export enum CatalogOrder {
   Default = 'default',
   Alphabetic = 'alphabetic',
+  Newest = 'newest',
   MostSold = 'mostSold',
   BestRated = 'bestRated',
   MostRated = 'mostRated',
