@@ -104,6 +104,9 @@ class Theme{
             if(empty($description)){
                 if(class_exists($callable) && method_exists($callable,'getCommandDescription')){
                     $description = $callable::getCommandDescription();
+                    if($description['shortdesc'] === 'A simple command'){
+                        $description = []; //This will force the parsing of __invoke phpdocs
+                    }
                 }
             }
             if(\is_array($description) && !empty($description)){
