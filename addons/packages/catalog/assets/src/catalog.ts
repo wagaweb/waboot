@@ -57,6 +57,7 @@ export class CatalogConfig {
   showAddToCartBtn: boolean;
   showQuantityInput: boolean;
   pricesIncludeTax: boolean;
+  country?: string;
 
   constructor(data: any) {
     if (typeof data !== 'object' || data === null) {
@@ -163,6 +164,9 @@ export class CatalogConfig {
     this.showAddToCartBtn = Boolean(data.showAddToCartBtn ?? false);
     this.showQuantityInput = Boolean(data.showQuantityInput ?? false);
     this.pricesIncludeTax = Boolean(data.pricesIncludeTax ?? true);
+    if (data.country) {
+      this.country = String(data.country);
+    }
   }
 }
 
@@ -217,12 +221,6 @@ export function useCatalog(config: CatalogConfig) {
 
   // todo: create tax applier based on configuration and current country
   const taxApplier = createTaxApplier(config.pricesIncludeTax);
-
-  // todo: configure based on language and currency
-  const priceFormatter = new Intl.NumberFormat('it-IT', {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  });
 
   const ga4 = new GA4(
     config.ga4.listId ?? '',
@@ -402,6 +400,7 @@ export function useCatalog(config: CatalogConfig) {
       order: order.value,
       postMetaIn: [],
       taxonomiesIn: ['product_cat'],
+      country: config.country,
     };
   };
 
@@ -575,7 +574,6 @@ export function useCatalog(config: CatalogConfig) {
     viewDetailsHandle,
     addToWishlistHandle,
     // data
-    priceFormatter,
     taxApplier,
   };
 }

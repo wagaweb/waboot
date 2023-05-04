@@ -38,7 +38,9 @@ export interface Product {
   minBasePrice: number;
   maxPrice: number;
   maxBasePrice: number;
+  currency: string;
   taxClass: string;
+  taxStatus: string;
   stockStatus: StockStatus;
   averageRating: number;
   link: string;
@@ -109,6 +111,7 @@ export interface CatalogQuery {
   termMetaIn?: string[];
   order?: CatalogOrder;
   taxonomiesIn?: string[];
+  country?: string;
 }
 
 export enum CatalogOrder {

@@ -48,7 +48,7 @@
         <template v-if="product.minPrice < product.minBasePrice">
           <del aria-hidden="true">
             <span class="woocommerce-Price-amount amount">
-              {{ minBasePrice }} €
+              {{ minBasePrice }}
             </span>
           </del>
           <ins>
@@ -59,12 +59,12 @@
               -{{ minSalePercentage }}%
             </span>
             <span class="woocommerce-Price-amount amount">
-              {{ minPrice }} €
+              {{ minPrice }}
             </span>
           </ins>
         </template>
         <span v-else class="woocommerce-Price-amount amount">
-          {{ minPrice }} €
+          {{ minPrice }}
         </span>
       </template>
       <span
@@ -178,10 +178,6 @@ export default defineComponent({
       type: Object as PropType<Product>,
       required: true,
     },
-    priceFormatter: {
-      type: Object as PropType<Intl.NumberFormat>,
-      required: true,
-    },
     taxApplier: {
       type: Function as PropType<TaxApplier>,
       required: true,
@@ -235,6 +231,14 @@ export default defineComponent({
         this.product.secondaryImage?.sizes['woocommerce_thumbnail']?.link ??
         this.product.secondaryImage?.link
       );
+    },
+    priceFormatter(): Intl.NumberFormat {
+      return new Intl.NumberFormat(this.lang, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+        style: 'currency',
+        currency: this.product.currency,
+      });
     },
     minPrice(): string {
       return this.stringifyPrice(this.product.minPrice, this.product.taxClass);

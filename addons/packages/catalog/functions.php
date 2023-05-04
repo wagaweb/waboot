@@ -64,6 +64,10 @@ function renderCatalog(array $config): string
         $config['taxonomies'][$tax]['rewrite'] = $taxRewrites[$tax] ?? '';
     }
 
+    if (function_exists('wcpbc_get_woocommerce_country')) {
+        $config['country'] = wcpbc_get_woocommerce_country();
+    }
+
     $config = apply_filters('catalog_addon_config', $config);
 
     $config['taxonomies'] = array_values($config['taxonomies'] ?? []);
@@ -90,6 +94,10 @@ function renderSimpleCatalog(array $config): string
 
     if (empty($config['language'])) {
         $config['language'] = str_replace('_', '-', get_locale());
+    }
+
+    if (function_exists('wcpbc_get_woocommerce_country')) {
+        $config['country'] = wcpbc_get_woocommerce_country();
     }
 
     $config = apply_filters('catalog_addon_simple_catalog_config', $config);

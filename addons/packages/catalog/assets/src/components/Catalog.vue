@@ -184,7 +184,6 @@
             :host="config.baseUrl"
             :product="product"
             :lang="config.language"
-            :price-formatter="priceFormatter"
             :tax-applier="taxApplier"
             :show-add-to-cart-btn="config.showAddToCartBtn"
             :show-quantity-input="config.showQuantityInput"
@@ -281,7 +280,6 @@ export default defineComponent({
       viewDetailsHandle,
       addToWishlistHandle,
       // data
-      priceFormatter,
       taxApplier,
     } = useCatalog(props.config);
 
@@ -533,7 +531,6 @@ export default defineComponent({
       viewDetailsHandle,
       addToWishlistHandle,
       // data
-      priceFormatter,
       taxApplier,
     };
   },
