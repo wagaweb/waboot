@@ -11,7 +11,7 @@ export const enGB: MessageDictionarySchema = {
   priceHighToLow: 'Price: high to low',
   priceLowToHigh: 'Price: low to high',
   showMore: 'Show more',
-  showLess: 'Show less',
+  showPrev: 'Show previous',
   noProductsFound: 'No products found',
   from: 'from',
   outOfStock: 'Out of stock',

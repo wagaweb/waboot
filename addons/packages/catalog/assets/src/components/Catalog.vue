@@ -170,7 +170,7 @@
             :size="25"
         ></CircularSpinner>
         <a v-show="!loadingMoreProducts" class="btn" @click="onLoadLessClick">
-          {{ $t('showLess') }}
+          {{ $t('showPrev') }}
         </a>
       </div>
       <div

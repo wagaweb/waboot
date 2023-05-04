@@ -12,7 +12,7 @@ export type MessageDictionarySchema = {
   priceHighToLow: string;
   priceLowToHigh: string;
   showMore: string;
-  showLess: string;
+  showPrev: string;
   noProductsFound: string;
   from: string;
   outOfStock: string;
