@@ -6,7 +6,6 @@ import MiniCart from './frontend/minicart.js';
 import {initCustomCheckoutActions} from './frontend/checkout.js';
 import {alterAttributesView} from './frontend/attributes.js';
 import {enableProductGallery} from './frontend/productGallery.js';
-//import CatalogFilters from "./frontend/catalogFilters.js";
 import {initEuVat} from "./frontend/checkout/invoicing";
 import {initCustomerCareModal} from "./frontend/modal.js";
 import {isCartPage, isCheckOutPage, isSingleProductPage} from "./utils/wp";
@@ -63,8 +62,6 @@ $(document).ready(function() {
     }
 
     if(isCartPage()) {
-        //{SHOP RULES}
-        //new ShopRules();
         new Cart();
     }
 

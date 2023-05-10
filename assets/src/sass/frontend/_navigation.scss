@@ -123,7 +123,7 @@
   a {
     text-align: left;
     justify-content: center;
-    padding: calc($gridGutter/2) $gridGutter;
+    padding: calc(#{$gridGutter}/2) $gridGutter;
     flex-grow: 1;
   }
 
