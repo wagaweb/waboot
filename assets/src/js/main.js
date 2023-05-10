@@ -24,7 +24,7 @@ $(window).on('load',function(){
         enableProductGallery();
     }
     if (window.matchMedia('(max-width: 991px)').matches) {
-
+        slideinHeight();
     }
 });
 
@@ -34,6 +34,7 @@ $(document).ready(function() {
 
     asideBodyClass();
     scrollToAnimate();
+    initCarousel();
 
     $("[data-slidein-nav]").slidein({
         toggler: ".slidein-nav__toggle",
@@ -50,6 +51,7 @@ $(document).ready(function() {
         }
     });
     $('.venobox').venobox();
+    venoboxCarouselGutenbergGallery();
 
     //new CatalogFilters();
 
@@ -107,6 +109,118 @@ function scrollToAnimate(){
                 scrollTop: target.offset().top - $header
             }, 1000);
         }
+    });
+}
+
+function slideinHeight(){
+    let $ = jQuery;
+    let headerHeight = $('header').outerHeight();
+    $('.slidein').css({ 'height': 'calc(100% - ' + headerHeight+ 'px)' });
+    $('.slidein').css('top',headerHeight);
+}
+
+function initCarousel() {
+    let $ = jQuery;
+    $('.block__carousel--1 .wp-block-group__inner-container').addClass('block__carousel owl-carousel').owlCarousel({
+        items: 1,
+        autoplay:true,
+        loop: true,
+        autoHeight: true,
+        nav: true,
+        navText: ['<i class="fas fa-chevron-left"></i>','<i class="fas fa-chevron-right"></i>']
+    })
+    $('.wp-block-gallery.block__carousel--1').wrapInner('<div class="blocks-gallery-grid"></div>');
+    $('.wp-block-gallery.block__carousel--2').wrapInner('<div class="blocks-gallery-grid"></div>');
+    $('.wp-block-gallery.block__carousel--3').wrapInner('<div class="blocks-gallery-grid"></div>');
+    $('.wp-block-gallery.block__carousel--4').wrapInner('<div class="blocks-gallery-grid"></div>');
+    $('.wp-block-gallery.block__carousel--5').wrapInner('<div class="blocks-gallery-grid"></div>');
+
+    $('.block__carousel--1 > .blocks-gallery-grid').addClass('block__carousel owl-carousel').owlCarousel({
+        items: 1,
+        autoplay:true,
+        loop: true,
+        autoHeight: true,
+        dots:false,
+        nav: false,
+        0 : {
+            nav: false,
+        },
+        768 : {
+            nav: true,
+        }
+    })
+    $('.block__carousel--2 > .blocks-gallery-grid').addClass('block__carousel owl-carousel').owlCarousel({
+        autoplay:true,
+        loop: true,
+        dots:false,
+        nav: true,
+        navText: ['<i class="fas fa-chevron-left"></i>','<i class="fas fa-chevron-right"></i>'],
+        responsive : {
+            0 : {
+                items: 1,
+            },
+            768 : {
+                items: 2,
+                margin: 30
+            }
+        }
+    })
+    $('.block__carousel--3 > .blocks-gallery-grid').addClass('block__carousel owl-carousel').owlCarousel({
+        autoplay:true,
+        loop: true,
+        dots:false,
+        nav: true,
+        navText: ['<i class="fas fa-chevron-left"></i>','<i class="fas fa-chevron-right"></i>'],
+        responsive : {
+            0 : {
+                items: 1,
+            },
+            768 : {
+                items: 3,
+                margin: 30
+            }
+        }
+    })
+    $('.block__carousel--4 > .blocks-gallery-grid').addClass('block__carousel owl-carousel').owlCarousel({
+        autoplay:true,
+        loop: true,
+        dots:false,
+        nav: true,
+        navText: ['<i class="fas fa-chevron-left"></i>','<i class="fas fa-chevron-right"></i>'],
+        responsive : {
+            0 : {
+                items: 1,
+            },
+            768 : {
+                items: 4,
+                margin: 30
+            }
+        }
+    })
+    $('.block__carousel--5 > .blocks-gallery-grid').addClass('block__carousel owl-carousel').owlCarousel({
+        autoplay:true,
+        loop: true,
+        dots:false,
+        nav: true,
+        navText: ['<i class="fas fa-chevron-left"></i>','<i class="fas fa-chevron-right"></i>'],
+        responsive : {
+            0 : {
+                items: 1,
+            },
+            768 : {
+                items: 5,
+                margin: 30
+            }
+        }
+    })
+}
+
+function venoboxCarouselGutenbergGallery() {
+    let $ = jQuery;
+    var pageGallery = 1;
+    $(".wp-block-gallery").each(function() {
+        $(this).find('figure a').attr('data-gall', 'venobox-gallery-'+pageGallery);
+        pageGallery++;
     });
 }
 
