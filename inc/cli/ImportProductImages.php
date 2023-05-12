@@ -104,7 +104,7 @@ class ImportProductImages extends AbstractCommand
             $this->log('Images path: '.$this->importDirPath);
 
             $gallerySeparator = $assoc_args['gallery-separator'] ?? '-';
-            if(\is_string($gallerySeparator) || $gallerySeparator === ''){
+            if(!\is_string($gallerySeparator) || $gallerySeparator === ''){
                 throw new \RuntimeException('Invalid gallery separator');
             }
             $this->gallerySeparator = $gallerySeparator;
