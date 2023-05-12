@@ -360,7 +360,7 @@ class ImportProducts extends AbstractCSVParserCommand
         if(!$this->isDryRun()){
             $productId = $product->save();
             if(!\is_int($productId) || $productId === 0) {
-                throw new ImportProductsException('Unable to create or update product identified by %s', $CSVRow->getIdentifier());
+                throw new ImportProductsException(sprintf('Unable to create or update product identified by %s', $CSVRow->getIdentifier()));
             }
         }
 
