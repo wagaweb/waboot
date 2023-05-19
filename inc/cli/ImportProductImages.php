@@ -377,7 +377,7 @@ class ImportProductImages extends AbstractCommand
     private function getProductIdentifierByImageFileName(string $imageFileName): string
     {
         $allowedExtensions = $this->allowedExtensions;
-        array_walk($allowedExtensions, fn($ext) => '.'.$ext); //Add a '.' before the extensions
+        $allowedExtensions = array_map(static function($ext) { return '.'.$ext; },$allowedExtensions); //Add a '.' before the extensions
         $regExPatternInner = implode('|',$allowedExtensions);
         $regExPattern = '/('.$regExPatternInner.')$/';
         return preg_replace($regExPattern,'',$imageFileName);
