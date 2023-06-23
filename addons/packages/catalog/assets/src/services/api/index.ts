@@ -112,6 +112,7 @@ export interface CatalogQuery {
   order?: CatalogOrder;
   taxonomiesIn?: string[];
   country?: string;
+  userRole?: string;
 }
 
 export enum CatalogOrder {

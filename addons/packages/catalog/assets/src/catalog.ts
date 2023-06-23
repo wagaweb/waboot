@@ -58,6 +58,7 @@ export class CatalogConfig {
   showQuantityInput: boolean;
   pricesIncludeTax: boolean;
   country?: string;
+  userRole?: string;
 
   constructor(data: any) {
     if (typeof data !== 'object' || data === null) {
@@ -166,6 +167,9 @@ export class CatalogConfig {
     this.pricesIncludeTax = Boolean(data.pricesIncludeTax ?? true);
     if (data.country) {
       this.country = String(data.country);
+    }
+    if (data.userRole) {
+      this.userRole = String(data.userRole);
     }
   }
 }
@@ -401,6 +405,7 @@ export function useCatalog(config: CatalogConfig) {
       postMetaIn: [],
       taxonomiesIn: ['product_cat'],
       country: config.country,
+      userRole: config.userRole,
     };
   };
 

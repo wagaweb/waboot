@@ -10,21 +10,7 @@ namespace Waboot\addons\packages\catalog;
  */
 function renderCatalog(array $config): string
 {
-    if (empty($config['apiBaseUrl'])) {
-        $config['apiBaseUrl'] = WB_CATALOG_BASEURL;
-    }
-
-    if (empty($config['baseUrl'])) {
-        $config['baseUrl'] = get_site_url();
-    }
-
-    if (empty($config['language'])) {
-        $config['language'] = str_replace('_', '-', get_locale());
-    }
-
-    if (empty($config['pricesIncludeTax'])) {
-        $config['pricesIncludeTax'] = wc_string_to_bool(get_option('woocommerce_prices_include_tax'));
-    }
+    $config = array_merge(getBaseCatalogConfig(), $config);
 
     $taxRewrites = [];
     $taxQueryFilters = [];
@@ -64,10 +50,6 @@ function renderCatalog(array $config): string
         $config['taxonomies'][$tax]['rewrite'] = $taxRewrites[$tax] ?? '';
     }
 
-    if (function_exists('wcpbc_get_woocommerce_country')) {
-        $config['country'] = wcpbc_get_woocommerce_country();
-    }
-
     $config = apply_filters('catalog_addon_config', $config);
 
     $config['taxonomies'] = array_values($config['taxonomies'] ?? []);
@@ -84,23 +66,7 @@ HTML;
 
 function renderSimpleCatalog(array $config): string
 {
-    if (empty($config['apiBaseUrl'])) {
-        $config['apiBaseUrl'] = WB_CATALOG_BASEURL;
-    }
-
-    if (empty($config['baseUrl'])) {
-        $config['baseUrl'] = get_site_url();
-    }
-
-    if (empty($config['language'])) {
-        $config['language'] = str_replace('_', '-', get_locale());
-    }
-
-    if (function_exists('wcpbc_get_woocommerce_country')) {
-        $config['country'] = wcpbc_get_woocommerce_country();
-    }
-
-    $config = apply_filters('catalog_addon_simple_catalog_config', $config);
+    $config = apply_filters('catalog_addon_simple_catalog_config', array_merge(getBaseCatalogConfig(), $config));
 
     $config['taxonomies'] = array_values($config['taxonomies'] ?? []);
 
@@ -112,6 +78,27 @@ function renderSimpleCatalog(array $config): string
     catalog-config="$json"
 ></div>
 HTML;
+}
+
+function getBaseCatalogConfig(): array
+{
+    $config = [
+        'apiBaseUrl' => WB_CATALOG_BASEURL,
+        'baseUrl' => get_site_url(),
+        'language' => str_replace('_', '-', get_locale()),
+        'pricesIncludeTax' => wc_string_to_bool(get_option('woocommerce_prices_include_tax')),
+    ];
+
+    $user = wp_get_current_user();
+    if (!empty($user)) {
+        $config['userRole'] = $user->roles[array_key_first($user->roles)] ?? null;
+    }
+
+    if (function_exists('wcpbc_get_woocommerce_country')) {
+        $config['country'] = wcpbc_get_woocommerce_country();
+    }
+
+    return apply_filters('catalog_addon_base_config', $config);
 }
 
 /**
@@ -191,117 +178,136 @@ function updateCatalogProductMetadata(\WC_Product $p): void
         return;
     }
 
-    $variationsClone = $variations;
-    uasort($variationsClone, fn($a, $b) => (float)$a->get_price('edit') - (float)$b->get_price('edit'));
-    $first = $variationsClone[array_key_first($variationsClone)];
-    $last = $variationsClone[array_key_last($variationsClone)];
+    try {
+        /** @var array{
+         *     name: string,
+         *     value: string,
+         *     position: int,
+         *     is_visible: int,
+         *     is_variation: int,
+         *     is_taxonomy: int
+         * }[] $varAttr
+         */
+        $varAttrs = get_post_meta($p->get_id(), '_product_attributes', true);
+        if (empty($varAttrs)) {
+            $varAttrs = [];
+        }
 
-    $catalogData = [
-        'minPrice' => (float)$first->get_price('edit'),
-        'minBasePrice' => (float)$first->get_regular_price('edit'),
-        'maxPrice' => (float)$last->get_price('edit'),
-        'maxBasePrice' => (float)$last->get_price('edit'),
-    ];
-    $p->update_meta_data('_catalog_data', $catalogData);
+        $varAttrs = array_filter($varAttrs, fn($a) => $a['is_variation'] ?? 0);
+        $attrCount = count($varAttrs);
+        if ($attrCount !== 1) {
+            throw new \Exception('Invalid attribute count');
+        }
 
-    /** @var array{
-     *     name: string,
-     *     value: string,
-     *     position: int,
-     *     is_visible: int,
-     *     is_variation: int,
-     *     is_taxonomy: int
-     * }[] $varAttr
-     */
-    $varAttrs = get_post_meta($p->get_id(), '_product_attributes', true);
-    if (empty($varAttrs)) {
-        $varAttrs = [];
-    }
+        $varAttr = array_values($varAttrs)[0];
+        $attrName = $varAttr['name'];
 
-    $varAttrs = array_filter($varAttrs, fn($a) => $a['is_variation'] ?? 0);
-    $attrCount = count($varAttrs);
-    if ($attrCount !== 1) {
-        $p->save_meta_data();
-        return;
-    }
+        $wvsMeta = $p->get_meta('_woo_variation_swatches_product_settings');
+        if (empty($wvsMeta)) {
+            $wvsMeta = $p->get_meta('_wvs_product_attributes');
+        }
 
-    $varAttr = array_values($varAttrs)[0];
-    $attrName = $varAttr['name'];
-
-    $wvsMeta = $p->get_meta('_woo_variation_swatches_product_settings');
-    if (empty($wvsMeta)) {
-        $wvsMeta = $p->get_meta('_wvs_product_attributes');
-    }
-
-    $termValues = [];
-    $attrType = 'select';
-    if (empty($wvsMeta)) {
-        if ($varAttr['is_taxonomy']) {
-            foreach (getTermMap($attrName) as $t) {
-                $termValues[$t->slug] = $t->name;
+        $termValues = [];
+        $attrType = 'select';
+        if (empty($wvsMeta)) {
+            if ($varAttr['is_taxonomy']) {
+                foreach (getTermMap($attrName) as $t) {
+                    $termValues[$t->slug] = $t->name;
+                }
+            } else {
+                foreach (explode(' | ', $varAttr['value']) as $v) {
+                    $termValues[$v] = $v;
+                }
             }
         } else {
-            foreach (explode(' | ', $varAttr['value']) as $v) {
-                $termValues[$v] = $v;
+            $wvsAttr = $wvsMeta[$attrName] ?? null;
+            if ($wvsAttr === null) {
+                throw new \Exception('Cannot find attribute wvs data');
+            }
+
+            $attrType = $wvsAttr['type'];
+            $taxTerms = getTermMap($attrName);
+            foreach ($wvsAttr['terms'] as $tId => $d) {
+                $t = $taxTerms[$tId] ?? null;
+                if ($t === null) {
+                    continue;
+                }
+
+                switch ($attrType) {
+                    case 'color':
+                        $termValues[$t->slug] = get_term_meta($t->term_id, 'product_attribute_color', true);
+                        break;
+                    case 'image':
+                        $attachmentId = get_term_meta($t->term_id, 'product_attribute_image', true);
+                        if (!empty($attachmentId) && function_exists('acf_get_attachment')) {
+                            $termValues[$t->slug] = acf_get_attachment($attachmentId);
+                        }
+                        break;
+                    case 'select':
+                        $termValues[$t->slug] = $t->name;
+                        break;
+                }
             }
         }
-    } else {
-        $wvsAttr = $wvsMeta[$attrName] ?? null;
-        if ($wvsAttr === null) {
-            $p->save_meta_data();
-            return;
-        }
 
-        $attrType = $wvsAttr['type'];
-        $taxTerms = getTermMap($attrName);
-        foreach ($wvsAttr['terms'] as $tId => $d) {
-            $t = $taxTerms[$tId] ?? null;
-            if ($t === null) {
+        $catalogData['variations'] = [
+            'attribute' => $attrName,
+            'type' => $attrType,
+            'products' => [],
+        ];
+        foreach ($variations as $v) {
+            $attrTerm = get_post_meta($v->get_id(), 'attribute_' . $attrName, true);
+            $data = $termValues[$attrTerm] ?? null;
+            if (!$data) {
                 continue;
             }
 
-            switch ($attrType) {
-                case 'color':
-                    $termValues[$t->slug] = get_term_meta($t->term_id, 'product_attribute_color', true);
-                    break;
-                case 'image':
-                    $attachmentId = get_term_meta($t->term_id, 'product_attribute_image', true);
-                    if (!empty($attachmentId) && function_exists('acf_get_attachment')) {
-                        $termValues[$t->slug] = acf_get_attachment($attachmentId);
-                    }
-                    break;
-                case 'select':
-                    $termValues[$t->slug] = $t->name;
-                    break;
-            }
+            $catalogData['variations']['products'][] = [
+                'id' => $v->get_id(),
+                'sku' => $v->get_sku(),
+                'name' => $v->get_name(),
+                'attributeTerm' => $attrTerm,
+                'price' => (float)$v->get_price('edit'),
+                'basePrice' => (float)$v->get_regular_price('edit'),
+                'userRolePrices' => getAllUserRolePriceMeta($v->get_id()),
+                'taxClass' => $v->get_tax_class(),
+                'stockStatus' => $v->get_stock_status(),
+                'data' => $data,
+            ];
         }
-    }
 
-    $catalogData['variations'] = [
-        'attribute' => $attrName,
-        'type' => $attrType,
-        'products' => [],
-    ];
-    foreach ($variations as $v) {
-        $attrTerm = get_post_meta($v->get_id(), 'attribute_' . $attrName, true);
-        $data = $termValues[$attrTerm] ?? null;
-        if (!$data) {
+        $p->update_meta_data('_catalog_data', wp_json_encode($catalogData));
+        $p->save_meta_data();
+    } catch (\Throwable $e) {
+        $p->delete_meta_data('_catalog_data');
+        $p->save_meta_data();
+    }
+}
+
+function getAllUserRolePriceMeta(int $productId): array
+{
+    global $wpdb;
+
+    $sql = <<<SQL
+select `meta_key` as `key`, `meta_value` as `value`
+from $wpdb->postmeta
+where `post_id` = %d and `meta_key` like '_role_base_price_%'
+SQL;
+    $res = $wpdb->get_results($wpdb->prepare($sql, $productId));
+
+    $prices = [];
+    foreach ($res as $r) {
+        $value = unserialize(unserialize($r->value));
+        preg_match('/_role_base_price_(\w+)/', $r->key, $matches);
+        if (empty($matches[1])) {
             continue;
         }
 
-        $catalogData['variations']['products'][] = [
-            'id' => $v->get_id(),
-            'sku' => $v->get_sku(),
-            'name' => $v->get_name(),
-            'attributeTerm' => $attrTerm,
-            'price' => (float)$v->get_price('edit'),
-            'basePrice' => (float)$v->get_regular_price('edit'),
-            'taxClass' => $v->get_tax_class(),
-            'stockStatus' => $v->get_stock_status(),
-            'data' => $data,
+        $prices[$matches[1]] = [
+            'type' => $value['discount_type'],
+            'value' => (float)$value['discount_value'],
         ];
     }
 
-    $p->update_meta_data('_catalog_data', wp_json_encode($catalogData));
-    $p->save_meta_data();
+    return $prices;
 }
