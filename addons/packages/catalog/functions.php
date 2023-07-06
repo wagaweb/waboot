@@ -270,6 +270,7 @@ function updateCatalogProductMetadata(\WC_Product $p): void
                 'price' => (float)$v->get_price('edit'),
                 'basePrice' => (float)$v->get_regular_price('edit'),
                 'userRolePrices' => getAllUserRolePriceMeta($v->get_id()),
+                'zonePrices' => getAllZonePriceMeta($v->get_id()),
                 'taxClass' => $v->get_tax_class(),
                 'stockStatus' => $v->get_stock_status(),
                 'data' => $data,
@@ -306,6 +307,27 @@ SQL;
         $prices[$matches[1]] = [
             'type' => $value['discount_type'],
             'value' => (float)$value['discount_value'],
+        ];
+    }
+
+    return $prices;
+}
+
+function getAllZonePriceMeta(int $productId): array
+{
+    $priceZoneOption = get_option('wc_price_based_country_regions');
+    if (empty($priceZoneOption)) {
+        return [];
+    }
+
+    $zoneKeys = array_keys($priceZoneOption);
+    $prices = [];
+    foreach ($zoneKeys as $k) {
+        $price = get_post_meta($productId, "_{$k}_price", true);
+        $regularPrice = get_post_meta($productId, "_{$k}_regular_price", true);
+        $prices[$k] = [
+            'price' => (float)$price,
+            'basePrice' => (float)$regularPrice,
         ];
     }
 

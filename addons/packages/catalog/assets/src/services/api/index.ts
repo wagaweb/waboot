@@ -68,6 +68,8 @@ export interface Product {
         attributeTerm: string;
         price: number;
         basePrice: number;
+        userRolePrices: Record<string, {type: string, value: number}>,
+        zonePrices: Record<string, {price: number, basePrice: number}>,
         taxClass: string;
         stockStatus: StockStatus;
         data: any;
