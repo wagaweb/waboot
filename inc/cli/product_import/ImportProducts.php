@@ -11,6 +11,7 @@ use function Waboot\inc\syncVariableProductData;
 
 class ImportProducts extends AbstractCSVParserCommand
 {
+    const VERSION = '12052023';
     /**
      * @var string
      */
