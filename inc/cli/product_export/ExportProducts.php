@@ -7,6 +7,7 @@ use Waboot\inc\core\cli\AbstractCommand;
 
 class ExportProducts extends AbstractCommand
 {
+    CONST VERSION = '12072023';
     /**
      * @var string
      */
@@ -27,6 +28,10 @@ class ExportProducts extends AbstractCommand
      * @var string
      */
     protected $outputFilePath;
+    /**
+     * @var string
+     */
+    protected $completeOutputFilePath;
     /**
      * @var string
      */
@@ -51,6 +56,10 @@ class ExportProducts extends AbstractCommand
      * @var bool
      */
     protected bool $skipVariablesProducts = false;
+    /**
+     * @var bool
+     */
+    protected bool $skipPostProcessing = false;
     /**
      * @var array
      */
@@ -125,6 +134,7 @@ class ExportProducts extends AbstractCommand
             if(isset($assoc_args['output-file-name']) && \is_string($assoc_args['output-file-name']) && $assoc_args['output-file-name'] !== ''){
                 $this->outputFileName = $assoc_args['output-file-name'];
             }
+            $this->completeOutputFilePath = rtrim($this->outputFilePath,'/') . '/' . $this->outputFileName;
             if(isset($assoc_args['exclude-cols']) && \is_string($assoc_args['exclude-cols']) && $assoc_args['exclude-cols'] !== ''){
                 $excludedCols = explode(',',$assoc_args['exclude-cols']);
                 $this->excludedColumns = $excludedCols;
@@ -163,6 +173,7 @@ class ExportProducts extends AbstractCommand
                 $this->log('Included meta: '.implode(',',$this->includedMetas));
             }
             $this->skipVariablesProducts = isset($assoc_args['skip-variable']);
+            $this->skipPostProcessing = isset($assoc_args['skip-post-processing']);
             //Attach hooks
             $this->attachHooks();
             if(!$this->hasProducts()){
@@ -170,6 +181,10 @@ class ExportProducts extends AbstractCommand
             }
             $this->generateCSVColumns();
             $this->generateCSV();
+            if(!$this->skipPostProcessing){
+                $this->postProcessGeneratedCSV();
+            }
+            do_action('waboot/cli/product_export/file_written',$this->completeOutputFilePath);
             $this->success('Operation completed');
             return 0;
         }catch (\Exception $e){
@@ -213,7 +228,7 @@ class ExportProducts extends AbstractCommand
         if (!wp_mkdir_p($this->outputFilePath)) {
             throw new \RuntimeException('Unable to create directory: ' . $this->outputFilePath);
         }
-        $outputFile = rtrim($this->outputFilePath,'/') . '/' . $this->outputFileName;
+        $outputFile = $this->completeOutputFilePath;
         try{
             if(\is_file($outputFile)){
                 unlink($outputFile);
@@ -271,6 +286,23 @@ class ExportProducts extends AbstractCommand
             $this->log('File written: '.$outputFile);
         }catch (\Exception $e){
             $this->log('Error: '.$e->getMessage());
+        }
+    }
+
+    /**
+     * @return void
+     */
+    public function postProcessGeneratedCSV(): void
+    {
+        $this->log('Post processing');
+        try{
+            $content = file_get_contents($this->completeOutputFilePath);
+            $content = apply_filters('waboot/cli/product_export/file_written/post_processing',$content);
+            if(\is_string($content)){
+                file_put_contents($this->completeOutputFilePath,$content);
+            }
+        }catch (\Exception | \Throwable $e){
+            $this->log('Error (postprocessing): '.$e->getMessage());
         }
     }
 

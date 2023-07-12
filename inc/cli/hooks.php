@@ -83,3 +83,19 @@ add_action('wawoo_product_importer/finalize_products', function(array $parsedPro
     }
 }, 10, 3);
 */
+
+/*
+ * Product EXPORT: Decoding HTML
+ */
+add_filter('waboot/cli/product_export/file_written/post_processing', static function(string $content){
+    $content = html_entity_decode($content, ENT_QUOTES, 'utf-8');
+    return $content;
+},10,2);
+
+/*
+ * Product EXPORT: Replace strange  
+ */
+add_filter('waboot/cli/product_export/file_written/post_processing', static function(string $content){
+    $content = str_replace(' ',' ',$content);
+    return $content;
+},10,2);
