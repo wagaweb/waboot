@@ -14,6 +14,7 @@ use function Waboot\inc\getProductType;
 
 class ImportProductImages extends AbstractCommand
 {
+    const VERSION = '19052023';
     /**
      * @var string
      */
