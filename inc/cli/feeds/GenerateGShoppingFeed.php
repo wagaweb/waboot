@@ -400,6 +400,8 @@ class GenerateGShoppingFeed extends AbstractCommand
             $brand = '';
         }
         //https://support.google.com/merchants/topic/6324338?hl=it&ref_topic=7294998
+        //https://support.google.com/merchants/answer/7052112?hl=it&ref_topic=6324338&sjid=15059762771109391205-EU
+        //https://developers.facebook.com/docs/commerce-platform/catalog/fields
         $newRecord = [
             'id' => $product->get_sku(),
             'description' => [
