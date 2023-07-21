@@ -11,7 +11,7 @@ use function Waboot\inc\syncVariableProductData;
 
 class ImportProducts extends AbstractCSVParserCommand
 {
-    const VERSION = '12052023';
+    const VERSION = '21072023';
     /**
      * @var string
      */
@@ -373,10 +373,12 @@ class ImportProducts extends AbstractCSVParserCommand
         /*
          * Attributes
          */
+        $attributesTerms = [];
         if($CSVRow->hasColor()) {
             try{
                 $colorTerm = $this->getOrCreateTerm($this->getColorTaxonomyName($product->get_id()), $CSVRow->getColor());
                 wp_set_object_terms($product->get_id(), $colorTerm->term_id, $colorTerm->taxonomy, false);
+                $attributesTerms[] = $colorTerm;
             }catch (\RuntimeException $e){
                 $this->log('ERRORE: '.$e->getMessage());
             }
@@ -385,16 +387,49 @@ class ImportProducts extends AbstractCSVParserCommand
             try{
                 $sizeTerm = $this->getOrCreateTerm($this->getSizeTaxonomyName($product->get_id()), $CSVRow->getSize());
                 wp_set_object_terms($product->get_id(), $sizeTerm->term_id, $sizeTerm->taxonomy, false);
+                $attributesTerms[] = $sizeTerm;
             }catch (\RuntimeException $e){
                 $this->log('ERRORE: '.$e->getMessage());
             }
         }
 
         $attributes = $CSVRow->getAttributesForVariableAndSimpleProducts();
+        $addedAttributesTerms = [];
         foreach ($attributes as $attributeTaxonomyName => $attributeData){
             $this->log(sprintf('--- Assegnazione termini per %s: %s',$attributeTaxonomyName,$attributeData['value']));
-            $this->addTermsToObjectFromTermListString($product->get_id(),$CSVRow->getAttribute($attributeTaxonomyName),$attributeTaxonomyName);
+            try{
+                $addedAttributesTerms[] = $this->addTermsToObjectFromTermListString($product->get_id(),$CSVRow->getAttribute($attributeTaxonomyName),$attributeTaxonomyName);
+            }catch (ImportProductsException | \Exception | \Throwable $e){
+                $this->log('ERRORE: '.$e->getMessage());
+            }
         }
+        $attributesTerms = array_merge($attributesTerms,...$addedAttributesTerms);
+
+        /*
+         * Assign attributes to simple
+         */
+        $currentAttributes = $product->get_attributes();
+        foreach ($attributesTerms as $attrTerm){
+            /** @var \WC_Product_Attribute $productAttribute */
+            $productAttribute = $currentAttributes[$attrTerm->taxonomy] ?? null;
+            if($productAttribute === null) {
+                $productAttribute = new \WC_Product_Attribute();
+                $productAttribute->set_id(wc_attribute_taxonomy_id_by_name($attrTerm->taxonomy));
+                $productAttribute->set_name($attrTerm->taxonomy);
+                $productAttribute->set_visible(true);
+                $options = [$attrTerm->term_id];
+                $productAttribute->set_options($options);
+                $productAttribute->set_variation(false);
+            }else{
+                $options = $productAttribute->get_options();
+                if (!in_array($attrTerm->term_id, $options)) {
+                    $options[] = $attrTerm->term_id;
+                }
+                $productAttribute->set_options($options);
+            }
+            $currentAttributes[$attrTerm->taxonomy] = $productAttribute;
+        }
+        $product->set_attributes($currentAttributes);
 
         if(!$this->isDryRun()){
             $product->save();
@@ -655,25 +690,32 @@ class ImportProducts extends AbstractCSVParserCommand
     /**
      * @param int $productId
      * @return void
-     * @throws ImportProductsException
      */
     protected function assignTaxonomies(int $productId): void
     {
         $CSVRow = $this->currentCSVRow;
         if($CSVRow->hasBrand()){
             $this->log('--- Assigning brand: '.$CSVRow->getBrand());
-            if($CSVRow->isBrandHierarchical()){
-                $this->addHierarchicalTermsToObjectFromTermListString($productId, $CSVRow->getBrand(), $this->getBrandTaxonomyName());
-            }else{
-                $this->addTermsToObjectFromTermListString($productId, $CSVRow->getBrand(), $this->getBrandTaxonomyName());
+            try{
+                if($CSVRow->isBrandHierarchical()){
+                    $this->addHierarchicalTermsToObjectFromTermListString($productId, $CSVRow->getBrand(), $this->getBrandTaxonomyName());
+                }else{
+                    $this->addTermsToObjectFromTermListString($productId, $CSVRow->getBrand(), $this->getBrandTaxonomyName());
+                }
+            }catch (ImportProductsException | \Exception | \Throwable $e){
+                $this->log('ERROR: '.$e->getMessage());
             }
         }
         if($CSVRow->hasCategory()){
-            $this->log('--- Assigning categories: '.$CSVRow->getCategory());
-            if($CSVRow->isProductCategoryHierarchical()){
-                $this->addHierarchicalTermsToObjectFromTermListString($productId, $CSVRow->getCategory(), 'product_cat');
-            }else{
-                $this->addTermsToObjectFromTermListString($productId, $CSVRow->getCategory(), 'product_cat');
+            try{
+                $this->log('--- Assigning categories: '.$CSVRow->getCategory());
+                if($CSVRow->isProductCategoryHierarchical()){
+                    $this->addHierarchicalTermsToObjectFromTermListString($productId, $CSVRow->getCategory(), 'product_cat');
+                }else{
+                    $this->addTermsToObjectFromTermListString($productId, $CSVRow->getCategory(), 'product_cat');
+                }
+            }catch (ImportProductsException | \Exception | \Throwable $e){
+                $this->log('ERROR: '.$e->getMessage());
             }
         }
     }
@@ -718,12 +760,13 @@ class ImportProducts extends AbstractCSVParserCommand
      * @param int $objectId
      * @param string $termListString
      * @param string $taxonomy
-     * @return void
+     * @return \WP_Term[]
      * @throws ImportProductsException
      */
-    protected function addTermsToObjectFromTermListString(int $objectId, string $termListString, string $taxonomy): void {
+    protected function addTermsToObjectFromTermListString(int $objectId, string $termListString, string $taxonomy): array {
         $termNames = explode('|', $termListString);
         $termIds = [];
+        $addedTerms = [];
         foreach ($termNames as $tm) {
             $t = get_term_by('name', $tm, $taxonomy);
             if (empty($t)) {
@@ -736,6 +779,7 @@ class ImportProducts extends AbstractCSVParserCommand
             }else{
                 $termIds[] = $t->term_id;
             }
+            $addedTerms[] = $t;
         }
 
         if (count($termIds) > 0) {
@@ -744,6 +788,8 @@ class ImportProducts extends AbstractCSVParserCommand
                 $this->removeDefaultProductCatFromObject($objectId);
             }
         }
+
+        return $addedTerms;
     }
 
     /**
