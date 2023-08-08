@@ -1,0 +1,193 @@
+.gform_wrapper {
+  .ginput_container_date {
+    & + .ginput_container_date {
+      margin-left: 2%;
+    }
+    &[style*="display:none"] + & {
+      margin-left: 0;
+    }
+    & label {
+      display: block;
+    }
+  }
+}
+
+.ui-datepicker {
+  &:not(.gform-legacy-datepicker) {
+    background-color: $colorWhite;
+    border: 1px solid $colorGrey;
+    border-radius: $radius;
+    box-shadow: 0 1px 3px rgba($colorBlack, 0.1);
+    display: none;
+    padding: 20px 15px;
+    width: auto;
+    td, th {
+      padding: 5px;
+      text-shadow: none;
+      text-transform: none;
+    }
+    &[style] {
+      z-index: 9999 !important;
+    }
+    .ui-datepicker {
+      &-header {
+        align-items: center;
+        border: none;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 0;
+        width: 100%;
+      }
+      &-prev,
+      &-next {
+        align-items: center;
+        background-color: $colorGrey;
+        border: 0;
+        border-radius: $radiusCircle;
+        color: $colorText;
+        cursor: pointer;
+        display: flex;
+        height: 30px;
+        justify-content: center;
+        width: 30px;
+        &::before {
+          content: "";
+          font-family: "Font Awesome 5 Pro";
+          line-height: 1;
+        }
+        .ui-icon {
+          display: none;
+        }
+      }
+      &-prev {
+        &::before {
+          content: '\f053';
+        }
+      }
+      &-next {
+        order: 1;
+        &::before {
+          content: '\f054';
+        }
+      }
+      &-title {
+        display: flex;
+        gap: 5px;
+      }
+      &-calendar {
+        th span {
+          align-items: center;
+          color: #2f4054;
+          display: flex;
+          font-size: 13px;
+          font-weight: 500;
+          height: 40px;
+          justify-content: center;
+          width: 40px;
+        }
+        td {
+          font-size: 13px;
+          height: 50px;
+          width: 50px;
+        }
+        .ui-state-default {
+          align-items: center;
+          background: none;
+          border: 1px solid transparent;
+          border-radius: 100%;
+          box-shadow: none;
+          color: $colorPrimary;
+          display: flex;
+          height: 40px;
+          justify-content: center;
+          text-decoration: none;
+          transition: color 300ms ease-in-out, background-color 300ms ease-in-out, border-color 300ms ease-in-out;
+          width: 40px;
+          &:hover,
+          &:focus {
+            background: none;
+            border-color: $colorSecondary;
+            outline: none;
+          }
+          &:active {
+            background: $colorGreyLight;
+            border-color: $colorText;
+          }
+        }
+        .ui-datepicker-current-day {
+          .ui-state-default {
+            background: $colorText;
+            border-color: $colorText;
+            box-shadow: 0 2px 2px rgba($colorBlack, 0.06);
+            color: $colorWhite;
+            &:hover,
+            &:focus {
+              border-color: $colorPrimary;
+            }
+          }
+        }
+        .ui-state-disabled {
+          background: none;
+          .ui-state-default {
+            align-items: center;
+            background: $colorGreyLight;
+            border: 1px solid rgba($colorBlack, 0.079);
+            border-radius: 100%;
+            box-shadow: 0 2px 2px rgba($colorBlack, 0.06);
+            color: $colorPrimary;
+            cursor: text;
+            display: flex;
+            height: 40px;
+            justify-content: center;
+            text-decoration: none;
+            width: 40px;
+          }
+        }
+      }
+    }
+    select {
+      background-color: $colorGrey;
+      border: none;
+      border-radius: calc($radius / 2);
+      color: $colorText;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: .85em;
+      font-weight: $fontWeightBold;
+      outline: none;
+      padding: 5px 20px 5px 5px;
+    }
+    table {
+      border-spacing: 0;
+      margin: 0;
+    }
+    thead {
+      font-size: 0.85em;
+    }
+    td {
+      padding: 0;
+      width: 35.2px;
+    }
+    .a.ui-state {
+      &-default {
+        border-radius: 50%;
+        color: $colorText;
+        display: block;
+        line-height: 35.2px;
+        text-align: center;
+        text-decoration: none;
+        width: 100%;
+        &:hover {
+          background-color: rgba($colorBlack, .1);
+        }
+      }
+      &-active,
+      &-active:hover {
+        background-color: $colorPrimary;
+        color: $colorWhite;
+      }
+    }
+  }
+}
+

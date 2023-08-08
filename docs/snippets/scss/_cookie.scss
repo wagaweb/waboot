@@ -1,0 +1,31 @@
+div.cc-window {
+  font-size: 0.9em;
+  color: $colorGreyLight !important;
+  background-color: darken($colorPrimary, 30%) !important;
+  border-radius: 5px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+
+  .cc-link {
+    color: $colorPrimary !important;
+  }
+
+  .cc-btn {
+    background-color: $colorPrimary !important;
+    border-radius: 5px;
+    color: $colorWhite;
+    text-transform: uppercase;
+
+    &:hover {
+      background-color: darken($colorPrimary, 10%) !important;
+    }
+  }
+}
+
+.cookies-category__wrapper {
+  table {
+    td,
+    th {
+      padding: 10px;
+    }
+  }
+}

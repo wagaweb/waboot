@@ -1,17 +1,27 @@
 {
     "name": "waga/waboot",
-    "description": "",
-    "type": "wordpress-theme",
-    "require-dev": {
-        "10up/wp_mock": "^0.1.1",
-        "phpunit/phpunit": "^5.3.0"
+    "description": "A boilerplate theme for WordPress",
+    "type": "project",
+    "config": {
+        "platform": {
+            "php": "7.4"
+        }
     },
-    "license": "proprietary",
+    "require": {
+        "monolog/monolog": "^2.8"
+    },
+    "license": "MIT",
     "authors": [
         {
-            "name": "WAGA",
+            "name": "Waga",
             "email": "dev@waga.it"
         }
     ],
-    "require": {}
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "autoload": {
+        "psr-4": {
+            "Waboot\\inc\\": "inc/"
+        }
+    }
 }

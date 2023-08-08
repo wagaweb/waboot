@@ -1,14 +1,10 @@
 <?php
 
-namespace Waboot\hooks\init;
-
-use Waboot\Theme;
-use WBF\components\mvc\HTMLView;
-use WBF\components\notices\Notice_Manager;
+namespace Waboot\inc\hooks;
 
 function setup() {
 	//Make theme available for translation.
-	load_theme_textdomain( 'waboot', get_template_directory() . '/languages' );
+	load_theme_textdomain( LANG_TEXTDOMAIN, get_template_directory() . '/languages' );
 
 	// Switch default core markup for search form, comment form, and comments to output valid HTML5.
 	add_theme_support( 'html5', array('search-form', 'comment-form', 'comment-list', 'gallery', 'caption') );
@@ -44,83 +40,80 @@ function setup() {
 
 	// Adding support for Gutemberg Wide Alignment
 	add_theme_support('align-wide' );
+
+	// Custom logo
+	add_theme_support('custom-logo');
+
+    // WooCommerce
+    add_theme_support('woocommerce');
 }
 add_action('after_setup_theme', __NAMESPACE__."\\setup", 11);
 
 /**
  * Register the navigation menus. This theme uses wp_nav_menu() in three locations.
- * todo: valutare se farli creare solo ai componenti interessati
  */
-function register_menus(){
+function registerMenus(){
 	register_nav_menus([
-		'top'           => __( 'Top Menu', 'waboot' ),
-		'main'          => __( 'Main Menu', 'waboot' ),
-		'bottom'        => __( 'Bottom Menu', 'waboot' )
+		'main'          => __( 'Main Menu', LANG_TEXTDOMAIN ),
+		'mobile'        => __( 'Mobile Menu', LANG_TEXTDOMAIN ),
+		'bottom'        => __( 'Bottom Menu', LANG_TEXTDOMAIN )
 	]);
 }
-add_action("after_setup_theme",__NAMESPACE__."\\register_menus",11);
+add_action('after_setup_theme',__NAMESPACE__."\\registerMenus",11);
 
 /**
- * Allows developers to edit the Layout grid classes
+ * Cleanup the head
+ * @source http://geoffgraham.me/wordpress-how-to-clean-up-the-header/
  */
-function update_grid_classes(){
-	WabootLayout()->update_grid_classes();
+function headCleanup(): void {
+    // EditURI link
+    remove_action( 'wp_head', 'rsd_link' );
+    // Category feed links
+    remove_action( 'wp_head', 'feed_links_extra', 3 );
+    // Post and comment feed links
+    remove_action( 'wp_head', 'feed_links', 2 );
+    // Windows Live Writer
+    remove_action( 'wp_head', 'wlwmanifest_link' );
+    // Index link
+    remove_action( 'wp_head', 'index_rel_link' );
+    // Previous link
+    remove_action( 'wp_head', 'parent_post_rel_link', 10);
+    // Start link
+    remove_action( 'wp_head', 'start_post_rel_link', 10);
+    // Canonical
+    remove_action('wp_head', 'rel_canonical', 10);
+    // Shortlink
+    remove_action( 'wp_head', 'wp_shortlink_wp_head', 10);
+    // Links for adjacent posts
+    remove_action( 'wp_head', 'adjacent_posts_rel_link_wp_head', 10);
+    // WP version
+    remove_action( 'wp_head', 'wp_generator' );
 }
-add_action("init",__NAMESPACE__."\\update_grid_classes",15);
+add_action('init',__NAMESPACE__.'\\headCleanup');
 
 /**
- * Rename the default label of admin menu
- *
- * @param $label
- *
- * @hooked 'wbf/admin_menu/label'
- *
- * @return string
+ * @return void
  */
-function set_wbf_admin_menu_label($label){
-	return "Waboot";
+function addHealthCheckEndpoint() {
+    add_filter("query_vars", static function($publicQueryVars){
+        $publicQueryVars[] = "health_check";
+        return $publicQueryVars;
+    }, 10, 1);
+    add_action("parse_request", static function($wp){
+        if (isset($wp->query_vars["health_check"]) && "true" === $wp->query_vars["health_check"]) {
+            // Use the global instance created by WordPress
+            global $wpdb;
+            // Check the connection:
+            if (!$wpdb->check_connection(false)) {
+                die(__("No DB connection"));
+            }
+            header("Content-length: 0");
+            exit;
+        }
+    }, 10, 1);
+    add_action("init", static function(){
+        add_rewrite_rule("^wphealth$", "index.php?health_check=true", "top");
+        flush_rewrite_rules();
+    }, 10);
 }
-add_filter("wbf/admin_menu/label",__NAMESPACE__."\\set_wbf_admin_menu_label");
-
-/**
- * Set the icon of admin menu
- *
- * @param $icon
- *
- * @hooked 'wbf/admin_menu/icon'
- *
- * @return string
- */
-function set_wbf_admin_menu_icon($icon){
-	$icon = get_template_directory_uri()."/assets/images/options/icons/waboot-icon-20x20.svg";
-	return $icon;
-}
-add_filter("wbf/admin_menu/icon",__NAMESPACE__."\\set_wbf_admin_menu_icon");
-
-/**
- * Display the custom Waboot components repository page
- *
- * @param $view
- *
- * @return array
- */
-function display_components_add_new_page($view){
-	if(isset($_GET['section']) && $_GET['section'] === 'add_new'){
-		$view['file'] = 'templates/admin/add-new-components.php';
-		$view['plugin'] = null;
-	}
-	return $view;
-}
-add_filter('wbf/modules/components/views/components-page/file', __NAMESPACE__."\\display_components_add_new_page");
-
-/**
- * Set the custom view params for the Waboot components repository page
- *
- * @param $args
- *
- * @return array
- */
-function inject_components_add_new_page_args($args){
-	return $args;
-}
-add_filter('wbf/modules/components/views/components-page/args', __NAMESPACE__."\\inject_components_add_new_page_args");
+addHealthCheckEndpoint();

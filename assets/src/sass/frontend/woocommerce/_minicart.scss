@@ -1,0 +1,130 @@
+.minicart {
+  background: #fff;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
+  display: block;
+  height: 100%;
+  position: fixed;
+  z-index: 100;
+  overflow: auto;
+  transition: transform .3s;
+  top: 0;
+  right: 0;
+  transform: translate(100%, 0);
+  width: 100%;
+  @include up($large){
+    transform: translate(350px, 0);
+    width: 350px;
+  }
+  &.show {
+    transform: translate(0, 0);
+  }
+  &-overlay {
+    background: rgba(255, 255, 255, 0.8);
+    display: none;
+    height: 100%;
+    left: 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 99;
+  }
+  &-no-scroll {
+    overflow: hidden !important;
+  }
+  .widget_shopping_cart {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 25px;
+    max-height: 100%;
+  }
+  .widget_shopping_cart_content {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    width: 100%;
+    max-height: 100%;
+    overflow: hidden;
+    .woocommerce-mini-cart {
+      flex-grow: 1;
+      max-height: max-content;
+      overflow: auto;
+    }
+  }
+}
+.woocommerce-mini-cart {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+
+  li {
+    padding: 0 20px 10px 0;
+    margin: 0 0 10px;
+    border-bottom: 1px solid $colorGreyLight;
+    position: relative;
+    overflow: auto;
+    img {
+      float: left;
+      width: 60px;
+      background-color: $colorGreyLight;
+      margin-right: 15px;
+    }
+    .quantity {
+      display: block;
+      width: 100%;
+      margin-top: 5px;
+      font-size: .9em;
+    }
+    .remove_from_cart_button {
+      position: absolute;
+      right: 0;
+      top: 0;
+      background-color: #000;
+      border-radius: 50%;
+      color: #fff;
+      font-size: .8em;
+      line-height: 15px;
+      width: 15px;
+      display: block;
+      text-align: center;
+    }
+  }
+
+  &__total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.2em;
+  }
+
+  &__buttons {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0;
+    a {
+      margin-top: 10px;
+      width: 100%;
+      &:not(.checkout) {
+        @include buttonStyle(#fff, $colorPrimary, $colorPrimary, darken($colorPrimary, 20%), 1px solid $colorPrimary);
+      }
+    }
+  }
+}
+
+a[data-minicart-close] {
+  position: absolute;
+  right: 0;
+  top: 0;
+  padding: $gridGutter/2 $gridGutter 0 0 !important;
+  z-index: 20;
+  font-size: 1.5em;
+  cursor: pointer;
+  line-height: 1em;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end !important;
+}

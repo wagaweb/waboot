@@ -1,23 +1,19 @@
-/*=============================================
-=            Gutenberg Align            =
-=============================================*/
+.alignfull {
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  width: auto;
+  max-width: 1000%;
+}
 
-@include up($medium) {   
+@include up($medium) {
 
-    .alignfull {
-      margin-left: calc(50% - 50vw);
-      margin-right: calc(50% - 50vw);
-      width: auto;
-      max-width: 1000%;
-    }
-  
     .alignwide {
       margin-left: calc(25% - 25vw);
       margin-right: calc(25% - 25vw);
       width: auto;
       max-width: 1000%;
     }
-  
+
     .alignwide img,
     .alignfull img {
       display: block;
@@ -25,17 +21,193 @@
     }
 }
 
-/*=====  End of Gutenberg Align  ======*/
-
-
-
-// Allow 1 col block
 
 .wp-block-columns {
+  position: relative;
+  margin-bottom: 0;
+  + .wp-block-columns {
+    margin-top: $gridGutter;
+  }
   &.has-1-columns {
-      .wp-block-column {
-          flex-basis: 100%;
+    .wp-block-column {
+      flex-basis: 100%;
+    }
+  }
+
+  &.is-layout-flex {
+    gap: $gridGutter;
+  }
+
+  &:not(.is-layout-flex) {
+    .wp-block-column {
+      margin-bottom: $gridGutter;
+      @media (max-width: 599px) {
+        &:last-child {
+          margin-bottom: 0;
+        }
       }
+      @media (min-width: 769px) {
+        flex-basis: 50%;
+        margin-bottom: 0;
+      }
+      @media (min-width: 782px) {
+        &:not(:first-child) {
+          margin-left: 20px;
+        }
+      }
+      @include up($large) {
+        flex-basis: calc(50% - calc(#{$gridGutter}/2));
+        flex-grow: 0;
+        &:nth-child(2n) {
+          margin-left: $gridGutter;
+        }
+        &:not(:first-child) {
+          margin-left: $gridGutter;
+        }
+      }
+    }
   }
 }
 
+.wp-block-group {
+  &.alignfull {
+    .wp-block-group__inner-container {
+      padding: 20px 0;
+      @include up($medium) {
+        padding: $gridGutter 0;
+      }
+    }
+  }
+}
+
+
+.wp-block-image {
+  margin-bottom: $gridGutter;
+}
+
+
+.wp-block-buttons {
+  .wp-block-button {
+    margin-bottom: 0;
+    + .wp-block-button {
+      margin-left: $gridGutter;
+    }
+  }
+}
+
+
+.blocks-gallery-grid,
+.wp-block-gallery {
+  .blocks-gallery-image,
+  .blocks-gallery-item {
+    width: calc((100% - #{$gridGutter}) / 2);
+    margin: 0 $gridGutter $gridGutter 0;
+  }
+  @include up($medium) {
+    &.columns-3 {
+      .blocks-gallery-image,
+      .blocks-gallery-item {
+        width: calc((100% - calc(#{$gridGutter} * 2)) / 3);
+        @supports (-ms-ime-align:auto) {
+          width: calc((100% - calc(#{$gridGutter} * 2)) / 3 - 1px);
+        }
+        margin-right: $gridGutter;
+      }
+    }
+    &.columns-4 {
+      .blocks-gallery-image,
+      .blocks-gallery-item {
+        width: calc((100% - calc(#{$gridGutter} * 3)) / 4);
+        @supports (-ms-ime-align:auto) {
+          width: calc((100% - calc(#{$gridGutter} * 3)) / 4 - 1px);
+        }
+        margin-right: $gridGutter;
+      }
+    }
+    &.columns-5 {
+      .blocks-gallery-image,
+      .blocks-gallery-item {
+        width: calc((100% - calc(#{$gridGutter} * 4)) / 5);
+        @supports (-ms-ime-align:auto) {
+          width: calc((100% - calc(#{$gridGutter} * 4)) / 5 - 1px);
+        }
+        margin-right: $gridGutter;
+      }
+    }
+    &.columns-6 {
+      .blocks-gallery-image,
+      .blocks-gallery-item {
+        width: calc((100% - calc(#{$gridGutter} * 5)) / 6);
+        @supports (-ms-ime-align:auto) {
+          width: calc((100% - calc(#{$gridGutter} * 5)) / 6 - 1px);
+        }
+        margin-right: $gridGutter;
+      }
+    }
+    &.columns-7 {
+      .blocks-gallery-image,
+      .blocks-gallery-item {
+        width: calc((100% - calc(#{$gridGutter} * 6)) / 7);
+        @supports (-ms-ime-align:auto) {
+          width: calc((100% - calc(#{$gridGutter} * 6)) / 7 - 1px);
+        }
+        margin-right: $gridGutter;
+      }
+    }
+    &.columns-8 {
+      .blocks-gallery-image,
+      .blocks-gallery-item {
+        width: calc((100% - calc(#{$gridGutter} * 7)) / 8);
+        @supports (-ms-ime-align:auto) {
+          width: calc((100% - calc(#{$gridGutter} * 7)) / 8 - 1px);
+        }
+        margin-right: $gridGutter;
+      }
+    }
+
+    &.columns-1 .blocks-gallery-image:nth-of-type(1n),
+    &.columns-1 .blocks-gallery-item:nth-of-type(1n),
+    &.columns-2 .blocks-gallery-image:nth-of-type(2n),
+    &.columns-2 .blocks-gallery-item:nth-of-type(2n),
+    &.columns-3 .blocks-gallery-image:nth-of-type(3n),
+    &.columns-3 .blocks-gallery-item:nth-of-type(3n),
+    &.columns-4 .blocks-gallery-image:nth-of-type(4n),
+    &.columns-4 .blocks-gallery-item:nth-of-type(4n),
+    &.columns-5 .blocks-gallery-image:nth-of-type(5n),
+    &.columns-5 .blocks-gallery-item:nth-of-type(5n),
+    &.columns-6 .blocks-gallery-image:nth-of-type(6n),
+    &.columns-6 .blocks-gallery-item:nth-of-type(6n),
+    &.columns-7 .blocks-gallery-image:nth-of-type(7n),
+    &.columns-7 .blocks-gallery-item:nth-of-type(7n),
+    &.columns-8 .blocks-gallery-image:nth-of-type(8n),
+    &.columns-8 .blocks-gallery-item:nth-of-type(8n) {
+      margin-right: 0;
+    }
+  }
+}
+
+
+// Latest Posts Block
+
+.wp-block-latest-posts {
+  &.is-grid li {
+    margin: 0 $gridGutter $gridGutter 0;
+  }
+  @include up($medium) {
+    &.columns-2 li {
+      width: calc(50% - calc(#{$gridGutter}/2));
+    }
+    &.columns-3 li {
+      width: calc(33.33333% - calc(#{$gridGutter}*2/3));
+    }
+    &.columns-4 li {
+      width: calc(25% - calc(#{$gridGutter}*3/4));
+    }
+    &.columns-5 li {
+      width: calc(20% - calc(#{$gridGutter}*4/5));
+    }
+    &.columns-6 li {
+      width: calc(16.66667% - calc(#{$gridGutter}*5/6));
+    }
+  }
+}

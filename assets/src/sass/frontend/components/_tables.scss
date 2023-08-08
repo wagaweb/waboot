@@ -2,12 +2,15 @@
 
 @mixin table-responsive {
   @include down($small) {
-    border-top: 1px solid #ddd;
-    border-left: 1px solid #ddd;
-    border-right: 1px solid #ddd;
+    border-top: 1px solid $colorGreyLight;
+    border-left: 1px solid $colorGreyLight;
+    border-right: 1px solid $colorGreyLight;
     border-bottom: 0;
 
-    thead,
+    thead {
+      display: none;
+    }
+
     tbody,
     th,
     td,
@@ -26,7 +29,7 @@
     }
 
     tbody td {
-      border-bottom: 1px solid #ddd;
+      border-bottom: 1px solid $colorGreyLight;
       border-top: 0;
       border-right: 0;
       border-left: 0;

@@ -1,0 +1,30 @@
+/* Form Footer */
+.gform_wrapper {
+  .gform_footer,
+  .gform_page_footer {
+    margin: 6px 0 0;
+    padding: 16px 0;
+    &.right_label,
+    &_left_label {
+      padding: 16px 0 10px 30%;
+    }
+    input,
+    button {
+      margin-bottom: 8px;
+      &.button:disabled {
+        opacity: .6;
+      }
+      + input,
+      + button {
+        margin-left: 8px;
+      }
+    }
+    .gform_previous_button.button {
+      @extend .btn--secondary;
+    }
+    .gform_button,
+    .gform_next_button.button {
+      @extend .btn--primary;
+    }
+  }
+}

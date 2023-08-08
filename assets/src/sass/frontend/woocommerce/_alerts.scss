@@ -1,0 +1,99 @@
+.woocommerce-notices-wrapper,
+.woocommerce-NoticeGroup {
+  flex          : 0 0 100%;
+  width         : 100%;
+  margin-bottom : 0;
+  font-family   : $fontPrimary;
+
+  @include up($large){
+    position: fixed;
+    z-index: 999;
+    bottom: 10px;
+    left: 30px;
+    max-width: 300px;
+  }
+
+  .wc-forward {
+    display : none;
+  }
+}
+
+.woocommerce {
+  div[role=alert],
+  ul[role=alert] {
+    list-style-type: none;
+    padding: 15px;
+    margin-bottom: 20px;
+  }
+}
+
+.woocommerce-message {
+  background-color : $colorSuccess;
+  color            : #FFF;
+
+  .button {
+    background-color : $colorWhite;
+    color            : $colorText;
+  }
+
+  &--info {
+    background-color : transparent;
+    color            : $colorText;
+  }
+}
+
+.woocommerce-error {
+  background-color : $colorWarning;
+  color            : #FFF;
+
+  .button {
+    background-color : #FFF;
+    color            : $colorText;
+
+    &:hover {
+      background-color : rgba($colorWhite, .9);
+      color            : $colorText;
+    }
+
+    &:focus {
+      background-color : rgba($colorWhite, .75);
+      color            : $colorText;
+    }
+  }
+
+  li {
+    margin-bottom : 5px;
+
+    &:last-child {
+      margin-bottom : 0;
+    }
+  }
+}
+
+.notice {
+  border : none !important;
+
+  &--success {
+    background-color : $colorSuccess;
+  }
+
+  &--error {
+    background-color : $colorWarning;
+  }
+
+  p {
+    margin : 0;
+    color  : #FFF;
+  }
+}
+
+
+.woocommerce {
+  .woocommerce-notices-wrapper {
+    div, ul {
+      &[role=alert] {
+        border : none;
+      }
+    }
+  }
+}

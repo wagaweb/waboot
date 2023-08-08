@@ -1,0 +1,39 @@
+/* Time field */
+.gform_wrapper {
+  .gfield_time_hour label.hour_label,
+  .gfield_time_minute label.minute_label {
+    display: block;
+    font-size: 15px;
+    margin: 0;
+    padding-top: 5px;
+  }
+  .ginput_container_time {
+    flex-basis: min-content;
+    max-width: 64px;
+    min-width: 64px;
+    input {
+      margin-left: 0;
+      margin-right: 0;
+      min-width: 100%;
+    }
+  }
+  .gfield_time_minute {
+    position: relative;
+  }
+  .hour_minute_colon {
+    line-height: 2;
+    padding: 0 8px;
+  }
+  .field_sublabel_above .hour_minute_colon {
+    align-self: flex-end;
+  }
+  .gfield_time_ampm {
+    align-items: flex-end;
+    display: flex;
+    margin-left: 16px;
+  }
+  .hour_minute_colon.below,
+  .gfield_time_ampm.below {
+    align-items: flex-start;
+  }
+}

@@ -1,0 +1,40 @@
+/* Buttons */
+.gform_wrapper {
+  .gform_save_link.button,
+  .gform_previous_button.button {
+    background-color: $colorWhite;
+    color: $colorText;
+    text-decoration: none;
+  }
+  .gform_save_link.button,
+  .gform_previous_button.button {
+    &.button {
+      svg {
+        display: inline-block;
+        margin-right: 4px;
+      }
+    }
+  }
+  button.button:disabled {
+    opacity: 0.6;
+  }
+  #field_submit,
+  .gform_footer {
+    display: flex;
+    input {
+      align-self: flex-end;
+    }
+    .gform_image_button {
+      background-color: transparent;
+      border: none;
+      border-radius: 0;
+      height: auto;
+      padding: 0;
+      width: auto;
+    }
+    .gform-button--width-full {
+      text-align: center;
+      width: 100%;
+    }
+  }
+}

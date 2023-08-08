@@ -1,18 +1,21 @@
 .single {
-  article {
-    .entry__image img {
-      min-width: 100%;
-      margin-bottom: 20px;
+  .article {
+    &__image {
+      margin-bottom: $gridGutter;
+      img {
+        max-width: 100%;
+      }
     }
-    .entry__footer {
+
+    &__footer {
       text-transform: uppercase;
       font-size: 0.9em;
-      border-top: 1px solid #eee;
-      border-bottom: 1px solid #eee;
       padding: 10px 0;
+
       .glyphicon {
         margin-right: 5px;
       }
+
       > span {
         margin-right: 10px;
       }
@@ -21,19 +24,22 @@
 }
 
 
-.blog-classic {
+.article__list {
   article {
-    .entry__wrapper {
-      @include up($medium){
+    margin-bottom: $gridGutter;
+  }
+  @include up($medium){
+    .article {
+      &__inner {
         display: flex;
         flex-wrap: nowrap;
-        .entry__image {
-          flex: 1 1 auto;
-          margin-right: 20px
-        }
-        .entry__content {
-          flex: 1 1 auto;
-        }
+      }
+      &__image {
+        flex: 0 0 auto;
+        margin-right: 20px
+      }
+      &__content {
+        flex: 1 1 auto;
       }
     }
   }

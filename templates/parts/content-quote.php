@@ -1,19 +1,18 @@
-<article role="article" id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-    <div class="entry__wrapper">
-        <div class="entry__content">
-            <?php if(is_singular()) : ?>
-                <?php do_action( 'waboot/entry/header' ); ?>
+<?php if(is_singular()) : ?>
+    <blockquote>
+        <?php the_content(); ?>
+    </blockquote>
+    <?php do_action( 'waboot/article/footer' ); ?>
+<?php else : ?>
+    <article role="article" id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
+        <div class="article__inner">
+            <div class="article__content">
+                <h2><?php the_title(); ?></h2>
                 <blockquote>
-                    <?php the_content(); ?>
+                    <p><?php \Waboot\inc\trimmedExcerpt(20, '...'); ?> <a class="more__link" href="<?php the_permalink() ?>"><?php _e('Continue reading', LANG_TEXTDOMAIN) ?></a></p>
                 </blockquote>
-            <?php else : ?>
-                <?php do_action( 'waboot/entry/header', 'list' ); ?>
-                <blockquote>
-                    <p><?php \Waboot\template_tags\the_trimmed_excerpt(20, '...'); ?> <a class="more__link" href="<?php the_permalink() ?>"><?php _e('Continue reading', 'waboot') ?></a></p>
-                </blockquote>
-            <?php endif; ?>
-            <?php do_action( 'waboot/entry/footer' ); ?>
+                <?php do_action( 'waboot/article/list/footer' ); ?>
+            </div>
         </div>
-    </div>
-
-</article>
+    </article>
+<?php endif; ?>

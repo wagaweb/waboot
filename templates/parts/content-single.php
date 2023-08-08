@@ -1,25 +1,18 @@
-<article role="article" id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-
-	<?php do_action( 'waboot/entry/header' ); ?>
-
+<?php if(is_singular('post')) : ?>
     <?php if(has_post_thumbnail()) : ?>
-        <div class="entry__image">
+        <figure class="article__image">
             <?php
             $large_image_url = wp_get_attachment_image_src( get_post_thumbnail_id(), 'large' );
             echo '<a href="' . $large_image_url[0] . '" title="' . the_title_attribute( 'echo=0' ) . '">';
             echo get_the_post_thumbnail( $post->ID, 'large', array( 'class' => 'img-responsive', 'title' => "" ) );
             echo '</a>';
             ?>
-        </div>
+        </figure>
     <?php endif ?>
-
-    <div class="entry__content">
-        <?php
-        the_content();
-        wp_link_pages();
-        ?>
+    <div class="article__content">
+        <?php the_content(); ?>
     </div>
-
-    <?php do_action( 'waboot/entry/footer' ); ?>
-
-</article>
+    <?php do_action( 'waboot/article/footer' ); ?>
+<?php else : ?>
+    <?php the_content(); ?>
+<?php endif; ?>

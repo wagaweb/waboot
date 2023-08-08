@@ -1,0 +1,114 @@
+.gform_wrapper {
+  .left_label,
+  .right_label {
+    .gfield:not(.gsection):not(.gfield_html):not(fieldset) {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      width: 100%;
+    }
+    .gfield_label {
+      margin: 0;
+      padding: 0;
+      width: 30%;
+      @include down($medium) {
+        width: 100%
+      }
+    }
+    fieldset {
+      clear: both;
+      .ginput_container {
+        float: left;
+        width: 70%;
+        @include down($medium) {
+          width: 100%;
+        }
+      }
+      > .ginput_complex {
+        @include down($medium) {
+          width: 100%;
+        }
+      }
+    }
+    legend.gfiedl_label {
+      display: block;
+      float: left;
+      padding-right: 1em;
+      width: 30%;
+      @include down($medium) {
+        width: 100%;
+      }
+    }
+    .ginput_complex .ginput_container {
+      width: auto;
+    }
+    div.gfield > div:not(.ui-resizable-handle):not(.gfield-admin-icons) {
+      width: 70%;
+      @include down($medium) {
+        width: 100%;
+      }
+    }
+    .gform_fields {
+      position: relative;
+    }
+    .gfield_html_formatted {
+      margin-left: 30%;
+    }
+    #field_submit {
+      justify-content: flex-start;
+      input {
+        margin-left: 30%;
+      }
+    }
+  }
+  .right_label .gfield_label {
+    padding-right: 1em;
+    text-align: right;
+  }
+  .gform_required_legend {
+    display: none;
+  }
+  &.left_label,
+  &.right_label {
+    fieldset.gfield {
+      padding: 16px 16px 16px 30%;
+      .ginput_container:not(.ginput_container_time) {
+        width: 100%;
+      }
+    }
+    legend.gfield_label {
+      left: 0;
+    }
+    .gfield:not(.gsection):not(.gfield_html):not(fieldset) {
+      justify-content: flex-start;
+    }
+    .gfield_html {
+      &.gfield_html_formatted {
+        display: flex;
+      }
+      &:not(.gfield_html_formatted) .gf-html-container {
+        width: 100%;
+      }
+    }
+  }
+  &.right_label legend.gfield_label {
+    text-align: right;
+  }
+  &:not(.top_label) .ginput_container.ginput_single_email {
+    margin-left: 0;
+  }
+
+  .gfield_consent_label {
+    display: inline-block;
+    font-size: .85em;
+    margin-bottom: 0;
+  }
+}
+
+.field_sublabel_below .ginput_complex {
+  align-items: flex-start;
+}
+
+.field_sublabel_above .ginput_complex {
+  align-items: flex-end;
+}

@@ -1,158 +1,197 @@
 <?php
 
-namespace Waboot\functions;
-use WBF\components\mvc\HTMLView;
-use WBF\components\utils\Query;
+namespace Waboot\inc;
 
-/**
- * Renders archive.php content. This is not used ATM.
+use Waboot\inc\core\mvc\HTMLView;
+use function Waboot\inc\core\Waboot;/**
+ * Display the content navigation
  *
- * @param $template_file
+ * @param string $nav_id (you can use 'nav-below' or 'nav-above')
+ * @param bool $show_pagination
+ * @param bool $query
+ * @param bool $current_page
+ * @param string $paged_var_name You can supply different paged var name for multiple pagination. The name must be previously registered with add_rewrite_tag()
+ *@throws \Exception
+ *
  */
-function render_archives($template_file){
-	$args = get_archives_template_vars();
-	(new HTMLView($template_file))->clean()->display($args);
+function renderPostNavigation($nav_id, $show_pagination = true, $query = false, $current_page = false, $paged_var_name = 'paged'){
+    //Setting up the query
+    if(!$query){
+        global $wp_query;
+        $query = $wp_query;
+    }else{
+        if(!$query instanceof \WP_Query){
+            throw new \Exception("Invalid query provided for post_navigation $nav_id");
+        }
+    }
+
+    if(is_home() || is_archive() || is_search()){
+        $show_pagination = true;
+        $can_display_pagination = $query->max_num_pages > 1;
+    }else{
+        $show_pagination = false;
+        $can_display_pagination = true;
+    }
+    $show_pagination = apply_filters('waboot/layout/post_navigation/display_pagination_flag',$show_pagination,$nav_id);
+
+    if(!$show_pagination || !$can_display_pagination){ return; }
+
+    if($can_display_pagination && $show_pagination){
+        $big = 999999999; // need an unlikely integer
+        if($paged_var_name !== 'paged'){
+            $base =  add_query_arg([
+                $paged_var_name => "%#%"
+            ]);
+            $base = home_url().$base;
+        }else{
+            $base =  str_replace( $big, '%#%', esc_url( get_pagenum_link( $big ) ) );
+        }
+        if($current_page === false){
+            $current_page = 1;
+            if($paged_var_name !== 'paged' && isset($_GET[$paged_var_name])){
+                $current_page = (int) $_GET[$paged_var_name];
+            }else{
+                $current_page = max(1, (int) get_query_var('paged'));
+            }
+        }
+        $paginate = paginate_links([
+            'base' => $base,
+            'format' => '?'.$paged_var_name.'=%#%',
+            'current' => $current_page,
+            'total' => $query->max_num_pages
+        ]);
+        $paginate_array = explode("\n",$paginate);
+        foreach($paginate_array as $k => $link){
+            $paginate_array[$k] = '<li>' .$link. '</li>';
+        }
+        $pagination = implode("\n",$paginate_array);
+    }else{
+        $pagination = '';
+    }
+
+    Waboot()->renderView('templates/view-parts/pagination.php',[
+        'nav_id' => $nav_id,
+        'can_display_pagination' => $can_display_pagination,
+        'show_pagination' => $show_pagination,
+        'pagination' => $pagination,
+        'max_num_pages' => $query->max_num_pages
+    ],true);
 }
 
 /**
- * Gets the variables needed to render an archive.php page
- * 
- * @return array
+ * Display the post gallery
+ *
+ * @return bool|string
  */
-function get_archives_template_vars(){
-	$vars = [];
+function displayPostGallery() {
+    if ( function_exists( 'get_post_galleries' ) ) {
+        $galleries = get_post_galleries( get_the_ID(), false );
 
-	$tax = get_current_taxonomy();
+        if ( empty( $galleries ) ) return false;
 
-	$vars['page_title'] = get_archive_page_title();
-	$vars['term_description'] = get_the_archive_description();
+        if ( isset( $galleries[0]['ids'] ) ) {
+            foreach ( $galleries as $gallery ) {
+                // Grabs all attachments ids from one or multiple galleries in the post
+                $images_ids .= ( '' !== $images_ids ? ',' : '' ) . $gallery['ids'];
+            }
 
-	//Please note that page_title and term_description are provided here for completeness. In the actual template the title
-	//is rendered through \Waboot\template_tags\archive_page_title() and the description is hooked to 'waboot/layout/archive/page_title/after'
+            $attachments_ids = explode( ',', $images_ids );
+            // Removes duplicate attachments ids
+            $attachments_ids = array_unique( $attachments_ids );
+        } else {
+            $attachments_ids = get_posts( array(
+                'fields'         => 'ids',
+                'numberposts'    => 999,
+                'order'          => 'ASC',
+                'orderby'        => 'menu_order',
+                'post_mime_type' => 'image',
+                'post_parent'    => get_the_ID(),
+                'post_type'      => 'attachment',
+            ) );
+        }
+    } else {
+        $pattern = get_shortcode_regex();
+        preg_match( "/$pattern/s", get_the_content(), $match );
+        $atts = shortcode_parse_atts( $match[3] );
 
-	$vars['blog_class'] = get_posts_wrapper_class();
-	$vars['display_nav_above'] = (bool) \Waboot\functions\get_option('show_content_nav_above', 1);
-	$vars['display_nav_below'] =  (bool) \Waboot\functions\get_option('show_content_nav_below', 1);
-	$vars['options']['display_title'] = get_archive_option("display_title",$tax);
-	$vars['options']['title_position'] = get_archive_option("title_position",$tax);
-	$vars['options']['layout'] = get_archive_option("layout",$tax);
-	$vars['options']['primary_sidebar_size'] = get_archive_option("primary_sidebar_size",$tax);
-	$vars['options']['secondary_sidebar_size'] = get_archive_option("secondary_sidebar_size",$tax);
+        if ( isset( $atts['ids'] ) )
+            $attachments_ids = explode( ',', $atts['ids'] );
+        else
+            return false;
+    }
 
-	$vars['display_page_title'] = call_user_func(function() use($vars){
-		if( $vars['options']['title_position'] !== 'bottom' ){
-			return false;
-		}
-		if( is_author() ){
-			return true; //For author we do not want check for the theme option //todo: change this behavior?
-		}
-		if( \Waboot\functions\get_archive_option('display_title') === '1' ){
-			return true;
-		}
-		return false;
-	});
-
-	$o = get_queried_object();
-
-	//@see https://developer.wordpress.org/files/2014/10/wp-hierarchy.png
-
-	$tpl_base = 'templates/archive/';
-	if(is_author()){
-		$tpl[] = $tpl_base.'author-'.get_the_author_meta('user_nicename');
-		$tpl[] = $tpl_base.'author-'.get_the_author_meta('ID');
-		$tpl[] = $tpl_base.'author';
-	}elseif($o instanceof \WP_Term){
-		if($o->taxonomy === 'category'){
-			$tpl[] = $tpl_base.'category'.'-'.$o->slug;
-			$tpl[] = $tpl_base.'category-'.$o->term_id;
-			$tpl[] = $tpl_base.'category';
-		}else{
-			$tpl[] = $tpl_base.$o->taxonomy.'-'.$o->slug;
-			$tpl[] = $tpl_base.'taxonomy-'.$o->taxonomy.'-'.$o->slug;
-			$tpl[] = $tpl_base.'taxonomy-'.$o->taxonomy;
-			$tpl[] = $tpl_base.'taxonomy';
-		}
-	}elseif($o instanceof \WP_Post_Type){
-		$tpl = $tpl_base.'archive-'.$o->name;
-	}elseif(is_date()){
-		$tpl = $tpl_base . 'date';
-	}else{
-		$tpl = '';
-	}
-
-	if($tpl !== '' || \is_array($tpl)){
-		$tpl = Waboot()->locate_template($tpl);
-	}
-
-	$vars['tpl'] = $tpl;
-
-	return $vars;
+    echo '<div id="carousel-gallery-format" class="carousel slide" data-ride="carousel">';
+    echo '	<div class="carousel-inner" role="listbox">';
+    $i = 0;
+    foreach ( $attachments_ids as $attachment_id ) {
+        if($i == 0){
+            printf( '<div class="item active">%s</div>',
+                // esc_url( get_permalink() ),
+                wp_get_attachment_image( $attachment_id, 'medium' )
+            );
+        }else{
+            printf( '<div class="item">%s</div>',
+                // esc_url( get_permalink() ),
+                wp_get_attachment_image( $attachment_id, 'medium' )
+            );
+        }
+        $i++;
+    }
+    echo '	</div> <!-- .carousel-inner -->';
+    echo '<!-- Controls -->
+          <a class="left carousel-control" href="#carousel-gallery-format" role="button" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+          </a>
+          <a class="right carousel-control" href="#carousel-gallery-format" role="button" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+          </a>
+    ';
+    echo '</div> <!-- #carousel-gallery-format -->';
 }
 
 /**
- * Gets the additional variables needed to render an aside.php
- *
- * @param $slug
- *
- * @return array
+ * @param $areaId
  */
-function get_aside_template_vars($slug){
-	$vars = [];
-	switch($slug){
-		case 'aside-primary':
-			$vars['classes'] = call_user_func(function(){
-				if(has_filter( 'waboot_primary_container_class' )){
-					return apply_filters('waboot_primary_container_class', 'wbcol--4'); //backward compatibility
-				}else{
-					return apply_filters('waboot/layout/sidebar/primary/classes', 'wbcol--4');
-				}
-			});
-			break;
-		case 'aside-secondary':
-			$vars['classes'] = call_user_func(function(){
-				if(has_filter( 'waboot_secondary_container_class' )){
-					return apply_filters('waboot_secondary_container_class', 'wbcol--4'); //backward compatibility
-				}else{
-					return apply_filters('waboot/layout/sidebar/secondary/classes', 'wbcol--4');
-				}
-			});
-			break;
-	}
-
-	return $vars;
-}
-
-/**
- * @param string $context (top or bottom, @see blog_title_position option)
- *
- * @return bool
- */
-function blog_page_can_display_title($context){
-	if($context === 'top'){
-		return \Waboot\functions\get_option('blog_title_position') === $context && (bool) \Waboot\functions\get_option('blog_display_title');
-	}elseif($context === 'bottom'){
-		return \Waboot\functions\get_option('blog_title_position') === $context && (bool) \Waboot\functions\get_option('blog_display_title');
-	}
-	return false;
+function renderWidgetArea($areaId){
+    Waboot()->renderView('templates/view-parts/widget-area.php', ['areaId' => $areaId]);
 }
 
 /**
  * Template for comments and pingbacks.
  *
- * Used as a callback by wp_list_comments() for displaying the comments.
+ * Used as a callback by wp_list_comments() for displaying the comments. (@see comments.php)
  */
-function render_comment($comment, $args, $depth){
-	$vars = [
-		'additional_comment_class' => empty( $args['has_children'] ) ? '' : 'parent',
-		'is_approved' => $comment->comment_approved  != '0',
-		'has_avatar' => $args['avatar_size'] != '0',
-		'avatar' => get_avatar( $comment, $args['avatar_size'] ),
-		'comment' => $comment,
-		'args' => $args,
-		'depth' => $depth
-	];
+function renderComment($comment, $args, $depth){
+    $vars = [
+        'additional_comment_class' => empty( $args['has_children'] ) ? '' : 'parent',
+        'is_approved' => $comment->comment_approved  != '0',
+        'has_avatar' => $args['avatar_size'] != '0',
+        'avatar' => get_avatar( $comment, $args['avatar_size'] ),
+        'comment' => $comment,
+        'args' => $args,
+        'depth' => $depth
+    ];
 
-	$template_file = 'templates/view-parts/single-comment.php';
-	$v = new HTMLView($template_file);
-	$v->display($vars);
+    $template_file = 'templates/view-parts/single-comment.php';
+
+    Waboot()->renderView($template_file,$vars);
+}
+
+/**
+ * Renders a custom template inside <head> tags.
+ * This behavior is activated by 'waboot/head/use_custom_head' filter (see: \Waboot\inc\site_head())
+ */
+function renderCustomHead(){
+    $tpl = apply_filters('waboot/head/custom_head/tpl',null);
+    if(!isset($tpl) || !locate_template($tpl)){
+        wp_head();
+    }
+    $args = apply_filters('waboot/head/custom_head/args',[]);
+    try{
+        (new HTMLView($tpl))->display($args);
+    }catch(\Exception $e){
+        trigger_error($e->getMessage());
+    }
 }

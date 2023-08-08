@@ -1,0 +1,25 @@
+{
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.vue"
+  ],
+  "exclude": [
+    "node_module"
+  ],
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "strict": true,
+    "jsx": "preserve",
+    "moduleResolution": "Node",
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": "src",
+    "isolatedModules": true,
+    "paths": {
+      "@/*": [
+        "./*"
+      ]
+    },
+  }
+}

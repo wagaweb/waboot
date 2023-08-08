@@ -1,0 +1,46 @@
+.gform {
+  &_drop {
+    &_area {
+      border: 1px dashed $colorGrey;
+      border-radius: calc($radius / 2);
+      background-color: $colorWhite;
+      margin-bottom: 5px;
+      padding: 30px;
+      text-align: center;
+    }
+    &_instructions {
+      display: block;
+      margin-bottom: 10px;
+    }
+  }
+  &_delete,
+  &_delete_file {
+    cursor: pointer;
+    vertical-align: middle;
+  }
+  &_delete_file {
+    appearance: none;
+    background: none;
+    border: none;
+    color: $colorWarning;
+    margin-right: 4px;
+    padding: 0;
+  }
+  &_fileupload_rules {
+    display: block;
+    margin-top: 8px;
+  }
+}
+
+.ginput_preview {
+  display: flex;
+  margin: 16px 0;
+}
+
+.gfield_validation_message ul {
+  margin: 10px 0;
+  padding-left: 20px;
+  &:empty {
+    display: none;
+  }
+}

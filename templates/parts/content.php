@@ -1,24 +1,21 @@
 <article role="article" id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-    <div class="entry__wrapper">
-        <?php
-            if(has_post_thumbnail()){
-	            $thumbnailView = new \WBF\components\mvc\HTMLView('templates/view-parts/entry-thumbnail.php');
-	            $thumbnailPreset = apply_filters('waboot/layout/entry/thumbnail/preset','thumbnail');
-	            $thumbnailClasses = apply_filters('waboot/layout/entry/thumbnail/class','img-responsive');
-	            $thumbnailView->display([
-		            'thumbnail_html' => get_the_post_thumbnail( $post->ID, $thumbnailPreset, array( 'class' => $thumbnailClasses, 'title' => get_the_title().' thumbnail' ) ),
-                    'thumbnail_src' => \WBF\components\utils\Posts::get_post_thumbnail_src($post->ID,$thumbnailPreset)
-                ]);
-            }
-        ?>
-        <div class="entry__content">
-            <?php do_action( 'waboot/entry/header', 'list' ); ?>
-            <?php
-                $contentView = new \WBF\components\mvc\HTMLView('templates/view-parts/entry-content.php');
-                $contentView->display();
-            ?>
-            <?php wp_link_pages(); ?>
-            <?php do_action( 'waboot/entry/footer' ); ?>
+    <div class="article__inner">
+        <?php if(has_post_thumbnail()) : ?>
+        <figure class="article__image">
+            <a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( 'Link to %s', LANG_TEXTDOMAIN ), the_title_attribute( 'echo=0' ) ); ?>">
+                <?php echo get_the_post_thumbnail( $post->ID, 'thumbnail') ?>
+            </a>
+        </figure>
+        <?php endif; ?>
+        <div class="article__content">
+            <h2><?php the_title(); ?></h2>
+            <p>
+                <?php \Waboot\inc\trimmedExcerpt(20, '...'); ?>
+                <a class="more__link" href="<?php the_permalink() ?>">
+                    <?php _e('Continue reading', LANG_TEXTDOMAIN) ?>
+                </a>
+            </p>
+            <?php do_action( 'waboot/article/list/footer' ); ?>
         </div>
     </div>
 </article>

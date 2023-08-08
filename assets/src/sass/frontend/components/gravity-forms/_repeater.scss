@@ -1,0 +1,78 @@
+/* Repeater field */
+.gform_wrapper {
+  .gfield_repeater_cell {
+    margin-top: 8px;
+    label {
+      color: $colorText;
+      font-size: .85em;
+      font-weight: 400;
+      padding-top: 8px;
+    }
+  }
+  .gfield_repeater_items .gfield_repeater_cell:not(:first-child) {
+    padding-top: 8px;
+  }
+  .gfield_repeater_wrapper input {
+    border: 1px solid $colorGreyDark;
+    border-radius: 4px;
+  }
+  .gfield_repeater_cell > .gfield_repeater_wrapper {
+    background-color: rgba($colorBlack, 0.02);
+    border-bottom: 1px solid $colorGrey;
+    border-left: 8px solid $colorGreyLight;
+    border-radius: 8px;
+    box-shadow: 0 1px 1px 0 rgba($colorBlack, 0.06), 0 2px 1px -1px rgba($colorBlack, 0.06), 0 1px 5px 0 rgba($colorBlack, 0.06);
+    padding: 10px 20px;
+  }
+  .gfield_repeater_buttons {
+    padding-top: 16px;
+    .add_repeater_item_plus,
+    .remove_repeater_item_minus,
+    .add_repeater_item_text,
+    .remove_repeater_item_text {
+      &:hover {
+        background: $colorGreyLight;
+        border: 1px solid $colorText;
+        color: $colorText;
+      }
+      &:focus {
+        outline: 0;
+      }
+    }
+    .add_repeater_item_text,
+    .remove_repeater_item_text {
+      background: rgba($colorGreyLight, 0.5);
+      border: 1px solid rgba($colorText, 0.4);
+      border-radius: 20px;
+      color: $colorText;
+      font-size: 12px;
+      font-weight: 400;
+      height: 32px;
+      margin-bottom: 8px;
+      margin-right: 8px;
+      min-width: 100px;
+      transition: all 0.3s cubic-bezier(0.67, 0.17, 0.4, 0.83);
+    }
+    .add_repeater_item_plus,
+    .remove_repeater_item_minus {
+      background: rgba($colorGrey, 0.5);
+      border: 1px solid rgba($colorGreyLight, 0.4);
+      border-radius: 50%;
+      color: $colorGreyLight;
+      font-size: 16px;
+      font-weight: 700;
+      height: 24px;
+      margin: 10px 5px 0 5px;
+      padding: 0;
+      transition: all 0.3s cubic-bezier(0.67, 0.17, 0.4, 0.83);
+      width: 24px;
+    }
+  }
+
+  .gfield_repeater .gfield_repeater_items .gfield_repeater_item:not(:last-child) {
+    border-bottom: 2px solid $colorGrey;
+    margin-bottom: 20px;
+    margin-right: 8px;
+    padding-bottom: 20px;
+  }
+}

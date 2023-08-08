@@ -1,0 +1,4 @@
+COD;GroupId;Title;Size;Color;Category;Brand;Price;Stock;ShortDesc;LongDesc
+123;999;Titolo1;100ml;Rosso;Brand1;Cat1>Cat2;100;2;Descrizione breve;Descrizione lunga
+124;999;Titolo2;200ml;Nero;Brand1;Cat1>Cat2;100;2;Descrizione breve;Descrizione lunga
+124;;Titolo3;;;Brand1;Cat1>Cat2;100;2;Descrizione breve;Descrizione lunga

@@ -1,0 +1,26 @@
+.search {
+  &-form,
+  &--form,
+  &__form {
+    display: grid;
+    grid-gap: $gridGutter / 2;
+    grid-template-columns: 1fr auto;
+
+    .screen-reader-text {
+      display: none;
+    }
+
+    label {
+      margin: 0;
+      input[type="search"] {
+        height: 100%;
+      }
+    }
+
+    input[type=text],
+    .search-field {
+      height: auto;
+    }
+  }
+
+}

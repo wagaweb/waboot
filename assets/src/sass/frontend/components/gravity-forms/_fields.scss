@@ -1,0 +1,104 @@
+.gform_wrapper .gfield {
+  textarea {
+    width: 100%;
+    &.small {
+      height: 96px;
+    }
+    &.medium {
+      height: 192px;
+    }
+    &.large {
+      height: 288px;
+    }
+  }
+  input,
+  select {
+    max-width: 100%;
+    &.small {
+      width: calc(25% - 16px * 3 / 4);
+    }
+    &.large {
+      width: 100%;
+    }
+  }
+}
+
+.gform_wrapper {
+  select {
+    background: url("../../images/chevron-down.svg") no-repeat calc(100% - 5px) center;
+  }
+}
+
+.gform_wrapper {
+  .gfield_checkbox button {
+    margin-top: 10px;
+    padding: 10px;
+  }
+}
+
+.gform_wrapper {
+  .ginput_container_date {
+    align-content: flex-start;
+    align-items: center;
+    display: flex;
+    input {
+      width: auto;
+    }
+    .datepicker_with_icon.large {
+      width: calc(100% - 48px);
+    }
+    img.ui-datepicker-trigger {
+      display: block;
+      margin-left: 10px;
+      max-height: 24px;
+      max-width: 24px;
+    }
+  }
+  .ginput_complex {
+    .ginput_container_date {
+      flex-basis: min-content;
+      flex-flow: row wrap;
+      max-width: 30%;
+      input,
+      select {
+        min-width: 84px;
+        width: 100%;
+      }
+    }
+    label {
+      opacity: .7;
+      font-size: .8em;
+    }
+  }
+  .gfield_chainedselect.horizontal select {
+    min-width: 100px;
+  }
+  .gform_show_password {
+    align-items: center;
+    background: transparent;
+    color: inherit;
+    display: flex;
+    height: 100%;
+    &:hover,
+    &:focus {
+      background: transparent;
+    }
+  }
+  .gfield_consent_description {
+    border: 1px solid $colorGrey;
+    border-radius: calc($radius / 2);
+    font-size: 0.8em;
+    margin-bottom: 5px;
+    margin-top: 8px;
+    max-height: 240px;
+    overflow-y: scroll;
+    padding: 8px;
+  }
+  .gfield .ginput_quantity {
+    width: auto;
+  }
+  .gsection {
+    border-bottom: 1px solid $colorGrey;
+    padding: 0 16px 8px 0;
+  }
+}

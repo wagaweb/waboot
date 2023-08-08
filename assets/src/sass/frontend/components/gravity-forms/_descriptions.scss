@@ -1,0 +1,23 @@
+.gform_wrapper {
+  .description,
+  .gfield_description,
+  .gsection_description,
+  .instruction {
+    color: $colorText;
+    clear: both;
+    font-size: .85em;
+    width: 100%;
+    + .ginput_container {
+      border-color: $colorGrey;
+    }
+  }
+  .gfield_consent_description,
+  .field_description_below .gfield_consent_description {
+    border: 1px solid $colorGreyDark;
+    margin-top: 12px;
+    max-height: 240px;
+    overflow-y: scroll;
+    padding: 6px 8px;
+    width: 100%;
+  }
+}

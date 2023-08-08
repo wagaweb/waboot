@@ -1,0 +1,32 @@
+/* Pricing field */
+.gform_wrapper {
+  .ginput {
+    &_product_price_wrapper {
+      display: inline-block;
+      input {
+        &:-moz-read-only {
+          background: none;
+          border: none;
+          padding: 0;
+        }
+        &:read-only {
+          background: none;
+          border: none;
+          padding: 0;
+        }
+      }
+    }
+    &_product_price,
+    &_shipping_price {
+      color: $colorWarning;
+    }
+    &_total {
+      appearance: none;
+      background: none;
+      border: none;
+      color: $colorSuccess;
+      outline: none;
+      padding: 0;
+    }
+  }
+}

@@ -1,0 +1,99 @@
+.gform_wrapper {
+  .gform_validation_container {
+    display: none !important;
+    left: -9000px;
+    position: absolute !important;
+  }
+  .gform_validation_errors {
+    background-color: rgba($colorWarning, .1);
+    border-radius: calc($radius / 2);
+    color: $colorWarning;
+    font-size: .85em;
+    font-weight: $fontWeightNormal;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    outline: none;
+    padding: 15px;
+    position: relative;
+    width: 100%;
+    > h2 {
+      color: inherit;
+      font-size: inherit;
+      font-weight: inherit;
+      margin-bottom: 10px;
+      .gform-icon {
+        align-items: center;
+        display: flex;
+        font-size: 2em;
+        height: 100%;
+        left: 12px;
+        position: absolute;
+        top: 0;
+      }
+      .hide_summary {
+        margin: 0;
+      }
+    }
+    > ol {
+      margin-bottom: 0;
+      padding-left: 12px;
+      a {
+        color: inherit;
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+      li {
+        margin: 0 0 5px 0;
+        &:last-of-type {
+          margin-bottom: 0;
+        }
+      }
+    }
+  }
+  .gfield_required {
+    color: $colorWarning;
+    display: inline-block;
+    font-size: .9em;
+    padding-left: 0.125em;
+    &_text, &_custom {
+      font-style: italic;
+      font-weight: 400;
+    }
+  }
+  .validation_error {
+    border-bottom: 2px solid $colorWarning;
+    border-top: 2px solid $colorWarning;
+    color: $colorWarning;
+    font-weight: 700;
+    margin-bottom: 32px;
+    padding: 16px;
+    text-align: center;
+  }
+  [aria-invalid="true"] + label,
+  label + [aria-invalid="true"],
+  .gfield_error legend,
+  .gfield_error label,
+  .gfield_error .gfield_repeater_cell label,
+  .gfield_validation_message,
+  .validation_message {
+    color: $colorWarning;
+    font-size: .85em;
+    font-weight: $fontWeightNormal;
+  }
+  .gfield_validation_message,
+  .validation_message {
+    background-color: rgba($colorWarning, .1);
+    border-radius: calc($radius / 2);
+    color: $colorWarning !important;
+    font-size: .85em;
+    margin-top: 5px;
+    padding: 5px !important;
+  }
+  .validation_message--hidden-on-empty:empty {
+    display: none;
+  }
+  .gfield_error [aria-invalid="true"] {
+    border: 1px solid $colorWarning;
+  }
+}

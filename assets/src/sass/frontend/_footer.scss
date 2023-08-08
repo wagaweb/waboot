@@ -1,0 +1,44 @@
+.footer {
+  &__closure {
+    max-width: $containerWidth;
+    padding: $gridGutter/2 $gridGutter;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    @include up($medium){
+      justify-content: space-between;
+      flex-direction: row;
+    }
+    ul {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      @include down($medium){
+        justify-content: space-around;
+      }
+      a {
+        @include up($medium){
+          margin-left: 20px;
+        }
+      }
+    }
+  }
+}
+
+.widgetarea__footer {
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(auto,300px));
+  grid-gap: $gridGutter;
+  justify-content: center;
+  &-inner {
+    width: 100vw;
+    max-width: $containerWidth;
+    margin: 0 auto;
+    padding: $gridGutter;
+  }
+}
