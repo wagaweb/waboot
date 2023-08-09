@@ -33,7 +33,7 @@ try{
      */
     add_filter('waboot/addons/disabled', function(){
         return [
-            'checkout_old'
+            'checkout'
         ];
     });
     \Waboot\inc\loadAddons();

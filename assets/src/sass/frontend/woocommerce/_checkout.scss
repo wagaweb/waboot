@@ -17,14 +17,14 @@
         //padding: $gridGutter;
         //background-color: $colorGreyLight;
       }
-
-      .woocommerce-billing-fields h3,
-      .woocommerce-additional-fields h3,
-      #order_review_heading,
-      .woocommerce-checkout-review-order-table {
-        display: none;
-      }
     }
+  }
+
+  .woocommerce-billing-fields h3,
+  .woocommerce-additional-fields h3,
+  #order_review_heading,
+  .woocommerce-checkout-review-order-table {
+    display: none;
   }
 
   .checkout-login {
@@ -161,7 +161,7 @@
   }
 
   button[name='woocommerce_checkout_place_order'] {
-    width: 100%;
+    //width: 100%;
   }
 
   .woocommerce-order {
@@ -315,4 +315,22 @@ ul.payment_methods {
 
 
 
-
+.woocommerce-checkout-billing-addresses {
+  h5 {
+    align-items: center;
+    display: flex;
+    gap: $gridGutter;
+    justify-content: space-between;
+    a {
+      align-items: center;
+      display: flex;
+      gap: 5px;
+    }
+  }
+  ul {
+    border-bottom: 1px solid $colorGreyDark;
+    list-style: none;
+    margin: 0 0 20px 0;
+    padding: 0 0 20px 0;
+  }
+}

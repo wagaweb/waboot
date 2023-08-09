@@ -8,12 +8,12 @@
 
     <form action=""class="checkout woocommerce-checkout">
         <div class="woocommerce-billing-fields__field-wrapper">
-            <div class="form-row form-row-wide">
-                <label for="">Inserisci la tua password per accedere</label>
-                <input type="password" placeholder="Password">
+            <div class="form-row form-row-first">
+                <label for="password">Inserisci la tua password per accedere</label>
+                <input type="password" placeholder="Password" id="password">
             </div>
-            <div class="form-row form-row-white">
-                <a href="#">Password dimaenticata?</a>
+            <div class="form-row form-row-wide">
+                <a href="#">Password dimenticata?</a>
             </div>
         </div>
         <input type="submit" value="Accedi" class="btn btn--primary">

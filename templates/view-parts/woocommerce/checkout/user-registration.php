@@ -9,24 +9,24 @@
     <form action="" class="checkout woocommerce-checkout">
         <div class="woocommerce-billing-fields__field-wrapper">
             <div class="form-row form-row-first">
-                <label for="">Nome <span>*</span></label>
-                <input type="text" placeholder="Nome">
+                <label for="first-name">Nome <span>*</span></label>
+                <input type="text" placeholder="Nome" id="first-name">
             </div>
             <div class="form-row form-row-last">
-                <label for="">Cognome <span>*</span></label>
-                <input type="text" placeholder="Cognome">
+                <label for="last-name">Cognome <span>*</span></label>
+                <input type="text" placeholder="Cognome" id="last-name">
             </div>
             <div class="form-row form-row-first">
-                <label for="">Data di nascita <span>*</span></label>
-                <input type="text" placeholder="GG/MM/AAAA">
+                <label for="birth-date">Data di nascita <span>*</span></label>
+                <input type="text" placeholder="GG/MM/AAAA" id="birth-date">
             </div>
             <div class="form-row form-row-last">
-                <label for="">Telefono <span>*</span></label>
-                <input type="text" placeholder="+39">
+                <label for="phone">Telefono <span>*</span></label>
+                <input type="text" placeholder="+39" id="phone">
             </div>
             <div class="form-row form-row-last">
-                <input type="checkbox">
-                <label for="">Salva questi dati per il prossimo acquisto</label>
+                <input type="checkbox" id="save">
+                <label for="save">Salva questi dati per il prossimo acquisto</label>
             </div>
             <div class="form-row form-row-wide">
                 <h5>Rendi speciale la tua Shopping Experience!</h5>
@@ -41,13 +41,13 @@
             </div>
 
             <div class="form-row form-row-first">
-                <label for="">Password</label>
-                <input type="password" placeholder="Inserisci una password">
+                <label for="insert-password">Password</label>
+                <input type="password" placeholder="Inserisci una password" id="insert-password">
             </div>
 
             <div class="form-row form-row-last">
-                <label for="">Conferma password</label>
-                <input type="password" placeholder="Inserisci una password">
+                <label for="confirm-password">Conferma password</label>
+                <input type="password" placeholder="Inserisci una password" id="confirm-password">
             </div>
         </div>
         <input type="submit" value="Procedi" class="btn btn--primary">
