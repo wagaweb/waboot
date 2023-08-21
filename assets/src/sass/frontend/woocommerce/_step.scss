@@ -64,4 +64,23 @@
   &__label {
     font-size: .8em;
   }
+
+  &__content form,
+  &__content > div {
+    margin-bottom: 40px;
+  }
+
+  &__data {
+    position: relative;
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+  }
+
+  &__edit {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
 }

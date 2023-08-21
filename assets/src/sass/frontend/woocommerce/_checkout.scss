@@ -334,3 +334,20 @@ ul.payment_methods {
     padding: 0 0 20px 0;
   }
 }
+
+
+.woocommerce-checkout-steps {
+  .form-row {
+    margin-bottom: 20px;
+  }
+
+  .form-row-third {
+    @include up($large) {
+      flex: 0 0 33.33% !important;
+    }
+  }
+}
+
+#customer_details {
+  display: none; //temp
+}

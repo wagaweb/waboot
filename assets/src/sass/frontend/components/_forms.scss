@@ -145,14 +145,13 @@ input[type="submit"] {
     height: 34px;
     padding: 6px 12px;
     border: 1px solid $colorGreyDark;
-    background-color: $colorWhite;
     color: $colorText;
     transition: all 0.2s ease-in;
 
     &::after {
-      //position: absolute;
-      //top: 6px;
-      //right: 10px;
+      position: absolute;
+      top: 10px;
+      right: 10px;
       content: "\f107";
       font-family: 'Font Awesome 5 Pro', sans-serif;
       font-size: 1em;

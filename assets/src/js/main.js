@@ -1,6 +1,7 @@
 import $ from 'jquery';
 import {initHeader} from './frontend/header';
 import { Slidein } from "./frontend/slidein.js";
+import {initSelect} from './frontend/select';
 import Cart from './frontend/cart.js';
 import MiniCart from './frontend/minicart.js';
 import {initCustomCheckoutActions} from './frontend/checkout.js';
@@ -34,6 +35,7 @@ $(document).ready(function() {
     asideBodyClass();
     scrollToAnimate();
     initCarousel();
+    initSelect();
 
     $("[data-slidein-nav]").slidein({
         toggler: ".slidein-nav__toggle",

@@ -54,9 +54,17 @@ add_action('woocommerce_checkout_after_order_review_heading', function () {
 }, 20);
 
 add_action('woocommerce_before_checkout_form', function($checkout){
-    if ( $checkout->enable_signup && !is_user_logged_in() ) {
-        include getAddonDirectory('checkout').'/templates/login-step.php';
-    }
+    //if ( $checkout->enable_signup && !is_user_logged_in() ) {
+    ?>
+    <div class="woocommerce-checkout-steps">
+        <?php
+	    include getAddonDirectory('checkout').'/templates/checkout-steps.php';
+        include getAddonDirectory('checkout').'/templates/checkout-step-1.php';
+	    include getAddonDirectory('checkout').'/templates/checkout-step-2.php';
+        ?>
+    </div>
+    <?php
+    //}
 },20,1);
 
 /*
