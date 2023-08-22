@@ -101,3 +101,6 @@ add_action( 'woocommerce_thankyou', function(){
     include getAddonDirectory('checkout').'/templates/thankyou-order-buttons.php';
 }, 10 );
 
+add_action( 'woocommerce_checkout_init', function() {
+	remove_action( 'woocommerce_checkout_billing', array( WC()->checkout(), 'checkout_form_billing' ) );
+});
