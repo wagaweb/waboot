@@ -3,6 +3,7 @@
 namespace Waboot\addons\packages\checkout;
 
 use function Waboot\addons\getAddonDirectory;
+use function Waboot\inc\core\AssetsManager;
 
 remove_action( 'woocommerce_before_checkout_form', 'woocommerce_checkout_login_form', 10 );
 
@@ -53,19 +54,6 @@ add_action('woocommerce_checkout_after_order_review_heading', function () {
     echo '</div><!-- /.order-review-wrapper -->';
 }, 20);
 
-add_action('woocommerce_before_checkout_form', function($checkout){
-    //if ( $checkout->enable_signup && !is_user_logged_in() ) {
-    ?>
-    <div class="woocommerce-checkout-steps">
-        <?php
-	    include getAddonDirectory('checkout').'/templates/checkout-steps.php';
-        include getAddonDirectory('checkout').'/templates/checkout-step-1.php';
-	    include getAddonDirectory('checkout').'/templates/checkout-step-2.php';
-        ?>
-    </div>
-    <?php
-    //}
-},20,1);
 
 /*
  * Remove fields from WooCommerce checkout page
@@ -100,6 +88,29 @@ remove_action( 'woocommerce_thankyou', 'woocommerce_order_details_table', 10 );
 add_action( 'woocommerce_thankyou', function(){
     include getAddonDirectory('checkout').'/templates/thankyou-order-buttons.php';
 }, 10 );
+
+/*
+ * Step Checkout
+ */
+
+add_action('wp_footer', static function(){
+    $assetsDir = get_template_directory() . '/addons/packages/checkout/assets/dist/';
+    $jsFiles = glob($assetsDir.'/index-*.js');
+    if(!\is_array($jsFiles) || empty($jsFiles)){
+        return;
+    }
+    $mainJsFilePath = array_shift($jsFiles);
+    ?>
+    <script type="module" crossorigin src="<?php echo get_template_directory_uri() . '/addons/packages/checkout/assets/dist/'.basename($mainJsFilePath); ?>"></script>
+    <?php
+});
+
+add_action('woocommerce_before_checkout_form', function($checkout){
+    ?>
+    <div id="woocommerce-checkout-steps-app">
+    </div>
+    <?php
+},20,1);
 
 add_action( 'woocommerce_checkout_init', function() {
 	remove_action( 'woocommerce_checkout_billing', array( WC()->checkout(), 'checkout_form_billing' ) );
