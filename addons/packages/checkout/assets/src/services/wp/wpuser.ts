@@ -31,6 +31,30 @@ export class WPUser{
         }
     }
 
+    async fetchUser(): Promise<any> {
+        const data = new FormData();
+
+        data.append('action','retrieve_user');
+        data.append( 'nonce', this.backendData.nonce );
+
+        try{
+            const res = await fetch(this.backendData.ajax_url, {
+                method: 'POST',
+                credentials: 'same-origin',
+                body: data
+            });
+            const resJson: wpJsonResponse = await res.json();
+            if(resJson.success){
+                return resJson.data;
+            }
+            throw new Error('WP Ajax Error');
+        }catch (err){
+            console.log('[WPUser]');
+            console.error(err);
+            return false;
+        }
+    }
+
     async checkIfEmailIsRegistered(email: string): Promise<boolean> {
         const data = new FormData();
 

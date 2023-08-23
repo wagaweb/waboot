@@ -5,8 +5,10 @@
   "scripts": {
     "dev": "vite",
     "build": "run-p type-check build-only",
+    "build-dev": "run-p type-check build-only-dev",
     "preview": "vite preview",
     "build-only": "vite build",
+    "build-only-dev": "vite build --mode development",
     "type-check": "vue-tsc --noEmit -p tsconfig.app.json --composite false"
   },
   "dependencies": {
@@ -14,6 +16,7 @@
     "vue": "^3.3.4"
   },
   "devDependencies": {
+    "@types/jquery": "^3.5.14",
     "@tsconfig/node18": "^18.2.0",
     "@types/node": "^18.17.5",
     "@vitejs/plugin-vue": "^4.3.1",
