@@ -19,5 +19,11 @@ export const useCurrentUserStore = defineStore('currentUser', () => {
         'notes': '',
     });
 
-    return { isLoggedIn, profileData, shippingData }
+
+
+    function setLoggedIn(){
+        isLoggedIn.value = true;
+    }
+
+    return { isLoggedIn, profileData, shippingData, setLoggedIn }
 })

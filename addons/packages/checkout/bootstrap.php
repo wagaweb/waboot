@@ -5,6 +5,8 @@ namespace Waboot\addons\packages\checkout;
 use function Waboot\addons\getAddonDirectory;
 use function Waboot\inc\core\AssetsManager;
 
+require_once 'backend-hooks.php';
+
 remove_action( 'woocommerce_before_checkout_form', 'woocommerce_checkout_login_form', 10 );
 
 /*
@@ -93,17 +95,47 @@ add_action( 'woocommerce_thankyou', function(){
  * Step Checkout
  */
 
-add_action('wp_footer', static function(){
-    $assetsDir = get_template_directory() . '/addons/packages/checkout/assets/dist/';
-    $jsFiles = glob($assetsDir.'/index-*.js');
-    if(!\is_array($jsFiles) || empty($jsFiles)){
-        return;
-    }
-    $mainJsFilePath = array_shift($jsFiles);
-    ?>
-    <script type="module" crossorigin src="<?php echo get_template_directory_uri() . '/addons/packages/checkout/assets/dist/'.basename($mainJsFilePath); ?>"></script>
-    <?php
+add_action( 'woocommerce_checkout_init', function() {
+    remove_action( 'woocommerce_checkout_billing', array( WC()->checkout(), 'checkout_form_billing' ) );
 });
+
+add_action('wp_enqueue_scripts', static function(){
+    try{
+        $assetsDir = get_template_directory() . '/addons/packages/checkout/assets/dist/';
+        $jsFiles = glob($assetsDir.'/index-*.js');
+        if(!\is_array($jsFiles) || empty($jsFiles)){
+            return;
+        }
+        $mainJsFilePath = array_shift($jsFiles);
+        $mainJsFileName = basename($mainJsFilePath);
+        AssetsManager()->addAssets([
+            'step-checkout-main-js' => [
+                'uri' => get_template_directory_uri() . '/addons/packages/checkout/assets/dist/'.$mainJsFileName,
+                'path' => $assetsDir.'/'.$mainJsFileName,
+                'type' => 'js',
+                'i10n' => [
+                    'name' => 'stepCheckoutBackendData',
+                    'params' => [
+                        'ajax_url' => admin_url('admin-ajax.php'),
+                        'nonce' => wp_create_nonce('step-checkout-request-data'),
+                    ]
+                ],
+                'in_footer' => true
+            ]
+        ]);
+        AssetsManager()->enqueue();
+    }catch (\Exception $e){
+        trigger_error($e->getMessage(),E_USER_WARNING);
+    }
+});
+
+add_filter('script_loader_tag', static function($tag, $handle, $src){
+    if('step-checkout-main-js' !== $handle){
+        return $tag;
+    }
+    $tag = '<script type="module" src="' . esc_url( $src ) . '"></script>';
+    return $tag;
+},10,3);
 
 add_action('woocommerce_before_checkout_form', function($checkout){
     ?>
@@ -111,7 +143,3 @@ add_action('woocommerce_before_checkout_form', function($checkout){
     </div>
     <?php
 },20,1);
-
-add_action( 'woocommerce_checkout_init', function() {
-	remove_action( 'woocommerce_checkout_billing', array( WC()->checkout(), 'checkout_form_billing' ) );
-});

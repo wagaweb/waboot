@@ -1,3 +1,9 @@
+<script setup lang="ts">
+defineProps({
+    email: String
+});
+</script>
+
 <template>
   <div>
     <h4>Benvenuto!</h4>
@@ -5,7 +11,7 @@
     <div class="woocommerce-checkout-steps__data">
       <h5>Indirizzo email</h5>
       <ul>
-        <li>federica@waga.it</li>
+        <li>{{ email }}</li>
       </ul>
     </div>
 
