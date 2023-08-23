@@ -7,7 +7,7 @@ export const useCurrentUserStore = defineStore('currentUser', () => {
         'email': '',
         'firstName': '',
         'lastName': '',
-        'birthDate': '',
+        'birthDay': '',
         'phone': '',
     });
     const shippingData = reactive({

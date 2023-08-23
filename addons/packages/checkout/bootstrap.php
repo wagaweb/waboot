@@ -7,7 +7,7 @@ use function Waboot\inc\core\AssetsManager;
 
 require_once 'backend-hooks.php';
 
-remove_action( 'woocommerce_before_checkout_form', 'woocommerce_checkout_login_form', 10 );
+//remove_action( 'woocommerce_before_checkout_form', 'woocommerce_checkout_login_form', 10 );
 
 /*
  * rename the coupon field on the checkout page
@@ -29,31 +29,31 @@ add_filter( 'gettext', function($translated_text, $text, $domain){
  * Adds coupon template into order review and hide the default one
  */
 add_action( 'woocommerce_review_order_before_payment' , function(){
-    echo '<div class="woocommerce-form-coupon__wrapper">';
-    wc_get_template_part('/checkout/form','coupon');
+    //echo '<div class="woocommerce-form-coupon__wrapper">';
+    //wc_get_template_part('/checkout/form','coupon');
     ?>
-    <script>
-        jQuery('.woocommerce-form-coupon-toggle').hide();
-        jQuery('button[name="apply_coupon"]').on('click', function (e) {
-            e.preventDefault();
-            var $checkoutCouponForm = jQuery('form.checkout_coupon');
-            if($checkoutCouponForm.length > 0){
-                var currentCoupon = jQuery(this).parents('.woocommerce-form-coupon__wrapper').find('input[name="coupon_code"]').val();
-                $checkoutCouponForm.find('input[name="coupon_code"]').val(currentCoupon);
-                $checkoutCouponForm.submit();
-            }
-        });
-    </script>
+<!--    <script>-->
+<!--        jQuery('.woocommerce-form-coupon-toggle').hide();-->
+<!--        jQuery('button[name="apply_coupon"]').on('click', function (e) {-->
+<!--            e.preventDefault();-->
+<!--            var $checkoutCouponForm = jQuery('form.checkout_coupon');-->
+<!--            if($checkoutCouponForm.length > 0){-->
+<!--                var currentCoupon = jQuery(this).parents('.woocommerce-form-coupon__wrapper').find('input[name="coupon_code"]').val();-->
+<!--                $checkoutCouponForm.find('input[name="coupon_code"]').val(currentCoupon);-->
+<!--                $checkoutCouponForm.submit();-->
+<!--            }-->
+<!--        });-->
+<!--    </script>-->
     <?php
-    echo '</div>';
+    //echo '</div>';
 } , 20 );
 
 add_action('woocommerce_checkout_before_order_review_heading', function () {
-    echo '<div class="order-review__wrapper">';
+    //echo '<div class="order-review__wrapper">';
 }, 20);
 
 add_action('woocommerce_checkout_after_order_review_heading', function () {
-    echo '</div><!-- /.order-review-wrapper -->';
+    //echo '</div><!-- /.order-review-wrapper -->';
 }, 20);
 
 
@@ -96,7 +96,7 @@ add_action( 'woocommerce_thankyou', function(){
  */
 
 add_action( 'woocommerce_checkout_init', function() {
-    remove_action( 'woocommerce_checkout_billing', array( WC()->checkout(), 'checkout_form_billing' ) );
+    //remove_action( 'woocommerce_checkout_billing', array( WC()->checkout(), 'checkout_form_billing' ) );
 });
 
 add_action('wp_enqueue_scripts', static function(){
@@ -143,3 +143,15 @@ add_action('woocommerce_before_checkout_form', function($checkout){
     </div>
     <?php
 },20,1);
+
+add_action('woocommerce_before_checkout_form', function($checkout){
+    ?>
+    <div id="original-form-wrapper" style="margin-top: 60px;">
+    <?php
+},20,1);
+
+add_action('woocommerce_after_checkout_form', function($checkout){
+    ?>
+    </div><!-- #original-form-wrapper -->
+    <?php
+},99,1);

@@ -58,11 +58,16 @@ function onEmailVerified(email: string, isRegistered: boolean){
     }
 }
 
+function onProfileDataSubmitted(formData: object){
+    console.log('Profile data submitted');
+    console.log(formData);
+}
+
 </script>
 
 <template>
   <Breadcrumb />
   <SignInLanding v-if="mustShowSignInLanding" @email-verified="onEmailVerified" />
   <SignInByPassword v-if="mustShowSignInByPassword" />
-  <UserProfileForm v-if="mustShowUserProfileDataForm" :email="typedInEmail" />
+  <UserProfileForm v-if="mustShowUserProfileDataForm" :email="typedInEmail" @profile-data-submitted="onProfileDataSubmitted" />
 </template>

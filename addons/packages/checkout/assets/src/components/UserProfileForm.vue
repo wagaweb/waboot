@@ -1,7 +1,27 @@
 <script setup lang="ts">
+import {reactive, ref, toRaw} from "vue";
+
 defineProps({
     email: String
 });
+
+const emit = defineEmits<{
+    (e: 'profileDataSubmitted', formData: object): void
+}>();
+
+const formData = reactive({
+    firstName: '',
+    lastName: '',
+    birthDay: '',
+    phone: '',
+    createAccount: false,
+    password: '',
+    confirmPassword: ''
+});
+
+function confirmFormData(){
+    emit('profileDataSubmitted', toRaw(formData));
+}
 </script>
 
 <template>
@@ -15,38 +35,38 @@ defineProps({
       </ul>
     </div>
 
-    <form action="" class="checkout woocommerce-checkout">
+    <form action="" class="checkout woocommerce-checkout" @submit.prevent="confirmFormData">
       <div class="woocommerce-billing-fields__field-wrapper">
         <div class="form-row form-row-first">
           <label for="first-name">Nome <span>*</span></label>
-          <input type="text" placeholder="Nome" id="first-name">
+          <input type="text" placeholder="Nome" id="first-name" v-model="formData.firstName">
         </div>
         <div class="form-row form-row-last">
           <label for="last-name">Cognome <span>*</span></label>
-          <input type="text" placeholder="Cognome" id="last-name">
+          <input type="text" placeholder="Cognome" id="last-name" v-model="formData.lastName">
         </div>
         <div class="form-row form-row-first">
           <label for="birth-date">Data di nascita <span>*</span></label>
-          <input type="text" placeholder="GG/MM/AAAA" id="birth-date">
+          <input type="text" placeholder="GG/MM/AAAA" id="birth-date" v-model="formData.birthDay">
         </div>
         <div class="form-row form-row-last">
           <label for="phone">Telefono <span>*</span></label>
-          <input type="tel" placeholder="+39" id="phone">
+          <input type="tel" placeholder="+39" id="phone" v-model="formData.phone">
         </div>
 
         <div class="form-row form-row-wide">
-          <input type="checkbox" id="save">
+          <input type="checkbox" id="save" v-model="formData.createAccount">
           <label for="save">Salva questi dati per il prossimo acquisto</label>
         </div>
 
-        <div class="form-row form-row-wide">
+        <div class="form-row form-row-wide" v-show="formData.createAccount">
           <label for="insert-password">Password</label>
-          <input type="password" placeholder="Inserisci una password" id="insert-password">
+          <input type="password" placeholder="Inserisci una password" id="insert-password" v-model="formData.password">
         </div>
 
-        <div class="form-row form-row-wide">
+        <div class="form-row form-row-wide" v-show="formData.createAccount">
           <label for="confirm-password">Conferma password</label>
-          <input type="password" placeholder="Inserisci una password" id="confirm-password">
+          <input type="password" placeholder="Inserisci una password" id="confirm-password" v-model="formData.confirmPassword">
         </div>
 
         <div class="form-row form-row-wide">
