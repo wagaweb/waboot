@@ -130,6 +130,24 @@ function onEditProfile(){
     mustEnterProfileData.value = true;
 }
 
+function onCountryChanged(formData: any){
+    //@ts-ignore
+    if(typeof window.jQuery === "undefined"){
+        return;
+    }
+    //@ts-ignore
+    const $ = window.jQuery;
+    let $originalForm = $('#original-form-wrapper');
+    if($originalForm !== "undefined" && $originalForm.length > 0){
+        console.log('Changing country in the original form');
+        const $billingCountry = $originalForm.find('[name=billing_country]');
+        if($billingCountry.length > 0){
+            $billingCountry.val(formData.country);
+            $billingCountry.trigger('change');
+        }
+    }
+}
+
 </script>
 
 <template>
@@ -137,6 +155,6 @@ function onEditProfile(){
   <SignInLanding v-if="mustShowSignInLanding" @email-verified="onEmailVerified" />
   <SignInByPassword v-if="mustShowSignInByPassword" :email="typedInEmail" @user-signed-in="onUserSignedId" />
   <UserProfileForm v-if="mustShowUserProfileDataForm" :email="typedInEmail" @profile-data-submitted="onProfileDataSubmitted" />
-  <AddressesForm v-if="mustShowAddressesDataForm" @address-data-submitted="onAddressDataSubmitted" />
+  <AddressesForm v-if="mustShowAddressesDataForm" @address-data-submitted="onAddressDataSubmitted" @country-changed="onCountryChanged" />
   <Pay v-if="mustShowPay" @edit-address="onEditAddress" />
 </template>

@@ -8,6 +8,7 @@ defineProps({
 
 const emit = defineEmits<{
     (e: 'AddressDataSubmitted', formData: object): void
+    (e: 'countryChanged', formData: object): void
 }>();
 
 const checkoutDataStore = useCheckoutDataStore();
@@ -40,6 +41,10 @@ onMounted(() => {
     }
 });
 
+function onCountryChange(){
+    emit('countryChanged', toRaw(formData));
+}
+
 function confirmFormData(){
     emit('AddressDataSubmitted', toRaw(formData));
 }
@@ -63,7 +68,7 @@ function confirmFormData(){
             <div class="woocommerce-billing-fields__field-wrapper">
                 <div class="form-row form-row-wide">
                     <label for="country">Paese <span>*</span></label>
-                    <select name="country" id="country" v-model="formData.country">
+                    <select name="country" id="country" v-model="formData.country" @change="onCountryChange">
                         <option value="IT" selected>Italia</option>
                         <option value="US">United States</option>
                         <option value="CA">Canada</option>
