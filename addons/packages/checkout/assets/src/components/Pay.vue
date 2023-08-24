@@ -20,7 +20,7 @@ onMounted(() => {
     if($originalForm !== "undefined" && $originalForm.length > 0){
         console.log('Wrapping the original form');
         $originalForm.find('form').appendTo('#payment-wrapper');
-        //$paymentWrapper.find('form').find('#customer_details').hide();
+        $paymentWrapper.find('form').find('#customer_details').hide();
         $paymentWrapper.find('form').find('#place_order').hide();
     }
 });
@@ -46,11 +46,11 @@ function placeOrder(){
     $('[name=billing_address_1]').val(shippingData.address);
     $('[name=order_comments]').val(shippingData.notes);
     if(checkoutDataStore.mustRegisterNewUser){
-        $('[name=createaccount]').trigger('click');
+        $('[name=createaccount]').prop('checked', true);
         $('[name=account_password]').val(checkoutDataStore.newAccountData.password);
     }
 
-    //$paymentWrapper.find('form').submit();
+    $paymentWrapper.find('form').submit();
 }
 
 function onEditAddressClick(){
@@ -65,8 +65,8 @@ function onEditAddressClick(){
     if($originalForm !== "undefined" && $originalForm.length > 0){
         console.log('Restoring the original form');
         $paymentWrapper.find('form').appendTo('#original-form-wrapper');
-        //$originalForm.find('form').find('#customer_details').show();
-        $originalForm.find('form').find('#place_order').show();
+        // $originalForm.find('form').find('#customer_details').show();
+        // $originalForm.find('form').find('#place_order').show();
     }
     emit('editAddress');
 }
