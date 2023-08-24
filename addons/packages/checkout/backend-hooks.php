@@ -11,6 +11,33 @@ WordPress::addAjaxEndpoint('is_customer_logged_in', static function(){
     ]);
 });
 
+WordPress::addAjaxEndpoint('fetch_store_countries', static function(){
+    try{
+        $shippingCountries = [];
+        foreach (WC()->countries->get_shipping_countries() as $slug => $label){
+            $shippingCountries[] = [
+                'slug' => $slug,
+                'label' => $label
+            ];
+        }
+        $sellCountries = [];
+        foreach (WC()->countries->get_allowed_countries() as $slug => $label){
+            $sellCountries[] = [
+                'slug' => $slug,
+                'label' => $label
+            ];
+        }
+        wp_send_json_success([
+            'shipping_countries' => $shippingCountries,
+            'allowed_countries' => $sellCountries
+        ]);
+    }catch (\Exception | \Throwable $e){
+        wp_send_json_error([
+            'error' => '[fetch_store_countries] error: '.$e->getMessage()
+        ]);
+    }
+});
+
 WordPress::addAjaxEndpoint('retrieve_user', static function(){
     if(!is_user_logged_in()){
         wp_send_json_success([

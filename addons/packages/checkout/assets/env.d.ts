@@ -33,3 +33,13 @@ export interface fetchedUserData{
     billing_data: userShippingData
 }
 
+export interface fetchedCountries{
+    allowed_countries: fetchedCountry[],
+    shipping_countries: fetchedCountry[]
+}
+
+export interface fetchedCountry{
+    slug: string,
+    label: string
+}
+
