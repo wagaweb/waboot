@@ -20,10 +20,15 @@
     }
   }
 
-  .woocommerce-billing-fields h3,
+  /*.woocommerce-billing-fields h3,
   .woocommerce-additional-fields h3,
   #order_review_heading,
   .woocommerce-checkout-review-order-table {
+    display: none;
+  }*/
+
+  .woocommerce-billing-fields h3,
+  .woocommerce-additional-fields h3 {
     display: none;
   }
 

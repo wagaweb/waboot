@@ -20,8 +20,8 @@ onMounted(() => {
     if($originalForm !== "undefined" && $originalForm.length > 0){
         console.log('Wrapping the original form');
         $originalForm.find('form').appendTo('#payment-wrapper');
-        $paymentWrapper.find('form').find('#customer_details').hide();
-        $paymentWrapper.find('form').find('#place_order').hide();
+        $paymentWrapper.find('form').find('.wc_payment_methods').show();
+        $paymentWrapper.find('form').find('.woocommerce-terms-and-conditions-wrapper').show();
     }
 });
 
@@ -65,8 +65,8 @@ function onEditAddressClick(){
     if($originalForm !== "undefined" && $originalForm.length > 0){
         console.log('Restoring the original form');
         $paymentWrapper.find('form').appendTo('#original-form-wrapper');
-        // $originalForm.find('form').find('#customer_details').show();
-        // $originalForm.find('form').find('#place_order').show();
+        $originalForm.find('form').find('.wc_payment_methods').hide();
+        $originalForm.find('form').find('.woocommerce-terms-and-conditions-wrapper').hide();
     }
     emit('editAddress');
 }

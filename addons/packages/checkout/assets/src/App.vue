@@ -2,7 +2,7 @@
 import Breadcrumb from './components/Breadcrumb.vue'
 import SignInLanding from "@/components/SignInLanding.vue";
 import SignInByPassword from "@/components/SignInByPassword.vue";
-import {computed, onMounted, ref, toRaw} from 'vue';
+import {computed, onMounted, ref} from 'vue';
 import {WPUser} from "@/services/wp/wpuser";
 import UserProfileForm from "@/components/UserProfileForm.vue";
 import {useCheckoutDataStore} from "@/stores/checkoutData";
@@ -158,3 +158,7 @@ function onCountryChanged(formData: any){
   <AddressesForm v-if="mustShowAddressesDataForm" @address-data-submitted="onAddressDataSubmitted" @country-changed="onCountryChanged" />
   <Pay v-if="mustShowPay" @edit-address="onEditAddress" />
 </template>
+
+<style lang="scss">
+    @import "./sass/main";
+</style>

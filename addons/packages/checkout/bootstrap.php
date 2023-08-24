@@ -101,6 +101,7 @@ add_action( 'woocommerce_checkout_init', function() {
 
 add_action('wp_enqueue_scripts', static function(){
     try{
+        $assets = [];
         $assetsDir = get_template_directory() . '/addons/packages/checkout/assets/dist/';
         $jsFiles = glob($assetsDir.'/index-*.js');
         if(!\is_array($jsFiles) || empty($jsFiles)){
@@ -108,21 +109,30 @@ add_action('wp_enqueue_scripts', static function(){
         }
         $mainJsFilePath = array_shift($jsFiles);
         $mainJsFileName = basename($mainJsFilePath);
-        AssetsManager()->addAssets([
-            'step-checkout-main-js' => [
-                'uri' => get_template_directory_uri() . '/addons/packages/checkout/assets/dist/'.$mainJsFileName,
-                'path' => $assetsDir.'/'.$mainJsFileName,
-                'type' => 'js',
-                'i10n' => [
-                    'name' => 'stepCheckoutBackendData',
-                    'params' => [
-                        'ajax_url' => admin_url('admin-ajax.php'),
-                        'nonce' => wp_create_nonce('step-checkout-request-data'),
-                    ]
-                ],
-                'in_footer' => true
-            ]
-        ]);
+        $assets['step-checkout-main-js'] = [
+            'uri' => get_template_directory_uri() . '/addons/packages/checkout/assets/dist/'.$mainJsFileName,
+            'path' => $assetsDir.'/'.$mainJsFileName,
+            'type' => 'js',
+            'i10n' => [
+                'name' => 'stepCheckoutBackendData',
+                'params' => [
+                    'ajax_url' => admin_url('admin-ajax.php'),
+                    'nonce' => wp_create_nonce('step-checkout-request-data'),
+                ]
+            ],
+            'in_footer' => true
+        ];
+        $cssFiles = glob($assetsDir.'/index-*.css');
+        if(\is_array($cssFiles) && !empty($cssFiles)){
+            $mainCssFilePath = array_shift($cssFiles);
+            $mainCssFileName = basename($mainCssFilePath);
+            $assets['step-checkout-main-css'] = [
+                'uri' => get_template_directory_uri() . '/addons/packages/checkout/assets/dist/'.$mainCssFileName,
+                'path' => $assetsDir.'/'.$mainCssFileName,
+                'type' => 'css'
+            ];
+        }
+        AssetsManager()->addAssets($assets);
         AssetsManager()->enqueue();
     }catch (\Exception $e){
         trigger_error($e->getMessage(),E_USER_WARNING);
