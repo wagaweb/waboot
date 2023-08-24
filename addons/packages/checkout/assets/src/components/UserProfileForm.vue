@@ -51,7 +51,7 @@ function confirmFormData(){
       </ul>
     </div>
 
-    <form action="" class="checkout woocommerce-checkout" @submit.prevent="confirmFormData">
+    <div class="checkout woocommerce-checkout">
       <div class="woocommerce-billing-fields__field-wrapper">
         <div class="form-row form-row-first">
           <label for="first-name">Nome <span>*</span></label>
@@ -97,7 +97,7 @@ function confirmFormData(){
           </ul>
         </div>
       </div>
-      <input type="submit" value="Procedi" class="btn btn--primary">
-    </form>
+      <input type="submit" value="Procedi" class="btn btn--primary" @click.prevent="confirmFormData">
+    </div>
   </div>
 </template>

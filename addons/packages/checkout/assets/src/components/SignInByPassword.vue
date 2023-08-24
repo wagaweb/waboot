@@ -38,7 +38,7 @@ function onSubmit(){
       </ul>
     </div>
 
-    <form action="" class="checkout woocommerce-checkout" :class="{'loading': loading}" @submit.prevent="onSubmit">
+    <div class="checkout woocommerce-checkout" :class="{'loading': loading}">
       <div class="woocommerce-billing-fields__field-wrapper">
         <div class="form-row form-row-wide">
           <label for="password">Inserisci la tua password per accedere</label>
@@ -48,7 +48,7 @@ function onSubmit(){
           <a href="#">Password dimenticata?</a>
         </div>
       </div>
-      <input type="submit" value="Accedi" class="btn btn--primary">
-    </form>
+      <input type="submit" value="Accedi" class="btn btn--primary" @click.prevent="onSubmit">
+    </div>
   </div>
 </template>

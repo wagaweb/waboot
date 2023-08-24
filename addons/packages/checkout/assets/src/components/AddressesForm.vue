@@ -81,7 +81,7 @@ function confirmFormData(){
 
         <h4>Indirizzo spedizione</h4>
 
-        <form action="" class="checkout woocommerce-checkout" @submit.prevent="confirmFormData">
+        <div class="checkout woocommerce-checkout">
             <div class="woocommerce-billing-fields__field-wrapper">
                 <div class="form-row form-row-wide">
                     <label for="country">Paese <span>*</span></label>
@@ -219,7 +219,7 @@ function confirmFormData(){
                     <textarea id="notes" placeholder="Nome sul citofono quando diverso dall'intestatario, C/O, interno, richieste particolari" v-model="formData.notes"></textarea>
                 </div>
             </div>
-            <input type="submit" value="Vai al pagamento" class="btn btn--primary">
-        </form>
+            <input type="submit" value="Vai al pagamento" class="btn btn--primary" @click.prevent="confirmFormData">
+        </div>
     </section>
 </template>

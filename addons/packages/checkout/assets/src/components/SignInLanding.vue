@@ -26,7 +26,7 @@
   <div>
     <h4>Benvenuto!</h4>
 
-    <form action="" class="checkout woocommerce-checkout" @submit.prevent="checkEmail">
+    <div class="checkout woocommerce-checkout">
       <div class="woocommerce-billing-fields__field-wrapper">
         <div class="form-row form-row-wide">
           <label for="email">Inserisci la tua email prima di procedere</label>
@@ -37,8 +37,8 @@
           <label for="newsletter">Ricevi offerte e comunicazioni</label>
         </div>
       </div>
-      <input type="submit" value="Continua" class="btn btn--primary">
-    </form>
+      <input type="submit" value="Continua" class="btn btn--primary" @click.prevent="checkEmail">
+    </div>
 
     <h4>Oppure accedi con</h4>
 
