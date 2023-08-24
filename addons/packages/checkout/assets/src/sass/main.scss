@@ -22,3 +22,17 @@
     }
   }
 }
+
+.woocommerce-page.woocommerce-checkout .woocommerce-checkout {
+  display: block;
+  margin-bottom: 20px;
+}
+
+.woocommerce-page.woocommerce-checkout .woocommerce-billing-fields__field-wrapper .form-row {
+  margin-bottom: 15px;
+}
+
+.form-row label {
+  display: inline-flex;
+  margin-bottom: 5px;
+}
