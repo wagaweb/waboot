@@ -1,8 +1,12 @@
 <script setup lang="ts">
-import {useCurrentUserStore} from "@/stores/currentUser";
+import {useCheckoutDataStore} from "@/stores/checkoutData";
 import {onMounted} from "vue";
 
-const currentUserStore = useCurrentUserStore();
+const emit = defineEmits<{
+    (e: 'editAddress'): void
+}>();
+
+const checkoutDataStore = useCheckoutDataStore();
 
 onMounted(() => {
     //@ts-ignore
@@ -30,8 +34,8 @@ function placeOrder(){
     const $ = window.jQuery;
     let $paymentWrapper = $('#payment-wrapper');
     //Compile the WooCommerce form with current stored data
-    const profileData = currentUserStore.profileData;
-    const shippingData = currentUserStore.shippingData;
+    const profileData = checkoutDataStore.profileData;
+    const shippingData = checkoutDataStore.shippingData;
     $('[name=billing_first_name]').val(profileData.firstName);
     $('[name=billing_last_name]').val(profileData.lastName);
     $('[name=billing_phone]').val(profileData.phone);
@@ -41,12 +45,30 @@ function placeOrder(){
     $('[name=billing_postcode]').val(shippingData.postcode);
     $('[name=billing_address_1]').val(shippingData.address);
     $('[name=order_comments]').val(shippingData.notes);
-    if(currentUserStore.mustRegisterNewUser){
+    if(checkoutDataStore.mustRegisterNewUser){
         $('[name=createaccount]').trigger('click');
-        $('[name=account_password]').val(currentUserStore.newAccountData.password);
+        $('[name=account_password]').val(checkoutDataStore.newAccountData.password);
     }
 
     //$paymentWrapper.find('form').submit();
+}
+
+function onEditAddressClick(){
+    //@ts-ignore
+    if(typeof window.jQuery === "undefined"){
+        return;
+    }
+    //@ts-ignore
+    const $ = window.jQuery;
+    let $originalForm = $('#original-form-wrapper');
+    let $paymentWrapper = $('#payment-wrapper');
+    if($originalForm !== "undefined" && $originalForm.length > 0){
+        console.log('Restoring the original form');
+        $paymentWrapper.find('form').appendTo('#original-form-wrapper');
+        //$originalForm.find('form').find('#customer_details').show();
+        $originalForm.find('form').find('#place_order').show();
+    }
+    emit('editAddress');
 }
 
 </script>
@@ -55,18 +77,18 @@ function placeOrder(){
         <div class="woocommerce-checkout-steps__data">
             <h5>Indirizzo email</h5>
             <ul class="">
-                <li>{{ currentUserStore.profileData.email }}</li>
+                <li>{{ checkoutDataStore.profileData.email }}</li>
             </ul>
         </div>
         <div class="woocommerce-checkout-steps__data">
             <h5>Indirizzo di spedizione</h5>
             <ul class="">
-                <li>{{ currentUserStore.shippingData.address }}</li>
-                <li>{{ currentUserStore.shippingData.city }}</li>
-                <li>{{ currentUserStore.shippingData.state }}</li>
-                <li>{{ currentUserStore.profileData.phone }}</li>
+                <li>{{ checkoutDataStore.shippingData.address }}</li>
+                <li>{{ checkoutDataStore.shippingData.city }}</li>
+                <li>{{ checkoutDataStore.shippingData.state }}</li>
+                <li>{{ checkoutDataStore.profileData.phone }}</li>
             </ul>
-            <a class="woocommerce-checkout-steps__edit" href="#">Modifica <i class="fal fa-pencil"></i></a>
+            <a class="woocommerce-checkout-steps__edit" href="#" @click.prevent="onEditAddressClick">Modifica <i class="fal fa-pencil"></i></a>
         </div>
         <h5>Modalità di pagamento</h5>
         <div id="payment-wrapper"></div>

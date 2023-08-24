@@ -15,6 +15,9 @@
             }else{
                 emit('emailVerified', email.value, false);
             }
+        }).catch((error) => {
+            console.log('SignInLanding error');
+            console.error(error);
         });
     }
 </script>

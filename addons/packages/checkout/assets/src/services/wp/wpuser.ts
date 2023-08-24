@@ -1,4 +1,4 @@
-import type {stepCheckoutBackendDataType, wpJsonResponse} from "../../../env";
+import type {fetchedUserData, stepCheckoutBackendDataType, wpJsonResponse} from "../../../env";
 import {getBackEndData} from "@/services/wp/backendData";
 
 export class WPUser{
@@ -7,52 +7,46 @@ export class WPUser{
         this.backendData = getBackEndData();
     }
 
-    async checkIfCustomerIsLoggedIn(): Promise<boolean> {
-        const data = new FormData();
-
-        data.append('action','is_customer_logged_in');
-        data.append( 'nonce', this.backendData.nonce );
-
-        try{
-            const res = await fetch(this.backendData.ajax_url, {
-                method: 'POST',
-                credentials: 'same-origin',
-                body: data
-            });
-            const resJson: wpJsonResponse = await res.json();
-            if(resJson.success){
-                return resJson.data.is_logged_in;
-            }
-            throw new Error('WP Ajax Error');
-        }catch (err){
-            console.log('[WPUser]');
-            console.error(err);
-            return false;
-        }
-    }
-
-    async fetchUser(): Promise<any> {
+    async fetchUser(): Promise<fetchedUserData> {
         const data = new FormData();
 
         data.append('action','retrieve_user');
         data.append( 'nonce', this.backendData.nonce );
 
-        try{
-            const res = await fetch(this.backendData.ajax_url, {
-                method: 'POST',
-                credentials: 'same-origin',
-                body: data
-            });
-            const resJson: wpJsonResponse = await res.json();
-            if(resJson.success){
-                return resJson.data;
-            }
-            throw new Error('WP Ajax Error');
-        }catch (err){
-            console.log('[WPUser]');
-            console.error(err);
-            return false;
+        const res = await fetch(this.backendData.ajax_url, {
+            method: 'POST',
+            credentials: 'same-origin',
+            body: data
+        });
+        const resJson: wpJsonResponse = await res.json();
+        if(resJson.success){
+            return resJson.data;
+        }else if(resJson.data.error){
+            throw new Error('fetchUser(): '+resJson.data.error);
         }
+        throw new Error('fetchUser(): unrecognized WordPress response');
+    }
+
+    async signInUser(email: string, password: string): Promise<fetchedUserData> {
+        const data = new FormData();
+
+        data.append('action','signin_user_by_email_and_password');
+        data.append('email',email);
+        data.append('password',password);
+        data.append( 'nonce', this.backendData.nonce );
+
+        const res = await fetch(this.backendData.ajax_url, {
+            method: 'POST',
+            credentials: 'same-origin',
+            body: data
+        });
+        const resJson: wpJsonResponse = await res.json();
+        if(resJson.success){
+            return resJson.data;
+        }else if(resJson.data.error){
+            throw new Error('signInUser(): '+resJson.data.error);
+        }
+        throw new Error('signInUser(): unrecognized WordPress response');
     }
 
     async checkIfEmailIsRegistered(email: string): Promise<boolean> {
@@ -62,21 +56,17 @@ export class WPUser{
         data.append('email',email);
         data.append( 'nonce', this.backendData.nonce );
 
-        try{
-            const res = await fetch(this.backendData.ajax_url, {
-                method: 'POST',
-                credentials: 'same-origin',
-                body: data
-            });
-            const resJson: wpJsonResponse = await res.json();
-            if(resJson.success){
-                return resJson.data.is_email_registered;
-            }
-            throw new Error('WP Ajax Error');
-        }catch (err){
-            console.log('[WPUser]');
-            console.error(err);
-            return false;
+        const res = await fetch(this.backendData.ajax_url, {
+            method: 'POST',
+            credentials: 'same-origin',
+            body: data
+        });
+        const resJson: wpJsonResponse = await res.json();
+        if(resJson.success){
+            return resJson.data.is_email_registered;
+        }else if(resJson.data.error){
+            throw new Error('checkIfEmailIsRegistered(): '+resJson.data.error);
         }
+        throw new Error('checkIfEmailIsRegistered(): unrecognized WordPress response');
     }
 }

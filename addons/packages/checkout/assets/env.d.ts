@@ -26,3 +26,10 @@ export interface userShippingData{
     'notes': string,
 }
 
+export interface fetchedUserData{
+    is_logged_in: boolean,
+    profile_data: userProfileData
+    shipping_data: userShippingData
+    billing_data: userShippingData
+}
+

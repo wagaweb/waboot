@@ -6,6 +6,4 @@ const app = createApp(App)
 
 app.use(createPinia())
 
-console.log('lk!');
-
 app.mount('#woocommerce-checkout-steps-app')

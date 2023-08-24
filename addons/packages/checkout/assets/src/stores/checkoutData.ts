@@ -1,9 +1,9 @@
-import { ref, reactive } from 'vue'
+import {ref, reactive, computed} from 'vue'
 import { defineStore } from 'pinia'
 import type {userProfileData, userShippingData} from "../../env";
 
-export const useCurrentUserStore = defineStore('currentUser', () => {
-    const isLoggedIn = ref(false);
+export const useCheckoutDataStore = defineStore('currentUser', () => {
+    const isUserLoggedIn = ref(false);
     const mustRegisterNewUser = ref(false);
     const newAccountData = reactive({
         'password': ''
@@ -24,8 +24,23 @@ export const useCurrentUserStore = defineStore('currentUser', () => {
         'notes': '',
     });
 
-    function setLoggedIn(){
-        isLoggedIn.value = true;
+    const isProfileComplete = computed(() => {
+        return profileData.email !== '' &&
+            profileData.firstName !== '' &&
+            profileData.lastName !== '' &&
+            profileData.phone !== '';
+    });
+
+    const isShippingDataComplete = computed(() => {
+        return shippingData.country !== '' &&
+            shippingData.address !== '' &&
+            shippingData.postcode !== '' &&
+            shippingData.city !== '' &&
+            shippingData.state !== '';
+    });
+
+    function setUserAsLoggedIn(){
+        isUserLoggedIn.value = true;
     }
 
     function setMustRegisterNewUser(){
@@ -72,9 +87,9 @@ export const useCurrentUserStore = defineStore('currentUser', () => {
         }
     }
 
-    function setEmail(email: string){
+    function setUserEmail(email: string){
         profileData.email = email;
     }
 
-    return { isLoggedIn, profileData, shippingData, setLoggedIn, setProfileData, setEmail, setShippingData, mustRegisterNewUser, setMustRegisterNewUser, newAccountData, setUserPassword}
+    return { isLoggedIn: isUserLoggedIn, profileData, isProfileComplete, shippingData, isShippingDataComplete, setUserAsLoggedIn, setProfileData, setUserEmail, setShippingData, mustRegisterNewUser, setMustRegisterNewUser, newAccountData, setUserPassword}
 })

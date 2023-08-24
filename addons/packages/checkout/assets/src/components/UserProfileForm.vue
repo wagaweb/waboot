@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import {reactive, ref, toRaw} from "vue";
+import {onMounted, reactive, ref, toRaw} from "vue";
+import {useCheckoutDataStore} from "@/stores/checkoutData";
 
 defineProps({
     email: String
@@ -9,6 +10,8 @@ const emit = defineEmits<{
     (e: 'profileDataSubmitted', formData: object): void
 }>();
 
+const checkoutDataStore = useCheckoutDataStore();
+
 const formData = reactive({
     firstName: '',
     lastName: '',
@@ -17,6 +20,19 @@ const formData = reactive({
     createAccount: false,
     password: '',
     confirmPassword: ''
+});
+
+onMounted(() => {
+    const profileData = checkoutDataStore.profileData;
+    if(profileData.firstName !== ''){
+        formData.firstName = profileData.firstName;
+    }
+    if(profileData.lastName !== ''){
+        formData.lastName = profileData.lastName;
+    }
+    if(profileData.phone !== ''){
+        formData.phone = profileData.phone;
+    }
 });
 
 function confirmFormData(){
@@ -54,7 +70,7 @@ function confirmFormData(){
           <input type="tel" placeholder="+39" id="phone" v-model="formData.phone">
         </div>
 
-        <div class="form-row form-row-wide">
+        <div class="form-row form-row-wide" v-show="!checkoutDataStore.isLoggedIn">
           <input type="checkbox" id="save" v-model="formData.createAccount">
           <label for="save">Salva questi dati per il prossimo acquisto</label>
         </div>
@@ -69,7 +85,7 @@ function confirmFormData(){
           <input type="password" placeholder="Inserisci una password" id="confirm-password" v-model="formData.confirmPassword">
         </div>
 
-        <div class="form-row form-row-wide">
+        <div class="form-row form-row-wide" v-show="!checkoutDataStore.isLoggedIn">
           <h4>Rendi speciale la tua Shopping Experience!</h4>
           <h5>Perché registrarsi?</h5>
           <ul>

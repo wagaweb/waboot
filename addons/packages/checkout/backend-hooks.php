@@ -2,6 +2,7 @@
 
 namespace Waboot\addons\packages\checkout;
 
+use Waboot\inc\core\utils\Utilities;
 use Waboot\inc\core\utils\WordPress;
 
 WordPress::addAjaxEndpoint('is_customer_logged_in', static function(){
@@ -16,14 +17,74 @@ WordPress::addAjaxEndpoint('retrieve_user', static function(){
             'is_logged_in' => false
         ]);
     }
-    $customer = new \WC_Customer(get_current_user_id());
-    if(!$customer instanceof \WC_Customer){
+    try{
+        $customerData = fetchCustomerData(get_current_user_id());
+        $customerData['is_logged_in'] = true;
+        wp_send_json_success($customerData);
+    }catch (\Exception | \Throwable $e){
         wp_send_json_error([
-            'error' => 'Cannot retrieve user with id: '.get_current_user_id()
+            'error' => '[retrieve_user] Cannot retrieve user: '.$e->getMessage()
         ]);
     }
-    wp_send_json_success([
-        'is_logged_in' => true,
+});
+
+WordPress::addAjaxEndpoint('is_email_registered', static function(){
+    $email = $_POST['email'] ?? false;
+    if(!$email){
+        wp_send_json_error(['error' => '[is_email_registered] Invalid email: '.$email]);
+    }
+    $email = sanitize_email($email);
+    $user = get_user_by('email',$email);
+    if($user instanceof \WP_User){
+        wp_send_json_success([
+            'is_email_registered' => true
+        ]);
+    }else{
+        wp_send_json_success([
+            'is_email_registered' => false
+        ]);
+    }
+});
+
+WordPress::addAjaxEndpoint('signin_user_by_email_and_password', static function(){
+    $email = $_POST['email'] ?? false;
+    if(!$email){
+        wp_send_json_error(['error' => '[signin_user_by_email_and_password] Invalid email: '.$email]);
+    }
+    $password = $_POST['password'] ?? false;
+    if($password === false || (\is_string($password) && $password === '')){
+        wp_send_json_error(['error' => '[signin_user_by_email_and_password] Invalid password provided']);
+    }
+    $email = sanitize_email($email);
+    $user = get_user_by('email',$email);
+    if($user instanceof \WP_User){
+        $r = Utilities::signinByCredentials($user->user_login,$password);
+        if(\is_wp_error($r)){
+            wp_send_json_error(['error' => '[signin_user_by_email_and_password] Unable signin user: '.$r->get_error_message()]);
+        }
+        try{
+            $customerData = fetchCustomerData($user->ID);
+            $customerData['is_logged_in'] = true;
+            wp_send_json_success($customerData);
+        }catch (\Exception | \Throwable $e){
+            wp_send_json_error([
+                'error' => '[retrieve_user] Cannot retrieve user: '.$e->getMessage()
+            ]);
+        }
+        wp_send_json_success();
+    }else{
+        wp_send_json_error(['error' => '[signin_user_by_email_and_password] Unable to initialize user with email: '.$email]);
+    }
+});
+
+/**
+ * @param int $userId
+ * @return array[]
+ * @throws \Exception
+ */
+function fetchCustomerData(int $userId): array {
+    $customer = new \WC_Customer($userId);
+    return [
         'profile_data' => [
             'email' => $customer->get_email(),
             'firstName' => $customer->get_first_name(),
@@ -47,23 +108,5 @@ WordPress::addAjaxEndpoint('retrieve_user', static function(){
             'city' => $customer->get_billing_city(),
             'state' => $customer->get_billing_state(),
         ]
-    ]);
-});
-
-WordPress::addAjaxEndpoint('is_email_registered', static function(){
-    $email = $_POST['email'] ?? false;
-    if(!$email){
-        wp_send_json_error(['error' => 'invalid_email']);
-    }
-    $email = sanitize_email($email);
-    $user = get_user_by('email',$email);
-    if($user instanceof \WP_User){
-        wp_send_json_success([
-            'is_email_registered' => true
-        ]);
-    }else{
-        wp_send_json_success([
-            'is_email_registered' => false
-        ]);
-    }
-});
+    ];
+}

@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import {reactive, ref, toRaw} from "vue";
+import {reactive, ref, toRaw, onMounted} from "vue";
+import {useCheckoutDataStore} from "@/stores/checkoutData";
 
 defineProps({
     email: String
@@ -9,6 +10,8 @@ const emit = defineEmits<{
     (e: 'AddressDataSubmitted', formData: object): void
 }>();
 
+const checkoutDataStore = useCheckoutDataStore();
+
 const formData = reactive({
     country: '',
     address: '',
@@ -16,6 +19,25 @@ const formData = reactive({
     city: '',
     state: '',
     notes: ''
+});
+
+onMounted(() => {
+    const shippingData = checkoutDataStore.shippingData;
+    if(shippingData.country !== ''){
+        formData.country = shippingData.country;
+    }
+    if(shippingData.address !== ''){
+        formData.address = shippingData.address;
+    }
+    if(shippingData.postcode !== ''){
+        formData.postcode = shippingData.postcode;
+    }
+    if(shippingData.city !== ''){
+        formData.city = shippingData.city;
+    }
+    if(shippingData.state !== ''){
+        formData.state = shippingData.state;
+    }
 });
 
 function confirmFormData(){
@@ -29,7 +51,7 @@ function confirmFormData(){
         <div class="woocommerce-checkout-steps__data">
             <h5>Indirizzo email:</h5>
             <ul>
-                <li>federica@waga.it</li>
+                <li>{{ email }}</li>
             </ul>
 
             <a class="woocommerce-checkout-steps__edit" href="#">Modifica <i class="fal fa-pencil"></i></a>

@@ -5,20 +5,16 @@ import SignInByPassword from "@/components/SignInByPassword.vue";
 import {computed, onMounted, ref, toRaw} from 'vue';
 import {WPUser} from "@/services/wp/wpuser";
 import UserProfileForm from "@/components/UserProfileForm.vue";
-import {useCurrentUserStore} from "@/stores/currentUser";
+import {useCheckoutDataStore} from "@/stores/checkoutData";
 import AddressesForm from "@/components/AddressesForm.vue";
 import {useBreadCrumbStore} from "@/stores/breadcrumb";
 import Pay from "@/components/Pay.vue";
+import type {fetchedUserData} from "../env";
 
-const currentUserStore = useCurrentUserStore();
+const checkoutDataStore = useCheckoutDataStore();
 const breadCrumbStore = useBreadCrumbStore();
 
 const loading = ref(false);
-
-const userRegistered = ref(false);
-const userSignedIn = computed(() => {
-    return currentUserStore.isLoggedIn;
-});
 
 const typedInEmail = ref('');
 const mustSignIn = ref(false);
@@ -34,16 +30,25 @@ onMounted(() => {
     WPUserConnector.fetchUser().then((userData) => {
         console.log(userData);
         if(userData.is_logged_in){
-            currentUserStore.setLoggedIn();
-            //todo: assegnare i dati esistenti
-            mustPay.value = true;
+            checkoutDataStore.setUserAsLoggedIn();
+            checkoutDataStore.setUserEmail(userData.profile_data.email);
+            typedInEmail.value = userData.profile_data.email;
+            checkoutDataStore.setProfileData(userData.profile_data);
+            checkoutDataStore.setShippingData(userData.shipping_data);
+            if(!checkoutDataStore.isProfileComplete){
+                mustEnterProfileData.value = true;
+            }else if(!checkoutDataStore.isShippingDataComplete){
+                mustEnterAddressData.value = true;
+            }else{
+                mustPay.value = true;
+            }
         }else{
             mustSignIn.value = true;
         }
         loading.value = false;
     }).catch((error) => {
-      console.log('App onMounted() error');
-      console.error(error);
+        console.log('App.vue onMounted() error');
+        console.error(error);
     });
 });
 
@@ -79,26 +84,50 @@ function onEmailVerified(email: string, isRegistered: boolean){
     }
 }
 
+function onUserSignedId(userData: fetchedUserData){
+    location.reload(); //just reload for now
+}
+
 function onProfileDataSubmitted(formData: any){
     console.log('Profile data submitted');
     console.log(formData);
-    mustEnterProfileData.value = false;
-    mustEnterAddressData.value = true;
-    currentUserStore.setEmail(typedInEmail.value);
-    currentUserStore.setProfileData(formData);
+    checkoutDataStore.setUserEmail(typedInEmail.value);
+    checkoutDataStore.setProfileData(formData);
     if(formData.createAccount){
-        currentUserStore.setMustRegisterNewUser();
-        currentUserStore.setUserPassword(formData.password);
+        checkoutDataStore.setMustRegisterNewUser();
+        checkoutDataStore.setUserPassword(formData.password);
     }
-    breadCrumbStore.nextStep();
+    mustEnterProfileData.value = false;
+    if(!checkoutDataStore.isShippingDataComplete){
+        mustEnterAddressData.value = true;
+        breadCrumbStore.nextStep();
+    }else{
+        mustPay.value = true;
+        breadCrumbStore.nextStep();
+        breadCrumbStore.nextStep();
+    }
 }
 
 function onAddressDataSubmitted(formData: any){
     console.log('Address data submitted');
-    currentUserStore.setShippingData(formData);
+    checkoutDataStore.setShippingData(formData);
     mustEnterAddressData.value = false;
     mustPay.value = true;
     breadCrumbStore.nextStep();
+}
+
+function onEditAddress(){
+    breadCrumbStore.goToNamedStep('addresses');
+    mustPay.value = false;
+    mustEnterProfileData.value = false;
+    mustEnterAddressData.value = true;
+}
+
+function onEditProfile(){
+    breadCrumbStore.goToNamedStep('login');
+    mustPay.value = false;
+    mustEnterAddressData.value = false;
+    mustEnterProfileData.value = true;
 }
 
 </script>
@@ -106,8 +135,8 @@ function onAddressDataSubmitted(formData: any){
 <template>
   <Breadcrumb />
   <SignInLanding v-if="mustShowSignInLanding" @email-verified="onEmailVerified" />
-  <SignInByPassword v-if="mustShowSignInByPassword" />
+  <SignInByPassword v-if="mustShowSignInByPassword" :email="typedInEmail" @user-signed-in="onUserSignedId" />
   <UserProfileForm v-if="mustShowUserProfileDataForm" :email="typedInEmail" @profile-data-submitted="onProfileDataSubmitted" />
   <AddressesForm v-if="mustShowAddressesDataForm" @address-data-submitted="onAddressDataSubmitted" />
-  <Pay v-if="mustShowPay" />
+  <Pay v-if="mustShowPay" @edit-address="onEditAddress" />
 </template>
