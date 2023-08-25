@@ -10,6 +10,7 @@ import AddressesForm from "@/components/AddressesForm.vue";
 import {useBreadCrumbStore} from "@/stores/breadcrumb";
 import Pay from "@/components/Pay.vue";
 import type {fetchedUserData} from "../env";
+import OrderReview from "@/components/OrderReview.vue";
 
 const checkoutDataStore = useCheckoutDataStore();
 const breadCrumbStore = useBreadCrumbStore();
@@ -152,6 +153,7 @@ function onCountryChanged(formData: any){
 
 <template>
   <Breadcrumb />
+  <OrderReview />
   <SignInLanding v-if="mustShowSignInLanding" @email-verified="onEmailVerified" />
   <SignInByPassword v-if="mustShowSignInByPassword" :email="typedInEmail" @user-signed-in="onUserSignedId" />
   <UserProfileForm v-if="mustShowUserProfileDataForm" :email="typedInEmail" @profile-data-submitted="onProfileDataSubmitted" />
