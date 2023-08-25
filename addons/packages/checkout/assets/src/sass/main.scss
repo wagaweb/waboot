@@ -26,6 +26,31 @@
   }
 }
 
+#payment-wrapper{
+  form {
+    #customer_details{
+      display: none;
+    }
+    #order_review_heading{
+      display: none;
+    }
+    .woocommerce-checkout-review-order-table{
+      display: none;
+    }
+    #payment{
+      .wc_payment_methods{
+        display: block !important;
+      }
+      .woocommerce-terms-and-conditions-wrapper{
+        display: block !important;;
+      }
+      [name="woocommerce_checkout_place_order"]{
+        display: none !important;
+      }
+    }
+  }
+}
+
 .woocommerce-page.woocommerce-checkout .woocommerce-checkout {
   display: block;
   margin-bottom: 20px;

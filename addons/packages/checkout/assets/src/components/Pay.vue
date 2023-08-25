@@ -15,13 +15,14 @@ onMounted(() => {
     }
     //@ts-ignore
     const $ = window.jQuery;
-    let $originalForm = $('#original-form-wrapper');
+    let $originalFormWrapper = $('#original-form-wrapper');
     let $paymentWrapper = $('#payment-wrapper');
-    if($originalForm !== "undefined" && $originalForm.length > 0){
-        console.log('Wrapping the original form');
-        $originalForm.find('form').appendTo('#payment-wrapper');
-        $paymentWrapper.find('form').find('.wc_payment_methods').show();
-        $paymentWrapper.find('form').find('.woocommerce-terms-and-conditions-wrapper').show();
+    if($originalFormWrapper !== "undefined" && $originalFormWrapper.length > 0){
+        const $originalForm = $('#original-form-wrapper').find('form');
+        if($originalForm.length > 0){
+            console.log('Wrapping the original form');
+            $originalForm.appendTo('#payment-wrapper');
+        }
     }
 });
 
@@ -65,8 +66,6 @@ function onEditAddressClick(){
     if($originalForm !== "undefined" && $originalForm.length > 0){
         console.log('Restoring the original form');
         $paymentWrapper.find('form').appendTo('#original-form-wrapper');
-        $originalForm.find('form').find('.wc_payment_methods').hide();
-        $originalForm.find('form').find('.woocommerce-terms-and-conditions-wrapper').hide();
     }
     emit('editAddress');
 }
@@ -92,8 +91,8 @@ function onEditAddressClick(){
         </div>
         <h5>Modalità di pagamento</h5>
         <div id="payment-wrapper"></div>
-        <form action="" class="checkout woocommerce-checkout" @submit.prevent="placeOrder">
+        <div class="checkout woocommerce-checkout" @click.prevent="placeOrder">
             <input type="submit" value="Effettua ordine" class="btn btn--primary">
-        </form>
+        </div>
     </div>
 </template>
