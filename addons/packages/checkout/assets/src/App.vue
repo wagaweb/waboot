@@ -152,13 +152,18 @@ function onCountryChanged(formData: any){
 </script>
 
 <template>
-  <Breadcrumb />
-  <OrderReview />
-  <SignInLanding v-if="mustShowSignInLanding" @email-verified="onEmailVerified" />
-  <SignInByPassword v-if="mustShowSignInByPassword" :email="typedInEmail" @user-signed-in="onUserSignedId" />
-  <UserProfileForm v-if="mustShowUserProfileDataForm" :email="typedInEmail" @profile-data-submitted="onProfileDataSubmitted" />
-  <AddressesForm v-if="mustShowAddressesDataForm" @address-data-submitted="onAddressDataSubmitted" @country-changed="onCountryChanged" />
-  <Pay v-if="mustShowPay" @edit-address="onEditAddress" />
+  <div class="woocommerce-checkout-steps__left">
+    <Breadcrumb />
+    <SignInLanding v-if="mustShowSignInLanding" @email-verified="onEmailVerified" />
+    <SignInByPassword v-if="mustShowSignInByPassword" :email="typedInEmail" @user-signed-in="onUserSignedId" />
+    <UserProfileForm v-if="mustShowUserProfileDataForm" :email="typedInEmail" @profile-data-submitted="onProfileDataSubmitted" />
+    <AddressesForm v-if="mustShowAddressesDataForm" @address-data-submitted="onAddressDataSubmitted" @country-changed="onCountryChanged" />
+    <Pay v-if="mustShowPay" @edit-address="onEditAddress" />
+  </div>
+
+  <div class="woocommerce-checkout-steps__right">
+    <OrderReview />
+  </div>
 </template>
 
 <style lang="scss">

@@ -149,7 +149,7 @@ add_filter('script_loader_tag', static function($tag, $handle, $src){
 
 add_action('woocommerce_before_checkout_form', function($checkout){
     ?>
-    <div id="woocommerce-checkout-steps-app">
+    <div id="woocommerce-checkout-steps-app" class="woocommerce-checkout-steps">
     </div>
     <?php
 },20,1);

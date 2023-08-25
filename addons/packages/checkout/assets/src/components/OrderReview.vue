@@ -21,19 +21,16 @@ import {onMounted, ref} from "vue";
             setTimeout(() => {
                 $('[data-order-review-wrapper]').html('');
                 $orderReviewTable.clone().appendTo('[data-order-review-wrapper]');
+                $('[data-order-review-wrapper]').find('.blockOverlay').attr('style', '');
                 loading.value = false;
             }, 1000);
         });
     });
 </script>
 <template>
-    <div id="#order-review__wrapper" data-order-review-wrapper :class="{'loading': loading}">
-
+    <div id="#order-review__wrapper" class="woocommerce-checkout-steps__order-review" :class="{'loading': loading}">
+      <h3>Riepilogo Ordine</h3>
+      <div class="woocommerce-checkout-steps__loader"><span class="loader"></span></div>
+      <div data-order-review-wrapper></div>
     </div>
 </template>
-
-<style scoped lang="css">
-    [data-order-review-wrapper].loading{
-        background-color: grey;
-    }
-</style>
