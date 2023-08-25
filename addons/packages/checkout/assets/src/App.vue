@@ -37,10 +37,13 @@ onMounted(() => {
             checkoutDataStore.setProfileData(userData.profile_data);
             checkoutDataStore.setShippingData(userData.shipping_data);
             if(!checkoutDataStore.isProfileComplete){
+                breadCrumbStore.goToNamedStep('login');
                 mustEnterProfileData.value = true;
             }else if(!checkoutDataStore.isShippingDataComplete){
+                breadCrumbStore.goToNamedStep('addresses');
                 mustEnterAddressData.value = true;
             }else{
+                breadCrumbStore.goToNamedStep('payment');
                 mustPay.value = true;
             }
         }else{
@@ -101,11 +104,10 @@ function onProfileDataSubmitted(formData: any){
     mustEnterProfileData.value = false;
     if(!checkoutDataStore.isShippingDataComplete){
         mustEnterAddressData.value = true;
-        breadCrumbStore.nextStep();
+        breadCrumbStore.goToNamedStep('addresses');
     }else{
         mustPay.value = true;
-        breadCrumbStore.nextStep();
-        breadCrumbStore.nextStep();
+        breadCrumbStore.goToNamedStep('payment');
     }
 }
 
@@ -157,7 +159,7 @@ function onCountryChanged(formData: any){
     <SignInLanding v-if="mustShowSignInLanding" @email-verified="onEmailVerified" />
     <SignInByPassword v-if="mustShowSignInByPassword" :email="typedInEmail" @user-signed-in="onUserSignedId" />
     <UserProfileForm v-if="mustShowUserProfileDataForm" :email="typedInEmail" @profile-data-submitted="onProfileDataSubmitted" />
-    <AddressesForm v-if="mustShowAddressesDataForm" @address-data-submitted="onAddressDataSubmitted" @country-changed="onCountryChanged" />
+    <AddressesForm v-if="mustShowAddressesDataForm" :email="typedInEmail" @address-data-submitted="onAddressDataSubmitted" @country-changed="onCountryChanged" />
     <Pay v-if="mustShowPay" @edit-address="onEditAddress" />
   </div>
 
