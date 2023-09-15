@@ -293,7 +293,10 @@ export function useCatalog(config: CatalogConfig) {
 
     for (const [tax, taxRef] of taxRefs.entries()) {
       let idsStr = urlSearchParams.get('filter-' + tax);
-      if (idsStr === null || idsStr.length === 0) {
+      if (idsStr === null) {
+        continue;
+      }
+      if (idsStr.length === 0) {
         taxRef.selectedTerms = new Set();
         continue;
       }
