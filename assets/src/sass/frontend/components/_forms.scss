@@ -68,7 +68,7 @@ input[type="checkbox"] {
   height: 20px;
   margin: 0 5px 0 0;
   place-content: center;
-  width: 20px;
+  min-width: 20px;
   &::before {
     content: "\f00c";
     background-color: $colorPrimary;

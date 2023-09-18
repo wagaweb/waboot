@@ -6,6 +6,7 @@
     }>();
 
     const email = ref('');
+    const errorMessage = ref('');
 
     function checkEmail(event: any){
         console.log('Checking email:' + email.value);
@@ -16,8 +17,9 @@
                 emit('emailVerified', email.value, false);
             }
         }).catch((error) => {
-            console.log('SignInLanding error');
-            console.error(error);
+            //console.log('SignInLanding error');
+            //console.error(error);
+            errorMessage.value = 'Email non valida';
         });
     }
 </script>
@@ -29,7 +31,7 @@
     <div class="checkout woocommerce-checkout">
       <div class="woocommerce-billing-fields__field-wrapper">
         <div class="form-row form-row-wide">
-          <label for="email">Inserisci la tua email prima di procedere</label>
+          <label for="email">Inserisci la tua email prima di procedere * </label>
           <input type="email" placeholder="Email" id="email" v-model="email">
         </div>
         <div class="form-row form-row-wide">
@@ -38,6 +40,10 @@
         </div>
       </div>
       <input type="submit" value="Continua" class="btn btn--primary" @click.prevent="checkEmail">
+
+      <div class="woocommerce-checkout-steps__messages">
+        <p class="woocommerce-checkout-steps__message woocommerce-checkout-steps__message--error" v-if="errorMessage">{{ errorMessage }}</p>
+      </div>
     </div>
 
     <h4>Oppure accedi con</h4>

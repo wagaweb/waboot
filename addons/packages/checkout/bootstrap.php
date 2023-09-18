@@ -150,8 +150,11 @@ add_filter('script_loader_tag', static function($tag, $handle, $src){
 add_action('woocommerce_before_checkout_form', function($checkout){
     ?>
     <div id="woocommerce-checkout-steps-app" class="woocommerce-checkout-steps">
+
+        <?php echo do_shortcode('[woocommerce_social_login_buttons return_url="https://test.wawoo.wbs.cwg.it/my-account"]'); ?>
     </div>
     <?php
+
 },20,1);
 
 add_action('woocommerce_before_checkout_form', function($checkout){

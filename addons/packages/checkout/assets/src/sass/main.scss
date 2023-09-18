@@ -221,6 +221,22 @@
       }
     }
   }
+
+  &__messages {
+    margin-top: 20px;
+  }
+
+  &__message {
+    display: inline-block;
+    padding: 5px 10px;
+    &:not(:last-child) {
+      margin-bottom: 5px;
+    }
+    &--error {
+      background-color: $colorWarning;
+      color: $colorWhite;
+    }
+  }
 }
 
 @keyframes rotate {

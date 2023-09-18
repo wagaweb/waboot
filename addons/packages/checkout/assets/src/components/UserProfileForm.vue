@@ -55,7 +55,7 @@ function confirmFormData(){
       <div class="woocommerce-billing-fields__field-wrapper">
         <div class="form-row form-row-first">
           <label for="first-name">Nome <span>*</span></label>
-          <input type="text" placeholder="Nome" id="first-name" v-model="formData.firstName">
+          <input type="text" placeholder="Nome" id="first-name" v-model="formData.firstName" required>
         </div>
         <div class="form-row form-row-last">
           <label for="last-name">Cognome <span>*</span></label>
