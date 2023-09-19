@@ -49,7 +49,5 @@
     <h4>Oppure accedi con</h4>
 
     <p>Scegli un account social per accedere o registrati</p>
-
-    [SOCIAL LOGIN BUTTONS HERE...]
   </div>
 </template>
