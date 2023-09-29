@@ -107,3 +107,15 @@ add_filter( 'use_widgets_block_editor', '__return_false' );
 add_filter( 'wpseo_breadcrumb_separator', function() {
     return '</li><li>';
 }, 99);
+
+
+
+add_filter( 'nav_menu_css_class', function( $classes = array(), $menu_item = false ) {
+    if ( $menu_item->title == 'Works' && is_singular('work') ) {
+        $classes[] = 'current-post-ancestor';
+    }
+    if ( $menu_item->title == 'Blog' && is_singular('post') ) {
+        $classes[] = 'current-post-ancestor';
+    }
+    return $classes;
+}, 10, 2 );

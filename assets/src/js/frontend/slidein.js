@@ -19,36 +19,66 @@ Slidein.prototype = {
 
     initToggle: function (self) {
         $(self.opt.toggler).on('click', function (e) {
-            if(!self.$el.hasClass('show')){
+            if (!self.$el.hasClass('show')) {
                 self.$el.addClass('show');
                 $('body').addClass('slidein-no-scroll');
                 self.toggleOverlay();
 
+                // Add "opened" class to toggler and header when megamenu is opened
+                if ($(self.opt.toggler).hasClass('slidein-megamenu__toggle') || $(self.opt.toggler).hasClass('slidein-nav__toggle')) {
+                    $(self.opt.toggler).addClass('opened');
+                    $('header').addClass('opened');
+                }
+
                 $(document).on('click', function(e){
                     var $target = $(e.target);
-                    if(self.$el.is($target) || self.$el.find($target).length > 0){
+                    if (self.$el.is($target) || self.$el.find($target).length > 0) {
                         return;
                     }
-                    if(!$target.closest(self.$toggler).is(self.$toggler)){
+                    if (!$target.closest(self.$toggler).is(self.$toggler)) {
                         self.$el.removeClass('show');
                         $('body').removeClass('slidein-no-scroll');
-
                         self.hideOverlay();
+
+                        // Remove "opened" class from toggler and header when megamenu is closed
+                        if ($(self.opt.toggler).hasClass('slidein-megamenu__toggle') || $(self.opt.toggler).hasClass('slidein-nav__toggle')) {
+                            $(self.opt.toggler).removeClass('opened');
+                            $('header').removeClass('opened');
+                        }
 
                         $(document).off('click');
                     }
                 });
 
-                $('[data-slidein-close]').on('click', function(){
+                $('[data-slidein-close], .megamenu a').on('click', function(){
                     self.$el.removeClass('show');
                     $('body').removeClass('slidein-no-scroll');
                     self.hideOverlay();
+
+                    // Remove "opened" class from toggler and header when megamenu is closed
+                    if ($(self.opt.toggler).hasClass('slidein-megamenu__toggle') || $(self.opt.toggler).hasClass('slidein-nav__toggle')) {
+                        $(self.opt.toggler).removeClass('opened');
+                        $('header').removeClass('opened');
+                    }
+
                     $(document).off('click');
                 });
 
-            }else{
+            } else {
+                if ($(self.opt.toggler).hasClass('slidein-megamenu__toggle') || $(self.opt.toggler).hasClass('slidein-search__toggle') || $(self.opt.toggler).hasClass('slidein-nav__toggle')) {
+                    self.$el.removeClass('show');
+                    $('body').removeClass('slidein-no-scroll');
+                    self.hideOverlay();
 
+                    // Remove "opened" class from toggler and header when megamenu is closed
+                    $(self.opt.toggler).removeClass('opened');
+                    $('header').removeClass('opened');
+
+                    $(document).off('click');
+                }
             }
+
+
         });
     },
 
@@ -77,9 +107,9 @@ Slidein.prototype = {
         }
 
 
-        if($overlay.is(':visible')){
+        if ($overlay.is(':visible')) {
             $overlay.fadeOut('fast');
-        }else{
+        } else {
             $overlay.fadeIn('fast');
         }
 

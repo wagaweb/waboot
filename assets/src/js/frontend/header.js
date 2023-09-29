@@ -2,7 +2,7 @@ const $ = jQuery;
 
 export default class {
     constructor(el) {
-        this.mainPadding();
+        //this.mainPadding();
         this.headerFixed();
         this.backOnSubmenu();
         this.mobileDropdown(el);
@@ -12,15 +12,15 @@ export default class {
         });
 
         $(window).on("resize", ()=> {
-            this.mainPadding();
+            //this.mainPadding();
         });
     }
 
-    mainPadding() {
+    /*mainPadding() {
         let $ = jQuery,
             $headerHeight = $(".header").outerHeight();
         $(".main").css("padding-top", $headerHeight);
-    }
+    }*/
 
     headerFixed() {
         let $ = jQuery,

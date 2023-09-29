@@ -1,8 +1,11 @@
 .error-404 {
   text-align: center;
   .title404 {
-    font-size: 5em;
+    font-size: 3.5em;
     opacity: 0.5;
+    @include up($large) {
+      font-size: 5em;
+    }
   }
   .search-form {
     justify-content: center;

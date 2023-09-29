@@ -1,5 +1,6 @@
 import Header from './frontend/header';
 import { Slidein } from "./frontend/slidein.js";
+import {initSelect} from './frontend/select';
 
 jQuery.fn.slidein = function (options) {
     return this.each(function () {
@@ -16,6 +17,7 @@ jQuery(document).ready(function($) {
 
     asideBodyClass();
     scrollToAnimate();
+    initSelect();
 
     $(window).on("load",function(){
         if (window.matchMedia('(max-width: 991px)').matches) {

@@ -9,14 +9,13 @@
   li {
     position: relative;
     &.menu-item-has-children {
-      > a:after {
+      > a::after {
         @extend %fa-icon;
         @extend .far;
         content: fa-content($fa-var-angle-down);
         opacity: .7;
-        margin-left: 10px;
       }
-      li.menu-item-has-children > a:after {
+      li.menu-item-has-children > a::after {
         content: fa-content($fa-var-angle-right);
       }
     }
@@ -24,16 +23,39 @@
 
   > ul {
     > li {
+      a {
+        color: inherit;
+      }
       > a {
+        gap: 8px;
         padding: 10px 0;
         @include up($large) {
-          padding: 15px;
+          height: $headerHeight;
+          padding: 0;
         }
         position: relative;
         display: flex;
         align-items: center;
-        text-transform: uppercase;
-        font-size: .9em;
+
+        &::before {
+          content: '';
+          background-color: $colorPrimary;
+          bottom: 0;
+          display: block;
+          height: 2px;
+          position: absolute;
+          transition: transform .3s ease-in-out;
+          transform: scaleX(0);
+          transform-origin: left center;
+          width: 100%;
+        }
+      }
+
+      & a:hover::before,
+      &.current-menu-item > a::before,
+      &.current-menu-parent > a::before,
+      &.current-post-ancestor > a::before {
+        transform: scaleX(1);
       }
 
       &:last-child > a {
@@ -50,6 +72,14 @@
         padding: 5px 15px;
         display: block;
         white-space: nowrap;
+      }
+      li {
+        a:hover,
+        &.current-menu-item > a,
+        &.current-menu-parent > a,
+        &.current-post-ancestor > a {
+          color: $colorPrimary;
+        }
       }
     }
 
@@ -85,9 +115,11 @@
 }
 
 .navigation-mobile {
+  height: calc(100% - $headerHeight - 1px);
   padding: $gridGutter;
+  top: auto;
+  bottom: 0;
   &__inner {
-    padding: $gridGutter 0;
     height: 100%;
     width: 100%;
     flex-grow: 1;
@@ -107,8 +139,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    padding: 0;
+    padding: 20px 0;
     margin: 0;
     transition: all .5s ease;
   }
@@ -130,13 +161,10 @@
   .sub-menu {
     left: 100%;
     background-color: #fff;
+    padding-top: 0;
   }
 
   .backlevel__icon {
-    position: absolute;
-    left: 0;
-    top: 0;
-    padding: calc($gridGutter/2) 0 0 $gridGutter;
     width: 48px;
     height: 48px;
     display: flex;
@@ -144,6 +172,8 @@
     font-size: 1.5em;
     z-index: 20;
     color: $colorPrimary;
+    margin-left: 20px;
+    margin-right: auto;
   }
 
   .sublevel__icon {

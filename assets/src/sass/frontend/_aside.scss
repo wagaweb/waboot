@@ -1,6 +1,8 @@
 .main__aside {
   .widget {
-    margin-bottom: $gridGutter;
+    &:not(:last-child) {
+      margin-bottom: $gridGutter;
+    }
     ul {
       display: grid;
       grid-gap: 0.5em;

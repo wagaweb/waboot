@@ -24,9 +24,10 @@ h6, .h6 {font-size: 0.85em;}
 h1, .h1, h2, .h2, h3, .h3 {
   line-height: 1.2;
   margin-top: 0;
-  margin-bottom: 20px;
-  word-break: break-all; 
   word-wrap: break-word;
+  &:not(:last-child) {
+    margin-bottom: 20px;
+  }
 }
 
 h4, .h4, h5, .h5, h6, .h6 {
@@ -36,9 +37,13 @@ h4, .h4, h5, .h5, h6, .h6 {
 }
 
 p {
-  margin-bottom: 20px;
   margin-top: 0;
+  margin-bottom: 20px;
   word-wrap: break-word;
+  font-size: 1.14em;
+  &:last-child {
+    margin-bottom: 0;
+  }
 }
 
 ul, ol {

@@ -1,7 +1,8 @@
 .footer {
   &__closure {
+    border-top: 1px solid $colorGreyLight;
     max-width: $containerWidth;
-    padding: calc($gridGutter/2) $gridGutter;
+    padding: $gridGutter;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
@@ -16,13 +17,9 @@
       padding: 0;
       margin: 0;
       display: flex;
+      gap: $gridGutter;
       @include down($medium){
         justify-content: space-around;
-      }
-      a {
-        @include up($medium){
-          margin-left: 20px;
-        }
       }
     }
   }

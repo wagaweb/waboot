@@ -1,0 +1,10 @@
+body {
+  padding-top: 60px;
+  &.privacy-policy,
+  &.page-cookie-policy {
+    .main__grid {
+      @extend .wbcontainer--narrow;
+      margin: 0 auto;
+    }
+  }
+}

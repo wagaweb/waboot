@@ -1,4 +1,7 @@
 .single {
+	.main__grid {
+		@extend .wbcontainer--narrow;
+	}
 	.article {
 		&__image {
 			margin-bottom: $gridGutter;
@@ -8,17 +11,9 @@
 		}
 
 		&__footer {
-			text-transform: uppercase;
-			font-size: 0.9em;
-			padding: 10px 0;
-
-			.glyphicon {
-				margin-right: 5px;
-			}
-
-			> span {
-				margin-right: 10px;
-			}
+			display: flex;
+			gap: $gridGutter / 2;
+			margin-top: 40px;
 		}
 	}
 	h2 {
@@ -65,8 +60,10 @@
 		}
 	}
 	figure.wp-block-gallery {
-		margin-bottom: $gridGutter * 3;
 		margin-top: $gridGutter * 3;
+		&:not(:last-child) {
+			margin-bottom: $gridGutter * 3;
+		}
 	}
 	p + .wp-block-gallery {
 		margin-top: 0 !important;
@@ -77,15 +74,11 @@
 .article__grid {
 	.article {
 		&__categories {
-			font-size: 0.9em;
-			margin: 0 0 10px 0;
-			text-transform: uppercase;
+			margin-bottom: 10px;
 		}
 		&__date {
 			display: inline-block;
-			font-size: 0.9em;
 			margin-bottom: 10px;
-			text-transform: uppercase;
 		}
 	}
 	h2 {

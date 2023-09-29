@@ -1,13 +1,5 @@
 <div class="slidein navigation-mobile" data-slidein-nav data-slidein-toggle="#slidein-nav__toggle">
 
-    <?php if ( \Waboot\inc\getLogo() !== '' ) : ?>
-        <a class="logo--mobile" href="<?php echo home_url( '/' ); ?>">
-            <?php \Waboot\inc\theLogo(false, 'header__logo'); ?>
-        </a>
-    <?php endif; ?>
-
-    <a data-slidein-close><i class="far fa-times"></i></a>
-
     <div class="navigation-mobile__inner">
 
         <?php wp_nav_menu([

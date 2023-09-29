@@ -1,6 +1,8 @@
         </div>
 
-        <?php get_sidebar(); ?>
+        <?php if(is_home() || is_archive()) {
+            get_sidebar();
+        } ?>
 
     </div>
 
