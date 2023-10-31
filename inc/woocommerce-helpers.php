@@ -531,8 +531,10 @@ function adjustProductStockStatus(int $productId): array {
         $visibilityTerms = wp_get_post_terms($productId,'product_visibility');
         $visibilityTermsSlugs = wp_list_pluck($visibilityTerms,'slug');
         if($realStatus === 'instock' && \in_array('outofstock',$visibilityTermsSlugs,true)){
+            //If the product should be "instock" but has the term for "outofstock"
             wp_remove_object_terms($productId,'outofstock','product_visibility');
         }elseif($realStatus === 'outofstock' && !\in_array('outofstock',$visibilityTermsSlugs,true)){
+            //If the product should be "outofstock" and it hasn't the term for "outofstock"
             wp_add_object_terms($productId,'outofstock','product_visibility');
         }
     }
