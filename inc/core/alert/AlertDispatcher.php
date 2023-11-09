@@ -1,10 +1,13 @@
 <?php
 
-namespace Waboot\inc\core;
+namespace Waboot\inc\core\alert;
 
 use Sentry\Severity;
 use Waboot\inc\core\utils\Dates;
 
+/**
+ * @depecated
+ */
 class AlertDispatcher
 {
     public const DISPATCH_METHOD_EMAIL = 'email';

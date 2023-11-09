@@ -1,6 +1,6 @@
 <?php
 
-namespace Waboot\inc\core;
+namespace Waboot\inc\core\alert;
 
 class AlertDispatcherException extends \Exception {
     /**
