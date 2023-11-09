@@ -2,9 +2,10 @@
 
 namespace Waboot\inc\core\cli;
 
-use Waboot\inc\core\Alert;
-use Waboot\inc\core\AlertDispatcher;
-use Waboot\inc\core\AlertDispatcherException;
+use Waboot\inc\core\alert\Alert;
+use Waboot\inc\core\alert\AlertDispatcher;
+use Waboot\inc\core\alert\AlertDispatcherException;
+use Waboot\inc\core\alert\AlertDispatcherFactory;
 use Waboot\inc\core\LoggerFactory;
 use Waboot\inc\core\LoggerFactoryException;
 use Waboot\inc\core\utils\Dates;
@@ -56,6 +57,10 @@ class AbstractCommand
     /**
      * @var string
      */
+    protected string $defaultAlertDispatchEmail;
+    /**
+     * @var string
+     */
     protected $timeZone;
     /**
      * @var string
@@ -66,7 +71,7 @@ class AbstractCommand
 
     public function __construct()
     {
-        if(LoggerFactory::logsHandlerExists()){
+        if(LoggerFactory::monologExists()){
             try{
                 $this->logger = $this->getLogger('waboot-cli-command-logger', $this->getTimeZone());
             }catch (LoggerFactoryException $e){
@@ -372,6 +377,18 @@ class AbstractCommand
     }
 
     /**
+     * @return void
+     * @throws \Exception
+     */
+    protected function setupAlertDispatcher(): void
+    {
+        if(!isset($this->defaultAlertDispatchEmail)){
+            return;
+        }
+        $this->alertDispatcher = AlertDispatcherFactory::createEmailDispatcher($this->logDirName,$this->defaultAlertDispatchEmail,$this->getTimeZone());
+    }
+
+    /**
      * @throws AlertDispatcherException
      * @throws \Exception
      */
@@ -383,10 +400,11 @@ class AbstractCommand
         if(!$this->isBlocked()){
             return;
         }
+        $today = Dates::getToday($this->getTimeZone());
         $this->alertDispatcher->addAlert(
             new Alert(
                 sanitize_title($this->logDirName).'maybe-stuck',
-                'Stuck error',
+                '['.$today->format('Y/m/d H:i').'] Stuck error',
                 'Script seems stuck.',
                 $this->timeZone
             )
@@ -396,6 +414,7 @@ class AbstractCommand
 
     /**
      * @return \DateTimeZone
+     * @throws \Exception
      */
     protected function getTimeZone(): \DateTimeZone
     {
