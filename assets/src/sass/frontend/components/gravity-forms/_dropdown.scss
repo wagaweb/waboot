@@ -359,6 +359,7 @@
     margin-right: -1%;
     span {
         flex: 0 0 50%;
+        margin-bottom: 16px;
         padding-left: 0.9804%;
         padding-right: 0.9804%;
         @include down($medium) {
@@ -374,6 +375,6 @@
 @include up($medium) {
     .ginput_full:not(:last-of-type),
     .ginput_container_address span:not(.ginput_full):not(:last-of-type):not(:nth-last-of-type(2)) {
-        margin-bottom: 8px;
+        margin-bottom: 16px;
     }
 }

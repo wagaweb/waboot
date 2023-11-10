@@ -18,7 +18,7 @@ jQuery(document).ready(function($) {
     asideBodyClass();
     scrollToAnimate();
     youTubeNoCookieChangeUrl();
-    initSelect();
+    //initSelect();
 
     $(window).on("load",function(){
         if (window.matchMedia('(max-width: 991px)').matches) {

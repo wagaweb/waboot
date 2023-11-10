@@ -6,12 +6,9 @@
 	}
 	.gform_validation_errors {
 		background-color: rgba($colorWarning, .1);
-		border-radius: calc($radius / 2);
 		color: $colorWarning;
-		font-size: .85em;
 		font-weight: $fontWeightNormal;
-		margin-bottom: 10px;
-		margin-top: 10px;
+		margin-bottom: 40px;
 		outline: none;
 		padding: 15px;
 		position: relative;
@@ -78,15 +75,12 @@
 	.gfield_validation_message,
 	.validation_message {
 		color: $colorWarning;
-		font-size: .85em;
 		font-weight: $fontWeightNormal;
 	}
 	.gfield_validation_message,
 	.validation_message {
 		background-color: rgba($colorWarning, .1);
-		border-radius: calc($radius / 2);
 		color: $colorWarning !important;
-		font-size: .85em;
 		margin-top: 5px;
 		padding: 5px !important;
 	}

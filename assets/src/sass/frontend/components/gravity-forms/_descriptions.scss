@@ -5,7 +5,7 @@
   .instruction {
     color: $colorText;
     clear: both;
-    font-size: .85em;
+    margin-bottom: 8px;
     width: 100%;
     + .ginput_container {
       border-color: $colorGrey;

@@ -2,17 +2,14 @@
   appearance: none;
   background-image: none; // Reset unusual Firefox-on-Android default style; see https://github.com/necolas/normalize.css/issues/214
   border: 1px solid transparent;
-  border-radius: $radiusFull;
+  border-radius: $radius;
   cursor: pointer;
   display: inline-block;
   font-family: inherit;
-  font-size: 1em;
-  font-weight: $fontWeightBold;
   line-height: 1;
   margin-bottom: 0; // For input.btn
-  padding: 10px 40px;
+  padding: 12px 16px;
   text-align: center;
-  text-transform: uppercase;
   touch-action: manipulation;
   vertical-align: middle;
   white-space: nowrap;
