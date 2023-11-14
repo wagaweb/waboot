@@ -1,6 +1,11 @@
 <template>
   <div
-    class="catalog__item product type-product instock sale product-type-simple"
+      class="catalog__item product"
+      :class="[
+      sellable ? 'instock' : 'outofstock',
+      'product-type-' + product.type,
+      {sale: product.minPrice < product.minBasePrice}
+    ]"
   >
     <a
       :href="`${host}/${productLink}/${product.slug}`"
@@ -41,7 +46,7 @@
       ></i>
     </div>
     <span class="price">
-      <template v-if="product.stockStatus === 'instock'">
+      <template v-if="sellable">
         <span v-if="product.maxPrice > product.minPrice" class="price__from">
           {{ $t('from') }}&nbsp;
         </span>
@@ -74,7 +79,7 @@
         {{ $t('outOfStock') }}
       </span>
     </span>
-    <template v-if="showAddToCartBtn && product.stockStatus === 'instock'">
+    <template v-if="showAddToCartBtn && sellable">
       <div
         v-if="product.type === 'variable' && product.catalogData?.variations"
         class="variation-list"
@@ -90,7 +95,7 @@
           }"
           @click="
             () => {
-              if (v.stockStatus === 'instock') selectedId = v.id.toString();
+              if (sellable) selectedId = v.id.toString();
             }
           "
         >
@@ -208,6 +213,9 @@ export default defineComponent({
           return 'p';
       }
     },
+    sellable(): boolean {
+      return this.isStockStatusSellable(this.product.stockStatus);
+    },
     category(): string | undefined {
       let cat = this.product.taxonomies['product_cat']?.[0];
       if (!cat) {
@@ -296,7 +304,7 @@ export default defineComponent({
       this.product.catalogData?.variations
     ) {
       for (const v of this.product.catalogData.variations.products) {
-        if (v.stockStatus === 'instock') {
+        if (this.isStockStatusSellable(v.stockStatus)) {
           this.selectedId = v.id.toString();
           break;
         }
@@ -313,6 +321,9 @@ export default defineComponent({
         this.quantity = 1;
       }
     },
+    isStockStatusSellable(status: string): boolean {
+      return ['instock', 'onbackorder'].includes(status);
+    }
   },
 });
 </script>

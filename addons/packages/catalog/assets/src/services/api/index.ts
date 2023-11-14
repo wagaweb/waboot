@@ -22,8 +22,6 @@ export interface Image {
 
 type ProductType = 'simple' | 'variable' | 'grouped' | 'bundle' | 'external';
 
-type StockStatus = 'instock' | 'outofstock';
-
 export interface Product {
   id: string;
   slug: string;
@@ -41,7 +39,7 @@ export interface Product {
   currency: string;
   taxClass: string;
   taxStatus: string;
-  stockStatus: StockStatus;
+  stockStatus: string;
   averageRating: number;
   link: string;
   image?: Image;
@@ -71,7 +69,7 @@ export interface Product {
         userRolePrices: Record<string, {type: string, value: number}>,
         zonePrices: Record<string, {price: number, basePrice: number}>,
         taxClass: string;
-        stockStatus: StockStatus;
+        stockStatus: string;
         data: any;
       }[];
     };
