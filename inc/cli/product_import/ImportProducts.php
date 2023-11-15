@@ -11,7 +11,7 @@ use function Waboot\inc\syncVariableProductData;
 
 class ImportProducts extends AbstractCSVParserCommand
 {
-    const VERSION = '21072023';
+    const VERSION = '15112023';
     /**
      * @var string
      */
@@ -215,15 +215,17 @@ class ImportProducts extends AbstractCSVParserCommand
                 if(!\is_array($identifiersToAssign) || empty($identifiersToAssign)){
                     continue;
                 }
+                $this->log(sprintf('-- Product %s:',$productId));
+                $this->log(sprintf('---- Provided identifiers: %s',implode(',',$identifiersToAssign)));
                 $idToAssigns = [];
                 foreach ($identifiersToAssign as $productIdentifier){
-                    $productId = $this->getProductIdByProductIdentifier($productIdentifier);
-                    if(is_int($productId) && $productId > 0){
-                        $idToAssigns[] = $productId;
+                    $upsellProductId = $this->getProductIdByProductIdentifier($productIdentifier);
+                    if(is_int($upsellProductId) && $upsellProductId > 0){
+                        $idToAssigns[] = $upsellProductId;
                     }
                 }
                 if(!empty($idToAssigns)){
-                    $this->log(sprintf('-- Product %d: %s',$productId,implode(',',$idToAssigns)));
+                    $this->log(sprintf('---- Related IDs: %s',implode(',',$idToAssigns)));
                     if(!$this->isDryRun()){
                         update_post_meta($productId,'_upsell_ids',$idToAssigns);
                     }
@@ -238,14 +240,16 @@ class ImportProducts extends AbstractCSVParserCommand
                     continue;
                 }
                 $idToAssigns = [];
+                $this->log(sprintf('-- Product %s:',$productId));
+                $this->log(sprintf('---- Provided identifiers: %s',implode(',',$identifiersToAssign)));
                 foreach ($identifiersToAssign as $productIdentifier){
-                    $productId = $this->getProductIdByProductIdentifier($productIdentifier);
-                    if(is_int($productId) && $productId > 0){
-                        $idToAssigns[] = $productId;
+                    $crossSellProductId = $this->getProductIdByProductIdentifier($productIdentifier);
+                    if(is_int($crossSellProductId) && $crossSellProductId > 0){
+                        $idToAssigns[] = $crossSellProductId;
                     }
                 }
                 if(!empty($idToAssigns)){
-                    $this->log(sprintf('-- Product #%d: %s',$productId,implode(',',$idToAssigns)));
+                    $this->log(sprintf('---- Related IDs: %s',implode(',',$idToAssigns)));
                     if(!$this->isDryRun()){
                         update_post_meta($productId,'_crosssell_ids',$idToAssigns);
                     }
