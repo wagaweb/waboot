@@ -2,7 +2,7 @@
 
 namespace Waboot\inc\core\alert\dispatcher;
 
-use waboot\inc\core\alert\AbstractAlertDispatcher;
+use Waboot\inc\core\alert\AbstractAlertDispatcher;
 use Waboot\inc\core\alert\AlertDispatcherException;
 use Waboot\inc\core\Mail;
 use Waboot\inc\core\MailAddress;

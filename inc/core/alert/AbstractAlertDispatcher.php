@@ -1,6 +1,6 @@
 <?php
 
-namespace waboot\inc\core\alert;
+namespace Waboot\inc\core\alert;
 
 use Waboot\inc\core\utils\Dates;
 
