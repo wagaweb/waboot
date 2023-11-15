@@ -36,7 +36,7 @@ class AlertDispatcherFactory
      * @param string|null $tz
      * @return SentryAlertDispatcher
      */
-    public function createSentryDispatcher(string $name, array $sentryArgs, string $tz = null): SentryAlertDispatcher
+    public static function createSentryDispatcher(string $name, array $sentryArgs, string $tz = null): SentryAlertDispatcher
     {
         return new SentryAlertDispatcher($name,$sentryArgs,$tz);
     }
