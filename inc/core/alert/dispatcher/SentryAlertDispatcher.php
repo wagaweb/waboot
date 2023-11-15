@@ -3,7 +3,7 @@
 namespace Waboot\inc\core\alert\dispatcher;
 
 use Sentry\Severity;
-use waboot\inc\core\alert\AbstractAlertDispatcher;
+use Waboot\inc\core\alert\AbstractAlertDispatcher;
 use Waboot\inc\core\alert\AlertDispatcherException;
 use Waboot\inc\core\LoggerFactory;
 use Waboot\inc\core\LoggerFactoryException;

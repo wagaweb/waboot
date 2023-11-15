@@ -2,7 +2,7 @@
 
 namespace Waboot\inc\core\alert\dispatcher;
 
-use waboot\inc\core\alert\AbstractAlertDispatcher;
+use Waboot\inc\core\alert\AbstractAlertDispatcher;
 use Waboot\inc\core\alert\AlertDispatcherException;
 
 class FileAlertDispatcher extends AbstractAlertDispatcher
