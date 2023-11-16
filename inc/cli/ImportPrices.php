@@ -11,15 +11,12 @@ class ImportPrices extends AbstractCommand
 
     const PRICE_REGULAR = 'regular';
     const PRICE_SALE = 'sale';
-
-    private const ECODE_INVALID_DATE = 3000;
+    const PRICE_ROLE = 'role';
+    const PRICE_RESET = 'reset';
 
     protected $logDirName = 'import-prices';
     protected $logFileName = 'import-prices';
 
-    /**
-     * @return array
-     */
     public static function getCommandDescription(): array
     {
         //@see: https://make.wordpress.org/cli/handbook/guides/commands-cookbook/#wp_cliadd_commands-third-args-parameter
@@ -43,8 +40,15 @@ class ImportPrices extends AbstractCommand
                 [
                     'type' => 'positional',
                     'name' => 'price',
-                    'description' => 'The type of price to import (`regular`/`sale`)',
+                    'description' => 'The type of price to import (`regular`/`sale`/`role`/`reset`)',
                     'optional' => false,
+                    'repeating' => false,
+                ],
+                [
+                    'type' => 'flag',
+                    'name' => 'role',
+                    'description' => 'The role which the price will be assigned to',
+                    'optional' => true,
                     'repeating' => false,
                 ],
                 [
@@ -70,6 +74,8 @@ class ImportPrices extends AbstractCommand
     {
         global $wpdb;
 
+        $timezone = wp_timezone();
+
         $dry = boolval($assoc_args['dry'] ?? false);
 
         $filename = $args[0] ?? null;
@@ -85,9 +91,24 @@ class ImportPrices extends AbstractCommand
         }
 
         $priceType = $args[2] ?? null;
-        if (!in_array($priceType, [self::PRICE_REGULAR, self::PRICE_SALE])) {
+        if (!in_array($priceType, [
+            self::PRICE_REGULAR,
+            self::PRICE_SALE,
+            self::PRICE_ROLE,
+            self::PRICE_RESET
+        ])) {
             $this->error(sprintf('Invalid price type: %s', $priceType));
             return -1;
+        }
+
+        $role = $assoc_args['role'] ?? null;
+        if ($priceType === self::PRICE_ROLE) {
+            global $wp_roles;
+            $validRoles = array_map(fn($r) => $r->name, $wp_roles->role_objects);
+            if (!in_array($role, $validRoles)) {
+                $this->error(sprintf('Invalid role: %s. Valid roles: %s', $role, implode(', ', $validRoles)));
+                return -1;
+            }
         }
 
         if (!is_file($filename)) {
@@ -117,16 +138,28 @@ class ImportPrices extends AbstractCommand
                 continue;
             }
 
-            try {
-                $from = $this->getDateFromRow($row, 2);
-                $to = $this->getDateFromRow($row, 3);
-            } catch (\Exception $e) {
-                if ($e->getCode() === self::ECODE_INVALID_DATE) {
-                    $this->log('Invalid date format');
-                    continue;
+            $from = null;
+            $rawDate = $row[2] ?? '';
+            if (strlen($rawDate) > 0) {
+                $date = \DateTime::createFromFormat('Y-m-d', $rawDate, $timezone);
+                if ($date === false) {
+                    $this->error('Invalid date format');
+                    return -1;
                 }
+                $date->setTime(0, 0);
+                $from = $date->getTimestamp();
+            }
 
-                throw $e;
+            $to = null;
+            $rawDate = $row[3] ?? '';
+            if (strlen($rawDate) > 0) {
+                $date = \DateTime::createFromFormat('Y-m-d', $rawDate, $timezone);
+                if ($date === false) {
+                    $this->error('Invalid date format');
+                    return -1;
+                }
+                $date->setTime(23, 59, 59);
+                $to = $date->getTimestamp();
             }
 
             $map[$key] = [$price, $from, $to];
@@ -216,6 +249,30 @@ SQL;
                     if ($set) {
                         $pp->set_price($price);
                     }
+                } elseif ($priceType === self::PRICE_ROLE) {
+                    $pp->update_meta_data(
+                        '_role_base_price_' . $role,
+                        serialize([
+                            'discount_type' => 'fixed_price',
+                            'discount_value' => $price,
+                            'min_qty' => '',
+                            'max_qty' => '',
+                        ])
+                    );
+                } elseif ($priceType === self::PRICE_RESET) {
+                    global $wpdb;
+
+                    $sql = <<<SQL
+delete from $wpdb->postmeta where post_id = %d and meta_key like '_role_base_price_%%';
+SQL;
+                    if (!$dry) {
+                        $wpdb->query($wpdb->prepare($sql, $pp->get_id()));
+                    }
+
+                    $pp->set_date_on_sale_from();
+                    $pp->set_date_on_sale_to();
+                    $pp->set_sale_price('');
+                    $pp->set_price($pp->get_regular_price('edit'));
                 }
 
                 if (!$dry) {
@@ -235,24 +292,5 @@ SQL;
 
         $this->success('Done');
         return 0;
-    }
-
-    /**
-     * @throws \Exception
-     */
-    private function getDateFromRow(array $row, $index): ?int
-    {
-        $rawDate = $row[$index] ?? '';
-        if (!is_string($rawDate) || strlen($rawDate) < 1) {
-            return null;
-        }
-
-        $date = \DateTime::createFromFormat('Y-m-d', $rawDate);
-        if ($date === false) {
-            throw new \Exception('Invalid date format', self::ECODE_INVALID_DATE);
-        }
-        $date->setTime(23, 59);
-
-        return $date->getTimestamp();
     }
 }
