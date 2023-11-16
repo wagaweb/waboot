@@ -53,6 +53,13 @@ class ImportPrices extends AbstractCommand
                 ],
                 [
                     'type' => 'flag',
+                    'name' => 'skip-header',
+                    'description' => 'Skip the first row',
+                    'optional' => true,
+                    'repeating' => false,
+                ],
+                [
+                    'type' => 'flag',
                     'name' => 'dry',
                     'description' => 'Dry run',
                     'optional' => true,
@@ -84,9 +91,9 @@ class ImportPrices extends AbstractCommand
             return -1;
         }
 
-        $key = $args[1] ?? null;
-        if (!in_array($key, [self::KEY_ID, self::KEY_SKU])) {
-            $this->error(sprintf('Invalid key: %s', $key));
+        $keyType = $args[1] ?? null;
+        if (!in_array($keyType, [self::KEY_ID, self::KEY_SKU])) {
+            $this->error(sprintf('Invalid key: %s', $keyType));
             return -1;
         }
 
@@ -123,12 +130,20 @@ class ImportPrices extends AbstractCommand
         }
 
         $this->log('Collecting data');
+
+        if (wc_string_to_bool($assoc_args['skip-header'] ?? false)) {
+            fgetcsv($stream, null, ';');
+        }
+
         $map = [];
         while (($row = fgetcsv($stream, null, ';')) !== false) {
             $key = trim($row[0] ?? '');
             if (empty($key)) {
                 $this->log(sprintf('Invalid key: %s', $key));
                 continue;
+            }
+            if ($keyType === self::KEY_SKU) {
+                $key = strtoupper($key);
             }
 
             $rawPrice = trim($row[1] ?? '');
@@ -165,16 +180,16 @@ class ImportPrices extends AbstractCommand
             $map[$key] = [$price, $from, $to];
         }
 
-        if ($key === self::KEY_ID) {
+        if ($keyType === self::KEY_ID) {
             $newMap = [];
             foreach ($map as $id => $entry) {
                 $newMap[(int)$id] = $entry;
             }
             $map = $newMap;
-        } elseif ($key === self::KEY_SKU) {
+        } elseif ($keyType === self::KEY_SKU) {
             $in = implode(',', array_fill(0, count($map), '%s'));
             $sql = <<<SQL
-select distinct post_id as id, meta_value as sku
+select distinct post_id as id, upper(meta_value) as sku
 from $wpdb->postmeta
 where meta_key = '_sku' and meta_value IN ($in)
 SQL;
