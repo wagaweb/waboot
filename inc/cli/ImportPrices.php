@@ -203,18 +203,29 @@ SQL;
         }
 
         $ids = array_keys($map);
-        /** @var \WC_Product[] $prods */
-        $prods = [];
+        /** @var \WP_Post[] $prodPosts */
+        $prodPosts = [];
         if (!empty($ids)) {
-            $prods = wc_get_products(['limit' => -1, 'include' => $ids]);
+            $prodPosts = get_posts([
+                'posts_per_page' => -1,
+                'post__in' => $ids,
+                'post_type' => ['product', 'product_variation'],
+                'ignore_sticky_posts' => 1,
+            ]);
         }
 
         $now = time();
-        $count = count($prods);
+        $count = count($prodPosts);
         $this->log(sprintf('Updating %d products', $count));
         /** @var int[] $prodsToSync */
         $prodsToSync = [];
-        foreach ($prods as $i => $p) {
+        foreach ($prodPosts as $i => $post) {
+            $p = wc_get_product($post);
+            if (empty($p)) {
+                $this->log(sprintf('%d/%d - Product %d not found. Skipping', $i + 1, $count, $post->ID));
+                continue;
+            }
+
             $this->log(sprintf('%d/%d - Updating Product #%d (%s)', $i + 1, $count, $p->get_id(), $p->get_type()));
             $priceEntry = $map[$p->get_id()] ?? null;
             if (empty($priceEntry)) {
