@@ -17,7 +17,6 @@ jQuery(document).ready(function($) {
 
     asideBodyClass();
     scrollToAnimate();
-    youTubeNoCookieChangeUrl();
     //initSelect();
 
     $(window).on("load",function(){
