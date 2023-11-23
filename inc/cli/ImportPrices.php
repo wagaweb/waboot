@@ -244,6 +244,10 @@ SQL;
                 $prodsToSync[] = $p->get_id();
             }
 
+            if ($p->get_type() === 'variation') {
+                $prodsToSync[$p->get_parent_id()] = $p->get_parent_id();
+            }
+
             foreach ($prodsToParse as $pp) {
                 /** @var float $price */
                 $price = $priceEntry[0] ?? null;
