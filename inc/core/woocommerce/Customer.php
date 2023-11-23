@@ -77,6 +77,22 @@ class Customer
     }
 
     /**
+     * @param string $metaKey
+     * @return string|null
+     */
+    protected function fetchMetaData(string $metaKey): ?string
+    {
+        if($this->isNew()){
+            return null;
+        }
+        $m = get_user_meta($this->getId(),$metaKey,true);
+        if(\is_string($m) && $m !== ''){
+            return $m;
+        }
+        return null;
+    }
+
+    /**
      * @return int
      */
     public function save(): int
