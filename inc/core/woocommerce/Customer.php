@@ -93,10 +93,15 @@ class Customer
     }
 
     /**
+     * @param bool $preventPasswordChangeEmailNotification
      * @return int
      */
-    public function save(): int
+    public function save(bool $preventPasswordChangeEmailNotification = false): int
     {
+        if($preventPasswordChangeEmailNotification){
+            //@see: wp-includes/user.php
+            add_filter('send_password_change_email', '__return_false', 99, 2);
+        }
         if($this->getCurrentShippingAddress() !== null){
             $sa = $this->getCurrentShippingAddress();
             $this->getWcCustomer()->set_shipping_first_name($sa->getFirstName());
