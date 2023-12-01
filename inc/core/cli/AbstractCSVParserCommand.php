@@ -22,6 +22,10 @@ abstract class AbstractCSVParserCommand extends AbstractCommand
      * @var CSVRow
      */
     protected $currentCSVRow;
+    /**
+     * @var int
+     */
+    protected int $currentCSVRowIndex;
 
     public static function getCommandDescription(): array
     {
@@ -143,12 +147,16 @@ abstract class AbstractCSVParserCommand extends AbstractCommand
         $csv->setDelimiter($this->delimiter);
         $csv->setHeaderOffset(0);
         $this->log('Counting dei record...');
+        $rowIndex = 1;
         foreach ($csv->getRecords() as $r) {
             try {
+                $this->currentCSVRowIndex = $rowIndex;
                 $this->currentCSVRow = $this->createCSVColumnInstance($r);
                 $this->parseCSVRow();
+                $rowIndex++;
             }catch (\Exception | \Throwable $e){
                 $this->log('ERRORE: '.$e->getMessage());
+                $rowIndex++;
                 //var_dump($e);
                 continue;
             }
