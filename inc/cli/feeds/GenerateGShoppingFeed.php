@@ -7,6 +7,7 @@ use Waboot\inc\core\multilanguage\helpers\Polylang;
 use Waboot\inc\core\woocommerce\ProductException;
 use Waboot\inc\core\woocommerce\ProductFactory;
 use Waboot\inc\core\woocommerce\ProductFactoryException;
+use function Waboot\inc\getAllProductVariationIds;
 use function Waboot\inc\getHierarchicalCustomFieldFromProduct;
 
 require_once __DIR__.'/feed-utils.php';
@@ -287,15 +288,23 @@ class GenerateGShoppingFeed extends AbstractCommand
             try {
                 $product = wc_get_product($productId);
                 if($product instanceof \WC_Product_Variable){
-                    $variationsData = $product->get_available_variations();
-                    if(count($variationsData) === 0){
+                    //$variationsData = $product->get_available_variations();
+                    $variationIds = getAllProductVariationIds($productId);
+                    if(count($variationIds) === 0){
                         continue;
                     }
-                    foreach ($variationsData as $variationData){
-                        $variationId = $variationData['variation_id'];
+                    foreach ($variationIds as $variationId){
+                        //$variationId = $variationData['variation_id'];
                         $variation = wc_get_product($variationId);
                         if(!$variation instanceof \WC_Product_Variation){
                             continue;
+                        }
+                        if(!$variation->is_in_stock()){
+                            continue;
+                        }
+                        $stockMeta = get_post_meta($variationId,'_stock_status',true);
+                        if($stockMeta === 'outofstock'){
+                            continue; //double check
                         }
                         if($variation->get_sku() === ''){
                             try{
