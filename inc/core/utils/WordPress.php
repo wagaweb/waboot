@@ -189,7 +189,8 @@ trait WordPress {
         $baseName = pathinfo($filePath,PATHINFO_BASENAME);
         $uploadDir = wp_upload_dir();
         $uniqueFileName = wp_unique_filename($uploadDir['path'],$baseName);
-        //Moving the file to the upload folder
+        //Copying the file to the upload folder
+        //wp_upload_bits() generate a new file inside the upload folder with the content specified in $bits parameter
         $fileInUploadedFolderResult = wp_upload_bits($uniqueFileName,null,file_get_contents($filePath));
         if(isset($fileInUploadedFolderResult['error']) && $fileInUploadedFolderResult['error'] !== false){
             throw new \RuntimeException($fileInUploadedFolderResult['error']);
