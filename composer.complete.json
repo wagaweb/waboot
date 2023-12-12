@@ -15,7 +15,7 @@
         "league/flysystem": "2.4.2",
         "league/flysystem-ftp": "2.4.2",
         "spatie/array-to-xml": "~2.15.0",
-        "illuminate/database": "v7.30.6",
+        "illuminate/database": "v8.83.27",
         "sentry/sdk": "^3.2"
     },
     "license": "MIT",
