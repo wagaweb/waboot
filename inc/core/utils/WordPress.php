@@ -154,37 +154,53 @@ trait WordPress {
 
 	/**
 	 * @param string $filePath
-	 * @param int|null $parentPostId
+	 * @param int $parentPostId
+	 * @param string|null $uploadPath
 	 * @return int
 	 */
-	public static function createAttachment(string $filePath, int $parentPostId = 0): int
+	public static function createAttachment(string $filePath, int $parentPostId = 0, string $uploadPath = null): int
 	{
+		$editUploadDir = function ($param) use($uploadPath) {;
+			\wp_mkdir_p($param['basedir'] . $uploadPath);
+			$param['path'] = $param['basedir'] . $uploadPath;
+			$param['url'] = $param['baseurl'] . $uploadPath;
+			return $param;
+		};
+		if(isset($uploadPath)){
+			add_filter('upload_dir', $editUploadDir, 99);
+		}
 		$baseName = pathinfo($filePath,PATHINFO_BASENAME);
 		$uploadDir = wp_upload_dir();
 		$uniqueFileName = wp_unique_filename($uploadDir['path'],$baseName);
+		//Copying the file to the upload folder
+		//wp_upload_bits() generate a new file inside the upload folder with the content specified in $bits parameter
 		$fileInUploadedFolderResult = wp_upload_bits($uniqueFileName,null,file_get_contents($filePath));
 		if(isset($fileInUploadedFolderResult['error']) && $fileInUploadedFolderResult['error'] !== false){
 			throw new \RuntimeException($fileInUploadedFolderResult['error']);
 		}
 		$filetype = wp_check_filetype($filePath);
 		$attachment = [
-			'post_mime_type' => $filetype['type'],
 			'post_title' => sanitize_title(pathinfo($filePath,PATHINFO_FILENAME)),
-			'post_content' => '',
-			'post_status' => 'inherit'
+			'post_mime_type' => $filetype['type'],
+			'guid' => $fileInUploadedFolderResult['url'],
 		];
 		$attachmentId = wp_insert_attachment($attachment, $fileInUploadedFolderResult['file'], $parentPostId, true);
 		if(\is_wp_error($attachmentId)){
 			throw new \RuntimeException($attachmentId->get_error_message());
 		}
 		if(!function_exists('wp_generate_attachment_metadata')){
-			require_once(ABSPATH . 'wp-admin/includes/image.php');
+			require_once ABSPATH . '/wp-admin/includes/media.php'; // video functions
+			require_once ABSPATH . '/wp-admin/includes/image.php';
+			require_once ABSPATH . '/wp-admin/includes/file.php';
 		}
 		$attachData = wp_generate_attachment_metadata($attachmentId, $fileInUploadedFolderResult['file']);
 		if(!\is_array($attachData)){
 			throw new \RuntimeException('Unable to generate metadata for attachment #'.$attachmentId.' ('.$fileInUploadedFolderResult['file'].')');
 		}
 		wp_update_attachment_metadata($attachmentId, $attachData);
+		if(isset($uploadPath)){
+			remove_filter('upload_dir', $editUploadDir, 99);
+		}
 		return $attachmentId;
 	}
 
