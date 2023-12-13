@@ -8,6 +8,7 @@ use Waboot\inc\core\MailAttachment;
 use Waboot\inc\core\MailAttachmentException;
 use Waboot\inc\core\MailException;
 use Waboot\inc\core\MailHeader;
+use Waboot\inc\core\EmailDisabler;
 
 /**
  * Send a mail
@@ -58,4 +59,18 @@ function sendMail(string $subject, string $body, $to, array $customHeaders = [],
     }
     $m->setSendAsHTML($sendAsHtml);
     return $m->send();
+}
+
+/**
+ * Prevent emails to be sent throught wp_mail()
+ */
+function preventEmails(): void {
+    EmailDisabler::getInstance()->prevent();
+}
+
+/**
+ * Allow emails to be sent again throught wp_mail()
+ */
+function unblockEmails(): void {
+    EmailDisabler::getInstance()->allow();
 }
