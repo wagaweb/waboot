@@ -62,14 +62,14 @@ function sendMail(string $subject, string $body, $to, array $customHeaders = [],
 }
 
 /**
- * Prevent emails to be sent throught wp_mail()
+ * Prevent emails to be sent through wp_mail()
  */
 function preventEmails(): void {
     EmailDisabler::getInstance()->prevent();
 }
 
 /**
- * Allow emails to be sent again throught wp_mail()
+ * Allow emails to be sent again through wp_mail()
  */
 function unblockEmails(): void {
     EmailDisabler::getInstance()->allow();
