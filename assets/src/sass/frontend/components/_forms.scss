@@ -1,22 +1,41 @@
 form {
   label {
-    //display: inline-block;
-    display: flex;
+    display: inline-flex;
     align-items: center;
     max-width: 100%;
     margin-bottom: 5px;
     font-weight: $fontWeightBold;
+    cursor: pointer;
+  }
+  fieldset {
+    background: none;
+    border: none;
+    margin: 0;
+    padding: 0;
+  }
+  legend {
+    font-size: 1em;
+    font-weight: $fontWeightBold;
+    margin-bottom: 10px;
+    margin-left: 0;
+    margin-right: 0;
+    padding: 0;
+  }
+  &::placeholder {
+    color: $colorGrey;
   }
 }
 
 select,
 textarea,
-input[type="text"],
-input[type="number"],
-input[type="tel"],
-input[type="search"],
+input[type="date"],
 input[type="email"],
-input[type="password"] {
+input[type="number"],
+input[type="password"],
+input[type="search"],
+input[type="tel"],
+input[type="text"],
+input[type="url"] {
   display: block;
   width: 100%;
   height: 34px;
@@ -26,8 +45,67 @@ input[type="password"] {
   border: 1px solid #ccc;
   box-shadow: inset 0 0 0;
   transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
-  font-size: .8em;
   appearance: none;
+  color: inherit;
+  font-family: inherit;
+  outline: none;
+  &:focus {
+    border-color: $colorGreyDark;
+  }
+}
+
+input[type="checkbox"] {
+  appearance: none;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  color: $colorPrimary;
+  cursor: pointer;
+  display: inline-grid;
+  font: inherit;
+  height: 20px;
+  line-height: 1;
+  margin: 0 5px 0 0;
+  place-content: center;
+  width: 20px;
+  &::before {
+    @extend %fa-icon;
+    @extend .far;
+    content: fa-content($fa-var-check);
+    font-weight: $fontWeightBold;
+    color: transparent;
+    display: inline-grid;
+    place-items: center;
+    transition: color .2s;
+  }
+  &:checked::before {
+    color: $colorPrimary;
+  }
+}
+
+input[type="radio"] {
+  appearance: none;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  color: $colorPrimary;
+  cursor: pointer;
+  display: inline-grid;
+  font: inherit;
+  height: 20px;
+  margin: 0 5px 0 0;
+  place-content: center;
+  width: 20px;
+  &::before {
+    content: "";
+    background-color: $colorPrimary;
+    border-radius: 50%;
+    height: 10px;
+    opacity: 0;
+    width: 10px;
+  }
+  &:checked::before {
+    opacity: 1;
+  }
 }
 
 select {
@@ -40,6 +118,7 @@ input[type="submit"] {
   font-family: $fontPrimary;
   font-weight: $fontWeightNormal;
 }
+
 textarea {
   height: auto;
   max-width: 100%;
@@ -101,6 +180,7 @@ textarea {
 }
 
 
+/*
 .gform_description {
   display: block;
   margin-bottom: $gridGutter;
@@ -171,3 +251,4 @@ textarea {
     font-size: .9em;
   }
 }
+*/
