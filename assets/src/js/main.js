@@ -34,6 +34,7 @@ $(document).ready(function() {
     asideBodyClass();
     scrollToAnimate();
     initCarousel();
+    showHidePasswords();
 
     $("[data-slidein-nav]").slidein({
         toggler: ".slidein-nav__toggle",
@@ -251,6 +252,28 @@ function printSalePercentage(selector) {
                 Math.round(percentage) +
                 '%</span>'
             );
+        }
+    });
+}
+
+function showHidePasswords() {
+    const $passwords = $("input[type='password']");
+
+    $passwords.each(function () {
+        const $passwordInput = $(this);
+        const $showPasswordInput = $passwordInput.next('.password__toggle');
+
+        if (!$showPasswordInput.length) {
+            const $icon = $('<i class="far fa-eye"></i>');
+            const $showPasswordContainer = $('<div class="password__toggle"></div>').append($icon);
+
+            $passwordInput.add($showPasswordContainer).wrapAll('<span class="password__wrapper"></span>');
+
+            $showPasswordContainer.on('click', function () {
+                const showPassword = $passwordInput.attr("type") === "password";
+                $passwordInput.attr("type", showPassword ? "text" : "password");
+                $icon.toggleClass('fa-eye fa-eye-slash');
+            });
         }
     });
 }

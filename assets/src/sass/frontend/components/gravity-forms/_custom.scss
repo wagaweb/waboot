@@ -28,7 +28,10 @@
     margin-bottom: 20px;
     margin-top: 0;
     outline: none;
-    padding: 20px;
+    padding: 10px;
+    @include up($large) {
+      padding: 20px;
+    }
 
     > h2,
     > ol li {
@@ -88,7 +91,10 @@
   }
 
   .gform_fields {
-    grid-row-gap: $gridGutter * 2;
+    grid-row-gap: $gridGutter;
+    @include up($large) {
+      grid-row-gap: $gridGutter * 2;
+    }
   }
 
   .gfield_header_item,
@@ -184,6 +190,13 @@
   .gform_save_link.button {
     border: 1px solid $colorPrimary;
     color: $colorPrimary;
+  }
+
+  .gfield input.medium,
+  .gfield select.medium {
+    @include down($large) {
+      width: 100%;
+    }
   }
 }
 
