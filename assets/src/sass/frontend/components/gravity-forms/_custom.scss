@@ -1,0 +1,189 @@
+.gform_wrapper.gravity-theme {
+  // STEPS
+  .gf_progressbar_percentage.percentbar_orange,
+  .gf_progressbar_percentage.percentbar_blue {
+    background-color: $colorPrimary;
+  }
+  .gf_progressbar_title {
+    color: inherit;
+    font-size: inherit;
+    font-weight: $fontWeightSemibold;
+  }
+  .gf_progressbar_percentage {
+    height: 10px;
+    &:not(.percentbar_100) {
+      border-radius: 10.5px;
+    }
+    span {
+      display: none;
+    }
+  }
+
+  // ERRORS
+  .gform_validation_errors {
+    background: #fff9f9;
+    border: none;
+    box-shadow: none;
+    color: inherit;
+    margin-bottom: 20px;
+    margin-top: 0;
+    outline: none;
+    padding: 20px;
+
+    > h2,
+    > ol li {
+      color: inherit;
+    }
+
+    > h2 {
+      font-weight: $fontWeightBold;
+    }
+
+    > ol {
+      margin: 0;
+      a {
+        color: $colorWarning;
+      }
+    }
+  }
+
+  .gfield_error .gfield_repeater_cell label,
+  .gfield_error label,
+  .gfield_error legend,
+  .gfield_validation_message,
+  .validation_message,
+  [aria-invalid=true]+label,
+  label+[aria-invalid=true] {
+    color: inherit;
+  }
+
+  .gfield_required {
+    color: $colorWarning;
+    .gfield_required_custom,
+    .gfield_required_text {
+      font-style: normal;
+    }
+
+  }
+  .gfield_error [aria-invalid=true] {
+    border-color: $colorWarning;
+  }
+
+  .gfield_validation_message,
+  .validation_message,
+  .field_description_above .gfield_validation_message,
+  .field_description_above .validation_message {
+    border: none;
+    color: $colorWarning;
+    font-size: 0.85em;
+    padding: 5px;
+  }
+
+  .top_label .gsection_description {
+    margin: 0;
+  }
+
+  .gsection {
+    padding-bottom: 0;
+  }
+
+  .gform_fields {
+    grid-row-gap: $gridGutter * 2;
+  }
+
+  .gfield_header_item,
+  .gform_fileupload_rules,
+  .ginput_complex label {
+    font-size: inherit;
+  }
+
+
+  .field_sublabel_above .description,
+  .field_sublabel_above .gfield_description,
+  .field_sublabel_above .gsection_description {
+    font-size: .85em;
+    margin-bottom: 8px;
+
+    .gfield_error {
+      padding: 8px;
+    }
+  }
+
+  .gfield_label {
+    font-size: inherit;
+    font-weight: $fontWeightSemibold;
+  }
+
+  .gfield--type-product .ginput_container_singleproduct,
+  .gfield--type-product .ginput_container_product_calculation {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    .ginput_product_price_wrapper {
+      order: 2;
+    }
+    .ginput_quantity {
+      max-width: 150px;
+    }
+  }
+
+  .ginput_product_price_wrapper {
+    font-size: .85em;
+    span {
+      font-size: inherit;
+    }
+  }
+
+  .ginput_product_price,
+  .ginput_shipping_price {
+    color: $colorSuccess;
+  }
+
+  input[type="text"].ginput_total {
+    padding: 0;
+  }
+
+  input[type=color],
+  input[type=date],
+  input[type=datetime-local],
+  input[type=datetime],
+  input[type=email],
+  input[type=month],
+  input[type=number],
+  input[type=password],
+  input[type=search],
+  input[type=tel],
+  input[type=text],
+  input[type=time],
+  input[type=url],
+  input[type=week],
+  select,
+  textarea {
+    font-size: inherit;
+    padding-block: inherit;
+  }
+
+  .gfield_description.gfield_consent_description {
+    padding: 8px;
+  }
+
+
+  // RADIO
+  .gfield_radio,
+  .gfield_checkbox {
+    display: grid;
+    gap: $gridGutter / 2;
+  }
+
+  .gfield-choice-input {
+    display: inline-grid;
+  }
+
+
+  .gform_previous_button.button,
+  .gform_save_link.button {
+    border: 1px solid $colorPrimary;
+    color: $colorPrimary;
+  }
+}
+

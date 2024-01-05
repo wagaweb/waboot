@@ -167,3 +167,4 @@ add_filter( 'map_meta_cap', function( $caps, $cap ) {
 
 
 add_filter( 'gform_disable_css', '__return_true' );
+add_filter( 'gform_disable_form_theme_css', '__return_true' );

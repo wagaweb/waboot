@@ -4,7 +4,6 @@ form {
     align-items: center;
     max-width: 100%;
     margin-bottom: 5px;
-    font-weight: $fontWeightBold;
     cursor: pointer;
   }
   fieldset {
@@ -14,8 +13,6 @@ form {
     padding: 0;
   }
   legend {
-    font-size: 1em;
-    font-weight: $fontWeightBold;
     margin-bottom: 10px;
     margin-left: 0;
     margin-right: 0;
@@ -30,6 +27,7 @@ select,
 textarea,
 input[type="date"],
 input[type="email"],
+input[type="file"],
 input[type="number"],
 input[type="password"],
 input[type="search"],
@@ -89,7 +87,7 @@ input[type="radio"] {
   border-radius: 50%;
   color: $colorPrimary;
   cursor: pointer;
-  display: inline-grid;
+  display: inline-grid !important;
   font: inherit;
   height: 20px;
   margin: 0 5px 0 0;
@@ -238,6 +236,8 @@ textarea {
   }
 }
 
+*/
+
 .woocommerce-form__label-for-checkbox,
 .mailchimp-newsletter {
   display: flex;
@@ -251,4 +251,3 @@ textarea {
     font-size: .9em;
   }
 }
-*/

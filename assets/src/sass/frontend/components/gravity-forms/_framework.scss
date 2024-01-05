@@ -38,7 +38,7 @@ AND ANY CHANGES MADE HERE WILL BE OVERWRITTEN.
 .gform-theme--framework, .gform-theme--api {
 
   /* Border Radius */
-  --gf-radius: 3px;
+  --gf-radius: 2px;
   --gf-radius-max-sm: 2px;
   --gf-radius-max-md: 3px;
   --gf-radius-max-lg: 8px;
@@ -66,7 +66,7 @@ AND ANY CHANGES MADE HERE WILL BE OVERWRITTEN.
   This global CSS API color property is applied to a form based on the following setting:
   Button Styles > Background Color
   */
-  --gf-color-primary: #{$colorPrimary} !important;
+  --gf-color-primary: #204ce5;
 
   /*
   Color: Primary (rgb channels)
@@ -1642,10 +1642,10 @@ html[dir="rtl"] .gform-theme--framework, html[dir="rtl"] .gform-theme--api {
 @font-face {
   font-family: 'gform-icons-orbital';
   src:
-          url('../../../fonts/gform-icons-orbital.woff2?a4fc9t') format('woff2'),
-          url('../../../fonts/gform-icons-orbital.ttf?a4fc9t') format('truetype'),
-          url('../../../fonts/gform-icons-orbital.woff?a4fc9t') format('woff'),
-          url('../../../fonts/gform-icons-orbital.svg?a4fc9t#gform-icons-orbital') format('svg');
+          url('../../fonts/gravity-forms/gform-icons-orbital.woff2?a4fc9t') format('woff2'),
+          url('../../fonts/gravity-forms/gform-icons-orbital.ttf?a4fc9t') format('truetype'),
+          url('../../fonts/gravity-forms/gform-icons-orbital.woff?a4fc9t') format('woff'),
+          url('../../fonts/gravity-forms/gform-icons-orbital.svg?a4fc9t#gform-icons-orbital') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -1895,7 +1895,6 @@ html[dir="rtl"] .gform-theme--framework, html[dir="rtl"] .gform-theme--api {
   appearance: var(--gf-local-appearance);
   background-color: var(--gf-local-bg-color);
   block-size: var(--gf-local-height);
-  border: 1px solid $colorText;
   border-radius: var(--gf-local-radius);
   box-shadow: var(--gf-local-shadow);
   color: var(--gf-local-color);
