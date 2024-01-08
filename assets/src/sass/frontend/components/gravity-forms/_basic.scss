@@ -1,30 +1,4 @@
-/* Base */
-
-/*
-* Resets for various field types.
-*
-* Used in the basic.css front-end stylesheet and admin-theme.css.
-*/
-
-.gform_wrapper.gravity-theme {
-	fieldset,
-	legend {
-		background: none;
-		padding: 0;
-	}
-
-	fieldset {
-		border: none;
-		display: block;
-		margin: 0;
-	}
-
-	legend {
-		margin-left: 0;
-		margin-right: 0;
-	}
-}
-
+/* BASE */
 /* -----------------------------------------------------------------------------
  *
  * Theme Font Icons (via IcoMoon)
@@ -208,6 +182,11 @@ $icons: (
 	.password_input_container {
 		display: block;
 		position: relative;
+		padding: 0 !important;
+	}
+
+	.password__wrapper {
+		padding: 0 !important;
 	}
 
 	.gfield_password_strength {
@@ -917,7 +896,7 @@ only screen and (min-resolution: 1.5dppx) {
 			display: grid;
 			grid-template-columns: repeat(2, 1fr);
 			grid-template-rows: repeat(auto-fill, auto);
-			grid-column-gap: 2rem;
+			grid-column-gap: 2em;
 		}
 
 		.gfield.gf_list_inline .gfield_checkbox,
@@ -943,7 +922,7 @@ only screen and (min-resolution: 1.5dppx) {
 		.gf_list_5col_vertical .gfield_checkbox,
 		.gf_list_5col_vertical .gfield_radio {
 			column-count: 2;
-			grid-column-gap: 2rem;
+			grid-column-gap: 2em;
 			display: block;
 		}
 
@@ -1076,6 +1055,12 @@ only screen and (min-resolution: 1.5dppx) {
 
 						.small, .medium, .large {
 							width: 100%;
+						}
+
+						.medium {
+							@include down($large) {
+								width: 100%;
+							}
 						}
 
 						.ginput_container_checkbox .gchoice,
@@ -1273,7 +1258,9 @@ only screen and (min-resolution: 1.5dppx) {
 
 		&.medium,
 		&.select.medium {
-			width: calc(50% - 16px / 2);
+			@include up($large) {
+				width: 49%;
+			}
 		}
 
 		&.large,
@@ -1296,10 +1283,14 @@ only screen and (min-resolution: 1.5dppx) {
 	display: grid;
 	grid-column-gap: 2%;
 	-ms-grid-columns: (1fr 2%) [12];
-	grid-row-gap: 16px;
+	grid-row-gap: $gridGutter;
 	grid-template-columns: repeat(12, 1fr);
 	grid-template-rows: repeat(auto-fill, auto);
 	width: 100%;
+
+	@include up($large) {
+		grid-row-gap: $gridGutter * 2;
+	}
 
 	.gfield {
 		grid-column: 1 / -1;
