@@ -1,12 +1,5 @@
 .gform_wrapper.gravity-theme {
-	.gfield_label {
-		display: inline-block;
-		font-size: inherit;
-		font-weight: $fontWeightBold;
-		margin-bottom: 8px;
-		padding: 0;
-	}
-
+	width: 100%;
 	.ginput_complex label,
 	.gform_fileupload_rules,
 	.gfield_header_item {
@@ -64,16 +57,10 @@
 	/* Validation */
 	.gform_validation_errors {
 		background-color: $colorGreyLight;
-		border: none;
 		border-radius: 5px;
-		box-shadow: none;
 		font-size: .85em;
 		margin-bottom: 20px;
-		margin-top: 0;
 		outline: none;
-		padding: 10px;
-		position: relative;
-		width: 100%;
 		@include up($large) {
 			padding: 20px;
 		}
@@ -81,7 +68,6 @@
 		> h2 {
 			color: inherit;
 			font-size: inherit;
-			font-weight: $fontWeightBold;
 			margin: 0 0 12px 0;
 
 			&::before {
@@ -124,16 +110,15 @@
 
 	}
 	.gfield_required {
-		color: $colorWarning;
-		display: inline-block;
-
 		.gfield_required_text,
 		.gfield_required_custom {
 			font-style: normal;
-			font-weight: $fontWeightNormal;
 		}
 
-		.gfield_required_text {
+		.gfield_required_text,
+		.gfield_required_asterisk {
+			color: $colorWarning;
+			display: inline-block;
 			padding-left: 5px;
 		}
 	}
@@ -142,6 +127,10 @@
 		.gfield_required {
 			padding-left: 0;
 		}
+	}
+
+	p.gform_required_legend {
+		display: none;
 	}
 
 	.validation_error {
@@ -162,19 +151,7 @@
 	.gfield_error .gfield_repeater_cell label,
 	.gfield_validation_message,
 	.validation_message {
-		color: inherit;
-	}
-
-	.gfield_validation_message,
-	.validation_message,
-	.field_description_above .gfield_validation_message,
-	.field_description_above .validation_message {
-		background: $colorGreyLight;
-		border: none;
-		color: $colorWarning;
-		font-size: 0.85em;
-		margin-top: 8px;
-		padding: 5px;
+		font-size: .85em;
 	}
 
 	.gfield_error {
@@ -183,13 +160,10 @@
 		.field_description_above .gfield_validation_message,
 		.field_description_above .validation_message {
 			background: $colorGreyLight;
-			border: none;
+			border-radius: 5px;
 			color: $colorWarning;
-			display: inline-block;
-			font-size: 0.85em;
-			margin-top: 8px;
+			margin-top: 5px;
 			padding: 5px;
-			width: max-content;
 		}
 	}
 
@@ -357,7 +331,7 @@
 
 	.gfield_consent_description,
 	.field_description_below .gfield_consent_description {
-		border: 1px solid $colorGreyDark;
+		border: 1px solid $colorGrey;
 		margin-top: 12px;
 		max-height: 240px;
 		overflow-y: scroll;
@@ -474,7 +448,7 @@
 		&.ui-datepicker {
 			background: $colorWhite;
 			border: 1px solid $colorGrey;
-			border-radius: 3px;
+			border-radius: 5px;
 			box-shadow: 0 .07em 0.3em rgba(0, 0, 0, 0.11), 0 0 0.3em rgba(18, 25, 97, 0.0405344);
 			color: $colorGreyDark;
 			font-size: 0.8em;
@@ -634,19 +608,19 @@
 					&:hover,
 					&:focus {
 						background: none;
-						border-color: $colorGreyDark;
+						border-color: $colorGrey;
 						outline: none;
 					}
 
 					&:active {
 						background: $colorGreyLight;
-						border-color: $colorGreyDark;
+						border-color: $colorGrey;
 					}
 
 					&.ui-datepicker-current-day {
 						&.ui-state-default {
 							background: $colorGreyDark;
-							border-color: $colorGreyDark;
+							border-color: $colorGrey;
 							box-shadow: 0 0.2em 0.2em rgba(58, 58, 87, 0.06);
 							color: $colorWhite;
 
@@ -683,18 +657,16 @@
 	/* Footer */
 	.gform_footer,
 	.gform_page_footer {
-		margin: 6px 0 0;
-		padding: 16px 0;
+		margin: 5px 0 0;
+		padding: 20px 0;
 
 		&.right_label,
 		&.left_label {
-			padding: 16px 0 10px 30%;
+			padding: 20px 0 10px 30%;
 		}
 
 		input,
 		button {
-			margin-bottom: 8px;
-
 			&:disabled {
 				opacity: 0.6;
 			}
@@ -1047,12 +1019,6 @@
 
 		span {
 			font-size: inherit;
-		}
-
-		input:-moz-read-only {
-			background: none;
-			border: none;
-			padding: 0;
 		}
 
 		input:read-only {

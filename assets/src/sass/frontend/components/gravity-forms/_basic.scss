@@ -8,10 +8,10 @@
 @font-face {
 	font-family: 'gform-icons-theme';
 	src:
-		url("../../fonts/gravity-forms/gform-icons-theme.woff2?cocjn") format("woff2"),
-		url("../../fonts/gravity-forms/gform-icons-theme.ttf?cocjn") format("truetype"),
-		url("../../fonts/gravity-forms/gform-icons-theme.woff?cocjn") format("woff"),
-		url("../../fonts/gravity-forms/gform-icons-theme.svg?cocjn#gform-icons-theme") format("svg");
+					url("../../fonts/gravity-forms/gform-icons-theme.woff2?cocjn") format("woff2"),
+					url("../../fonts/gravity-forms/gform-icons-theme.ttf?cocjn") format("truetype"),
+					url("../../fonts/gravity-forms/gform-icons-theme.woff?cocjn") format("woff"),
+					url("../../fonts/gravity-forms/gform-icons-theme.svg?cocjn#gform-icons-theme") format("svg");
 	font-weight: normal;
 	font-style: normal;
 	font-display: block;
@@ -34,36 +34,36 @@
 }
 
 $icons: (
-	left-arrow: "\e910",
-	right-arrow: "\e91b",
-	circle-error: "\e91a",
-	close-small: "\e905",
-	info: "\e900",
-	verified: "\e901",
-	circle-close: "\e903",
-	close-big: "\e904",
-	down-arrow: "\e906",
-	format-bold: "\e907",
-	format-italic: "\e908",
-	format-list-bulleted: "\e909",
-	format-list-numbered: "\e90a",
-	insert-link: "\e90b",
-	line: "\e90c",
-	password-eye: "\e90d",
-	password-eye-closed: "\e90e",
-	redo: "\e90f",
-	schedule: "\e911",
-	clock: "\e912",
-	search: "\e913",
-	star: "\e914",
-	star-border: "\e915",
-	star-half: "\e916",
-	check: "\e917",
-	undo: "\e918",
-	unfold-more: "\e919",
-	create: "\e91c",
-	cog: "\e91d",
-	circle-check: "\e902"
+				left-arrow: "\e910",
+				right-arrow: "\e91b",
+				circle-error: "\e91a",
+				close-small: "\e905",
+				info: "\e900",
+				verified: "\e901",
+				circle-close: "\e903",
+				close-big: "\e904",
+				down-arrow: "\e906",
+				format-bold: "\e907",
+				format-italic: "\e908",
+				format-list-bulleted: "\e909",
+				format-list-numbered: "\e90a",
+				insert-link: "\e90b",
+				line: "\e90c",
+				password-eye: "\e90d",
+				password-eye-closed: "\e90e",
+				redo: "\e90f",
+				schedule: "\e911",
+				clock: "\e912",
+				search: "\e913",
+				star: "\e914",
+				star-border: "\e915",
+				star-half: "\e916",
+				check: "\e917",
+				undo: "\e918",
+				unfold-more: "\e919",
+				create: "\e91c",
+				cog: "\e91d",
+				circle-check: "\e902"
 );
 
 @each $name, $content in $icons {
@@ -662,7 +662,7 @@ body .gform_wrapper.gravity-theme .gform_fields .gfield.gform_validation_contain
 
 	.chosen-drop {
 		.result-selected {
-			color: #ccc;
+			color: $colorGrey;
 			cursor: default;
 			display: list-item;
 		}
@@ -1236,15 +1236,15 @@ only screen and (min-resolution: 1.5dppx) {
 		width: 100%;
 
 		&.small {
-			height: 96px;
+			height: 200px;
 		}
 
 		&.medium {
-			height: 192px;
+			height: 250px;
 		}
 
 		&.large {
-			height: 288px;
+			height: 300px;
 		}
 	}
 
@@ -1270,27 +1270,13 @@ only screen and (min-resolution: 1.5dppx) {
 	}
 }
 
-
-/*
-* Form grid layout
-*/
-
-.gform_wrapper.gravity-theme * {
-	box-sizing: border-box;
-}
-
+/* Form grid layout */
 .gform_wrapper.gravity-theme .gform_fields {
 	display: grid;
 	grid-column-gap: 2%;
-	-ms-grid-columns: (1fr 2%) [12];
 	grid-row-gap: $gridGutter;
 	grid-template-columns: repeat(12, 1fr);
-	grid-template-rows: repeat(auto-fill, auto);
 	width: 100%;
-
-	@include up($large) {
-		grid-row-gap: $gridGutter * 2;
-	}
 
 	.gfield {
 		grid-column: 1 / -1;
@@ -1665,7 +1651,7 @@ only screen and (min-resolution: 1.5dppx) {
 
 	& + &:not(.gfield_header_item--icons),
 	&.gfield_list_group_item + .gfield_list_group_item {
-	margin-left: 2%;
+		margin-left: 2%;
 	}
 
 	.gfield_list_group_item input, .gfield_list_group_item select {

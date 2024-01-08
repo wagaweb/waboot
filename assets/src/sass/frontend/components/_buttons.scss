@@ -11,11 +11,11 @@
   padding: 10px 15px;
   font-family: $fontPrimary;
   font-size: 1em;
+  font-weight: $fontWeightSemibold;
   line-height: 1.4em;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
-  text-transform: uppercase;
 
   &:hover,
   &:focus,
