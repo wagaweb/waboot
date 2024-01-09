@@ -3,7 +3,6 @@ form {
     align-items: center;
     cursor: pointer;
     display: inline-block;
-    font-size: .85em;
     font-weight: $fontWeightNormal;
     margin-bottom: 5px;
     max-width: 100%;
@@ -15,7 +14,6 @@ form {
     padding: 0;
   }
   legend {
-    font-size: .85em;
     margin-bottom: 10px;
     margin-left: 0;
     margin-right: 0;
@@ -136,7 +134,7 @@ select {
     position: absolute;
     right: 0;
     top: 35px;
-    transform: translate(-10px, -27px);
+    transform: translate(-10px, -22px);
     width: max-content;
   }
 }

@@ -53,6 +53,9 @@ $(document).ready(function() {
     $('.venobox').venobox();
     venoboxCarouselGutenbergGallery();
 
+    // jQuery UI SelectMenu
+    $('body select:not(#billing_country, #billing_state)').selectmenu();
+
     //new CatalogFilters();
 
     // WooCommerce Addon Start

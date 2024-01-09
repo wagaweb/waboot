@@ -33,7 +33,8 @@ try{
      */
     add_filter('waboot/addons/disabled', function(){
         return [
-            //'star_rating'
+            //'star_rating',
+            'checkout'
         ];
     });
     \Waboot\inc\loadAddons();

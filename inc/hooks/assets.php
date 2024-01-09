@@ -31,6 +31,15 @@ function assets(){
         'type' => 'js',
         'deps' => ['jquery']
     ];
+    $assets['jquery-ui-css'] = [
+        'uri' => 'https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/themes/base/jquery-ui.min.css',
+        'type' => 'css',
+    ];
+    $assets['jquery-ui-js'] = [
+        'uri' => 'https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js',
+        'type' => 'js',
+        'deps' => ['jquery']
+    ];
     $assets['main-style'] = [
         'uri' => get_template_directory_uri() . '/assets/dist/css/main.min.css',
         'path' => get_template_directory() . '/assets/dist/css/main.min.css',

@@ -61,6 +61,7 @@
 		font-size: .85em;
 		margin-bottom: 20px;
 		outline: none;
+		padding: 10px;
 		@include up($large) {
 			padding: 20px;
 		}
@@ -1191,4 +1192,8 @@
 	.ginput_quantity {
 		max-width: 150px;
 	}
+}
+
+.gform_wrapper.gravity-theme label.gform-field-label.gform-field-label--type-sub {
+	font-size: .85em;
 }
