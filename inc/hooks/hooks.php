@@ -165,6 +165,8 @@ add_filter( 'map_meta_cap', function( $caps, $cap ) {
     return $caps;
 }, 20, 2 );
 
-
+/**
+ * Disable Gravity Forms Styles
+ */
 add_filter( 'gform_disable_css', '__return_true' );
 add_filter( 'gform_disable_form_theme_css', '__return_true' );
