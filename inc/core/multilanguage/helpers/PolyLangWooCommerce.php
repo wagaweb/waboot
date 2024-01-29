@@ -42,10 +42,31 @@ trait PolyLangWooCommerce
         if(!\is_int($productId) || $productId === 0){
             return null;
         }
-        $productLang = pll_get_post_language($productId);
+        if(!function_exists('\pll_get_post_language')){
+            return null;
+        }
+        $productLang = \pll_get_post_language($productId);
         if($productLang === $lang){
             return $productId;
         }
         return self::getLocalizedPostId((int) $productId, $lang);
+    }
+
+    /**
+     * @param string $sku
+     * @param string $lang
+     * @return int|null
+     */
+    public static function getLocalizedProductIdBySkuUsingStore(string $sku, string $lang): ?int
+    {
+        if(!class_exists('\PLLWC_Product_Language_CPT')){
+            return null;
+        }
+        $store = new \PLLWC_Product_Language_CPT();
+        $productId = (int) $store->get_product_id_by_sku($sku,$lang);
+        if($productId > 0){
+            return $productId;
+        }
+        return null;
     }
 }
