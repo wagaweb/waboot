@@ -5,7 +5,6 @@ import $ from 'jquery';
  * @param {string} selector
  */
 export function initHeader(selector){
-    mainPadding();
     headerFixedWhenBack();
     backOnSubmenu();
     mobileDropdown(selector);
@@ -15,13 +14,8 @@ export function initHeader(selector){
     });
 
     $(window).on("resize", () => {
-        mainPadding();
-    });
-}
 
-function mainPadding() {
-    let $headerHeight = $(".header").outerHeight();
-    $(".main").css("padding-top", $headerHeight);
+    });
 }
 
 function headerFixed() {
