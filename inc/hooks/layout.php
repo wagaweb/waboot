@@ -30,14 +30,17 @@ add_action("waboot/widget_area/footer/after", function(){
 
 /*
  * Hide Title in Specific Page
- *
+ */
 add_filter('waboot/main/title/display_flag', function($can_display_title){
-    if(is_front_page()){
+    if(
+        is_front_page() ||
+        is_cart() ||
+        is_checkout() ||
+        get_field('hide_title')) {
         return false;
     }
     return $can_display_title;
 },5,3);
-*/
 
 /*
  * Specify performant <head> template
