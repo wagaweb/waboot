@@ -1,7 +1,27 @@
 body {
   color: $colorText;
-  padding-top: 154px;
+  padding-top: 134px;
   @include up($large) {
-    padding-top: 138px;
+    padding-top: 125px;
+  }
+}
+
+section.wp-block-group {
+  padding-block: 40px;
+}
+
+.wp-block-group {
+  &.has-global-padding {
+    padding-inline: 0;
+  }
+}
+
+.wp-block-cover {
+  &--hero {
+    padding: 0;
+    .wp-block-cover__inner-container {
+      @extend .wbcontainer;
+      padding-inline: $gridGutter;
+    }
   }
 }

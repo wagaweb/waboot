@@ -7,6 +7,13 @@
   z-index: 20;
   transition: all 1s ease;
 
+  body.admin-bar & {
+    top: 46px;
+    @include up($large) {
+      top: 32px;
+    }
+  }
+
   .scroll-down & {
     background-color: #fff;
     transform: translate3d(0, -100%, 0);
