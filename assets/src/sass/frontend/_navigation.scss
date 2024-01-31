@@ -20,6 +20,16 @@
         content: fa-content($fa-var-angle-right);
       }
     }
+    &:is(.menu-item-has-megamenu) {
+      @include up($large) {
+        position: static;
+      }
+      &:hover > .sub-menu {
+        @include up($large) {
+          width: 100vw;
+        }
+      }
+    }
   }
 
   > ul {
@@ -32,8 +42,6 @@
         position: relative;
         display: flex;
         align-items: center;
-        text-transform: uppercase;
-        font-size: .9em;
       }
 
       &:last-child > a {
@@ -60,7 +68,7 @@
       padding: 0;
       margin: 0;
       background-color: #fff;
-      border: 1px solid rgba(0, 0, 0, .15);
+      border: 1px solid $colorGreyLight;
       background-clip: padding-box;
     }
 
@@ -73,15 +81,18 @@
     }
 
     > li:hover > .sub-menu--megamenu {
-      @include down($large) {
-        display: none;
+      padding: 20px;
+      white-space: nowrap;
+      a {
+        padding: 10px 0;
+        text-align: initial;
       }
-      padding: 5px 15px;
     }
 
     > li:first-child:hover > .sub-menu {
       left: 0;
       right: auto;
+      transform: translateY(-10px);
     }
 
     .sub-menu > li:hover > .sub-menu {
@@ -144,6 +155,9 @@
     background-color: #fff;
     overflow-y: auto;
     z-index: 10;
+    &--megamenu {
+      display: none;
+    }
   }
 
   .backlevel__icon {

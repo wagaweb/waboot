@@ -1,0 +1,7 @@
+body {
+  color: $colorText;
+  padding-top: 154px;
+  @include up($large) {
+    padding-top: 138px;
+  }
+}
