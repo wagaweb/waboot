@@ -72,6 +72,18 @@
       }
     }
 
+    > li:hover > .sub-menu--megamenu {
+      @include down($large) {
+        display: none;
+      }
+      padding: 5px 15px;
+    }
+
+    > li:first-child:hover > .sub-menu {
+      left: 0;
+      right: auto;
+    }
+
     .sub-menu > li:hover > .sub-menu {
       top: -1px;
       left: 100%;
