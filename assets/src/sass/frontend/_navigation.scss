@@ -28,6 +28,10 @@
         @include up($large) {
           width: 100vw;
         }
+        .sub-menu__container {
+          @include wbcontainer();
+          padding-inline: $gridGutter;
+        }
       }
     }
   }
@@ -81,7 +85,7 @@
     }
 
     > li:hover > .sub-menu--megamenu {
-      padding: 20px;
+      padding: 20px 0;
       white-space: nowrap;
       a {
         padding: 10px 0;

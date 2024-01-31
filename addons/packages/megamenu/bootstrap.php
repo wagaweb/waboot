@@ -82,7 +82,7 @@ add_filter('nav_menu_item_args', function ($args, $item) {
     if (empty($menu)) {
         return $args;
     }
-    $args->after .= '<div class="sub-menu sub-menu--megamenu">' . apply_filters('the_content', $menu->post_content) . '</div>';
+    $args->after .= '<div class="sub-menu sub-menu--megamenu"><div class="sub-menu__container">' . apply_filters('the_content', $menu->post_content) . '</div></div>';
 
     $item->classes[] = 'menu-item-has-children';
     $item->classes[] = 'menu-item-has-megamenu';
