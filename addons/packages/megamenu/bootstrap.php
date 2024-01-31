@@ -85,6 +85,7 @@ add_filter('nav_menu_item_args', function ($args, $item) {
     $args->after .= '<div class="sub-menu sub-menu--megamenu">' . apply_filters('the_content', $menu->post_content) . '</div>';
 
     $item->classes[] = 'menu-item-has-children';
+    $item->classes[] = 'menu-item-has-megamenu';
 
     return $args;
 }, 20, 4);
@@ -101,6 +102,10 @@ add_filter('nav_menu_item_args', function ($args, $item) {
 add_filter('nav_menu_css_class', function($classes, $item) {
     if (in_array('menu-item-has-children', $item->classes)) {
         $classes[] = 'menu-item-has-children';
+    }
+
+    if (in_array('menu-item-has-megamenu', $item->classes)) {
+        $classes[] = 'menu-item-has-megamenu';
     }
 
     return $classes;
