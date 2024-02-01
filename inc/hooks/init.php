@@ -56,7 +56,8 @@ function registerMenus(){
 	register_nav_menus([
 		'main'          => __( 'Main Menu', LANG_TEXTDOMAIN ),
 		'mobile'        => __( 'Mobile Menu', LANG_TEXTDOMAIN ),
-		'bottom'        => __( 'Bottom Menu', LANG_TEXTDOMAIN )
+		'bottom'        => __( 'Bottom Menu', LANG_TEXTDOMAIN ),
+        'social'        => __( 'Social Menu', LANG_TEXTDOMAIN )
 	]);
 }
 add_action('after_setup_theme',__NAMESPACE__."\\registerMenus",11);

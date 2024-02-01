@@ -1,5 +1,7 @@
 <div class="product-shipping-conditions">
-    <p><i class="fal fa-shipping-timed"></i> <b>CONSEGNA</b></p>
-    <p>Spedizione gratuita sopra i 50 €</p>
-    <!--<p><i class="fal fa-undo"></i> Resi gratuiti</p>-->
+    <p><i class="fal fa-shipping-timed"></i> <b>Consegna</b></p>
+    <p>
+        Consegna standard: Gratis<br>
+        gio 29 ott - lun 2 nov
+    </p>
 </div>

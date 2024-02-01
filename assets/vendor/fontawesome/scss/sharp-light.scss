@@ -7,20 +7,20 @@
 @import 'variables';
 
 :root, :host {
-  --#{$fa-css-prefix}-style-family-classic: '#{ $fa-style-family }';
-  --#{$fa-css-prefix}-font-light: normal 300 1em/1 '#{ $fa-style-family }';
+  --#{$fa-css-prefix}-style-family-sharp: 'Font Awesome 6 Sharp';
+  --#{$fa-css-prefix}-font-sharp-light: normal 300 1em/1 'Font Awesome 6 Sharp';
 }
 
 @font-face {
-  font-family: 'Font Awesome 6 Pro';
+  font-family: 'Font Awesome 6 Sharp';
   font-style: normal;
   font-weight: 300;
   font-display: $fa-font-display;
-  src: url('#{$fa-font-path}/fa-light-300.woff2') format('woff2'),
-    url('#{$fa-font-path}/fa-light-300.ttf') format('truetype');
+  src: url('#{$fa-font-path}/fa-sharp-light-300.woff2') format('woff2'),
+    url('#{$fa-font-path}/fa-sharp-light-300.ttf') format('truetype');
 }
 
-.fal,
+.fasl,
 .#{$fa-css-prefix}-light {
   font-weight: 300;
 }

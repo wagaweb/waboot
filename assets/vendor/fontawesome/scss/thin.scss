@@ -8,19 +8,19 @@
 
 :root, :host {
   --#{$fa-css-prefix}-style-family-classic: '#{ $fa-style-family }';
-  --#{$fa-css-prefix}-font-light: normal 300 1em/1 '#{ $fa-style-family }';
+  --#{$fa-css-prefix}-font-thin: normal 100 1em/1 '#{ $fa-style-family }';
 }
 
 @font-face {
   font-family: 'Font Awesome 6 Pro';
   font-style: normal;
-  font-weight: 300;
+  font-weight: 100;
   font-display: $fa-font-display;
-  src: url('#{$fa-font-path}/fa-light-300.woff2') format('woff2'),
-    url('#{$fa-font-path}/fa-light-300.ttf') format('truetype');
+  src: url('#{$fa-font-path}/fa-thin-100.woff2') format('woff2'),
+    url('#{$fa-font-path}/fa-thin-100.ttf') format('truetype');
 }
 
-.fal,
-.#{$fa-css-prefix}-light {
-  font-weight: 300;
+.fat,
+.#{$fa-css-prefix}-thin {
+  font-weight: 100;
 }

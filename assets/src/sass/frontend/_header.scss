@@ -1,83 +1,99 @@
 .header {
-  width: 100%;
-  position: fixed;
-  top: 0;
+  background-color: $colorGreyLight;
   left: 0;
+  position: fixed;
   right: 0;
-  z-index: 20;
+  top: 0;
   transition: all 1s ease;
+  width: 100%;
+  z-index: 20;
 
   body.admin-bar & {
     top: 46px;
+
     @include up($large) {
       top: 32px;
     }
   }
 
   .scroll-down & {
-    background-color: #fff;
+    background-color: $colorWhite;
     transform: translate3d(0, -100%, 0);
   }
 
   .scroll-up & {
-    background-color: #fff;
+    background-color: $colorWhite;
+    box-shadow: 0 1px 3px rgba(0,0,0, .1);
     transform: none;
-    box-shadow: 0 0 $gridGutter #eee;
   }
 
   &__inner {
-    max-width: $containerWidth;
-    margin: 0 auto;
-    padding: $gridGutter/2 $gridGutter;
-    display         : flex;
-    align-items     : center;
-    justify-content : space-between;
+    @extend .wbcontainer;
+    align-items: center;
+    display: flex;
+    gap: $gridGutter;
+    justify-content: space-between;
+    padding: 24px;
+    @include up($large) {
+      padding: 24px 16px;
+    }
+
     @include down($large){
       flex-wrap: wrap;
     }
   }
 
   &__logo {
+    font-size: 1.5em;
+    font-weight: $fontWeightBold;
+    text-transform: uppercase;
+
     @include down($large) {
-      max-width: 85%;
       flex-grow: 1;
+      max-width: 85%;
     }
+
+    @include up($large) {
+      font-size: 2.5em;
+    }
+
+    a {
+      color: inherit;
+    }
+
     img {
-      max-width : 100%;
       max-height: 60px;
-      @include up($large){
-        max-width : 180px;
+      max-width: 100%;
+
+      @include up($large) {
         max-height: none;
+        max-width: 180px;
       }
     }
   }
 
   &__toggle {
-    float: none;
-    padding: 0;
-    margin: 0;
-    border: 0;
+    align-items: flex-end;
     background-color: transparent;
-    width: 48px;
-    height: 48px;
+    border: none;
     display: flex;
     flex-direction: column;
+    float: none;
+    height: 48px;
     justify-content: center;
-    align-items: flex-end;
+    margin: 0;
     order: 10;
+    padding: 0;
+    width: 48px;
 
     .icon-bar {
       display: block;
-      width: 20px;
       height: 2px;
-      border-radius: 1px;
-      background-color: #000;
-      &:last-child {
-        width: 16px;
-      }
+      width: 24px;
+      background-color: #1C1C1C;
 
       + .icon-bar {
-        margin-top: 4px;
+        margin-top: 6px;
       }
     }
 
@@ -87,32 +103,37 @@
   }
 
   &__icons {
-    margin-left: $gridGutter;
     display: grid;
-    grid-template-columns: repeat(autofill,1fr);
+    margin-left: $gridGutter;
     grid-auto-flow: column;
-    grid-gap: 20px;
+    grid-gap: $gridGutter;
     font-size: 1.2em;
+
+    a {
+      color: inherit;
+
+      &:hover {
+        color: $colorPrimary;
+      }
+    }
   }
 
   &__navigation {
     background-color: transparent;
-    border: 0;
+    border: none;
     border-radius: 0;
+    flex-grow: 1;
     margin: 0;
     padding: 0;
-    flex-grow: 1;
 
     @include down($large) {
       display: none;
     }
 
     > ul {
+      align-items: center;
       display: flex;
       justify-content: flex-end;
-      align-items: center;
     }
-
   }
-
 }

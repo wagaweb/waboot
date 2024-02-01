@@ -5,42 +5,41 @@
 }
 
 .filter-sizes {
-  padding         : 0;
-  margin          : 0;
-  list-style-type : none;
   display: grid;
-  grid-template-columns: repeat(auto-fit,minmax(40px,40px));
-  grid-gap: 10px;
+  grid-gap: $gridGutter;
+  grid-template-columns: repeat(auto-fit, minmax(48px, 48px));
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
 
   &__item {
-    position         : relative;
-    opacity          : 1;
-    border-radius    : 0;
-    margin           : 0 5px 0 0;
-    padding          : 0;
-    background-color : #FFFFFF;
-    display          : flex;
-    align-items      : center;
-    justify-content  : center;
-    cursor           : pointer;
-    border           : 1px solid $colorGreyLight;
-    color            : $colorText;
-    font-family      : $fontPrimary;
-    font-size        : 1em;
-    overflow         : hidden;
-    white-space      : nowrap;
+    align-items: center;
+    background-color: $colorWhite;
+    border-radius: 0;
+    color: $colorPrimary;
+    cursor: pointer;
+    display: flex;
+    font-weight: $fontWeightSemibold;
+    height: 48px;
+    justify-content: center;
+    opacity: 1;
+    padding: 0;
+    position: relative;
     text-align: center;
     width: 100%;
-    height: 40px;
+
+    &:hover {
+      color: $colorText;
+    }
 
     &.active {
-      background-color : $colorPrimary;
-      color            : #FFF;
+      background-color: $colorPrimary;
+      color: $colorWhite;
     }
 
     &[data-stock='out-of-stock'] {
-      opacity        : 0.3;
-      pointer-events : none;
+      opacity: .3;
+      pointer-events: none;
     }
   }
 }

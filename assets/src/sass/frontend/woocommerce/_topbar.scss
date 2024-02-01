@@ -1,6 +1,9 @@
 .topbar {
-  background-color: $colorGreyLight;
-  padding: 16px 0;
+  background-color: #C0C0C0;
+  padding: 24px;
+  @include up($large) {
+    padding: 16px;
+  }
   text-align: center;
   &__container {
     @include wbcontainer();

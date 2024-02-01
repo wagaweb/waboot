@@ -1,33 +1,36 @@
 .header__navigation {
-
   ul {
+    list-style: none;
     margin: 0;
     padding: 0;
-    list-style: none;
   }
 
   li {
     position: relative;
+
     &.menu-item-has-children {
-      > a:after {
+      > a::after {
         @extend %fa-icon;
-        @extend .far;
+        @extend .fa-regular;
         content: fa-content($fa-var-angle-down);
-        opacity: .7;
-        margin-left: 10px;
+        margin-left: 8px;
       }
+
       li.menu-item-has-children > a:after {
         content: fa-content($fa-var-angle-right);
       }
     }
+
     &:is(.menu-item-has-megamenu) {
       @include up($large) {
         position: static;
       }
+
       &:hover > .sub-menu {
         @include up($large) {
           width: 100vw;
         }
+
         .sub-menu__container {
           @include wbcontainer();
           padding-inline: $gridGutter;
@@ -36,16 +39,25 @@
     }
   }
 
+  a {
+    color: inherit;
+
+    &:hover {
+      color: $colorPrimary;
+    }
+  }
+
   > ul {
     > li {
       > a {
-        padding: 10px 0;
-        @include up($large) {
-          padding: 15px;
-        }
-        position: relative;
-        display: flex;
         align-items: center;
+        display: flex;
+        padding: 8px 0;
+        position: relative;
+
+        @include up($large) {
+          padding: 16px;
+        }
       }
 
       &:last-child > a {
@@ -57,38 +69,40 @@
 
     .sub-menu {
       display: none;
-      //max-width: 150px;
+      
       li a {
-        padding: 5px 15px;
         display: block;
+        padding: 8px 16px;
         white-space: nowrap;
       }
     }
 
     li:hover > .sub-menu {
+      background-clip: padding-box;
+      background-color: $colorWhite;
+      border: 1px solid $colorGreyLight;
       display: block;
+      margin: 0;
+      padding: 0;
       position: absolute;
       z-index: 7;
-      padding: 0;
-      margin: 0;
-      background-color: #fff;
-      border: 1px solid $colorGreyLight;
-      background-clip: padding-box;
     }
 
     > li:hover > .sub-menu {
-      top: 100%;
       right: 0;
+      top: 100%;
+
       a {
         text-align: right;
       }
     }
 
     > li:hover > .sub-menu--megamenu {
-      padding: 20px 0;
+      padding: 16px 0;
       white-space: nowrap;
+
       a {
-        padding: 10px 0;
+        padding: 8px 0;
         text-align: initial;
       }
     }
@@ -96,97 +110,88 @@
     > li:first-child:hover > .sub-menu {
       left: 0;
       right: auto;
-      transform: translateY(-10px);
+      transform: translateY(-24px);
     }
 
     .sub-menu > li:hover > .sub-menu {
-      top: -1px;
       left: 100%;
+      top: -1px;
+
       a {
         text-align: left;
       }
     }
-
   }
-
 }
 
 .navigation-mobile {
   padding: $gridGutter;
+
   &__inner {
-    //padding: $gridGutter 0;
+    flex-grow: 1;
     height: 100%;
     width: 100%;
-    flex-grow: 1;
-    //display: grid;
-    //grid-template-rows: auto auto 1fr;
-    //grid-gap: $gridGutter;
   }
 
   ul {
-    list-style-type: none;
-    overflow-x: hidden;
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
     display: flex;
     flex-direction: column;
-    //align-items: center;
-    //justify-content: center;
-    padding: 0;
+    height: 100%;
+    left: 0;
+    list-style-type: none;
     margin: 0;
+    overflow-x: hidden;
+    padding: 0;
+    position: absolute;
+    top: 0;
     transition: all .5s ease;
+    width: 100%;
   }
 
   li {
+    align-items: center;
     display: flex;
     justify-content: space-between;
-    align-items: center;
     width: 100%;
   }
 
   a {
-    text-align: left;
-    justify-content: center;
-    padding: calc(#{$gridGutter}/2) $gridGutter;
     flex-grow: 1;
+    justify-content: center;
+    padding: 8px 16px;
+    text-align: left;
   }
 
   .sub-menu {
+    background-color: $colorWhite;
     left: 100%;
-    background-color: #fff;
     overflow-y: auto;
     z-index: 10;
+
     &--megamenu {
       display: none;
     }
   }
 
   .backlevel__icon {
-    //position: absolute;
-    //left: 0;
-    //top: 0;
-    padding: 0 0 0 $gridGutter;
-    width: 48px;
-    height: 48px;
-    display: flex;
     align-items: center;
-    font-size: 1.5em;
-    z-index: 10;
     color: $colorPrimary;
+    display: flex;
+    font-size: 1.5em;
+    height: 48px;
+    padding: 0 0 0 16px;
     position: relative;
+    width: 48px;
+    z-index: 10;
   }
 
   .sublevel__icon {
-    line-height: 1em;
-    width: 48px;
-    height: 48px;
-    display: flex;
     align-items: center;
+    display: flex;
+    height: 48px;
     justify-content: flex-end;
-    padding-right: $gridGutter;
+    line-height: 1em;
+    padding-right: 16px;
+    width: 48px;
   }
-
 }

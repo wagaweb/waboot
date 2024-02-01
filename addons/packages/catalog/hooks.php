@@ -18,7 +18,7 @@ function renderSimpleCatalogInWoocommerceBlock(string $html, object $data, \WC_P
                 'productIds' => [$product->get_id()],
                 'columns' => 1,
                 'showAddToCartBtn' => false,
-                'showQuantityInput' => false,
+                'showQuantityInput' => true,
                 'ga4' => [
                     'enabled' => true,
                     'listId' => sanitize_title(getGtagListName()),

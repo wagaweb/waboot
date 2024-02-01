@@ -44,7 +44,7 @@ add_action( 'woocommerce_single_product_summary', function(){
 // Shows templates after the add to cart form
 add_action('woocommerce_after_add_to_cart_form', function(){
     require_once get_stylesheet_directory().'/templates/view-parts/woocommerce/shipping-conditions.php';
-    require_once get_stylesheet_directory().'/templates/view-parts/woocommerce/product-share.php';
+    //require_once get_stylesheet_directory().'/templates/view-parts/woocommerce/product-share.php';
 },50);
 
 
