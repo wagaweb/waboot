@@ -1,0 +1,268 @@
+.gform_wrapper.gravity-theme {
+  //Section
+  .gsection {
+    border-bottom-color: $colorGreyLight;
+  }
+  .gsection_title,
+  .top_label .gsection_description {
+    margin-bottom: 0;
+  }
+
+  //Labels
+  .gfield_label {
+    font-size: inherit;
+    .gfield_required {
+      color: $colorError;
+    }
+  }
+  .ginput_complex label {
+    font-size: .875em;
+  }
+  .gfield_header_item,
+  .gform_fileupload_rules,
+  .ginput_complex label {
+    font-size: inherit;
+  }
+
+  .chosen-container-multi,
+  .ginput_product_price,
+  .ginput_product_price_label,
+  .ginput_quantity_label,
+  .gfield_checkbox label,
+  .gfield_radio label {
+    font-size: inherit;
+  }
+
+  //Input
+  input[type=color],
+  input[type=date],
+  input[type=datetime-local],
+  input[type=datetime],
+  input[type=email],
+  input[type=month],
+  input[type=number],
+  input[type=password],
+  input[type=search],
+  input[type=tel],
+  input[type=text],
+  input[type=time],
+  input[type=url],
+  input[type=week],
+  select,
+  textarea {
+    font-size: inherit;
+    padding: 12px;
+  }
+
+  .gfield input.medium,
+  .gfield select.medium {
+    width: 100%;
+    @include up($large) {
+      width: calc(50% - 12px);
+    }
+  }
+
+  //Address
+  .ginput_container_address span {
+    margin-bottom: 8px;
+  }
+
+  //Password
+  .gfield--type-password {
+    .password_input_container,
+    .password__wrapper {
+      padding-right: 0 !important;
+    }
+  }
+
+  //Checkbox
+  .gfield_checkbox {
+    display: grid;
+    grid-gap: $gridGutter / 2;
+    .gfield-choice-input::before {
+      height: 16px;
+      width: 18px;
+    }
+  }
+
+  //Radio
+  .gfield_radio {
+    display: grid;
+    grid-gap: $gridGutter / 2;
+    label {
+      font-size: inherit;
+    }
+  }
+
+  //Consent
+  .gfield--type-consent {
+    .gfield_description.gfield_consent_description {
+      padding: 8px;
+    }
+  }
+
+  .gfield--type-consent {
+    .gfield_description {
+      margin-bottom: 8px;
+    }
+  }
+
+  //Descriptions
+  .description,
+  .gfield_description,
+  .gsection_description,
+  .instruction {
+    font-size: .875em;
+    padding: 0;
+  }
+
+  .field_description_above {
+    .description,
+    .gfield_description,
+    .gsection_description,
+    .instruction {
+      padding: 8px 0;
+    }
+  }
+
+
+  //Validation
+  .gform_validation_errors {
+    background-color: $colorGreyLight;
+    border: none;
+    box-shadow: none;
+    color: $colorText;
+    margin-bottom: 16px;
+    margin-top: 0;
+    outline: none;
+    padding: 8px;
+    @include up($large) {
+      padding: 16px;
+    }
+
+    > h2 {
+      color: inherit;
+      font-weight: $fontWeightSemibold;
+    }
+
+    > ol {
+      margin-bottom: 0;
+      li {
+        color: $colorText;
+      }
+      a {
+        color: $colorError;
+      }
+    }
+  }
+
+  .gfield_error {
+    legend, label {
+      color: $colorText;
+    }
+
+    [aria-invalid=true] {
+      border: 2px solid $colorGrey;
+    }
+  }
+
+  label+[aria-invalid=true] {
+    color: inherit;
+  }
+
+  .gfield_error {
+    .gfield_validation_message,
+    .validation_message {
+      background-color: $colorGreyLight;
+      border: none;
+      color: $colorError;
+      font-size: .875em;
+      padding: 8px;
+    }
+  }
+
+  //Price
+  .ginput_product_price,
+  .ginput_shipping_price {
+    color: inherit;
+    font-weight: $fontWeightSemibold;
+  }
+
+  //Total
+  .gfield--type-total {
+    .ginput_total {
+      color: inherit;
+      font-weight: $fontWeightSemibold;
+      height: auto;
+      padding: 0;
+    }
+  }
+
+  //Product
+  .ginput_container_singleproduct {
+    display: inline-flex;
+    flex-direction: column;
+    .gform-field-label {
+      margin-bottom: 8px;
+    }
+    .ginput_product_price_wrapper {
+      margin-top: 8px;
+      order: 2;
+    }
+  }
+
+  //Progress Bar
+  .gf_progressbar_wrapper {
+    .gf_progressbar_title {
+      color: inherit;
+      font-size: inherit;
+      font-weight: $fontWeightSemibold;
+    }
+
+    .gf_progressbar_blue,
+    .gf_progressbar_gray,
+    .gf_progressbar_green,
+    .gf_progressbar_orange,
+    .gf_progressbar_red,
+    .gf_progressbar_spring,
+    .gf_progressbar_blues,
+    .gf_progressbar_rainbow {
+      background-color: $colorGreyLight;
+    }
+
+    .gf_progressbar_percentage {
+      height: 8px;
+      &.percentbar_blue,
+      &.percentbar_gray,
+      &.percentbar_green,
+      &.percentbar_orange,
+      &.percentbar_red,
+      &.percentbar_spring,
+      &.percentbar_blues,
+      &.percentbar_rainbow {
+        background-color: $colorPrimary;
+      }
+      &:not(.percentbar_100) {
+        border-radius: 100px;
+      }
+      span {
+        display: none;
+      }
+    }
+  }
+
+  //List Group
+  .gfield_header_item + .gfield_header_item:not(.gfield_header_item--icons),
+  .gfield_list_group_item + .gfield_list_group_item {
+    @include up($large) {
+      margin-left: $gridGutter / 2;
+    }
+  }
+
+  //Footer
+  .gform_page_footer {
+    .gform_ajax_spinner {
+      margin-left: 8px;
+    }
+  }
+}

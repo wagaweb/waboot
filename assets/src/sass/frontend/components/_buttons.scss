@@ -7,9 +7,10 @@
   cursor: pointer;
   background-image: none; // Reset unusual Firefox-on-Android default style; see https://github.com/necolas/normalize.css/issues/214
   border: 1px solid transparent;
+  border-radius: 4px;
   white-space: nowrap;
   padding: 10px 15px;
-  font-family: inherit;
+  font: inherit;
   font-weight: $fontWeightSemibold;
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -29,7 +30,7 @@
 }
 
 @mixin buttonStyle($bkg, $color, $colorHover, $border) {
-  border-radius : 0;
+  border-radius : 4px;
   background    : $bkg;
   @if $color {
     color : $color;
