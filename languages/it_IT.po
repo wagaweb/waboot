@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Waboot\n"
-"POT-Creation-Date: 2021-03-22 11:01+0100\n"
-"PO-Revision-Date: 2021-03-22 11:05+0100\n"
+"POT-Creation-Date: 2024-02-02 09:16+0100\n"
+"PO-Revision-Date: 2024-02-02 09:17+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: it_IT\n"
@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.4.2\n"
+"X-Generator: Poedit 3.4.2\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-Flags-xgettext: --add-comments=translators:\n"
 "X-Poedit-WPHeader: style.css\n"
@@ -22,6 +22,7 @@ msgstr ""
 "X-Poedit-SearchPathExcluded-0: *.min.js\n"
 "X-Poedit-SearchPathExcluded-1: vendor\n"
 "X-Poedit-SearchPathExcluded-2: node_modules\n"
+"X-Poedit-SearchPathExcluded-3: */node_modules\n"
 
 #: addons/packages/attributes/templates/attributes-size.php:3
 msgid "Size"
@@ -40,12 +41,18 @@ msgid "Login"
 msgstr "Accedi"
 
 #: addons/packages/checkout/templates/login-step.php:5
-msgid "Already have an account?"
-msgstr "Hai già un account?"
-
-#: addons/packages/checkout/templates/login-step.php:16
 msgid "Is this the first time that you purchase?"
 msgstr "È la prima volta che acquisti?"
+
+#: addons/packages/checkout/templates/login-step.php:6
+#, fuzzy
+#| msgid "Already have an account?"
+msgid "I don't have an account yet"
+msgstr "Hai già un account?"
+
+#: addons/packages/checkout/templates/login-step.php:9
+msgid "Already have an account?"
+msgstr "Hai già un account?"
 
 #: addons/packages/checkout/templates/thankyou-order-buttons.php:2
 msgid "Go to Homepage"
@@ -54,6 +61,173 @@ msgstr "Vai alla Home"
 #: addons/packages/checkout/templates/thankyou-order-buttons.php:3
 msgid "Continue Shopping"
 msgstr "Torna allo Shop"
+
+#: addons/packages/invoicing/Validator.php:27
+#, php-format
+msgctxt "WC Field Validation"
+msgid "%s is required"
+msgstr ""
+
+#: addons/packages/invoicing/Validator.php:28
+#: addons/packages/invoicing/backend.php:120
+msgid "Fiscal code"
+msgstr ""
+
+#: addons/packages/invoicing/Validator.php:34
+#, php-format
+msgctxt "WC Field Validation"
+msgid "%s. Must have 16 character."
+msgstr ""
+
+#: addons/packages/invoicing/Validator.php:35
+msgctxt "WC Field Validation"
+msgid "Incorrect fiscal code length"
+msgstr ""
+
+#: addons/packages/invoicing/Validator.php:42
+#, php-format
+msgctxt "WC Field Validation"
+msgid "%s. Only letters and numbers are valid."
+msgstr ""
+
+#: addons/packages/invoicing/Validator.php:43
+#: addons/packages/invoicing/Validator.php:99
+#: addons/packages/invoicing/Validator.php:109
+msgctxt "WC Field Validation"
+msgid "Invalid fiscal code"
+msgstr ""
+
+#: addons/packages/invoicing/Validator.php:98
+#, php-format
+msgctxt "WC Field Validation"
+msgid "%s. Wrong control code detected."
+msgstr ""
+
+#: addons/packages/invoicing/Validator.php:108
+#, php-format
+msgctxt "WC Field Validation"
+msgid "%s. Unexpected error occurred. Please contact the administration."
+msgstr ""
+
+#: addons/packages/invoicing/backend.php:103
+msgid "Customer Type"
+msgstr ""
+
+#: addons/packages/invoicing/backend.php:109
+#: addons/packages/invoicing/templates/order-custom-meta.php:3
+msgid "Company name"
+msgstr ""
+
+#: addons/packages/invoicing/backend.php:115
+#: addons/packages/invoicing/templates/order-custom-meta.php:4
+msgid "VAT"
+msgstr ""
+
+#: addons/packages/invoicing/frontend.php:76
+msgctxt "WC Field"
+msgid "Request invoice"
+msgstr ""
+
+#: addons/packages/invoicing/frontend.php:85
+#: addons/packages/invoicing/frontend.php:100
+msgctxt "WC Field"
+msgid "Customer type"
+msgstr ""
+
+#: addons/packages/invoicing/frontend.php:115
+msgctxt "WC Field"
+msgid "VAT"
+msgstr ""
+
+#: addons/packages/invoicing/frontend.php:127
+msgctxt "WC Field"
+msgid "Fiscal code"
+msgstr ""
+
+#: addons/packages/invoicing/frontend.php:136
+msgctxt "WC Field"
+msgid "Codice destinatario"
+msgstr ""
+
+#: addons/packages/invoicing/frontend.php:144
+msgctxt "WC Field"
+msgid "PEC"
+msgstr ""
+
+#: addons/packages/invoicing/frontend.php:152
+msgctxt "WC Field"
+msgid "My VAT is VIES Valid"
+msgstr ""
+
+#: addons/packages/invoicing/frontend.php:292
+#, php-format
+msgctxt "WC Validation Message"
+msgid "%s is required."
+msgstr ""
+
+#: addons/packages/invoicing/frontend.php:293
+#: addons/packages/invoicing/templates/order-custom-meta.php:2
+msgid "Customer type"
+msgstr ""
+
+#: addons/packages/invoicing/frontend.php:338
+#, php-format
+msgctxt "WC Validation Message"
+msgid "%s is not valid."
+msgstr ""
+
+#: addons/packages/invoicing/frontend.php:339
+#: addons/packages/invoicing/templates/order-custom-meta.php:5
+msgid "Fiscal Code"
+msgstr ""
+
+#: addons/packages/invoicing/frontend.php:367
+#, php-format
+msgid "%s is a required field."
+msgstr ""
+
+#: addons/packages/invoicing/frontend.php:367
+#: addons/packages/invoicing/frontend.php:382
+msgid "VAT Number"
+msgstr ""
+
+#: addons/packages/invoicing/frontend.php:381
+#, php-format
+msgctxt "WC Validation Message"
+msgid "%s is not a valid."
+msgstr ""
+
+#: addons/packages/invoicing/frontend.php:432
+msgid "Fiscal code is not valid"
+msgstr ""
+
+#: addons/packages/invoicing/frontend.php:456
+#: addons/packages/invoicing/frontend.php:463
+msgid "No valid VAT provided"
+msgstr ""
+
+#: addons/packages/invoicing/template-functions.php:40
+msgctxt "WC Field"
+msgid "Privato"
+msgstr ""
+
+#: addons/packages/invoicing/template-functions.php:43
+msgctxt "WC Field"
+msgid "Società"
+msgstr ""
+
+#: addons/packages/invoicing/templates/order-custom-meta.php:6
+msgid "Codice destinatario"
+msgstr ""
+
+#: addons/packages/invoicing/templates/order-custom-meta.php:7
+msgid "PEC"
+msgstr ""
+
+#: addons/packages/megamenu/bootstrap.php:10
+#: addons/packages/megamenu/bootstrap.php:11
+msgid "Reusable Blocks"
+msgstr ""
 
 #: addons/packages/sizeguide/bootstrap.php:13
 #: addons/packages/sizeguide/bootstrap.php:28
@@ -109,6 +283,14 @@ msgstr "Nessuna guida alle taglie trovata nel cestino"
 msgid "Parent Size Guide"
 msgstr "Guida alle taglie dei genitori"
 
+#: addons/packages/topbar/bootstrap.php:10
+msgid "Topbar"
+msgstr ""
+
+#: addons/packages/topbar/bootstrap.php:22
+msgid "Text"
+msgstr ""
+
 #: inc/core/hooks.php:84
 msgctxt "Waboot Template Partials"
 msgid "(parts)"
@@ -118,6 +300,26 @@ msgstr "(parti)"
 #, php-format
 msgid "Error locating %s for inclusion"
 msgstr "Errore nell’individuazione %s dell’inclusione"
+
+#: inc/hooks/hooks.php:43
+msgid "forbidden - number in author name not allowed = "
+msgstr ""
+
+#: inc/hooks/hooks.php:82
+msgid "<strong>ERROR</strong>: Invalid username/password combination."
+msgstr ""
+
+#: inc/hooks/hooks.php:85
+msgid "Password Lost and Found"
+msgstr ""
+
+#: inc/hooks/hooks.php:86
+msgid "Lost Password"
+msgstr ""
+
+#: inc/hooks/hooks.php:95
+msgid "No feed available, please visit the homepage!"
+msgstr ""
 
 #: inc/hooks/init.php:57
 msgid "Main Menu"
@@ -130,6 +332,24 @@ msgstr "Menu Mobile"
 #: inc/hooks/init.php:59
 msgid "Bottom Menu"
 msgstr "Menu inferiore"
+
+#: inc/hooks/init.php:60
+#, fuzzy
+#| msgid "Mobile Menu"
+msgid "Social Menu"
+msgstr "Menu Mobile"
+
+#: inc/hooks/init.php:109
+msgid "No DB connection"
+msgstr ""
+
+#: inc/hooks/page-fields.php:10
+msgid "Extra Fields"
+msgstr ""
+
+#: inc/hooks/page-fields.php:14
+msgid "Hide Title"
+msgstr ""
 
 #: inc/hooks/posts-and-pages.php:39
 #, php-format
@@ -146,6 +366,61 @@ msgstr "%s fa"
 #, php-format
 msgid "View all posts by %s"
 msgstr "Visualizza tutti i post di %s"
+
+#: inc/hooks/woocommerce/woocommerce-coupon.php:40
+#: inc/hooks/woocommerce/woocommerce-coupon.php:256
+msgid "Include"
+msgstr ""
+
+#: inc/hooks/woocommerce/woocommerce-coupon.php:41
+#: inc/hooks/woocommerce/woocommerce-coupon.php:257
+msgid "Exclude"
+msgstr ""
+
+#: inc/hooks/woocommerce/woocommerce-coupon.php:78
+#: inc/hooks/woocommerce/woocommerce-coupon.php:128
+msgid "Taxonomy"
+msgstr ""
+
+#: inc/hooks/woocommerce/woocommerce-coupon.php:80
+msgid ""
+"Product taxonomies that the coupon will be applicable for, or its "
+"availability in the cart in order for the \"Fixed cart discount\" to be "
+"applied, based on whether the taxonomies are included or excluded. All the "
+"taxonomies selected here, should be valid, for this coupon to be valid."
+msgstr ""
+
+#: inc/hooks/woocommerce/woocommerce-coupon.php:87
+#: inc/hooks/woocommerce/woocommerce-coupon.php:89
+#: inc/hooks/woocommerce/woocommerce-coupon.php:170
+msgid "Add taxonomy restriction"
+msgstr ""
+
+#: inc/hooks/woocommerce/woocommerce-coupon.php:130
+msgid ""
+"Product taxonomies that the coupon will be applicable for, or its "
+"availability in the cart in order for the \"Fixed cart discount\" to be "
+"applied, based on whether the taxonomies are included or excluded."
+msgstr ""
+
+#: inc/hooks/woocommerce/woocommerce-coupon.php:176
+msgid "Remove taxonomy restriction"
+msgstr ""
+
+#: inc/hooks/woocommerce/woocommerce-coupon.php:641
+msgid "Sorry, this coupon is not applicable to selected products."
+msgstr ""
+
+#: inc/hooks/woocommerce/woocommerce-coupon.php:679
+#, php-format
+msgid "Sorry, this coupon is not applicable to the %1$s: %2$s."
+msgstr ""
+
+#: inc/hooks/woocommerce/woocommerce-coupon.php:682
+msgid "product"
+msgid_plural "products"
+msgstr[0] ""
+msgstr[1] ""
 
 #: inc/template-functions.php:15
 msgid "Header"
@@ -285,6 +560,22 @@ msgstr "Chats"
 msgid "Archives"
 msgstr "Archivi"
 
+#: inc/woocommerce-helpers.php:270
+msgid "No products in the cart."
+msgstr ""
+
+#: inc/woocommerce-helpers.php:303
+msgid "Remove this item"
+msgstr ""
+
+#: inc/woocommerce-helpers.php:367
+msgid "View cart"
+msgstr ""
+
+#: inc/woocommerce-helpers.php:369
+msgid "Checkout"
+msgstr ""
+
 #: templates/404.php:5
 msgid "Oops! That page can&rsquo;t be found."
 msgstr "Oops! Pagina non trovata."
@@ -413,6 +704,26 @@ msgstr "%1$s a %2$s"
 #: templates/view-parts/single-comment.php:26
 msgid "Your comment is awaiting moderation."
 msgstr "Il tuo commento è in attesa di moderazione."
+
+#: templates/view-parts/woocommerce/product-share.php:14
+msgid "Share with"
+msgstr ""
+
+#: woocommerce/archive-product.php:61
+msgid "Categorie prodotto"
+msgstr ""
+
+#: woocommerce/cart/cross-sells.php:13
+msgid "You may be interested in&hellip;"
+msgstr ""
+
+#: woocommerce/single-product/related.php:11
+msgid "Related products"
+msgstr ""
+
+#: woocommerce/single-product/up-sells.php:13
+msgid "You may also like"
+msgstr "Prodotti correlati"
 
 #. Theme Name of the plugin/theme
 msgid "Waboot"

@@ -112,3 +112,17 @@ add_filter('woocommerce_blocks_product_grid_item_html', function ($html, $post, 
     return $html;
 }, 10, 3);
 
+
+/**
+ * Add wrapper tag before product price + product sku
+ */
+add_action( 'woocommerce_single_product_summary', function() { ?>
+    <div class="product__meta">
+<?php }, 5 );
+
+add_action( 'woocommerce_single_product_summary', function() {
+    global $product;
+?>
+        <span class="product__sku">SKU: <?php echo $product->get_sku(); ?></span>
+    </div>
+<?php }, 10 );

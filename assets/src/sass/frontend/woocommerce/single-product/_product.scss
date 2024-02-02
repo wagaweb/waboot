@@ -10,6 +10,10 @@
       padding: 20px;
     }
 
+    .woocommerce-product-gallery {
+      margin-bottom: 80px;
+    }
+
     .product__main {
       @include up($medium){
         display: flex;
@@ -27,6 +31,18 @@
           padding: 0 110px 0 40px;
         }
       }
+    }
+
+    .product__meta {
+      align-items: center;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .product__sku {
+      font-size: .875em;
+      letter-spacing: 1px;
+      text-transform: uppercase;
     }
 
     &.outofstock {
@@ -93,6 +109,65 @@
 
     .input-text {
       width: 80px;
+    }
+
+    .stock {
+      &.in-stock {
+        color: $colorSuccess;
+      }
+      &.out-of-stock {
+        color: $colorError;
+      }
+    }
+
+    .quantity {
+      display: grid;
+      grid-template-columns: repeat(3, auto);
+      width: fit-content;
+
+      &__label {
+        font-size: 1.25em;
+        font-weight: $fontWeightSemibold;
+        grid-column: span 2;
+        grid-row: 1;
+        margin-bottom: 24px;
+      }
+
+      input,
+      .increment__button {
+        grid-row: 2;
+      }
+
+      input {
+        appearance: textfield;
+        color: $colorPrimary;
+        font-weight: $fontWeightSemibold;
+        height: 48px;
+        max-width: 48px;
+        order: 2;
+        text-align: center;
+
+        &::-webkit-inner-spin-button,
+        &::-webkit-outer-spin-button {
+          appearance: none;
+          margin: 0;
+        }
+      }
+
+      .increment__button {
+        align-items: center;
+        cursor: pointer;
+        color: $colorPrimary;
+        display: flex;
+        font-weight: $fontWeightSemibold;
+        justify-content: center;
+        line-height: 48px;
+        width: 48px;
+
+        &--inc {
+          order: 3;
+        }
+      }
     }
 
     button {
@@ -191,7 +266,6 @@
   }
 
   .up-sells {
-    padding: $gridGutter;
     width: 100%;
 
     @include up($small) {

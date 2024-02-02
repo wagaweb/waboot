@@ -1,6 +1,5 @@
 .minicart {
-  background: #fff;
-  box-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
+  background: $colorWhite;
   display: block;
   height: 100%;
   position: fixed;
@@ -11,15 +10,15 @@
   right: 0;
   transform: translate(100%, 0);
   width: 100%;
-  @include up($large){
-    transform: translate(350px, 0);
-    width: 350px;
+  @include up($large) {
+    transform: translate(400px, 0);
+    width: 400px;
   }
   &.show {
     transform: translate(0, 0);
   }
   &-overlay {
-    background: rgba(255, 255, 255, 0.8);
+    background: rgba(0, 0, 0, .2);
     display: none;
     height: 100%;
     left: 0;
@@ -35,8 +34,17 @@
     height: 100%;
     display: flex;
     flex-direction: column;
-    padding: 25px;
+    padding: 40px 16px;
     max-height: 100%;
+    @include up($large) {
+      padding-inline: 24px;
+    }
+    h2 {
+      @extend .h3;
+      @include up($large) {
+        margin-bottom: 24px;
+      }
+    }
   }
   .widget_shopping_cart_content {
     display: flex;
@@ -58,11 +66,11 @@
   margin: 0;
 
   li {
-    padding: 0 20px 10px 0;
-    margin: 0 0 10px;
-    border-bottom: 1px solid $colorGreyLight;
     position: relative;
     overflow: auto;
+    &:not(:last-child) {
+      margin-bottom: 16px;
+    }
     img {
       float: left;
       width: 60px;
@@ -73,20 +81,30 @@
       display: block;
       width: 100%;
       margin-top: 5px;
-      font-size: .9em;
+      &__label {
+        display: inline-block;
+        margin-right: 4px;
+      }
     }
     .remove_from_cart_button {
       position: absolute;
-      right: 0;
-      top: 0;
-      background-color: #000;
+      right: 2px;
+      top: 50%;
+      transform: translateY(-50%);
+      outline: 1px solid $colorGrey;
       border-radius: 50%;
-      color: #fff;
-      font-size: .8em;
-      line-height: 15px;
-      width: 15px;
-      display: block;
+      color: $colorText;
+      font-size: 1.2em;
+      height: 23px;
+      line-height: 1;
+      width: 23px;
       text-align: center;
+      transition: .3s;
+      &:hover {
+        background-color: $colorText;
+        outline-color: $colorText;
+        color: $colorWhite;
+      }
     }
   }
 
@@ -107,7 +125,7 @@
       margin-top: 10px;
       width: 100%;
       &:not(.checkout) {
-        @include buttonStyle(#fff, $colorPrimary, $colorPrimary, 1px solid $colorPrimary);
+        @include buttonStyle($colorWhite, $colorPrimary, $colorPrimary, 1px solid $colorPrimary);
       }
     }
   }
@@ -115,16 +133,17 @@
 
 a[data-minicart-close] {
   position: absolute;
-  right: 0;
-  top: 0;
-  padding: $gridGutter/2 $gridGutter 0 0 !important;
+  right: 16px;
+  top: 16px;
   z-index: 20;
   font-size: 1.5em;
   cursor: pointer;
-  line-height: 1em;
   width: 48px;
-  height: 48px;
   display: flex;
   align-items: center;
   justify-content: flex-end !important;
+  @include up($large) {
+    right: 24px;
+    top: 40px;
+  }
 }

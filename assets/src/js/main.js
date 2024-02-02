@@ -6,6 +6,7 @@ import MiniCart from './frontend/minicart.js';
 import {initCustomCheckoutActions} from './frontend/checkout.js';
 import {alterAttributesView} from './frontend/attributes.js';
 import {enableProductGallery} from './frontend/productGallery.js';
+import { enableProductQuantity } from "./frontend/quantity.js";
 import {initEuVat} from "./frontend/checkout/invoicing";
 import {initCustomerCareModal} from "./frontend/modal.js";
 import {isCartPage, isCheckOutPage, isSingleProductPage} from "./utils/wp";
@@ -21,6 +22,7 @@ $.fn.slidein = function (options) {
 $(window).on('load',function(){
     if(isSingleProductPage()) {
         enableProductGallery();
+        enableProductQuantity();
     }
     if (window.matchMedia('(max-width: 991px)').matches) {
         slideinHeight();
