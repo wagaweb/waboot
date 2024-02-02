@@ -24,27 +24,27 @@ h6 {font-size: 0.85em;}
 h1, .h1, h2, .h2, h3, .h3 {
   font-weight: $fontWeightSemibold;
   margin-top: 0;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
   word-wrap: break-word;
 }
 
 h4, .h4, h5, .h5, h6, .h6 {
   margin-top: 0;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
   word-wrap: break-word;
 }
 
 p {
   line-height: 1.4em;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
   margin-top: 0;
   word-wrap: break-word;
 }
 
 ul, ol {
   line-height: 1.4em;
-  padding-left: 20px;
-  margin-bottom: 20px;
+  padding-left: 16px;
+  margin-bottom: 16px;
   margin-top: 0;
   word-wrap: break-word;
 }
@@ -105,6 +105,10 @@ ins {
   text-decoration: none;
 }
 
+abbr[title] {
+  text-decoration: none;
+}
+
 .sticky {
   display: block;
 }
@@ -112,13 +116,13 @@ ins {
 .alignright {
   display: inline;
   float: right;
-  margin-left: 15px;
+  margin-left: 16px;
 }
 
 .alignleft {
   display: inline;
   float: left;
-  margin-right: 15px;
+  margin-right: 16px;
 }
 
 .aligncenter {

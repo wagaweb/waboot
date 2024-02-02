@@ -27,10 +27,20 @@
   .chosen-container-multi,
   .ginput_product_price,
   .ginput_product_price_label,
-  .ginput_quantity_label,
+  .ginput_quantity_label {
+    font-size: inherit;
+  }
+
   .gfield_checkbox label,
   .gfield_radio label {
-    font-size: inherit;
+    font-weight: $fontWeightNormal;
+    a {
+      text-decoration: underline;
+      &:hover {
+        color: $colorPrimary;
+        text-decoration: none;
+      }
+    }
   }
 
   //Input
@@ -81,7 +91,7 @@
     grid-gap: $gridGutter / 2;
     .gfield-choice-input::before {
       height: 16px;
-      width: 18px;
+      width: 16px;
     }
   }
 

@@ -1,29 +1,127 @@
 .footer {
+  background-color: $colorGreyLight;
+  padding: 64px 0;
+  @include up($large) {
+    padding-bottom: 24px;
+    padding-top: 40px;
+  }
+  &__inner {
+    border-bottom: 1px solid $colorWhite;
+    margin-bottom: 48px;
+    margin-inline: auto;
+    max-width: $containerWidth;
+    padding-bottom: 48px;
+    padding-inline: 16px;
+    .wp-block-columns.is-layout-flex {
+      gap: 48px;
+      @include up($medium) {
+        gap: $gridGutter;
+      }
+      .wp-block-column {
+        &:not(:last-child) {
+          text-align: center;
+          @include up($large) {
+            text-align: initial;
+          }
+        }
+        &:last-child {
+          @include up($large) {
+            flex: 0 0 33.33%;
+          }
+        }
+      }
+    }
+    p {
+      font-size: .875em;
+    }
+    ul {
+      display: grid;
+      gap: $gridGutter;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    a {
+      color: inherit;
+      @include up($large) {
+        &:hover {
+          color: $colorPrimary;
+        }
+      }
+    }
+  }
   &__closure {
     max-width: $containerWidth;
-    padding: $gridGutter/2 $gridGutter;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    @include up($medium){
-      justify-content: space-between;
+    text-align: center;
+    gap: 40px;
+    font-size: .875em;
+    padding-inline: 16px;
+    @include up($medium) {
       flex-direction: row;
+      justify-content: space-between;
+      text-align: initial;
     }
-    ul {
-      list-style-type: none;
-      padding: 0;
-      margin: 0;
+  }
+
+  &__left {
+    @include up($large) {
       display: flex;
-      @include down($medium){
-        justify-content: space-around;
-      }
-      a {
-        @include up($medium){
-          margin-left: 20px;
+    }
+  }
+
+  &__menu {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    &--bottom {
+      flex-wrap: wrap;
+      justify-content: center;
+      margin: 8px 0 0 0;
+      @include up($large) {
+        margin-top: 0;
+        &::before {
+          content: '|';
+          margin-inline: 4px;
         }
       }
+      li:not(:last-child)::after {
+        content: '-';
+        margin-inline: 4px;
+      }
+    }
+    &--social {
+      font-size: 1.25em;
+      gap: $gridGutter;
+      a {
+        color: inherit;
+        &:hover {
+          color: $colorPrimary;
+        }
+      }
+    }
+  }
+
+  .gform_wrapper.gravity-theme {
+    .gform_required_legend {
+      display: none;
+    }
+    .gform_footer {
+      padding-bottom: 0;
+    }
+    .gchoice {
+      display: flex;
+      input[type="checkbox"] {
+        transform: translateY(4px);
+      }
+    }
+    .gfield input.medium {
+      width: 100%;
     }
   }
 }
