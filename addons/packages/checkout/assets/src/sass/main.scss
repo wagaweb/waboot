@@ -43,12 +43,6 @@
   .woocommerce-checkout {
     display: block;
     margin-bottom: 20px;
-
-    &-review-order-table {
-      td, th {
-        border-color: $colorGreyDark;
-      }
-    }
   }
 
  .woocommerce-billing-fields__field-wrapper {
@@ -82,27 +76,46 @@
 // new checkout form specific styles
 .woocommerce-checkout-steps {
   display: grid;
-  grid-gap: $gridGutter;
+  grid-gap: 48px;
 
   @include up($large) {
-    grid-gap: calc($gridGutter * 2);
+    grid-gap: 60px;
     grid-template-columns: 2fr 1fr;
+  }
+  
+  h5 {
+    font-size: .875em;
+    font-weight: $fontWeightSemibold;
+    letter-spacing: 1px;
+    text-transform: uppercase;
   }
 
   &__item {
-    &:first-child {
+    &:not(:last-child) {
       .woocommerce-checkout-steps__link {
         align-items: flex-start;
-      }
-    }
+        position: relative;
 
-    &:last-child {
-      .woocommerce-checkout-steps__link {
-        align-items: flex-end;
+        &::before {
+          background-color: $colorGreyLight;
+          content: '';
+          display: block;
+          height: 3px;
+          position: absolute;
+          top: 22px;
+          width: calc(100% + 24px);
+          z-index: -1;
+        }
       }
     }
 
     &--done {
+      .woocommerce-checkout-steps__link {
+        &::before {
+          background-color: $colorPrimary !important;
+        }
+      }
+
       .woocommerce-checkout-steps__number {
         background-color: $colorPrimary;
         border-color: $colorPrimary;
@@ -112,23 +125,12 @@
   }
 
   &__list {
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 1fr 1fr max-content;
     list-style: none;
-    margin: 20px 0;
+    margin: 0 0 80px 0;
     padding: 0;
-    position: relative;
 
-    &::before {
-      background-color: $colorGreyDark;
-      content: '';
-      display: block;
-      height: 1px;
-      position: absolute;
-      top: 20px;
-      width: 100%;
-      z-index: -1;
-    }
   }
 
   &__link {
@@ -136,24 +138,22 @@
     color: inherit;
     display: flex;
     flex-direction: column;
-    font-weight: $fontWeightBold;
-    gap: 5px;
+    gap: 12px;
     text-align: center;
   }
 
   &__number {
     background-color: $colorGreyLight;
-    border: 1px solid $colorGreyDark;
     border-radius: 50%;
     display: grid;
-    font-size: 1.5em;
-    height: 40px;
+    font-weight: $fontWeightSemibold;
+    height: 48px;
     place-items: center;
-    width: 40px;
+    width: 48px;
   }
 
   &__label {
-    font-size: .8em;
+    font-size: .875em;
   }
 
   &__content form,
@@ -176,10 +176,18 @@
     top: 0;
   }
 
+  .woocommerce-checkout-payment {
+    margin-top: 24px;
+  }
+
   &__order-review {
+    border-radius: 4px;
     background-color: $colorGreyLight;
     min-height: 20vh;
-    padding: 20px;
+    padding: 40px 24px;
+    @include up($large) {
+      padding: 40px;
+    }
 
     &.loading {
       background-color: gray;

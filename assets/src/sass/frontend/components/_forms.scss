@@ -1,194 +1,194 @@
 form {
-  label {
-    cursor: pointer;
-    display: inline-block;
-    font-weight: $fontWeightSemibold;
-    margin-bottom: 8px;
-    max-width: 100%;
-  }
-
-  fieldset {
-    background: none;
-    border: none;
-    margin: 0;
-    padding: 0;
-  }
-
-  legend {
-    margin-bottom: 8px;
-    margin-left: 0;
-    margin-right: 0;
-    padding: 0;
-  }
-
   &::placeholder {
     color: $colorGrey;
   }
+}
 
-  input[type="date"],
-  input[type="email"],
-  input[type="file"],
-  input[type="number"],
-  input[type="password"],
-  input[type="search"],
-  input[type="tel"],
-  input[type="text"],
-  input[type="url"],
-  select,
-  textarea {
-    appearance: none;
-    background-color: $colorWhite;
-    background-image: none;
-    border: 1px solid $colorGrey;
-    border-radius: 4px;
-    box-shadow: inset 0 0 0;
-    color: inherit;
+label {
+  cursor: pointer;
+  display: inline-block;
+  font-weight: $fontWeightSemibold;
+  margin-bottom: 8px;
+  max-width: 100%;
+}
+
+fieldset {
+  background: none;
+  border: none;
+  margin: 0;
+  padding: 0;
+}
+
+legend {
+  margin-bottom: 8px;
+  margin-left: 0;
+  margin-right: 0;
+  padding: 0;
+}
+
+input[type="date"],
+input[type="email"],
+input[type="file"],
+input[type="number"],
+input[type="password"],
+input[type="search"],
+input[type="tel"],
+input[type="text"],
+input[type="url"],
+select,
+textarea {
+  appearance: none;
+  background-color: $colorWhite;
+  background-image: none;
+  border: 1px solid $colorGrey;
+  border-radius: 4px;
+  box-shadow: inset 0 0 0;
+  color: inherit;
+  display: block;
+  font-family: inherit;
+  font-size: inherit;
+  height: 54px;
+  outline: none;
+  padding: 16px;
+  transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+  width: 100%;
+
+  &:focus {
+    border-color: $colorGreyDark;
+  }
+}
+
+select {
+  appearance: auto;
+}
+
+textarea {
+  height: auto;
+  max-width: 100%;
+}
+
+.password {
+  &__wrapper {
     display: block;
-    font-family: inherit;
-    font-size: inherit;
-    height: 54px;
-    outline: none;
-    padding: 16px;
-    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    padding: 0;
+    position: relative;
     width: 100%;
-
-    &:focus {
-      border-color: $colorGreyDark;
-    }
   }
 
-  select {
-    appearance: auto;
-  }
-
-  textarea {
-    height: auto;
-    max-width: 100%;
-  }
-
-  .password {
-    &__wrapper {
-      display: block;
-      padding: 0;
-      position: relative;
-      width: 100%;
-    }
-
-    &__toggle {
-      color: $colorGrey;
-      cursor: pointer;
-      margin-left: auto;
-      position: absolute;
-      right: 0;
-      top: 18px;
-      transform: translateX(-10px);
-      width: max-content;
-    }
-  }
-
-  input[type="checkbox"] {
-    appearance: none;
-    background-color: $colorWhite;
-    border: 2px solid $colorGrey;
-    border-radius: 6px;
-    color: $colorPrimary;
+  &__toggle {
+    color: $colorGrey;
     cursor: pointer;
-    display: inline-grid;
-    height: 20px;
-    line-height: 1;
-    margin: 0 8px 0 0;
-    place-content: center;
-    width: 20px;
+    margin-left: auto;
+    position: absolute;
+    right: 0;
+    top: 18px;
+    transform: translateX(-10px);
+    width: max-content;
+  }
+}
 
+input[type="checkbox"] {
+  appearance: none;
+  background-color: $colorWhite;
+  border: 2px solid $colorGrey;
+  border-radius: 6px;
+  color: $colorPrimary;
+  cursor: pointer;
+  display: inline-grid;
+  height: 20px;
+  line-height: 1;
+  margin: 0 8px 0 0;
+  place-content: center;
+  width: 20px;
+
+  &::before {
+    @extend %fa-icon;
+    @extend .far;
+    color: transparent;
+    content: fa-content($fa-var-check);
+    display: inline-grid;
+    place-items: center;
+    transition: color .2s;
+  }
+
+  &:disabled {
+    border-color: $colorGreyLight;
+    cursor: not-allowed;
+
+    + label {
+      color: $colorGreyLight;
+      cursor: not-allowed;
+    }
+  }
+
+  &:indeterminate {
     &::before {
       @extend %fa-icon;
       @extend .far;
-      color: transparent;
-      content: fa-content($fa-var-check);
+      color: $colorGrey;
+      content: fa-content($fa-var-minus);
       display: inline-grid;
       place-items: center;
       transition: color .2s;
     }
-
-    &:disabled {
-      border-color: $colorGreyLight;
-      cursor: not-allowed;
-
-      + label {
-        color: $colorGreyLight;
-        cursor: not-allowed;
-      }
-    }
-
-    &:indeterminate {
-      &::before {
-        @extend %fa-icon;
-        @extend .far;
-        color: $colorGrey;
-        content: fa-content($fa-var-minus);
-        display: inline-grid;
-        place-items: center;
-        transition: color .2s;
-      }
-    }
-
-    &:checked {
-      background-color: $colorPrimary;
-      border-color: $colorPrimary;
-
-      &::before {
-        color: $colorWhite;
-      }
-    }
   }
 
-  input[type="radio"] {
-    appearance: none;
-    background-color: $colorWhite;
-    border: 2px solid $colorGrey;
-    border-radius: 50%;
-    color: $colorPrimary;
-    cursor: pointer;
-    display: inline-grid !important;
-    height: 20px;
-    margin: 0 5px 0 0;
-    place-content: center;
-    width: 20px;
+  &:checked {
+    background-color: $colorPrimary;
+    border-color: $colorPrimary;
 
     &::before {
-      content: "";
-      background-color: $colorPrimary;
-      border-radius: 50%;
-      height: 10px;
-      opacity: 0;
-      width: 10px;
+      color: $colorWhite;
     }
+  }
+}
 
-    &:checked {
-      border-color: $colorPrimary;
+input[type="radio"] {
+  appearance: none;
+  background-color: $colorWhite;
+  border: 2px solid $colorGrey;
+  border-radius: 50%;
+  color: $colorPrimary;
+  cursor: pointer;
+  display: inline-grid !important;
+  height: 20px;
+  margin: 0 5px 0 0;
+  place-content: center;
+  width: 20px;
 
-      &::before {
-        opacity: 1;
-      }
+  &::before {
+    content: "";
+    background-color: $colorPrimary;
+    border-radius: 50%;
+    height: 10px;
+    opacity: 0;
+    width: 10px;
+  }
+
+  &:checked {
+    border-color: $colorPrimary;
+
+    &::before {
+      opacity: 1;
     }
+  }
 
-    &:disabled {
-      border-color: $colorGreyLight;
+  &:disabled {
+    border-color: $colorGreyLight;
+    cursor: not-allowed;
+
+    + label {
+      color: $colorGreyLight;
       cursor: not-allowed;
-
-      + label {
-        color: $colorGreyLight;
-        cursor: not-allowed;
-      }
     }
   }
+}
 
-  input[type="submit"] {
-    appearance: none;
-    box-shadow: inset 0 0 0;
-    font-family: inherit;
-    font-size: inherit;
-  }
+input[type="submit"] {
+  appearance: none;
+  box-shadow: inset 0 0 0;
+  font-family: inherit;
+  font-size: inherit;
 }
 
 .select2-container {

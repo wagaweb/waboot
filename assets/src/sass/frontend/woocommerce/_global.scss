@@ -55,6 +55,7 @@
 }
 
 .shop_table {
+  font-size: .875em;
   //@include table-responsive;
   width: 100%;
   border-collapse: collapse;
@@ -63,13 +64,14 @@
 
   td,
   th {
-    padding: 10px;
-    border-bottom: 1px solid;
-    border-color: $colorGreyLight;
+    padding: 8px;
   }
 
   th {
+    font-weight: $fontWeightSemibold;
+    letter-spacing: 1px;
     text-align: left;
+    text-transform: uppercase;
   }
 
   @include up($medium){
@@ -83,12 +85,6 @@
       text-align: right;
     }
   }
-
-
-  thead th {
-    border-color: $colorPrimary;
-  }
-
 }
 
 p.woocommerce-info {

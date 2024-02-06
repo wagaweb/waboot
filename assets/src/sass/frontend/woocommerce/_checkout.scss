@@ -1,4 +1,15 @@
 .woocommerce-page.woocommerce-checkout {
+  .main__grid {
+    padding-top: 48px;
+    @include up($large) {
+      padding-top: 80px;
+    }
+  }
+
+  .main__title {
+    margin-bottom: 40px;
+    text-align: center;
+  }
 
   .woocommerce-checkout {
     @include up($medium) {
@@ -88,7 +99,6 @@
 
     &-table {
       th, td {
-        border-color: #ccc;
         &.product-total {
           text-align: right;
         }
@@ -125,11 +135,9 @@
   }
 
   .woocommerce-form-coupon__wrapper {
-    padding-bottom: 20px;
-    margin-bottom: 20px;
-    border-bottom: 1px solid $colorGrey;
     display: flex;
     flex-wrap: wrap;
+    column-gap: $gridGutter / 2;
     .woocommerce-form-coupon-toggle {
       display: none;
     }
@@ -140,7 +148,7 @@
       margin-bottom: 0;
     }
     input[name='coupon_code']{
-      height: 100%;
+      height: 45px;
     }
   }
 
