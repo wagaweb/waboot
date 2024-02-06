@@ -1,0 +1,264 @@
+@import "../../../../../assets/src/sass/frontend/variables";
+@import "../../../../../assets/src/sass/frontend/media-query";
+
+// show/hide original WooCommerce elements
+#original-form-wrapper,
+#payment-wrapper {
+  form {
+    #customer_details,
+    #order_review_heading,
+    .woocommerce-checkout-review-order-table,
+    #payment .wc_payment_methods,
+    #payment .woocommerce-terms-and-conditions-wrapper,
+    #payment [name="woocommerce_checkout_place_order"] {
+      display: none;
+    }
+  }
+}
+
+#payment-wrapper {
+  form {
+    #customer_details,
+    #order_review_heading,
+    .woocommerce-checkout-review-order-table {
+      display: none;
+    }
+
+    #payment {
+      .wc_payment_methods {
+        display: block !important;
+      }
+      .woocommerce-terms-and-conditions-wrapper{
+        display: block !important;
+      }
+      [name="woocommerce_checkout_place_order"]{
+        display: none !important;
+      }
+    }
+  }
+}
+
+// override default WooCommerce styles
+.woocommerce-page.woocommerce-checkout {
+  .woocommerce-checkout {
+    display: block;
+    margin-bottom: 20px;
+
+    &-review-order-table {
+      td, th {
+        border-color: $colorGreyDark;
+      }
+    }
+  }
+
+ .woocommerce-billing-fields__field-wrapper {
+   @include down($medium) {
+     flex-direction: column;
+   }
+
+   .form-row {
+     margin-bottom: 15px;
+
+     @include down($medium) {
+       width: 100%;
+     }
+   }
+ }
+}
+
+.order-total {
+  td, th {
+    border: none;
+  }
+}
+
+.form-row {
+  label {
+    display: inline-flex;
+    margin-bottom: 5px;
+  }
+}
+
+// new checkout form specific styles
+.woocommerce-checkout-steps {
+  display: grid;
+  grid-gap: $gridGutter;
+
+  @include up($large) {
+    grid-gap: calc($gridGutter * 2);
+    grid-template-columns: 2fr 1fr;
+  }
+
+  &__item {
+    &:first-child {
+      .woocommerce-checkout-steps__link {
+        align-items: flex-start;
+      }
+    }
+
+    &:last-child {
+      .woocommerce-checkout-steps__link {
+        align-items: flex-end;
+      }
+    }
+
+    &--done {
+      .woocommerce-checkout-steps__number {
+        background-color: $colorPrimary;
+        border-color: $colorPrimary;
+        color: $colorWhite;
+      }
+    }
+  }
+
+  &__list {
+    display: flex;
+    justify-content: space-between;
+    list-style: none;
+    margin: 20px 0;
+    padding: 0;
+    position: relative;
+
+    &::before {
+      background-color: $colorGreyDark;
+      content: '';
+      display: block;
+      height: 1px;
+      position: absolute;
+      top: 20px;
+      width: 100%;
+      z-index: -1;
+    }
+  }
+
+  &__link {
+    align-items: center;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    font-weight: $fontWeightBold;
+    gap: 5px;
+    text-align: center;
+  }
+
+  &__number {
+    background-color: $colorGreyLight;
+    border: 1px solid $colorGreyDark;
+    border-radius: 50%;
+    display: grid;
+    font-size: 1.5em;
+    height: 40px;
+    place-items: center;
+    width: 40px;
+  }
+
+  &__label {
+    font-size: .8em;
+  }
+
+  &__content form,
+  &__content > div {
+    margin-bottom: 40px;
+  }
+
+  &__data {
+    position: relative;
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+  }
+
+  &__edit {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+
+  &__order-review {
+    background-color: $colorGreyLight;
+    min-height: 20vh;
+    padding: 20px;
+
+    &.loading {
+      background-color: gray;
+      position: relative;
+    }
+
+    .shop_table {
+      margin-bottom: 0;
+    }
+  }
+
+  &__loader {
+    background-color: $colorGreyLight;
+    display: none;
+    inset: 0;
+    place-items: center;
+    position: absolute;
+
+    .loading & {
+      display: grid;
+    }
+
+    .loader {
+      animation: rotate 1s linear infinite;
+      border-radius: 50%;
+      display: block;
+      height: 48px;
+      position: relative;
+      width: 48px;
+
+      &::before {
+        animation: prixClipFix 2s linear infinite;
+        border: 5px solid $colorGreyDark;
+        border-radius: 50%;
+        box-sizing: border-box;
+        content: "";
+        inset: 0;
+        position: absolute;
+      }
+    }
+  }
+
+  &__messages {
+    margin-top: 20px;
+  }
+
+  &__message {
+    display: inline-block;
+    padding: 5px 10px;
+    &:not(:last-child) {
+      margin-bottom: 5px;
+    }
+    &--error {
+      background-color: $colorWarning;
+      color: $colorWhite;
+    }
+  }
+}
+
+@keyframes rotate {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes prixClipFix {
+  0% {
+    clip-path: polygon(50% 50%, 0 0, 0 0, 0 0, 0 0, 0 0);
+  }
+  25% {
+    clip-path: polygon(50% 50%, 0 0, 100% 0, 100% 0, 100% 0, 100% 0);
+  }
+  50% {
+    clip-path: polygon(50% 50%, 0 0, 100% 0, 100% 100%, 100% 100%, 100% 100%);
+  }
+  75% {
+    clip-path: polygon(50% 50%, 0 0, 100% 0, 100% 100%, 0 100%, 0 100%);
+  }
+  100% {
+    clip-path: polygon(50% 50%, 0 0, 100% 0, 100% 100%, 0 100%, 0 0);
+  }
+}

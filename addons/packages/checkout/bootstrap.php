@@ -3,8 +3,11 @@
 namespace Waboot\addons\packages\checkout;
 
 use function Waboot\addons\getAddonDirectory;
+use function Waboot\inc\core\AssetsManager;
 
-remove_action( 'woocommerce_before_checkout_form', 'woocommerce_checkout_login_form', 10 );
+require_once 'backend-hooks.php';
+
+//remove_action( 'woocommerce_before_checkout_form', 'woocommerce_checkout_login_form', 10 );
 
 /*
  * rename the coupon field on the checkout page
@@ -46,18 +49,13 @@ add_action( 'woocommerce_review_order_before_payment' , function(){
 } , 20 );
 
 add_action('woocommerce_checkout_before_order_review_heading', function () {
-    echo '<div class="order-review__wrapper">';
+    //echo '<div class="order-review__wrapper">';
 }, 20);
 
 add_action('woocommerce_checkout_after_order_review_heading', function () {
-    echo '</div><!-- /.order-review-wrapper -->';
+    //echo '</div><!-- /.order-review-wrapper -->';
 }, 20);
 
-add_action('woocommerce_before_checkout_form', function($checkout){
-    if ( $checkout->enable_signup && !is_user_logged_in() ) {
-        include getAddonDirectory('checkout').'/templates/login-step.php';
-    }
-},20,1);
 
 /*
  * Remove fields from WooCommerce checkout page
@@ -93,3 +91,80 @@ add_action( 'woocommerce_thankyou', function(){
     include getAddonDirectory('checkout').'/templates/thankyou-order-buttons.php';
 }, 10 );
 
+/*
+ * Step Checkout
+ */
+
+add_action( 'woocommerce_checkout_init', function() {
+    //remove_action( 'woocommerce_checkout_billing', array( WC()->checkout(), 'checkout_form_billing' ) );
+});
+
+add_action('wp_enqueue_scripts', static function(){
+    try{
+        $assets = [];
+        $assetsDir = get_template_directory() . '/addons/packages/checkout/assets/dist/';
+        $jsFiles = glob($assetsDir.'/index-*.js');
+        if(!\is_array($jsFiles) || empty($jsFiles)){
+            return;
+        }
+        $mainJsFilePath = array_shift($jsFiles);
+        $mainJsFileName = basename($mainJsFilePath);
+        $assets['step-checkout-main-js'] = [
+            'uri' => get_template_directory_uri() . '/addons/packages/checkout/assets/dist/'.$mainJsFileName,
+            'path' => $assetsDir.'/'.$mainJsFileName,
+            'type' => 'js',
+            'i10n' => [
+                'name' => 'stepCheckoutBackendData',
+                'params' => [
+                    'ajax_url' => admin_url('admin-ajax.php'),
+                    'nonce' => wp_create_nonce('step-checkout-request-data'),
+                ]
+            ],
+            'in_footer' => true
+        ];
+        $cssFiles = glob($assetsDir.'/index-*.css');
+        if(\is_array($cssFiles) && !empty($cssFiles)){
+            $mainCssFilePath = array_shift($cssFiles);
+            $mainCssFileName = basename($mainCssFilePath);
+            $assets['step-checkout-main-css'] = [
+                'uri' => get_template_directory_uri() . '/addons/packages/checkout/assets/dist/'.$mainCssFileName,
+                'path' => $assetsDir.'/'.$mainCssFileName,
+                'type' => 'css'
+            ];
+        }
+        AssetsManager()->addAssets($assets);
+        AssetsManager()->enqueue();
+    }catch (\Exception $e){
+        trigger_error($e->getMessage(),E_USER_WARNING);
+    }
+});
+
+add_filter('script_loader_tag', static function($tag, $handle, $src){
+    if('step-checkout-main-js' !== $handle){
+        return $tag;
+    }
+    $tag = '<script type="module" src="' . esc_url( $src ) . '"></script>';
+    return $tag;
+},10,3);
+
+add_action('woocommerce_before_checkout_form', function($checkout){
+    ?>
+    <div id="woocommerce-checkout-steps-app" class="woocommerce-checkout-steps">
+    </div>
+
+	<?php echo do_shortcode('[woocommerce_social_login_buttons return_url="' . wc_get_checkout_url() . '"]'); ?>
+    <?php
+
+},20,1);
+
+add_action('woocommerce_before_checkout_form', function($checkout){
+    ?>
+    <div id="original-form-wrapper" style="margin-top: 60px;">
+    <?php
+},20,1);
+
+add_action('woocommerce_after_checkout_form', function($checkout){
+    ?>
+    </div><!-- #original-form-wrapper -->
+    <?php
+},99,1);
