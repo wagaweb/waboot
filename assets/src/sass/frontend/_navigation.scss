@@ -99,6 +99,7 @@
 
     > li:hover > .sub-menu--megamenu {
       padding: 16px 0;
+      transform: translateY(-16px);
       white-space: nowrap;
 
       a {

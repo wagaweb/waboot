@@ -41,7 +41,9 @@ function setup() {
 	// Adding support for Gutemberg Wide Alignment
 	add_theme_support('align-wide' );
 
-	// Custom logo
+    add_theme_support( 'appearance-tools' );
+
+    // Custom logo
 	add_theme_support('custom-logo');
 
     // WooCommerce

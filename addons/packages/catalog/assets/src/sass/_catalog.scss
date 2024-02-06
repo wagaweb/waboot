@@ -137,9 +137,10 @@
       }
       
       .sale-percentage {
-        background-color: $colorSecondary;
-        border-radius: 10px;
+        background-color: $colorSuccess;
+        color: $colorWhite;
         font-size: .875em;
+        font-weight: $fontWeightSemibold;
         padding: 2px 8px;
       }
     }

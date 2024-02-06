@@ -42,7 +42,6 @@
 .woocommerce-page.woocommerce-checkout {
   .woocommerce-checkout {
     display: block;
-    margin-bottom: 20px;
   }
 
  .woocommerce-billing-fields__field-wrapper {
@@ -76,7 +75,7 @@
 // new checkout form specific styles
 .woocommerce-checkout-steps {
   display: grid;
-  grid-gap: 48px;
+  grid-gap: 24px;
 
   @include up($large) {
     grid-gap: 60px;
@@ -90,10 +89,33 @@
     text-transform: uppercase;
   }
 
+  &__list {
+    display: grid;
+    grid-template-columns: max-content 1fr 1fr;
+    list-style: none;
+    margin: 0 0 24px 0;
+    padding: 0;
+  }
+
   &__item {
-    &:not(:last-child) {
+    flex: 1;
+    &:first-child {
       .woocommerce-checkout-steps__link {
         align-items: flex-start;
+      }
+    }
+    &:nth-child(2) {
+      .woocommerce-checkout-steps__link {
+        align-items: flex-end;
+      }
+    }
+    &:last-child {
+      .woocommerce-checkout-steps__link {
+        align-items: flex-end;
+      }
+    }
+    &:not(:first-child) {
+      .woocommerce-checkout-steps__link {
         position: relative;
 
         &::before {
@@ -101,10 +123,14 @@
           content: '';
           display: block;
           height: 3px;
+          left: 0;
           position: absolute;
-          top: 22px;
-          width: calc(100% + 24px);
+          top: 15px;
+          width: 100%;
           z-index: -1;
+          @include up($large) {
+            top: 22px;
+          }
         }
       }
     }
@@ -124,15 +150,6 @@
     }
   }
 
-  &__list {
-    display: grid;
-    grid-template-columns: 1fr 1fr max-content;
-    list-style: none;
-    margin: 0 0 80px 0;
-    padding: 0;
-
-  }
-
   &__link {
     align-items: center;
     color: inherit;
@@ -147,9 +164,13 @@
     border-radius: 50%;
     display: grid;
     font-weight: $fontWeightSemibold;
-    height: 48px;
+    height: 36px;
     place-items: center;
-    width: 48px;
+    width: 36px;
+    @include up($large) {
+      height: 48px;
+      width: 48px;
+    }
   }
 
   &__label {
@@ -184,7 +205,7 @@
     border-radius: 4px;
     background-color: $colorGreyLight;
     min-height: 20vh;
-    padding: 40px 24px;
+    padding: 16px;
     @include up($large) {
       padding: 40px;
     }

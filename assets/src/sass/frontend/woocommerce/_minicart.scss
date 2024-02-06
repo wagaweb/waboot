@@ -40,6 +40,7 @@
       padding-inline: 24px;
     }
     h2 {
+
       @extend .h3;
       @include up($large) {
         margin-bottom: 24px;
@@ -79,7 +80,6 @@
     }
     .quantity {
       display: block;
-      width: 100%;
       margin-top: 5px;
       &__label {
         display: inline-block;

@@ -22,13 +22,21 @@ body {
   width: 100%;
   max-width: 100vw;
   &__grid {
-    padding: 0 16px 64px;
+    padding: 0 16px 24px;
     margin-left: auto;
     margin-right: auto;
     width: 100%;
     max-width: 100vw;
+    @include up($large){
+      padding-bottom: 80px;
+    }
     @include up($xlarge){
       max-width: $containerWidth;
+    }
+  }
+  &__title {
+    h1 {
+      margin-bottom: 0;
     }
   }
   body.with-sidebar & {

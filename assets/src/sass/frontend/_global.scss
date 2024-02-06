@@ -1,8 +1,11 @@
 body {
   color: $colorText;
-  padding-top: 184px;
+  padding-top: 127px;
+  @include up($medium) {
+    padding-top: 110px;
+  }
   @include up($large) {
-    padding-top: 153px;
+    padding-top: 138px;
   }
 }
 

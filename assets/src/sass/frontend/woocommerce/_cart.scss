@@ -1,5 +1,15 @@
 .woocommerce-page {
+  .main__grid {
+    padding-top: 24px;
+    @include up($large) {
+      padding-top: 80px;
+    }
+  }
 
+  .main__title {
+    margin-bottom: 24px;
+    text-align: center;
+  }
   &.woocommerce-cart {
 
     .woocommerce {
@@ -10,20 +20,20 @@
         &-notices-wrapper {
           flex: 0 0 100%;
           width: 100%;
-          margin-bottom: 10px;
+          margin-bottom: 8px;
         }
 
         &-cart-form {
           flex: 0 1 66.66666%;
           max-width: 66.66666%;
-          padding-right: 20px;
+          padding-right: 24px;
           overflow: hidden;
         }
 
         .cart-collaterals {
           flex: 0 1 33.33333%;
           max-width: 33.33333%;
-          padding-left: 20px;
+          padding-left: 24px;
         }
       }
     }
@@ -79,6 +89,7 @@
 
       .coupon {
         display: flex;
+        gap: $gridGutter / 2;
         input {
           max-width: 250px;
           height: auto;
@@ -91,6 +102,28 @@
 
       button[name='update_cart'] {
         display: none;
+      }
+
+      .product-remove {
+        a {
+          outline: 1px solid $colorGrey;
+          border-radius: 50%;
+          color: $colorText;
+          display: grid;
+          font-size: 1.2em;
+          height: 23px;
+          line-height: 1;
+          place-items: center;
+          text-align: center;
+          transform: translateX(1px);
+          transition: .3s;
+          width: 23px;
+          &:hover {
+            background-color: $colorText;
+            outline-color: $colorText;
+            color: $colorWhite;
+          }
+        }
       }
 
       @include down($medium){
@@ -157,7 +190,8 @@
 .cart_item,
 .mini_cart_item {
   .variation {
-    margin: 5px 0 0;
+    display: inline-block;
+    margin: 8px 0 8px 8px;
     opacity: .75;
     font-size: 1em;
     dt,dd {
