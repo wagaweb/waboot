@@ -22,21 +22,16 @@ body {
   width: 100%;
   max-width: 100vw;
   &__grid {
-    padding: 0 16px 24px;
+    padding: 24px $gridGutter;
     margin-left: auto;
     margin-right: auto;
     width: 100%;
     max-width: 100vw;
     @include up($large){
-      padding-bottom: 80px;
+      padding: 40px $gridGutter;
     }
     @include up($xlarge){
       max-width: $containerWidth;
-    }
-  }
-  &__title {
-    h1 {
-      margin-bottom: 0;
     }
   }
   body.with-sidebar & {

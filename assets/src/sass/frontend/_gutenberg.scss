@@ -1,8 +1,12 @@
 .alignfull {
   margin-left: calc(50% - 50vw);
   margin-right: calc(50% - 50vw);
+  padding: 40px 0;
   width: auto;
   max-width: 1000%;
+  @include up($large) {
+    padding-block: 80px;
+  }
 }
 
 @include up($medium) {
@@ -72,10 +76,8 @@
 .wp-block-group {
   &.alignfull {
     .wp-block-group__inner-container {
-      padding: 20px 0;
-      @include up($medium) {
-        padding: $gridGutter 0;
-      }
+      @extend .wbcontainer;
+      padding: 0 16px;
     }
   }
 }
@@ -209,5 +211,17 @@
     &.columns-6 li {
       width: calc(16.66667% - calc(#{$gridGutter}*5/6));
     }
+  }
+}
+
+
+
+.wp-block-media-text {
+  gap: $gridGutter;
+  @include up($large) {
+    gap: $gridGutter * 3;
+  }
+  .wp-block-media-text__content {
+    padding: 0;
   }
 }

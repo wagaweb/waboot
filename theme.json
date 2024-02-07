@@ -1,0 +1,14 @@
+{
+  "$schema": "https:\/\/schemas.wp.org\/trunk\/theme.json",
+  "version": 2,
+  "settings": {
+    "appearanceTools": true,
+    "typography": {
+      "customFontSize": true
+    },
+    "layout": {
+      "contentSize": "1400px",
+      "wideSize": "1400px"
+    }
+  }
+}

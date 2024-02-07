@@ -1,11 +1,4 @@
 .woocommerce-page.woocommerce-checkout {
-  .main__grid {
-    padding-top: 24px;
-    @include up($large) {
-      padding-top: 80px;
-    }
-  }
-
   .main__title {
     margin-bottom: 24px;
     text-align: center;

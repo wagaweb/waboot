@@ -9,13 +9,6 @@ body {
   }
 }
 
-section.wp-block-group {
-  padding-block: 40px;
-  &:last-child {
-    padding-bottom: 0;
-  }
-}
-
 .wp-block-group {
   &.has-global-padding {
     padding-inline: 0;

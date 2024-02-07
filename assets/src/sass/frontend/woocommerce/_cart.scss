@@ -1,11 +1,4 @@
 .woocommerce-page {
-  .main__grid {
-    padding-top: 24px;
-    @include up($large) {
-      padding-top: 80px;
-    }
-  }
-
   .main__title {
     margin-bottom: 24px;
     text-align: center;
@@ -163,27 +156,26 @@
     }
 
     .cart_totals {
-      text-align : left;
-      width      : 100%;
-
-      th, td {
-        text-align    : left;
-      }
+      background-color: $colorGreyLight;
+      border-radius: 4px;
+      padding: 24px;
+      text-align: left;
+      width: 100%;
 
       .woocommerce-shipping-methods {
-        padding-left: 0;
         list-style: none;
+        padding-left: 0;
       }
 
       .wc-proceed-to-checkout a {
-        width           : 100%;
+        margin-top: 24px;
+        width: 100%;
       }
     }
 
     .cross-sells {
-      width : 100%;
+      width: 100%;
     }
-
   }
 }
 

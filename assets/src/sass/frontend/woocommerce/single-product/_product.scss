@@ -37,6 +37,7 @@
       align-items: center;
       display: flex;
       justify-content: space-between;
+      margin-bottom: 16px;
     }
 
     .product__sku {
@@ -56,15 +57,6 @@
         }
       }
     }
-  }
-
-  .product_title {
-    margin-bottom: 40px;
-  }
-
-  .woocommerce-product-details__short-description {
-    margin-bottom: 40px;
-    margin-top: 48px;
   }
 
   .woocommerce-single-product__cat {
@@ -123,6 +115,7 @@
     .quantity {
       display: grid;
       grid-template-columns: repeat(3, auto);
+      margin-bottom: 24px;
       width: fit-content;
 
       &__label {
@@ -162,6 +155,7 @@
         font-weight: $fontWeightSemibold;
         justify-content: center;
         line-height: 48px;
+        text-decoration: none;
         width: 48px;
 
         &--inc {
@@ -170,23 +164,17 @@
       }
     }
 
-    button {
-      margin-top: 80px;
-    }
-
     table.variations {
-      margin-bottom: 40px;
-
       th {
         font-size: 1.25em;
-        margin-bottom: 24px;
+        margin-bottom: 8px;
         text-align: left;
       }
 
       tr {
         display: flex;
         flex-direction: column;
-        padding-bottom: 40px;
+        margin-bottom: 24px;
 
         &:last-child {
           padding-bottom: 0;
@@ -208,9 +196,9 @@
   .product-shipping-conditions {
     border-radius: 4px;
     background-color: $colorGreyLight;
-    margin-top: 64px;
+    margin-top: 24px;
     font-size: .875em;
-    padding: 24px 40px;
+    padding: 24px ;
     text-transform: uppercase;
 
     p {
@@ -223,9 +211,7 @@
   }
 
   .woocommerce-tabs {
-    margin-bottom: 64px;
-    margin-top: 64px;
-    padding-top: 64px;
+    margin-block: 24px;
     width: 100%;
 
     @include up($medium) {
