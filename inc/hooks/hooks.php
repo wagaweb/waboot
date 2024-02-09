@@ -170,3 +170,49 @@ add_filter( 'map_meta_cap', function( $caps, $cap ) {
  */
 add_filter( 'gform_disable_css', '__return_true' );
 add_filter( 'gform_disable_form_theme_css', '__return_true' );
+
+
+add_action( 'init', function() {
+    register_block_style(
+        'core/button',
+        [
+            'name' => 'secondary',
+            'label' => 'Secondary',
+        ]
+    );
+    register_block_style(
+        'core/button',
+        [
+            'name' => 'read-more',
+            'label' => 'Read More',
+        ]
+    );
+    register_block_style(
+        'core/button',
+        [
+            'name' => 'icon-primary',
+            'label' => 'Icon Primary',
+        ]
+    );
+    register_block_style(
+        'core/button',
+        [
+            'name' => 'icon-secondary',
+            'label' => 'Icon Secondary',
+        ]
+    );
+    register_block_style(
+        'core/button',
+        [
+            'name' => 'icon-outline',
+            'label' => 'Icon Outline',
+        ]
+    );
+    register_block_style(
+        'core/button',
+        [
+            'name' => 'icon-read-more',
+            'label' => 'Icon Read More',
+        ]
+    );
+} );
