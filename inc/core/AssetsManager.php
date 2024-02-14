@@ -3,7 +3,6 @@
 namespace Waboot\inc\core;
 
 use Waboot\inc\core\utils\Utilities;
-use function WP_CLI\Utils\wp_version_compare;
 
 /**
  * Class AssetsManager
