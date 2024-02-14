@@ -13,19 +13,22 @@ function assets(){
         'uri' => defined('WP_DEBUG') && WP_DEBUG ? get_template_directory_uri() . '/assets/dist/js/main.pkg.js' : get_template_directory_uri() . '/assets/dist/js/main.min.js',
         'path' => defined('WP_DEBUG') && WP_DEBUG ? get_template_directory() . '/assets/dist/js/main.pkg.js' : get_template_directory() . '/assets/dist/js/main.min.js',
         'type' => 'js',
-        'deps' => ['jquery','owlcarousel-js','venobox-js']
+        'deps' => ['jquery','owlcarousel-js','venobox-js'],
+	    //'loading_strategy' => 'defer'
     ];
     $assets['owlcarousel-js'] = [
         'uri' => get_template_directory_uri() . '/assets/vendor/owlcarousel/owl.carousel.min.js',
         'path' => get_template_directory() . '/assets/vendor/owlcarousel/owl.carousel.min.js',
         'type' => 'js',
-        'deps' => ['jquery']
+        'deps' => ['jquery'],
+	    //'loading_strategy' => 'defer'
     ];
     $assets['venobox-js'] = [
         'uri' => get_template_directory_uri() . '/assets/vendor/venobox/venobox.min.js',
         'path' => get_template_directory() . '/assets/vendor/venobox/venobox.min.js',
         'type' => 'js',
-        'deps' => ['jquery']
+        'deps' => ['jquery'],
+	    //'loading_strategy' => 'defer'
     ];
     $assets['main-style'] = [
         'uri' => get_template_directory_uri() . '/assets/dist/css/main.min.css',
