@@ -20,16 +20,19 @@ function assets(){
             ]
         ]),
         'deps' => apply_filters('waboot/assets/js/main/deps',['jquery','owlcarousel-js','venobox-js']),
+        //'loading_strategy' => 'defer'
     ];
     $assets['owlcarousel-js'] = [
         'uri' => get_template_directory_uri() . '/assets/vendor/owlcarousel/owl.carousel.min.js',
         'type' => 'js',
-        'deps' => ['jquery']
+        'deps' => ['jquery'],
+        //'loading_strategy' => 'defer'
     ];
     $assets['venobox-js'] = [
         'uri' => get_template_directory_uri() . '/assets/vendor/venobox/venobox.min.js',
         'type' => 'js',
-        'deps' => ['jquery']
+        'deps' => ['jquery'],
+        //'loading_strategy' => 'defer'
     ];
     $assets['main-style'] = [
         'uri' => get_template_directory_uri() . '/assets/dist/css/main.min.css',
