@@ -87,6 +87,7 @@ abstract class AbstractCSVParserCommand extends AbstractCommand
                     $this->error('Impossibile trovare il file: '.$sourceFilePath);
                 }
             }
+            $this->sourceFilePath = $sourceFilePath;
             $this->delimiter = $assoc_args['delimiter'] ?? $this->getDefaultCSVDelimiter();
             $this->customInitialization($args,$assoc_args);
             if($this->parseAllFiles){
