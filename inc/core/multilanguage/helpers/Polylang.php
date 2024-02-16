@@ -16,6 +16,15 @@ class Polylang
 
     /**
      * @param string $lang
+     * @return bool
+     */
+    public static function langExists(string $lang): bool
+    {
+        return in_array($lang,pll_languages_list());
+    }
+
+    /**
+     * @param string $lang
      * @return void
      */
     public static function isActiveLanguage(string $lang): bool
