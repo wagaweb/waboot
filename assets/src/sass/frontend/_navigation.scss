@@ -1,13 +1,13 @@
 .header__navigation {
+
   ul {
-    list-style: none;
     margin: 0;
     padding: 0;
+    list-style: none;
   }
 
   li {
     position: relative;
-
     &.menu-item-has-children {
       > a::after {
         @extend %fa-icon;
@@ -15,7 +15,6 @@
         content: fa-content($fa-var-angle-down);
         margin-left: 8px;
       }
-
       li.menu-item-has-children > a:after {
         content: fa-content($fa-var-angle-right);
       }
@@ -68,8 +67,12 @@
     }
 
     .sub-menu {
-      display: none;
-      
+      position: absolute;
+      z-index: 7;
+      overflow: hidden;
+      max-height: 0;
+      transition: max-height .3s;
+
       li a {
         display: block;
         padding: 8px 16px;
@@ -81,11 +84,9 @@
       background-clip: padding-box;
       background-color: $colorWhite;
       border: 1px solid $colorGreyLight;
-      display: block;
+      max-height: max-content;
       margin: 0;
       padding: 0;
-      position: absolute;
-      z-index: 7;
     }
 
     > li:hover > .sub-menu {
@@ -98,7 +99,6 @@
     }
 
     > li:hover > .sub-menu--megamenu {
-      padding: 16px 0;
       transform: translateY(-16px);
       white-space: nowrap;
 
@@ -194,5 +194,33 @@
     line-height: 1em;
     padding-right: 16px;
     width: 48px;
+  }
+}
+
+.megamenu {
+  display: none;
+  @include up($large) {
+    display: block;
+  }
+  &__container {
+    @extend .wbcontainer;
+    padding: 40px 16px;
+  }
+  ul:not(:last-child) {
+    margin-bottom: 40px;
+  }
+  &__cta {
+    border-top: 1px solid $colorGrey;
+    margin-top: 40px;
+    padding-top: 16px;
+    .wp-block-button {
+      width: 100%;
+      .wp-block-button__link {
+        @include buttonStyle(transparent, $colorPrimary, $colorText, none);
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+      }
+    }
   }
 }

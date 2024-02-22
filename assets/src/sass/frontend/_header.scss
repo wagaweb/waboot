@@ -1,16 +1,15 @@
 .header {
-  background-color: $colorGreyLight;
-  left: 0;
-  position: fixed;
-  right: 0;
-  top: 0;
-  transition: all 1s ease;
   width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
   z-index: 20;
+  transition: all 1s ease;
+  box-shadow: 0 1px 3px rgba(0,0,0, .1);
 
   body.admin-bar & {
     top: 46px;
-
     @include up($large) {
       top: 32px;
     }
@@ -23,18 +22,14 @@
 
   .scroll-up & {
     background-color: $colorWhite;
-    box-shadow: 0 1px 3px rgba(0,0,0, .1);
     transform: none;
   }
 
   &__topbar {
-    background-color: #C0C0C0;
+    background-color: $colorGreyLight;
     font-size: .875em;
-    padding: 16px;
+    padding: 8px 16px;
     text-align: center;
-    @include up($large) {
-      font-size: 1em;
-    }
   }
 
   &__container {
@@ -47,7 +42,7 @@
     display: flex;
     gap: $gridGutter;
     justify-content: space-between;
-    padding: 16px;
+    padding: 8px 16px;
 
     @include down($large){
       flex-wrap: wrap;

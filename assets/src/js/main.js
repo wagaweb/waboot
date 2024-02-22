@@ -25,7 +25,7 @@ $(window).on('load',function(){
         enableProductQuantity();
     }
     if (window.matchMedia('(max-width: 991px)').matches) {
-        slideinHeight();
+        //slideinHeight();
     }
 });
 
@@ -115,8 +115,9 @@ function scrollToAnimate(){
 function slideinHeight(){
     let $ = jQuery;
     let headerHeight = $('header').outerHeight();
-    $('.slidein').css({ 'height': 'calc(100% - ' + headerHeight+ 'px)' });
-    $('.slidein').css('top',headerHeight);
+    let $slideIn = $('.slidein');
+    $slideIn.css({ 'height': 'calc(100% - ' + headerHeight+ 'px)' });
+    $slideIn.css('top',headerHeight);
 }
 
 function initCarousel() {

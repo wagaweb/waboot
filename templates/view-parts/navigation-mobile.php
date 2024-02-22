@@ -1,7 +1,5 @@
 <div class="slidein navigation-mobile" data-slidein-nav data-slidein-toggle="#slidein-nav__toggle">
 
-    <!--<a data-slidein-close><i class="far fa-times"></i></a>-->
-
     <div class="navigation-mobile__inner">
 
         <?php wp_nav_menu([
@@ -13,5 +11,7 @@
         ]); ?>
 
     </div>
+
+    <button class="slidein__close" data-slidein-close><i class="far fa-times"></i></button>
 
 </div>

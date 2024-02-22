@@ -66,8 +66,8 @@ function headerFixedWhenBack() {
 }
 
 function backOnSubmenu() {
-    $('.navigation-mobile .sub-menu').prepend('<span class="backlevel__icon"><i class="far fa-angle-left"></i></span>');
-    $('.navigation-mobile .menu-item-has-children').append('<span class="sublevel__icon"><i class="far fa-angle-right"></i></span>');
+    $('.navigation-mobile .sub-menu').append('<button class="backlevel__icon"><i class="far fa-angle-left"></i></button>');
+    $('.navigation-mobile .menu-item-has-children').append('<button class="sublevel__icon"><i class="far fa-angle-right"></i></button>');
 }
 
 function mobileDropdown(el) {

@@ -52,7 +52,7 @@ ul, ol {
 a {
   color: $colorPrimary;
   outline: none;
-  transition: all .3s ease-in-out;
+  transition: .3s;
 
   &:link,
   &:visited,
@@ -64,6 +64,11 @@ a {
   &:hover,
   &:focus {
     color: lighten($colorPrimary, 20%) ;
+  }
+
+  &:focus-visible {
+    outline: 2px solid $colorPrimary;
+    transition: none;
   }
 
   &.text-primary {

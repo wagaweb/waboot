@@ -12,12 +12,14 @@
 
     </div>
 
-    <a href="javascript:;" class="header__toggle header__link--nav slidein-nav__toggle" data-open-sidenav=".sidenavigation">
+    <button class="header__toggle header__link--nav slidein-nav__toggle" data-open-sidenav=".sidenavigation">
         <span class="sr-only"><?php _e("Toggle navigation",LANG_TEXTDOMAIN); ?></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
-    </a>
+    </button>
+
+    <?php echo get_template_part('templates/view-parts/navigation-mobile' ); ?>
 
     <div class="header__navigation" role="navigation">
         <?php wp_nav_menu([
@@ -38,9 +40,12 @@
 
         <?php else : ?>
 
-            <a href="javascript:;" class="header__link--search slidein-search__toggle" data-open-sidenav=".sidesearch">
+            <button class="header__link--search slidein-search__toggle" data-open-sidenav=".sidesearch">
                 <i class="fal fa-search"></i>
-            </a>
+            </button>
+
+            <?php echo get_template_part('templates/view-parts/sidesearch' ); ?>
+
             <a href="/my-account">
                 <i class="fal fa-user"></i>
             </a>
@@ -49,10 +54,10 @@
             </a>
 
             <?php if(!is_cart() && !is_checkout()) : ?>
-                <a href="javascript:;" class="minicart-toggle" id="minicart-toggle" data-open-minicart=".minicart">
+                <button class="minicart-toggle" id="minicart-toggle" data-open-minicart=".minicart">
                     <span class="minicart__counter" data-cart-items></span>
                     <i class="fal fa-shopping-bag"></i>
-                </a>
+                </button>
             <?php endif; ?>
 
         <?php endif; ?>
