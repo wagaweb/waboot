@@ -1,12 +1,12 @@
 .header {
   width: 100%;
-  position: fixed;
+  background-color: $colorWhite;
+  box-shadow: 0 1px 3px rgba(0,0,0, .1);
+  position: sticky;
   top: 0;
   left: 0;
   right: 0;
-  z-index: 20;
-  transition: all 1s ease;
-  box-shadow: 0 1px 3px rgba(0,0,0, .1);
+  transition: .3s ease;
 
   body.admin-bar & {
     top: 46px;
@@ -15,89 +15,80 @@
     }
   }
 
+  .scroll-down &,
+  .scroll-up & {
+    z-index: 20;
+    transition: all 1s ease;
+  }
+
   .scroll-down & {
-    background-color: $colorWhite;
     transform: translate3d(0, -100%, 0);
   }
 
   .scroll-up & {
-    background-color: $colorWhite;
     transform: none;
   }
 
-  &__topbar {
+  &__top {
     background-color: $colorGreyLight;
-    font-size: .875em;
-    padding: 8px 16px;
+    padding-block: 8px;
     text-align: center;
   }
 
   &__container {
-    @include wbcontainer();
+    margin-inline: auto;
+    max-width: $containerWidth;
+    padding-inline: 16px;
   }
 
   &__inner {
-    @extend .wbcontainer;
-    align-items: center;
-    display: flex;
-    gap: $gridGutter;
-    justify-content: space-between;
+    max-width: $containerWidth;
+    margin: 0 auto;
     padding: 8px 16px;
-
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     @include down($large){
       flex-wrap: wrap;
     }
   }
 
   &__logo {
-    font-size: 1.5em;
-    font-weight: $fontWeightBold;
-    text-transform: uppercase;
-
     @include down($large) {
-      flex-grow: 1;
       max-width: 85%;
     }
-
-    @include up($large) {
-      font-size: 2.5em;
-    }
-
-    a {
-      color: inherit;
-    }
-
     img {
-      max-height: 20px;
-      max-width: 100%;
-
-      @include up($large) {
-        max-height: none;
-        max-width: 180px;
+      max-width : 100%;
+      max-height: 35px;
+      @include up($large){
+        max-height: 48px;
       }
     }
   }
 
   &__toggle {
-    align-items: flex-end;
+    float: none;
+    padding: 0;
+    margin: 0;
+    border: 0;
     background-color: transparent;
-    border: none;
+    width: 40px;
+    height: 40px;
     display: flex;
     flex-direction: column;
-    float: none;
     justify-content: center;
-    margin: 0;
+    align-items: flex-end;
     order: 10;
-    padding: 0;
 
     .icon-bar {
       display: block;
+      width: 20px;
       height: 2px;
-      width: 24px;
-      background-color: #1C1C1C;
+      border-radius: 1px;
+      background-color: $colorText;
 
       + .icon-bar {
-        margin-top: 6px;
+        margin-top: 4px;
       }
     }
 
@@ -107,35 +98,50 @@
   }
 
   &__icons {
+    margin-left: 24px;
     display: grid;
-    margin-left: $gridGutter;
+    grid-template-columns: repeat(autofill,1fr);
     grid-auto-flow: column;
     grid-gap: $gridGutter;
-
     a {
       color: inherit;
-
       &:hover {
         color: $colorPrimary;
       }
     }
   }
 
+  &__link--search {
+    background: 0;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+  }
+
   &__navigation {
     background-color: transparent;
-    border: none;
+    border: 0;
     border-radius: 0;
-    flex-grow: 1;
     margin: 0;
     padding: 0;
+    flex-grow: 1;
 
     @include down($large) {
       display: none;
     }
 
     > ul {
-      align-items: center;
       display: flex;
+      justify-content: flex-end;
+      align-items: center;
+    }
+
+    a {
+      color: inherit;
+      &:hover {
+        color: $colorPrimary;
+      }
     }
   }
+
 }

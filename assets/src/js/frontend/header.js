@@ -5,6 +5,7 @@ import $ from 'jquery';
  * @param {string} selector
  */
 export function initHeader(selector){
+    //mainPadding();
     headerFixedWhenBack();
     backOnSubmenu();
     mobileDropdown(selector);
@@ -14,8 +15,13 @@ export function initHeader(selector){
     });
 
     $(window).on("resize", () => {
-
+        //mainPadding();
     });
+}
+
+function mainPadding() {
+    let $headerHeight = $(".header").outerHeight();
+    $(".main").css("padding-top", $headerHeight);
 }
 
 function headerFixed() {
@@ -66,8 +72,8 @@ function headerFixedWhenBack() {
 }
 
 function backOnSubmenu() {
-    $('.navigation-mobile .sub-menu').append('<button class="backlevel__icon"><i class="far fa-angle-left"></i></button>');
-    $('.navigation-mobile .menu-item-has-children').append('<button class="sublevel__icon"><i class="far fa-angle-right"></i></button>');
+    $('.navigation-mobile .sub-menu').prepend('<span class="backlevel__icon"><i class="far fa-angle-left"></i></span>');
+    $('.navigation-mobile .menu-item-has-children').append('<span class="sublevel__icon"><i class="far fa-angle-right"></i></span>');
 }
 
 function mobileDropdown(el) {

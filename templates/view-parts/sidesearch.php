@@ -5,6 +5,7 @@
         <button class="btn" id="searchsubmit" type="submit" name="submit"><?php _e( 'Search', LANG_TEXTDOMAIN ); ?></button>
     </form>
 
-    <button data-slidein-close><i class="fal fa-times"></i></button>
-
+    <button data-slidein-close aria-label="<?php _e('Close Slide', LANG_TEXTDOMAIN); ?>">
+        <i class="fa-light fa-xmark"></i>
+    </button>
 </div>

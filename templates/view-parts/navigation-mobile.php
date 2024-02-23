@@ -12,6 +12,8 @@
 
     </div>
 
-    <button class="slidein__close" data-slidein-close><i class="far fa-times"></i></button>
+    <button data-slidein-close aria-label="<?php _e('Close Slide', LANG_TEXTDOMAIN); ?>">
+        <i class="fa-light fa-xmark"></i>
+    </button>
 
 </div>

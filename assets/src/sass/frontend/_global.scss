@@ -1,14 +1,3 @@
-body {
-  color: $colorText;
-  padding-top: 127px;
-  @include up($medium) {
-    padding-top: 110px;
-  }
-  @include up($large) {
-    padding-top: 138px;
-  }
-}
-
 .wp-block-group {
   &.has-global-padding {
     padding-inline: 0;

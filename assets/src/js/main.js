@@ -115,105 +115,11 @@ function scrollToAnimate(){
 function slideinHeight(){
     let $ = jQuery;
     let headerHeight = $('header').outerHeight();
-    let $slideIn = $('.slidein');
-    $slideIn.css({ 'height': 'calc(100% - ' + headerHeight+ 'px)' });
-    $slideIn.css('top',headerHeight);
+    $('.slidein').css({ 'height': 'calc(100% - ' + headerHeight+ 'px)' });
+    $('.slidein').css('top',headerHeight);
 }
 
 function initCarousel() {
-    let $ = jQuery;
-    $('.block__carousel--1 .wp-block-group__inner-container').addClass('block__carousel owl-carousel').owlCarousel({
-        items: 1,
-        autoplay:true,
-        loop: true,
-        autoHeight: true,
-        nav: true,
-        navText: ['<i class="fas fa-chevron-left"></i>','<i class="fas fa-chevron-right"></i>']
-    })
-    $('.wp-block-gallery.block__carousel--1').wrapInner('<div class="blocks-gallery-grid"></div>');
-    $('.wp-block-gallery.block__carousel--2').wrapInner('<div class="blocks-gallery-grid"></div>');
-    $('.wp-block-gallery.block__carousel--3').wrapInner('<div class="blocks-gallery-grid"></div>');
-    $('.wp-block-gallery.block__carousel--4').wrapInner('<div class="blocks-gallery-grid"></div>');
-    $('.wp-block-gallery.block__carousel--5').wrapInner('<div class="blocks-gallery-grid"></div>');
-
-    $('.block__carousel--1 > .blocks-gallery-grid').addClass('block__carousel owl-carousel').owlCarousel({
-        items: 1,
-        autoplay:true,
-        loop: true,
-        autoHeight: true,
-        dots:false,
-        nav: false,
-        0 : {
-            nav: false,
-        },
-        768 : {
-            nav: true,
-        }
-    })
-    $('.block__carousel--2 > .blocks-gallery-grid').addClass('block__carousel owl-carousel').owlCarousel({
-        autoplay:true,
-        loop: true,
-        dots:false,
-        nav: true,
-        navText: ['<i class="fas fa-chevron-left"></i>','<i class="fas fa-chevron-right"></i>'],
-        responsive : {
-            0 : {
-                items: 1,
-            },
-            768 : {
-                items: 2,
-                margin: 30
-            }
-        }
-    })
-    $('.block__carousel--3 > .blocks-gallery-grid').addClass('block__carousel owl-carousel').owlCarousel({
-        autoplay:true,
-        loop: true,
-        dots:false,
-        nav: true,
-        navText: ['<i class="fas fa-chevron-left"></i>','<i class="fas fa-chevron-right"></i>'],
-        responsive : {
-            0 : {
-                items: 1,
-            },
-            768 : {
-                items: 3,
-                margin: 30
-            }
-        }
-    })
-    $('.block__carousel--4 > .blocks-gallery-grid').addClass('block__carousel owl-carousel').owlCarousel({
-        autoplay:true,
-        loop: true,
-        dots:false,
-        nav: true,
-        navText: ['<i class="fas fa-chevron-left"></i>','<i class="fas fa-chevron-right"></i>'],
-        responsive : {
-            0 : {
-                items: 1,
-            },
-            768 : {
-                items: 4,
-                margin: 30
-            }
-        }
-    })
-    $('.block__carousel--5 > .blocks-gallery-grid').addClass('block__carousel owl-carousel').owlCarousel({
-        autoplay:true,
-        loop: true,
-        dots:false,
-        nav: true,
-        navText: ['<i class="fas fa-chevron-left"></i>','<i class="fas fa-chevron-right"></i>'],
-        responsive : {
-            0 : {
-                items: 1,
-            },
-            768 : {
-                items: 5,
-                margin: 30
-            }
-        }
-    })
 }
 
 function venoboxCarouselGutenbergGallery() {
@@ -226,37 +132,6 @@ function venoboxCarouselGutenbergGallery() {
 }
 
 function printSalePercentage(selector) {
-    $(selector).each(function () {
-        const $price = $(this);
-        const regular = Number(
-            $price
-                .find('del bdi')
-                .clone()
-                .children()
-                .remove()
-                .end()
-                .text()
-                .replace(',', '.')
-        );
-        const current = Number(
-            $price
-                .find('ins bdi')
-                .clone()
-                .children()
-                .remove()
-                .end()
-                .text()
-                .replace(',', '.')
-        );
-        if (regular > 0 && !Number.isNaN(current)) {
-            const percentage = 100 - (current * 100) / regular;
-            $price.append(
-                '<span class="sale-percentage">-' +
-                Math.round(percentage) +
-                '%</span>'
-            );
-        }
-    });
 }
 
 function showHidePasswords() {

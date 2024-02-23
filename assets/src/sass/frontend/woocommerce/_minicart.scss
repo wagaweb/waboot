@@ -1,5 +1,6 @@
 .minicart {
   background: $colorWhite;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
   display: block;
   height: 100%;
   position: fixed;
@@ -11,8 +12,8 @@
   transform: translate(100%, 0);
   width: 100%;
   @include up($large) {
-    transform: translate(400px, 0);
-    width: 400px;
+    transform: translate(350px, 0);
+    width: 350px;
   }
   &.show {
     transform: translate(0, 0);
@@ -40,7 +41,6 @@
       padding-inline: 24px;
     }
     h2 {
-
       @extend .h3;
       @include up($large) {
         margin-bottom: 24px;
@@ -142,6 +142,9 @@
   display: flex;
   align-items: center;
   justify-content: flex-end !important;
+  background: none;
+  border: none;
+  margin: 0;
   @include up($large) {
     right: 24px;
     top: 40px;

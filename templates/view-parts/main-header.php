@@ -2,7 +2,7 @@
 
     <div class="header__logo">
 
-        <a href="<?php echo home_url( '/' ); ?>">
+        <a href="<?php echo home_url( '/' ); ?>" aria-label="<?php echo get_bloginfo('name'); ?>">
             <?php if ( \Waboot\inc\getLogo() !== '' ) : ?>
                 <?php \Waboot\inc\theLogo(false, 'header__logo'); ?>
             <?php else : ?>
@@ -12,14 +12,13 @@
 
     </div>
 
-    <button class="header__toggle header__link--nav slidein-nav__toggle" data-open-sidenav=".sidenavigation">
-        <span class="sr-only"><?php _e("Toggle navigation",LANG_TEXTDOMAIN); ?></span>
+    <button class="header__toggle header__link--nav slidein-nav__toggle" data-open-sidenav=".sidenavigation" aria-label="<?php _e("Toggle navigation",LANG_TEXTDOMAIN); ?>">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
     </button>
 
-    <?php echo get_template_part('templates/view-parts/navigation-mobile' ); ?>
+    <?php get_template_part('templates/view-parts/navigation-mobile'); ?>
 
     <div class="header__navigation" role="navigation">
         <?php wp_nav_menu([
@@ -35,29 +34,29 @@
 
         <?php if(is_checkout()) : ?>
 
-            <a href="<?php echo wc_get_page_permalink( 'cart' ); ?>"><i class="fal fa-chevron-left"></i> Torna al carrello</a>
-            <!--<a href="<?php // echo wc_get_page_permalink( 'shop' ); ?>"><i class="fal fa-chevron-left"></i> Torna allo shop</a>-->
+            <a href="<?php echo wc_get_page_permalink( 'cart' ); ?>"><i class="fa-light fa-chevron-left"></i> <?php _e('Torna al carrello', LANG_TEXTDOMAIN); ?></a>
+            <!--<a href="<?php // echo wc_get_page_permalink( 'shop' ); ?>"><i class="fa-light fa-chevron-left"></i> Torna allo shop</a>-->
 
         <?php else : ?>
 
             <button class="header__link--search slidein-search__toggle" data-open-sidenav=".sidesearch">
-                <i class="fal fa-search"></i>
+                <i class="fa-light fa-search"></i>
             </button>
 
-            <?php echo get_template_part('templates/view-parts/sidesearch' ); ?>
+            <?php get_template_part('templates/view-parts/sidesearch'); ?>
 
             <a href="/my-account">
-                <i class="fal fa-user"></i>
+                <i class="fa-light fa-user"></i>
             </a>
             <a href="/wishlist">
-                <i class="fal fa-heart"></i>
+                <i class="fa-light fa-heart"></i>
             </a>
 
             <?php if(!is_cart() && !is_checkout()) : ?>
-                <button class="minicart-toggle" id="minicart-toggle" data-open-minicart=".minicart">
+                <a href="javascript:;" class="minicart-toggle" id="minicart-toggle" data-open-minicart=".minicart">
                     <span class="minicart__counter" data-cart-items></span>
-                    <i class="fal fa-shopping-bag"></i>
-                </button>
+                    <i class="fa-light fa-shopping-bag"></i>
+                </a>
             <?php endif; ?>
 
         <?php endif; ?>

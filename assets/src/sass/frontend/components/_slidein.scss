@@ -25,14 +25,13 @@
     position: fixed;
     top: 0;
     width: 100%;
-    z-index: 99;
   }
   &-no-scroll {
     overflow: hidden !important;
   }
 }
 
-a[data-slidein-close] {
+[data-slidein-close] {
   position: absolute;
   right: 0;
   top: 0;
@@ -46,4 +45,6 @@ a[data-slidein-close] {
   display: flex;
   align-items: center;
   justify-content: flex-end !important;
+  background: none;
+  border: none;
 }
