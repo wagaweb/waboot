@@ -82,13 +82,20 @@ add_filter('nav_menu_item_args', function ($args, $item) {
     if (empty($menu)) {
         return $args;
     }
-    $args->after .= '<div class="sub-menu sub-menu--megamenu megamenu"><div class="megamenu__container">' . apply_filters('the_content', $menu->post_content) . '</div></div>';
+
+    $menuTitle = $menu->post_title;
+
+    preg_match('/(\d+)/', $menuTitle, $matches);
+    $megamenuNumber = !empty($matches[0]) ? $matches[0] : '';
+
+    $args->after .= '<div class="sub-menu sub-menu--megamenu megamenu megamenu--' . $megamenuNumber . '"><div class="megamenu__container">' . apply_filters('the_content', $menu->post_content) . '</div></div>';
 
     $item->classes[] = 'menu-item-has-children';
     $item->classes[] = 'menu-item-has-megamenu';
 
     return $args;
 }, 20, 4);
+
 
 
 /**

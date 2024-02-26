@@ -1,0 +1,141 @@
+.menu-item-has-megamenu {
+  position: static !important;
+}
+.megamenu {
+  background-color: $colorWhite;
+  border: none !important;
+  display: none;
+  @include up($large) {
+    display: block;
+  }
+  &::before {
+    content: '';
+    background-color: rgba(0,0,0, .2);
+    display: block;
+    height: 100vh;
+    position: absolute;
+    top: 100%;
+    width: 100%;
+  }
+  &__container {
+    @extend .wbcontainer;
+    padding: 40px 16px;
+  }
+  ul:not(:last-child) {
+    margin-bottom: 40px;
+  }
+  &__header {
+    border-bottom: 1px solid $colorGreyLight;
+    margin-bottom: 32px;
+    padding-bottom: 8px;
+    h2 {
+      font-size: 2em;
+      font-style: $fontWeightNormal;
+    }
+  }
+  &--1 {
+    left: 0;
+    position: fixed;
+    right: 0;
+    h3 {
+      font-size: 1.25em;
+    }
+    .wp-block-columns {
+      gap: 24px;
+    }
+    .megamenu__product {
+      align-items: stretch;
+      gap: $gridGutter;
+      .wp-block-group {
+        width: 100%;
+      }
+      .wp-block-button__link {
+        padding: 0;
+      }
+    }
+  }
+  &--2 {
+    left: 0;
+    position: fixed;
+    right: 0;
+    .wp-block-heading {
+      align-items: flex-end;
+      bottom: 24px;
+      justify-content: flex-end;
+      line-height: 1;
+      position: absolute;
+      right: 24px;
+      text-align: left;
+      transform: translate(24px, -24px) rotate(-90deg);
+      a {
+        padding: 0;
+      }
+    }
+  }
+  &--3 {
+    left: 0;
+    position: fixed;
+    right: 0;
+    background-color: rgba(0,0,0, .2) !important;
+    height: 100vh;
+    &::before {
+      content: none !important;
+    }
+    .megamenu {
+      &__container {
+        background-color: $colorWhite;
+        max-width: 900px;
+        padding: 0;
+      }
+    }
+    .wc-block-product-categories {
+      > ul {
+        columns: 2;
+        a {
+          font-size: 2rem;
+          font-weight: $fontWeightSemibold;
+        }
+      }
+    }
+    .wc-block-product-categories-list-item-count {
+      font-weight: $fontWeightSemibold;
+      opacity: .3;
+      position: absolute;
+      right: 0;
+      top: 10px;
+    }
+    .wc-block-product-categories-list-item-count::before,
+    .wc-block-product-categories-list-item-count::after {
+      content: none;
+    }
+  }
+
+  &--7 {
+    background-color: $colorWhite;
+    left: 0;
+    position: fixed;
+    right: 0;
+    .megamenu {
+      &__cta {
+        border-top: 1px solid $colorGreyLight;
+        margin-top: 40px;
+        padding-top: 16px;
+        .wp-block-button {
+          width: 100%;
+          .wp-block-button__link {
+            @include buttonStyle(transparent, $colorPrimary, $colorText, none);
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+          }
+        }
+      }
+    }
+    h3 {
+      opacity: .4;
+    }
+    .wp-block-button__link {
+      border: none;
+    }
+  }
+}

@@ -70,6 +70,16 @@
       }
     }
 
+    > li:hover > .sub-menu--megamenu {
+      transform: translateY(-16px);
+      white-space: nowrap;
+
+      a {
+        padding: 0;
+        text-align: initial;
+      }
+    }
+
     .sub-menu > li:hover > .sub-menu {
       top: -1px;
       left: 100%;
@@ -158,3 +168,5 @@
   }
 
 }
+
+

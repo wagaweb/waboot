@@ -7,6 +7,7 @@
   left: 0;
   right: 0;
   transition: .3s ease;
+  z-index: 20;
 
   body.admin-bar & {
     top: 46px;
@@ -17,7 +18,6 @@
 
   .scroll-down &,
   .scroll-up & {
-    z-index: 20;
     transition: all 1s ease;
   }
 
