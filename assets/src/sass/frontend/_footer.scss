@@ -1,46 +1,11 @@
 .footer {
-  background-color: $colorGreyLight;
-  padding: 64px 0;
-  @include up($large) {
-    padding-bottom: 24px;
-    padding-top: 40px;
-  }
+  padding-block: 40px 24px;
+  
   &__inner {
-    border-bottom: 1px solid $colorWhite;
-    margin-bottom: 48px;
     margin-inline: auto;
     max-width: $containerWidth;
-    padding-bottom: 48px;
+    padding-bottom: 24px;
     padding-inline: 16px;
-    .wp-block-columns.is-layout-flex {
-      gap: 48px;
-      @include up($medium) {
-        gap: $gridGutter;
-      }
-      .wp-block-column {
-        &:not(:last-child) {
-          text-align: center;
-          @include up($large) {
-            text-align: initial;
-          }
-        }
-        &:last-child {
-          @include up($large) {
-            flex: 0 0 33.33%;
-          }
-        }
-      }
-    }
-    p {
-      font-size: .875em;
-    }
-    ul {
-      display: grid;
-      gap: $gridGutter;
-      list-style: none;
-      margin: 0;
-      padding: 0;
-    }
     a {
       color: inherit;
       @include up($large) {
@@ -50,6 +15,7 @@
       }
     }
   }
+  
   &__closure {
     max-width: $containerWidth;
     margin: 0 auto;
@@ -58,9 +24,9 @@
     justify-content: center;
     align-items: center;
     text-align: center;
-    gap: 40px;
     font-size: .875em;
     padding-inline: 16px;
+    gap: $gridGutter / 2;
     @include up($medium) {
       flex-direction: row;
       justify-content: space-between;
@@ -138,5 +104,249 @@
     max-width: $containerWidth;
     margin: 0 auto;
     padding: $gridGutter;
+  }
+}
+
+
+.footer--1 {
+  h3, h4, h5 {
+    font-weight: $fontWeightNormal;
+  }
+
+  h3 {
+    max-width: 20ch;
+    @include up($large) {
+      font-size: 3em;
+    }
+  }
+
+  h4 {
+    @include up($large) {
+      font-size: 2em;
+    }
+  }
+
+  h5 {
+    margin-bottom: 4px;
+    @include up($large) {
+      font-size: 1.25em;
+    }
+  }
+
+  p {
+    max-width: 60ch;
+  }
+
+  .footer {
+    &__columns {
+      justify-content: space-between;
+      @include up($large) {
+        gap: 80px;
+      }
+      > .wp-block-column {
+        max-width: 610px;
+      }
+    }
+
+    &__nav a {
+      font-size: 1.25em;
+      font-weight: $fontWeightSemibold;
+      &:hover {
+        color: $colorPrimary;
+      }
+    }
+
+    &__phone,
+    &__envelope {
+      display: grid;
+      grid-gap: 8px;
+      grid-template-columns: 40px 1fr;
+      .wp-block-group {
+        gap: 4px;
+      }
+    }
+
+    &__phone::before {
+      content: url("../../images/icon-phone.svg");
+    }
+
+    &__envelope::before {
+      content: url("../../images/icon-envelope.svg");
+    }
+  }
+}
+
+.footer--2 {
+  h3 {
+    max-width: 20ch;
+    @include up($large) {
+      font-size: 3em;
+    }
+  }
+
+  h6 {
+    font-size: .875em;
+    font-weight: $fontWeightSemibold;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  p {
+    max-width: 60ch;
+  }
+
+  .footer {
+    &__columns {
+      justify-content: space-between;
+      @include up($large) {
+        gap: 80px;
+      }
+      > .wp-block-column {
+        max-width: 610px;
+      }
+    }
+
+    &__nav a {
+      font-size: 1.25em;
+      font-weight: $fontWeightSemibold;
+
+      &:hover {
+        color: $colorPrimary;
+      }
+    }
+  }
+  .wp-block-navigation .wp-block-navigation-item__content.wp-block-navigation-item__content {
+    &:hover {
+      color: $colorPrimary;
+    }
+  }
+}
+
+.footer--3 {
+  h3 {
+    max-width: 20ch;
+    @include up($large) {
+      font-size: 3em;
+    }
+  }
+
+  h6 {
+    font-size: .875em;
+    font-weight: $fontWeightSemibold;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  p {
+    max-width: 60ch;
+  }
+
+  .footer {
+    &__columns {
+      justify-content: space-between;
+      @include up($large) {
+        gap: 80px;
+      }
+      > .wp-block-column {
+        max-width: 610px;
+      }
+    }
+
+    &__nav a {
+      font-size: 1.25em;
+      font-weight: $fontWeightSemibold;
+
+      &:hover {
+        color: $colorPrimary;
+      }
+    }
+  }
+
+  .wp-block-navigation .wp-block-navigation-item__content.wp-block-navigation-item__content {
+    &:hover {
+      color: $colorPrimary;
+    }
+  }
+}
+
+.footer--4 {
+  a {
+    font-weight: $fontWeightSemibold;
+  }
+
+  .footer {
+    &__content {
+      @include up($large) {
+        gap: 40px;
+      }
+    }
+    &__menu {
+      a {
+        font-size: .875em;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        &:hover {
+          color: $colorPrimary;
+        }
+      }
+    }
+
+    &__social {
+      @include up($large) {
+        font-size: 1.25em;
+      }
+      a {
+        &:hover {
+          color: $colorPrimary;
+        }
+      }
+    }
+  }
+}
+
+.footer--5 {
+  h6 {
+    font-size: .875em;
+    font-weight: $fontWeightSemibold;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .wp-block-navigation-item__content:hover {
+    color: $colorPrimary;
+  }
+
+  .footer {
+    &__social {
+      a {
+        @include up($large) {
+          font-size: 1.25em;
+          font-weight: $fontWeightSemibold;
+        }
+        &:hover {
+          color: $colorPrimary;
+        }
+      }
+    }
+  }
+}
+
+.footer--6 {
+  .wp-block-navigation-item__content:hover {
+    color: $colorPrimary;
+  }
+
+  .footer {
+    &__social {
+      a {
+        @include up($large) {
+          font-size: 1.25em;
+          font-weight: $fontWeightSemibold;
+        }
+        &:hover {
+          color: $colorPrimary;
+        }
+      }
+    }
   }
 }

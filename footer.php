@@ -1,4 +1,4 @@
-    <footer class="footer">
+    <footer class="footer footer--6">
 
         <?php do_action('waboot/layout/footer'); ?>
 
