@@ -51,6 +51,13 @@
       }
     }
 
+    .sub-menu:is(.megamenu) {
+      li a {
+        padding: initial;
+        white-space: initial;
+      }
+    }
+
     li:hover > .sub-menu {
       display: block;
       position: absolute;
@@ -60,6 +67,10 @@
       background-color: #fff;
       border: 1px solid rgba(0, 0, 0, .15);
       background-clip: padding-box;
+    }
+
+    li:hover > .sub-menu:is(.megamenu--3) {
+      background-color: rgba(0,0,0, .2);;
     }
 
     > li:hover > .sub-menu {
@@ -75,7 +86,6 @@
       white-space: nowrap;
 
       a {
-        padding: 0;
         text-align: initial;
       }
     }
