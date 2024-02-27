@@ -70,7 +70,11 @@
     }
 
     li:hover > .sub-menu:is(.megamenu--3) {
-      background-color: rgba(0,0,0, .2);;
+      background-color: rgba(0,0,0, .2);
+    }
+
+    li:hover > .sub-menu:is(.megamenu) {
+      border: none;
     }
 
     > li:hover > .sub-menu {
@@ -82,7 +86,7 @@
     }
 
     > li:hover > .sub-menu--megamenu {
-      transform: translateY(-16px);
+      transform: translateY(-8px);
       white-space: nowrap;
 
       a {
