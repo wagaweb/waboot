@@ -1,6 +1,6 @@
 <div class="footer__inner">
     <?php
-    $blockContent = parse_blocks( get_post_field( 'post_content', 2389 )) ;
+    $blockContent = parse_blocks( get_post_field( 'post_content', 2396 )) ;
     echo render_block( $blockContent[0] );
     ?>
 </div>
