@@ -34,6 +34,14 @@
     }
   }
 
+  &__logo img {
+    height: 60px;
+    margin-left: 0;
+    @include up($large) {
+      margin-bottom: 40px;
+    }
+  }
+
   &__left {
     @include up($large) {
       display: flex;
@@ -352,7 +360,67 @@
 }
 
 .footer.footer--7 {
-  .wp-block-columns {
-    gap: 0;
+  background-color: #000;
+  color: $colorWhite;
+  padding-top: 0;
+  .alignfull {
+    padding: 0 !important;
+  }
+  .wp-block-group {
+    position: relative;
+    > .wp-block-columns {
+      gap: 0;
+      @include up($large) {
+        margin-bottom: 80px;
+      }
+      > .wp-block-column:first-child {
+        background-color: $colorGreyDark;
+        padding: 24px 24px 24px $gridGutter;
+        @include up($large) {
+          padding-bottom: 40px;
+          padding-right: 80px;
+          padding-top: 80px;
+        }
+        &::before {
+          background-color: inherit;
+          content: "";
+          display: block;
+          height: 100%;
+          left: -100%;
+          position: absolute;
+          top: 0;
+          width: 100%;
+        }
+      }
+      > .wp-block-column:last-child {
+        background-color: #1c1c1c;
+        padding-right: $gridGutter;
+        &::before {
+          background-color: inherit;
+          content: "";
+          display: block;
+          height: 100%;
+          right: -100%;
+          position: absolute;
+          top: 0;
+          width: 100%;
+        }
+
+        .is-vertical {
+          padding: 0 0 0 $gridGutter;
+          @include up($large) {
+            padding: 40px 0 40px 40px;
+          }
+        }
+
+        .wp-block-image {
+          img {
+            min-width: 38vw;
+            object-fit: cover;
+            position: relative;
+          }
+        }
+      }
+    }
   }
 }

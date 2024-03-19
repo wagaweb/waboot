@@ -1,10 +1,3 @@
-<div class="footer__inner">
-    <?php
-    $blockContent = parse_blocks( get_post_field( 'post_content', 2396 )) ;
-    echo render_block( $blockContent[0] );
-    ?>
-</div>
-
 <div class="footer__closure">
     <div class="footer__left">
         <div class="footer__copy">© <?php echo date( 'Y' ); ?> <?php echo get_bloginfo(); ?> | All Rights Reserved.</div>
