@@ -234,3 +234,12 @@
     }
   }
 }
+
+.footer--8,
+.footer--9 {
+  .wp-block-columns:not(:last-child) {
+    @include up($large) {
+      margin-bottom: 80px;
+    }
+  }
+}
