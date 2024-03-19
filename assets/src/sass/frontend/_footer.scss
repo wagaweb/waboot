@@ -1,11 +1,11 @@
 .footer {
-  padding-block: 40px 24px;
-  
   &__inner {
     margin-inline: auto;
     max-width: $containerWidth;
-    padding-bottom: 24px;
-    padding-inline: 16px;
+    padding: 24px $gridGutter;
+    @include up($large) {
+      padding-block: 80px;
+    }
     a {
       color: inherit;
       @include up($large) {
@@ -17,16 +17,16 @@
   }
   
   &__closure {
-    max-width: $containerWidth;
-    margin: 0 auto;
+    align-items: center;
+    border-top: 1px solid $colorGreyLight;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    font-size: .875em;
-    padding-inline: 16px;
     gap: $gridGutter / 2;
+    justify-content: center;
+    margin: 0 auto;
+    max-width: $containerWidth;
+    padding: 24px $gridGutter;
+    text-align: center;
     @include up($medium) {
       flex-direction: row;
       justify-content: space-between;
@@ -37,51 +37,29 @@
   &__logo img {
     height: 60px;
     margin-left: 0;
-    @include up($large) {
-      margin-bottom: 40px;
-    }
-  }
-
-  &__left {
-    @include up($large) {
-      display: flex;
-    }
   }
 
   &__menu {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
     display: flex;
-    &--bottom {
-      flex-wrap: wrap;
-      justify-content: center;
-      margin: 8px 0 0 0;
-      @include up($large) {
-        margin-top: 0;
-        &::before {
-          content: '|';
-          margin-inline: 4px;
-        }
-      }
-      li:not(:last-child)::after {
-        content: '-';
-        margin-inline: 4px;
-      }
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    a:hover {
+      text-decoration: underline;
     }
-    &--social {
-      font-size: 1.25em;
-      gap: $gridGutter;
-      a {
-        color: inherit;
-        &:hover {
-          color: $colorPrimary;
-        }
+  }
+
+  &__social {
+    a {
+      @extend .h5;
+      font-weight: $fontWeightSemibold;
+      &:hover {
+        opacity: .5;
       }
     }
   }
 
-  .gform_wrapper.gravity-theme {
+  &__newsletter_wrapper {
     .gform_required_legend {
       display: none;
     }
@@ -90,289 +68,80 @@
     }
     .gchoice {
       display: flex;
-      input[type="checkbox"] {
-        transform: translateY(4px);
-      }
     }
-    .gfield input.medium {
-      width: 100%;
+
+    input[type="checkbox"] {
+      transform: translateY(4px);
+    }
+
+    input[type="email"] {
+      width: 100% !important;
     }
   }
-}
 
-.widgetarea__footer {
-  padding: 0;
-  margin: 0;
-  display: grid;
-  grid-template-columns: repeat(auto-fit,minmax(auto,300px));
-  grid-gap: $gridGutter;
-  justify-content: center;
-  &-inner {
-    width: 100vw;
-    max-width: $containerWidth;
-    margin: 0 auto;
-    padding: $gridGutter;
+  &__copy {
+    font-size: .875em;
   }
-}
 
+  &__addresses {
+    i {
+      @extend .h3;
+    }
+    h5 {
+      font-weight: $fontWeightNormal;
+    }
+  }
 
-.footer--1 {
-  h3, h4, h5 {
+  &__label {
+    font-size: .875em;
+    margin-bottom: 16px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  &__menu {
+    gap: $gridGutter;
+  }
+
+  &__cta {
+    border-top: 1px solid darken($colorGreyDark, 10%);
+    margin-top: 24px;
+    padding-top: 24px;
+    @include up($large) {
+      margin-top: 80px;
+    }
+  }
+
+  h3, h4 {
+    max-width: 20ch;
+  }
+
+  h3 {
+    @extend .h1;
     font-weight: $fontWeightNormal;
   }
 
-  h3 {
-    max-width: 20ch;
-    @include up($large) {
-      font-size: 3em;
-    }
-  }
-
   h4 {
-    @include up($large) {
-      font-size: 2em;
-    }
-  }
-
-  h5 {
-    margin-bottom: 4px;
-    @include up($large) {
-      font-size: 1.25em;
-    }
+    @extend .h3;
+    font-weight: $fontWeightNormal;
   }
 
   p {
-    max-width: 60ch;
-  }
-
-  .footer {
-    &__columns {
-      justify-content: space-between;
-      @include up($large) {
-        gap: 80px;
-      }
-      > .wp-block-column {
-        max-width: 610px;
-      }
-    }
-
-    &__nav a {
-      font-size: 1.25em;
-      font-weight: $fontWeightSemibold;
-      &:hover {
-        color: $colorPrimary;
-      }
-    }
-
-    &__phone,
-    &__envelope {
-      display: grid;
-      grid-gap: 8px;
-      grid-template-columns: 40px 1fr;
-      .wp-block-group {
-        gap: 4px;
-      }
-    }
-
-    &__phone::before {
-      content: url("../../images/icon-phone.svg");
-    }
-
-    &__envelope::before {
-      content: url("../../images/icon-envelope.svg");
-    }
-  }
-}
-
-.footer--2 {
-  h3 {
-    max-width: 20ch;
-    @include up($large) {
-      font-size: 3em;
-    }
-  }
-
-  h6 {
-    font-size: .875em;
-    font-weight: $fontWeightSemibold;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-  }
-
-  p {
-    max-width: 60ch;
-  }
-
-  .footer {
-    &__columns {
-      justify-content: space-between;
-      @include up($large) {
-        gap: 80px;
-      }
-      > .wp-block-column {
-        max-width: 610px;
-      }
-    }
-
-    &__nav a {
-      font-size: 1.25em;
-      font-weight: $fontWeightSemibold;
-
-      &:hover {
-        color: $colorPrimary;
-      }
-    }
-  }
-  .wp-block-navigation .wp-block-navigation-item__content.wp-block-navigation-item__content {
-    &:hover {
-      color: $colorPrimary;
-    }
-  }
-}
-
-.footer--3 {
-  h3 {
-    max-width: 20ch;
-    @include up($large) {
-      font-size: 3em;
-    }
-  }
-
-  h6 {
-    font-size: .875em;
-    font-weight: $fontWeightSemibold;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-  }
-
-  p {
-    max-width: 60ch;
-  }
-
-  .footer {
-    &__columns {
-      justify-content: space-between;
-      @include up($large) {
-        gap: 80px;
-      }
-      > .wp-block-column {
-        max-width: 610px;
-      }
-    }
-
-    &__nav a {
-      font-size: 1.25em;
-      font-weight: $fontWeightSemibold;
-
-      &:hover {
-        color: $colorPrimary;
-      }
-    }
-  }
-
-  .wp-block-navigation .wp-block-navigation-item__content.wp-block-navigation-item__content {
-    &:hover {
-      color: $colorPrimary;
-    }
-  }
-}
-
-.footer--4 {
-  a {
-    font-weight: $fontWeightSemibold;
-  }
-
-  .footer {
-    &__content {
-      @include up($large) {
-        gap: 40px;
-      }
-    }
-    &__menu {
-      a {
-        font-size: .875em;
-        letter-spacing: 1px;
-        text-transform: uppercase;
-        &:hover {
-          color: $colorPrimary;
-        }
-      }
-    }
-
-    &__social {
-      @include up($large) {
-        font-size: 1.25em;
-      }
-      a {
-        &:hover {
-          color: $colorPrimary;
-        }
-      }
-    }
-  }
-}
-
-.footer--5 {
-  h6 {
-    font-size: .875em;
-    font-weight: $fontWeightSemibold;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-  }
-
-  .wp-block-navigation-item__content:hover {
-    color: $colorPrimary;
-  }
-
-  .footer {
-    &__social {
-      a {
-        @include up($large) {
-          font-size: 1.25em;
-          font-weight: $fontWeightSemibold;
-        }
-        &:hover {
-          color: $colorPrimary;
-        }
-      }
-    }
-  }
-}
-
-.footer--6 {
-  .wp-block-navigation-item__content:hover {
-    color: $colorPrimary;
-  }
-
-  .footer {
-    &__social {
-      a {
-        @include up($large) {
-          font-size: 1.25em;
-          font-weight: $fontWeightSemibold;
-        }
-        &:hover {
-          color: $colorPrimary;
-        }
-      }
-    }
+    max-width: 50ch;
   }
 }
 
 .footer.footer--7 {
-  background-color: #000;
+  background-color: darken($colorGreyDark, 10%);
   color: $colorWhite;
-  padding-top: 0;
+  .footer__inner,
   .alignfull {
-    padding: 0 !important;
+    padding-block: 0;
   }
   .wp-block-group {
     position: relative;
     > .wp-block-columns {
       gap: 0;
-      @include up($large) {
-        margin-bottom: 80px;
-      }
       > .wp-block-column:first-child {
         background-color: $colorGreyDark;
         padding: 24px 24px 24px $gridGutter;
@@ -393,7 +162,7 @@
         }
       }
       > .wp-block-column:last-child {
-        background-color: #1c1c1c;
+        background-color: darken($colorGreyDark, 5%);
         padding-right: $gridGutter;
         &::before {
           background-color: inherit;
@@ -406,21 +175,48 @@
           width: 100%;
         }
 
-        .is-vertical {
-          padding: 0 0 0 $gridGutter;
-          @include up($large) {
-            padding: 40px 0 40px 40px;
-          }
-        }
-
         .wp-block-image {
+          margin-bottom: 0;
           img {
             min-width: 38vw;
             object-fit: cover;
             position: relative;
           }
         }
+
+        .is-vertical {
+          padding: 0 0 0 $gridGutter;
+          margin-top: 0;
+          @include up($large) {
+            padding: 40px 0 40px 40px;
+          }
+        }
       }
     }
   }
+
+  .footer__logo {
+    @include up($large) {
+      margin-bottom: 80px;
+    }
+  }
+
+  .footer__closure {
+    border: none;
+  }
+
+  h2 {
+    @extend .h3;
+    font-weight: $fontWeightNormal;
+  }
+
+  h3 {
+    @extend .h4;
+  }
+
+  input[type="email"] {
+    color: $colorText;
+  }
+
+  input
 }
