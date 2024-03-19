@@ -214,9 +214,23 @@
     @extend .h4;
   }
 
-  input[type="email"] {
-    color: $colorText;
+  form {
+    position: relative;
   }
 
-  input
+  input[type="email"] {
+    color: $colorText;
+    padding-right: 100px;
+  }
+
+  input[type="submit"] {
+    margin: 0;
+    position: absolute;
+    right: 4px;
+    top: 4px;
+    @include down($large) {
+      padding: 5px 10px;
+      top: 5px;
+    }
+  }
 }

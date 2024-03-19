@@ -5,19 +5,19 @@ body {
   overflow-x: hidden;
 }
 h1, .h1 {font-size: 2.6em;}
-h2, h2 {font-size: 2.15em;}
+h2, .h2 {font-size: 2.15em;}
 h3, .h3 {font-size: 1.7em;}
 h4, .h4 {font-size: 1.25em;}
 h5, .h5 {font-size: 1em;}
 h6, .h6 {font-size: 0.85em;}
 
 @include up($large) {
-  h1, .h1 {font-size: 2.6em;}
-  h2, .h2 {font-size: 2.15em;}
-  h3, .h3 {font-size: 1.7em;}
-  h4, .h4 {font-size: 1.25em;}
-  h5, .h5 {font-size: 1em;}
-  h6, .h6 {font-size: 0.85em;}
+  h1, .h1 {font-size: 3em;} //48px
+  h2, .h2 {font-size: 2.5em;} //40px
+  h3, .h3 {font-size: 2em;} //32px
+  h4, .h4 {font-size: 1.5em;} //24px
+  h5, .h5 {font-size: 1.125em;} //18px
+  h6, .h6 {font-size: 1em;} //16px
 }
 
 h1, .h1, h2, .h2, h3, .h3 {
