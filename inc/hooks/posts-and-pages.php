@@ -11,14 +11,14 @@ use function Waboot\inc\core\Waboot;
 add_action('waboot/layout/title',__NAMESPACE__."\\displayTitle");
 add_action('waboot/layout/title/after',__NAMESPACE__."\\displayTaxonomyDescription",20);
 
-//Article Footer:
-add_action('waboot/article/footer',__NAMESPACE__."\\articleFooterWrapperStart",10);
-add_action('waboot/article/footer',__NAMESPACE__."\\displayPostDate",20);
-add_action('waboot/article/footer',__NAMESPACE__."\\displayPostAuthor",30);
-add_action('waboot/article/footer',__NAMESPACE__."\\displayPostCategories",40);
-add_action('waboot/article/footer',__NAMESPACE__."\\displayPostTags",50);
-add_action('waboot/article/footer',__NAMESPACE__."\\displayPostCommentLink",60);
-add_action('waboot/article/footer',__NAMESPACE__."\\articleFooterWrapperEnd",9999);
+//Article Header:
+add_action('waboot/article/header',__NAMESPACE__."\\articleHeaderWrapperStart",10);
+add_action('waboot/article/header',__NAMESPACE__."\\displayPostDate",20);
+add_action('waboot/article/header',__NAMESPACE__."\\displayPostAuthor",30);
+add_action('waboot/article/header',__NAMESPACE__."\\displayPostCategories",40);
+add_action('waboot/article/header',__NAMESPACE__."\\displayPostTags",50);
+add_action('waboot/article/header',__NAMESPACE__."\\displayPostCommentLink",60);
+add_action('waboot/article/header',__NAMESPACE__."\\articleHeaderWrapperEnd",9999);
 
 /**
  * Display the main title of page
@@ -88,7 +88,7 @@ function displayPostDate($print_relative = null){
 
     Waboot()->renderView($tpl,[
         'tag_date' => esc_attr(get_the_date('c')),
-        'date' => !$relative_time ? esc_html( get_the_date() ) : sprintf( _x( '%s ago', 'Relative date output for entry footer' ,LANG_TEXTDOMAIN ), human_time_diff( get_the_date( 'U' ), current_time( 'timestamp' ) ) )
+        'date' => !$relative_time ? esc_html( get_the_date() ) : sprintf( _x( '%s ago', 'Relative date output for entry header' ,LANG_TEXTDOMAIN ), human_time_diff( get_the_date( 'U' ), current_time( 'timestamp' ) ) )
     ]);
 }
 
@@ -149,16 +149,16 @@ function displayPostCommentLink(){
 }
 
 /**
- * Prints out the entry footer wrapper start
+ * Prints out the entry header wrapper start
  */
-function articleFooterWrapperStart(){
-	echo '<div class="article__footer">';
+function articleHeaderWrapperStart(){
+	echo '<div class="article__header">';
 }
 
 /**
- * Prints out the entry footer wrapper end
+ * Prints out the entry header wrapper end
  */
-function articleFooterWrapperEnd(){
+function articleHeaderWrapperEnd(){
 	echo '</div>';
 }
 

@@ -1,4 +1,5 @@
 <?php if(is_singular('post')) : ?>
+	<?php do_action( 'waboot/article/header' ); ?>
     <?php if(has_post_thumbnail()) : ?>
         <figure class="article__image">
             <?php
@@ -12,7 +13,6 @@
     <div class="article__content">
         <?php the_content(); ?>
     </div>
-    <?php do_action( 'waboot/article/footer' ); ?>
 <?php else : ?>
     <?php the_content(); ?>
 <?php endif; ?>

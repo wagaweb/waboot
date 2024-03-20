@@ -1,8 +1,8 @@
 <?php if(is_singular()) : ?>
     <h1><?php the_title(); ?></h1>
+    <?php do_action( 'waboot/article/header' ); ?>
     <?php echo do_shortcode( '[audio]' ); ?>
     <?php the_content(); ?>
-    <?php do_action( 'waboot/article/footer' ); ?>
 <?php else : ?>
     <article role="article" id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
         <div class="article__inner">

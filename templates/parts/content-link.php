@@ -1,6 +1,6 @@
 <?php if(is_singular()) : ?>
-    <?php the_content(); ?>
     <?php do_action( 'waboot/article/footer' ); ?>
+    <?php the_content(); ?>
 <?php else : ?>
     <article role="article" id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
         <div class="article__inner">

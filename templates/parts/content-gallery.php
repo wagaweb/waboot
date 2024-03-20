@@ -1,7 +1,7 @@
 <?php if(is_singular()) : ?>
+    <?php do_action( 'waboot/article/header' ); ?>
     <?php \Waboot\inc\displayPostGallery(); ?>
     <?php the_content(); ?>
-    <?php do_action( 'waboot/article/footer' ); ?>
 <?php else : ?>
     <article role="article" id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
         <div class="article__inner">
