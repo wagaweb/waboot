@@ -1,22 +1,23 @@
-.single {
+.article {
+  &__meta {
+    font-size: 0.875em;
+    padding-block: 0 24px;
+
+    .glyphicon {
+      margin-right: 5px;
+    }
+
+    > span {
+      margin-right: 16px;
+    }
+  }
+  }
+
+.single-post {
   .main__grid {
     max-width: $containerNarrow;
   }
   .article {
-    &__header {
-      color: $colorGrey;
-      font-size: 0.875em;
-      padding-block: 24px 40px;
-
-      .glyphicon {
-        margin-right: 5px;
-      }
-
-      > span {
-        margin-right: 16px;
-      }
-    }
-
     &__image {
       margin-bottom: 40px;
       img {
@@ -40,33 +41,38 @@
 }
 
 body.blog {
-  .main__grid {
+  .main__grid:has(.article__list) {
     max-width: $containerNarrow;
   }
-}
 
-
-.article__list {
-  article {
-    margin-bottom: 24px;
-  }
-  @include up($medium){
-    .article {
-      &__inner {
-        display: flex;
-        flex-wrap: nowrap;
-      }
-      &__image {
-        flex: 0 0 auto;
-        margin-right: 24px
-      }
-      &__content {
-        flex: 1 1 auto;
+  .article {
+    &__list,
+    &__grid {
+      + .pagination {
+        margin-top: 40px;
       }
     }
-  }
 
-  h2 {
-    @extend .h4;
+    &__list {
+      display: grid;
+      gap: 40px;
+    }
+
+    &__grid {
+      display: grid;
+      gap: 40px 24px;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    }
+
+    &__inner {
+      display: grid;
+      gap: 24px;
+    }
+
+    &__content {
+      h2 {
+        @extend .h4;
+      }
+    }
   }
 }

@@ -34,6 +34,19 @@ body {
       max-width: $containerWidth;
     }
   }
+  &__title {
+    h1 {
+      margin-bottom: 40px;
+    }
+  }
+  &__content {
+    a:not(.btn, .wp-block-button__link) {
+      &:hover,
+      &:focus {
+        text-decoration: underline;
+      }
+    }
+  }
   body.with-sidebar & {
     @include up($medium) {
       &__grid {

@@ -1,5 +1,5 @@
 <?php if(is_singular()) : ?>
-    <?php do_action( 'waboot/article/header' ); ?>
+    <?php do_action( 'waboot/article/meta' ); ?>
     <?php \Waboot\inc\displayPostGallery(); ?>
     <?php the_content(); ?>
 <?php else : ?>

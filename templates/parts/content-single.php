@@ -1,5 +1,5 @@
 <?php if(is_singular('post')) : ?>
-	<?php do_action( 'waboot/article/header' ); ?>
+	<?php do_action( 'waboot/article/meta' ); ?>
     <?php if(has_post_thumbnail()) : ?>
         <figure class="article__image">
             <?php

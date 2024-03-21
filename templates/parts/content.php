@@ -3,18 +3,19 @@
         <?php if(has_post_thumbnail()) : ?>
         <figure class="article__image">
             <a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( 'Link to %s', LANG_TEXTDOMAIN ), the_title_attribute( 'echo=0' ) ); ?>">
-                <?php echo get_the_post_thumbnail( $post->ID, 'thumbnail') ?>
+                <?php echo get_the_post_thumbnail( $post->ID, 'large') ?>
             </a>
         </figure>
         <?php endif; ?>
         <div class="article__content">
-            <h2><?php the_title(); ?></h2>
+	        <?php do_action( 'waboot/article/meta' ); ?>
+            <h2><a href="<?php the_permalink() ?>"><?php the_title(); ?></a></h2>
             <p>
-                <?php \Waboot\inc\trimmedExcerpt(20, '...'); ?>
-                <a class="more__link" href="<?php the_permalink() ?>">
-                    <?php _e('Continue reading', LANG_TEXTDOMAIN) ?>
-                </a>
+                <?php \Waboot\inc\trimmedExcerpt(1000, '[...]'); ?>
             </p>
+            <a class="btn btn--read-more" href="<?php the_permalink() ?>">
+		        <?php _e('Continue reading', LANG_TEXTDOMAIN) ?> &rarr;
+            </a>
             <?php do_action( 'waboot/article/list/footer' ); ?>
         </div>
     </div>

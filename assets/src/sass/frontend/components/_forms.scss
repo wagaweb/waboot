@@ -41,7 +41,6 @@ textarea {
   background-color: $colorWhite;
   background-image: none;
   border: 1px solid $colorGrey;
-  border-radius: 4px;
   box-shadow: inset 0 0 0;
   color: inherit;
   display: block;
@@ -90,16 +89,17 @@ textarea {
 input[type="checkbox"] {
   appearance: none;
   background-color: $colorWhite;
-  border: 2px solid $colorGrey;
-  border-radius: 6px;
+  border: 1px solid $colorGrey;
   color: $colorPrimary;
   cursor: pointer;
   display: inline-grid;
-  height: 20px;
+  height: 24px;
   line-height: 1;
   margin: 0 8px 0 0;
   place-content: center;
-  width: 20px;
+  width: 24px;
+  min-width: 24px;
+  transition: .2s;
 
   &::before {
     @extend %fa-icon;
@@ -107,6 +107,7 @@ input[type="checkbox"] {
     color: transparent;
     content: fa-content($fa-var-check);
     display: inline-grid;
+    font-size: 1.3em;
     place-items: center;
     transition: color .2s;
   }
@@ -146,23 +147,23 @@ input[type="checkbox"] {
 input[type="radio"] {
   appearance: none;
   background-color: $colorWhite;
-  border: 2px solid $colorGrey;
+  border: 1px solid $colorGrey;
   border-radius: 50%;
   color: $colorPrimary;
   cursor: pointer;
   display: inline-grid !important;
-  height: 20px;
-  margin: 0 5px 0 0;
+  height: 24px;
+  margin: 0 4px 0 0;
   place-content: center;
-  width: 20px;
+  width: 24px;
 
   &::before {
     content: "";
     background-color: $colorPrimary;
     border-radius: 50%;
-    height: 10px;
+    height: 12px;
     opacity: 0;
-    width: 10px;
+    width: 12px;
   }
 
   &:checked {
@@ -195,7 +196,6 @@ input[type="submit"] {
   .select2-selection {
     background-color: $colorWhite;
     border: 1px solid $colorGrey;
-    border-radius: 4px;
     height: 54px;
 
     &--single {
@@ -224,7 +224,6 @@ input[type="submit"] {
   .select2-dropdown {
     background-color: $colorWhite;
     border: 1px solid $colorGrey;
-    border-radius: 0 0 4px 4px;
 
     .select2-search--dropdown {
       display: block;

@@ -1,6 +1,6 @@
 <?php if(is_singular()) : ?>
     <h1><?php the_title(); ?></h1>
-    <?php do_action( 'waboot/article/header' ); ?>
+    <?php do_action( 'waboot/article/meta' ); ?>
     <?php echo do_shortcode( '[audio]' ); ?>
     <?php the_content(); ?>
 <?php else : ?>
