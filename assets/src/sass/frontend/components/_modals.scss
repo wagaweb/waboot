@@ -1,0 +1,68 @@
+body.modal-open {
+  overflow: hidden;
+}
+
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .3s;
+
+  &__overlay {
+    display: grid;
+    place-items: center;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0, .9);
+  }
+
+  &__container {
+    background-color: $colorWhite;
+    box-shadow: 0 10px 30px rgba(0,0,0, .3);
+    max-width: 1160px;
+    width: calc(100% - 40px);
+    height: 50vh;
+    transform: translateY(100%);
+    transition: .3s;
+  }
+
+  &__close {
+    appearance: none;
+    border: none;
+    cursor: pointer;
+    margin: 0;
+    padding: 0;
+    width: 32px;
+    aspect-ratio: 1;
+    background-color: $colorWhite;
+    border-radius: 50%;
+    color: $colorPrimary;
+    box-shadow: 0 10px 30px rgba(0,0,0, .3);
+    font-size: 1.75em;
+    line-height: 1;
+    position: absolute;
+    right: 0;
+    top: 0;
+    transform: translate(50%, -50%);
+    transition: .3s;
+    &:hover {
+      background-color: $colorPrimary;
+      color: $colorWhite;
+    }
+  }
+
+  &__content {
+    height: 100%;
+    padding: 16px;
+  }
+
+  &[aria-hidden="false"] {
+    opacity: 1;
+    visibility: visible;
+    .modal__container {
+      transform: translateY(0);
+    }
+  }
+}

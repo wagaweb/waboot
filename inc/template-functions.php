@@ -466,3 +466,27 @@ function getLogo($size = 'full'){
     }
     return (string) apply_filters('waboot/logo', $image);
 }
+
+/**
+ * Display a modal with given label and content.
+ *
+ * @param string $modalLabel The label for the modal.
+ * @param string $modalContent The content to be displayed inside the modal.
+ * @return void
+ */
+function displayModal($modalLabel, $modalContent): void
+{
+?>
+    <div class="modal" tabindex="-1" aria-labelledby="<?php echo esc_attr($modalLabel); ?>" aria-hidden="true">
+        <div class="modal__overlay">
+            <div class="modal__container">
+                <button type="button" class="modal__close" data-dismiss="modal" aria-label="Close">&times;</button>
+                <div class="modal__content">
+                    <?php echo apply_filters('the_content', $modalContent); ?>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php
+}
+

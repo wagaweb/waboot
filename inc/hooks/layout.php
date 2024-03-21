@@ -12,6 +12,10 @@ add_action('waboot/layout/footer', function(){
     Waboot()->renderView('templates/view-parts/main-footer.php');
 });
 
+add_action('waboot/layout/page-after', function(){
+	Waboot()->renderView('templates/view-parts/modals.php');
+});
+
 add_action("waboot/widget_area/footer/before", function(){
     echo '<div class="widgetarea__footer-inner">';
 });

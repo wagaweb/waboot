@@ -10,6 +10,7 @@ import { enableProductQuantity } from "./frontend/quantity.js";
 import {initEuVat} from "./frontend/checkout/invoicing";
 import {initCustomerCareModal} from "./frontend/modal.js";
 import {isCartPage, isCheckOutPage, isSingleProductPage} from "./utils/wp";
+import {Modal} from "./frontend/modals";
 
 $.fn.slidein = function (options) {
     return this.each(function () {
@@ -32,6 +33,8 @@ $(window).on('load',function(){
 $(document).ready(function() {
     initHeader('.menu-item-has-children');
     initCustomerCareModal();
+
+    new Modal();
 
     asideBodyClass();
     scrollToAnimate();
