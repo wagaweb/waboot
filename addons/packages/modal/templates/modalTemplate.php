@@ -2,15 +2,15 @@
 	use function Waboot\inc\displayModal;
 	
 	$args = array(
-							'post_type' => 'wp_block',
-							'posts_per_page' => -1,
-							'tax_query' => array(
-													array(
-																			'taxonomy' => 'wp_pattern_category',
-																			'field' => 'slug',
-																			'terms' => 'modal',
-													)
-							)
+		'post_type' => 'wp_block',
+		'posts_per_page' => -1,
+		'tax_query' => array(
+			array(
+				'taxonomy' => 'wp_pattern_category',
+				'field' => 'slug',
+				'terms' => 'modal',
+			)
+		)
 	);
 	
 	$query = new WP_Query($args);
@@ -23,9 +23,9 @@
 			$modalTitle = get_the_title();
 			$modalLabel = lcfirst(str_replace(' ', '', $modalTitle));
 			$modals[] = array(
-									'title' => $modalTitle,
-									'id' => get_the_ID(),
-									'label' => $modalLabel
+				'title' => $modalTitle,
+				'id' => get_the_ID(),
+				'label' => $modalLabel
 			);
 		}
 		wp_reset_postdata();
