@@ -45,7 +45,7 @@
     "merge-stream": "^1.0.0",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^2.0.0",
-    "node-sass": "^7.0.1"
+    "node-sass": "^9.0.0"
   },
   "browserify": {
     "transform": [
