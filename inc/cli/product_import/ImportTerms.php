@@ -167,10 +167,11 @@ class ImportTerms extends AbstractCommand
     /**
      * @param array $DBEntry
      * @param string $taxonomy
-     * @param array $localizedParentsIds an associative array where key are languages and values are term ids. If no multilang the only available key will be '*'
+     * @param array $parentsIds an associative array where key are languages and values are term ids. If no multilang the only available key will be '*'
      * @return void
+     * @throws ImportTermsException
      */
-    private function createTerm(array $DBEntry, string $taxonomy, array $localizedParentsIds = []): void
+    private function createTerm(array $DBEntry, string $taxonomy, array $parentsIds = []): void
     {
         $createdTerms = [];
         if(Polylang::isPolylang()){
@@ -190,22 +191,57 @@ class ImportTerms extends AbstractCommand
             $termTranslations = [];
             foreach ($termNames as $key => $name){
                 //Get the language from $key
-                //...
+                preg_match('/_([a-zA-Z])$/',$key,$langRegExMatches);
+                if(!\is_array($langRegExMatches) || count($langRegExMatches) < 2){
+                    continue;
+                }
+                $lang = $langRegExMatches[1];
                 //Get the parent from $localizedParentsIds[$lang]
-                //...
+                if(isset($parentsIds[$lang])){
+                    $parentId = $parentsIds[$lang];
+                }else{
+                    $parentId = 0;
+                }
                 //Create the term
-                //...
-                //$termTranslations[$lang] = $termId;
-                //$createdTerms[$lang] = $termId;
-                //pll_set_term_language()
+                if(term_exists($name,$taxonomy,$parentId)){
+                    $this->log(sprintf('Unable to create the term %s inside the taxonomy %s: term already exists',$name,$taxonomy));
+                    continue;
+                }
+                $newTermResult = wp_insert_term($name,$taxonomy,[
+                    'parent' => $parentId
+                ]);
+                if(is_wp_error($newTermResult)){
+                    $this->log(sprintf('Unable to create the term %s inside the taxonomy %s: %s',$name,$taxonomy,$newTermResult->get_error_message()));
+                    continue;
+                }
+                $this->log(sprintf('Term %s created inside taxonomy %s',$name,$taxonomy));
+                $termTranslations[$lang] = $newTermResult['term_id'];
+                $createdTerms[$lang] = $newTermResult['term_id'];
+                pll_set_term_language($newTermResult['term_id'],$lang);
             }
             pll_save_term_translations($termTranslations);
         }else{
-            //Get the parent from $localizedParentsIds['*']
-            //...
+            $name = $DBEntry['description'] ?? null;
+            if(!$name){
+                throw new ImportTermsException('Unable to find "description" field in the DB Entry');
+            }
+            //Get the parent from $parentsIds['*']
+            if(isset($parentsIds['*'])){
+                $parentId = $parentsIds['*'];
+            }else{
+                $parentId = 0;
+            }
             //Create the term
-            //...
-            //$createdTerms['*'] = $termId;
+            if(term_exists($name,$taxonomy,$parentId)){
+                throw new ImportTermsException(sprintf('Unable to create the term %s inside the taxonomy %s: term already exists',$name,$taxonomy));
+            }
+            $newTermResult = wp_insert_term($name,$taxonomy,[
+                'parent' => $parentId
+            ]);
+            if(is_wp_error($newTermResult)){
+                throw new ImportTermsException(sprintf('Unable to create the term %s inside the taxonomy %s: %s',$name,$taxonomy,$newTermResult->get_error_message()));
+            }
+            $createdTerms['*'] = $newTermResult['term_id'];
         }
         if(isset($DBEntry['children']) && !empty($createdTerms)){
             foreach ($DBEntry['children'] as $childDBEntry){
