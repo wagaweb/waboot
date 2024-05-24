@@ -1,0 +1,94 @@
+{
+  "settings": {
+    "brand_taxonomy_name": "product_brand",
+    "color_taxonomy_name": "pa_color",
+    "size_taxonomy_name": "pa_confezione",
+    "update_prices": true,
+    "update_stocks": false,
+    "product_identifier_column_name": "COD"
+  },
+  "exclude_columns": [
+    "ProductFeat"
+  ],
+  "taxonomy_term_type": {
+    "product_cat": "reference"
+  },
+  "columns": [
+    {
+      "standard_name": "meta:_sku",
+      "name": "COD"
+    },
+    {
+      "standard_name": "groupId",
+      "name": "GroupId"
+    },
+    {
+      "standard_name": "post_title",
+      "name": "Title"
+    },
+    {
+      "standard_name": "meta:ean13:variations",
+      "name": "Ean13"
+    },
+    {
+      "standard_name": "attribute:pa_confezione:variations",
+      "name": "Size"
+    },
+    {
+      "standard_name": "attribute:pa_color:variations",
+      "name": "Color"
+    },
+    {
+      "standard_name": "taxonomy:product_cat:hierarchical",
+      "name": "Category"
+    },
+    {
+      "standard_name": "taxonomy:product_brand:hierarchical",
+      "name": "Brand"
+    },
+    {
+      "standard_name": "meta:_regular_price:variations",
+      "name": "Price"
+    },
+    {
+      "standard_name": "meta:_stock:variations",
+      "name": "Stock"
+    },
+    {
+      "standard_name": "post_excerpt",
+      "name": "ShortDesc"
+    },
+    {
+      "standard_name": "post_content",
+      "name": "LongDesc"
+    },
+    {
+      "standard_name": "attribute:pa_skin-type",
+      "name": "SkinType"
+    },
+    {
+      "standard_name": "attribute:pa_hair-type",
+      "name": "HairType"
+    },
+    {
+      "standard_name": "attribute:pa_hair-solution",
+      "name": "HairSolution"
+    },
+    {
+      "standard_name": "attribute:pa_solar-protection",
+      "name": "SolarProtection"
+    },
+    {
+      "standard_name": "attribute:pa_gender",
+      "name": "Gender"
+    },
+    {
+      "standard_name": "attribute:pa_benefits",
+      "name": "Benefits"
+    },
+    {
+      "standard_name": "attribute:pa_olfactives-notes",
+      "name": "OlfactivesNotes"
+    }
+  ]
+}
