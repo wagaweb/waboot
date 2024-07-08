@@ -11,7 +11,7 @@ class Alerts
 {
 	static function dispatchEmailAlert(string $title, string $message, string $recipient, \DateTimeZone $tz = null){
 		try {
-			$ad = new AlertDispatcher('export-rma-ad',AlertDispatcher::DISPATCH_METHOD_EMAIL,$recipient);
+			$ad = new AlertDispatcher('ad',AlertDispatcher::DISPATCH_METHOD_EMAIL,$recipient);
 			$id = base64_encode($title.$message.$recipient);
 			$ad->addAlert(new Alert($id,$title,$message,$tz));
 			$ad->dispatch();
