@@ -142,6 +142,9 @@ abstract class AbstractCSVParserCommand extends AbstractCommand
      */
     protected function parseCSV(): void
     {
+        if(!class_exists('League\Csv\Reader')){
+            throw new CLIRuntimeException('Unable to find class League\Csv\Reader');
+        }
         $csv = Reader::createFromPath($this->sourceFilePath);
         $this->log('Parsing del file...');
         $csv->setDelimiter($this->delimiter);
