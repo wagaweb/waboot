@@ -15,6 +15,7 @@ $additionalDeps = [
 	'inc/multilanguage-functions.php',
 	'inc/hooks/gravityform/hooks.php',
     //'inc/hooks/woocommerce.php',
+	'inc/cli.php',
 ];
 \Waboot\inc\core\safeRequireFiles($additionalDeps);
 
