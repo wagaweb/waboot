@@ -85,8 +85,8 @@ class GenerateSiteStatFile extends AbstractCommand
 				$pluginsData[$pluginSlug]['update_available'] = true;
 				$pluginsData[$pluginSlug]['update'] = [
 					"version" => $dataObj->update->new_version,
-					"requires" => $dataObj->update->requires,
-					"requires_php" => $dataObj->update->requires_php,
+					"requires" => $dataObj->update->requires ?? 'n/a',
+					"requires_php" => $dataObj->update->requires_php ?? 'n/a',
 				];
 			}
 		}
