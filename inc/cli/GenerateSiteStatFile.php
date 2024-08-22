@@ -56,8 +56,12 @@ class GenerateSiteStatFile extends AbstractCommand
 
 	function getPluginInfo(): array
 	{
+		$adminAbsPath = str_replace( site_url(), rtrim(ABSPATH,'/'), admin_url() );
+		if(!is_dir($adminAbsPath)){
+			throw new CLIRuntimeException('Cannot find admin directory');
+		}
 		// Get all plugins
-		include_once( 'wp-admin/includes/plugin.php' );
+		include_once($adminAbsPath.'includes/plugin.php');
 		$allPlugins = get_plugins();
 		// Get active plugins
 		$activePlugins = get_option('active_plugins');
@@ -73,7 +77,7 @@ class GenerateSiteStatFile extends AbstractCommand
 			];
 		}
 		//  Get the updates
-		include_once( 'wp-admin/includes/update.php' );
+		include_once($adminAbsPath.'includes/update.php');
 		$pluginsUpdateData = get_plugin_updates();
 		foreach ( $pluginsUpdateData as $pluginSlug => $dataObj ) {
 			if(array_key_exists($pluginSlug, $pluginsData) && property_exists($dataObj, 'update')) {
