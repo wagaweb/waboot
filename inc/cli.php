@@ -2,6 +2,7 @@
 
 namespace Waboot\inc;
 
+use Waboot\inc\cli\GenerateSiteStatFile;
 use Waboot\inc\cli\PublishMissingArticles;
 use function Waboot\inc\core\helpers\registerCommand;
 
@@ -18,4 +19,5 @@ try{
 	 * Add commands here
 	 */
 	registerCommand('publish-missed-posts', PublishMissingArticles::class);
+	registerCommand('generate-site-stat-file', GenerateSiteStatFile::class);
 }catch (\Exception $e){}
