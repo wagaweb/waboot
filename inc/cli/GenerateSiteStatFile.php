@@ -56,7 +56,8 @@ class GenerateSiteStatFile extends AbstractCommand
 
 	function getPluginInfo(): array
 	{
-		$adminAbsPath = str_replace( site_url(), rtrim(ABSPATH,'/'), admin_url() );
+		//Tries to detect the wp-admin path (even if it isn't standard)
+		$adminAbsPath = str_replace(site_url(), rtrim(ABSPATH,'/'), admin_url());
 		if(!is_dir($adminAbsPath)){
 			throw new CLIRuntimeException('Cannot find admin directory');
 		}
