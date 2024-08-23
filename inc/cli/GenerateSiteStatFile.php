@@ -40,7 +40,9 @@ class GenerateSiteStatFile extends AbstractCommand
 			$pluginsInfo = $this->getPluginInfo();
 			$data = [];
 			$data['site_name'] = $siteName;
+			$data['path'] = get_stylesheet_directory();
 			$data['wp_version'] = $wpVersion;
+			$data['php_version'] = phpversion();
 			$data['plugins_info'] = $pluginsInfo;
 			$dataJson = json_encode($data);
 			$outputFileName = sanitize_title($siteName).'.json';
