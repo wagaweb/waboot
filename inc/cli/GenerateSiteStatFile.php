@@ -45,7 +45,7 @@ class GenerateSiteStatFile extends AbstractCommand
 			$data['php_version'] = phpversion();
 			$data['plugins_info'] = $pluginsInfo;
 			$dataJson = json_encode($data);
-			$outputFileName = sanitize_title($siteName).'.json';
+			$outputFileName = 'vhost-'.sanitize_title($siteName).'.json';
 			$outputFilePath = $this->outputPath.'/'.$outputFileName;
 			file_put_contents($outputFilePath, $dataJson);
 			$this->success('File generated at: '.$outputFilePath);
