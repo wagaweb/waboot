@@ -149,7 +149,7 @@ function getTermMap(string $tax, bool $clearCache = false): array
     $terms = $cache[$tax] ?? null;
     if ($terms === null) {
         $terms = [];
-        $res = get_terms(['taxonomy' => $tax, 'hide_empty' => false]);
+        $res = get_terms(['taxonomy' => $tax, 'hide_empty' => false, 'lang' => '']);
         foreach ($res as $t) {
             $terms[$t->term_id] = $t;
         }
@@ -259,7 +259,7 @@ function updateCatalogProductMetadata(\WC_Product $p): void
             $attrTerm = get_post_meta($v->get_id(), 'attribute_' . $attrName, true);
             $data = $termValues[$attrTerm] ?? null;
             if (!$data) {
-                continue;
+                throw new \Exception(sprintf('Missing %s attribute', $attrTerm));
             }
 
             $catalogData['variations']['products'][] = [
@@ -280,6 +280,7 @@ function updateCatalogProductMetadata(\WC_Product $p): void
         $p->update_meta_data('_catalog_data', wp_json_encode($catalogData));
         $p->save_meta_data();
     } catch (\Throwable $e) {
+        error_log($e);
         $p->delete_meta_data('_catalog_data');
         $p->save_meta_data();
     }
