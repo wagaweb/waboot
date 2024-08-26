@@ -1,6 +1,6 @@
 {
   "name": "Waboot",
-  "version": "4.0.0",
+  "version": "1.0.0",
   "author": "Waga",
   "homepage": "http://www.waga.it/",
   "repository": {
@@ -21,10 +21,7 @@
     "productimporter:install": "cd inc/cli/product_import && git clone git@github.com:wagaweb/waga-woocommerce-csv-cli-importer.git",
     "productimporter:update": "cd inc/cli/product_import && git pull"
   },
-  "license": "GPL-2.0+",
-  "engines": {
-    "node": ">= 4.4.3"
-  },
+  "license": "proprietary",
   "devDependencies": {
     "babelify": "^10.0.0",
     "@babel/core": "^7.8.7",
@@ -43,9 +40,9 @@
     "gulp-sourcemaps": "^2.6.0",
     "gulp-uglify": "^3.0.0",
     "merge-stream": "^1.0.0",
+    "sass": "^1.71.1",
     "vinyl-buffer": "^1.0.0",
-    "vinyl-source-stream": "^2.0.0",
-    "node-sass": "^7.0.1"
+    "vinyl-source-stream": "^2.0.0"
   },
   "browserify": {
     "transform": [
