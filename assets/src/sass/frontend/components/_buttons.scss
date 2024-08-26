@@ -58,7 +58,9 @@
 .button,
 .btn,
 .wp-block-button__link,
-input[type="submit"] {
+input[type="submit"],
+.wc-block-cart__submit-button,
+.wc-block-components-checkout-place-order-button  {
   @include button();
   @include buttonStyle($colorPrimary, #fff, #fff, false);
 }
