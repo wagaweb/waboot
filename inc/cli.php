@@ -4,6 +4,7 @@ namespace Waboot\inc;
 
 use Waboot\inc\cli\FixPrices;
 use Waboot\inc\cli\FixStockStatuses;
+use Waboot\inc\cli\GenerateSiteStatFile;
 use Waboot\inc\cli\ImportPrices;
 use Waboot\inc\cli\ImportProductImages;
 use Waboot\inc\cli\order_export\ExportOrders;
@@ -50,6 +51,7 @@ try{
      * Add commands here
      */
     registerCommand('publish-missed-posts', PublishMissingArticles::class,'waboot');
+    registerCommand('generate-site-stat-file', GenerateSiteStatFile::class, 'waboot');
     registerCommand('export-products', ExportProducts::class,'wawoo');
     registerCommand('import-products', ImportProducts::class,'wawoo');
     registerCommand('import-product-images', ImportProductImages::class,'wawoo');
