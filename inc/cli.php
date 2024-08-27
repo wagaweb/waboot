@@ -18,6 +18,6 @@ try{
 	/*
 	 * Add commands here
 	 */
-	registerCommand('publish-missed-posts', PublishMissingArticles::class);
-	registerCommand('generate-site-stat-file', GenerateSiteStatFile::class);
+	registerCommand('publish-missed-posts', PublishMissingArticles::class,'waboot');
+	registerCommand('generate-site-stat-file', GenerateSiteStatFile::class,'waboot');
 }catch (\Exception $e){}
