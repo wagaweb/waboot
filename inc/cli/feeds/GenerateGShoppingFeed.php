@@ -390,13 +390,17 @@ class GenerateGShoppingFeed extends AbstractCommand
          * BEGIN: Exclude zero priced products
          */
         if($product->is_on_sale()){
-            if(!\is_string($salePrice) || $salePrice === '' || $salePrice === '0'){
+            if(
+                ( is_numeric($salePrice) && $salePrice <= 0 ) ||
+                ( \is_string($salePrice) && ($salePrice === '' || $salePrice === '0') )
+            ){
                 return [];
             }
-        }else{
-            if(!\is_string($price) || $price === '' || $price === '0'){
-                return [];
-            }
+        }elseif(
+            ( is_numeric($price) && $price <= 0 ) ||
+            ( \is_string($price) && ($price === '' || $price === '0') )
+        ){
+            return [];
         }
         /*
          * END: Exclude zero priced products
