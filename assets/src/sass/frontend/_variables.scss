@@ -6,44 +6,23 @@ $small: 480px;
 $xsmall: 320px;
 
 /* Grid */
-$containerWidth: 1400px;
-$containerNarrow: 860px;
-$gridGutter: 16px;
+//$containerWidth: 1400px;
+$containerWidth: 100%;
+$gridGutter: 20px;
 
 /* Colors */
-$colorPrimary: #6552AA;
-$colorSecondary: #16AEA1;
-$colorTertiary: #453F4C;
-$colorSuccess: #6DBF73;
-$colorSuccess900: #2E5030;
-$colorSuccess700: #4D8852;
-$colorSuccess200: #BCE2BF;
-$colorSuccess50: #F0F9F1;
-$colorError: #EC5B56;
-$colorError180: #632624;
-$colorError140: #A8413D;
-$colorError40: #F6B4B1;
-$colorError10: #FDEFEE;
-$colorWarning: #FF9551;
-$colorWarning900: #6B3F22;
-$colorWarning700: #B56A3A;
-$colorWarning200: #FFCEAF;
-$colorWarning50: #FFF4EE;
-$colorInfo: #F8DD6C;
-$colorInfo900: #685D2D;
-$colorInfo700: #B09D4D;
-$colorInfo200: #FFCEAF;
-$colorInfo50: #FEFCF0;
-$colorText: #333;
-$colorGreyDark: #2E2E2E;
-$colorGrey: #767676;
-$colorGreyLight: #EBEBEB;
-$colorWhite: #FFF;
+$colorWhite : #FFF;
+$colorSuccess : #03A679;
+$colorWarning : #F93D5C;
+$colorGrey : #cccccc;
+$colorGreyLight : #f4f4f4;
+$colorGreyDark : #555;
+$colorPrimary: #74B6CA;
+$colorSecondary: #747ec9;
+$colorText: #000;
 
 /* Fonts */
-$fontPrimary: 'Inter', sans-serif;
-$fontSecondary: 'Inter', sans-serif;
-$fontWeightNormal: 400;
-$fontWeightMedium: 500;
-$fontWeightSemibold: 600;
-$fontWeightBold: 700;
+$fontPrimary : 'Montserrat', sans-serif;
+$fontSecondary : 'Montserrat', sans-serif;
+$fontWeightNormal : 400;
+$fontWeightBold : 700;

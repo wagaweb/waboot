@@ -21,51 +21,53 @@ add_action('init', function () {
 });
 
 
-// Add to cart in wishlist page
+// Add to cart in wishlist page for JVM WooCommerce Wishlist
 add_action('wp_footer', function() {
-    $queriedObj = get_queried_object();
-    if (!$queriedObj instanceof \WP_Post || $queriedObj->post_name !== 'wishlist') {
-        return;
-    }
-
-    $pIds = jvm_woocommerce_wishlist_get_wishlist_product_ids();
-    $prodData = [];
-    foreach ($pIds as $id) {
-        $product = wc_get_product($id);
-        if (empty($product)) {
-            continue;
+    if (function_exists('jvm_woocommerce_add_to_wishlist')) {
+        $queriedObj = get_queried_object();
+        if (!$queriedObj instanceof \WP_Post || $queriedObj->post_name !== 'wishlist') {
+            return;
         }
 
-        $prodData[$product->get_id()] = [
-            'permalink' => $product->get_permalink(),
-            'type' => $product->get_type(),
-            'inStock' => $product->is_in_stock(),
-        ];
-    }
+        $pIds = jvm_woocommerce_wishlist_get_wishlist_product_ids();
+        $prodData = [];
+        foreach ($pIds as $id) {
+            $product = wc_get_product($id);
+            if (empty($product)) {
+                continue;
+            }
 
-    $jsonData = json_encode($prodData);
-    ?>
-    <script type="text/javascript">
-        (function() {
-            const wishlistData = <?php echo $jsonData; ?>;
+            $prodData[$product->get_id()] = [
+                'permalink' => $product->get_permalink(),
+                'type' => $product->get_type(),
+                'inStock' => $product->is_in_stock(),
+            ];
+        }
 
-            for (const [pId, pData] of Object.entries(wishlistData)) {
-                const $removeBtn = jQuery(`.jvm-woocommerce-wishlist-product .remove[data-product-id="${pId}"]`);
-                if ($removeBtn.length === 0) {
-                    continue;
-                }
+        $jsonData = json_encode($prodData);
+        ?>
+        <script type="text/javascript">
+            (function() {
+                const wishlistData = <?php echo $jsonData; ?>;
 
-                const $row = $removeBtn.parent().parent();
-                if (pData.inStock === true) {
-                    let link = `${window.location.href}?add-to-cart=${pId}`;
-                    if (pData.type === 'variable') {
-                        link = pData.permalink;
+                for (const [pId, pData] of Object.entries(wishlistData)) {
+                    const $removeBtn = jQuery(`.jvm-woocommerce-wishlist-product .remove[data-product-id="${pId}"]`);
+                    if ($removeBtn.length === 0) {
+                        continue;
                     }
 
-                    $row.find('.product-stock-status').html(`<a href="${link}" class="btn">Aggiungi al carrello</a>`);
+                    const $row = $removeBtn.parent().parent();
+                    if (pData.inStock === true) {
+                        let link = `${window.location.href}?add-to-cart=${pId}`;
+                        if (pData.type === 'variable') {
+                            link = pData.permalink;
+                        }
+
+                        $row.find('.product-stock-status').html(`<a href="${link}" class="btn">Aggiungi al carrello</a>`);
+                    }
                 }
-            }
-        })();
-    </script>
-    <?php
+            })();
+        </script>
+        <?php
+    }
 });

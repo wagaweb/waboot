@@ -153,6 +153,21 @@ class ProductVariation extends Product
     }
 
     /**
+     * @param bool $reverse
+     * @param bool $asString
+     * @param string $separator
+     * @return array|string
+     */
+    public function getCategories(bool $reverse, bool $asString = false, string $separator = ' > ')
+    {
+        try{
+            return $this->getParent()->getCategories($reverse, $asString, $separator);
+        }catch (ProductException | \Throwable $e){
+            return null;
+        }
+    }
+
+    /**
      * @return null|\WP_Term
      */
     public function getBrand(): ?\WP_Term

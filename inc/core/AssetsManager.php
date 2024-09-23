@@ -72,6 +72,7 @@ class AssetsManager
                 'type' => '', //js or css. Optional. Its autodetected if empty.
                 'enqueue_callback' => false, //A valid callable that must be return true or false
                 'in_footer' => false, //Used for scripts
+                'loading_strategy' => false, //Used for scripts
                 'enqueue' => true, //If FALSE the script\css will only be registered
                 'media' => apply_filters('waboot/assets/styles/default_media', 'all') //The media for which this stylesheet has been defined. Accepts media types like 'all', 'print' and 'screen', or media queries like '(orientation: portrait)' and '(max-width: 640px)'.
             ]);
@@ -107,7 +108,17 @@ class AssetsManager
                 }
             }
             if ($param['type'] === 'js') {
-                wp_register_script($name, $param['uri'], $param['deps'], $version, $param['in_footer']);
+                if(version_compare(get_bloginfo('version'),'6.3','>=')){
+                    $scriptArgs = [
+                        'in_footer' => $param['in_footer']
+                    ];
+                    if(\is_string($param['loading_strategy']) && \in_array($param['loading_strategy'],['defer','async'])){
+                        $scriptArgs['strategy'] = $param['loading_strategy'];
+                    }
+                    wp_register_script($name, $param['uri'], $param['deps'], $version, $scriptArgs);
+                }else{
+                    wp_register_script($name, $param['uri'], $param['deps'], $version, $param['in_footer']);
+                }
             } elseif ($param['type'] === 'css') {
                 wp_register_style($name, $param['uri'], $param['deps'], $version, $param['media']);
             } else {

@@ -1,13 +1,11 @@
 .catalog--layout-sidebar {
   @include up($large){
     display: grid;
+    grid-template-columns: minmax(auto, 300px) 1fr;
     grid-gap: $gridGutter;
-    grid-template-columns: 1fr 3fr;
-
     .catalog-filters {
       grid-row: 1 / 3;
     }
-    
     .catalog__items {
       grid-column-start: 2;
     }
@@ -15,25 +13,22 @@
 }
 
 .catalog__header {
+  margin-bottom: 20px;
   display: grid;
-  grid-gap: $gridGutter;
+  grid-gap: 20px;
   grid-template-columns: repeat(2, minmax(auto, 1fr));
-  margin-bottom: 16px;
-
   .catalog__ordering {
     grid-column: 2;
-    text-align: right;
+    text-align:right;
   }
-  
   button.filters__trigger {
     background-color: transparent;
+    color: $colorPrimary;;
     border: 1px solid $colorGrey;
-    color: $colorPrimary;
-    height: 100%;
-    margin: 0 0 16px;
     text-align: center;
     width: 100%;
-
+    height: 100%;
+    margin: 0 0 20px;
     @include up($medium){
       display: none;
     }
@@ -41,52 +36,52 @@
 }
 
 .catalog__items-wrapper {
-  align-items: center;
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
 .catalog__items {
   clear: both;
+  width: 100%;
   display: grid;
   grid-gap: $gridGutter;
   grid-template-columns: repeat(2, 1fr);
-  list-style-type: none;
   margin: 0;
   padding: 0;
-
+  list-style-type: none;
   &.columns-1 {
     grid-template-columns: repeat(1, minmax(auto, 1fr));
   }
-  
-  @include up($large) {
+  @include up($large){
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    /*
     &.columns-3 {
       grid-template-columns: repeat(3, 1fr);
     }
-    
     &.columns-4 {
       grid-template-columns: repeat(4, 1fr);
-    }
+    }*/
   }
 
   .product {
-    overflow: hidden;
     padding: 0;
     position: relative;
+    overflow: hidden;
     text-align: center;
 
     .onsale {
-      left: 0;
-      padding: 8px;
       position: absolute;
+      left: 0;
       top: 0;
+      padding: 10px;
     }
 
     img {
-      margin: 0 0 16px;
+      margin: 0 0 20px;
       max-width: 100%;
-      height: auto;
       width: 100%;
+      height: auto;
     }
 
     .woocommerce-loop-product__link {
@@ -96,63 +91,59 @@
 
     .jvm_add_to_wishlist {
       position: absolute;
-      right: 16px;
-      top: 8px;
+      right: 10px;
+      top: 10px;
       z-index: 10;
     }
 
     h2 {
       font-family: $fontPrimary;
-      font-size: 1em;
       font-weight: $fontWeightNormal;
-      margin-bottom: 8px;
+      font-size: 1em;
+      margin-bottom: 10px;
       text-align: center;
     }
 
     .woocommerce-loop-product__category,
     .woocommerce-loop-product__subtitle {
-      font-size: 0.875em;
+      text-align: center;
+      font-size: 0.95em;
       line-height: 1.3em;
       margin-bottom: 0;
-      text-align: center;
     }
 
     .price {
       display: flex;
-      font-size: 0.875em;
       justify-content: center;
-      margin: 8px 0;
       text-align: center;
-
+      font-size: 0.9em;
+      margin: 5px 0;
       del {
         display: inline-block;
-        margin-right: 8px;
-        opacity: .5;
+        opacity: 0.5;
+        margin-right: 10px;
       }
-      
       ins {
         background-color: transparent;
         display: inline-flex;
-        gap: $gridGutter / 2;
+        gap: 10px;
       }
-      
       .sale-percentage {
-        background-color: $colorSuccess;
-        color: $colorWhite;
-        font-size: .875em;
-        font-weight: $fontWeightSemibold;
-        padding: 2px 8px;
+        background-color: $colorSecondary;
+        border-radius: 20px;
+        font-size: .75em;
+        padding: 2px 5px;
       }
     }
 
     a.button {
-      font-size: 0.875em;
-      margin: 8px auto 16px;
-      max-width: 100%;
+      margin: 10px auto 20px;
       text-align: center;
-
+      font-size: 0.8em;
+      max-width: 100%;
       @include down($medium){
-        padding: 8px;
+        font-size: 0.7em;
+        padding: 10px;
       }
     }
 
@@ -164,30 +155,32 @@
       i.fas,
       i.far {
         color: #d8b565;
-        font-size: 0.875em;
+        font-size: 0.7em;
       }
-      
       i.fal {
-        font-size: 0.875em;
+        font-size: 0.7em;
       }
     }
   }
 }
 
+
 .catalog__loadmore {
   margin-top: $gridGutter;
-  
   a {
-    @include buttonStyle($colorPrimary, $colorWhite, $colorPrimary, 1px solid $colorPrimary);
-    
+    @include buttonStyle(
+      $colorPrimary,
+      #fff,
+      $colorPrimary,
+      1px solid $colorPrimary
+    );
     &:hover {
       background-color: $colorSecondary;
     }
   }
-  
   &--less {
-    margin-bottom: $gridGutter;
     margin-top: 0;
+    margin-bottom: $gridGutter;
   }
 }
 
@@ -195,95 +188,89 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  
   &__item {
-    border: 1px solid $colorGrey;
-    border-radius: 50%;
     cursor: pointer;
     margin: 3px;
     padding: 1px;
-    overflow: hidden;
+    border: 1px solid #ddd;
+    border-radius: 50%;
     position: relative;
-
+    overflow: hidden;
     &--outofstock {
       pointer-events: none;
-      
       span {
         opacity: .2;
       }
-      
       &:before {
-        background-color: #000;
-        content: '';
+        content: ' ';
+        width: 150%;
         height: 1px;
         position: absolute;
         right: 0;
         top: 0;
+        background-color: #000;
         transform: rotate(-45deg);
         transform-origin: top right;
-        width: 150%;
         z-index: 99;
       }
-      
       &:after {
-        background-color: #000;
         content: ' ';
+        width: 150%;
         height: 1px;
-        left: 0;
         position: absolute;
+        left: 0;
         top: 0;
+        background-color: #000;
         transform: rotate(45deg);
         transform-origin: top left;
-        width: 150%;
         z-index: 99;
       }
     }
-    
     &--selected {
       border-color: #000;
     }
-    
     span {
       border-radius: 50%;
     }
   }
-  
   &__color,
   &__image {
-    background-position: center center;
-    background-size: cover;
     display: block;
-    height: 24px;
     width: 24px;
+    height: 24px;
+    background-size: cover;
+    background-position: center center;
   }
 }
 
 .quantity-input {
-  align-items: stretch;
   display: flex;
-
+  align-items: stretch;
   span {
-    align-items: center;
-    border: 1px solid $colorGrey;
-    cursor: pointer;
+    border: 1px solid #ccc;
     display: flex;
-    height: 54px;
+    align-items: center;
     justify-content: center;
+    width: 34px;
+    height: 34px;
+    cursor: pointer;
     user-select: none;
-    width: 54px;
   }
-  
   input {
-    height: 54px;
+    height: 34px;
   }
 }
 
 .apply__button {
   @include button();
-  @include buttonStyle($colorWhite, $colorPrimary, $colorPrimary, 1px solid $colorPrimary);
-  
+  @include buttonStyle(
+    #fff,
+    $colorPrimary,
+    $colorPrimary,
+    1px solid $colorPrimary
+  );
   &:hover {
     background-color: $colorPrimary;
-    color: $colorWhite;
+    color: #fff;
   }
 }

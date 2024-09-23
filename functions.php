@@ -14,7 +14,7 @@ try{
     $additionalDeps = [
         'inc/multilanguage-functions.php',
         'inc/woocommerce-helpers.php',
-        'inc/hooks/page-fields.php',
+        'inc/hooks/gravityform/hooks.php',
         'inc/hooks/woocommerce/woocommerce.php',
         'inc/hooks/woocommerce/woocommerce-endpoints.php',
         'inc/hooks/woocommerce/woocommerce-listing.php',
@@ -35,7 +35,6 @@ try{
     add_filter('waboot/addons/disabled', function(){
         return [
             //'star_rating'
-            'checkout_single_step'
         ];
     });
     \Waboot\inc\loadAddons();

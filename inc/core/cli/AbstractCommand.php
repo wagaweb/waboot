@@ -107,6 +107,12 @@ class AbstractCommand
                 ],*/
                 [
                     'type' => 'flag',
+                    'name' => 'be-quiet',
+                    'description' => 'Turns off verbose',
+                    'optional' => true,
+                ],
+                [
+                    'type' => 'flag',
                     'name' => 'dry-run',
                     'description' => 'Perform a dry run',
                     'optional' => true,
@@ -146,7 +152,7 @@ class AbstractCommand
                 $r = $this->run($args,$assoc_args);
                 $this->endCommandExecution();
                 return $r;
-            }catch (\Exception | \Throwable $e){
+            }catch (CLIRuntimeException | \Exception | \Throwable $e){
                 $this->endCommandExecution();
                 $this->error($e->getMessage(), false);
                 return 1;
@@ -189,6 +195,11 @@ class AbstractCommand
             $this->dryRun = true;
         }
         if(isset($args['quiet'])) {
+            //--quiet is built in in WordPress and prevent anything to be printed out
+            $this->verbose = false;
+        }
+        if(isset($args['be-quiet'])) {
+            //...so we need this to being able to implement a flexible verbose\silent behavior
             $this->verbose = false;
         }
         if(isset($args['progress'])){
@@ -221,36 +232,82 @@ class AbstractCommand
 
     /**
      * @param string $message
-     * @param bool $printToCli
      * @param array $context
+     * @param string $type
+     * @param $printToCli
+     * @param bool $dieOnError
+     * @return void
      */
-    protected function log(string $message, bool $printToCli = true, array $context = []): void
+    protected function handleLogEvent(string $message, array $context = [], string $type = 'log', $printToCli = null, bool $dieOnError = false): void
     {
-        if($this->isWPCLI() && $this->isVerbose()){
-            if($printToCli){
-                \WP_CLI::log($message);
-            }
+        if($printToCli === null){
+            $printToCli = $this->isVerbose();
         }
-        if($this->mustLog() && $this->canLog()){
-            $this->logger->info($message,$context);
+        switch ($type){
+            case 'error':
+                try{
+                    if($this->mustLog() && $this->canLog()){
+                        $this->logger->error($message, $context);
+                    }
+                    if($this->isWPCLI() && $printToCli){
+                        \WP_CLI::error($message,$dieOnError);
+                    }
+                    if($dieOnError){
+                        die();
+                    }
+                }catch(\WP_CLI\ExitException $e){
+                    \WP_CLI::log($message);
+                    if($dieOnError){
+                        die();
+                    }
+                }
+                break;
+            case 'success':
+                if($this->isWPCLI() && $printToCli){
+                    \WP_CLI::success($message);
+                }
+                if($this->mustLog() && $this->canLog()){
+                    $this->logger->info($message);
+                }
+                break;
+            case 'warning':
+                if($this->isWPCLI() && $printToCli){
+                    \WP_CLI::warning($message);
+                }
+                if($this->mustLog() && $this->canLog()){
+                    $this->logger->info('Warning: '.$message,$context);
+                }
+                break;
+            case 'log':
+            default:
+                if($this->isWPCLI() && $printToCli){
+                    \WP_CLI::log($message);
+                }
+                if($this->mustLog() && $this->canLog()){
+                    $this->logger->info($message,$context);
+                }
+                break;
         }
     }
 
     /**
      * @param string $message
-     * @param bool $printToCli
+     * @param bool|null $printToCli
      * @param array $context
      */
-    protected function warning(string $message, bool $printToCli = true, array $context = []): void
+    protected function log(string $message, bool $printToCli = null, array $context = []): void
     {
-        if($this->isWPCLI() && $this->isVerbose()){
-            if($printToCli){
-                \WP_CLI::warning($message);
-            }
-        }
-        if($this->mustLog() && $this->canLog()){
-            $this->logger->info('Warning: '.$message,$context);
-        }
+        $this->handleLogEvent($message, $context, 'log', $printToCli);
+    }
+
+    /**
+     * @param string $message
+     * @param bool|null $printToCli
+     * @param array $context
+     */
+    protected function warning(string $message, bool $printToCli = null, array $context = []): void
+    {
+        $this->handleLogEvent($message, $context, 'warning', $printToCli);
     }
 
     /**
@@ -259,35 +316,16 @@ class AbstractCommand
      */
     protected function error(string $message, bool $die = true): void
     {
-        try{
-            if($this->isWPCLI() && $this->isVerbose() && $die === false){
-                \WP_CLI::error($message,false);
-            }
-            if($this->isWPCLI() && $die){
-                \WP_CLI::error($message,true);
-            }
-            if($this->mustLog() && $this->canLog()){
-                $this->logger->error($message);
-            }
-        }catch(\WP_CLI\ExitException $e){
-            \WP_CLI::log($message);
-            if($die){
-                die();
-            }
-        }
+        $this->handleLogEvent($message, [], 'error', null, $die);
     }
 
     /**
      * @param string $message
+     * @param bool|null $printToCli
      */
-    protected function success(string $message): void
+    protected function success(string $message, bool $printToCli = null): void
     {
-        if($this->mustLog() && $this->canLog()){
-            $this->logger->info($message);
-        }
-        if($this->isWPCLI() && $this->isVerbose()){
-            \WP_CLI::success($message);
-        }
+        $this->handleLogEvent($message, [], 'success', $printToCli);
     }
 
     /**

@@ -293,7 +293,7 @@ class Product
             }
             return;
         }
-        $terms = $hierarchical ? Terms::getPostTermsHierarchical($this->id,$taxonomyName,[],true,true) : wp_get_post_terms($this->id, $taxonomyName);
+        $terms = $hierarchical ? Utilities::getPostTermsHierarchical($this->id,$taxonomyName,[],true,true) : wp_get_post_terms($this->id, $taxonomyName);
         if(!\is_array($terms) || count($terms) <= 0){
             if($hierarchical){
                 $this->orderedTerms[$taxonomyName] = [];
