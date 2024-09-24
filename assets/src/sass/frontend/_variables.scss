@@ -1,4 +1,5 @@
 /* BreakPoints */
+$xxlarge: 1600px;
 $xlarge: 1200px;
 $large: 992px;
 $medium: 768px;
@@ -6,23 +7,28 @@ $small: 480px;
 $xsmall: 320px;
 
 /* Grid */
-//$containerWidth: 1400px;
 $containerWidth: 100%;
-$gridGutter: 20px;
+$containerNarrow: 700px;
+$gridGutter: 24px;
 
 /* Colors */
-$colorWhite : #FFF;
-$colorSuccess : #03A679;
-$colorWarning : #F93D5C;
-$colorGrey : #cccccc;
-$colorGreyLight : #f4f4f4;
-$colorGreyDark : #555;
-$colorPrimary: #74B6CA;
-$colorSecondary: #747ec9;
-$colorText: #000;
+$colorWhite: #FFF;
+$colorSuccess: #6DBF73;
+$colorError: #EC5B56;
+$colorWarning: #FF9551;
+$colorGrey: #CCC;
+$colorGreyLight: #f4f4f4;
+$colorGreyDark: #555;
+$colorGreyDarken: #212121;
+$colorPrimary: #212121;
+$colorSecondary: #16AEA1;
+$colorText: #333;
+$colorTextLight: #777;
 
 /* Fonts */
-$fontPrimary : 'Montserrat', sans-serif;
-$fontSecondary : 'Montserrat', sans-serif;
-$fontWeightNormal : 400;
-$fontWeightBold : 700;
+$fontPrimary: 'Inter', sans-serif;
+$fontSecondary: 'Inter', sans-serif;
+$fontWeightNormal: 400;
+$fontWeightMedium: 500;
+$fontWeightSemibold: 600;
+$fontWeightBold: 700;

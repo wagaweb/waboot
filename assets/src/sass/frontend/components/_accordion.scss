@@ -1,0 +1,62 @@
+.accordion {
+  &:where(.is-layout-flex) {
+    gap: $gridGutter;
+    @include up($large) {
+      gap: $gridGutter * 2;
+    }
+  }
+
+  &__item {
+    border-bottom: 1px solid $colorGrey;
+    padding: 12px 2px;
+    width: 100%;
+    @include up($large) {
+      padding: 24px 0;
+    }
+    &.active {
+      .accordion__header {
+        &::after {
+          transform: rotate(180deg);
+        }
+      }
+    }
+  }
+
+  &__header {
+    align-items: center;
+    cursor: pointer;
+    display: flex;
+    font-size: 1em;
+    gap: $gridGutter / 2;
+    justify-content: space-between;
+    line-height: 1;
+    margin-bottom: 0 !important;
+    position: relative;
+    transition: .3s;
+    width: 100%;
+    &::after {
+      @extend %fa-icon;
+      @extend .far;
+      aspect-ratio: 1;
+      content: fa-content($fa-var-angle-down);
+      display: grid;
+      min-width: 16px;
+      place-items: center;
+      transition: .3s;
+    }
+    .wp-block-heading {
+      @extend .h5;
+      line-height: 1.2;
+      margin-bottom: 0;
+    }
+  }
+
+  &__body {
+    margin: 0;
+    padding-top: 24px;
+    display: none;
+    .wp-block-buttons {
+      margin-top: 16px;
+    }
+  }
+}

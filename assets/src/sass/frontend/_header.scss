@@ -1,13 +1,10 @@
 .header {
-  width: 100%;
   background-color: $colorWhite;
   box-shadow: 0 1px 3px rgba(0,0,0, .1);
   position: sticky;
   top: 0;
-  left: 0;
-  right: 0;
   transition: .3s ease;
-  z-index: 20;
+  z-index: 100;
 
   body.admin-bar & {
     top: 46px;
@@ -16,40 +13,24 @@
     }
   }
 
-  .scroll-down &,
-  .scroll-up & {
-    transition: all 1s ease;
-  }
-
-  .scroll-down & {
-    transform: translate3d(0, -100%, 0);
-  }
-
-  .scroll-up & {
-    transform: none;
-  }
-
   &__top {
     background-color: $colorGreyLight;
+    font-size: .875em;
     padding-block: 8px;
     text-align: center;
   }
 
-  &__container {
-    margin-inline: auto;
-    max-width: $containerWidth;
-    padding-inline: 16px;
-  }
-
   &__inner {
     max-width: $containerWidth;
-    margin: 0 auto;
-    padding: 8px 16px;
+    padding: 8px $gridGutter;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    @include down($large){
+    @include down($large) {
       flex-wrap: wrap;
+    }
+    @include up($large) {
+      padding-inline: $gridGutter * 2;
     }
   }
 

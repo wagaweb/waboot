@@ -5,10 +5,13 @@ body {
 }
 
 @mixin wbcontainer() {
-  margin-right: auto;
-  margin-left: auto;
+  margin-inline: auto;
+  padding-inline: $gridGutter;
   width: 100%;
   max-width: 100vw;
+  @include up($large) {
+    padding-inline: $gridGutter * 2;
+  }
   @include up($xlarge){
     max-width: $containerWidth;
   }
@@ -28,7 +31,7 @@ body {
     width: 100%;
     max-width: 100vw;
     @include up($large){
-      padding: 40px $gridGutter;
+      padding: 40px $gridGutter * 2;
     }
     @include up($xlarge){
       max-width: $containerWidth;
@@ -37,14 +40,6 @@ body {
   &__title {
     h1 {
       margin-bottom: 40px;
-    }
-  }
-  &__content {
-    a:not(.btn, .wp-block-button__link) {
-      &:hover,
-      &:focus {
-        text-decoration: underline;
-      }
     }
   }
   body.with-sidebar & {

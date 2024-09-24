@@ -28,14 +28,14 @@
 		));
 	});
 	
-	add_action('waboot/layout/footer', function(){
+	/*add_action('waboot/layout/footer', function(){
 		$footerBlock = get_option('footerSelect');
 		
 		$v = new HTMLView(getAddonDirectory('footer').'/templates/footerTemplate.php', false);
 		$v->clean()->display([
 								'footerBlock' => is_string($footerBlock) ? $footerBlock : ''
 		]);
-	}, 9);
+	}, 9);*/
 	
 	function get_footer_blocks() {
 		$footerBlocks = array();

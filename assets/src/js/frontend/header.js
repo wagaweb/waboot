@@ -6,12 +6,12 @@ import $ from 'jquery';
  */
 export function initHeader(selector){
     //mainPadding();
-    headerFixedWhenBack();
+    //headerFixedWhenBack();
     backOnSubmenu();
     mobileDropdown(selector);
 
     $(window).on("scroll", () => {
-        headerFixed();
+        //headerFixed();
     });
 
     $(window).on("resize", () => {

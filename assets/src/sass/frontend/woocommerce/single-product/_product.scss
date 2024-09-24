@@ -3,22 +3,24 @@
     position: relative;
 
     span.onsale {
+      background-color: $colorSuccess;
+      color: $colorWhite;
+      font-weight: $fontWeightSemibold;
+      left: -8px;
+      padding: 4px 8px;
       position: absolute;
-      left: 0;
-      top: 0;
+      top: 16px;
       z-index: 10;
-      padding: 20px;
     }
 
     .woocommerce-product-gallery {
-      margin-bottom: 80px;
+      margin-bottom: 24px;
     }
 
     .product__main {
       @include up($medium){
         display: flex;
         flex-wrap: wrap;
-        overflow-x: hidden;
 
         .woocommerce-product-gallery {
           flex: 0 0 50%;
@@ -28,9 +30,20 @@
         .product__summary {
           flex: 0 0 50%;
           max-width: 50%;
+          min-height: 100%;
           padding: 0 110px 0 40px;
+          .entry-summary {
+            position: sticky;
+            top: 180px;
+          }
         }
       }
+    }
+
+    .product__more-info {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 24px;
     }
 
     .product__meta {
@@ -41,9 +54,11 @@
     }
 
     .product__sku {
+      border-bottom: 1px solid $colorGrey;
+      color: $colorTextLight;
       font-size: .875em;
-      letter-spacing: 1px;
-      text-transform: uppercase;
+      padding-bottom: 24px;
+      width: 100%;
     }
 
     &.outofstock {
@@ -77,9 +92,8 @@
   p.price {
     align-items: center;
     display: flex;
-    font-size: 1.5em;
+    font-weight: $fontWeightBold;
     gap: $gridGutter / 2;
-    margin-bottom: 0;
 
     .sale-percentage {
       background-color: $colorSuccess;
@@ -119,11 +133,7 @@
       width: fit-content;
 
       &__label {
-        font-size: 1.25em;
-        font-weight: $fontWeightSemibold;
-        grid-column: span 2;
-        grid-row: 1;
-        margin-bottom: 24px;
+        @extend .sr-only;
       }
 
       input,
@@ -149,6 +159,7 @@
 
       .increment__button {
         align-items: center;
+        background-color: $colorGreyLight;
         cursor: pointer;
         color: $colorPrimary;
         display: flex;
@@ -194,19 +205,24 @@
   }
 
   .product-shipping-conditions {
-    border-radius: 4px;
-    background-color: $colorGreyLight;
-    margin-top: 24px;
+    color: $colorTextLight;
     font-size: .875em;
-    padding: 24px ;
-    text-transform: uppercase;
+    margin-top: 24px;
+  }
 
-    p {
-      margin-bottom: 16px;
-
-      &:last-child {
-        margin-bottom: 0;
-      }
+  .product__payment-methods {
+    h5 {
+      font-size: .875em;
+      font-weight: $fontWeightNormal;
+      margin-bottom: 0;
+    }
+    &-list {
+      align-items: center;
+      display: flex;
+      gap: $gridGutter / 2;
+      list-style: none;
+      margin: 0;
+      padding: 0;
     }
   }
 
@@ -283,4 +299,10 @@
     margin-top: $gridGutter;
     text-align: center;
   }
+}
+
+
+#pa_color,
+select#logo {
+  display:none;
 }

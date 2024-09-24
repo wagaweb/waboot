@@ -13,6 +13,7 @@
   font: inherit;
   font-weight: $fontWeightSemibold;
   appearance: none;
+  text-transform: none;
 
   &:hover,
   &:focus,
@@ -59,8 +60,9 @@ input[type="submit"],
 .wc-block-components-checkout-place-order-button  {
   @include button();
   @include buttonStyle($colorPrimary, $colorWhite, $colorWhite, false);
+  border-radius: 4px;
   &:hover {
-    background-color: #382D5E;
+    background-color: $colorSecondary;
   }
   .icon {
     margin-left: 8px;

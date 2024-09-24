@@ -20,6 +20,9 @@
         content: fa-content($fa-var-angle-right);
       }
     }
+    &.current-menu-item > a {
+      color: $colorSecondary;
+    }
   }
 
   > ul {
@@ -64,9 +67,7 @@
       z-index: 7;
       padding: 0;
       margin: 0;
-      background-color: #fff;
-      border: 1px solid rgba(0, 0, 0, .15);
-      background-clip: padding-box;
+      background-color: $colorGreyLight;
     }
 
     li:hover > .sub-menu:is(.megamenu--3) {

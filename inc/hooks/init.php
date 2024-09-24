@@ -56,10 +56,12 @@ add_action('after_setup_theme', __NAMESPACE__."\\setup", 11);
  */
 function registerMenus(){
 	register_nav_menus([
-		'main'          => __( 'Main Menu', LANG_TEXTDOMAIN ),
-		'mobile'        => __( 'Mobile Menu', LANG_TEXTDOMAIN ),
-		'bottom'        => __( 'Bottom Menu', LANG_TEXTDOMAIN ),
-        'social'        => __( 'Social Menu', LANG_TEXTDOMAIN )
+		'main'              => __( 'Main Menu', LANG_TEXTDOMAIN ),
+		'mobile'            => __( 'Mobile Menu', LANG_TEXTDOMAIN ),
+		'bottom'            => __( 'Bottom Menu', LANG_TEXTDOMAIN ),
+        'social'            => __( 'Social Menu', LANG_TEXTDOMAIN ),
+        'footer-shop'       => __( 'Footer Shop', LANG_TEXTDOMAIN ),
+        'footer-account'    => __( 'Footer Account', LANG_TEXTDOMAIN )
 	]);
 }
 add_action('after_setup_theme',__NAMESPACE__."\\registerMenus",11);

@@ -37,17 +37,17 @@
 }
 
 .woocommerce-breadcrumb {
+  color: $colorTextLight;
   display: flex;
   flex-wrap: wrap;
   font-size: .875em;
-  gap: $gridGutter / 2;
-  letter-spacing: 1px;
+  font-weight: $fontWeightSemibold;
+  gap: $gridGutter / 4;
   margin-bottom: 24px;
-  text-transform: uppercase;
 
   a {
     color: inherit;
-    font-weight: $fontWeightSemibold;
+    font-weight: $fontWeightNormal;
     &:hover {
       color: $colorPrimary;
     }

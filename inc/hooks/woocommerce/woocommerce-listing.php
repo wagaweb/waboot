@@ -18,9 +18,6 @@ add_action( 'woocommerce_before_shop_loop', function(){
     echo '</div>';
 },90);
 
-remove_action( 'woocommerce_after_shop_loop_item', 'woocommerce_template_loop_add_to_cart');
-
-
 /**
  * Sales Percentage Label (blocks)
  */
@@ -49,3 +46,13 @@ add_filter('woocommerce_blocks_product_grid_item_html', function ($html, $data, 
     }
     return $html;
 }, 11, 3);
+
+
+add_action( 'woocommerce_shop_loop_item_title', function() { ?>
+    <div class="woocommerce-loop-product__content">
+<?php }, 1);
+
+add_action( 'woocommerce_after_shop_loop_item_title', function() {
+    global $product;
+    echo '<a href="' . esc_url(get_permalink($product->get_id())) . '" class="btn btn--outline">Scopri di più</a>';
+} );

@@ -1,245 +1,73 @@
 .footer {
   &__inner {
-    margin-inline: auto;
-    max-width: $containerWidth;
-    padding: 24px $gridGutter;
-    @include up($large) {
-      padding-block: 80px;
-    }
-    a {
-      color: inherit;
-      @include up($large) {
-        &:hover {
-          color: $colorPrimary;
-        }
-      }
-    }
+    background-color: $colorGreyLight;
   }
-  
   &__closure {
+    @extend .wbcontainer;
     align-items: center;
-    border-top: 1px solid $colorGreyLight;
     display: flex;
-    flex-direction: column;
-    gap: $gridGutter / 2;
-    justify-content: center;
-    margin: 0 auto;
-    max-width: $containerWidth;
-    padding: 24px $gridGutter;
+    flex-wrap: wrap;
+    gap: $gridGutter;
+    padding-block: 24px;
     text-align: center;
-    @include up($medium) {
-      flex-direction: row;
+    @include up($large) {
       justify-content: space-between;
-      text-align: initial;
+      text-align: left;
+    }
+    ul {
+      align-items: center;
+      display: flex;
+      gap: $gridGutter / 2;
+      justify-content: center;
     }
   }
-
-  &__logo img {
-    height: 60px;
-    margin-left: 0;
-  }
-
-  &__menu {
+  &__row {
+    @extend .wbcontainer;
     display: flex;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    a:hover {
-      text-decoration: underline;
+    flex-wrap: wrap;
+    gap: $gridGutter;
+    padding-block: 24px;
+    @include up($large) {
+      justify-content: space-between;
+      padding-block: 48px;
     }
   }
-
-  &__social {
-    a {
-      @extend .h5;
-      font-weight: $fontWeightSemibold;
-      &:hover {
-        opacity: .5;
+  &__col {
+    @include up($large) {
+      &:not(:last-child) {
+        flex: 1;
+      }
+      &:last-child {
+        flex: 0 0 40%;
       }
     }
   }
-
-  &__newsletter_wrapper {
-    .gform_required_legend {
-      display: none;
-    }
-    .gform_footer {
-      padding-bottom: 0;
-    }
-    .gchoice {
-      display: flex;
-    }
-
-    input[type="checkbox"] {
-      transform: translateY(4px);
-    }
-
-    input[type="email"] {
-      width: 100% !important;
-    }
-  }
-
   &__copy {
     font-size: .875em;
   }
-
-  &__addresses {
-    i {
-      @extend .h3;
+  &__social {
+    @extend .wbcontainer;
+    align-items: center;
+    border-top: 1px solid $colorWhite;
+    display: flex;
+    flex-wrap: wrap;
+    gap: $gridGutter;
+    padding-block: 24px;
+    @include up($large) {
+      justify-content: space-between;
+      padding-block: 32px;
     }
     h5 {
-      font-weight: $fontWeightNormal;
+      margin-bottom: 0;
+    }
+    ul {
+      display: flex;
+      gap: $gridGutter;
     }
   }
-
-  &__label {
-    font-size: .875em;
-    margin-bottom: 16px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-  }
-
-  &__menu {
-    gap: $gridGutter;
-  }
-
-  &__cta {
-    border-top: 1px solid darken($colorGreyDark, 10%);
-    margin-top: 24px;
-    padding-top: 24px;
-    @include up($large) {
-      margin-top: 80px;
-    }
-  }
-
-  h3, h4 {
-    max-width: 20ch;
-  }
-
-  h3 {
-    @extend .h1;
-    font-weight: $fontWeightNormal;
-  }
-
-  h4 {
-    @extend .h3;
-    font-weight: $fontWeightNormal;
-  }
-
-  p {
-    max-width: 50ch;
-  }
-}
-
-.footer.footer--7 {
-  background-color: darken($colorGreyDark, 10%);
-  color: $colorWhite;
-  .footer__inner,
-  .alignfull {
-    padding-block: 0;
-  }
-  .wp-block-group {
-    position: relative;
-    > .wp-block-columns {
-      gap: 0;
-      > .wp-block-column:first-child {
-        background-color: $colorGreyDark;
-        padding: 24px 24px 24px $gridGutter;
-        @include up($large) {
-          padding-bottom: 40px;
-          padding-right: 80px;
-          padding-top: 80px;
-        }
-        &::before {
-          background-color: inherit;
-          content: "";
-          display: block;
-          height: 100%;
-          left: -100%;
-          position: absolute;
-          top: 0;
-          width: 100%;
-        }
-      }
-      > .wp-block-column:last-child {
-        background-color: darken($colorGreyDark, 5%);
-        padding-right: $gridGutter;
-        &::before {
-          background-color: inherit;
-          content: "";
-          display: block;
-          height: 100%;
-          right: -100%;
-          position: absolute;
-          top: 0;
-          width: 100%;
-        }
-
-        .wp-block-image {
-          margin-bottom: 0;
-          img {
-            min-width: 38vw;
-            object-fit: cover;
-            position: relative;
-          }
-        }
-
-        .is-vertical {
-          padding: 0 0 0 $gridGutter;
-          margin-top: 0;
-          @include up($large) {
-            padding: 40px 0 40px 40px;
-          }
-        }
-      }
-    }
-  }
-
-  .footer__logo {
-    @include up($large) {
-      margin-bottom: 80px;
-    }
-  }
-
-  .footer__closure {
-    border: none;
-  }
-
-  h2 {
-    @extend .h3;
-    font-weight: $fontWeightNormal;
-  }
-
-  h3 {
-    @extend .h4;
-  }
-
-  form {
-    position: relative;
-  }
-
-  input[type="email"] {
-    color: $colorText;
-    padding-right: 100px;
-  }
-
-  input[type="submit"] {
+  ul {
+    list-style: none;
     margin: 0;
-    position: absolute;
-    right: 4px;
-    top: 4px;
-    @include down($large) {
-      padding: 5px 10px;
-      top: 5px;
-    }
-  }
-}
-
-.footer--8,
-.footer--9 {
-  .wp-block-columns:not(:last-child) {
-    @include up($large) {
-      margin-bottom: 80px;
-    }
+    padding: 0;
   }
 }

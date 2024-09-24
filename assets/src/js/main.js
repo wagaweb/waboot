@@ -39,6 +39,7 @@ $(document).ready(function() {
     asideBodyClass();
     scrollToAnimate();
     initCarousel();
+    initAccordion();
     showHidePasswords();
 
     $("[data-slidein-nav]").slidein({
@@ -90,6 +91,7 @@ $(document).ready(function() {
                 printSalePercentage('p.price');
             }
         });
+
     }
 
     // WooCommerce Addon End
@@ -156,5 +158,33 @@ function showHidePasswords() {
                 $icon.toggleClass('fa-eye fa-eye-slash');
             });
         }
+    });
+}
+
+function initAccordion() {
+    let $ = jQuery;
+
+    $('.accordion__header').on('click', function() {
+        const $accordionItem = $(this).closest('.accordion__item');
+        const $accordionContent = $accordionItem.find('.accordion__body');
+
+        if ($accordionItem.hasClass('active')) {
+            $accordionItem.removeClass('active');
+            $accordionContent.slideUp();
+        } else {
+            $accordionItem.addClass('active');
+            $accordionContent.slideDown();
+            $('.accordion__item')
+                .not($accordionItem)
+                .removeClass('active')
+                .find('.accordion__body')
+                .slideUp();
+        }
+    });
+
+    $('.product__more-info').on('click', function() {
+        let $accordionFirst = $('.accordion__item:first-child');
+        $accordionFirst.addClass('active');
+        $accordionFirst.find('.accordion__body').slideDown();
     });
 }

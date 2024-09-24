@@ -18,7 +18,7 @@ ul.products {
   display: grid;
   grid-gap: $gridGutter;
   grid-template-columns: repeat(2, 1fr);
-  margin: 0;
+  margin-bottom: 24px;
   padding: 0;
   list-style-type: none;
   @include up($large){
@@ -36,10 +36,14 @@ ul.products {
     overflow: hidden;
 
     .onsale {
+      background-color: $colorSuccess;
+      color: $colorWhite;
+      font-size: .875em;
+      font-weight: $fontWeightSemibold;
+      left: 8px;
+      padding: 4px 8px;
       position: absolute;
-      left: 0;
-      top: 0;
-      padding: 10px;
+      top: 8px;
     }
 
     img {

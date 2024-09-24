@@ -60,7 +60,7 @@ function assets(){
         trigger_error($e->getMessage(),E_USER_WARNING);
     }
 }
-add_action('wp_enqueue_scripts', __NAMESPACE__.'\\assets');
+add_action('wp_enqueue_scripts', __NAMESPACE__.'\\assets', 20);
 
 /**
  * Loads Admin Assets
