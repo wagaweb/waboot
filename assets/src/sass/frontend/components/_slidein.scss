@@ -29,6 +29,21 @@
   &-no-scroll {
     overflow: hidden !important;
   }
+
+  &.sidesearch {
+    background-color: $colorGreyLight;
+    height: auto;
+    left: 0;
+    padding: 8px;
+    position: absolute;
+    top: calc(100% + 1px);
+    transform: translate(0, -0) scaleY(0);
+    transform-origin: center top;
+    transition: .3s;
+    &.show {
+      transform: translate(0, -0) scaleY(1);
+    }
+  }
 }
 
 [data-slidein-close] {

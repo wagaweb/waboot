@@ -1,6 +1,6 @@
 body {
   display: grid;
-  grid-template-rows: 1fr auto;
+  grid-template-rows: auto 1fr auto;
   min-height: 100vh;
 }
 
@@ -35,11 +35,6 @@ body {
     }
     @include up($xlarge){
       max-width: $containerWidth;
-    }
-  }
-  &__title {
-    h1 {
-      margin-bottom: 40px;
     }
   }
   body.with-sidebar & {

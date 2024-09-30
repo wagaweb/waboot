@@ -69,52 +69,29 @@ input[type="submit"],
   }
 }
 
-.wp-block-button.is-style {
-  &-secondary,
-  &-icon-secondary {
-    .wp-block-button__link {
-      @include button();
-      background-color: $colorSecondary;
-      &:hover {
-        background-color: #0C6059;
-      }
-    }
-  }
+.btn--secondary,
+.wp-block-button.is-style-secondary .wp-block-button__link,
+.wp-block-button.is-style-icon-secondary .wp-block-button__link {
+  @include button();
+  border-radius: 4px;
+  @include buttonStyle(red, $colorWhite, $colorWhite, false);
+}
 
-  &-outline,
-  &-icon-outline {
-    .wp-block-button__link {
-      @include button();
-      @include buttonStyle(transparent, $colorPrimary, $colorWhite, 1px solid $colorPrimary);
-      &:hover {
-        background-color: #988BC6;
-        border-color: #988BC6;
-      }
-    }
-  }
-
-  &-read-more,
-  &-icon-read-more {
-    .wp-block-button__link {
-      @include button();
-      @include buttonStyle(transparent, $colorPrimary, $colorText, none);
-    }
-  }
-  
-  &-icon-primary,
-  &-icon-secondary,
-  &-icon-outline,
-  &-icon-read-more {
-    .wp-block-button__link {
-      .icon {
-        margin-left: 0;
-      }
-    }
+.btn--outline,
+.wp-block-button.is-style-outline .wp-block-button__link,
+.wp-block-button.is-style-icon-outline .wp-block-button__link {
+  @include button();
+  border-radius: 4px;
+  @include buttonStyle(transparent, $colorPrimary, $colorWhite, 1px solid $colorPrimary);
+  &:hover {
+    background-color: #988BC6;
+    border-color: #988BC6;
   }
 }
 
-.btn--read-more {
+.btn--read-more,
+.wp-block-button.is-style-read-more .wp-block-button__link,
+.wp-block-button.is-style-icon-read-more .wp-block-button__link {
   @include button();
   @include buttonStyle(transparent, $colorPrimary, $colorText, none);
-  padding: 0;
 }

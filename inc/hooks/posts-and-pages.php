@@ -17,7 +17,7 @@ add_action('waboot/article/meta',__NAMESPACE__."\\displayPostDate",20);
 add_action('waboot/article/meta',__NAMESPACE__."\\displayPostAuthor",30);
 add_action('waboot/article/meta',__NAMESPACE__."\\displayPostCategories",40);
 add_action('waboot/article/meta',__NAMESPACE__."\\displayPostTags",50);
-add_action('waboot/article/meta',__NAMESPACE__."\\displayPostCommentLink",60);
+//add_action('waboot/article/meta',__NAMESPACE__."\\displayPostCommentLink",60);
 add_action('waboot/article/meta',__NAMESPACE__."\\articleMetaWrapperEnd",9999);
 
 /**

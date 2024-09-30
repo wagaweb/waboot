@@ -1,25 +1,32 @@
 .article {
   &__meta {
+    color: $colorTextLight;
+    display: flex;
     font-size: 0.875em;
+    gap: $gridGutter;
+    justify-content: center;
     padding-block: 0 24px;
 
-    .glyphicon {
-      margin-right: 5px;
-    }
-
-    > span {
-      margin-right: 16px;
+    a {
+      color: inherit;
     }
   }
-  }
+}
 
 .single-post {
-  .main__grid {
-    max-width: $containerNarrow;
+  .main__content > .article__content {
+    margin-inline: auto;
+    max-width: 1024px;
+  }
+  .main__title {
+    text-align: center;
   }
   .article {
     &__image {
       margin-bottom: 40px;
+      margin-inline: auto;
+      max-width: 1120px;
+      text-align: center;
       img {
         max-width: 100%;
       }
