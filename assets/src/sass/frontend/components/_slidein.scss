@@ -31,35 +31,42 @@
   }
 
   &.sidesearch {
-    background-color: $colorGreyLight;
+    background-color: $colorWhite;
+    border-radius: 8px;
+    box-shadow: 0 0 25px rgba(0,0,0,.08);
     height: auto;
-    left: 0;
-    padding: 8px;
+    left: 50%;
+    margin: 8px auto;
+    max-width: min(768px, calc(98vw - 24px));
+    opacity: 0;
+    padding: 16px;
+    pointer-events: none;
     position: absolute;
-    top: calc(100% + 1px);
-    transform: translate(0, -0) scaleY(0);
-    transform-origin: center top;
+    right: auto;
+    top: 0;
+    transform: translate(-50%, -30%);
     transition: .3s;
     &.show {
-      transform: translate(0, -0) scaleY(1);
+      opacity: 1;
+      pointer-events: auto;
+      transform: translate(-50%, 0);
     }
   }
 }
 
 [data-slidein-close] {
   position: absolute;
-  right: 0;
-  top: 0;
-  padding: $gridGutter/2 $gridGutter 0 0 !important;
+  right: 16px;
+  top: 16px;
+  padding: 0 !important;
   z-index: 20;
   font-size: 1.5em;
   cursor: pointer;
-  line-height: 1em;
-  width: 48px;
-  height: 48px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end !important;
+  line-height: 1;
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
   background: none;
   border: none;
 }

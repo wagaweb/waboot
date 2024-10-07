@@ -1,3 +1,31 @@
+/* TI Wishlist */
+.tinv-wishlist {
+  .tinvwl-input-group .form-control {
+    height: 42px;
+    padding-block: 0;
+  }
+
+  .tinv-header {
+    display: none;
+  }
+
+  .tinvwl-input-group-btn button {
+    gap: 4px;
+  }
+}
+
+.tinvwl-table-manage-list {
+  border: 1px solid $colorGreyLight;
+  border-collapse: collapse;
+  tbody tr:nth-child(odd) {
+    background-color: $colorGreyLight;
+  }
+  tfoot {
+    border: 1px solid $colorGreyLight;
+  }
+}
+
+/* JVM Wishlist [OLD] */
 .jvm_add_to_wishlist {
 
   &_text_add {

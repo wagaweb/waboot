@@ -3,10 +3,8 @@
     <?php if(has_post_thumbnail()) : ?>
         <figure class="article__image">
             <?php
-            $large_image_url = wp_get_attachment_image_src( get_post_thumbnail_id(), 'large' );
-            echo '<a href="' . $large_image_url[0] . '" title="' . the_title_attribute( 'echo=0' ) . '">';
+            $largeImageUrl = wp_get_attachment_image_src( get_post_thumbnail_id(), 'large' );
             echo get_the_post_thumbnail( get_the_ID(), 'large', array( 'class' => 'img-responsive', 'title' => "" ) );
-            echo '</a>';
             ?>
         </figure>
     <?php endif ?>

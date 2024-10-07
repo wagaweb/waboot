@@ -15,8 +15,8 @@
 
   &__top {
     background-color: $colorGreyLight;
-    font-size: .875em;
-    padding-block: 8px;
+    font-size: .75em;
+    padding: 8px $gridGutter;
     text-align: center;
   }
 
@@ -25,11 +25,10 @@
     padding: 8px $gridGutter;
     display: flex;
     align-items: center;
+    gap: $gridGutter;
     justify-content: space-between;
-    @include down($large) {
-      flex-wrap: wrap;
-    }
     @include up($large) {
+      gap: $gridGutter * 2;
       padding-inline: $gridGutter * 2;
     }
   }
@@ -53,7 +52,6 @@
     margin: 0;
     border: 0;
     background-color: transparent;
-    width: 40px;
     height: 40px;
     display: flex;
     flex-direction: column;
@@ -79,11 +77,14 @@
   }
 
   &__icons {
-    margin-left: 24px;
     display: grid;
     grid-template-columns: repeat(autofill,1fr);
     grid-auto-flow: column;
-    grid-gap: $gridGutter;
+    grid-gap: 16px;
+    margin-left: auto;
+    @include up($large) {
+      grid-gap: $gridGutter;
+    }
     a {
       color: inherit;
       &:hover {

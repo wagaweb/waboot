@@ -23,4 +23,11 @@
     }
   }
 
+  &__form {
+    width: 100%;
+  }
+
+  form.search-form {
+    max-width: 670px;
+  }
 }

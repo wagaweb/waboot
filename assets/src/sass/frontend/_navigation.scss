@@ -108,7 +108,9 @@
 }
 
 .navigation-mobile {
+  box-shadow: 0 20px 20px rgba(0,0,0,.1);
   padding: $gridGutter;
+  width: 80vw;
   &__inner {
     //padding: $gridGutter 0;
     height: 100%;
@@ -131,7 +133,7 @@
     flex-direction: column;
     //align-items: center;
     //justify-content: center;
-    padding: 0;
+    padding: 64px 0;
     margin: 0;
     transition: all .5s ease;
   }
@@ -141,6 +143,9 @@
     justify-content: space-between;
     align-items: center;
     width: 100%;
+    &.current-menu-item a {
+      color: $colorSecondary;
+    }
   }
 
   a {
@@ -162,11 +167,10 @@
     //left: 0;
     //top: 0;
     padding: 0 0 0 $gridGutter;
-    width: 48px;
-    height: 48px;
+    width: 42px;
+    height: 42px;
     display: flex;
     align-items: center;
-    font-size: 1.5em;
     z-index: 10;
     color: $colorPrimary;
     position: relative;

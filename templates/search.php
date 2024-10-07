@@ -27,14 +27,16 @@ if (defined('WB_CATALOG_BASEURL')) {
 
     echo \Waboot\addons\packages\catalog\renderCatalog($catalog);
 } else {
-    if (have_posts()) {
-        while (have_posts()) {
-            the_post();
-            get_template_part('/templates/parts/content', 'search');
-        }
-
-        \Waboot\inc\renderPostNavigation('nav-below');
-    } else {
+    if (have_posts()) { ?>
+        <ul class="products columns-4">
+            <?php while (have_posts()) {
+                the_post();
+                wc_get_template_part('content', 'product');
+            }
+            ?>
+        </ul>
+        <?php
+        \Waboot\inc\renderPostNavigation('nav-below'); } else {
         get_template_part('/templates/parts/content', 'none');
     }
 }

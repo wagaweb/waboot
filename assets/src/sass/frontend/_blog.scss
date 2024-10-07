@@ -45,6 +45,10 @@
   * ~ h2 {
     margin-top: 40px;
   }
+
+  .related {
+    margin-top: 40px;
+  }
 }
 
 body.blog {
@@ -65,12 +69,6 @@ body.blog {
       gap: 40px;
     }
 
-    &__grid {
-      display: grid;
-      gap: 40px 24px;
-      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-    }
-
     &__inner {
       display: grid;
       gap: 24px;
@@ -80,6 +78,17 @@ body.blog {
       h2 {
         @extend .h4;
       }
+    }
+  }
+}
+
+.article {
+  &__grid {
+    display: grid;
+    gap: 40px 24px;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    @include up($large) {
+      grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
     }
   }
 }

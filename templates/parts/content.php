@@ -8,15 +8,13 @@
         </figure>
         <?php endif; ?>
         <div class="article__content">
-	        <?php do_action( 'waboot/article/meta' ); ?>
-            <h2><a href="<?php the_permalink() ?>"><?php the_title(); ?></a></h2>
-            <p>
-                <?php \Waboot\inc\trimmedExcerpt(1000, '[...]'); ?>
-            </p>
+            <h3><a href="<?php the_permalink() ?>"><?php the_title(); ?></a></h3>
+            <!--<p>
+                <?php /*\Waboot\inc\trimmedExcerpt(1000, '[...]'); */?>
+            </p>-->
             <a class="btn btn--read-more" href="<?php the_permalink() ?>">
 		        <?php _e('Continue reading', LANG_TEXTDOMAIN) ?> &rarr;
             </a>
-            <?php do_action( 'waboot/article/list/footer' ); ?>
         </div>
     </div>
 </article>
