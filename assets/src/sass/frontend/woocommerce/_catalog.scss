@@ -18,10 +18,11 @@ ul.products {
   display: grid;
   grid-gap: $gridGutter;
   grid-template-columns: repeat(2, 1fr);
-  margin-bottom: 24px;
+  margin-bottom: 40px;
   padding: 0;
   list-style-type: none;
-  @include up($large){
+  @include up($large) {
+    margin-bottom: 80px;
     &.columns-3 {
       grid-template-columns: repeat(3, 1fr);
     }
@@ -47,7 +48,7 @@ ul.products {
     }
 
     img {
-      margin: 0 0 20px;
+      margin: 0 0 24px;
       max-width: 100%;
       width: 100%;
       height: auto;
@@ -58,9 +59,22 @@ ul.products {
       margin-bottom: 10px;
     }
 
-    h2 {
+    .woocommerce-loop-product__content {
+      align-items: center;
+      display: grid;
+      gap: $gridGutter / 4;
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .woocommerce-loop-product__link {
+      display: flex;
+      gap: $gridGutter / 4;
+      grid-column: 1 / -1;
+      justify-content: space-between;
+    }
+
+    .woocommerce-loop-product__title {
       font-size: 1em;
-      margin-bottom: 10px;
     }
 
     .price {

@@ -1,6 +1,10 @@
 .footer {
   &__inner {
     background-color: $colorGreyLight;
+    padding-inline: $gridGutter;
+    @include up($large) {
+      padding-inline: $gridGutter * 2;
+    }
   }
   &__closure {
     @extend .wbcontainer;
@@ -8,10 +12,11 @@
     display: flex;
     flex-wrap: wrap;
     gap: $gridGutter;
-    padding-block: 24px;
+    padding: 24px $gridGutter;
     text-align: center;
     @include up($large) {
       justify-content: space-between;
+      padding-inline: $gridGutter * 2;
       text-align: left;
     }
     ul {

@@ -74,7 +74,7 @@ input[type="submit"],
 .wp-block-button.is-style-icon-secondary .wp-block-button__link {
   @include button();
   border-radius: 4px;
-  @include buttonStyle(red, $colorWhite, $colorWhite, false);
+  @include buttonStyle($colorSecondary, $colorWhite, $colorWhite, false);
 }
 
 .btn--outline,

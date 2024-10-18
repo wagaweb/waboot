@@ -88,9 +88,6 @@ section.wp-block-group {
   @include up($large) {
     padding-block: 80px
   }
-  &:not(:last-child) {
-    padding-bottom: 0;
-  }
   &:where(.wp-block-group.has-background) {
     padding: 40px $gridGutter;
     @include up($large) {
@@ -240,5 +237,11 @@ section.wp-block-cover {
     &.columns-6 li {
       width: calc(16.66667% - calc(#{$gridGutter}*5/6));
     }
+  }
+}
+
+:root :where(.is-layout-constrained) > * {
+  @include up($large) {
+    margin-block-start: $gridGutter * 2;
   }
 }

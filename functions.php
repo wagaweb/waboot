@@ -14,6 +14,7 @@ try{
     $additionalDeps = [
         'inc/multilanguage-functions.php',
         'inc/woocommerce-helpers.php',
+        'inc/hooks/gutenberg.php',
         'inc/hooks/gravityform/hooks.php',
         'inc/hooks/fields-product.php',
         'inc/hooks/woocommerce/woocommerce.php',
