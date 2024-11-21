@@ -45,6 +45,12 @@
         :class="ratingClass"
       ></i>
     </div>
+    <span
+        v-if="maxSalePercentage !== '0'"
+        class="max-sale-percentage"
+    >
+      -{{ maxSalePercentage }}%
+    </span>
     <span class="price">
       <template v-if="sellable">
         <span v-if="product.maxPrice > product.minPrice" class="price__from">
@@ -57,11 +63,8 @@
             </span>
           </del>
           <ins>
-            <span
-              v-if="product.price !== product.basePrice"
-              class="sale-percentage"
-            >
-              -{{ minSalePercentage }}%
+            <span class="sale-percentage">
+              -{{ minPriceSalePercentage }}%
             </span>
             <span class="woocommerce-Price-amount amount">
               {{ minPrice }}
@@ -279,15 +282,34 @@ export default defineComponent({
       }
       return classes;
     },
-    minSalePercentage(): string {
+    allSalePercentage(): number[] {
+      if (this.product.catalogData?.variations) {
+        let percentages: number[] = [];
+        for (let p of this.product.catalogData.variations.products) {
+          percentages.push(Math.round(
+              100 - (p.price * 100) / p.basePrice
+          ));
+        }
+
+        return percentages;
+      }
+
+      return [
+        Math.round(
+            100 - (this.product.minPrice * 100) / this.product.minBasePrice,
+        )
+      ];
+    },
+    minPriceSalePercentage(): string {
       return Math.round(
-        100 - (this.product.minPrice * 100) / this.product.minBasePrice,
-      ).toString();
+          100 - (this.product.minPrice * 100) / this.product.minBasePrice,
+      ).toString()
+    },
+    minSalePercentage(): string {
+      return Math.min(...this.allSalePercentage).toString();
     },
     maxSalePercentage(): string {
-      return Math.round(
-        100 - (this.product.maxPrice * 100) / this.product.maxBasePrice,
-      ).toString();
+      return Math.max(...this.allSalePercentage).toString();
     },
     jvmWishListExists(): boolean {
       return typeof JVMWooCommerceWishlist === 'object';
