@@ -44,6 +44,20 @@ if [ ! -d "$path" ]; then
     exit 1
 fi
 
+# Function to convert image to WebP
+convert_to_webp() {
+    local input_file="$1"
+    local output_file="$2"
+
+    if cwebp -preset picture -q 75 -z 6 -resize "$width" "$height" "$input_file" -o "$output_file" &> /dev/null; then
+        echo "Converted: $output_file"
+        return 0
+    else
+        echo "Error converting: $input_file"
+        return 1
+    fi
+}
+
 # Process files with specified extensions
 echo "Processing files..."
 IFS=',' read -ra ext_array <<< "$extensions"
@@ -61,10 +75,20 @@ for ext in "${ext_array[@]}"; do
 
         if [ ! -f "$output_file" ]; then
             echo "Converting: $file"
-            if cwebp -preset picture -q 75 -z 6 -resize "$width" "$height" "$file" -o "$output_file" &> /dev/null; then
-                echo "Converted: $output_file"
-            else
-                echo "Error converting: $file"
+            if ! convert_to_webp "$file" "$output_file"; then
+                echo "Attempting color space conversion..."
+                temp_file="${dir}/${filename_no_ext}.rgb.${ext}"
+                if convert "$file" -colorspace CMYK -colorspace RGB "$temp_file"; then
+                    echo "Color space conversion successful. Retrying WebP conversion..."
+                    if convert_to_webp "$temp_file" "$output_file"; then
+                        rm "$temp_file"
+                    else
+                        echo "WebP conversion failed even after color space adjustment."
+                        rm "$temp_file"
+                    fi
+                else
+                    echo "Color space conversion failed."
+                fi
             fi
         else
             echo "Skipping: $file (output already exists)"
