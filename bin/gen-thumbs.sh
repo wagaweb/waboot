@@ -2,7 +2,7 @@
 
 # Function to display usage
 usage() {
-    echo "Usage: $0 --path <path> --width <width> --height <height> --extensions <ext1,ext2,...> [--recreate]"
+    echo "Usage: $0 --path <path> --width <width> --height <height> --extensions <ext1,ext2,...> [--recreate]  [--error-file <path>]"
     exit 1
 }
 
@@ -12,6 +12,7 @@ width=""
 height=""
 extensions=""
 recreate=false
+error_file=""
 
 # Parse named arguments
 while [[ "$#" -gt 0 ]]; do
@@ -21,6 +22,7 @@ while [[ "$#" -gt 0 ]]; do
         --height) height="$2"; shift ;;
         --extensions) extensions="$2"; shift ;;
         --recreate) recreate=true ;;
+        --error-file) error_file="$2"; shift ;;
         *) usage ;;
     esac
     shift
@@ -44,6 +46,14 @@ if [ ! -d "$path" ]; then
     exit 1
 fi
 
+# Function to log error
+log_error() {
+    local file="$1"
+    if [[ -n "$error_file" ]]; then
+        echo "$file" >> "$error_file"
+    fi
+}
+
 # Function to convert image to WebP
 convert_to_webp() {
     local input_file="$1"
@@ -54,6 +64,7 @@ convert_to_webp() {
         return 0
     else
         echo "Error converting: $input_file"
+        log_error "$input_file"
         return 1
     fi
 }
@@ -96,7 +107,9 @@ for ext in "${ext_array[@]}"; do
             if ! convert_to_webp "$file" "$output_file"; then
                 echo "Attempting color space conversion..."
                 temp_file="${dir}/${filename_no_ext}.rgb.${ext}"
-                if convert "$file" -colorspace CMYK -colorspace RGB "$temp_file"; then
+                # it seems sRGB colorspace (instead of RGB) give better results
+                # a ".icc" profile could be included: https://www.imagemagick.org/discourse-server/viewtopic.php?t=16464
+                if convert "$file" -colorspace CMYK -colorspace sRGB "$temp_file"; then
                     echo "Color space conversion successful. Retrying WebP conversion..."
                     if convert_to_webp "$temp_file" "$output_file"; then
                         rm "$temp_file"
