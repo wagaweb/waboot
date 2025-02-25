@@ -58,6 +58,23 @@ convert_to_webp() {
     fi
 }
 
+# Function to generate output filename
+generate_output_filename() {
+    local dir="$1"
+    local filename_no_ext="$2"
+    local suffix=""
+
+    if [[ $width -ne 0 && $height -ne 0 ]]; then
+        suffix="-${width}x${height}"
+    elif [[ $width -ne 0 ]]; then
+        suffix="-w${width}"
+    elif [[ $height -ne 0 ]]; then
+        suffix="-h${height}"
+    fi
+
+    echo "${dir}/${filename_no_ext}${suffix}.webp"
+}
+
 # Process files with specified extensions
 echo "Processing files..."
 IFS=',' read -ra ext_array <<< "$extensions"
@@ -66,7 +83,8 @@ for ext in "${ext_array[@]}"; do
         dir=$(dirname "$file")
         filename=$(basename "$file")
         filename_no_ext="${filename%.*}"
-        output_file="${dir}/${filename_no_ext}-${width}x${height}.webp"
+        #output_file="${dir}/${filename_no_ext}-${width}x${height}.webp"
+        output_file=$(generate_output_filename "$dir" "$filename_no_ext")
 
         if [ "$recreate" = true ] && [ -f "$output_file" ]; then
             echo "Deleting existing file: $output_file"
