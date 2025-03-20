@@ -88,7 +88,7 @@ function logWarning(string $message, string $source, array $context = [], string
  * @param string $fileName
  * @return void
  */
-function logException(\Exception|\Throwable $e, string $source, array $context, string $fileName = 'waboot-log'){
+function logException(\Exception|\Throwable $e, string $source, array $context = [], string $fileName = 'waboot-log'): void {
     if($source !== ''){
         $context['source'] = $source;
     }
