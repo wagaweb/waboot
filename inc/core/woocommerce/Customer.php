@@ -2,11 +2,23 @@
 
 namespace Waboot\inc\core\woocommerce;
 
+use Waboot\inc\core\DBException;
+use Waboot\inc\core\woocommerce\addresses\BillingAddress;
+use Waboot\inc\core\woocommerce\addresses\BillingAddressRepository;
+use Waboot\inc\core\woocommerce\addresses\ShippingAddress;
+use Waboot\inc\core\woocommerce\addresses\ShippingAddressRepository;
+use function Waboot\inc\core\helpers\logException;
+use function Waboot\inc\core\Waboot;
+
 class Customer
 {
     private ?int $id = null;
     private \WC_Customer $wcCustomer;
+    private ShippingAddressRepository $shippingAddressRepository;
+    private BillingAddressRepository $billingAddressRepository;
     private ?ShippingAddress $currentShippingAddress = null;
+    private array $shippingAddresses = [];
+    private ?BillingAddress $billingAddress = null;
 
     /**
      * Customer constructor.
@@ -23,6 +35,8 @@ class Customer
                 $customer = new \WC_Customer();
             }
             $this->wcCustomer = $customer;
+            $this->shippingAddressRepository = new ShippingAddressRepository();
+            $this->billingAddressRepository = new BillingAddressRepository();
         }catch (\Exception | \Throwable $e){
             throw new \RuntimeException($e->getMessage());
         }
@@ -45,7 +59,7 @@ class Customer
     }
 
     /**
-     * @return ShippingAddress
+     * @return ShippingAddress|null
      */
     public function getCurrentShippingAddress(): ?ShippingAddress
     {
@@ -65,7 +79,127 @@ class Customer
      */
     public function fetchCurrentShippingAddress(): void
     {
-        $this->currentShippingAddress = ShippingAddress::fromCustomer($this);
+        $this->currentShippingAddress = $this->shippingAddressRepository->getCurrentByCustomer($this);
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasShippingAddresses(): bool
+    {
+        $this->fetchShippingAddresses();
+        return !empty($this->shippingAddresses);
+    }
+
+    /**
+     * @return void
+     */
+    public function fetchShippingAddresses(): void
+    {
+        try{
+            $addresses = $this->shippingAddressRepository->findByCustomer($this);
+            if(!empty($addresses)){
+                $this->shippingAddresses = $addresses;
+            }else{
+                $this->shippingAddresses = [];
+            }
+        }catch (DBException $e){
+            $this->shippingAddresses = [];
+            Waboot()->logToFile('waboot-debug',$e->getMessage());
+        }
+    }
+
+    /**
+     * @return void
+     */
+    public function populateDefaultShippingAddress(): void
+    {
+        if($this->hasShippingAddresses()){
+            return;
+        }
+        $current = $this->shippingAddressRepository->getCurrentByCustomer($this);
+        if(!$current->isComplete()){
+            return;
+        }
+        // Save the current to user
+        if(!$current->hasName()){
+            $current->setName('default');
+        }
+        try{
+            $this->shippingAddressRepository->save($current);
+            $this->fetchCurrentShippingAddress();
+        }catch (DBException $e){
+            Waboot()->logToFile('waboot-debug',$e->getMessage());
+        }
+    }
+
+    /**
+     * @return ShippingAddress[]
+     */
+    public function getShippingAddresses(): array
+    {
+        try{
+            if(!$this->hasShippingAddresses()){
+                $this->populateDefaultShippingAddress();
+            }
+            $addresses = $this->shippingAddressRepository->findByCustomer($this);
+            if(empty($addresses)){
+                return [];
+            }
+            return $addresses;
+        }catch (\Exception | \Throwable $e){
+            Waboot()->logToFile('waboot-debug', $e->getMessage());
+            return [];
+        }
+    }
+
+    /**
+     * @param string $addressName
+     * @return ShippingAddress|null
+     */
+    public function getShippingAddressByName(string $addressName): ?ShippingAddress {
+        try{
+            $addresses = $this->getShippingAddresses();
+            if(empty($addresses)){
+                return null;
+            }
+            foreach($addresses as $address){
+                if($address->getName() === $addressName){
+                    return $address;
+                }
+            }
+            return null;
+        }catch (\Exception | \Throwable $e){
+            return null;
+        }
+    }
+
+    /**
+     * @param BillingAddress $billingAddress
+     * @return void
+     */
+    public function setBillingAddress(BillingAddress $billingAddress): void
+    {
+        $this->billingAddress = $billingAddress;
+    }
+
+    /**
+     * @return BillingAddress|null
+     */
+    public function getBillingAddress(): ?BillingAddress
+    {
+        if(!$this->billingAddress){
+            $this->fetchBillingAddress();
+        }
+        return $this->billingAddress;
+    }
+
+    /**
+     * @return void
+     */
+    public function fetchBillingAddress(): void
+    {
+        $this->billingAddress = $this->billingAddressRepository->findByCustomer($this);
     }
 
     /**
@@ -102,21 +236,44 @@ class Customer
             //@see: wp-includes/user.php
             add_filter('send_password_change_email', '__return_false', 99, 2);
         }
-        if($this->getCurrentShippingAddress() !== null){
-            $sa = $this->getCurrentShippingAddress();
-            $this->getWcCustomer()->set_shipping_first_name($sa->getFirstName());
-            $this->getWcCustomer()->set_shipping_last_name($sa->getLastName());
-            $this->getWcCustomer()->set_shipping_address_1($sa->getAddress1());
-            $this->getWcCustomer()->set_shipping_address_2($sa->getAddress2());
-            $this->getWcCustomer()->set_shipping_company($sa->getCompany());
-            $this->getWcCustomer()->set_shipping_city($sa->getCity());
-            $this->getWcCustomer()->set_shipping_postcode($sa->getPostCode());
-            $this->getWcCustomer()->set_shipping_country($sa->getCountry());
-        }
         $id = $this->getWcCustomer()->save();
         if($this->isNew()){
             $this->id = $id;
         }
+        if($this->getBillingAddress() !== null){
+            $this->getBillingAddressRepository()->save($this->getBillingAddress(),$this);
+        }
+        if($this->getCurrentShippingAddress() !== null){
+            $this->getShippingAddressRepository()->setCurrentToCustomer($this->getCurrentShippingAddress(),$this);
+        }
+        if($this->getShippingAddresses() !== null){
+            foreach ($this->getShippingAddresses() as $shippingAddress){
+                if(!$shippingAddress instanceof ShippingAddress){
+                    continue;
+                }
+                try{
+                    $this->getShippingAddressRepository()->save($shippingAddress);
+                }catch (\Exception | \Throwable $e){
+                    logException($e,self::class);
+                }
+            }
+        }
         return $id;
+    }
+
+    /**
+     * @return ShippingAddressRepository
+     */
+    public function getShippingAddressRepository(): ShippingAddressRepository
+    {
+        return $this->shippingAddressRepository;
+    }
+
+    /**
+     * @return BillingAddressRepository
+     */
+    public function getBillingAddressRepository(): BillingAddressRepository
+    {
+        return $this->billingAddressRepository;
     }
 }

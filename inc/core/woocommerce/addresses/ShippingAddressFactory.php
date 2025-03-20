@@ -38,6 +38,31 @@ class ShippingAddressFactory
     }
 
     /**
+     * @return ShippingAddress
+     * @throws ShippingAddressFactoryException
+     */
+    public function createFromPostedData(): ShippingAddress
+    {
+        $shippingId = sanitize_text_field($_POST['shipping_id']);
+        if(!$shippingId){
+            throw new ShippingAddressFactoryException('createFromPostedData(): Invalid shipping id');
+        }
+        $sa = new ShippingAddress();
+        $sa->setName($shippingId);
+        $sa->setUserId(get_current_user_id());
+        $sa->setFirstName(sanitize_text_field($_POST['shipping_first_name']));
+        $sa->setLastName(sanitize_text_field($_POST['shipping_last_name']));
+        $sa->setAddress1(sanitize_text_field($_POST['shipping_address_1']));
+        $sa->setAddress2(sanitize_text_field($_POST['shipping_address_2']));
+        $sa->setCity(sanitize_text_field($_POST['shipping_city']));
+        $sa->setState(sanitize_text_field($_POST['shipping_state']));
+        $sa->setCountry(sanitize_text_field($_POST['shipping_country']));
+        $sa->setPostcode(sanitize_text_field($_POST['shipping_postcode']));
+        do_action('wawoo/multiple_addresses/shipping_address_repository/create_from_posted_data', $sa);
+        return $sa;
+    }
+
+    /**
      * @param \WC_Order $order
      * @return ShippingAddress|null
      */
