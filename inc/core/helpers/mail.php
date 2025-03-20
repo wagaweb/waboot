@@ -2,12 +2,13 @@
 
 namespace Waboot\inc\core\helpers;
 
-use Waboot\inc\core\Mail;
-use Waboot\inc\core\MailAddress;
-use Waboot\inc\core\MailAttachment;
-use Waboot\inc\core\MailAttachmentException;
-use Waboot\inc\core\MailException;
-use Waboot\inc\core\MailHeader;
+use Waboot\inc\core\mail\Mail;
+use Waboot\inc\core\mail\MailAddress;
+use Waboot\inc\core\mail\MailAttachment;
+use Waboot\inc\core\mail\MailAttachmentException;
+use Waboot\inc\core\mail\MailException;
+use Waboot\inc\core\mail\MailHeader;
+use Waboot\inc\core\EmailDisabler;
 
 /**
  * Send a mail
@@ -58,4 +59,18 @@ function sendMail(string $subject, string $body, $to, array $customHeaders = [],
     }
     $m->setSendAsHTML($sendAsHtml);
     return $m->send();
+}
+
+/**
+ * Prevent emails to be sent through wp_mail()
+ */
+function preventEmails(): void {
+    EmailDisabler::getInstance()->prevent();
+}
+
+/**
+ * Allow emails to be sent again through wp_mail()
+ */
+function unblockEmails(): void {
+    EmailDisabler::getInstance()->allow();
 }

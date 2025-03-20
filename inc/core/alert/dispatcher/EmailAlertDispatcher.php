@@ -4,9 +4,9 @@ namespace Waboot\inc\core\alert\dispatcher;
 
 use Waboot\inc\core\alert\AbstractAlertDispatcher;
 use Waboot\inc\core\alert\AlertDispatcherException;
-use Waboot\inc\core\Mail;
-use Waboot\inc\core\MailAddress;
-use Waboot\inc\core\MailException;
+use Waboot\inc\core\mail\Mail;
+use Waboot\inc\core\mail\MailAddress;
+use Waboot\inc\core\mail\MailException;
 
 class EmailAlertDispatcher extends AbstractAlertDispatcher
 {

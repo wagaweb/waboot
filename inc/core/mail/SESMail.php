@@ -1,11 +1,9 @@
 <?php
 
-namespace Waboot\inc\core;
+namespace waboot\inc\core\mail;
 
-use Exception;
-use Monolog\Handler\StreamHandler;
-use Monolog\Logger;
 use PHPMailer\PHPMailer\PHPMailer;
+use Waboot\inc\core\LoggerFactoryException;
 
 class SESMail extends Mail
 {

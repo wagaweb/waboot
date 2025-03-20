@@ -1,6 +1,6 @@
 <?php
 
-namespace Waboot\inc\core;
+namespace Waboot\inc\core\mail;
 
 use Exception;
 use Monolog\Handler\StreamHandler;
@@ -410,7 +410,7 @@ class Mail
         if(isset($logFile)){
             return $logFile;
         }
-        $logFile = $this->getLogsDir().'/'.$this->logFileName.'-'.(new \DateTime())->format('Y-m-d').'.log';
+        $logFile = $this->getLogsDir() . 'Mail.php/' .$this->logFileName.'-'.(new \DateTime())->format('Y-m-d').'.log';
         return $logFile;
     }
 }
