@@ -2,12 +2,12 @@
 
 namespace Waboot\inc\core\helpers;
 
-use Waboot\inc\core\Mail;
-use Waboot\inc\core\MailAddress;
-use Waboot\inc\core\MailAttachment;
-use Waboot\inc\core\MailAttachmentException;
-use Waboot\inc\core\MailException;
-use Waboot\inc\core\MailHeader;
+use Waboot\inc\core\mail\Mail;
+use Waboot\inc\core\mail\MailAddress;
+use Waboot\inc\core\mail\MailAttachment;
+use Waboot\inc\core\mail\MailAttachmentException;
+use Waboot\inc\core\mail\MailException;
+use Waboot\inc\core\mail\MailHeader;
 use Waboot\inc\core\EmailDisabler;
 
 /**
