@@ -46,3 +46,51 @@ function logWarningToFile(string $loggerIdentifier, string $logMessage, array $c
 function logErrorToFile(string $loggerIdentifier, string $logMessage, array $context = [], \DateTimeZone $dz = null): void {
     Waboot()->logToFile($loggerIdentifier,$logMessage,MonologLoggingLevels::ERROR,$context,$dz);
 }
+
+/**
+ * Shorthand to log info into a 'waboot-log'
+ *
+ * @param string $message
+ * @param string $source
+ * @param array $context
+ * @param string $fileName
+ * @return void
+ */
+function logInfo(string $message, string $source, array $context = [], string $fileName = 'waboot-log'): void {
+    if($source !== ''){
+        $context['source'] = $source;
+    }
+    logInfoToFile($fileName,$message,$context);
+}
+
+/**
+ * Shorthand to log warning into a 'waboot-log'
+ *
+ * @param string $message
+ * @param string $source
+ * @param array $context
+ * @param string $fileName
+ * @return void
+ */
+function logWarning(string $message, string $source, array $context = [], string $fileName = 'waboot-log'): void {
+    if($source !== ''){
+        $context['source'] = $source;
+    }
+    logWarningToFile($fileName,$message,$context);
+}
+
+/**
+ * Shorthand to log an exception into a 'waboot-log'
+ *
+ * @param \Exception|\Throwable $e
+ * @param string $source
+ * @param array $context
+ * @param string $fileName
+ * @return void
+ */
+function logException(\Exception|\Throwable $e, string $source, array $context, string $fileName = 'waboot-log'){
+    if($source !== ''){
+        $context['source'] = $source;
+    }
+    logErrorToFile($fileName,$e->getMessage(),$context);
+}
