@@ -146,6 +146,47 @@ function getBundleRealTotals(int $bundleId, array $quantities): array {
 }
 
 /**
+ * @param int $childId
+ * @return int|null
+ */
+function getGroupedProductIdFromChild(int $childId): ?int {
+    global $wpdb;
+    $groupedProductId = $wpdb->get_var($wpdb->prepare("
+            SELECT post_id 
+            FROM $wpdb->postmeta 
+            WHERE meta_key = '_children' 
+            AND meta_value LIKE %s 
+            LIMIT 1
+        ", '%i:' . $wpdb->esc_like($childId) . ';%'));
+    if(!$groupedProductId){
+        return null;
+    }
+    $groupedProductId = (int) $groupedProductId;
+    if($groupedProductId === 0){
+        return null;
+    }
+    return $groupedProductId;
+}
+
+/**
+ * @param \WC_Product_Grouped $product
+ * @return array
+ */
+function getGroupedProductStockInfo(\WC_Product_Grouped $product) {
+    $totalStock = 0;
+    $childrenIds = $product->get_children();
+    $totalItems = count( $childrenIds );
+    foreach ( $childrenIds as $childId ) {
+        $childProduct = wc_get_product( $childId );
+        $totalStock += $childProduct->get_stock_quantity() ?: 0;
+    }
+    return [
+        'totalStock' => $totalStock,
+        'totalItems' => $totalItems
+    ];
+}
+
+/**
  * Get the percentage value of the sale price in relation with the regular price
  *
  * @param \WC_Product $product
@@ -383,6 +424,28 @@ function getOrderIdByOrderNumber(int $orderNumber): ?int {
         return (int) $rr->post_id;
     }
     return null;
+}
+
+/**
+ * @param $order
+ * @param string $meta
+ * @return string
+ */
+function getOrderMeta($order, string $meta): string {
+    if(is_int($order)){
+        $order = wc_get_order($order);
+    }
+    if(!$order instanceof \WC_Order){
+        return '';
+    }
+    $m = $order->get_meta($meta);
+    if(!\is_string($m) || empty($m)){
+        $m =$order->get_meta('_'.$meta);
+        if(!\is_string($m) || empty($m)){
+            $m = '';
+        }
+    }
+    return $m;
 }
 
 /**
