@@ -54,6 +54,9 @@ class Theme{
             'inc/hooks/widget-areas.php',
             'inc/hooks/assets.php'
         ];
+        // WooCommerce deps
+        $deps[] = 'inc/core/woocommerce/utils/prices.php';
+        $deps[] = 'inc/core/woocommerce/utils/settings.php';
         safeRequireFiles($deps);
     }
 
