@@ -8,7 +8,8 @@ $deps = [
     'base_mods/coupons.php',
     'base_mods/fields.php',
     'base_mods/layout.php',
-    'step-checkout-base.php'
+    // 'step-checkout-base.php', // Use either base or 'step-checkout.php'
+    'step-checkout.php'
 ];
 
 $deps = array_map(static function($file){
