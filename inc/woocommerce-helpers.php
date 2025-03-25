@@ -202,8 +202,10 @@ function getProductSalePercentage(\WC_Product $product, $round = true, $roundPre
         return 0;
     }
     if ($product->get_type() === 'variable') {
+        /**
+         * @var \WC_Product_Variable $product
+         */
         $variations = $product->get_available_variations();
-        $percentage = 0;
         $percentageArr = [];
         foreach ($variations as $variation) {
             $id = $variation['variation_id'];
@@ -220,9 +222,12 @@ function getProductSalePercentage(\WC_Product $product, $round = true, $roundPre
             $percentage = max($percentageArr);
         }
     } else {
-        $regularPrice = $product->get_regular_price();
-        $salePrice = $product->get_sale_price();
-        $percentage = (($regularPrice - $salePrice) / $regularPrice) * 100;
+        $regularPrice = (float) $product->get_regular_price();
+        $salePrice = (float) $product->get_sale_price();
+        if($regularPrice <= 0){
+            return 0; // avoid division by zero
+        }
+        $percentage = ( ($regularPrice - $salePrice) / $regularPrice) * 100;
     }
     if($percentage && $percentage !== 0){
         if($round){
