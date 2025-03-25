@@ -18,7 +18,7 @@ export interface wpJsonResponseError{
 }
 
 export interface userBillingData{
-    type: ''|'company'|'private',
+    profileType: ''|'company'|'private',
     email: string,
     firstName: string,
     lastName: string,
@@ -33,7 +33,7 @@ export interface userBillingData{
     vatNumber?: string,
     sdiPec?: string,
     phone?: string,
-    birthDay?: Date,
+    birthday?: Date,
 }
 
 export interface userShippingData{

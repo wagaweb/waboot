@@ -64,17 +64,17 @@ const validationSchema = toTypedSchema(
                 then: (schema) => schema.required(),
                 otherwise: (schema) => schema.notRequired(),
             }).label(t('Business / Company name')),
-            //vatNumber: string().label(t('VAT Number')),
+            //vatNumber: string().label(t('Vat Number')),
             vatNumber: string().when('profileData.profileType', {
                 is: () => isProfileTypeCompany.value,
                 then: (schema) => schema.required(),
                 otherwise: (schema) => schema.notRequired(),
-            }),
+            }).label(t('Vat Number')),
             sdiPec: string().when('profileData.profileType', {
                 is: () => isProfileTypeCompany.value,
                 then: (schema) => schema.required(),
                 otherwise: (schema) => schema.notRequired(),
-            })
+            }).label(t('Unique code SDI / PEC'))
         })
     }),
 );
@@ -248,25 +248,25 @@ function onSubmit(){
                 <div class="form-row form-row-wide" :class="{invalid: 'profileData.firstName' in errors }">
                     <input type="text" placeholder="" id="first-name" v-model="firstName" v-bind="firstNameAttrs">
                     <label for="first-name">{{ $t('First name') }} <span>*</span></label>
-                    <ErrorMessage name="profileData.firstName" />
+                    <ErrorMessage name="billingData.firstName" />
                 </div>
 
                 <div class="form-row form-row-wide" :class="{invalid: 'profileData.lastName' in errors }">
                     <input type="text" placeholder="" id="last-name" v-model="lastName" v-bind="lastNameAttrs">
                     <label for="last-name">{{ $t('Last name') }} <span>*</span></label>
-                    <ErrorMessage name="profileData.lastName" />
+                    <ErrorMessage name="billingData.lastName" />
                 </div>
 
                 <div class="form-row form-row-wide" :class="{invalid: 'profileData.birthday' in errors }">
                     <VueDatePicker v-model="birthday" v-bind="birthdayAttrs" :enable-time-picker="false" format="dd/MM/yyyy" locale="it" auto-apply placeholder=""></VueDatePicker>
                     <label class="label-birthday" for="birth-date">{{ $t('Birthday') }}</label>
-                    <ErrorMessage name="profileData.birthday" />
+                    <ErrorMessage name="billingData.birthday" />
                 </div>
 
                 <div class="form-row form-row-wide" :class="{invalid: 'profileData.phone' in errors }">
                     <input type="tel" placeholder="" id="phone" v-model="phone" v-bind="phoneAttrs">
                     <label for="phone">{{ $t('Phone') }}</label>
-                    <ErrorMessage name="profileData.phone" />
+                    <ErrorMessage name="billingData.phone" />
                 </div>
             </div>
         </div>

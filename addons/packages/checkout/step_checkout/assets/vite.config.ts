@@ -15,8 +15,8 @@ export default defineConfig({
         vue(),
     ],
     build: {
-        /*assetsDir: '.',
-        rollupOptions: {
+        assetsDir: '.',
+        /*rollupOptions: {
             external: [
                 "jquery",
             ]

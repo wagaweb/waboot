@@ -11,6 +11,7 @@ const checkoutDataStore = useCheckoutDataStore();
 </script>
 <template>
     <div class="woocommerce-checkout-steps__data">
+        {{ checkoutDataStore.currentStep }}
         <p v-if="checkoutDataStore.hasEmail" class="form-row__email">
             {{ checkoutDataStore.userEmail }}
             <a
@@ -27,7 +28,7 @@ const checkoutDataStore = useCheckoutDataStore();
                 <h5>{{ $t('Account') }}</h5>
 
                 <ul>
-                    <li>{{ $t('Account type') }}: {{ checkoutDataStore.billingData.type }}</li>
+                    <li>{{ $t('Account type') }}: {{ checkoutDataStore.billingData.profileType }}</li>
                 </ul>
 
                 <ul>

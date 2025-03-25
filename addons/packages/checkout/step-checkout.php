@@ -2,43 +2,43 @@
 
 namespace Waboot\addons\packages\checkout;
 
-/*
- * Funzionamento:
- * - Il form originale viene wrappato in #original-form-wrapper
- * - L'app VUE viene renderizzata in #woocommerce-checkout-steps-app
- * - L'app VUE compila il form originale (tramite i watch() nello store checkoutData)
- * - Arrivati allo step di pagamento (gestito dal componente Pay), il form originale viene spostato all'interno
- *   dell'app VUE. L'unica parte visibile del form originale è la parte del pagamento.
- */
-
 use function Waboot\inc\core\AssetsManager;
 use function Waboot\inc\getCurrentLanguage;
 
-require_once 'step_chekout/backend-hooks.php';
+require_once 'step_checkout/backend-hooks.php';
 
 add_action('wp_enqueue_scripts', static function(){
     try{
         $assets = [];
-        $assetsDir = get_template_directory() . '/addons/packages/checkout/js/dist/assets/';
+        $assetsDir = get_template_directory() . '/addons/packages/checkout/step_checkout/assets/dist/';
         $jsFiles = glob($assetsDir.'/index-*.js');
         if(!\is_array($jsFiles) || empty($jsFiles)){
             return;
         }
         $mainJsFilePath = array_shift($jsFiles);
         $mainJsFileName = basename($mainJsFilePath);
+        $mainJsI10nParams = [
+            'ajax_url' => admin_url('admin-ajax.php'),
+            'nonce' => wp_create_nonce('step-checkout-request-data'),
+            'locale' => get_locale(),
+            'current_language' => getCurrentLanguage()
+        ];
+        try{
+            $wcRegistrationRequired = WC()->checkout()->is_registration_required();
+            $wcRegistrationEnabled = WC()->checkout()->is_registration_enabled();
+        }catch (\Exception|\Throwable $e){
+            $wcRegistrationRequired = false;
+            $wcRegistrationEnabled = false;
+        }
+        $mainJsI10nParams['wc_checkout_registration_required'] = $wcRegistrationRequired;
+        $mainJsI10nParams['wc_checkout_registration_enabled'] = $wcRegistrationEnabled;
         $assets['step-checkout-main-js'] = [
-            'uri' => get_template_directory_uri() . '/addons/packages/checkout/js/dist/assets/'.$mainJsFileName,
+            'uri' => get_template_directory_uri() . '/addons/packages/checkout/step_checkout/assets/dist/'.$mainJsFileName,
             'path' => $assetsDir.'/'.$mainJsFileName,
             'type' => 'js',
             'i10n' => [
                 'name' => 'stepCheckoutBackendData',
-                'params' => [
-                    'ajax_url' => admin_url('admin-ajax.php'),
-                    'api_url' => get_bloginfo('wpurl').'/wp-json/npk/v1',
-                    'nonce' => wp_create_nonce('step-checkout-request-data'),
-                    'locale' => get_locale(),
-                    'current_language' => getCurrentLanguage()
-                ]
+                'params' => $mainJsI10nParams,
             ],
             'in_footer' => true
         ];
@@ -47,7 +47,7 @@ add_action('wp_enqueue_scripts', static function(){
             $mainCssFilePath = array_shift($cssFiles);
             $mainCssFileName = basename($mainCssFilePath);
             $assets['step-checkout-main-css'] = [
-                'uri' => get_template_directory_uri() . '/addons/packages/checkout/js/dist/assets/'.$mainCssFileName,
+                'uri' => get_template_directory_uri() . '/addons/packages/checkout/step_checkout/assets/dist/'.$mainCssFileName,
                 'path' => $assetsDir.'/'.$mainCssFileName,
                 'type' => 'css'
             ];

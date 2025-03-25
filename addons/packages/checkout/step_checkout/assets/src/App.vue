@@ -62,12 +62,15 @@ onMounted(async () => {
 });
 
 function onEmailSubmitted(email: string, profileFound: boolean, isGuest: boolean) {
+    debugLog('<App> onEmailSubmitted(), email', email);
     debugLog('<App> onEmailSubmitted(), profileFound?', profileFound);
     checkoutDataStore.setUserEmail(email);
     checkoutDataStore.wpProfileFound = profileFound;
     if (profileFound) {
         checkoutDataStore.currentStep = 'password';
     } else {
+        debugLog('<App> onEmailSubmitted(), isGuest?', isGuest);
+        checkoutDataStore.isGuest = isGuest;
         checkoutDataStore.currentStep = 'profile';
     }
 }

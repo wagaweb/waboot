@@ -18,11 +18,13 @@ const loading = ref(false);
 
 const email = ref('');
 
-async function checkEmail(continueAsGuest: boolean = false) {
+const continueAsGuest = ref(true);
+
+async function checkEmail() {
     debugLog('<SignInLanding> checkEmail() -> checking', email.value);
+    debugLog('<SignInLanding> checkEmail() -> continueAsGuest', continueAsGuest.value);
     checkoutDataStore.cleanErrors();
     try {
-        checkoutDataStore.isGuest = continueAsGuest;
         loading.value = true;
         // Check if email is valid
         const isValidEmail = /.+@.+\..+/.test(email.value);
@@ -34,11 +36,11 @@ async function checkEmail(continueAsGuest: boolean = false) {
         if (isEmailRegistered) {
             // Account found
             debugLog('<SignInLanding> checkEmail() -> emailSubmitted -> wp profile found');
-            emit('emailSubmitted', email.value, true, continueAsGuest);
+            emit('emailSubmitted', email.value, true, continueAsGuest.value);
         }else {
             // No account
             debugLog('<SignInLanding> checkEmail() -> emailSubmitted -> wp profile not found');
-            emit('emailSubmitted', email.value, false, continueAsGuest);
+            emit('emailSubmitted', email.value, false, continueAsGuest.value);
         }
         loading.value = false;
     } catch (error: any) {
@@ -65,8 +67,8 @@ onMounted(() => {
                 </div>
             </div>
             <div class="woocommerce-checkout-steps__btn-group">
-                <input type="submit" :value="t('Proceed')" class="btn btn--primary" :disabled="loading" @click.prevent="checkEmail(false)">
-                <input type="submit" :value="t('Proceed as guest')" class="btn btn--outline" :disabled="loading" @click.prevent="checkEmail(true)">
+                <input type="submit" :value="t('Proceed')" class="btn btn--primary" :disabled="loading" @click.prevent="continueAsGuest = false; checkEmail()">
+                <input type="submit" :value="t('Proceed as guest')" class="btn btn--outline" :disabled="loading" @click.prevent="checkEmail()">
             </div>
         </div>
     </div>

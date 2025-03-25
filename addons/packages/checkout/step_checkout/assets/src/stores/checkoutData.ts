@@ -15,7 +15,7 @@ export const useCheckoutDataStore = defineStore('currentUser', () => {
     const isGuest = ref(true);
     const billingData: userBillingData = reactive({
         email: '',
-        type: '',
+        profileType: '',
         firstName: '',
         lastName: '',
         country: '',
@@ -27,7 +27,7 @@ export const useCheckoutDataStore = defineStore('currentUser', () => {
         fiscalCode: '',
         company: '',
         vatNumber: '',
-        birthDay: undefined,
+        birthday: undefined,
         phone: '',
         sdiPec: ''
     });
@@ -88,7 +88,7 @@ export const useCheckoutDataStore = defineStore('currentUser', () => {
     });
 
     const birthdayString = computed(() => {
-        return getDayFromDate(billingData.birthDay);
+        return getDayFromDate(billingData.birthday);
     });
 
     watch(isGuest, (newV, oldV ) => {
@@ -131,8 +131,14 @@ export const useCheckoutDataStore = defineStore('currentUser', () => {
                 $billingCountry.trigger('change');
             }
             if($billingState.length > 0){
-                $billingState.val(billingData.state);
-                $billingState.trigger('change');
+                $("#billing_state").val(billingData.state);
+                $("#billing_state").trigger('change');
+                // setTimeout(() => {
+                //     $billingState.val(billingData.state);
+                //     $billingState.trigger('change');
+                //     $("#billing_state").val(billingData.state);
+                //     $("#billing_state").trigger('change');
+                // },2000);
             }
             if($billingFiscalCode.length > 0){
                 $billingFiscalCode.val(billingData.fiscalCode);
@@ -147,10 +153,18 @@ export const useCheckoutDataStore = defineStore('currentUser', () => {
                 $billingSdiPec.val(billingData.sdiPec);
             }
             if($billingCustomerType.length > 0){
-                $billingCustomerType.val(billingData.type);
+                if($billingCustomerType.length > 1){
+                    // Its radio
+                    $originalForm.find(`#billing_customer_type_${billingData.profileType}`).prop("checked",true);
+                    $originalForm.find(`#billing_customer_type_${billingData.profileType}`).prop("value", billingData.profileType);
+                    $originalForm.find(`[value='${billingData.profileType}']`).prop("checked",true);
+                }else{
+                    $billingCustomerType.val(billingData.profileType);
+                }
             }
             if($billingBirthday.length > 0){
-                $billingBirthday.val(getBackendFormatFromDate(billingData.birthDay));
+                let dateFormatted = getBackendFormatFromDate(billingData.birthday);
+                $billingBirthday.val(dateFormatted);
             }
         }
     });
@@ -167,8 +181,14 @@ export const useCheckoutDataStore = defineStore('currentUser', () => {
             }
             const $shippingState = $originalForm.find('[name=shipping_state]');
             if($shippingState.length > 0){
-                $shippingState.val(shippingData.state);
-                $shippingState.trigger('change');
+                $("#shipping_state").val(shippingData.state);
+                $("#shipping_state").trigger('change');
+                setTimeout(() => {
+                    $shippingState.val(shippingData.state);
+                    $shippingState.trigger('change');
+                    $("#shipping_state").val(shippingData.state);
+                    $("#shipping_state").trigger('change');
+                },2000);
             }
             $('[name=shipping_id]').val(shippingData.name);
             $('[name=shipping_first_name]').val(shippingData.firstName);
@@ -193,8 +213,8 @@ export const useCheckoutDataStore = defineStore('currentUser', () => {
     }
 
     function setBillingData(newBillingData: userBillingData){
-        if(newBillingData.type !== undefined){
-            billingData.type = newBillingData.type;
+        if(newBillingData.profileType !== undefined){
+            billingData.profileType = newBillingData.profileType;
         }
         if(newBillingData.firstName !== undefined){
             billingData.firstName = newBillingData.firstName;
@@ -202,8 +222,8 @@ export const useCheckoutDataStore = defineStore('currentUser', () => {
         if(newBillingData.lastName !== undefined){
             billingData.lastName = newBillingData.lastName;
         }
-        if(newBillingData.birthDay !== undefined){
-            billingData.birthDay = newBillingData.birthDay;
+        if(newBillingData.birthday !== undefined){
+            billingData.birthday = newBillingData.birthday;
         }
         if(newBillingData.phone !== undefined){
             billingData.phone = newBillingData.phone;

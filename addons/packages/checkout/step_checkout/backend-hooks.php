@@ -170,9 +170,9 @@ function fetchCustomerData(int $userId): array {
     $billingEmail = '';
     if($billingAddress) {
         $billingEmail = $billingAddress->getEmail();
-        if(empty($billingEmail)) {
-            $billingEmail = $customer->getWcCustomer()->get_email();
-        }
+    }
+    if(empty($billingEmail)) {
+        $billingEmail = $customer->getWcCustomer()->get_email();
     }
     $customerData = [
         'billing_data' => $billingAddress ? [
@@ -187,7 +187,7 @@ function fetchCustomerData(int $userId): array {
             'city' => $billingAddress->getCity(),
             'state' => $billingAddress->getState()
         ] : [
-            'email' => '',
+            'email' => $billingEmail,
             'firstName' => '',
             'lastName' => '',
             'phone' => '',

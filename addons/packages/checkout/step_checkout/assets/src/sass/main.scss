@@ -84,7 +84,7 @@
 
   h5 {
     font-size: .875em;
-    font-weight: variables.$fontWeightSemiBold;
+    font-weight: bold;
     letter-spacing: 1px;
     text-transform: uppercase;
   }
@@ -153,7 +153,7 @@
     background-color: variables.$colorGreyLight;
     border-radius: 50%;
     display: grid;
-    font-weight: variables.$fontWeightSemiBold;
+    font-weight: bold;
     height: 36px;
     place-items: center;
     width: 36px;

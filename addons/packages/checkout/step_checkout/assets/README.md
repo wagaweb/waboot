@@ -9,8 +9,9 @@ Funzionamento:
 
 ## Funzionamento Guest Login
 
-In SignInLanding.vue c'è il bottone per continuare come guest. Questo chiama la funzione checkEmail() passandogli a il parametro `continueAsGuest` a `TRUE`.
-Questo parametro viene settato nello store; nello store c'è un `watch()` su `isGuest` che cambia la checkbox `createaccount` del form originale.
+In `SignInLanding.vue` c'è il bottone per continuare come guest. Quando viene cliccato, setta `continueAsGuest` a `TRUE` e chiama la funzione checkEmail().
+Quando `SignInLanding.vue` emette `emailSubmitted`, invia anche `continueAsGuest` ad `App.vue`.
+In `App.vue` questo parametro viene settato nello store; nello store c'è un `watch()` su `isGuest` che cambia la checkbox `createaccount` del form originale.
 
 ## Funzionamento avanzamento tra step
 

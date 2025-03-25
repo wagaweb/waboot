@@ -16,6 +16,7 @@ try{
         'inc/woocommerce-helpers.php',
         'inc/hooks/gravityform/hooks.php',
         'inc/hooks/woocommerce/woocommerce.php',
+        'inc/hooks/woocommerce/addresses.php',
         'inc/hooks/woocommerce/woocommerce-endpoints.php',
         'inc/hooks/woocommerce/woocommerce-listing.php',
         'inc/hooks/woocommerce/woocommerce-product.php',
@@ -31,10 +32,11 @@ try{
 
     /*
      * Addons
+     * Do not keep enabled 'invoicing' if step-checkout.php is enabled in 'checkout' addon bootstrap.php
      */
     add_filter('waboot/addons/disabled', function(){
         return [
-            //'star_rating'
+            'invoicing'
         ];
     });
     \Waboot\inc\loadAddons();

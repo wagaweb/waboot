@@ -12,7 +12,7 @@ use Waboot\inc\core\utils\Utilities;
 use function Waboot\inc\getAllProductVariationIds;
 use function Waboot\inc\getProductType;
 
-class ImportProductImages extends AbstractCommand
+class   ImportProductImages extends AbstractCommand
 {
     const VERSION = '19052023';
     /**
