@@ -57,7 +57,7 @@ const checkoutDataStore = useCheckoutDataStore();
             </a>
         </div>
         <div v-if="checkoutDataStore.currentStep == 'pay' && checkoutDataStore.isShippingDataComplete">
-          <h4>Consegna</h4>
+          <h4>{{ $t('Shipping') }}</h4>
           <div class="woocommerce-checkout-steps__profile-col">
             <h5>{{ $t('Shipping Data') }}</h5>
             <ul>

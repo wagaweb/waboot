@@ -69,6 +69,11 @@ const validationSchema = toTypedSchema(
                 is: () => isProfileTypeCompany.value,
                 then: (schema) => schema.required(),
                 otherwise: (schema) => schema.notRequired(),
+            }),
+            sdiPec: string().when('profileData.profileType', {
+                is: () => isProfileTypeCompany.value,
+                then: (schema) => schema.required(),
+                otherwise: (schema) => schema.notRequired(),
             })
         })
     }),
@@ -93,6 +98,7 @@ const [state, stateAttrs] = defineField('billingData.state');
 const [fiscalCode, fiscalCodeAttrs] = defineField('billingData.fiscalCode');
 const [company, companyAttrs] = defineField('billingData.company');
 const [vatNumber, vatNumberAttrs] = defineField('billingData.vatNumber');
+const [sdiPec, sdiPecAttrs] = defineField('billingData.sdiPec');
 
 const selected = ref("");
 
@@ -197,6 +203,9 @@ async function restoreBillingDataToForm(){
                 break;
             case 'vatNumber':
                 vatNumber.value = value as string;
+                break;
+            case 'sdiPec':
+                sdiPec.value = value as string;
                 break;
         }
     }
@@ -324,6 +333,12 @@ function onSubmit(){
                     <input type="text" placeholder="" id="fiscal_code" v-model="fiscalCode" v-bind="fiscalCodeAttrs">
                     <label for="fiscal_code">{{ $t('Fiscal code') }}</label>
                     <ErrorMessage name="billingData.fiscalCode" />
+                </div>
+
+                <div v-show="profileType === 'company'" class="form-row form-row-wide" :class="{invalid: 'billingData.sdiPec' in errors }">
+                    <input type="text" placeholder="" id="sdi_pec" v-model="sdiPec" v-bind="sdiPecAttrs">
+                    <label for="sdi_pec">{{ $t('Unique code SDI / PEC') }} <span>*</span></label>
+                    <ErrorMessage name="billingData.sdiPec" />
                 </div>
 
             </div>

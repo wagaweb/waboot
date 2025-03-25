@@ -12,11 +12,7 @@ export const useCheckoutDataStore = defineStore('currentUser', () => {
     const currentStep: Ref<StepType> = ref('email');
     const currentUserId = ref<number>();
     const wpProfileFound = ref(false);
-    const wpProfileCreated = ref(false);
     const isGuest = ref(true);
-    const newAccountData = reactive({
-        password: ''
-    });
     const billingData: userBillingData = reactive({
         email: '',
         type: '',
@@ -33,6 +29,7 @@ export const useCheckoutDataStore = defineStore('currentUser', () => {
         vatNumber: '',
         birthDay: undefined,
         phone: '',
+        sdiPec: ''
     });
     const shippingData: userShippingData = reactive({
         name: '',
@@ -195,18 +192,6 @@ export const useCheckoutDataStore = defineStore('currentUser', () => {
         isGuest.value = false;
     }
 
-    function setUserPassword(password: string){
-        newAccountData.password = password;
-    }
-
-    function clearProfileData(){
-        billingData.type = '';
-        billingData.firstName = '';
-        billingData.lastName = '';
-        billingData.birthDay = undefined;
-        billingData.phone = '';
-    }
-
     function setBillingData(newBillingData: userBillingData){
         if(newBillingData.type !== undefined){
             billingData.type = newBillingData.type;
@@ -321,7 +306,8 @@ export const useCheckoutDataStore = defineStore('currentUser', () => {
         isLoggedIn: isUserLoggedIn,
         currentUserId,
         wpProfileFound,
-        wpProfileCreated,
+        mustRegisterNewUser,
+        birthdayString,
         userEmail,
         hasEmail,
         billingData,
@@ -335,9 +321,5 @@ export const useCheckoutDataStore = defineStore('currentUser', () => {
         setUserEmail,
         setBillingData,
         setShippingData,
-        mustRegisterNewUser,
-        newAccountData,
-        setUserPassword,
-        birthdayString
     }
 })
