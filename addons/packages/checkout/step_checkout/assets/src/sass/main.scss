@@ -2,12 +2,26 @@
 @use "../../../../../../../assets/src/sass/frontend/media-query";
 
 // show/hide original WooCommerce elements
+/*
+Original form is composed like this
+form
+  #customer_details
+  h3#order_review_heading
+  #order_review.woocommerce-checkout-review-order
+    table.woocommerce-checkout-review-order-table
+    .woocommerce-form-coupon__wrapper
+    #payment
+      ul.wc_payment_methods.payment_methods methods
+      .place-order
+*/
+
 #original-form-wrapper,
 #payment-wrapper {
   form {
     #customer_details,
     #order_review_heading,
     .woocommerce-checkout-review-order-table,
+    .woocommerce-form-coupon__wrapper,
     #payment .wc_payment_methods,
     #payment .woocommerce-terms-and-conditions-wrapper,
     #payment [name="woocommerce_checkout_place_order"] {

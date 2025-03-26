@@ -74,3 +74,10 @@ onBeforeUnmount(() => {
         </div>
     </div>
 </template>
+<style lang="scss">
+    #payment-wrapper{
+        .woocommerce-form-coupon__wrapper{
+            display: block !important;
+        }
+    }
+</style>
