@@ -80,4 +80,23 @@ onBeforeUnmount(() => {
             display: block !important;
         }
     }
+    form {
+        #customer_details,
+        #order_review_heading,
+        .woocommerce-checkout-review-order-table {
+            display: none;
+        }
+
+        #payment {
+            .wc_payment_methods {
+                display: block !important;
+            }
+            .woocommerce-terms-and-conditions-wrapper{
+                display: block !important;
+            }
+            [name="woocommerce_checkout_place_order"]{
+                display: none !important;
+            }
+        }
+    }
 </style>
