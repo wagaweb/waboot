@@ -80,6 +80,22 @@ function logWarning(string $message, string $source, array $context = [], string
 }
 
 /**
+ * Shorthand to log error into a 'waboot-log'
+ *
+ * @param string $message
+ * @param string $source
+ * @param array $context
+ * @param string $fileName
+ * @return void
+ */
+function logError(string $message, string $source, array $context = [], string $fileName = 'waboot-log'): void {
+    if($source !== ''){
+        $context['source'] = $source;
+    }
+    logErrorToFile($fileName,$message,$context);
+}
+
+/**
  * Shorthand to log an exception into a 'waboot-log'
  *
  * @param \Exception|\Throwable $e
