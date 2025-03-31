@@ -21,15 +21,18 @@ onMounted(() => {
 
     //const $orderReviewTable = $('.woocommerce-checkout-review-order-table');
     if($('.woocommerce-checkout-review-order-table').length > 0){
-        console.log('Cloning order table');
+        console.log('<OrderReview> Cloning order table');
         $('.woocommerce-checkout-review-order-table').clone().appendTo('[data-order-review-wrapper]');
         updateCartTotal();
     }
     $(document.body).on('updated_checkout', () => {
-        console.log('Updating the order review table');
+        console.log('<OrderReview> Updating the order review table');
         loading.value = true;
         setTimeout(() => {
             $('[data-order-review-wrapper]').html('');
+            /*
+             * .woocommerce-checkout-review-order-table contains the items and totals
+             */
             $('.woocommerce-checkout-review-order-table').clone().appendTo('[data-order-review-wrapper]');
             $('[data-order-review-wrapper]').find('.blockOverlay').attr('style', '');
             loading.value = false;

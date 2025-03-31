@@ -2,7 +2,6 @@
 
 namespace Waboot\addons\packages\checkout;
 
-use Automattic\WooCommerce\Blocks\Utils\CartCheckoutUtils;
 use function Waboot\addons\getAddonDirectory;
 
 /*
@@ -31,10 +30,11 @@ use function Waboot\addons\getAddonDirectory;
  */
 
 $deps = [
-    'base_mods/coupons.php',
-    'base_mods/fields.php',
-    'base_mods/layout.php',
-    // 'step-checkout-base.php', // Use either base or 'step-checkout.php'
+    'functions.php',
+    'hooks/fields.php',
+    'hooks/layout.php',
+    'hiphop/subscriptions.php',
+    //'step-checkout-base.php', // Use either base or 'step-checkout.php'
     'step-checkout.php'
 ];
 

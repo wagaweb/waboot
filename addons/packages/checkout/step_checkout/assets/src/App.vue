@@ -10,8 +10,7 @@ import type {fetchedUserData, userBillingData, userShippingData} from "../env";
 import OrderReview from "./components/OrderReview.vue";
 import {debugLog} from "@/utils/helpers/debug.ts";
 import {wpUserAPI} from "@/services/wp/user.ts";
-import ProfileAndBillingForm from "@/components/ProfileAndBillingForm.vue";
-import ShippingAddressesForm from "@/components/ShippingAddressesForm.vue";
+import AddressesForm from "@/components/AddressesForm.vue";
 import UserDataSummary from "@/components/UserDataSummary.vue";
 import {useI18n} from "vue-i18n";
 
@@ -23,9 +22,9 @@ const breadCrumbStore = useBreadCrumbStore();
 const stepTitle = computed(() => {
     switch(breadCrumbStore.currentStep){
         case 1:
-            return t('Contact info');
+            return t('Login');
         case 2:
-            return t('Address');
+            return t('Shipping');
         case 3:
             return t('Payment')
     }
@@ -46,11 +45,7 @@ onMounted(async () => {
             checkoutDataStore.setUserEmail(userData.billing_data.email);
             checkoutDataStore.setBillingData(userData.billing_data);
             checkoutDataStore.setShippingData(userData.shipping_data);
-            if (!checkoutDataStore.isBillingDataComplete) {
-                checkoutDataStore.currentStep = 'profile';
-            } else {
-                checkoutDataStore.currentStep = 'address';
-            }
+            checkoutDataStore.currentStep = 'address';
         } else {
             checkoutDataStore.currentStep = 'email';
         }
@@ -71,7 +66,7 @@ function onEmailSubmitted(email: string, profileFound: boolean, isGuest: boolean
     } else {
         debugLog('<App> onEmailSubmitted(), isGuest?', isGuest);
         checkoutDataStore.isGuest = isGuest;
-        checkoutDataStore.currentStep = 'profile';
+        checkoutDataStore.currentStep = 'address';
     }
 }
 
@@ -79,26 +74,12 @@ function onUserSignedId(userData: fetchedUserData) {
     location.reload(); //just reload for now
 }
 
-function onProfileDataSubmitted(billingData: userBillingData) {
-    debugLog('<App> onProfileDataSubmitted()', {billing: billingData});
+function onAddressDataSubmitted(shippingData: userShippingData, billingData: userBillingData) {
+    debugLog('<App> onAddressDataSubmitted() -> shipping', shippingData);
+    debugLog('<App> onAddressDataSubmitted() -> billing', billingData);
     checkoutDataStore.setBillingData(billingData);
-    checkoutDataStore.currentStep = 'address';
-}
-
-function onShippingAddressDataSubmitted(shippingData: userShippingData) {
-    debugLog('<App> onShippingAddressDataSubmitted()', shippingData);
     checkoutDataStore.setShippingData(shippingData);
     checkoutDataStore.currentStep = 'pay';
-}
-
-function onEditAddress() {
-    breadCrumbStore.goToNamedStep('addresses');
-    checkoutDataStore.currentStep = 'address';
-}
-
-function onEditProfile() {
-    breadCrumbStore.goToNamedStep('login');
-    checkoutDataStore.currentStep = 'profile';
 }
 
 </script>
@@ -116,12 +97,11 @@ function onEditProfile() {
             <Breadcrumb/>
         </div>
 
-        <h4>{{ stepTitle }}</h4>
+<!--        <h4>{{ stepTitle }}</h4>-->
 
         <UserDataSummary
             @edit-email="checkoutDataStore.currentStep = 'email'"
-            @edit-shipping="checkoutDataStore.currentStep = 'address'"
-            @edit-billing="checkoutDataStore.currentStep = 'profile'"
+            @edit-shipping="checkoutDataStore.mustRestoreAddressData = true; checkoutDataStore.currentStep = 'address'"
         />
         <!-- L'utente non è loggato, deve inserire l'email: -->
         <SignInLanding
@@ -133,14 +113,9 @@ function onEditProfile() {
             v-else-if="checkoutDataStore.currentStep == 'password'"
             @user-signed-in="onUserSignedId"
         />
-        <!-- L'utente ha inserito la mail, ma non è un utente registrato, OPPURE l'utente è già loggato, ma il profilo non è completo: -->
-        <ProfileAndBillingForm
-            v-else-if="checkoutDataStore.currentStep == 'profile'"
-            @profile-data-submitted="onProfileDataSubmitted"
-        />
-        <ShippingAddressesForm
+        <AddressesForm
             v-else-if="checkoutDataStore.currentStep == 'address'"
-            @address-data-submitted="onShippingAddressDataSubmitted"
+            @address-data-submitted="onAddressDataSubmitted"
         />
         <Pay
             v-else-if="checkoutDataStore.currentStep == 'pay'"

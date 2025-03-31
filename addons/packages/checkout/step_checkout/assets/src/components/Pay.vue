@@ -75,10 +75,9 @@ onBeforeUnmount(() => {
     </div>
 </template>
 <style lang="scss">
-    #payment-wrapper{
-        .woocommerce-form-coupon__wrapper{
-            display: block !important;
-        }
+#payment-wrapper{
+    .woocommerce-form-coupon__wrapper{
+        display: flex !important;
     }
     form {
         #customer_details,
@@ -91,12 +90,24 @@ onBeforeUnmount(() => {
             .wc_payment_methods {
                 display: block !important;
             }
-            .woocommerce-terms-and-conditions-wrapper{
+            .woocommerce-terms-and-conditions-wrapper {
                 display: block !important;
+                label {
+                  font-size: 13px;
+                  font-weight: 500;
+                }
+                a {
+                  color: inherit;
+                  text-decoration: underline;
+                }
             }
-            [name="woocommerce_checkout_place_order"]{
+            .woocommerce-validated label {
+              font-size: 13px;
+            }
+            [name='woocommerce_checkout_place_order'] {
                 display: none !important;
             }
         }
     }
+}
 </style>

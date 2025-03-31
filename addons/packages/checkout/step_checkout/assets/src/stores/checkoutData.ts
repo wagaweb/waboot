@@ -4,7 +4,7 @@ import { defineStore } from 'pinia'
 import type {userBillingData, userShippingData} from "../../env";
 import {getBackendFormatFromDate, getDayFromDate} from "@/utils/helpers/dates.ts";
 
-export type StepType = 'email' | 'password' | 'profile' | 'address' | 'pay';
+export type StepType = 'email' | 'password' | 'address' | 'pay';
 
 // @see: https://pinia.vuejs.org/core-concepts/#Setup-Stores
 export const useCheckoutDataStore = defineStore('currentUser', () => {
@@ -44,6 +44,7 @@ export const useCheckoutDataStore = defineStore('currentUser', () => {
         notes: '',
     });
     const selectedAddressIndex = ref<number|undefined>();
+    const mustRestoreAddressData = ref<boolean>(false);
 
     const mustRegisterNewUser = computed(() => {
         return !isGuest.value;
@@ -59,6 +60,12 @@ export const useCheckoutDataStore = defineStore('currentUser', () => {
 
     const hasEmail = computed(() => {
        return billingData.email !== '';
+    });
+
+    const isProfileDataComplete = computed(() => {
+        return billingData.email !== '' &&
+            billingData.firstName !== '' &&
+            billingData.lastName !== '';
     });
 
     const isBillingDataComplete = computed(() => {
@@ -215,6 +222,8 @@ export const useCheckoutDataStore = defineStore('currentUser', () => {
     function setBillingData(newBillingData: userBillingData){
         if(newBillingData.profileType !== undefined){
             billingData.profileType = newBillingData.profileType;
+        }else{
+            billingData.profileType = 'private'; // Default
         }
         if(newBillingData.firstName !== undefined){
             billingData.firstName = newBillingData.firstName;
@@ -331,11 +340,13 @@ export const useCheckoutDataStore = defineStore('currentUser', () => {
         userEmail,
         hasEmail,
         billingData,
+        isProfileDataComplete,
         isBillingDataComplete,
         hasBillingData,
         shippingData,
         isShippingDataComplete,
         selectedAddressIndex,
+        mustRestoreAddressData,
         setUserAsLoggedIn,
         setUserId,
         setUserEmail,

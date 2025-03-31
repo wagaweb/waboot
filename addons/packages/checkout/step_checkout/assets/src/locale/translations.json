@@ -16,6 +16,7 @@
   "Contact info": "Contact info",
   "Continue": "Continue",
   "Country": "Country",
+  "Edit": "Edit",
   "Edit billing": "Edit billing",
   "Edit shipping": "Edit shipping",
   "First name": "First name",
@@ -41,6 +42,7 @@
   "Select a state": "Select a state",
   "Shipping": "Shipping",
   "Shipping addresses": "Shipping addresses",
+  "Shipping address": "Shipping address",
   "Shipping Data": "Shipping Data",
   "Shipping notes": "Shipping notes",
   "State": "State",
@@ -53,5 +55,10 @@
   "Vat number": "Vat number",
   "Welcome!": "Welcome!",
   "Welcome back!": "Welcome back!",
-  "ZIP code": "ZIP code"
+  "ZIP code": "ZIP code",
+  "By logging in, you agree to the": "By logging in, you agree to the",
+  "Terms and Conditions": "Terms and Conditions",
+  "and": "and",
+  "Close": "Close",
+  "The delivery address and billing address are the same.": "The delivery address and billing address are the same."
 }

@@ -60,16 +60,18 @@ onMounted(() => {
 <template>
     <div class="woocommerce-checkout-steps__block">
         <div class="checkout woocommerce-checkout">
-            <div class="woocommerce-billing-fields__field-wrapper">
-                <div class="form-row form-row-wide">
-                    <input type="email" placeholder="" id="email" v-model="email" :disabled="loading">
-                    <label for="email">{{ $t('Insert your email') }} *</label>
+            <form id="login">
+                <div class="woocommerce-billing-fields__field-wrapper">
+                    <div class="form-row form-row-wide">
+                        <input type="email" placeholder="" id="email" v-model="email" :disabled="loading">
+                        <label for="email">{{ $t('Insert your email') }} *</label>
+                    </div>
                 </div>
-            </div>
-            <div class="woocommerce-checkout-steps__btn-group">
-                <input type="submit" :value="t('Proceed')" class="btn btn--primary" :disabled="loading" @click.prevent="continueAsGuest = false; checkEmail()">
-                <input type="submit" :value="t('Proceed as guest')" class="btn btn--outline" :disabled="loading" @click.prevent="checkEmail()">
-            </div>
+                <div class="woocommerce-checkout-steps__btn-group">
+                    <input type="submit" :value="t('Proceed')" class="btn btn--primary" :disabled="loading" @click.prevent="continueAsGuest = false; checkEmail()">
+                    <input type="submit" :value="t('Proceed as guest')" class="btn btn--link" :disabled="loading" @click.prevent="checkEmail()">
+                </div>
+            </form>
         </div>
     </div>
 </template>

@@ -8,13 +8,13 @@ const breadCrumbStore = useBreadCrumbStore();
     <li class="woocommerce-checkout-steps__item"
         :class="{'woocommerce-checkout-steps__item--current': breadCrumbStore.currentStep === 1, 'woocommerce-checkout-steps__item--done': breadCrumbStore.currentStep <= 3}">
       <div class="woocommerce-checkout-steps__link">
-        <span class="woocommerce-checkout-steps__label">{{ $t('Contact info') }}</span>
+        <span class="woocommerce-checkout-steps__label">{{ $t('Login') }}</span>
       </div>
     </li>
     <li class="woocommerce-checkout-steps__item"
         :class="{'woocommerce-checkout-steps__item--current': breadCrumbStore.currentStep === 2, 'woocommerce-checkout-steps__item--done': breadCrumbStore.currentStep > 1}">
       <div class="woocommerce-checkout-steps__link">
-        <span class="woocommerce-checkout-steps__label">{{ $t('Address') }}</span>
+        <span class="woocommerce-checkout-steps__label">{{ $t('Shipping') }}</span>
       </div>
     </li>
     <li class="woocommerce-checkout-steps__item"

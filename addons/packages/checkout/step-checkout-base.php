@@ -4,6 +4,8 @@ namespace Waboot\addons\packages\checkout;
 
 use function Waboot\addons\getAddonDirectory;
 
+require_once 'hooks/base/coupons.php';
+
 remove_action( 'woocommerce_before_checkout_form', 'woocommerce_checkout_login_form', 10 );
 
 add_action('woocommerce_before_checkout_form', function($checkout){

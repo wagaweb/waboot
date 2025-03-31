@@ -11,6 +11,7 @@ export const useBreadCrumbStore = defineStore('breadcrumb', () => {
     checkoutDataStore.$subscribe((mutation, state) => {
         switch (state.currentStep) {
             case 'email':
+            case 'password':
                 goToNamedStep('login');
                 break;
             case 'address':

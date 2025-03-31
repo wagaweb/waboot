@@ -1,5 +1,5 @@
-@use "../../../../../../../assets/src/sass/frontend/variables";
-@use "../../../../../../../assets/src/sass/frontend/media-query";
+@use '../../../../../../../assets/src/sass/frontend/variables';
+@use '../../../../../../../assets/src/sass/frontend/media-query';
 
 // show/hide original WooCommerce elements
 /*
@@ -18,6 +18,10 @@ form
   display: none;
 }
 
+#payment-wrapper {
+
+}
+
 // override default WooCommerce styles
 .woocommerce-page.woocommerce-checkout {
   .woocommerce-checkout {
@@ -30,7 +34,7 @@ form
     }
 
     .form-row {
-      margin-bottom: 15px;
+      margin-bottom: 10px;
 
       @include media-query.down(variables.$medium) {
         width: 100%;
@@ -40,15 +44,9 @@ form
 }
 
 .order-total {
-  td, th {
+  td,
+  th {
     border: none;
-  }
-}
-
-.form-row {
-  label {
-    display: inline-flex;
-    margin-bottom: 5px;
   }
 }
 
@@ -56,29 +54,41 @@ form
 .woocommerce-checkout-steps {
   display: grid;
   grid-gap: 24px;
+  max-width: 1400px;
+  margin-inline: auto;
 
   @include media-query.up(variables.$large) {
-    grid-gap: 60px;
-    grid-template-columns: 2fr 1fr;
+    grid-gap: 80px;
+    grid-template-columns: 1fr 1fr;
   }
 
-  h5 {
-    font-size: .875em;
-    font-weight: bold;
-    letter-spacing: 1px;
-    text-transform: uppercase;
+  &__left {
+    @include media-query.up(variables.$large) {
+      padding-left: 60px;
+    }
+    > * {
+      max-width: 600px;
+    }
+  }
+
+  &__header {
+    margin-bottom: 16px;
+    padding-bottom: 24px;
   }
 
   &__list {
     display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
     list-style: none;
-    margin: 0 0 24px 0;
+    margin: 0;
     padding: 0;
   }
 
   &__item {
     align-items: center;
     display: flex;
+    gap: 8px;
     &:first-child {
       .woocommerce-checkout-steps__link {
         align-items: flex-start;
@@ -101,55 +111,36 @@ form
     }
 
     &:not(:last-child)::after {
-      content: '>';
-      margin-inline: 8px;
+      content: '▸';
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 24px;
+      height: 24px;
+      color: variables.$colorGrey;
+    }
+
+    &--current div > span {
+      color: variables.$colorBlack;
+      font-weight: 500;
     }
 
     &--done {
       .woocommerce-checkout-steps__link {
         &::before {
-          background-color: variables.$colorSecondary !important;
+          background-color: variables.$colorPrimary !important;
         }
-      }
-
-      .woocommerce-checkout-steps__number {
-        background-color: variables.$colorSecondary;
-        border-color: variables.$colorSecondary;
-        color: variables.$colorWhite;
       }
     }
   }
 
   &__link {
     align-items: center;
-    color: inherit;
+    color: variables.$colorGrey900;
     display: flex;
     flex-direction: column;
-    gap: 12px;
-    text-align: center;
-  }
-
-  &__number {
-    background-color: variables.$colorGreyLight;
-    border-radius: 50%;
-    display: grid;
-    font-weight: bold;
-    height: 36px;
-    place-items: center;
-    width: 36px;
-    @include media-query.up(variables.$large) {
-      height: 48px;
-      width: 48px;
-    }
-  }
-
-  &__label {
-    font-size: .875em;
-  }
-
-  &__content form,
-  &__content > div {
-    margin-bottom: 40px;
+    gap: 8px;
+    white-space: nowrap;
   }
 
   &__data {
@@ -161,23 +152,364 @@ form
     }
   }
 
-  &__edit {
-    position: absolute;
-    right: 0;
-    top: 0;
+  &__block {
+    max-width: 400px;
+  }
+
+  &__password {
+    background-color: variables.$colorGreyLight;
+    padding: 24px 16px;
+    border-radius: 8px;
+    h4 {
+      margin-bottom: 8px !important;
+    }
+    p {
+      color: variables.$colorGrey900;
+      margin-bottom: 0;
+    }
+    small {
+      color: variables.$colorGrey700;
+      font-size: 1em;
+      font-weight: variables.$fontWeightMedium;
+    }
+    .woocommerce-checkout {
+      padding-block: 24px;
+    }
+    .form-row-wide {
+      margin-bottom: 24px !important;
+    }
+    .forgot-password {
+      color: variables.$colorGrey700;
+      font-weight: variables.$fontWeightMedium;
+      line-height: 1.5;
+      margin-top: 4px;
+    }
+    input:focus ~ label {
+      background-color: variables.$colorGreyLight;
+    }
+  }
+
+  &__btn-group {
+    display: flex;
+    gap: 8px;
+    .btn--link {
+      background: none;
+      border: none;
+      border-radius: 0;
+      color: variables.$colorText;
+      text-decoration: underline;
+      text-transform: none;
+      &:hover {
+        background: none;
+        color: variables.$colorPrimary;
+      }
+    }
+  }
+
+  &__row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: variables.$gridGutter;
+    margin-bottom: 16px;
+    h5 {
+      margin-bottom: 0 !important;
+    }
+  }
+
+  h4, h5 {
+    font-family: variables.$fontPrimary;
+    margin-bottom: 16px;
+    text-transform: none;
+  }
+
+  .vue-select .control {
+    border-color: variables.$colorGrey;
+  }
+
+  &__shipping {
+    &-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      h4 {
+        margin-bottom: 0;
+      }
+    }
+    &-footer {
+      margin-bottom: 24px;
+    }
+    ul {
+      margin-bottom: 0;
+    }
+  }
+
+  &__account-info {
+    margin-top: 24px;
+    h5 {
+      margin-bottom: 16px;
+    }
+    input[type="submit"] {
+      align-self: flex-start;
+      margin-left: 12px;
+    }
+    .dp__input_icon {
+      right: 0;
+      left: auto;
+    }
+  }
+
+  &__content form,
+  &__content > div {
+    margin-bottom: 40px;
+  }
+
+  &__content form {
+    width: 100%;
+    margin-bottom: 0;
+    display: grid;
+  }
+
+  .form-row,
+  .password-wrapper {
+    position: relative;
+    input:not([type="checkbox"], [type="radio"]),
+    select,
+    textarea {
+      &:not(:placeholder-shown) ~ label,
+      &:focus ~ label {
+        top: -11px;
+      }
+    }
+    label:not(.checkbox) {
+      pointer-events: none;
+      position: absolute;
+      left: 24px;
+      top: 13px;
+      transition: 0.2s;
+      margin: 0;
+      background-color: variables.$colorWhite;
+      color: variables.$colorGrey700;
+    }
+    &__email {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 8px;
+    }
+  }
+
+  .password-wrapper i {
+    top: 18px;
+  }
+
+  &__payment {
+    border-top: 1px solid variables.$colorGrey200;
+    padding-top: 24px;
+    input[type="submit"] {
+      width: 100%;
+    }
+  }
+
+  .shipping-addresses {
+    display: grid;
+    gap: variables.$gridGutter variables.$gridGutter / 2;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    @include media-query.up(variables.$large) {
+      gap: variables.$gridGutter;
+    }
+
+    &__item {
+      border: 1px solid variables.$colorBlack;
+      border-radius: 8px;
+      cursor: pointer;
+      display: grid;
+      gap: variables.$gridGutter / 2;
+      grid-template-columns: 16px auto;
+      min-height: 100px;
+      padding: 16px;
+
+      .icon {
+        color: variables.$colorBlack;
+        height: 16px;
+        margin-top: 8px;
+        width: 16px;
+      }
+
+      > div {
+        display: grid;
+        gap: 12px;
+      }
+
+      strong {
+        font-size: 1.125em;
+        font-weight: variables.$fontWeightMedium;
+        word-break: break-word;
+      }
+
+      span {
+        color: variables.$colorGrey900;
+        font-size: .875em;
+      }
+
+      &--btn {
+        border: none;
+        color: variables.$colorGrey900;
+        font-size: .875em;
+        font-weight: variables.$fontWeightMedium;
+        grid-template-columns: 1fr;
+        padding: 0;
+        transition: .3s;
+
+        button {
+          align-items: center;
+          appearance: none;
+          background: none;
+          border: 1px solid variables.$colorBlack;
+          border-radius: 8px;
+          color: inherit;
+          display: flex;
+          font: inherit;
+          gap: variables.$gridGutter / 2;
+          justify-content: center;
+          padding: 16px 8px;
+
+          .icon {
+            color: inherit;
+            margin-top: 0;
+            transition: .3s;
+          }
+
+          &:focus {
+            background-color: variables.$colorGreyLight;
+            border-color: variables.$colorGreyLight;
+            color: variables.$colorGrey900;
+          }
+        }
+
+        &:hover {
+          color: variables.$colorBlack;
+        }
+      }
+
+      &.selected {
+        background-color: variables.$colorBlack;
+        color: variables.$colorWhite;
+
+        .icon,
+        span {
+          color: variables.$colorWhite;
+        }
+      }
+    }
   }
 
   .woocommerce-checkout-payment {
     margin-top: 24px;
   }
 
+  &__messages {
+    margin-bottom: 12px;
+  }
+
+  &__message {
+    display: inline-block;
+    padding: 5px 10px;
+    &:not(:last-child) {
+      margin-bottom: 5px;
+    }
+    &--error {
+      background-color: lighten(variables.$colorError, 35%);
+      color: variables.$colorError;
+    }
+  }
+
+  &__profile-row {
+    display: grid;
+    gap: 24px;
+    grid-template-columns: repeat(2, 1fr);
+    margin-block: 24px;
+  }
+
+  &__profile-col {
+    position: relative;
+  }
+
+  .wc_payment_methods {
+    label {
+      font-weight: variables.$fontWeightMedium;
+      font-size: 1em;
+    }
+  }
+
+  .form-row span[role="alert"],
+  .form-row select span[role="alert"] {
+    color: variables.$colorError;
+    font-size: .875em;
+    font-weight: variables.$fontWeightMedium;
+    margin-top: 4px;
+  }
+
+  &__right {
+    @include media-query.down(variables.$large) {
+      order: -1;
+    }
+  }
+
   &__order-review {
-    border-radius: 4px;
     background-color: variables.$colorGreyLight;
-    min-height: 20vh;
-    padding: 16px;
+    @include media-query.down(variables.$large) {
+      margin-inline: -16px;
+      max-height: 78px;
+      overflow: hidden;
+      transition: .3s;
+      &.open {
+        max-height: fit-content;
+        .icon {
+          transform: rotate(-180deg);
+        }
+      }
+    }
     @include media-query.up(variables.$large) {
+      border-radius: 24px;
       padding: 40px;
+      max-width: 600px;
+      position: sticky;
+      top: 150px;
+    }
+    &-top {
+      padding: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      @include media-query.up(variables.$large) {
+        display: none;
+      }
+      h3 {
+        font-family: variables.$fontPrimary;
+        font-size: 1em;
+        font-weight: variables.$fontWeightMedium;
+        margin: 0;
+      }
+      button {
+        background: none;
+        border: none;
+        border-radius: 0;
+        width: 24px;
+        height: 24px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-right: auto;
+        padding: 0;
+        font-size: 1.5em;
+      }
+      strong {
+        font-weight: variables.$fontWeightSemibold;
+      }
     }
 
     &.loading {
@@ -187,6 +519,32 @@ form
 
     .shop_table {
       margin-bottom: 0;
+    }
+    [data-order-review-wrapper] {
+      padding: 24px;
+    }
+    thead {
+      display: none;
+    }
+    td, th {
+      padding: 0;
+    }
+    .cart-subtotal {
+      th, td {
+        padding-top: 24px;
+        padding-bottom: 12px;
+      }
+    }
+    .woocommerce-shipping-totals {
+      th, td {
+        padding-bottom: 12px;
+      }
+    }
+
+    img {
+      border-radius: 12px;
+      margin-right: 12px;
+      margin-bottom: 12px;
     }
   }
 
@@ -214,26 +572,10 @@ form
         border: 5px solid variables.$colorGreyDark;
         border-radius: 50%;
         box-sizing: border-box;
-        content: "";
+        content: '';
         inset: 0;
         position: absolute;
       }
-    }
-  }
-
-  &__messages {
-    margin-top: 20px;
-  }
-
-  &__message {
-    display: inline-block;
-    padding: 5px 10px;
-    &:not(:last-child) {
-      margin-bottom: 5px;
-    }
-    &--error {
-      background-color: variables.$colorWarning;
-      color: variables.$colorWhite;
     }
   }
 }
@@ -252,10 +594,24 @@ form
     clip-path: polygon(50% 50%, 0 0, 100% 0, 100% 0, 100% 0, 100% 0);
   }
   50% {
-    clip-path: polygon(50% 50%, 0 0, 100% 0, 100% 100%, 100% 100%, 100% 100%);
+    clip-path: polygon(
+                    50% 50%,
+                    0 0,
+                    100% 0,
+                    100% 100%,
+                    100% 100%,
+                    100% 100%
+    );
   }
   75% {
-    clip-path: polygon(50% 50%, 0 0, 100% 0, 100% 100%, 0 100%, 0 100%);
+    clip-path: polygon(
+                    50% 50%,
+                    0 0,
+                    100% 0,
+                    100% 100%,
+                    0 100%,
+                    0 100%
+    );
   }
   100% {
     clip-path: polygon(50% 50%, 0 0, 100% 0, 100% 100%, 0 100%, 0 0);

@@ -5,7 +5,8 @@ namespace Waboot\addons\packages\checkout;
 use function Waboot\inc\core\AssetsManager;
 use function Waboot\inc\getCurrentLanguage;
 
-require_once 'step_checkout/backend-hooks.php';
+require_once 'hooks/advanced/coupons.php';
+require_once 'hooks/advanced/backend.php';
 
 add_action('wp_enqueue_scripts', static function(){
     try{
@@ -87,3 +88,10 @@ add_filter('script_loader_tag', static function($tag, $handle, $src){
     $tag = '<script type="module" src="' . esc_url( $src ) . '"></script>';
     return $tag;
 },10,3);
+
+/*
+ * Force password generation
+ */
+add_filter('pre_option_'.'woocommerce_registration_generate_password', static function ($value, string $option, $defaultValue) {
+    return 'yes';
+},10, 3);

@@ -11,6 +11,10 @@ const emit = defineEmits<{
 }>();
 
 const { t } = useI18n();
+const { locale } = useI18n();
+
+const termsLink = computed(() => locale.value === 'it_IT' ? '/it/termini-e-condizioni' : '/en/terms-and-conditions');
+const privacyLink = computed(() => locale.value === 'it_IT' ? '/it/privacy-policy' : '/en/privacy-policy');
 
 const checkoutDataStore = useCheckoutDataStore();
 
@@ -45,31 +49,35 @@ async function onSubmit() {
 
 </script>
 <template>
-    <div>
-        <div class="panel">
-            <h4>{{ $t('Welcome back!') }}</h4>
-            <h5>{{ $t('Access to your account now') }}</h5>
+    <div class="woocommerce-checkout-steps__password">
+      <h4>{{ $t('Welcome back!') }}</h4>
+      <p>{{ $t('Access to your account now') }}</p>
 
-            <div class="checkout woocommerce-checkout" :class="{'loading': loading}">
-                <div class="woocommerce-billing-fields__field-wrapper">
-                    <div class="form-row form-row-wide">
-                        <div class="password-wrapper">
-                            <input :type="showPassword ? 'text' : 'password'" placeholder="" id="password" v-model="password">
-                            <label for="password">{{ $t('Type your password') }}</label>
-                            <i :class="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'" @click="togglePassword"></i>
-                        </div>
-                        <span role="alert" v-if="signInErrorOccurred">{{ signInErrorMessage }}</span>
-                        <a class="forgot-password btn btn--underline btn--muted" href="#">{{ $t('Forgot password?') }}</a>
-                    </div>
-                </div>
-                <input type="submit" :value="t('Log in')" class="btn btn--primary" :disabled="password == '' || loading"
-                       @click.prevent="onSubmit">
-
-                <!-- https://vue-i18n.intlify.dev/guide/advanced/component.html#slots-syntax-usage -->
-                <!-- @vue-ignore -->
-
+      <div class="checkout woocommerce-checkout" :class="{'loading': loading}">
+        <div class="woocommerce-billing-fields__field-wrapper">
+          <div class="form-row form-row-wide">
+            <div class="password-wrapper">
+              <input :type="showPassword ? 'text' : 'password'" placeholder="" id="password" v-model="password">
+              <label for="password">{{ $t('Type your password') }}</label>
+              <i :class="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'" @click="togglePassword"></i>
             </div>
+            <span role="alert" v-if="signInErrorOccurred">{{ signInErrorMessage }}</span>
+            <a class="forgot-password btn btn--link" href="/wp-login.php?action=lostpassword">{{ $t('Forgot password?') }}</a>
+          </div>
         </div>
+        <input type="submit" :value="t('Log in')" class="btn btn--primary" :disabled="password == '' || loading"
+               @click.prevent="onSubmit">
+
+        <!-- https://vue-i18n.intlify.dev/guide/advanced/component.html#slots-syntax-usage -->
+        <!-- @vue-ignore -->
+
+      </div>
+
+      <small>
+        {{ $t('By logging in, you agree to the') }}
+        <a :href="termsLink">{{ $t('Terms and Conditions') }}</a> {{ $t('and') }}
+        <a :href="privacyLink"> Privacy Policy</a>
+      </small>
     </div>
 </template>
 <style lang="scss">
