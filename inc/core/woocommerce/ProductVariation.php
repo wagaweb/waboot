@@ -123,11 +123,12 @@ class ProductVariation extends Product
         if(isset($this->parent)){
             return $this->parent;
         }
-        if(!isset($this->parentId)){
+        $parentId = $this->getParentId();
+        if(!$parentId){
             throw new ProductException('ProductVariation - No parent_id found');
         }
         try{
-            $parent = ProductFactory::createProductVariation($this->getParentId());
+            $parent = ProductFactory::createVariableProduct($parentId);
             $this->parent = $parent;
             return $this->parent;
         }catch (ProductFactoryException $e){
