@@ -1,6 +1,6 @@
 <?php
 
-namespace waboot\inc\cli;
+namespace Waboot\inc\cli;
 
 use Illuminate\Database\Schema\Blueprint;
 use Waboot\inc\core\cli\AbstractCommand;
@@ -26,6 +26,10 @@ class GenerateOrderStatsTable extends AbstractCommand
     /**
      * @var array
      */
+    protected array $retrievedOrdersIds;
+    /**
+     * @var array
+     */
     protected array $selectedTaxonomies;
     /**
      * @var string
@@ -40,6 +44,10 @@ class GenerateOrderStatsTable extends AbstractCommand
      */
     private array $taxonomiesColumns;
     protected bool $mustRebuildTable;
+    protected bool $skipExisting;
+    protected bool $forceOverwrite;
+    protected int $ordersPerPage;
+    protected int $currentPage;
 
     public static function getCommandDescription(): array
     {
@@ -65,9 +73,27 @@ class GenerateOrderStatsTable extends AbstractCommand
             'optional' => true,
         ];
         $description['synopsis'][] = [
+            'type' => 'assoc',
+            'name' => 'pagination',
+            'description' => 'Number of orders to parse per iteration',
+            'optional' => true,
+        ];
+        $description['synopsis'][] = [
             'type' => 'flag',
             'name' => 'rebuild-table',
             'description' => 'Specifies whether to drop and recreate the table',
+            'optional' => true,
+        ];
+        $description['synopsis'][] = [
+            'type' => 'flag',
+            'name' => 'skip-existing',
+            'description' => 'Specifies whether to skip existing entries without comparing them',
+            'optional' => true,
+        ];
+        $description['synopsis'][] = [
+            'type' => 'flag',
+            'name' => 'force-overwrite',
+            'description' => 'Specifies whether to force recreating existing entries',
             'optional' => true,
         ];
         return $description;
@@ -106,13 +132,52 @@ class GenerateOrderStatsTable extends AbstractCommand
                 $this->statsTableName = 'orders_stats';
             }
             $this->mustRebuildTable = isset($assoc_args['rebuild-table']);
+            $this->skipExisting = isset($assoc_args['skip-existing']);
+            $this->forceOverwrite = isset($assoc_args['force-overwrite']);
+            $this->ordersPerPage = isset($assoc_args['pagination']) ? (int) $assoc_args['pagination'] : -1;
+            if($this->isPaginated()){
+                $lastPagination = get_option($this->getStateOptionNameSuffix().'_last_pagination',false);
+                if($lastPagination !== false){
+                    $lastPagination = (int) $lastPagination;
+                    if($lastPagination !== $this->ordersPerPage){
+                        // Pagination is changed, lets start over again
+                        delete_option($this->getStateOptionNameSuffix().'_last_page');
+                    }
+                }
+                update_option($this->getStateOptionNameSuffix().'_last_pagination',$this->ordersPerPage);
+                $lastPage = (int) get_option($this->getStateOptionNameSuffix().'_last_page',0);
+                $this->currentPage = $lastPage + 1;
+                $this->log('Last page: '.$lastPage, true);
+                $this->log('Current page: '.$this->currentPage, true);
+                $this->log('Orders per page: '.$this->ordersPerPage, true);
+            }
             $this->genTable();
+            $this->retrievedOrdersIds = $this->getOrdersIds();
+            if(empty($this->retrievedOrdersIds)){
+                if($this->isPaginated()){
+                    // Reset the last page
+                    delete_option($this->getStateOptionNameSuffix().'_last_page');
+                    $this->success('Operation completed (last page)', true);
+                    return 0;
+                }
+                throw new \RuntimeException('No orders found');
+            }
             $this->populateTable();
-            $this->success('Operation completed', true);
+            if($this->isPaginated()){
+                $this->success('Operation completed (page: '.$this->currentPage.')', true);
+                update_option($this->getStateOptionNameSuffix().'_last_page',$this->currentPage);
+            }else{
+                $this->success('Operation completed (last page)', true);
+            }
             return 0;
         }catch (DBException $e){
             return 1;
         }
+    }
+
+    function isPaginated(): bool
+    {
+        return isset($this->ordersPerPage) && $this->ordersPerPage != -1;
     }
 
     /**
@@ -166,11 +231,7 @@ class GenerateOrderStatsTable extends AbstractCommand
     protected function populateTable(): void
     {
         $this->log('Generating records...', true);
-        $orders = $this->getOrdersIds();
-        if(empty($orders)){
-            throw new \RuntimeException('No orders found');
-        }
-        foreach ($this->getItemsFromOrders($orders) as $item){
+        foreach ($this->getItemsFromOrders($this->retrievedOrdersIds) as $item){
             $row = [];
             if(!$item instanceof \WC_Order_Item_Product){
                 continue;
@@ -185,18 +246,12 @@ class GenerateOrderStatsTable extends AbstractCommand
                 $this->warning('- WARNING: Item #'.$item->get_id().' is associated with a non existent product');
                 continue;
             }
-            $alreadyExists = Query::on($this->statsTableName)->select(['product_id','order_id'])->where([
+            $existingRecord = Query::on($this->statsTableName)->select('*')->where([
                 ['product_id', '=', $productId],
                 ['order_id', '=', $item->get_order_id()]
-            ])->exists();
-            if($alreadyExists){
-                $this->warning(sprintf('- WARNING: Record for item #%d of order_id #%d already exists: recreating...', $item->get_id(), $item->get_order_id()));
-                Query::on($this->statsTableName)->where([
-                    ['product_id', '=', $productId],
-                    ['order_id', '=', $item->get_order_id()]
-                ])->delete();
-            }else{
-                $this->log('- Inserting record for item #'.$item->get_id());
+            ])->get()->first();
+            if($existingRecord && $this->skipExisting){
+                continue;
             }
             $order = $item->get_order();
             $row['order_id'] = $item->get_order_id();
@@ -277,10 +332,32 @@ class GenerateOrderStatsTable extends AbstractCommand
                         $row[$taxonomy] = htmlspecialchars_decode($firstTerm->name);
                     }
                 }
-                $row = apply_filters('wawoo/cli/gen-stat-table/row/parse_taxonomy',$row,$taxonomy,$terms,$productId,$item,);
+                $row = apply_filters('wawoo/cli/gen-stat-table/row/parse_taxonomy',$row,$taxonomy,$terms,$productId,$item);
             }
             $row = apply_filters('wawoo/cli/gen-stat-table/row',$row,$productId,$item);
             try{
+                if($existingRecord){
+                    $existingRecordToCompare = json_decode(json_encode($existingRecord),true);
+                    $recordsAreDifferent = $this->recordsAreDifferent($row,$existingRecordToCompare);
+                    if($recordsAreDifferent){
+                        $this->log(sprintf('- Record for item #%d of order_id #%d already exists but IS DIFFERENT: recreating...', $item->get_id(), $item->get_order_id()));
+                        Query::on($this->statsTableName)->where([
+                            ['product_id', '=', $productId],
+                            ['order_id', '=', $item->get_order_id()]
+                        ])->delete();
+                    }elseif($this->forceOverwrite){
+                        $this->log(sprintf('- Record for item #%d of order_id #%d already exists but MUST BE OVERWRITTEN: recreating...', $item->get_id(), $item->get_order_id()));
+                        Query::on($this->statsTableName)->where([
+                            ['product_id', '=', $productId],
+                            ['order_id', '=', $item->get_order_id()]
+                        ])->delete();
+                    }else{
+                        $this->log(sprintf('- Record for item #%d of order_id #%d already exists and IS THE SAME: skipping...', $item->get_id(), $item->get_order_id()));
+                        continue;
+                    }
+                }else{
+                    $this->log('- Inserting record for item #'.$item->get_id());
+                }
                 Query::on($this->statsTableName)->insert($row);
                 $this->log('-- Record inserted', null, $row);
             }catch (DBException $e){
@@ -289,6 +366,36 @@ class GenerateOrderStatsTable extends AbstractCommand
         }
     }
 
+    /**
+     * @param array $newRecord
+     * @param array $oldRecord
+     * @return bool
+     */
+    private function recordsAreDifferent(array $newRecord, array $oldRecord): bool
+    {
+        unset($oldRecord['id']);
+        $oldRecord = array_filter($oldRecord, function($key){
+            return $key !== null && $key !== '';
+        });
+        $oldRecord = array_filter($oldRecord, function($value){
+            return $value !== null && $value !== '';
+        });
+        $newRecord = array_map(function($value){
+            if(is_float($value)){
+                return round($value,2);
+            }elseif ($value instanceof \WC_DateTime){
+                return $value->format('Y-m-d H:i:s');
+            }
+            return $value;
+        },$newRecord);
+        $diff = array_diff($newRecord, $oldRecord);
+        return !empty($diff);
+    }
+
+    /**
+     * @param $orderIds
+     * @return \Generator
+     */
     protected function getItemsFromOrders($orderIds): \Generator
     {
         foreach ($this->getOrdersFromIds($orderIds) as $order){
@@ -336,13 +443,16 @@ class GenerateOrderStatsTable extends AbstractCommand
                 $allowedOrderStatuses = wc_get_order_statuses();
                 $allowedOrderStatuses = apply_filters('wawoo/cli/gen-stat-table/allowed_order_statuses',$allowedOrderStatuses,get_class($this));
                 $qArgs = [
-                    'limit' => -1,
+                    'limit' => $this->ordersPerPage,
                     'status' => array_keys($allowedOrderStatuses),
                     'return' => 'ids',
                 ];
+                if($this->isPaginated()){
+                    $qArgs['paged'] = $this->currentPage;
+                }
                 $qArgs = apply_filters('wawoo/cli/gen-stat-table/get_orders_query_params',$qArgs,get_class($this));
-                $q = new \WC_Order_Query($qArgs);
-                $orderIds = $q->get_orders();
+                $this->log('Query params: '.json_encode($qArgs), true);
+                $orderIds = wc_get_orders($qArgs);
             }
             if(!\is_array($orderIds) || count($orderIds) === 0){
                 return [];
