@@ -16,6 +16,9 @@ function dispatchGoogleChatAlert(string|\Exception|\Throwable $e, string $source
             $url = GOOGLE_CHAT_ALERT_WEBHOOK;
         }
     }
+    if(!$url){
+        return;
+    }
     $message = $e instanceof \Exception || $e instanceof \Throwable ? $e->getMessage() : $e;
     if(!empty($source)){
         $message = $source . ': ' . $message;
