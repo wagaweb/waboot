@@ -4,7 +4,6 @@ namespace Waboot\inc\core\alert;
 
 use Waboot\inc\core\alert\dispatcher\EmailAlertDispatcher;
 use Waboot\inc\core\alert\dispatcher\FileAlertDispatcher;
-use Waboot\inc\core\alert\dispatcher\SentryAlertDispatcher;
 
 class AlertDispatcherFactory
 {
@@ -28,16 +27,5 @@ class AlertDispatcherFactory
     public static function createFileDispatcher(string $name, string $destFilePath, string $tz = null): FileAlertDispatcher
     {
         return new FileAlertDispatcher($name,$destFilePath,$tz);
-    }
-
-    /**
-     * @param string $name
-     * @param array $sentryArgs
-     * @param string|null $tz
-     * @return SentryAlertDispatcher
-     */
-    public static function createSentryDispatcher(string $name, array $sentryArgs, string $tz = null): SentryAlertDispatcher
-    {
-        return new SentryAlertDispatcher($name,$sentryArgs,$tz);
     }
 }
