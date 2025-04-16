@@ -25,6 +25,9 @@ class Alerts
     static function dispatchGoogleChatAlert(string $message, string $url, \DateTimeZone $tz = null): void
     {
         try {
+            if(!class_exists('Waboot\inc\core\alert\dispatcher\GoogleChatDispatcher')){
+                require_once get_stylesheet_directory() . '/inc/core/helpers/alert/dispatcher/GoogleChatDispatcher.php';
+            }
             $ad = new GoogleChatDispatcher('gd',$url, AlertDispatcher::DISPATCH_METHOD_EMAIL);
             $id = base64_encode($message);
             $ad->addAlert(new Alert($id,'',$message,$tz));
