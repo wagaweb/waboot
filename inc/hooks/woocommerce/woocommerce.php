@@ -8,6 +8,14 @@ if(!\function_exists('is_woocommerce')){
     return; //Do not load any of the following if WooCommerce is not enabled
 }
 
+/*
+ * Alter the default, insecure login error message
+ */
+add_filter('login_errors', static function($message) {
+    // The message is native of WordPress, @see: wp-includes/pluggable.php line 625
+    return __( '<strong>Error:</strong> Invalid username, email address or incorrect password.' );
+},99);
+
 /**
  * Setup the wrapper
  */
