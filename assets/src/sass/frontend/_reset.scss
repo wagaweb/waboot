@@ -27,6 +27,19 @@ figure {
 	padding: 0;
 }
 
+button {
+  cursor: pointer;
+}
+
+:focus {
+  outline: none;
+}
+
+:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
 
 @-webkit-viewport{width:device-width}
 @-moz-viewport{width:device-width}

@@ -18,6 +18,13 @@
     box-shadow: 0 0 $gridGutter #eee;
   }
 
+  body.admin-bar & {
+    top: 46px;
+    @include up(782px) {
+      top: 32px;
+    }
+  }
+
   &__inner {
     max-width: $containerWidth;
     margin: 0 auto;
@@ -86,6 +93,14 @@
     grid-auto-flow: column;
     grid-gap: 20px;
     font-size: 1.2em;
+  }
+
+  &__link--search,
+  .minicart-toggle{
+    background: none;
+    border: none;
+    border-radius: 0;
+    color: $colorPrimary;
   }
 
   &__navigation {
