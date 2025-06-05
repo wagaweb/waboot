@@ -164,3 +164,12 @@ add_filter( 'map_meta_cap', function( $caps, $cap ) {
     }
     return $caps;
 }, 20, 2 );
+
+add_filter( 'nav_menu_link_attributes', function( $atts, $item, $args, $depth ) {
+    if ( in_array( 'menu-item-has-children', $item->classes ) ) {
+        $atts['aria-haspopup'] = 'true';
+        $atts['aria-expanded'] = 'false';
+    }
+    return $atts;
+}, 10, 4 );
+

@@ -1,317 +1,157 @@
-const $ = jQuery;
+import $ from 'jquery';
 
-export default class {
-    constructor(el) {
-        this.$el = $(el);
-        this.$nav = null;
-        this.closeAllSubmenus = this.closeAllSubmenus.bind(this);
+/**
+ * @param {string} selector
+ */
+export function initHeader(selector) {
+  mainPadding();
+  headerFixedWhenBack();
+  backOnSubmenu();
+  keyboardSubmenu();
+  mobileDropdown(selector);
+  closeSubmenuOnFocusOut();
 
-        if (this.$el.length) {
-            this.init();
+  $(window).on("scroll", () => {
+    headerFixed();
+  });
+
+  $(window).on("resize", () => {
+    mainPadding();
+  });
+}
+
+function mainPadding() {
+  let $headerHeight = $(".header").outerHeight();
+  $(".main").css("padding-top", $headerHeight);
+}
+
+function headerFixed() {
+  let scroll = $(window).scrollTop(),
+      header = $(".header"),
+      headerHeight = header.outerHeight();
+
+  if (scroll > headerHeight) {
+    $("body").addClass("header--fixed");
+  } else {
+    $("body").removeClass("header--fixed");
+  }
+
+  if (scroll > headerHeight * 2) {
+    $("body").addClass("header--animated");
+  } else {
+    $("body").removeClass("header--animated");
+  }
+
+  if (scroll > headerHeight * 3) {
+    $("body").addClass("header--scrolled");
+  } else {
+    $("body").removeClass("header--scrolled");
+  }
+}
+
+function headerFixedWhenBack() {
+  const body = document.body;
+  const scrollUp = "scroll-up";
+  const scrollDown = "scroll-down";
+  let lastScroll = 0;
+
+  window.addEventListener("scroll", () => {
+    const currentScroll = window.pageYOffset;
+    if (currentScroll <= 0) {
+      body.classList.remove(scrollUp);
+      return;
+    }
+
+    if (currentScroll > lastScroll && !body.classList.contains(scrollDown)) {
+      body.classList.remove(scrollUp);
+      body.classList.add(scrollDown);
+    } else if (currentScroll < lastScroll && body.classList.contains(scrollDown)) {
+      body.classList.remove(scrollDown);
+      body.classList.add(scrollUp);
+    }
+    lastScroll = currentScroll;
+  });
+}
+
+function backOnSubmenu() {
+  $('.navigation-mobile .sub-menu').prepend('<button class="backlevel__icon"><i class="far fa-angle-left"></i></button>');
+  $('.navigation-mobile .menu-item-has-children').append('<button class="sublevel__icon" aria-haspopup="true" aria-expanded="false"><i class="far fa-angle-right"></i></button>');
+}
+
+/**
+ * Attiva sottomenu con tastiera solo con invio
+ */
+function keyboardSubmenu() {
+  $('.sublevel__icon').on('keydown', function (e) {
+    if (e.key === 'Enter' || e.keyCode === 13) {
+      e.preventDefault();
+
+      const $btn = $(this);
+      const $li = $btn.closest('li');
+      const $submenu = $li.find('> .sub-menu');
+
+      const alreadyOpen = $li.hasClass('submenu-open');
+
+      // Chiude solo i sottomenu fratelli allo stesso livello
+      const $siblings = $li.siblings('.submenu-open');
+      $siblings.removeClass('submenu-open').find('.sublevel__icon').attr('aria-expanded', 'false');
+
+      if (!alreadyOpen) {
+        $li.addClass('submenu-open');
+        $btn.attr('aria-expanded', 'true');
+
+        const $firstLink = $submenu.find('a').first();
+        if ($firstLink.length) {
+          $firstLink.focus();
         }
-
-        $(window).on('scroll', () => {
-            //this.headerFixed();
-        });
-
-        $(window).on('resize', () => {
-            //this.mainPadding();
-        });
+      }
     }
+  });
+}
 
-    init() {
-        this.backOnSubmenu();
-        this.mobileDropdown();
-    }
+function closeSubmenuOnFocusOut() {
+  $('.menu-item-has-children').on('focusout', function () {
+    const $li = $(this);
+    setTimeout(() => {
+      if (!$li.find(':focus').length) {
+        $li.removeClass('submenu-open');
+        $li.find('.sublevel__icon').attr('aria-expanded', 'false');
+      }
+    }, 10);
+  });
+}
 
-    mainPadding() {
-        let $ = jQuery,
-            $headerHeight = $('.header').outerHeight();
-        $('.main').css('padding-top', $headerHeight);
-    }
 
-    headerFixed() {
-        let $ = jQuery,
-            scroll = $(window).scrollTop(),
-            header = $('.header'),
-            headerHeight = header.outerHeight();
-        if (scroll > headerHeight) {
-            $('body').addClass('header--fixed');
-        } else {
-            $('body').removeClass('header--fixed');
-        }
-        if (scroll > headerHeight * 2) {
-            $('body').addClass('header--animated');
-        } else {
-            $('body').removeClass('header--animated');
-        }
-        if (scroll > headerHeight * 3) {
-            $('body').addClass('header--scrolled');
-        } else {
-            $('body').removeClass('header--scrolled');
-        }
-    }
+function mobileDropdown(el) {
+  if ($(el).length > 0) {
+    $(el + ' > .sublevel__icon').on('click', function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      let $target = $(e.currentTarget),
+          $submenu = $target.prev('.sub-menu');
+      $submenu.css('left', 0);
+    });
 
-    closeAllSubmenus() {
-        if (!this.$nav) return;
-        this.$nav.find('.sub-menu').attr('aria-hidden', 'true');
-        this.$nav.find('.sublevel__icon').attr('aria-expanded', 'false');
-    }
+    $(el + ' > a').on('click', function (e) {
+      let my_href = $(this).attr("href");
+      if (my_href === '#') {
+        e.preventDefault();
+        e.stopPropagation();
+        let $target = $(e.currentTarget),
+            $submenu = $target.next('.sub-menu');
+        $submenu.css('left', 0);
+      }
+    });
 
-    backOnSubmenu() {
-        $('.navigation-mobile .sub-menu').prepend(
-            '<button class="backlevel__icon" aria-label="Torna al menu precedente">' +
-            '<i class="fal fa-angle-left" aria-hidden="true"></i>' +
-            '</button>'
-        );
-    }
+    $(el + ' > ul .backlevel__icon').on('click', function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      let $target = $(e.currentTarget).parent('ul');
+      $target.css('left', '100%');
+    });
 
-    mobileDropdown() {
-        this.$nav = this.$el;
-        if (!this.$nav.length) {
-            console.log('Nav non trovato');
-            return;
-        }
-
-        // Cache dei selettori frequentemente utilizzati
-        const $submenus = this.$nav.find('.sub-menu');
-        const $sublevelIcons = this.$nav.find('.sublevel__icon');
-        const $menuItems = this.$nav.find('.menu-item-has-children');
-
-        console.log('Elementi trovati:', {
-            submenus: $submenus.length,
-            sublevelIcons: $sublevelIcons.length,
-            menuItems: $menuItems.length,
-        });
-
-        // Gestione toggle sottomenu solo per mobile
-        if (window.matchMedia('(max-width: 991px)').matches) {
-            // Gestione toggle sottomenu
-            $sublevelIcons.on('click keypress', (e) => {
-                if (
-                    e.type === 'click' ||
-                    (e.type === 'keypress' &&
-                        (e.which === 13 || e.which === 32))
-                ) {
-                    e.preventDefault();
-                    e.stopPropagation();
-
-                    const $btn = $(e.currentTarget);
-                    const $submenu = $btn.siblings('.sub-menu');
-                    const isOpen = $submenu.attr('aria-hidden') === 'false';
-
-                    // Chiudi tutti i sottomenu aperti
-                    this.closeAllSubmenus();
-
-                    if (!isOpen) {
-                        // Apri il sottomenu con una slide da destra
-                        $submenu.attr('aria-hidden', 'false');
-                        $btn.attr('aria-expanded', 'true');
-
-                        // Focus sul primo elemento del sottomenu
-                        setTimeout(() => {
-                            $submenu.find('a:first').focus();
-                        }, 300);
-                    }
-                }
-            });
-
-            // Gestione back button
-            this.$nav.find('.backlevel__icon').on('click keypress', (e) => {
-                if (
-                    e.type === 'click' ||
-                    (e.type === 'keypress' &&
-                        (e.which === 13 || e.which === 32))
-                ) {
-                    e.preventDefault();
-                    e.stopPropagation();
-
-                    const $submenu = $(e.currentTarget).closest('.sub-menu');
-                    const $parentItem = $submenu.parent(
-                        '.menu-item-has-children'
-                    );
-                    const $parentSubmenu = $parentItem.closest('.sub-menu');
-
-                    // Chiudi il sottomenu corrente con una slide verso destra
-                    $submenu.attr('aria-hidden', 'true');
-
-                    if ($parentSubmenu.length) {
-                        // Se siamo in un sottomenu di secondo livello, torniamo al sottomenu padre
-                        $parentSubmenu.attr('aria-hidden', 'false');
-                        $parentItem
-                            .find('.sublevel__icon')
-                            .attr('aria-expanded', 'true');
-                        setTimeout(() => {
-                            $parentItem.find('.sublevel__icon').focus();
-                        }, 300);
-                    } else {
-                        // Se siamo in un sottomenu di primo livello, torniamo al menu principale
-                        $parentItem
-                            .find('.sublevel__icon')
-                            .attr('aria-expanded', 'false');
-                        setTimeout(() => {
-                            $parentItem.find('.sublevel__icon').focus();
-                        }, 300);
-                    }
-                }
-            });
-
-            // Gestione navigazione tastiera
-            this.$nav.find('a').on('keydown', (e) => {
-                if (e.key !== 'Tab') return;
-
-                const $link = $(e.currentTarget);
-                const $menuItem = $link.closest('.menu-item-has-children');
-                const $submenu = $menuItem.find('.sub-menu');
-
-                if ($submenu.attr('aria-hidden') === 'false' && !e.shiftKey) {
-                    const $nextFocusable = $(':focusable').eq(
-                        $(':focusable').index(e.currentTarget) + 1
-                    );
-                    if (!$nextFocusable.closest($submenu).length) {
-                        this.closeAllSubmenus();
-                    }
-                }
-            });
-
-            // Chiusura al click fuori
-            $(document).on('click', (e) => {
-                if (!$(e.target).closest(this.$el).length) {
-                    this.closeAllSubmenus();
-                }
-            });
-
-            // Chiusura al click su elementi con data-slidein-close
-            $('[data-slidein-close]').on('click', this.closeAllSubmenus);
-
-            // Gestione focusout
-            $menuItems.each((_, item) => {
-                const $menuItem = $(item);
-                const $submenu = $menuItem.find('.sub-menu');
-
-                $submenu.on('focusout', () => {
-                    setTimeout(() => {
-                        if (!$submenu.has(document.activeElement).length) {
-                            $submenu.attr('aria-hidden', 'true');
-                            $menuItem
-                                .find('.sublevel__icon')
-                                .attr('aria-expanded', 'false');
-                        }
-                    }, 10);
-                });
-            });
-        } else {
-            console.log('Modalità desktop attiva');
-
-            // Comportamento desktop: hover e interazione per aprire i sottomenu
-            $sublevelIcons.each((_, icon) => {
-                const $icon = $(icon);
-                const $menuItem = $icon.closest('.menu-item-has-children');
-                const $submenu = $menuItem.find('.sub-menu');
-                const $submenuLinks = $submenu.find('a');
-
-                console.log('Configurando eventi per:', {
-                    icon: $icon.length,
-                    menuItem: $menuItem.length,
-                    submenu: $submenu.length,
-                });
-
-                // Gestione click e tastiera sul pulsante sublevel__icon
-                $icon.on('click', (e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-
-                    const isOpen = $submenu.attr('aria-hidden') === 'false';
-
-                    if (isOpen) {
-                        $submenu.attr('aria-hidden', 'true');
-                        $icon.attr('aria-expanded', 'false');
-                    } else {
-                        $submenu.attr('aria-hidden', 'false');
-                        $icon.attr('aria-expanded', 'true');
-                        // Focus sul primo link del sottomenu
-                        setTimeout(() => {
-                            $submenuLinks.first().focus();
-                        }, 0);
-                    }
-                });
-
-                $icon.on('keypress', (e) => {
-                    if (e.which === 13 || e.which === 32) {
-                        e.preventDefault();
-                        e.stopPropagation();
-
-                        const isOpen = $submenu.attr('aria-hidden') === 'false';
-
-                        if (isOpen) {
-                            $submenu.attr('aria-hidden', 'true');
-                            $icon.attr('aria-expanded', 'false');
-                        } else {
-                            $submenu.attr('aria-hidden', 'false');
-                            $icon.attr('aria-expanded', 'true');
-                            // Focus sul primo link del sottomenu
-                            setTimeout(() => {
-                                $submenuLinks.first().focus();
-                            }, 0);
-                        }
-                    }
-                });
-
-                // Gestione hover
-                $menuItem
-                    .on('mouseenter', () => {
-                        $submenu.attr('aria-hidden', 'false');
-                        $icon.attr('aria-expanded', 'true');
-                    })
-                    .on('mouseleave', () => {
-                        // Chiudi solo se non c'è focus sul pulsante o sui link del sottomenu
-                        if (
-                            !$icon.is(document.activeElement) &&
-                            !$submenu.has(document.activeElement).length
-                        ) {
-                            $submenu.attr('aria-hidden', 'true');
-                            $icon.attr('aria-expanded', 'false');
-                        }
-                    });
-
-                // Gestione focus solo per il pulsante sublevel__icon
-                $icon.on('focus', () => {
-                    $submenu.attr('aria-hidden', 'false');
-                    $icon.attr('aria-expanded', 'true');
-                });
-
-                // Gestione focusout per il pulsante e il sottomenu
-                $menuItem.on('focusout', (e) => {
-                    setTimeout(() => {
-                        // Se il focus non è né sul pulsante né sui link del sottomenu e non c'è hover
-                        if (
-                            !$icon.is(document.activeElement) &&
-                            !$submenu.has(document.activeElement).length &&
-                            !$menuItem.is(':hover')
-                        ) {
-                            $submenu.attr('aria-hidden', 'true');
-                            $icon.attr('aria-expanded', 'false');
-                        }
-                    }, 10);
-                });
-
-                // Gestione Tab all'interno del sottomenu
-                $submenuLinks.last().on('keydown', (e) => {
-                    if (e.key === 'Tab' && !e.shiftKey) {
-                        // Se siamo sull'ultimo link e premo Tab, chiudo il sottomenu
-                        $submenu.attr('aria-hidden', 'true');
-                        $icon.attr('aria-expanded', 'false');
-                    }
-                });
-
-                $submenuLinks.first().on('keydown', (e) => {
-                    if (e.key === 'Tab' && e.shiftKey) {
-                        // Se siamo sul primo link e premo Shift+Tab, torno al pulsante
-                        e.preventDefault();
-                        $icon.focus();
-                    }
-                });
-            });
-        }
-    }
+    $('[data-slidein-close]').on('click', function () {
+      $('.navigation-mobile .sub-menu').css('left', '100%');
+    });
+  }
 }

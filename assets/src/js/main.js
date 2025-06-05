@@ -1,5 +1,5 @@
 import $ from 'jquery';
-import Header from './frontend/header';
+import {initHeader} from './frontend/header';
 import { Slidein } from "./frontend/slidein.js";
 import Cart from './frontend/cart.js';
 import MiniCart from './frontend/minicart.js';
@@ -28,7 +28,7 @@ $(window).on('load',function(){
 });
 
 $(document).ready(function() {
-    new Header('.menu-item-has-children');
+    initHeader('.menu-item-has-children');
     initCustomerCareModal();
 
     asideBodyClass();

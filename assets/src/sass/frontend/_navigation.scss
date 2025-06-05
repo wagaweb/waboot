@@ -1,5 +1,4 @@
 .header__navigation {
-
   ul {
     margin: 0;
     padding: 0;
@@ -8,161 +7,69 @@
 
   li {
     position: relative;
-    &.menu-item-has-children {
-      display: flex;
-      gap: $gridGutter / 2;
-      align-items: center;
-    }
   }
 
-  > ul {
-    > li {
-      > a {
-        padding: 10px 0;
-        @include up($large) {
-          padding: 15px;
-        }
-        position: relative;
-        display: flex;
-        align-items: center;
-        text-transform: uppercase;
-        font-size: .9em;
-      }
-
-      &:last-child > a {
-        @include up($large) {
-          padding-right: 0;
-        }
-      }
+  .menu-item-has-children {
+    display: flex;
+    align-items: center;
+    gap: $gridGutter / 2;
+    > a {
+      padding-right: 0;
     }
-
-    .sub-menu {
-      display: none;
-      top: 100%;
-      left: 0;
-      li a {
-        padding: 5px 15px;
-        display: block;
-        white-space: nowrap;
-      }
-    }
-
-    li:hover > .sub-menu,
-    .sub-menu[aria-hidden="false"] {
-      display: block;
-      position: absolute;
-      z-index: 7;
-      padding: 0;
-      margin: 0;
-      background-color: #fff;
-      border: 1px solid rgba(0, 0, 0, .15);
-      background-clip: padding-box;
-    }
-
-    > li:hover > .sub-menu,
-    > li:hover > .sub-menu[aria-hidden="false"]{
-      top: 100%;
-      right: 0;
-      a {
-        text-align: right;
-      }
-    }
-
-    .sub-menu > li:hover > .sub-menu {
-      top: -1px;
-      left: 100%;
-      a {
-        text-align: left;
-      }
-    }
-
   }
 
   .sublevel__icon {
     background: none;
     border: none;
     border-radius: 0;
-    color: inherit;
-  }
-}
-
-.navigation-mobile {
-  padding: $gridGutter;
-  &__inner {
-    //padding: $gridGutter 0;
-    height: 100%;
-    width: 100%;
-    flex-grow: 1;
-    //display: grid;
-    //grid-template-rows: auto auto 1fr;
-    //grid-gap: $gridGutter;
   }
 
-  ul {
-    list-style-type: none;
-    overflow-x: hidden;
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
+  > ul > li > a {
+    padding: 10px 0;
+    position: relative;
     display: flex;
-    flex-direction: column;
-    //align-items: center;
-    //justify-content: center;
-    padding: 0;
-    margin: 0;
-    transition: all .5s ease;
-  }
-
-  li {
-    display: flex;
-    justify-content: space-between;
     align-items: center;
-    width: 100%;
-  }
-
-  a {
-    text-align: left;
-    justify-content: center;
-    padding: calc(#{$gridGutter}/2) $gridGutter;
-    flex-grow: 1;
+    text-transform: uppercase;
+    font-size: .9em;
+    @include up($large) {
+      padding: 15px;
+    }
   }
 
   .sub-menu {
-    left: 100%;
+    display: none;
+    position: absolute;
+    z-index: 7;
+    padding: 0;
+    margin: 0;
     background-color: #fff;
-    overflow-y: auto;
-    z-index: 10;
+    border: 1px solid rgba(0, 0, 0, .15);
+    background-clip: padding-box;
+
+    li a {
+      padding: 5px 15px;
+      display: block;
+      white-space: nowrap;
+    }
   }
 
-  .backlevel__icon {
-    //position: absolute;
-    //left: 0;
-    //top: 0;
-    padding: 0 0 0 $gridGutter;
-    width: 48px;
-    height: 48px;
-    display: flex;
-    align-items: center;
-    font-size: 1.5em;
-    z-index: 10;
-    color: $colorPrimary;
-    position: relative;
+  // Hover da mouse
+  li:hover > .sub-menu {
+    display: block;
   }
 
-  .sublevel__icon {
-    background: none;
-    border: none;
-    border-radius: 0;
-    color: inherit;
-    line-height: 1em;
-    width: 48px;
-    height: 48px;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    padding-right: $gridGutter;
+  // Attivazione tramite Enter
+  li.submenu-open > .sub-menu {
+    display: block;
   }
 
+  > ul > li > .sub-menu {
+    top: 100%;
+    right: 0;
+  }
+
+  .sub-menu > li > .sub-menu {
+    top: -1px;
+    left: 100%;
+  }
 }

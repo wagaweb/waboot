@@ -467,8 +467,20 @@ function getLogo($size = 'full'){
     return (string) apply_filters('waboot/logo', $image);
 }
 
-class Walker_Accessible_Menu extends \Walker_Nav_Menu {
+/**
+ * @return string
+ */
+function getLogoAlt()
+{
+    $imageAlt = '';
+    $customLogoId = get_theme_mod( 'custom_logo' );
+    if( \is_numeric( $customLogoId ) && $customLogoId !== 0 ) {
+        $imageAlt = get_post_meta( $customLogoId, '_wp_attachment_image_alt', TRUE );
+    }
+    return (string)apply_filters( 'waboot/logo_alt', $imageAlt );
+}
 
+class Walker_Accessible_Menu extends \Walker_Nav_Menu {
     public function start_lvl( &$output, $depth = 0, $args = array() ) {
         $indent = str_repeat( "\t", $depth );
         $output .= "\n$indent<ul class=\"sub-menu\" role=\"menu\" aria-hidden=\"true\">\n";
@@ -513,7 +525,6 @@ class Walker_Accessible_Menu extends \Walker_Nav_Menu {
         $item_output .= "</a>";
 
         if ( $has_children ) {
-            // freccia separata, focusabile
             $item_output .= '<button class="sublevel__icon" tabindex="0" aria-label="Apri il sottomenu di ' . esc_attr($title) . '" aria-expanded="false"><i class="fal fa-angle-down" aria-hidden="true"></i></button>';
         }
 
