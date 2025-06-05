@@ -42,16 +42,23 @@ export default class {
     }
 
     toggleMiniCart(){
-        if(!this.$el.hasClass('show')){
+        const isOpen = this.$el.hasClass('show');
+
+        if (!isOpen) {
             this.$el.addClass('show');
             $('body').addClass('minicart-no-scroll');
+
+            this.$el.attr('aria-hidden', 'false').removeAttr('inert');
             this.toggleOverlay();
 
-            $('.minicart-overlay').on('click', { self: this } ,this.hideHandler);
-        }else{
+            $('.minicart-overlay').on('click', { self: this }, this.hideHandler);
+        } else {
             this.$el.removeClass('show');
             $('body').removeClass('minicart-no-scroll');
+
+            this.$el.attr('aria-hidden', 'true').attr('inert', '');
             this.hideOverlay();
+
             $('.minicart-overlay').off('click', '**', this.hideHandler);
         }
     }
@@ -67,6 +74,7 @@ export default class {
             self.$el.removeClass('show');
             $('body').removeClass('minicart-no-scroll');
 
+            self.$el.attr('aria-hidden', 'true').attr('inert', '');
             self.hideOverlay();
 
             $('.minicart-overlay').off('click', '**', self.hideHandler);

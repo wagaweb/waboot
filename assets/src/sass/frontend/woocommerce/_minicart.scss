@@ -18,6 +18,14 @@
   &.show {
     transform: translate(0, 0);
   }
+  body.admin-bar & {
+    height: calc(100% - 46px);
+    top: 46px;
+    @include up(782px) {
+      height: calc(100% - 32px);
+      top: 32px;
+    }
+  }
   &-overlay {
     background: rgba(255, 255, 255, 0.8);
     display: none;
@@ -111,20 +119,4 @@
       }
     }
   }
-}
-
-a[data-minicart-close] {
-  position: absolute;
-  right: 0;
-  top: 0;
-  padding: $gridGutter/2 $gridGutter 0 0 !important;
-  z-index: 20;
-  font-size: 1.5em;
-  cursor: pointer;
-  line-height: 1em;
-  width: 48px;
-  height: 48px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end !important;
 }

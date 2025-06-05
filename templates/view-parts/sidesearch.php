@@ -1,12 +1,4 @@
-<div
-        class="slidein sidesearch"
-        data-slidein-search
-        data-slidein-toggle="#slidein-search__toggle"
-        id="slidein-search"
-        role="search"
-        aria-label="<?php esc_attr_e('Site search', LANG_TEXTDOMAIN); ?>"
-        aria-hidden="true"
->
+<div class="slidein sidesearch" data-slidein-search data-slidein-toggle="#slidein-search__toggle" inert>
     <form id="searchform" class="search__form" action="<?php echo esc_url(site_url('/')); ?>" method="get" role="search" aria-label="<?php esc_attr_e('Search form', LANG_TEXTDOMAIN); ?>">
         <label for="s" class="sr-only"><?php _e('Search for:', LANG_TEXTDOMAIN); ?></label>
         <input
@@ -23,12 +15,5 @@
         </button>
     </form>
 
-    <button
-            type="button"
-            class="slidein-close-btn"
-            data-slidein-close
-            aria-label="<?php esc_attr_e('Close search', LANG_TEXTDOMAIN); ?>"
-    >
-        <i class="fal fa-times" aria-hidden="true"></i>
-    </button>
+    <button data-slidein-close aria-label="Close"><i class="fal fa-times"></i></button>
 </div>

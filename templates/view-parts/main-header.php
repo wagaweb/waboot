@@ -12,19 +12,6 @@
         </a>
     </div>
 
-    <button
-            class="header__toggle header__link--nav slidein-nav__toggle"
-            aria-expanded="false"
-            aria-controls="main-navigation"
-            aria-label="<?php _e( 'Toggle navigation menu', LANG_TEXTDOMAIN ); ?>"
-            data-open-sidenav=".sidenavigation"
-    >
-        <span class="sr-only"><?php _e( "Toggle navigation", LANG_TEXTDOMAIN ); ?></span>
-        <span class="icon-bar" aria-hidden="true"></span>
-        <span class="icon-bar" aria-hidden="true"></span>
-        <span class="icon-bar" aria-hidden="true"></span>
-    </button>
-
     <nav id="main-navigation" class="header__navigation" role="navigation"
          aria-label="<?php _e( 'Main navigation', LANG_TEXTDOMAIN ); ?>" aria-hidden="true">
         <?php wp_nav_menu( [
@@ -55,6 +42,8 @@
                 <i class="fal fa-search" aria-hidden="true"></i>
             </button>
 
+            <?php get_template_part( 'templates/view-parts/sidesearch' ); ?>
+
             <a href="/my-account" aria-label="<?php _e( 'Account', LANG_TEXTDOMAIN ); ?>">
                 <i class="fal fa-user" aria-hidden="true"></i>
             </a>
@@ -75,7 +64,24 @@
                     <span class="minicart__counter" data-cart-items aria-live="polite" aria-atomic="true"></span>
                     <i class="fal fa-shopping-bag" aria-hidden="true"></i>
                 </button>
+
+                <?php require_once get_template_directory() . '/addons/packages/cart/templates/minicart.php'; ?>
             <?php endif; ?>
         <?php endif; ?>
     </div>
+
+    <button
+            class="header__toggle header__link--nav slidein-nav__toggle"
+            aria-expanded="false"
+            aria-controls="main-navigation"
+            aria-label="<?php _e( 'Toggle navigation menu', LANG_TEXTDOMAIN ); ?>"
+            data-open-sidenav=".sidenavigation"
+    >
+        <span class="sr-only"><?php _e( "Toggle navigation", LANG_TEXTDOMAIN ); ?></span>
+        <span class="icon-bar" aria-hidden="true"></span>
+        <span class="icon-bar" aria-hidden="true"></span>
+        <span class="icon-bar" aria-hidden="true"></span>
+    </button>
+
+    <?php get_template_part( '/templates/view-parts/navigation-mobile' ); ?>
 </div>

@@ -23,7 +23,7 @@ $(window).on('load',function(){
         enableProductGallery();
     }
     if (window.matchMedia('(max-width: 991px)').matches) {
-        slideinHeight();
+        // slideinHeight();
     }
 });
 

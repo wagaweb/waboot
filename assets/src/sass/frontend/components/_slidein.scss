@@ -17,6 +17,14 @@
   &.show {
     transform: translate(0, 0);
   }
+  body.admin-bar & {
+    height: calc(100% - 46px);
+    top: 46px;
+    @include up(782px) {
+      height: calc(100% - 32px);
+      top: 32px;
+    }
+  }
   &-overlay {
     //background: rgba(0,0,0,0.9);
     display: none;
@@ -32,18 +40,22 @@
   }
 }
 
-a[data-slidein-close] {
+[data-minicart-close],
+[data-slidein-close] {
+  background: none;
+  border: none;
+  border-radius: 0;
   position: absolute;
   right: 0;
   top: 0;
-  padding: $gridGutter/2 $gridGutter 0 0 !important;
+  padding: 0;
   z-index: 20;
   font-size: 1.5em;
   cursor: pointer;
   line-height: 1em;
-  width: 48px;
-  height: 48px;
+  width: 44px;
+  height: 44px;
   display: flex;
   align-items: center;
-  justify-content: flex-end !important;
+  justify-content: center;
 }

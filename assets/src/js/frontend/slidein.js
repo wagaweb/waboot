@@ -19,42 +19,40 @@ Slidein.prototype = {
 
     initToggle: function (self) {
         $(self.opt.toggler).on('click', function (e) {
-            if(!self.$el.hasClass('show')){
+            if (!self.$el.hasClass('show')) {
+                self.$el.removeClass('inert');
+                self.$el.removeAttr('inert');
                 self.$el.addClass('show');
                 $('body').addClass('slidein-no-scroll');
                 self.toggleOverlay();
 
-                $(document).on('click', function(e){
-                    var $target = $(e.target);
-                    if(self.$el.is($target) || self.$el.find($target).length > 0){
-                        return;
-                    }
-                    if(!$target.closest(self.$toggler).is(self.$toggler)){
-                        self.$el.removeClass('show');
+                // Focus sul primo elemento interattivo
+                self.$el.find('input, button, a, textarea, select').first().focus();
+
+                $(document).on('click', function (e) {
+                    let $target = $(e.target);
+                    if (self.$el.is($target) || self.$el.find($target).length > 0) return;
+                    if (!$target.closest(self.$toggler).is(self.$toggler)) {
+                        self.$el.removeClass('show').attr('inert', '');
                         $('body').removeClass('slidein-no-scroll');
-
                         self.hideOverlay();
-
                         $(document).off('click');
                     }
                 });
 
-                $('[data-slidein-close]').on('click', function(){
-                    self.$el.removeClass('show');
+                $('[data-slidein-close]').on('click', function () {
+                    self.$el.removeClass('show').attr('inert', '');
                     $('body').removeClass('slidein-no-scroll');
                     self.hideOverlay();
                     $(document).off('click');
                 });
-
-            }else{
-
             }
         });
     },
 
     initDropdown: function (self) {
         self.$el.on('click', '[data-slidein-dropdown-toggle]', function (e) {
-            var $this = $(this);
+            let $this = $(this);
 
             $this
                 .next('[data-slidein-dropdown]')
@@ -69,7 +67,7 @@ Slidein.prototype = {
     },
 
     toggleOverlay: function () {
-        var $overlay = $('[data-slidein-overlay]');
+        let $overlay = $('[data-slidein-overlay]');
 
         if (!$overlay[0]) {
             $overlay = $('<div data-slidein-overlay class="slidein-overlay"/>');

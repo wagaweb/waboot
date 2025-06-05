@@ -34,5 +34,5 @@ add_filter('woocommerce_is_attribute_in_product_name', function($attribute, $nam
  * Display minicart
  */
 add_action('waboot/layout/page-after', function(){
-    require_once getAddonDirectory('cart').'/templates/minicart.php';
+    /*require_once getAddonDirectory('cart').'/templates/minicart.php';*/
 },14);
