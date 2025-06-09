@@ -13,15 +13,18 @@
     display: flex;
     align-items: center;
     gap: $gridGutter / 2;
-    > a {
-      padding-right: 0;
-    }
-  }
 
-  .sublevel__icon {
-    background: none;
-    border: none;
-    border-radius: 0;
+    > a:after {
+      @extend %fa-icon;
+      @extend .far;
+      content: fa-content($fa-var-angle-down);
+      opacity: .7;
+      margin-left: 10px;
+    }
+
+    li.menu-item-has-children > a:after {
+      content: fa-content($fa-var-angle-right);
+    }
   }
 
   > ul > li > a {
@@ -31,6 +34,7 @@
     align-items: center;
     text-transform: uppercase;
     font-size: .9em;
+
     @include up($large) {
       padding: 15px;
     }
@@ -53,13 +57,8 @@
     }
   }
 
-  // Hover da mouse
-  li:hover > .sub-menu {
-    display: block;
-  }
-
-  // Attivazione tramite Enter
-  li.submenu-open > .sub-menu {
+  li:hover > .sub-menu,
+  li:focus-within > .sub-menu {
     display: block;
   }
 
@@ -71,82 +70,5 @@
   .sub-menu > li > .sub-menu {
     top: -1px;
     left: 100%;
-  }
-}
-
-.navigation-mobile {
-  &__inner {
-    height: 100%;
-    width: 100%;
-    flex-grow: 1;
-  }
-
-  ul {
-    list-style-type: none;
-    overflow-x: hidden;
-    position: relative;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    //align-items: center;
-    //justify-content: center;
-    padding: 0;
-    margin: 0;
-    transition: all .5s ease;
-  }
-
-  li {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-  }
-
-  a {
-    text-align: left;
-    justify-content: center;
-    padding: calc(#{$gridGutter}/2) $gridGutter;
-    flex-grow: 1;
-  }
-
-  .sub-menu {
-    left: 100%;
-    background-color: #fff;
-    overflow-y: auto;
-    z-index: 10;
-    position: absolute;
-    top: 0;
-    transition: left .3s;
-  }
-
-  .backlevel__icon {
-    background: none;
-    border: none;
-    border-radius: 0;
-    padding: 0 0 0 $gridGutter;
-    width: 48px;
-    height: 48px;
-    display: flex;
-    align-items: center;
-    font-size: 1.5em;
-    z-index: 10;
-    color: $colorPrimary;
-    position: relative;
-  }
-
-  .sublevel__icon {
-    background: none;
-    border: none;
-    border-radius: 0;
-    line-height: 1em;
-    width: 48px;
-    height: 48px;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    padding-right: $gridGutter;
   }
 }

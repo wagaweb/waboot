@@ -524,10 +524,6 @@ class Walker_Accessible_Menu extends \Walker_Nav_Menu {
         $item_output .= $args->link_before . $title . $args->link_after;
         $item_output .= "</a>";
 
-        if ( $has_children ) {
-            $item_output .= '<button class="sublevel__icon" tabindex="0" aria-label="Apri il sottomenu di ' . esc_attr($title) . '" aria-expanded="false"><i class="fal fa-angle-down" aria-hidden="true"></i></button>';
-        }
-
         $item_output .= $args->after;
 
         $output .= apply_filters( 'walker_nav_menu_start_el', $item_output, $item, $depth, $args );

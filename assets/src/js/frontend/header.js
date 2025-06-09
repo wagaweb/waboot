@@ -87,39 +87,36 @@ function backOnSubmenu() {
 }
 
 function keyboardSubmenu() {
-    $('.sublevel__icon').on('keydown', function (e) {
-        const $btn = $(this);
-        const $li = $btn.closest('li');
+    const $menuItems = $('.menu > li');
 
-        if (e.key === 'Enter' || e.keyCode === 13 || e.key === ' ' || e.keyCode === 32) {
-            e.preventDefault();
+    $menuItems.on('focusin', function () {
+        const $li = $(this);
 
-            const $submenu = $li.find('> .sub-menu');
-            const alreadyOpen = $li.hasClass('submenu-open');
+        // Chiude altri submenu aperti
+        $li.siblings('.submenu-open')
+            .removeClass('submenu-open')
+            .find('> a')
+            .attr('aria-expanded', 'false');
 
-            const $siblings = $li.siblings('.submenu-open');
-            $siblings.removeClass('submenu-open').find('.sublevel__icon').attr('aria-expanded', 'false');
-
-            if (!alreadyOpen) {
-                $li.addClass('submenu-open');
-                $btn.attr('aria-expanded', 'true');
-
-                const $firstLink = $submenu.find('a').first();
-                if ($firstLink.length) {
-                    $firstLink.focus();
-                }
-            }
-        } else {
-            e.preventDefault();
-
-            const $nextLi = $li.next('li');
-            if ($nextLi.length) {
-                $nextLi.find('> a').first().focus();
-            }
+        // Apre questo submenu se esiste
+        const $submenu = $li.find('> .sub-menu');
+        if ($submenu.length) {
+            $li.addClass('submenu-open');
+            $li.find('> a').attr('aria-expanded', 'true');
         }
     });
-}
 
+    $menuItems.on('focusout', function () {
+        const $li = $(this);
+        // Ritarda la chiusura per permettere il focus dentro il submenu
+        setTimeout(() => {
+            if (!$li.find(':focus').length) {
+                $li.removeClass('submenu-open');
+                $li.find('> a').attr('aria-expanded', 'false');
+            }
+        }, 10);
+    });
+}
 
 function closeSubmenuOnFocusOut() {
     $('.menu-item-has-children').on('focusout', function () {
