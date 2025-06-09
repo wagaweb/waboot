@@ -1,4 +1,5 @@
-<?php use Waboot\inc\Walker_Accessible_Menu; ?>
+<?php use Waboot\inc\Walker_Accessible_Menu;
+use Waboot\inc\Walker_MegaMenu; ?>
 
 <div class="header__inner">
     <div class="header__logo">
@@ -12,15 +13,27 @@
         </a>
     </div>
 
-    <nav id="main-navigation" class="header__navigation" role="navigation"
-         aria-label="<?php _e( 'Main navigation', LANG_TEXTDOMAIN ); ?>" aria-hidden="true">
-        <?php wp_nav_menu( [
+    <!--<nav id="main-navigation" class="header__navigation" role="navigation"
+         aria-label="<?php /*_e( 'Main navigation', LANG_TEXTDOMAIN ); */?>" aria-hidden="true">
+        <?php /*wp_nav_menu( [
             'theme_location' => 'main',
             'depth' => 0,
             'fallback_cb' => '__return_false',
             'container' => false,
             'menu_class' => apply_filters( 'waboot/navigation/main/class', 'navigation navbar-nav' ),
             'walker' => new Walker_Accessible_Menu(),
+        ] ); */?>
+    </nav>-->
+
+    <nav id="main-navigation" class="header__navigation" role="navigation"
+         aria-label="<?php _e( 'Main navigation', LANG_TEXTDOMAIN ); ?>" aria-hidden="true">
+        <?php wp_nav_menu( [
+            'theme_location' => 'megamenu',
+            'depth' => 0,
+            'fallback_cb' => '__return_false',
+            'container' => false,
+            'menu_class' => apply_filters( 'waboot/navigation/main/class', 'navigation navbar-nav navbar-nav--megamenu' ),
+            'walker' => new Walker_MegaMenu(),
         ] ); ?>
     </nav>
 
