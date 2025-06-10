@@ -428,7 +428,7 @@ class AbstractCommand
     /**
      * @return string
      */
-    private function getStateOptionNameSuffix(): string
+    protected function getStateOptionNameSuffix(): string
     {
         return 'cli_'.sanitize_title($this->logFileName);
     }

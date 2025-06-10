@@ -43,6 +43,7 @@ class Theme{
             'inc/core/helpers/theme.php',
             'inc/core/helpers/views.php',
             'inc/core/helpers/mail.php',
+            'inc/core/helpers/alerts.php',
             'inc/core/hooks.php',
             'inc/template-functions.php',
             'inc/template-rendering.php',
@@ -123,6 +124,20 @@ class Theme{
     }
 
     /**
+     * @param \Exception|\Throwable $e
+     * @param string $source
+     * @param array $context
+     * @return void
+     */
+    public function logError(\Exception|\Throwable $e, string $source = '', array $context = []): void
+    {
+        if($source !== ''){
+            $context['source'] = $source;
+        }
+        $this->logToFile('waboot-log',$e->getMessage(), MonologLoggingLevels::ERROR, $context);
+    }
+
+    /**
      * @param string $loggerIdentifier
      * @param string $logMessage
      * @param int $logLevel
@@ -130,7 +145,7 @@ class Theme{
      * @param \DateTimeZone|null $dz
      * @return void
      */
-    public function logToFile(string $loggerIdentifier, string $logMessage, int $logLevel = MonologLoggingLevels::INFO, array $context = [], \DateTimeZone $dz = null)
+    public function logToFile(string $loggerIdentifier, string $logMessage, int $logLevel = MonologLoggingLevels::INFO, array $context = [], \DateTimeZone $dz = null): void
     {
         try{
             if($dz === null){

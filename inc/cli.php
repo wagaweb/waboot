@@ -4,6 +4,7 @@ namespace Waboot\inc;
 
 use Waboot\inc\cli\FixPrices;
 use Waboot\inc\cli\FixStockStatuses;
+use Waboot\inc\cli\GenerateOrderStatsTable;
 use Waboot\inc\cli\GenerateSiteStatFile;
 use Waboot\inc\cli\ImportPrices;
 use Waboot\inc\cli\ImportProductImages;
@@ -30,6 +31,15 @@ require_once get_stylesheet_directory().'/inc/cli/feeds/GenerateGShoppingFeed.ph
 //if(is_file(get_stylesheet_directory().'/inc/cli/product_import/waga-woocommerce-csv-cli-importer/src/index.php')){
 //    require_once get_stylesheet_directory().'/inc/cli/product_import/waga-woocommerce-csv-cli-importer/src/index.php';
 //}
+
+/*
+ * Filter out unwanted taxonomies
+ */
+add_filter('wawoo/cli/gen-stat-table/taxonomies', static function (array $taxonomies) {
+    return array_filter($taxonomies, static function (string $taxonomy){
+        return !\in_array($taxonomy,['post_translations','product_visibility','product_shipping_class']);
+    });
+},10,1);
 
 add_action('init', static function(){
     /*
@@ -65,4 +75,5 @@ try{
     registerCommand('simulate-orders', OrderSimulator::class,'wawoo');
     //registerCommand('feeds:generate-gshopping', GenerateGShoppingFeed::class,'wawoo');
     \WP_CLI::add_command('wawoo:feeds:generate-gshopping', GenerateGShoppingFeed::class);
+    registerCommand('gen-order-stats-table', GenerateOrderStatsTable::class, 'wawoo');
 }catch (\Exception $e){}

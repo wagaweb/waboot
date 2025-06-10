@@ -2,6 +2,7 @@
 
 namespace Waboot\inc\core;
 
+use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Waboot\inc\core\utils\Dates;
@@ -60,27 +61,8 @@ class LoggerFactory
         }
     }
 
-    /**
-     * @param array $args
-     * @return boolean
-     * @throws LoggerFactoryException
-     */
-    public static function createSentryLogger(array $args): bool
-    {
-        if(!self::sentryExists()){
-            throw new LoggerFactoryException('Sentry non installed, use "composer require sentry/sdk"');
-        }
-        \Sentry\init($args);
-        return true;
-    }
-
     public static function monologExists(): bool
     {
         return class_exists('Monolog\Logger');
-    }
-
-    public static function sentryExists(): bool
-    {
-        return function_exists('\Sentry\captureException');
     }
 }
