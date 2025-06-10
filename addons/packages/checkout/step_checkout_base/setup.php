@@ -1,10 +1,11 @@
 <?php
 
-namespace Waboot\addons\packages\checkout;
+namespace Waboot\addons\packages\checkout\step_checkout_base;
 
 use function Waboot\addons\getAddonDirectory;
 
-require_once 'hooks/base/coupons.php';
+require_once 'hooks/coupons.php';
+require_once '../hiphop/step-checkout-base-hooks.php';
 
 remove_action( 'woocommerce_before_checkout_form', 'woocommerce_checkout_login_form', 10 );
 

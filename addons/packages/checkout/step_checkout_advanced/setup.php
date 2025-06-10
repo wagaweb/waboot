@@ -1,17 +1,18 @@
 <?php
 
-namespace Waboot\addons\packages\checkout;
+namespace Waboot\addons\packages\checkout\step_checkout_advanced;
 
+use Waboot\inc\core\woocommerce\addresses\ShippingAddress;
 use function Waboot\inc\core\AssetsManager;
 use function Waboot\inc\getCurrentLanguage;
 
-require_once 'hooks/advanced/coupons.php';
-require_once 'hooks/advanced/backend.php';
+require_once 'hooks/coupons.php';
+require_once 'hooks/backend.php';
 
 add_action('wp_enqueue_scripts', static function(){
     try{
         $assets = [];
-        $assetsDir = get_template_directory() . '/addons/packages/checkout/step_checkout/assets/dist/';
+        $assetsDir = get_template_directory() . '/addons/packages/checkout/step_checkout_advanced/assets/dist/';
         $jsFiles = glob($assetsDir.'/index-*.js');
         if(!\is_array($jsFiles) || empty($jsFiles)){
             return;
@@ -22,7 +23,14 @@ add_action('wp_enqueue_scripts', static function(){
             'ajax_url' => admin_url('admin-ajax.php'),
             'nonce' => wp_create_nonce('step-checkout-request-data'),
             'locale' => get_locale(),
-            'current_language' => getCurrentLanguage()
+            'current_language' => getCurrentLanguage(),
+            /*
+             * This controls which shipping address is used by default.
+             * shipping = Default to customer shipping address (this enables "Ship to a different address?")
+             * billing = Default to customer billing address (this enables "Ship to a different address?")
+             * billing_only = Force shipping to the customer billing address (this HIDE "Ship to a different address?")
+             */
+            'woocommerce_ship_to_destination' => get_option('woocommerce_ship_to_destination')
         ];
         try{
             $wcRegistrationRequired = WC()->checkout()->is_registration_required();
@@ -34,7 +42,7 @@ add_action('wp_enqueue_scripts', static function(){
         $mainJsI10nParams['wc_checkout_registration_required'] = $wcRegistrationRequired;
         $mainJsI10nParams['wc_checkout_registration_enabled'] = $wcRegistrationEnabled;
         $assets['step-checkout-main-js'] = [
-            'uri' => get_template_directory_uri() . '/addons/packages/checkout/step_checkout/assets/dist/'.$mainJsFileName,
+            'uri' => get_template_directory_uri() . '/addons/packages/checkout/step_checkout_advanced/assets/dist/'.$mainJsFileName,
             'path' => $assetsDir.'/'.$mainJsFileName,
             'type' => 'js',
             'i10n' => [
@@ -48,7 +56,7 @@ add_action('wp_enqueue_scripts', static function(){
             $mainCssFilePath = array_shift($cssFiles);
             $mainCssFileName = basename($mainCssFilePath);
             $assets['step-checkout-main-css'] = [
-                'uri' => get_template_directory_uri() . '/addons/packages/checkout/step_checkout/assets/dist/'.$mainCssFileName,
+                'uri' => get_template_directory_uri() . '/addons/packages/checkout/step_checkout_advanced/assets/dist/'.$mainCssFileName,
                 'path' => $assetsDir.'/'.$mainCssFileName,
                 'type' => 'css'
             ];
@@ -64,8 +72,10 @@ remove_action( 'woocommerce_before_checkout_form', 'woocommerce_checkout_login_f
 
 add_action('woocommerce_before_checkout_form', function($checkout){
     ?>
+    <?php do_action('wawoo/addons/checkout/before_checkout_wrapper'); ?>
     <div id="woocommerce-checkout-steps-app" class="woocommerce-checkout-steps">
     </div>
+    <?php do_action('wawoo/addons/checkout/after_checkout_wrapper'); ?>
     <?php
 },20,1);
 
@@ -95,3 +105,13 @@ add_filter('script_loader_tag', static function($tag, $handle, $src){
 add_filter('pre_option_'.'woocommerce_registration_generate_password', static function ($value, string $option, $defaultValue) {
     return 'yes';
 },10, 3);
+
+/*
+ * Save billing phone to shipping
+ */
+add_filter('wawoo/multiple_addresses/shipping_address_repository/create_from_posted_data', static function(ShippingAddress $address){
+    if(!empty($_POST['billing_phone']) && !isset($_POST['shipping_phone'])){
+        $address->setPhone($_POST['billing_phone']);
+    }
+    return $address;
+});

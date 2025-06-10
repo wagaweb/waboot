@@ -131,7 +131,7 @@ function onAddressDataSubmitted(shippingData: userShippingData, billingData: use
 </template>
 
 <style lang="scss">
-@use "./sass/main";
+@use "sass/main";
 
 
 </style>

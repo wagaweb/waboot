@@ -33,9 +33,8 @@ $deps = [
     'functions.php',
     'hooks/fields.php',
     'hooks/layout.php',
-    'hiphop/subscriptions.php',
-    //'step-checkout-base.php', // Use either base or 'step-checkout.php'
-    'step-checkout.php'
+    //'step_checkout_base/setup.php', // Use either base or advanced
+    'step_checkout_advanced/setup.php'
 ];
 
 $deps = array_map(static function($file){
