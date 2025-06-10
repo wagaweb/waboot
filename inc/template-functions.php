@@ -3,7 +3,6 @@
 namespace Waboot\inc;
 
 use Waboot\inc\core\utils\Utilities;
-use Walker_Nav_Menu;
 
 /**
  * Gets theme widget areas
@@ -536,34 +535,5 @@ class Walker_Accessible_Menu extends \Walker_Nav_Menu {
 
     public function end_lvl( &$output, $depth = 0, $args = array() ) {
         $output .= "</ul>\n";
-    }
-}
-
-class Walker_MegaMenu extends Walker_Nav_Menu {
-    public function start_lvl(&$output, $depth = 0, $args = array()) {
-        $indent = str_repeat("\t", $depth);
-        $submenu_class = ($depth === 0) ? 'mega-menu' : 'sub-menu';
-        $output .= "\n$indent<ul class=\"$submenu_class\" role=\"menu\">\n";
-    }
-
-    public function start_el(&$output, $item, $depth = 0, $args = array(), $id = 0) {
-        $indent = ($depth) ? str_repeat("\t", $depth) : '';
-        $classes = empty($item->classes) ? [] : (array) $item->classes;
-
-        $has_children = in_array('menu-item-has-children', $classes);
-        $aria_attrs = $has_children ? 'aria-haspopup="true" aria-expanded="false"' : '';
-
-        $output .= $indent . '<li class="' . implode(' ', $classes) . '" role="none">';
-        $output .= '<a role="menuitem" ' . $aria_attrs . ' href="' . esc_attr($item->url) . '">';
-        $output .= esc_html($item->title);
-        $output .= '</a>';
-    }
-
-    public function end_el(&$output, $item, $depth = 0, $args = array()) {
-        $output .= "</li>\n";
-    }
-
-    public function end_lvl(&$output, $depth = 0, $args = array()) {
-        $output .= str_repeat("\t", $depth) . "</ul>\n";
     }
 }
