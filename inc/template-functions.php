@@ -537,3 +537,50 @@ class Walker_Accessible_Menu extends \Walker_Nav_Menu {
         $output .= "</ul>\n";
     }
 }
+
+class Accessible_Mega_Menu_Walker extends \Walker_Nav_Menu {
+    public function start_lvl( &$output, $depth = 0, $args = null ) {
+        $indent = str_repeat("\t", $depth);
+
+        if ( $depth === 0 ) {
+            // Primo livello di dropdown (mega menu container)
+            $output .= "\n$indent<div class=\"mega-menu\">\n";
+            $output .= "\n$indent<div class=\"mega-menu__columns\">\n";
+            $output .= "$indent<ul class=\"sub-menu\" role=\"menu\">\n";
+        } else {
+            // Livelli successivi (colonne o sotto-colonne)
+            $output .= "$indent<ul class=\"sub-menu\" role=\"menu\">\n";
+        }
+    }
+
+    public function end_lvl( &$output, $depth = 0, $args = null ) {
+        $indent = str_repeat("\t", $depth);
+
+        $output .= "$indent</ul>\n";
+
+        if ( $depth === 0 ) {
+            $output .= "$indent</div>\n";
+            $output .= "$indent</div>\n";
+        }
+    }
+
+    public function start_el( &$output, $item, $depth = 0, $args = null, $id = 0 ) {
+        $classes = empty( $item->classes ) ? [] : (array) $item->classes;
+        $is_parent = in_array('menu-item-has-children', $classes);
+        $attributes = '';
+
+        if ( $is_parent ) {
+            $attributes .= ' aria-haspopup="true" aria-expanded="false"';
+        }
+
+        $output .= '<li class="' . esc_attr(implode(' ', $classes)) . '" role="none">';
+        $output .= '<a href="' . esc_url($item->url) . '" role="menuitem" tabindex="0"' . $attributes . '>';
+        $output .= esc_html($item->title);
+        $output .= '</a>';
+    }
+
+    public function end_el( &$output, $item, $depth = 0, $args = null ) {
+        $output .= "</li>\n";
+    }
+}
+

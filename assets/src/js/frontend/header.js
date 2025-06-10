@@ -10,6 +10,7 @@ export function initHeader(selector) {
     keyboardSubmenu();
     mobileDropdown(selector);
     closeSubmenuOnFocusOut();
+    keyboardMegaMenu();
 
     $(window).on("scroll", () => {
         headerFixed();
@@ -163,5 +164,65 @@ function mobileDropdown(el) {
             $('.navigation-mobile .sub-menu').css('left', '100%');
         });
     }
+}
+
+function keyboardMegaMenu() {
+    const $menu = $('.header__megamenu');
+
+    $menu.find('a').on('keydown', function (e) {
+        const $current = $(this);
+        const $li = $current.closest('li');
+        const $allItems = $li.parent().find('> li > a');
+        let index = $allItems.index($current);
+
+        switch (e.key) {
+            case 'ArrowDown':
+                e.preventDefault();
+                if (index < $allItems.length - 1) {
+                    $allItems.eq(index + 1).focus();
+                } else {
+                    $allItems.eq(0).focus(); // cicla
+                }
+                break;
+
+            case 'ArrowUp':
+                e.preventDefault();
+                if (index > 0) {
+                    $allItems.eq(index - 1).focus();
+                } else {
+                    $allItems.eq($allItems.length - 1).focus(); // cicla
+                }
+                break;
+
+            case 'ArrowRight':
+                e.preventDefault();
+                const $submenu = $li.find('> .sub-menu');
+                if ($submenu.length) {
+                    const $firstSubItem = $submenu.find('> li > a').first();
+                    $firstSubItem.focus();
+                    $li.addClass('submenu-open');
+                    $current.attr('aria-expanded', 'true');
+                }
+                break;
+
+            case 'ArrowLeft':
+                e.preventDefault();
+                const $parentMenu = $li.closest('.sub-menu');
+                if ($parentMenu.length) {
+                    const $parentItem = $parentMenu.closest('li').find('> a');
+                    $parentItem.focus();
+                    $li.removeClass('submenu-open');
+                    $parentItem.attr('aria-expanded', 'false');
+                }
+                break;
+
+            case 'Escape':
+                e.preventDefault();
+                $('.submenu-open').removeClass('submenu-open');
+                $menu.find('[aria-expanded="true"]').attr('aria-expanded', 'false');
+                $current.blur();
+                break;
+        }
+    });
 }
 

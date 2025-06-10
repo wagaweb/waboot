@@ -38,6 +38,7 @@
   }
 
   &__logo {
+    flex: 1;
     @include down($large) {
       max-width: 85%;
       flex-grow: 1;

@@ -1,0 +1,66 @@
+.header__megamenu {
+  flex-grow: 1;
+
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  > ul {
+    display: flex;
+  }
+
+  .has-megamenu {
+    > a:after {
+      @extend %fa-icon;
+      @extend .far;
+      content: fa-content($fa-var-angle-down);
+      opacity: .7;
+      margin-left: 10px;
+    }
+    &:hover .mega-menu,
+    &.submenu-open .mega-menu,
+    &:focus-within .mega-menu {
+      display: block;
+    }
+  }
+
+  .mega-menu {
+    display: none;
+    position: absolute;
+    z-index: 7;
+    padding: 0;
+    margin: 0;
+    background-color: #fff;
+    border: 1px solid rgba(0, 0, 0, .15);
+    background-clip: padding-box;
+    width: 100vw;
+    inset-inline: 0;
+    &__columns > .sub-menu {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: $gridGutter / 2;
+      padding: $gridGutter;
+    }
+    a[href=""] {
+      color: inherit;
+      pointer-events: none;
+      display: block;
+      margin-bottom: 10px;
+    }
+  }
+
+  > ul > li > a {
+    padding: 10px 0;
+    position: relative;
+    display: flex;
+    align-items: center;
+    text-transform: uppercase;
+    font-size: .9em;
+
+    @include up($large) {
+      padding: 15px;
+    }
+  }
+}
