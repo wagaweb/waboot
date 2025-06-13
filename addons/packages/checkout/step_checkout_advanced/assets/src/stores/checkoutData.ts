@@ -243,7 +243,9 @@ export const useCheckoutDataStore = defineStore('currentUser', () => {
         globalErrors.value.push(error);
     }
 
-    function setUserAsLoggedIn(){
+    function setUserAsLoggedIn(userId: number){
+        currentUserId.value = userId;
+        wpProfileFound.value = true;
         isGuest.value = false;
     }
 

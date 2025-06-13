@@ -24,7 +24,7 @@ const isAddressSame = computed(() => {
     <div class="woocommerce-checkout-steps__row">
       <h5>{{ $t('Contact info') }}</h5>
       <a
-          v-if="checkoutDataStore.currentStep != 'email'"
+          v-if="checkoutDataStore.currentStep != 'email' && !checkoutDataStore.isLoggedIn"
           @click.prevent="$emit('editEmail')"
           class="woocommerce-checkout-steps__edit"
           href="#"

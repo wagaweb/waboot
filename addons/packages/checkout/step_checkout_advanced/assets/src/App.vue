@@ -34,6 +34,11 @@ const stepTitle = computed(() => {
     }
 });
 
+const mustShowProfileStep = computed(() => {
+    // todo: add the condition to check if profile data are already filled completely?
+    return getBackEndData().must_show_profile_step;
+});
+
 const loading = ref(false);
 
 onMounted(async () => {
@@ -44,12 +49,16 @@ onMounted(async () => {
         const userData = await wpUserAPI.fetchUser();
         debugLog('<App> onMounted() -> wpUserAPI.fetchUser()', userData);
         if (userData.is_logged_in) {
-            checkoutDataStore.setUserAsLoggedIn();
-            checkoutDataStore.setUserId(userData.id);
+            checkoutDataStore.setUserAsLoggedIn(userData.id);
             checkoutDataStore.setUserEmail(userData.profile_data.email);
+            checkoutDataStore.setProfileData(userData.profile_data);
             checkoutDataStore.setBillingData(userData.billing_data);
             checkoutDataStore.setShippingData(userData.shipping_data);
-            checkoutDataStore.currentStep = 'address';
+            if(mustShowProfileStep.value){
+                checkoutDataStore.currentStep = 'profile';
+            }else{
+                checkoutDataStore.currentStep = 'address';
+            }
         } else {
             checkoutDataStore.currentStep = 'email';
         }
@@ -69,7 +78,7 @@ function onEmailSubmitted(email: string, profileFound: boolean) {
         debugLog('<App> onEmailSubmitted() -> set next step', 'password');
         checkoutDataStore.currentStep = 'password';
     } else {
-        if(getBackEndData().must_show_profile_step){
+        if(mustShowProfileStep.value){
             debugLog('<App> onEmailSubmitted() -> set next step', 'profile');
             checkoutDataStore.currentStep = 'profile';
         }else{

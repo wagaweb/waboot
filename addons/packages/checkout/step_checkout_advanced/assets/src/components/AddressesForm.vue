@@ -201,7 +201,7 @@ function onSubmit(){
  */
 function onConfirmSelectedAddress() {
     debugLog('<ShippingAddressesForm> confirmSelectedAddress()');
-    if(!checkoutDataStore.selectedAddressIndex){
+    if(checkoutDataStore.selectedAddressIndex === undefined || checkoutDataStore.selectedAddressIndex === null){
         return; // Bail out if the index of the selected address is not set
     }
     const selectedAddress = {...availableShippingAddresses.value[checkoutDataStore.selectedAddressIndex]};
@@ -264,7 +264,9 @@ onMounted(() => {
             <div class="woocommerce-billing-fields__field-wrapper">
                 <AddressForm :available-countries="fetchedCountries" @address-validated="onShippingAddressValidated" ref="shippingAddressFormRef" />
             </div>
-            <input type="checkbox" v-model="billingAddressEnabled"> {{ $t('Use a different address for billing') }}
+            <template v-if="!checkoutDataStore.isLoggedIn || (checkoutDataStore.isLoggedIn && !checkoutDataStore.hasBillingData)">
+                <input type="checkbox" v-model="billingAddressEnabled"> {{ $t('Use a different address for billing') }}
+            </template>
             <template v-if="billingAddressEnabled">
                 <div class="woocommerce-checkout-steps__row">
                     <h5>{{ $t('Billing address') }}</h5>
@@ -273,13 +275,15 @@ onMounted(() => {
                     <AddressForm :available-countries="fetchedCountries" @address-validated="onBillingAddressValidated" ref="billingAddressFormRef" />
                 </div>
             </template>
-            <input type="checkbox" v-model="customerAccountCreationEnabled" v-if="!checkoutDataStore.wpProfileFound"> {{ $t('Create an account to save your data') }}
-            <template v-if="addingNewAddress">
-                <input type="submit" :value="t('Save address')" class="btn btn--primary" @click.prevent="onSubmit" v-if="!billingAddressEnabled">
-                <input type="submit" :value="t('Save addresses')" class="btn btn--primary" @click.prevent="onSubmit" v-else>
+            <template v-if="!checkoutDataStore.isLoggedIn">
+                <input type="checkbox" v-model="customerAccountCreationEnabled"> {{ $t('Create an account to save your data') }}
             </template>
-            <input v-else type="submit" :value="t('Use selected address')" class="btn btn--primary" :disabled="!addressSelected" @click.prevent="onConfirmSelectedAddress">
         </div>
+        <template v-if="addingNewAddress">
+            <input type="submit" :value="t('Save address')" class="btn btn--primary" @click.prevent="onSubmit" v-if="!billingAddressEnabled">
+            <input type="submit" :value="t('Save addresses')" class="btn btn--primary" @click.prevent="onSubmit" v-else>
+        </template>
+        <input v-else type="submit" :value="t('Use selected address')" class="btn btn--primary" :disabled="!addressSelected" @click.prevent="onConfirmSelectedAddress">
     </section>
 </template>
 

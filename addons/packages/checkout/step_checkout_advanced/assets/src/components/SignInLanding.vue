@@ -65,7 +65,7 @@ onMounted(() => {
                     </div>
                 </div>
                 <div class="woocommerce-checkout-steps__btn-group">
-                    <input type="submit" :value="t('Login or Register')" class="btn btn--primary" :disabled="loading" @click.prevent="checkEmail()">
+                    <input type="submit" :value="t('Procedi')" class="btn btn--primary" :disabled="loading" @click.prevent="checkEmail()">
                 </div>
             </form>
         </div>
