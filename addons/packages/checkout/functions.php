@@ -3,6 +3,24 @@
 namespace Waboot\addons\packages\checkout;
 
 /**
+ * @return array
+ */
+function getCustomerCustomBillingFields(): array {
+    $cf = apply_filters('wawoo/addons/checkout/customer_custom_billing_fields', []);
+    if(!\is_array($cf)) {
+        return [];
+    }
+    return $cf;
+}
+
+/**
+ * @return bool
+ */
+function hasCustomerCustomBillingFields(): bool {
+    return !empty(getCustomerCustomBillingFields());
+}
+
+/**
  * Adds coupon template into order review and hide the default one
  * The default coupon is displayed at "woocommerce_before_checkout_form"
  * We want a different template for coupon, but don't want to edit the original one,

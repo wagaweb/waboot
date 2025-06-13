@@ -1,28 +1,23 @@
 <script setup lang="ts">
-import {computed, type ComputedRef, onMounted, ref, type Ref} from "vue";
+import {computed, onMounted, ref, type ComputedRef} from "vue";
 import {useCheckoutDataStore} from "@/stores/checkoutData";
-import type {fetchedCountry, userBillingData} from "../../env";
-import {wcAPI} from "@/services/wp/woocommerce.ts";
+import type {userProfileData} from "../../env";
 import {debugLog} from "@/utils/helpers/debug.ts";
 import {ErrorMessage, useForm} from 'vee-validate';
-import {date, object, string} from 'yup';
+import {object, string, date} from 'yup';
 import {toTypedSchema} from '@vee-validate/yup';
 import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css'
 import {useI18n} from "vue-i18n";
-import VueSelect from "vue3-select-component";
 
 const { t } = useI18n();
 
 const emit = defineEmits<{
-    (e: 'profileDataSubmitted', billingData: userBillingData): void
+    (e: 'profileDataSubmitted', profileData: userProfileData): void
 }>();
 
 const checkoutDataStore = useCheckoutDataStore();
 
-const fetchedCountries: Ref<fetchedCountry[]> = ref([]);
-const fetchedStates: Ref<fetchedCountry[]> = ref([]);
-const loadingCountriesAndStates = ref(false);
 const restoringData = ref(false);
 
 const isProfileTypeCompany = computed(() => {
@@ -37,46 +32,28 @@ const isProfileTypeCompany = computed(() => {
 
 const validationSchema = toTypedSchema(
     object({
-        billingData: object({
-            //profileType: string().required(),
-            profileType: string().default('private').required(),
-            firstName: string().required().label(t('First name')),
-            lastName: string().required().label(t('Last name')),
-            birthday: date().label(t('Birthday date')),
-            phone: string().label(t('Phone')),
-            //country: string().required().label(t('Country')),
-            //address1: string().required().label(t('Address')),
-            //address2: string().label(t('Address information')),
-            //postcode: string().required().label(t('ZIP code')),
-            //city: string().required().label(t('City')),
-            /*state: string().when([], {
-                is: () => fetchedStates.value.length > 0,
-                then: (schema) => schema.required(),
-                otherwise: (schema) => schema.notRequired(),
-            }).label(t('State')),*/
-            //fiscalCode: string().label(t('Fiscal code')),
-            /*fiscalCode: string().when('profileData.profileType', {
-                is: () => !isProfileTypeCompany.value,
-                then: (schema) => schema.required(),
-                otherwise: (schema) => schema.notRequired(),
-            }),*/
-            /*company: string().when('profileData.profileType', {
-                is: () => isProfileTypeCompany.value,
-                then: (schema) => schema.required(),
-                otherwise: (schema) => schema.notRequired(),
-            }).label(t('Business / Company name')),*/
-            //vatNumber: string().label(t('Vat Number')),
-            /*vatNumber: string().when('profileData.profileType', {
-                is: () => isProfileTypeCompany.value,
-                then: (schema) => schema.required(),
-                otherwise: (schema) => schema.notRequired(),
-            }).label(t('Vat Number')),*/
-            /*sdiPec: string().when('profileData.profileType', {
-                is: () => isProfileTypeCompany.value,
-                then: (schema) => schema.required(),
-                otherwise: (schema) => schema.notRequired(),
-            }).label(t('Unique code SDI / PEC'))*/
-        })
+        profileType: string().default('private').required(),
+        birthday: date().label(t('Birthday date')),
+        fiscalCode: string().when('profileData.profileType', {
+            is: () => !isProfileTypeCompany.value,
+            then: (schema) => schema.required(),
+            otherwise: (schema) => schema.notRequired(),
+        }).label(t('Fiscal code')),
+        company: string().when('profileData.profileType', {
+            is: () => isProfileTypeCompany.value,
+            then: (schema) => schema.required(),
+            otherwise: (schema) => schema.notRequired(),
+        }).label(t('Business / Company name')),
+        vatNumber: string().when('profileData.profileType', {
+            is: () => isProfileTypeCompany.value,
+            then: (schema) => schema.required(),
+            otherwise: (schema) => schema.notRequired(),
+        }).label(t('Vat Number')),
+        sdiPec: string().when('profileData.profileType', {
+            is: () => isProfileTypeCompany.value,
+            then: (schema) => schema.required(),
+            otherwise: (schema) => schema.notRequired(),
+        }).label(t('Unique code SDI / PEC'))
     }),
 );
 
@@ -85,63 +62,26 @@ const { values, defineField, errors, meta, handleSubmit } = useForm({
 });
 
 const formSubmittedOnce = ref(false);
-const [profileType, profileTypeAttrs] = defineField('billingData.profileType');
-const [firstName, firstNameAttrs] = defineField('billingData.firstName');
-const [lastName, lastNameAttrs] = defineField('billingData.lastName');
-const [birthday, birthdayAttrs] = defineField('billingData.birthday');
-const [phone, phoneAttrs] = defineField('billingData.phone');
-//const [country, countryAttrs] = defineField('billingData.country');
-//const [address1, address1Attrs] = defineField('billingData.address1');
-//const [address2, address2Attrs] = defineField('billingData.address2');
-//const [postcode, postcodeAttrs] = defineField('billingData.postcode');
-//const [city, cityAttrs] = defineField('billingData.city');
-//const [state, stateAttrs] = defineField('billingData.state');
-//const [fiscalCode, fiscalCodeAttrs] = defineField('billingData.fiscalCode');
-//const [company, companyAttrs] = defineField('billingData.company');
-//const [vatNumber, vatNumberAttrs] = defineField('billingData.vatNumber');
-//const [sdiPec, sdiPecAttrs] = defineField('billingData.sdiPec');
+const [profileType, profileTypeAttrs] = defineField('profileType');
+const [birthday, birthdayAttrs] = defineField('birthday');
+const [fiscalCode, fiscalCodeAttrs] = defineField('fiscalCode');
+const [company, companyAttrs] = defineField('company');
+const [vatNumber, vatNumberAttrs] = defineField('vatNumber');
+const [sdiPec, sdiPecAttrs] = defineField('sdiPec');
 
-const selected = ref("");
-
-const billingData: ComputedRef<userBillingData>  = computed(() => {
-    return values?.billingData as userBillingData;
+const formData: ComputedRef<userProfileData> = computed(() => {
+    const localProfilyType = profileType.value ?? 'private';
+    const localCompany = profileType.value ?? '';
+    return {
+        email: checkoutDataStore.userEmail,
+        profileType: localProfilyType as "" | "company" | "private",
+        birthday: birthday.value,
+        fiscalCode: fiscalCode.value,
+        company: localCompany as string,
+        vatNumber: vatNumber.value,
+        sdiPec: sdiPec.value
+    }
 });
-
-/*async function fetchCountries(){
-    try{
-        loadingCountriesAndStates.value = true;
-        debugLog('<ProfileAndBillingForm> fetchCountries()');
-        const countries = await wcAPI.fetchCountries();
-        debugLog('<ProfileAndBillingForm> fetchCountries() -> response', countries);
-        fetchedCountries.value = countries;
-        loadingCountriesAndStates.value = false;
-    }catch (error){
-        loadingCountriesAndStates.value = false;
-        debugLog('<ProfileAndBillingForm> fetchCountries() ERROR', error);
-    }
-}*/
-
-/*async function fetchStates(){
-    try{
-        if(!country.value){
-            return;
-        }
-        loadingCountriesAndStates.value = true;
-        debugLog('<ProfileAndBillingForm> fetchStates()');
-        const states = await wcAPI.fetchStates(country.value);
-        debugLog('<ProfileAndBillingForm> fetchStates() -> response', states);
-        fetchedStates.value = states;
-        loadingCountriesAndStates.value = false;
-    }catch (error){
-        loadingCountriesAndStates.value = false;
-        debugLog('<ProfileAndBillingForm> fetchStates() ERROR', error);
-    }
-}*/
-
-/*async function onCountryChange(){
-    postcode.value = '';
-    await fetchStates();
-}*/
 
 async function restoreFormData(){
     try{
@@ -154,7 +94,7 @@ async function restoreFormData(){
 }
 
 async function restoreBillingDataToForm(){
-    for(const [key, value] of Object.entries(checkoutDataStore.billingData)){
+    for(const [key, value] of Object.entries(checkoutDataStore.profileData)){
         if(value === undefined || value === null){
             continue;
         }
@@ -162,28 +102,30 @@ async function restoreBillingDataToForm(){
             continue;
         }
         switch (key){
-            case 'type':
+            case 'profileType':
                 profileType.value = value as string;
-                break
-            case 'firstName':
-                firstName.value = value as string;
-                break;
-            case 'lastName':
-                lastName.value = value as string;
                 break;
             case 'birthday':
                 birthday.value = value as Date;
                 break;
-            case 'phone':
-                phone.value = value as string;
+            case 'fiscalCode':
+                fiscalCode.value = value as string;
+                break;
+            case 'company':
+                company.value = value as string;
+                break;
+            case 'vatNumber':
+                vatNumber.value = value as string;
+                break;
+            case 'sdiPec':
+                sdiPec.value = value as string;
                 break;
         }
     }
 }
 
 onMounted(async () => {
-    debugLog('<ProfileAndBillingForm> onMounted()');
-    // await fetchCountries();
+    debugLog('<ProfilegForm> onMounted()');
     // Restore data
     if(checkoutDataStore.hasBillingData){
         await restoreFormData();
@@ -193,7 +135,7 @@ onMounted(async () => {
 function onSubmit(){
     formSubmittedOnce.value = true;
     const callback = handleSubmit(values => {
-        emit('profileDataSubmitted', billingData.value);
+        emit('profileDataSubmitted', formData.value);
     });
     callback();
 }
@@ -201,7 +143,7 @@ function onSubmit(){
 
 <template>
     <div>
-        <div class="checkout woocommerce-checkout" v-show="false">
+        <div class="checkout woocommerce-checkout">
             <h5>{{ $t('Account type') }}</h5>
 
             <div class="woocommerce-billing-fields__field-wrapper woocommerce-billing-fields__field-wrapper--choice">
@@ -215,29 +157,37 @@ function onSubmit(){
             <h5>{{ $t('Account information') }}</h5>
 
             <div class="woocommerce-billing-fields__field-wrapper">
-                <div class="form-row form-row-wide" :class="{invalid: 'profileData.firstName' in errors }">
-                    <input type="text" placeholder="" id="first-name" v-model="firstName" v-bind="firstNameAttrs">
-                    <label for="first-name">{{ $t('First name') }} <span>*</span></label>
-                    <ErrorMessage name="billingData.firstName" />
-                </div>
 
-                <div class="form-row form-row-wide" :class="{invalid: 'profileData.lastName' in errors }">
-                    <input type="text" placeholder="" id="last-name" v-model="lastName" v-bind="lastNameAttrs">
-                    <label for="last-name">{{ $t('Last name') }} <span>*</span></label>
-                    <ErrorMessage name="billingData.lastName" />
-                </div>
-
-                <div class="form-row form-row-wide" :class="{invalid: 'profileData.birthday' in errors }">
+                <div class="form-row form-row-wide" :class="{invalid: 'birthday' in errors }">
                     <VueDatePicker v-model="birthday" v-bind="birthdayAttrs" :enable-time-picker="false" format="dd/MM/yyyy" locale="it" auto-apply placeholder=""></VueDatePicker>
                     <label class="label-birthday" for="birth-date">{{ $t('Birthday') }}</label>
-                    <ErrorMessage name="billingData.birthday" />
+                    <ErrorMessage name="birthday" />
                 </div>
 
-                <div class="form-row form-row-wide" :class="{invalid: 'profileData.phone' in errors }">
-                    <input type="tel" placeholder="" id="phone" v-model="phone" v-bind="phoneAttrs">
-                    <label for="phone">{{ $t('Phone') }}</label>
-                    <ErrorMessage name="billingData.phone" />
+                <div v-show="profileType === 'company'" class="form-row form-row-wide" :class="{invalid: 'ragioneSociale' in errors }">
+                    <input type="text" placeholder="" id="company" v-model="company" v-bind="companyAttrs">
+                    <label for="ragione_sociale">{{ $t('Business / Company name') }} <span>*</span></label>
+                    <ErrorMessage name="company" />
                 </div>
+
+                <div v-show="profileType === 'company'" class="form-row form-row-wide" :class="{invalid: 'vatNumber' in errors }">
+                    <input type="text" placeholder="" id="vat_number" v-model="vatNumber" v-bind="vatNumberAttrs">
+                    <label for="vat_number">{{ $t('Vat number') }}</label>
+                    <ErrorMessage name="vatNumber" />
+                </div>
+
+                <div v-show="profileType === 'company'" class="form-row form-row-wide" :class="{invalid: 'sdiPec' in errors }">
+                    <input type="text" placeholder="" id="sdi_pec" v-model="sdiPec" v-bind="sdiPecAttrs">
+                    <label for="vat_number">{{ $t('Unique code SDI / PEC') }}</label>
+                    <ErrorMessage name="sdiPec" />
+                </div>
+
+                <div v-show="profileType === 'private'" class="form-row form-row-wide" :class="{invalid: 'fiscalCode' in errors }">
+                    <input type="text" placeholder="" id="fiscal_code" v-model="fiscalCode" v-bind="fiscalCodeAttrs">
+                    <label for="fiscal_code">{{ $t('Fiscal code') }}</label>
+                    <ErrorMessage name="fiscalCode" />
+                </div>
+
                 <input type="submit" :value="t('Proceed')" class="btn btn--primary" :disabled="!meta.touched || restoringData" @click.prevent="onSubmit">
             </div>
         </div>

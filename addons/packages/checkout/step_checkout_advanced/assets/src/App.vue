@@ -6,13 +6,15 @@ import {computed, onMounted, ref} from 'vue';
 import {useCheckoutDataStore} from "./stores/checkoutData";
 import {useBreadCrumbStore} from "./stores/breadcrumb";
 import Pay from "./components/Pay.vue";
-import type {fetchedUserData, userBillingData, userShippingData} from "../env";
+import type {fetchedUserData, userBillingData, userProfileData, userShippingData} from "../env";
 import OrderReview from "./components/OrderReview.vue";
 import {debugLog} from "@/utils/helpers/debug.ts";
 import {wpUserAPI} from "@/services/wp/user.ts";
 import AddressesForm from "@/components/AddressesForm.vue";
 import UserDataSummary from "@/components/UserDataSummary.vue";
 import {useI18n} from "vue-i18n";
+import {getBackEndData} from "@/services/wp/backendData.ts";
+import ProfileForm from "@/components/ProfileForm.vue";
 
 const { t } = useI18n();
 
@@ -24,9 +26,11 @@ const stepTitle = computed(() => {
         case 1:
             return t('Login');
         case 2:
-            return t('Shipping');
+            return t('Profile');
         case 3:
-            return t('Payment')
+            return t('Shipping');
+        case 4:
+            return t('Payment');
     }
 });
 
@@ -42,7 +46,7 @@ onMounted(async () => {
         if (userData.is_logged_in) {
             checkoutDataStore.setUserAsLoggedIn();
             checkoutDataStore.setUserId(userData.id);
-            checkoutDataStore.setUserEmail(userData.billing_data.email);
+            checkoutDataStore.setUserEmail(userData.profile_data.email);
             checkoutDataStore.setBillingData(userData.billing_data);
             checkoutDataStore.setShippingData(userData.shipping_data);
             checkoutDataStore.currentStep = 'address';
@@ -56,17 +60,22 @@ onMounted(async () => {
     }
 });
 
-function onEmailSubmitted(email: string, profileFound: boolean, isGuest: boolean) {
+function onEmailSubmitted(email: string, profileFound: boolean) {
     debugLog('<App> onEmailSubmitted(), email', email);
     debugLog('<App> onEmailSubmitted(), profileFound?', profileFound);
     checkoutDataStore.setUserEmail(email);
     checkoutDataStore.wpProfileFound = profileFound;
     if (profileFound) {
+        debugLog('<App> onEmailSubmitted() -> set next step', 'password');
         checkoutDataStore.currentStep = 'password';
     } else {
-        debugLog('<App> onEmailSubmitted(), isGuest?', isGuest);
-        checkoutDataStore.isGuest = isGuest;
-        checkoutDataStore.currentStep = 'address';
+        if(getBackEndData().must_show_profile_step){
+            debugLog('<App> onEmailSubmitted() -> set next step', 'profile');
+            checkoutDataStore.currentStep = 'profile';
+        }else{
+            debugLog('<App> onEmailSubmitted() -> set next step', 'address');
+            checkoutDataStore.currentStep = 'address';
+        }
     }
 }
 
@@ -74,11 +83,18 @@ function onUserSignedId(userData: fetchedUserData) {
     location.reload(); //just reload for now
 }
 
-function onAddressDataSubmitted(shippingData: userShippingData, billingData: userBillingData) {
+function onProfileDataSubmitted(profileData: userProfileData){
+    debugLog('<App> onProfileDataSubmitted()', profileData);
+    checkoutDataStore.setProfileData(profileData);
+    checkoutDataStore.currentStep = 'address';
+}
+
+function onAddressDataSubmitted(shippingData: userShippingData, billingData: userBillingData, isGuest: boolean) {
     debugLog('<App> onAddressDataSubmitted() -> shipping', shippingData);
     debugLog('<App> onAddressDataSubmitted() -> billing', billingData);
     checkoutDataStore.setBillingData(billingData);
     checkoutDataStore.setShippingData(shippingData);
+    checkoutDataStore.isGuest = isGuest;
     checkoutDataStore.currentStep = 'pay';
 }
 
@@ -112,6 +128,11 @@ function onAddressDataSubmitted(shippingData: userShippingData, billingData: use
         <SignInByPassword
             v-else-if="checkoutDataStore.currentStep == 'password'"
             @user-signed-in="onUserSignedId"
+        />
+        <!-- L'utente deve inserire i campi di profilo addizionali -->
+        <ProfileForm
+            v-else-if="checkoutDataStore.currentStep == 'profile'"
+            @profile-data-submitted="onProfileDataSubmitted"
         />
         <AddressesForm
             v-else-if="checkoutDataStore.currentStep == 'address'"

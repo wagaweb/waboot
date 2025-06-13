@@ -3,6 +3,7 @@
 namespace Waboot\addons\packages\checkout\step_checkout_advanced;
 
 use Waboot\inc\core\woocommerce\addresses\ShippingAddress;
+use function Waboot\addons\packages\checkout\hasCustomerCustomBillingFields;
 use function Waboot\inc\core\AssetsManager;
 use function Waboot\inc\getCurrentLanguage;
 
@@ -41,6 +42,7 @@ add_action('wp_enqueue_scripts', static function(){
         }
         $mainJsI10nParams['wc_checkout_registration_required'] = $wcRegistrationRequired;
         $mainJsI10nParams['wc_checkout_registration_enabled'] = $wcRegistrationEnabled;
+        $mainJsI10nParams['must_show_profile_step'] = hasCustomerCustomBillingFields();
         $assets['step-checkout-main-js'] = [
             'uri' => get_template_directory_uri() . '/addons/packages/checkout/step_checkout_advanced/assets/dist/'.$mainJsFileName,
             'path' => $assetsDir.'/'.$mainJsFileName,
@@ -105,6 +107,11 @@ add_filter('script_loader_tag', static function($tag, $handle, $src){
 add_filter('pre_option_'.'woocommerce_registration_generate_password', static function ($value, string $option, $defaultValue) {
     return 'yes';
 },10, 3);
+
+/*
+ * Force registration enabled
+ */
+add_filter('woocommerce_checkout_registration_enabled', '__return_true', 99);
 
 /*
  * Save billing phone to shipping

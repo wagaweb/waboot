@@ -141,8 +141,10 @@ Utilities::addAjaxEndpoint('retrieve_shipping_addresses', static function () {
         wp_send_json_success(array_map(function (ShippingAddress $address) use($userId) {
             return apply_filters('wawoo/addons/checkout/retrieve_shipping_addresses/address', [
                 'name' => $address->getName(),
-                'first_name' => $address->getFirstName(),
-                'last_name' => $address->getLastName(),
+                'firstName' => $address->getFirstName(),
+                'first_name' => $address->getFirstName(), // Backward compatibility
+                'lastName' => $address->getLastName(),
+                'last_name' => $address->getLastName(), // Backward compatibility
                 'country' => $address->getCountry(),
                 'address1' => $address->getAddress1(),
                 'address2' => $address->getAddress2(),
@@ -174,9 +176,15 @@ function fetchCustomerData(int $userId): array {
     if(empty($billingEmail)) {
         $billingEmail = $customer->getWcCustomer()->get_email();
     }
+    $customerType = get_user_meta($userId, 'billing_customer_type', true);
+    $company = $customer->getWcCustomer()->get_billing_company() ?? '';
     $customerData = [
-        'billing_data' => $billingAddress ? [
+        'profile_data' => [
             'email' => $billingEmail,
+            'profileType' => $customerType,
+            'company' => $company,
+        ],
+        'billing_data' => $billingAddress ? [
             'firstName' => $customer->getWcCustomer()->get_first_name(),
             'lastName' => $customer->getWcCustomer()->get_last_name(),
             'phone' => $customer->getWcCustomer()->get_billing_phone(),
@@ -187,7 +195,6 @@ function fetchCustomerData(int $userId): array {
             'city' => $billingAddress->getCity(),
             'state' => $billingAddress->getState()
         ] : [
-            'email' => $billingEmail,
             'firstName' => '',
             'lastName' => '',
             'phone' => '',
@@ -218,5 +225,27 @@ function fetchCustomerData(int $userId): array {
             'notes' => ''
         ]
     ];
+    $birthDay = get_user_meta($userId, 'billing_birthday', true);
+    if($birthDay){
+        $birthDayDate = date_create_from_format('Y-m-d', $birthDay);
+        if($birthDayDate instanceof \DateTime){
+            $birthDay = $birthDayDate->format('Y-m-d');
+        }
+    }
+    if($birthDay){
+        $customerData['profile_data']['birthday'] = $birthDay;
+    }
+    $fiscalCode = get_user_meta($userId, 'billing_fiscal_code', true);
+    if($fiscalCode){
+        $customerData['profile_data']['fiscalCode'] = $fiscalCode;
+    }
+    $vatNumber = get_user_meta($userId, 'billing_vat_number', true);
+    if($vatNumber){
+        $customerData['profile_data']['vatNumber'] = $vatNumber;
+    }
+    $sdiPec = get_user_meta($userId, 'billing_sdi_pec', true);
+    if($sdiPec){
+        $customerData['profile_data']['sdiPec'] = $sdiPec;
+    }
     return apply_filters('wawoo/addons/checkout/fetchCustomerData/customer_data', $customerData, $userId);
 }

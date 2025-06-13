@@ -119,8 +119,8 @@ function resetFormData() {
     notes.value = '';
 }
 
-async function restoreFormData() {
-    for (const [key, value] of Object.entries(props.initialFormData)) {
+async function populateFormData(newAddressData: addressData){
+    for (const [key, value] of Object.entries(newAddressData)) {
         if (value === undefined || value === null) {
             continue;
         }
@@ -185,93 +185,96 @@ const onSubmit = handleSubmit(values => {
 });
 
 defineExpose({
-    onSubmit
+    onSubmit,
+    resetFormData,
+    populateFormData
 });
 
 onMounted(() => {
     debugLog('<AddresseForm> onMounted()');
     resetFormData();
+    if(props.initialFormData){
+        populateFormData(props.initialFormData);
+    }
 });
 
 </script>
 <template>
-    <div class="woocommerce-billing-fields__field-wrapper">
-        <form>
-            <div class="form-row form-row-wide" :class="{invalid: 'name' in errors }" v-show="false">
-                <input type="text" placeholder="" id="name" v-model="name" v-bind="nameAttrs">
-                <label for="name">{{ $t('Address name') }}<span>*</span></label>
-                <ErrorMessage name="name" v-show="meta.touched"/>
-            </div>
+    <form>
+        <div class="form-row form-row-wide" :class="{invalid: 'name' in errors }" v-show="false">
+            <input type="text" placeholder="" id="name" v-model="name" v-bind="nameAttrs">
+            <label for="name">{{ $t('Address name') }}<span>*</span></label>
+            <ErrorMessage name="name" v-show="meta.touched"/>
+        </div>
 
-            <div class="form-row form-row-wide" :class="{invalid: 'first_name' in errors }">
-                <input type="text" placeholder="" id="first_name" v-model="firstName" v-bind="firstNameAttrs">
-                <label for="first_name">{{ $t('First name') }} <span>*</span></label>
-                <ErrorMessage name="firstName" v-show="meta.touched"/>
-            </div>
+        <div class="form-row form-row-wide" :class="{invalid: 'first_name' in errors }">
+            <input type="text" placeholder="" id="first_name" v-model="firstName" v-bind="firstNameAttrs">
+            <label for="first_name">{{ $t('First name') }} <span>*</span></label>
+            <ErrorMessage name="firstName" v-show="meta.touched"/>
+        </div>
 
-            <div class="form-row form-row-wide" :class="{invalid: 'last_name' in errors }">
-                <input type="text" placeholder="" id="last_name" v-model="lastName" v-bind="lastNameAttrs">
-                <label for="address">{{ $t('Last name') }} <span>*</span></label>
-                <ErrorMessage name="lastName" v-show="meta.touched"/>
-            </div>
+        <div class="form-row form-row-wide" :class="{invalid: 'last_name' in errors }">
+            <input type="text" placeholder="" id="last_name" v-model="lastName" v-bind="lastNameAttrs">
+            <label for="address">{{ $t('Last name') }} <span>*</span></label>
+            <ErrorMessage name="lastName" v-show="meta.touched"/>
+        </div>
 
-            <div class="form-row form-row-wide" :class="{invalid: 'phone' in errors }">
-                <input type="text" placeholder="" id="phone" v-model="phone" v-bind="phoneAttrs">
-                <label for="address">{{ $t('Phone') }}</label>
-                <ErrorMessage name="phone" v-show="meta.touched"/>
-            </div>
+        <div class="form-row form-row-wide" :class="{invalid: 'phone' in errors }">
+            <input type="text" placeholder="" id="phone" v-model="phone" v-bind="phoneAttrs">
+            <label for="address">{{ $t('Phone') }}</label>
+            <ErrorMessage name="phone" v-show="meta.touched"/>
+        </div>
 
-            <div class="form-row form-row-wide" :class="{invalid: 'country' in errors }">
-                <VueSelect v-model="country" v-bind="countryAttrs" @option-selected="onCountryChange"
-                           :options="availableCountries.map((country) => { return {label: country.label, value: country.slug} })"
-                           :placeholder="t('Country')"
+        <div class="form-row form-row-wide" :class="{invalid: 'country' in errors }">
+            <VueSelect v-model="country" v-bind="countryAttrs" @option-selected="onCountryChange"
+                       :options="availableCountries.map((country) => { return {label: country.label, value: country.slug} })"
+                       :placeholder="t('Country')"
+            />
+            <label class="vue-select-label" for="country">{{ $t('Country') }} <span>*</span></label>
+            <ErrorMessage name="country" v-show="meta.touched"/>
+        </div>
+
+        <div class="form-row form-row-wide" :class="{invalid: 'address1' in errors }">
+            <input type="text" placeholder="" v-model="address1" v-bind="address1Attrs">
+            <label for="address">{{ $t('Address') }} <span>*</span></label>
+            <ErrorMessage name="address1" v-show="meta.touched"/>
+        </div>
+
+        <div class="form-row form-row-wide" :class="{invalid: 'address2' in errors }">
+            <input type="text" placeholder="" v-model="address2" v-bind="address2Attrs">
+            <label for="address">{{ $t('Address information') }}</label>
+            <ErrorMessage name="address2" v-show="meta.touched"/>
+        </div>
+
+        <div class="form-row form-row-wide" :class="{invalid: 'postcode' in errors }">
+            <input type="text" placeholder="" id="zip-code" v-model="postcode" v-bind="postcodeAttrs">
+            <label for="zip-code">{{ $t('ZIP code') }} <span>*</span></label>
+            <ErrorMessage name="postcode"/>
+        </div>
+
+        <div class="form-row form-row-wide" :class="{invalid: 'city' in errors }">
+            <input type="text" placeholder="" id="city" v-model="city" v-bind="cityAttrs">
+            <label for="city">{{ $t('City') }} <span>*</span></label>
+            <ErrorMessage name="city"/>
+        </div>
+
+        <div id="state_selector" class="form-row form-row-wide" v-show="fetchedStates.length > 0"
+             :class="{invalid: 'state' in errors }">
+            <div class="form__item">
+                <VueSelect v-model="state" v-bind="stateAttrs"
+                           :options="fetchedStates.map((state) => { return {label:state.label, value:state.slug} })"
+                           :placeholder="t('Select a state')"
                 />
-                <label class="vue-select-label" for="country">{{ $t('Country') }} <span>*</span></label>
-                <ErrorMessage name="country" v-show="meta.touched"/>
+                <label class="vue-select-label" for="province">{{ $t('State') }} <span>*</span></label>
             </div>
+            <ErrorMessage name="state" v-show="meta.touched"/>
+        </div>
 
-            <div class="form-row form-row-wide" :class="{invalid: 'address1' in errors }">
-                <input type="text" placeholder="" v-model="address1" v-bind="address1Attrs">
-                <label for="address">{{ $t('Address') }} <span>*</span></label>
-                <ErrorMessage name="address1" v-show="meta.touched"/>
-            </div>
-
-            <div class="form-row form-row-wide" :class="{invalid: 'address2' in errors }">
-                <input type="text" placeholder="" v-model="address2" v-bind="address2Attrs">
-                <label for="address">{{ $t('Address information') }}</label>
-                <ErrorMessage name="address2" v-show="meta.touched"/>
-            </div>
-
-            <div class="form-row form-row-wide" :class="{invalid: 'postcode' in errors }">
-                <input type="text" placeholder="" id="zip-code" v-model="postcode" v-bind="postcodeAttrs">
-                <label for="zip-code">{{ $t('ZIP code') }} <span>*</span></label>
-                <ErrorMessage name="postcode"/>
-            </div>
-
-            <div class="form-row form-row-wide" :class="{invalid: 'city' in errors }">
-                <input type="text" placeholder="" id="city" v-model="city" v-bind="cityAttrs">
-                <label for="city">{{ $t('City') }} <span>*</span></label>
-                <ErrorMessage name="city"/>
-            </div>
-
-            <div id="state_selector" class="form-row form-row-wide" v-show="fetchedStates.length > 0"
-                 :class="{invalid: 'state' in errors }">
-                <div class="form__item">
-                    <VueSelect v-model="state" v-bind="stateAttrs"
-                               :options="fetchedStates.map((state) => { return {label:state.label, value:state.slug} })"
-                               :placeholder="t('Select a state')"
-                    />
-                    <label class="vue-select-label" for="province">{{ $t('State') }} <span>*</span></label>
-                </div>
-                <ErrorMessage name="state" v-show="meta.touched"/>
-            </div>
-
-            <div class="form-row form-row-wide">
-                <textarea id="notes" placeholder="" v-model="notes" v-bind="notesAttrs"></textarea>
-                <label for="notes">{{ $t('Shipping notes') }}</label>
-            </div>
-        </form>
-    </div>
+        <div class="form-row form-row-wide">
+            <textarea id="notes" placeholder="" v-model="notes" v-bind="notesAttrs"></textarea>
+            <label for="notes">{{ $t('Shipping notes') }}</label>
+        </div>
+    </form>
 </template>
 <style lang="scss" scoped>
 :deep(.vue-select) {

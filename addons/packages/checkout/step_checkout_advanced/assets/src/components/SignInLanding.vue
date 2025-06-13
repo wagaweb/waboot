@@ -6,7 +6,7 @@ import {useCheckoutDataStore} from "@/stores/checkoutData.ts";
 import {useI18n} from "vue-i18n";
 
 const emit = defineEmits<{
-    (e: 'emailSubmitted', email: string, profileFound: boolean, isGuest: boolean): void
+    (e: 'emailSubmitted', email: string, profileFound: boolean): void
     (e: 'accountRegistered', email: string, id: number): void
 }>();
 
@@ -18,13 +18,8 @@ const loading = ref(false);
 
 const email = ref('');
 
-const continueAsGuest = ref(true);
-
 async function checkEmail() {
     debugLog('<SignInLanding> checkEmail() -> checking', email.value);
-    if(continueAsGuest.value){
-        debugLog('<SignInLanding> checkEmail() -> continueAsGuest', continueAsGuest.value);
-    }
     checkoutDataStore.cleanErrors();
     try {
         loading.value = true;
@@ -38,11 +33,11 @@ async function checkEmail() {
         if (isEmailRegistered) {
             // Account found
             debugLog('<SignInLanding> checkEmail() -> emailSubmitted -> wp profile found');
-            emit('emailSubmitted', email.value, true, continueAsGuest.value);
+            emit('emailSubmitted', email.value, true);
         }else {
             // No account
             debugLog('<SignInLanding> checkEmail() -> emailSubmitted -> wp profile not found');
-            emit('emailSubmitted', email.value, false, continueAsGuest.value);
+            emit('emailSubmitted', email.value, false);
         }
         loading.value = false;
     } catch (error: any) {
@@ -70,8 +65,7 @@ onMounted(() => {
                     </div>
                 </div>
                 <div class="woocommerce-checkout-steps__btn-group">
-                    <input type="submit" :value="t('Login or Register')" class="btn btn--primary" :disabled="loading" @click.prevent="continueAsGuest = false; checkEmail()">
-                    <input type="submit" :value="t('Proceed as guest')" class="btn btn--link" :disabled="loading" @click.prevent="checkEmail()">
+                    <input type="submit" :value="t('Login or Register')" class="btn btn--primary" :disabled="loading" @click.prevent="checkEmail()">
                 </div>
             </form>
         </div>

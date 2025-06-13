@@ -1,10 +1,10 @@
 import {ref, reactive, computed, watch} from 'vue'
 import type {Ref} from 'vue'
 import { defineStore } from 'pinia'
-import type {userBillingData, userShippingData} from "../../env";
+import type {userBillingData, userProfileData, userShippingData} from "../../env";
 import {getBackendFormatFromDate, getDayFromDate} from "@/utils/helpers/dates.ts";
 
-export type StepType = 'email' | 'password' | 'address' | 'pay';
+export type StepType = 'email' | 'password' | 'profile' | 'address' | 'pay';
 
 // @see: https://pinia.vuejs.org/core-concepts/#Setup-Stores
 export const useCheckoutDataStore = defineStore('currentUser', () => {
@@ -13,23 +13,25 @@ export const useCheckoutDataStore = defineStore('currentUser', () => {
     const currentUserId = ref<number>();
     const wpProfileFound = ref(false);
     const isGuest = ref(true);
-    const billingData: userBillingData = reactive({
+    const profileData: userProfileData = reactive({
         email: '',
         profileType: '',
+        birthday: undefined,
+        fiscalCode: '',
+        company: '',
+        vatNumber: '',
+        sdiPec: ''
+    });
+    const billingData: userBillingData = reactive({
         firstName: '',
         lastName: '',
+        phone: '',
         country: '',
         address1: '',
         address2: '',
         postcode: '',
         city: '',
         state: '',
-        fiscalCode: '',
-        company: '',
-        vatNumber: '',
-        birthday: undefined,
-        phone: '',
-        sdiPec: ''
     });
     const shippingData: userShippingData = reactive({
         name: '',
@@ -56,21 +58,21 @@ export const useCheckoutDataStore = defineStore('currentUser', () => {
     });
 
     const userEmail = computed(() => {
-        return billingData.email;
+        return profileData.email;
     });
 
     const hasEmail = computed(() => {
-       return billingData.email !== '';
+       return profileData.email !== '';
     });
 
     const isProfileDataComplete = computed(() => {
-        return billingData.email !== '' &&
-            billingData.firstName !== '' &&
-            billingData.lastName !== '';
+        return profileData.email !== '' &&
+            profileData.profileType !== '' &&
+            profileData.birthday !== undefined;
     });
 
     const isBillingDataComplete = computed(() => {
-        return billingData.email !== '' &&
+        return profileData.email !== '' &&
             billingData.firstName !== '' &&
             billingData.lastName !== '' &&
             billingData.address1 !== '' &&
@@ -96,7 +98,7 @@ export const useCheckoutDataStore = defineStore('currentUser', () => {
     });
 
     const birthdayString = computed(() => {
-        return getDayFromDate(billingData.birthday);
+        return getDayFromDate(profileData.birthday);
     });
 
     watch(isGuest, (newV, oldV ) => {
@@ -113,6 +115,47 @@ export const useCheckoutDataStore = defineStore('currentUser', () => {
         }
     });
 
+    watch(profileData, (oldV, newV) => {
+        //@ts-ignore
+        const $ = window.jQuery;
+        let $originalForm = $('#original-form-wrapper');
+        if($originalForm !== "undefined" && $originalForm.length > 0){
+            $('[name=billing_email]').val(profileData.email);
+            const $billingCustomerType = $originalForm.find('[name=billing_customer_type]');
+            const $billingBirthday = $originalForm.find('[name=billing_birthday]');
+            const $billingFiscalCode = $originalForm.find('[name=billing_fiscal_code]');
+            const $billingCompany = $originalForm.find('[name=billing_company]');
+            const $billingVatNumber = $originalForm.find('[name=billing_vat_number]');
+            const $billingSdiPec = $originalForm.find('[name=billing_sdi_pec]');
+            if($billingFiscalCode.length > 0){
+                $billingFiscalCode.val(profileData.fiscalCode);
+            }
+            if($billingCompany.length > 0){
+                $billingCompany.val(profileData.company);
+            }
+            if($billingVatNumber.length > 0){
+                $billingVatNumber.val(profileData.vatNumber);
+            }
+            if($billingSdiPec.length > 0){
+                $billingSdiPec.val(profileData.sdiPec);
+            }
+            if($billingCustomerType.length > 0){
+                if($billingCustomerType.length > 1){
+                    // Its radio
+                    $originalForm.find(`#billing_customer_type_${profileData.profileType}`).prop("checked",true);
+                    $originalForm.find(`#billing_customer_type_${profileData.profileType}`).prop("value", profileData.profileType);
+                    $originalForm.find(`[value='${profileData.profileType}']`).prop("checked",true);
+                }else{
+                    $billingCustomerType.val(profileData.profileType);
+                }
+            }
+            if($billingBirthday.length > 0){
+                let dateFormatted = getBackendFormatFromDate(profileData.birthday);
+                $billingBirthday.val(dateFormatted);
+            }
+        }
+    });
+
     watch(billingData, (oldV, newV) => {
         //@ts-ignore
         const $ = window.jQuery;
@@ -121,19 +164,13 @@ export const useCheckoutDataStore = defineStore('currentUser', () => {
             $('[name=billing_first_name]').val(billingData.firstName);
             $('[name=billing_last_name]').val(billingData.lastName);
             $('[name=billing_phone]').val(billingData.phone);
-            $('[name=billing_email]').val(billingData.email);
             $('[name=billing_address_1]').val(billingData.address1);
             $('[name=billing_address_2]').val(billingData.address2);
             $('[name=billing_city]').val(billingData.city);
             $('[name=billing_postcode]').val(billingData.postcode);
             const $billingCountry = $originalForm.find('[name=billing_country]');
             const $billingState = $originalForm.find('[name=billing_state]');
-            const $billingCustomerType = $originalForm.find('[name=billing_customer_type]');
-            const $billingBirthday = $originalForm.find('[name=billing_birthday]');
-            const $billingFiscalCode = $originalForm.find('[name=billing_fiscal_code]');
-            const $billingCompany = $originalForm.find('[name=billing_company]');
-            const $billingVatNumber = $originalForm.find('[name=billing_vat_number]');
-            const $billingSdiPec = $originalForm.find('[name=billing_sdi_pec]');
+
             if($billingCountry.length > 0){
                 $billingCountry.val(billingData.country);
                 $billingCountry.trigger('change');
@@ -147,32 +184,6 @@ export const useCheckoutDataStore = defineStore('currentUser', () => {
                 //     $("#billing_state").val(billingData.state);
                 //     $("#billing_state").trigger('change');
                 // },2000);
-            }
-            if($billingFiscalCode.length > 0){
-                $billingFiscalCode.val(billingData.fiscalCode);
-            }
-            if($billingCompany.length > 0){
-                $billingCompany.val(billingData.company);
-            }
-            if($billingVatNumber.length > 0){
-                $billingVatNumber.val(billingData.vatNumber);
-            }
-            if($billingSdiPec.length > 0){
-                $billingSdiPec.val(billingData.sdiPec);
-            }
-            if($billingCustomerType.length > 0){
-                if($billingCustomerType.length > 1){
-                    // Its radio
-                    $originalForm.find(`#billing_customer_type_${billingData.profileType}`).prop("checked",true);
-                    $originalForm.find(`#billing_customer_type_${billingData.profileType}`).prop("value", billingData.profileType);
-                    $originalForm.find(`[value='${billingData.profileType}']`).prop("checked",true);
-                }else{
-                    $billingCustomerType.val(billingData.profileType);
-                }
-            }
-            if($billingBirthday.length > 0){
-                let dateFormatted = getBackendFormatFromDate(billingData.birthday);
-                $billingBirthday.val(dateFormatted);
             }
         }
     });
@@ -224,20 +235,36 @@ export const useCheckoutDataStore = defineStore('currentUser', () => {
         isGuest.value = false;
     }
 
-    function setBillingData(newBillingData: userBillingData){
-        if(newBillingData.profileType !== undefined){
-            billingData.profileType = newBillingData.profileType;
-        }else{
-            billingData.profileType = 'private'; // Default
+    function setProfileData(newProfileData: userProfileData){
+        if(newProfileData.email !== undefined){
+            profileData.email = newProfileData.email;
         }
+        if(newProfileData.profileType !== undefined){
+            profileData.profileType = newProfileData.profileType;
+        }
+        if(newProfileData.birthday !== undefined){
+            profileData.birthday = newProfileData.birthday;
+        }
+        if(newProfileData.fiscalCode !== undefined){
+            profileData.fiscalCode = newProfileData.fiscalCode;
+        }
+        if(newProfileData.company !== undefined){
+            profileData.company = newProfileData.company;
+        }
+        if(newProfileData.vatNumber !== undefined){
+            profileData.vatNumber = newProfileData.vatNumber;
+        }
+        if(newProfileData.sdiPec !== undefined){
+            profileData.sdiPec = newProfileData.sdiPec;
+        }
+    }
+
+    function setBillingData(newBillingData: userBillingData){
         if(newBillingData.firstName !== undefined){
             billingData.firstName = newBillingData.firstName;
         }
         if(newBillingData.lastName !== undefined){
             billingData.lastName = newBillingData.lastName;
-        }
-        if(newBillingData.birthday !== undefined){
-            billingData.birthday = newBillingData.birthday;
         }
         if(newBillingData.phone !== undefined){
             billingData.phone = newBillingData.phone;
@@ -260,18 +287,6 @@ export const useCheckoutDataStore = defineStore('currentUser', () => {
         if(newBillingData.state !== undefined){
             billingData.state = newBillingData.state;
         }
-        if(newBillingData.fiscalCode !== undefined){
-            billingData.fiscalCode = newBillingData.fiscalCode;
-        }
-        if(newBillingData.company !== undefined){
-            billingData.company = newBillingData.company;
-        }
-        if(newBillingData.vatNumber !== undefined){
-            billingData.vatNumber = newBillingData.vatNumber;
-        }
-        if(newBillingData.sdiPec !== undefined){
-            billingData.sdiPec = newBillingData.sdiPec;
-        }
     }
 
     function clearBillingData(){
@@ -281,10 +296,6 @@ export const useCheckoutDataStore = defineStore('currentUser', () => {
         billingData.city = '';
         billingData.postcode = '';
         billingData.state = '';
-        billingData.fiscalCode = '';
-        billingData.company = '';
-        billingData.vatNumber = '';
-        billingData.sdiPec = '';
     }
 
     function setShippingData(newShippingData: userShippingData){
@@ -328,7 +339,7 @@ export const useCheckoutDataStore = defineStore('currentUser', () => {
     }
 
     function setUserEmail(email: string){
-        billingData.email = email;
+        profileData.email = email;
     }
 
     return {
@@ -344,6 +355,7 @@ export const useCheckoutDataStore = defineStore('currentUser', () => {
         birthdayString,
         userEmail,
         hasEmail,
+        profileData,
         billingData,
         isProfileDataComplete,
         isBillingDataComplete,
@@ -355,6 +367,7 @@ export const useCheckoutDataStore = defineStore('currentUser', () => {
         setUserAsLoggedIn,
         setUserId,
         setUserEmail,
+        setProfileData,
         setBillingData,
         setShippingData,
     }

@@ -21,6 +21,9 @@ namespace Waboot\addons\packages\checkout\hooks;
  * Force visibility of company field.
  * Without this, the field is being "unset" here: wp-content/plugins/woocommerce/includes/class-wc-countries.php -> get_default_address_fields()
  */
+
+use function Waboot\addons\packages\checkout\getCustomerCustomBillingFields;
+
 add_filter('pre_option_'.'woocommerce_checkout_company_field', static function ($value, string $option, $defaultValue) {
     return 'optional';
 },10, 3);
@@ -40,6 +43,33 @@ add_filter('pre_option_'.'woocommerce_checkout_phone_field', static function ($v
 },10, 3);
 
 /*
+ * Adds custom default billing fields
+ */
+add_filter('wawoo/addons/checkout/customer_custom_billing_fields', static function (array $fields) {
+    $fields['billing_birthday'] = [
+        'label' => __('Birthday', LANG_TEXTDOMAIN),
+        'type' => 'date',
+        'priority' => 21
+    ];
+    $fields['billing_fiscal_code'] = [
+        'label' => __('Fiscal code', LANG_TEXTDOMAIN),
+        'type' => 'text',
+        'priority' => 22
+    ];
+    $fields['billing_vat_number'] = [
+        'label' => __('Vat Number', LANG_TEXTDOMAIN),
+        'type' => 'text',
+        'priority' => 31
+    ];
+    $fields['billing_sdi_pec'] = [
+        'label' => __('SDI\\PEC', LANG_TEXTDOMAIN),
+        'type' => 'text',
+        'priority' => 32
+    ];
+    return $fields;
+});
+
+/*
  * Adding custom billing fields
  * BEWARE! "Invoicing" addons add these fields too. We still have to choose what to do about it.
  * @see: woocommerce_form_field()
@@ -57,26 +87,10 @@ add_filter('woocommerce_billing_fields', static function(array $addressFields, $
         'default' => 'private',
         'priority' => 9
     ];
-    $addressFields['billing_birthday'] = [
-        'label' => __('Birthday', LANG_TEXTDOMAIN),
-        'type' => 'date',
-        'priority' => 21
-    ];
-    $addressFields['billing_fiscal_code'] = [
-        'label' => __('Fiscal code', LANG_TEXTDOMAIN),
-        'type' => 'text',
-        'priority' => 22
-    ];
-    $addressFields['billing_vat_number'] = [
-        'label' => __('Vat Number', LANG_TEXTDOMAIN),
-        'type' => 'text',
-        'priority' => 31
-    ];
-    $addressFields['billing_sdi_pec'] = [
-        'label' => __('SDI\\PEC', LANG_TEXTDOMAIN),
-        'type' => 'text',
-        'priority' => 32
-    ];
+    $customBillingFields = getCustomerCustomBillingFields();
+    if(!empty($customBillingFields)){
+        $addressFields = array_merge($addressFields, $customBillingFields);
+    }
     return $addressFields;
 }, 10, 2);
 
@@ -91,19 +105,14 @@ add_action('woocommerce_checkout_update_order_meta', static function(int $orderI
     if(isset($_POST['billing_customer_type'])){
         $wcOrder->update_meta_data('_billing_customer_type', sanitize_text_field($_POST['billing_customer_type']));
     }
-    if(isset($_POST['billing_birthday'])){
-        $wcOrder->update_meta_data('_billing_birthday', sanitize_text_field($_POST['billing_birthday']));
-    }
-    if(isset($_POST['billing_fiscal_code'])){
-        $wcOrder->update_meta_data('_billing_fiscal_code', sanitize_text_field($_POST['billing_fiscal_code']));
-    }
-    if(isset($_POST['billing_vat_number'])){
-        $wcOrder->update_meta_data('_billing_vat_number', sanitize_text_field($_POST['billing_vat_number']));
-    }
-    if(isset($_POST['billing_sdi_pec'])){
-        $wcOrder->update_meta_data('_billing_sdi_pec', sanitize_text_field($_POST['billing_sdi_pec']));
+    $customBillingFields = getCustomerCustomBillingFields();
+    if(!empty($customBillingFields)){
+        foreach ($customBillingFields as $customBillingFieldKey => $customBillingFieldData) {
+            $wcOrder->update_meta_data('_'.$customBillingFieldKey, sanitize_text_field($_POST[$customBillingFieldKey]));
+        }
     }
     $wcOrder->save_meta_data();
+    do_action('wawoo/addons/checkout/update_order_custom_billing_fields', $wcOrder, $postedData);
 }, 11, 2);
 
 /*
@@ -113,18 +122,13 @@ add_action('woocommerce_checkout_update_user_meta', function($customerId, $data)
     if(isset($_POST['billing_customer_type'])){
         update_user_meta($customerId, 'billing_customer_type', sanitize_text_field($_POST['billing_customer_type']));
     }
-    if(isset($_POST['billing_birthday'])){
-        update_user_meta($customerId, 'billing_birthday', sanitize_text_field($_POST['billing_birthday']));
+    $customBillingFields = getCustomerCustomBillingFields();
+    if(!empty($customBillingFields)){
+        foreach ($customBillingFields as $customBillingFieldKey => $customBillingFieldData) {
+            update_user_meta($customerId,$customBillingFieldKey, sanitize_text_field($_POST[$customBillingFieldKey]));
+        }
     }
-    if(isset($_POST['billing_fiscal_code'])){
-        update_user_meta($customerId, 'billing_fiscal_code', sanitize_text_field($_POST['billing_fiscal_code']));
-    }
-    if(isset($_POST['billing_vat_number'])){
-        update_user_meta($customerId, 'billing_vat_number', sanitize_text_field($_POST['billing_vat_number']));
-    }
-    if(isset($_POST['billing_sdi_pec'])){
-        update_user_meta($customerId, 'billing_sdi_pec', sanitize_text_field($_POST['billing_sdi_pec']));
-    }
+    do_action('wawoo/addons/checkout/update_customer_custom_billing_fields', $customerId, $data);
 },11,2);
 
 /*

@@ -14,6 +14,9 @@ export const useBreadCrumbStore = defineStore('breadcrumb', () => {
             case 'password':
                 goToNamedStep('login');
                 break;
+            case 'profile':
+                goToNamedStep('profile')
+                break;
             case 'address':
                 goToNamedStep('addresses');
                 break;
@@ -40,11 +43,14 @@ export const useBreadCrumbStore = defineStore('breadcrumb', () => {
             case 'login':
                 currentStep.value = 1;
                 break;
-            case 'addresses':
+            case 'profile':
                 currentStep.value = 2;
                 break;
-            case 'payment':
+            case 'addresses':
                 currentStep.value = 3;
+                break;
+            case 'payment':
+                currentStep.value = 4;
                 break;
         }
     }
