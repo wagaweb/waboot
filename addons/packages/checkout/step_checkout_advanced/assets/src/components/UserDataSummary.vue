@@ -21,7 +21,6 @@ const isAddressSame = computed(() => {
 </script>
 <template>
   <div class="woocommerce-checkout-steps__data">
-      {{ checkoutDataStore.hasProfileData }}
     <div class="woocommerce-checkout-steps__row">
       <h5>{{ $t('Contact info') }}</h5>
       <a
