@@ -1,5 +1,5 @@
-<div class="slidein navigation-mobile" data-slidein-nav data-slidein-toggle="#slidein-nav__toggle">
-    <div class="navigation-mobile__inner" aria-label="Mobile Navigation">
+<div class="slidein navigation-mobile" id="mobileNav" data-slidein-nav data-slidein-toggle="#slidein-nav__toggle" inert>
+    <div class="navigation-mobile__inner">
         <?php wp_nav_menu([
             'theme_location' => 'main',
             'depth' => 0,
@@ -9,5 +9,7 @@
         ]); ?>
     </div>
 
-    <button class="navigation-mobile__close" data-slidein-close aria-label="Close"><i class="fal fa-times"></i></button>
+    <button class="navigation-mobile__close" data-slidein-close aria-label="Close Mobile Navigation" aria-expanded="false" aria-controls="mobileNav">
+        <i class="fal fa-times"></i>
+    </button>
 </div>

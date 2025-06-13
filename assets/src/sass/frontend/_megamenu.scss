@@ -37,6 +37,10 @@
     background-clip: padding-box;
     width: 100vw;
     inset-inline: 0;
+
+    &[aria-hidden=false] {
+      display: block;
+    }
     &__columns > .sub-menu {
       display: grid;
       grid-template-columns: repeat(3, 1fr);

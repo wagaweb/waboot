@@ -10,15 +10,6 @@ function Slidein(element, options) {
   this.$focusableElements = null;
   this.$firstFocusableElement = null;
   this.$lastFocusableElement = null;
-
-  // Imposta gli attributi ARIA di base
-  this.$el.attr({
-    role: 'dialog',
-    'aria-modal': 'true',
-    'aria-hidden': 'true',
-    'aria-label': 'Menu di navigazione',
-  });
-
   this.init(this);
 }
 
@@ -30,13 +21,6 @@ Slidein.prototype = {
   },
 
   initToggle: function (self) {
-    // Aggiungi attributi ARIA al toggler
-    self.$toggler.attr({
-      'aria-expanded': 'false',
-      'aria-controls': self.$el.attr('id') || 'slidein-panel',
-      'aria-haspopup': 'true',
-    });
-
     // Assicurati che il pannello abbia un ID
     if (!self.$el.attr('id')) {
       self.$el.attr('id', 'slidein-panel');
@@ -50,25 +34,16 @@ Slidein.prototype = {
   },
 
   openSlidein: function (self) {
-    self.$el.removeClass('inert');
+    // Accessibility
     self.$el.removeAttr('inert');
-    self.$el.addClass('show');
     self.$el.attr('aria-hidden', 'false');
     self.$toggler.attr('aria-expanded', 'true');
+
+    // Styles
+    self.$el.addClass('show');
     $('body').addClass('slidein-no-scroll');
     self.toggleOverlay();
 
-    // Prepara gli elementi focusabili
-    self.$focusableElements = self.$el.find(
-      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-    );
-    self.$firstFocusableElement = self.$focusableElements.first();
-    self.$lastFocusableElement = self.$focusableElements.last();
-
-    // Focus sul primo elemento interattivo
-    self.$firstFocusableElement.focus();
-
-    // Gestione del click fuori dal pannello
     $(document).on('click', function (e) {
       let $target = $(e.target);
       if (self.$el.is($target) || self.$el.find($target).length > 0)
@@ -78,16 +53,18 @@ Slidein.prototype = {
       }
     });
 
-    // Gestione dei pulsanti di chiusura
     $('[data-slidein-close]').on('click', function () {
       self.closeSlidein(self);
     });
   },
 
   closeSlidein: function (self) {
+    // Accessibility
     self.$el.removeClass('show').attr('inert', '');
     self.$el.attr('aria-hidden', 'true');
     self.$toggler.attr('aria-expanded', 'false');
+
+    // Style
     $('body').removeClass('slidein-no-scroll');
     self.hideOverlay();
     $(document).off('click');
@@ -95,32 +72,11 @@ Slidein.prototype = {
   },
 
   initKeyboardNavigation: function (self) {
-    self.$el.on('keydown', function (e) {
+    self.$el.on('keyup', function (e) {
       // Gestione del tasto ESC
       if (e.key === 'Escape') {
         self.closeSlidein(self);
         return;
-      }
-
-      // Gestione del focus trap
-      if (e.key === 'Tab') {
-        if (e.shiftKey) {
-          // Shift + Tab
-          if (
-            document.activeElement === self.$firstFocusableElement[0]
-          ) {
-            e.preventDefault();
-            self.$lastFocusableElement.focus();
-          }
-        } else {
-          // Tab
-          if (
-            document.activeElement === self.$lastFocusableElement[0]
-          ) {
-            e.preventDefault();
-            self.$firstFocusableElement.focus();
-          }
-        }
       }
     });
   },

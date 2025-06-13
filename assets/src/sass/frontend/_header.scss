@@ -39,6 +39,7 @@
 
   &__logo {
     flex: 1;
+    height: 44px;
     @include down($large) {
       max-width: 85%;
       flex-grow: 1;

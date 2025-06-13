@@ -76,13 +76,13 @@ function headerFixedWhenBack() {
 
 function backOnSubmenu() {
     $('.navigation-mobile .sub-menu').each(function () {
-        $(this).prepend('<button class="backlevel__icon"><i class="far fa-angle-left"></i></button>');
+        $(this).prepend('<button class="backlevel__icon" aria-label="Close submenu"><i class="far fa-angle-left"></i></button>');
     });
 
     $('.navigation-mobile .menu-item-has-children').each(function () {
         const $submenu = $(this).children('.sub-menu');
         if ($submenu.length) {
-            $('<button class="sublevel__icon" aria-haspopup="true" aria-expanded="false"><i class="far fa-angle-right"></i></button>').insertBefore($submenu);
+            $('<button class="sublevel__icon" aria-label="Open submenu"><i class="far fa-angle-right"></i></button>').insertBefore($submenu);
         }
     });
 }

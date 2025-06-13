@@ -112,7 +112,7 @@
   a {
     text-align: left;
     justify-content: center;
-    padding: calc(#{$gridGutter}/2) $gridGutter;
+    padding: 13px $gridGutter;
     flex-grow: 1;
   }
 
@@ -124,9 +124,9 @@
   }
 
   .backlevel__icon {
-    //position: absolute;
-    //left: 0;
-    //top: 0;
+    background: none;
+    border: none;
+    border-radius: 0;
     padding: 0 0 0 $gridGutter;
     width: 48px;
     height: 48px;

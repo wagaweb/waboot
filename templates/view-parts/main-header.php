@@ -13,31 +13,31 @@ use Waboot\inc\Walker_Accessible_Menu; ?>
         </a>
     </div>
 
-    <nav id="main-navigation" class="header__navigation" role="navigation"
-         aria-label="<?php _e( 'Main navigation', LANG_TEXTDOMAIN ); ?>" aria-hidden="true">
-        <?php wp_nav_menu( [
+    <!--<nav id="main-navigation" class="header__navigation" role="navigation"
+         aria-label="<?php /*_e( 'Main navigation', LANG_TEXTDOMAIN ); */?>" aria-hidden="true">
+        <?php /*wp_nav_menu( [
             'theme_location' => 'main',
             'depth' => 0,
             'fallback_cb' => '__return_false',
             'container' => false,
             'menu_class' => apply_filters( 'waboot/navigation/main/class', 'navigation navbar-nav' ),
             'walker' => new Walker_Accessible_Menu(),
-        ] ); ?>
-    </nav>
+        ] ); */?>
+    </nav>-->
 
-    <!--<nav id="main-navigation" class="header__megamenu" role="navigation"
-         aria-label="<?php /*_e( 'Megamenu navigation', LANG_TEXTDOMAIN ); */?>" aria-hidden="true">
-        <?php /*wp_nav_menu( [
+    <nav id="main-navigation" class="header__megamenu" role="navigation"
+         aria-label="<?php _e( 'Megamenu navigation', LANG_TEXTDOMAIN ); ?>" aria-hidden="true">
+        <?php wp_nav_menu( [
             'theme_location' => 'megamenu',
             'depth' => 0,
             'fallback_cb' => '__return_false',
             'container' => false,
             'menu_class' => apply_filters( 'waboot/navigation/main/class', 'navigation navbar-nav' ),
             'walker' => new Accessible_Mega_Menu_Walker(),
-        ] ); */?>
-    </nav>-->
+        ] ); ?>
+    </nav>
 
-    <div class="header__icons shop__icons" aria-label="<?php _e( 'Shop icons and actions', LANG_TEXTDOMAIN ); ?>">
+    <div class="header__icons shop__icons">
         <?php if( is_checkout() ) : ?>
             <a href="<?php echo esc_url( wc_get_page_permalink( 'cart' ) ); ?>">
                 <i class="fal fa-chevron-left" aria-hidden="true"></i>
@@ -87,10 +87,10 @@ use Waboot\inc\Walker_Accessible_Menu; ?>
             class="header__toggle header__link--nav slidein-nav__toggle"
             aria-expanded="false"
             aria-controls="main-navigation"
-            aria-label="<?php _e( 'Toggle navigation menu', LANG_TEXTDOMAIN ); ?>"
+            aria-label="<?php _e( 'Open navigation menu', LANG_TEXTDOMAIN ); ?>"
             data-open-sidenav=".sidenavigation"
     >
-        <span class="sr-only"><?php _e( "Toggle navigation", LANG_TEXTDOMAIN ); ?></span>
+        <span class="sr-only"><?php _e( "Open navigation", LANG_TEXTDOMAIN ); ?></span>
         <span class="icon-bar" aria-hidden="true"></span>
         <span class="icon-bar" aria-hidden="true"></span>
         <span class="icon-bar" aria-hidden="true"></span>

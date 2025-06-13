@@ -483,7 +483,7 @@ function getLogoAlt()
 class Walker_Accessible_Menu extends \Walker_Nav_Menu {
     public function start_lvl( &$output, $depth = 0, $args = array() ) {
         $indent = str_repeat( "\t", $depth );
-        $output .= "\n$indent<ul class=\"sub-menu\" role=\"menu\" aria-hidden=\"true\">\n";
+        $output .= "\n$indent<ul class=\"sub-menu\" role=\"menu\">\n";
     }
 
     public function start_el( &$output, $item, $depth = 0, $args = array(), $id = 0 ) {
@@ -544,7 +544,7 @@ class Accessible_Mega_Menu_Walker extends \Walker_Nav_Menu {
 
         if ( $depth === 0 ) {
             // Primo livello di dropdown (mega menu container)
-            $output .= "\n$indent<div class=\"mega-menu\">\n";
+            $output .= "\n$indent<div class=\"mega-menu\" aria-hidden=\"true\" inert>\n";
             $output .= "\n$indent<div class=\"mega-menu__columns\">\n";
             $output .= "$indent<ul class=\"sub-menu\" role=\"menu\">\n";
         } else {
