@@ -88,6 +88,18 @@ export const useCheckoutDataStore = defineStore('currentUser', () => {
             billingData.country !== '';
     });
 
+    const hasProfileData = computed(() => {
+        for(const [key, value] of Object.entries(profileData)){
+            if(key === 'email'){
+                continue;
+            }
+            if(value !== '' && value !== undefined && value !== null){
+                return true;
+            }
+        }
+        return false;
+    });
+
     const isShippingDataComplete = computed(() => {
         return shippingData.firstName !== '' &&
             shippingData.lastName !== '' &&
@@ -360,6 +372,7 @@ export const useCheckoutDataStore = defineStore('currentUser', () => {
         isProfileDataComplete,
         isBillingDataComplete,
         hasBillingData,
+        hasProfileData,
         shippingData,
         isShippingDataComplete,
         selectedAddressIndex,

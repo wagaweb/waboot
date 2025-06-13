@@ -127,7 +127,7 @@ async function restoreBillingDataToForm(){
 onMounted(async () => {
     debugLog('<ProfilegForm> onMounted()');
     // Restore data
-    if(checkoutDataStore.hasBillingData){
+    if(checkoutDataStore.hasProfileData){
         await restoreFormData();
     }
 });
