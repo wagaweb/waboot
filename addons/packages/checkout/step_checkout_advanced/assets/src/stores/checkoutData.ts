@@ -1,8 +1,9 @@
 import {ref, reactive, computed, watch} from 'vue'
 import type {Ref} from 'vue'
 import { defineStore } from 'pinia'
-import type {userBillingData, userProfileData, userShippingData} from "../../env";
+import type {addressData, userProfileData} from "../../env";
 import {getBackendFormatFromDate, getDayFromDate} from "@/utils/helpers/dates.ts";
+import {boolean} from "yup";
 
 export type StepType = 'email' | 'password' | 'profile' | 'address' | 'pay';
 
@@ -22,7 +23,7 @@ export const useCheckoutDataStore = defineStore('currentUser', () => {
         vatNumber: '',
         sdiPec: ''
     });
-    const billingData: userBillingData = reactive({
+    const billingData: addressData = reactive({
         firstName: '',
         lastName: '',
         phone: '',
@@ -33,7 +34,7 @@ export const useCheckoutDataStore = defineStore('currentUser', () => {
         city: '',
         state: '',
     });
-    const shippingData: userShippingData = reactive({
+    const shippingData: addressData = reactive({
         name: '',
         firstName: '',
         lastName: '',
@@ -48,6 +49,8 @@ export const useCheckoutDataStore = defineStore('currentUser', () => {
     });
     const selectedAddressIndex = ref<number|undefined>();
     const mustRestoreAddressData = ref<boolean>(false);
+    const useDifferentAddressForBillingChecked = ref<boolean>(false);
+    const createAnAccountChecked = ref<boolean>(false);
 
     const mustRegisterNewUser = computed(() => {
         return !isGuest.value;
@@ -273,7 +276,7 @@ export const useCheckoutDataStore = defineStore('currentUser', () => {
         }
     }
 
-    function setBillingData(newBillingData: userBillingData){
+    function setBillingData(newBillingData: addressData){
         if(newBillingData.firstName !== undefined){
             billingData.firstName = newBillingData.firstName;
         }
@@ -312,7 +315,7 @@ export const useCheckoutDataStore = defineStore('currentUser', () => {
         billingData.state = '';
     }
 
-    function setShippingData(newShippingData: userShippingData){
+    function setShippingData(newShippingData: addressData){
         if(newShippingData.name !== undefined){
             shippingData.name = newShippingData.name;
         }
@@ -379,6 +382,8 @@ export const useCheckoutDataStore = defineStore('currentUser', () => {
         isShippingDataComplete,
         selectedAddressIndex,
         mustRestoreAddressData,
+        useDifferentAddressForBillingChecked,
+        createAnAccountChecked,
         setUserAsLoggedIn,
         setUserId,
         setUserEmail,

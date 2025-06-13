@@ -16,7 +16,9 @@ const {t} = useI18n();
 // https://vuejs.org/guide/components/props.html#prop-validation
 // https://vuejs.org/guide/typescript/composition-api#props-default-values
 const props = withDefaults(defineProps<{
+        showAddressName?: boolean;
         initialFormData?: addressData;
+        type: "billing" | "shipping";
         availableCountries?: Array<fetchedCountry>;
         canSubmit?: boolean;
     }>(),
@@ -35,7 +37,8 @@ const props = withDefaults(defineProps<{
             }
         },
         availableCountries: () => [],
-        canSubmit: false
+        canSubmit: false,
+        showAddressName: true
     }
 );
 
@@ -201,7 +204,7 @@ onMounted(() => {
 </script>
 <template>
     <form>
-        <div class="form-row form-row-wide" :class="{invalid: 'name' in errors }" v-show="false">
+        <div class="form-row form-row-wide" :class="{invalid: 'name' in errors }" v-show="type === 'shipping' && showAddressName">
             <input type="text" placeholder="" id="name" v-model="name" v-bind="nameAttrs">
             <label for="name">{{ $t('Address name') }}<span>*</span></label>
             <ErrorMessage name="name" v-show="meta.touched"/>
@@ -270,7 +273,7 @@ onMounted(() => {
             <ErrorMessage name="state" v-show="meta.touched"/>
         </div>
 
-        <div class="form-row form-row-wide">
+        <div class="form-row form-row-wide" v-show="type === 'shipping'">
             <textarea id="notes" placeholder="" v-model="notes" v-bind="notesAttrs"></textarea>
             <label for="notes">{{ $t('Shipping notes') }}</label>
         </div>

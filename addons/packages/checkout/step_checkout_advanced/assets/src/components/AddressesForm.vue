@@ -2,7 +2,7 @@
 import {computed, onMounted, type Ref, ref, watch} from 'vue'
 import {useCheckoutDataStore} from "@/stores/checkoutData";
 import {wcAPI} from "@/services/wp/woocommerce";
-import type {addressData, fetchedCountry, userBillingData, userShippingData, userShippingDataWP} from "../../env";
+import type {addressData, fetchedCountry, userShippingDataWP} from "../../env";
 import {debugLog} from "@/utils/helpers/debug.ts";
 import {useI18n} from "vue-i18n";
 import AddressForm from "@/components/AddressForm.vue";
@@ -12,7 +12,7 @@ import {wpUserAPI} from "@/services/wp/user.ts";
 const {t} = useI18n();
 
 const emit = defineEmits<{
-    (e: 'AddressDataSubmitted', shippingData: userShippingData, billingData: userBillingData, isGuest: boolean): void
+    (e: 'AddressDataSubmitted', shippingData: addressData, billingData: addressData, isGuest: boolean): void
 }>();
 
 const shippingAddressFormRef = ref<InstanceType<typeof AddressForm> | null>(null);
@@ -26,7 +26,9 @@ watch(addressesDataValid, () => {
         const shippingValues = shippingData.value;
         if(shippingValues){
             const billingValues = billingAddressEnabled.value ? billingData.value : deepClone(shippingValues);
-            emit('AddressDataSubmitted', shippingValues as userShippingData, billingValues as userBillingData, isGuest.value);
+            checkoutDataStore.useDifferentAddressForBillingChecked = billingAddressEnabled.value; // Need these for restoring
+            checkoutDataStore.createAnAccountChecked = customerAccountCreationEnabled.value;
+            emit('AddressDataSubmitted', shippingValues as addressData, billingValues as addressData, isGuest.value);
         }
     }
 });
@@ -210,11 +212,19 @@ function onConfirmSelectedAddress() {
     checkAddressValidation();
 }
 
-onMounted(() => {
+onMounted(async () => {
     debugLog('<ShippingAddressesForm> onMounted()');
-    fetchShippingAddresses();
-    fetchCountries();
+    await fetchShippingAddresses();
+    await fetchCountries();
     enableShipToDifferentAddress();
+    if(checkoutDataStore.mustRestoreAddressData){ // This is set by the edit link handler
+        if(!checkoutDataStore.selectedAddressIndex){
+            // If no address selected before, pre-compile the checkboxes and open the new address window
+            billingAddressEnabled.value = checkoutDataStore.useDifferentAddressForBillingChecked;
+            customerAccountCreationEnabled.value = checkoutDataStore.createAnAccountChecked;
+            addingNewAddress.value = true;
+        }
+    }
 });
 </script>
 
@@ -262,7 +272,8 @@ onMounted(() => {
                 </button>
             </div>
             <div class="woocommerce-billing-fields__field-wrapper">
-                <AddressForm :available-countries="fetchedCountries" @address-validated="onShippingAddressValidated" ref="shippingAddressFormRef" />
+                <AddressForm :available-countries="fetchedCountries" @address-validated="onShippingAddressValidated" type="shipping" ref="shippingAddressFormRef" v-if="!checkoutDataStore.mustRestoreAddressData" />
+                <AddressForm :available-countries="fetchedCountries" @address-validated="onShippingAddressValidated" type="shipping" ref="shippingAddressFormRef" :initial-form-data="checkoutDataStore.shippingData" v-else />
             </div>
             <template v-if="!checkoutDataStore.isLoggedIn || (checkoutDataStore.isLoggedIn && !checkoutDataStore.hasBillingData)">
                 <input type="checkbox" v-model="billingAddressEnabled"> {{ $t('Use a different address for billing') }}
@@ -272,7 +283,8 @@ onMounted(() => {
                     <h5>{{ $t('Billing address') }}</h5>
                 </div>
                 <div class="woocommerce-billing-fields__field-wrapper" >
-                    <AddressForm :available-countries="fetchedCountries" @address-validated="onBillingAddressValidated" ref="billingAddressFormRef" />
+                    <AddressForm :available-countries="fetchedCountries" @address-validated="onBillingAddressValidated" type="billing" ref="billingAddressFormRef" v-if="!checkoutDataStore.mustRestoreAddressData" />
+                    <AddressForm :available-countries="fetchedCountries" @address-validated="onBillingAddressValidated" type="billing" ref="billingAddressFormRef" :initial-form-data="checkoutDataStore.billingData" v-else />
                 </div>
             </template>
             <template v-if="!checkoutDataStore.isLoggedIn">

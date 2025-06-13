@@ -83,12 +83,12 @@ export interface fetchedUserData{
     is_logged_in: boolean,
     id: number,
     profile_data: userProfileData
-    shipping_data: userShippingData
-    billing_data: userBillingData
+    shipping_data: addressData
+    billing_data: addressData
 }
 
 export interface addressData{
-    name: string,
+    name?: string,
     firstName: string,
     lastName: string,
     phone?: string,

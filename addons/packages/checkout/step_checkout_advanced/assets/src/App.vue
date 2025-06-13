@@ -6,7 +6,7 @@ import {computed, onMounted, ref} from 'vue';
 import {useCheckoutDataStore} from "./stores/checkoutData";
 import {useBreadCrumbStore} from "./stores/breadcrumb";
 import Pay from "./components/Pay.vue";
-import type {fetchedUserData, userBillingData, userProfileData, userShippingData} from "../env";
+import type {addressData, fetchedUserData, userProfileData} from "../env";
 import OrderReview from "./components/OrderReview.vue";
 import {debugLog} from "@/utils/helpers/debug.ts";
 import {wpUserAPI} from "@/services/wp/user.ts";
@@ -98,7 +98,7 @@ function onProfileDataSubmitted(profileData: userProfileData){
     checkoutDataStore.currentStep = 'address';
 }
 
-function onAddressDataSubmitted(shippingData: userShippingData, billingData: userBillingData, isGuest: boolean) {
+function onAddressDataSubmitted(shippingData: addressData, billingData: addressData, isGuest: boolean) {
     debugLog('<App> onAddressDataSubmitted() -> shipping', shippingData);
     debugLog('<App> onAddressDataSubmitted() -> billing', billingData);
     checkoutDataStore.setBillingData(billingData);
