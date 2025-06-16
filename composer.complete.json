@@ -4,19 +4,18 @@
     "type": "project",
     "config": {
         "platform": {
-            "php": "7.4"
+            "php": "8.3"
         }
     },
     "require": {
         "guzzlehttp/guzzle": "~6.3",
         "box/spout": "~3.3.0",
-        "monolog/monolog": "~2.2.0",
+        "monolog/monolog": "^3.8",
         "league/csv": "~9.6.0",
         "league/flysystem": "2.4.2",
         "league/flysystem-ftp": "2.4.2",
         "spatie/array-to-xml": "~2.15.0",
-        "illuminate/database": "v8.83.27",
-        "sentry/sdk": "^3.2"
+        "illuminate/database": "v8.83.27"
     },
     "license": "MIT",
     "authors": [
