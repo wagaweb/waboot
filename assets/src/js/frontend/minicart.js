@@ -108,36 +108,48 @@ export default class {
     const isOpen = this.$el.hasClass('show');
 
     if (!isOpen) {
-      this.$el.addClass('show');
+      this.$el.addClass('show').css('display', 'block');
       $('body').addClass('minicart-no-scroll');
 
       this.$el.attr('aria-hidden', 'false').removeAttr('inert');
       this.$toggler.attr('aria-expanded', 'true');
       this.toggleOverlay();
 
-      // Aggiorna e imposta il focus
       this.updateFocusableElements();
+      this.$focusableElements.each((_, el) => {
+        $(el).removeAttr('tabindex');
+      });
+
       this.$firstFocusableElement.focus();
 
       $('.minicart-overlay').on(
-        'click',
-        { self: this },
-        this.hideHandler
+          'click',
+          { self: this },
+          this.hideHandler
       );
     } else {
-      this.$el.removeClass('show');
+      this.$el.removeClass('show').css('display', 'none');
       $('body').removeClass('minicart-no-scroll');
 
       this.$el.attr('aria-hidden', 'true').attr('inert', '');
       this.$toggler.attr('aria-expanded', 'false');
       this.hideOverlay();
 
-      // Riporta il focus al toggler
-      this.$toggler.focus();
+      this.updateFocusableElements();
+      this.$focusableElements.each((_, el) => {
+        $(el).attr('tabindex', '-1');
+      });
+
+      // Rimuovi il focus da elementi interni
+      if (document.activeElement && $.contains(this.$el[0], document.activeElement)) {
+        this.$toggler.focus();
+      }
 
       $('.minicart-overlay').off('click', '**', this.hideHandler);
     }
   }
+
+
 
   hideHandler(e) {
     e.stopPropagation();
