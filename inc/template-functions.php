@@ -480,64 +480,6 @@ function getLogoAlt()
     return (string)apply_filters( 'waboot/logo_alt', $imageAlt );
 }
 
-class Walker_Accessible_Menu extends \Walker_Nav_Menu {
-    public function start_lvl( &$output, $depth = 0, $args = array() ) {
-        $indent = str_repeat( "\t", $depth );
-        $output .= "\n$indent<ul class=\"sub-menu\" role=\"menu\">\n";
-    }
-
-    public function start_el( &$output, $item, $depth = 0, $args = array(), $id = 0 ) {
-        $classes = empty( $item->classes ) ? array() : (array) $item->classes;
-        $classes[] = 'menu-item-' . $item->ID;
-
-        $has_children = in_array( 'menu-item-has-children', $classes );
-
-        $class_names = join( ' ', array_filter( $classes ) );
-        $class_names = ' class="' . esc_attr( $class_names ) . '"';
-
-        $output .= "<li" . $class_names . ">";
-
-        $atts = array();
-        $atts['title']  = !empty( $item->attr_title ) ? $item->attr_title : '';
-        $atts['target'] = !empty( $item->target )     ? $item->target     : '';
-        $atts['rel']    = !empty( $item->xfn )        ? $item->xfn        : '';
-        $atts['href']   = !empty( $item->url )        ? $item->url        : '';
-
-        if ( $has_children ) {
-            $atts['aria-haspopup'] = 'true';
-            $atts['aria-expanded'] = 'false';
-        }
-
-        $attributes = '';
-        foreach ( $atts as $attr => $value ) {
-            if ( !empty( $value ) ) {
-                $value = ( 'href' === $attr ) ? esc_url( $value ) : esc_attr( $value );
-                $attributes .= " $attr=\"$value\"";
-            }
-        }
-
-        $title = apply_filters( 'the_title', $item->title, $item->ID );
-        $title = apply_filters( 'nav_menu_item_title', $title, $item, $args, $depth );
-
-        $item_output  = $args->before;
-        $item_output .= "<a" . $attributes . " role=\"menuitem\">";
-        $item_output .= $args->link_before . $title . $args->link_after;
-        $item_output .= "</a>";
-
-        $item_output .= $args->after;
-
-        $output .= apply_filters( 'walker_nav_menu_start_el', $item_output, $item, $depth, $args );
-    }
-
-    public function end_el( &$output, $item, $depth = 0, $args = array() ) {
-        $output .= "</li>\n";
-    }
-
-    public function end_lvl( &$output, $depth = 0, $args = array() ) {
-        $output .= "</ul>\n";
-    }
-}
-
 class Accessible_Mega_Menu_Walker extends \Walker_Nav_Menu {
     public function start_lvl( &$output, $depth = 0, $args = null ) {
         $indent = str_repeat("\t", $depth);
