@@ -45,7 +45,7 @@
     > .sub-menu,
     .mega-menu {
       position: absolute;
-      top: 100%;
+      top: calc(100% - 10px);
       left: 0;
       width: 100%;
       min-width: 600px;
