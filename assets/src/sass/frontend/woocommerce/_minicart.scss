@@ -87,14 +87,13 @@
       position: absolute;
       right: 0;
       top: 0;
-      background-color: #000;
-      border-radius: 50%;
-      color: #fff;
-      font-size: .8em;
-      line-height: 15px;
-      width: 15px;
-      display: block;
-      text-align: center;
+      color: $colorGrey;
+      font-size: 1.5em;
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
   }
 

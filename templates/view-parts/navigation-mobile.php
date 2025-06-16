@@ -1,4 +1,4 @@
-<div class="slidein navigation-mobile" id="mobileNav" data-slidein-nav data-slidein-toggle="#slidein-nav__toggle" inert>
+<div class="slidein navigation-mobile" id="mobileNav" data-slidein-nav data-slidein-toggle="#slidein-nav__toggle" inert tabindex="0">
     <div class="navigation-mobile__inner">
         <?php wp_nav_menu([
             'theme_location' => 'main',

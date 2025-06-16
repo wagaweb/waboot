@@ -11,10 +11,11 @@
     display: inline-block;
     .page-numbers{
       position: relative;
-      display: block;
-      padding: .5rem .75rem;
-      margin-left: -1px;
-      line-height: 1.25;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-width: 44px;
+      height: 44px;
       color: $colorPrimary;
       background-color: #fff;
       border: 1px solid $colorPrimary;

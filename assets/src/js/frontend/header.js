@@ -92,31 +92,28 @@ function backOnSubmenu() {
 
 function mobileDropdown(el) {
   if ($(el).length > 0) {
+    $(el).find('.sub-menu').attr({
+      'aria-hidden': 'true',
+      'inert': ''
+    });
+
     $(el + ' > .sublevel__icon').on('click', function (e) {
       e.preventDefault();
-      e.stopPropagation();
-      let $target = $(e.currentTarget),
-        $submenu = $target.prev('.sub-menu');
-      $submenu.css('left', 0);
+      let $submenu = $(e.currentTarget).prev('.sub-menu');
+      $submenu.css('left', 0).attr('aria-hidden', 'false').removeAttr('inert');
     });
-    $(el + ' > a').on('click', function (e) {
-      let my_href = $(this).attr('href');
-      if (my_href === '#') {
-        e.preventDefault();
-        e.stopPropagation();
-        let $target = $(e.currentTarget),
-          $submenu = $target.next('.sub-menu');
-        $submenu.css('left', 0);
-      }
-    });
+
     $(el + ' > ul .backlevel__icon').on('click', function (e) {
       e.preventDefault();
-      e.stopPropagation();
-      let $target = $(e.currentTarget).parent('ul');
-      $target.css('left', '100%');
+      let $submenu = $(e.currentTarget).parent('ul');
+      $submenu.css('left', '100%').attr('aria-hidden', 'true').attr('inert', '');
     });
+
     $('[data-slidein-close]').on('click', function () {
-      $('.navigation-mobile .sub-menu').css('left', '100%');
+      $('.navigation-mobile .sub-menu')
+          .css('left', '100%')
+          .attr('aria-hidden', 'true')
+          .attr('inert', '');
     });
   }
 }

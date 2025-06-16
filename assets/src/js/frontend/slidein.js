@@ -34,6 +34,9 @@ Slidein.prototype = {
   },
 
   openSlidein: function (self) {
+    // Rimuove tabindex="-1" dagli elementi interni
+    self.$el.find('[tabindex="-1"]').removeAttr('tabindex');
+
     // Accessibility
     self.$el.removeAttr('inert');
     self.$el.attr('aria-hidden', 'false');
@@ -57,6 +60,7 @@ Slidein.prototype = {
       self.closeSlidein(self);
     });
   },
+
 
   closeSlidein: function (self) {
     // Accessibility

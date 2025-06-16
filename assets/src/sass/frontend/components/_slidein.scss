@@ -2,7 +2,8 @@
   background: rgba(255,255,255,1);
   height: 100%;
   position: fixed;
-  overflow: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
   transition: transform .3s;
   top: 0;
   width: 100vw;
