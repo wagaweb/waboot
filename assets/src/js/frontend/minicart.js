@@ -98,7 +98,7 @@ export default class {
 
   updateFocusableElements() {
     this.$focusableElements = this.$el.find(
-      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+      'a, button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
     );
     this.$firstFocusableElement = this.$focusableElements.first();
     this.$lastFocusableElement = this.$focusableElements.last();

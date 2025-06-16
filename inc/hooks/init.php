@@ -54,10 +54,11 @@ add_action('after_setup_theme', __NAMESPACE__."\\setup", 11);
  */
 function registerMenus(){
 	register_nav_menus([
-		'main'          => __( 'Main Menu', LANG_TEXTDOMAIN ),
-		'mobile'        => __( 'Mobile Menu', LANG_TEXTDOMAIN ),
-		'bottom'        => __( 'Bottom Menu', LANG_TEXTDOMAIN ),
-        'megamenu'      => __( 'Mega Menu', LANG_TEXTDOMAIN ),
+		'main'                  => __( 'Main Menu', LANG_TEXTDOMAIN ),
+		'mobile'                => __( 'Mobile Menu', LANG_TEXTDOMAIN ),
+		'bottom'                => __( 'Bottom Menu', LANG_TEXTDOMAIN ),
+        'megamenu'              => __( 'Mega Menu', LANG_TEXTDOMAIN ),
+        'megamenu_block'        => __( 'Mega Menu Block', LANG_TEXTDOMAIN ),
 	]);
 }
 add_action('after_setup_theme',__NAMESPACE__."\\registerMenus",11);

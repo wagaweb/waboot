@@ -4,135 +4,115 @@ namespace Waboot\inc\hooks;
 
 use Walker_Nav_Menu;
 
-add_action('init', function () {
-    if (function_exists('acf_add_local_field_group')) :
-        acf_add_local_field_group([
-            'key' => 'group_megamenu',
-            'title' => 'Blocco Modal',
-            'fields' => [
-                [
-                    'key' => 'field_megamenu_block',
-                    'label' => 'Seleziona il blocco',
-                    'name' => 'megamenu_block',
-                    'type' => 'relationship',
-                    'post_type' => ['wp_block'],
-                    'filters' => [
-                        0 => 'search',
-                    ],
-                    'return_format' => 'id',
-                    'min' => 0,
-                    'max' => 1,
-                ],
-            ],
-            'location' => [
-                [
-                    [
-                        'param' => 'nav_menu_item',
-                        'operator' => '==',
-                        'value' => 'location/megamenu',
-                    ],
-                ],
-                [
-                    [
-                        'param' => 'post_type',
-                        'operator' => '==',
-                        'value' => 'page',
-                    ],
-                ],
-                [
-                    [
-                        'param' => 'post_type',
-                        'operator' => '==',
-                        'value' => 'product',
-                    ],
-                ],
-            ],
-            'menu_order' => 0,
-            'position' => 'normal',
-            'style' => 'default',
-            'label_placement' => 'top',
-            'instruction_placement' => 'label',
-            'active' => true,
-        ]);
-    endif;
-});
+/**
+ * Add MegaMenu block options to WordPress menu items.
+ *
+ * This code allows assigning reusable blocks (wp_block) categorized under
+ * 'megamenu' to WordPress menu items. The assigned block content is displayed
+ * dynamically in the frontend.
+ */
 
-class Walker_Menu_Type extends Walker_Nav_Menu {
-    private $menu_type;
+/**
+ * Adds a custom field in the menu editor for assigning a MegaMenu block.
+ *
+ * @param int    $itemId  The menu item ID.
+ */
+add_action('wp_nav_menu_item_custom_fields', function ($itemId) {
+    // Fetch reusable blocks categorized under 'megamenu'
+    $megaMenuBlocks = get_posts([
+        'post_type' => 'wp_block',
+        'tax_query' => [[
+            'taxonomy' => 'wp_pattern_category',
+            'field'    => 'slug',
+            'terms'    => 'megamenu',
+        ]],
+        'posts_per_page' => -1,
+    ]);
 
-    public function __construct($menu_type = 'default') {
-        $this->menu_type = $menu_type;
+    // Get the current MegaMenu block assigned to this menu item
+    $currentValue = get_post_meta($itemId, '_megamenu_block', true);
+
+    // Display the custom field in the menu editor
+    echo '<p class="field-megamenu description description-wide">
+        <label for="edit-menu-item-megamenu-block-' . esc_attr($itemId) . '">' . esc_html__('Blocco Megamenu', 'waboot') . '</label>
+        <select name="menu-item-megamenu-block[' . esc_attr($itemId) . ']" id="edit-menu-item-megamenu-block-' . esc_attr($itemId) . '">
+            <option value="">' . esc_html__('Nessun Blocco', 'waboot') . '</option>';
+
+    foreach ($megaMenuBlocks as $block) {
+        echo '<option value="' . esc_attr($block->ID) . '"' . selected($currentValue, $block->ID, false) . '>' . esc_html($block->post_title) . '</option>';
     }
 
+    echo '</select></p>';
+}, 10, 4);
+
+/**
+ * Save the MegaMenu block assignment when a menu item is updated.
+ *
+ * @param int $menuId      The menu ID.
+ * @param int $menuItemId  The menu item ID.
+ */
+add_action('wp_update_nav_menu_item', function ($menuId, $menuItemId) {
+    if (!isset($_POST['menu-item-megamenu-block'][$menuItemId])) {
+        return;
+    }
+
+    $metaValue = sanitize_text_field($_POST['menu-item-megamenu-block'][$menuItemId]);
+
+    // Update or delete the meta value based on the input
+    if (!empty($metaValue)) {
+        update_post_meta($menuItemId, '_megamenu_block', $metaValue);
+    } else {
+        delete_post_meta($menuItemId, '_megamenu_block');
+    }
+}, 10, 2);
+
+class Walker_Megamenu_Block extends Walker_Nav_Menu {
     public function start_lvl(&$output, $depth = 0, $args = null) {
-        if ($this->menu_type === 'default') {
-            $indent = str_repeat("\t", $depth);
-            $output .= "\n$indent<ul class=\"sub-menu\" role=\"menu\" aria-hidden=\"true\">\n";
-        }
+        $indent = str_repeat("\t", $depth);
+        $output .= "\n$indent<ul class=\"sub-menu\">\n";
     }
 
     public function end_lvl(&$output, $depth = 0, $args = null) {
-        if ($this->menu_type === 'default') {
-            $indent = str_repeat("\t", $depth);
-            $output .= "$indent</ul>\n";
-        }
+        $indent = str_repeat("\t", $depth);
+        $output .= "$indent</ul>\n";
     }
 
     public function start_el(&$output, $item, $depth = 0, $args = null, $id = 0) {
         $classes = empty($item->classes) ? [] : (array) $item->classes;
-        $has_children = in_array('menu-item-has-children', $classes);
-        $has_megamenu = get_field('megamenu_block', 'nav_menu_item_' . $item->ID);
+        $block_id = get_post_meta($item->ID, '_megamenu_block', true);
         
-        // Determina il tipo di menu per questo elemento
-        $item_menu_type = $this->menu_type;
-        if ($has_megamenu) {
-            $item_menu_type = 'pattern';
-        } elseif ($has_children && $this->menu_type === 'megamenu') {
-            $item_menu_type = 'megamenu';
-        }
+        $block = $block_id ? get_post($block_id) : null;
+        $has_block = $block && $block->post_status === 'publish';
 
-        // Aggiungi classi specifiche per il tipo di menu
-        if ($item_menu_type === 'pattern') {
-            $classes[] = 'has-megamenu-pattern';
-        } elseif ($item_menu_type === 'megamenu') {
-            $classes[] = 'has-megamenu-classic';
+        if ($has_block) {
+            $classes[] = 'has-megamenu';
         }
 
         $class_names = implode(' ', array_filter($classes));
-        $aria_has_popup = ($has_children || $has_megamenu) ? ' aria-haspopup="true" aria-expanded="false"' : '';
-
         $output .= '<li class="' . esc_attr($class_names) . '">';
-
-        // Link principale
-        $output .= '<a href="' . esc_url($item->url) . '"' . $aria_has_popup . '>';
+        
+        // Aggiungo attributi ARIA per il link
+        $aria_expanded = $has_block ? 'aria-expanded="false"' : '';
+        $aria_controls = $has_block ? 'aria-controls="megamenu-' . esc_attr($item->ID) . '"' : '';
+        $aria_label = $has_block ? 'aria-label="' . esc_attr($item->title) . ' - ' . esc_html__('Apri sottomenu', 'waboot') . '"' : '';
+        
+        $output .= '<a href="' . esc_url($item->url) . '" ' . $aria_expanded . ' ' . $aria_controls . ' ' . $aria_label . '>';
         $output .= esc_html($item->title);
         $output .= '</a>';
 
-        // Gestione dei sottomenu in base al tipo
-        if ($item_menu_type === 'pattern' && $has_megamenu) {
-            $block = get_post($has_megamenu);
-            if ($block && $block->post_status === 'publish') {
-                $output .= '<div class="mega-menu mega-menu--pattern" role="region" aria-label="' . esc_attr($item->title) . '">';
-                $output .= '<div class="mega-menu__columns">';
-                $output .= do_blocks($block->post_content);
-                $output .= '</div>';
-                $output .= '</div>';
-            }
-        } elseif ($item_menu_type === 'megamenu' && $has_children) {
-            $output .= '<div class="mega-menu mega-menu--classic" role="region" aria-label="' . esc_attr($item->title) . '">';
-            $output .= '<div class="mega-menu__columns">';
-            // Il sottomenu classico verrà aggiunto da start_lvl/end_lvl
+        if ($has_block) {
+            // Di default il megamenu è chiuso: aria-hidden="true" e inert
+            $output .= '<div class="mega-menu mega-menu--pattern" id="megamenu-' . esc_attr($item->ID) . '" role="region" aria-label="' . esc_attr($item->title) . ' ' . esc_html__('sottomenu', 'waboot') . '" >';
+            $output .= '<div class="mega-menu__inner">';
+            $output .= '<div class="mega-menu__content">';
+            $output .= apply_filters('the_content', $block->post_content);
+            $output .= '</div>'; // .mega-menu__content
+            $output .= '</div>'; // .mega-menu__inner
+            $output .= '</div>'; // .mega-menu
         }
     }
 
     public function end_el(&$output, $item, $depth = 0, $args = null) {
-        $has_children = in_array('menu-item-has-children', empty($item->classes) ? [] : (array) $item->classes);
-        $has_megamenu = get_field('megamenu_block', 'nav_menu_item_' . $item->ID);
-        
-        if ($this->menu_type === 'megamenu' && $has_children && !$has_megamenu) {
-            $output .= '</div></div>'; // Chiude mega-menu--classic
-        }
-        
-        $output .= '</li>';
+        $output .= "</li>\n";
     }
 }

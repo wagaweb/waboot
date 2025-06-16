@@ -1,5 +1,8 @@
 .header__megamenu {
   flex-grow: 1;
+  @include down($large) {
+    display: none;
+  }
 
   ul {
     margin: 0;
@@ -7,64 +10,76 @@
     list-style: none;
   }
 
-  > ul {
+  >ul {
     display: flex;
   }
 
+  a {
+    padding: 10px 0;
+    display: flex;
+    align-items: center;
+
+    @include up($large) {
+      padding: 15px;
+    }
+  }
+
   .has-megamenu {
-    > a:after {
+    >a:after {
       @extend %fa-icon;
       @extend .far;
       content: fa-content($fa-var-angle-down);
       opacity: .7;
       margin-left: 10px;
     }
+
+    &:hover > .sub-menu,
+    &:focus-within .sub-menu,
     &:hover .mega-menu,
-    &.submenu-open .mega-menu,
     &:focus-within .mega-menu {
-      display: block;
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
     }
-  }
 
-  .mega-menu {
-    display: none;
-    position: absolute;
-    z-index: 7;
-    padding: 0;
-    margin: 0;
-    background-color: #fff;
-    border: 1px solid rgba(0, 0, 0, .15);
-    background-clip: padding-box;
-    width: 100vw;
-    inset-inline: 0;
+    > .sub-menu,
+    .mega-menu {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      min-width: 600px;
+      background: $colorWhite;
+      border: 1px solid $colorGrey;
+      padding: $gridGutter;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(10px);
+      transition: all 0.3s ease;
+      z-index: 100;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 
-    &[aria-hidden=false] {
-      display: block;
+      &__inner {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: $gridGutter;
+      }
+
+      &__content {
+        >*:first-child {
+          margin-top: 0;
+        }
+
+        >*:last-child {
+          margin-bottom: 0;
+        }
+      }
     }
-    &__columns > .sub-menu {
+
+    & > .sub-menu {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: $gridGutter / 2;
-      padding: $gridGutter;
-    }
-    a[href=""] {
-      color: inherit;
-      pointer-events: none;
-      display: block;
-      margin-bottom: 10px;
-    }
-  }
-
-  > ul > li > a {
-    padding: 10px 0;
-    position: relative;
-    display: flex;
-    align-items: center;
-    text-transform: uppercase;
-    font-size: .9em;
-
-    @include up($large) {
-      padding: 15px;
+      gap: $gridGutter;
     }
   }
 }

@@ -32,9 +32,6 @@
     position: relative;
     display: flex;
     align-items: center;
-    text-transform: uppercase;
-    font-size: .9em;
-
     @include up($large) {
       padding: 15px;
     }
