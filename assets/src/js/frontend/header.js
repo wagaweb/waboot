@@ -162,7 +162,7 @@ function initMegaMenu(selector) {
 function navigationAccessibility() {
   const $menu = $('.navigation');
 
-  // Inizializza tutti i sub-menu
+  // Inizializza tutti i sub-menu/mega-menu
   $menu.find('.sub-menu, .mega-menu').attr({
     'aria-hidden': 'true',
     'inert': ''
@@ -171,7 +171,7 @@ function navigationAccessibility() {
   // Inizializza aria-expanded=false su tutti gli <a> dentro .menu-item-has-children
   $menu.find('.menu-item-has-children > a, .mega-menu > a').attr('aria-expanded', 'false');
 
-  // Gestisce gli attributi ARIA e inert dei sub-menu
+  // Gestisce gli attributi ARIA e inert dei sub-menu/mega-menu
   $menu.find('.menu-item-has-children, .has-megamenu').each(function() {
     const $parent = $(this);
     const $submenu = $parent.children('.sub-menu, .mega-menu').first();
