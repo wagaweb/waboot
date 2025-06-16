@@ -80,7 +80,7 @@ class Walker_Megamenu_Block extends Walker_Nav_Menu {
     public function start_el(&$output, $item, $depth = 0, $args = null, $id = 0) {
         $classes = empty($item->classes) ? [] : (array) $item->classes;
         $block_id = get_post_meta($item->ID, '_megamenu_block', true);
-        
+
         $block = $block_id ? get_post($block_id) : null;
         $has_block = $block && $block->post_status === 'publish';
 
@@ -90,25 +90,20 @@ class Walker_Megamenu_Block extends Walker_Nav_Menu {
 
         $class_names = implode(' ', array_filter($classes));
         $output .= '<li class="' . esc_attr($class_names) . '">';
-        
-        // Aggiungo attributi ARIA per il link
-        $aria_expanded = $has_block ? 'aria-expanded="false"' : '';
-        $aria_controls = $has_block ? 'aria-controls="megamenu-' . esc_attr($item->ID) . '"' : '';
-        $aria_label = $has_block ? 'aria-label="' . esc_attr($item->title) . ' - ' . esc_html__('Apri sottomenu', 'waboot') . '"' : '';
-        
-        $output .= '<a href="' . esc_url($item->url) . '" ' . $aria_expanded . ' ' . $aria_controls . ' ' . $aria_label . '>';
+
+        // Link senza attributi aria dinamici
+        $output .= '<a href="' . esc_url($item->url) . '">';
         $output .= esc_html($item->title);
         $output .= '</a>';
 
         if ($has_block) {
-            // Di default il megamenu è chiuso: aria-hidden="true" e inert
-            $output .= '<div class="mega-menu mega-menu--pattern" id="megamenu-' . esc_attr($item->ID) . '" role="region" aria-label="' . esc_attr($item->title) . ' ' . esc_html__('sottomenu', 'waboot') . '" >';
+            $output .= '<div class="mega-menu" id="megamenu-' . esc_attr($item->ID) . '" role="region">';
             $output .= '<div class="mega-menu__inner">';
             $output .= '<div class="mega-menu__content">';
             $output .= apply_filters('the_content', $block->post_content);
-            $output .= '</div>'; // .mega-menu__content
-            $output .= '</div>'; // .mega-menu__inner
-            $output .= '</div>'; // .mega-menu
+            $output .= '</div>';
+            $output .= '</div>';
+            $output .= '</div>';
         }
     }
 

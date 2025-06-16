@@ -160,21 +160,21 @@ function initMegaMenu(selector) {
 }
 
 function navigationAccessibility() {
-  const $menu = $('.header__navigation .navigation');
+  const $menu = $('.navigation');
 
   // Inizializza tutti i sub-menu
-  $menu.find('.sub-menu').attr({
+  $menu.find('.sub-menu, .mega-menu').attr({
     'aria-hidden': 'true',
     'inert': ''
   });
 
   // Inizializza aria-expanded=false su tutti gli <a> dentro .menu-item-has-children
-  $menu.find('.menu-item-has-children > a').attr('aria-expanded', 'false');
+  $menu.find('.menu-item-has-children > a, .mega-menu > a').attr('aria-expanded', 'false');
 
   // Gestisce gli attributi ARIA e inert dei sub-menu
-  $menu.find('.menu-item-has-children').each(function() {
+  $menu.find('.menu-item-has-children, .has-megamenu').each(function() {
     const $parent = $(this);
-    const $submenu = $parent.children('.sub-menu').first();
+    const $submenu = $parent.children('.sub-menu, .mega-menu').first();
 
     $parent.on('mouseenter focusin', function() {
       $submenu.attr('aria-hidden', 'false').removeAttr('inert');
