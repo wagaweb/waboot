@@ -20,9 +20,9 @@
     "shoprules:build:prod": "cd addons/packages/shop_rules/assets/admin && npm i && npm run prod",
     "productimporter:install": "cd inc/cli/product_import && git clone git@github.com:wagaweb/waga-woocommerce-csv-cli-importer.git",
     "productimporter:update": "cd inc/cli/product_import && git pull",
-    "checkout:build:dev": "cd addons/packages/checkout/assets && npm i && npm run build-dev",
-    "checkout:build:watch": "cd addons/packages/checkout/assets && npm i && npm run build-dev:watch",
-    "checkout:build:prod": "cd addons/packages/checkout/assets && npm i && npm run build"
+    "checkout:build:dev": "cd addons/packages/checkout/step_checkout_advanced/assets && npm i && npm run build-dev",
+    "checkout:build:watch": "cd addons/packages/checkout/step_checkout_advanced/assets && npm i && npm run build-dev:watch",
+    "checkout:build:prod": "cd addons/packages/checkout/step_checkout_advanced/assets && npm i && npm run build"
   },
   "license": "proprietary",
   "devDependencies": {
