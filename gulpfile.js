@@ -1,34 +1,38 @@
-var pkg = require("./package.json");
+const pkg = require("./package.json");
 
-var gulp = require("gulp"),
-    rename = require("gulp-rename"),
-    sourcemaps = require("gulp-sourcemaps"),
-    uglify = require("gulp-uglify"),
-    sass = require("gulp-sass")(require("sass")),
-    browserify = require("browserify"),
-    source = require("vinyl-source-stream"), //https://www.npmjs.com/package/vinyl-source-stream
-    buffer = require("vinyl-buffer"), //https://www.npmjs.com/package/vinyl-buffer
-    babelify = require("babelify"),
-    postcss = require("gulp-postcss"),
-    autoprefixer = require("autoprefixer"),
-    cssnano = require("cssnano"),
-    merge = require("merge-stream");
+const gulp = require("gulp");
+const rename = require("gulp-rename");
+const sourcemaps = require("gulp-sourcemaps");
+const uglify = require("gulp-terser");
+const sass = require("gulp-sass")(require("sass"));
+const browserify = require("browserify");
+const source = require("vinyl-source-stream"); //https://www.npmjs.com/package/vinyl-source-stream
+const buffer = require("vinyl-buffer"); //https://www.npmjs.com/package/vinyl-buffer
+const babelify = require("babelify");
+const postcss = require("gulp-postcss");
+const autoprefixer = require("autoprefixer");
+const cssnano = require("cssnano");
+const merge = require("merge-stream");
 
-var paths = {
+const paths = {
     scripts: ["./assets/src/js/**/*.js"],
     main_js: ["./assets/src/js/main.js"],
     bundle_js: ["./assets/dist/js/main.pkg.js"],
     styles: ["./assets/src/sass/**/*.scss"],
-    main_style: "./assets/src/sass/main.scss"
+    main_style: "./assets/src/sass/main.scss",
+    gutenberg: "./assets/src/sass/backend/gutenberg.scss"
 };
 
 function compileCss() {
-    var processors = [
-        autoprefixer({ browsers: ["last 1 version"] }),
+    const processors = [
+        // autoprefixer will use "browserlist" from package.json.
+        // To see compatibilities: https://browsersl.ist/#q=%22browserslist%22%3A+%5B%0A++%22defaults+and+fully+supports+es6-module%22%2C%0A++%22maintained+node+versions%22%0A%5D
+        // General docs: https://github.com/browserslist/browserslist?tab=readme-ov-file#readme
+        autoprefixer(),
         cssnano({ zindex: false })
     ];
 
-    var frontend = gulp
+    const frontend = gulp
         .src(paths.main_style)
         .pipe(sourcemaps.init())
         .pipe(sass())
@@ -37,7 +41,16 @@ function compileCss() {
         .pipe(sourcemaps.write("."))
         .pipe(gulp.dest("./assets/dist/css"));
 
-    return merge(frontend);
+    const backend = gulp
+        .src(paths.gutenberg)
+        .pipe(sourcemaps.init())
+        .pipe(sass())
+        .pipe(postcss(processors))
+        .pipe(rename("gutenberg.min.css"))
+        .pipe(sourcemaps.write("."))
+        .pipe(gulp.dest("./assets/dist/css"));
+
+    return merge(frontend, backend);
 }
 
 function compileJsBundle() {
@@ -62,14 +75,14 @@ function minifyJs() {
         .pipe(gulp.dest("./assets/dist/js"));
 }
 
-var compileJs = gulp.series(compileJsBundle,minifyJs);
+const compileJs = gulp.series(compileJsBundle,minifyJs);
 
 function watch() {
     gulp.watch(paths.scripts, compileJs);
     gulp.watch(paths.styles, compileCss);
 }
 
-var build = gulp.series(gulp.parallel(compileJs,compileCss),watch);
+const build = gulp.series(gulp.parallel(compileJs,compileCss),watch);
 
 exports.compile_css = compileCss;
 exports.compile_js = compileJs;

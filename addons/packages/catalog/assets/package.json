@@ -19,7 +19,7 @@
     "@types/jquery": "^3.5.14",
     "@types/lodash": "^4.14.182",
     "@vue/compiler-sfc": "^3.2.33",
-    "autoprefixer": "^10.4.5",
+    "autoprefixer": "^10.4.21",
     "css-loader": "^6.7.1",
     "mini-css-extract-plugin": "^2.6.0",
     "postcss": "^8.4.12",
@@ -32,5 +32,8 @@
     "vue-loader": "^17.0.0",
     "webpack": "^5.72.0",
     "webpack-cli": "^4.9.2"
-  }
+  },
+  "browserslist": [
+    "defaults and fully supports es6-module"
+  ]
 }
