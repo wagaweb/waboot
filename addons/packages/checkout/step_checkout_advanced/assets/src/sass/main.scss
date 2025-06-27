@@ -67,7 +67,7 @@ form
 .order-total {
   td,
   th {
-    border-top: 1px solid variables.$colorGrey200;
+    border-top: 1px solid variables.$colorGrey;
     padding-top: 24px;
   }
   th {
@@ -87,7 +87,7 @@ form
 
   &:not([data-step="email"]) {
     .woocommerce-checkout-steps__data {
-      border-bottom: 1px solid variables.$colorGrey200;
+      border-bottom: 1px solid variables.$colorGrey;
       padding-bottom: 24px;
       margin-bottom: 24px;
     }
@@ -158,7 +158,7 @@ form
 
   &__link {
     align-items: center;
-    color: variables.$colorGrey900;
+    color: variables.$colorGrey;
     display: flex;
     flex-direction: column;
     gap: 8px;
@@ -173,7 +173,7 @@ form
       padding: 0;
     }
     .form-row__email {
-      color: variables.$colorGrey700;
+      color: variables.$colorGrey;
     }
   }
 
@@ -203,11 +203,11 @@ form
       margin-bottom: 8px !important;
     }
     p {
-      color: variables.$colorGrey900;
+      color: variables.$colorGrey;
       margin-bottom: 0;
     }
     small {
-      color: variables.$colorGrey700;
+      color: variables.$colorGrey;
       font-size: 1em;
       font-weight: variables.$fontWeightMedium;
     }
@@ -218,7 +218,7 @@ form
       margin-bottom: 24px !important;
     }
     .forgot-password {
-      color: variables.$colorGrey700;
+      color: variables.$colorGrey;
       font-weight: variables.$fontWeightMedium;
       font-size: .8125em;
       line-height: 1.5;
@@ -340,7 +340,7 @@ form
       transition: 0.2s;
       margin: 0;
       background-color: variables.$colorWhite;
-      color: variables.$colorGrey700;
+      color: variables.$colorGrey;
       padding: 2px 4px;
     }
     &__email {
@@ -356,7 +356,7 @@ form
   }
 
   &__payment {
-    border-top: 1px solid variables.$colorGrey200;
+    border-top: 1px solid variables.$colorGrey;
     padding-top: 24px;
     input[type="submit"] {
       width: 100%;
@@ -400,13 +400,13 @@ form
       }
 
       span {
-        color: variables.$colorGrey900;
+        color: variables.$colorGrey;
         font-size: .875em;
       }
 
       &--btn {
         border: none;
-        color: variables.$colorGrey900;
+        color: variables.$colorGrey;
         font-size: .875em;
         font-weight: variables.$fontWeightMedium;
         grid-template-columns: 1fr;
@@ -435,7 +435,7 @@ form
           &:focus {
             background-color: variables.$colorGreyLight;
             border-color: variables.$colorGreyLight;
-            color: variables.$colorGrey900;
+            color: variables.$colorGrey;
           }
         }
 
@@ -583,7 +583,7 @@ form
     }
     .cart-subtotal {
       th, td {
-        border-top: 1px solid variables.$colorGrey200;
+        border-top: 1px solid variables.$colorGrey;
         padding-top: 24px;
       }
     }
@@ -606,7 +606,7 @@ form
     }
 
     p {
-      color: variables.$colorGrey700;
+      color: variables.$colorGrey;
       font-size: .8125em;
       font-weight: variables.$fontWeightMedium;
       padding: 0 24px 24px;
