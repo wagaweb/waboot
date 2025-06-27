@@ -59,3 +59,8 @@ onMounted(() => {
         <div data-order-review-wrapper></div>
     </div>
 </template>
+<style lang="scss">
+div[data-order-review-wrapper] > table.woocommerce-checkout-review-order-table{
+    display: block !important;
+}
+</style>

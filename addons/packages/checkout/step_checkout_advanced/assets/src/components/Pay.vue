@@ -8,8 +8,8 @@ const { t } = useI18n();
 
 const checkoutDataStore = useCheckoutDataStore();
 
-function moveOriginalFormIntoApp() {
-    debugLog('<Pay> moveOriginalFormIntoApp()');
+function showOriginalFormPayment() {
+    debugLog('<Pay> showOriginalFormPayment()');
     //@ts-ignore
     if (typeof window.jQuery === "undefined") {
         return;
@@ -17,29 +17,32 @@ function moveOriginalFormIntoApp() {
     //@ts-ignore
     const $ = window.jQuery;
     let $originalFormWrapper = $('#original-form-wrapper');
-    let $paymentWrapper = $('#payment-wrapper');
     if ($originalFormWrapper !== "undefined" && $originalFormWrapper.length > 0) {
-        const $originalForm = $('#original-form-wrapper').find('form');
-        if ($originalForm.length > 0) {
-            debugLog('<Pay> moveOriginalFormIntoApp() -> moving');
-            $originalForm.appendTo('#payment-wrapper');
-        }
+        $originalFormWrapper.find('#customer_details').hide();
+        $originalFormWrapper.find('#order_review_heading').hide();
+        $originalFormWrapper.find('#order_review').find('.woocommerce-checkout-review-order-table').hide();
+        $originalFormWrapper.find('#order_review').find('#payment').show();
+        $('[data-order-review-wrapper]').find('.woocommerce-checkout-review-order-table').show();
+        $originalFormWrapper.css('display','grid');
     }
 }
 
-function resetOriginalFormPosition() {
-    debugLog('<Pay> resetOriginalFormPosition()');
+function resetOriginalFormVisibility(){
+    debugLog('<Pay> resetOriginalFormVisibility()');
     //@ts-ignore
     if (typeof window.jQuery === "undefined") {
         return;
     }
     //@ts-ignore
     const $ = window.jQuery;
-    let $originalForm = $('#original-form-wrapper');
-    let $paymentWrapper = $('#payment-wrapper');
-    if ($originalForm !== "undefined" && $originalForm.length > 0) {
-        debugLog('<Pay> resetOriginalFormPosition() -> restoring');
-        $paymentWrapper.find('form').appendTo('#original-form-wrapper');
+    let $originalFormWrapper = $('#original-form-wrapper');
+    if ($originalFormWrapper !== "undefined" && $originalFormWrapper.length > 0) {
+        $originalFormWrapper.find('#customer_details').show();
+        $originalFormWrapper.find('#order_review_heading').show();
+        $originalFormWrapper.find('#order_review').find('.woocommerce-checkout-review-order-table').show();
+        $originalFormWrapper.find('#order_review').find('#payment').show();
+        $('[data-order-review-wrapper]').find('.woocommerce-checkout-review-order-table').show();
+        $originalFormWrapper.hide();
     }
 }
 
@@ -56,12 +59,12 @@ function placeOrder() {
 
 onMounted(() => {
     debugLog('<Pay> onMounted()');
-    moveOriginalFormIntoApp();
+    showOriginalFormPayment();
 });
 
 onBeforeUnmount(() => {
     debugLog('<Pay> onBeforeUnmount()');
-    resetOriginalFormPosition();
+    resetOriginalFormVisibility();
 })
 
 </script>

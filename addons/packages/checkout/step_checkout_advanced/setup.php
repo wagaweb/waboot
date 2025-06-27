@@ -53,6 +53,12 @@ add_action('wp_enqueue_scripts', static function(){
             ],
             'in_footer' => true
         ];
+        $assets['step-checkout-order-review'] = [
+            'uri' => get_template_directory_uri() . '/addons/packages/checkout/step_checkout_advanced/assets/order-review-manager.js',
+            'path' => get_template_directory() . '/addons/packages/checkout/step_checkout_advanced/assets/order-review-manager.js',
+            'type' => 'js',
+            'in_footer' => true
+        ];
         $cssFiles = glob($assetsDir.'/index-*.css');
         if(\is_array($cssFiles) && !empty($cssFiles)){
             $mainCssFilePath = array_shift($cssFiles);
@@ -75,21 +81,39 @@ remove_action( 'woocommerce_before_checkout_form', 'woocommerce_checkout_login_f
 add_action('woocommerce_before_checkout_form', function($checkout){
     ?>
     <?php do_action('wawoo/addons/checkout/before_checkout_wrapper'); ?>
-    <div id="woocommerce-checkout-steps-app" class="woocommerce-checkout-steps">
-    </div>
+    <div class="checkout-addon-wrapper">
+
+        <div id="order-review__wrapper" class="woocommerce-checkout-steps__order-review">
+            <div class="woocommerce-checkout-steps__order-review-top">
+                <h3><?php _e('Order review') ?></h3>
+                <button><i class="icon icon-chevron-down"></i></button>
+
+                <strong data-cart-total></strong>
+            </div>
+
+            <div class="woocommerce-checkout-steps__loader"><span class="loader"></span></div>
+
+            <div data-order-review-wrapper></div>
+        </div>
+
+    <div class="checkout-addon-steps">
+        <div id="woocommerce-checkout-steps-app" class="woocommerce-checkout-steps">
+        </div>
     <?php do_action('wawoo/addons/checkout/after_checkout_wrapper'); ?>
     <?php
 },20,1);
 
 add_action('woocommerce_before_checkout_form', function($checkout){
     ?>
-    <div id="original-form-wrapper" style="margin-top: 60px;">
+    <div id="original-form-wrapper" class="original-form-wrapper">
     <?php
 },20,1);
 
 add_action('woocommerce_after_checkout_form', function($checkout){
     ?>
     </div><!-- #original-form-wrapper -->
+    </div><!-- .checkout-addon-steps -->
+    </div><!-- .checkout-addon-wrapper -->
     <?php
 },99,1);
 

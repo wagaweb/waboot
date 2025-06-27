@@ -14,7 +14,28 @@ form
       ul.wc_payment_methods.payment_methods methods
       .place-order
 */
-#original-form-wrapper {
+
+.checkout-addon-wrapper {
+  display: grid;
+  grid-gap: 24px;
+  max-width: 1400px;
+  margin-inline: auto;
+
+  @include media-query.up(variables.$large) {
+    grid-gap: 80px;
+    grid-template-columns: 1fr 1fr;
+    .checkout-addon-steps {
+      grid-column-start: 1;
+      grid-row-start: 1;
+    }
+    .woocommerce-checkout-steps__order-review {
+      grid-column-start: 2;
+      grid-row-start: 1;
+    }
+  }
+}
+
+.original-form-wrapper {
   display: none;
 }
 
@@ -46,7 +67,7 @@ form
 .order-total {
   td,
   th {
-    border-top: 1px solid variables.$colorGrey;
+    border-top: 1px solid variables.$colorGrey200;
     padding-top: 24px;
   }
   th {
@@ -63,30 +84,12 @@ form
 
 // new checkout form specific styles
 .woocommerce-checkout-steps {
-  display: grid;
-  grid-gap: 24px;
-  max-width: 1400px;
-  margin-inline: auto;
 
-  @include media-query.up(variables.$large) {
-    grid-gap: 80px;
-    grid-template-columns: 1fr 1fr;
-  }
-
-  &__left {
-    @include media-query.up(variables.$large) {
-      padding-left: 60px;
-    }
-    > * {
-      max-width: 600px;
-    }
-
-    &:not([data-step="email"]) {
-      .woocommerce-checkout-steps__data {
-        border-bottom: 1px solid variables.$colorGrey;
-        padding-bottom: 24px;
-        margin-bottom: 24px;
-      }
+  &:not([data-step="email"]) {
+    .woocommerce-checkout-steps__data {
+      border-bottom: 1px solid variables.$colorGrey200;
+      padding-bottom: 24px;
+      margin-bottom: 24px;
     }
   }
 
@@ -155,7 +158,7 @@ form
 
   &__link {
     align-items: center;
-    color: variables.$colorGrey;
+    color: variables.$colorGrey900;
     display: flex;
     flex-direction: column;
     gap: 8px;
@@ -170,7 +173,7 @@ form
       padding: 0;
     }
     .form-row__email {
-      color: variables.$colorGrey;
+      color: variables.$colorGrey700;
     }
   }
 
@@ -200,11 +203,11 @@ form
       margin-bottom: 8px !important;
     }
     p {
-      color: variables.$colorGrey;
+      color: variables.$colorGrey900;
       margin-bottom: 0;
     }
     small {
-      color: variables.$colorGrey;
+      color: variables.$colorGrey700;
       font-size: 1em;
       font-weight: variables.$fontWeightMedium;
     }
@@ -215,7 +218,7 @@ form
       margin-bottom: 24px !important;
     }
     .forgot-password {
-      color: variables.$colorGrey;
+      color: variables.$colorGrey700;
       font-weight: variables.$fontWeightMedium;
       font-size: .8125em;
       line-height: 1.5;
@@ -337,7 +340,7 @@ form
       transition: 0.2s;
       margin: 0;
       background-color: variables.$colorWhite;
-      color: variables.$colorGrey;
+      color: variables.$colorGrey700;
       padding: 2px 4px;
     }
     &__email {
@@ -353,7 +356,7 @@ form
   }
 
   &__payment {
-    border-top: 1px solid variables.$colorGrey;
+    border-top: 1px solid variables.$colorGrey200;
     padding-top: 24px;
     input[type="submit"] {
       width: 100%;
@@ -397,13 +400,13 @@ form
       }
 
       span {
-        color: variables.$colorGrey;
+        color: variables.$colorGrey900;
         font-size: .875em;
       }
 
       &--btn {
         border: none;
-        color: variables.$colorGrey;
+        color: variables.$colorGrey900;
         font-size: .875em;
         font-weight: variables.$fontWeightMedium;
         grid-template-columns: 1fr;
@@ -432,7 +435,7 @@ form
           &:focus {
             background-color: variables.$colorGreyLight;
             border-color: variables.$colorGreyLight;
-            color: variables.$colorGrey;
+            color: variables.$colorGrey900;
           }
         }
 
@@ -580,7 +583,7 @@ form
     }
     .cart-subtotal {
       th, td {
-        border-top: 1px solid variables.$colorGrey;
+        border-top: 1px solid variables.$colorGrey200;
         padding-top: 24px;
       }
     }
@@ -603,7 +606,7 @@ form
     }
 
     p {
-      color: variables.$colorGrey;
+      color: variables.$colorGrey700;
       font-size: .8125em;
       font-weight: variables.$fontWeightMedium;
       padding: 0 24px 24px;

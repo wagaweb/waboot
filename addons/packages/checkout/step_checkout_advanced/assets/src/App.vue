@@ -110,7 +110,7 @@ function onAddressDataSubmitted(shippingData: addressData, billingData: addressD
 </script>
 
 <template>
-    <div class="woocommerce-checkout-steps__left" :data-step="checkoutDataStore.currentStep" v-if="!loading">
+    <div class="woocommerce-checkout-steps" :data-step="checkoutDataStore.currentStep" v-if="!loading">
         <div class="woocommerce-checkout-steps__messages" v-if="checkoutDataStore.globalErrors.length > 0">
             <p class="woocommerce-checkout-steps__message woocommerce-checkout-steps__message--error"
                v-for="error in checkoutDataStore.globalErrors">
@@ -153,10 +153,6 @@ function onAddressDataSubmitted(shippingData: addressData, billingData: addressD
     </div>
     <div class="woocommerce-checkout-steps__left" v-else>
         Caricamento...
-    </div>
-
-    <div class="woocommerce-checkout-steps__right">
-        <OrderReview/>
     </div>
 </template>
 
