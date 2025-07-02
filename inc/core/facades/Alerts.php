@@ -22,6 +22,13 @@ class Alerts
         }
     }
 
+    /**
+     * @see: https://developers.google.com/workspace/chat/quickstart/webhooks
+     * @param string $message
+     * @param string $url
+     * @param \DateTimeZone|null $tz
+     * @return void
+     */
     static function dispatchGoogleChatAlert(string $message, string $url, \DateTimeZone $tz = null): void
     {
         try {
