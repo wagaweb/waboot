@@ -22,6 +22,7 @@ namespace Waboot\addons\packages\checkout\hooks;
  * Without this, the field is being "unset" here: wp-content/plugins/woocommerce/includes/class-wc-countries.php -> get_default_address_fields()
  */
 
+use Waboot\inc\core\woocommerce\addresses\ShippingAddress;
 use function Waboot\addons\packages\checkout\getCustomerCustomBillingFields;
 
 add_filter('pre_option_'.'woocommerce_checkout_company_field', static function ($value, string $option, $defaultValue) {
@@ -43,10 +44,21 @@ add_filter('pre_option_'.'woocommerce_checkout_phone_field', static function ($v
 },10, 3);
 
 /*
+ * Save billing phone to shipping
+ */
+add_filter('wawoo/multiple_addresses/shipping_address_repository/create_from_posted_data', static function(ShippingAddress $address){
+    if(!empty($_POST['billing_phone']) && !isset($_POST['shipping_phone'])){
+        $address->setPhone($_POST['billing_phone']);
+    }
+    return $address;
+});
+
+/*
  * Adds custom default billing fields
  */
 add_filter('wawoo/addons/checkout/customer_custom_billing_fields', static function (array $fields) {
-    $fields['billing_birthday'] = [
+    // DE COMMENTARE SE NECESSARI
+    /*$fields['billing_birthday'] = [
         'label' => __('Birthday', LANG_TEXTDOMAIN),
         'type' => 'date',
         'priority' => 21
@@ -65,7 +77,7 @@ add_filter('wawoo/addons/checkout/customer_custom_billing_fields', static functi
         'label' => __('SDI\\PEC', LANG_TEXTDOMAIN),
         'type' => 'text',
         'priority' => 32
-    ];
+    ];*/
     return $fields;
 });
 

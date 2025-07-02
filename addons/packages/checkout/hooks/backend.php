@@ -1,6 +1,6 @@
 <?php
 
-namespace Waboot\addons\packages\checkout\hooks\advanced;
+namespace Waboot\addons\packages\checkout\hooks;
 
 
 namespace Waboot\addons\packages\checkout;

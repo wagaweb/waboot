@@ -31,10 +31,11 @@ use function Waboot\addons\getAddonDirectory;
 
 $deps = [
     'functions.php',
+    'hooks/backend.php',
+    'hooks/hooks.php',
+    'hooks/coupons.php',
     'hooks/fields.php',
-    'hooks/layout.php',
-    //'step_checkout_base/setup.php', // Use either base or advanced
-    'step_checkout_advanced/setup.php'
+    'hooks/layout.php'
 ];
 
 $deps = array_map(static function($file){
