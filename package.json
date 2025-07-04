@@ -16,9 +16,9 @@
     "assets:build:watch": "npx gulp",
     "catalog:build:dev": "cd addons/packages/catalog/assets && npm i && npm run dev",
     "catalog:build:prod": "cd addons/packages/catalog/assets && npm i && npm run prod",
-    "checkout:build:dev": "cd addons/packages/checkout/step_checkout_advanced/assets && npm i && npm run build-dev",
-    "checkout:build:watch": "cd addons/packages/checkout/step_checkout_advanced/assets && npm i && npm run build-dev:watch",
-    "checkout:build:prod": "cd addons/packages/checkout/step_checkout_advanced/assets && npm i && npm run build"
+    "checkout:build:dev": "cd addons/packages/checkout/assets && npm i && npm run build-dev",
+    "checkout:build:watch": "cd addons/packages/checkout/assets && npm i && npm run build-dev:watch",
+    "checkout:build:prod": "cd addons/packages/checkout/assets && npm i && npm run build"
   },
   "license": "GPL-2.0+",
   "engines": {
