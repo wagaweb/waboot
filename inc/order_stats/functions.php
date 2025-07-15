@@ -21,7 +21,8 @@ function createOrderStatsTable(): void {
     if(Waboot()->DB()->tableExists($statsTableName)){
         throw new OrderStatsException('Table '.$statsTableName.' already exists.');
     }
-    Waboot()->DB()->getSchemaBuilder()->create($statsTableName, function (Blueprint $table){
+    $taxonomiesColumns = getTaxonomiesForStats();
+    Waboot()->DB()->getSchemaBuilder()->create($statsTableName, function (Blueprint $table) use($taxonomiesColumns) {
         $table->id();
         $table->integer('order_id');
         $table->string('product_id');
@@ -38,7 +39,7 @@ function createOrderStatsTable(): void {
         $table->float('total_refunded')->default(0);
         $table->string('shipping_country');
         $table->string('payment_method');
-        foreach ($this->taxonomiesColumns as $taxonomy){
+        foreach ($taxonomiesColumns as $taxonomy){
             $table->string($taxonomy)->default('');
             do_action('wawoo/order_stats/table/taxonomy_cols/tax',$table,$taxonomy);
         }
