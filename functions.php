@@ -13,6 +13,8 @@ try{
      */
     $additionalDeps = [
         'inc/multilanguage-functions.php',
+        'inc/order_stats/functions.php',
+        'inc/order_stats/hooks.php',
         'inc/woocommerce-helpers.php',
         'inc/hooks/gravityform/hooks.php',
         'inc/hooks/woocommerce/woocommerce.php',
