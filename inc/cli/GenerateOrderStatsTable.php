@@ -44,7 +44,6 @@ class GenerateOrderStatsTable extends AbstractCommand
     /**
      * @var array
      */
-    private array $taxonomiesColumns;
     protected bool $mustRebuildTable;
     protected bool $skipExisting;
     protected int $ordersPerPage;
@@ -97,7 +96,6 @@ class GenerateOrderStatsTable extends AbstractCommand
                     $this->selectedOrdersIds = $selectedOrders;
                 }
             }
-            $this->taxonomiesColumns = getTaxonomiesForStats();
             if(isset($assoc_args['table-name']) && \is_string($assoc_args['table-name']) && $assoc_args['table-name'] !== ''){
                 $tableTmpName = sanitize_title($assoc_args['table-name']);
                 add_filter('waboot/order_stats/table/table_name', static function () use ($tableTmpName){
@@ -174,7 +172,7 @@ class GenerateOrderStatsTable extends AbstractCommand
             throw new CLIRuntimeException(sprintf('ERROR: Unable to delete table: %s', $this->statsTableName));
         }
         $this->log(sprintf('Creating table %s...', $this->statsTableName));
-        $this->log('Taxonomies to use: '.implode(', ',$this->taxonomiesColumns));
+        $this->log('Taxonomies to use: '.implode(', ',getTaxonomiesForStats()));
         createOrderStatsTable();
         $this->log('Table created');
     }
