@@ -3,6 +3,7 @@
 namespace Waboot\inc\order_stats;
 
 use Illuminate\Database\Schema\Blueprint;
+use Waboot\inc\core\multilanguage\helpers\Polylang;
 use Waboot\inc\core\utils\Utilities;
 use function Waboot\inc\core\helpers\logException;
 use function Waboot\inc\getImportedProductThumbnailImageSrc;
@@ -28,15 +29,16 @@ add_action('woocommerce_order_status_changed', static function (int $orderId, st
 },99,4);
 
 /*
- * Hiphop: Filter out unwanted taxonomies
+ * Standard: Filter out unwanted taxonomies
  */
 add_filter('wawoo/order_stats/selected_taxonomies', static function (array $taxonomies) {
-    $taxonomies = array_diff($taxonomies,['post_translations','product_brand']);
+    //$taxonomies = array_diff($taxonomies,['post_translations','product_brand']);
+    $taxonomies = array_diff($taxonomies,['post_translations','product_brand','product_visibility','product_shipping_class','pa_color','pa_size']);
     return $taxonomies;
 },10,1);
 
 /*
- * Hiphop: Sort product_cat terms
+ * Standard: Sort product_cat terms
  */
 add_filter('wawoo/order_stats/row/parse_terms', static function ($terms, int $productId, string $taxonomy, \WC_Order_Item $item) {
     if($taxonomy === 'product_cat'){
@@ -46,9 +48,12 @@ add_filter('wawoo/order_stats/row/parse_terms', static function ($terms, int $pr
 },10,4);
 
 /*
- * Hiphop: Translate terms
+ * Standard: Translate terms
  */
 add_filter('wawoo/order_stats/row/parse_terms', static function ($terms, int $productId, string $taxonomy, \WC_Order_Item $item) {
+    if(!Polylang::isPolylang()){
+        return $terms;
+    }
     if($taxonomy === 'language'){
         return $terms;
     }
@@ -81,47 +86,32 @@ add_filter('wawoo/order_stats/row/parse_terms', static function ($terms, int $pr
 },10,4);
 
 /*
- * Hiphop: Put parent and child term of product_cat in different columns
+ * Standard candidate: add recurring\new customer col
  */
-add_filter('wawoo/order_stats/row/parse_taxonomy', static function (array $row, string $taxonomy, $terms, int $productId, \WC_Order_Item $item) {
-    if($taxonomy !== 'product_cat'){
-        return $row;
-    }
-    if(!\is_array($terms) || empty($terms)){
-        return $row;
-    }
-    if(count($terms) > 1){
-        $row[$taxonomy] = htmlspecialchars_decode($terms[1]->name);
-        $row[$taxonomy.'_parent'] = htmlspecialchars_decode($terms[0]->name);
-    }else{
-        $row[$taxonomy] = htmlspecialchars_decode($terms[0]->name);
-    }
-    return $row;
-},10,5);
+add_action('wawoo/order_stats/table', static function (Blueprint $table){
+    $table->boolean('new_customer')->nullable();
+    //$table->integer('customer_orders')->nullable();
+},10,1);
 
 /*
- * Hiphop
+ * Standard candidate: populate recurring\new customer col
  */
 add_filter('wawoo/order_stats/row', static function (array $row, int $productId, \WC_Order_Item $item) {
-    $imgSrc = getImportedProductThumbnailImageSrc($productId);
-    if(\is_string($imgSrc) && !empty($imgSrc)){
-        $row['main_image'] = $imgSrc;
+    $orderId = $item->get_order_id();
+    if(!$orderId){
+        return $row;
     }
+    $order = wc_get_order($orderId);
+    if(!$order instanceof \WC_Order){
+        return $row;
+    }
+    $customerId = $order->get_customer_id();
+    if(!\is_int($customerId) || $customerId <= 0){
+        return $row;
+    }
+    $c = wc_get_customer_order_count($customerId);
+    $row['new_customer'] = !($c > 0);
+    //$row['customer_orders'] = $c;
     return $row;
 },10,3);
 
-/*
- * Hiphop: Create the product_cat_parent column
- */
-add_action('wawoo/order_stats/table/taxonomy_cols/tax', static function (Blueprint $table, string $taxonomy){
-    if($taxonomy === 'product_cat'){
-        $table->string('product_cat_parent')->default('');
-    }
-},10,2);
-
-/*
- * Hiphop: Add main image col
- */
-add_action('wawoo/order_stats/table', static function (Blueprint $table){
-    $table->string('main_image')->default('');
-},10,1);
