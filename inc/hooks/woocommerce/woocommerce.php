@@ -74,3 +74,20 @@ add_filter( 'woocommerce_show_page_title', function(){
     return false;
 });
 
+/**
+ * Handle 'custom_tax_query' query var in wc_get_products
+ * @param array $query - Args for WP_Query.
+ * @param array $queryVars - Query vars from WC_Product_Query.
+ * @return array modified $query
+ */
+add_filter('woocommerce_product_data_store_cpt_get_products_query', function($query, $queryVars){
+    if(!empty($queryVars['custom_tax_query'])) {
+        if(!\is_array($queryVars['custom_tax_query'])){
+            return $query;
+        }
+        foreach ($queryVars['custom_tax_query'] as $taxQuery) {
+            $query['tax_query'][] = $taxQuery;
+        }
+    }
+    return $query;
+}, 10, 2);
