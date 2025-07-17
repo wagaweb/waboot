@@ -152,7 +152,7 @@ function onAddressDataSubmitted(shippingData: addressData, billingData: addressD
         />
     </div>
     <div class="woocommerce-checkout-steps__left" v-else>
-        Caricamento...
+        <small>{{ t('Loading') }}...</small>
     </div>
 </template>
 
