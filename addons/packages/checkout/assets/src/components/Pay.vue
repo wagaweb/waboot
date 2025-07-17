@@ -46,17 +46,6 @@ function resetOriginalFormVisibility(){
     }
 }
 
-function placeOrder() {
-    //@ts-ignore
-    if (typeof window.jQuery === "undefined") {
-        return;
-    }
-    //@ts-ignore
-    const $ = window.jQuery;
-    let $paymentWrapper = $('#payment-wrapper');
-    $paymentWrapper.find('form').submit();
-}
-
 onMounted(() => {
     debugLog('<Pay> onMounted()');
     showOriginalFormPayment();
@@ -72,9 +61,6 @@ onBeforeUnmount(() => {
     <div class="woocommerce-checkout-steps__payment">
         <h5>{{ $t('Payment') }}</h5>
         <div id="payment-wrapper"></div>
-        <div class="checkout woocommerce-checkout" @click.prevent="placeOrder">
-            <input type="submit" :value="t('Place order')" class="btn btn--primary">
-        </div>
     </div>
 </template>
 <style lang="scss">
