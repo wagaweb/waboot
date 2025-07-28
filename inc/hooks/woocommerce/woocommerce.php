@@ -91,3 +91,21 @@ add_filter('woocommerce_product_data_store_cpt_get_products_query', function($qu
     }
     return $query;
 }, 10, 2);
+
+/**
+ * Handle 'custom_meta_query' query var in wc_get_products
+ * @param array $query - Args for WP_Query.
+ * @param array $queryVars - Query vars from WC_Product_Query.
+ * @return array modified $query
+ */
+add_filter('woocommerce_product_data_store_cpt_get_products_query', function($query, $queryVars){
+    if(!empty($queryVars['custom_meta_query'])) {
+        if(!\is_array($queryVars['custom_meta_query'])){
+            return $query;
+        }
+        foreach ($queryVars['custom_meta_query'] as $metaQuery) {
+            $query['meta_query'][] = $metaQuery;
+        }
+    }
+    return $query;
+}, 10, 2);
