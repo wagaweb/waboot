@@ -9,7 +9,7 @@ add_action('woocommerce_product_options_general_product_data', static function()
      * @var \WC_Product
      */
     global $product_object;
-    $excludeFromFeeds = get_post_meta($product_object->ID, Feeds::EXCLUDE_FROM_FEEDS_META_KEY, true);
+    $excludeFromFeeds = get_post_meta($product_object->get_id(), Feeds::EXCLUDE_FROM_FEEDS_META_KEY, true);
     ?>
     <div class="options_group">
         <h2>Feeds</h2>
