@@ -51,7 +51,8 @@ class GenerateGShoppingFeed extends AbstractCommand
      * @var array
      */
     protected array $records;
-    protected string $language;
+    protected ?string $language = null;
+    protected ?string $defaultLanguage = 'it';
     protected string $customOutputPath;
     protected string $customOutputFilename;
     protected string $defaultProductCategory;
@@ -175,8 +176,10 @@ class GenerateGShoppingFeed extends AbstractCommand
                     }
                 }
             }
-            $this->language = $assoc_args['lang'] ?? 'it';
-            $this->setLanguage();
+            if(isset($assoc_args['lang']) || isset($this->defaultLanguage)){
+                $this->language = $assoc_args['lang'] ?? $this->defaultLanguage;
+                $this->setLanguage();
+            }
             if(isset($assoc_args['output-dir-path']) && \is_string($assoc_args['output-dir-path']) && $assoc_args['output-dir-path'] !== ''){
                 $this->customOutputPath = $assoc_args['output-dir-path'];
             }
