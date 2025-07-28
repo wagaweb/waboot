@@ -330,6 +330,10 @@ class GenerateGShoppingFeed extends AbstractCommand
         }
         foreach ($this->productIds as $productId) {
             try {
+                $excludeFromFeeds = get_post_meta($productId,Feeds::EXCLUDE_FROM_FEEDS_META_KEY,true);
+                if($excludeFromFeeds === '1'){
+                    continue; // safe measure
+                }
                 $product = wc_get_product($productId);
                 if($product->get_sku() !== ''){
                     if(!array_key_exists($product->get_sku(),$this->parsedProductSkus)){
@@ -452,6 +456,10 @@ class GenerateGShoppingFeed extends AbstractCommand
      */
     protected function generateRecord(\WC_Product $product, \WC_Product $parentProduct = null): array
     {
+        $excludeFromFeeds = get_post_meta($product->get_id(),Feeds::EXCLUDE_FROM_FEEDS_META_KEY,true);
+        if($excludeFromFeeds === '1'){
+            return []; // safe measure
+        }
         $wbProduct = ProductFactory::create($product);
         $price = $wbProduct->getRegularPrice();
         $price = apply_filters('wawoo/cli/genfeeds/generate_record/price', $price, $product, $parentProduct);
