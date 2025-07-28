@@ -142,9 +142,17 @@ class GenerateGShoppingFeed extends AbstractCommand
             }
             $this->providedTypes = [ProductType::SIMPLE, ProductType::VARIABLE];
             if(isset($assoc_args['types'])){
+                $allowedTypes = apply_filters('wawoo/cli/genfeeds/allowed_types', [
+                    ProductType::SIMPLE,
+                    ProductType::VARIABLE,
+                    ProductType::EXTERNAL,
+                    ProductType::GROUPED,
+                    ProductType::VARIATION,
+                    'bundle' // WC Product Bundles built-in support
+                ]);
                 $providedTypes = explode(',',$assoc_args['types']);
-                $providedTypes = array_filter($providedTypes, static function ($type) {
-                    return \in_array($type, [ProductType::SIMPLE,ProductType::VARIABLE,ProductType::EXTERNAL,ProductType::GROUPED,ProductType::VARIATION], true);
+                $providedTypes = array_filter($providedTypes, static function ($type) use($allowedTypes) {
+                    return \in_array($type, $allowedTypes, true);
                 });
                 if(!empty($providedTypes)){
                     $this->providedTypes = $providedTypes;
@@ -328,6 +336,7 @@ class GenerateGShoppingFeed extends AbstractCommand
         }else{
             $progress = false;
         }
+        $this->records = [];
         foreach ($this->productIds as $productId) {
             try {
                 $excludeFromFeeds = get_post_meta($productId,Feeds::EXCLUDE_FROM_FEEDS_META_KEY,true);
@@ -365,6 +374,14 @@ class GenerateGShoppingFeed extends AbstractCommand
                              * @var \WC_Product_Grouped $product
                              */
                             $newRecords = $this->generateRecordsForGroupedProduct($product);
+                            $this->records = array_merge($this->records, $newRecords);
+                            break;
+                        // WC Product Bundles built-in support
+                        case 'bundle':
+                            /**
+                             * @var \WC_Product_Bundle $product
+                             */
+                            $newRecords = $this->generateRecordsForBundleProduct($product);
                             $this->records = array_merge($this->records, $newRecords);
                             break;
                         default:
@@ -437,6 +454,22 @@ class GenerateGShoppingFeed extends AbstractCommand
      * @return array|array[]
      */
     protected function generateRecordsForGroupedProduct(\WC_Product_Grouped $product): array
+    {
+        try {
+            $r = $this->generateRecord($product);
+            return [
+                $r
+            ];
+        } catch (\Exception|\Throwable $e) {
+            return [];
+        }
+    }
+
+    /**
+     * @param \WC_Product_Bundle $product
+     * @return array|array[]
+     */
+    protected function generateRecordsForBundleProduct(\WC_Product $product): array
     {
         try {
             $r = $this->generateRecord($product);
