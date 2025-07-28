@@ -6,7 +6,6 @@ use Illuminate\Database\Schema\Blueprint;
 use Waboot\inc\core\multilanguage\helpers\Polylang;
 use Waboot\inc\core\utils\Utilities;
 use function Waboot\inc\core\helpers\logException;
-use function Waboot\inc\getImportedProductThumbnailImageSrc;
 
 add_action('woocommerce_order_status_changed', static function (int $orderId, string $statusFrom, string $statusTo, \WC_Order $order) {
     try {
