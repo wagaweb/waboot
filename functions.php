@@ -19,6 +19,7 @@ try{
         'inc/hooks/gravityform/hooks.php',
         'inc/hooks/woocommerce/woocommerce.php',
         'inc/hooks/woocommerce/addresses.php',
+        'inc/hooks/woocommerce/feeds.php',
         'inc/hooks/woocommerce/woocommerce-endpoints.php',
         'inc/hooks/woocommerce/woocommerce-listing.php',
         'inc/hooks/woocommerce/woocommerce-product.php',
