@@ -73,7 +73,6 @@ try{
     registerCommand('export-orders', ExportOrders::class,'wawoo');
     registerCommand('test:export-orders', ExportOrdersTest::class,'wawoo');
     registerCommand('simulate-orders', OrderSimulator::class,'wawoo');
-    //registerCommand('feeds:generate-gshopping', GenerateGShoppingFeed::class,'wawoo');
-    \WP_CLI::add_command('wawoo:feeds:generate-gshopping', GenerateGShoppingFeed::class);
+    registerCommand('feeds:generate-gshopping', GenerateGShoppingFeed::class,'wawoo');
     registerCommand('gen-order-stats-table', GenerateOrderStatsTable::class, 'wawoo');
 }catch (\Exception $e){}
