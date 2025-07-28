@@ -2,13 +2,16 @@
 
 namespace Waboot\inc\cli\feeds;
 
+use Automattic\WooCommerce\Enums\ProductType;
 use Waboot\inc\core\cli\AbstractCommand;
+use Waboot\inc\core\cli\CLIRuntimeException;
 use Waboot\inc\core\multilanguage\helpers\Polylang;
-use Waboot\inc\core\woocommerce\ProductException;
 use Waboot\inc\core\woocommerce\ProductFactory;
 use Waboot\inc\core\woocommerce\ProductFactoryException;
+use Waboot\inc\enums\Feeds;
 use function Waboot\inc\getAllProductVariationIds;
 use function Waboot\inc\getHierarchicalCustomFieldFromProduct;
+use function Waboot\inc\getProductType;
 
 require_once __DIR__.'/feed-utils.php';
 
@@ -16,7 +19,6 @@ class GenerateGShoppingFeed extends AbstractCommand
 {
     public const EXCLUDED_BY_ID = 'id';
     public const EXCLUDED_BY_SKU = 'sku';
-    public const EXCLUDED_BY_CALLBACK = 'callback';
     /**
      * @var string
      */
@@ -28,107 +30,103 @@ class GenerateGShoppingFeed extends AbstractCommand
     /**
      * @var int[]
      */
-    protected $productIds;
+    protected array $productIds;
     /**
      * @var int[]
      */
-    protected $providedIds = [];
+    protected array $providedIds = [];
+    /**
+     * @var string[]
+     */
+    protected array $providedTypes = [];
     /**
      * @var int[]
      */
-    protected $excludedIds = [];
+    protected array $excludedIds = [];
     /**
      * @var bool
      */
-    protected $variableProductsOnly;
+    protected bool $excludeZeroPricedProducts = true;
     /**
      * @var array
      */
-    protected $records;
-    /**
-     * @var string
-     */
-    protected $language;
-    /**
-     * @var string
-     */
-    protected $customOutputPath;
-    /**
-     * @var string
-     */
-    protected $customOutputFilename;
-    /**
-     * @var string
-     */
-    protected $defaultProductCategory;
-    /**
-     * @var string
-     */
-    protected $defaultProductShippingLabel;
-    /**
-     * @var array
-     */
-    protected $productsSkuWithNoEan = [];
-    /**
-     * @var array
-     */
-    protected $skippedDuplicatedSku = [];
+    protected array $records;
+    protected string $language;
+    protected string $customOutputPath;
+    protected string $customOutputFilename;
+    protected string $defaultProductCategory;
+    protected string $defaultProductShippingLabel;
+    protected array $productsSkuWithNoEan = [];
+    protected array $skippedDuplicatedSku = [];
+    protected array $parsedProductSkus = [];
+    protected array $parsedVariationSkus = [];
 
-    /**
-     * Generate Google Shopping feed
-     *
-     * ## OPTIONS
-     *
-     * [--progress]
-     * : Show the progress bar
-     *
-     * [--products]
-     * : Comma separated products ids to parse.
-     *
-     * [--excluded-products]
-     * : Comma separated products ids or sku to exclude.
-     *
-     * [--excluded-by]
-     * : Tells whether products are excluded by "sku", "id" or "callback"
-     *
-     * [--excluded-callback]
-     * : Specify the exclusion callback (must return an array of product id)
-     *
-     * [--lang]
-     * : Set the language to use
-     *
-     * [--variable-products-only]
-     * : Parse the variable products only
-     *
-     * [--default-google-product-category]
-     * : Specify the default product category (otherwise obtained from "_gshopping_product_category" meta)
-     *
-     * [--default-google-product-shipping-label]
-     * : Specify the default product shipping label (otherwise obtained from "_gshopping_shipping_label" meta)
-     *
-     * [--output-dir-path]
-     * : Set the output path
-     *
-     * [--output-file-name]
-     * : Set the output file name
-     *
-     * ## EXAMPLES
-     *
-     *      wp wawoo:feeds:generate-gshopping
-     *
-     *      wp wawoo:feeds:generate-gshopping --lang=it
-     *
-     *      wp wawoo:feeds:generate-gshopping --output-file-name=test_it --lang=it
-     *
-     *      wp wawoo:feeds:generate-gshopping --products=30,33,34
-     *
-     * @param $args
-     * @param $assoc_args
-     * @return int
-     */
-    public function __invoke($args, $assoc_args): int
+    public static function getCommandDescription(): array
     {
-        return parent::__invoke($args,$assoc_args);
+        $description = parent::getCommandDescription();
+        $description['shortdesc'] = 'Generate Google Shopping feed';
+        $description['longdesc'] = '## EXAMPLES' . "\n\n" . 'wp wawoo:feeds:generate-gshopping';
+        $description['synopsis'][] = [
+            'type' => 'flag',
+            'name' => 'progress',
+            'description' => 'Show the progress bar',
+            'optional' => true,
+        ];
+        $description['synopsis'][] = [
+            'type' => 'assoc',
+            'name' => 'products',
+            'description' => 'Comma separated products ids to parse',
+            'optional' => true,
+        ];
+        $description['synopsis'][] = [
+            'type' => 'assoc',
+            'name' => 'excluded-products',
+            'description' => 'Comma separated products ids or sku to exclude',
+            'optional' => true,
+        ];
+        $description['synopsis'][] = [
+            'type' => 'assoc',
+            'name' => 'excluded-by',
+            'description' => 'Tells whether products are excluded by "sku", "id"',
+            'optional' => true,
+        ];
+        $description['synopsis'][] = [
+            'type' => 'assoc',
+            'name' => 'lang',
+            'description' => 'Set the language to use',
+            'optional' => true,
+        ];
+        $description['synopsis'][] = [
+            'type' => 'assoc',
+            'name' => 'types',
+            'description' => 'Comma separated product types to include (simple,variable,grouped,external,variation). Default: simple,variable. See wp-content/plugins/woocommerce/src/Enums/ProductType.php',
+            'optional' => true,
+        ];
+        $description['synopsis'][] = [
+            'type' => 'assoc',
+            'name' => 'default-google-product-category',
+            'description' => 'Specify the default product category (otherwise obtained from "_gshopping_product_category" meta)',
+            'optional' => true,
+        ];
+        $description['synopsis'][] = [
+            'type' => 'assoc',
+            'name' => 'default-google-product-shipping-label',
+            'description' => 'Specify the default product shipping label (otherwise obtained from "_gshopping_shipping_label" meta)',
+            'optional' => true,
+        ];
+        $description['synopsis'][] = [
+            'type' => 'assoc',
+            'name' => 'output-dir-path',
+            'description' => 'Set the output path',
+            'optional' => true,
+        ];
+        $description['synopsis'][] = [
+            'type' => 'assoc',
+            'name' => 'output-file-name',
+            'description' => 'Set the output file name',
+            'optional' => true,
+        ];
+        return $description;
     }
 
     public function run(array $args, array $assoc_args): int
@@ -138,42 +136,46 @@ class GenerateGShoppingFeed extends AbstractCommand
                 $providedIds = explode(',',$assoc_args['products']);
                 if(\is_array($providedIds)){
                     $this->providedIds = $providedIds;
+                    $this->log('Product IDS: '.implode(',',$this->providedIds));
                 }
             }
-            $excludedBy = $assoc_args['excluded-by'] ?? 'id';
-            if(!\in_array($excludedBy,[self::EXCLUDED_BY_ID,self::EXCLUDED_BY_SKU,self::EXCLUDED_BY_CALLBACK],true)){
-                $this->error('"excluded-by" non valido');
-                return 1;
+            $this->providedTypes = [ProductType::SIMPLE, ProductType::VARIABLE];
+            if(isset($assoc_args['types'])){
+                $providedTypes = explode(',',$assoc_args['types']);
+                $providedTypes = array_filter($providedTypes, static function ($type) {
+                    return \in_array($type, [ProductType::SIMPLE,ProductType::VARIABLE,ProductType::EXTERNAL,ProductType::GROUPED,ProductType::VARIATION], true);
+                });
+                if(!empty($providedTypes)){
+                    $this->providedTypes = $providedTypes;
+                }else{
+                    throw new CLIRuntimeException('No valid product types provided');
+                }
             }
+            $this->log('Product Types: '.implode(',',$this->providedTypes));
             if(isset($assoc_args['excluded-products'])){
-                $excludedProducts = explode(',',$assoc_args['excluded-products']);
-                if(\is_array($excludedProducts)){
+                $excludedProducts = array_filter(explode(',', $assoc_args['excluded-products']));
+                if(!empty($excludedProducts)){
+                    $excludedBy = $assoc_args['excluded-by'] ?? 'id';
+                    if(!\in_array($excludedBy,[self::EXCLUDED_BY_ID,self::EXCLUDED_BY_SKU],true)){
+                        throw new CLIRuntimeException('"excluded-by" non valido');
+                    }
                     if($excludedBy === self::EXCLUDED_BY_SKU){
-                        $this->excludedIds = array_map(static function($sku){
+                        $excludedIds = array_map(static function($sku){
                             $pId = wc_get_product_id_by_sku($sku);
                             if(\is_int($pId) && $pId > 0){
                                 return $pId;
                             }
                             return false;
                         },$excludedProducts);
-                        $this->excludedIds = array_filter($this->excludedIds);
-                    }elseif($excludedBy === self::EXCLUDED_BY_ID){
-                        $this->excludedIds = $excludedProducts;
+                        $excludedIds = array_filter($excludedIds);
+                        $excludedIds = array_map('intval', $excludedIds);
+                        $this->excludedIds = $excludedIds;
+                    }else{
+                        $this->excludedIds = array_map('intval', $excludedProducts);
                     }
                 }
-            }elseif($excludedBy === self::EXCLUDED_BY_CALLBACK){
-                $excludeCallback = $assoc_args['excluded-callback'] ?? null;
-                if(!\is_callable($excludeCallback)){
-                    $this->error('"excluded-callback" non valida');
-                    return 1;
-                }
-                $excludedProducts = $excludeCallback();
-                if(\is_array($excludedProducts)){
-                    $this->excludedIds = $excludedProducts;
-                }
             }
-            $this->variableProductsOnly = isset($assoc_args['variable-products-only']);
-            $this->language = isset($assoc_args['lang']) ? $assoc_args['lang'] : 'it';
+            $this->language = $assoc_args['lang'] ?? 'it';
             $this->setLanguage();
             if(isset($assoc_args['output-dir-path']) && \is_string($assoc_args['output-dir-path']) && $assoc_args['output-dir-path'] !== ''){
                 $this->customOutputPath = $assoc_args['output-dir-path'];
@@ -216,18 +218,11 @@ class GenerateGShoppingFeed extends AbstractCommand
     }
 
     /**
-     * Fetch products for the feed
+     * @return array
      */
-    public function populateProducts(): void
+    protected function getProductQueryArgs(): array
     {
-        $this->log('Retrieving products...');
-        if(isset($this->providedIds) && !empty($this->providedIds)){
-            $ids = array_map('intval',$this->providedIds);
-            $this->productIds = $ids;
-            $this->log('...Done');
-            return;
-        }
-        $qArgs = [
+        /*$qArgs = [
             //'post_type' => ['product','product_variation'],
             'post_type' => ['product'],
             'meta_query' => [
@@ -239,26 +234,74 @@ class GenerateGShoppingFeed extends AbstractCommand
             'fields' => 'ids',
             'posts_per_page' => -1,
             'post_status' => 'publish'
+        ];*/
+        $qArgs = [
+            'type' => $this->providedTypes,
+            //'stock_status' => 'instock',
+            'status' => 'publish',
+            'return' => 'ids',
+            'limit' => -1,
+            'custom_meta_query' => [
+                'key' => Feeds::EXCLUDE_FROM_FEEDS_META_KEY,
+                'compare' => 'NOT EXISTS'
+            ]
         ];
         if(!empty($this->excludedIds)){
-            $qArgs['post__not_in'] = $this->excludedIds;
+            //$qArgs['post__not_in'] = $this->excludedIds;
+            $qArgs['exclude'] = $this->excludedIds;
         }
-        $ids = get_posts($qArgs);
-        if(\is_array($ids) && count($ids) > 0){
+        return $qArgs;
+    }
+
+    /**
+     * @return array
+     */
+    protected function fetchProductsIds(): array
+    {
+        try{
+            //$ids = get_posts($qArgs);
+            $ids = wc_get_products($this->getProductQueryArgs());
+            if(!\is_array($ids)){
+                return [];
+            }
+            return $ids;
+        }catch (\Exception|\Throwable $e){
+            return [];
+        }
+    }
+
+    /**
+     * Fetch products for the feed
+     */
+    protected function populateProducts(): void
+    {
+        $this->log('Retrieving products...');
+        if(isset($this->providedIds) && !empty($this->providedIds)){
+            $ids = array_map('intval',$this->providedIds);
+            $this->productIds = $ids;
+            $this->log('...Done');
+            return;
+        }
+        $ids = $this->fetchProductsIds();
+        if(count($ids) > 0){
             $this->log('Found '.count($ids).' ids');
             $productIdsToParse = [];
             $idsWithNoSku = [];
+            $noSkuAllowedForTypes = [ProductType::VARIABLE];
             foreach ($ids as $id){
-                //dont check skus for variable products:
-                if(!\in_array($id,$productIdsToParse,true) && WC()->product_factory::get_product_type($id) === 'variable'){
-                    $productIdsToParse[] = $id;
+                if(\in_array($id,$productIdsToParse,true)){
                     continue;
                 }
-                //for everything else:
-                if(get_post_meta($id,'_sku',true) === ''){
+                $idIsValid = true;
+                $currentSku = get_post_meta($id,'_sku',true);
+                if(!\is_string($currentSku) || $currentSku === ''){
                     $idsWithNoSku[] = $id;
+                    if(!\in_array(getProductType($id),$noSkuAllowedForTypes)){
+                        $idIsValid = false;
+                    }
                 }
-                if(!\in_array($id,$productIdsToParse,true)){
+                $idIsValid = apply_filters('wawoo/cli/genfeeds/populate_products/product_is_valid', $idIsValid, $id, $currentSku);
+                if($idIsValid){
                     $productIdsToParse[] = $id;
                 }
             }
@@ -274,7 +317,7 @@ class GenerateGShoppingFeed extends AbstractCommand
     /**
      * Create the records for the XML file
      */
-    public function populateRecords(): void
+    protected function populateRecords(): void
     {
         $this->log('Generating records for '.count($this->productIds).' products', !$this->showProgressBar);
         if($this->showProgressBar){
@@ -282,85 +325,48 @@ class GenerateGShoppingFeed extends AbstractCommand
         }else{
             $progress = false;
         }
-        $parsedProductSkus = [];
-        $parsedVariationSkus = [];
         foreach ($this->productIds as $productId) {
             try {
                 $product = wc_get_product($productId);
-                if($product instanceof \WC_Product_Variable){
-                    //$variationsData = $product->get_available_variations();
-                    $variationIds = getAllProductVariationIds($productId);
-                    if(count($variationIds) === 0){
-                        continue;
-                    }
-                    foreach ($variationIds as $variationId){
-                        //$variationId = $variationData['variation_id'];
-                        $variation = wc_get_product($variationId);
-                        if(!$variation instanceof \WC_Product_Variation){
-                            continue;
-                        }
-                        if(!$variation->is_in_stock()){
-                            continue;
-                        }
-                        $stockMeta = get_post_meta($variationId,'_stock_status',true);
-                        if($stockMeta === 'outofstock'){
-                            continue; //double check
-                        }
-                        if($variation->get_sku() === ''){
-                            try{
-                                $newRecord = $this->generateRecord($variation,$product);
-                                $this->records[] = $newRecord;
-                            }catch (ProductFactoryException $e) {
-                                $this->log('Error: '.$e->getMessage());
-                            }
-                        }else{
-                            if(!array_key_exists($variation->get_sku(),$parsedVariationSkus)){
-                                try{
-                                    $newRecord = $this->generateRecord($variation,$product);
-                                    $this->records[] = $newRecord;
-                                    $parsedVariationSkus[$variation->get_sku()] = '{Variation: '.$variationId.', Product: '.$productId.'}';
-                                }catch (ProductFactoryException $e) {
-                                    $this->log('Error: '.$e->getMessage());
-                                }
-                            }else{
-                                $this->skippedDuplicatedSku[] = [
-                                    'sku' => $variation->get_sku(), //The SKU
-                                    'parsed_record' => $parsedVariationSkus[$variation->get_sku()], //ID of the product previously parsed with the same SKU
-                                    'duplicated_record' => '{Variation: '.$variationId.', Product: '.$productId.'}' //current product ID
-                                ];
-                            }
-                        }
-                    }
-                }else{
-                    if($this->variableProductsOnly){
-                        continue;
-                    }
-                    if($product instanceof \WC_Product_Variation && \in_array($productId,$this->excludedIds)){
-                        continue;
-                    }
-                    if($product->get_sku() === ''){
-                        try {
-                            $newRecord = $this->generateRecord($product);
-                            $this->records[] = $newRecord;
-                        } catch (ProductFactoryException $e) {
-                            $this->log('Error: '.$e->getMessage());
-                        }
+                if($product->get_sku() !== ''){
+                    if(!array_key_exists($product->get_sku(),$this->parsedProductSkus)){
+                        $this->parsedProductSkus[$product->get_sku()] = '{Product: '.$productId.'}';
                     }else{
-                        if(!array_key_exists($product->get_sku(),$parsedProductSkus)){
-                            try{
+                        $this->skippedDuplicatedSku[] = [
+                            'sku' => $product->get_sku(), //The SKU
+                            'parsed_record' => $this->parsedProductSkus[$product->get_sku()], //ID of the product previously parsed with the same SKU
+                            'duplicated_record' => '{Product: '.$productId.'}' //current product ID
+                        ];
+                        continue;
+                    }
+                }
+                $newRecords = $this->generateCustomRecords($product);
+                if(\is_array($newRecords) && count($newRecords) > 0){
+                    // Allowing custom record handling
+                    $this->records = array_merge($this->records, $newRecords);
+                }else{
+                    switch ($product->get_type()){
+                        case ProductType::VARIABLE:
+                            /**
+                             * @var \WC_Product_Variable $product
+                             */
+                            $newRecords = $this->generateRecordsForVariableProduct($product);
+                            $this->records = array_merge($this->records, $newRecords);
+                            break;
+                        case ProductType::GROUPED:
+                            /**
+                             * @var \WC_Product_Grouped $product
+                             */
+                            $newRecords = $this->generateRecordsForGroupedProduct($product);
+                            $this->records = array_merge($this->records, $newRecords);
+                            break;
+                        default:
+                            try {
                                 $newRecord = $this->generateRecord($product);
                                 $this->records[] = $newRecord;
-                                $parsedProductSkus[$product->get_sku()] = '{Product: '.$productId.'}';
-                            } catch (ProductFactoryException $e) {
-                                $this->log('Error: '.$e->getMessage());
+                            } catch (\Exception|\Throwable $e) {
+                                $this->warning($e->getMessage());
                             }
-                        }else{
-                            $this->skippedDuplicatedSku[] = [
-                                'sku' => $product->get_sku(), //The SKU
-                                'parsed_record' => $parsedProductSkus[$product->get_sku()], //ID of the product previously parsed with the same SKU
-                                'duplicated_record' => '{Product: '.$productId.'}' //current product ID
-                            ];
-                        }
                     }
                 }
                 $this->tickProgressBar($progress);
@@ -374,76 +380,177 @@ class GenerateGShoppingFeed extends AbstractCommand
 
     /**
      * @param \WC_Product $product
+     * @return array|null
+     */
+    protected function generateCustomRecords(\WC_Product $product): ?array
+    {
+        return null;
+    }
+
+    /**
+     * @param \WC_Product_Variable $product
+     * @return array
+     */
+    protected function generateRecordsForVariableProduct(\WC_Product_Variable $product): array
+    {
+        $variationIds = getAllProductVariationIds($product->get_id());
+        if(count($variationIds) <= 0){
+            return [];
+        }
+        $records = [];
+        foreach ($variationIds as $variationId){
+            $variation = wc_get_product($variationId);
+            if(!$variation instanceof \WC_Product_Variation){
+                continue;
+            }
+            $variationSku = $variation->get_sku();
+            if($variationSku !== ''){
+                if(!array_key_exists($variation->get_sku(),$this->parsedVariationSkus)){
+                    $this->parsedVariationSkus[$variation->get_sku()] = '{Variation: '.$variationId.', Product: '.$product->get_id().'}';
+                }else{
+                    $this->skippedDuplicatedSku[] = [
+                        'sku' => $variation->get_sku(), //The SKU
+                        'parsed_record' => $this->parsedVariationSkus[$variation->get_sku()], //ID of the product previously parsed with the same SKU
+                        'duplicated_record' => '{Variation: '.$variationId.', Product: '.$product->get_id().'}' //current product ID
+                    ];
+                    continue;
+                }
+            }
+            try {
+                $records[] = $this->generateRecord($variation, $product);
+            } catch (\Exception|\Throwable $e) {
+                $this->warning($e->getMessage());
+            }
+        }
+        return $records;
+    }
+
+    /**
+     * @param \WC_Product_Grouped $product
+     * @return array|array[]
+     */
+    protected function generateRecordsForGroupedProduct(\WC_Product_Grouped $product): array
+    {
+        try {
+            $r = $this->generateRecord($product);
+            return [
+                $r
+            ];
+        } catch (\Exception|\Throwable $e) {
+            return [];
+        }
+    }
+
+    /**
+     * @param \WC_Product $product
      * @param \WC_Product|null $parentProduct
      * @return array
      * @throws ProductFactoryException
      */
-    public function generateRecord(\WC_Product $product, \WC_Product $parentProduct = null): array
+    protected function generateRecord(\WC_Product $product, \WC_Product $parentProduct = null): array
     {
         $wbProduct = ProductFactory::create($product);
-        $brand = $wbProduct->getBrand();
-        $permalink = $wbProduct->getPermalink();
-        $categories = $wbProduct->getCategories(false,true,' > ');
         $price = $wbProduct->getRegularPrice();
+        $price = apply_filters('wawoo/cli/genfeeds/generate_record/price', $price, $product, $parentProduct);
         $salePrice = $wbProduct->getSalePrice();
+        $salePrice = apply_filters('wawoo/cli/genfeeds/generate_record/sale_price', $salePrice, $product, $parentProduct);
         /*
          * BEGIN: Exclude zero priced products
          */
-        if($product->is_on_sale()){
-            if(
-                ( is_numeric($salePrice) && $salePrice <= 0 ) ||
-                ( \is_string($salePrice) && ($salePrice === '' || $salePrice === '0') )
+        if($this->excludeZeroPricedProducts){
+            if($product->is_on_sale()){
+                if(
+                    ( is_numeric($salePrice) && $salePrice <= 0 ) ||
+                    ( \is_string($salePrice) && ($salePrice === '' || $salePrice === '0') )
+                ){
+                    return [];
+                }
+            }elseif(
+                ( is_numeric($price) && $price <= 0 ) ||
+                ( \is_string($price) && ($price === '' || $price === '0') )
             ){
                 return [];
             }
-        }elseif(
-            ( is_numeric($price) && $price <= 0 ) ||
-            ( \is_string($price) && ($price === '' || $price === '0') )
-        ){
-            return [];
         }
         /*
          * END: Exclude zero priced products
          */
-        $size = $product->get_attribute('size');
-        $gtin = getHierarchicalCustomFieldFromProduct($product,'_ean','');
+
+        /*
+         * BEGIN: Product Data
+         */
+        $recordCodes = [
+            'id' => $product->get_sku(),
+            'mpn' => $product->get_sku(), // Manufacturer Part Number (Obbligatorio per tutti i prodotti privi di un codice GTIN assegnato dal produttore)
+            'gtin' => getHierarchicalCustomFieldFromProduct($product,'_ean',''), // Global Trade Item Number
+            'item_group_id' => $parentProduct?->get_sku(),
+        ];
+        $recordCodes = apply_filters('wawoo/cli/genfeeds/generate_record/record_codes', $recordCodes, $product, $parentProduct);
+        $title = apply_filters('wawoo/cli/genfeeds/generate_record/title', $product->get_title(), $product, $parentProduct);
+        $description = isset($parentProduct) ? getGShoppingDescription($parentProduct) : getGShoppingDescription($product);
+        $description = apply_filters('wawoo/cli/genfeeds/generate_record/description', $description, $product, $parentProduct);
+        $permalink = $wbProduct->getPermalink();
+        $brand = $wbProduct->getBrand();
         if(isset($brand) && $brand instanceof \WP_Term){
             $brand = $brand->name;
         }else{
             $brand = '';
         }
+        $brand = apply_filters('wawoo/cli/genfeeds/generate_record/brand',$brand, $product, $parentProduct);
+        $categories = $wbProduct->getCategories(false,true,' > ');
+        $size = $product->get_attribute('size');
+        $availability = $product->is_in_stock() ? 'in_stock' : 'out_of_stock';
+        $availability = apply_filters('wawoo/cli/genfeeds/generate_record/availability', $availability, $product, $parentProduct);
+        $gProductCat = htmlentities(getHierarchicalCustomFieldFromProduct($product,'_gshopping_product_category',$this->defaultProductCategory));
+        $gProductCat = apply_filters('wawoo/cli/genfeeds/generate_record/google_product_cat', $gProductCat, $product, $parentProduct);
+        $shippingLabel = getHierarchicalCustomFieldFromProduct($product,'_gshopping_shipping_label',$this->defaultProductShippingLabel);
+        $shippingLabel = apply_filters('wawoo/cli/genfeeds/generate_record/shipping_label', $shippingLabel, $product, $parentProduct);
+        $customLabels = apply_filters('wawoo/cli/genfeeds/generate_record/custom_labels', [], $product, $parentProduct);
+        /*
+         * END: Product Data
+         */
+
         //https://support.google.com/merchants/topic/6324338?hl=it&ref_topic=7294998
         //https://support.google.com/merchants/answer/7052112?hl=it&ref_topic=6324338&sjid=15059762771109391205-EU
         //https://developers.facebook.com/docs/commerce-platform/catalog/fields
         $newRecord = [
-            'id' => $product->get_sku(),
+            'id' => $recordCodes['id'],
             'description' => [
-                '_cdata' => isset($parentProduct) ? getGShoppingDescription($parentProduct) : getGShoppingDescription($product)
+                '_cdata' => $description
             ],
             'condition' => 'new',
-            'mpn' => $product->get_sku(),
+            'mpn' => $recordCodes['mpn'],
             'identifier_exists' => 'yes',
-            'title' => $product->get_title(),
-            'availability' => 'in stock',
+            'title' => $title,
+            'availability' => $availability,
             'price' => str_replace(',','.',$price).' EUR',
             'link' => $permalink,
             'brand' => $brand,
-            'google_product_category' => htmlentities(getHierarchicalCustomFieldFromProduct($product,'_gshopping_product_category',$this->defaultProductCategory)),
+            'google_product_category' => htmlentities($gProductCat),
             'product_type' => htmlentities($categories),
-            'shipping_label' => getHierarchicalCustomFieldFromProduct($product,'_gshopping_shipping_label',$this->defaultProductShippingLabel),
+            'shipping_label' => $shippingLabel,
             'imgs' => getProductImagesSrc($product),
         ];
-        if($product instanceof \WC_Product_Variation){
-            $newRecord['item_group_id'] = $parentProduct->get_sku();
+        if(isset($recordCodes['item_group_id']) && !empty($recordCodes['item_group_id'])){
+            $newRecord['item_group_id'] = $recordCodes['item_group_id'];
         }
         if($size !== ''){
             $newRecord['size'] = $size; //It can be used 'one size' as default
         }
-        if($gtin !== ''){
-            $newRecord['gtin'] = $gtin;
+        if($recordCodes['gtin'] !== ''){
+            $newRecord['gtin'] = $recordCodes['gtin'];
         }
         if($product->is_on_sale()){
             $newRecord['sale_price'] = str_replace(',','.',$salePrice).' EUR';
+        }
+        if(\is_array($customLabels) && !empty($customLabels)){
+            foreach($customLabels as $k => $label){
+                $newRecord['custom_label_'.$k] = $label;
+            }
+        }
+        $newRecord = apply_filters('wawoo/cli/genfeeds/generate_record/record', $newRecord, $product);
+        if(!\is_array($newRecord)){
+            $newRecord = [];
         }
         return $newRecord;
     }
@@ -451,7 +558,7 @@ class GenerateGShoppingFeed extends AbstractCommand
     /**
      * Generate the XML file
      */
-    public function generateXML(): void
+    protected function generateXML(): void
     {
         if (!\is_array($this->records) || count($this->records) === 0) {
             throw new \RuntimeException('No records found');
@@ -461,12 +568,11 @@ class GenerateGShoppingFeed extends AbstractCommand
         }else{
             $xmlDirPath = WP_CONTENT_DIR . '/wb-feeds';
         }
-        if(isset($this->customOutputFilename)){
-            $xmlFileName = $this->customOutputFilename.'.xml';
-        }elseif($this->language !== null && \is_string($this->language) && $this->language !== ''){
-            $xmlFileName = 'google-products-feed-'.$this->language.'.xml';
+        $xmlFileName = $this->customOutputFilename ?? 'google-products-feed';
+        if($this->language !== null && \is_string($this->language) && $this->language !== '') {
+            $xmlFileName .= '-' . $this->language . '.xml';
         }else{
-            $xmlFileName = 'google-products-feed.xml';
+            $xmlFileName .= '.xml';
         }
         $xmlFilePath = $xmlDirPath . '/'. $xmlFileName;
         if (!wp_mkdir_p($xmlDirPath)) {
@@ -541,7 +647,7 @@ class GenerateGShoppingFeed extends AbstractCommand
     /**
      * @return void
      */
-    private function setLanguage(): void
+    protected function setLanguage(): void
     {
         if(Polylang::isPolylang()){
             Polylang::setCurrentLanguage($this->language);
