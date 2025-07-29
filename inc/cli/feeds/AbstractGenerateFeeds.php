@@ -127,9 +127,13 @@ abstract class AbstractGenerateFeeds extends AbstractCommand
         return $description;
     }
 
+    protected function customInitialization(): void
+    {}
+
     public function run(array $args, array $assoc_args): int
     {
         try{
+            $this->customInitialization();
             if(isset($assoc_args['products'])){
                 $providedIds = explode(',',$assoc_args['products']);
                 if(\is_array($providedIds)){
