@@ -2,6 +2,7 @@
 
 namespace Waboot\inc;
 
+use Waboot\inc\cli\feeds\GeneratePinterestFeed;
 use Waboot\inc\cli\FixPrices;
 use Waboot\inc\cli\FixStockStatuses;
 use Waboot\inc\cli\GenerateOrderStatsTable;
@@ -74,5 +75,6 @@ try{
     registerCommand('test:export-orders', ExportOrdersTest::class,'wawoo');
     registerCommand('simulate-orders', OrderSimulator::class,'wawoo');
     registerCommand('feeds:generate-gshopping', GenerateGShoppingFeed::class,'wawoo');
+    registerCommand('feeds:generate-pinterest', GeneratePinterestFeed::class,'wawoo');
     registerCommand('gen-order-stats-table', GenerateOrderStatsTable::class, 'wawoo');
 }catch (\Exception $e){}

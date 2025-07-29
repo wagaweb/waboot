@@ -6,16 +6,13 @@ use Automattic\WooCommerce\Enums\ProductType;
 use Waboot\inc\core\cli\AbstractCommand;
 use Waboot\inc\core\cli\CLIRuntimeException;
 use Waboot\inc\core\multilanguage\helpers\Polylang;
-use Waboot\inc\core\woocommerce\ProductFactory;
 use Waboot\inc\core\woocommerce\ProductFactoryException;
 use Waboot\inc\enums\Feeds;
-use function Waboot\inc\getAllProductVariationIds;
-use function Waboot\inc\getHierarchicalCustomFieldFromProduct;
 use function Waboot\inc\getProductType;
 
 require_once __DIR__.'/feed-utils.php';
 
-abstract class GenerateFeeds extends AbstractCommand
+abstract class AbstractGenerateFeeds extends AbstractCommand
 {
     public const EXCLUDED_BY_ID = 'id';
     public const EXCLUDED_BY_SKU = 'sku';
@@ -415,19 +412,19 @@ abstract class GenerateFeeds extends AbstractCommand
      * @param \WC_Product_Variable $product
      * @return array
      */
-    abstract protected function generateRecordsForVariableProduct(\WC_Product_Variable $product);
+    abstract protected function generateRecordsForVariableProduct(\WC_Product_Variable $product): array;
 
     /**
      * @param \WC_Product_Grouped $product
      * @return array|array[]
      */
-    abstract protected function generateRecordsForGroupedProduct(\WC_Product_Grouped $product);
+    abstract protected function generateRecordsForGroupedProduct(\WC_Product_Grouped $product): array;
 
     /**
      * @param \WC_Product_Bundle $product
      * @return array|array[]
      */
-    abstract protected function generateRecordsForBundleProduct(\WC_Product $product);
+    abstract protected function generateRecordsForBundleProduct(\WC_Product $product): array;
 
     /**
      * @param \WC_Product $product
@@ -435,7 +432,7 @@ abstract class GenerateFeeds extends AbstractCommand
      * @return array
      * @throws ProductFactoryException
      */
-    abstract protected function generateRecord(\WC_Product $product, \WC_Product $parentProduct = null);
+    abstract protected function generateRecord(\WC_Product $product, \WC_Product $parentProduct = null): array;
 
     /**
      * Generate the XML file

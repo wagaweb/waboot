@@ -10,7 +10,7 @@ use function Waboot\inc\getHierarchicalCustomFieldFromProduct;
 
 require_once __DIR__.'/feed-utils.php';
 
-class GenerateGShoppingFeed extends GenerateFeeds
+class GenerateGShoppingFeed extends AbstractGenerateFeeds
 {
     /**
      * @var string
