@@ -109,7 +109,7 @@ add_filter('wawoo/order_stats/row', static function (array $row, int $productId,
         return $row;
     }
     $c = wc_get_customer_order_count($customerId);
-    $row['new_customer'] = !($c > 0);
+    $row['new_customer'] = $c === 1;
     //$row['customer_orders'] = $c;
     return $row;
 },10,3);
