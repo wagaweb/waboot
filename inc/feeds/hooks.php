@@ -66,8 +66,8 @@ add_action( 'woocommerce_save_product_variation', static function($variation_id,
 add_action('admin_menu', static  function(){
     add_submenu_page(
         'tools.php',
-        'Wawoo Feeds',
-        'Wawoo Feeds',
+        'WaWoo Feeds',
+        'WaWoo Feeds',
         'manage_options', 'wawoo-feeds',
         'Waboot\inc\feeds\renderFeedToolsAdminSubPage'
     );
