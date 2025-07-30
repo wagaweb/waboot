@@ -11,10 +11,6 @@ class GeneratePinterestFeed extends GenerateGShoppingFeed
     /**
      * @var string
      */
-    protected $logDirName = 'pinterest-feed-gen';
-    /**
-     * @var string
-     */
     protected $logFileName = 'pinterest-feed-gen';
     protected string $customOutputFilename = 'pinterest-products-feed';
 }

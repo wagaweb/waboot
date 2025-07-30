@@ -15,7 +15,7 @@ class GenerateGShoppingFeed extends AbstractGenerateFeeds
     /**
      * @var string
      */
-    protected $logDirName = 'wb-feed-gshopping-gen';
+    protected $logDirName = 'wb-feed-gen';
     /**
      * @var string
      */
@@ -202,7 +202,7 @@ class GenerateGShoppingFeed extends AbstractGenerateFeeds
                 $newRecord['custom_label_'.$k] = $label;
             }
         }
-        $newRecord = apply_filters('wawoo/cli/genfeeds/generate_record/record', $newRecord, $product);
+        $newRecord = apply_filters('wawoo/cli/genfeeds/generate_record/record', $newRecord, $product, $parentProduct);
         if(!\is_array($newRecord)){
             $newRecord = [];
         }

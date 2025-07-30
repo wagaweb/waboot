@@ -3,6 +3,7 @@
 namespace Waboot\inc;
 
 use Waboot\inc\cli\feeds\GeneratePinterestFeed;
+use waboot\inc\cli\feeds\GenerateTikTokFeed;
 use Waboot\inc\cli\FixPrices;
 use Waboot\inc\cli\FixStockStatuses;
 use Waboot\inc\cli\GenerateOrderStatsTable;
@@ -76,5 +77,6 @@ try{
     registerCommand('simulate-orders', OrderSimulator::class,'wawoo');
     registerCommand('feeds:generate-gshopping', GenerateGShoppingFeed::class,'wawoo');
     registerCommand('feeds:generate-pinterest', GeneratePinterestFeed::class,'wawoo');
+    registerCommand('feeds:generate-tiktok', GenerateTikTokFeed::class,'wawoo');
     registerCommand('gen-order-stats-table', GenerateOrderStatsTable::class, 'wawoo');
 }catch (\Exception $e){}
