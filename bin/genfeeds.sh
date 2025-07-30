@@ -13,8 +13,14 @@ echo "GShopping (it)..."
 
 echo "Facebook (it)..."
 
-( rm $BASEDIR/wp-content/wb-feeds/facebook-products-feed-it.xml )
+(cd $BASEDIR && /usr/local/bin/wp wawoo:feeds:generate-facebook --lang=it --default-google-product-category="Apparel & Accessories" )
 
-( cp $BASEDIR/wp-content/wb-feeds/google-products-feed-it.xml $BASEDIR/wp-content/wb-feeds/facebook-products-feed-it.xml )
+echo "Pinterest (it)..."
+
+(cd $BASEDIR && /usr/local/bin/wp wawoo:feeds:generate-pinterest --lang=it --default-google-product-category="Apparel & Accessories" )
+
+echo "TikTok (it)..."
+
+(cd $BASEDIR && /usr/local/bin/wp wawoo:feeds:generate-tiktok --lang=it --default-google-product-category="Apparel & Accessories" )
 
 echo "Done!"

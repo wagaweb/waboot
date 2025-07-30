@@ -2,6 +2,7 @@
 
 namespace Waboot\inc;
 
+use waboot\inc\cli\feeds\GenerateFacebookFeed;
 use Waboot\inc\cli\feeds\GeneratePinterestFeed;
 use waboot\inc\cli\feeds\GenerateTikTokFeed;
 use Waboot\inc\cli\FixPrices;
@@ -22,14 +23,10 @@ use Waboot\inc\cli\RemoveSalePrices;
 use function Waboot\inc\core\helpers\registerCommand;
 
 require_once get_stylesheet_directory().'/inc/cli/hooks.php';
-require_once get_stylesheet_directory().'/inc/core/cli/CommandLoggerTrait.php';
-require_once get_stylesheet_directory().'/inc/core/cli/AbstractCommand.php';
-require_once get_stylesheet_directory().'/inc/cli/ParseAndSaveProducts.php';
-require_once get_stylesheet_directory().'/inc/cli/FixStockStatuses.php';
-require_once get_stylesheet_directory().'/inc/cli/FixPrices.php';
-require_once get_stylesheet_directory().'/inc/cli/RemoveSalePrices.php';
-require_once get_stylesheet_directory().'/inc/cli/ImportPrices.php';
 require_once get_stylesheet_directory().'/inc/cli/feeds/GenerateGShoppingFeed.php';
+require_once get_stylesheet_directory().'/inc/cli/feeds/GenerateFacebookFeed.php';
+require_once get_stylesheet_directory().'/inc/cli/feeds/GeneratePinterestFeed.php';
+require_once get_stylesheet_directory().'/inc/cli/feeds/GenerateTikTokFeed.php';
 //if(is_file(get_stylesheet_directory().'/inc/cli/product_import/waga-woocommerce-csv-cli-importer/src/index.php')){
 //    require_once get_stylesheet_directory().'/inc/cli/product_import/waga-woocommerce-csv-cli-importer/src/index.php';
 //}
@@ -62,21 +59,27 @@ try{
     /*
      * Add commands here
      */
-    registerCommand('publish-missed-posts', PublishMissingArticles::class,'waboot');
+    // Stats
     registerCommand('generate-site-stat-file', GenerateSiteStatFile::class, 'waboot');
+    // Products
     registerCommand('export-products', ExportProducts::class,'wawoo');
     registerCommand('import-products', ImportProducts::class,'wawoo');
     registerCommand('import-product-images', ImportProductImages::class,'wawoo');
     registerCommand('import-prices', ImportPrices::class, 'wawoo');
+    // Orders
+    registerCommand('export-orders', ExportOrders::class,'wawoo');
+    registerCommand('test:export-orders', ExportOrdersTest::class,'wawoo');
+    registerCommand('simulate-orders', OrderSimulator::class,'wawoo');
+    registerCommand('gen-order-stats-table', GenerateOrderStatsTable::class, 'wawoo');
+    // Feeds
+    registerCommand('feeds:generate-gshopping', GenerateGShoppingFeed::class,'wawoo');
+    registerCommand('feeds:generate-pinterest', GeneratePinterestFeed::class,'wawoo');
+    registerCommand('feeds:generate-facebook', GenerateFacebookFeed::class,'wawoo');
+    registerCommand('feeds:generate-tiktok', GenerateTikTokFeed::class,'wawoo');
+    // Fixes
+    registerCommand('publish-missed-posts', PublishMissingArticles::class,'waboot');
     registerCommand('parse-and-save-products', ParseAndSaveProducts::class,'wawoo');
     registerCommand('fix-stock-statuses', FixStockStatuses::class,'wawoo');
     registerCommand('fix-prices', FixPrices::class,'wawoo');
     registerCommand('remove-sale-prices', RemoveSalePrices::class,'wawoo');
-    registerCommand('export-orders', ExportOrders::class,'wawoo');
-    registerCommand('test:export-orders', ExportOrdersTest::class,'wawoo');
-    registerCommand('simulate-orders', OrderSimulator::class,'wawoo');
-    registerCommand('feeds:generate-gshopping', GenerateGShoppingFeed::class,'wawoo');
-    registerCommand('feeds:generate-pinterest', GeneratePinterestFeed::class,'wawoo');
-    registerCommand('feeds:generate-tiktok', GenerateTikTokFeed::class,'wawoo');
-    registerCommand('gen-order-stats-table', GenerateOrderStatsTable::class, 'wawoo');
 }catch (\Exception $e){}
