@@ -1,6 +1,6 @@
 <?php
 
-namespace Waboot\inc\hooks\woocommerce;
+namespace Waboot\inc\feeds;
 
 use Waboot\inc\enums\Feeds;
 
@@ -62,3 +62,13 @@ add_action( 'woocommerce_save_product_variation', static function($variation_id,
         delete_post_meta($variation_id, Feeds::EXCLUDE_FROM_FEEDS_META_KEY);
     }
 },10,2);
+
+add_action('admin_menu', static  function(){
+    add_submenu_page(
+        'tools.php',
+        'Wawoo Feeds',
+        'Wawoo Feeds',
+        'manage_options', 'wawoo-feeds',
+        'Waboot\inc\feeds\renderFeedToolsAdminSubPage'
+    );
+});

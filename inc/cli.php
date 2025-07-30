@@ -21,6 +21,7 @@ use Waboot\inc\cli\product_import\ImportProducts;
 use Waboot\inc\cli\PublishMissingArticles;
 use Waboot\inc\cli\RemoveSalePrices;
 use function Waboot\inc\core\helpers\registerCommand;
+use function Waboot\inc\feeds\registerFeed;
 
 require_once get_stylesheet_directory().'/inc/cli/hooks.php';
 require_once get_stylesheet_directory().'/inc/cli/feeds/GenerateGShoppingFeed.php';
@@ -31,14 +32,29 @@ require_once get_stylesheet_directory().'/inc/cli/feeds/GenerateTikTokFeed.php';
 //    require_once get_stylesheet_directory().'/inc/cli/product_import/waga-woocommerce-csv-cli-importer/src/index.php';
 //}
 
-/*
- * Filter out unwanted taxonomies
- */
-add_filter('wawoo/cli/gen-stat-table/taxonomies', static function (array $taxonomies) {
-    return array_filter($taxonomies, static function (string $taxonomy){
-        return !\in_array($taxonomy,['post_translations','product_visibility','product_shipping_class']);
-    });
-},10,1);
+registerFeed([
+    'name' => 'Google Shopping Feed',
+    'path' => WP_CONTENT_DIR . '/wb-feeds'.'/google-products-feed-it.xml',
+    'command_prefix' => 'cli_wb-feed-gshopping-gen',
+]);
+
+registerFeed([
+    'name' => 'Facebook Feed',
+    'path' => WP_CONTENT_DIR . '/wb-feeds'.'/facebook-products-feed-it.xml',
+    'command_prefix' => 'cli_facebook-feed-gen',
+]);
+
+registerFeed([
+    'name' => 'Pinterest Feed',
+    'path' => WP_CONTENT_DIR . '/wb-feeds'.'/pinterest-products-feed-it.xml',
+    'command_prefix' => 'cli_pinterest-feed-gen',
+]);
+
+registerFeed([
+    'name' => 'TikTok Feed',
+    'path' => WP_CONTENT_DIR . '/wb-feeds'.'/tiktok-products-feed-it.xml',
+    'command_prefix' => 'cli_tiktok-feed-gen',
+]);
 
 add_action('init', static function(){
     /*
