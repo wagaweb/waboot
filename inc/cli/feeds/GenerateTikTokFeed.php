@@ -18,6 +18,10 @@ class GenerateTikTokFeed extends GenerateGShoppingFeed
             $newRecord['sku_id'] = $newRecord['id'];
             unset($newRecord['id']);
             return $newRecord;
-        });
+        },10,3);
+
+        add_filter('wawoo/cli/genfeeds/generate_record/availability', static function (string $availability, \WC_Product $product, ?\WC_Product $parentProduct) {
+            return str_replace('_', ' ', $availability);
+        },10,3);
     }
 }

@@ -498,7 +498,9 @@ abstract class AbstractGenerateFeeds extends AbstractCommand
                     $xmlRecord['g:'.$fieldName] = $fieldValue;
                 }
             }
-            $xmlRecords['channel']['item'][] = $xmlRecord;
+            if(!empty($xmlRecord)){
+                $xmlRecords['channel']['item'][] = $xmlRecord;
+            }
         }
         $this->log('Writing xml...');
         if(!\class_exists('\Spatie\ArrayToXml\ArrayToXml')){
