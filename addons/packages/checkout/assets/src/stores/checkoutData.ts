@@ -14,6 +14,7 @@ export const useCheckoutDataStore = defineStore('currentUser', () => {
     const currentUserId = ref<number>();
     const wpProfileFound = ref(false);
     const isGuest = ref(true);
+    const continueAsGuest = ref(false);
     const profileData: userProfileData = reactive({
         email: '',
         profileType: '',
@@ -365,6 +366,7 @@ export const useCheckoutDataStore = defineStore('currentUser', () => {
         cleanErrors,
         addError,
         isGuest,
+        continueAsGuest,
         isLoggedIn: isUserLoggedIn,
         currentUserId,
         wpProfileFound,

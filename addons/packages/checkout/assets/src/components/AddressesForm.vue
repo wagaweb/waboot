@@ -8,6 +8,7 @@ import {useI18n} from "vue-i18n";
 import AddressForm from "@/components/AddressForm.vue";
 import {deepClone} from "@/utils/helpers/objects.ts";
 import {wpUserAPI} from "@/services/wp/user.ts";
+import {getBackEndData} from "@/services/wp/backendData.ts";
 
 const {t} = useI18n();
 
@@ -50,6 +51,13 @@ const customerAccountCreationEnabled = ref(false);
 const isGuest = computed(() => {
     return checkoutDataStore.wpProfileFound === false && customerAccountCreationEnabled.value === false;
 });
+
+function toggleCustomerAccountCreationEnabled(){
+    if(!checkoutDataStore.continueAsGuest && !checkoutDataStore.wpProfileFound && getBackEndData().use_proceed_as_guest){
+        // If the user clicked on "Proceed" but no account was found, AND the proceed as guest was enabled, so force the customer creation to true
+        customerAccountCreationEnabled.value = true;
+    }
+}
 
 /*
  * We need both shipping and billing fields enabled on the original (hidden) form
@@ -217,6 +225,7 @@ onMounted(async () => {
     await fetchShippingAddresses();
     await fetchCountries();
     enableShipToDifferentAddress();
+    toggleCustomerAccountCreationEnabled();
     if(checkoutDataStore.mustRestoreAddressData){ // This is set by the edit link handler
         if(!checkoutDataStore.selectedAddressIndex){
             // If no address selected before, pre-compile the checkboxes and open the new address window

@@ -14,7 +14,8 @@ export interface stepCheckoutBackendDataType{
     woocommerce_ship_to_destination: 'shipping' | 'billing' | 'billing_only',
     wc_checkout_registration_required: boolean,
     wc_checkout_registration_enabled: boolean,
-    must_show_profile_step: boolean
+    must_show_profile_step: boolean,
+    use_proceed_as_guest: boolean
 }
 
 export interface wpJsonResponse{

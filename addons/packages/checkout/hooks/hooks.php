@@ -39,6 +39,7 @@ add_action('wp_enqueue_scripts', static function(){
         $mainJsI10nParams['wc_checkout_registration_required'] = $wcRegistrationRequired;
         $mainJsI10nParams['wc_checkout_registration_enabled'] = $wcRegistrationEnabled;
         $mainJsI10nParams['must_show_profile_step'] = hasCustomerCustomBillingFields();
+        $mainJsI10nParams['use_proceed_as_guest'] = apply_filters('wawoo/addons/checkout/use_proceed_as_guest', false);
         $assets['step-checkout-main-js'] = [
             'uri' => get_template_directory_uri() . '/addons/packages/checkout/assets/dist/'.$mainJsFileName,
             'path' => $assetsDir.'/'.$mainJsFileName,

@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import {onMounted, ref} from 'vue';
+import {computed, onMounted, ref} from 'vue';
 import {WPUser} from "@/services/wp/wpuser";
 import {debugLog} from "@/utils/helpers/debug.ts";
 import {useCheckoutDataStore} from "@/stores/checkoutData.ts";
 import {useI18n} from "vue-i18n";
+import {getBackEndData} from "@/services/wp/backendData.ts";
 
 const emit = defineEmits<{
     (e: 'emailSubmitted', email: string, profileFound: boolean): void
@@ -18,6 +19,11 @@ const loading = ref(false);
 
 const email = ref('');
 
+const useProceedAsGuest = computed(() => {
+    return getBackEndData().use_proceed_as_guest;
+});
+const continueAsGuest = ref(false);
+
 async function checkEmail() {
     debugLog('<SignInLanding> checkEmail() -> checking', email.value);
     checkoutDataStore.cleanErrors();
@@ -30,13 +36,23 @@ async function checkEmail() {
         }
         // Check if email is registered
         const isEmailRegistered = await new WPUser().checkIfEmailIsRegistered(email.value);
-        if (isEmailRegistered) {
-            // Account found
-            debugLog('<SignInLanding> checkEmail() -> emailSubmitted -> wp profile found');
-            emit('emailSubmitted', email.value, true);
-        }else {
-            // No account
-            debugLog('<SignInLanding> checkEmail() -> emailSubmitted -> wp profile not found');
+        checkoutDataStore.continueAsGuest = continueAsGuest.value;
+        if(!continueAsGuest.value){
+            // The user typed the email and clicked on "Proceed", so...
+            if (isEmailRegistered) {
+                // Account found
+                debugLog('<SignInLanding> checkEmail() -> emailSubmitted -> wp profile found');
+                emit('emailSubmitted', email.value, true);
+            }else {
+                // No account
+                debugLog('<SignInLanding> checkEmail() -> emailSubmitted -> wp profile not found');
+                emit('emailSubmitted', email.value, false);
+            }
+        }else{
+            // The user typed the email and clicked on "Proceed as guest", so...
+            if (isEmailRegistered) {
+                throw new Error(t('Email already in use'));
+            }
             emit('emailSubmitted', email.value, false);
         }
         loading.value = false;
@@ -66,6 +82,7 @@ onMounted(() => {
                 </div>
                 <div class="woocommerce-checkout-steps__btn-group">
                     <input type="submit" :value="t('Procedi')" class="btn btn--primary" :disabled="loading" @click.prevent="checkEmail()">
+                    <input v-if="useProceedAsGuest" type="submit" :value="t('Proceed as guest')" class="btn btn--secondary" :disabled="loading" @click.prevent="continueAsGuest = true; checkEmail()">
                 </div>
             </form>
         </div>
