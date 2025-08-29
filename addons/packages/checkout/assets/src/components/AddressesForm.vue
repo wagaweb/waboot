@@ -48,6 +48,17 @@ const addressSelected = computed(() => {
 
 const billingAddressEnabled = ref(false);
 const customerAccountCreationEnabled = ref(false);
+const showCreateAnAccountCheckbox = computed(() => {
+    let toShow = true;
+    if(getBackEndData().use_proceed_as_guest){
+        toShow = false;
+    }else{
+        if(checkoutDataStore.isLoggedIn){
+            toShow = false;
+        }
+    }
+    return toShow;
+});
 const isGuest = computed(() => {
     return checkoutDataStore.wpProfileFound === false && customerAccountCreationEnabled.value === false;
 });
@@ -296,7 +307,7 @@ onMounted(async () => {
                     <AddressForm :available-countries="fetchedCountries" @address-validated="onBillingAddressValidated" type="billing" ref="billingAddressFormRef" :initial-form-data="checkoutDataStore.billingData" v-else />
                 </div>
             </template>
-            <template v-if="!checkoutDataStore.isLoggedIn">
+            <template v-if="showCreateAnAccountCheckbox">
                 <input type="checkbox" v-model="customerAccountCreationEnabled"> {{ $t('Create an account to save your data') }}
             </template>
         </div>
