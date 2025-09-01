@@ -4,12 +4,13 @@ import {computed, onMounted, ref} from "vue";
 import {useCheckoutDataStore} from "@/stores/checkoutData";
 import {wcAPI} from "@/services/wp/woocommerce";
 import type {addressData, fetchedCountry} from "../../env";
-import {debugLog} from "@/utils/helpers/debug.ts";
+import {debugLog} from "@/utils/helpers/debug";
 import {object, string} from 'yup';
 import {toTypedSchema} from '@vee-validate/yup';
 import {ErrorMessage, useForm} from "vee-validate";
 import {useI18n} from "vue-i18n";
 import VueSelect from "vue3-select-component";
+import {getBackEndData} from "@/services/wp/backendData";
 
 const {t} = useI18n();
 
@@ -51,9 +52,17 @@ const checkoutDataStore = useCheckoutDataStore();
 const fetchedStates: Ref<fetchedCountry[]> = ref([]);
 const loadingStates = ref(false);
 
+const shippingAddressNameIsMandatory = getBackEndData().default_shipping_address_name_is_mandatory;
+const mustShowShippingAddressName = getBackEndData().must_show_default_shipping_address_name;
+
 const validationSchema = toTypedSchema(object({
     //name: string().required(t(`Address name is a required field`)).label(t('Address name')),
-    name: string().label(t('Address name')),
+    //name: string().label(t('Address name')),
+    name: string().when([],{
+        is: () => shippingAddressNameIsMandatory,
+        then: (schema) => schema.required(t(`Address name is a required field`)),
+        otherwise: (schema) => schema.notRequired(),
+    }).label(t('Address name')),
     firstName: string().required(t(`First name is a required field`)).label(t('First name')),
     lastName: string().required(t(`Last name is a required field`)).label(t('Last name')),
     phone: string().label(t('Phone')),
@@ -88,8 +97,8 @@ const [notes, notesAttrs] = defineField('notes');
 
 const formData = computed(() => {
     return {
-        //name: name.value,
-        name: `${address1.value},${city.value}`,
+        name: name.value,
+        //name: `${address1.value},${city.value}`,
         firstName: firstName.value,
         lastName: lastName.value,
         phone: phone.value,
@@ -204,9 +213,9 @@ onMounted(() => {
 </script>
 <template>
     <form>
-        <div class="form-row form-row-wide" :class="{invalid: 'name' in errors }" v-show="type === 'shipping' && showAddressName">
+        <div class="form-row form-row-wide" :class="{invalid: 'name' in errors }" v-show="type === 'shipping' && showAddressName && mustShowShippingAddressName">
             <input type="text" placeholder="" id="name" v-model="name" v-bind="nameAttrs">
-            <label for="name">{{ $t('Address name') }}<span>*</span></label>
+            <label for="name">{{ $t('Address name') }}<span v-if="shippingAddressNameIsMandatory">*</span></label>
             <ErrorMessage name="name" v-show="meta.touched"/>
         </div>
 

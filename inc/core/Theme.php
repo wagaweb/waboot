@@ -46,6 +46,7 @@ class Theme{
             'inc/core/helpers/alerts.php',
             'inc/core/hooks.php',
             'inc/template-functions.php',
+            'inc/core/woocommerce-functions.php',
             'inc/template-rendering.php',
             'inc/template-tags.php',
             'inc/hooks/hooks.php',

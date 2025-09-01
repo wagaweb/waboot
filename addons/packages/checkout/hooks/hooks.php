@@ -4,6 +4,8 @@ namespace Waboot\addons\packages\checkout\hooks;
 
 use function Waboot\addons\packages\checkout\hasCustomerCustomBillingFields;
 use function Waboot\inc\core\AssetsManager;
+use function Waboot\inc\core\defaultShippingAddressNameIsMandatory;
+use function Waboot\inc\core\mustDisplayDefaultShippingAddressName;
 use function Waboot\inc\getCurrentLanguage;
 
 add_action('wp_enqueue_scripts', static function(){
@@ -36,10 +38,12 @@ add_action('wp_enqueue_scripts', static function(){
             $wcRegistrationRequired = false;
             $wcRegistrationEnabled = false;
         }
-        $mainJsI10nParams['wc_checkout_registration_required'] = $wcRegistrationRequired;
-        $mainJsI10nParams['wc_checkout_registration_enabled'] = $wcRegistrationEnabled;
-        $mainJsI10nParams['must_show_profile_step'] = hasCustomerCustomBillingFields();
-        $mainJsI10nParams['use_proceed_as_guest'] = apply_filters('wawoo/addons/checkout/use_proceed_as_guest', false);
+        $mainJsI10nParams['wc_checkout_registration_required'] = $wcRegistrationRequired ? 'true' : 'false';
+        $mainJsI10nParams['wc_checkout_registration_enabled'] = $wcRegistrationEnabled ? 'true' : 'false';
+        $mainJsI10nParams['must_show_profile_step'] = hasCustomerCustomBillingFields() ? 'true': 'false';
+        $mainJsI10nParams['use_proceed_as_guest'] = apply_filters('wawoo/addons/checkout/use_proceed_as_guest', false) ? 'true': 'false';
+        $mainJsI10nParams['default_shipping_address_name_is_mandatory'] = defaultShippingAddressNameIsMandatory() ? 'true': 'false';
+        $mainJsI10nParams['must_show_default_shipping_address_name'] = mustDisplayDefaultShippingAddressName() ? 'true': 'false';
         $assets['step-checkout-main-js'] = [
             'uri' => get_template_directory_uri() . '/addons/packages/checkout/assets/dist/'.$mainJsFileName,
             'path' => $assetsDir.'/'.$mainJsFileName,
