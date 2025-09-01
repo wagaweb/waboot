@@ -15,7 +15,9 @@ export interface stepCheckoutBackendDataType{
     wc_checkout_registration_required: boolean,
     wc_checkout_registration_enabled: boolean,
     must_show_profile_step: boolean,
-    use_proceed_as_guest: boolean
+    use_proceed_as_guest: boolean,
+    default_shipping_address_name_is_mandatory: boolean
+    must_show_default_shipping_address_name: boolean
 }
 
 export interface wpJsonResponse{
