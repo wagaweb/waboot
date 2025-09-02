@@ -133,6 +133,21 @@ function getFormData(): addressData {
     }
 }
 
+function getEmptyFormData(): addressData {
+    return {
+        name: '',
+        firstName: '',
+        lastName: '',
+        country: '',
+        address1: '',
+        address2: '',
+        postcode: '',
+        city: '',
+        state: '',
+        notes: ''
+    }
+}
+
 function setFormData(key: string, value: string){
     switch(key){
         case 'name':
@@ -255,7 +270,8 @@ defineExpose({
     getFormData,
     setFormData,
     resetFormData,
-    populateFormData
+    populateFormData,
+    getEmptyFormData
 });
 
 onMounted(() => {
