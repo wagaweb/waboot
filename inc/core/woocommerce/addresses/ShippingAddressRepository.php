@@ -147,13 +147,6 @@ class ShippingAddressRepository
      */
     public function save(ShippingAddress $address): void
     {
-        $existing = Query::on(self::TABLE_NAME)->select('id')->where([
-            ['name', $address->getName()],
-            ['user_id', $address->getUserId()],
-        ])->get()->toArray();
-        if(!empty($existing)){
-            return;
-        }
         $record = [
             'user_id' => $address->getUserId(),
             'name' => $address->getName(),
@@ -175,7 +168,23 @@ class ShippingAddressRepository
             $record['phone'] = $address->getPhone();
         }
         $record = apply_filters('wawoo/multiple_addresses/shipping_address_repository/save_record', $record, $address);
-        Query::on(self::TABLE_NAME)->insert($record);
+        if(is_int($address->getId())){
+            Query::on(self::TABLE_NAME)
+                ->where('id', $address->getId())
+                ->update($record);
+        }else{
+            $existingId = Query::on(self::TABLE_NAME)->select('id')->where([
+                ['name', $address->getName()],
+                ['user_id', $address->getUserId()],
+            ])->get()->pluck('id')->first();
+            if($existingId){
+                Query::on(self::TABLE_NAME)
+                    ->where('id', $existingId)
+                    ->update($record);
+            }else{
+                Query::on(self::TABLE_NAME)->insert($record);
+            }
+        }
     }
 
     /**

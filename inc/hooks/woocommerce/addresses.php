@@ -41,6 +41,9 @@ add_filter('woocommerce_shipping_fields', static function(array $addressFields, 
         'class' => ['form-row-wide'],
         'priority' => 9
     ];
+    if(!mustDisplayDefaultShippingAddressName()){
+        $addressFields['shipping_id']['label_class'] = ['hidden'];
+    }
     return $addressFields;
 }, 10, 2);
 
@@ -95,7 +98,7 @@ add_action('woocommerce_checkout_order_created', static function(\WC_Order $orde
         $existingAddress = $saRepo->findByNameAndCustomer($shippingId, $customer);
         if(!$existingAddress){
             // Save the new address
-            $sa = (new ShippingAddressFactory())->createFromPostedData();
+            $sa = (new ShippingAddressFactory())->createFromPostedData($shippingId);
             $saRepo->save($sa);
             $saRepo->setCurrentToCustomer($sa, $customer);
         }
@@ -103,3 +106,47 @@ add_action('woocommerce_checkout_order_created', static function(\WC_Order $orde
         logException($e,'woocommerce_checkout_order_created',[],'wawoo-multiaddress-debug');
     }
 },11);
+
+/*add_action('woocommerce_update_customer', static function(int $customerId, \WC_Customer $customer){
+   xdebug_break();
+},10,2);*/
+
+/*
+ * Saving address in my account page
+ */
+add_action('woocommerce_customer_save_address', static function(int $customerId, string $addressType, $address, \WC_Customer $customer){
+    if(!is_account_page()){
+        return;
+    }
+    if($addressType !== 'shipping'){
+        return;
+    }
+    if(!isset($_POST['shipping_id']) || empty($_POST['shipping_id'])){
+        return;
+    }
+    $shippingId = sanitize_text_field($_POST['shipping_id']);
+    if(!$shippingId){
+        return;
+    }
+    try{
+        $customer = new Customer($customer->get_id());
+        $saRepo = $customer->getShippingAddressRepository();
+        $existingAddress = $saRepo->findByNameAndCustomer($shippingId, $customer);
+        if($existingAddress){
+            $updatedData = [];
+            foreach ($_POST as $key => $value) {
+                if(!str_contains($key, 'shipping_')){
+                    continue;
+                }
+                $parsedValue = sanitize_text_field($value);
+                if($parsedValue){
+                    $updatedData[$key] = $parsedValue;
+                }
+            }
+            $existingAddress->updateFromData($updatedData);
+            $saRepo->save($existingAddress);
+        }
+    }catch (\Exception|\Throwable $e){
+        logException($e,'woocommerce_customer_save_address',[],'wawoo-multiaddress-debug');
+    }
+},10,4);

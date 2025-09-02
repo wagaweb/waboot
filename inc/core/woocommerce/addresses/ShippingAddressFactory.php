@@ -38,12 +38,15 @@ class ShippingAddressFactory
     }
 
     /**
+     * @param string|null $shippingId
      * @return ShippingAddress
      * @throws ShippingAddressFactoryException
      */
-    public function createFromPostedData(): ShippingAddress
+    public function createFromPostedData(string $shippingId = null): ShippingAddress
     {
-        $shippingId = sanitize_text_field($_POST['shipping_id']);
+        if(!$shippingId){
+            $shippingId = sanitize_text_field($_POST['shipping_id']);
+        }
         if(!$shippingId){
             throw new ShippingAddressFactoryException('createFromPostedData(): Invalid shipping id');
         }
