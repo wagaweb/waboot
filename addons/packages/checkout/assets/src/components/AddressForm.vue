@@ -84,17 +84,39 @@ const {values, defineField, errors, meta, handleSubmit} = useForm({
     validationSchema: validationSchema
 });
 
-const [name, nameAttrs] = defineField('name');
-const [firstName, firstNameAttrs] = defineField('firstName');
-const [lastName, lastNameAttrs] = defineField('lastName');
-const [phone, phoneAttrs] = defineField('phone');
-const [country, countryAttrs] = defineField('country');
-const [address1, address1Attrs] = defineField('address1');
-const [address2, address2Attrs] = defineField('address2');
-const [postcode, postcodeAttrs] = defineField('postcode');
-const [city, cityAttrs] = defineField('city');
-const [state, stateAttrs] = defineField('state');
-const [notes, notesAttrs] = defineField('notes');
+const [name, nameAttrs] = defineField('name', {
+    validateOnModelUpdate: false,
+});
+const [firstName, firstNameAttrs] = defineField('firstName', {
+    validateOnModelUpdate: false,
+});
+const [lastName, lastNameAttrs] = defineField('lastName', {
+    validateOnModelUpdate: false,
+});
+const [phone, phoneAttrs] = defineField('phone', {
+    validateOnModelUpdate: false,
+});
+const [country, countryAttrs] = defineField('country', {
+    validateOnModelUpdate: false,
+});
+const [address1, address1Attrs] = defineField('address1', {
+    validateOnModelUpdate: false,
+});
+const [address2, address2Attrs] = defineField('address2', {
+    validateOnModelUpdate: false,
+});
+const [postcode, postcodeAttrs] = defineField('postcode', {
+    validateOnModelUpdate: false,
+});
+const [city, cityAttrs] = defineField('city', {
+    validateOnModelUpdate: false,
+});
+const [state, stateAttrs] = defineField('state', {
+    validateOnModelUpdate: false,
+});
+const [notes, notesAttrs] = defineField('notes', {
+    validateOnModelUpdate: false,
+});
 
 const formData = computed(() => {
     return {
