@@ -79,6 +79,7 @@ const validationSchema = toTypedSchema(object({
     notes: string().label(t('Order notes'))
 }));
 
+// https://vee-validate.logaretm.com/v4/api/use-form/
 const {values, defineField, errors, meta, handleSubmit} = useForm({
     validationSchema: validationSchema
 });
