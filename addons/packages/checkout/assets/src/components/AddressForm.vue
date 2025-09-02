@@ -117,6 +117,60 @@ async function onCountryChange() {
     await fetchStates();
 }
 
+function getFormData(): addressData {
+    return {
+        name: name.value ?? '',
+        firstName: firstName.value ?? '',
+        lastName: lastName.value ?? '',
+        phone: phone.value ?? '',
+        country: country.value ?? '',
+        address1: address1.value ?? '',
+        address2: address2.value ?? '',
+        postcode: postcode.value ?? '',
+        city: city.value ?? '',
+        state: state.value ?? '',
+        notes: notes.value ?? ''
+    }
+}
+
+function setFormData(key: string, value: string){
+    switch(key){
+        case 'name':
+            name.value = value;
+            break;
+        case 'firstName':
+            firstName.value = value;
+            break;
+        case 'lastName':
+            lastName.value = value;
+            break;
+        case 'phone':
+            phone.value = value;
+            break;
+        case 'country':
+            country.value = value;
+            break;
+        case 'address1':
+            address1.value = value;
+            break;
+        case 'address2':
+            address2.value = value;
+            break;
+        case 'postcode':
+            postcode.value = value;
+            break;
+        case 'city':
+            city.value = value;
+            break;
+        case 'state':
+            state.value = value;
+            break;
+        case 'notes':
+            notes.value = value;
+            break;
+    }
+}
+
 function resetFormData() {
     name.value = '';
     firstName.value = '';
@@ -198,6 +252,8 @@ const onSubmit = handleSubmit(values => {
 
 defineExpose({
     onSubmit,
+    getFormData,
+    setFormData,
     resetFormData,
     populateFormData
 });
