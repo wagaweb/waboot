@@ -160,6 +160,9 @@ function getTermMap(string $tax, bool $clearCache = false): array
     return $terms;
 }
 
+/**
+ * @throws \Throwable
+ */
 function updateCatalogProductMetadata(\WC_Product $p): void
 {
     if ($p->get_type() !== 'variable') {
@@ -280,9 +283,9 @@ function updateCatalogProductMetadata(\WC_Product $p): void
         $p->update_meta_data('_catalog_data', wp_json_encode($catalogData));
         $p->save_meta_data();
     } catch (\Throwable $e) {
-        error_log($e);
         $p->delete_meta_data('_catalog_data');
         $p->save_meta_data();
+        throw $e;
     }
 }
 

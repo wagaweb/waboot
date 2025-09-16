@@ -68,7 +68,11 @@ function updateProductAttributeListMetadataHook(int $productId): void
         }
     }
 
-    updateCatalogProductMetadata($product);
+    try {
+        updateCatalogProductMetadata($product);
+    } catch (\Throwable $e) {
+        error_log($e->__toString());
+    }
 }
 
 add_action('woocommerce_update_product', __NAMESPACE__ . '\\updateProductAttributeListMetadataHook');

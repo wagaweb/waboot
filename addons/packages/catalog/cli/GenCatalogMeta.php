@@ -33,7 +33,13 @@ class GenCatalogMeta extends AbstractCommand
             }
 
             $this->log(sprintf('%d/%d: Processing product #%d', $i + 1, $count, $p->get_id()));
-            updateCatalogProductMetadata($p);
+
+            try {
+                updateCatalogProductMetadata($p);
+            } catch (\Throwable $e) {
+                $this->error(sprintf('Failed to update catalog data: %s', $e->getMessage()), false);
+            }
+
             $this->log(sprintf('Updated product #%d', $p->get_id()));
         }
     }
