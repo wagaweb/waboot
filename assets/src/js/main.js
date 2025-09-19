@@ -8,6 +8,7 @@ import {alterAttributesView} from './frontend/attributes.js';
 import {enableProductGallery} from './frontend/productGallery.js';
 import {initEuVat} from "./frontend/checkout/invoicing";
 import {initCustomerCareModal} from "./frontend/modal.js";
+import Popup from './frontend/Popup.js';
 import {isCartPage, isCheckOutPage, isSingleProductPage} from "./utils/wp";
 
 $.fn.slidein = function (options) {
@@ -34,6 +35,8 @@ $(document).ready(function() {
     asideBodyClass();
     scrollToAnimate();
     initCarousel();
+    const popup = new Popup();
+    popup.init();
 
     $("[data-slidein-nav]").slidein({
         toggler: ".slidein-nav__toggle",

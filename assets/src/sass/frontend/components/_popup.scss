@@ -1,0 +1,139 @@
+.custom-popup {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+
+  &.is-visible {
+    opacity: 1;
+    visibility: visible;
+
+    .custom-popup__content {
+      transform: translateY(0) scale(1);
+      opacity: 1;
+    }
+  }
+
+  &__overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+  }
+
+  &__content {
+    position: absolute;
+    background: #fff;
+    z-index: 10000;
+    max-width: 600px;
+    width: 90%;
+    transform: translateY(100px) scale(0.8);
+    opacity: 0;
+    transition: all 0.3s ease;
+    overflow: auto;
+    padding: 16px; // valore di default, sarà sovrascritto da JS
+    max-height: none; // valore di default, sarà sovrascritto da JS
+  }
+
+  &__close {
+    position: absolute;
+    border: none;
+    cursor: pointer;
+    color: #000;
+    top: 16px;
+    right: 16px;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5em;
+    transition: 0.3s;
+
+    &:hover {
+      background-color: #007bff;
+      color: #fff;
+    }
+  }
+
+  .wp-block-image {
+    margin-bottom: 0;
+  }
+
+  iframe,
+  video {
+    max-width: 100%;
+    display: block;
+  }
+
+  @media (min-width: 768px) {
+    &__content {
+      max-width: 500px;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    &__content {
+      max-width: 600px;
+    }
+  }
+
+  // === Posizioni dinamiche con offset ===
+  &[data-position="top-left"] .custom-popup__content {
+    top: 16px;
+    left: 16px;
+    transform: none;
+  }
+
+  &[data-position="top-center"] .custom-popup__content {
+    top: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  &[data-position="top-right"] .custom-popup__content {
+    top: 16px;
+    right: 16px;
+    transform: none;
+  }
+
+  &[data-position="center-left"] .custom-popup__content {
+    top: 50%;
+    left: 16px;
+    transform: translateY(-50%);
+  }
+
+  &[data-position="center"] .custom-popup__content {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  &[data-position="center-right"] .custom-popup__content {
+    top: 50%;
+    right: 16px;
+    transform: translateY(-50%);
+  }
+
+  &[data-position="bottom-left"] .custom-popup__content {
+    bottom: 16px;
+    left: 16px;
+    transform: none;
+  }
+
+  &[data-position="bottom-center"] .custom-popup__content {
+    bottom: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  &[data-position="bottom-right"] .custom-popup__content {
+    bottom: 16px;
+    right: 16px;
+    transform: none;
+  }
+}
