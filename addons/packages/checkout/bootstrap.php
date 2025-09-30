@@ -1,4 +1,8 @@
 <?php
+/**
+ * @package Checkout
+ * @version 02092025
+ */
 
 namespace Waboot\addons\packages\checkout;
 
