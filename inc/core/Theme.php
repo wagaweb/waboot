@@ -7,7 +7,7 @@ use Waboot\inc\core\mvc\HTMLView;
 use Waboot\inc\core\utils\Dates;
 
 class Theme{
-    public const WABOOT_CORE_VERSION = '02072025';
+    public const WABOOT_CORE_VERSION = '30092025';
     public const LOG_LEVEL_DEBUG = 0;
     public const LOG_LEVEL_INFO = 1;
     public const LOG_LEVEL_NOTICE = 2;

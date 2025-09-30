@@ -181,8 +181,10 @@ class ShippingAddressRepository
                 Query::on(self::TABLE_NAME)
                     ->where('id', $existingId)
                     ->update($record);
+                $address->setId($existingId);
             }else{
-                Query::on(self::TABLE_NAME)->insert($record);
+                $newId = Query::on(self::TABLE_NAME)->insertGetId($record);
+                $address->setId($newId);
             }
         }
     }

@@ -95,13 +95,14 @@ add_action('woocommerce_checkout_order_created', static function(\WC_Order $orde
     try{
         $customer = new Customer(get_current_user_id());
         $saRepo = $customer->getShippingAddressRepository();
-        $existingAddress = $saRepo->findByNameAndCustomer($shippingId, $customer);
-        if(!$existingAddress){
+        $sa = $saRepo->findByNameAndCustomer($shippingId, $customer);
+        if(!$sa){
             // Save the new address
             $sa = (new ShippingAddressFactory())->createFromPostedData($shippingId);
             $saRepo->save($sa);
             $saRepo->setCurrentToCustomer($sa, $customer);
         }
+        do_action('wawoo/multiple_addresses/woocommerce_checkout_order_created/save_shipping_address_on_user',$customer,$sa,$order);
     }catch (DBException|ShippingAddressFactoryException $e){
         logException($e,'woocommerce_checkout_order_created',[],'wawoo-multiaddress-debug');
     }
