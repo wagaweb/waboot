@@ -52,6 +52,8 @@ export const useCheckoutDataStore = defineStore('currentUser', () => {
     const mustRestoreAddressData = ref<boolean>(false);
     const useDifferentAddressForBillingChecked = ref<boolean>(false);
     const createAnAccountChecked = ref<boolean>(false);
+    const userChoseToEditShipping = ref<boolean>(false);
+    const userChoseToEditBilling = ref<boolean>(false);
 
     const mustRegisterNewUser = computed(() => {
         return !isGuest.value;
@@ -384,6 +386,8 @@ export const useCheckoutDataStore = defineStore('currentUser', () => {
         isShippingDataComplete,
         selectedAddressIndex,
         mustRestoreAddressData,
+        userChoseToEditShipping,
+        userChoseToEditBilling,
         useDifferentAddressForBillingChecked,
         createAnAccountChecked,
         setUserAsLoggedIn,

@@ -103,6 +103,8 @@ function onAddressDataSubmitted(shippingData: addressData, billingData: addressD
     debugLog('<App> onAddressDataSubmitted() -> billing', billingData);
     checkoutDataStore.setBillingData(billingData);
     checkoutDataStore.setShippingData(shippingData);
+    checkoutDataStore.userChoseToEditShipping = false;
+    checkoutDataStore.userChoseToEditBilling = false;
     checkoutDataStore.isGuest = isGuest;
     checkoutDataStore.currentStep = 'pay';
 }
@@ -126,7 +128,8 @@ function onAddressDataSubmitted(shippingData: addressData, billingData: addressD
 
         <UserDataSummary
             @edit-email="checkoutDataStore.currentStep = 'email'"
-            @edit-shipping="checkoutDataStore.mustRestoreAddressData = true; checkoutDataStore.currentStep = 'address'"
+            @edit-shipping="checkoutDataStore.mustRestoreAddressData = true; checkoutDataStore.userChoseToEditShipping = true; checkoutDataStore.currentStep = 'address'"
+            @edit-billing="checkoutDataStore.mustRestoreAddressData = true; checkoutDataStore.userChoseToEditBilling = true; checkoutDataStore.currentStep = 'address'"
         />
         <!-- L'utente non è loggato, deve inserire l'email: -->
         <SignInLanding

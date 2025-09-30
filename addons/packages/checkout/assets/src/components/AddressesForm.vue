@@ -244,6 +244,9 @@ onMounted(async () => {
             customerAccountCreationEnabled.value = checkoutDataStore.createAnAccountChecked;
             addingNewAddress.value = true;
         }
+        if(checkoutDataStore.userChoseToEditBilling){
+            billingAddressEnabled.value = true;
+        }
     }
 });
 </script>
