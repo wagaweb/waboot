@@ -3,12 +3,14 @@
 namespace Waboot\inc\woocommerce;
 
 use Waboot\inc\core\DBException;
+use Waboot\inc\core\woocommerce\addresses\AddressUserMetaKeys;
 use Waboot\inc\core\woocommerce\addresses\ShippingAddressFactory;
 use Waboot\inc\core\woocommerce\addresses\ShippingAddressFactoryException;
 use Waboot\inc\core\woocommerce\addresses\ShippingAddressRepository;
 use Waboot\inc\core\woocommerce\Customer;
 use function Waboot\inc\core\defaultShippingAddressNameIsMandatory;
 use function Waboot\inc\core\generateShippingAddressName;
+use function Waboot\inc\core\generateShippingAddressNameFromOrderAndPostedData;
 use function Waboot\inc\core\helpers\logException;
 use function Waboot\inc\core\mustDisplayDefaultShippingAddressName;
 
@@ -55,7 +57,7 @@ add_action('woocommerce_checkout_update_order_meta', static function(int $orderI
         if(defaultShippingAddressNameIsMandatory()){
             return;
         }
-        $shippingId = generateShippingAddressName($orderId, $postedData);
+        $shippingId = generateShippingAddressNameFromOrderAndPostedData($orderId, $postedData);
     }else{
         $shippingId = sanitize_text_field($_POST['shipping_id']);
     }
@@ -85,7 +87,7 @@ add_action('woocommerce_checkout_order_created', static function(\WC_Order $orde
         if(defaultShippingAddressNameIsMandatory()){
             return;
         }
-        $shippingId = generateShippingAddressName($order->get_id(), $_POST);
+        $shippingId = generateShippingAddressNameFromOrderAndPostedData($order->get_id(), $_POST);
     }else{
         $shippingId = sanitize_text_field($_POST['shipping_id']);
     }
@@ -113,26 +115,65 @@ add_action('woocommerce_checkout_order_created', static function(\WC_Order $orde
 },10,2);*/
 
 /*
- * Saving address in my account page
+ * Output the numeric id of the current shipping address in my account edit address page
  */
-add_action('woocommerce_customer_save_address', static function(int $customerId, string $addressType, $address, \WC_Customer $customer){
+add_action('woocommerce_after_edit_address_form_'.'shipping', static function(){
+    if(!is_account_page()){
+        return;
+    }
+    $customer = new Customer(get_current_user_id());
+    $customer->fetchCurrentShippingAddress();
+    $shippingAddress = $customer->getCurrentShippingAddress();
+    if(!$shippingAddress){
+        return;
+    }
+    if(!$shippingAddress->getId()){
+        return;
+    }
+    ?>
+    <input type="hidden" name="shipping_address_numeric_id" value="<?php echo $shippingAddress->getId(); ?>">
+    <?php
+});
+
+/*
+ * Saving address in my account edit address page
+ */
+add_action('woocommerce_customer_save_address', static function(int $customerId, string $addressType){
     if(!is_account_page()){
         return;
     }
     if($addressType !== 'shipping'){
         return;
     }
-    if(!isset($_POST['shipping_id']) || empty($_POST['shipping_id'])){
-        return;
-    }
-    $shippingId = sanitize_text_field($_POST['shipping_id']);
-    if(!$shippingId){
-        return;
-    }
     try{
-        $customer = new Customer($customer->get_id());
+        if(defaultShippingAddressNameIsMandatory()){
+            if(!isset($_POST['shipping_id']) || empty($_POST['shipping_id'])){
+                return;
+            }
+            $shippingId = sanitize_text_field($_POST['shipping_id']);
+        }else{
+            if(isset($_POST['shipping_id']) && !empty($_POST['shipping_id'])){
+                $shippingId = sanitize_text_field($_POST['shipping_id']);
+            }else{
+                $shippingId = generateShippingAddressName($_POST);
+            }
+        }
+        if(!$shippingId){
+            return;
+        }
+        $postedShippingAddress = (new ShippingAddressFactory())->createFromPostedData($shippingId);
+        $customer = new Customer($customerId);
         $saRepo = $customer->getShippingAddressRepository();
-        $existingAddress = $saRepo->findByNameAndCustomer($shippingId, $customer);
+        $existingAddress = null;
+        if(isset($_POST['shipping_address_numeric_id'])){
+            $shippingNumericId = sanitize_text_field($_POST['shipping_address_numeric_id']);
+            if(!empty($shippingNumericId)){
+                $existingAddress = $saRepo->findById((int) $shippingNumericId);
+            }
+        }
+        if(!$existingAddress){
+            $existingAddress = $saRepo->findByNameAndCustomer($postedShippingAddress->getName(), $customer);
+        }
         if($existingAddress){
             $updatedData = [];
             foreach ($_POST as $key => $value) {
@@ -146,8 +187,13 @@ add_action('woocommerce_customer_save_address', static function(int $customerId,
             }
             $existingAddress->updateFromData($updatedData);
             $saRepo->save($existingAddress);
+            update_user_meta($customerId,AddressUserMetaKeys::currentShippingAddress->value, $existingAddress->getId());
+        }else{
+            $postedShippingAddress->setUserId($customerId);
+            $saRepo->save($postedShippingAddress);
+            update_user_meta($customerId,AddressUserMetaKeys::currentShippingAddress->value, $existingAddress->getId());
         }
     }catch (\Exception|\Throwable $e){
         logException($e,'woocommerce_customer_save_address',[],'wawoo-multiaddress-debug');
     }
-},10,4);
+},10,2);

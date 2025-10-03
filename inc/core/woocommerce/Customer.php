@@ -1,6 +1,6 @@
 <?php
 
-namespace Waboot\inc\core\woocommerce;
+namespace waboot\inc\core\woocommerce;
 
 use Waboot\inc\core\DBException;
 use Waboot\inc\core\woocommerce\addresses\BillingAddress;
@@ -118,7 +118,7 @@ class Customer
             return;
         }
         $current = $this->shippingAddressRepository->getCurrentByCustomer($this);
-        if(!$current->isComplete()){
+        if($current === null || !$current->isComplete()){
             return;
         }
         // Save the current to user

@@ -6,6 +6,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Waboot\inc\core\DBException;
 use Waboot\inc\core\facades\Query;
 use Waboot\inc\core\woocommerce\Customer;
+use function Waboot\inc\core\generateShippingAddressName;
 use function Waboot\inc\core\Waboot;
 
 class ShippingAddressRepository
@@ -51,37 +52,62 @@ class ShippingAddressRepository
 
     /**
      * @param Customer $customer
-     * @return ShippingAddress
+     * @return ShippingAddress|null
      */
-    public function getCurrentByCustomer(Customer $customer): ShippingAddress
+    public function getCurrentByCustomer(Customer $customer): ?ShippingAddress
     {
-        $name = get_user_meta($customer->getWcCustomer()->get_id(),'shipping_id',true);
-        $firstName = get_user_meta($customer->getWcCustomer()->get_id(),'shipping_first_name',true);
-        $lastName = get_user_meta($customer->getWcCustomer()->get_id(),'shipping_last_name',true);
-        $city = get_user_meta($customer->getWcCustomer()->get_id(),'shipping_city',true);
-        $state = get_user_meta($customer->getWcCustomer()->get_id(),'shipping_state',true);
-        $postcode = get_user_meta($customer->getWcCustomer()->get_id(),'shipping_postcode',true);
-        $country = get_user_meta($customer->getWcCustomer()->get_id(),'shipping_country',true);
-        $company = get_user_meta($customer->getWcCustomer()->get_id(),'shipping_company',true);
-        $address1 = get_user_meta($customer->getWcCustomer()->get_id(),'shipping_address_1',true);
-        $address2 = get_user_meta($customer->getWcCustomer()->get_id(),'shipping_address_2',true);
-        $phone = get_user_meta($customer->getWcCustomer()->get_id(),'shipping_phone',true);
-        $sa = new ShippingAddress();
-        $sa->setUserId($customer->getWcCustomer()->get_id());
-        if(\is_string($name) && !empty($name)){
-            $sa->setName($name);
+        $sa = false;
+        try{
+            $currentShippingAddressId = get_user_meta($customer->getId(),AddressUserMetaKeys::currentShippingAddress->value,true);
+            if(\is_string($currentShippingAddressId) && !empty($currentShippingAddressId)){
+                $sa = $this->findById((int) $currentShippingAddressId);
+            }
+        }catch (DBException $e){}
+        if(!$sa){
+            $addressData = [
+                'shipping_id' => get_user_meta($customer->getWcCustomer()->get_id(),'shipping_id',true),
+                'shipping_first_name' => get_user_meta($customer->getWcCustomer()->get_id(),'shipping_first_name',true),
+                'shipping_last_name' => get_user_meta($customer->getWcCustomer()->get_id(),'shipping_last_name',true),
+                'shipping_city' => get_user_meta($customer->getWcCustomer()->get_id(),'shipping_city',true),
+                'shipping_state' => get_user_meta($customer->getWcCustomer()->get_id(),'shipping_state',true),
+                'shipping_postcode' => get_user_meta($customer->getWcCustomer()->get_id(),'shipping_postcode',true),
+                'shipping_country' =>  get_user_meta($customer->getWcCustomer()->get_id(),'shipping_country',true),
+                'shipping_company' => get_user_meta($customer->getWcCustomer()->get_id(),'shipping_company',true),
+                'shipping_address_1' => get_user_meta($customer->getWcCustomer()->get_id(),'shipping_address_1',true),
+                'shipping_address_2' => get_user_meta($customer->getWcCustomer()->get_id(),'shipping_address_2',true),
+                'shipping_phone' => get_user_meta($customer->getWcCustomer()->get_id(),'shipping_phone',true)
+            ];
+            $name = $addressData['shipping_id'];
+            $firstName = $addressData['shipping_first_name'];
+            $lastName = $addressData['shipping_last_name'];
+            $city = $addressData['shipping_city'];
+            $state = $addressData['shipping_state'];
+            $postcode = $addressData['shipping_postcode'];
+            $country = $addressData['shipping_country'];
+            $company = $addressData['shipping_company'];
+            $address1 = $addressData['shipping_address_1'];
+            $address2 = $addressData['shipping_address_2'];
+            $phone = $addressData['shipping_phone'];
+            $sa = new ShippingAddress();
+            $sa->setUserId($customer->getWcCustomer()->get_id());
+            if(\is_string($name) && !empty($name)){
+                $sa->setName($name);
+            }
+            $sa->setFirstName($firstName);
+            $sa->setLastName($lastName);
+            $sa->setCity($city);
+            $sa->setState($state);
+            $sa->setPostCode($postcode);
+            $sa->setCountry($country);
+            $sa->setCompany($company);
+            $sa->setAddress1($address1);
+            $sa->setAddress2($address2);
+            $sa->setPhone($phone);
         }
-        $sa->setFirstName($firstName);
-        $sa->setLastName($lastName);
-        $sa->setCity($city);
-        $sa->setState($state);
-        $sa->setPostCode($postcode);
-        $sa->setCountry($country);
-        $sa->setCompany($company);
-        $sa->setAddress1($address1);
-        $sa->setAddress2($address2);
-        $sa->setPhone($phone);
         do_action('wawoo/multiple_addresses/shipping_address_repository/get_current_by_customer', $sa, $customer);
+        if(!$sa instanceof ShippingAddress){
+            return null;
+        }
         return $sa;
     }
 
@@ -105,6 +131,19 @@ class ShippingAddressRepository
             update_user_meta($customer->getWcCustomer()->get_id(), 'shipping_phone', $address->getPhone());
         }
         do_action('wawoo/multiple_addresses/shipping_address_repository/set_current_by_customer', $address, $customer);
+    }
+
+    /**
+     * @throws DBException
+     */
+    public function findById(int $id): ?ShippingAddress
+    {
+        $record = Query::on(self::TABLE_NAME)->select('*')->where(['id' => $id])->get()->first();
+        if(!$record){
+            return null;
+        }
+        $factory = new ShippingAddressFactory();
+        return $factory->createFromDBRecord($record);
     }
 
     /**

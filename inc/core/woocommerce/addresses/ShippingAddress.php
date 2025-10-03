@@ -42,10 +42,9 @@ class ShippingAddress extends AbstractCustomerAddress
     }
 
     /**
-     * @param bool $generate
      * @return string|null
      */
-    public function getName(bool $generate = true): ?string
+    public function getName(): ?string
     {
         if(!$this->name){
             if($generate){
