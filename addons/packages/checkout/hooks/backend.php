@@ -140,6 +140,7 @@ Utilities::addAjaxEndpoint('retrieve_shipping_addresses', static function () {
         $addrs = $c->getShippingAddresses();
         wp_send_json_success(array_map(function (ShippingAddress $address) use($userId) {
             return apply_filters('wawoo/addons/checkout/retrieve_shipping_addresses/address', [
+                'id' => $address->getId() ?? '',
                 'name' => $address->getName(),
                 'firstName' => $address->getFirstName(),
                 'first_name' => $address->getFirstName(), // Backward compatibility
