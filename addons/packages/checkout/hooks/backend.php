@@ -206,7 +206,11 @@ function fetchCustomerData(int $userId): array {
             'state' => ''
         ],
         'shipping_data' => $shippingAddress ? [
+            'id' => $shippingAddress->getId() ?? '',
             'name' => $shippingAddress->getName(),
+            'firstName' => $shippingAddress->getFirstName(),
+            'lastName' => $shippingAddress->getLastName(),
+            'phone' => $shippingAddress->getPhone(),
             'country' => $shippingAddress->getCountry(),
             'address1' => $shippingAddress->getAddress1(),
             'address2' => $shippingAddress->getAddress2(),
@@ -215,7 +219,11 @@ function fetchCustomerData(int $userId): array {
             'state' => $shippingAddress->getState(),
             'notes' => ''
         ] : [
+            'id' => '',
             'name' => '',
+            'firstName' => '',
+            'lastName' => '',
+            'phone' => '',
             'country' => '',
             'address1' => '',
             'address2' => '',

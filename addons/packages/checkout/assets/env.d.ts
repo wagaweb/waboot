@@ -53,6 +53,7 @@ export interface userBillingData{
 }
 
 export interface userShippingData{
+    id?: number,
     name: string,
     firstName: string,
     lastName: string,
@@ -67,6 +68,7 @@ export interface userShippingData{
 }
 
 export interface userShippingDataWP{
+    id?: number
     name: string,
     firstName: string,
     first_name?: string, // Backward compatibility
@@ -91,6 +93,7 @@ export interface fetchedUserData{
 }
 
 export interface addressData{
+    id?: number,
     name?: string,
     firstName: string,
     lastName: string,
@@ -113,4 +116,3 @@ export interface fetchedCountry{
     slug: string,
     label: string
 }
-
