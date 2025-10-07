@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @version 07102025
+ */
+
 namespace Waboot\inc\cli\feeds;
 
 use Automattic\WooCommerce\Enums\ProductType;
@@ -451,12 +455,7 @@ abstract class AbstractGenerateFeeds extends AbstractCommand
         }else{
             $xmlDirPath = WP_CONTENT_DIR . '/wb-feeds';
         }
-        $xmlFileName = $this->customOutputFilename ?? 'google-products-feed';
-        if($this->language !== null && \is_string($this->language) && $this->language !== '') {
-            $xmlFileName .= '-' . $this->language . '.xml';
-        }else{
-            $xmlFileName .= '.xml';
-        }
+        $xmlFileName = $this->generateXMLFileName();
         $xmlFilePath = $xmlDirPath . '/'. $xmlFileName;
         if (!wp_mkdir_p($xmlDirPath)) {
             throw new \RuntimeException('Unable to create directory: ' . $xmlDirPath);
@@ -527,6 +526,24 @@ abstract class AbstractGenerateFeeds extends AbstractCommand
         }else{
             throw new \RuntimeException('Unable to write XML');
         }
+    }
+
+    /**
+     * @return string
+     */
+    protected function generateXMLFileName(): string
+    {
+        $baseXmlFileName = $this->customOutputFilename ?? 'google-products-feed';
+        if($this->language !== null && \is_string($this->language) && $this->language !== '') {
+            $baseXmlFileName .= '-' . $this->language . '.xml';
+        }else{
+            $baseXmlFileName .= '.xml';
+        }
+        $xmlFileName = apply_filters('wawoo/cli/genfeeds/xml_file_name',$baseXmlFileName,$this->cliArgs);
+        if(!\is_string($xmlFileName)){
+            return $baseXmlFileName;
+        }
+        return $xmlFileName;
     }
 
     /**
