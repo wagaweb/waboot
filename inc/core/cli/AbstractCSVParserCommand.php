@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @version 08102025
+ */
+
 namespace Waboot\inc\core\cli;
 
 use League\Csv\Reader;
@@ -18,6 +22,8 @@ abstract class AbstractCSVParserCommand extends AbstractCommand
     protected string $sourceFilePath;
     protected string $delimiter;
     protected string $parseAllFiles;
+    protected int $offset = 0;
+    protected int|null $limit = null;
     /**
      * @var CSVRow
      */
@@ -49,6 +55,27 @@ abstract class AbstractCSVParserCommand extends AbstractCommand
             'name' => 'delimiter',
             'description' => 'Specify the CSV delimiter',
             'default' => ',',
+            'optional' => true,
+        ];
+        $description['synopsis'][] = [
+            'type' => 'assoc',
+            'name' => 'delimiter',
+            'description' => 'Specify the CSV delimiter',
+            'default' => ',',
+            'optional' => true,
+        ];
+        $description['synopsis'][] = [
+            'type' => 'assoc',
+            'name' => 'offset',
+            'description' => 'Specify the offset',
+            'default' => '',
+            'optional' => true,
+        ];
+        $description['synopsis'][] = [
+            'type' => 'assoc',
+            'name' => 'limit',
+            'description' => 'Specify the limit',
+            'default' => '',
             'optional' => true,
         ];
         $description['synopsis'][] = [
@@ -88,6 +115,12 @@ abstract class AbstractCSVParserCommand extends AbstractCommand
                 }
             }
             $this->delimiter = $assoc_args['delimiter'] ?? $this->getDefaultCSVDelimiter();
+            if(!empty($assoc_args['offset'])){
+                $this->offset = (int) $assoc_args['offset'];
+            }
+            if(!empty($assoc_args['limit'])){
+                $this->limit = (int) $assoc_args['limit'];
+            }
             $this->customInitialization($args,$assoc_args);
             if($this->parseAllFiles){
                 foreach ($this->fetchFiles() as $sourceFilePath){
@@ -146,20 +179,61 @@ abstract class AbstractCSVParserCommand extends AbstractCommand
             throw new CLIRuntimeException('Unable to find class League\Csv\Reader');
         }
         $csv = Reader::createFromPath($this->sourceFilePath);
+        $useOffset = false;
+        $useLimit = false;
+        if(!$this->parseAllFiles){
+            if($this->offset > 0 && !$this->limit){
+                // Only offset (eg: from 10)
+                $useOffset = true;
+                $this->log('Offset: '.$this->offset);
+            }elseif($this->offset === 0 && (\is_int($this->limit) && $this->limit > 0)){
+                // Only limit (eg: 0 to 10)
+                $useLimit = true;
+                $this->log('Limit: '.$this->limit);
+            }elseif($this->offset > 0 && (\is_int($this->limit) && $this->limit > 0)){
+                // Offset and limit (eg: from 10 to 30)
+                $useOffset = true;
+                $useLimit = true;
+                $this->log('Offset: '.$this->offset);
+                $this->log('Limit: '.$this->limit);
+                //$resultSet = (new Statement())->process($csv);
+                //$slicedRecords = $resultSet->slice($this->offset, $this->limit);
+            }
+        }
         $this->log('Parsing del file...');
         $csv->setDelimiter($this->delimiter);
         $csv->setHeaderOffset(0);
         $this->log('Counting dei record...');
-        $rowIndex = 1;
+        $rowIndex = 1; // The row number currently parsed (starts from 1 because 0 is the header)
+        $recordIndex = 0; // The index used for the offset (how many valid (eg: except header) row must be skipped)
+        $limitRecordIndex = 0; // The index used to stop the execution when limit is reached, it starts after the offset
+        //$iterator = $slicedRecords ?? $csv->getRecords();
+        //foreach ($iterator->getRecords() as $offset => $r) {
         foreach ($csv->getRecords() as $r) {
             try {
+                if($useOffset){
+                    if($recordIndex < $this->offset){
+                        $recordIndex++;
+                        $rowIndex++;
+                        continue;
+                    }
+                }
+                if ($useLimit){
+                    if($limitRecordIndex >= $this->limit){
+                        $this->log('Limit ('.$this->limit.') reached');
+                        return;
+                    }
+                }
                 $this->currentCSVRowIndex = $rowIndex;
                 $this->currentCSVRow = $this->createCSVColumnInstance($r);
                 $this->parseCSVRow();
                 $rowIndex++;
+                $recordIndex++;
+                $limitRecordIndex++;
             }catch (\Exception | \Throwable $e){
                 $this->log('ERRORE: '.$e->getMessage());
                 $rowIndex++;
+                $recordIndex++;
                 //var_dump($e);
                 continue;
             }
@@ -195,6 +269,11 @@ abstract class AbstractCSVParserCommand extends AbstractCommand
      */
     protected function setLocalFileAsParsed(): void
     {
+        $limitIsSet = \is_int($this->limit) && $this->limit > 0;
+        if($limitIsSet){
+            return; // In this case the file has been parsed partially, so do not set has parsed
+        }
+
         $parsedDestination = $this->importDirPath.'/parsed';
         if (!is_dir($parsedDestination)) {
             if(!mkdir($parsedDestination, 0777, true) && !is_dir($parsedDestination)){
