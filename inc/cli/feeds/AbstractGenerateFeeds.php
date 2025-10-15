@@ -29,6 +29,10 @@ abstract class AbstractGenerateFeeds extends AbstractCommand
      */
     protected $logFileName = 'wb-feed-gshopping-gen';
     /**
+     * @var string[]
+     */
+    protected array $cliArgs;
+    /**
      * @var int[]
      */
     protected array $productIds;
@@ -53,6 +57,7 @@ abstract class AbstractGenerateFeeds extends AbstractCommand
      */
     protected array $records;
     protected ?string $language = null;
+    protected string $currencySymbol;
     protected ?string $defaultLanguage = 'it';
     protected string $customOutputPath;
     protected string $customOutputFilename;
@@ -100,6 +105,12 @@ abstract class AbstractGenerateFeeds extends AbstractCommand
         ];
         $description['synopsis'][] = [
             'type' => 'assoc',
+            'name' => 'currency',
+            'description' => 'Set the currency symbol to use (default "EUR")',
+            'optional' => true,
+        ];
+        $description['synopsis'][] = [
+            'type' => 'assoc',
             'name' => 'types',
             'description' => 'Comma separated product types to include (simple,variable,grouped,external,variation). Default: simple,variable. See wp-content/plugins/woocommerce/src/Enums/ProductType.php',
             'optional' => true,
@@ -131,12 +142,24 @@ abstract class AbstractGenerateFeeds extends AbstractCommand
         return $description;
     }
 
+    /**
+     * @return string[]
+     */
+    protected function getCliArgs(): array
+    {
+        return $this->cliArgs;
+    }
+
     protected function customInitialization(): void
     {}
 
     public function run(array $args, array $assoc_args): int
     {
         try{
+            $this->cliArgs = [
+                'positional' => $args,
+                'assoc' => $assoc_args,
+            ];
             $this->customInitialization();
             if(isset($assoc_args['products'])){
                 $providedIds = explode(',',$assoc_args['products']);
@@ -192,6 +215,11 @@ abstract class AbstractGenerateFeeds extends AbstractCommand
             if(isset($assoc_args['lang']) || isset($this->defaultLanguage)){
                 $this->language = $assoc_args['lang'] ?? $this->defaultLanguage;
                 $this->setLanguage();
+            }
+            if(isset($assoc_args['currency'])){
+                $this->currencySymbol = $assoc_args['currency'];
+            }else{
+                $this->currencySymbol = 'EUR';
             }
             if(isset($assoc_args['output-dir-path']) && \is_string($assoc_args['output-dir-path']) && $assoc_args['output-dir-path'] !== ''){
                 $this->customOutputPath = $assoc_args['output-dir-path'];

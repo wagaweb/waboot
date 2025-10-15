@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @version 15102025
+ */
+
 namespace Waboot\inc\cli\feeds;
 
 use Waboot\inc\core\woocommerce\ProductFactory;
@@ -104,15 +108,18 @@ class GenerateGShoppingFeed extends AbstractGenerateFeeds
             return []; // safe measure
         }
         $wbProduct = ProductFactory::create($product);
+        $priceCurrencySymbol = apply_filters('wawoo/cli/genfeeds/generate_record/currency_symbol', $this->currencySymbol, $product, $parentProduct);
+        $priceCurrencySymbolDisplay = apply_filters('wawoo/cli/genfeeds/generate_record/currency_symbol_display', $this->currencySymbol, $product, $parentProduct);
         $price = $wbProduct->getRegularPrice();
-        $price = apply_filters('wawoo/cli/genfeeds/generate_record/price', $price, $product, $parentProduct);
+        $price = apply_filters('wawoo/cli/genfeeds/generate_record/price', $price, $priceCurrencySymbol, $product, $parentProduct);
         $salePrice = $wbProduct->getSalePrice();
-        $salePrice = apply_filters('wawoo/cli/genfeeds/generate_record/sale_price', $salePrice, $product, $parentProduct);
+        $salePrice = apply_filters('wawoo/cli/genfeeds/generate_record/sale_price', $salePrice, $priceCurrencySymbol, $product, $parentProduct);
+        $productIsOnSale = apply_filters('wawoo/cli/genfeeds/generate_record/product_is_on_sale', $product->is_on_sale(), $priceCurrencySymbol, $product, $parentProduct);
         /*
          * BEGIN: Exclude zero priced products
          */
         if($this->excludeZeroPricedProducts){
-            if($product->is_on_sale()){
+            if($productIsOnSale){
                 if(
                     ( is_numeric($salePrice) && $salePrice <= 0 ) ||
                     ( \is_string($salePrice) && ($salePrice === '' || $salePrice === '0') )
@@ -129,6 +136,13 @@ class GenerateGShoppingFeed extends AbstractGenerateFeeds
         /*
          * END: Exclude zero priced products
          */
+        if(\is_string($price)){
+            $price = str_replace(',','.',$price);
+        }
+        if(!\is_string($price)){
+            $price = (string) $price;
+        }
+        $price = $price.' '.$priceCurrencySymbolDisplay;
 
         /*
          * BEGIN: Product Data
@@ -177,7 +191,7 @@ class GenerateGShoppingFeed extends AbstractGenerateFeeds
             'identifier_exists' => 'yes',
             'title' => $title,
             'availability' => $availability,
-            'price' => str_replace(',','.',$price).' EUR',
+            'price' => $price,
             'link' => $permalink,
             'brand' => $brand,
             'google_product_category' => htmlentities($gProductCat),
@@ -194,8 +208,15 @@ class GenerateGShoppingFeed extends AbstractGenerateFeeds
         if($recordCodes['gtin'] !== ''){
             $newRecord['gtin'] = $recordCodes['gtin'];
         }
-        if($product->is_on_sale()){
-            $newRecord['sale_price'] = str_replace(',','.',$salePrice).' EUR';
+        if($productIsOnSale){
+            if(\is_string($salePrice)){
+                $salePrice = str_replace(',','.',$salePrice);
+            }
+            if(!\is_string($salePrice)){
+                $salePrice = (string) $salePrice;
+            }
+            $salePrice = $salePrice.' '.$priceCurrencySymbolDisplay;
+            $newRecord['sale_price'] = $salePrice;
         }
         if(\is_array($customLabels) && !empty($customLabels)){
             foreach($customLabels as $k => $label){
