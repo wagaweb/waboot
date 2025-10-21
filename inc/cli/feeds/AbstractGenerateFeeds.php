@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @version 07102025
+ * @version 21102025
  */
 
 namespace Waboot\inc\cli\feeds;
@@ -150,7 +150,7 @@ abstract class AbstractGenerateFeeds extends AbstractCommand
         return $this->cliArgs;
     }
 
-    protected function customInitialization(): void
+    protected function customInitialization(array $args, array $assoc_args): void
     {}
 
     public function run(array $args, array $assoc_args): int
@@ -160,7 +160,7 @@ abstract class AbstractGenerateFeeds extends AbstractCommand
                 'positional' => $args,
                 'assoc' => $assoc_args,
             ];
-            $this->customInitialization();
+            $this->customInitialization($args,$assoc_args);
             if(isset($assoc_args['products'])){
                 $providedIds = explode(',',$assoc_args['products']);
                 if(\is_array($providedIds)){
