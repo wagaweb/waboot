@@ -2,14 +2,11 @@
 
 namespace Waboot\inc\core\woocommerce;
 
+use Automattic\WooCommerce\Enums\ProductType;
 use function Waboot\inc\getProductType;
 
 class ProductFactory
 {
-    public const PRODUCT_TYPE_SIMPLE = 'simple';
-    public const PRODUCT_TYPE_VARIABLE = 'variable';
-    public const PRODUCT_TYPE_VARIATION = 'variation';
-
     /**
      * @param int|\WC_Product $product
      * @param \WC_Product_Variable|VariableProduct|null $parent
@@ -26,9 +23,9 @@ class ProductFactory
             $pId = \is_int($product) ? $product : $product->get_id();
             $pType = $type ?? getProductType($pId);
             switch ($pType){
-                case self::PRODUCT_TYPE_VARIABLE:
+                case ProductType::VARIABLE:
                     return new VariableProduct($product);
-                case self::PRODUCT_TYPE_VARIATION:
+                case ProductType::VARIATION:
                     if(!isset($parent)){
                         $parentPost = get_post_parent($pId);
                         if(!$parentPost){
@@ -41,7 +38,7 @@ class ProductFactory
                         return new ProductVariation($product, $parent);
                     }
                     throw new ProductFactoryException('ProductFactory - Invalid parent provided for variation #'.$pId);
-                case self::PRODUCT_TYPE_SIMPLE:
+                case ProductType::SIMPLE:
                 default:
                     return new Product($product);
             }
@@ -71,7 +68,7 @@ class ProductFactory
      */
     public static function createVariableProduct($product)
     {
-        return self::create($product,null,self::PRODUCT_TYPE_VARIABLE);
+        return self::create($product,null,ProductType::VARIABLE);
     }
 
     /**
@@ -82,6 +79,6 @@ class ProductFactory
      */
     public static function createProductVariation($product, $parent = null)
     {
-        return self::create($product,$parent,self::PRODUCT_TYPE_VARIATION);
+        return self::create($product,$parent,ProductType::VARIATION);
     }
 }

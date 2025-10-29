@@ -2,6 +2,7 @@
 
 namespace Waboot\inc\core\woocommerce;
 
+use Automattic\WooCommerce\Enums\ProductType;
 use Waboot\inc\core\utils\Utilities;
 use function Waboot\inc\getProductType;
 
@@ -49,7 +50,7 @@ class ProductVariation extends Product
     public function __construct($variation = null, $parent = null)
     {
         if(!isset($variation)){
-            parent::__construct($variation,ProductFactory::PRODUCT_TYPE_VARIATION);
+            parent::__construct($variation,ProductType::VARIATION);
             if ($parent instanceof VariableProduct){
                 $this->parent = $parent;
                 $this->parentId = $parent->getId();
@@ -63,7 +64,7 @@ class ProductVariation extends Product
             return;
         }
         $pType = \is_int($variation) ? getProductType($variation) : getProductType($variation->get_id());
-        if($pType !== ProductFactory::PRODUCT_TYPE_VARIATION){
+        if($pType !== ProductType::VARIATION){
             throw new ProductException('ProductVariation - provided $variation is not a variation');
         }
         parent::__construct($variation);
@@ -102,7 +103,7 @@ class ProductVariation extends Product
     {
         if(!isset($this->wcProduct)){
             if($this->isNew()){
-                $wcProduct = wc_get_product_object(ProductFactory::PRODUCT_TYPE_VARIATION);
+                $wcProduct = wc_get_product_object(ProductType::VARIATION);
             }else{
                 $wcProduct = wc_get_product($this->id);
                 if(!$wcProduct instanceof \WC_Product_Variation){

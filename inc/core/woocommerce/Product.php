@@ -2,6 +2,7 @@
 
 namespace Waboot\inc\core\woocommerce;
 
+use Automattic\WooCommerce\Enums\ProductType;
 use Waboot\inc\core\utils\Terms;
 use Waboot\inc\core\utils\Utilities;
 use function Waboot\inc\adjustPriceMeta;
@@ -56,7 +57,7 @@ class Product
     public function __construct($product = null, string $type = null)
     {
         if(!isset($product)){
-            $this->productType = $type ?? ProductFactory::PRODUCT_TYPE_SIMPLE;
+            $this->productType = $type ?? ProductType::SIMPLE;
             return;
         }
         if(\is_int($product)){

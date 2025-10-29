@@ -2,6 +2,7 @@
 
 namespace Waboot\inc\core\woocommerce;
 
+use Automattic\WooCommerce\Enums\ProductType;
 use function Waboot\inc\getAllProductVariationIds;
 use function Waboot\inc\getProductType;
 use function Waboot\inc\syncVariableProductData;
@@ -20,11 +21,11 @@ class VariableProduct extends Product
     public function __construct($product = null)
     {
         if(!$product){
-            parent::__construct($product,ProductFactory::PRODUCT_TYPE_VARIABLE);
+            parent::__construct($product,ProductType::VARIABLE);
             return;
         }
         $pType = \is_int($product) ? getProductType($product) : getProductType($product->get_id());
-        if($pType !== ProductFactory::PRODUCT_TYPE_VARIABLE){
+        if($pType !== ProductType::VARIABLE){
             throw new ProductException('VariableProduct - provided $variation is not a variable product');
         }
         parent::__construct($product);
@@ -38,7 +39,7 @@ class VariableProduct extends Product
     {
         if(!isset($this->wcProduct)){
             if($this->isNew()){
-                $wcProduct = wc_get_product_object(ProductFactory::PRODUCT_TYPE_VARIABLE);
+                $wcProduct = wc_get_product_object(ProductType::VARIABLE);
             }else{
                 $wcProduct = wc_get_product($this->getId());
                 if(!$wcProduct instanceof \WC_Product_Variable){

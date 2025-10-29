@@ -56,6 +56,7 @@ function createProduct(string $type, array $args){
 
 /**
  * Return a term name from "product_type" taxonomy (defaults: simple, grouped, variable, external, variation)
+ * @see: wp-content/plugins/woocommerce/src/Enums/ProductType.php
  * @param int $productId
  * @return string
  */
