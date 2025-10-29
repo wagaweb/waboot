@@ -10,6 +10,9 @@ use Waboot\inc\core\woocommerce\addresses\ShippingAddressRepository;
 use function Waboot\inc\core\helpers\logException;
 use function Waboot\inc\core\Waboot;
 
+require_once 'CustomerException.php';
+require_once 'CustomerNotFoundException.php';
+
 class Customer
 {
     private ?int $id = null;
@@ -23,13 +26,17 @@ class Customer
     /**
      * Customer constructor.
      * @param int|null $userId
-     * @throws \RuntimeException
+     * @throws CustomerException
+     * @throws CustomerNotFoundException
      */
     public function __construct(int $userId = null)
     {
         try{
             if($userId !== null){
                 $customer = new \WC_Customer($userId);
+                if($customer->get_id() === 0){
+                    throw new CustomerNotFoundException(sprintf('Customer %d does not exist', $userId));
+                }
                 $this->id = $userId;
             }else{
                 $customer = new \WC_Customer();
@@ -37,8 +44,10 @@ class Customer
             $this->wcCustomer = $customer;
             $this->shippingAddressRepository = new ShippingAddressRepository();
             $this->billingAddressRepository = new BillingAddressRepository();
+        }catch (CustomerNotFoundException $e){
+            throw $e;
         }catch (\Exception | \Throwable $e){
-            throw new \RuntimeException($e->getMessage());
+            throw new CustomerException($e->getMessage());
         }
     }
 

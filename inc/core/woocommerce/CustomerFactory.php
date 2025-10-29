@@ -2,8 +2,19 @@
 
 namespace Waboot\inc\core\woocommerce;
 
+use Waboot\inc\core\woocommerce\repositories\CustomerRepository;
+
 class CustomerFactory
 {
+    /**
+     * @throws CustomerNotFoundException
+     * @throws CustomerException
+     */
+    public static function create(int $customerId): Customer
+    {
+        return new Customer($customerId);
+    }
+
     /**
      * @param string $email
      * @return Customer
@@ -11,11 +22,10 @@ class CustomerFactory
      */
     public static function getFromEmail(string $email): Customer
     {
-        $user = get_user_by('email', $email);
-        if(!$user instanceof \WP_User){
+        $customer = (new CustomerRepository())->findByEmail($email);
+        if(!$customer){
             throw new CustomerFactoryException('CustomerFactory::getFromEmail - No user found');
         }
-        $customer = new Customer($user->ID);
         return $customer;
     }
 }
