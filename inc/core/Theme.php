@@ -7,6 +7,7 @@ use Waboot\inc\core\mvc\HTMLView;
 use Waboot\inc\core\utils\Dates;
 
 class Theme{
+	public const WABOOT_CORE_VERSION = '29102025';
 	public const LOG_LEVEL_DEBUG = 0;
 	public const LOG_LEVEL_INFO = 1;
 	public const LOG_LEVEL_NOTICE = 2;
@@ -43,6 +44,8 @@ class Theme{
 			'inc/core/helpers/theme.php',
 			'inc/core/helpers/views.php',
 			'inc/core/helpers/mail.php',
+			'inc/core/helpers/alerts.php',
+			'inc/core/facades/repositories.php',
 			'inc/core/hooks.php',
 			'inc/template-functions.php',
 			'inc/template-rendering.php',

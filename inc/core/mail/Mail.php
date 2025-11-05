@@ -60,7 +60,7 @@ class Mail
     /**
      * @param string $subject
      * @param string $body
-     * @param array|string $to
+     * @param MailAddress[]|MailAddress $to
      * @throws MailException
      */
     public function __construct(string $subject, string $body, $to)

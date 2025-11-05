@@ -4,11 +4,12 @@
     "type": "project",
     "config": {
         "platform": {
-            "php": "7.4"
+            "php": "8.3"
         }
     },
     "require": {
-        "monolog/monolog": "^2.8"
+        "monolog/monolog": "^2.8",
+        "illuminate/database": "v8.83.27"
     },
     "license": "MIT",
     "authors": [

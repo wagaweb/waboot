@@ -14,8 +14,8 @@ class MailAddress
     protected $address;
 
     /**
-     * @param string $name
      * @param string $address
+     * @param string|null $name
      * @throws MailException
      */
     public function __construct(string $address, string $name = null)
