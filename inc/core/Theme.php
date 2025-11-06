@@ -45,7 +45,6 @@ class Theme{
 			'inc/core/helpers/views.php',
 			'inc/core/helpers/mail.php',
 			'inc/core/helpers/alerts.php',
-			'inc/core/facades/repositories.php',
 			'inc/core/hooks.php',
 			'inc/template-functions.php',
 			'inc/template-rendering.php',
