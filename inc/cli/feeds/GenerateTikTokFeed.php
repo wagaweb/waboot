@@ -18,11 +18,11 @@ class GenerateTikTokFeed extends GenerateGShoppingFeed
 
     protected function customInitialization(array $args, array $assoc_args): void
     {
-        add_filter('wawoo/cli/genfeeds/generate_record/record', static function ($newRecord, \WC_Product $product, ?\WC_Product $parentProduct) {
+        add_filter('wawoo/cli/genfeeds/generate_record/record', static function ($newRecord, \WC_Product $product, ?\WC_Product $parentProduct, array $cliArgs) {
             $newRecord['sku_id'] = $newRecord['id'];
             unset($newRecord['id']);
             return $newRecord;
-        },10,3);
+        },10,4);
 
         add_filter('wawoo/cli/genfeeds/generate_record/availability', static function (string $availability, \WC_Product $product, ?\WC_Product $parentProduct) {
             return str_replace('_', ' ', $availability);

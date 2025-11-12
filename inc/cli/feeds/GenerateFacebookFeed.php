@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @version 21102025
+ * @version 12112025
  */
 
 namespace waboot\inc\cli\feeds;
@@ -61,7 +61,7 @@ class GenerateFacebookFeed extends GenerateGShoppingFeed
                 $this->overrideFields = $overrideFields;
             }
         }
-        add_filter('wawoo/cli/genfeeds/generate_record/record', function ($newRecord, \WC_Product $product, ?\WC_Product $parentProduct) {
+        add_filter('wawoo/cli/genfeeds/generate_record/record', function ($newRecord, \WC_Product $product, ?\WC_Product $parentProduct, array $cliArgs) {
             if(!empty($this->overrideFields)) {
                 $fieldsToCmp = array_flip($this->overrideFields); // ['price' => 0, 'sale_price' => 1, 'id' => 2]
                 $filteredRecord = array_intersect_key($newRecord, $fieldsToCmp);
@@ -69,7 +69,7 @@ class GenerateFacebookFeed extends GenerateGShoppingFeed
                 return $filteredRecord;
             }
             return $newRecord;
-        },10,3);
+        },10,4);
         add_filter('wawoo/cli/genfeeds/xml_file_name', function (string $xmlFileName, array $cliArgs) {
             $xmlFileName = str_replace('.xml','-override-'.$this->overrideCountry.'.xml',$xmlFileName);
             return $xmlFileName;

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @version 21102025
+ * @version 12112025
  */
 
 namespace Waboot\inc\cli\feeds;
@@ -58,6 +58,7 @@ abstract class AbstractGenerateFeeds extends AbstractCommand
     protected array $records;
     protected ?string $language = null;
     protected string $currencySymbol;
+    protected ?string $country = null;
     protected ?string $defaultLanguage = 'it';
     protected string $customOutputPath;
     protected string $customOutputFilename;
@@ -107,6 +108,12 @@ abstract class AbstractGenerateFeeds extends AbstractCommand
             'type' => 'assoc',
             'name' => 'currency',
             'description' => 'Set the currency symbol to use (default "EUR")',
+            'optional' => true,
+        ];
+        $description['synopsis'][] = [
+            'type' => 'assoc',
+            'name' => 'country',
+            'description' => 'Set the country symbol to use (default to null)',
             'optional' => true,
         ];
         $description['synopsis'][] = [
@@ -220,6 +227,9 @@ abstract class AbstractGenerateFeeds extends AbstractCommand
                 $this->currencySymbol = $assoc_args['currency'];
             }else{
                 $this->currencySymbol = 'EUR';
+            }
+            if(isset($assoc_args['country'])){
+                $this->country = $assoc_args['country'];
             }
             if(isset($assoc_args['output-dir-path']) && \is_string($assoc_args['output-dir-path']) && $assoc_args['output-dir-path'] !== ''){
                 $this->customOutputPath = $assoc_args['output-dir-path'];

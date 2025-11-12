@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @version 15102025
+ * @version 12112025
  */
 
 namespace Waboot\inc\cli\feeds;
@@ -157,7 +157,7 @@ class GenerateGShoppingFeed extends AbstractGenerateFeeds
         $title = apply_filters('wawoo/cli/genfeeds/generate_record/title', $product->get_title(), $product, $parentProduct);
         $description = isset($parentProduct) ? getGShoppingDescription($parentProduct) : getGShoppingDescription($product);
         $description = apply_filters('wawoo/cli/genfeeds/generate_record/description', $description, $product, $parentProduct);
-        $permalink = $wbProduct->getPermalink();
+        $permalink = apply_filters('wawoo/cli/genfeeds/generate_record/permalink',$wbProduct->getPermalink(), $product, $parentProduct, $this->getCliArgs());
         $brand = $wbProduct->getBrand();
         if(isset($brand) && $brand instanceof \WP_Term){
             $brand = $brand->name;
@@ -223,7 +223,7 @@ class GenerateGShoppingFeed extends AbstractGenerateFeeds
                 $newRecord['custom_label_'.$k] = $label;
             }
         }
-        $newRecord = apply_filters('wawoo/cli/genfeeds/generate_record/record', $newRecord, $product, $parentProduct);
+        $newRecord = apply_filters('wawoo/cli/genfeeds/generate_record/record', $newRecord, $product, $parentProduct, $this->getCliArgs());
         if(!\is_array($newRecord)){
             $newRecord = [];
         }
