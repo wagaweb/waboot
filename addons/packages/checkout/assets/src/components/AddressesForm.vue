@@ -63,9 +63,12 @@ const isGuest = computed(() => {
     return checkoutDataStore.wpProfileFound === false && customerAccountCreationEnabled.value === false;
 });
 
+/*
+ * If the user clicked on "Proceed" but no account was found, AND the proceed as guest was enabled, so force the customer creation to true
+ * (because the user chose to not being a guest on purpose by non clicking on "proceed as guest")
+ */
 function toggleCustomerAccountCreationEnabled(){
     if(!checkoutDataStore.continueAsGuest && !checkoutDataStore.wpProfileFound && getBackEndData().use_proceed_as_guest){
-        // If the user clicked on "Proceed" but no account was found, AND the proceed as guest was enabled, so force the customer creation to true
         customerAccountCreationEnabled.value = true;
     }
 }
