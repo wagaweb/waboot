@@ -30,9 +30,10 @@ function widgetArea(string $areaId){
  * @param $prefix
  * @param $suffix
  * @param $title
+ * @return void
  * @param \WP_Post|null $post
  */
-function wrappedTitle($prefix,$suffix,$title,\WP_Post $post = null){
+function wrappedTitle($prefix,$suffix,$title,\WP_Post|null $post = null): void {
     global $wp_query;
     if(!$post) global $post;
     $prefix = apply_filters('waboot/main/title/prefix',$prefix,$post, $wp_query);
@@ -48,7 +49,7 @@ function wrappedTitle($prefix,$suffix,$title,\WP_Post $post = null){
  * @param int|null $post_id
  * @param bool $fallback_to_content use the post content if the excerpt is empty
  */
-function trimmedExcerpt($length = null,$more = null,$post_id = null, $fallback_to_content = false){
+function trimmedExcerpt(int|null $length = null, string|null $more = null, int|null $post_id = null, bool $fallback_to_content = false): void {
     echo getTrimmedExcerpt($length,$more,$post_id,$fallback_to_content);
 }
 
@@ -58,7 +59,7 @@ function trimmedExcerpt($length = null,$more = null,$post_id = null, $fallback_t
  * @param bool $linked
  * @param string $class
  */
-function theLogo($linked = false, $class = ''){
+function theLogo(bool $linked = false, string $class = ''): void {
     if($linked){
         $tpl = '<a href="%s"><img src="%s" class="'.$class.'" /></a>';
         printf($tpl,home_url( '/' ),getLogo());
