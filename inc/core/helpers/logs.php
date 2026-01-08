@@ -10,8 +10,8 @@ namespace Waboot\inc\core\helpers;
  * @param \DateTimeZone|null $dz
  * @return void
  */
-function logToFile(string $loggerIdentifier, string $logMessage, int $logLevel = MonologLoggingLevels::INFO, array $context = [], \DateTimeZone $dz = null): void {
-    Waboot()->logToFile($loggerIdentifier,$logMessage,$logLevel,$context,$dz);
+function logToFile(string $loggerIdentifier, string $logMessage, int $logLevel = MonologLoggingLevels::INFO, array $context = [], \DateTimeZone|null $dz = null): void {
+	Waboot()->logToFile($loggerIdentifier,$logMessage,$logLevel,$context,$dz);
 }
 
 /**
@@ -21,8 +21,8 @@ function logToFile(string $loggerIdentifier, string $logMessage, int $logLevel =
  * @param \DateTimeZone|null $dz
  * @return void
  */
-function logInfoToFile(string $loggerIdentifier, string $logMessage, array $context = [], \DateTimeZone $dz = null): void {
-    Waboot()->logToFile($loggerIdentifier,$logMessage,MonologLoggingLevels::INFO,$context,$dz);
+function logInfoToFile(string $loggerIdentifier, string $logMessage, array $context = [], \DateTimeZone|null $dz = null): void {
+	Waboot()->logToFile($loggerIdentifier,$logMessage,MonologLoggingLevels::INFO,$context,$dz);
 }
 
 /**
@@ -32,8 +32,8 @@ function logInfoToFile(string $loggerIdentifier, string $logMessage, array $cont
  * @param \DateTimeZone|null $dz
  * @return void
  */
-function logWarningToFile(string $loggerIdentifier, string $logMessage, array $context = [], \DateTimeZone $dz = null): void {
-    Waboot()->logToFile($loggerIdentifier,$logMessage,MonologLoggingLevels::WARNING,$context,$dz);
+function logWarningToFile(string $loggerIdentifier, string $logMessage, array $context = [], \DateTimeZone|null $dz = null): void {
+	Waboot()->logToFile($loggerIdentifier,$logMessage,MonologLoggingLevels::WARNING,$context,$dz);
 }
 
 /**
@@ -43,8 +43,8 @@ function logWarningToFile(string $loggerIdentifier, string $logMessage, array $c
  * @param \DateTimeZone|null $dz
  * @return void
  */
-function logErrorToFile(string $loggerIdentifier, string $logMessage, array $context = [], \DateTimeZone $dz = null): void {
-    Waboot()->logToFile($loggerIdentifier,$logMessage,MonologLoggingLevels::ERROR,$context,$dz);
+function logErrorToFile(string $loggerIdentifier, string $logMessage, array $context = [], \DateTimeZone|null $dz = null): void {
+	Waboot()->logToFile($loggerIdentifier,$logMessage,MonologLoggingLevels::ERROR,$context,$dz);
 }
 
 /**

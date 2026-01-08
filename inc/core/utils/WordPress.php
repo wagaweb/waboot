@@ -175,7 +175,7 @@ trait WordPress {
      * @param string|null $uploadPath
      * @return int
      */
-    public static function createAttachment(string $filePath, int $parentPostId = 0, string $uploadPath = null): int
+    public static function createAttachment(string $filePath, int $parentPostId = 0, string|null $uploadPath = null): int
     {
         $editUploadDir = function ($param) use($uploadPath) {;
             \wp_mkdir_p($param['basedir'] . $uploadPath);
