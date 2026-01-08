@@ -148,7 +148,7 @@ class Theme{
      * @param \DateTimeZone|null $dz
      * @return void
      */
-    public function logToFile(string $loggerIdentifier, string $logMessage, int $logLevel = MonologLoggingLevels::INFO, array $context = [], \DateTimeZone $dz = null): void
+    public function logToFile(string $loggerIdentifier, string $logMessage, int $logLevel = MonologLoggingLevels::INFO, array $context = [], \DateTimeZone|null $dz = null): void
     {
         try{
             if($dz === null){
