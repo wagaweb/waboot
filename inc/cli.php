@@ -60,6 +60,9 @@ add_action('init', static function(){
     /*
      * Test commands here
      */
+    if(!isset($_GET['debug-cli'])){
+        return;
+    }
     //(new FixStockStatuses())->__invoke('',['products' => '12,35']);
     //(new GenerateGShoppingFeed())->__invoke([],['products'=>'34,31,23']);
     //(new ExportProducts())->__invoke([],['manifest' => '/var/www/html/waga/waboot/wp-content/themes/waboot/inc/cli/product_export/manifest-sample.json']);
