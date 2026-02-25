@@ -6,7 +6,6 @@ use Illuminate\Database\Schema\Blueprint;
 use Waboot\inc\core\DBException;
 use Waboot\inc\core\facades\Query;
 use Waboot\inc\core\woocommerce\Customer;
-use function Waboot\inc\core\generateShippingAddressName;
 use function Waboot\inc\core\Waboot;
 
 class ShippingAddressRepository
@@ -181,14 +180,19 @@ class ShippingAddressRepository
 
     /**
      * @param ShippingAddress $address
-     * @return void
+     * @return int
      * @throws DBException
      */
-    public function save(ShippingAddress $address): void
+    public function save(ShippingAddress $address): int
     {
+        $name = $address->getName();
+        if(!$name){
+            $name = $address->generateName();
+            $address->setName($name);
+        }
         $record = [
             'user_id' => $address->getUserId(),
-            'name' => $address->getName(),
+            'name' => $name,
             'first_name' => $address->getFirstName(),
             'last_name' => $address->getLastName(),
             'city' => $address->getCity(),
@@ -213,7 +217,7 @@ class ShippingAddressRepository
                 ->update($record);
         }else{
             $existingId = Query::on(self::TABLE_NAME)->select('id')->where([
-                ['name', $address->getName()],
+                ['name', $name],
                 ['user_id', $address->getUserId()],
             ])->get()->pluck('id')->first();
             if($existingId){
@@ -226,6 +230,7 @@ class ShippingAddressRepository
                 $address->setId($newId);
             }
         }
+        return $address->getId();
     }
 
     /**

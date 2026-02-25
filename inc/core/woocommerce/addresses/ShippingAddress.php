@@ -7,15 +7,15 @@ class ShippingAddress extends AbstractCustomerAddress
     /**
      * @var int
      */
-    protected $id;
+    protected int $id;
     /**
      * @var string
      */
-    protected $name;
+    protected string $name;
     /**
      * @var string
      */
-    protected $previousName;
+    protected string $previousName;
 
     /**
      * @return int|null
@@ -47,14 +47,19 @@ class ShippingAddress extends AbstractCustomerAddress
     public function getName(): ?string
     {
         if(!$this->name){
-            if($generate){
-                // Generate a name
-                $name = $this->getAddress1().$this->getCity().$this->getPostCode().$this->getCountry().$this->getState();
-                $name = str_replace(" ", "_", $name);
-                $this->name = $name;
-            }
+            return null;
         }
         return $this->name;
+    }
+
+    /**
+     * @return string
+     */
+    public function generateName(): string
+    {
+        $name = $this->getAddress1().$this->getCity().$this->getPostCode().$this->getCountry().$this->getState();
+        $name = str_replace(" ", "_", $name);
+        return $name;
     }
 
     /**

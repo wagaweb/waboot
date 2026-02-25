@@ -8,6 +8,8 @@ use Waboot\inc\core\woocommerce\addresses\ShippingAddressFactory;
 use Waboot\inc\core\woocommerce\addresses\ShippingAddressFactoryException;
 use Waboot\inc\core\woocommerce\addresses\ShippingAddressRepository;
 use Waboot\inc\core\woocommerce\Customer;
+use waboot\inc\core\woocommerce\CustomerException;
+use waboot\inc\core\woocommerce\CustomerNotFoundException;
 use function Waboot\inc\core\defaultShippingAddressNameIsMandatory;
 use function Waboot\inc\core\generateShippingAddressName;
 use function Waboot\inc\core\generateShippingAddressNameFromOrderAndPostedData;
@@ -101,11 +103,15 @@ add_action('woocommerce_checkout_order_created', static function(\WC_Order $orde
         if(!$sa){
             // Save the new address
             $sa = (new ShippingAddressFactory())->createFromPostedData($shippingId);
-            $saRepo->save($sa);
+            $addressId = $saRepo->save($sa);
             $saRepo->setCurrentToCustomer($sa, $customer);
+        }else{
+            $addressId = $sa->getId();
         }
+        $order->update_meta_data('shipping_index', $addressId);
+        $order->save_meta_data();
         do_action('wawoo/multiple_addresses/woocommerce_checkout_order_created/save_shipping_address_on_user',$customer,$sa,$order);
-    }catch (DBException|ShippingAddressFactoryException $e){
+    }catch (DBException|ShippingAddressFactoryException|CustomerNotFoundException|CustomerException $e){
         logException($e,'woocommerce_checkout_order_created',[],'wawoo-multiaddress-debug');
     }
 },11);
