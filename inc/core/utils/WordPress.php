@@ -222,6 +222,34 @@ trait WordPress {
     }
 
     /**
+     * @param string $url
+     * @param int $postId
+     * @return array
+     * @throws \RuntimeException
+     */
+    public static function setFeaturedImageFromUrl(string $url, int $postId): array
+    {
+        if (!function_exists('download_url')) {
+            require_once(ABSPATH . 'wp-admin/includes/file.php');
+            require_once(ABSPATH . 'wp-admin/includes/media.php');
+            require_once(ABSPATH . 'wp-admin/includes/image.php');
+        }
+
+        $tempFile = download_url($url);
+        if (is_wp_error($tempFile)) {
+            throw new \RuntimeException($tempFile->get_error_message());
+        }
+
+        try {
+            $result = self::setFeaturedImageFromFilePath($tempFile, $postId);
+        } finally {
+            @unlink($tempFile);
+        }
+
+        return $result;
+    }
+
+    /**
      * @param string $filePath
      * @param int $postId
      * @throws \RuntimeException
