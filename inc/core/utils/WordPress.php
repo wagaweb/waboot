@@ -224,10 +224,11 @@ trait WordPress {
     /**
      * @param string $url
      * @param int $postId
+     * @param string $filename
      * @return array
      * @throws \RuntimeException
      */
-    public static function setFeaturedImageFromUrl(string $url, int $postId): array
+    public static function setFeaturedImageFromUrl(string $url, int $postId, string $filename = ''): array
     {
         if (!function_exists('download_url')) {
             require_once(ABSPATH . 'wp-admin/includes/file.php');
@@ -238,6 +239,18 @@ trait WordPress {
         $tempFile = download_url($url);
         if (is_wp_error($tempFile)) {
             throw new \RuntimeException($tempFile->get_error_message());
+        }
+
+        if ($filename !== '') {
+            $pathInfo = pathinfo($tempFile);
+            $newTempFile = $pathInfo['dirname'] . DIRECTORY_SEPARATOR . $filename;
+            $newPathInfo = pathinfo($newTempFile);
+            if (!isset($newPathInfo['extension']) || $newPathInfo['extension'] === '') {
+                $newTempFile .= '.' . $pathInfo['extension'];
+            }
+            if (rename($tempFile, $newTempFile)) {
+                $tempFile = $newTempFile;
+            }
         }
 
         try {
