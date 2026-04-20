@@ -9,14 +9,14 @@ add_action('woocommerce_product_options_general_product_data', static function()
      * @var \WC_Product
      */
     global $product_object;
-    $excludeFromFeeds = get_post_meta($product_object->get_id(), Feeds::EXCLUDE_FROM_FEEDS_META_KEY, true);
+    $excludeFromFeeds = get_post_meta($product_object->get_id(), Feeds::EXCLUDE_FROM_FEEDS_META_KEY->value, true);
     ?>
     <div class="options_group">
         <h2>Feeds</h2>
         <?php
         woocommerce_wp_checkbox(
             [
-                'id' => Feeds::EXCLUDE_FROM_FEEDS_META_KEY,
+                'id' => Feeds::EXCLUDE_FROM_FEEDS_META_KEY->value,
                 'value' => $excludeFromFeeds === '1' ? '1' : '0',
                 'label' => __('Exclude from feeds', LANG_TEXTDOMAIN),
                 'cbvalue' => '1',
@@ -28,14 +28,14 @@ add_action('woocommerce_product_options_general_product_data', static function()
 });
 
 add_action('woocommerce_variation_options', static function($loop, $variation_data, \WP_Post $variation){
-    $excludeFromFeeds = get_post_meta($variation->ID, Feeds::EXCLUDE_FROM_FEEDS_META_KEY, true);
+    $excludeFromFeeds = get_post_meta($variation->ID, Feeds::EXCLUDE_FROM_FEEDS_META_KEY->value, true);
     ?>
     <div>
         <strong>Feeds</strong>
     <?php
     woocommerce_wp_checkbox(
         [
-            'id' => '_variations_'.Feeds::EXCLUDE_FROM_FEEDS_META_KEY.'[' . $loop . ']',
+            'id' => '_variations_'.Feeds::EXCLUDE_FROM_FEEDS_META_KEY->value.'[' . $loop . ']',
             'class' => 'form-row',
             'label' => __('Exclude from feeds', LANG_TEXTDOMAIN).'&nbsp;',
             'value' => $excludeFromFeeds === '1' ? '1' : '0',
@@ -48,18 +48,18 @@ add_action('woocommerce_variation_options', static function($loop, $variation_da
 },11,3);
 
 add_action('woocommerce_process_product_meta', static function(int $postId){
-    if(isset($_POST[Feeds::EXCLUDE_FROM_FEEDS_META_KEY])){
-        update_post_meta($postId, Feeds::EXCLUDE_FROM_FEEDS_META_KEY, '1');
+    if(isset($_POST[Feeds::EXCLUDE_FROM_FEEDS_META_KEY->value])){
+        update_post_meta($postId, Feeds::EXCLUDE_FROM_FEEDS_META_KEY->value, '1');
     }else{
-        delete_post_meta($postId, Feeds::EXCLUDE_FROM_FEEDS_META_KEY);
+        delete_post_meta($postId, Feeds::EXCLUDE_FROM_FEEDS_META_KEY->value);
     }
 });
 
 add_action( 'woocommerce_save_product_variation', static function($variation_id, $i){
-    if(isset($_POST['_variations_'.Feeds::EXCLUDE_FROM_FEEDS_META_KEY],$_POST['_variations_'.Feeds::EXCLUDE_FROM_FEEDS_META_KEY][$i])){
-        update_post_meta($variation_id, Feeds::EXCLUDE_FROM_FEEDS_META_KEY, '1');
+    if(isset($_POST['_variations_'.Feeds::EXCLUDE_FROM_FEEDS_META_KEY->value],$_POST['_variations_'.Feeds::EXCLUDE_FROM_FEEDS_META_KEY->value][$i])){
+        update_post_meta($variation_id, Feeds::EXCLUDE_FROM_FEEDS_META_KEY->value, '1');
     }else{
-        delete_post_meta($variation_id, Feeds::EXCLUDE_FROM_FEEDS_META_KEY);
+        delete_post_meta($variation_id, Feeds::EXCLUDE_FROM_FEEDS_META_KEY->value);
     }
 },10,2);
 

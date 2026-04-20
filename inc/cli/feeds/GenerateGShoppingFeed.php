@@ -103,7 +103,7 @@ class GenerateGShoppingFeed extends AbstractGenerateFeeds
      */
     protected function generateRecord(\WC_Product $product, \WC_Product $parentProduct = null): array
     {
-        $excludeFromFeeds = get_post_meta($product->get_id(),Feeds::EXCLUDE_FROM_FEEDS_META_KEY,true);
+        $excludeFromFeeds = get_post_meta($product->get_id(),Feeds::EXCLUDE_FROM_FEEDS_META_KEY->value,true);
         if($excludeFromFeeds === '1'){
             return []; // safe measure
         }

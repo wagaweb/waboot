@@ -296,7 +296,7 @@ abstract class AbstractGenerateFeeds extends AbstractCommand
             'return' => 'ids',
             'limit' => -1,
             'custom_meta_query' => [
-                'key' => Feeds::EXCLUDE_FROM_FEEDS_META_KEY,
+                'key' => Feeds::EXCLUDE_FROM_FEEDS_META_KEY->value,
                 'compare' => 'NOT EXISTS'
             ]
         ];
@@ -382,7 +382,7 @@ abstract class AbstractGenerateFeeds extends AbstractCommand
         $this->records = [];
         foreach ($this->productIds as $productId) {
             try {
-                $excludeFromFeeds = get_post_meta($productId,Feeds::EXCLUDE_FROM_FEEDS_META_KEY,true);
+                $excludeFromFeeds = get_post_meta($productId,Feeds::EXCLUDE_FROM_FEEDS_META_KEY->value,true);
                 if($excludeFromFeeds === '1'){
                     continue; // safe measure
                 }
