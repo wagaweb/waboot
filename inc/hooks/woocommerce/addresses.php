@@ -16,6 +16,10 @@ use function Waboot\inc\core\generateShippingAddressNameFromOrderAndPostedData;
 use function Waboot\inc\core\helpers\logException;
 use function Waboot\inc\core\mustDisplayDefaultShippingAddressName;
 
+add_filter('wawoo/multiple_shipping_address/default_shipping_address_name_is_mandatory', '__return_false');
+
+add_filter('wawoo/multiple_shipping_address/must_display_default_shipping_address_name', '__return_false');
+
 /*
  * Delete shippping addresses on user deletion
  */
