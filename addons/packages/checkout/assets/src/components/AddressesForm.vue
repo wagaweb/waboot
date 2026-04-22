@@ -9,6 +9,8 @@ import AddressForm from "@/components/AddressForm.vue";
 import {deepClone} from "@/utils/helpers/objects.ts";
 import {wpUserAPI} from "@/services/wp/user.ts";
 import {getBackEndData} from "@/services/wp/backendData.ts";
+import BillingDataStep from "@/components/BillingDataStep.vue";
+import ShippingDataStep from "@/components/ShippingDataStep.vue";
 
 const {t} = useI18n();
 
@@ -16,23 +18,18 @@ const emit = defineEmits<{
     (e: 'AddressDataSubmitted', shippingData: addressData, billingData: addressData, isGuest: boolean): void
 }>();
 
-const shippingAddressFormRef = ref<InstanceType<typeof AddressForm> | null>(null);
+const billingDataFirst = getBackEndData().billing_data_first;
+
+
 const billingAddressFormRef = ref<InstanceType<typeof AddressForm> | null>(null);
+
+const billingStepRef = ref<InstanceType<typeof BillingDataStep> | null>(null);
+
 const shippingData: Ref<addressData|null> = ref(null);
 const billingData: Ref<addressData|null> = ref(null);
 const addressesDataValid: Ref<boolean> = ref(false);
 
-watch(addressesDataValid, () => {
-    if(addressesDataValid.value){
-        const shippingValues = shippingData.value;
-        if(shippingValues){
-            const billingValues = billingAddressEnabled.value ? billingData.value : deepClone(shippingValues);
-            checkoutDataStore.useDifferentAddressForBillingChecked = billingAddressEnabled.value; // Need these for restoring
-            checkoutDataStore.createAnAccountChecked = customerAccountCreationEnabled.value;
-            emit('AddressDataSubmitted', shippingValues as addressData, billingValues as addressData, isGuest.value);
-        }
-    }
-});
+const displayShippingStep = ref(false);
 
 const checkoutDataStore = useCheckoutDataStore();
 
@@ -47,6 +44,7 @@ const addressSelected = computed(() => {
 });
 
 const billingAddressEnabled = ref(false);
+const shippingAddressEnabled = ref(false);
 const customerAccountCreationEnabled = ref(false);
 const showCreateAnAccountCheckbox = computed(() => {
     let toShow = true;
@@ -103,67 +101,6 @@ async function fetchCountries() {
     }
 }
 
-/*
- * Fetch available shipping addresses
- */
-async function fetchShippingAddresses() {
-    try {
-        if (!checkoutDataStore.isLoggedIn || !checkoutDataStore.currentUserId) {
-            loadingAddresses.value = false;
-            addingNewAddress.value = true;
-            return;
-        }
-        loadingAddresses.value = true;
-        const addresses = await wpUserAPI.fetchShippingAddresses(checkoutDataStore.currentUserId);
-        debugLog('<ShippingAddressesForm> fetchShippingAddresses()');
-        loadingAddresses.value = false;
-        debugLog('<ShippingAddressesForm> fetchShippingAddresses() -> response', addresses);
-        availableShippingAddresses.value = addresses;
-        if (availableShippingAddresses.value.length === 0) {
-            addingNewAddress.value = true;
-        }
-    } catch (error) {
-        loadingAddresses.value = false;
-        debugLog('<ShippingAddressesForm> fetchShippingAddresses() ERROR', error);
-    }
-}
-
-/*
- * This functions checks if <AddressesForm> component should fire
- * its @address-data-submitted event to proceed with the checkout.
- */
-function checkAddressValidation(){
-    debugLog('<ShippingAddressesForm> checkAddressValidation()');
-    debugLog('<ShippingAddressesForm> checkAddressValidation() -> shippingData', shippingData.value);
-    if(billingAddressEnabled.value){
-        if(shippingData.value && billingData.value){
-            addressesDataValid.value = true; // This value is being watched by watch()
-        }
-    }else{
-        if(shippingData.value){
-            addressesDataValid.value = true; // This value is being watched by watch()
-        }
-    }
-}
-
-/*
- * The user chooses a saved shipping address
- */
-function selectShippingAddress(index: number) {
-    debugLog('<ShippingAddressesForm> selectShippingAddress()',index);
-    if (availableShippingAddresses.value.length <= 0) {
-        return;
-    }
-    if (typeof availableShippingAddresses.value[index] === 'undefined') {
-        return;
-    }
-    const selectedAddress = {...availableShippingAddresses.value[index]};
-    checkoutDataStore.selectedAddressIndex = index;
-    addingNewAddress.value = false;
-    if(shippingAddressFormRef.value){
-        shippingAddressFormRef.value.populateFormData(selectedAddress as addressData);
-    }
-}
 
 /*
  * Callback for @address-validated of <AddressForm>
@@ -180,63 +117,46 @@ function onShippingAddressValidated(formData: addressData){
  * This event is emitted when <AddressForm> "onSubmit()" function pass the validations
  */
 function onBillingAddressValidated(formData: addressData){
-    debugLog('<ShippingAddressesForm> onBillingAddressValidated()',formData);
+    debugLog('<AddressesForm> onBillingAddressValidated()',formData);
     billingData.value = formData;
-    checkAddressValidation();
-}
-
-/*
- * User chooses to add a new shipping address
- */
-function onAddNewShippingAddress() {
-    debugLog('<ShippingAddressesForm> onAddNewShippingAddress()');
-    addingNewAddress.value = true;
-    checkoutDataStore.selectedAddressIndex = undefined;
-    if(shippingAddressFormRef.value){
-        shippingAddressFormRef.value.resetFormData();
-    }
-}
-
-/*
- * User chooses to close the address form window
- */
-function onNewShippingAddressFormClose() {
-    debugLog('<ShippingAddressesForm> onNewShippingAddressFormClose()');
-    addingNewAddress.value = false;
-}
-
-/*
- * Addresses forms submit (shipping and billing)
- * Let's call <AddressForm> "onSubmit()" to validated. If the values are valid, <AddressForm>
- * will fire @address-validated event.
- */
-function onSubmit(){
-    debugLog('<ShippingAddressesForm> onSubmit()');
-    if(shippingAddressFormRef.value){
-        shippingAddressFormRef.value.onSubmit();
-        if(billingAddressEnabled.value && billingAddressFormRef.value){
-            billingAddressFormRef.value.onSubmit();
+    if(billingDataFirst.value){
+        if(!billingStepRef.value.useBillingForShipping){
+            displayShippingStep.value = true;
+        }else{
+            const billingDataForShipping = deepClone(formData);
+            shippingData.value = billingDataForShipping;
         }
+    }else{
+        checkAddressValidation();
     }
 }
 
 /*
- * User selects and confirms a shipping address between those available
+ * This functions checks if <AddressesForm> component should fire
+ * its @address-data-submitted event to proceed with the checkout.
  */
-function onConfirmSelectedAddress() {
-    debugLog('<ShippingAddressesForm> confirmSelectedAddress()');
-    if(checkoutDataStore.selectedAddressIndex === undefined || checkoutDataStore.selectedAddressIndex === null){
-        return; // Bail out if the index of the selected address is not set
+function checkAddressValidation(){
+    debugLog('<ShippingAddressesForm> checkAddressValidation()');
+    debugLog('<ShippingAddressesForm> checkAddressValidation() -> shippingData', shippingData.value);
+    debugLog('<ShippingAddressesForm> checkAddressValidation() -> billingData', billingData.value);
+    if(shippingData.value && billingData.value){
+        addressesDataValid.value = true; // This value is being watched by watch()
     }
-    const selectedAddress = {...availableShippingAddresses.value[checkoutDataStore.selectedAddressIndex]};
-    debugLog('<ShippingAddressesForm> confirmSelectedAddress() -> selectedAddress', selectedAddress);
-    shippingData.value = selectedAddress;
-    checkAddressValidation();
 }
+
+watch(addressesDataValid, () => {
+    if(!addressesDataValid){
+        return;
+    }
+    const shippingValues = shippingData.value;
+    const billingValues = billingData.value;
+    checkoutDataStore.useDifferentAddressForBillingChecked = billingAddressEnabled.value; // Need these for restoring
+    checkoutDataStore.createAnAccountChecked = customerAccountCreationEnabled.value;
+    emit('AddressDataSubmitted', shippingValues as addressData, billingValues as addressData, isGuest.value);
+});
 
 onMounted(async () => {
-    debugLog('<ShippingAddressesForm> onMounted()');
-    await fetchShippingAddresses();
+    debugLog('<AddressesForm> onMounted()');
     await fetchCountries();
     enableShipToDifferentAddress();
     toggleCustomerAccountCreationEnabled();
@@ -256,72 +176,27 @@ onMounted(async () => {
 
 <template>
     <section class="woocommerce-checkout-steps__content" id="checkout-step-2">
-        <h5 v-if="availableShippingAddresses.length > 1">{{ $t('Addresses') }}</h5>
-        <h5 v-else-if="availableShippingAddresses.length === 1">{{ $t('Address') }}</h5>
-
-        <div v-if="loadingAddresses">
-            {{ $t('Loading shipping addresses...') }}
-        </div>
-
-        <!-- Address selector -->
-        <div class="shipping-addresses" v-if="!loadingAddresses && availableShippingAddresses.length">
-            <div v-if="availableShippingAddresses.length" v-for="(address,index) in availableShippingAddresses"
-                 :key="index"
-                 class="shipping-addresses__item"
-                 :class="{'selected': checkoutDataStore.selectedAddressIndex === index}"
-                 @click="selectShippingAddress(index)"
-            >
-                <i class="icon icon-home"></i>
-                <div>
-                    <strong>{{ address.name }}</strong>
-                    <!--<span>{{ address.first_name }}</span>
-                    <span>{{ address.last_name }}</span>-->
-                    <span>{{ address.address1 }}, {{ address.city }}</span>
-                    <!--<span>{{ address.address2 }}</span>-->
-                    <!--<span>{{ address.postcode }}</span>-->
-                    <!--<span>{{ address.state }}</span>
-                    <span>{{ address.country }}</span>-->
-                </div>
-            </div>
-            <div class="shipping-addresses__item shipping-addresses__item--btn" v-if="!addingNewAddress">
-                <button @click="onAddNewShippingAddress" :disabled="loadingAddresses">
-                    <i class="icon icon-plus"></i> {{ $t('Add address') }}
-                </button>
-            </div>
-        </div>
-
-        <div class="checkout woocommerce-checkout" v-show="addingNewAddress">
-            <div class="woocommerce-checkout-steps__row">
-                <h5>{{ $t('New shipping address') }}</h5>
-                <button v-if="availableShippingAddresses.length" @click="onNewShippingAddressFormClose" class="btn btn--link"><i class="icon icon-close"></i>
-                    {{ $t('Close') }}
-                </button>
-            </div>
-            <div class="woocommerce-billing-fields__field-wrapper">
-                <AddressForm :available-countries="fetchedCountries" @address-validated="onShippingAddressValidated" type="shipping" ref="shippingAddressFormRef" v-if="!checkoutDataStore.mustRestoreAddressData" />
-                <AddressForm :available-countries="fetchedCountries" @address-validated="onShippingAddressValidated" type="shipping" ref="shippingAddressFormRef" :initial-form-data="checkoutDataStore.shippingData" v-else />
-            </div>
-            <template v-if="!checkoutDataStore.isLoggedIn || (checkoutDataStore.isLoggedIn && !checkoutDataStore.hasBillingData)">
-                <input type="checkbox" v-model="billingAddressEnabled"> {{ $t('Use a different address for billing') }}
-            </template>
-            <template v-if="billingAddressEnabled">
-                <div class="woocommerce-checkout-steps__row">
-                    <h5>{{ $t('Billing address') }}</h5>
-                </div>
-                <div class="woocommerce-billing-fields__field-wrapper" >
-                    <AddressForm :available-countries="fetchedCountries" @address-validated="onBillingAddressValidated" type="billing" ref="billingAddressFormRef" v-if="!checkoutDataStore.mustRestoreAddressData" />
-                    <AddressForm :available-countries="fetchedCountries" @address-validated="onBillingAddressValidated" type="billing" ref="billingAddressFormRef" :initial-form-data="checkoutDataStore.billingData" v-else />
-                </div>
-            </template>
-            <template v-if="showCreateAnAccountCheckbox">
-                <input type="checkbox" v-model="customerAccountCreationEnabled"> {{ $t('Create an account to save your data') }}
-            </template>
-        </div>
-        <template v-if="addingNewAddress">
-            <input type="submit" :value="t('Save address')" class="btn btn--primary" @click.prevent="onSubmit" v-if="!billingAddressEnabled">
-            <input type="submit" :value="t('Save addresses')" class="btn btn--primary" @click.prevent="onSubmit" v-else>
+        <template v-if="billingDataFirst">
+            <BillingDataStep
+                ref="billingStepRef"
+                :available-countries="fetchedCountries"
+                :initial-form-data="checkoutDataStore.mustRestoreAddressData ? checkoutDataStore.billingData : null"
+                :show-create-an-account-checkbox="showCreateAnAccountCheckbox"
+                @address-validated="onBillingAddressValidated"
+            />
         </template>
-        <input v-else type="submit" :value="t('Use selected address')" class="btn btn--primary" :disabled="!addressSelected" @click.prevent="onConfirmSelectedAddress">
+        <template v-else>
+            <ShippingDataStep
+                :available-countries="fetchedCountries"
+                :initial-shipping-form-data="checkoutDataStore.mustRestoreAddressData ? checkoutDataStore.shippingData : null"
+                :initial-billing-form-data="checkoutDataStore.mustRestoreAddressData ? checkoutDataStore.billing : null"
+                :show-create-an-account-checkbox="showCreateAnAccountCheckbox"
+                :adding-new-address="addingNewAddress"
+                :selected-address-index="checkoutDataStore.selectedAddressIndex"
+                :billing-address-enabled = billingAddressEnabled
+                @address-validated="onShippingAddressValidated"
+            />
+        </template>
     </section>
 </template>
 

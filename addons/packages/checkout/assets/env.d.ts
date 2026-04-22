@@ -17,7 +17,8 @@ export interface stepCheckoutBackendDataType{
     must_show_profile_step: boolean,
     use_proceed_as_guest: boolean,
     default_shipping_address_name_is_mandatory: boolean
-    must_show_default_shipping_address_name: boolean
+    must_show_default_shipping_address_name: boolean,
+    billing_data_first: boolean,
 }
 
 export interface wpJsonResponse{
@@ -104,7 +105,11 @@ export interface addressData{
     postcode: string,
     city: string,
     state: string,
-    notes?: string
+    notes?: string,
+    profileType?: string,
+    companyName?: string,
+    vatNumber?: string,
+    fiscalCode?: string,
 }
 
 export interface fetchedCountries{

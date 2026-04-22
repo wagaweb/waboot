@@ -18,6 +18,7 @@ const {t} = useI18n();
 // https://vuejs.org/guide/typescript/composition-api#props-default-values
 const props = withDefaults(defineProps<{
         showAddressName?: boolean;
+        showProfileType?: boolean;
         initialFormData?: addressData;
         type: "billing" | "shipping";
         availableCountries?: Array<fetchedCountry>;
@@ -39,7 +40,8 @@ const props = withDefaults(defineProps<{
         },
         availableCountries: () => [],
         canSubmit: false,
-        showAddressName: true
+        showAddressName: true,
+        showProfileType: false
     }
 );
 
@@ -55,29 +57,57 @@ const loadingStates = ref(false);
 const shippingAddressNameIsMandatory = getBackEndData().default_shipping_address_name_is_mandatory;
 const mustShowShippingAddressName = getBackEndData().must_show_default_shipping_address_name;
 
-const validationSchema = toTypedSchema(object({
-    //name: string().required(t(`Address name is a required field`)).label(t('Address name')),
-    //name: string().label(t('Address name')),
-    name: string().when([],{
-        is: () => shippingAddressNameIsMandatory,
-        then: (schema) => schema.required(t(`Address name is a required field`)),
-        otherwise: (schema) => schema.notRequired(),
-    }).label(t('Address name')),
-    firstName: string().required(t(`First name is a required field`)).label(t('First name')),
-    lastName: string().required(t(`Last name is a required field`)).label(t('Last name')),
-    phone: string().label(t('Phone')),
-    country: string().required(t(`Country is a required field`)).label(t('Country')),
-    address1: string().required(t(`Address is a required field`)).label(t('Address')),
-    address2: string().label(t('Address information')),
-    postcode: string().required(t(`Post code is a required field`)).label(t('ZIP code')),
-    city: string().required(t(`City is a required field`)).label(t('City')),
-    state: string().when([], {
-        is: () => fetchedStates.value.length > 0,
-        then: (schema) => schema.required(t(`State is a required field`)),
-        otherwise: (schema) => schema.notRequired(),
-    }).label(t('State')),
-    notes: string().label(t('Order notes'))
-}));
+const validationSchema = computed(() => {
+    const schemaFields = {
+        ...(props.type === 'shipping' && {
+            name: shippingAddressNameIsMandatory
+                ? string().required(t(`Address name is a required field`)).label(t('Address name'))
+                : string().label(t('Address name'))
+        }),
+        firstName: string().required(t(`First name is a required field`)).label(t('First name')),
+        lastName: string().required(t(`Last name is a required field`)).label(t('Last name')),
+        phone: string().label(t('Phone')),
+        country: string().required(t(`Country is a required field`)).label(t('Country')),
+        address1: string().required(t(`Address is a required field`)).label(t('Address')),
+        address2: string().label(t('Address information')),
+        postcode: string().required(t(`Post code is a required field`)).label(t('ZIP code')),
+        city: string().required(t(`City is a required field`)).label(t('City')),
+        ...(fetchedStates.value.length > 0
+                ? { state: string().required(t(`State is a required field`)).label(t('State')) }
+                : { state: string().label(t('State')) }
+        ),
+        notes: string().label(t('Order notes')),
+        ...(props.type === 'billing' && {
+            ...(props.showProfileType && {
+                profileType: string().required(t(`Profile type is a required field`)).label(t('Profile type')),
+            }),
+            companyName: string()
+                .label(t('Company name'))
+                .when('profileType', {
+                    // Se profileType è "company" (e showProfileType è attivo)
+                    is: (val: string) => props.showProfileType && val === 'company',
+                    then: (schema) => schema.required(t('Company name is a required field')),
+                    otherwise: (schema) => schema.notRequired(),
+                }),
+            vatNumber: string()
+                .label(t('VAT Number'))
+                .when('profileType', {
+                    is: (val: string) => props.showProfileType && val === 'company',
+                    then: (schema) => schema.required(t('VAT Number is a required field')),
+                    otherwise: (schema) => schema.notRequired(),
+                }),
+            fiscalCode: string()
+                .label(t('Fiscal code'))
+                .when('profileType', {
+                    is: (val: string) => props.showProfileType && val === 'private',
+                    then: (schema) => schema.required(t('Fiscal code is a required field')),
+                    otherwise: (schema) => schema.notRequired(),
+                }),
+        })
+    }
+
+    return toTypedSchema(object(schemaFields));
+});
 
 // https://vee-validate.logaretm.com/v4/api/use-form/
 const {values, defineField, errors, meta, handleSubmit} = useForm({
@@ -117,6 +147,18 @@ const [state, stateAttrs] = defineField('state', {
 const [notes, notesAttrs] = defineField('notes', {
     validateOnModelUpdate: false,
 });
+const [profileType, profileTypeAttrs] = defineField('profileType', {
+    validateOnModelUpdate: false,
+});
+const [companyName, companyNameAttrs] = defineField('companyName', {
+    validateOnModelUpdate: false,
+});
+const [vatNumber, vatNumberAttrs] = defineField('vatNumber', {
+    validateOnModelUpdate: false,
+});
+const [fiscalCode, fiscalCodeAttrs] = defineField('fiscalCode', {
+    validateOnModelUpdate: false,
+});
 
 const formData = computed(() => {
     return {
@@ -131,7 +173,11 @@ const formData = computed(() => {
         postcode: postcode.value,
         city: city.value,
         state: state.value,
-        notes: notes.value
+        notes: notes.value,
+        profileType: profileType.value,
+        companyName: companyName.value,
+        vatNumber: vatNumber.value,
+        fiscalCode: fiscalCode.value,
     }
 });
 
@@ -152,7 +198,11 @@ function getFormData(): addressData {
         postcode: postcode.value ?? '',
         city: city.value ?? '',
         state: state.value ?? '',
-        notes: notes.value ?? ''
+        notes: notes.value ?? '',
+        profileType: profileType.value ?? '',
+        companyName: companyName.value ?? '',
+        vatNumber: vatNumber.value ?? '',
+        fiscalCode: fiscalCode.value ?? '',
     }
 }
 
@@ -206,6 +256,18 @@ function setFormData(key: string, value: string){
         case 'notes':
             notes.value = value;
             break;
+        case 'profileType':
+            profileType.value = value;
+            break;
+        case 'companyName':
+            companyName.value = value;
+            break;
+        case 'vatNumber':
+            vatNumber.value = value;
+            break;
+        case 'fiscalCode':
+            fiscalCode.value = value;
+            break;
     }
 }
 
@@ -221,6 +283,10 @@ function resetFormData() {
     city.value = '';
     state.value = '';
     notes.value = '';
+    profileType.value = '';
+    companyName.value = '';
+    vatNumber.value = '';
+    fiscalCode.value = '';
 }
 
 async function populateFormData(newAddressData: addressData){
@@ -262,6 +328,21 @@ async function populateFormData(newAddressData: addressData){
                 break;
             case 'state':
                 state.value = value as string;
+                break;
+            case 'notes':
+                notes.value = value as string;
+                break;
+            case 'profileType':
+                profileType.value = value as string;
+                break;
+            case 'companyName':
+                companyName.value = value as string;
+                break;
+            case 'vatNumber':
+                vatNumber.value = value as string;
+                break;
+            case 'fiscalCode':
+                fiscalCode.value = value as string;
                 break;
         }
     }
@@ -308,6 +389,19 @@ onMounted(() => {
 </script>
 <template>
     <form>
+        <template v-if="type === 'billing'">
+            <div class="form-row form-row-wide">
+                <label>{{ $t('Account type') }}*</label>
+                <ErrorMessage name="profileType" />
+
+                <div class="woocommerce-billing-fields__field-wrapper woocommerce-billing-fields__field-wrapper--choice">
+                    <label><input type="radio" v-model="profileType" v-bind="profileTypeAttrs" value="company">{{ $t('Company profile') }}</label>
+
+                    <label><input type="radio" v-model="profileType" v-bind="profileTypeAttrs" value="private">{{ $t('Private profile') }}</label>
+                </div>
+            </div>
+        </template>
+
         <div class="form-row form-row-wide" :class="{invalid: 'name' in errors }" v-show="type === 'shipping' && showAddressName && mustShowShippingAddressName">
             <input type="text" placeholder="" id="name" v-model="name" v-bind="nameAttrs">
             <label for="name">{{ $t('Address name') }}<span v-if="shippingAddressNameIsMandatory">*</span></label>
