@@ -113,6 +113,7 @@
     align-items: center;
     justify-content: center;
     padding: 0;
+    padding-top: 48px;
     margin: 0;
     transition: all .5s ease;
   }
@@ -122,6 +123,14 @@
     justify-content: space-between;
     align-items: center;
     width: 100%;
+
+    &:first-of-type {
+      margin-top: 48px;
+    }
+
+    &.is-sibling-hidden {
+      display: none;
+    }
   }
 
   a {
