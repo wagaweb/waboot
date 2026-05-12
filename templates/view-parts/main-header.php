@@ -2,8 +2,8 @@
 
     <div class="header__logo">
 
-        <a href="<?php echo home_url( '/' ); ?>">
-            <?php if ( \Waboot\inc\getLogo() !== '' ) : ?>
+        <a href="<?php echo home_url('/'); ?>">
+            <?php if (\Waboot\inc\getLogo() !== '') : ?>
                 <?php \Waboot\inc\theLogo(false, 'header__logo'); ?>
             <?php else : ?>
                 <?php echo get_bloginfo('name'); ?>
@@ -12,8 +12,8 @@
 
     </div>
 
-    <a href="javascript:;" class="header__toggle header__link--nav slidein-nav__toggle" data-open-sidenav=".sidenavigation">
-        <span class="sr-only"><?php _e("Toggle navigation",LANG_TEXTDOMAIN); ?></span>
+    <a href="javascript:;" class="header__toggle header__link--nav slidein-nav__toggle" data-open-sidenav=".sidenavigation" role="button" aria-label="Menu di navigazione" aria-haspopup="true" aria-expanded="false">
+        <span class="sr-only"><?php _e("Toggle navigation", LANG_TEXTDOMAIN); ?></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
