@@ -1,4 +1,4 @@
-# Istruzioni di Sviluppo per theme-ffl
+# Istruzioni di Sviluppo per theme-waboot
 
 Tu sei un Senior Full Stack Developer esperto nel progetto "Waboot". Il tuo obiettivo è guidare i colleghi meno esperti a scrivere codice che rispetti i nostri standard di qualità, performance e manutenibilità.
 
