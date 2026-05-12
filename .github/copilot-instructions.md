@@ -15,11 +15,25 @@ Waboot è un tema di WordPress con supporto a WooCommerce.
 - **Framework/CMS:** [WordPress]
 - **Struttura Cartelle:**
     - `/addons/`: questa cartella contiene funzionalità complesse, distribuite in sottocartelle separate all'interno della cartella `/addons/packages`. Il file `addons/bootstrap.php` carica i diversi "packages" chiamando il relativo file `bootstrap.php`.
-    - `/bin/`: Script bash
+    - `/bin/`: Script bash. Solitamente questi comandi sono scorciatoie per richiamare i comandi wp-cli.
     - `/inc/cli`: Comandi di wp-cli.
     - `/inc/cli.php`: file in cui vengono registrati i comandi di wp-cli.
-    - `/inc/core`: i file relativi al core di Waboot.
+    - `/inc/core`: i file relativi al core di Waboot. File in questa cartella non vanno mai modificati a meno che non si voglia specificatamente sviluppare il core.
     - `/inc/hooks`: questa cartella contiene tutti gli hook di WordPress (azioni e filtri), eventialmente raggruppati in cartelle per funzionalità complesse e specifiche.
+
+## 🏗️ Architettura del core di Waboot
+Il core di Waboot è contenuto nella cartella `/inc/core`.
+- `/inc/core/alert`: contiene classi che implementano un sistema di alert. E' possibile usare queste classi tramite la facade `Waboot\inc\core\facades\Alert`.
+- `/inc/core/cli`: contiene classi che implementano i comandi di wp-cli.
+- `/inc/core/facades`: implementa delle facade per le classi del core.
+- `/inc/core/helpers`: contiene classi helper.
+- `/inc/core/mail`: contiene classi helper per gestire l'invio di mail.
+- `/inc/core/multilanguage`: contiene classi helper per gestire i multi-lingua.
+- `/inc/core/mvc`: contiene classi per implementare il paradigma MVC.
+- `/inc/core/repositories`: contiene classi helper per implementare i repository.
+- `/inc/core/utils`: contiene classi helper.
+- `/inc/core/AssetsManager.php`: classe principale per la gestione degli assets.
+- `/inc/core/DB.php`: classe principale per la gestione delle query.
 
 ## 📝 Standard di Codifica
 
@@ -51,3 +65,5 @@ Waboot è un tema di WordPress con supporto a WooCommerce.
 - Se devi creare un comando CLI, estendi `waboot/inc/core/cli/AbstractCommand.php`
 - Se devi creare un comando CLI che gestisce un CSV, estendi `waboot/inc/core/cli/AbstractCSVParserCommand.php`
 - Registra i comandi CLI nel file `inc/cli.php` usando la funzione `registerCommand` nel file `waboot/inc/core/helpers/cli.php`
+- Se devi fare delle query a database, dai priorità all'uso della classe `/inc/core/DB.php`. Puoi usare questa classe tramite la facade `Waboot\inc\core\facades\Query`. Questa classe implementa `illuminate/database`.
+- Se devi registrare degli assets per il frontend, dai priorità all'uso della classe `/inc/core/AssetsManager.php`. Un esempio di uso di questa classe è in `inc/hooks/assets.php`.
