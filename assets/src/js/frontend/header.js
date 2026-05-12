@@ -6,6 +6,7 @@ export default class {
         this.headerFixed();
         this.backOnSubmenu();
         this.mobileDropdown(el);
+        this.escapeSubmenu();
 
         $(window).on("scroll", ()=> {
             this.headerFixed();
@@ -69,6 +70,24 @@ export default class {
             });
         }
     };
+
+    escapeSubmenu() {
+        const $items = $('.navigation.navbar-nav .menu-item-has-children');
+
+        $items.on('mouseenter', function() {
+            $(this).addClass('is-hovered');
+        });
+
+        $items.on('mouseleave', function() {
+            $(this).removeClass('is-hovered');
+        });
+
+        $(document).on('keydown', function(e) {
+            if (e.key === 'Escape') {
+                $items.removeClass('is-hovered');
+            }
+        });
+    }
 
     /* Old Dropdown
     initDropdown(el) {
