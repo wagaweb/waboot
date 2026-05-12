@@ -49,7 +49,7 @@ ul, ol {
 }
 
 a {
-  outline: 0;
+  // outline: 0;
 }
 
 a:link {
@@ -75,6 +75,10 @@ a {
 a:hover,
 a:focus {
     color: lighten($colorPrimary, 20%) ;
+}
+
+a:focus {
+    outline: 1px dotted darken($colorPrimary, 80%);
 }
 
 a.text-primary:hover,
