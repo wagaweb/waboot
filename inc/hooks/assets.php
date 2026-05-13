@@ -7,28 +7,37 @@ use function Waboot\inc\core\AssetsManager;
 /**
  * Loads assets
  */
-function assets(){
+function assets()
+{
     $assets = [];
     $assets['main-js'] = [
         'uri' => defined('WP_DEBUG') && WP_DEBUG ? get_template_directory_uri() . '/assets/dist/js/main.pkg.js' : get_template_directory_uri() . '/assets/dist/js/main.min.js',
         'path' => defined('WP_DEBUG') && WP_DEBUG ? get_template_directory() . '/assets/dist/js/main.pkg.js' : get_template_directory() . '/assets/dist/js/main.min.js',
         'type' => 'js',
-        'deps' => ['jquery','owlcarousel-js','venobox-js'],
-	    //'loading_strategy' => 'defer'
+        // 'deps' => ['jquery','owlcarousel-js','venobox-js'],
+        'deps' => ['jquery', 'slickslider-js', 'venobox-js'],
+        //'loading_strategy' => 'defer'
     ];
-    $assets['owlcarousel-js'] = [
-        'uri' => get_template_directory_uri() . '/assets/vendor/owlcarousel/owl.carousel.min.js',
-        'path' => get_template_directory() . '/assets/vendor/owlcarousel/owl.carousel.min.js',
+    // $assets['owlcarousel-js'] = [
+    //     'uri' => get_template_directory_uri() . '/assets/vendor/owlcarousel/owl.carousel.min.js',
+    //     'path' => get_template_directory() . '/assets/vendor/owlcarousel/owl.carousel.min.js',
+    //     'type' => 'js',
+    //     'deps' => ['jquery'],
+    //     //'loading_strategy' => 'defer'
+    // ];
+    $assets['slickslider-js'] = [
+        'uri' => get_template_directory_uri() . '/assets/vendor/slickslider/slick.min.js',
+        'path' => get_template_directory() . '/assets/vendor/slickslider/slick.min.js',
         'type' => 'js',
         'deps' => ['jquery'],
-	    //'loading_strategy' => 'defer'
+        // 'loading_strategy' => 'defer'
     ];
     $assets['venobox-js'] = [
         'uri' => get_template_directory_uri() . '/assets/vendor/venobox/venobox.min.js',
         'path' => get_template_directory() . '/assets/vendor/venobox/venobox.min.js',
         'type' => 'js',
         'deps' => ['jquery'],
-	    //'loading_strategy' => 'defer'
+        //'loading_strategy' => 'defer'
     ];
     $assets['main-style'] = [
         'uri' => get_template_directory_uri() . '/assets/dist/css/main.min.css',
@@ -40,10 +49,22 @@ function assets(){
         'uri' => 'https://fonts.googleapis.com/css?family=Montserrat:400,400i,700,700i&display=swap',
         'type' => 'css'
     ];
-    $assets['owlcarousel-css'] = [
-        'uri' => get_template_directory_uri() . '/assets/vendor/owlcarousel/owl.carousel.min.css',
-        'path' => get_template_directory() . '/assets/vendor/owlcarousel/owl.carousel.min.css',
-        'type' => 'css'
+    // $assets['owlcarousel-css'] = [
+    //     'uri' => get_template_directory_uri() . '/assets/vendor/owlcarousel/owl.carousel.min.css',
+    //     'path' => get_template_directory() . '/assets/vendor/owlcarousel/owl.carousel.min.css',
+    //     'type' => 'css'
+    // ];
+    $assets['slickslider-css'] = [
+        'uri' => get_template_directory_uri() . '/assets/vendor/slickslider/slick.min.css',
+        'path' => get_template_directory() . '/assets/vendor/slickslider/slick.min.css',
+        'type' => 'css',
+        'loading_strategy' => 'defer'
+    ];
+    $assets['slickslider-theme-css'] = [
+        'uri' => get_template_directory_uri() . '/assets/vendor/slickslider/slick-theme.min.css',
+        'path' => get_template_directory() . '/assets/vendor/slickslider/slick-theme.min.css',
+        'type' => 'css',
+        'loading_strategy' => 'defer'
     ];
     $assets['venobox-css'] = [
         'uri' => get_template_directory_uri() . '/assets/vendor/venobox/venobox.min.css',
@@ -52,18 +73,19 @@ function assets(){
     ];
 
     AssetsManager()->addAssets($assets);
-    try{
+    try {
         AssetsManager()->enqueue();
-    }catch (\Exception $e){
-        trigger_error($e->getMessage(),E_USER_WARNING);
+    } catch (\Exception $e) {
+        trigger_error($e->getMessage(), E_USER_WARNING);
     }
 }
-add_action('wp_enqueue_scripts', __NAMESPACE__.'\\assets');
+add_action('wp_enqueue_scripts', __NAMESPACE__ . '\\assets');
 
 /**
  * Loads Admin Assets
  */
-function editorStyle() {
-    add_editor_style( 'assets/dist/css/gutenberg.min.css' );
+function editorStyle()
+{
+    add_editor_style('assets/dist/css/gutenberg.min.css');
 }
-add_action('init', __NAMESPACE__.'\\editorStyle');
+add_action('init', __NAMESPACE__ . '\\editorStyle');
