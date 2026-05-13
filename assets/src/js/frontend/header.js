@@ -9,6 +9,7 @@ export function initHeader(selector){
     headerFixedWhenBack();
     backOnSubmenu();
     mobileDropdown(selector);
+    escapeSubmenu();
 
     $(window).on("scroll", () => {
         headerFixed();
@@ -105,4 +106,22 @@ function mobileDropdown(el) {
             $('.navigation-mobile .sub-menu').css('left','100%');
         });
     }
+}
+
+function escapeSubmenu() {
+    const $items = $('.navigation.navbar-nav .menu-item-has-children');
+
+    $items.on('mouseenter', function() {
+        $(this).addClass('is-hovered');
+    });
+
+    $items.on('mouseleave', function() {
+        $(this).removeClass('is-hovered');
+    });
+
+    $(document).on('keydown', function(e) {
+        if (e.key === 'Escape') {
+            $items.removeClass('is-hovered');
+        }
+    });
 }
