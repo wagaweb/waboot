@@ -83,22 +83,27 @@ function mobileDropdown(el) {
             e.preventDefault();
             e.stopPropagation();
             let $target = $(e.currentTarget),
+                $li = $target.parent(el),
                 $submenu = $target.prev('.sub-menu');
             $submenu.css('left', 0);
             $target.siblings('a').attr('aria-expanded', 'true');
+            $li.siblings('li').addClass('is-sibling-hidden');
         });
 
         $(el + ' > ul .backlevel__icon').on('click', function(e) {
             e.preventDefault();
             e.stopPropagation();
-            let $target = $(e.currentTarget).parent('ul');
+            let $target = $(e.currentTarget).parent('ul'),
+                $li = $target.parent(el);
             $target.css('left', '100%');
-            $target.closest('.menu-item-has-children').children('a').attr('aria-expanded', 'false');
+            $li.children('a').attr('aria-expanded', 'false');
+            $li.siblings('li').removeClass('is-sibling-hidden');
         });
 
         $('[data-slidein-close]').on('click', function() {
             $('.navigation-mobile .sub-menu').css('left', '100%');
             $('.navigation-mobile .menu-item-has-children > a').attr('aria-expanded', 'false');
+            $('.navigation-mobile li').removeClass('is-sibling-hidden');
         });
     }
 }
