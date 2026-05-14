@@ -4,27 +4,28 @@ namespace Waboot\inc\hooks;
 
 use function Waboot\inc\core\Waboot;
 
-add_action('waboot/layout/header', function(){
+add_action('waboot/layout/header', function () {
     Waboot()->renderView('templates/view-parts/main-header.php');
-});
-
-add_action('waboot/layout/footer', function(){
-    Waboot()->renderView('templates/view-parts/main-footer.php');
-});
-
-add_action('waboot/layout/page-after', function(){
     Waboot()->renderView('templates/view-parts/navigation-mobile.php');
 });
 
-add_action('waboot/layout/page-after', function(){
+add_action('waboot/layout/footer', function () {
+    Waboot()->renderView('templates/view-parts/main-footer.php');
+});
+
+add_action('waboot/layout/page-after', function () {
+    // Waboot()->renderView('templates/view-parts/navigation-mobile.php');
+});
+
+add_action('waboot/layout/page-after', function () {
     Waboot()->renderView('templates/view-parts/sidesearch.php');
 });
 
-add_action("waboot/widget_area/footer/before", function(){
+add_action("waboot/widget_area/footer/before", function () {
     echo '<div class="widgetarea__footer-inner">';
 });
 
-add_action("waboot/widget_area/footer/after", function(){
+add_action("waboot/widget_area/footer/after", function () {
     echo '</div>';
 });
 
@@ -42,7 +43,7 @@ add_filter('waboot/main/title/display_flag', function($can_display_title){
 /*
  * Specify performant <head> template
  */
-add_filter('waboot/head/custom_head/tpl', static function($tpl){
+add_filter('waboot/head/custom_head/tpl', static function ($tpl) {
     return 'templates/view-parts/performance-head.php';
 });
 
