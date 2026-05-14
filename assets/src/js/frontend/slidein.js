@@ -19,9 +19,12 @@ Slidein.prototype = {
     },
 
     initToggle: function(self) {
+        self.$el.attr('inert', '');
+
         $(self.opt.toggler).on('click', function(e) {
             if (!self.$el.hasClass('show')) {
                 self.$el.addClass('show');
+                self.$el.removeAttr('inert');
                 $('body').addClass('slidein-no-scroll');
                 self.toggleOverlay();
                 self.trapFocus(self);
@@ -33,7 +36,8 @@ Slidein.prototype = {
                         return;
                     }
                     if (!$target.closest(self.$toggler).is(self.$toggler)) {
-                        self.$el.removeClass('show');
+                        self.$el.addClass('show');
+                        self.$el.attr('inert', '');
                         $('body').removeClass('slidein-no-scroll');
                         self.hideOverlay();
                         self.releaseFocus(self);
@@ -45,6 +49,7 @@ Slidein.prototype = {
                 $('[data-slidein-close]').on('click keydown', function(e) {
                     if (e.type === 'keydown' && e.key !== 'Enter' && e.key !== ' ') return;
                     self.$el.removeClass('show');
+                    self.$el.attr('inert', '');
                     $('body').removeClass('slidein-no-scroll');
                     self.hideOverlay();
                     self.releaseFocus(self);

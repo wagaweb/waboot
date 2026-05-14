@@ -87,13 +87,15 @@ export default class {
     }
 
     accessibleSubmenu() {
-        const $items = $('.navigation.navbar-nav .menu-item-has-children');
+        const $items = $('.header__navigation .menu-item-has-children');
 
         $items.each(function() {
             $(this).children('a').attr({
                 'role': 'button',
-                'aria-expanded': 'false'
+                'aria-expanded': 'false',
+                'tabindex': '0'
             });
+            $(this).find('.sub-menu a').attr('tabindex', '-1');
         });
 
         $items.on('mouseenter', function() {
@@ -105,12 +107,31 @@ export default class {
         $items.on('mouseleave', function() {
             $(this).removeClass('is-hovered');
             $(this).children('a').attr('aria-expanded', 'false');
+            $(this).children('.sub-menu').removeClass('is-open');
+        });
+
+        $items.children('a').on('keydown', function(e) {
+            if (e.key !== 'Enter' && e.key !== ' ') return;
+            e.preventDefault();
+            const $a = $(this);
+            const $li = $a.parent();
+            const isOpen = $li.hasClass('is-hovered');
+            if (isOpen) {
+                $li.removeClass('is-hovered');
+                $a.attr('aria-expanded', 'false');
+                $li.find('.sub-menu a').attr('tabindex', '-1');
+            } else {
+                $li.addClass('is-hovered');
+                $a.attr('aria-expanded', 'true');
+                $li.children('.sub-menu').find('a').attr('tabindex', '0');
+            }
         });
 
         $(document).on('keydown', function(e) {
             if (e.key === 'Escape') {
                 $items.removeClass('is-hovered');
                 $items.children('a').attr('aria-expanded', 'false');
+                $items.find('.sub-menu a').attr('tabindex', '-1');
             }
         });
     }
