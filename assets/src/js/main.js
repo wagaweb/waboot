@@ -116,100 +116,96 @@ function slideinHeight(){
     $('.slidein').css('top',headerHeight);
 }
 
-function initCarousel() {
-    let $ = jQuery;
-    $('.block__carousel--1 .wp-block-group__inner-container').addClass('block__carousel owl-carousel').owlCarousel({
-        items: 1,
-        autoplay:true,
-        loop: true,
-        autoHeight: true,
-        nav: true,
-        navText: ['<i class="fas fa-chevron-left"></i>','<i class="fas fa-chevron-right"></i>']
-    })
-    $('.wp-block-gallery.block__carousel--1').wrapInner('<div class="blocks-gallery-grid"></div>');
-    $('.wp-block-gallery.block__carousel--2').wrapInner('<div class="blocks-gallery-grid"></div>');
-    $('.wp-block-gallery.block__carousel--3').wrapInner('<div class="blocks-gallery-grid"></div>');
-    $('.wp-block-gallery.block__carousel--4').wrapInner('<div class="blocks-gallery-grid"></div>');
-    $('.wp-block-gallery.block__carousel--5').wrapInner('<div class="blocks-gallery-grid"></div>');
+/*
+  Il codice seguente va usato con un markup apposito per attivare un effetto slider
+  sugli item su mobile
+*/
+document.addEventListener('DOMContentLoaded', function () {
+  const mq = window.matchMedia('(max-width: 782px)');
+  if (!mq.matches) return;
 
-    $('.block__carousel--1 > .blocks-gallery-grid').addClass('block__carousel owl-carousel').owlCarousel({
-        items: 1,
-        autoplay:true,
-        loop: true,
-        autoHeight: true,
-        dots:false,
-        nav: false,
-        0 : {
-            nav: false,
-        },
-        768 : {
-            nav: true,
-        }
-    })
-    $('.block__carousel--2 > .blocks-gallery-grid').addClass('block__carousel owl-carousel').owlCarousel({
-        autoplay:true,
-        loop: true,
-        dots:false,
-        nav: true,
-        navText: ['<i class="fas fa-chevron-left"></i>','<i class="fas fa-chevron-right"></i>'],
-        responsive : {
-            0 : {
-                items: 1,
+  const wrappers = document.querySelectorAll('._horizontal-scroller-wrapper');
+
+  wrappers.forEach(function (wrapper) {
+    const scroller = wrapper.querySelector('._horizontal-scroller');
+    const prev = wrapper.querySelector('._horizontal-scroller-prev');
+    const next = wrapper.querySelector('._horizontal-scroller-next');
+
+    if (!scroller || !prev || !next) return;
+
+    const getScrollAmount = function () {
+      const firstItem = scroller.querySelector(':scope > *');
+      if (!firstItem) return scroller.clientWidth;
+      return firstItem.getBoundingClientRect().width + 16;
+    };
+
+    prev.addEventListener('click', function () {
+      scroller.scrollBy({
+        left: -getScrollAmount(),
+        behavior: 'smooth',
+      });
+    });
+
+    next.addEventListener('click', function () {
+      scroller.scrollBy({
+        left: getScrollAmount(),
+        behavior: 'smooth',
+      });
+    });
+  });
+});
+
+function initCarousels() {
+  let $ = jQuery;
+  let $carousel = $('._horizontal-scroller');
+
+  function checkCarousel() {
+    let windowWidth = $(window).width();
+
+    if (windowWidth < 1024) {
+      if (!$carousel.hasClass('slick-initialized')) {
+        $carousel.slick({
+          infinite: false,
+          slidesToShow: 3,
+          slidesToScroll: 1,
+          arrows: true,
+          dots: true,
+          prevArrow: '<button type="button" class="slick-prev" aria-label="Previous slide"><i class="far fa-arrow-left" aria-hidden="true"></i></button>',
+          nextArrow: '<button type="button" class="slick-next" aria-label="Next slide"><i class="far fa-arrow-right" aria-hidden="true"></i></button>',
+          responsive: [
+            {
+              breakpoint: 768,
+              settings: {
+                slidesToShow: 2.2,
+                slidesToScroll: 1,
+                centerMode: false
+              }
             },
-            768 : {
-                items: 2,
-                margin: 30
+            {
+              breakpoint: 480,
+              settings: {
+                slidesToShow: 1.2,
+                slidesToScroll: 1,
+              }
             }
-        }
-    })
-    $('.block__carousel--3 > .blocks-gallery-grid').addClass('block__carousel owl-carousel').owlCarousel({
-        autoplay:true,
-        loop: true,
-        dots:false,
-        nav: true,
-        navText: ['<i class="fas fa-chevron-left"></i>','<i class="fas fa-chevron-right"></i>'],
-        responsive : {
-            0 : {
-                items: 1,
-            },
-            768 : {
-                items: 3,
-                margin: 30
-            }
-        }
-    })
-    $('.block__carousel--4 > .blocks-gallery-grid').addClass('block__carousel owl-carousel').owlCarousel({
-        autoplay:true,
-        loop: true,
-        dots:false,
-        nav: true,
-        navText: ['<i class="fas fa-chevron-left"></i>','<i class="fas fa-chevron-right"></i>'],
-        responsive : {
-            0 : {
-                items: 1,
-            },
-            768 : {
-                items: 4,
-                margin: 30
-            }
-        }
-    })
-    $('.block__carousel--5 > .blocks-gallery-grid').addClass('block__carousel owl-carousel').owlCarousel({
-        autoplay:true,
-        loop: true,
-        dots:false,
-        nav: true,
-        navText: ['<i class="fas fa-chevron-left"></i>','<i class="fas fa-chevron-right"></i>'],
-        responsive : {
-            0 : {
-                items: 1,
-            },
-            768 : {
-                items: 5,
-                margin: 30
-            }
-        }
-    })
+          ]
+        });
+      }
+    } else {
+      if ($carousel.hasClass('slick-initialized')) {
+        $carousel.slick('unslick');
+      }
+    }
+  }
+
+  // Esegui al caricamento
+  checkCarousel();
+
+  // Esegui al resize con debounce
+  $(window).on('resize', function () {
+    clearTimeout(window.carouselTimer);
+    window.carouselTimer = setTimeout(checkCarousel, 200);
+  });
 }
 
 function venoboxCarouselGutenbergGallery() {
