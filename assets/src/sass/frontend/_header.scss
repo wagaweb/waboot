@@ -18,6 +18,10 @@
     box-shadow: 0 0 $gridGutter #eee;
   }
 
+  .header--scrolled & {
+    z-index: 101;
+  }
+
   &__inner {
     max-width: $containerWidth;
     margin: 0 auto;
