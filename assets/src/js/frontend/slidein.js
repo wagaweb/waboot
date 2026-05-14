@@ -25,6 +25,7 @@ Slidein.prototype = {
                 $('body').addClass('slidein-no-scroll');
                 self.toggleOverlay();
                 self.trapFocus(self);
+                $(self.opt.toggler).attr('aria-expanded', 'true');
 
                 $(document).on('click', function(e) {
                     var $target = $(e.target);
@@ -36,6 +37,7 @@ Slidein.prototype = {
                         $('body').removeClass('slidein-no-scroll');
                         self.hideOverlay();
                         self.releaseFocus(self);
+                        $(self.opt.toggler).attr('aria-expanded', 'false');
                         $(document).off('click');
                     }
                 });
@@ -46,6 +48,7 @@ Slidein.prototype = {
                     $('body').removeClass('slidein-no-scroll');
                     self.hideOverlay();
                     self.releaseFocus(self);
+                    $(self.opt.toggler).attr('aria-expanded', 'false');
                     $(document).off('click');
                 });
             }
