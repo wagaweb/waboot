@@ -45,3 +45,23 @@
   position: absolute;
   width: 1px;
 }
+
+.skip-link.sr-only-focusable {
+  &:focus {
+    position: fixed; // Lo blocca sopra tutto il resto
+    top: 10px;
+    left: 10px;
+    z-index: 10000;
+    width: auto;
+    height: auto;
+    clip: auto;
+    margin: 0;
+    padding: 15px 25px;
+    background-color: $colorPrimary;
+    color: $colorWhite;
+    text-decoration: none;
+    font-weight: bold;
+    border: 2px solid $colorPrimary;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+  }
+}
