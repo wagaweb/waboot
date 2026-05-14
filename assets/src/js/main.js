@@ -33,7 +33,7 @@ $(document).ready(function() {
 
     asideBodyClass();
     scrollToAnimate();
-    initCarousel();
+    initCarousels();
 
     $("[data-slidein-nav]").slidein({
         toggler: ".slidein-nav__toggle",
