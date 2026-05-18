@@ -21,10 +21,10 @@ form {
     padding: 6px 12px;
     background-color: #fff;
     background-image: none;
-    border: 1px solid #ccc;
+    border: 1px solid $colorBorder;
     box-shadow: inset 0 0 0;
     transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
-    font-size: .8em;
+    font-size: 1em;
     appearance: none;
   }
   input[type="submit"] {
@@ -43,7 +43,7 @@ form {
 
   .select2-selection {
     background-color : #FFFFFF;
-    border           : 1px solid #ccc;
+    border           : 1px solid $colorBorder;
     height           : 34px;
     border-radius    : 0;
 
@@ -73,7 +73,7 @@ form {
 
   .select2-dropdown {
     background-color: #fff;
-    border: 1px solid #ccc;
+    border: 1px solid $colorBorder;
     border-radius: 0;
     font-size: .9em;
 
@@ -81,7 +81,7 @@ form {
       display: block;
       padding: 6px 12px;
       .select2-search__field {
-        border: 1px solid #ccc;
+        border: 1px solid $colorBorder;
         padding: 6px 12px;
       }
     }

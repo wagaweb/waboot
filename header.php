@@ -9,11 +9,11 @@
 
     <?php do_action('waboot/layout/page-before'); ?>
 
-    <header class="header">
+    <a class="skip-link sr-only sr-only-focusable" href="#main">
+        <?php _e('Skip to content', LANG_TEXTDOMAIN); ?>
+    </a>
 
-        <a class="skip-link sr-only sr-only-focusable" href="#main">
-            <?php _e('Skip to content', LANG_TEXTDOMAIN); ?>
-        </a>
+    <header class="header">
 
         <?php do_action('waboot/layout/header'); ?>
 

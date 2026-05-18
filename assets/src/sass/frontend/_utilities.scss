@@ -33,35 +33,61 @@
   }
 }
 
+a,
+button,
+input,
+select,
+textarea,
+[tabindex] {
+  &:focus {
+    @include focus-ring();
+  }
+
+  &:focus:not(:focus-visible) {
+    outline: none;
+  }
+
+  &:focus-visible {
+    @include focus-ring();
+  }
+}
+
 /* Screen Reader Only */
 
 .sr-only {
   border: 0;
-  clip: rect(0,0,0,0);
+  clip-path: inset(50%);
   height: 1px;
   margin: -1px;
   overflow: hidden;
   padding: 0;
   position: absolute;
   width: 1px;
+  white-space: nowrap;
 }
 
 .skip-link.sr-only-focusable {
-  &:focus {
-    position: fixed; // Lo blocca sopra tutto il resto
-    top: 10px;
-    left: 10px;
+  &:focus,
+  &:focus-visible {
+    position: fixed;
+    top: 12px;
+    left: 12px;
     z-index: 10000;
     width: auto;
     height: auto;
-    clip: auto;
+    clip-path: none;
+    white-space: normal;
+    overflow: visible;
     margin: 0;
-    padding: 15px 25px;
+    padding: 14px 24px;
     background-color: $colorPrimary;
     color: $colorWhite;
+    font-weight: $fontWeightBold;
+    font-size: 1em;
     text-decoration: none;
-    font-weight: bold;
-    border: 2px solid $colorPrimary;
-    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    border-radius: 0 0 4px 4px;
+    outline: 3px solid $colorWhite;
+    outline-offset: -6px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
   }
 }

@@ -48,7 +48,7 @@ function asideBodyClass() {
 function scrollToAnimate(){
     let $ = jQuery;
     let $header = $('.site-header').height();
-    $('a[href^="#"]').on('click', function(event) {
+    $('a[href^="#"]:not(.skip-link)').on('click', function(event) {
         let target = $(this.getAttribute('href'));
         if( target.length ) {
             event.preventDefault();
@@ -108,14 +108,23 @@ function initCarousels() {
 
     if (windowWidth < 1024) {
       if (!$carousel.hasClass('slick-initialized')) {
+        var i18n     = window.wabootI18n || {};
+        var prevLabel = i18n.prevSlide || 'Diapositiva precedente';
+        var nextLabel = i18n.nextSlide || 'Diapositiva successiva';
+        var slideOf   = i18n.slideOf  || 'Diapositiva %1$s di %2$s';
+
         $carousel.slick({
           infinite: false,
           slidesToShow: 3,
           slidesToScroll: 1,
           arrows: true,
           dots: true,
-          prevArrow: '<button type="button" class="slick-prev" aria-label="Previous slide"><i class="far fa-arrow-left" aria-hidden="true"></i></button>',
-          nextArrow: '<button type="button" class="slick-next" aria-label="Next slide"><i class="far fa-arrow-right" aria-hidden="true"></i></button>',
+          prevArrow: '<button type="button" class="slick-prev" aria-label="' + prevLabel + '"><i class="far fa-arrow-left" aria-hidden="true"></i></button>',
+          nextArrow: '<button type="button" class="slick-next" aria-label="' + nextLabel + '"><i class="far fa-arrow-right" aria-hidden="true"></i></button>',
+          customPaging: function (slider, i) {
+            var label = slideOf.replace('%1$s', i + 1).replace('%2$s', slider.slideCount);
+            return $('<button type="button">').attr('aria-label', label);
+          },
           responsive: [
             {
               breakpoint: 768,

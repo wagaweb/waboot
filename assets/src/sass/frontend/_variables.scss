@@ -13,12 +13,20 @@ $gridGutter: 20px;
 $colorWhite: #FFF;
 $colorSuccess: #00784F;
 $colorWarning: #C4002F;
-$colorGrey: #767676;
+$colorGrey: #595959;
 $colorGreyLight: #f4f4f4;
 $colorGreyDark: #555555;
-$colorPrimary: #2B7A94;
-$colorSecondary: #4A54A8;
+$colorBorder: #767676;
+$colorPrimary: #4F2E80;
+$colorSecondary: #4F2E80;
 $colorText: #000;
+
+$colorFocus: #005FCC;
+
+@mixin focus-ring($color: $colorFocus, $offset: 3px) {
+  outline: 3px solid $color;
+  outline-offset: $offset;
+}
 
 /* Fonts */
 $fontPrimary : 'Montserrat', sans-serif;

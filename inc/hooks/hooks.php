@@ -164,3 +164,10 @@ add_filter( 'map_meta_cap', function( $caps, $cap ) {
     }
     return $caps;
 }, 20, 2 );
+
+add_filter( 'nav_menu_link_attributes', function( $atts, $item ) {
+    if ( $item->current ) {
+        $atts['aria-current'] = 'page';
+    }
+    return $atts;
+}, 10, 2 );

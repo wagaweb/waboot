@@ -8,18 +8,42 @@
 
   li {
     position: relative;
+
     &.menu-item-has-children {
-      > a:after {
-        @extend %fa-icon;
-        @extend .far;
-        content: fa-content($fa-var-angle-down);
-        opacity: .7;
-        margin-left: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+
+      > a {
+        flex-grow: 1;
       }
-      li.menu-item-has-children > a:after {
-        content: fa-content($fa-var-angle-right);
+
+      > .sub-menu {
+        flex-basis: 100%;
       }
     }
+  }
+
+  .submenu-toggle {
+    appearance: none;
+    background: transparent;
+    border: 0;
+    padding: 4px 8px;
+    margin: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: inherit;
+    font-size: 1em;
+    line-height: 1;
+    min-width: 32px;
+    min-height: 32px;
+
+    i {
+      pointer-events: none;
+    }
+
   }
 
   > ul {
@@ -69,30 +93,30 @@
     }
 
     li.is-hovered > .sub-menu {
-        display: block;
-        position: absolute;
-        z-index: 7;
-        padding: 0;
-        margin: 0;
-        background-color: #fff;
-        border: 1px solid rgba(0, 0, 0, .15);
-        background-clip: padding-box;
+      display: block;
+      position: absolute;
+      z-index: 7;
+      padding: 0;
+      margin: 0;
+      background-color: #fff;
+      border: 1px solid rgba(0, 0, 0, .15);
+      background-clip: padding-box;
     }
 
     > li.is-hovered > .sub-menu {
-        top: 100%;
-        right: 0;
-        a {
-            text-align: right;
-        }
+      top: 100%;
+      right: 0;
+      a {
+        text-align: right;
+      }
     }
 
     .sub-menu > li.is-hovered > .sub-menu {
-        top: -1px;
-        left: 100%;
-        a {
-            text-align: left;
-        }
+      top: -1px;
+      left: 100%;
+      a {
+        text-align: left;
+      }
     }
 
     > li:hover > .sub-menu {
@@ -116,84 +140,63 @@
 }
 
 .navigation-mobile {
-  padding: $gridGutter;
-  &__inner {
-    padding: $gridGutter 0;
-    height: 100%;
-    width: 100%;
-    flex-grow: 1;
-    display: grid;
-    grid-template-rows: auto auto 1fr;
-    grid-gap: $gridGutter;
-  }
-
+  background-color: $colorWhite;
   ul {
-    list-style-type: none;
-    overflow-x: hidden;
-    position: absolute;
-    left: 0;
-    top: 0;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    a {
+      color: inherit;
+      padding: 8px 16px;
+      flex: 1;
+      text-align: left;
+      min-height: 48px;
+      display: flex;
+      align-items: center;
+    }
+  }
+  &__inner {
+    background-color: $colorWhite;
     width: 100%;
     height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 0;
-    padding-top: 48px;
-    margin: 0;
-    transition: all .5s ease;
-  }
-
-  li {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-
-    &:first-of-type {
-      margin-top: 48px;
+    display: grid;
+    place-items: center;
+    ul {
+      width: 100%;
     }
-
-    &.is-sibling-hidden {
-      display: none;
-    }
-  }
-
-  a {
-    text-align: left;
-    justify-content: center;
-    padding: $gridGutter/2 $gridGutter;
-    flex-grow: 1;
   }
 
   .sub-menu {
-    left: 100%;
     background-color: #fff;
+    z-index: 1;
+    overflow-y: auto;
+    justify-content: flex-start;
+    height: 100%;
+    position: fixed;
+    inset: 0;
+    transform: translateX(100%);
+    transition: .3s;
+    &.is-open {
+      transform: translateX(0);
+    }
   }
 
+  .sublevel__icon,
   .backlevel__icon {
-    position: absolute;
-    left: 0;
-    top: 0;
-    padding: $gridGutter/2 0 0 $gridGutter;
+    appearance: none;
+    background: none;
+    border: none;
+    cursor: pointer;
     width: 48px;
     height: 48px;
     display: flex;
     align-items: center;
-    font-size: 1.5em;
-    z-index: 20;
-    color: $colorPrimary;
+    justify-content: center;
+    font-size: 18px;
   }
-
-  .sublevel__icon {
-    line-height: 1em;
-    width: 48px;
-    height: 48px;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    padding-right: $gridGutter;
-  }
-
 }

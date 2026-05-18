@@ -46,94 +46,163 @@ export default class {
     }
 
     backOnSubmenu() {
-        $('.navigation-mobile .sub-menu').prepend('<span class="backlevel__icon"><i class="far fa-angle-left"></i></span>');
-        $('.navigation-mobile .menu-item-has-children').append('<span class="sublevel__icon"><i class="far fa-angle-right"></i></span>');
+        const i18n       = window.wabootI18n || {};
+        const backLabel  = i18n.backLevel   || 'Torna al livello precedente';
+        const openSuffix = i18n.openSubmenu || 'apri sottomenu';
+
+        $('.navigation-mobile .sub-menu').prepend(
+            '<button type="button" class="backlevel__icon" aria-label="' + backLabel + '">' +
+            '<i class="far fa-angle-left" aria-hidden="true"></i>' +
+            '</button>'
+        );
+        $('.navigation-mobile .menu-item-has-children').each(function () {
+            const $li       = $(this);
+            const labelText = $li.children('a').clone().children().remove().end().text().trim();
+            $li.append(
+                $('<button>', {
+                    type:            'button',
+                    class:           'sublevel__icon',
+                    'aria-label':    labelText + ': ' + openSuffix,
+                    'aria-expanded': 'false'
+                }).html('<i class="far fa-angle-right" aria-hidden="true"></i>')
+            );
+        });
+
+        // Tutti i sub-menu partono chiusi: rimuovili dal tab order
+        $('.navigation-mobile .sub-menu').find('a, button').attr('tabindex', '-1');
     };
 
     mobileDropdown(el) {
-        $('.navigation-mobile .sub-menu').on('focusin', function() {
-            $(this).addClass('is-open');
-        });
-        if($(el).length > 0) {
-            $(el + ' > .sublevel__icon').on('click', function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                let $target = $(e.currentTarget),
-                    $li = $target.parent(el),
-                    $submenu = $target.prev('.sub-menu');
-                $submenu.css('left', 0).addClass('is-open');
-                $target.siblings('a').attr('aria-expanded', 'true');
-                $li.siblings('li').addClass('is-sibling-hidden');
-            });
+        const $nav = $('.navigation-mobile');
+        if (!$nav.length) return;
 
-            $(el + ' > ul .backlevel__icon').on('click keydown', function(e) {
-                if (e.type === 'keydown' && e.key !== 'Enter' && e.key !== ' ') return;
-                e.preventDefault();
-                e.stopPropagation();
-                let $target = $(e.currentTarget).closest('ul.sub-menu'),
-                    $li = $target.parent(el);
-                $target.css('left', '100%').removeClass('is-open');
-                $li.children('a').attr('aria-expanded', 'false');
-                $li.siblings('li').removeClass('is-sibling-hidden');
-            });
-
-            $('[data-slidein-close]').on('click keydown', function(e) {
-                if (e.type === 'keydown' && e.key !== 'Enter' && e.key !== ' ') return;
-                $('.navigation-mobile .sub-menu').css('left', '100%').removeClass('is-open');
-                $('.navigation-mobile .menu-item-has-children > a').attr('aria-expanded', 'false');
-                $('.navigation-mobile li').removeClass('is-sibling-hidden');
-            });
+        function lockSubmenu($submenu) {
+            $submenu.find('a, button').attr('tabindex', '-1');
         }
+
+        function unlockSubmenu($submenu) {
+            // Backlevel button (figlio diretto del sub-menu)
+            $submenu.children('.backlevel__icon').attr('tabindex', '0');
+            // Link e sublevel button del livello diretto
+            $submenu.children('li').children('a, .sublevel__icon').attr('tabindex', '0');
+            // Sub-menu annidati restano bloccati
+            $submenu.children('li').children('.sub-menu').find('a, button').attr('tabindex', '-1');
+        }
+
+        $nav.on('click', '.sublevel__icon', function (e) {
+            e.stopPropagation();
+            const $btn     = $(this);
+            const $li      = $btn.closest(el);
+            const $submenu = $li.children('.sub-menu');
+            $submenu.addClass('is-open');
+            unlockSubmenu($submenu);
+            $btn.attr('aria-expanded', 'true');
+            $li.siblings('li').addClass('is-sibling-hidden');
+            $submenu.children('.backlevel__icon').trigger('focus');
+        });
+
+        $nav.on('click', '.backlevel__icon', function (e) {
+            e.stopPropagation();
+            const $submenu = $(this).closest('.sub-menu');
+            const $li      = $submenu.closest(el);
+            $submenu.removeClass('is-open');
+            lockSubmenu($submenu);
+            $li.children('.sublevel__icon').attr('aria-expanded', 'false');
+            $li.siblings('li').removeClass('is-sibling-hidden');
+            $li.children('.sublevel__icon').trigger('focus');
+        });
+
+        $nav.on('click', '[data-slidein-close]', function () {
+            $nav.find('.sub-menu').removeClass('is-open').each(function () {
+                $(this).find('a, button').attr('tabindex', '-1');
+            });
+            $nav.find('.sublevel__icon').attr('aria-expanded', 'false');
+            $nav.find('li').removeClass('is-sibling-hidden');
+        });
     }
 
     accessibleSubmenu() {
-        const $items = $('.header__navigation .menu-item-has-children');
+        const $nav = $('.header__navigation');
+        if (!$nav.length) return;
 
-        $items.each(function() {
-            $(this).children('a').attr({
-                'role': 'button',
+        $nav.find('.menu-item-has-children').each(function () {
+            const $li       = $(this);
+            const $a        = $li.children('a');
+            const isNested  = $li.parents('.sub-menu').length > 0;
+            const labelText = $a.clone().children().remove().end().text().trim();
+            const iconClass = isNested ? 'fa-angle-right' : 'fa-angle-down';
+
+            $a.removeAttr('role aria-expanded aria-haspopup tabindex');
+
+            const $btn = $('<button>', {
+                type:           'button',
+                class:          'submenu-toggle',
                 'aria-expanded': 'false',
-                'tabindex': '0'
-            });
-            $(this).find('.sub-menu a').attr('tabindex', '-1');
+                'aria-label':   labelText + ': apri sottomenu'
+            }).html(`<i class="far ${iconClass}" aria-hidden="true"></i>`);
+
+            $a.after($btn);
+
+            $li.children('.sub-menu').find('a, .submenu-toggle').attr('tabindex', '-1');
         });
 
-        $items.on('mouseenter', function() {
-            $(this).addClass('is-hovered');
-            $(this).children('a').attr('aria-expanded', 'true');
-            $(this).children('.sub-menu').addClass('is-open');
+        function openSubmenu($btn) {
+            const $li = $btn.parent();
+            $li.addClass('is-hovered');
+            $btn.attr('aria-expanded', 'true');
+            $li.children('.sub-menu').children('li').find('> a, > .submenu-toggle').attr('tabindex', '0');
+        }
+
+        function closeSubmenu($btn, returnFocus) {
+            const $li = $btn.parent();
+            $li.removeClass('is-hovered');
+            $btn.attr('aria-expanded', 'false');
+            $li.find('.submenu-toggle').attr('aria-expanded', 'false');
+            $li.find('.menu-item-has-children').removeClass('is-hovered');
+            $li.children('.sub-menu').find('a, .submenu-toggle').attr('tabindex', '-1');
+            if (returnFocus) $btn.trigger('focus');
+        }
+
+        $nav.on('click', '.submenu-toggle', function (e) {
+            e.stopPropagation();
+            const $btn   = $(this);
+            const isOpen = $btn.attr('aria-expanded') === 'true';
+
+            $btn.parent().siblings('.menu-item-has-children')
+                .find('> .submenu-toggle[aria-expanded="true"]')
+                .each(function () { closeSubmenu($(this)); });
+
+            isOpen ? closeSubmenu($btn) : openSubmenu($btn);
         });
 
-        $items.on('mouseleave', function() {
-            $(this).removeClass('is-hovered');
-            $(this).children('a').attr('aria-expanded', 'false');
-            $(this).children('.sub-menu').removeClass('is-open');
-        });
-
-        $items.children('a').on('keydown', function(e) {
-            if (e.key !== 'Enter' && e.key !== ' ') return;
+        $nav.on('keydown', '.submenu-toggle, .sub-menu a', function (e) {
+            if (e.key !== 'Escape') return;
             e.preventDefault();
-            const $a = $(this);
-            const $li = $a.parent();
-            const isOpen = $li.hasClass('is-hovered');
-            if (isOpen) {
-                $li.removeClass('is-hovered');
-                $a.attr('aria-expanded', 'false');
-                $li.find('.sub-menu a').attr('tabindex', '-1');
-            } else {
-                $li.addClass('is-hovered');
-                $a.attr('aria-expanded', 'true');
-                $li.children('.sub-menu').find('a').attr('tabindex', '0');
-            }
+            e.stopPropagation();
+            const $btn = $(this).closest('.menu-item-has-children').children('.submenu-toggle');
+            closeSubmenu($btn, true);
         });
 
-        $(document).on('keydown', function(e) {
-            if (e.key === 'Escape') {
-                $items.removeClass('is-hovered');
-                $items.children('a').attr('aria-expanded', 'false');
-                $items.find('.sub-menu a').attr('tabindex', '-1');
-            }
+        $nav.find('.menu-item-has-children').on('focusout', function () {
+            const $li  = $(this);
+            const $btn = $li.children('.submenu-toggle');
+            setTimeout(function () {
+                if (!$li[0].contains(document.activeElement)) {
+                    closeSubmenu($btn);
+                }
+            }, 0);
         });
+
+        $nav.find('.menu-item-has-children')
+            .on('mouseenter', function () {
+                $(this).addClass('is-hovered');
+            })
+            .on('mouseleave', function () {
+                const $li  = $(this);
+                const $btn = $li.children('.submenu-toggle');
+                $li.removeClass('is-hovered');
+                if ($btn.length) closeSubmenu($btn);
+            });
     }
 
     /* Old Dropdown

@@ -13,8 +13,8 @@
                     </div>
                 <?php endif; ?>
                 <p><?php \Waboot\inc\trimmedExcerpt(20, '...'); ?>
-                    <a class="more__link" href="<?php the_permalink() ?>">
-                        <?php _e('Continue reading', LANG_TEXTDOMAIN) ?>
+                    <a class="more__link" href="<?php the_permalink() ?>" aria-label="<?php printf( esc_attr__( 'Continue reading: %s', LANG_TEXTDOMAIN ), the_title_attribute( 'echo=0' ) ); ?>">
+                        <?php _e( 'Continue reading', LANG_TEXTDOMAIN ) ?>
                     </a>
                 </p>
                 <?php do_action( 'waboot/article/list/footer' ); ?>

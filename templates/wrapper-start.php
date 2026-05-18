@@ -1,4 +1,4 @@
-<main role="main" id="main" class="main">
+<main role="main" id="main" class="main" tabindex="-1">
 
     <?php do_action('waboot/layout/main-top'); ?>
 

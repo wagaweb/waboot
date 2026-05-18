@@ -59,11 +59,12 @@ function trimmedExcerpt(int|null $length = null, string|null $more = null, int|n
  * @param string $class
  */
 function theLogo(bool $linked = false, string $class = ''): void {
+    $alt = esc_attr(get_bloginfo('name'));
     if($linked){
-        $tpl = '<a href="%s"><img src="%s" class="'.$class.'" /></a>';
+        $tpl = '<a href="%s"><img src="%s" class="'.$class.'" alt="'.$alt.'" /></a>';
         printf($tpl,home_url( '/' ),getLogo());
     }else{
-        $tpl = '<img src="%s" class="'.$class.'" />';
+        $tpl = '<img src="%s" class="'.$class.'" alt="'.$alt.'" />';
         printf($tpl,getLogo());
     }
 }

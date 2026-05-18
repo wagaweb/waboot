@@ -22,9 +22,17 @@
     text-decoration: none;
   }
 
+  &:focus,
+  &:focus-visible {
+    @include focus-ring();
+  }
+
+  &:focus:not(:focus-visible) {
+    outline: none;
+  }
+
   &:active,
   &.active {
-    outline: 0;
     background-image: none;
   }
 }

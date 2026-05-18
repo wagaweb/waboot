@@ -2,7 +2,6 @@
     background: rgba(255,255,255,1);
     height: 100%;
     position: fixed;
-    overflow: auto;
     transition: transform .3s;
     top: 0;
     width: 100vw;
@@ -25,25 +24,36 @@
       position: fixed;
       top: 0;
       width: 100%;
-      z-index: 99;
+      //z-index: 99;
     }
     &-no-scroll {
       overflow: hidden !important;
     }
   }
 
-  a[data-slidein-close] {
+  [data-slidein-close] {
+    appearance: none;
+    background: transparent;
+    border: 0;
     position: absolute;
-    right: 0;
-    top: 0;
-    padding: $gridGutter/2 $gridGutter 0 0 !important;
+    right: $gridGutter / 2;
+    top: $gridGutter / 2;
     z-index: 20;
-    font-size: 1.5em;
-    cursor: pointer;
-    line-height: 1em;
-    width: 48px;
-    height: 48px;
+    width: 44px;
+    height: 44px;
+    padding: 0;
     display: flex;
     align-items: center;
-    justify-content: flex-end !important;
+    justify-content: center;
+    color: $colorText;
+    font-size: 1.4em;
+    line-height: 1;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.2s ease, color 0.2s ease;
+
+    &:hover {
+      background-color: rgba($colorPrimary, 0.08);
+      color: $colorPrimary;
+    }
   }

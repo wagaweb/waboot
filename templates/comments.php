@@ -17,11 +17,10 @@ if ( post_password_required() )
 		</h2>
 
 		<?php if ( get_comment_pages_count() > 1 && get_option( 'page_comments' ) ) : // are there comments to navigate through ?>
-			<nav id="comment__nav--above" class="comment__navigation" role="navigation">
-				<span class="screen-reader-text"><?php _e( 'Comment navigation', LANG_TEXTDOMAIN ); ?></span>
+			<nav id="comment__nav--above" class="comment__navigation" aria-label="<?php esc_attr_e( 'Navigazione commenti', LANG_TEXTDOMAIN ); ?>">
 				<ul class="pager">
-					<li class="previous"><?php previous_comments_link( __( '&laquo; Older Comments', LANG_TEXTDOMAIN ) ); ?></li>
-					<li class="next"><?php next_comments_link( __( 'Newer Comments &raquo;', LANG_TEXTDOMAIN ) ); ?></li>
+					<li class="previous"><?php previous_comments_link( '<span aria-hidden="true">&laquo;</span> ' . esc_html__( 'Older Comments', LANG_TEXTDOMAIN ) ); ?></li>
+					<li class="next"><?php next_comments_link( esc_html__( 'Newer Comments', LANG_TEXTDOMAIN ) . ' <span aria-hidden="true">&raquo;</span>' ); ?></li>
 				</ul>
 			</nav><!-- #comment-nav-above -->
 		<?php endif; // check for comment navigation ?>
@@ -36,11 +35,10 @@ if ( post_password_required() )
 		</ol><!-- .comment-list -->
 
 		<?php if ( get_comment_pages_count() > 1 && get_option( 'page_comments' ) ) : // are there comments to navigate through ?>
-			<nav id="comment__nav--below" class="comment__navigation" role="navigation">
-				<h1 class="screen-reader-text"><?php _e( 'Comment navigation', LANG_TEXTDOMAIN ); ?></h1>
+			<nav id="comment__nav--below" class="comment__navigation" aria-label="<?php esc_attr_e( 'Navigazione commenti', LANG_TEXTDOMAIN ); ?>">
 				<ul class="pager">
-					<li class="prev__link"><?php previous_comments_link( __( 'Older Comments &raquo;', LANG_TEXTDOMAIN ) ); ?></li>
-					<li class="next__link"><?php next_comments_link( __( '&laquo; Newer Comments', LANG_TEXTDOMAIN ) ); ?></li>
+					<li class="prev__link"><?php previous_comments_link( esc_html__( 'Older Comments', LANG_TEXTDOMAIN ) . ' <span aria-hidden="true">&raquo;</span>' ); ?></li>
+					<li class="next__link"><?php next_comments_link( '<span aria-hidden="true">&laquo;</span> ' . esc_html__( 'Newer Comments', LANG_TEXTDOMAIN ) ); ?></li>
 				</ul>
 			</nav><!-- #comment-nav-below -->
 		<?php endif; ?>
@@ -55,11 +53,12 @@ if ( ! comments_open() && get_comments_number() != 0 && post_type_supports( get_
 
 <?php
 $commentFormArgs = [
-	'comment_field' => '<p class="comment-form-comment"><label for="comment">Comment</label> <textarea id="comment" name="comment" cols="35" rows="12" aria-required="true"></textarea></p>',
+	'comment_notes_before' => '<p class="comment-notes" id="comment-required-note" role="note">' . esc_html__( 'I campi contrassegnati con', LANG_TEXTDOMAIN ) . ' <span aria-hidden="true">*</span> ' . esc_html__( 'sono obbligatori.', LANG_TEXTDOMAIN ) . '</p>',
+	'comment_field' => '<p class="comment-form-comment"><label for="comment">' . esc_html__( 'Comment', LANG_TEXTDOMAIN ) . ' <span class="required" aria-hidden="true">*</span></label> <textarea id="comment" name="comment" cols="35" rows="12" required aria-required="true" aria-describedby="comment-required-note"></textarea></p>',
 	'fields' => [
-		'author' => '<p class="comment-form-author"><label for="author">Name <span class="required">*</span></label> <input class="input-comment-author" id="author" name="author" type="text" value="" size="30" aria-required="true"></p>',
-		'email' => '<p class="comment-form-email"><label for="email">Email <span class="required">*</span></label> <input class="input-comment-email" id="email" name="email" type="text" value="" size="30" aria-required="true"></p>',
-		'url' => '<p class="comment-form-url"><label for="url">Website</label> <input class="input-comment-url" id="url" name="url" type="text" value="" size="30"></p>',
+		'author' => '<p class="comment-form-author"><label for="author">' . esc_html__( 'Name', LANG_TEXTDOMAIN ) . ' <span class="required" aria-hidden="true">*</span></label> <input class="input-comment-author" id="author" name="author" type="text" value="" size="30" required aria-required="true" autocomplete="name" aria-describedby="comment-required-note"></p>',
+		'email'  => '<p class="comment-form-email"><label for="email">' . esc_html__( 'Email', LANG_TEXTDOMAIN ) . ' <span class="required" aria-hidden="true">*</span></label> <input class="input-comment-email" id="email" name="email" type="email" value="" size="30" required aria-required="true" autocomplete="email" aria-describedby="comment-required-note"></p>',
+		'url'    => '<p class="comment-form-url"><label for="url">' . esc_html__( 'Website', LANG_TEXTDOMAIN ) . '</label> <input class="input-comment-url" id="url" name="url" type="url" value="" size="30" autocomplete="url"></p>',
 	],
 	'class_submit' => 'btn'
 ];

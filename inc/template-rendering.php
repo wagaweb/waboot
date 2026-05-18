@@ -47,14 +47,18 @@ function renderPostNavigation($nav_id, $show_pagination = true, $query = false, 
             $base =  str_replace( $big, '%#%', esc_url( get_pagenum_link( $big ) ) );
         }
         $paginate = paginate_links([
-            'base' => $base,
-            'format' => '?'.$paged_var_name.'=%#%',
-            'current' => $current_page ? intval($current_page) : max( 1, intval(get_query_var($paged_var_name)) ),
-            'total' => $query->max_num_pages
+            'base'      => $base,
+            'format'    => '?'.$paged_var_name.'=%#%',
+            'current'   => $current_page ? intval($current_page) : max( 1, intval(get_query_var($paged_var_name)) ),
+            'total'     => $query->max_num_pages,
+            'prev_text' => '<span aria-hidden="true">&laquo;</span><span class="sr-only">' . esc_html__( 'Previous page', LANG_TEXTDOMAIN ) . '</span>',
+            'next_text' => '<span class="sr-only">' . esc_html__( 'Next page', LANG_TEXTDOMAIN ) . '</span><span aria-hidden="true">&raquo;</span>',
         ]);
         $paginate_array = explode("\n",$paginate);
         foreach($paginate_array as $k => $link){
-            $paginate_array[$k] = '<li>' .$link. '</li>';
+            // Aggiunge aria-current="page" alla pagina corrente
+            $link = str_replace('class="page-numbers current"', 'class="page-numbers current" aria-current="page"', $link);
+            $paginate_array[$k] = '<li>' . $link . '</li>';
         }
         $pagination = implode("\n",$paginate_array);
     }else{
@@ -112,35 +116,31 @@ function displayPostGallery() {
             return false;
     }
 
-    echo '<div id="carousel-gallery-format" class="carousel slide" data-ride="carousel">';
-    echo '	<div class="carousel-inner" role="listbox">';
+    printf(
+        '<div id="carousel-gallery-format" class="carousel slide" data-ride="carousel" role="region" aria-label="%s">',
+        esc_attr__( 'Galleria immagini', LANG_TEXTDOMAIN )
+    );
+    echo '<div class="carousel-inner">';
     $i = 0;
     foreach ( $attachments_ids as $attachment_id ) {
-        if($i == 0){
-            printf( '<div class="item active">%s</div>',
-                // esc_url( get_permalink() ),
-                wp_get_attachment_image( $attachment_id, 'medium' )
-            );
-        }else{
-            printf( '<div class="item">%s</div>',
-                // esc_url( get_permalink() ),
-                wp_get_attachment_image( $attachment_id, 'medium' )
-            );
-        }
+        $class = $i === 0 ? 'item active' : 'item';
+        printf( '<div class="%s">%s</div>', $class, wp_get_attachment_image( $attachment_id, 'medium' ) );
         $i++;
     }
-    echo '	</div> <!-- .carousel-inner -->';
-    echo '<!-- Controls -->
-          <a class="left carousel-control" href="#carousel-gallery-format" role="button" data-slide="prev">
+    echo '</div>';
+    printf(
+        '<button type="button" class="left carousel-control" data-slide="prev" aria-label="%1$s">
             <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
-          </a>
-          <a class="right carousel-control" href="#carousel-gallery-format" role="button" data-slide="next">
+            <span class="sr-only">%1$s</span>
+        </button>
+        <button type="button" class="right carousel-control" data-slide="next" aria-label="%2$s">
             <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
-          </a>
-    ';
-    echo '</div> <!-- #carousel-gallery-format -->';
+            <span class="sr-only">%2$s</span>
+        </button>',
+        esc_attr__( 'Immagine precedente', LANG_TEXTDOMAIN ),
+        esc_attr__( 'Immagine successiva', LANG_TEXTDOMAIN )
+    );
+    echo '</div>';
 }
 
 /**

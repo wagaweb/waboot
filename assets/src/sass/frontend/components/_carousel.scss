@@ -81,9 +81,7 @@ div.slick-track {
 
 button.slick-prev,
 button.slick-next,
-button.slick-next:focus,
 button.slick-next:hover,
-button.slick-prev:focus,
 button.slick-prev:hover {
   cursor: pointer;
   background-color: $colorPrimary;
@@ -113,6 +111,18 @@ button.slick-prev:hover {
     font-size: 16px;
     color: $colorWhite;
   }
+}
+
+button.slick-next:focus,
+button.slick-next:focus-visible,
+button.slick-prev:focus,
+button.slick-prev:focus-visible {
+  @include focus-ring($colorWhite, 3px);
+}
+
+button.slick-next:focus:not(:focus-visible),
+button.slick-prev:focus:not(:focus-visible) {
+  outline: none;
 }
 
 button.slick-prev {

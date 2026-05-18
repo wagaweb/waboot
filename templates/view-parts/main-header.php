@@ -12,14 +12,13 @@
 
     </div>
 
-    <a href="javascript:;" class="header__toggle header__link--nav slidein-nav__toggle" data-open-sidenav=".sidenavigation" role="button" aria-label="Menu di navigazione" aria-haspopup="true" aria-expanded="false">
-        <span class="sr-only"><?php _e("Toggle navigation", LANG_TEXTDOMAIN); ?></span>
+    <button type="button" class="header__toggle header__link--nav slidein-nav__toggle" aria-label="<?php esc_attr_e('Apri menu di navigazione', LANG_TEXTDOMAIN); ?>" aria-haspopup="dialog" aria-expanded="false">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
-    </a>
+    </button>
 
-    <div class="header__navigation" role="navigation">
+    <nav class="header__navigation" aria-label="<?php esc_attr_e('Menu principale', LANG_TEXTDOMAIN); ?>">
         <?php wp_nav_menu([
             'theme_location' => 'main',
             'depth' => 0,
@@ -27,6 +26,6 @@
             'container' => false,
             'menu_class' => apply_filters('waboot/navigation/main/class', 'navigation navbar-nav')
         ]); ?>
-    </div>
+    </nav>
 
 </div>

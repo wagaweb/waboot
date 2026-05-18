@@ -7,6 +7,6 @@
 
     <p><?php _e( 'It looks like nothing was found at this location. Maybe try a search or one of the links below?', LANG_TEXTDOMAIN ); ?></p>
     <?php get_search_form(); ?>
-    <p><?php _e( 'Let\'s return to the', LANG_TEXTDOMAIN ); ?> <a href="<?php echo get_site_url(); ?>">Homepage</a> </p>
+    <p><?php _e( 'Let\'s return to the', LANG_TEXTDOMAIN ); ?> <a href="<?php echo esc_url( get_site_url() ); ?>"><?php _e( 'Homepage', LANG_TEXTDOMAIN ); ?></a></p>
 
 </div>

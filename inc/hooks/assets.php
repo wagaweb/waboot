@@ -14,9 +14,17 @@ function assets()
         'uri' => defined('WP_DEBUG') && WP_DEBUG ? get_template_directory_uri() . '/assets/dist/js/main.pkg.js' : get_template_directory_uri() . '/assets/dist/js/main.min.js',
         'path' => defined('WP_DEBUG') && WP_DEBUG ? get_template_directory() . '/assets/dist/js/main.pkg.js' : get_template_directory() . '/assets/dist/js/main.min.js',
         'type' => 'js',
-        // 'deps' => ['jquery','owlcarousel-js','venobox-js'],
         'deps' => ['jquery', 'slickslider-js', 'venobox-js'],
-        //'loading_strategy' => 'defer'
+        'i10n' => [
+            'name'   => 'wabootI18n',
+            'params' => [
+                'openSubmenu' => __( 'apri sottomenu', LANG_TEXTDOMAIN ),
+                'backLevel'   => __( 'Torna al livello precedente', LANG_TEXTDOMAIN ),
+                'prevSlide'   => __( 'Diapositiva precedente', LANG_TEXTDOMAIN ),
+                'nextSlide'   => __( 'Diapositiva successiva', LANG_TEXTDOMAIN ),
+                'slideOf'     => __( 'Diapositiva %1$s di %2$s', LANG_TEXTDOMAIN ),
+            ],
+        ],
     ];
     // $assets['owlcarousel-js'] = [
     //     'uri' => get_template_directory_uri() . '/assets/vendor/owlcarousel/owl.carousel.min.js',

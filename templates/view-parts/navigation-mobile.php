@@ -1,4 +1,4 @@
-<div class="slidein navigation-mobile" data-slidein-nav data-slidein-toggle="#slidein-nav__toggle">
+<div class="slidein navigation-mobile" data-slidein-nav data-slidein-toggle="#slidein-nav__toggle" role="dialog" aria-modal="true" aria-label="<?php esc_attr_e('Menu di navigazione', LANG_TEXTDOMAIN); ?>">
 
     <?php if (\Waboot\inc\getLogo() !== '') : ?>
         <a class="logo--mobile" href="<?php echo home_url('/'); ?>">
@@ -6,18 +6,18 @@
         </a>
     <?php endif; ?>
 
-    <a data-slidein-close="" tabindex="0"><i class="far fa-times"></i></a>
+    <button type="button" data-slidein-close aria-label="<?php esc_attr_e('Chiudi menu', LANG_TEXTDOMAIN); ?>">
+        <i class="far fa-times" aria-hidden="true"></i>
+    </button>
 
-    <div class="navigation-mobile__inner">
-
+    <nav class="navigation-mobile__inner" aria-label="<?php esc_attr_e('Menu di navigazione', LANG_TEXTDOMAIN); ?>">
         <?php wp_nav_menu([
-            'theme_location' => 'main',
-            'depth' => 0,
-            'fallback_cb' => '__return_false',
-            'container' => false,
-            'menu_class' => apply_filters('waboot/navigation/main/class', 'navigation navbar-nav')
+                'theme_location' => 'main',
+                'depth' => 0,
+                'fallback_cb' => '__return_false',
+                'container' => false,
+                'menu_class' => apply_filters('waboot/navigation/main/class', 'navigation navbar-nav')
         ]); ?>
-
-    </div>
+    </nav>
 
 </div>
