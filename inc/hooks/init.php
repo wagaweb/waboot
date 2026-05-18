@@ -113,7 +113,7 @@ function addHealthCheckEndpoint() {
     }, 10, 1);
     add_action("init", static function(){
         add_rewrite_rule("^wphealth$", "index.php?health_check=true", "top");
-        flush_rewrite_rules();
+        //flush_rewrite_rules();
     }, 10);
 }
 addHealthCheckEndpoint();
