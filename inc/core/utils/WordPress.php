@@ -236,6 +236,43 @@ trait WordPress {
             require_once(ABSPATH . 'wp-admin/includes/image.php');
         }
 
+        // 1. Guess dell'estensione e del mime type dalla URL originale
+        $urlPath = parse_url($url, PHP_URL_PATH);
+        $extension = strtolower(pathinfo($urlPath, PATHINFO_EXTENSION));
+
+        // Mappa base per i tipi comuni, estendibile se necessario
+        $mimeMap = [
+                'jpg'  => 'image/jpeg',
+                'jpeg' => 'image/jpeg',
+                'png'  => 'image/png',
+                'gif'  => 'image/gif',
+                'webp' => 'image/webp'
+        ];
+
+        $guessedMime = $mimeMap[$extension] ?? null;
+
+        // 2. Filtro per forzare il riconoscimento del file (utile in CLI)
+        $mimeFilter = function($data, $file, $filename, $mimes) use ($extension, $guessedMime) {
+            if (empty($data['ext']) && $guessedMime) {
+                $data['ext']  = $extension;
+                $data['type'] = $guessedMime;
+            }
+            return $data;
+        };
+
+        // Aggiungiamo i filtri prima di iniziare il processo
+        add_filter('wp_check_filetype_and_ext', $mimeFilter, 10, 4);
+
+        // Permettiamo l'upload non filtrato se siamo in CLI per evitare blocchi sui permessi user
+        if (self::isWPCli()) {
+            add_filter('upload_mimes', function($mimes) use ($extension, $guessedMime) {
+                if ($extension && $guessedMime) {
+                    $mimes[$extension] = $guessedMime;
+                }
+                return $mimes;
+            });
+        }
+
         $tempFile = download_url($url);
         if (is_wp_error($tempFile)) {
             throw new \RuntimeException($tempFile->get_error_message());
@@ -246,7 +283,11 @@ trait WordPress {
             $newTempFile = $pathInfo['dirname'] . DIRECTORY_SEPARATOR . $filename;
             $newPathInfo = pathinfo($newTempFile);
             if (!isset($newPathInfo['extension']) || $newPathInfo['extension'] === '') {
-                $newTempFile .= '.' . $pathInfo['extension'];
+                // Use the extension from the original URL, not from the temp file (.tmp)
+                $ext = $extension ?: ($pathInfo['extension'] ?? '');
+                if ($ext !== '') {
+                    $newTempFile .= '.' . $ext;
+                }
             }
             if (rename($tempFile, $newTempFile)) {
                 $tempFile = $newTempFile;
@@ -278,17 +319,18 @@ trait WordPress {
         if(\is_string($attachmentUrl) && $attachmentUrl !== ''){
             global $wpdb;
             $wpdb->update($wpdb->posts,[
-                'guid' => $attachmentUrl
+                    'guid' => $attachmentUrl
             ],[
-                'ID' => $attachmentId
+                    'ID' => $attachmentId
             ]);
         }
         //Manually generate the sized image
-        $imageMetaData = wp_create_image_subsizes($attachmentUrl,$attachmentId);
+        $imagePath = get_attached_file($attachmentId);
+        $imageMetaData = wp_create_image_subsizes($imagePath, $attachmentId);
         return [
-            'assigned' => $assigned,
-            'full_url' => $attachmentUrl,
-            'subsize_metadata' => $imageMetaData
+                'assigned' => $assigned,
+                'full_url' => $attachmentUrl,
+                'subsize_metadata' => $imageMetaData
         ];
     }
 
