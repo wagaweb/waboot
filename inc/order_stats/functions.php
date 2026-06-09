@@ -8,6 +8,14 @@ use Waboot\inc\core\facades\Query;
 use function Waboot\inc\core\helpers\logException;
 use function Waboot\inc\core\helpers\Waboot;
 
+function orderStatsTableExists(): bool {
+    $statsTableName = getOrderStatsTableName();
+    if(Waboot()->DB()->tableExists($statsTableName)){
+        return true;
+    }
+    return false;
+}
+
 function getOrderStatsTableName(): string {
     return apply_filters('waboot/order_stats/table/table_name', 'orders_stats');
 }

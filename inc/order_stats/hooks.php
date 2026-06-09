@@ -9,6 +9,9 @@ use function Waboot\inc\core\helpers\logException;
 
 add_action('woocommerce_order_status_changed', static function (int $orderId, string $statusFrom, string $statusTo, \WC_Order $order) {
     try {
+        if(!orderStatsTableExists()){
+            return;
+        }
         if(strpos($statusTo,'wc-') === false){
             $statusTo = 'wc-'.$statusTo;
         }
