@@ -11,7 +11,7 @@
     "wagabox:build": "docker exec wagabox-2.0.0 bash -c \"cd /var/www/html/waga/waboot/wp-content/themes/waboot && npm run composer:update\" && npm run assets:build",
     "composer:install": "composer install",
     "composer:update": "composer install && composer update",
-    "build": "npm run composer:update && npm run assets:build",
+    "build": "npm run composer:update && npm run assets:build && npm run catalog:build:prod && npm run checkout:build:prod",
     "assets:build": "node assets/bin/build-assets.mjs",
     "assets:build:watch": "node assets/bin/build-assets.mjs --watch",
     "catalog:build:dev": "cd addons/packages/catalog/assets && npm i && npm run dev",
