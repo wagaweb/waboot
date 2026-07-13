@@ -3,7 +3,7 @@
 namespace Waboot\inc\core;
 
 use Waboot\inc\core\helpers\MonologLoggingLevels;
-use Waboot\inc\core\mvc\HTMLView;
+use Waboot\inc\core\mvc\ViewFactory;
 use Waboot\inc\core\utils\Dates;
 
 class Theme{
@@ -68,16 +68,16 @@ class Theme{
      * @param string $templateFile
      * @param array $vars
      * @param bool $clean
+     * @param bool $pathIsRelative if true, $templateFile is intended to be relative to the theme directory
      */
-    public function renderView(string $templateFile, array $vars = [], bool $clean = false): void
+    public function renderView(string $templateFile, array $vars = [], bool $clean = false, bool $pathIsRelative = true): void
     {
         try{
-            $v = new HTMLView($templateFile);
+            $v = ViewFactory::createHtmlView($templateFile, [], $pathIsRelative);
             if($clean){
-                $v->clean()->display($vars);
-            }else{
-                $v->display($vars);
+                $v->clean();
             }
+            $v->display($vars);
         }catch (\Exception $e){
             echo $e->getMessage();
         }

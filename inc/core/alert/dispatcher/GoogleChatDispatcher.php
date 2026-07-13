@@ -1,6 +1,6 @@
 <?php
 
-namespace waboot\inc\core\alert\dispatcher;
+namespace Waboot\inc\core\alert\dispatcher;
 
 use Waboot\inc\core\alert\AbstractAlertDispatcher;
 use function Waboot\inc\core\helpers\logError;

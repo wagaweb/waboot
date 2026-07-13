@@ -8,7 +8,7 @@ use Waboot\inc\core\mail\MailException;
 use Waboot\inc\core\utils\Dates;
 
 /**
- * @depecated
+ * @deprecated
  */
 class AlertDispatcher
 {

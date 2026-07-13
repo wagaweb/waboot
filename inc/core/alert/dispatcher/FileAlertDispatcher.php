@@ -41,7 +41,7 @@ class FileAlertDispatcher extends AbstractAlertDispatcher
         } catch (\Exception $e) {
             throw new AlertDispatcherException($e->getMessage());
         }
-        $fileName = $now->format('Y-m-d_h-i_').sanitize_title($this->name).'.alerts';
+        $fileName = $now->format('Y-m-d_H-i_').sanitize_title($this->name).'.alerts';
         $filePath = $this->dispatchTo.'/'.$fileName;
         $r = file_put_contents($filePath,$fileContent,FILE_APPEND);
         if($r ===  false){
