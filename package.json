@@ -12,8 +12,8 @@
     "composer:install": "composer install",
     "composer:update": "composer install && composer update",
     "build": "npm run composer:update && npm run assets:build",
-    "assets:build": "npx gulp compile_js && npx gulp compile_css",
-    "assets:build:watch": "npx gulp",
+    "assets:build": "node assets/bin/build-assets.mjs",
+    "assets:build:watch": "node assets/bin/build-assets.mjs --watch",
     "catalog:build:dev": "cd addons/packages/catalog/assets && npm i && npm run dev",
     "catalog:build:prod": "cd addons/packages/catalog/assets && npm i && npm run prod",
     "checkout:build:dev": "cd addons/packages/checkout/assets && npm i && npm run build-dev",
@@ -25,37 +25,13 @@
     "node": ">= 4.4.3"
   },
   "devDependencies": {
-    "@babel/compat-data": "^7.26.8",
-    "@babel/core": "^7.26.10",
-    "@babel/preset-env": "^7.26.9",
     "autoprefixer": "^10.4.21",
-    "babelify": "^10.0.0",
-    "browserify": "^17.0.0",
-    "browserify-shim": "^3.8.16",
+    "browserslist-to-esbuild": "^2.1.1",
+    "chokidar": "^4.0.1",
     "cssnano": "^7.0.6",
-    "gulp": "^5.0.0",
-    "gulp-cli": "^2.3.0",
-    "gulp-copy": "^5.0.0",
-    "gulp-postcss": "^10.0.0",
-    "gulp-rename": "^2.0.0",
-    "gulp-sass": "^6.0.1",
-    "gulp-sourcemaps": "^3.0.0",
-    "gulp-terser": "^2.1.0",
-    "gulp-uglify": "^3.0.2",
-    "merge-stream": "^2.0.0",
-    "sass": "^1.86.3",
-    "vinyl-buffer": "^1.0.1",
-    "vinyl-source-stream": "^2.0.0"
-  },
-  "browserify": {
-    "transform": [
-      "browserify-shim"
-    ]
-  },
-  "browserify-shim": {
-    "jquery": "global:jQuery",
-    "backbone": "global:Backbone",
-    "underscore": "global:_"
+    "esbuild": "^0.24.0",
+    "postcss": "^8.5.3",
+    "sass": "^1.86.3"
   },
   "browserslist": [
     "defaults and fully supports es6-module",
