@@ -1,16 +1,14 @@
-[Zones](#zones) | [Addons](#addons) | [Template system](#template-system) | [Theme Options](#theme-options) | [Roadmap](#roadmap)
+[Zones](#zones) | [Addons](#addons) | [Template system](#template-system)
 
 # Waboot Theme
 
-Waboot is a multipurpose Wordpress theme with focus on speed, usability and modularity; it is aimed mainly to professionals and web agencies.
-
-It's component-based nature allows developers to use only the features they need and helps them to keep the code base organized and easy to maintain.
+Waboot is a Wordpress theme aimed to ecommerce development with WooCommerce. The focus is on on speed, usability and modularity; it is aimed mainly to professionals and web agencies.
 
 ## Building
 
-- `yarn` or `npm install`
 - `composer install`
-- `gulp`
+- `npm install`
+- `npm run assets:build && npm run checkout:build:prod && npm run catalog:build:prod`
  
 ## No more template overriding
 
@@ -71,20 +69,4 @@ In particular:
 
     Views can be found under: `templates/view-parts`.    
     
-<span style="font-size:smaller"><a href="#waboot-theme">Back to top.</a></span>
-
-# Theme Options
-
-Waboot features many predefined options that allow the customization of many aspects of the theme. Child themes can additional enrich them. 
-
-...
-
-<span style="font-size:smaller"><a href="#waboot-theme">Back to top.</a></span>
-
-# Roadmap
-
-**v4.x.x**
-
-- Complete refactoring
-
 <span style="font-size:smaller"><a href="#waboot-theme">Back to top.</a></span>
