@@ -9,6 +9,7 @@
   border: 1px solid transparent;
   white-space: nowrap;
   padding: 10px 15px;
+  font-family: $fontPrimary;
   font-size: 1em;
   line-height: 1.4em;
   -webkit-appearance: none;
@@ -57,7 +58,9 @@
 .button,
 .btn,
 .wp-block-button__link,
-input[type="submit"] {
+input[type="submit"],
+.wc-block-cart__submit-button,
+.wc-block-components-checkout-place-order-button  {
   @include button();
   @include buttonStyle($colorPrimary, #fff, #fff, false);
 }

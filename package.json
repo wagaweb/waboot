@@ -1,15 +1,11 @@
 {
-  "name": "Waboot",
-  "version": "4.0.0",
+  "name": "HipHop Watches",
+  "version": "1.0.0",
   "author": "Waga",
   "homepage": "http://www.waga.it/",
   "repository": {
     "type": "git",
     "url": "https://github.com/wagaweb/waboot"
-  },
-  "license": "GPL-2.0+",
-  "engines": {
-    "node": ">= 4.4.3"
   },
   "scripts": {
     "wagabox:build": "docker exec wagabox-2.0.0 bash -c \"cd /var/www/html/waga/waboot/wp-content/themes/waboot && npm run composer:update\" && npm run assets:build",
@@ -17,28 +13,39 @@
     "composer:update": "composer install && composer update",
     "build": "npm run composer:update && npm run assets:build",
     "assets:build": "npx gulp compile_js && npx gulp compile_css",
-    "assets:build:watch": "npx gulp"
+    "assets:build:watch": "npx gulp",
+    "catalog:build:dev": "cd addons/packages/catalog/assets && npm i && npm run dev",
+    "catalog:build:prod": "cd addons/packages/catalog/assets && npm i && npm run prod",
+    "checkout:build:dev": "cd addons/packages/checkout/assets && npm i && npm run build-dev",
+    "checkout:build:watch": "cd addons/packages/checkout/assets && npm i && npm run build-dev:watch",
+    "checkout:build:prod": "cd addons/packages/checkout/assets && npm i && npm run build"
+  },
+  "license": "GPL-2.0+",
+  "engines": {
+    "node": ">= 4.4.3"
   },
   "devDependencies": {
+    "@babel/compat-data": "^7.26.8",
+    "@babel/core": "^7.26.10",
+    "@babel/preset-env": "^7.26.9",
+    "autoprefixer": "^10.4.21",
     "babelify": "^10.0.0",
-    "@babel/core": "^7.8.7",
-    "@babel/preset-env": "^7.8.7",
-    "@babel/compat-data": "^7.8.7",
-    "autoprefixer": "^8.2.0",
-    "browserify": "^16.5.0",
-    "browserify-shim": "^3.8.0",
-    "cssnano": "^3.5.0",
-    "gulp": "^4.0.0",
-    "gulp-copy": "^1.1.0",
-    "gulp-postcss": "^7.0.0",
-    "gulp-rename": "^1.2.0",
-    "gulp-sass": "^5.0.0",
-    "gulp-sourcemaps": "^2.6.0",
-    "gulp-uglify": "^3.0.0",
-    "merge-stream": "^1.0.0",
-    "vinyl-buffer": "^1.0.0",
-    "vinyl-source-stream": "^2.0.0",
-    "sass": "^1.55.0"
+    "browserify": "^17.0.0",
+    "browserify-shim": "^3.8.16",
+    "cssnano": "^7.0.6",
+    "gulp": "^5.0.0",
+    "gulp-cli": "^2.3.0",
+    "gulp-copy": "^5.0.0",
+    "gulp-postcss": "^10.0.0",
+    "gulp-rename": "^2.0.0",
+    "gulp-sass": "^6.0.1",
+    "gulp-sourcemaps": "^3.0.0",
+    "gulp-terser": "^2.1.0",
+    "gulp-uglify": "^3.0.2",
+    "merge-stream": "^2.0.0",
+    "sass": "^1.86.3",
+    "vinyl-buffer": "^1.0.1",
+    "vinyl-source-stream": "^2.0.0"
   },
   "browserify": {
     "transform": [
@@ -49,5 +56,9 @@
     "jquery": "global:jQuery",
     "backbone": "global:Backbone",
     "underscore": "global:_"
-  }
+  },
+  "browserslist": [
+    "defaults and fully supports es6-module",
+    "maintained node versions"
+  ]
 }

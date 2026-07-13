@@ -29,4 +29,34 @@
         ]); ?>
     </div>
 
+    <div class="header__icons shop__icons">
+
+        <?php if(is_checkout()) : ?>
+
+            <a href="<?php echo wc_get_page_permalink( 'cart' ); ?>"><i class="fal fa-chevron-left"></i> Torna al carrello</a>
+            <!--<a href="<?php // echo wc_get_page_permalink( 'shop' ); ?>"><i class="fal fa-chevron-left"></i> Torna allo shop</a>-->
+
+        <?php else : ?>
+
+            <a href="javascript:;" class="header__link--search slidein-search__toggle" data-open-sidenav=".sidesearch">
+                <i class="fal fa-search"></i>
+            </a>
+            <a href="/my-account">
+                <i class="fal fa-user"></i>
+            </a>
+            <a href="/wishlist">
+                <i class="fal fa-heart"></i>
+            </a>
+
+            <?php if(!is_cart() && !is_checkout()) : ?>
+                <a href="javascript:;" class="minicart-toggle" id="minicart-toggle" data-open-minicart=".minicart">
+                    <span class="minicart__counter" data-cart-items></span>
+                    <i class="fal fa-shopping-bag"></i>
+                </a>
+            <?php endif; ?>
+
+        <?php endif; ?>
+
+    </div>
+
 </div>

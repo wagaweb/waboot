@@ -3,8 +3,8 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: Waboot\n"
-"POT-Creation-Date: 2021-03-23 12:27+0100\n"
-"PO-Revision-Date: 2021-03-23 12:27+0100\n"
+"POT-Creation-Date: 2021-03-22 11:01+0100\n"
+"PO-Revision-Date: 2021-03-18 18:40+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,12 +16,98 @@ msgstr ""
 "X-Poedit-WPHeader: style.css\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
-"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
-"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;"
+"_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.min.js\n"
 "X-Poedit-SearchPathExcluded-1: vendor\n"
 "X-Poedit-SearchPathExcluded-2: node_modules\n"
+
+#: addons/packages/attributes/templates/attributes-size.php:3
+msgid "Size"
+msgstr ""
+
+#: addons/packages/checkout/bootstrap.php:15
+msgid "Apply"
+msgstr ""
+
+#: addons/packages/checkout/bootstrap.php:18
+msgid "Applica"
+msgstr ""
+
+#: addons/packages/checkout/templates/login-step.php:1
+msgid "Login"
+msgstr ""
+
+#: addons/packages/checkout/templates/login-step.php:5
+msgid "Already have an account?"
+msgstr ""
+
+#: addons/packages/checkout/templates/login-step.php:16
+msgid "Is this the first time that you purchase?"
+msgstr ""
+
+#: addons/packages/checkout/templates/thankyou-order-buttons.php:2
+msgid "Go to Homepage"
+msgstr ""
+
+#: addons/packages/checkout/templates/thankyou-order-buttons.php:3
+msgid "Continue Shopping"
+msgstr ""
+
+#: addons/packages/sizeguide/bootstrap.php:13
+#: addons/packages/sizeguide/bootstrap.php:28
+#: addons/packages/sizeguide/bootstrap.php:29
+#: addons/packages/sizeguide/bootstrap.php:30
+msgid "Size Guide"
+msgstr ""
+
+#: addons/packages/sizeguide/bootstrap.php:14
+msgid "Add new Size Guide"
+msgstr ""
+
+#: addons/packages/sizeguide/bootstrap.php:31
+msgid "Add Size Guide"
+msgstr ""
+
+#: addons/packages/sizeguide/bootstrap.php:32
+msgid "Add New Size Guide"
+msgstr ""
+
+#: addons/packages/sizeguide/bootstrap.php:33
+#: templates/view-parts/single-comment.php:4
+#: templates/view-parts/single-comment.php:22
+msgid "Edit"
+msgstr ""
+
+#: addons/packages/sizeguide/bootstrap.php:34
+msgid "Edit Size Guide"
+msgstr ""
+
+#: addons/packages/sizeguide/bootstrap.php:35
+msgid "New Size Guide"
+msgstr ""
+
+#: addons/packages/sizeguide/bootstrap.php:36
+#: addons/packages/sizeguide/bootstrap.php:37
+msgid "View Size Guide"
+msgstr ""
+
+#: addons/packages/sizeguide/bootstrap.php:38
+msgid "Search Size Guides"
+msgstr ""
+
+#: addons/packages/sizeguide/bootstrap.php:39
+msgid "No Size Guide Found"
+msgstr ""
+
+#: addons/packages/sizeguide/bootstrap.php:40
+msgid "No Size Guide Found in Trash"
+msgstr ""
+
+#: addons/packages/sizeguide/bootstrap.php:41
+msgid "Parent Size Guide"
+msgstr ""
 
 #: inc/core/hooks.php:84
 msgctxt "Waboot Template Partials"
@@ -297,13 +383,16 @@ msgctxt "Next post link"
 msgid "&raquo;"
 msgstr ""
 
-#: templates/view-parts/single-comment.php:4
-msgid "Pingback:"
+#: templates/view-parts/sidesearch.php:6
+msgid "Search &hellip;"
+msgstr ""
+
+#: templates/view-parts/sidesearch.php:7
+msgid "Search"
 msgstr ""
 
 #: templates/view-parts/single-comment.php:4
-#: templates/view-parts/single-comment.php:22
-msgid "Edit"
+msgid "Pingback:"
 msgstr ""
 
 #: templates/view-parts/single-comment.php:13

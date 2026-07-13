@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<rss version="2.0" xmlns:g="http://base.google.com/ns/1.0">
+<channel>
+
+<item>
+<g:id>4000086</g:id>
+<title>Illuminating Makeup Mirror</title>
+<description>A ring light mirror with 23 LED strip lights.</description>
+<g:product_type>Tools &gt; Mirrors</g:product_type>
+<g:google_product_category>Health &amp; Beauty &gt; Personal Care &gt; Cosmetics &gt; Cosmetic Tools &gt; Makeup Tools &gt; Face Mirrors</g:google_product_category>
+<link>https://www.example.com/cat/illuminating-makeup-mirror</link>
+<g:image_link>https://www.example.com/media/catalog/product/image.jpg</g:image_link>
+<g:condition>New</g:condition>
+<g:availability>In Stock</g:availability>
+<g:price>14.99 GBP</g:price>
+<sale_price>10.99 GBP</sale_price>
+<g:ean>5050000000000</g:ean>
+<g:mpn>5000000</g:mpn>
+<g:brand>Beauty Mirror</g:brand>
+<g:custom_label_0>Bestseller</g:custom_label_0>
+<g:tax>
+    <g:country>UK</g:country>
+    <g:rate>0</g:rate>
+    <g:tax_ship>n</g:tax_ship>
+</g:tax>
+<g:shipping>
+    <g:country>UK</g:country>
+    <g:price>0 GBP</g:price>
+</g:shipping>
+<g:identifier_exists>FALSE</g:identifier_exists>
+<g:additional_image_link>https://www.example.com/media/catalog/product/image_side.jpg</g:additional_image_link>
+</item>
+
+<item>
+<g:id>4000089</g:id>
+<title>Touch Controlled Makeup Mirror</title>
+<description>Touch controlled makeup mirror with 23 LED strip lights.</description>
+<g:product_type>Tools &gt; Mirrors</g:product_type>
+<g:google_product_category>Health &amp; Beauty &gt; Personal Care &gt; Cosmetics &gt; Cosmetic Tools &gt; Makeup Tools &gt; Face Mirrors</g:google_product_category>
+<link>https://www.example.com/cat/touch-controlled-makeup-mirror</link>
+<g:image_link>https://www.example.com/media/catalog/product/image2.jpg</g:image_link>
+<g:condition>New</g:condition>
+<g:availability>In Stock</g:availability>
+<g:price>35.99 GBP</g:price>
+<g:ean>5050000000001</g:ean>
+<g:mpn>5000001</g:mpn>
+<g:brand>Beauty Mirror</g:brand>
+<g:custom_label_0>Promotion</g:custom_label_0>
+<g:tax>
+    <g:country>UK</g:country>
+    <g:rate>0</g:rate>
+    <g:tax_ship>n</g:tax_ship>
+</g:tax>
+<g:shipping>
+    <g:country>UK</g:country>
+    <g:price>0 GBP</g:price>
+</g:shipping>
+<g:identifier_exists>FALSE</g:identifier_exists>
+</item>
+
+</channel>
+</rss>

@@ -1,0 +1,17 @@
+{
+  "rename_columns": {
+    "meta:_regular_price": "Price",
+    "meta:_sale_price": "Sale Price",
+    "meta:total_sales": "Total sales"
+  },
+  "exclude_columns": [
+    "meta:_stock",
+    "meta:_stock_status"
+  ],
+  "custom_columns": [
+    "images:\\Function\\Name\\With\\Namespace"
+  ],
+  "include_meta": [
+    "total_sales"
+  ]
+}

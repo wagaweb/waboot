@@ -3,13 +3,13 @@
   .woocommerce-MyAccount {
 
     &-navigation {
-      margin-bottom: 30px;
+      margin-bottom: $gridGutter;
       ul {
         list-style-type : none;
         padding         : 0;
       }
       &-link {
-        border-bottom : 1px solid #F3F3F3;
+        border-bottom : 1px solid $colorGreyLight;
         a {
           display : block;
           padding : 10px 0;
@@ -36,7 +36,7 @@
     display         : flex;
     align-items     : center;
     justify-content : space-between;
-    border-bottom   : 1px solid #F3F3F3;
+    border-bottom   : 1px solid $colorGreyLight;
     margin-bottom   : 15px;
     h3 {
       margin: 0;
@@ -70,12 +70,4 @@
     }
   }
 
-}
-
-/* Only for Davi */
-
-.woocommerce-account {
-  .site-content {
-    padding: 0 20px;
-  }
 }

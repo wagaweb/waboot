@@ -1,0 +1,21 @@
+.jvm_add_to_wishlist {
+
+  &_text_add {
+    display: none;
+  }
+
+  &_text_remove {
+    display: none;
+  }
+
+  .single-product & {
+    margin-left: 15px;
+  }
+
+  li.product & {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+  }
+
+}

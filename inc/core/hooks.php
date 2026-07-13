@@ -68,22 +68,22 @@ add_action('waboot/layout/content',__NAMESPACE__.'\\addMainContent');
  * @return array
  */
 function injectTemplates($page_templates, \WP_Theme $theme, $post){
-	$template_directory = get_stylesheet_directory(). '/templates/parts-tpl';
-	$template_directory = apply_filters('waboot/custom_template_parts_directory',$template_directory);
-	$tpls = glob($template_directory. '/content-*.php');
-	foreach ($tpls as $tpl){
-		$basename = basename($tpl);
-		$name = call_user_func(function() use ($basename) {
-			preg_match('/^content-([a-z_-]+)/',$basename,$matches);
-			if(isset($matches[1])){
-				$name = $matches[1];
-			}
-			if(isset($name)) return $name; else return false;
-		});
-		if(!$name) continue;
-		$page_templates[$name] = str_replace('_', ' ',ucfirst($name)). ' ' ._x('(parts)', 'Waboot Template Partials', LANG_TEXTDOMAIN);
-	}
-	return $page_templates;
+    $template_directory = get_stylesheet_directory(). '/templates/parts-tpl';
+    $template_directory = apply_filters('waboot/custom_template_parts_directory',$template_directory);
+    $tpls = glob($template_directory. '/content-*.php');
+    foreach ($tpls as $tpl){
+        $basename = basename($tpl);
+        $name = call_user_func(function() use ($basename) {
+            preg_match('/^content-([a-z_-]+)/',$basename,$matches);
+            if(isset($matches[1])){
+                $name = $matches[1];
+            }
+            if(isset($name)) return $name; else return false;
+        });
+        if(!$name) continue;
+        $page_templates[$name] = str_replace('_', ' ',ucfirst($name)). ' ' ._x('(parts)', 'Waboot Template Partials', LANG_TEXTDOMAIN);
+    }
+    return $page_templates;
 }
 add_filter('theme_page_templates',__NAMESPACE__."\\injectTemplates", 999, 3);
 

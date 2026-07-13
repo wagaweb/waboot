@@ -1,0 +1,82 @@
+{
+  "carts": [
+    {
+      "comment": "Ordine Test 2",
+      "customer_id": 1,
+      "customer": {
+        "billing_first_name": "Test First Name",
+        "billing_last_name" : "Test Last Name",
+        "billing_address_1" : "Test Address 1",
+        "billing_address_2" : "Test Address 2",
+        "billing_city" : "MILANO",
+        "billing_state" : "MI",
+        "billing_postcode" : "20129",
+        "billing_country" : "IT",
+        "billing_email" : "dev@waga.it",
+        "billing_phone" : "123456789",
+        "shipping_first_name" : "Test First Name",
+        "shipping_last_name" : "Test Last Name",
+        "shipping_address_1" : "Test Address 1",
+        "shipping_address_2" : "Test Address 2",
+        "shipping_city" : "MILANO",
+        "shipping_state" : "MI",
+        "shipping_postcode" : "20129",
+        "shipping_country" : "IT"
+      },
+      "items": [
+        {
+          "code": "WH006",
+          "quantity": 1,
+          "type": "line_item"
+        },
+        {
+          "code": "WH009",
+          "quantity": 1,
+          "type": "line_item"
+        },
+        {
+          "code": "MKROLIPTINT02",
+          "quantity": 1,
+          "type": "line_item"
+        },
+        {
+          "code": "WH008",
+          "quantity": 1,
+          "type": "line_item"
+        },
+        {
+          "code": "love20",
+          "quantity": 1,
+          "type": "coupon"
+        }
+      ]
+    },
+    {
+      "comment": "Ordine Test 1",
+      "customer_id": 4091,
+      "payment_method": "paypal",
+      "items": [
+        {
+          "code": "MKMASCS41",
+          "quantity": 1,
+          "type": "line_item"
+        },
+        {
+          "code": "CAMPSB0002",
+          "quantity": 1,
+          "type": "line_item"
+        },
+        {
+          "code": "CAMPSB0001",
+          "quantity": 1,
+          "type": "line_item"
+        },
+        {
+          "code": "MKMASC41",
+          "quantity": 1,
+          "type": "line_item"
+        }
+      ]
+    }
+  ]
+}

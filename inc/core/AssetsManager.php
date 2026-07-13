@@ -108,17 +108,17 @@ class AssetsManager
                 }
             }
             if ($param['type'] === 'js') {
-	            if(version_compare(get_bloginfo('version'),'6.3','>=')){
-		            $scriptArgs = [
-			            'in_footer' => $param['in_footer']
-		            ];
-		            if(\is_string($param['loading_strategy']) && \in_array($param['loading_strategy'],['defer','async'])){
-			            $scriptArgs['strategy'] = $param['loading_strategy'];
-		            }
-		            wp_register_script($name, $param['uri'], $param['deps'], $version, $scriptArgs);
-	            }else{
-		            wp_register_script($name, $param['uri'], $param['deps'], $version, $param['in_footer']);
-	            }
+                if(version_compare(get_bloginfo('version'),'6.3','>=')){
+                    $scriptArgs = [
+                        'in_footer' => $param['in_footer']
+                    ];
+                    if(\is_string($param['loading_strategy']) && \in_array($param['loading_strategy'],['defer','async'])){
+                        $scriptArgs['strategy'] = $param['loading_strategy'];
+                    }
+                    wp_register_script($name, $param['uri'], $param['deps'], $version, $scriptArgs);
+                }else{
+                    wp_register_script($name, $param['uri'], $param['deps'], $version, $param['in_footer']);
+                }
             } elseif ($param['type'] === 'css') {
                 wp_register_style($name, $param['uri'], $param['deps'], $version, $param['media']);
             } else {

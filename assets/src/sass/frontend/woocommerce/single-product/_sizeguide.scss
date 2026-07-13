@@ -1,0 +1,29 @@
+.sizes-modal {
+  .wp-block-table {
+    margin-bottom: 20px;
+    &:last-child {
+      margin-bottom: 0;
+    }
+    table {
+      padding: 0;
+      border: none;
+      th {
+        background-color: $colorText;
+        color: $colorWhite;
+      }
+      td {
+        padding: 10px;
+        border: none;
+      }
+    }
+  }
+}
+.product__buttons--sizeguide {
+  width: 100%;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  .sizeguide__toggle {
+    cursor: pointer;
+    display: block;
+  }
+}

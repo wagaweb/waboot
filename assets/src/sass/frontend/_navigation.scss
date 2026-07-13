@@ -87,13 +87,13 @@
 .navigation-mobile {
   padding: $gridGutter;
   &__inner {
-    padding: $gridGutter 0;
+    //padding: $gridGutter 0;
     height: 100%;
     width: 100%;
     flex-grow: 1;
-    display: grid;
-    grid-template-rows: auto auto 1fr;
-    grid-gap: $gridGutter;
+    //display: grid;
+    //grid-template-rows: auto auto 1fr;
+    //grid-gap: $gridGutter;
   }
 
   ul {
@@ -106,8 +106,8 @@
     height: 100%;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    //align-items: center;
+    //justify-content: center;
     padding: 0;
     margin: 0;
     transition: all .5s ease;
@@ -123,27 +123,30 @@
   a {
     text-align: left;
     justify-content: center;
-    padding: $gridGutter/2 $gridGutter;
+    padding: calc(#{$gridGutter}/2) $gridGutter;
     flex-grow: 1;
   }
 
   .sub-menu {
     left: 100%;
     background-color: #fff;
+    overflow-y: auto;
+    z-index: 10;
   }
 
   .backlevel__icon {
-    position: absolute;
-    left: 0;
-    top: 0;
-    padding: $gridGutter/2 0 0 $gridGutter;
+    //position: absolute;
+    //left: 0;
+    //top: 0;
+    padding: 0 0 0 $gridGutter;
     width: 48px;
     height: 48px;
     display: flex;
     align-items: center;
     font-size: 1.5em;
-    z-index: 20;
+    z-index: 10;
     color: $colorPrimary;
+    position: relative;
   }
 
   .sublevel__icon {

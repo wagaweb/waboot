@@ -1,0 +1,90 @@
+/* Stars in Form */
+p.stars {
+  margin: 0;
+  span {
+    display: flex;
+    margin-left: -5px;
+  }
+  a {
+    //transition: color 350ms;
+    position: relative;
+    font-size: 0;
+    display: inline-block;
+    padding: 0 5px;
+    &:before {
+      font-size: initial;
+      @extend %fa-icon;
+      @extend .fal;
+      content: fa-content($fa-var-star);
+      color: $colorText;
+    }
+  }
+  &.selected,
+  &:hover {
+    a:before {
+      @extend %fa-icon;
+      @extend .fas;
+      content: fa-content($fa-var-star);
+      color: $colorSecondary;
+    }
+    a:hover ~ a:before,
+    a.active ~ a:before {
+      @extend %fa-icon;
+      @extend .fal;
+      content: fa-content($fa-var-star);
+      color: $colorText;
+    }
+  }
+}
+
+/* Rating Average in Single Product */
+.woocommerce-product-rating {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  i.fas {
+    color: $colorSecondary;
+  }
+}
+
+/* User Reviews */
+.woocommerce-Reviews {
+  @include up($large){
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    > div {
+      width: 46%;
+      flex: 0 0 46%;
+    }
+    .clear {
+      display: none;
+    }
+  }
+  .comment-reply-title {
+    text-transform: uppercase;
+    font-weight: $fontWeightBold;
+    margin-bottom: 15px;
+    display: block;
+  }
+  .star-rating {
+    i.fas {
+      color: $colorSecondary;
+    }
+  }
+}
+
+ol.commentlist {
+  padding: 0;
+  list-style-type: none;
+  li {
+    border-bottom: 1px solid $colorGreyLight;
+    margin-bottom: 20px;
+    img.avatar {
+      display: none;
+    }
+    p.meta {
+      margin: 5px 0;
+    }
+  }
+}

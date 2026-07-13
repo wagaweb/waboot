@@ -30,6 +30,7 @@ function widgetArea(string $areaId){
  * @param $prefix
  * @param $suffix
  * @param $title
+ * @return void
  * @param \WP_Post|null $post
  */
 function wrappedTitle($prefix,$suffix,$title,\WP_Post|null $post = null): void {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Waboot\inc\cli;
+namespace waboot\inc\cli;
 
 use Waboot\inc\core\cli\AbstractCommand;
 use Waboot\inc\core\cli\CLIRuntimeException;

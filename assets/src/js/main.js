@@ -1,30 +1,46 @@
-import Header from './frontend/header';
+import $ from 'jquery';
+import {initHeader} from './frontend/header';
 import { Slidein } from "./frontend/slidein.js";
+import Cart from './frontend/cart.js';
+import MiniCart from './frontend/minicart.js';
+import {initCustomCheckoutActions} from './frontend/checkout.js';
+import {alterAttributesView} from './frontend/attributes.js';
+import {enableProductGallery} from './frontend/productGallery.js';
+import {initEuVat} from "./frontend/checkout/invoicing";
+import {initCustomerCareModal} from "./frontend/modal.js";
+import {isCartPage, isCheckOutPage, isSingleProductPage} from "./utils/wp";
 
-jQuery.fn.slidein = function (options) {
+$.fn.slidein = function (options) {
     return this.each(function () {
-        if (!jQuery.data(this, "slidein")) {
-            jQuery.data(this, "slidein", new Slidein(this, options));
+        if (!$.data(this, "slidein")) {
+            $.data(this, "slidein", new Slidein(this, options));
         }
     });
 };
 
-jQuery(document).ready(function($) {
-    "use strict";
+$(window).on('load',function(){
+    if(isSingleProductPage()) {
+        enableProductGallery();
+    }
+    if (window.matchMedia('(max-width: 991px)').matches) {
+        slideinHeight();
+    }
+});
 
-    new Header('.menu-item-has-children');
+$(document).ready(function() {
+    initHeader('.menu-item-has-children');
+    initCustomerCareModal();
 
     asideBodyClass();
     scrollToAnimate();
-
-    $(window).on("load",function(){
-        if (window.matchMedia('(max-width: 991px)').matches) {
-
-        }
-    });
+    initCarousel();
 
     $("[data-slidein-nav]").slidein({
         toggler: ".slidein-nav__toggle",
+    });
+
+    $("[data-slidein-search]").slidein({
+        toggler: ".slidein-search__toggle",
     });
 
     $("a").each(function(){
@@ -34,19 +50,54 @@ jQuery(document).ready(function($) {
         }
     });
     $('.venobox').venobox();
+    venoboxCarouselGutenbergGallery();
+
+    //new CatalogFilters();
+
+    // WooCommerce Addon Start
+
+    let $sitecart = $('[data-minicart]');
+    if ($sitecart.length > 0) {
+        new MiniCart();
+    }
+
+    if(isCartPage()) {
+        new Cart();
+    }
+
+    if(isCheckOutPage()) {
+        initCustomCheckoutActions();
+        initEuVat();
+    }
+
+    if(isSingleProductPage()) {
+        alterAttributesView();
+        $('form.bundle_form').attr('action','?addedProduct=true');
+        printSalePercentage('p.price');
+        $('.single_variation_wrap').on('show_variation', (e, v) => {
+            const price = $('.woocommerce-variation-price .price');
+            if (price.length > 0) {
+                $('p.price').replaceWith(
+                    `<p class="price">${price.html()}</p>`
+                );
+                price.remove();
+                printSalePercentage('p.price');
+            }
+        });
+    }
+
+    // WooCommerce Addon End
 
 });
 
 function asideBodyClass() {
-    let $ = jQuery;
     if($('.main__aside').length > 0) {
         $('body').addClass('with-sidebar');
     }
 }
 
 function scrollToAnimate(){
-    let $ = jQuery;
-    let $header = $('.site-header').height();
+    let $header = $('.header').height();
     $('a[href^="#"]').on('click', function(event) {
         let target = $(this.getAttribute('href'));
         if( target.length ) {
@@ -54,6 +105,152 @@ function scrollToAnimate(){
             $('html, body').stop().animate({
                 scrollTop: target.offset().top - $header
             }, 1000);
+        }
+    });
+}
+
+function slideinHeight(){
+    let $ = jQuery;
+    let headerHeight = $('header').outerHeight();
+    $('.slidein').css({ 'height': 'calc(100% - ' + headerHeight+ 'px)' });
+    $('.slidein').css('top',headerHeight);
+}
+
+function initCarousel() {
+    let $ = jQuery;
+    $('.block__carousel--1 .wp-block-group__inner-container').addClass('block__carousel owl-carousel').owlCarousel({
+        items: 1,
+        autoplay:true,
+        loop: true,
+        autoHeight: true,
+        nav: true,
+        navText: ['<i class="fas fa-chevron-left"></i>','<i class="fas fa-chevron-right"></i>']
+    })
+    $('.wp-block-gallery.block__carousel--1').wrapInner('<div class="blocks-gallery-grid"></div>');
+    $('.wp-block-gallery.block__carousel--2').wrapInner('<div class="blocks-gallery-grid"></div>');
+    $('.wp-block-gallery.block__carousel--3').wrapInner('<div class="blocks-gallery-grid"></div>');
+    $('.wp-block-gallery.block__carousel--4').wrapInner('<div class="blocks-gallery-grid"></div>');
+    $('.wp-block-gallery.block__carousel--5').wrapInner('<div class="blocks-gallery-grid"></div>');
+
+    $('.block__carousel--1 > .blocks-gallery-grid').addClass('block__carousel owl-carousel').owlCarousel({
+        items: 1,
+        autoplay:true,
+        loop: true,
+        autoHeight: true,
+        dots:false,
+        nav: false,
+        0 : {
+            nav: false,
+        },
+        768 : {
+            nav: true,
+        }
+    })
+    $('.block__carousel--2 > .blocks-gallery-grid').addClass('block__carousel owl-carousel').owlCarousel({
+        autoplay:true,
+        loop: true,
+        dots:false,
+        nav: true,
+        navText: ['<i class="fas fa-chevron-left"></i>','<i class="fas fa-chevron-right"></i>'],
+        responsive : {
+            0 : {
+                items: 1,
+            },
+            768 : {
+                items: 2,
+                margin: 30
+            }
+        }
+    })
+    $('.block__carousel--3 > .blocks-gallery-grid').addClass('block__carousel owl-carousel').owlCarousel({
+        autoplay:true,
+        loop: true,
+        dots:false,
+        nav: true,
+        navText: ['<i class="fas fa-chevron-left"></i>','<i class="fas fa-chevron-right"></i>'],
+        responsive : {
+            0 : {
+                items: 1,
+            },
+            768 : {
+                items: 3,
+                margin: 30
+            }
+        }
+    })
+    $('.block__carousel--4 > .blocks-gallery-grid').addClass('block__carousel owl-carousel').owlCarousel({
+        autoplay:true,
+        loop: true,
+        dots:false,
+        nav: true,
+        navText: ['<i class="fas fa-chevron-left"></i>','<i class="fas fa-chevron-right"></i>'],
+        responsive : {
+            0 : {
+                items: 1,
+            },
+            768 : {
+                items: 4,
+                margin: 30
+            }
+        }
+    })
+    $('.block__carousel--5 > .blocks-gallery-grid').addClass('block__carousel owl-carousel').owlCarousel({
+        autoplay:true,
+        loop: true,
+        dots:false,
+        nav: true,
+        navText: ['<i class="fas fa-chevron-left"></i>','<i class="fas fa-chevron-right"></i>'],
+        responsive : {
+            0 : {
+                items: 1,
+            },
+            768 : {
+                items: 5,
+                margin: 30
+            }
+        }
+    })
+}
+
+function venoboxCarouselGutenbergGallery() {
+    let $ = jQuery;
+    var pageGallery = 1;
+    $(".wp-block-gallery").each(function() {
+        $(this).find('figure a').attr('data-gall', 'venobox-gallery-'+pageGallery);
+        pageGallery++;
+    });
+}
+
+function printSalePercentage(selector) {
+    $(selector).each(function () {
+        const $price = $(this);
+        const regular = Number(
+            $price
+                .find('del bdi')
+                .clone()
+                .children()
+                .remove()
+                .end()
+                .text()
+                .replace(',', '.')
+        );
+        const current = Number(
+            $price
+                .find('ins bdi')
+                .clone()
+                .children()
+                .remove()
+                .end()
+                .text()
+                .replace(',', '.')
+        );
+        if (regular > 0 && !Number.isNaN(current)) {
+            const percentage = 100 - (current * 100) / regular;
+            $price.append(
+                '<span class="sale-percentage">-' +
+                Math.round(percentage) +
+                '%</span>'
+            );
         }
     });
 }
