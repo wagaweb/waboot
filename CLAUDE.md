@@ -1,6 +1,6 @@
 # Waboot Theme — Notes for Claude Code
 
-Waboot is a WordPress theme for WooCommerce-based ecommerce sites, focused on speed, usability and modularity. See `readme.md` for the general overview (addons, build commands). This file documents the **template system**, the **addons system**, the **database layer**, **logging**, the **view rendering system**, the **mail system** and the **alert system** in implementation detail — exact files, functions, hooks and fallback chains — as verified against the actual code.
+Waboot is a WordPress theme for WooCommerce-based ecommerce sites, focused on speed, usability and modularity. See `readme.md` for the general overview (addons, build commands). This file documents the **build systems**, the **template system**, the **addons system**, the **database layer**, **logging**, the **view rendering system**, the **mail system** and the **alert system** in implementation detail — exact files, functions, hooks and fallback chains — as verified against the actual code.
 
 For general coding guidelines (project structure conventions, coding principles, folder responsibilities) see [`.github/copilot-instructions.md`](./.github/copilot-instructions.md) — follow those when writing or modifying code in this theme.
 
@@ -11,6 +11,72 @@ composer install
 npm install
 npm run assets:build && npm run checkout:build:prod && npm run catalog:build:prod
 ```
+
+There are **three independent build systems** in this repo — the main theme's own assets, and two addons (`checkout`, `catalog`) that each bundle their own frontend app. They use different tools, have separate `node_modules`/lockfiles, and produce output consumed by PHP in different ways (fixed filenames vs. glob-discovered hashed filenames). See "Build systems in detail" below for each one.
+
+## Build systems in detail
+
+### 1. Main theme assets — `assets/bin/build-assets.mjs` (esbuild + sass/postcss)
+
+Root `package.json` scripts: `"assets:build": "node assets/bin/build-assets.mjs"` and `"assets:build:watch": "node assets/bin/build-assets.mjs --watch"`.
+
+This replaced a Gulp + Browserify + Babelify + gulp-terser pipeline (the old `gulpfile.js`, removed) with a single, hand-written Node ESM script that calls esbuild and the `sass`/`postcss` JS APIs directly — no task runner. It has no CLI flags beyond `--watch`; everything else is hardcoded in `PATHS`/`commonJsOptions` inside the script.
+
+**Why it looks the way it does — output filenames are load-bearing.** `inc/hooks/assets.php` hardcodes the exact output paths with no manifest/content-hash lookup, so the build script must keep producing these exact files:
+- `assets/dist/js/main.pkg.js` — unminified JS bundle, inline sourcemap. Enqueued only when `WP_DEBUG` is true (`assets.php:13-14`).
+- `assets/dist/js/main.min.js` (+ `main.min.js.map`) — minified JS bundle, external sourcemap. Enqueued when `WP_DEBUG` is false.
+- `assets/dist/css/main.min.css` (+ `.map`) — always enqueued as `main-style` (`assets.php:38-39`).
+- `assets/dist/css/gutenberg.min.css` — loaded into the block editor via `add_editor_style()` (`assets.php:69`). **This one file is actually committed to git** (`git ls-files assets/dist/` confirms it, unlike every other `assets/dist/*` path, which `.gitignore` excludes) — if you change `assets/src/sass/backend/gutenberg.scss`, remember to rebuild *and commit* this file, or the repo's copy silently drifts out of sync with the source (this already happened once before the esbuild migration).
+
+**JS pipeline** (`buildJsDev()`/`buildJsProd()` in `build-assets.mjs`): a single esbuild entry point (`assets/src/js/main.js`, `bundle: true`, `format: 'iife'`) built twice — once unminified with `sourcemap: 'inline'` → `main.pkg.js`, once minified with `sourcemap: true` → `main.min.js`. `format: 'iife'` is required because WordPress enqueues this as a classic `<script>` (no `type="module"`); an ESM bundle would silently fail to execute.
+
+**The jQuery alias — read this before touching JS deps.** `main.js` and 7 other files under `assets/src/js/` do `import $ from 'jquery'`; a handful of others (`cart.js`, `slidein.js`, `catalogFilters.js`) instead assume a bare global `let $ = jQuery`. **The real `jquery` npm package is not actually installed** — it never needs to be, because `commonJsOptions.alias` (`build-assets.mjs`) maps `jquery` → `assets/bin/jquery-global-shim.js`, a one-line module that does `export default window.jQuery`. This reproduces what the old Browserify build did via a `browserify-shim` config (`"jquery": "global:jQuery"`, now removed from `package.json`). Do **not** remove the alias or add `jquery` as a real devDependency: WordPress enqueues its own `jquery` handle as a dependency of `main-js` (`assets.php:22`), and jQuery plugins used here (`owlCarousel`, `venobox`) attach themselves to that global instance — bundling a second, separate copy of jQuery would silently break them (two different `$` instances on the page).
+
+**CSS pipeline** (`compileSassEntry()`): for each of `assets/src/sass/main.scss` → `main.min.css` and `assets/src/sass/backend/gutenberg.scss` → `gutenberg.min.css`: `sass.compile()` (dart-sass, `style: 'expanded'`) → `postcss([autoprefixer(), cssnano({zindex: false})])`. Autoprefixer's targets, and esbuild's JS `target` (via the `browserslist-to-esbuild` package, replacing what `@babel/preset-env` used to do), both come from the **same** `browserslist` field in `package.json` — kept as one source of truth for both pipelines.
+
+**Watch mode gotcha.** `chokidar` (v4) **dropped glob-string support** — `chokidar.watch('assets/src/sass/**/*.scss')` silently watches nothing (no error, no files). `build-assets.mjs` watches the whole `assets/src/sass` directory instead and filters to `.scss` paths inside the event handler (`watchMode()`, see the comment above the `chokidar.watch(...)` call). If you ever touch the watch logic, don't reintroduce a glob string — test it, since the failure mode is silent (watch mode starts fine, logs "Watching...", and simply never rebuilds CSS).
+
+Dead/no-longer-needed npm scripts and config removed as part of the esbuild migration: the `"browserify"`/`"browserify-shim"` blocks in `package.json`, and all `gulp*`/`browserify*`/`babel*`/`vinyl-*`/`merge-stream` devDependencies.
+
+### 2. Checkout addon — Vite + Vue 3 SPA (`addons/packages/checkout/assets/`)
+
+Separate `node_modules`/`package-lock.json` from the theme root. Root scripts: `checkout:build:dev`, `checkout:build:watch`, `checkout:build:prod` (`package.json:19-21`) — each does `cd addons/packages/checkout/assets && npm i && npm run <script>`, so the addon's own deps get (re)installed every time these are run.
+
+Addon-local scripts (`addons/packages/checkout/assets/package.json`): `dev`, `build: "vue-tsc -b && vite build"`, `build-dev: "vue-tsc -b && vite build --mode development"`, `build-dev:watch: "vue-tsc -b && vite build --mode development --watch"`. Type-checking (`vue-tsc -b`) always runs before the Vite build, even in dev.
+
+Single entry point: `index.html` → `src/main.ts`, a full Vue 3 SPA (11 `.vue` SFCs under `src/components/`, including the recently added `BillingDataStep.vue`/`ShippingDataStep.vue`). `vite.config.ts` uses the `@vitejs/plugin-vue` plugin, `build.assetsDir: '.'` (flattens output instead of nesting under an `assets/` subfolder), `build.sourcemap: 'inline'`, and a `@` → `./src` resolve alias. No `manifest.json` is generated. `vite.config.ts` has commented-out `inject`/`rollupOptions.external` config for `jquery` — it's unused leftover, not a gap: components that need jQuery (`AddressesForm.vue`, `Pay.vue`, `OrderReview.vue`, `stores/checkoutData.ts`) read `window.jQuery` directly rather than `import`ing the `jquery` package, so there's nothing for Vite to alias/externalize in the first place. `jquery` is still listed in `package.json` dependencies but isn't actually imported anywhere.
+
+**Output filenames are content-hashed** (Vite's default), e.g. `dist/index-SZ2YHUa4.js` / `dist/index-zAOh1Wmt.css` — unlike the main theme and the catalog addon, there is no fixed name to hardcode. PHP handles this by **globbing** at request time (`addons/packages/checkout/hooks/hooks.php:14-15,63`):
+```php
+$jsFiles = glob($assetsDir.'/index-*.js');
+$mainJsFilePath = array_shift($jsFiles); // assumes exactly one match
+```
+If a build ever leaves more than one `index-*.js`/`index-*.css` in `dist/` (e.g. a stale file from a previous hash not cleaned up), this silently picks whichever `glob()` returns first — clean the `dist/` directory before rebuilding if that's a concern. The discovered script is forced to `type="module"` via a `script_loader_tag` filter keyed on the `step-checkout-main-js` handle (`hooks.php:80-86`), since Vite's output is an ES module. A second, non-bundled helper (`order-review-manager.js`) is enqueued by fixed path alongside it (`hooks.php:57-62`) — it isn't part of the Vite build at all.
+
+### 3. Catalog addon — Webpack 5 + Vue 3 + TypeScript (`addons/packages/catalog/assets/`)
+
+Also its own separate `node_modules`/lockfile. Root scripts: `catalog:build:dev` / `catalog:build:prod` (`package.json:17-18`), same `cd ... && npm i && npm run <script>` pattern. Addon-local scripts (`assets/package.json:7-8`): `dev: "webpack"`, `prod: "webpack --env prod"`.
+
+Single entry `src/main.ts` (`webpack.config.js:10`), Vue SFCs via `vue-loader`/`@vue/compiler-sfc`, TS via `ts-loader`, CSS/Sass extracted via `MiniCssExtractPlugin`. `jquery` (and two globals, `gtag`, `JVMWooCommerceWishlist`) are marked `externals` (`webpack.config.js:21-25`) — same "don't bundle a second jQuery" concern as the main theme, solved via Webpack's native `externals` instead of an alias-to-shim.
+
+**Output filenames are fixed, not hashed** — `env.prod` picks between them (`webpack.config.js:12,57`): `catalog.js`/`catalog.css` (dev) vs `catalog.min.js`/`catalog.min.css` (prod), both written to `dist/` (dev and prod artifacts can coexist there; nothing cleans one when building the other). Because names are fixed, PHP just branches on `SCRIPT_DEBUG` instead of globbing (`addons/packages/catalog/bootstrap.php:14-36`):
+```php
+'uri' => defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ?
+    getAddonDirectoryURI('catalog') . '/assets/dist/catalog.js' :
+    getAddonDirectoryURI('catalog') . '/assets/dist/catalog.min.js',
+```
+Assets are registered through `AssetsManager`, filterable via `apply_filters('catalog_addon_assets', $assets)` (`bootstrap.php:37`). Note: `catalog-style`'s `path` key (`bootstrap.php:32-33`) points at `catalog.js`/`catalog.min.js` instead of the `.css` file — a pre-existing copy/paste bug in the asset definition array (the `uri` key, which is what actually gets `<link>`-ed, is correct; only the secondary `path` value is wrong).
+
+### 4. Comparison at a glance
+
+| | Main theme | Checkout addon | Catalog addon |
+|---|---|---|---|
+| Tool | esbuild + sass/postcss (custom script) | Vite 6 | Webpack 5 |
+| UI framework | none (plain JS) | Vue 3 (SPA) | Vue 3 + TypeScript |
+| Output filenames | fixed | content-hashed | fixed |
+| PHP asset discovery | hardcoded paths, `WP_DEBUG` branch | `glob()` at request time | hardcoded paths, `SCRIPT_DEBUG` branch |
+| jQuery handling | esbuild `alias` → shim module | not needed — code reads `window.jQuery` directly, never `import`s it (the commented-out `inject`/`external` config in `vite.config.ts` is unused leftover) | Webpack `externals` |
+| `node_modules`/lockfile | theme root | own (`addons/packages/checkout/assets/`) | own (`addons/packages/catalog/assets/`) |
 
 ## Template system — how it actually works
 
