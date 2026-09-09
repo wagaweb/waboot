@@ -169,7 +169,10 @@ class GenerateGShoppingFeed extends AbstractGenerateFeeds
         $size = $product->get_attribute('size');
         $availability = $product->is_in_stock() ? 'in_stock' : 'out_of_stock';
         $availability = apply_filters('wawoo/cli/genfeeds/generate_record/availability', $availability, $product, $parentProduct);
-        $gProductCat = htmlentities(getHierarchicalCustomFieldFromProduct($product,'_gshopping_product_category',$this->defaultProductCategory));
+        // I valori vanno passati grezzi: \Spatie\ArrayToXml\ArrayToXml applica gia' l'escape XML
+        // una volta sola in generateXML(). Un escape qui lo raddoppierebbe, e il consumatore
+        // del feed leggerebbe le entita' come testo ("Apparel &amp; Accessories").
+        $gProductCat = getHierarchicalCustomFieldFromProduct($product,'_gshopping_product_category',$this->defaultProductCategory);
         $gProductCat = apply_filters('wawoo/cli/genfeeds/generate_record/google_product_cat', $gProductCat, $product, $parentProduct);
         $shippingLabel = getHierarchicalCustomFieldFromProduct($product,'_gshopping_shipping_label',$this->defaultProductShippingLabel);
         $shippingLabel = apply_filters('wawoo/cli/genfeeds/generate_record/shipping_label', $shippingLabel, $product, $parentProduct);
@@ -194,8 +197,8 @@ class GenerateGShoppingFeed extends AbstractGenerateFeeds
             'price' => $price,
             'link' => $permalink,
             'brand' => $brand,
-            'google_product_category' => htmlentities($gProductCat),
-            'product_type' => htmlentities($categories),
+            'google_product_category' => $gProductCat,
+            'product_type' => $categories,
             'shipping_label' => $shippingLabel,
             'imgs' => getProductImagesSrc($product),
         ];
