@@ -32,27 +32,41 @@ require_once get_stylesheet_directory().'/inc/cli/feeds/GenerateTikTokFeed.php';
 //    require_once get_stylesheet_directory().'/inc/cli/product_import/waga-woocommerce-csv-cli-importer/src/index.php';
 //}
 
+/**
+ * Directory pubblica dei feed prodotto.
+ *
+ * E' l'unica dichiarazione del percorso: la usano sia il filtro che decide dove i comandi
+ * scrivono l'XML, sia le voci registrate con registerFeed() che la pagina
+ * Strumenti -> WaWoo Feeds mostra agli operatori. Google, Meta, Pinterest e TikTok leggono
+ * quegli URL, quindi scrittura e URL pubblicizzato non possono divergere.
+ */
+const FEEDS_DIR_PATH = WP_CONTENT_DIR . '/wb-feeds';
+
+add_filter('wawoo/cli/genfeeds/output_dir_path', static function (string $dirPath, string $feedFileName): string {
+    return FEEDS_DIR_PATH;
+},10,2);
+
 registerFeed([
     'name' => 'Google Shopping Feed',
-    'path' => WP_CONTENT_DIR . '/wb-feeds'.'/google-products-feed-it.xml',
+    'path' => FEEDS_DIR_PATH.'/google-products-feed-it.xml',
     'command_prefix' => 'cli_wb-feed-gshopping-gen',
 ]);
 
 registerFeed([
     'name' => 'Facebook Feed',
-    'path' => WP_CONTENT_DIR . '/wb-feeds'.'/facebook-products-feed-it.xml',
+    'path' => FEEDS_DIR_PATH.'/facebook-products-feed-it.xml',
     'command_prefix' => 'cli_facebook-feed-gen',
 ]);
 
 registerFeed([
     'name' => 'Pinterest Feed',
-    'path' => WP_CONTENT_DIR . '/wb-feeds'.'/pinterest-products-feed-it.xml',
+    'path' => FEEDS_DIR_PATH.'/pinterest-products-feed-it.xml',
     'command_prefix' => 'cli_pinterest-feed-gen',
 ]);
 
 registerFeed([
     'name' => 'TikTok Feed',
-    'path' => WP_CONTENT_DIR . '/wb-feeds'.'/tiktok-products-feed-it.xml',
+    'path' => FEEDS_DIR_PATH.'/tiktok-products-feed-it.xml',
     'command_prefix' => 'cli_tiktok-feed-gen',
 ]);
 

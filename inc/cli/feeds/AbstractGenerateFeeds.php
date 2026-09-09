@@ -488,12 +488,16 @@ abstract class AbstractGenerateFeeds extends AbstractCommand
         if (!\is_array($this->records) || count($this->records) === 0) {
             throw new \RuntimeException('No records found');
         }
+        $xmlFileName = $this->generateXMLFileName();
         if(isset($this->customOutputPath)){
             $xmlDirPath = rtrim($this->customOutputPath,'/');
         }else{
-            $xmlDirPath = WP_CONTENT_DIR . '/wb-feeds';
+            // Il tema decide dove pubblicare i feed. Deve poterlo fare da codice e non solo
+            // tramite --output-dir-path: la directory di scrittura e i percorsi dichiarati con
+            // registerFeed() sono la stessa informazione, e tenerla in due posti significa che
+            // la pagina Strumenti -> WaWoo Feeds puo' pubblicizzare un file che nessuno aggiorna.
+            $xmlDirPath = rtrim(apply_filters('wawoo/cli/genfeeds/output_dir_path', WP_CONTENT_DIR . '/wb-feeds', $xmlFileName),'/');
         }
-        $xmlFileName = $this->generateXMLFileName();
         $xmlFilePath = $xmlDirPath . '/'. $xmlFileName;
         if (!wp_mkdir_p($xmlDirPath)) {
             throw new \RuntimeException('Unable to create directory: ' . $xmlDirPath);
