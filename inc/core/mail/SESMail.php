@@ -94,7 +94,9 @@ class SESMail extends Mail
             }
             $phpmailer->Subject = $this->getSubject();
             $phpmailer->Body = $this->getBody();
-            $phpmailer->addAddress($this->getTo()->getAddress(),$this->getTo()->getName() ?? '');
+            foreach ($this->getTo() as $to){
+                $phpmailer->addAddress($to->getAddress(),$to->getName() ?? '');
+            }
             if(\is_array($this->getCc())){
                 foreach ($this->getCc() as $cc){
                     $phpmailer->addCC($cc->getAddress(),$cc->getName() ?? '');
