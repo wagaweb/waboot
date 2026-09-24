@@ -10,10 +10,10 @@ class AlertDispatcherFactory
     /**
      * @param string $name
      * @param string $dispatchTo
-     * @param string|null $tz
+     * @param \DateTimeZone|null $tz
      * @return EmailAlertDispatcher
      */
-    public static function createEmailDispatcher(string $name, string $dispatchTo, string $tz = null): EmailAlertDispatcher
+    public static function createEmailDispatcher(string $name, string $dispatchTo, ?\DateTimeZone $tz = null): EmailAlertDispatcher
     {
         return new EmailAlertDispatcher($name,$dispatchTo,$tz);
     }
@@ -21,10 +21,10 @@ class AlertDispatcherFactory
     /**
      * @param string $name
      * @param string $destFilePath
-     * @param string|null $tz
+     * @param \DateTimeZone|null $tz
      * @return FileAlertDispatcher
      */
-    public static function createFileDispatcher(string $name, string $destFilePath, string $tz = null): FileAlertDispatcher
+    public static function createFileDispatcher(string $name, string $destFilePath, ?\DateTimeZone $tz = null): FileAlertDispatcher
     {
         return new FileAlertDispatcher($name,$destFilePath,$tz);
     }

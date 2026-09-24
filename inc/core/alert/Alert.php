@@ -31,21 +31,16 @@ class Alert
      * @param string $id
      * @param string $title
      * @param string $message
-     * @param string|null $tz
+     * @param \DateTimeZone|null $tz
      * @throws AlertException
      */
-    public function __construct(string $id, string $title, string $message, string $tz = null)
+    public function __construct(string $id, string $title, string $message, ?\DateTimeZone $tz = null)
     {
         $this->id = $id;
         $this->title = $title;
         $this->message = $message;
         try{
-            if(isset($tz)){
-                $timeZone = Dates::getDateTimeZoneFromString($tz);
-            }else{
-                $timeZone = Dates::getDefaultDateTimeZone();
-            }
-            $this->timeZone = $timeZone;
+            $this->timeZone = $tz ?? Dates::getDefaultDateTimeZone();
             $this->dateTime = new \DateTime('now', $this->timeZone);
         }catch (\Exception $e){
             throw new AlertException($e->getMessage());

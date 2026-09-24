@@ -11,12 +11,11 @@ use function Waboot\inc\core\helpers\logException;
 
 class Alerts
 {
-    static function dispatchEmailAlert(string $title, string $message, string $recipient, \DateTimeZone $tz = null){
+    static function dispatchEmailAlert(string $title, string $message, string $recipient, ?\DateTimeZone $tz = null){
         try {
-            $tzName = $tz !== null ? $tz->getName() : null;
             $ad = new AlertDispatcher('ad',AlertDispatcher::DISPATCH_METHOD_EMAIL,$recipient);
             $id = base64_encode($title.$message.$recipient);
-            $ad->addAlert(new Alert($id,$title,$message,$tzName));
+            $ad->addAlert(new Alert($id,$title,$message,$tz));
             $ad->dispatch();
         } catch (AlertException|AlertDispatcherException $e) {
             error_log('Alerts::dispatchEmailAlert ERROR: '.$e->getMessage());
@@ -30,13 +29,12 @@ class Alerts
      * @param \DateTimeZone|null $tz
      * @return void
      */
-    static function dispatchGoogleChatAlert(string $message, string $url, \DateTimeZone $tz = null): void
+    static function dispatchGoogleChatAlert(string $message, string $url, ?\DateTimeZone $tz = null): void
     {
         try {
-            $tzName = $tz !== null ? $tz->getName() : null;
-            $ad = new GoogleChatDispatcher('gd',$url,$tzName);
+            $ad = new GoogleChatDispatcher('gd',$url,$tz);
             $id = base64_encode($message);
-            $ad->addAlert(new Alert($id,'',$message,$tzName));
+            $ad->addAlert(new Alert($id,'',$message,$tz));
             $ad->dispatch();
         } catch (AlertException|AlertDispatcherException $e) {
             logException($e,'Alerts::dispatchGoogleChatAlert');

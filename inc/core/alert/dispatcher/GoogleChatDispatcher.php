@@ -12,10 +12,10 @@ class GoogleChatDispatcher extends AbstractAlertDispatcher
 
     /**
      * @param string $name
-     * @param string|null $tz
+     * @param \DateTimeZone|null $tz
      * @param string $dispatchToUrl
      */
-    public function __construct(string $name, string $dispatchToUrl, string $tz = null)
+    public function __construct(string $name, string $dispatchToUrl, ?\DateTimeZone $tz = null)
     {
         parent::__construct($name,$tz);
         $this->name = $name;

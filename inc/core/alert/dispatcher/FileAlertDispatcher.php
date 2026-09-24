@@ -15,9 +15,9 @@ class FileAlertDispatcher extends AbstractAlertDispatcher
     /**
      * @param string $name
      * @param string $dispatchTo
-     * @param string|null $tz
+     * @param \DateTimeZone|null $tz
      */
-    public function __construct(string $name, string $dispatchTo, string $tz = null)
+    public function __construct(string $name, string $dispatchTo, ?\DateTimeZone $tz = null)
     {
         parent::__construct($name,$tz);
         $this->name = $name;

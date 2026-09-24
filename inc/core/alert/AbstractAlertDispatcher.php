@@ -21,17 +21,12 @@ abstract class AbstractAlertDispatcher implements AlertDispatcherInterface
 
     /**
      * @param string $name
-     * @param string|null $tz
+     * @param \DateTimeZone|null $tz
      */
-    public function __construct(string $name, string $tz = null)
+    public function __construct(string $name, ?\DateTimeZone $tz = null)
     {
         $this->name = $name;
-        if(isset($tz)){
-            $timeZone = Dates::getDateTimeZoneFromString($tz);
-        }else{
-            $timeZone = Dates::getDefaultDateTimeZone();
-        }
-        $this->timeZone = $timeZone;
+        $this->timeZone = $tz ?? Dates::getDefaultDateTimeZone();
     }
 
     /**
