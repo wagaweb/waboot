@@ -1,6 +1,6 @@
 <?php
 
-namespace waboot\inc\core\mail;
+namespace Waboot\inc\core\mail;
 
 use PHPMailer\PHPMailer\PHPMailer;
 use Waboot\inc\core\LoggerFactoryException;
