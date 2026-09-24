@@ -18,9 +18,9 @@ class SentryAlertDispatcher extends AbstractAlertDispatcher
     /**
      * @param string $name
      * @param array $sentryArgs
-     * @param string|null $tz
+     * @param \DateTimeZone|null $tz
      */
-    public function __construct(string $name, array $sentryArgs, string $tz = null)
+    public function __construct(string $name, array $sentryArgs, ?\DateTimeZone $tz = null)
     {
         parent::__construct($name,$tz);
         $this->name = $name;

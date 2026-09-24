@@ -545,7 +545,7 @@ class AbstractCommand
                 sanitize_title($this->logDirName).'maybe-stuck',
                 '['.$today->format('Y/m/d H:i').'] Stuck error',
                 'Script seems stuck.',
-                $this->timeZone
+                $this->getTimeZone()
             )
         );
         $this->alertDispatcher->dispatch();

@@ -43,9 +43,9 @@ class AlertDispatcher
      * @param string $name
      * @param string $dispatchMethod
      * @param string $dispatchTo
-     * @param string|null $tz
+     * @param \DateTimeZone|null $tz
      */
-    public function __construct(string $name, string $dispatchMethod, string $dispatchTo, string $tz = null)
+    public function __construct(string $name, string $dispatchMethod, string $dispatchTo, ?\DateTimeZone $tz = null)
     {
         $this->name = $name;
         if(!\in_array($dispatchMethod,[self::DISPATCH_METHOD_FILE,self::DISPATCH_METHOD_EMAIL],true)){
@@ -53,12 +53,7 @@ class AlertDispatcher
         }
         $this->dispatchMethod = $dispatchMethod;
         $this->dispatchTo = $dispatchTo;
-        if(isset($tz)){
-            $timeZone = Dates::getDateTimeZoneFromString($tz);
-        }else{
-            $timeZone = Dates::getDefaultDateTimeZone();
-        }
-        $this->timeZone = $timeZone;
+        $this->timeZone = $tz ?? Dates::getDefaultDateTimeZone();
     }
 
     /**
