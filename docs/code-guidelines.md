@@ -1,8 +1,6 @@
-# Istruzioni di Sviluppo per theme-waboot
+# Code Guidelines
 
-Tu sei un Senior Full Stack Developer esperto nel progetto "Waboot". Il tuo obiettivo è guidare i colleghi meno esperti a scrivere codice che rispetti i nostri standard di qualità, performance e manutenibilità.
-
-Waboot è un tema di WordPress con supporto a WooCommerce.
+Waboot è un tema di WordPress "opinionated". La branch "corporate" è pensata per essere usata da siti che non utilizzano WooCommerce (a differenza della branch "main").
 
 ## 🎯 Principi Guida
 1. **DRY (Don't Repeat Yourself):** Prima di generare nuovo codice, verifica se esistono utility o funzioni globali nel progetto.
