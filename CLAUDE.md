@@ -2,7 +2,7 @@
 
 Waboot is a WordPress theme for WooCommerce-based ecommerce sites, focused on speed, usability and modularity. See `readme.md` for the general overview (addons, build commands). This file documents the **build systems**, the **template system**, the **addons system**, the **database layer**, **logging**, the **view rendering system**, the **mail system** and the **alert system** in implementation detail — exact files, functions, hooks and fallback chains — as verified against the actual code.
 
-For general coding guidelines (project structure conventions, coding principles, folder responsibilities) see [`.github/copilot-instructions.md`](./.github/copilot-instructions.md) — follow those when writing or modifying code in this theme.
+For general coding guidelines (project structure conventions, coding principles, folder responsibilities) see [`docs/code-guidelines.md`](./docs/code-guidelines.md) — follow those when writing or modifying code in this theme.
 
 ## Build
 
@@ -69,14 +69,14 @@ Assets are registered through `AssetsManager`, filterable via `apply_filters('ca
 
 ### 4. Comparison at a glance
 
-| | Main theme | Checkout addon | Catalog addon |
-|---|---|---|---|
-| Tool | esbuild + sass/postcss (custom script) | Vite 6 | Webpack 5 |
-| UI framework | none (plain JS) | Vue 3 (SPA) | Vue 3 + TypeScript |
-| Output filenames | fixed | content-hashed | fixed |
-| PHP asset discovery | hardcoded paths, `WP_DEBUG` branch | `glob()` at request time | hardcoded paths, `SCRIPT_DEBUG` branch |
-| jQuery handling | esbuild `alias` → shim module | not needed — code reads `window.jQuery` directly, never `import`s it (the commented-out `inject`/`external` config in `vite.config.ts` is unused leftover) | Webpack `externals` |
-| `node_modules`/lockfile | theme root | own (`addons/packages/checkout/assets/`) | own (`addons/packages/catalog/assets/`) |
+|                         | Main theme                             | Checkout addon                                                                                                                                             | Catalog addon                           |
+|-------------------------|----------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------|
+| Tool                    | esbuild + sass/postcss (custom script) | Vite 6                                                                                                                                                     | Webpack 5                               |
+| UI framework            | none (plain JS)                        | Vue 3 (SPA)                                                                                                                                                | Vue 3 + TypeScript                      |
+| Output filenames        | fixed                                  | content-hashed                                                                                                                                             | fixed                                   |
+| PHP asset discovery     | hardcoded paths, `WP_DEBUG` branch     | `glob()` at request time                                                                                                                                   | hardcoded paths, `SCRIPT_DEBUG` branch  |
+| jQuery handling         | esbuild `alias` → shim module          | not needed — code reads `window.jQuery` directly, never `import`s it (the commented-out `inject`/`external` config in `vite.config.ts` is unused leftover) | Webpack `externals`                     |
+| `node_modules`/lockfile | theme root                             | own (`addons/packages/checkout/assets/`)                                                                                                                   | own (`addons/packages/catalog/assets/`) |
 
 ## Template system — how it actually works
 
@@ -112,19 +112,19 @@ get_footer();
 
 2. **Template dispatch** (`inc/core/hooks.php:18-51`):
 
-   | Page type | Condition | Template part loaded |
-   |---|---|---|
-   | `default_home` | — | `templates/blog` |
-   | `static_home` | — | `templates/page` |
-   | `blog_page` | — | `templates/blog` |
-   | `common` | `is_attachment() && wp_attachment_is_image()` | `templates/image` |
-   | `common` | `$wp_query->is_single()` | `templates/single` |
-   | `common` | `$wp_query->is_page()` | `templates/page` |
-   | `common` | `$wp_query->is_author()` | `templates/archive` |
-   | `common` | `$wp_query->is_search()` | `templates/search` |
-   | `common` | `$wp_query->is_archive()` | `templates/archive` |
-   | `common` | `$wp_query->is_404()` | `templates/404` |
-   | `common` | none of the above | throws `Exception('Unrecognized content type')` |
+   | Page type      | Condition                                     | Template part loaded                            |
+   |----------------|-----------------------------------------------|-------------------------------------------------|
+   | `default_home` | —                                             | `templates/blog`                                |
+   | `static_home`  | —                                             | `templates/page`                                |
+   | `blog_page`    | —                                             | `templates/blog`                                |
+   | `common`       | `is_attachment() && wp_attachment_is_image()` | `templates/image`                               |
+   | `common`       | `$wp_query->is_single()`                      | `templates/single`                              |
+   | `common`       | `$wp_query->is_page()`                        | `templates/page`                                |
+   | `common`       | `$wp_query->is_author()`                      | `templates/archive`                             |
+   | `common`       | `$wp_query->is_search()`                      | `templates/search`                              |
+   | `common`       | `$wp_query->is_archive()`                     | `templates/archive`                             |
+   | `common`       | `$wp_query->is_404()`                         | `templates/404`                                 |
+   | `common`       | none of the above                             | throws `Exception('Unrecognized content type')` |
 
 3. **The actual "router" extension point** — the filter `waboot/layout/content/template` (`inc/core/hooks.php:55`):
 
@@ -221,12 +221,12 @@ If the selected `_wp_page_template` value looks like a `.php` filename (i.e. it'
 
 ### 7. Hooks/filters reference
 
-| Hook | Type | Where fired | Purpose |
-|---|---|---|---|
-| `waboot/layout/content` | action | `index.php:9` | Triggers main content rendering; `addMainContent()` is the only hooked callback |
-| `waboot/layout/content/template` | filter | `inc/core/hooks.php:55` | Overrides the `[template, name]` pair chosen by `addMainContent()` before `get_template_part()` runs — the actual routing override point |
-| `theme_page_templates` | filter (WP core) | `inc/core/hooks.php:88` | `injectTemplates()` adds `templates/parts-tpl/content-*.php` files to the dashboard's page template dropdown |
-| `waboot/custom_template_parts_directory` | filter | `inc/core/hooks.php:72` | Overrides the directory scanned for custom template partials (default `templates/parts-tpl`) |
+| Hook                                     | Type             | Where fired             | Purpose                                                                                                                                  |
+|------------------------------------------|------------------|-------------------------|------------------------------------------------------------------------------------------------------------------------------------------|
+| `waboot/layout/content`                  | action           | `index.php:9`           | Triggers main content rendering; `addMainContent()` is the only hooked callback                                                          |
+| `waboot/layout/content/template`         | filter           | `inc/core/hooks.php:55` | Overrides the `[template, name]` pair chosen by `addMainContent()` before `get_template_part()` runs — the actual routing override point |
+| `theme_page_templates`                   | filter (WP core) | `inc/core/hooks.php:88` | `injectTemplates()` adds `templates/parts-tpl/content-*.php` files to the dashboard's page template dropdown                             |
+| `waboot/custom_template_parts_directory` | filter           | `inc/core/hooks.php:72` | Overrides the directory scanned for custom template partials (default `templates/parts-tpl`)                                             |
 
 ## Addons system
 
@@ -322,8 +322,8 @@ Each folder under `addons/packages/` is a self-contained unit. Conventions obser
 
 ### 5. Hooks/filters reference (addons)
 
-| Hook | Type | Where fired | Purpose |
-|---|---|---|---|
+| Hook                     | Type   | Where fired                                       | Purpose                                                                                                                                                 |
+|--------------------------|--------|---------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `waboot/addons/disabled` | filter | `addons/functions.php:42` (`getDisabledAddons()`) | Returns the list of addon directory names to exclude from loading. Default `[]` (all enabled); the theme itself adds `invoicing` at default priority 10 |
 
 ## Database layer (`illuminate/database`)
@@ -550,11 +550,11 @@ Notes on the refactor:
 
 ### 3. Choosing between the three
 
-| Entry point | Returns | Clean mode | Typical use |
-|---|---|---|---|
-| `Waboot()->renderView($file, $vars, $clean, $pathIsRelative)` | `void` (echoes) | yes (`$clean`) | Rendering layout partials/templates directly into the page (most common; used throughout `templates/`, `inc/hooks/`) |
-| `renderHtmlView($file, $args, $pathIsRelative)` | `void` (echoes) | no | Same as above, callable without going through `Waboot()`, e.g. from contexts where only the helper is imported |
-| `getHtmlView($file, $args, $pathIsRelative)` | `string` | no | When the rendered HTML needs to be captured (e.g. embedded into a larger string, an AJAX/REST response, or passed to another function) instead of echoed immediately |
+| Entry point                                                   | Returns         | Clean mode     | Typical use                                                                                                                                                          |
+|---------------------------------------------------------------|-----------------|----------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `Waboot()->renderView($file, $vars, $clean, $pathIsRelative)` | `void` (echoes) | yes (`$clean`) | Rendering layout partials/templates directly into the page (most common; used throughout `templates/`, `inc/hooks/`)                                                 |
+| `renderHtmlView($file, $args, $pathIsRelative)`               | `void` (echoes) | no             | Same as above, callable without going through `Waboot()`, e.g. from contexts where only the helper is imported                                                       |
+| `getHtmlView($file, $args, $pathIsRelative)`                  | `string`        | no             | When the rendered HTML needs to be captured (e.g. embedded into a larger string, an AJAX/REST response, or passed to another function) instead of echoed immediately |
 
 All three ultimately build an `HTMLView` through the same `ViewFactory`, so template resolution (child theme → parent theme, or absolute path) and the predefined `page_title`/`wrapper_*` behavior are identical regardless of which one is used.
 

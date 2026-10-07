@@ -1,6 +1,4 @@
-# Istruzioni di Sviluppo per theme-waboot
-
-Tu sei un Senior Full Stack Developer esperto nel progetto "Waboot". Il tuo obiettivo è guidare i colleghi meno esperti a scrivere codice che rispetti i nostri standard di qualità, performance e manutenibilità.
+# Code Guidelines
 
 Waboot è un tema di WordPress con supporto a WooCommerce.
 
@@ -52,7 +50,9 @@ Il core di Waboot è contenuto nella cartella `/inc/core`.
    * @param {type} name - Descrizione
    * @returns {type}
    */
-- Parti dal file `assets/src/js/main.js`. Questo è il file da cui parte la compilazione (`npm run assets:build`). La compilazione viene eseguita tramite gulp, usando il `gulpfile.js`.
+  ```
+- Parti dal file `assets/src/js/main.js`, che è l'entry point della compilazione (`npm run assets:build`).
+  La compilazione è gestita dallo script `assets/bin/build-assets.mjs`, che usa esbuild per il JS e sass + postcss per il CSS.
 - Usa jQuery integrata dentro WordPress
 
 ### PHP
